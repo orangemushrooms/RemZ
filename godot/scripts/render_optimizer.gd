@@ -13,7 +13,7 @@ static func optimize(root: Node3D) -> Dictionary:
 	var source_count := 0
 	for node in root.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
-		if not mi.mesh or mi.skin or mi.get_child_count() > 0:
+		if not mi.mesh or mi.skin or mi.get_child_count() > 0 or mi.is_in_group("render_dynamic"):
 			continue
 		var size := (mi.global_transform * mi.get_aabb()).size
 		if maxf(size.x, size.z) > 80.0:
