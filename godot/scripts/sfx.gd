@@ -71,6 +71,7 @@ static func _procedural(name: String) -> AudioStreamWAV:
 		"build": return _burst(0.2, 0.06, 0.4, 0.5, 220.0, 0.0)
 		"wave": return _burst(1.4, 0.6, 0.02, 0.4, 110.0, 30.0)
 		"wood": return _burst(0.3, 0.1, 0.3, 0.8)
+		"rustle": return _burst(0.5, 0.18, 0.75, 0.35)   # leaves, a deer bolting
 		"boom": return _burst(1.6, 0.45, 0.05, 1.4, 45.0, -30.0)
 		"pickup": return _burst(0.2, 0.08, 0.9, 0.3, 660.0, 800.0)
 	return _burst(0.1, 0.03, 0.5, 0.3)

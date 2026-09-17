@@ -68,7 +68,7 @@ func _physics_process(delta: float) -> void:
 			flee_t = 6.0 + _rng.randf() * 3.0
 			var away := -to_p.normalized()
 			flee_dir = (away + Vector3(_rng.randf_range(-0.5, 0.5), 0, _rng.randf_range(-0.5, 0.5))).normalized()
-			Sfx.play_at(get_parent(), "hit", global_position, -14.0)
+			Sfx.play_at(get_parent(), "rustle", global_position, -10.0)
 		else:
 			# wander slowly between graze spots
 			var d := _graze_target - global_position
