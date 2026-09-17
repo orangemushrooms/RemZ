@@ -4,9 +4,9 @@
 class_name Trees
 
 const SPECIES := {
-	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 40, "card": 4.8, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.5, 0.48, 0.45), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
-	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 40, "card": 5.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.55, 0.5, 0.45), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
-	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 36, "card": 3.4, "bark": ["ph_bark_oak"], "tint": Color(0.55, 0.4, 0.3), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
+	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 40, "card": 4.8, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.33, 0.31, 0.28), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
+	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 40, "card": 5.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.36, 0.32, 0.28), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
+	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 36, "card": 3.4, "bark": ["ph_bark_oak"], "tint": Color(0.38, 0.28, 0.2), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
 }
 const VARIANTS := 5
 const CELL := 48.0
@@ -83,11 +83,19 @@ static func _trunk_mesh(kind: String, rng: RandomNumberGenerator) -> ArrayMesh:
 		var y := t * h
 		var p := Vector3(0, y, 0) + lean * y + wobble * sin(t * PI)
 		if i == 0:
-			p.y = -0.4   # buried, root flare
+			p.y = -0.7   # buried, root flare
 		pts.append(p)
 		var flare := 1.0 + 0.7 * maxf(0.0, 1.0 - y / 1.2)
 		radii.append(r0 * flare * (1.0 - 0.82 * pow(t, 0.9 if kind == "spruce" else 0.7)))
 	_tube(st, pts, radii, 10, 1.2, 0.0)
+	# close the bottom so the trunk never shows as a hollow tube where the ground falls away
+	var b0: Vector3 = pts[0]
+	for k in 10:
+		var a0 := TAU * k / 10
+		var a1 := TAU * (k + 1) / 10
+		var r: float = radii[0]
+		for q in [b0, b0 + Vector3(sin(a1) * r, 0, cos(a1) * r), b0 + Vector3(sin(a0) * r, 0, cos(a0) * r)]:
+			st.set_normal(Vector3.DOWN); st.set_uv(Vector2(q.x, q.z)); st.add_vertex(q)
 	# branches
 	var nb: int = 5 if kind != "spruce" else 0
 	var lo: float = sp["crown_lo"]
@@ -120,6 +128,7 @@ static func _bark_material(tex: String, tint: Color) -> StandardMaterial3D:
 	var m := Foliage.pbr(tex, 1.0, tint)
 	m.uv1_scale = Vector3.ONE
 	m.roughness = 1.0
+	m.cull_mode = BaseMaterial3D.CULL_DISABLED   # trunks must never look hollow
 	return m
 
 # ---------------------------------------------------------------- crowns

@@ -46,7 +46,7 @@ uniform sampler2D gravel_normal : hint_normal, filter_linear_mipmap_anisotropic;
 uniform sampler2D gravel_rough : hint_default_white, filter_linear_mipmap_anisotropic;
 uniform vec3 grass_tint : source_color = vec3(0.55, 0.62, 0.38);
 uniform vec3 leaf_tint : source_color = vec3(0.72, 0.64, 0.54);
-uniform vec3 gravel_tint : source_color = vec3(0.6, 0.57, 0.52);
+uniform vec3 gravel_tint : source_color = vec3(0.46, 0.45, 0.42);
 uniform float scale_grass = 0.22;
 uniform float scale_leaf = 0.2;
 uniform float scale_gravel = 0.2;
@@ -71,7 +71,10 @@ void fragment() {
 	vec3 ln = mix(tex2(litter_normal, ul * 1.3), tex2(leaf_normal, ul), smoothstep(0.7, 0.95, patch));
 	vec3 ga = tex2(grass_albedo, ug) * grass_tint;
 	vec3 gn = tex2(grass_normal, ug);
-	vec3 ka = tex2(gravel_albedo, uk) * gravel_tint;
+	// worn gravel: low-frequency brown dirt patches and slightly lighter compacted lanes
+	float wear = sin(wuv.x * 0.23 + 0.7) * sin(wuv.y * 0.19 + 1.9) * 0.5 + 0.5;
+	float fine = sin(wuv.x * 1.7) * sin(wuv.y * 1.3) * 0.5 + 0.5;
+	vec3 ka = mix(tex2(gravel_albedo, uk) * gravel_tint, tex2(litter_albedo, uk * 1.5) * vec3(0.55, 0.47, 0.38), smoothstep(0.62, 0.9, wear * 0.8 + fine * 0.2));
 	vec3 kn = tex2(gravel_normal, uk);
 	// sharpen the blend with the texture brightness so edges look natural
 	vec3 ww = w + vec3((la.r - 0.4) * 0.3, (ga.g - 0.4) * 0.3, (ka.r - 0.5) * 0.3);

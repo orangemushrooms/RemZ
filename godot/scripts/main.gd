@@ -838,7 +838,17 @@ func _holzlager() -> Node3D:
 	var hz := size.y / 2.0
 	# concrete base and sheet-metal walls as real walls; small back window in the west face (the way in)
 	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.25, concrete, { "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.0, "top": 0.0 })
-	_walls(root, Vector2(size.x + 0.1, size.y + 0.1), base_h, wall_h, 0.12, metal, { "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.3, "top": 2.4 })
+	var boards := _mat("ph_cladding", 0.45, Color(0.32, 0.22, 0.16))
+	boards.uv1_triplanar = true
+	_walls(root, Vector2(size.x + 0.1, size.y + 0.1), base_h, wall_h, 0.12, boards, { "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.3, "top": 2.4 })
+	# gable ends in dark corrugated sheet metal (photo 12), vertical board lines on the long sides
+	for gz in [-hz - 0.07, hz + 0.07]:
+		_box(root, Vector3(size.x + 0.2, wall_h, 0.04), Vector3(0, base_h + wall_h / 2.0, gz), metal)
+	for k in int(size.y / 0.25):
+		var zz := -hz + 0.125 + k * 0.25
+		_box(root, Vector3(0.03, wall_h - 0.1, 0.05), Vector3(hx + 0.08, base_h + wall_h / 2.0, zz), _plain(Color(0.2, 0.13, 0.09), 0.85))
+	# notice signs on the road side
+	_box(root, Vector3(0.04, 0.6, 0.9), Vector3(hx + 0.12, base_h + 2.3, 1.5), _plain(Color(0.85, 0.88, 0.8), 0.7))
 	var pane := Breakable.new()
 	pane.setup(Vector2(1.2, 1.0))
 	root.add_child(pane)
@@ -849,7 +859,18 @@ func _holzlager() -> Node3D:
 	# crates as steps outside and inside the window
 	_slab(root, Vector3(0.9, 0.55, 0.9), Vector3(-hx - 0.6, 0.275, 2.0), Foliage.pbr("planks", 0.8, Color(0.45, 0.38, 0.28)))
 	_slab(root, Vector3(0.9, 0.5, 0.9), Vector3(-hx + 0.75, 0.25 + base_h, 2.0), Foliage.pbr("planks", 0.8, Color(0.45, 0.38, 0.28)))
-	_hip_roof(root, size, base_h + wall_h, b["roof_h"], 0.6, roof, true)
+	_hip_roof(root, Vector2(size.x + 1.2, size.y), base_h + wall_h, b["roof_h"], 0.5, roof, true)
+	# eave struts under the wide overhang on the road side
+	for k in 5:
+		var zz := -hz + 1.2 + k * (size.y - 2.4) / 4.0
+		var strut := MeshInstance3D.new()
+		var sb := BoxMesh.new()
+		sb.size = Vector3(1.3, 0.08, 0.08)
+		strut.mesh = sb
+		strut.material_override = _plain(Color(0.25, 0.16, 0.1), 0.85)
+		strut.position = Vector3(hx + 0.55, base_h + wall_h - 0.45, zz)
+		strut.rotation.z = 0.6
+		root.add_child(strut)
 	# inside: the good weapons on a rack, ammunition, firewood
 	_box(root, Vector3(2.6, 1.6, 0.08), Vector3(0, base_h + 1.4, hz - 0.2), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
 	_loot(root, "weapon", "ak47", "AK-47", Vector3(-0.7, base_h + 1.4, hz - 0.3), "ak47", 0.28, 0.0)
@@ -864,11 +885,9 @@ func _holzlager() -> Node3D:
 	inner.omni_range = 8.0
 	inner.position = Vector3(0, base_h + wall_h - 0.4, 0)
 	root.add_child(inner)
-	# big double door and a small door on the east side facing the gravel (photo 12)
-	_box(root, Vector3(0.08, 3.0, 3.6), Vector3(size.x / 2.0 + 0.07, base_h + 1.5, 2.2), dark_wood)
-	_box(root, Vector3(0.08, 2.1, 0.9), Vector3(size.x / 2.0 + 0.07, base_h + 1.05, -2.8), dark_wood)
-	# notice board
-	_box(root, Vector3(0.05, 0.7, 1.0), Vector3(size.x / 2.0 + 0.08, base_h + 2.1, -0.6), _plain(Color(0.6, 0.62, 0.55)))
+	# the double door is part of the board wall: only hinges and a handle show
+	_box(root, Vector3(0.05, 0.08, 0.5), Vector3(hx + 0.12, base_h + 1.0, 2.6), _plain(Color(0.15, 0.15, 0.16), 0.5, 0.7))
+	_box(root, Vector3(0.05, 0.08, 0.5), Vector3(hx + 0.12, base_h + 2.6, 2.6), _plain(Color(0.15, 0.15, 0.16), 0.5, 0.7))
 	return root
 
 func _build_buildings() -> void:
@@ -882,31 +901,22 @@ func _build_buildings() -> void:
 
 # ---------------------------------------------------------------- campsite
 func _log_bench(x: float, z: float, yaw: float, length: float = 2.6) -> void:
-	var lb := _place("log_bench", x, z, 0.55, yaw + TAU, 1.0, 0.9)
-	if lb:
-		return
 	var root := Node3D.new()
 	add_child(root)
 	root.position = Map.ground_pos(x, z)
 	root.rotation.y = yaw
-	var bark := _mat("ph_bark_beech2", 0.6, Color(0.8, 0.7, 0.6), false)
-	var seat := MeshInstance3D.new()
-	var cm := CylinderMesh.new()
-	cm.top_radius = 0.16; cm.bottom_radius = 0.16; cm.height = length
-	seat.mesh = cm
-	seat.material_override = bark
-	seat.rotation.z = PI / 2.0
-	seat.position.y = 0.45
-	root.add_child(seat)
-	for sx in [-length * 0.35, length * 0.35]:
+	var bark := _mat("ph_bark_beech2", 0.6, Color(0.6, 0.55, 0.5), false)
+	var beam := Foliage.pbr("planks", 0.7, Color(0.32, 0.27, 0.22))
+	_box(root, Vector3(length, 0.13, 0.24), Vector3(0, 0.47, 0), beam)
+	for sx in [-length * 0.33, length * 0.33]:
 		var leg := MeshInstance3D.new()
 		var lm := CylinderMesh.new()
-		lm.top_radius = 0.17; lm.bottom_radius = 0.19; lm.height = 0.32
+		lm.top_radius = 0.17; lm.bottom_radius = 0.18; lm.height = 0.4
 		leg.mesh = lm
 		leg.material_override = bark
-		leg.position = Vector3(sx, 0.16, 0)
+		leg.position = Vector3(sx, 0.2, 0)
 		root.add_child(leg)
-	_box_collider(root, Vector3(length, 0.6, 0.4))
+	_box_collider(root, Vector3(length, 0.55, 0.35))
 
 func _log_table(x: float, z: float, yaw: float) -> void:
 	var root := Node3D.new()
@@ -1178,7 +1188,7 @@ func _build_foliage() -> void:
 			return null
 		if Map.on_road(x, z) and r.randf() > 0.25:
 			return null
-		if Map.in_building(x, z) or (Map.in_clearing(x, z) and r.randf() > 0.15):
+		if Map.in_building(x, z) or (Map.in_clearing(x, z) and r.randf() > 0.45):
 			return null
 		return Map.ground_pos(x, z)
 	if not "--no-leaves" in _flags:
