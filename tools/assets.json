@@ -194,5 +194,9 @@
  "rifle_v2": {
   "prompt": "photorealistic AAA game weapon, pump action 12 gauge shotgun, Remington 870 style, wooden stock and pump, long barrel, high detail, game ready",
   "texture_prompt": "photorealistic 4k PBR, blued steel barrel with wear, dark oiled walnut stock, subtle scratches"
+ },
+ "smg_v3": {
+  "prompt": "photorealistic AAA game weapon, MP5 submachine gun with collapsible stock, curved magazine, foregrip, iron sights, isolated single object floating, no base, no stand, no display plate, high detail, game ready",
+  "texture_prompt": "photorealistic 4k PBR, black parkerized steel and polymer, edge wear, dust"
  }
 }

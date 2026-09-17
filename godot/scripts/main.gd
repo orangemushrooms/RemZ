@@ -6,12 +6,15 @@ var player: Player
 var hud: Hud
 var weapons: Weapons
 var waves: Waves
+var day_night: DayNightCycle
+var fill_light: DirectionalLight3D
 var skills: Skills
 var inventory: Inventory
 var achievements: Achievements
 var barricade_menu: BarricadeMenu
 var ambience: Ambience
 var music: Music
+var intro: Intro
 var zombies_root: Node3D
 var barricades: Array = []
 var loots: Array = []
@@ -94,6 +97,9 @@ func _ready() -> void:
 	waves = Waves.new()
 	add_child(waves)
 	waves.setup(self, hud, player, weapons)
+	day_night = DayNightCycle.new()
+	add_child(day_night)
+	day_night.setup(self, fill_light)
 	skills = Skills.new()
 	add_child(skills)
 	skills.setup(player, weapons, hud, self)
@@ -109,6 +115,10 @@ func _ready() -> void:
 	ambience = Ambience.new()
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
+	intro = Intro.new()
+	add_child(intro)
+	intro.setup(self, player, settings.env)
+	intro.road_reached.connect(func(): waves.start(1))
 	music = Music.new()
 	music.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(music)
@@ -144,7 +154,7 @@ func _navigation_baked() -> void:
 	hud.overlay_button.disabled = false
 	hud.overlay_status.text = "Bereit."
 	hud.set_loading(false)
-	if _autotest or "--benchmark" in _flags:
+	if _autotest or "--benchmark" in _flags or "--intro-test" in _flags:
 		_on_start()
 	for f in _flags:
 		if f.begins_with("--view="):
@@ -174,17 +184,6 @@ func _shot_view(spec: String) -> void:
 func _build_environment() -> void:
 	var env := Environment.new()
 	env.background_mode = Environment.BG_SKY
-	var sky := Sky.new()
-	var sm := ProceduralSkyMaterial.new()
-	sm.sky_top_color = Color(0.55, 0.65, 0.8)
-	sm.sky_horizon_color = Color(0.95, 0.88, 0.75)
-	sm.sky_curve = 0.12
-	sm.ground_bottom_color = Color(0.3, 0.28, 0.22)
-	sm.ground_horizon_color = Color(0.8, 0.7, 0.55)
-	sm.sun_angle_max = 30.0
-	sm.sun_curve = 0.08
-	sky.sky_material = sm
-	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 	env.ambient_light_sky_contribution = 1.0
 	env.ambient_light_energy = 1.1
@@ -203,14 +202,6 @@ func _build_environment() -> void:
 	env.glow_bloom = 0.06
 	env.glow_hdr_threshold = 1.1
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
-	env.fog_enabled = true
-	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
-	env.fog_light_color = Color(0.5, 0.52, 0.5)
-	env.fog_light_energy = 1.0
-	env.fog_sun_scatter = 0.25
-	env.fog_density = 0.0012
-	env.fog_aerial_perspective = 0.3
-	env.fog_sky_affect = 0.6
 	env.volumetric_fog_enabled = not "--no-vfog" in _flags
 	env.volumetric_fog_density = 0.0025
 	env.volumetric_fog_albedo = Color(0.55, 0.56, 0.52)
@@ -222,10 +213,11 @@ func _build_environment() -> void:
 	env.adjustment_enabled = true
 	env.adjustment_saturation = 1.15
 	env.adjustment_contrast = 1.05
+	AlpineAtmosphere.apply(env)
 	var we := WorldEnvironment.new()
 	we.environment = env
 	add_child(we)
-	# low late-afternoon sun from the south-west (the open valley side), as in the photos
+	# The day/night controller positions and colours these existing lights.
 	var sun := DirectionalLight3D.new()
 	settings.env = env
 	settings.sun = sun
@@ -242,6 +234,7 @@ func _build_environment() -> void:
 	add_child(sun)
 	sun.look_at_from_position(Vector3(-90, 55, 110), Vector3(0, 0, 0))
 	var fill := DirectionalLight3D.new()
+	fill_light = fill
 	fill.light_color = Color(0.7, 0.72, 0.78)
 	fill.light_energy = 0.7
 	fill.shadow_enabled = false
@@ -799,6 +792,7 @@ func _waldhuette() -> Node3D:
 	var inner := OmniLight3D.new()
 	inner.light_color = Color(1.0, 0.8, 0.55)
 	inner.light_energy = 1.2
+	inner.add_to_group("day_night_lamps")
 	inner.omni_range = 6.0
 	inner.position = Vector3(0, base_h - 0.3, 0)
 	root.add_child(inner)
@@ -870,6 +864,7 @@ func _waldhuette() -> Node3D:
 	var wl := OmniLight3D.new()
 	wl.light_color = Color(1.0, 0.72, 0.42)
 	wl.light_energy = 2.5
+	wl.add_to_group("day_night_lamps")
 	wl.omni_range = 10.0
 	wl.shadow_enabled = true
 	wl.position = Vector3(hx - 0.9, base_h + 2.3, -hz - 0.8)
@@ -942,6 +937,7 @@ func _holzlager() -> Node3D:
 	var inner := OmniLight3D.new()
 	inner.light_color = Color(0.9, 0.85, 0.7)
 	inner.light_energy = 1.0
+	inner.add_to_group("day_night_lamps")
 	inner.omni_range = 8.0
 	inner.position = Vector3(0, base_h + wall_h - 0.4, 0)
 	root.add_child(inner)
@@ -1125,6 +1121,7 @@ func _build_campsite() -> void:
 			var pl := OmniLight3D.new()
 			pl.light_color = Color(1.0, 0.55, 0.15)
 			pl.light_energy = 1.2
+			pl.add_to_group("day_night_lamps")
 			pl.omni_range = 4.0
 			add_child(pl)
 			pl.global_position = Map.ground_pos(p[0], p[1]) + Vector3(0, p[3] * 0.6, 0)
@@ -1278,8 +1275,17 @@ func _on_start() -> void:
 	hud.hide_overlay()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	player.active = true
-	if not started and not "--no-music" in _flags:
-		music.play("night")
+	if not started:
+		var skip_intro := "--no-intro" in _flags or _autotest or "--benchmark" in _flags
+		for f in _flags:
+			if f.begins_with("--view="):
+				skip_intro = true
+		if skip_intro:
+			if not "--no-music" in _flags:
+				music.play("night")
+		else:
+			waves.phase = "intro"
+			intro.begin()
 	started = true
 
 func _pause() -> void:
@@ -1324,7 +1330,8 @@ func alive_zombies() -> int:
 func _process(delta: float) -> void:
 	var t := Time.get_ticks_msec() / 1000.0
 	if fire_light:
-		fire_light.light_energy = 5.0 * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
+		var daylight_multiplier := day_night.fire_energy_multiplier if day_night else 1.0
+		fire_light.light_energy = 5.0 * daylight_multiplier * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
 	if player and player.active:
 		var near = null
 		var nd := Barricade.BUILD_REACH
@@ -1411,6 +1418,10 @@ func _autotest_step(delta: float) -> void:
 		player.rotation.y = v[1]
 		player.pitch = v[2]
 		player.head.rotation.x = v[2]
+		var show := ["pistol", "revolver", "smg", "ak47", "shotgun"]
+		if idx < show.size():
+			weapons.unlock(show[idx])
+			weapons.set_weapon(show[idx])
 		for i in 8:
 			await get_tree().process_frame
 		print("VIEW %d fps=%d" % [idx, Engine.get_frames_per_second()])
