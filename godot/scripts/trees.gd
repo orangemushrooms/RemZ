@@ -4,16 +4,16 @@
 class_name Trees
 
 const SPECIES := {
-	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 52, "card": 4.4, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.8, 0.8, 0.78), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
-	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 50, "card": 4.6, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.95, 0.92, 0.88), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
-	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 44, "card": 3.2, "bark": ["ph_bark_oak"], "tint": Color(0.85, 0.62, 0.45), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
+	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 40, "card": 4.8, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.8, 0.8, 0.78), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
+	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 40, "card": 5.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.95, 0.92, 0.88), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
+	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 36, "card": 3.4, "bark": ["ph_bark_oak"], "tint": Color(0.85, 0.62, 0.45), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
 }
 const VARIANTS := 5
 const CELL := 48.0
 
 const LEAF_SHADER := """
 shader_type spatial;
-render_mode cull_disabled, depth_prepass_alpha;
+render_mode cull_disabled;
 uniform sampler2D tex : source_color, filter_linear_mipmap_anisotropic;
 uniform float wind = 1.0;
 uniform vec3 tint : source_color = vec3(1.0);
@@ -248,13 +248,13 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 	for key in trunk_items:
 		if trunk_items[key].is_empty():
 			continue
-		parent.add_child(_multimesh_cells(meshes[key], trunk_items[key], mats[key], near, 170.0))
+		parent.add_child(_multimesh_cells(meshes[key], trunk_items[key], mats[key], near, 130.0))
 	var quad := QuadMesh.new()
 	quad.size = Vector2.ONE
 	for k in SPECIES:
 		if leaf_items[k].is_empty():
 			continue
-		parent.add_child(_multimesh_cells(quad, leaf_items[k], _leaf_material(k), near, 150.0))
+		parent.add_child(_multimesh_cells(quad, leaf_items[k], _leaf_material(k), near, 110.0))
 	if with_collision:
 		parent.add_child(colliders)
 	return { "crowns": crowns }
