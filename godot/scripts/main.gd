@@ -838,7 +838,7 @@ func _holzlager() -> Node3D:
 	var hz := size.y / 2.0
 	# concrete base and sheet-metal walls as real walls; small back window in the west face (the way in)
 	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.25, concrete, { "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.0, "top": 0.0 })
-	var boards := _mat("ph_cladding", 0.45, Color(0.32, 0.22, 0.16))
+	var boards := _mat("ph_cladding", 0.45, Color(0.55, 0.4, 0.3))
 	boards.uv1_triplanar = true
 	_walls(root, Vector2(size.x + 0.1, size.y + 0.1), base_h, wall_h, 0.12, boards, { "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.3, "top": 2.4 })
 	# gable ends in dark corrugated sheet metal (photo 12), vertical board lines on the long sides
