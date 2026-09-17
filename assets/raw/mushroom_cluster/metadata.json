@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, cluster of forest mushrooms, chanterelles and porcini growing together from a small mossy patch, single object",
+  "folder": "mushroom_cluster",
+  "root_task_id": "01a0af32-9b8a-71d1-9d22-bda68d41583d",
+  "created_at": "2026-09-17T13:50:27.548339",
+  "updated_at": "2026-09-17T13:50:27.548371",
+  "tasks": [
+    {
+      "task_id": "01a0af32-9b8a-71d1-9d22-bda68d41583d",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:50:27.548368"
+    }
+  ]
+}

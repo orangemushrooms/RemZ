@@ -1,0 +1,31 @@
+{
+  "id": "01a0af37-17fd-71d9-9984-2b4e7236f6d0",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1892565500,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, carved halloween jack-o-lantern pumpkin with glowing face, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789646020816,
+  "progress": 100,
+  "started_at": 1789646020823,
+  "finished_at": 1789646126719,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-17fd-71d9-9984-2b4e7236f6d0/output/model.glb?Expires=4943203200&Signature=P3S65B~RpaBHip3ZAZWYybE1tZ6h974kp51QKchzJxGJiKFE6yroZ3rguX3Vh5muFR12zRuR40k9WZQPXPfUqERBx0Ahjh5HRMcvmKNDdEJxR3SZPAw19Vip10UEaCuuB96xNP38SUJuI6lvuclTiFRnaQGSPbJf4-TVY5eNapCqVwpns9xJQ9P74NPSDy~J0Q8ZPcsrL44nYlQ6DC-QgkntIpv0jOfV7t8XFXtuRAaH9m-~n7ixoSXpi2PevjwBfh5g2qHKeTfyyyM3vAW1hx6Ded1iq9FyakFtIb8G4Tx4dWcIQnKxQR8yqWfEZlp6C9Md0nvo7~IaBSYexUp5tA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-17fd-71d9-9984-2b4e7236f6d0/output/model.fbx?Expires=4943203200&Signature=kSyfmotvVNeC2Nok3YrprpyggRw4~SCGhUG84HRcDWVCKcUX0Wj7sm5AY3k6U8kaSi-A~meOXoX2KJLJ85Tmok8NzRV2iUiPx4k~WgEckjl9b-zzNSuxHH0Hu87uk9DjIHCBc8FVakne3NcmIfbX0Bibh6OkczJR5WRTh~T2sH~hmhwwduBFUq5iR4R1uPaqW0EOTPeFRBi4vbkhPyjjSrcvH9quKAWU8aFDzgGXjyxoFUJlQm4fM67oX7b-N862cfSPpsFSY~nvEDOLKBCapquUcm9yRG~5Lql2DmHL5NM1Tqx7~9cPca83nuS3s1dcVwO-NF1C7UDgxFet6IcqRQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-17fd-71d9-9984-2b4e7236f6d0/output/model.usdz?Expires=4943203200&Signature=cvYTUD8XeGnfWINoO3r~xZ97-cdf8uz8AdTX3gCaXEEwOSG7MkggpIKnXlEQDXl9dlygvc1JWbwy5b5MWrKDasb~vzptjhZ8zqP1IM8Q9HkdX3D0kzlo-nMw0aoWlGtNNukPsUHrCV8RmFtmhZPIQayMXHm9HxHvkz5sUhintSa6CD61ij0ibg16PauOnHwtq7M6sURyixVLMHZ1FRFgjM5OfROIsIU14ua1LDqSuibCCl~8uutj5g-7G4JeOOC1dDi1UGRDYdbVTnTjrKr0LWzLFF9m0iZsi2bgQKSSL1jGp06KlxWLIgMRfBk9PkZI4Zf5~HTL~~epgJ3qhTGKfw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-17fd-71d9-9984-2b4e7236f6d0/output/model.obj?Expires=4943203200&Signature=Cg0cJ~HyE~OO6IYjgFzuxGrO8NRG~aQ0K2Bp111oeiDDUeilxJkLceeT6oT-T19MYx9-q8m-eGjEEnwdVQPtBTq7x06RQXYG1drAx94DXBK~~mcwuMOFxPPN4BwZ1VH9DdcqVgUexfz6pdu8PUlHUC88-q8B1UdX-H2Yx0FimUDZX5l6O2chDSlM6sjlLFxZkThPi20hM-1Koyg4jSXU9J-V8TfjJliT6hpnED4DvWy16A~Uzwvc9J1ssuwPezlaGsuBg6ynibd5TDmIuvd7~xJgxYaSAZ5tkjQDTMCELcfrjOzNbPnFm9UPw3tJdSktKPGxVG6CQaKoNb2kTQDc3g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-17fd-71d9-9984-2b4e7236f6d0/output/model.stl?Expires=4943203200&Signature=m-8oewnDJq1KEF3A4ZhjGAnLO6tZBEf6nmb8tb6aO5uvSPPcrbQL0sZQSkzhV3vS2hGlBfgnOMJHkJMbWxbhq~u9zPh-9q4CtV1Ci-U8sPy1O0TVhmymAGgGANRUqk-zn~vBsn~1SVwiisnWnuqrkZwUcivuZ5-uHXjOixugBfWpz9XwhLaZrcmXGWYcsgSfIOdVt0fJgmdI8D6lyZ7qFbFS0E6mU9SHXs-5H7ggISulCAb7b5yqSV5ok99uaiSEp80BVz~gR53HcgiYwTYwV7Ynay5cS501b~8u53SDKjl~B9QcgSN0VO4EZueE6pQq4mv-QhBHlf9H9V6CEsE2Sg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-17fd-71d9-9984-2b4e7236f6d0/output/preview.png?Expires=4943203200&Signature=XG3SjNa9AZq~6PCCg6Ii3niHpK~vKFCPhC3BM2VzYdFJQO6rTmqod3qCwUh~n-expDpr0U63MUvTg3EszY5xj9ql92sJDVaOmciSiWK3bTrSvGnEuR2peSqOObLeJiOjuik02~3dUEJbWOHA8GEnk-iNrnTFfZeYgshRnrbmEXzDbtrctPFShUSzyq2GDQKSmvyLQqM4aJ3q6y7GhS3hAkRfBWF3VZzgXnpWu93n5pw5J8AlX1SieYKesA9p0DN31YFZIFdbMv7YHJQgql6abptxjOn2Xd6THSrtr-M3JzonEDp8s7I2j4F9qhC6pdviH339gs4UWRaoEGQsyF8bpg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

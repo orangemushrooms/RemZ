@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, old stone water well with round stone wall, wooden crank with rope and bucket, small wooden roof, single object, no ground",
+  "folder": "well",
+  "root_task_id": "01a0af7c-96dd-7447-975b-234018854da1",
+  "created_at": "2026-09-17T15:12:44.442863",
+  "updated_at": "2026-09-17T15:12:44.442894",
+  "tasks": [
+    {
+      "task_id": "01a0af7c-96dd-7447-975b-234018854da1",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T15:12:44.442891"
+    }
+  ]
+}

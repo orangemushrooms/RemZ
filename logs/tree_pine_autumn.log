@@ -1,0 +1,13 @@
+TASK_CREATED: 01a0af30-24d8-7622-9c29-931d17a2d3ee
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 49% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (65.9375s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (80.9375s, poll #7)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_pine_autumn\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_pine_autumn\model.glb (7.1 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_pine_autumn\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_pine_autumn\thumb.png (0.1 MB)
+DONE tree_pine autumn

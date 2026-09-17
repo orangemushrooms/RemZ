@@ -1,0 +1,31 @@
+{
+  "id": "01a0af31-3e44-730b-a061-22b8c2171f98",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2488111964,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, cluster of forest mushrooms, chanterelles and porcini growing together from a small mossy patch, single object",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789645637552,
+  "progress": 100,
+  "started_at": 1789645637563,
+  "finished_at": 1789645719328,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-3e44-730b-a061-22b8c2171f98/output/model.glb?Expires=4943203200&Signature=CGkIa9gg5mpJgXpepNr6OT8HlHxgnj8f~0ANqQ~ttKzJSoHOLqy2bPBDMMzjyIntoFhPcWXJ~xQv38z-pEBSj0qQjJ4BeQzmV5chPLUV~CXH4a06Xd5~gkqJfAGiNj4P3G5NGFsdzl0DPZZY~L3LD0CPL6-y1m~OXoxTcR3JX1ymUWro1QV5cZ3QFoNXt1kScLxOeIsPK7DkR4-OsAb3hUQMPsNw1fpPzkVZgZ4eqEcTxvdeVmXK9486dec0I4t~wwEWB2wePPBmxlhReVdIIxHauILGohGIUFDB~CUMswplhAJbrOsN0kRJvB3-Yt9I1zc13jqJtWNuXEAdrgNtAg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-3e44-730b-a061-22b8c2171f98/output/model.fbx?Expires=4943203200&Signature=deKx5Jj~vufCo46BdWU2YPgLHumpzvfN40HI6snUKZsndoC9E5-dAy1YpQusvxZG1jwDQLx9~jR1e-ThP-0zS2VdwnKtjftEd2trtiOuArG4cs0ssuFY6vbAR~OGUdMQcRcaZqJPCeEOcLccH-vvolisRXrX~zb9pnPI0dtmoPSdLYn7yemzHCXCmS7sapfV9y6qeft0fq9U0lpFeSaR68~MnvETICoGMDI8X5eGmijqdchhvk2QVDzbAUYY~BbszfW-az77mrnZQUf64gRHiVqgZIZkmoRXu~AJL~C6sLyiGZSU36HlVNyHig6ElaEaOh~CnIqKQtr2sRXB7vM2Aw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-3e44-730b-a061-22b8c2171f98/output/model.usdz?Expires=4943203200&Signature=XkkeMBKuDpxISrokquIlPuTXDgkTbG4V6zZ4vMvXcB5H1TRGh6eGysmBr2nVO3NIRgGMeHNzKFZmaaLqAwNEFDSQTHSEOSPPt94B6yv0pnyZXf6Z7~4VVPM9Pxhq~ooLj8hr3c3JsU2uMVak46aFETBw-inCyj4FX9wCZQqL2Bn2vb3vFItcqbr7~Jpn0jQI9Gi0DoAwg2R-f59~Wucb4fCK7zHF6xeHwVHetaGUL4nNAfmYr8KvsJoheFNhhcJ6icEKgX20bLbncuozQRnrIh~k~Q2aR2BrYmFB8GBbyz1VYXU~N8UDEZwFo2XVlNQ~9MWC8FUw8MmrURDFxL9rvg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-3e44-730b-a061-22b8c2171f98/output/model.obj?Expires=4943203200&Signature=BC509GsNX5xPa4KPraLATrFEXNATRKxOHhhpJMZleG9WgQ3T60Pp8aqfHxAAUkcefnZq2stloyY8Q~jnqu~jL9CIZjUT7kiG01IA2LGzlIZjAIx6m~QjupCJ6Huv2itcOGp6FT15qF5Ux~M~6jOBCmyq9B7oDll1qLDjms128OELDFluHnQMCgVgE8YFea1U894A2Qjd~NOnIcDM-cUJr6LdPR~bigyO9jM~jhOqFPdkffxdmvZlW7Zhh5GJ3cGI9ANHWiglR0k7Rs8982JMyfD5oKHu7kFHtHb014DYeAX5IXie6lDmWF3fuFo-Vh3GHTe2icZdZHqB5ScbnxAAaw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-3e44-730b-a061-22b8c2171f98/output/model.stl?Expires=4943203200&Signature=Ucr8ct-x9FD0nkoc-wUemvulr2Ommolq0yC46EkgEzir6YIRAPl56OB914yatN1ZY8xKYkrX78CtixEwm-KfzrXc3YegZ3jHQwCTWaQJfAJhBsgvPibS-TNbjW7Jqtp4O7k19n~BZaMTGxxU5zHyokLtz-2v36OOmTdiHE5GDq1H5N27uNlNBVj0CjxjHgk-j4G3ozIs5~U914~LsKLbMRHS0z2bRsZikAuEasXsU6aOEYlFJUBPp-sHGdEzR8kZgYVaS7NKISNtFBh9di4KeXoR1Z6WLhH7ROpeJsOc-b5D~lCTan9Z259sJjBTM6aPaLEgWGd5aim~KH8HXeQk1g__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-3e44-730b-a061-22b8c2171f98/output/preview.png?Expires=4943203200&Signature=FB9o9o5-WPRYUhHuT3pFio4cpQfqXb6uN~jSvU6tw~xOfJyNEINt136b3B~Rx0npI04oVL4K7rV0TOCXeVDUvgWra~w~Lw6OR9LuxRBoEp2atBARfiiX9kzBfDlrFj2T37XeTHf-le10iyUGS2bH-0FLjuRv4Fm2tGO2ed~jAYNdrxDlDGPDIEEeSgen24eYetavZcEL~CbjOKQ3uhE3ATNN94Hf8aEiLIC10Q6pMtudD4zsDR3zv60ZO-nedvl9CTEm9Q4Oa0Txl2MLjGJtys22USXDLECyuoE7S7SafymSf7ugMdVavV3pP5V9nsP7E-pj1el1dpnPvOHH1j54qg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

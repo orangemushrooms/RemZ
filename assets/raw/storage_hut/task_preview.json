@@ -1,0 +1,31 @@
+{
+  "id": "01a0af83-a253-7219-b98a-eadd1bb68c01",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 169774861,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, large open-front wooden log storage shed, log walls, gable roof with wooden shingles, firewood stacked inside, single building, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789651036677,
+  "progress": 100,
+  "started_at": 1789651036683,
+  "finished_at": 1789651266794,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af83-a253-7219-b98a-eadd1bb68c01/output/model.glb?Expires=4943203200&Signature=hyU1F6QSsTCkAyWuQmPFqheV2AThsdnnw5bAfkUG5SDwZaqWw6velmJSWDrzaABq-fPWmQ1yWarZcMk4Jm5PfJkUGKLgNjAs1XfKCyVjkiE5kQKgOOXOlkmyYOIk-x4J96AJwZEgMI6RjmQz7jpwJi6h7i23gXgQsncjND8h-1NekkzahQ~pluEfwkOgAWSHitutlmyPowSyz1OLFF1Hh98gquUM~hAX6QX6RCuxA3R1rGgzNUbpA14qjKaEnh8HCEwsRIE7lwuupsDOMQtBSAn2BO-ZqxAb6FULfWN6QH5lhrlqJGXfpnnQdwUwMj2OBKTo3Fubho~T08eb2RQDZg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af83-a253-7219-b98a-eadd1bb68c01/output/model.fbx?Expires=4943203200&Signature=bZGfyM1j7VX2BKWYFy~QXURXfr3598ijQ38qMSyAWgaEanVtM5A9nzNN3A3mQ5w6K2uqikXMnVABl7ZOGUixa-xDIu3Ia8FimEG8hWx2TnVurtqW4u3dR3peEcrTkjyQY1snmx7mlAnBQbwuSvmdK4BcIqdv~3QBabR7m9Y1NPYLoCnGeJPYS699ZOQ69q6wTth1jBG7E7kKYpEGmfZ4sgWKmd6CFXEuA-YqMNwj~-XsW1Q08hFsPLQRaIqvc~e5F5JQ4NYLDZx2hrRy0CWgSxj2-bPg4pGoLVTo2ZLa2n9i4NhTzkx~qoXJDhNOcHFzuVBjHNeU6b3JWxZnehEgdQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af83-a253-7219-b98a-eadd1bb68c01/output/model.usdz?Expires=4943203200&Signature=cEUmfS2BYKMzQM59SjRguzX4cRBiPPvJ2FJ45ZwSp~GNrw-yADyMp1ir1OGlmTI28TtYgCYrehA0-55LXOVpkxGV-KceOioz8oFPLic32ATzj4xH6PhWR30S6xfw~yi2PL1vpUkGCiKIT2aaFqGGcz6O3d8mhV1OLkbl3v1uvNgqyXcW0bFcyFcjeVLA9IKu0m2gL1wUJKCLqzCWER1m7i0phb0BpHDASo7mKlshWSkh6y1x-n6IPHkSFfdFxiswQCykAzmqsKkBqiT3swD9YS48Zmi4mEfNk5Sj5g2yuYuXFAr72uebAodPYNM6nL2FAUrgOy6ccjx9vkqNiacl9w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af83-a253-7219-b98a-eadd1bb68c01/output/model.obj?Expires=4943203200&Signature=SbmWTrhgU~NbyzXUdpb4b48pyplcDi8iGF67iOCttCO8gbgkCnr2vD1JZXstFkC7ThgIT6Muuj7eM1iEJdkIbcZzTI0bcEk2ORam3M7RWY9la4bOZvbP-SOzD6bY15F6oxzD0LtWMI-3cR2cnKrcjamSvnTBVF-~2Y~QjrwDsNaMXt0Y1QQnNu0gP7FPUov3f0n8iOkbzUGVQ3stqVgsqgknIy9r12NIFWBuOxh~IOCcbvW~ZTOGHynZ2JWj239fOoJqNVgsk1JWKMlM~ePkiGxQVi4ZnEXbPTGXyBr-wlDZQ3DVHGhjVETXZqrGG761bZ7DLRLb05JagPy7PtdKDw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af83-a253-7219-b98a-eadd1bb68c01/output/model.stl?Expires=4943203200&Signature=f1KZdknIL3cwsWC0Ia5b5XJRqKCdQb0hBx3GkZ50e2-l~SRiv2XIwJ2LPscjUSsAyWOCYsPaV7vPfKoJpQcQSTQbySQOtLFRckso7HVW1BRY8MOenfpVaXmKX~mg~z01YppW3hmiEPEiL2XpunhfjxANf6WHTxv3TpRZsykzJLWu-AaEPzVBhGQMCeH13e434fzYorU5ZRJw9ThZBniroE5jsSkrQ~2yQul2c71YATecseMBLW628FNuo3pYZkAYEPNVfrCHS4o-9i3khDr943ZkgyQ~2VZpegsBormTQGWWU9aZrXeuE~ZfP1SRPnFcJgBDStrUpNTu86oSp78pIQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af83-a253-7219-b98a-eadd1bb68c01/output/preview.png?Expires=4943203200&Signature=BJWEqA9wLAPBudPqp7NDEsnhqiYjR15JWvPV4inmj5Rjok93yGrln~ZbvldY~Aaqwt7mnQYSVFwZPdCxP-OXxorEODhjdfcsW6Sip7Lk5uAPsLgf~RiGEbiTzTz5DQlYr043zIGd7Ei2ZkU2KTDR2wPQ3RDfZc2wJ-1x5DqSyro1hABGi53g9Y2KBPGWCXmZTp5NnDQ64Zr2b8R7rgapf~~bM~QFsaKHZ56CF2u3SLZVXUaHED6sLlOR8FF4nGwn3EDBcGJITQKQUwb8141jLO6jkWZMT7zv7uzuFErClXCBpGDLEtLSNQ1qduYCF2hMw4x2WYyQVfBdkP2hMoN44Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

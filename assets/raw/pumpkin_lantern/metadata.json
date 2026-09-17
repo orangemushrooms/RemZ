@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, carved halloween jack-o-lantern pumpkin with glowing face, single object, no ground",
+  "folder": "pumpkin_lantern",
+  "root_task_id": "01a0af38-eb20-75c1-bae0-42fbbeee56dd",
+  "created_at": "2026-09-17T13:58:49.562955",
+  "updated_at": "2026-09-17T13:58:49.562992",
+  "tasks": [
+    {
+      "task_id": "01a0af38-eb20-75c1-bae0-42fbbeee56dd",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:58:49.562988"
+    }
+  ]
+}

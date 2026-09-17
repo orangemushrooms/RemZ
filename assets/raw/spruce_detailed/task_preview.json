@@ -1,0 +1,31 @@
+{
+  "id": "01a0af42-05a8-7538-88bd-e70d26ac4443",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 875293867,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "highly detailed realistic tall spruce tree, dense dark green needle branches drooping, textured bark, single tree, no ground, game asset",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789646737963,
+  "progress": 100,
+  "started_at": 1789646737968,
+  "finished_at": 1789646875191,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af42-05a8-7538-88bd-e70d26ac4443/output/model.glb?Expires=4943203200&Signature=qOpPcHtUCwrRm0Z7XnUjlMAfZvgl5KAOqYebZLg~QKIMqVoJseI4n9P4XcNu7VbLT8aDBrFG~7OBWTgK4N0iuIaS5p7HBakAT8r7OBaGN9a6VKX~FxHXbpdnk5e249wsVnEDwlc1vMFhMIIybLXHFtlJLJajz64H0uo2tcvgcsXQ7h1i-tTPd3UBQQxqm56TS3-Aa4UoCECbIuloxNVRD1WOg2hv5KHSTgVVJgfNa7y038v12tw9kudm0e5qAbsegHO8qdLOPhJCMXvayyHCaFMFHQJYKf1~DuH5rjveDvxun1SbSReiESJXhi3yReoUCOR-kyiIsifjQgfvZh8BMQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af42-05a8-7538-88bd-e70d26ac4443/output/model.fbx?Expires=4943203200&Signature=cvkNYOrLb3XrpDJoyrPj78UHs8CBSzYFMuw-jQl2IpJL4Rtb~wR4yZEpLpASOw-f~yhS1S0own8EYGkVPMkribsi~LUvCkscQKq0NQPzrxXpiXRmoLElWVVH-FsxBf9upiQkHTwlSvgLL-CkP3FTxQdu5VCzcQbG4bqlpTlfoFjoWRKPm4kwINmxRqRiIrxifh4fzeDtkRpu3HsePUr5IuSGIcc9OkcNbWw2bLLfKKM3HzxY6QUdJz6YbRynx5mpvIuq5Ab24RLLY1cQkU26IFkrIy9Rny2gvH2BOHb6vGG0rrWe8V3YN4moJ6C1aiFhGqKcWdtTS~8fXMYv~B2Shg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af42-05a8-7538-88bd-e70d26ac4443/output/model.usdz?Expires=4943203200&Signature=NSWz5VjOj1QPNj8kB-OUQT7-yH4yzJDV7RgE86ndyGwKZpq0h9O45BBnOdgiojC-fe5A-HwMQRwFuLyZaORi2fjwLoWIhfCViLGqI6pPeuvRgdgzOWL1ofriW9ES61pnp0F9kOI3HkxWhMP5JJpx-vGGZWyritRlFrzxBQhum77al9KQLIv~dkI7UOMSxxF85ttdd3Z~A~b2QPs77IJDUGGJIiHQRlsVTU8pYkkiHginuoe2DxK4BU4hrp7~8NlSVdj9WLGkTL6AjTifT3R2ulKGUfrCTvSP7pTkiBxgq10sJNNkjgMAFSzbdITSWREwLtfR8EIMQ18zwrTBXOcvGw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af42-05a8-7538-88bd-e70d26ac4443/output/model.obj?Expires=4943203200&Signature=c9jL9axFdc5DiHmV5eCwx3N9S6rsKlWLYONTckgV~PVQYIHHXR4KGdzGNMwU~kazHlm9d4ce4awBsNTSVP87bLK2rwI1P8Y2Ifl9kVh6nx0pbLZ-6e0fcAoXF5JSOX-raY9V0mzBMq~SYmNWMhKKAGWASEKZB0NPQR4J9Fv0kwY6NPpM5rJohTz8DeyghCqn1hEUatyfbeixXrX60mHMHWXanlystFjIu2RA-41Xr5IHxeolxwEmjpScNCEGN9jnIKhsPOttrImFpHosjtiNsmEwEi2nV-Q45BkwahuCxzYlFOgACPHI6p5ACsdo-eg-YU~KDEAXNj0MAulFugtVqQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af42-05a8-7538-88bd-e70d26ac4443/output/model.stl?Expires=4943203200&Signature=P8t4uoTYSTdhIPy7vSNkmkFDr3Vx5QAr7JYV7qNXhEHHNtJK2ydL4RgaVB1Zynq0vGR2dYgasPP6F5LharoyJkxB5EtSRWoe-A~oN3DTsrabnxGqvr3fdwvrU2W-xpSds3UbPUFVW6gufvC2h-ER7AcIyYLDiqz23WZQ99MZuH2SWibTWDVhBThxAYVsa1dA1b-gYM4QtUY-cXilMgWUQN2h10xbICFm04gV6IIXflKkYpY2G6CwbaLYDP16-G1dbBJpyHDJk2Ey1PYJyKTcj6h~mD7eT3SAqa-0TfYHs8Nk3-5q0kBnto9YRJEnt2qBFWLXhY2~viCZrDyUAnt6ZQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af42-05a8-7538-88bd-e70d26ac4443/output/preview.png?Expires=4943203200&Signature=PQFyxC16JfyOKJrx0YySTglwduffSpidD4r59Anvot8L7QA3vW~WRsOKM5~Wc09DsrhZyryfnQXDosMyk~g57hx7LRI5NdppW-CCIiCCiFoxJPmeTFyBqOlImPFaOovbE~xtfEWrRPwfTbW5KW28eoqcHPvVZX2bzo1hyFDiD~9vsddhCyJkU0WPqdEhm3hDSs-Xx6w~TunmJffA-jTaW8bB~MBy9xX25OeWLB9KYQvtn4cysNhZ42vEdKaPZF8A6lnLFOSdfso3-vdBckLsYt45kfNMdd8LXlrnzNHHrmUj7hrq95TTBSr5FS7vNADQe28Rdk-HcXZ~gq-BjXYPSg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

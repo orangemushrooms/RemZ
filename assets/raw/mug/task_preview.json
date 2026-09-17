@@ -1,0 +1,31 @@
+{
+  "id": "01a0af44-fa5c-7659-8838-38857e09251a",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2956330183,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, white enamel camping mug with black rim, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789646930122,
+  "progress": 100,
+  "started_at": 1789646930127,
+  "finished_at": 1789647046276,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af44-fa5c-7659-8838-38857e09251a/output/model.glb?Expires=4943203200&Signature=SooOpaZPE71D5CfIQlGRDrO2nissFAP30gmSdGrNPF2hgXMUFLiJZues~KGT1YoD2vhCoEoVRKHtVI5ySugERjaUpcqvLMZd4~jXDCQ7nlWQMaBKpdhHuZy7yOCQ-47Q3B2FNadsyS45rVMphnuBdZrnrmKDeRKi4DRbl-AqU5PmXp4QOa4XMu8naOF4Zs7jwr7Q8HNtdEM-cOn5sofp~ZYVsO2noimAq-hVgfst~atDVPgrMDYpLmY5M7TR035xf~tXE0p6hFDo-YBR2pKlCNSIbrvIRABJ2sFYtmDFMAKth~TlgaPh3aCV1toX~KCtue9uMsIIM16LjUbDc8e2lQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af44-fa5c-7659-8838-38857e09251a/output/model.fbx?Expires=4943203200&Signature=J9SJJiS4yuANaUpFNdoJ~9apBnd2hAtHPjXT16RMYJdincUWJBonmquRPCH2L~FaG9Jt4f2AhvUc1HWlCiXIh28px0yeRyI94MMJYHXMhzRlL2uwDiAB0THALl1IGOXTXUNcS8OZSc9NMBjtEQlYSEI~Iqu7GykQ5KF98dXr34PYPQaGSBMOjIP7oniyQ7QTeod5Qw~NF9GeYMhe2IKIOlGFaoCRYwSwAS~fqtTNCMtb4lnllUY~fLk5jIrmFgqBMrxv1yUctbSYZzJtLnuHpXWmjHRct5I54TVay~fnLigJNnBqCFqaawWBGjvgCxj5-SanbOow5EO5v4BLKW5b0Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af44-fa5c-7659-8838-38857e09251a/output/model.usdz?Expires=4943203200&Signature=PFVAKyV5nizG7zSo4xHGycR~TUb2VyKpjiJVNQ0mBbl2NmszT5XqE-IPM~9oQ5UR6Lavq9uxpfna479Ok2opFxVc-VrKkxUUuh8Ru1gOX0kCK8nc3YnMOHNsvqdCrwOhq4UJgf4YocbenhTulS3WCCL0p2Fk7VUXu75Q8V-FPPEhcLqRr6~Ae5GXAGd5LSDJW2VmZNPpVSqH~-h2rjMcuHOBgUphGT3RloBVZQLhdLK4KrRsyiLZRHcFDuHtRC-SjTTiyjrBMCT87zOgM17sdMkHTNGC0fMGmCwATi6u3sM0BNpGy69pAHqzPKYFyoKF1rD1d2XGg1lg0yc3~y3zcw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af44-fa5c-7659-8838-38857e09251a/output/model.obj?Expires=4943203200&Signature=gAW-Elv-oy6pFegzfNfGHLK89~4D5jkns1nBflrW5S8UyHAalLAygUZuDO0zuODfbKjpYrUv9WYnrrXcNt0RcfO8xZ-HOsKtRRPo~ChR1FINMDANZz9ZnmXjqcKHS0Zi-E858K4tCnHsrRQyAfgxgeDskEfN3HpB96gYJ4c-tHA~fusZ1NUJl8Z-1ChniehoYMcsWzJSyzzoj9Ekh7m2ITmXc6KGfCHatPzdY4hDWekpNJrxcOPlYvzSrRZQ9LE8GwpTTrREbUIwoBZ-vNPSb7RZFdRVoP7ITssFdULQPlhPDeGVrrfXd~PwGdjPOk6Cor7hCaE0qScd30vGrc-Kkw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af44-fa5c-7659-8838-38857e09251a/output/model.stl?Expires=4943203200&Signature=WQVwDvsSO3dpu50KpxnJoALvD-DwdwpYo~wqzZVIdZ0oDssa9~Ur-Hp-1S0WnotgxkBC8~dQ41Fa1U6HQc-Jcdx93qeftMvO5SnGRDo00mne0YwM~TGssfVM5cgiunYjFwN938ilTj47VpW~O8bOok~4X3Rj0i6Ln3JiXwZdu6yDV5WDhhvwvR-BFP2sodACyCOB-sZzquLt4elTpXy~x07nCP52ST~O6Ud7DQhO89tKjzw~ecS~Tji7MNbA4dlh-n35T1O-JPkBctRgw-Gw6isBzNrUKXiaZ-zl7qRcOiZGZDCnMSDigw5MI-bA9hbvGfcC~G-BiuoHB7nkl1UmRQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af44-fa5c-7659-8838-38857e09251a/output/preview.png?Expires=4943203200&Signature=dm897AHYW80HI2RmESZSSCKKftXRq9eJZ1dOtYbR2BfWxg~PKb1T-9aJch-LzTMJvRvsRvxu4g514uq3ZmYlmC1Kd4b~KXw7gfn5AtydNIIn2HDKnyg238dJgiIrxdtMtlbdYo-PRGocLG0VsUUx9fxJsmsn5SbdV7~NMIQAP5qm9cTbMBFYKR9UFszoJrw4tSnmz3RyMKHQKpb7TL4zKDD-PF4u8GNelCQM-s3YnBU5VUZVuK5nk6o3sUY-wSjf7ilnSEdwxp1SprXxjh2~Gx6OLbWt1yUBNBBt5~ejrpx8Wz1F7KWq46JtnYEb7ca5erfrEnsboDo0I65g2hpo7g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

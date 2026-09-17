@@ -1,0 +1,13 @@
+TASK_CREATED: 01a0af46-eb0c-7654-b982-e7bcd55b02ea
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [███░░░░░░░░░░░░░░░░░] 19% — IN_PROGRESS (23.75s, poll #4)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (40.625s, poll #5)
+  [█████████████░░░░░░░] 69% — IN_PROGRESS (65.9375s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (95.9375s, poll #7)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\spruce_detailed_nosnow\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\spruce_detailed_nosnow\model.glb (11.1 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\spruce_detailed_nosnow\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\spruce_detailed_nosnow\thumb.png (0.1 MB)
+DONE spruce_detailed nosnow

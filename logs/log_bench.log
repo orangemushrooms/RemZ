@@ -1,0 +1,22 @@
+13:50:54 preview log_bench
+TASK_CREATED: 01a0af34-9b98-75ca-9f3d-3ba363e901c1
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (55.625s, poll #6)
+13:51:54 refine log_bench
+TASK_CREATED: 01a0af35-83df-77ae-ae42-e220d964f83c
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (65.9375s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (95.9375s, poll #7)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\log_bench\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\log_bench\model.glb (3.5 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\log_bench\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\log_bench\thumb.png (0.0 MB)
+13:53:36 DONE log_bench

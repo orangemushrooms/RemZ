@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, small wooden forest cabin, horizontal timber plank walls, concrete base, hipped roof with red clay tiles covered in autumn leaves, wooden door with three steps, one window with warm light, single building, no ground",
+  "folder": "cabin",
+  "root_task_id": "01a0af2e-830b-772e-9d2a-0a6f9ab1310c",
+  "created_at": "2026-09-17T13:47:57.018465",
+  "updated_at": "2026-09-17T13:47:57.018486",
+  "tasks": [
+    {
+      "task_id": "01a0af2e-830b-772e-9d2a-0a6f9ab1310c",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:47:57.018484"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, plain orange pumpkin with a short stem, single object, no ground",
+  "folder": "pumpkin",
+  "root_task_id": "01a0af2d-d4b1-72cc-a926-b5367aaa70b1",
+  "created_at": "2026-09-17T13:47:12.765333",
+  "updated_at": "2026-09-17T13:47:12.765350",
+  "tasks": [
+    {
+      "task_id": "01a0af2d-d4b1-72cc-a926-b5367aaa70b1",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:47:12.765348"
+    }
+  ]
+}

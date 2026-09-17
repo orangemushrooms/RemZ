@@ -1,0 +1,18 @@
+{
+  "project_name": "highly detailed realistic beech tree in autumn, dense foliage of thousands of orange, red and golden leaves, thick textured trunk with branches, single tree, no ground, game asset",
+  "folder": "tree_autumn_a",
+  "root_task_id": "01a0af3f-eff0-734e-bdfd-00bbdd193664",
+  "created_at": "2026-09-17T14:05:32.816378",
+  "updated_at": "2026-09-17T14:05:32.816409",
+  "tasks": [
+    {
+      "task_id": "01a0af3f-eff0-734e-bdfd-00bbdd193664",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T14:05:32.816406"
+    }
+  ]
+}

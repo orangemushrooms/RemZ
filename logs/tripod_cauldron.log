@@ -1,0 +1,23 @@
+13:47:58 preview tripod_cauldron
+TASK_CREATED: 01a0af31-e9f3-7525-b5a7-a0760ad5af30
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (70.625s, poll #7)
+13:49:12 refine tripod_cauldron
+TASK_CREATED: 01a0af33-09ce-70d1-b59c-826f1f63b2fd
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████░░░░░] 75% — IN_PROGRESS (65.9375s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (95.9375s, poll #7)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tripod_cauldron\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tripod_cauldron\model.glb (2.6 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tripod_cauldron\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tripod_cauldron\thumb.png (0.1 MB)
+13:50:53 DONE tripod_cauldron

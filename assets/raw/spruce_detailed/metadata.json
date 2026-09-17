@@ -1,0 +1,18 @@
+{
+  "project_name": "highly detailed realistic tall spruce tree, dense dark green needle branches drooping, textured bark, single tree, no ground, game asset",
+  "folder": "spruce_detailed",
+  "root_task_id": "01a0af44-52d7-741f-bf10-ee8c56af6c73",
+  "created_at": "2026-09-17T14:10:16.475769",
+  "updated_at": "2026-09-17T14:10:16.475813",
+  "tasks": [
+    {
+      "task_id": "01a0af44-52d7-741f-bf10-ee8c56af6c73",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T14:10:16.475808"
+    }
+  ]
+}

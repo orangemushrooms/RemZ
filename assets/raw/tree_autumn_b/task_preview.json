@@ -1,0 +1,31 @@
+{
+  "id": "01a0af3c-c2ea-77c9-8f14-a21870119393",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1031569148,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "highly detailed realistic maple tree in autumn, wide crown of dense red and orange leaves, gnarled trunk, single tree, no ground, game asset",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789646392415,
+  "progress": 100,
+  "started_at": 1789646392422,
+  "finished_at": 1789646537959,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af3c-c2ea-77c9-8f14-a21870119393/output/model.glb?Expires=4943203200&Signature=FYDYhU1osXzbWlJVftXJJhUsspKNJCbH6HmyqU79VkjqriGAdzppa1IDPmzdcuLQC2WcWliEPflWyPw-Ydu6S3q~u83fvODO6NXQfoCUILg5vR8GBJCeHH10oUNjsAQTBAz9~v1SmxU7vDtUYJZSC6KG8Z~33PHIjw5nRx5Fbujbdys-h7JivvshH0chsGB9JSOAfSx8fx0zvwh~LMm9jFWPxKCvNJxmeyXOo2K-lWXfb55roYPjgPoFZDUsJp-PZTN82jPIZWyHvHPHoT4FSwhvMz8wQPDJGHZFgySPDkg7Fpc~bkpQ5XVTYE4vVMfK11vwo6jsplNTMWIvSaFEqA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af3c-c2ea-77c9-8f14-a21870119393/output/model.fbx?Expires=4943203200&Signature=Xutj0WH83~mD7xacc0S5U-4v9KlbvCNB4~OY9sgidGin7T8Kqpg52aaWo1l2VLNA-foRNbBPzeCKNXN8V0QephnndhMgXNGK2J1YiH0tNd0EUjhzvEfLqnYzPpiB12Nz661HpwGhBDmt119ZoFY4yubOEWiH40LpuztktxLJi~luKR4UPntIzrOGDEIMl~EgzbgD6Yof92UTV5Ij57QO9bXCdsmENoI6rpVRs55WSOpW4xSCKOOUf9pM37RIIn1yqmvhOA71Bl3AFUZFaVWX5bjGlZI-nB~-OJWws3fuBO2YMkCFKwaba9txwvXLjWS0nLZWwYVaBFpgFEXYEiBsBg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af3c-c2ea-77c9-8f14-a21870119393/output/model.usdz?Expires=4943203200&Signature=c0vxuaiIQudfhnZAOnSfWPL9Wk4SzuUlDru~v9NZOaSY5aHjtC0Ro9ra-LlZUoVTP4~uATFvBnjO0khfvBKKcMtEgOnUUFay9Oy-yxnjwC6BFzjxELXLF5FqNrFHxJXdhRgLEicwMxLwn~0rh9zyZUix4KaHghkVsSB6IOMA4e93-Hbo1z5v5IjdlPSv~AuPZEu423J4p2lpIkVJ6vsiHta0urIZiDK-CFuCMqH~hFVleAIrdrJCqQI5-ER79AB2fOYIrDvsGCvyN9P~5VkpcUxfXeNgjutsfnpMX6m8eA3dxmDMUS~MRxCnSlg86~mCzaoZRsaGruvfAGi-wviQFg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af3c-c2ea-77c9-8f14-a21870119393/output/model.obj?Expires=4943203200&Signature=EtR~~eU4NFgVD0EBuPj2Cqtkg1RCLtAdmbtDy3XOVGZZcP9WecLzIAV~hYeQlGDwcYVxLXJoYX2hLChW00xwgJMj3op8W~QNc5uhjQ6E~tjoTHd890Ait-8JQCLi5lZwafbDLBVy-GYGOQzLzcMs5HKEdCKmiYtDOZd1Usa24y-Tieh94V2Tg3J14Z~C-j0RQELBu1bAEum7k3Gn-70jvjMJLf0qPEtemAVW4upQOQ8nog3r9D9R9JvGGkmpSSKVVRBVTarTel9LnwYy0EDBiq03GP-9ZI51eQPliNT6xMtVI8qM1zVYIUSS9Kimi3yAQrdQyUMuZukKC2zr2B6-Pg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af3c-c2ea-77c9-8f14-a21870119393/output/model.stl?Expires=4943203200&Signature=mj-wKm7KnKupLa7oFqvXWTU7ZaxlMlTLhCm3TLfutEy4c9LSR7ZTiZBFhGJI98iehYro8nj06VrGz1rOJ~bKaw9hYrwkBIlGcLvdAs-LgFMDevwbCx-6YD4gSPay5WaiA24W08hTmoqqLr8-~yssbbj8P1joVFeGqsqO952sptSfm-PRozt7c3s6wWtLVUHURSs1Q~0yqng749TkTNI-hGSTEsgf1fvHEwW6krsTvOuAWXm2mvqhdflQfarmZGFLsHajQOGjQQZBctiVf2Re8gsTpQxEpJ-z3qOeOs6vhpT8fMt5JxbautbiLsijLHwfAouIEtRa8Ilh7l4FaX~fYQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af3c-c2ea-77c9-8f14-a21870119393/output/preview.png?Expires=4943203200&Signature=OyKTTpv6C5VhnbH-kvE1h2-bZcPW7T-fuJ1dXpVA9~cKUo44Ts9TKTPRN5X6hjEz6zv-OPwyC1ysw7eESrlV9Ub7ArYblDPXlthg05rueZAA08L6XadNovG~LIrrJKf1Sq5gFiN-fL0Thrdy2NBalS6LS0dV8jIeg7oRQiQ36vezrC84zc3vIMLXS1H77tpZeO2xlMxMW7cLXxt2Ly79rzctxQh3tJSrODywkIsjOwyyWKGs41xY5GI8hk4unmyS6OfFN0lF0rqCCJq~YKZmKfW7DItL1X2aP5j18Pl75xIYQ6ClXB8CeCDv7MCYXsFkH0fVSXw-wExK5s3m40kfOA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

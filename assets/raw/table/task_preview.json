@@ -1,0 +1,31 @@
+{
+  "id": "01a0af7f-8b81-7141-994a-a8aa122105a5",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 434649738,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, rustic wooden table made of thick planks, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789650768695,
+  "progress": 100,
+  "started_at": 1789650768701,
+  "finished_at": 1789650886511,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af7f-8b81-7141-994a-a8aa122105a5/output/model.glb?Expires=4943203200&Signature=fOnI7KZOmsENy9b5cw2wkGmUYqB3McTEzB0g224YiKPENp8hbJWw8iMOZfEh9TqTLFOr5-lVRZKhRx2aGNYF7lF9B9JiM8NdzAetBVHEftxNzni1wsxz9znfkW9vnmcWuNOOGY-8mtGlBVhZApkkmcKFbOq6A5bmDHVGZOpWjepPvSAxaM4bqvlijdI3ZISe4MjP-7e4HKEiZQZNtEfAba97jn9CVhi0i9HkliFB8Ef-oM5Ey6qCq4StrzvIHwL-fFnuQqdO1S2FL8cIIxE~E33xslwNp7cmCu9u~u9oGr1ejOaSBlWUkgpZnmDkzMWZCcPqROPwaDNC0ZWFgc-fTQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af7f-8b81-7141-994a-a8aa122105a5/output/model.fbx?Expires=4943203200&Signature=lEuwfzEAaxxxg8SVRv9WooXg8WIBCff-63MRB-n1TDy6ERMzf7Cod-wbgvwXCPo1VkaOIf1bU6DgBEWL-oEPIIs6zp1ha2xRaZbRAMIiVm02HHRPOk6djbUdUcsVMnUCDDwayHjI94d54drJCYYxFq0jyW0y4bS3pf7NGyAQvUM5ZpNdU2-CgH60hhon8lgXm9IyNlNL3Hnr0cmPX4162ZhR0q250LfkUWNXYkBFXgXZP4XwGQjHvi7c3M4L0qb1B96KcxaAE4DVxby~ksbZqvMs9AMBz2AkOqWpX25omIkF-TGg7CcB6dPvguv7-waZVcDX2euU6q-WSDES51TyBg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af7f-8b81-7141-994a-a8aa122105a5/output/model.usdz?Expires=4943203200&Signature=l5egLvgZd0y3bdNONvTHbOb5joPjiOFNRDI2P3eciyd3XQm4dyY43W2uwtqLyEjbAj652QpuRRtYwa1VxlMm7H64gRW0ffG6nZ0nf6aZMN1RlyxNJs4TO3MM3WT290GlEDiozWhrJWiPirhgBOt7vlrPWVwf1juJxTM0aeySOM68APq0~AQmwbl0M-yCFEpGcCqoZ3-AsF~vShiverf6QL1-AxIonSUcTnAIBycfamAk6tGsBm45jXf4hNzbMs2nnlOHSpekD0XwZ14JBJA1JNu5sUDxxiGarcZAbflu~IoSwG~fvqcLEghtN-M3wDtnrFioN6cK6SOiyxR85Im4dw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af7f-8b81-7141-994a-a8aa122105a5/output/model.obj?Expires=4943203200&Signature=QKoEVTZiMsKvVmZ9y6moqFnGmBvZZduthk57T~ZwF1KMzd6HrjEwYGA33y6YdpoVjIcKoq--pRdmCp4kDHJVDJeqTsLLn~68btMSeG~rZjsGKLR06Jj4dh2NkHBg1NzrFH-NIvoms4j1pspjPXJD-SdPL4NZuE7SAM4mCKN9HLfpm63LFVxeO4om6c1myeJ6BnkFle7jPQVNfdgz~HDSJlH96SP4bu365k33oIIvpwUmIDmhwqMRqvM4WODRf7FpfRjcByW1cORjppY72kuBGD8nNvhRRUG3Q5GthWcZtNTRuaAwHgSG2XuyEvBsKGsEdlABFLSUwl0EAhZx7jLJOQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af7f-8b81-7141-994a-a8aa122105a5/output/model.stl?Expires=4943203200&Signature=aEXl3-kR5Yn6GAQDBGm8Y4TgkZgNlhEt8ovk6olRFeCIHoAV3Gw5QhvAG9n3DfPi6KqQY0H1qsudb~Cbs~q-p7Qgr-vFRBAk3jB5KdMiaL7Chne0GESB71ADkkuOOItfL6Zhut~XHrrY1pXq9JGLqghWLU-cg7wG6mYB9aL9WwOE5ai8aG0K4fARcj1UBSDjCcr-6hDEZo-~jPDmLqaGFS2e~fQM7UldjL~f5bc2XZ802LRjl3rR4tKw9~KtQFiM8~1cGwc5Sy5RhBpWTtzrUWyV6frIK2h7~XmpW~uX4jxk2xTKy4hblyLOoK0bCo7c0pI6VXYJH4Py4mY8toxP1w__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af7f-8b81-7141-994a-a8aa122105a5/output/preview.png?Expires=4943203200&Signature=oZu5jZLUfaT0ZaSMGp1uascBRIBdFU~GvdKvbqXQx-uCVB28SGQ5aCzaZlNU4zVE40XbRDHuNO59XIGHfa~f33opdKhaWTq-Lzd3IUes7xnY9otLC1X0pk9MiN~BKyfFCfRm-3Ui-Br7vhmSQHYgdpt10ag050UT6at-mxPcthP23X9pRqwAxU15rIwfrDxwYNgNBtaRNLoi2KlotHtp2wQ0lvsv0sXnO85ApIgCjEl-fdRLVjAWpbHcoi0NkPI-TLH7cQ9wWOR14LjQlhE4ppL~x6lI3Rq141PhODScVzeWPXizx49by4SfIr6Gu8SY8zUF~6UtTal4~AixD0iU7g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

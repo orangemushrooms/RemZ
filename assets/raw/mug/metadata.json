@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, white enamel camping mug with black rim, single object, no ground",
+  "folder": "mug",
+  "root_task_id": "01a0af46-cb22-7191-91d1-e19a208fe1ab",
+  "created_at": "2026-09-17T14:13:00.414670",
+  "updated_at": "2026-09-17T14:13:00.414691",
+  "tasks": [
+    {
+      "task_id": "01a0af46-cb22-7191-91d1-e19a208fe1ab",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T14:13:00.414689"
+    }
+  ]
+}

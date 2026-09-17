@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, small glass jar candle with lit flame, single object, no ground",
+  "folder": "candle",
+  "root_task_id": "01a0af4a-73bc-75e7-838a-d34edc7dcbf0",
+  "created_at": "2026-09-17T14:16:57.657291",
+  "updated_at": "2026-09-17T14:16:57.657339",
+  "tasks": [
+    {
+      "task_id": "01a0af4a-73bc-75e7-838a-d34edc7dcbf0",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T14:16:57.657317"
+    }
+  ]
+}

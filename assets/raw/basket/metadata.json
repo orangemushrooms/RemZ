@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, wicker basket filled with small pumpkins and autumn leaves, single object, no ground",
+  "folder": "basket",
+  "root_task_id": "01a0af39-7618-7262-ab03-951fea9fc910",
+  "created_at": "2026-09-17T13:58:55.414493",
+  "updated_at": "2026-09-17T13:58:55.414527",
+  "tasks": [
+    {
+      "task_id": "01a0af39-7618-7262-ab03-951fea9fc910",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:58:55.414524"
+    }
+  ]
+}

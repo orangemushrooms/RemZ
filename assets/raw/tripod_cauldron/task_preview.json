@@ -1,0 +1,31 @@
+{
+  "id": "01a0af31-e9f3-7525-b5a7-a0760ad5af30",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2610956513,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, campfire tripod made of three wooden sticks with a black iron cauldron hanging on a chain, single object, no fire, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789645680924,
+  "progress": 100,
+  "started_at": 1789645680930,
+  "finished_at": 1789645748036,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-e9f3-7525-b5a7-a0760ad5af30/output/model.glb?Expires=4943203200&Signature=FqHcnDIw98IUcBM~NP5r5d6bCSW2JmhIyUanupjOrDeCLgSVLIxOFDl5OYcJKyTL7~vz3C5RSF8aRqsmKkHOnDJtk3phM8rE1gdCCY8Qae2B~PCnJndE-C-36oESGKYRP0C8lfZVLpP9ebCNevmRm7fkDansB44o550us4cN6tWNF1WNlrBSD5-QAnn5XZlNJ4hPIKF6ENcmKeKjqm180i0fqFifqvQgDaZNkcS0YkxvGOay8le2jV8tKlXMFEOUkFxHeaDqwVoxGEmFz~~lq2FPpncqtUuVcqslQdaLnDGEEcsbdJgcutBsMCPkKX5LR208cbvtO-FpF2rmlr-NbQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-e9f3-7525-b5a7-a0760ad5af30/output/model.fbx?Expires=4943203200&Signature=dLi~sM8MDsktYxiBX3vJfuNNYvUxy5v9dfcmUrokksd5xjI9-kgqpbF1c5G0~CqO37Ujvhg4nwKf6rGQmx~-rGqLlVD-rMic~X9n7-giH97Z9fO4sJxo-uHPgNmqW987PFUL-4L84oYyU5BlKX0bee-~OIflMN5h4jikDbG925sPOS599ux-7u5DR5wfi4~i9Ln14SUeSUOZj1rGLhoUIoABG6K7DMhFvXrw9EhJ-p9ziEozZ6yrtlT8XfEh8fPypIgDLuR2aPSlj17TMgbc6Hp3Q42vPRlCl4LcAztuZfXhVCaYFJ3kYs1S39Rb42McabufrPjNzSVK5W8LsnrpKw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-e9f3-7525-b5a7-a0760ad5af30/output/model.usdz?Expires=4943203200&Signature=DPe5Ll27Mp85cR8RZg5nlR6~Cx-gSskLG6ZpHLWZd76se246RL19XtoigF8qR6G6RH9ks4Kf~xmt5bkfgOQH8u7t1FyHsldky~1ujLPY4OOaPGZJFiER3DKi66QsDqE0ymURRJq1sY2abcr3OOcxjSdYKUBjvVgNDxv-P8EhK0LA4MgMnV127hg4GGIoGm8WNywCEKpQzpUBVjJ6PrSVBhpldSd2Y1AFaBWvj3B-cOyKa~1tRIoBFNQ2vnNG4XOFVvjYayGB5wZT0Vk5zrRdyBv0HNAHbJc2Vi4V1nMsRq8-dLOaLqJRou0O9gpLi54iojNtEPorLJScQ34QjRo6GA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-e9f3-7525-b5a7-a0760ad5af30/output/model.obj?Expires=4943203200&Signature=KsznRbfo5Kh33dWWTFAL~SmS26KB~QrNkMtS7l18jfBQ1y7QquSnMyJcb9W-Oyu1rVZdqpWiv~HWt-nHdXLg0G4HuNRoHU2dyQftpGAwrK35pPqEfU4ppDfGT6lPdeqHOMgBBYogU4JOt4W-Ig8qNQwaAHJo6ar1YHiCcKgQ~owHUB8CK7HflmsqJ1eX9A10xkIIKXYnoiISyGNaZwpULA6kJ~EJF~vQ~b7fyaWI~PKCToD13dKT3uu-8Qt~r15W-lL6mohQbORLdcNicZGf0A68ia9rTmKYrT0DE9IQ8QRHPXiZb5QcvtmUvxaZpC2QH3nQY~osqUOYwgloHUlkIw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-e9f3-7525-b5a7-a0760ad5af30/output/model.stl?Expires=4943203200&Signature=WCiRwZg-di2aUYWfHrL-WjEZv9ArTsWlGwpepi5pTyM944d3Lq-teIduv~fAtDnVQhTuyLPmJF2gCbDiwHo7vwEUZ6n-EfTzH5p~58zgBNytZ7dRNRXJbAeNkN6uYoWMI9nTAikVcEq-anz5MEUGEkO401MfgZ6TQq6fcO0Y0Z0p591p9a9NMuYYgeSvBUTrilj2h1IaSwNXO4-8srZBIRYTOKIvIP5Eslbm-YHTmeMVZesWNduFF-GAxctBy9WNmOINe3aBm~aPj0OY2~CeHguUlabY-dz4BumMgISHjRpVGHtFkqgneIaykqn0FD3EFgQoAEBaD3snzJPDm8MIxA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af31-e9f3-7525-b5a7-a0760ad5af30/output/preview.png?Expires=4943203200&Signature=jbsIVdf9xNibiUD67FXHGSDRaooYxixDhutew2~H~p8DfvAQfBp~XcBiUDQQifJlZlZdiVH9r-nzMEkAyyjl7CgTwqwa0hivOvixt1mwtdumyycFyAQ4vv7K9OT7usrd653LsjekKgxHcPQIby6N5~JZmAtAN50SCfLamxIDhg6ZwpUMaCIIcTkd3ZmNw3eOs7rXedj7MPALEAKQ72Xhm7DRWosEtrM4iIHE0VilmLyw921yVBa~5Yot~-MfP5kacdyBMwDPifMTEc-oi~rba0UrucSAl-0yqSNKk2D7ceyTVA43YfZVbIoKWH5gxBs9WL7MXeFzUYimZMXYy3jPrw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

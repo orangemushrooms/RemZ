@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, campfire tripod made of three wooden sticks with a black iron cauldron hanging on a chain, single object, no fire, no ground",
+  "folder": "tripod_cauldron",
+  "root_task_id": "01a0af33-09ce-70d1-b59c-826f1f63b2fd",
+  "created_at": "2026-09-17T13:50:53.136833",
+  "updated_at": "2026-09-17T13:50:53.136853",
+  "tasks": [
+    {
+      "task_id": "01a0af33-09ce-70d1-b59c-826f1f63b2fd",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:50:53.136851"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, group of three fly agaric mushrooms with red caps and white dots, single object, no ground",
+  "folder": "mushroom_fly",
+  "root_task_id": "01a0af35-d1ac-7646-b152-ad3318a70001",
+  "created_at": "2026-09-17T13:54:10.999838",
+  "updated_at": "2026-09-17T13:54:10.999871",
+  "tasks": [
+    {
+      "task_id": "01a0af35-d1ac-7646-b152-ad3318a70001",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:54:10.999868"
+    }
+  ]
+}

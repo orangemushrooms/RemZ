@@ -1,0 +1,29 @@
+13:53:37 preview pumpkin_lantern
+TASK_CREATED: 01a0af37-17fd-71d9-9984-2b4e7236f6d0
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (115.625s, poll #10)
+13:55:37 refine pumpkin_lantern
+TASK_CREATED: 01a0af38-eb20-75c1-bae0-42fbbeee56dd
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (23.75s, poll #4)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (40.625s, poll #5)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (65.9375s, poll #6)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (155.9375s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (185.9375s, poll #10)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pumpkin_lantern\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pumpkin_lantern\model.glb (2.9 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pumpkin_lantern\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pumpkin_lantern\thumb.png (0.2 MB)
+13:58:49 DONE pumpkin_lantern

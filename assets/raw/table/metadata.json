@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, rustic wooden table made of thick planks, single object, no ground",
+  "folder": "table",
+  "root_task_id": "01a0af81-98d0-73cb-a656-5e4703dbd77d",
+  "created_at": "2026-09-17T15:17:12.336476",
+  "updated_at": "2026-09-17T15:17:12.336528",
+  "tasks": [
+    {
+      "task_id": "01a0af81-98d0-73cb-a656-5e4703dbd77d",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T15:17:12.336525"
+    }
+  ]
+}

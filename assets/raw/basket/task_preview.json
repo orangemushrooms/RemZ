@@ -1,0 +1,31 @@
+{
+  "id": "01a0af37-9f77-70c2-94ea-be5eff3fdb08",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2386114390,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, wicker basket filled with small pumpkins and autumn leaves, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789646056395,
+  "progress": 100,
+  "started_at": 1789646056401,
+  "finished_at": 1789646169005,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-9f77-70c2-94ea-be5eff3fdb08/output/model.glb?Expires=4943203200&Signature=hqqMZuA4MrS9YxE1N9De0rVnlQLomEmN4x6tEHsYwrKIiVNqhp8YMe3VLpYmz76JhsdjyJF9x-jRyVAv8BEzcpAOjRvVId8RaN-Ltv12h~q5nAozQkjEJewEmVsc1EzoW7dUUyf0fVNy~cSTMNUGqPJWg10k4syiMDRcS5pct~0USwXGOY65fA10QMjXE5TsHy~MwNMIRhji-qNIo95sB46uyIAIBb2N5dmeCcKOIcXthAh0dDvWjjHOsqZlFtE0zQNrt-NHZ~-DQV-upRNWgtCiQC~RVhdmgEBaABEwMyQm5TrAnx560FHbWDJEdzjBIya7jKCNU921ItOlxhkPMA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-9f77-70c2-94ea-be5eff3fdb08/output/model.fbx?Expires=4943203200&Signature=FWfxxm2Z8pNiFZYdFKBXc3KgJlpnJXnZYThlCT9ERxxdE1RDphynlTRxkvKJM0bAmFIdN3fHhxFzfnTbf3hUKh1~qb58kq7rG0BBJv~E7TgFcOa~Jr0jhkGJne0x6al0RngqE-Cj7jWM-WcCcmFfi6jKkJBnbbYemVMn53S7heyZ~~BzdEPrHgULxLy7wxaM0NGBU5-SRseTZrxK6kpw010hCzIIkIaPkF8jxpfYXFHmPwMy1UOKJHZH23P8DRi1yU6oLUB7Zyd64ZoiYza8arewu3fC2~E5nTwdxMaLBEZj14n5hiJs1-UVHPdLW8M6QfiBAifXPIEuSDat6~p7bw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-9f77-70c2-94ea-be5eff3fdb08/output/model.usdz?Expires=4943203200&Signature=CCh2u4WBs68P1e-yjd6E8yWABvuK05FWveKIvZHy6RgvY0A7C1LuxO6qtFEV0DTWFb3DlrdpI8XKcv3umjo8tVr72xhQCvW7g7M0N2jFdmAZsfgWwSajEHHih2XWryXihz700K4snv1sVbA2PLSqK3ik2sjH2MyRknRMmHKxH1q~Cz73WAY~bGjOe1gDfVZgin3AOO6iXT-TMQqiE9js~bTWnCRbexQeZXiWuc-OwJvFFMhkcwJ2P9-6fgF-iID-49UDGM1i1TdmrQlMyImY1av7wwUHRBSDSDGk2xXsOoQhTi99dL559iijTA6Zbk~g9vBgODeNPxyvlpa4Tarbsg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-9f77-70c2-94ea-be5eff3fdb08/output/model.obj?Expires=4943203200&Signature=Pw6cb-5vWRaqHhTXQ--tjhDxXqYBUQKNgkslXHY4Xr85Am2-OlxDncwJwP9MURBSRMpg2scxtyb-wo3xB09MjidBLHDSaeb8sewWq6e1q-YkfJ9FBKXzMFBT7Im3zTNo8WkytQ19suVk-AAN-TVoYYR14o2F9ajEtijMOe2LfGZTxx7IaFJRjt285dRs6S1eeZK~uWezOedZjP1j~kXWQDCCE0X3kRHvSclexESeh~1YkI81mj5zdMt7sxZq7pIyCWpgBcTn0y8F9pnESTKME3ESw0jPHMxm1suEgvpt99eNdQZOmc5ejSqcKwW6sF4nrTmlyDzakJgFJpM8a8DZlA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-9f77-70c2-94ea-be5eff3fdb08/output/model.stl?Expires=4943203200&Signature=YJHlyUbI2wMZK7QxHqfmpg385EIF1DkyFYE3j8GjqHIzKSfniCuD~0TAnVNf1g-LXhUv0GRHTIovfl665kWmgyRyB1Z1vaB1BrpgJrcT5eu1zemwq323qv1VjjF32KaymtiZg8y6i9MR2mxhg9ElfwZ0wwzYrK0Grzp9eIKzgSlPTiDuW6juGY2RfdGQ-dmnbMdlvALqvIOL2NhBhmXYJxJfeM7FlIKy~lIrRvb08CWnv5OITANDoUn8qU84KfsN9DS5nFqkuyhqgMZZhxikgxuyqusJeshEdAavqXFm8SeS7hN5ODUeOE4KVpKJNHrhUoveCroKcKbK0Etz9NTHlQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af37-9f77-70c2-94ea-be5eff3fdb08/output/preview.png?Expires=4943203200&Signature=ctoRjyQLTxypTN-EzdiIu0PQJRtBsu37kYT5rZeYLgouB~kzuZEOK7NGbkB-O4nonx~ZG3GcqaI0NHSs7U1ipoDDTHLizaJeRdespQ0bGtFT2zlIMOMvgMwVgBC5s2EjszbvMRihKS3VgEexHAFr7hnN8mJ0XexB56PFZ4-swMbRxcd-DEuCoSYeZqbzNYnvft-RVpHSVzmJ6dIcBl4SOYY9KmdkQwm1UxVd1IGcoVchdV2MtvYHg1lhsHTvQXxNy~C5V0R~9iIF3GIgA6qJBeWRj30KhmNYw3dD5GUxlCr3eGQX7Q6Jg4CSz0aETUTknQ69kS7P1C1lgxWSwVEEhw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, rustic bench made of one long split log plank resting on two short round logs, single object, no ground",
+  "folder": "log_bench",
+  "root_task_id": "01a0af35-83df-77ae-ae42-e220d964f83c",
+  "created_at": "2026-09-17T13:53:36.470287",
+  "updated_at": "2026-09-17T13:53:36.470319",
+  "tasks": [
+    {
+      "task_id": "01a0af35-83df-77ae-ae42-e220d964f83c",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:53:36.470316"
+    }
+  ]
+}

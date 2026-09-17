@@ -1,0 +1,28 @@
+13:42:01 preview pumpkin
+TASK_CREATED: 01a0af2c-793f-7118-92d3-8ebf7a161cdd
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (85.625s, poll #8)
+13:43:31 refine pumpkin
+TASK_CREATED: 01a0af2d-d4b1-72cc-a926-b5367aaa70b1
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (65.9375s, poll #6)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (95.9375s, poll #7)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████████░░░░░] 75% — IN_PROGRESS (155.9375s, poll #9)
+  [███████████████░░░░░] 75% — IN_PROGRESS (185.9375s, poll #10)
+  [████████████████████] 100% — SUCCEEDED (215.9375s, poll #11)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pumpkin\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pumpkin\model.glb (2.3 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pumpkin\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pumpkin\thumb.png (0.1 MB)
+13:47:12 DONE pumpkin

@@ -1,0 +1,31 @@
+{
+  "id": "01a0af78-eae5-7237-b37b-c95fa5238e7f",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1957452542,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, old stone water well with round stone wall, wooden crank with rope and bucket, small wooden roof, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789650334490,
+  "progress": 100,
+  "started_at": 1789650334502,
+  "finished_at": 1789650558926,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af78-eae5-7237-b37b-c95fa5238e7f/output/model.glb?Expires=4943203200&Signature=f0tS1ByU7Gv8P6pgt3e--bC~gnq4KHqNqgCn2MHa00CgHC927OaCkpWYP4aBCTEHFpObL2zSVKnHNrMcyD2zj79UGQK8gXjoZqWLasjA7HX3ac0mhZGNdGkMWuhSjJ4Djx0MMdPRG4aZh9Srf2ds9Isw5V5HT6bxLMtNNABmsTPaV7rZF5NYvUle5OBhuNWRiv0h7XgcwQ5WGiWg6OTtehiVC6Se7CvuWhtaMEn1ILJGSDV8icvszsUqMCbk-UH6oHZYimxAYfHwgi8rVGVjdzYaG3smUnK00TI3X5-Jgu5XbZTZMoXbme8qMXpcbu5MojvCSLgghB3PoG10psTbrg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af78-eae5-7237-b37b-c95fa5238e7f/output/model.fbx?Expires=4943203200&Signature=kQ8Hcn92lD2recLj-qssxGJc~IVtjFH7fd9jAcvbu6hOEkoRZUKxoNYY4zuDQ4JKcYJ3zTpD0XVRmsn9G0b2dNNmSALCzvyqtiMlfW3aHpzi9ENtPm4H5RoI-r6oN9twXP7BGj8FnQ4QYdNH7VvlNEv-M-bSrImZmlAib2ORnZtXjowB07QHqSN3ojtbPKTY6Rln73rmlqxwbodHpg43QdGNXS64n-VVgiAF5NIo0-kCt3MCI1oudCZfv17qlPXIB0vnSBlW-yTAqIQ79hkHJAgajYRAzVJJaTkLbqOxp-lwAW8zjExdb~anIVrg2gxh1npElDtmTix7xcJEZThZJg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af78-eae5-7237-b37b-c95fa5238e7f/output/model.usdz?Expires=4943203200&Signature=nWyOE8V9JzzV32PJUV3iTNrR3NpaOKAGYTFQ6hC0WxcOgMMjFssrwwumVEAm31tYpixiwBk1xMEer6hxfkh7291WrTEKtRHTqoUyAdcakg8-ct6ojmaNS0WL9WFqT9PHlaVLZdkkA2O3Wy~QqQPbyy1Fbv33IBtSJE773jb9lvj6tjgRxhcSCCWxUGV-GKx6OzZouQhMDc9nd3m3RQO-SbPEwGqBeuuOPxdqmt4Sm2Jb2NOS-NjM1aejQv3xXLzduB2fklIfdsq2WHo90sLbC2aTkaUJHywgmxNdRGYhGx8wNyjcfQVyIIgQAUGwqsdCMYF6wiAOcLP4zMcUoNVaVA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af78-eae5-7237-b37b-c95fa5238e7f/output/model.obj?Expires=4943203200&Signature=EKbGI5F1sXbvfI36CkdV9KJZDUPIziQquJugeGJAmoMniu16rYdrlcKXLOY50e7N9jBVBj2QZ2T~8JfQD8AH7h3t6E04Zz-yLjQiglCWzttHcl03dntuPDoAy10--7i3o8uJunsZFQ1ktwWiAt4l8uTnuV55XBSmF7anyPxj3AJqbAEcl7V60O1AfVZ8QBaxjEh5ikzFSP6Z6EqedKdONCkqlftizN25Y5cy8ryDz66Cs3H4xf9~TL78ehK~c39RuqbDzGmJIRWygnceIg75scAcfI5LpOfmYIh6PvCBbg0PX3x0NZtKMndHK9KVfCAABB8r0JXe~BdjW1ZZ6iejnA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af78-eae5-7237-b37b-c95fa5238e7f/output/model.stl?Expires=4943203200&Signature=JkQaRP6B1djKLMyDty1thps9UBEqe-etSpRNlx1GJ-Qd1TBEyTDYVblF~3kMKBAs89~hb0dt-Mt9W3CT89ep~NYKVI63EbnUYXKBuj2s3rcE8XP4L~99UQr0hm26X8~VVhBbEhvH7dtDgLsKLD6Adt0xaNrXyd4iHqpjCNNyl3dNGnCbtFTet7hE0xOjvxCf6NlNX9LPif9pQ7Wrb2iAlqHPjSkne0HZ~co50edVx9N~7O4ZGHuvDFJL-Nej4qjRausPHmud5eyblfqkcPMrr9R0fXqXrhkzYo3dYXJZeoKW5m0s3emJ9mX0YBcrQL~-R~Uz72Xyhrvv9aR7m-YFyg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af78-eae5-7237-b37b-c95fa5238e7f/output/preview.png?Expires=4943203200&Signature=Xs8JpteBHIHut7L0sC4nvQBC6pF7m0uGTb4er3Ywq0XHmyjmEt-2XgxgUVBxmItSi83P2v899rWfQbAv5UYQngaBGUIcEVMN3gpOZWd6JJ76KnEAq4QsY246YPdWJYfJmItBQAhKyfUcxcpDhQVc8jBVRjyrvXO4YmvSgCDo9UwP1IThUZYrvmbqlJ2b58-5yB1Et53artb75XWIEht9jNXtpfMfS9gC4VUwkBj2E9fEU2~oRx9VVCyq767q3KUk1elmbp2c0T1RTSBiHLDAscV4RDgjTOiS~~W8z6FNarKVu8MJFcfPauTSErBNatI8qnfMOJN2W1l1-kqmGdgsHQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

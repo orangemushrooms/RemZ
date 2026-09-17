@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, large open-front wooden log storage shed, log walls, gable roof with wooden shingles, firewood stacked inside, single building, no ground",
+  "folder": "storage_hut",
+  "root_task_id": "01a0af87-4de3-7538-92ff-8f60eed6b12d",
+  "created_at": "2026-09-17T15:23:41.356146",
+  "updated_at": "2026-09-17T15:23:41.356175",
+  "tasks": [
+    {
+      "task_id": "01a0af87-4de3-7538-92ff-8f60eed6b12d",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T15:23:41.356172"
+    }
+  ]
+}

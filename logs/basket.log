@@ -1,0 +1,28 @@
+13:54:12 preview basket
+TASK_CREATED: 01a0af37-9f77-70c2-94ea-be5eff3fdb08
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (115.625s, poll #10)
+13:56:13 refine basket
+TASK_CREATED: 01a0af39-7618-7262-ab03-951fea9fc910
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████░░░░░] 75% — IN_PROGRESS (125.9375s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (155.9375s, poll #9)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\basket\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\basket\model.glb (4.1 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\basket\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\basket\thumb.png (0.1 MB)
+13:58:55 DONE basket

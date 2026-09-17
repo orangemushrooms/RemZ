@@ -1,0 +1,31 @@
+{
+  "id": "01a0af34-3a68-7554-b7ee-c3bd05bab40d",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3927089607,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, group of three fly agaric mushrooms with red caps and white dots, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789645832831,
+  "progress": 100,
+  "started_at": 1789645832837,
+  "finished_at": 1789645933953,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af34-3a68-7554-b7ee-c3bd05bab40d/output/model.glb?Expires=4943203200&Signature=f-rXN8xLxc4Y6JZb8Ljtn04Dh6pCmVco-IzygWGJ7p3XMq1Sv-MuE4i3urO2lPMwj30QxtM5dinC~VZMaE0TMSv-UqvBu4NYnzJP0OiKTIfQEdZe8UhyuCqVJmJdOdmNqeUASkVW4XjNeakinhsKezfXEj5ByQ6awEdOYAlo5g165~yz7w2gCh~X1wQ67WQbUCtTj~sz0X~OzLu6jnd1z4Sp08NlZ5waKWN2ODFze4MG73QWR2M83PAhVByEqJQEoymeBGs3os2pRYr8XTvp0dLL6XkNkTliohKgUPCRI93Wlj9SM9hIKGyJykVVj5skXDdO~Z0IisQwsjop9Mh6Mg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af34-3a68-7554-b7ee-c3bd05bab40d/output/model.fbx?Expires=4943203200&Signature=GzFaipL6NjTLHA~iXjhzLvCXwMgXBptB6qvFmwvk~kvvV6EM1Gywninwdb43PTNpcyMomKJ7qWcZlHg86OeezztsPpS-UKxsB7qSRNoYISQNTaNgT4AlkvQtgXaHs0mUyiXCHeP6YIHL0eK6AAOmsJZr0vEbjnQvESx~LYAIZc51C4ouEsuWHCRd7cUSYWlZJ10e9z7hG1zKFd35QAZq4D3FObRopM9acUP8a2J0R6UzjVHLLUbGS6KtidTaRjl2aa6wzPfQDD6-V98EJrCSSJwAWlOEUCV5tYeh2BXIk~uZYX766EHVLDrkl1buKCbJ-5pAnxNgJth~Th2gqRn-nA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af34-3a68-7554-b7ee-c3bd05bab40d/output/model.usdz?Expires=4943203200&Signature=Y0jPEdBE8LkK70TSiiXkr90qhkQhk58WUTuuN7-3~QMm7jTOWviswRszPZVwyWoXA4BjWE8ZOa1Swr4YXRFgPx~gHt7ufH5OEA~5Nf7pNaOwmmAdfaK5Muqvw1sFNFhqXIe6xh9gfvsSKPsCVfMzK~0P8nwmavMEtos-8EK7Gm7-K87l3ITCIk2wuPKSTCZUkYxGJaqKMm1as4UZYB4bA-D~cSBV5ocEAx9aE-AnU6iy9jhQVY1UfFeLX-kFLv7waOfZrn8RjrMVFj0PFGQq20L6F6HtKWROrvfiLdXCFRn~wvcPyH3XNnEWfBVbeeVNzL0qRPTWLN7Bb4v5iMnROg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af34-3a68-7554-b7ee-c3bd05bab40d/output/model.obj?Expires=4943203200&Signature=KKMKA6qFIoJ3Z2PHmYo7cfJZIVpMk-DwGNqrLyZunuoUFWYjE3DzEa9SkO~UNH01FiHhZG8Wa70KSjPtDD4kxE3cDgQxvYwIB2ycKys3tSSTz0YCAVPRbHZ0xDJBnMdVnSimvl37~cSZFwCYaD1geUXDDDwk~25gpioMkAYdj1ExupUXDbUcLjEqhSfn1-D2DNV8WJ953PJuvkp8qYfwtS3ju6~FZg52mcTrZzJ3Le7ulOpq90Tg1PPIzkSAIFAfI0g2Dc8ZeBPJgV3RurWBJouYZE-PUSPAa11rNMlq8dPggguNYFkHL6oz4d6n9r-olHR04hdgIP30yUHHI45jdw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af34-3a68-7554-b7ee-c3bd05bab40d/output/model.stl?Expires=4943203200&Signature=odZ4tJnsBvb7iv5ZSbWz78acbmu8iqpM12tnmrK6iWp8ZmWwTHOpo8R-jN2UF26RBMpzZV2wbxkwZgaiDh6RIzcO5Z0p3fcwe73r7w6qpaM9jqc0HF8e0rD~yakKoRLApiELZH39NfRoeTuqWYKn-IfMHvMhlaVlB9hFtOrBcgRtoqHGZFdM-LF~v0b7fW7pyQwOoT1o9HMN9y5hjXD6kV45OZb9hc5AZXjO63sDIXDReIGOv310-PkprSYs932g1jJW6wKdcjjw12wHVg6AfYsJJe7ckHmMQRPyWlyYynpoJIGOyUFvZh5UC5TmoAHG3elSOEg58dlTmqb-Oe~4rA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af34-3a68-7554-b7ee-c3bd05bab40d/output/preview.png?Expires=4943203200&Signature=KsIShsfGL2PW5sVFgRXZCRAl9LCbipgpqiv6YBN4dWcwic2rSFucHkJV6yPMTSEntOodaE0l~8CcQ-naQms3q7hR4TpfEJKpOcsqjEjyI6eN6Wb6e7iCA9Mfk39f1Ws6WY8I5hz4sxfAYxg42N7pm-2JQHQ04kuoNoqkaW6F14u-zi12ownvMOeeElP4jh32J8Md5fzn6OHk16ObpJWSDJ7RhEDEllg2DkwExD3fw8YfFCQqcP4m53NVPpt7GpRnIduHtZeILOkB6K~ERdMwl1J7B37EAtQIGrz6EsjjE3LPXDUDdngCwGfo7FItOwrlXWk8KZ64-ZUe8YrLnwG9IA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}
