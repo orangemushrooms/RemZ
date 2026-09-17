@@ -11,6 +11,7 @@ func setup(k: String, weapon_id: String, text: String) -> void:
 	kind = k
 	id = weapon_id
 	label = text
+	add_to_group("render_dynamic") # Every visible child must disappear with this pickup.
 
 func prompt_text() -> String:
 	return "[E] %s sammeln" % label if kind == "mushroom" else "[E] %s aufnehmen" % label
@@ -19,9 +20,10 @@ func take(weapons: Weapons, hud: Hud) -> void:
 	if taken:
 		return
 	taken = true
+	hide()
 	if kind == "mushroom":
 		get_tree().current_scene.inventory.add_mushroom(id)
-		Sfx.play(self, "pickup", -10.0)
+		Sfx.play(get_tree().current_scene, "pickup", -10.0)
 		queue_free()
 		return
 	if kind == "weapon":
@@ -39,5 +41,5 @@ func take(weapons: Weapons, hud: Hud) -> void:
 		weapons.grenades += 2
 		hud.message("Munitionskiste: alle Waffen aufgefüllt, +2 Granaten", 2.5)
 	weapons.update_hud()
-	Sfx.play(self, "pickup", -6.0)
+	Sfx.play(get_tree().current_scene, "pickup", -6.0)
 	queue_free()

@@ -5,6 +5,13 @@ extends RefCounted
 # Physics bodies stay in place; only repeated, static visual leaves are replaced.
 const CELL_SIZE := 24.0
 
+static func _has_dynamic_owner(node: Node, root: Node) -> bool:
+	while node != null and node != root:
+		if node.is_in_group("render_dynamic"):
+			return true
+		node = node.get_parent()
+	return false
+
 static func optimize(root: Node3D) -> Dictionary:
 	for instance in root.find_children("*", "MultiMeshInstance3D", true, false):
 		if not instance.is_in_group("render_grass") and not instance.is_in_group("render_leaves"):
@@ -13,7 +20,7 @@ static func optimize(root: Node3D) -> Dictionary:
 	var source_count := 0
 	for node in root.find_children("*", "MeshInstance3D", true, false):
 		var mi := node as MeshInstance3D
-		if not mi.mesh or mi.skin or mi.get_child_count() > 0 or mi.is_in_group("render_dynamic"):
+		if not mi.mesh or mi.skin or mi.get_child_count() > 0:
 			continue
 		var size := (mi.global_transform * mi.get_aabb()).size
 		if maxf(size.x, size.z) > 80.0:
@@ -21,6 +28,9 @@ static func optimize(root: Node3D) -> Dictionary:
 		var category := "trees" if size.y > 4.0 else ("detail" if size.length() < 2.5 else "props")
 		mi.add_to_group("render_" + category)
 		mi.set_meta("render_category", category)
+		# Keep normal distance culling, but never detach pickup/door visuals from their owner.
+		if _has_dynamic_owner(mi, root):
+			continue
 		var p := mi.global_position
 		var cell := Vector2i(floori(p.x / CELL_SIZE), floori(p.z / CELL_SIZE))
 		var key := "%s:%s:%s:%s:%s" % [mi.mesh.get_instance_id(), cell, category, mi.cast_shadow, mi.layers]

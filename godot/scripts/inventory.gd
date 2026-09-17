@@ -75,7 +75,8 @@ func _ready() -> void:
 func add_mushroom(kind: String) -> void:
 	mushrooms[kind] = mushrooms.get(kind, 0) + 1
 	hud.message("%s gesammelt (%d)" % [MUSHROOMS[kind]["name"], mushrooms[kind]], 1.5)
-	main.achievements.event("mushrooms")
+	if main.achievements:
+		main.achievements.event("mushrooms")
 
 func _slot(title: String, sub: String, color: Color, detail: String, on_click: Callable) -> void:
 	var b := Button.new()

@@ -63,6 +63,8 @@ for _r in ROADS:
 # gravel clearing around the fire, the aprons of both huts
 # Kiesplatz: fire plaza north-west of the Waldhütte (photos 13, 14, 15, 20), the track between the huts, both aprons
 CLEARING = [[-11, -16], [-4, -17], [3, -17], [9, -15], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-11, -12]]
+# The seating area has earth and leaf litter; only the actual access tracks keep gravel.
+CAMP_FOREST_FLOOR = [[-13, -18], [-4, -20], [9, -18], [16, -12], [16, 0], [6, 3], [5, 11], [-6, 12], [-12, 2], [-14, -10]]
 MEADOW_FORCE = [[-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 160], [-70, 160]]
 FIELD_SE = [[113, 24], [128, 18], [150, 8], [150, 160], [113, 160]]   # fields east of the Sennhofstrasse south of the junction
 # Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
@@ -74,7 +76,7 @@ HOLZLAGER = {"pos": [-2.5, 27.0], "size": [7.9, 14.6], "yaw_deg": -23.0, "base_h
 FIRE = [4.0, -7.0]
 BENCHES = [[4.0, -4.2, 0.0], [4.0, -9.8, 0.0], [1.2, -7.0, 90.0], [6.8, -7.0, 90.0]]   # x, z, yaw (length axis)
 TABLE = [-0.5, -8.5, 10.0]          # right next to the west bench (photo 20)
-FOUNTAIN = [-12.0, -6.0, 80.0]      # west of the table at the forest edge (photos 15, 21), clear of the track
+FOUNTAIN = [3.3, 7.0, -98.0]       # beside the Waldhuette's west wall, beyond the garage door's swing
 BIN = [-3.5, -18.5]
 SIGNPOST = [-4.5, -21.5]
 LOG_SEAT = [-10.0, -4.0, 75.0]
@@ -243,6 +245,7 @@ for r in ROADS:
     else:
         gravel = np.maximum(gravel, wgt * 0.6)
 forest &= road_d > 2.0
+road_gravel = gravel.copy()
 gravel = np.maximum(gravel, np.clip(1.0 - cd / 1.5, 0, 1))
 forest_f = ndimage.gaussian_filter(forest.astype(np.float32), 1.5)
 leaf = np.clip(forest_f * 1.3, 0, 1)
@@ -252,6 +255,11 @@ leaf = np.maximum(leaf, np.clip(1.0 - np.hypot(jj + Z0 - 8, ii + X0 - 12) / 14.0
 pond_bed = np.clip(1.0 - (pd - POND["r"] + 1.0) / 1.5, 0, 1)      # sandy bed under the water
 pond_grass = np.clip(1.0 - (pd - POND["r"] - 1.0) / 3.0, 0, 1)      # grassy bank around it
 gravel = np.maximum(gravel, pond_bed)
+# Blend the campsite into the surrounding forest floor without planting trees on the plaza.
+camp_leaf = ndimage.gaussian_filter(poly_mask(CAMP_FOREST_FLOOR).astype(np.float32), 1.2)
+camp_leaf *= 1.0 - road_gravel
+gravel *= 1.0 - camp_leaf
+leaf = np.maximum(leaf, camp_leaf)
 leaf *= 1.0 - gravel
 leaf *= 1.0 - asphalt
 leaf *= 1.0 - pond_grass

@@ -1049,6 +1049,7 @@ func _log_table(x: float, z: float, yaw: float) -> void:
 
 func _fountain(x: float, z: float, yaw: float) -> void:
 	var root := Node3D.new()
+	root.name = "CabinFountain"
 	add_child(root)
 	root.position = Map.ground_pos(x, z)
 	root.rotation.y = yaw
@@ -1406,7 +1407,9 @@ func _mushroom(x: float, z: float, edible: bool, height: float) -> void:
 		return
 	var l := Loot.new()
 	l.setup("mushroom", "steinpilz" if edible else "fliegenpilz", "Steinpilz" if edible else "Fliegenpilz")
-	n.add_child(l)
+	add_child(l)
+	l.global_transform = n.global_transform
+	n.reparent(l)
 	loots.append(l)
 
 func _spawn_deer() -> void:
