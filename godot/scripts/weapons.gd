@@ -3,8 +3,8 @@ class_name Weapons
 extends Node3D
 
 const DEFS := {
-	"pistol": { "name": "Pistole", "model": "pistol", "height": 0.15, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.22, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "kick": 0.05, "sfx": "pistol", "pos": Vector3(0.24, -0.2, -0.5) },
-	"shotgun": { "name": "Schrotflinte", "model": "rifle", "height": 0.2, "mag": 6, "reserve": 24, "damage": 22.0, "rate": 0.85, "reload": 2.0, "pellets": 8, "spread": 0.07, "range": 28.0, "kick": 0.16, "sfx": "shotgun", "pos": Vector3(0.22, -0.24, -0.6) },
+	"pistol": { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.22, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "kick": 0.05, "sfx": "pistol", "pos": Vector3(0.26, -0.21, -0.5) },
+	"shotgun": { "name": "Schrotflinte", "model": "rifle", "height": 0.16, "mag": 6, "reserve": 24, "damage": 22.0, "rate": 0.85, "reload": 2.0, "pellets": 8, "spread": 0.07, "range": 28.0, "kick": 0.16, "sfx": "shotgun", "pos": Vector3(0.22, -0.24, -0.6) },
 }
 
 var player: Player

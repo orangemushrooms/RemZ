@@ -50,5 +50,61 @@
   "rifle": {
     "prompt": "low poly game asset, pump action shotgun, wooden stock, first person shooter weapon, single object",
     "texture_prompt": "dark blued steel, worn brown wooden stock, game texture"
+  },
+  "cabin": {
+    "prompt": "game asset, small wooden forest cabin, horizontal timber plank walls, concrete base, hipped roof with red clay tiles covered in autumn leaves, wooden door with three steps, one window with warm light, single building, no ground",
+    "texture_prompt": "weathered brown wood planks, red-orange roof tiles, grey concrete base, realistic PBR game texture"
+  },
+  "tripod_cauldron": {
+    "prompt": "game asset, campfire tripod made of three wooden sticks with a black iron cauldron hanging on a chain, single object, no fire, no ground",
+    "texture_prompt": "dark wood sticks, black cast iron pot, rusty chain, realistic game texture"
+  },
+  "log_bench": {
+    "prompt": "game asset, rustic bench made of one long split log plank resting on two short round logs, single object, no ground",
+    "texture_prompt": "dark weathered wood, bark on the log ends, realistic game texture"
+  },
+  "pumpkin_lantern": {
+    "prompt": "game asset, carved halloween jack-o-lantern pumpkin with glowing face, single object, no ground",
+    "texture_prompt": "orange pumpkin skin with ridges, dark carved face, realistic game texture"
+  },
+  "pumpkin": {
+    "prompt": "game asset, plain orange pumpkin with a short stem, single object, no ground",
+    "texture_prompt": "orange ribbed pumpkin skin, green-brown stem, realistic game texture"
+  },
+  "mushroom_cluster": {
+    "prompt": "game asset, cluster of forest mushrooms, chanterelles and porcini growing together from a small mossy patch, single object",
+    "texture_prompt": "golden yellow chanterelles, brown cap porcini, moss, realistic game texture"
+  },
+  "mushroom_fly": {
+    "prompt": "game asset, group of three fly agaric mushrooms with red caps and white dots, single object, no ground",
+    "texture_prompt": "red caps with white spots, white stems, realistic game texture"
+  },
+  "basket": {
+    "prompt": "game asset, wicker basket filled with small pumpkins and autumn leaves, single object, no ground",
+    "texture_prompt": "woven wicker, orange pumpkins, autumn leaves, realistic game texture"
+  },
+  "tree_autumn_a": {
+    "prompt": "highly detailed realistic beech tree in autumn, dense foliage of thousands of orange, red and golden leaves, thick textured trunk with branches, single tree, no ground, game asset",
+    "texture_prompt": "realistic autumn leaves orange red gold, rough grey-brown beech bark, photorealistic PBR"
+  },
+  "tree_autumn_b": {
+    "prompt": "highly detailed realistic maple tree in autumn, wide crown of dense red and orange leaves, gnarled trunk, single tree, no ground, game asset",
+    "texture_prompt": "realistic red orange maple leaves, dark brown bark, photorealistic PBR"
+  },
+  "spruce_detailed": {
+    "prompt": "highly detailed realistic tall spruce tree, dense dark green needle branches drooping, textured bark, single tree, no ground, game asset",
+    "texture_prompt": "realistic dark green spruce needles, brown scaly bark, photorealistic PBR"
+  },
+  "blanket": {
+    "prompt": "game asset, knitted wool blanket folded and draped, mustard yellow with dark green second blanket underneath, single object, no ground",
+    "texture_prompt": "knitted wool texture, mustard yellow and dark green, realistic PBR"
+  },
+  "mug": {
+    "prompt": "game asset, white enamel camping mug with black rim, single object, no ground",
+    "texture_prompt": "white enamel with chips, black rim, realistic PBR"
+  },
+  "candle": {
+    "prompt": "game asset, small glass jar candle with lit flame, single object, no ground",
+    "texture_prompt": "clear glass, cream wax, warm flame, realistic PBR"
   }
 }

@@ -4,3 +4,5 @@ meshy_output/
 node_modules/
 godot/.godot/
 shots/
+godot/assets/ph/
+input/ph/
