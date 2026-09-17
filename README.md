@@ -1,5 +1,7 @@
 # Birkenhof Nacht (RemZ)
 
+> Das aktuelle Spiel ist die Godot-Version **RemZ – Remetschwil Sennhof**. Start, Steuerung, Grafikoptionen und Tests stehen in [godot/README.md](godot/README.md). Ein Windows-Export liegt lokal in `builds/windows/RemZ.exe` (zusammen mit `RemZ.pck` verwenden). Die Browser-Anleitung unten beschreibt den älteren Prototyp.
+
 First-Person Zombie-Survival im Browser (Three.js + Vite). Die Karte ist der Weg "Birkenhof" aus den
 Street-View-Fotos: Asphaltweg bergauf, links offenes Feld mit Blick ins Tal, rechts Waldrand mit Hecke,
 oben ein Kies-Wendeplatz mit drei grünen Bänken. Der Wendeplatz ist der Verteidigungspunkt.

@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dp8yewr80dtr2"
-path="res://.godot/imported/grass_medium_02_d_grass_medium_02_diff_2k.png-b3f98d524e12644eccc718025a475423.ctex"
+path.s3tc="res://.godot/imported/grass_medium_02_d_grass_medium_02_diff_2k.png-b3f98d524e12644eccc718025a475423.s3tc.ctex"
+path.etc2="res://.godot/imported/grass_medium_02_d_grass_medium_02_diff_2k.png-b3f98d524e12644eccc718025a475423.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "4b1476e214d854635a02cdb9ab302e31"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/trees/grass_medium_02_d_grass_medium_02_diff_2k.png"
-dest_files=["res://.godot/imported/grass_medium_02_d_grass_medium_02_diff_2k.png-b3f98d524e12644eccc718025a475423.ctex"]
+dest_files=["res://.godot/imported/grass_medium_02_d_grass_medium_02_diff_2k.png-b3f98d524e12644eccc718025a475423.s3tc.ctex", "res://.godot/imported/grass_medium_02_d_grass_medium_02_diff_2k.png-b3f98d524e12644eccc718025a475423.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

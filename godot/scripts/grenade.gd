@@ -15,6 +15,7 @@ func setup(scene: PackedScene, zr: Node3D, p: Player) -> void:
 	zombies_root = zr
 	player = p
 	mass = 0.4
+	continuous_cd = true
 	collision_layer = 1
 	collision_mask = 1 | 2 | 8
 	var cs := CollisionShape3D.new()
@@ -53,11 +54,11 @@ func _explode() -> void:
 	for z in zombies_root.get_children():
 		if z is Zombie and z.alive:
 			var d: float = z.global_position.distance_to(pos)
-			if d < RADIUS:
+			if d < RADIUS and _visible_from(pos, z.global_position + Vector3.UP):
 				var f := 1.0 - (d / RADIUS) * 0.8
 				z.damage(DAMAGE * f, (z.global_position - pos).normalized())
 	var pd := player.global_position.distance_to(pos)
-	if pd < RADIUS * 0.7:
+	if pd < RADIUS * 0.7 and _visible_from(pos, player.global_position + Vector3.UP):
 		player.damage(40.0 * (1.0 - pd / (RADIUS * 0.7)))
 	player.wobble = maxf(player.wobble, clampf(1.6 - pd / 20.0, 0.3, 1.5))
 	Sfx.play_at(get_tree().current_scene, "boom", pos, 2.0)
@@ -149,6 +150,11 @@ func _explode() -> void:
 	var tw := light.create_tween()
 	tw.tween_property(light, "light_energy", 0.0, 0.5)
 	tw.tween_callback(light.queue_free)
-	get_tree().create_timer(5.0).timeout.connect(fire.queue_free)
-	get_tree().create_timer(6.0).timeout.connect(smoke.queue_free)
+	get_tree().create_timer(5.0, false).timeout.connect(fire.queue_free)
+	get_tree().create_timer(6.0, false).timeout.connect(smoke.queue_free)
 	queue_free()
+
+func _visible_from(origin: Vector3, target: Vector3) -> bool:
+	var query := PhysicsRayQueryParameters3D.create(origin + Vector3.UP * 0.08, target, 1 | 8)
+	query.exclude = [get_rid()]
+	return get_world_3d().direct_space_state.intersect_ray(query).is_empty()

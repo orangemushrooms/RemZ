@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b1ys3wuv1va5s"
-path="res://.godot/imported/boulder_01_boulder_01_arm_2k.jpg-0f54567123371331292158f861905c7e.ctex"
+path.s3tc="res://.godot/imported/boulder_01_boulder_01_arm_2k.jpg-0f54567123371331292158f861905c7e.s3tc.ctex"
+path.etc2="res://.godot/imported/boulder_01_boulder_01_arm_2k.jpg-0f54567123371331292158f861905c7e.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "cd057dc9d30b634fb5a58e8b4299d885"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/trees/boulder_01_boulder_01_arm_2k.jpg"
-dest_files=["res://.godot/imported/boulder_01_boulder_01_arm_2k.jpg-0f54567123371331292158f861905c7e.ctex"]
+dest_files=["res://.godot/imported/boulder_01_boulder_01_arm_2k.jpg-0f54567123371331292158f861905c7e.s3tc.ctex", "res://.godot/imported/boulder_01_boulder_01_arm_2k.jpg-0f54567123371331292158f861905c7e.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

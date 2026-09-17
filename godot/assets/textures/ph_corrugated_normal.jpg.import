@@ -3,27 +3,29 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cdptghyh6aljs"
-path="res://.godot/imported/ph_corrugated_normal.jpg-0c0642bfad2b03100b9d38a91bb0e77c.ctex"
+path.s3tc="res://.godot/imported/ph_corrugated_normal.jpg-0c0642bfad2b03100b9d38a91bb0e77c.s3tc.ctex"
+path.etc2="res://.godot/imported/ph_corrugated_normal.jpg-0c0642bfad2b03100b9d38a91bb0e77c.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/textures/ph_corrugated_normal.jpg"
-dest_files=["res://.godot/imported/ph_corrugated_normal.jpg-0c0642bfad2b03100b9d38a91bb0e77c.ctex"]
+dest_files=["res://.godot/imported/ph_corrugated_normal.jpg-0c0642bfad2b03100b9d38a91bb0e77c.s3tc.ctex", "res://.godot/imported/ph_corrugated_normal.jpg-0c0642bfad2b03100b9d38a91bb0e77c.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=1
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

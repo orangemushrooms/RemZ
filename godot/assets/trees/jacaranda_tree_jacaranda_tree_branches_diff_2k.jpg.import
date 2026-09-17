@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bl1xdoqiaxf7q"
-path="res://.godot/imported/jacaranda_tree_jacaranda_tree_branches_diff_2k.jpg-49fae9cfdc2ac3e9cd05faf997e5d1e2.ctex"
+path.s3tc="res://.godot/imported/jacaranda_tree_jacaranda_tree_branches_diff_2k.jpg-49fae9cfdc2ac3e9cd05faf997e5d1e2.s3tc.ctex"
+path.etc2="res://.godot/imported/jacaranda_tree_jacaranda_tree_branches_diff_2k.jpg-49fae9cfdc2ac3e9cd05faf997e5d1e2.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "777d70d0932238ff9f3ad25b83b4d664"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/trees/jacaranda_tree_jacaranda_tree_branches_diff_2k.jpg"
-dest_files=["res://.godot/imported/jacaranda_tree_jacaranda_tree_branches_diff_2k.jpg-49fae9cfdc2ac3e9cd05faf997e5d1e2.ctex"]
+dest_files=["res://.godot/imported/jacaranda_tree_jacaranda_tree_branches_diff_2k.jpg-49fae9cfdc2ac3e9cd05faf997e5d1e2.s3tc.ctex", "res://.godot/imported/jacaranda_tree_jacaranda_tree_branches_diff_2k.jpg-49fae9cfdc2ac3e9cd05faf997e5d1e2.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

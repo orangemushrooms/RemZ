@@ -12,6 +12,7 @@ meshy_output/
 node_modules/
 godot/.godot/
 shots/
+artifacts/
 godot/assets/ph/
 input/ph/
 input/geo/

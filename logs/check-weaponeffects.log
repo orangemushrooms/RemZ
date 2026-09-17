@@ -1,0 +1,66 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+RENDER_OPTIMIZER { "source_meshes": 1155, "batches": 34, "removed_render_nodes": 99 }
+PASS: pistol flashes and illuminates both hands and world
+PASS: pistol emits muzzle smoke
+PASS: pistol applies upward camera recoil
+PASS: pistol kicks upward and backward
+PASS: pistol flash follows the recoiling muzzle
+PASS: pistol sends shot impulse to the sleeve
+PASS: Saved pistol-flash
+PASS: pistol smoke outlasts the flash
+PASS: Saved pistol-smoke
+PASS: pistol smoke dissipates and recoil settles
+PASS: revolver flashes and illuminates both hands and world
+PASS: revolver emits muzzle smoke
+PASS: revolver applies upward camera recoil
+PASS: revolver kicks upward and backward
+PASS: revolver flash follows the recoiling muzzle
+PASS: revolver sends shot impulse to the sleeve
+PASS: Saved revolver-flash
+PASS: revolver smoke outlasts the flash
+PASS: Saved revolver-smoke
+PASS: revolver smoke dissipates and recoil settles
+PASS: smg flashes and illuminates both hands and world
+PASS: smg emits muzzle smoke
+PASS: smg applies upward camera recoil
+PASS: smg kicks upward and backward
+PASS: smg flash follows the recoiling muzzle
+PASS: smg sends shot impulse to the sleeve
+PASS: Saved smg-flash
+PASS: smg smoke outlasts the flash
+PASS: Saved smg-smoke
+PASS: smg smoke dissipates and recoil settles
+PASS: ak47 flashes and illuminates both hands and world
+PASS: ak47 emits muzzle smoke
+PASS: ak47 applies upward camera recoil
+PASS: ak47 kicks upward and backward
+PASS: ak47 flash follows the recoiling muzzle
+PASS: ak47 sends shot impulse to the sleeve
+PASS: Saved ak47-flash
+PASS: ak47 smoke outlasts the flash
+PASS: Saved ak47-smoke
+PASS: ak47 smoke dissipates and recoil settles
+PASS: shotgun flashes and illuminates both hands and world
+PASS: shotgun emits muzzle smoke
+PASS: shotgun applies upward camera recoil
+PASS: shotgun kicks upward and backward
+PASS: shotgun flash follows the recoiling muzzle
+PASS: shotgun sends shot impulse to the sleeve
+PASS: Saved shotgun-flash
+PASS: shotgun smoke outlasts the flash
+PASS: Saved shotgun-smoke
+PASS: shotgun smoke dissipates and recoil settles
+PASS: Cooldown blocks extra flash/smoke bursts
+PASS: Empty magazine emits no fire or smoke
+PASS: Reload blocks fire and smoke
+PASS: Sustained automatic fire keeps the smoke pool bounded
+PASS: Automatic recoil stays bounded
+PASS: Weapon switch clears flash, barrel trail and model recoil
+PASS: Walking produces independent sleeve movement
+PASS: Pause freezes smoke, flash and cloth animation
+PASS: A slow frame still presents each new muzzle flash
+PASS: Flash stays on the muzzle while aiming down sights
+PASS: Saved smg-ads-flash
+EFFECTS_DONE checks=61 failures=0

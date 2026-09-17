@@ -7,6 +7,7 @@ var hud: Hud
 var weapons: Weapons
 var waves: Waves
 var skills: Skills
+var inventory: Inventory
 var ambience: Ambience
 var music: Music
 var zombies_root: Node3D
@@ -94,6 +95,9 @@ func _ready() -> void:
 	skills = Skills.new()
 	add_child(skills)
 	skills.setup(player, weapons, hud, self)
+	inventory = Inventory.new()
+	add_child(inventory)
+	inventory.setup(player, weapons, hud, self)
 	ambience = Ambience.new()
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
@@ -110,14 +114,28 @@ func _ready() -> void:
 	Zombie.preload_models()
 	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Die Zombies kommen von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Halte die Barrikaden, überlebe die Wellen.", "Spiel starten", "Wegnetz wird berechnet ...")
 	hud.overlay_button.disabled = true
+	hud.set_loading(true)
 	nav_region.bake_finished.connect(_navigation_baked)
 	nav_region.bake_navigation_mesh(true)
+	if "--shot-menu" in _flags:
+		_shot_menu()
 	get_tree().paused = true
+
+# --shot-menu: screenshot the start overlay (logo, loading bar) while the navmesh bakes, then quit
+func _shot_menu() -> void:
+	for i in 30:
+		await get_tree().process_frame
+	var dir := ProjectSettings.globalize_path("res://") + "../shots/"
+	DirAccess.make_dir_recursive_absolute(dir)
+	get_viewport().get_texture().get_image().save_png(dir + "menu.png")
+	print("SHOT_MENU_DONE")
+	get_tree().quit()
 
 func _navigation_baked() -> void:
 	navigation_ready = true
 	hud.overlay_button.disabled = false
 	hud.overlay_status.text = "Bereit."
+	hud.set_loading(false)
 	if _autotest or "--benchmark" in _flags:
 		_on_start()
 
@@ -138,7 +156,7 @@ func _build_environment() -> void:
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 	env.ambient_light_sky_contribution = 1.0
-	env.ambient_light_energy = 1.35
+	env.ambient_light_energy = 1.1
 	env.tonemap_mode = Environment.TONE_MAPPER_ACES
 	env.tonemap_exposure = 1.05
 	env.tonemap_white = 6.0
@@ -156,7 +174,7 @@ func _build_environment() -> void:
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 	env.fog_enabled = true
 	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
-	env.fog_light_color = Color(0.75, 0.75, 0.7)
+	env.fog_light_color = Color(0.5, 0.52, 0.5)
 	env.fog_light_energy = 1.0
 	env.fog_sun_scatter = 0.25
 	env.fog_density = 0.0012
@@ -164,7 +182,7 @@ func _build_environment() -> void:
 	env.fog_sky_affect = 0.6
 	env.volumetric_fog_enabled = not "--no-vfog" in _flags
 	env.volumetric_fog_density = 0.0025
-	env.volumetric_fog_albedo = Color(0.7, 0.7, 0.66)
+	env.volumetric_fog_albedo = Color(0.55, 0.56, 0.52)
 	env.volumetric_fog_emission = Color(0.8, 0.65, 0.45)
 	env.volumetric_fog_emission_energy = 0.02
 	env.volumetric_fog_length = 110.0
@@ -244,6 +262,77 @@ func _build_terrain() -> void:
 	cs.position = Vector3(ext.position.x + (w - 1) / 2.0, 0, ext.position.y + (d - 1) / 2.0)
 	body.add_child(cs)
 	add_child(body)
+	_build_skirt(ext)
+
+# coarse ground beyond the playable extent (heights clamped to the edge) so the horizon is never empty,
+# plus the villages of Sennhof / Remetschwil from OSM footprints as a backdrop in the east and south-east
+func _build_skirt(ext: Rect2) -> void:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var step := 10.0
+	var x0 := ext.position.x - 500.0
+	var z0 := ext.position.y - 500.0
+	var nx := int((ext.size.x + 1000.0) / step) + 1
+	var nz := int((ext.size.y + 1000.0) / step) + 1
+	for j in nz:
+		for i in nx:
+			var x := x0 + i * step
+			var z := z0 + j * step
+			var inside := ext.grow(-step).has_point(Vector2(x, z))
+			var h := Map.ground_height(x, z) - (0.0 if not inside else 30.0)   # sink the part under the real terrain
+			st.set_uv(Vector2(x, z))
+			st.set_color(Color(0.0, 1.0, 0.0))
+			st.set_normal(Vector3.UP)
+			st.add_vertex(Vector3(x, h - 0.15, z))
+	for j in nz - 1:
+		for i in nx - 1:
+			var a := j * nx + i
+			st.add_index(a); st.add_index(a + 1); st.add_index(a + nx)
+			st.add_index(a + 1); st.add_index(a + nx + 1); st.add_index(a + nx)
+	st.generate_tangents()
+	var mi := MeshInstance3D.new()
+	mi.mesh = st.commit()
+	mi.material_override = Foliage.terrain_material()
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(mi)
+	var wall := _mat("ph_cladding", 0.5, Color(0.75, 0.7, 0.62))
+	var wall2 := _plain(Color(0.85, 0.82, 0.75), 0.9)
+	var roof := _plain(Color(0.42, 0.2, 0.14), 0.85)
+	for v in Map.VILLAGE:
+		var pts: PackedVector2Array = []
+		for p in v["poly"]:
+			pts.append(Vector2(p[0], p[1]))
+		if pts.size() < 3:
+			continue
+		# oriented box from the longest edge
+		var best := 0
+		var bl := 0.0
+		for i in pts.size():
+			var l := pts[i].distance_to(pts[(i + 1) % pts.size()])
+			if l > bl:
+				bl = l
+				best = i
+		var dir := (pts[(best + 1) % pts.size()] - pts[best]).normalized()
+		var c := Vector2.ZERO
+		for p in pts:
+			c += p
+		c /= pts.size()
+		var minu := 1e9; var maxu := -1e9; var minv := 1e9; var maxv := -1e9
+		for p in pts:
+			var d := p - c
+			var u := d.dot(dir)
+			var w := d.dot(Vector2(-dir.y, dir.x))
+			minu = minf(minu, u); maxu = maxf(maxu, u); minv = minf(minv, w); maxv = maxf(maxv, w)
+		var size := Vector2(maxu - minu, maxv - minv)
+		if size.x < 3.0 or size.y < 3.0:
+			continue
+		var root := Node3D.new()
+		add_child(root)
+		root.position = Map.ground_pos(c.x, c.y) - Vector3(0, 0.3, 0)
+		root.rotation.y = -atan2(dir.y, dir.x)
+		var hgt: float = v["h"]
+		_box(root, Vector3(size.x, hgt, size.y), Vector3(0, hgt / 2.0, 0), wall if rng.randf() < 0.4 else wall2)
+		_hip_roof(root, size, hgt, minf(size.y, size.x) * 0.35, 0.5, roof, true)
 
 # road ribbon along a polyline
 func _road_mesh(pts: Array, width: float, lift: float, mat: Material, fade: bool = true) -> void:
@@ -434,6 +523,7 @@ func _build_forests() -> void:
 		return
 	Trees.build(self, Map.TREES, Map.SHRUBS, Map.FIRE, rng)
 	Trees.build(self, Map.BORDER_TREES, [], Map.FIRE, rng, false)
+	Trees.understory(self, Map.FERNS, Map.LOGS, Map.FIRE, rng)
 	# the landmark oak leaning over the Weg zur Hütte (photo 24)
 	Trees.hero(self, "oak", Map.LANDMARK_OAK.x, Map.LANDMARK_OAK.y, 1.55, 0.6, rng)
 	_build_forest_blocker()
@@ -636,9 +726,12 @@ func _waldhuette() -> Node3D:
 	_box(root, Vector3(size.x + 0.9, 0.14, size.y + 0.9), Vector3(0, base_h + wall_h + 0.07, 0), dark_wood)
 	_hip_roof(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, roof)
 	_box(root, Vector3(0.5, 1.6, 0.5), Vector3(hx * 0.4, base_h + wall_h + 1.4, -0.6), _plain(Color(0.35, 0.33, 0.3)))
-	# garage door stands open: one leaf folded against the wall outside, the other inside
-	_box(root, Vector3(0.08, 2.05, 1.3), Vector3(-hx - 0.06, 1.05, -hz + 0.5), dark_wood)
-	_box(root, Vector3(0.08, 2.05, 1.3), Vector3(-hx + 0.34, 1.05, -hz + 3.85), dark_wood)
+	# garage door: closed, opens with E (leaves swing out over the gravel)
+	var door := Door.new()
+	door.setup(2.6, 2.1, "Garagentor", dark_wood)
+	root.add_child(door)
+	door.position = Vector3(-hx + 0.1, 0.0, -hz + 1.9)
+	loots.append(door)
 	# small double door in the base: north face, west end, under the start of the stair (photo 17)
 	_box(root, Vector3(1.5, 2.0, 0.08), Vector3(-hx + 1.4, 1.0, -hz - 0.02), dark_wood)
 	# closed shutters: north (2), west (1), east (1)
@@ -950,7 +1043,7 @@ func _build_campsite() -> void:
 		var z := Map.FIRE.y + sin(a) * r
 		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0) or Map.in_clearing(x, z):
 			continue
-		_place("mushroom_cluster" if rng.randf() < 0.65 else "mushroom_fly", x, z, 0.22 + rng.randf() * 0.18, -1.0, 1.0, 0.0)
+		_mushroom(x, z, rng.randf() < 0.65, 0.22 + rng.randf() * 0.18)
 
 # pasture fence between the tracks and the meadow (photos 4, 9): posts, two wires, collision
 func _build_fence() -> void:
@@ -1027,7 +1120,16 @@ func _build_clutter() -> void:
 		var z: float = rng.randf_range(-90.0, 60.0)
 		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0) or Map.in_clearing(x, z):
 			continue
-		_place("mushroom_cluster" if rng.randf() < 0.7 else "mushroom_fly", x, z, 0.18 + rng.randf() * 0.2, -1.0, 1.0, 0.0)
+		_mushroom(x, z, rng.randf() < 0.7, 0.18 + rng.randf() * 0.2)
+
+func _mushroom(x: float, z: float, edible: bool, height: float) -> void:
+	var n := _place("mushroom_cluster" if edible else "mushroom_fly", x, z, height, -1.0, 1.0, 0.0)
+	if not n:
+		return
+	var l := Loot.new()
+	l.setup("mushroom", "steinpilz" if edible else "fliegenpilz", "Steinpilz" if edible else "Fliegenpilz")
+	n.add_child(l)
+	loots.append(l)
 
 func _spawn_deer() -> void:
 	var groups := [[Vector2(40, 108), "stag"], [Vector2(46, 114), "deer"], [Vector2(52, 106), "deer"], [Vector2(-130, 52), "deer"], [Vector2(-136, 58), "deer"], [Vector2(-60, -120), "stag"], [Vector2(-66, -126), "deer"], [Vector2(95, 85), "deer"]]
@@ -1057,7 +1159,7 @@ func _build_foliage() -> void:
 			return null
 		return Map.ground_pos(x, z)
 	if not "--no-leaves" in _flags:
-		add_child(Foliage.ground_leaves(70000, leaf_sampler, rng))
+		add_child(Foliage.ground_leaves(150000, leaf_sampler, rng))
 	var grass_sampler := func(r: RandomNumberGenerator):
 		var x: float = r.randf_range(-150.0, 150.0)
 		var z: float = r.randf_range(-60.0, 160.0)

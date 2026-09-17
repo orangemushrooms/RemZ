@@ -13,6 +13,12 @@ static var _x0 := 0.0
 static var _z0 := 0.0
 static var _w := 1
 static var _hh := 1
+static var _sk: PackedFloat32Array
+static var _skx0 := 0.0
+static var _skz0 := 0.0
+static var _skw := 1
+static var _skh := 1
+static var _skc := 10.0
 
 static var ROADS: Array = []
 static var BUILDINGS: Dictionary = {}
@@ -29,6 +35,9 @@ static var FENCE: Array = []
 static var TREES: Array = []               # [x, z, kind, scale, yaw_deg]
 static var SHRUBS: Array = []              # [x, z, scale, yaw_deg]
 static var BORDER_TREES: Array = []        # outside the extent, visual only
+static var VILLAGE: Array = []             # OSM building footprints outside the extent, backdrop
+static var FERNS: Array = []
+static var LOGS: Array = []
 static var PLAYER_START := Vector2.ZERO
 static var BOUNDS := Rect2()
 static var BARRICADES: Array = []
@@ -41,6 +50,9 @@ static func _ensure() -> void:
 	_d = JSON.parse_string(FileAccess.get_file_as_string(DIR + "map.json"))
 	_x0 = _d["x0"]; _z0 = _d["z0"]; _w = int(_d["w"]); _hh = int(_d["h"])
 	_h = FileAccess.get_file_as_bytes(DIR + "heightmap.f32").to_float32_array()
+	var sk: Dictionary = _d["skirt"]
+	_skx0 = sk["x0"]; _skz0 = sk["z0"]; _skw = int(sk["w"]); _skh = int(sk["h"]); _skc = sk["cell"]
+	_sk = FileAccess.get_file_as_bytes(DIR + "skirt.f32").to_float32_array()
 	# Resource loading also works from an exported PCK, where PNGs are remapped.
 	var ground_texture: Texture2D = load(DIR + "ground.png")
 	_ground = ground_texture.get_image()
@@ -74,6 +86,9 @@ static func _ensure() -> void:
 	TREES = _d["trees"]
 	SHRUBS = _d["shrubs"]
 	BORDER_TREES = _d.get("border_trees", [])
+	VILLAGE = _d.get("village", [])
+	FERNS = _d.get("ferns", [])
+	LOGS = _d.get("logs", [])
 	PLAYER_START = Vector2(_d["player_start"][0], _d["player_start"][1])
 	var b: Array = _d["bounds"]
 	BOUNDS = Rect2(b[0], b[1], b[2], b[3])
@@ -98,8 +113,25 @@ static func _sample(x: float, z: float) -> float:
 	var c := _h[(j + 1) * _w + i]; var d := _h[(j + 1) * _w + i + 1]
 	return lerpf(lerpf(a, b, tx), lerpf(c, d, tx), tz)
 
+# outside the playable extent the coarse 10 m surroundings raster (same DEM) takes over
+static func _far(x: float, z: float) -> float:
+	var fx := clampf((x - _skx0) / _skc, 0.0, _skw - 1.001)
+	var fz := clampf((z - _skz0) / _skc, 0.0, _skh - 1.001)
+	var i := int(fx); var j := int(fz)
+	var tx := fx - i; var tz := fz - j
+	var a := _sk[j * _skw + i]; var b := _sk[j * _skw + i + 1]
+	var c := _sk[(j + 1) * _skw + i]; var d := _sk[(j + 1) * _skw + i + 1]
+	return lerpf(lerpf(a, b, tx), lerpf(c, d, tx), tz)
+
 static func ground_height(x: float, z: float) -> float:
 	_ensure()
+	var inx := x - _x0
+	var inz := z - _z0
+	if inx < 0.0 or inz < 0.0 or inx > _w - 1 or inz > _hh - 1:
+		# blend from the fine grid to the coarse one over the last 20 m so the seam stays closed
+		var out := maxf(maxf(-inx, -inz), maxf(inx - (_w - 1), inz - (_hh - 1)))
+		var k := clampf(out / 20.0, 0.0, 1.0)
+		return lerpf(_sample(x, z), _far(x, z), k)
 	return _sample(x, z)
 
 static func ground_pos(x: float, z: float) -> Vector3:

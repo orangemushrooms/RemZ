@@ -155,6 +155,33 @@ def leaf_card(name, cols, n_leaves, leaf_w, leaf_h, needle=False, size=512):
     Image.fromarray(a.astype(np.uint8)).save(os.path.join(SPR, f"leaf_{name}.png"))
     print("leaf card", name)
 
+def fern_card(name, cols, size=512):
+    im = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    for f in range(7):
+        # fronds fan out from the bottom centre
+        a = -math.pi / 2 + (f - 3) * 0.28 + rng.uniform(-0.08, 0.08)
+        L = size * rng.uniform(0.55, 0.9)
+        x0, y0 = size / 2, size * 0.98
+        c = cols[rng.integers(len(cols))].astype(float) * rng.uniform(0.7, 1.1)
+        c = tuple(int(v) for v in np.clip(c, 0, 255)) + (255,)
+        d.line([(x0, y0), (x0 + math.cos(a) * L, y0 + math.sin(a) * L)], fill=(60, 70, 30, 255), width=3)
+        for k in range(26):
+            t = (k + 1) / 27
+            px, py = x0 + math.cos(a) * L * t, y0 + math.sin(a) * L * t
+            ln = (1 - abs(t - 0.45) * 1.6) * size * 0.11
+            for s_ in (-1, 1):
+                na = a + s_ * 1.15
+                d.line([(px, py), (px + math.cos(na) * ln, py + math.sin(na) * ln)], fill=c, width=3)
+    a = np.asarray(im).astype(np.float32)
+    alpha = a[:, :, 3] > 0
+    for ch in range(3):
+        filled = ndimage.gaussian_filter(a[:, :, ch] * alpha, 3) / np.maximum(ndimage.gaussian_filter(alpha.astype(np.float32), 3), 1e-3)
+        a[:, :, ch] = np.where(alpha, a[:, :, ch], filled)
+    Image.fromarray(a.astype(np.uint8)).save(os.path.join(SPR, f"leaf_{name}.png"))
+    print("fern card", name)
+
+fern_card("fern", beech_cols)
 leaf_card("beech", beech_cols, 420, 26, 40)
 leaf_card("oak", oak_cols, 380, 30, 44)
 leaf_card("spruce", spruce_cols, 420, 30, 15, needle=True)

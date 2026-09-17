@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dsoynqgthwhi6"
-path="res://.godot/imported/tree_small_02_tree_small_02_branch_arm_2k.jpg-2e3f153893255ea9e7580cb1b574fee4.ctex"
+path.s3tc="res://.godot/imported/tree_small_02_tree_small_02_branch_arm_2k.jpg-2e3f153893255ea9e7580cb1b574fee4.s3tc.ctex"
+path.etc2="res://.godot/imported/tree_small_02_tree_small_02_branch_arm_2k.jpg-2e3f153893255ea9e7580cb1b574fee4.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "c48e62b8997df307291b33af3d97f569"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/trees/tree_small_02_tree_small_02_branch_arm_2k.jpg"
-dest_files=["res://.godot/imported/tree_small_02_tree_small_02_branch_arm_2k.jpg-2e3f153893255ea9e7580cb1b574fee4.ctex"]
+dest_files=["res://.godot/imported/tree_small_02_tree_small_02_branch_arm_2k.jpg-2e3f153893255ea9e7580cb1b574fee4.s3tc.ctex", "res://.godot/imported/tree_small_02_tree_small_02_branch_arm_2k.jpg-2e3f153893255ea9e7580cb1b574fee4.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

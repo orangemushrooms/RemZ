@@ -42,7 +42,7 @@ func play(name: String) -> void:
 	for n in _players:
 		if n == "horde":
 			continue
-		_target[n] = 1.0 if n == name else 0.0
+		_target[n] = db_to_linear(TRACKS[n]["db"]) if n == name else 0.0
 	if _players.has(name) and not _players[name].playing:
 		_players[name].play()
 
@@ -52,7 +52,7 @@ func stop_all() -> void:
 		_target[n] = 0.0
 
 func _process(delta: float) -> void:
-	_target["horde"] = clampf(horde, 0.0, 1.0) if _target.has("horde") else 0.0
+	_target["horde"] = clampf(horde, 0.0, 1.0) * db_to_linear(TRACKS["horde"]["db"]) if _target.has("horde") else 0.0
 	for n in _players:
 		var p: AudioStreamPlayer = _players[n]
 		var want: float = _target[n]

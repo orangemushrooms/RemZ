@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dl364k8ithb4p"
-path="res://.godot/imported/bush_1.webp-5d22ad5717d754aa3163abbc3bed8bf4.ctex"
+path.s3tc="res://.godot/imported/bush_1.webp-5d22ad5717d754aa3163abbc3bed8bf4.s3tc.ctex"
+path.etc2="res://.godot/imported/bush_1.webp-5d22ad5717d754aa3163abbc3bed8bf4.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "127a0fd3b8217f6bfe53a327bb5c3b21"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/bush_1.webp"
-dest_files=["res://.godot/imported/bush_1.webp-5d22ad5717d754aa3163abbc3bed8bf4.ctex"]
+dest_files=["res://.godot/imported/bush_1.webp-5d22ad5717d754aa3163abbc3bed8bf4.s3tc.ctex", "res://.godot/imported/bush_1.webp-5d22ad5717d754aa3163abbc3bed8bf4.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

@@ -5,6 +5,7 @@ extends Node3D
 
 const Hands = preload("res://scripts/viewmodel_hands.gd")
 const Viewmodel = preload("res://scripts/viewmodel_viewport.gd")
+const Effects = preload("res://scripts/weapon_effects.gd")
 
 const DEFS := {
 	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
@@ -31,6 +32,9 @@ var recoil := 0.0
 var sway_t := 0.0
 var flash: OmniLight3D
 var flash_mesh: MeshInstance3D
+var effects: WeaponEffects
+var _model_kick := Vector3.ZERO # pitch (radians), roll (radians), rearward distance
+var _model_velocity := Vector3.ZERO
 var zombies_root: Node3D
 # upgrades (from the skill menu)
 var damage_mul := 1.0
@@ -100,28 +104,11 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	view_light.rotation_degrees = Vector3(-18, -20, 0)
 	view_light.sky_mode = DirectionalLight3D.SKY_MODE_LIGHT_ONLY
 	viewmodel.camera.add_child(view_light)
-	flash = OmniLight3D.new()
-	flash.light_color = Color(1.0, 0.75, 0.45)
-	flash.light_energy = 0.0
-	flash.omni_range = 10.0
-	flash.position = Vector3(0.2, -0.15, -0.9)
-	camera.add_child(flash)
-	flash_mesh = MeshInstance3D.new()
-	flash_mesh.layers = 2
-	var q := QuadMesh.new()
-	q.size = Vector2(0.28, 0.28)
-	flash_mesh.mesh = q
-	var fm := StandardMaterial3D.new()
-	fm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	fm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	fm.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	fm.albedo_color = Color(1.0, 0.8, 0.5)
-	fm.albedo_texture = Foliage._soft_dot()
-	fm.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
-	flash_mesh.material_override = fm
-	flash_mesh.visible = false
-	flash_mesh.position = Vector3(0.24, -0.16, -0.95)
-	viewmodel.camera.add_child(flash_mesh)
+	effects = Effects.new()
+	viewmodel.camera.add_child(effects)
+	effects.setup(camera)
+	flash = effects.world_light
+	flash_mesh = effects.front
 	var gp := "res://assets/models/grenade.glb"
 	_grenade_scene = load(gp) if ResourceLoader.exists(gp) else null
 	set_weapon("pistol")
@@ -153,6 +140,7 @@ func set_weapon(id: String) -> void:
 	if current == id and cur()["node"].visible:
 		return
 	cur()["reloading"] = 0.0
+	(cur()["hands"] as ViewmodelHands).reset_motion()
 	for s in state.values():
 		s["node"].visible = false
 	current = id
@@ -160,6 +148,15 @@ func set_weapon(id: String) -> void:
 	cur()["reloading"] = 0.0
 	ads = 0.0
 	_shots_in_burst = 0
+	_model_kick = Vector3.ZERO
+	_model_velocity = Vector3.ZERO
+	recoil = 0.0
+	effects.cancel_flash()
+	(cur()["hands"] as ViewmodelHands).reset_motion()
+	var holder: Node3D = cur()["node"]
+	holder.position = cur()["def"]["pos"]
+	holder.rotation = Vector3.ZERO
+	effects.sync_muzzle(muzzle_transform())
 	hud.set_reload(0.0, 1.0)
 	update_hud()
 
@@ -204,15 +201,16 @@ func try_fire() -> void:
 	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"])
 	recoil = 1.0
 	Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)))
-	flash.light_energy = 10.0
-	flash_mesh.visible = true
-	flash_mesh.scale = Vector3.ONE * randf_range(0.7, 1.3)
-	flash_mesh.rotation.z = randf() * TAU
+	effects.fire(current, muzzle_transform(), player.velocity)
 	# recoil climbs while holding the trigger, drifts sideways, less when aiming
 	_shots_in_burst += 1
 	_burst_t = 0.25
 	var climb := minf(1.0 + _shots_in_burst * 0.12, 2.2)
 	var aim_f := 1.0 - ads * 0.45
+	var impulse := Vector3(deg_to_rad(float(d["kick_pitch"]) * 2.2 + 1.0), deg_to_rad(0.7 if _shots_in_burst % 2 == 0 else -0.7), float(d["kick_back"]) * 0.65) * aim_f
+	_model_kick += impulse * 0.25
+	_model_velocity += impulse * (22.0 + float(d["recover"])) * 1.7
+	(s["hands"] as ViewmodelHands).shot_impulse(0.6 + float(d["kick_pitch"]) * 0.16)
 	kick_pitch += float(d["kick_pitch"]) * climb * aim_f * randf_range(0.85, 1.15)
 	kick_yaw += float(d["kick_yaw"]) * aim_f * randf_range(-1.0, 1.0) * (1.0 if _shots_in_burst % 2 == 0 else -0.6)
 	player.wobble = maxf(player.wobble, 0.35)
@@ -397,6 +395,8 @@ func _prepare_blood_pool() -> void:
 func _process(delta: float) -> void:
 	if not player or not player.active:
 		return
+	effects.advance(delta, player.velocity)
+	_step_model_recoil(delta)
 	for weapon_state: Dictionary in state.values():
 		weapon_state["cooldown"] = maxf(-delta, weapon_state["cooldown"] - delta)
 	var s := cur()
@@ -441,8 +441,8 @@ func _process(delta: float) -> void:
 	camera.fov = lerpf(75.0, 52.0, ads)
 	# camera recoil recovery: part of the kick stays (the camera really moved), the rest settles back
 	var rec: float = float(d["recover"])
-	var applied_pitch := kick_pitch * minf(1.0, delta * rec)
-	var applied_yaw := kick_yaw * minf(1.0, delta * rec)
+	var applied_pitch := kick_pitch * (1.0 - exp(-delta * rec))
+	var applied_yaw := kick_yaw * (1.0 - exp(-delta * rec))
 	kick_pitch -= applied_pitch
 	kick_yaw -= applied_yaw
 	player.pitch = clampf(player.pitch + deg_to_rad(applied_pitch) * 0.35, -1.45, 1.45)
@@ -455,15 +455,29 @@ func _process(delta: float) -> void:
 	var n: Node3D = s["node"]
 	var base_pos: Vector3 = (d["pos"] as Vector3).lerp(s["aim_position"], ads)
 	var sway_amp := 1.0 - ads * 0.8
-	n.position = base_pos + Vector3(sin(sway_t * 5.0) * (0.008 if moving else 0.002) * sway_amp, absf(sin(sway_t * 5.0)) * (0.01 if moving else 0.003) * sway_amp + (-0.12 if s["reloading"] > 0.0 else 0.0), recoil * float(d["kick_back"]))
-	n.rotation.x = -recoil * 0.3 + (-0.4 if s["reloading"] > 0.0 else 0.0)
-	n.rotation.z = recoil * 0.05 * (1.0 if _shots_in_burst % 2 == 0 else -1.0)
+	n.position = base_pos + Vector3(sin(sway_t * 5.0) * (0.008 if moving else 0.002) * sway_amp, sin(sway_t * 10.0) * (0.005 if moving else 0.0015) * sway_amp + (-0.12 if s["reloading"] > 0.0 else 0.0), _model_kick.z)
+	n.rotation.x = _model_kick.x + (-0.4 if s["reloading"] > 0.0 else 0.0)
+	n.rotation.z = _model_kick.y
 	(s["hands"] as ViewmodelHands).animate_reload(1.0 - float(s["reloading"]) / (float(d["reload"]) * reload_mul), s["reloading"] > 0.0)
+	(s["hands"] as ViewmodelHands).animate_cloth(delta, Vector2(player.velocity.x, player.velocity.z).length(), ads)
+	effects.sync_muzzle(muzzle_transform())
+
+func muzzle_transform() -> Transform3D:
+	var s := cur()
 	var bounds: AABB = s["bounds"]
-	var muzzle := n.transform * Vector3(bounds.get_center().x, bounds.end.y - 0.015, bounds.position.z - 0.02)
-	flash.position = muzzle
-	flash_mesh.position = muzzle
-	flash.light_energy *= exp(-36.0 * delta)
-	if flash.light_energy < 0.2:
-		flash.light_energy = 0.0
-		flash_mesh.visible = false
+	var tip := Vector3(bounds.get_center().x, bounds.end.y - 0.015, bounds.position.z - 0.006)
+	return (s["node"] as Node3D).transform * Transform3D(Basis.IDENTITY, tip)
+
+func _step_model_recoil(delta: float) -> void:
+	# Exact damped-spring integration remains stable during slow frames and pauses.
+	var omega := 22.0 + float(cur()["def"]["recover"])
+	var damping := 0.62
+	var damped := omega * sqrt(1.0 - damping * damping)
+	var decay := exp(-damping * omega * delta)
+	var c := cos(damped * delta)
+	var s := sin(damped * delta)
+	var position := _model_kick
+	var velocity := _model_velocity
+	_model_kick = decay * (position * c + (velocity + damping * omega * position) * s / damped)
+	_model_velocity = decay * (velocity * c - (damping * omega * velocity + omega * omega * position) * s / damped)
+	_model_kick = _model_kick.clamp(Vector3(-0.08, -0.07, -0.02), Vector3(0.32, 0.07, 0.12))

@@ -23,12 +23,16 @@ var _damage_t := 0.0
 var _hit_t := 0.0
 var hit_marks: Array = []
 var overlay_content: VBoxContainer
+var overlay_logo: TextureRect
+var loading_bar: ProgressBar
+var _loading := false
 var fps_label: Label
 var reload_bar: ProgressBar
 var reload_label: Label
 var _stats_time := 0.0
 var _stats_frames := 0
 var _message_tween: Tween
+var minimap: Minimap
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -89,8 +93,8 @@ func _ready() -> void:
 	score_label = _label("Punkte 0", 15)
 	stats.add_child(score_label)
 
-	# ammo bottom-right
-	var ammo := _panel(root, Control.PRESET_BOTTOM_RIGHT, Vector2(-16, -16))
+	# Keep ammunition beside the minimap, with enough room for every weapon name.
+	var ammo := _panel(root, Control.PRESET_BOTTOM_RIGHT, Vector2(-332, -16))
 	ammo_label = _label("12 / 72", 22)
 	ammo_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	ammo.add_child(ammo_label)
@@ -106,6 +110,8 @@ func _ready() -> void:
 	reload_bar.show_percentage = false
 	reload_bar.visible = false
 	ammo.add_child(reload_bar)
+	minimap = Minimap.new()
+	root.add_child(minimap)
 
 	# wave top-center
 	var wave := _panel(root, Control.PRESET_CENTER_TOP, Vector2(0, 16))
@@ -157,6 +163,16 @@ func _ready() -> void:
 	v.add_theme_constant_override("separation", 10)
 	v.custom_minimum_size = Vector2(520, 0)
 	card.add_child(v)
+	# studio logo above the title
+	overlay_logo = TextureRect.new()
+	var logo_path := "res://assets/ui/konm_games_logo.png"
+	if ResourceLoader.exists(logo_path):
+		overlay_logo.texture = load(logo_path)
+	overlay_logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	overlay_logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	overlay_logo.custom_minimum_size = Vector2(0, 220)
+	overlay_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(overlay_logo)
 	overlay_title = _label("BIRKENHOF", 36)
 	overlay_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	overlay_title.add_theme_color_override("font_color", Color(1.0, 0.7, 0.28))
@@ -182,6 +198,21 @@ func _ready() -> void:
 	overlay_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	overlay_status.modulate.a = 0.6
 	v.add_child(overlay_status)
+	# loading bar (indeterminate sweep while the navigation mesh bakes)
+	loading_bar = ProgressBar.new()
+	loading_bar.custom_minimum_size = Vector2(0, 6)
+	loading_bar.max_value = 1.0
+	loading_bar.show_percentage = false
+	var lb_bg := StyleBoxFlat.new()
+	lb_bg.bg_color = Color(1, 1, 1, 0.08)
+	lb_bg.set_corner_radius_all(3)
+	var lb_fill := StyleBoxFlat.new()
+	lb_fill.bg_color = Color(1.0, 0.7, 0.28)
+	lb_fill.set_corner_radius_all(3)
+	loading_bar.add_theme_stylebox_override("background", lb_bg)
+	loading_bar.add_theme_stylebox_override("fill", lb_fill)
+	loading_bar.visible = false
+	v.add_child(loading_bar)
 
 func _panel(parent: Control, preset: int, offset: Vector2) -> VBoxContainer:
 	var p := PanelContainer.new()
@@ -195,6 +226,7 @@ func _panel(parent: Control, preset: int, offset: Vector2) -> VBoxContainer:
 	p.add_theme_stylebox_override("panel", sb)
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(p)
+	p.set_anchors_and_offsets_preset(preset)
 	p.position += offset
 	match preset:
 		Control.PRESET_BOTTOM_LEFT, Control.PRESET_BOTTOM_RIGHT:
@@ -217,6 +249,9 @@ func _label(text: String, size: int) -> Label:
 	return l
 
 func _process(delta: float) -> void:
+	if _loading:
+		# no real progress from the baker, so sweep 0..1 and wrap
+		loading_bar.value = fmod(loading_bar.value + delta * 0.45, 1.0)
 	_stats_time += delta
 	_stats_frames += 1
 	if _stats_time >= 0.5:
@@ -281,6 +316,12 @@ func show_overlay(title: String, text: String, button: String, status: String = 
 
 func hide_overlay() -> void:
 	overlay.visible = false
+
+func set_loading(on: bool) -> void:
+	_loading = on
+	loading_bar.visible = on
+	if on:
+		loading_bar.value = 0.0
 
 func set_reload(remaining: float, duration: float) -> void:
 	reload_bar.visible = remaining > 0.0

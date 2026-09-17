@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dj43imwrvog4k"
-path="res://.godot/imported/dry_branches_medium_01_a_dry_branches_medium_01_arm_2k.jpg-b3e1ca5f2d842aa43c557e415cce095c.ctex"
+path.s3tc="res://.godot/imported/dry_branches_medium_01_a_dry_branches_medium_01_arm_2k.jpg-b3e1ca5f2d842aa43c557e415cce095c.s3tc.ctex"
+path.etc2="res://.godot/imported/dry_branches_medium_01_a_dry_branches_medium_01_arm_2k.jpg-b3e1ca5f2d842aa43c557e415cce095c.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "508a7d04214e885ccd79ef66a9583357"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/trees/dry_branches_medium_01_a_dry_branches_medium_01_arm_2k.jpg"
-dest_files=["res://.godot/imported/dry_branches_medium_01_a_dry_branches_medium_01_arm_2k.jpg-b3e1ca5f2d842aa43c557e415cce095c.ctex"]
+dest_files=["res://.godot/imported/dry_branches_medium_01_a_dry_branches_medium_01_arm_2k.jpg-b3e1ca5f2d842aa43c557e415cce095c.s3tc.ctex", "res://.godot/imported/dry_branches_medium_01_a_dry_branches_medium_01_arm_2k.jpg-b3e1ca5f2d842aa43c557e415cce095c.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

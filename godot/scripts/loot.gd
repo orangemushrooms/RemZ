@@ -13,12 +13,17 @@ func setup(k: String, weapon_id: String, text: String) -> void:
 	label = text
 
 func prompt_text() -> String:
-	return "[E] %s aufnehmen" % label
+	return "[E] %s sammeln" % label if kind == "mushroom" else "[E] %s aufnehmen" % label
 
 func take(weapons: Weapons, hud: Hud) -> void:
 	if taken:
 		return
 	taken = true
+	if kind == "mushroom":
+		get_tree().current_scene.inventory.add_mushroom(id)
+		Sfx.play(self, "pickup", -10.0)
+		queue_free()
+		return
 	if kind == "weapon":
 		if weapons.unlocked.get(id, false):
 			var d: Dictionary = weapons.DEFS[id]

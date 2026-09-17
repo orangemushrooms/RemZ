@@ -72,11 +72,11 @@ HOLZLAGER = {"pos": [-2.5, 27.0], "size": [7.9, 14.6], "yaw_deg": -23.0, "base_h
 # track entrance (photos 15, 16, 18, 20, 21). Origin stays the OSM picnic node.
 FIRE = [4.0, -7.0]
 BENCHES = [[4.0, -4.2, 0.0], [4.0, -9.8, 0.0], [1.2, -7.0, 90.0], [6.8, -7.0, 90.0]]   # x, z, yaw (length axis)
-TABLE = [-2.5, -9.5, 15.0]
-FOUNTAIN = [-1.5, -16.0, 70.0]
-BIN = [-3.5, -19.0]
-SIGNPOST = [-6.0, -20.5]
-LOG_SEAT = [-9.0, -5.0, 80.0]
+TABLE = [-0.5, -8.5, 10.0]          # right next to the west bench (photo 20)
+FOUNTAIN = [-8.0, -11.0, 80.0]      # west of the table at the forest edge (photos 15, 21)
+BIN = [-4.0, -19.0]
+SIGNPOST = [-6.5, -20.5]
+LOG_SEAT = [-10.0, -4.0, 75.0]
 LANDMARK_OAK = [66.0, 34.0]
 BIG_TREES = [[1.5, 0.8, "beech", 1.35], [-13.5, -18.0, "beech", 1.25], [14.5, -12.0, "beech", 1.2], [-9.0, 6.0, "beech", 1.15],
              [-14.0, -8.0, "beech", 1.2], [2.0, -25.0, "beech", 1.15], [-6.0, -25.5, "oak", 1.1], [9.5, -23.0, "oak", 1.1], [15.0, -3.0, "beech", 1.1],
@@ -294,23 +294,72 @@ for z in np.arange(Z0 - 90, Z1 + 90, 6.0):
     for x in np.arange(X0 - 90, X1 + 90, 6.0):
         if X0 + 3 < x < X1 - 3 and Z0 + 3 < z < Z1 - 3:
             continue
+        if x > X1 - 3 and z > -120:        # east: fields and the village, no forest
+            continue
+        if z > Z1 - 3:                     # south: open fields towards Remetschwil
+            continue
         px_, pz_ = x + rng.uniform(-2.5, 2.5), z + rng.uniform(-2.5, 2.5)
         kind = "spruce" if rng.random() < 0.35 else "beech"
         border.append([round(float(px_), 1), round(float(pz_), 1), kind, round(float(rng.uniform(0.9, 1.3)), 2), int(rng.integers(0, 360))])
-print("trees", len(trees), "shrubs", len(shrubs), "border", len(border), "forest cells", int(forest.sum()))
+def lv95(lat, lon):
+    p = (lat * 3600 - 169028.66) / 10000
+    l = (lon * 3600 - 26782.5) / 10000
+    e = 2600072.37 + 211455.93 * l - 10938.51 * l * p - 0.36 * l * p * p - 44.54 * l ** 3
+    n = 1200147.07 + 308807.95 * p + 3745.25 * l * l + 76.63 * p * p - 194.56 * l * l * p + 119.79 * p ** 3
+    return e, n
+village = []
+osm = json.load(open(os.path.join(GEO, "osm.json")))
+for e in osm["elements"]:
+    t = e.get("tags", {})
+    if e["type"] != "way" or not t.get("building") or "geometry" not in e:
+        continue
+    poly = []
+    for g in e["geometry"]:
+        E, N = lv95(g["lat"], g["lon"])
+        poly.append([round(E - E0, 1), round(-(N - N0), 1)])
+    cx_, cz_ = float(np.mean([p[0] for p in poly])), float(np.mean([p[1] for p in poly]))
+    if abs(cx_) < 600 and abs(cz_) < 600 and not (X0 < cx_ < X1 and Z0 < cz_ < Z1):
+        village.append({"poly": poly[:-1], "h": 6.5 if t.get("building") in ("yes", "house", "residential") else 4.5})
+# understory inside the forest near the camp: young beeches, ferns, dead branches
+ferns = []
+logs = []
+fj, fi = np.nonzero(forest & (road_d > 2.0) & ~cm)
+sel = rng.choice(len(fj), size=min(9000, len(fj)), replace=False)
+for k in sel:
+    x, z = fi[k] + X0 + rng.uniform(-0.5, 0.5), fj[k] + Z0 + rng.uniform(-0.5, 0.5)
+    dist = math.hypot(x, z)
+    if dist > 160:
+        continue
+    r = rng.random()
+    if r < 0.42:
+        ferns.append([round(x, 1), round(z, 1), round(rng.uniform(0.7, 1.3), 2), int(rng.integers(0, 360))])
+    elif r < 0.62:
+        shrubs.append([round(x, 1), round(z, 1), round(rng.uniform(0.5, 1.1), 2), int(rng.integers(0, 360))])
+    elif r < 0.68:
+        logs.append([round(x, 1), round(z, 1), round(rng.uniform(1.5, 4.0), 2), int(rng.integers(0, 360))])
+print("trees", len(trees), "shrubs", len(shrubs), "ferns", len(ferns), "logs", len(logs), "border", len(border), "village", len(village), "forest cells", int(forest.sum()))
 
 # ------------------------------------------------------------------ 4. write
 open(os.path.join(OUT, "heightmap.f32"), "wb").write(h.astype("<f4").tobytes())
+SK_X0, SK_Z0, SK_STEP = -1000, -590, 10
+sk_w, sk_h = 199, 99
+skirt = np.empty((sk_h, sk_w), np.float32)
+for j in range(sk_h):
+    for i in range(sk_w):
+        skirt[j, i] = dem_at(SK_X0 + i * SK_STEP, SK_Z0 + j * SK_STEP) - h0
+skirt = ndimage.gaussian_filter(skirt, 1.0)
+open(os.path.join(OUT, "skirt.f32"), "wb").write(skirt.astype("<f4").tobytes())
 data = {
     "origin_lv95": [E0, N0], "origin_wgs84": [47.4099806, 8.3397796], "origin_height": h0,
     "x0": X0, "z0": Z0, "w": W, "h": H, "cell": 1.0,
+    "skirt": {"x0": SK_X0, "z0": SK_Z0, "w": sk_w, "h": sk_h, "cell": SK_STEP},
     "bounds": BOUNDS, "player_start": PLAYER_START,
     "roads": ROADS, "clearing": CLEARING,
     "buildings": {"waldhuette": WALDHUETTE, "holzlager": HOLZLAGER},
     "fire": FIRE, "benches": BENCHES, "table": TABLE, "fountain": FOUNTAIN, "bin": BIN, "signpost": SIGNPOST,
     "log_seat": LOG_SEAT, "landmark_oak": LANDMARK_OAK, "fence": FENCE,
     "spawns": SPAWNS, "barricades": BARRICADES,
-    "trees": trees, "shrubs": shrubs, "border_trees": border,
+    "trees": trees, "shrubs": shrubs, "ferns": ferns, "logs": logs, "border_trees": border, "village": village,
 }
 json.dump(data, open(os.path.join(OUT, "map.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 

@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b2vqvfutceio5"
-path="res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg-a1e4276035f47854445c0a7609012eed.ctex"
+path.s3tc="res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg-a1e4276035f47854445c0a7609012eed.s3tc.ctex"
+path.etc2="res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg-a1e4276035f47854445c0a7609012eed.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "88c8cc54cbe029b92b2c05ae76abd4a4"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/trees/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg"
-dest_files=["res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg-a1e4276035f47854445c0a7609012eed.ctex"]
+dest_files=["res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg-a1e4276035f47854445c0a7609012eed.s3tc.ctex", "res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg-a1e4276035f47854445c0a7609012eed.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

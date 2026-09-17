@@ -37,6 +37,8 @@ uniform sampler2D grass_albedo : source_color, filter_linear_mipmap_anisotropic;
 uniform sampler2D grass_normal : hint_normal, filter_linear_mipmap_anisotropic;
 uniform sampler2D grass_rough : hint_default_white, filter_linear_mipmap_anisotropic;
 uniform sampler2D leaf_albedo : source_color, filter_linear_mipmap_anisotropic;
+uniform sampler2D litter_albedo : source_color, filter_linear_mipmap_anisotropic;
+uniform sampler2D litter_normal : hint_normal, filter_linear_mipmap_anisotropic;
 uniform sampler2D leaf_normal : hint_normal, filter_linear_mipmap_anisotropic;
 uniform sampler2D leaf_rough : hint_default_white, filter_linear_mipmap_anisotropic;
 uniform sampler2D gravel_albedo : source_color, filter_linear_mipmap_anisotropic;
@@ -62,8 +64,11 @@ void fragment() {
 	vec2 ug = wuv * scale_grass;
 	vec2 ul = wuv * scale_leaf;
 	vec2 uk = wuv * scale_gravel;
-	vec3 la = tex2(leaf_albedo, ul) * leaf_tint;
-	vec3 ln = tex2(leaf_normal, ul);
+	// forest floor: brown leaf litter with patches of the bare photo floor, slow large-scale darkening (soil, moss)
+	float patch = sin(wuv.x * 0.11 + 1.3) * sin(wuv.y * 0.09 + 0.4) * 0.5 + 0.5;
+	float dark = 0.75 + 0.25 * (sin(wuv.x * 0.05) * sin(wuv.y * 0.043 + 2.0) * 0.5 + 0.5);
+	vec3 la = mix(tex2(litter_albedo, ul * 1.3) * vec3(0.9, 0.8, 0.65), tex2(leaf_albedo, ul) * leaf_tint, smoothstep(0.7, 0.95, patch)) * dark;
+	vec3 ln = mix(tex2(litter_normal, ul * 1.3), tex2(leaf_normal, ul), smoothstep(0.7, 0.95, patch));
 	vec3 ga = tex2(grass_albedo, ug) * grass_tint;
 	vec3 gn = tex2(grass_normal, ug);
 	vec3 ka = tex2(gravel_albedo, uk) * gravel_tint;
@@ -85,6 +90,8 @@ static func terrain_material() -> ShaderMaterial:
 	sh.code = TERRAIN_SHADER
 	var m := ShaderMaterial.new()
 	m.shader = sh
+	m.set_shader_parameter("litter_albedo", _tex(TEX + "leaves_albedo.jpg"))
+	m.set_shader_parameter("litter_normal", _tex(TEX + "leaves_normal.jpg"))
 	for pair in [["grass", "ph_meadow"], ["leaf", "ph_forestfloor"], ["gravel", "ph_gravel"]]:
 		m.set_shader_parameter(pair[0] + "_albedo", _tex(TEX + pair[1] + "_albedo.jpg"))
 		m.set_shader_parameter(pair[0] + "_normal", _tex(TEX + pair[1] + "_normal.jpg"))

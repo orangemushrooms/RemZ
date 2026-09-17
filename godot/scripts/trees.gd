@@ -4,9 +4,9 @@
 class_name Trees
 
 const SPECIES := {
-	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 40, "card": 4.8, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.8, 0.8, 0.78), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
-	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 40, "card": 5.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.95, 0.92, 0.88), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
-	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 36, "card": 3.4, "bark": ["ph_bark_oak"], "tint": Color(0.85, 0.62, 0.45), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
+	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 40, "card": 4.8, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.5, 0.48, 0.45), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
+	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 40, "card": 5.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.55, 0.5, 0.45), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
+	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 36, "card": 3.4, "bark": ["ph_bark_oak"], "tint": Color(0.55, 0.4, 0.3), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
 }
 const VARIANTS := 5
 const CELL := 48.0
@@ -258,6 +258,39 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 	if with_collision:
 		parent.add_child(colliders)
 	return { "crowns": crowns }
+
+# understory: ferns as three crossed cards, dead branches as thin bark tubes lying on the ground
+static func understory(parent: Node3D, ferns: Array, logs: Array, near: Vector2, rng: RandomNumberGenerator) -> void:
+	var items: Array = []
+	for f in ferns:
+		var pos := Map.ground_pos(f[0], f[1])
+		var s: float = f[2]
+		for k in 3:
+			var b := Basis().rotated(Vector3.UP, deg_to_rad(float(f[3])) + k * PI / 3.0).scaled(Vector3(1.1 * s, 0.75 * s, 1.0))
+			items.append([Transform3D(b, pos + Vector3(0, 0.36 * s, 0)), Color(pos.x, pos.y - 0.5, pos.z, rng.randf_range(0.7, 1.0))])
+	if not items.is_empty():
+		var quad := QuadMesh.new()
+		quad.size = Vector2.ONE
+		var sh := Shader.new()
+		sh.code = LEAF_SHADER
+		var m := ShaderMaterial.new()
+		m.shader = sh
+		m.set_shader_parameter("tex", load("res://assets/sprites/leaf_fern.png"))
+		m.set_shader_parameter("wind", 0.4)
+		m.set_shader_parameter("tint", Vector3(0.7, 0.8, 0.5))
+		parent.add_child(_multimesh_cells(quad, items, m, near, 90.0))
+	var log_items: Array = []
+	for l in logs:
+		var pos := Map.ground_pos(l[0], l[1])
+		var len: float = l[2]
+		var b := Basis().rotated(Vector3.UP, deg_to_rad(float(l[3]))).rotated(Vector3.RIGHT, rng.randf_range(-0.06, 0.06)).scaled(Vector3(len, 1.0, 1.0))
+		log_items.append([Transform3D(b, pos + Vector3(0, 0.1, 0)), Color.WHITE])
+	if not log_items.is_empty():
+		var st := SurfaceTool.new()
+		st.begin(Mesh.PRIMITIVE_TRIANGLES)
+		_tube(st, [Vector3(-0.5, 0, 0), Vector3(0, 0.02, 0), Vector3(0.5, 0, 0)], [0.09, 0.12, 0.07], 7, 1.2, 0.0)
+		st.generate_tangents()
+		parent.add_child(_multimesh_cells(st.commit(), log_items, _bark_material("ph_bark_oak", Color(0.45, 0.4, 0.35)), near, 80.0))
 
 # a single hero tree with its own collider (the landmark oak)
 static func hero(parent: Node3D, kind: String, x: float, z: float, scale: float, yaw: float, rng: RandomNumberGenerator) -> void:

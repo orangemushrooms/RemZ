@@ -1,0 +1,85 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] first_scan_filesystem | Started Projektinitialisierung (5 steps)
+[   0% ] first_scan_filesystem | Lese Dateistrucktur …
+[  16% ] first_scan_filesystem | Globale Klassennamen laden …
+[  33% ] first_scan_filesystem | Verifiziere GDExtensions…
+[  50% ] first_scan_filesystem | Autoload-Skripte erzeugen …
+[  66% ] first_scan_filesystem | Plugins initialisieren…
+[  83% ] first_scan_filesystem | Dateiscan starten …
+[ DONE ] first_scan_filesystem
+
+[   0% ] update_scripts_classes | Started Globale Klassen registrieren … (2 steps)
+[   0% ] update_scripts_classes | Map
+[  33% ] update_scripts_classes | 
+[ DONE ] update_scripts_classes
+
+[   0% ] _update_scan_actions | Started Aktionen scannen … (4 steps)
+[   0% ] _update_scan_actions | glove_albedo.jpg
+[  20% ] _update_scan_actions | glove_normal.png
+[  40% ] _update_scan_actions | left_glove.fbx
+[  60% ] _update_scan_actions | right_glove.fbx
+[ DONE ] _update_scan_actions
+
+[   0% ] reimport | Started Assets (erneut) importieren (4 steps)
+[   0% ] reimport | Dateien zum Neuimport vorbereiten …
+[  20% ] reimport | Dateien zum Neuimport vorbereiten …
+[  40% ] reimport | Dateien zum Neuimport vorbereiten …
+[  60% ] reimport | Dateien zum Neuimport vorbereiten …
+[   0% ] reimport | Vor-Neuimport-Operationen ausführen …
+[   0% ] reimport | glove_albedo.jpg
+[  20% ] reimport | glove_normal.png
+[  40% ] reimport | left_glove.fbx
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+ERROR: Resource file not found: res:// (expected type: Texture2D)
+   at: _load (core/io/resource_loader.cpp:325)
+ERROR: Can't open file from path 'res://assets/viewmodel/fileserver/user/joev/ForAaron/textures/vr_glove_color_red.jpg'.
+   at: get_file_as_bytes (core/io/file_access.cpp:907)
+WARNING: FBX: Image index '0' couldn't be loaded from path: res://assets/viewmodel/fileserver/user/joev/ForAaron/textures/vr_glove_color_red.jpg because there was no data to load. Skipping it.
+   at: _parse_images (modules/fbx/fbx_document.cpp:1081)
+ERROR: Resource file not found: res:// (expected type: Texture2D)
+   at: _load (core/io/resource_loader.cpp:325)
+ERROR: Can't open file from path 'res://assets/viewmodel/fileserver/user/joev/ForAaron/textures/vr_glove_normal.png'.
+   at: get_file_as_bytes (core/io/file_access.cpp:907)
+WARNING: FBX: Image index '1' couldn't be loaded from path: res://assets/viewmodel/fileserver/user/joev/ForAaron/textures/vr_glove_normal.png because there was no data to load. Skipping it.
+   at: _parse_images (modules/fbx/fbx_document.cpp:1081)
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  60% ] reimport | right_glove.fbx
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+ERROR: Resource file not found: res:// (expected type: Texture2D)
+   at: _load (core/io/resource_loader.cpp:325)
+ERROR: Can't open file from path 'res://assets/viewmodel/fileserver/user/joev/ForAaron/textures/vr_glove_color_red.jpg'.
+   at: get_file_as_bytes (core/io/file_access.cpp:907)
+WARNING: FBX: Image index '0' couldn't be loaded from path: res://assets/viewmodel/fileserver/user/joev/ForAaron/textures/vr_glove_color_red.jpg because there was no data to load. Skipping it.
+   at: _parse_images (modules/fbx/fbx_document.cpp:1081)
+ERROR: Resource file not found: res:// (expected type: Texture2D)
+   at: _load (core/io/resource_loader.cpp:325)
+ERROR: Can't open file from path 'res://assets/viewmodel/fileserver/user/joev/ForAaron/textures/vr_glove_normal.png'.
+   at: get_file_as_bytes (core/io/file_access.cpp:907)
+WARNING: FBX: Image index '1' couldn't be loaded from path: res://assets/viewmodel/fileserver/user/joev/ForAaron/textures/vr_glove_normal.png because there was no data to load. Skipping it.
+   at: _parse_images (modules/fbx/fbx_document.cpp:1081)
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  80% ] reimport | Asset-Import fertigstellen …
+[ DONE ] reimport
+
+[   0% ] reimport | Started Assets (erneut) importieren (4 steps)
+[   0% ] reimport | Nach-Neuimport-Operationen ausführen …
+[ DONE ] reimport
+
+[   0% ] loading_editor_layout | Started Editor laden (5 steps)
+[   0% ] loading_editor_layout | Editor-Layout laden …
+[  16% ] loading_editor_layout | Docks laden …
+[  33% ] loading_editor_layout | Öffne Szenen neu…
+[  50% ] loading_editor_layout | Zentrales Editor-Layout laden …
+[  66% ] loading_editor_layout | Pluginfensterlayout laden …
+[  83% ] loading_editor_layout | Editorlayout bereit.
+[ DONE ] loading_editor_layout
+
