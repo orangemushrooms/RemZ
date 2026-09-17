@@ -51,6 +51,7 @@ static func get_stream(name: String) -> AudioStreamWAV:
 		"build": st = _burst(0.2, 0.06, 0.4, 0.5, 220.0, 0.0)
 		"wave": st = _burst(1.4, 0.6, 0.02, 0.4, 110.0, 30.0)
 		"wood": st = _burst(0.3, 0.1, 0.3, 0.8)
+		"boom": st = _burst(1.6, 0.45, 0.05, 1.4, 45.0, -30.0)
 		"pickup": st = _burst(0.2, 0.08, 0.9, 0.3, 660.0, 800.0)
 		_: st = _burst(0.1, 0.03, 0.5, 0.3)
 	_cache[name] = st

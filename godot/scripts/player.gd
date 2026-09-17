@@ -23,6 +23,9 @@ var bob := 0.0
 var regen_timer := 0.0
 var wobble := 0.0
 var _gravity := 20.0
+var speed_mul := 1.0
+var regen_mul := 1.0
+var recoil_offset := Vector2.ZERO   # (pitch, yaw) radians of visual recoil still settling
 
 func _ready() -> void:
 	collision_layer = 4
@@ -60,7 +63,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.relative.x * SENS)
 		pitch = clampf(pitch - event.relative.y * SENS, -1.45, 1.45)
-		head.rotation.x = pitch
+		head.rotation.x = pitch + recoil_offset.x
 	if event.is_action_pressed("flashlight"):
 		flashlight.visible = not flashlight.visible
 
@@ -69,7 +72,7 @@ func _physics_process(delta: float) -> void:
 		return
 	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var sprint := Input.is_action_pressed("sprint")
-	var speed := SPRINT_SPEED if sprint else WALK_SPEED
+	var speed := (SPRINT_SPEED if sprint else WALK_SPEED) * speed_mul
 	var dir := (transform.basis * Vector3(input.x, 0.0, input.y)).normalized()
 	var target := dir * speed
 	velocity.x = lerpf(velocity.x, target.x, minf(1.0, delta * 12.0))
@@ -87,10 +90,12 @@ func _physics_process(delta: float) -> void:
 	head.position.y = EYE + (sin(bob) * 0.04 if moving else 0.0)
 	wobble = maxf(0.0, wobble - delta * 3.0)
 	camera.rotation.z = (sin(bob * 0.5) * 0.004 if moving else 0.0) + sin(wobble * 30.0) * 0.02 * wobble
+	head.rotation.x = pitch + recoil_offset.x
+	camera.rotation.y = recoil_offset.y
 	if regen_timer > 0.0:
 		regen_timer -= delta
 	elif hp < max_hp:
-		hp = minf(max_hp, hp + delta * 4.0)
+		hp = minf(max_hp, hp + delta * 4.0 * regen_mul)
 		hud.set_health(hp)
 
 func damage(n: float) -> void:

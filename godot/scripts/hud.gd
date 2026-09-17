@@ -20,6 +20,8 @@ var overlay_button: Button
 var overlay_status: Label
 var _msg_timer := 0.0
 var _damage_t := 0.0
+var _hit_t := 0.0
+var hit_marks: Array = []
 
 func _ready() -> void:
 	layer = 10
@@ -44,6 +46,18 @@ func _ready() -> void:
 		c.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		root.add_child(c)
 
+	# hitmarker: four short diagonal ticks around the crosshair
+	for k in 4:
+		var m := ColorRect.new()
+		m.color = Color(1, 1, 1, 0.0)
+		m.custom_minimum_size = Vector2(10, 2)
+		m.set_anchors_preset(Control.PRESET_CENTER)
+		m.pivot_offset = Vector2(5, 1)
+		m.position = Vector2(-5, -1) + Vector2(cos(k * PI / 2.0 + PI / 4.0), sin(k * PI / 2.0 + PI / 4.0)) * 14.0
+		m.rotation = k * PI / 2.0 + PI / 4.0
+		m.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		root.add_child(m)
+		hit_marks.append(m)
 	# stats bottom-left
 	var stats := _panel(root, Control.PRESET_BOTTOM_LEFT, Vector2(16, -16))
 	stats.add_child(_label("Leben", 14))
@@ -191,6 +205,11 @@ func _process(delta: float) -> void:
 	if _damage_t > 0.0:
 		_damage_t -= delta
 		damage_rect.color.a = clampf(_damage_t * 3.0, 0.0, 0.45)
+	if _hit_t > 0.0:
+		_hit_t -= delta
+		if _hit_t <= 0.0:
+			for m in hit_marks:
+				m.color.a = 0.0
 
 func set_health(v: float) -> void:
 	hp_bar.value = v
@@ -213,6 +232,11 @@ func message(text: String, seconds: float = 2.5) -> void:
 
 func set_prompt(text: String) -> void:
 	prompt_label.text = text
+
+func hitmarker(head: bool) -> void:
+	_hit_t = 0.12
+	for m in hit_marks:
+		m.color = Color(1.0, 0.25, 0.2, 1.0) if head else Color(1, 1, 1, 1)
 
 func damage_flash() -> void:
 	_damage_t = 0.25

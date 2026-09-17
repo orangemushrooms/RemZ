@@ -118,5 +118,41 @@
   "storage_hut": {
     "prompt": "game asset, large open-front wooden log storage shed, log walls, gable roof with wooden shingles, firewood stacked inside, single building, no ground",
     "texture_prompt": "dark weathered logs, wooden shingles, stacked firewood, realistic PBR"
+  },
+  "zombie_nurse": {
+    "prompt": "game character, zombie nurse in torn bloody white uniform, pale grey skin, sunken eyes, standing upright in T-pose, humanoid, symmetric, horror game asset",
+    "texture_prompt": "torn blood stained white nurse uniform, pale grey rotting skin, dark veins, realistic PBR"
+  },
+  "zombie_soldier": {
+    "prompt": "game character, zombie soldier in ripped camouflage uniform with tactical vest, helmet, rotting face, standing upright in T-pose, humanoid, symmetric, horror game asset",
+    "texture_prompt": "dirty green camouflage, black vest, rotting green-grey skin, blood, realistic PBR"
+  },
+  "zombie_bloater": {
+    "prompt": "game character, huge bloated fat zombie, bare swollen torso with boils, torn trousers, standing upright in T-pose, humanoid, symmetric, horror game asset",
+    "texture_prompt": "swollen sickly yellow-green skin with boils and veins, dirty torn trousers, realistic PBR"
+  },
+  "deer": {
+    "prompt": "game asset, realistic roe deer doe standing, brown coat, alert head, single animal, no ground",
+    "texture_prompt": "reddish brown short fur, white belly, realistic PBR"
+  },
+  "stag": {
+    "prompt": "game asset, realistic red deer stag with large antlers standing, single animal, no ground",
+    "texture_prompt": "dark brown fur, pale antlers, realistic PBR"
+  },
+  "ak47": {
+    "prompt": "game asset, AK-47 assault rifle with wooden stock and handguard, side view, first person shooter weapon, single object",
+    "texture_prompt": "black steel receiver, worn brown wood, realistic PBR"
+  },
+  "smg": {
+    "prompt": "game asset, MP5 submachine gun with collapsible stock, side view, first person shooter weapon, single object",
+    "texture_prompt": "black matte polymer and steel, scratches, realistic PBR"
+  },
+  "revolver": {
+    "prompt": "game asset, large .44 magnum revolver with long barrel and wooden grip, side view, first person shooter weapon, single object",
+    "texture_prompt": "polished dark steel, walnut grip, realistic PBR"
+  },
+  "grenade": {
+    "prompt": "game asset, military hand grenade, olive green, with pin and lever, single object",
+    "texture_prompt": "olive green painted steel, scratches, realistic PBR"
   }
 }

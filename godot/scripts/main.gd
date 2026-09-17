@@ -5,6 +5,8 @@ var player: Player
 var hud: Hud
 var weapons: Weapons
 var waves: Waves
+var skills: Skills
+var ambience: Ambience
 var zombies_root: Node3D
 var barricades: Array = []
 var nav_region: NavigationRegion3D
@@ -74,6 +76,13 @@ func _ready() -> void:
 	waves = Waves.new()
 	add_child(waves)
 	waves.setup(self, hud, player, weapons)
+	skills = Skills.new()
+	add_child(skills)
+	skills.setup(player, weapons, hud, self)
+	ambience = Ambience.new()
+	add_child(ambience)
+	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, 36.0))
+	_spawn_deer()
 	hud.show_overlay("BIRKENHOF", "Die Lichtung mit der Waldhütte ist der letzte sichere Ort. Die Zombies kommen von der Nordstrasse über den Weg zur Hütte, über den Waldweg und aus der Wiese. Halte die Barrikaden, überlebe die Wellen.", "Spiel starten", "Wegnetz wird berechnet ...")
 	nav_region.bake_finished.connect(func(): hud.overlay_status.text = "Bereit."; if _autotest: _on_start())
 	nav_region.bake_navigation_mesh(true)
@@ -235,6 +244,11 @@ func _build_roads() -> void:
 	asphalt.cull_mode = BaseMaterial3D.CULL_DISABLED
 	var gravel := Foliage.pbr("gravel", 1.0, Color(1.0, 0.96, 0.9))
 	gravel.cull_mode = BaseMaterial3D.CULL_DISABLED
+	if "--road-plain" in _flags:
+		for m in [asphalt, gravel]:
+			m.normal_enabled = false
+			m.ao_enabled = false
+			m.roughness_texture = null
 	for r in Map.ROADS:
 		_road_mesh(r["pts"], r["width"], 0.04, asphalt if r["surface"] == "asphalt" else gravel)
 
@@ -621,6 +635,27 @@ func _build_clutter() -> void:
 		var z: float = rng.randf_range(-36.0, 62.0)
 		if not Map.is_clear_zone(x, z) and Map.leaf_weight(x, z) > 0.5:
 			_place_real(["boulder_01", "tree_stump_01", "dead_tree_trunk_02"][i % 3], x, z, 0.8 + rng.randf() * 0.5, 0.8)
+	# mushrooms all over the forest floor
+	for i in 260:
+		var x: float = rng.randf_range(-105.0, 50.0)
+		var z: float = rng.randf_range(-40.0, 64.0)
+		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0):
+			continue
+		var kind := "mushroom_cluster" if rng.randf() < 0.7 else "mushroom_fly"
+		_place(kind, x, z, 0.18 + rng.randf() * 0.2, -1.0, 1.0, 0.0)
+
+func _spawn_deer() -> void:
+	var groups := [[Vector2(-70, -18), "stag"], [Vector2(-66, -14), "deer"], [Vector2(-64, -20), "deer"], [Vector2(25, 34), "deer"], [Vector2(28, 38), "deer"], [Vector2(70, 30), "stag"], [Vector2(74, 34), "deer"], [Vector2(-60, 30), "deer"]]
+	var i := 0
+	for g in groups:
+		var pos: Vector2 = g[0]
+		var kind: String = g[1]
+		var d := Deer.new()
+		d.setup(player, kind, _scene(kind), 100 + i)
+		add_child(d)
+		d.global_position = Map.ground_pos(pos.x, pos.y) + Vector3(0, 0.3, 0)
+		d.rotation.y = rng.randf() * TAU
+		i += 1
 
 func _build_foliage() -> void:
 	if "--no-foliage" in _flags:
@@ -709,7 +744,10 @@ func _process(delta: float) -> void:
 	if fire_light:
 		fire_light.light_energy = 5.0 * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
 	if Input.is_action_just_pressed("pause"):
-		_pause()
+		if skills and skills.is_open:
+			skills.close()
+		else:
+			_pause()
 	if player and player.active:
 		var near = null
 		var nd := 3.2

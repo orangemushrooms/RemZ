@@ -5,7 +5,9 @@ extends CharacterBody3D
 const TYPES := {
 	"shambler": { "model": "zombie_shambler", "hp": 100.0, "speed": 1.6, "damage": 12.0, "reach": 1.6, "attack_time": 1.1, "score": 10, "height": 1.8 },
 	"runner": { "model": "zombie_runner", "hp": 60.0, "speed": 4.2, "damage": 8.0, "reach": 1.4, "attack_time": 0.7, "score": 15, "height": 1.7 },
-	"brute": { "model": "zombie_shambler", "hp": 320.0, "speed": 1.2, "damage": 25.0, "reach": 2.0, "attack_time": 1.6, "score": 40, "height": 2.4, "tint": Color(0.75, 0.45, 0.4) },
+	"brute":    { "model": "zombie_bloater", "fallback": "zombie_shambler", "hp": 320.0, "speed": 1.2, "damage": 25.0, "reach": 2.0, "attack_time": 1.6, "score": 40, "height": 2.3, "tint": Color(0.9, 0.85, 0.6) },
+	"nurse":    { "model": "zombie_nurse", "fallback": "zombie_runner", "hp": 80.0, "speed": 2.6, "damage": 10.0, "reach": 1.5, "attack_time": 0.9, "score": 15, "height": 1.7 },
+	"soldier":  { "model": "zombie_soldier", "fallback": "zombie_shambler", "hp": 180.0, "speed": 1.9, "damage": 16.0, "reach": 1.6, "attack_time": 1.0, "score": 25, "height": 1.85 },
 }
 
 var type: Dictionary
@@ -57,7 +59,10 @@ func _ready() -> void:
 	agent.max_speed = float(type["speed"]) * speed_mul
 	agent.velocity_computed.connect(_on_velocity_computed)
 	add_child(agent)
-	var scene = load("res://assets/models/%s.glb" % type["model"])
+	var path := "res://assets/models/%s.glb" % type["model"]
+	if not ResourceLoader.exists(path) and type.has("fallback"):
+		path = "res://assets/models/%s.glb" % type["fallback"]
+	var scene = load(path) if ResourceLoader.exists(path) else null
 	if scene:
 		model = scene.instantiate()
 		add_child(model)

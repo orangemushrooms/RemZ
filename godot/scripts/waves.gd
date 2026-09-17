@@ -28,7 +28,11 @@ func plan(n: int) -> Array:
 		var t := "shambler"
 		if n >= 2 and r < 0.15 + n * 0.04:
 			t = "runner"
-		if n >= 4 and r > 0.92:
+		if n >= 2 and r > 0.7 and r < 0.85:
+			t = "nurse"
+		if n >= 3 and r > 0.85 and r < 0.93:
+			t = "soldier"
+		if n >= 4 and r > 0.93:
 			t = "brute"
 		var lr := randf()
 		var lane := "north"
@@ -81,8 +85,6 @@ func _process(delta: float) -> void:
 			timer = 18.0
 			var bonus := 40 + wave * 10
 			player.add_score(bonus)
-			weapons.add_ammo("pistol", 36)
-			if weapons.unlocked["shotgun"]:
-				weapons.add_ammo("shotgun", 12)
+			weapons.refill_all()
 			hud.message("Welle %d überstanden\n+%d Punkte, Munition aufgefüllt\nBaue Barrikaden mit E" % [wave, bonus], 4.0)
 			Sfx.play(self, "pickup", -8.0)
