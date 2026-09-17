@@ -245,7 +245,7 @@ func _build_terrain() -> void:
 	add_child(body)
 
 # road ribbon along a polyline
-func _road_mesh(pts: Array, width: float, lift: float, mat: Material) -> void:
+func _road_mesh(pts: Array, width: float, lift: float, mat: Material, fade: bool = true) -> void:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var samples: Array = []
@@ -261,15 +261,21 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material) -> void:
 			samples.append([p, Vector2(-dir.y, dir.x)])
 	var vi := 0
 	var dist := 0.0
+	var total := 0.0
+	for i in samples.size() - 1:
+		total += (samples[i][0] as Vector2).distance_to(samples[i + 1][0])
 	var prev: Vector2 = samples[0][0]
 	for s in samples:
 		var p: Vector2 = s[0]
 		var nrm: Vector2 = s[1]
 		dist += p.distance_to(prev)
 		prev = p
+		# fade the ribbon in and out over 6 m so it merges with the gravel of the clearing / the forest floor
+		var opacity := 1.0 if not fade else clampf(minf(dist, total - dist) / 6.0, 0.0, 1.0)
 		for side: float in [-1.0, 1.0]:
 			var q: Vector2 = p + nrm * side * width / 2.0
-			st.set_uv(Vector2(0.0 if side < 0 else 1.0, dist / width))
+			st.set_uv(Vector2((0.5 + side * 0.5) * width / 5.0, dist / 5.0))
+			st.set_color(Color(1, 1, 1, opacity))
 			st.set_normal(Map.ground_normal(q.x, q.y))
 			st.add_vertex(Vector3(q.x, Map.ground_height(q.x, q.y) + lift, q.y))
 		if vi > 0:
@@ -286,16 +292,19 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material) -> void:
 
 func _build_roads() -> void:
 	var asphalt := Foliage.pbr("ph_asphalt", 1.0, Color(0.9, 0.9, 0.9))
-	var gravel := Foliage.pbr("ph_gravel", 1.0, Color(0.5, 0.49, 0.47))
-	var dirt := Foliage.pbr("ph_gravel", 1.0, Color(0.42, 0.37, 0.3))
+	var gravel := Foliage.pbr("ph_gravel", 1.0, Color(0.6, 0.57, 0.52))   # same tint as the terrain gravel
+	var dirt := Foliage.pbr("ph_gravel", 1.0, Color(0.5, 0.45, 0.38))
 	for m in [asphalt, gravel, dirt]:
-		m.normal_scale = 0.5
+		m.normal_scale = 0.35
 		m.cull_mode = BaseMaterial3D.CULL_DISABLED
 		m.disable_receive_shadows = true
 		m.uv1_scale = Vector3(1.0, 1.0, 1.0)
+		m.vertex_color_use_as_albedo = true
+		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		m.render_priority = 1
 	for r in Map.ROADS:
 		var mat: Material = { "asphalt": asphalt, "gravel": gravel, "dirt": dirt }[r["surface"]]
-		_road_mesh(r["pts"], r["width"], 0.04 if r["surface"] != "dirt" else 0.03, mat)
+		_road_mesh(r["pts"], r["width"], 0.04 if r["surface"] != "dirt" else 0.03, mat, r["surface"] != "asphalt")
 
 # ---------------------------------------------------------------- models
 var _scenes := {}
@@ -423,6 +432,7 @@ func _build_forests() -> void:
 	if "--no-trees" in _flags:
 		return
 	Trees.build(self, Map.TREES, Map.SHRUBS, Map.FIRE, rng)
+	Trees.build(self, Map.BORDER_TREES, [], Map.FIRE, rng, false)
 	# the landmark oak leaning over the Weg zur Hütte (photo 24)
 	Trees.hero(self, "oak", Map.LANDMARK_OAK.x, Map.LANDMARK_OAK.y, 1.55, 0.6, rng)
 	_build_forest_blocker()
@@ -430,8 +440,9 @@ func _build_forests() -> void:
 # deep forest (more than ~8 m inside the tree line, away from every track) is impassable: undergrowth wall for
 # physics and the navigation bake, hidden behind the shrubs along the edges
 func _build_forest_blocker() -> void:
+	# layer 16: blocks the zombies (physics + navigation bake), the player walks through the trees
 	var body := StaticBody3D.new()
-	body.collision_layer = 1
+	body.collision_layer = 16
 	body.add_to_group("navsource")
 	var ext := Map.extent()
 	var step := 5.0
@@ -934,7 +945,7 @@ func _build_foliage() -> void:
 			return null
 		return Map.ground_pos(x, z)
 	if not "--no-grass" in _flags:
-		add_child(Foliage.grass(60000, grass_sampler, rng))
+		add_child(Foliage.grass(240000, grass_sampler, rng))
 	if not "--no-particles" in _flags:
 		add_child(Foliage.falling_leaves(Map.ground_pos(Map.FIRE.x, Map.FIRE.y) + Vector3(0, 9, 10), Vector3(45, 7, 40)))
 

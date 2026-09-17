@@ -53,7 +53,7 @@ func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: C
 
 func _ready() -> void:
 	collision_layer = 2
-	collision_mask = 1 | 2 | 8
+	collision_mask = 1 | 2 | 8 | 16
 	var shape := CollisionShape3D.new()
 	var cap := CapsuleShape3D.new()
 	cap.radius = 0.35

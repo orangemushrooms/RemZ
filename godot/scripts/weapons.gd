@@ -3,8 +3,10 @@
 class_name Weapons
 extends Node3D
 
+const Hands = preload("res://scripts/viewmodel_hands.gd")
+
 const DEFS := {
-	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol",
+	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 1.4, "kick_yaw": 0.5, "kick_back": 0.06, "recover": 9.0 },
 	"revolver": { "name": "Revolver", "model": "revolver", "height": 0.13, "mag": 6, "reserve": 30, "damage": 95.0, "rate": 0.45, "reload": 2.2, "pellets": 1, "spread": 0.008, "range": 80.0, "auto": false, "sfx": "revolver",
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 4.0, "kick_yaw": 1.2, "kick_back": 0.12, "recover": 7.0 },
@@ -57,7 +59,8 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 		var scene = load(path) if ResourceLoader.exists(path) else null
 		if scene:
 			var model: Node3D = scene.instantiate()
-			model.rotation.y = -PI / 2.0   # Meshy weapons come in side view along X
+			# This asset's barrel faces the opposite way to the other Meshy guns.
+			model.rotation.y = PI / 2.0 if id == "ak47" else -PI / 2.0
 			var inner := Node3D.new()
 			inner.add_child(model)
 			holder.add_child(inner)
@@ -75,7 +78,24 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 			holder.add_child(box)
 		holder.visible = false
 		camera.add_child(holder)
-		state[id] = { "def": d, "ammo": d["mag"], "reserve": d["reserve"], "node": holder, "cooldown": 0.0, "reloading": 0.0 }
+		var bounds := Hands.weapon_bounds(holder)
+		var hands := Hands.build(id, bounds)
+		holder.add_child(hands)
+		for mesh in holder.find_children("*", "MeshInstance3D", true, false):
+			mesh.layers = 2
+		var aim_position: Vector3 = d["ads"]
+		aim_position.y = -bounds.end.y - 0.008
+		aim_position.z = minf(aim_position.z, -bounds.end.z - 0.18)
+		state[id] = { "def": d, "ammo": d["mag"], "reserve": d["reserve"], "node": holder, "hands": hands, "bounds": bounds, "aim_position": aim_position, "cooldown": 0.0, "reloading": 0.0 }
+	# Gentle light on the view model keeps hands readable in deep forest shade.
+	var view_light := DirectionalLight3D.new()
+	view_light.light_cull_mask = 2
+	view_light.light_color = Color(0.9, 0.94, 1.0)
+	view_light.light_energy = 0.7
+	view_light.shadow_enabled = false
+	view_light.rotation_degrees = Vector3(-18, -20, 0)
+	view_light.sky_mode = DirectionalLight3D.SKY_MODE_LIGHT_ONLY
+	camera.add_child(view_light)
 	flash = OmniLight3D.new()
 	flash.light_color = Color(1.0, 0.75, 0.45)
 	flash.light_energy = 0.0
@@ -178,7 +198,7 @@ func try_fire() -> void:
 	s["ammo"] -= 1
 	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"])
 	recoil = 1.0
-	Sfx.play(self, d["sfx"], -6.0)
+	Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)))
 	flash.light_energy = 10.0
 	flash_mesh.visible = true
 	flash_mesh.scale = Vector3.ONE * randf_range(0.7, 1.3)
@@ -222,45 +242,150 @@ func throw_grenade() -> void:
 	g.angular_velocity = Vector3(randf_range(-6, 6), randf_range(-6, 6), randf_range(-6, 6))
 	player.wobble = maxf(player.wobble, 0.2)
 
+var _mist_pool: Array[GPUParticles3D] = []
+var _decal_pool: Array[Decal] = []
+var _decal_next := 0
+var _splat_tex: ImageTexture
+
 func _blood(pos: Vector3, dir: Vector3) -> void:
 	var p := _blood_pool[_blood_next]
+	var m := _mist_pool[_blood_next]
 	_blood_next = (_blood_next + 1) % _blood_pool.size()
 	p.global_position = pos
-	(p.process_material as ParticleProcessMaterial).direction = dir
+	m.global_position = pos
+	(p.process_material as ParticleProcessMaterial).direction = (dir + Vector3(0, 0.25, 0)).normalized()
+	(m.process_material as ParticleProcessMaterial).direction = dir
 	p.restart()
+	m.restart()
 	p.emitting = true
+	m.emitting = true
+	# splat: on the ground below the wound, and on whatever the exit direction hits within 2.5 m
+	var space: PhysicsDirectSpaceState3D = get_parent().get_world_3d().direct_space_state
+	for ray in [[pos + Vector3(0, 0.3, 0), pos + Vector3(0, -3.0, 0), 0.7], [pos, pos + dir * 2.5, 0.5]]:
+		var q := PhysicsRayQueryParameters3D.create(ray[0], ray[1], 1)
+		var hit: Dictionary = space.intersect_ray(q)
+		if hit:
+			_splat(hit.position, hit.normal, ray[2] * randf_range(0.6, 1.4))
+
+func _splat(pos: Vector3, normal: Vector3, size: float) -> void:
+	var d := _decal_pool[_decal_next]
+	_decal_next = (_decal_next + 1) % _decal_pool.size()
+	d.size = Vector3(size, 0.6, size)
+	d.global_position = pos + normal * 0.02
+	var up := Vector3.FORWARD if absf(normal.y) > 0.9 else Vector3.UP
+	d.look_at_from_position(d.global_position, pos - normal, up)
+	d.rotate_object_local(Vector3.RIGHT, -PI / 2.0)
+	d.rotate_object_local(Vector3.UP, randf() * TAU)
+	d.modulate = Color(randf_range(0.3, 0.45), 0.02, 0.02, 1.0)
+	d.visible = true
+
+static func _make_splat_texture() -> ImageTexture:
+	var n := 256
+	var img := Image.create(n, n, false, Image.FORMAT_RGBA8)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 77
+	var blobs: Array = []
+	for i in 26:
+		var a := rng.randf() * TAU
+		var r := rng.randf_range(0.0, 0.42) * n
+		blobs.append([Vector2(n / 2.0 + cos(a) * r * 0.5, n / 2.0 + sin(a) * r * 0.5), rng.randf_range(0.03, 0.22) * n])
+	for y in n:
+		for x in n:
+			var v := 0.0
+			for b in blobs:
+				var dd: float = (b[0] as Vector2).distance_to(Vector2(x, y)) / (b[1] as float)
+				v += maxf(0.0, 1.0 - dd * dd)
+			var alpha := clampf((v - 0.35) * 2.5, 0.0, 1.0)
+			img.set_pixel(x, y, Color(0.4, 0.02, 0.02, alpha))
+	return ImageTexture.create_from_image(img)
 
 func _prepare_blood_pool() -> void:
+	var dot := Foliage._soft_dot()
+	# droplets: small billboards, dark red, fall with gravity and shrink
 	var mat := ParticleProcessMaterial.new()
-	mat.spread = 40.0
-	mat.initial_velocity_min = 2.0
-	mat.initial_velocity_max = 5.0
-	mat.gravity = Vector3(0, -9.0, 0)
-	mat.scale_min = 0.03
-	mat.scale_max = 0.08
-	mat.color = Color(0.35, 0.02, 0.02)
-	var mesh := SphereMesh.new()
-	mesh.radius = 0.5
-	mesh.height = 1.0
-	mesh.radial_segments = 6
-	mesh.rings = 3
-	var mm := StandardMaterial3D.new()
-	mm.albedo_color = Color(0.35, 0.02, 0.02)
-	mm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mesh.material = mm
+	mat.spread = 32.0
+	mat.initial_velocity_min = 3.0
+	mat.initial_velocity_max = 9.0
+	mat.gravity = Vector3(0, -12.0, 0)
+	mat.scale_min = 0.5
+	mat.scale_max = 1.4
+	mat.damping_min = 1.0
+	mat.damping_max = 3.0
+	var sc := Curve.new()
+	sc.add_point(Vector2(0, 1.0))
+	sc.add_point(Vector2(1, 0.4))
+	var sct := CurveTexture.new()
+	sct.curve = sc
+	mat.scale_curve = sct
+	var grad := Gradient.new()
+	grad.set_color(0, Color(0.55, 0.04, 0.03, 1.0))
+	grad.set_color(1, Color(0.25, 0.01, 0.01, 0.0))
+	var gt := GradientTexture1D.new()
+	gt.gradient = grad
+	mat.color_ramp = gt
+	var quad := QuadMesh.new()
+	quad.size = Vector2(0.07, 0.07)
+	var qm := StandardMaterial3D.new()
+	qm.albedo_texture = dot
+	qm.vertex_color_use_as_albedo = true
+	qm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	qm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	qm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	quad.material = qm
+	# mist: a few big soft puffs that hang for a moment
+	var mm := ParticleProcessMaterial.new()
+	mm.spread = 50.0
+	mm.initial_velocity_min = 0.6
+	mm.initial_velocity_max = 2.0
+	mm.gravity = Vector3(0, -1.0, 0)
+	mm.scale_min = 1.0
+	mm.scale_max = 2.5
+	mm.damping_min = 2.0
+	mm.damping_max = 4.0
+	var mg := Gradient.new()
+	mg.set_color(0, Color(0.45, 0.03, 0.02, 0.55))
+	mg.set_color(1, Color(0.3, 0.02, 0.02, 0.0))
+	var mgt := GradientTexture1D.new()
+	mgt.gradient = mg
+	mm.color_ramp = mgt
+	var mq := QuadMesh.new()
+	mq.size = Vector2(0.25, 0.25)
+	mq.material = qm
 	for i in 16:
 		var p := GPUParticles3D.new()
 		p.process_material = mat.duplicate()
-		p.draw_pass_1 = mesh
-		p.amount = 14
-		p.lifetime = 0.6
+		p.draw_pass_1 = quad
+		p.amount = 48
+		p.lifetime = 0.9
 		p.one_shot = true
-		p.explosiveness = 1.0
+		p.explosiveness = 0.95
 		p.emitting = false
 		p.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		p.visibility_aabb = AABB(Vector3(-4, -5, -4), Vector3(8, 10, 8))
+		p.visibility_aabb = AABB(Vector3(-5, -6, -5), Vector3(10, 12, 10))
 		get_parent().add_child(p)
 		_blood_pool.append(p)
+		var m := GPUParticles3D.new()
+		m.process_material = mm.duplicate()
+		m.draw_pass_1 = mq
+		m.amount = 10
+		m.lifetime = 0.5
+		m.one_shot = true
+		m.explosiveness = 1.0
+		m.emitting = false
+		m.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		m.visibility_aabb = AABB(Vector3(-3, -3, -3), Vector3(6, 6, 6))
+		get_parent().add_child(m)
+		_mist_pool.append(m)
+	_splat_tex = _make_splat_texture()
+	for i in 48:
+		var d := Decal.new()
+		d.texture_albedo = _splat_tex
+		d.albedo_mix = 1.0
+		d.cull_mask = 1
+		d.visible = false
+		get_parent().add_child(d)
+		_decal_pool.append(d)
+
 
 func _process(delta: float) -> void:
 	if not player or not player.active:
@@ -321,11 +446,16 @@ func _process(delta: float) -> void:
 	sway_t += delta
 	var moving := Vector2(player.velocity.x, player.velocity.z).length() > 0.5
 	var n: Node3D = s["node"]
-	var base_pos: Vector3 = (d["pos"] as Vector3).lerp(d["ads"], ads)
+	var base_pos: Vector3 = (d["pos"] as Vector3).lerp(s["aim_position"], ads)
 	var sway_amp := 1.0 - ads * 0.8
 	n.position = base_pos + Vector3(sin(sway_t * 5.0) * (0.008 if moving else 0.002) * sway_amp, absf(sin(sway_t * 5.0)) * (0.01 if moving else 0.003) * sway_amp + (-0.12 if s["reloading"] > 0.0 else 0.0), recoil * float(d["kick_back"]))
 	n.rotation.x = -recoil * 0.3 + (-0.4 if s["reloading"] > 0.0 else 0.0)
 	n.rotation.z = recoil * 0.05 * (1.0 if _shots_in_burst % 2 == 0 else -1.0)
+	(s["hands"] as ViewmodelHands).animate_reload(1.0 - float(s["reloading"]) / (float(d["reload"]) * reload_mul), s["reloading"] > 0.0)
+	var bounds: AABB = s["bounds"]
+	var muzzle := n.transform * Vector3(bounds.get_center().x, bounds.end.y - 0.015, bounds.position.z - 0.02)
+	flash.position = muzzle
+	flash_mesh.position = muzzle
 	flash.light_energy *= exp(-36.0 * delta)
 	if flash.light_energy < 0.2:
 		flash.light_energy = 0.0

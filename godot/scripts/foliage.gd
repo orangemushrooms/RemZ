@@ -45,9 +45,9 @@ uniform sampler2D gravel_rough : hint_default_white, filter_linear_mipmap_anisot
 uniform vec3 grass_tint : source_color = vec3(0.55, 0.62, 0.38);
 uniform vec3 leaf_tint : source_color = vec3(0.72, 0.64, 0.54);
 uniform vec3 gravel_tint : source_color = vec3(0.6, 0.57, 0.52);
-uniform float scale_grass = 0.3;
-uniform float scale_leaf = 0.28;
-uniform float scale_gravel = 0.33;
+uniform float scale_grass = 0.22;
+uniform float scale_leaf = 0.2;
+uniform float scale_gravel = 0.2;
 varying vec3 w;
 varying vec2 wuv;
 void vertex() {
@@ -75,7 +75,7 @@ void fragment() {
 	ww /= max(ww.r + ww.g + ww.b, 0.001);
 	ALBEDO = la * ww.r + ga * ww.g + ka * ww.b;
 	NORMAL_MAP = normalize(ln * ww.r + gn * ww.g + kn * ww.b);
-	NORMAL_MAP_DEPTH = 0.5;
+	NORMAL_MAP_DEPTH = 0.35;
 	ROUGHNESS = texture(leaf_rough, ul).r * ww.r + texture(grass_rough, ug).r * ww.g + texture(gravel_rough, uk).r * ww.b;
 }
 """
@@ -200,10 +200,10 @@ static func ground_leaves(count: int, sampler: Callable, rng: RandomNumberGenera
 static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> Node3D:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var h := 0.55
-	var w := 0.5
-	for k in 2:
-		var ang := k * PI / 2.0
+	var h := 0.45
+	var w := 0.7
+	for k in 3:
+		var ang := k * PI / 3.0
 		var dx := cos(ang) * w / 2.0
 		var dz := sin(ang) * w / 2.0
 		var base := st.get_primitive_type()

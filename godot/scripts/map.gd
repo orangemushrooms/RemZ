@@ -28,6 +28,7 @@ static var LANDMARK_OAK := Vector2.ZERO
 static var FENCE: Array = []
 static var TREES: Array = []               # [x, z, kind, scale, yaw_deg]
 static var SHRUBS: Array = []              # [x, z, scale, yaw_deg]
+static var BORDER_TREES: Array = []        # outside the extent, visual only
 static var PLAYER_START := Vector2.ZERO
 static var BOUNDS := Rect2()
 static var BARRICADES: Array = []
@@ -72,6 +73,7 @@ static func _ensure() -> void:
 		FENCE.append(pts)
 	TREES = _d["trees"]
 	SHRUBS = _d["shrubs"]
+	BORDER_TREES = _d.get("border_trees", [])
 	PLAYER_START = Vector2(_d["player_start"][0], _d["player_start"][1])
 	var b: Array = _d["bounds"]
 	BOUNDS = Rect2(b[0], b[1], b[2], b[3])

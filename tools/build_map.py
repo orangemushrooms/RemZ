@@ -40,7 +40,26 @@ ROADS = [
      "pts": [[7, 61], [8, 70]]},
     {"name": "Fussweg Nord", "surface": "dirt", "width": 1.6,
      "pts": [[-73, -152], [-66, -154], [-47, -168], [-20, -176]]},
+    {"name": "Feldweg Ost", "surface": "gravel", "width": 3.0,
+     "pts": [[124, 21], [140, 17], [160, 12]]},
 ]
+def smooth(pts, step=3.0):
+    """Catmull-Rom resampling so the ribbons and road beds have no visible corners"""
+    if len(pts) < 3:
+        return pts
+    P = [pts[0]] + pts + [pts[-1]]
+    out = []
+    for i in range(1, len(P) - 2):
+        p0, p1, p2, p3 = (np.array(P[k], float) for k in (i - 1, i, i + 1, i + 2))
+        n = max(2, int(np.linalg.norm(p2 - p1) / step))
+        for k in range(n):
+            t = k / n
+            q = 0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t * t + (-p0 + 3 * p1 - 3 * p2 + p3) * t ** 3)
+            out.append([round(float(q[0]), 2), round(float(q[1]), 2)])
+    out.append(list(pts[-1]))
+    return out
+for _r in ROADS:
+    _r["pts"] = smooth(_r["pts"])
 # gravel clearing around the fire, the aprons of both huts
 # Kiesplatz: fire plaza north-west of the Waldhütte (photos 13, 14, 15, 20), the track between the huts, both aprons
 CLEARING = [[-12, -22], [-4, -22], [4, -22], [10, -19], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-11, -12]]
@@ -200,7 +219,7 @@ asphalt = np.zeros((H, W), np.float32)
 for r in ROADS:
     d = line_dist(r["pts"])
     road_d = np.minimum(road_d, d - r["width"] / 2)
-    wgt = np.clip(1.0 - (d - r["width"] / 2) / 0.8, 0, 1)
+    wgt = np.clip(1.0 - (d - r["width"] / 2 + 0.5) / 0.6, 0, 1)   # stays under the ribbon
     if r["surface"] == "asphalt":
         asphalt = np.maximum(asphalt, wgt)
     elif r["surface"] == "gravel":
@@ -269,7 +288,16 @@ for k in rng.choice(len(ej), size=min(1400, len(ej)), replace=False):
     x, z = ei[k] + X0 + rng.uniform(-0.5, 0.5), ej[k] + Z0 + rng.uniform(-0.5, 0.5)
     if road_d[int(z - Z0), int(x - X0)] > 1.2 and not cm[int(z - Z0), int(x - X0)]:
         shrubs.append([round(x, 1), round(z, 1), round(rng.uniform(0.7, 1.4), 2), int(rng.integers(0, 360))])
-print("trees", len(trees), "shrubs", len(shrubs), "forest cells", int(forest.sum()))
+# dense border forest outside the playable extent so no map edge is ever visible (no collision needed)
+border = []
+for z in np.arange(Z0 - 90, Z1 + 90, 6.0):
+    for x in np.arange(X0 - 90, X1 + 90, 6.0):
+        if X0 + 3 < x < X1 - 3 and Z0 + 3 < z < Z1 - 3:
+            continue
+        px_, pz_ = x + rng.uniform(-2.5, 2.5), z + rng.uniform(-2.5, 2.5)
+        kind = "spruce" if rng.random() < 0.35 else "beech"
+        border.append([round(float(px_), 1), round(float(pz_), 1), kind, round(float(rng.uniform(0.9, 1.3)), 2), int(rng.integers(0, 360))])
+print("trees", len(trees), "shrubs", len(shrubs), "border", len(border), "forest cells", int(forest.sum()))
 
 # ------------------------------------------------------------------ 4. write
 open(os.path.join(OUT, "heightmap.f32"), "wb").write(h.astype("<f4").tobytes())
@@ -282,7 +310,7 @@ data = {
     "fire": FIRE, "benches": BENCHES, "table": TABLE, "fountain": FOUNTAIN, "bin": BIN, "signpost": SIGNPOST,
     "log_seat": LOG_SEAT, "landmark_oak": LANDMARK_OAK, "fence": FENCE,
     "spawns": SPAWNS, "barricades": BARRICADES,
-    "trees": trees, "shrubs": shrubs,
+    "trees": trees, "shrubs": shrubs, "border_trees": border,
 }
 json.dump(data, open(os.path.join(OUT, "map.json"), "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 

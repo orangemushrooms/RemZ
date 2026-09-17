@@ -80,6 +80,8 @@ func _physics_process(delta: float) -> void:
 	velocity.z = lerpf(velocity.z, target.z, minf(1.0, delta * 12.0))
 	if not is_on_floor():
 		velocity.y -= _gravity * delta
+	elif Input.is_key_pressed(KEY_SPACE):
+		velocity.y = 6.5
 	else:
 		velocity.y = -1.0
 	move_and_slide()

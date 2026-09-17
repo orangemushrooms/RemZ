@@ -46,6 +46,13 @@ func setup(p: Player, k: String, scene: PackedScene, seed_v: int) -> void:
 		body.material_override = mat
 		body.position.y = 0.9
 		model.add_child(body)
+	_base_y = model.position.y
+
+func _ready() -> void:
+	# setup runs before the animal is attached and positioned in the level.
+	call_deferred("_set_graze_origin")
+
+func _set_graze_origin() -> void:
 	_graze_target = global_position
 
 func _physics_process(delta: float) -> void:
@@ -81,17 +88,22 @@ func _physics_process(delta: float) -> void:
 		if get_slide_collision_count() > 0:
 			flee_dir = flee_dir.rotated(Vector3.UP, _rng.randf_range(-1.2, 1.2)).normalized()
 		var sp := speed * (1.2 if kind == "stag" else 1.0)
-		velocity.x = flee_dir.x * sp
-		velocity.z = flee_dir.z * sp
-		rotation.y = lerp_angle(rotation.y, atan2(-flee_dir.x, -flee_dir.z), delta * 6.0)
-		# gallop: body bounce and pitch
-		var g := sin(_t * 11.0)
-		model.position.y = _base_y + absf(g) * 0.25
-		model.rotation.x = g * 0.18
+		# accelerate smoothly, lean into turns, gentle stride bob (no hopping)
+		var want := Vector3(flee_dir.x * sp, 0, flee_dir.z * sp)
+		velocity.x = lerpf(velocity.x, want.x, minf(1.0, delta * 3.0))
+		velocity.z = lerpf(velocity.z, want.z, minf(1.0, delta * 3.0))
+		var target_yaw := atan2(-flee_dir.x, -flee_dir.z)
+		var turn := wrapf(target_yaw - rotation.y, -PI, PI)
+		rotation.y = lerp_angle(rotation.y, target_yaw, delta * 2.5)
+		model.rotation.z = lerpf(model.rotation.z, clampf(-turn * 0.25, -0.2, 0.2), delta * 4.0)
+		var stride := Vector2(velocity.x, velocity.z).length() / sp
+		model.position.y = _base_y + absf(sin(_t * 6.0)) * 0.05 * stride
+		model.rotation.x = sin(_t * 6.0) * 0.03 * stride
 		if flee_t <= 0.0 and dist > 55.0:
 			state = "graze"
 			model.position.y = _base_y
 			model.rotation.x = 0.0
+			model.rotation.z = 0.0
 			_graze_target = global_position
 	if not is_on_floor():
 		velocity.y -= 20.0 * delta
