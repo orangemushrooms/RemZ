@@ -4,9 +4,9 @@
 class_name Trees
 
 const SPECIES := {
-	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 40, "card": 4.8, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.33, 0.31, 0.28), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
-	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 40, "card": 5.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.36, 0.32, 0.28), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
-	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 36, "card": 3.4, "bark": ["ph_bark_oak"], "tint": Color(0.38, 0.28, 0.2), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
+	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 40, "card": 4.8, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.42, 0.4, 0.37), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
+	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 40, "card": 5.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.45, 0.4, 0.35), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
+	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 36, "card": 3.4, "bark": ["ph_bark_oak"], "tint": Color(0.45, 0.34, 0.26), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
 }
 const VARIANTS := 5
 const CELL := 48.0
@@ -124,11 +124,39 @@ static func _trunk_mesh(kind: String, rng: RandomNumberGenerator) -> ArrayMesh:
 	st.generate_tangents()
 	return st.commit()
 
-static func _bark_material(tex: String, tint: Color) -> StandardMaterial3D:
-	var m := Foliage.pbr(tex, 1.0, tint)
-	m.uv1_scale = Vector3.ONE
-	m.roughness = 1.0
-	m.cull_mode = BaseMaterial3D.CULL_DISABLED   # trunks must never look hollow
+# Bark: photo albedo / normal / roughness with a forest-shade term. There is no GI, so without it the low
+# sun turns every trunk in the forest interior into a white pillar; AO darkens ambient and direct light.
+const BARK_SHADER := """
+shader_type spatial;
+render_mode cull_disabled;
+uniform sampler2D albedo_tex : source_color, filter_linear_mipmap_anisotropic;
+uniform sampler2D normal_tex : hint_normal, filter_linear_mipmap_anisotropic;
+uniform sampler2D rough_tex : hint_default_white, filter_linear_mipmap_anisotropic;
+uniform vec3 tint : source_color = vec3(1.0);
+uniform float shade = 0.4;
+void fragment() {
+	ALBEDO = texture(albedo_tex, UV).rgb * tint;
+	NORMAL_MAP = texture(normal_tex, UV).rgb;
+	NORMAL_MAP_DEPTH = 1.0;
+	ROUGHNESS = max(texture(rough_tex, UV).r, 0.85);
+	SPECULAR = 0.1;
+	AO = shade;
+	AO_LIGHT_AFFECT = 0.85;
+}
+"""
+static var _bark_shader: Shader
+
+static func _bark_material(tex: String, tint: Color, shade: float = 0.4) -> ShaderMaterial:
+	if not _bark_shader:
+		_bark_shader = Shader.new()
+		_bark_shader.code = BARK_SHADER
+	var m := ShaderMaterial.new()
+	m.shader = _bark_shader
+	m.set_shader_parameter("albedo_tex", Foliage._tex(Foliage.TEX + tex + "_albedo.jpg"))
+	m.set_shader_parameter("normal_tex", Foliage._tex(Foliage.TEX + tex + "_normal.jpg"))
+	m.set_shader_parameter("rough_tex", Foliage._tex(Foliage.TEX + tex + "_rough.jpg"))
+	m.set_shader_parameter("tint", Vector3(tint.r, tint.g, tint.b))
+	m.set_shader_parameter("shade", shade)
 	return m
 
 # ---------------------------------------------------------------- crowns
@@ -308,7 +336,7 @@ static func hero(parent: Node3D, kind: String, x: float, z: float, scale: float,
 	r2.seed = 991
 	var mi := MeshInstance3D.new()
 	mi.mesh = _trunk_mesh(kind, r2)
-	mi.material_override = _bark_material(SPECIES[kind]["bark"][0], SPECIES[kind]["tint"])
+	mi.material_override = _bark_material(SPECIES[kind]["bark"][0], SPECIES[kind]["tint"], 0.7)
 	mi.position = pos
 	mi.rotation.y = yaw
 	mi.scale = Vector3.ONE * scale

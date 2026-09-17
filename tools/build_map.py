@@ -62,7 +62,7 @@ for _r in ROADS:
     _r["pts"] = smooth(_r["pts"])
 # gravel clearing around the fire, the aprons of both huts
 # Kiesplatz: fire plaza north-west of the Waldhütte (photos 13, 14, 15, 20), the track between the huts, both aprons
-CLEARING = [[-12, -22], [-4, -22], [4, -22], [10, -19], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-11, -12]]
+CLEARING = [[-11, -16], [-4, -17], [3, -17], [9, -15], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-11, -12]]
 MEADOW_FORCE = [[-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 160], [-70, 160]]
 # Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
 # upper door, east side buried in the slope (photos 14, 17, 19)
@@ -73,9 +73,9 @@ HOLZLAGER = {"pos": [-2.5, 27.0], "size": [7.9, 14.6], "yaw_deg": -23.0, "base_h
 FIRE = [4.0, -7.0]
 BENCHES = [[4.0, -4.2, 0.0], [4.0, -9.8, 0.0], [1.2, -7.0, 90.0], [6.8, -7.0, 90.0]]   # x, z, yaw (length axis)
 TABLE = [-0.5, -8.5, 10.0]          # right next to the west bench (photo 20)
-FOUNTAIN = [-8.0, -11.0, 80.0]      # west of the table at the forest edge (photos 15, 21)
-BIN = [-4.0, -19.0]
-SIGNPOST = [-6.5, -20.5]
+FOUNTAIN = [-12.0, -6.0, 80.0]      # west of the table at the forest edge (photos 15, 21), clear of the track
+BIN = [-3.5, -18.5]
+SIGNPOST = [-4.5, -21.5]
 LOG_SEAT = [-10.0, -4.0, 75.0]
 LANDMARK_OAK = [66.0, 34.0]
 BIG_TREES = [[1.5, 0.8, "beech", 1.35], [-13.5, -18.0, "beech", 1.25], [14.5, -12.0, "beech", 1.2], [-9.0, 6.0, "beech", 1.15],
@@ -246,9 +246,20 @@ dark = mean_rgb.mean(axis=2)
 big_set = {(round(t[0]), round(t[1])) for t in BIG_TREES}
 for x, z, kind, s in BIG_TREES:
     trees.append([round(x, 1), round(z, 1), kind, round(s, 2), int(rng.integers(0, 360))])
+WEG_HUETTE = ROADS[1]["pts"]
+def meadow_side_of_weg(x, z):
+    """south (meadow side) of the Weg zur Huette and within 30 m of it: the pasture must stay open"""
+    pts = WEG_HUETTE
+    for a, b in zip(pts, pts[1:]):
+        if min(a[0], b[0]) <= x <= max(a[0], b[0]):
+            rz = a[1] + (b[1] - a[1]) * (x - a[0]) / (b[0] - a[0])
+            return z > rz - 0.5 and z - rz < 30
+    return False
 def tree_ok(x, z):
     i, j = int(x - X0), int(z - Z0)
     if not (0 <= i < W and 0 <= j < H) or not forest[j, i]:
+        return False
+    if meadow_side_of_weg(x, z):
         return False
     if road_d[j, i] < 1.6 or cm[j, i]:
         return False
