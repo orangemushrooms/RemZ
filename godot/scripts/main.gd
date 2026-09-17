@@ -11,6 +11,7 @@ var ambience: Ambience
 var music: Music
 var zombies_root: Node3D
 var barricades: Array = []
+var loots: Array = []
 var nav_region: NavigationRegion3D
 var fire_light: OmniLight3D
 var started := false
@@ -471,6 +472,84 @@ func _deep_forest(x: float, z: float) -> bool:
 	return true
 
 # ---------------------------------------------------------------- buildings
+# walls of a room (local x/z, floor at y0, height h) with one opening: side "w"/"e"/"n"/"s", along = offset along the
+# wall, width, bottom, top. Every piece gets a collider so the room is enterable.
+func _walls(root: Node3D, size: Vector2, y0: float, h: float, thick: float, mat: Material, opening: Dictionary) -> void:
+	var hx := size.x / 2.0
+	var hz := size.y / 2.0
+	for side in ["w", "e", "n", "s"]:
+		var horizontal: bool = side == "n" or side == "s"
+		var length: float = size.x if horizontal else size.y
+		var pieces: Array = [[-length / 2.0, length / 2.0, y0, y0 + h]]
+		if opening.get("side", "") == side:
+			var a: float = opening["along"] - opening["width"] / 2.0
+			var b: float = opening["along"] + opening["width"] / 2.0
+			pieces = [[-length / 2.0, a, y0, y0 + h], [b, length / 2.0, y0, y0 + h],
+				[a, b, y0, y0 + opening["bottom"]], [a, b, y0 + opening["top"], y0 + h]]
+		for pc in pieces:
+			var len: float = pc[1] - pc[0]
+			var hh: float = pc[3] - pc[2]
+			if len <= 0.01 or hh <= 0.01:
+				continue
+			var mid: float = (pc[0] + pc[1]) / 2.0
+			var cy: float = (pc[2] + pc[3]) / 2.0
+			var box_size: Vector3
+			var pos: Vector3
+			match side:
+				"w": box_size = Vector3(thick, hh, len); pos = Vector3(-hx + thick / 2.0, cy, mid)
+				"e": box_size = Vector3(thick, hh, len); pos = Vector3(hx - thick / 2.0, cy, mid)
+				"n": box_size = Vector3(len, hh, thick); pos = Vector3(mid, cy, -hz + thick / 2.0)
+				_: box_size = Vector3(len, hh, thick); pos = Vector3(mid, cy, hz - thick / 2.0)
+			_box(root, box_size, pos, mat)
+			var body := StaticBody3D.new()
+			body.collision_layer = 1
+			var cs := CollisionShape3D.new()
+			var bs := BoxShape3D.new()
+			bs.size = box_size
+			cs.shape = bs
+			cs.position = pos
+			body.add_child(cs)
+			root.add_child(body)
+	root.add_to_group("navsource")
+
+func _slab(root: Node3D, size: Vector3, pos: Vector3, mat: Material) -> void:
+	_box(root, size, pos, mat)
+	var body := StaticBody3D.new()
+	body.collision_layer = 1
+	var cs := CollisionShape3D.new()
+	var bs := BoxShape3D.new()
+	bs.size = size
+	cs.shape = bs
+	cs.position = pos
+	body.add_child(cs)
+	root.add_child(body)
+
+func _loot(root: Node3D, kind: String, id: String, label: String, local_pos: Vector3, model: String, height: float, yaw: float = 0.0) -> void:
+	var l := Loot.new()
+	l.setup(kind, id, label)
+	root.add_child(l)
+	l.position = local_pos
+	l.rotation.y = yaw
+	var scene := _scene(model)
+	if scene:
+		var m: Node3D = scene.instantiate()
+		l.add_child(m)
+		Weapons._fit_height(m, height)
+		m.position.y += height / 2.0
+	else:
+		_box(l, Vector3(0.6, 0.35, 0.4), Vector3(0, 0.18, 0), Foliage.pbr("planks", 0.8, Color(0.5, 0.42, 0.3)))
+	if kind == "ammo":
+		# olive ammunition crate with a lid
+		_box(l, Vector3(0.62, 0.32, 0.4), Vector3(0, 0.16, 0), _plain(Color(0.28, 0.32, 0.2), 0.8))
+		_box(l, Vector3(0.66, 0.05, 0.44), Vector3(0, 0.34, 0), _plain(Color(0.22, 0.26, 0.16), 0.8))
+	var light := OmniLight3D.new()
+	light.light_color = Color(1.0, 0.85, 0.6)
+	light.light_energy = 0.6
+	light.omni_range = 2.5
+	light.position = Vector3(0, 0.6, 0)
+	l.add_child(light)
+	loots.append(l)
+
 func _hip_roof(parent: Node3D, size: Vector2, y: float, height: float, overhang: float, mat: Material, gable: bool = false) -> void:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -535,14 +614,31 @@ func _waldhuette() -> Node3D:
 	var roof := _plain(Color(0.16, 0.16, 0.17), 0.85)
 	var hx := size.x / 2.0
 	var hz := size.y / 2.0
-	_box(root, Vector3(size.x, base_h + 0.4, size.y), Vector3(0, (base_h + 0.4) / 2.0 - 0.4, 0), concrete)
-	_box(root, Vector3(size.x + 0.16, wall_h, size.y + 0.16), Vector3(0, base_h + wall_h / 2.0, 0), wood)
+	# garage storey: concrete walls with the door opening in the west face (north end), enterable (photo 14)
+	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.3, concrete, { "side": "w", "along": -hz + 1.9, "width": 2.6, "bottom": 0.0, "top": 2.1 })
+	_slab(root, Vector3(size.x, 0.1, size.y), Vector3(0, -0.05, 0), _mat("ph_concrete", 0.6, Color(0.7, 0.7, 0.68)))
+	_slab(root, Vector3(size.x, 0.25, size.y), Vector3(0, base_h + 0.125, 0), _plain(Color(0.35, 0.25, 0.15), 0.9))
+	_box(root, Vector3(size.x + 0.16, wall_h, size.y + 0.16), Vector3(0, base_h + 0.25 + wall_h / 2.0 - 0.125, 0), wood)
+	# inside: workbench with an ammunition crate, shotgun and MP5 on the wall
+	_box(root, Vector3(2.2, 0.08, 0.7), Vector3(hx - 1.2, 0.85, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.5, 0.42, 0.3)))
+	for lx in [hx - 2.1, hx - 0.3]:
+		_box(root, Vector3(0.1, 0.85, 0.6), Vector3(lx, 0.42, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
+	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 1.2, 0.9, hz - 0.6), "", 0.3)
+	_loot(root, "weapon", "shotgun", "Schrotflinte", Vector3(hx - 0.35, 1.5, 0.5), "rifle", 0.25, PI / 2.0)
+	_loot(root, "weapon", "smg", "MP5", Vector3(-0.5, 1.4, -hz + 0.35), "smg", 0.22, 0.0)
+	_loot(root, "ammo", "", "Munitionskiste", Vector3(-hx + 0.6, 0.0, hz - 0.5), "", 0.3)
+	var inner := OmniLight3D.new()
+	inner.light_color = Color(1.0, 0.8, 0.55)
+	inner.light_energy = 1.2
+	inner.omni_range = 6.0
+	inner.position = Vector3(0, base_h - 0.3, 0)
+	root.add_child(inner)
 	_box(root, Vector3(size.x + 0.9, 0.14, size.y + 0.9), Vector3(0, base_h + wall_h + 0.07, 0), dark_wood)
 	_hip_roof(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, roof)
 	_box(root, Vector3(0.5, 1.6, 0.5), Vector3(hx * 0.4, base_h + wall_h + 1.4, -0.6), _plain(Color(0.35, 0.33, 0.3)))
-	# garage door: west face, north end (photo 14)
-	_box(root, Vector3(0.08, 2.05, 2.6), Vector3(-hx - 0.02, 1.05, -hz + 1.9), dark_wood)
-	_box(root, Vector3(0.1, 2.05, 0.04), Vector3(-hx - 0.04, 1.05, -hz + 1.9), _plain(Color(0.1, 0.06, 0.04)))
+	# garage door stands open: one leaf folded against the wall outside, the other inside
+	_box(root, Vector3(0.08, 2.05, 1.3), Vector3(-hx - 0.06, 1.05, -hz + 0.5), dark_wood)
+	_box(root, Vector3(0.08, 2.05, 1.3), Vector3(-hx + 0.34, 1.05, -hz + 3.85), dark_wood)
 	# small double door in the base: north face, west end, under the start of the stair (photo 17)
 	_box(root, Vector3(1.5, 2.0, 0.08), Vector3(-hx + 1.4, 1.0, -hz - 0.02), dark_wood)
 	# closed shutters: north (2), west (1), east (1)
@@ -578,8 +674,8 @@ func _waldhuette() -> Node3D:
 	rl.position = Vector3(x_start + run / 2.0, base_h / 2.0 + 1.0, stair_z - 0.45)
 	rl.rotation.z = atan2(base_h, run)
 	root.add_child(rl)
-	# collision: building block, walkable ramp over the stair, landing
-	_box_collider(root, Vector3(size.x + 0.2, base_h + wall_h, size.y + 0.2), Vector3(0, 0, 0))
+	# collision: upper storey block (the garage below has its own walls), walkable ramp over the stair, landing
+	_box_collider(root, Vector3(size.x + 0.2, wall_h + 0.3, size.y + 0.2), Vector3(0, base_h, 0))
 	var ramp := StaticBody3D.new()
 	ramp.collision_layer = 1
 	var rcs := CollisionShape3D.new()
@@ -622,15 +718,41 @@ func _holzlager() -> Node3D:
 	metal.roughness = 0.6
 	var roof := _plain(Color(0.55, 0.55, 0.56), 0.5, 0.3)
 	var dark_wood := _plain(Color(0.25, 0.13, 0.08), 0.75)
-	_box(root, Vector3(size.x, base_h + 0.4, size.y), Vector3(0, (base_h + 0.4) / 2.0 - 0.4, 0), concrete)
-	_box(root, Vector3(size.x + 0.1, wall_h, size.y + 0.1), Vector3(0, base_h + wall_h / 2.0, 0), metal)
+	var hx := size.x / 2.0
+	var hz := size.y / 2.0
+	# concrete base and sheet-metal walls as real walls; small back window in the west face (the way in)
+	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.25, concrete, { "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.0, "top": 0.0 })
+	_walls(root, Vector2(size.x + 0.1, size.y + 0.1), base_h, wall_h, 0.12, metal, { "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.3, "top": 2.4 })
+	var pane := Breakable.new()
+	pane.setup(Vector2(1.2, 1.0))
+	root.add_child(pane)
+	pane.position = Vector3(-hx - 0.02, base_h + 0.85, 2.0)
+	pane.rotation.y = PI / 2.0
+	_slab(root, Vector3(size.x, 0.1, size.y), Vector3(0, -0.05, 0), _mat("ph_concrete", 0.6, Color(0.6, 0.6, 0.58)))
+	_slab(root, Vector3(size.x, 0.1, size.y), Vector3(0, base_h + wall_h, 0), _plain(Color(0.2, 0.2, 0.2)))
+	# crates as steps outside and inside the window
+	_slab(root, Vector3(0.9, 0.55, 0.9), Vector3(-hx - 0.6, 0.275, 2.0), Foliage.pbr("planks", 0.8, Color(0.45, 0.38, 0.28)))
+	_slab(root, Vector3(0.9, 0.5, 0.9), Vector3(-hx + 0.75, 0.25 + base_h, 2.0), Foliage.pbr("planks", 0.8, Color(0.45, 0.38, 0.28)))
 	_hip_roof(root, size, base_h + wall_h, b["roof_h"], 0.6, roof, true)
+	# inside: the good weapons on a rack, ammunition, firewood
+	_box(root, Vector3(2.6, 1.6, 0.08), Vector3(0, base_h + 1.4, hz - 0.2), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
+	_loot(root, "weapon", "ak47", "AK-47", Vector3(-0.7, base_h + 1.4, hz - 0.3), "ak47", 0.28, 0.0)
+	_loot(root, "weapon", "revolver", "Revolver", Vector3(0.7, base_h + 1.4, hz - 0.3), "revolver", 0.16, 0.0)
+	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 0.9, base_h, -hz + 1.2), "", 0.3)
+	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 0.9, base_h, -hz + 2.2), "", 0.3)
+	for k in 3:
+		_box(root, Vector3(0.9, 1.1, 2.2), Vector3(-hx + 0.6, base_h + 0.55, -hz + 2.0 + k * 2.5), _mat("ph_bark_beech2", 0.5, Color(0.7, 0.6, 0.5), true))
+	var inner := OmniLight3D.new()
+	inner.light_color = Color(0.9, 0.85, 0.7)
+	inner.light_energy = 1.0
+	inner.omni_range = 8.0
+	inner.position = Vector3(0, base_h + wall_h - 0.4, 0)
+	root.add_child(inner)
 	# big double door and a small door on the east side facing the gravel (photo 12)
 	_box(root, Vector3(0.08, 3.0, 3.6), Vector3(size.x / 2.0 + 0.07, base_h + 1.5, 2.2), dark_wood)
 	_box(root, Vector3(0.08, 2.1, 0.9), Vector3(size.x / 2.0 + 0.07, base_h + 1.05, -2.8), dark_wood)
 	# notice board
 	_box(root, Vector3(0.05, 0.7, 1.0), Vector3(size.x / 2.0 + 0.08, base_h + 2.1, -0.6), _plain(Color(0.6, 0.62, 0.55)))
-	_box_collider(root, Vector3(size.x + 0.2, base_h + wall_h, size.y + 0.2))
 	return root
 
 func _build_buildings() -> void:
@@ -1015,10 +1137,23 @@ func _process(delta: float) -> void:
 				nd = d
 				near = b
 		near_bar = near
-		hud.set_prompt(near.prompt_text() if near else "")
+		var loot = null
+		if not near:
+			var ld := 2.4
+			for l in loots:
+				if not is_instance_valid(l) or l.taken:
+					continue
+				var d: float = l.global_position.distance_to(player.global_position + Vector3(0, 0.8, 0))
+				if d < ld:
+					ld = d
+					loot = l
+		hud.set_prompt(near.prompt_text() if near else (loot.prompt_text() if loot else ""))
 		if near and Input.is_action_just_pressed("interact"):
 			near.interact(player)
 			hud.set_prompt(near.prompt_text())
+		elif loot and Input.is_action_just_pressed("interact"):
+			loot.take(weapons, hud)
+			hud.set_prompt("")
 	if _autotest and started:
 		_autotest_step(delta)
 

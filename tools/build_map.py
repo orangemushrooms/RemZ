@@ -163,15 +163,15 @@ px, pz = ii + X0 - cx, jj + Z0 - cz
 lx = px * math.cos(a) + pz * math.sin(a); lz = -px * math.sin(a) + pz * math.cos(a)
 upper = base_level + hb["base_h"]
 # terrace region: behind the east face within a fan, blending out over 9 m (the slope rises east anyway)
-tz = lx - (hb["size"][0] / 2 - 1.4)                  # metres east of the terrace edge
+tz = lx - hb["size"][0] / 2                          # metres east of the east face
 side = np.abs(lz) - hb["size"][1] / 2                # metres outside the north/south faces
 t_in = np.clip(tz / 1.0, 0, 1) * np.clip(1.0 - np.maximum(side, 0) / 3.0, 0, 1)
 fade = np.clip(1.0 - np.maximum(tz - 3.0, 0) / 9.0, 0, 1) * np.clip(1.0 - np.maximum(side - 3.0, 0) / 6.0, 0, 1)
 target = np.maximum(h, upper - 0.05)
 h = h * (1 - t_in * fade) + target * (t_in * fade)
 # keep the footprint itself flat at the upper level (the hut model closes the gap)
-inside = (np.abs(lx) < hb["size"][0] / 2 + 0.3) & (np.abs(lz) < hb["size"][1] / 2 + 0.3)
-h = np.where(inside & (lx > -0.5), np.maximum(h, upper - 0.05), h)
+inside = (np.abs(lx) < hb["size"][0] / 2 + 0.6) & (np.abs(lz) < hb["size"][1] / 2 + 0.6)
+h = np.where(inside, base_level, h)     # garage floor, the hut is walkable inside
 # Holzlager stands on a flat gravel pad
 hl = HOLZLAGER
 m = poly_mask(rect_pts(hl, 2.5))

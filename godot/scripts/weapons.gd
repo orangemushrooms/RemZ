@@ -4,6 +4,7 @@ class_name Weapons
 extends Node3D
 
 const Hands = preload("res://scripts/viewmodel_hands.gd")
+const Viewmodel = preload("res://scripts/viewmodel_viewport.gd")
 
 const DEFS := {
 	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
@@ -22,6 +23,7 @@ const ORDER := ["pistol", "revolver", "smg", "ak47", "shotgun"]
 var player: Player
 var hud: Hud
 var camera: Camera3D
+var viewmodel: ViewmodelViewport
 var state := {}
 var current := "pistol"
 var unlocked := { "pistol": true, "revolver": false, "smg": false, "ak47": false, "shotgun": false }
@@ -51,6 +53,8 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	hud = h
 	camera = p.camera
 	zombies_root = zr
+	viewmodel = Viewmodel.new()
+	add_child(viewmodel)
 	for id in DEFS:
 		var d: Dictionary = DEFS[id]
 		var holder := Node3D.new()
@@ -77,7 +81,7 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 			box.material_override = mat
 			holder.add_child(box)
 		holder.visible = false
-		camera.add_child(holder)
+		viewmodel.camera.add_child(holder)
 		var bounds := Hands.weapon_bounds(holder)
 		var hands := Hands.build(id, bounds)
 		holder.add_child(hands)
@@ -95,7 +99,7 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	view_light.shadow_enabled = false
 	view_light.rotation_degrees = Vector3(-18, -20, 0)
 	view_light.sky_mode = DirectionalLight3D.SKY_MODE_LIGHT_ONLY
-	camera.add_child(view_light)
+	viewmodel.camera.add_child(view_light)
 	flash = OmniLight3D.new()
 	flash.light_color = Color(1.0, 0.75, 0.45)
 	flash.light_energy = 0.0
@@ -103,6 +107,7 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	flash.position = Vector3(0.2, -0.15, -0.9)
 	camera.add_child(flash)
 	flash_mesh = MeshInstance3D.new()
+	flash_mesh.layers = 2
 	var q := QuadMesh.new()
 	q.size = Vector2(0.28, 0.28)
 	flash_mesh.mesh = q
@@ -116,7 +121,7 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	flash_mesh.material_override = fm
 	flash_mesh.visible = false
 	flash_mesh.position = Vector3(0.24, -0.16, -0.95)
-	camera.add_child(flash_mesh)
+	viewmodel.camera.add_child(flash_mesh)
 	var gp := "res://assets/models/grenade.glb"
 	_grenade_scene = load(gp) if ResourceLoader.exists(gp) else null
 	set_weapon("pistol")
@@ -220,6 +225,8 @@ func try_fire() -> void:
 		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * float(d["range"]), 1 | 2 | 8)
 		q.exclude = [player.get_rid()]
 		var hit := space.intersect_ray(q)
+		if hit and hit.collider is Breakable:
+			(hit.collider as Breakable).shatter()
 		if hit and hit.collider is Zombie:
 			var z: Zombie = hit.collider
 			var headshot: bool = hit.position.y > z.global_position.y + z.height * 0.78
