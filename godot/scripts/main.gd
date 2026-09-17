@@ -1285,6 +1285,7 @@ func _on_start() -> void:
 				music.play("night")
 		else:
 			waves.phase = "intro"
+			music.stop_all()   # only the intro track plays during the opening, the menu music fades out
 			intro.begin()
 	started = true
 
