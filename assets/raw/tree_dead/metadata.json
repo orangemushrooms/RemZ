@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, dead bare tree, twisted trunk, crooked leafless branches, spooky, single tree, no ground",
+  "folder": "tree_dead",
+  "root_task_id": "01a0aefe-a5ab-77fe-b64a-4ab288311f01",
+  "created_at": "2026-09-17T12:53:40.668786",
+  "updated_at": "2026-09-17T12:53:40.668816",
+  "tasks": [
+    {
+      "task_id": "01a0aefe-a5ab-77fe-b64a-4ab288311f01",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T12:53:40.668814"
+    }
+  ]
+}

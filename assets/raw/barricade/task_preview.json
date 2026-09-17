@@ -1,0 +1,31 @@
+{
+  "id": "01a0af02-fed9-753f-a529-27dad85d3a11",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3683548626,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "low poly game asset, improvised wooden barricade made of planks and boards nailed crosswise, barbed wire, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789642606540,
+  "progress": 100,
+  "started_at": 1789642606545,
+  "finished_at": 1789642709304,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af02-fed9-753f-a529-27dad85d3a11/output/model.glb?Expires=4943203200&Signature=K3AcEV5C8-H4Ttks4NQY2HJ5UF-36e-qheI1ykqvuHdr4EBG6UtNzrhSZyWDCgdaz9I0p3GwK82GhDgr2Ro4lCN5sDUhZgDwrMCa~Su6aSA6mm3z9TMpSgh3Hg3IY8BAgppCKrGTzQbj9rqA7KWyAlXvlodXlSNVFiM~mdmUiqaqSAITjIrai6Kv4vkxwrurNqnkry9kEjYwosSQA5RcEmuMnyhs4FShfnaiRn~I-LHRN46rdC7Jpetu0iIvlWfMZrkHlyBUXJQn-U8vePXa8S9lTI9rafu8~v5foltBvJEwGGjdvjCekVi8ZHWMmjJozvuu1KKBjjjPLEhcNnX54Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af02-fed9-753f-a529-27dad85d3a11/output/model.fbx?Expires=4943203200&Signature=bzBdezI5x1YvnQwQPEnNXJM0jXe992lOUQWkxGAgAZ4oqFV88RX3T6m6tGrFB4~TyUXxE4so8EbTbw~9HcTN32jFSNwth57bF5XvWj~~pjUNmWVsCcryGKjwPhUMd0nRbc5VDSKXpW~-F41hDdnVFtUUxyaFzxNKbWI5wDM5VlC8ZmiXzVGVmTu5w8FUG6J-GX~R78tYXoTeY2edVYMq5BUCFc~jQP8TS3VT2VoU2wq2VGHNMLgOjfPzvRM3zmXWZJODjwKs0m-sxSXp5fzXH0ceg440RFuArtDwZm-i8m1AtjUD3wiqSqFc7ejV4vRH9RmJzxfvLcIw1FoLVg6GSg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af02-fed9-753f-a529-27dad85d3a11/output/model.usdz?Expires=4943203200&Signature=hM9YUAi2Wv2rC1K3wqrasIIWBYAJoBhPOJX3h1IgeAdnYEClaes8qv0jEZaJkYJ1zb1G7Zrdd~WbhPBUei1nMJaAAXQObGAg2CSeH7Rsd1nCQVvzJjFlLx5OY62M6kdIp6rjdvDZ-9icegpXlOrOFxV4LoLN5e2enPofJ2WthVfz~Nw~5AAyp~r3EK8ajswDp44-HxitAjfJSjPLw1juIqedWPRRIpwA4PNh-QjeRbmZkYqWq7G6GUVeBCu5yrOYTESSp2wMBiwUDfL4-~32vyqVwN0Y0zr~zNXwjxfNDR~zgGodxBhJlnOGcWbbyXoVfoPMNgC1oBdUYDh5EV-rcQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af02-fed9-753f-a529-27dad85d3a11/output/model.obj?Expires=4943203200&Signature=jFLNbimrxbmR5yXhp30deSZdrYWIS52-9mYU8XyY~0RCkvjCkb37bBcYm~jeqa8gvVpvCNQkEjlGCyKRx-0YE79Mb2mDaeid~OLBHt-QM5ZFHAqNQVDJOKNeZHg2HkIqzj~mZ0wU72CTPms6vzfu-0Q0MYs2myUR5oVqgQeyO1yVef2Zvk4R-BArm71J6LwMMCKnUU2pM~hvVbY9VdFGufUwOoGxA~uXOsS8KMhkg~FxYOU1EU1ycfL5j1rQfgcHkwsrQsXjDxcg1QXgeud27p46e4tGXytMBJjeuOqk0sgso3tRy1U3Y3WSNZSFJCy83MP0UB71Mu4OLJ1WLn1UGQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af02-fed9-753f-a529-27dad85d3a11/output/model.stl?Expires=4943203200&Signature=fCKYBuz4mU52whLZMzaj1GoiqR3XY3RnwjyijstYMdc6rboIvHMkh0qFtScm3nKyFeaYb1DF~pE2KTJhn284ox2E0U2yAWsexcdHz32lmSs6o4nfYEgrCqrMP9I7AySH0nLhJdHBsIJyIRxR2RnB2aPBdn5GVs24YeUu4~C50ZHmh7lu00vG3mRCnG12bQocBQi1VMJtWSVNRpaHXmn4vvWNSQOTGsjlYTRIE3e~bltbr5rFUseGu-3RtB8aMQXt8btUwACobqVh4s7lB8CenbMhbfHvJZwqIIiBdUQfDYB~BRhUxxb0rgToaefgfp57BLYt6VLQGv~~v28xPsv5Rg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af02-fed9-753f-a529-27dad85d3a11/output/preview.png?Expires=4943203200&Signature=k4FT27q14NHhTU3EDczTz-5DjSU-quKorB205~rL5lyq5pWmksKwatU5uK4yHFEyuQKkG6o-SlIFYzbFc4UQ43SXF4~oNDkqYRXKAvQv9YSScAR6PSnpkdgWFZu65hS47bMMyq~Ropbq5~~oiKMysKbOzfJX-9A90EtM0VRPEih3QpZ3PWmsXffVcUHK3V0js2XBxbxZvboYRdJpbNwd54V5leQ7QVwGgLfDQlv7igTF1FawnfAgQURlEZHFWWU6K-mtY8s2ZMumgiFByUkOLfL5r6X57jgO9ZbLlwAbaLuoAJUaE~v2RRZrXHWDEST~3O7OIDSDwAL0Hick8UngkQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

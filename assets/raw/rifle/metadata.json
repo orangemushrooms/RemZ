@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, pump action shotgun, wooden stock, first person shooter weapon, single object",
+  "folder": "rifle",
+  "root_task_id": "01a0af0f-ea48-770c-834c-d7b709bcd9af",
+  "created_at": "2026-09-17T13:12:46.782617",
+  "updated_at": "2026-09-17T13:12:46.782650",
+  "tasks": [
+    {
+      "task_id": "01a0af0f-ea48-770c-834c-d7b709bcd9af",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:12:46.782647"
+    }
+  ]
+}

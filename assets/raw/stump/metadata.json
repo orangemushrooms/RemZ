@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, cut tree stump with roots, single object, no ground",
+  "folder": "stump",
+  "root_task_id": "01a0aef9-2ba4-759a-9b75-ca845fb23eca",
+  "created_at": "2026-09-17T12:50:59.201626",
+  "updated_at": "2026-09-17T12:50:59.201653",
+  "tasks": [
+    {
+      "task_id": "01a0aef9-2ba4-759a-9b75-ca845fb23eca",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T12:50:59.201651"
+    }
+  ]
+}

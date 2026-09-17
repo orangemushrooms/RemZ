@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, improvised wooden barricade made of planks and boards nailed crosswise, barbed wire, single object, no ground",
+  "folder": "barricade",
+  "root_task_id": "01a0af04-d219-7247-a863-ff6786b3b70b",
+  "created_at": "2026-09-17T13:00:24.032991",
+  "updated_at": "2026-09-17T13:00:24.033010",
+  "tasks": [
+    {
+      "task_id": "01a0af04-d219-7247-a863-ff6786b3b70b",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:00:24.033008"
+    }
+  ]
+}

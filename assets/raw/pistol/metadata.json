@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, modern semi-automatic pistol, side view, first person shooter weapon, single object",
+  "folder": "pistol",
+  "root_task_id": "01a0af0b-d582-73f3-9d43-1f0306aa99b2",
+  "created_at": "2026-09-17T13:08:49.706783",
+  "updated_at": "2026-09-17T13:08:49.706835",
+  "tasks": [
+    {
+      "task_id": "01a0af0b-d582-73f3-9d43-1f0306aa99b2",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:08:49.706832"
+    }
+  ]
+}

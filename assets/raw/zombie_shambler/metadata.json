@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game character, rotting zombie in torn dirty farmer clothes, plaid shirt, jeans, pale greenish skin, wounds, standing upright in T-pose, humanoid, symmetric, dark forest horror game asset",
+  "folder": "zombie_shambler",
+  "root_task_id": "01a0aef1-42fb-72c8-a64a-9f3b50ccd5a5",
+  "created_at": "2026-09-17T12:40:33.733937",
+  "updated_at": "2026-09-17T12:40:33.733957",
+  "tasks": [
+    {
+      "task_id": "01a0aef1-42fb-72c8-a64a-9f3b50ccd5a5",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T12:40:33.733955"
+    }
+  ]
+}

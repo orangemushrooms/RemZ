@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game character, thin emaciated fast zombie, ragged hoodie and torn trousers, sunken face, open mouth, humanoid standing upright in T-pose, symmetric, horror game asset",
+  "folder": "zombie_runner",
+  "root_task_id": "01a0aef8-e56e-70c4-aef2-7fab820bb855",
+  "created_at": "2026-09-17T12:51:10.730855",
+  "updated_at": "2026-09-17T12:51:10.730896",
+  "tasks": [
+    {
+      "task_id": "01a0aef8-e56e-70c4-aef2-7fab820bb855",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T12:51:10.730891"
+    }
+  ]
+}

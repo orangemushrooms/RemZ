@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, mossy granite boulder, single rock, no ground",
+  "folder": "rock",
+  "root_task_id": "01a0af09-3114-7519-badb-079e3769dc75",
+  "created_at": "2026-09-17T13:05:56.146126",
+  "updated_at": "2026-09-17T13:05:56.146150",
+  "tasks": [
+    {
+      "task_id": "01a0af09-3114-7519-badb-079e3769dc75",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:05:56.146148"
+    }
+  ]
+}

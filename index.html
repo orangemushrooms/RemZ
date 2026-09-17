@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Birkenhof Nacht</title>
+<style>
+  :root { --bg:#05070a; --fg:#e8e6df; --accent:#ffb347; --blood:#b3121a; }
+  html,body { margin:0; height:100%; background:var(--bg); color:var(--fg); font-family: "Segoe UI", system-ui, sans-serif; overflow:hidden; }
+  #app { position:fixed; inset:0; }
+  canvas { display:block; }
+  #hud { position:fixed; inset:0; pointer-events:none; }
+  #crosshair { position:absolute; left:50%; top:50%; width:18px; height:18px; transform:translate(-50%,-50%); }
+  #crosshair::before, #crosshair::after { content:""; position:absolute; background:rgba(255,255,255,.85); }
+  #crosshair::before { left:8px; top:0; width:2px; height:18px; }
+  #crosshair::after { top:8px; left:0; width:18px; height:2px; }
+  #vignette { position:absolute; inset:0; background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.75) 100%); }
+  #damage { position:absolute; inset:0; background: radial-gradient(ellipse at center, transparent 40%, rgba(179,18,26,.7) 100%); opacity:0; transition:opacity .15s; }
+  .panel { position:absolute; padding:10px 14px; background:rgba(0,0,0,.45); border:1px solid rgba(255,255,255,.12); border-radius:6px; font-size:15px; backdrop-filter: blur(3px); }
+  #stats { left:16px; bottom:16px; min-width:180px; }
+  #stats .bar { height:10px; background:rgba(255,255,255,.12); border-radius:5px; overflow:hidden; margin:4px 0 8px; }
+  #stats .bar > i { display:block; height:100%; background:var(--blood); width:100%; transition:width .2s; }
+  #ammo { right:16px; bottom:16px; text-align:right; font-size:20px; }
+  #ammo small { display:block; font-size:12px; opacity:.7; }
+  #wave { left:50%; top:16px; transform:translateX(-50%); text-align:center; }
+  #wave b { color:var(--accent); font-size:18px; }
+  #msg { left:50%; top:45%; transform:translate(-50%,-50%); font-size:22px; text-align:center; opacity:0; transition:opacity .3s; white-space:pre-line; }
+  #prompt { left:50%; bottom:22%; transform:translateX(-50%); font-size:15px; opacity:0; transition:opacity .2s; }
+  #overlay { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(3,5,8,.92); z-index:10; }
+  #overlay .card { max-width:520px; padding:32px 36px; border:1px solid rgba(255,255,255,.15); border-radius:10px; background:#0b0f14; text-align:center; }
+  #overlay h1 { margin:0 0 6px; font-size:34px; letter-spacing:2px; color:var(--accent); }
+  #overlay h1 small { display:block; font-size:13px; letter-spacing:4px; color:var(--fg); opacity:.6; margin-top:6px; }
+  #overlay p { line-height:1.5; opacity:.85; font-size:15px; }
+  #overlay table { margin:14px auto; font-size:14px; border-collapse:collapse; }
+  #overlay td { padding:3px 12px; text-align:left; }
+  #overlay td:first-child { color:var(--accent); font-weight:600; text-align:right; }
+  #overlay button { margin-top:12px; padding:12px 34px; font-size:17px; background:var(--accent); color:#000; border:0; border-radius:6px; cursor:pointer; font-weight:600; }
+  #overlay button:hover { filter:brightness(1.1); }
+  #loading { font-size:13px; opacity:.6; margin-top:10px; }
+  @media (max-width:600px) { .panel { font-size:13px; } #overlay .card { margin:16px; padding:22px; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="hud">
+  <div id="vignette"></div>
+  <div id="damage"></div>
+  <div id="crosshair"></div>
+  <div id="wave" class="panel">Welle <b id="waveNo">1</b><br><span id="waveInfo">Bereit</span></div>
+  <div id="stats" class="panel">Leben<div class="bar"><i id="hp"></i></div>Punkte <b id="score">0</b></div>
+  <div id="ammo" class="panel"><span id="ammoNow">12</span> / <span id="ammoRes">60</span><small id="weaponName">Pistole</small></div>
+  <div id="prompt" class="panel"></div>
+  <div id="msg" class="panel"></div>
+</div>
+<div id="overlay">
+  <div class="card">
+    <h1>BIRKENHOF<small>NACHT AM WALDRAND</small></h1>
+    <p>Der Wendeplatz oben am Birkenhof ist der letzte sichere Ort. Die Zombies kommen den Weg herauf und aus dem Wald. Halte die Barrikaden, überlebe die Wellen.</p>
+    <table>
+      <tr><td>WASD</td><td>Bewegen, Shift sprinten</td></tr>
+      <tr><td>Maus</td><td>Zielen und schiessen</td></tr>
+      <tr><td>R</td><td>Nachladen</td></tr>
+      <tr><td>1 / 2</td><td>Pistole / Schrotflinte</td></tr>
+      <tr><td>E</td><td>Barrikade bauen oder reparieren</td></tr>
+      <tr><td>F</td><td>Taschenlampe</td></tr>
+    </table>
+    <button id="startBtn">Spiel starten</button>
+    <div id="loading">Lade Modelle ...</div>
+  </div>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

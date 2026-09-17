@@ -1,0 +1,31 @@
+{
+  "id": "01a0af0a-7424-73bb-bc1f-d2a81f2129a3",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1871218688,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "low poly game asset, modern semi-automatic pistol, side view, first person shooter weapon, single object",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789643096478,
+  "progress": 100,
+  "started_at": 1789643096484,
+  "finished_at": 1789643179825,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af0a-7424-73bb-bc1f-d2a81f2129a3/output/model.glb?Expires=4943203200&Signature=ADED7ZNiTrY06jwfwlxO5DJEvTgDnlbXzVuPbGIvr-lTBVOfXMhGny4Ow4ALWoPFNEPVBnaj~TuIHyjOhvEB807k0q1~WcjEX3cca1Y~zDv3t-4bqMbRXav3Y8Oh8g5HrwrArr20b0ksTp8ockB2j4LTHNFYXwcXjy7sHELP4Og3W7zA4AX8D15o65iyrfghWeeB7CKixIC4tOM~-GjsING8k8jzilsR7Znn~8jSVNNn0OMit3dBWqVim5Aw218rglD6XRBGVp4e4mev0STZW39tEnzgZ1y0a8PG8~sXdxmSMHuIU9Nh0nLkTMihCrsinWgy6FmhUWKSfPFe8d2eBQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af0a-7424-73bb-bc1f-d2a81f2129a3/output/model.fbx?Expires=4943203200&Signature=DjfrVBMYV111j4LuHT7sKLcXStx1Yz1KJlSxfaN2S1mBjmZvzVgGjFNTaM85egEC3pPZ5oAxxaVWeVy4ERhH0TDgPkiRLSgoO7lz6N9kSzE0Q-2Q1WruG1kItW9246~p0h~dQWabNvm-Bw9lWTPgykJayPlcxasFB78VYYxKpi0SMrNqPxc-mqIJUXcKQt2SCVonOtMu28PWQEDizZnoHo1geWSLtyZjNZ-3b2FwzISW437RWE4v1BDmqp00pt8qQlGZD9sE8Fd8mK0n2p5Td9dMquDfcB4srnaUApbYvmFgPAxZhxY-YeEdYAHGr5gzgVOk4JRtjhbG3hDXQOm0KA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af0a-7424-73bb-bc1f-d2a81f2129a3/output/model.usdz?Expires=4943203200&Signature=KyeyyzjfPMSrzHkl4IhQeV9~ETMC53Jh946C8q9u0uC76A6QNDJaR28299-PWMsQrhkMjKQtAIHUuBc7g8BJG4mgD8pgcFeWYbNp02mEBCyI9azWlrD39xHLaOy8yW5ExhWA7BveulNR4JhhA2lxIRT-gwBNILD7AqK3tIrNMNhGZGoc13eEojWgsk2~nxGgH5~N0JmA9LmP8Dc2Lu3NK8kpcaCC4i23nHyPqiU7egQoOaXi-11GgIDDbUbEdm-QuJOQBobi81MBytf6d6JpznRUqcXjy0akCi8uVA78uam8ocK78m6HpLQ8SUtRlCkUCCjC4cXgRJjdZJOBQFmImA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af0a-7424-73bb-bc1f-d2a81f2129a3/output/model.obj?Expires=4943203200&Signature=I~l6K5l~8x~8~7f6vJSVhf65HBisZxBiP5298u1JK0ZcvAKCFtOB6LV3NLbzOdCH27DS-8jDOnX-5RsrQTMiC4Mg8grpAGB4G6gDmdpiTR7g4UtfGMP4j8T84x0Y4CgDj~qkpLAnANT1lXtLghqfAAFX6kAdMBxh2BWxheTPjzDM9LRNU~mRk~kZxtpt9CjO~WYy0GXKLszOuZg-N5eKp--d259UeFMf359D-48kknPFz312H98z3dp8~7pUNZ8npKOOF4-UDAojk8WAKybXzEnSwztuDDLanp3mmUzLeoqEfrKct2rzyRh8if325LR-5uVyULYTIB6iFGMhFqGJAw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af0a-7424-73bb-bc1f-d2a81f2129a3/output/model.stl?Expires=4943203200&Signature=nC0Gzl-E5OYsLagQvYZu8Cd-bYft4pP3WvOIXROCT72paEw9ZrLpnEK3rooi~a8HJh3Y~xrPhWvjkO9EGnn7tSTw5O-SY6VgE1nAC2tyOc23eUxxluMKKGmef1PaiI3Sz1bfLjQ7c5imLHaqJmnfLH842uguNTlvSblfqpLp~yiidsrYmplU8Z-GrJFai5skAmM8Z9~bRZuAFcPk3jqWi~YVG-55MqOZ6nHYfrcbeXKyx-RcuHisg2ZfQb2LS7bSGPZEdEgm-X~3GYT6iXOp6SE0PyagK5fFBbfoxTfc9Gm6g7JzFFDG5NUTYju7unJb7i8iLSVOSQVXNFPs1JZZGg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af0a-7424-73bb-bc1f-d2a81f2129a3/output/preview.png?Expires=4943203200&Signature=jmedkcLj~gQSoyYN8lsMqBURbVuHWgzfz~egDedvW5Z-QBNFEAK5BmYP0SNa7Zw~red4NEBwkgABpCOC~tsE054ldyMEzWcryt9qy74mEz3fOAqRLcAx5pDEbRqjEHJz6rNJD6O~65WGQ~lgHg0kQ9DcaWdaJFrHeOkKNxG57XFnFLm9mmM3AXMeTtepy2WJ0gMCfPBkj3Z15Me88JZsmjdM22H0I2oveQUX8b6mKjAqEqYKCuTOwXQnfrjwbTaQ7YgL2rpSZL8FzAsoeHz8SNmNZN1QTG9nbkvfq5IhWX8RAGjmsr0fmrXcYAcz0ThUTMy~27GfBT8gD0-VVvRHtQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

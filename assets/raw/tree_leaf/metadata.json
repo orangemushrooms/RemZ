@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, deciduous beech tree, thick trunk, wide round dark green leafy crown, single tree, no ground",
+  "folder": "tree_leaf",
+  "root_task_id": "01a0aef8-e751-751d-a530-a34271eeba84",
+  "created_at": "2026-09-17T12:51:11.374564",
+  "updated_at": "2026-09-17T12:51:11.374589",
+  "tasks": [
+    {
+      "task_id": "01a0aef8-e751-751d-a530-a34271eeba84",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T12:51:11.374587"
+    }
+  ]
+}

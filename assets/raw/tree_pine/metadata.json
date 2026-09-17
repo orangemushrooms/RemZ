@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, tall spruce fir tree, straight trunk, dense dark green conifer branches, single tree, no ground",
+  "folder": "tree_pine",
+  "root_task_id": "01a0aef1-0d0e-71b2-a7a6-30f125f7461d",
+  "created_at": "2026-09-17T12:40:19.801548",
+  "updated_at": "2026-09-17T12:40:19.801579",
+  "tasks": [
+    {
+      "task_id": "01a0aef1-0d0e-71b2-a7a6-30f125f7461d",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T12:40:19.801577"
+    }
+  ]
+}

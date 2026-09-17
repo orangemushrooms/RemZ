@@ -1,0 +1,27 @@
+  [███████████████████░] 99% — IN_PROGRESS (0s, poll #1)
+  [███████████████████░] 99% — IN_PROGRESS (15s, poll #2)
+  [███████████████████░] 99% — IN_PROGRESS (30s, poll #3)
+  [███████████████████░] 99% — IN_PROGRESS (45s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (60s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (75s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (90s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (105s, poll #8)
+12:37:08 refine tree_pine
+TASK_CREATED: 01a0aef1-0d0e-71b2-a7a6-30f125f7461d
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (140.9375s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (155.9375s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (170.9375s, poll #11)
+  [████████████████████] 100% — SUCCEEDED (185.9375s, poll #12)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_pine\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_pine\model.glb (4.0 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_pine\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_pine\thumb.png (0.1 MB)
+12:40:19 DONE tree_pine

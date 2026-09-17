@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, simple green painted wooden park bench with metal legs, single object, no ground",
+  "folder": "bench",
+  "root_task_id": "01a0af08-6df5-72a8-91c8-b9ee316fc1b7",
+  "created_at": "2026-09-17T13:04:50.957826",
+  "updated_at": "2026-09-17T13:04:50.957849",
+  "tasks": [
+    {
+      "task_id": "01a0af08-6df5-72a8-91c8-b9ee316fc1b7",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T13:04:50.957847"
+    }
+  ]
+}

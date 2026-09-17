@@ -1,0 +1,54 @@
+{
+  "zombie_shambler": {
+    "prompt": "low poly game character, rotting zombie in torn dirty farmer clothes, plaid shirt, jeans, pale greenish skin, wounds, standing upright in T-pose, humanoid, symmetric, dark forest horror game asset",
+    "texture_prompt": "dirty torn clothes, bloody stains, pale grey-green rotting skin, mud, dark realistic game texture"
+  },
+  "zombie_runner": {
+    "prompt": "low poly game character, thin emaciated fast zombie, ragged hoodie and torn trousers, sunken face, open mouth, humanoid standing upright in T-pose, symmetric, horror game asset",
+    "texture_prompt": "grey rotting skin, dark bloodstained ragged hoodie, dirt, veins, dark horror game texture"
+  },
+  "tree_pine": {
+    "prompt": "low poly game asset, tall spruce fir tree, straight trunk, dense dark green conifer branches, single tree, no ground",
+    "texture_prompt": "dark green needles, brown rough bark, stylized realistic game texture"
+  },
+  "tree_leaf": {
+    "prompt": "low poly game asset, deciduous beech tree, thick trunk, wide round dark green leafy crown, single tree, no ground",
+    "texture_prompt": "dark green summer leaves, grey-brown smooth bark, game texture"
+  },
+  "tree_dead": {
+    "prompt": "low poly game asset, dead bare tree, twisted trunk, crooked leafless branches, spooky, single tree, no ground",
+    "texture_prompt": "grey weathered cracked dead wood, dark, horror game texture"
+  },
+  "bush": {
+    "prompt": "low poly game asset, dense hazel hedge bush, round leafy shrub, single bush, no ground",
+    "texture_prompt": "green leaves, dark undergrowth, game texture"
+  },
+  "rock": {
+    "prompt": "low poly game asset, mossy granite boulder, single rock, no ground",
+    "texture_prompt": "grey granite with green moss patches, game texture"
+  },
+  "stump": {
+    "prompt": "low poly game asset, cut tree stump with roots, single object, no ground",
+    "texture_prompt": "brown bark, pale cut wood rings, moss, game texture"
+  },
+  "woodpile": {
+    "prompt": "low poly game asset, stacked firewood log pile, rectangular stack of split logs, single object, no ground",
+    "texture_prompt": "split firewood, brown bark, pale wood ends, game texture"
+  },
+  "barricade": {
+    "prompt": "low poly game asset, improvised wooden barricade made of planks and boards nailed crosswise, barbed wire, single object, no ground",
+    "texture_prompt": "old weathered wood planks, rusty nails, barbed wire, game texture"
+  },
+  "bench": {
+    "prompt": "low poly game asset, simple green painted wooden park bench with metal legs, single object, no ground",
+    "texture_prompt": "green painted worn wood slats, dark metal legs, game texture"
+  },
+  "pistol": {
+    "prompt": "low poly game asset, modern semi-automatic pistol, side view, first person shooter weapon, single object",
+    "texture_prompt": "black matte metal, worn edges, game texture"
+  },
+  "rifle": {
+    "prompt": "low poly game asset, pump action shotgun, wooden stock, first person shooter weapon, single object",
+    "texture_prompt": "dark blued steel, worn brown wooden stock, game texture"
+  }
+}

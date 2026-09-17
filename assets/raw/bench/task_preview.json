@@ -1,0 +1,31 @@
+{
+  "id": "01a0af06-6123-7421-955d-bf18a90fff95",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2238390659,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "low poly game asset, simple green painted wooden park bench with metal legs, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789642827874,
+  "progress": 100,
+  "started_at": 1789642827878,
+  "finished_at": 1789642946274,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af06-6123-7421-955d-bf18a90fff95/output/model.glb?Expires=4943203200&Signature=mfNCxfwH65dYp~PkMYZLuLaOS7KAb-190KDPZ-2EvEIChZ3bZKJ0fizW~5JoIt4j~DnHKmdPWKYs98ArRhdi-CPcpNRpa6QN0dPZb5TWXx4qGgGv1oYMa38enVcN~RIbcQZZwVV9m4Mc-cD8j1gHV9ulMNTx-CFo1-ulj0OdLXYuKBy5v8LdCnmwim-DWjl7lVkxcUC63oCyCq8Z~2C0do0tzeu~xMTCec3xzSJsa-IcI7zpfdJTA0QOawVdpt18ynu4TADgsJjS0T9FF9jwnkbkxykdy0qhEtRPpW7DHuCFiaZbjlSUpct4EZLNTpQc9c~7koEvdNv7QrWTqzZlBg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af06-6123-7421-955d-bf18a90fff95/output/model.fbx?Expires=4943203200&Signature=eqhp8ZjlxGboZnvMNkR4HvjQgftzEcF4lK3vv8cGlwitgr5S3O~GeP3ukRPK-s4XAUrGOvzdghzDItlsurIo3dBsUtxacl2NiUvdZf0w2x8EwyXTLVem0XILHHQcIspmbBnhz05aXdSFk4v7yJDz0ODNFo7~67IllNPaSUMfTaI7y39URCLpUwFxmesPV~87sQKIj2zkqILIlNa8td9UU4hTZVlvjNbKEVduf-biS1Or7LrDvm1P3-mZZQYOS0wyVrvsYUZHNdX7uWYDVOlquEKcJqAY899yhtaTC1IHzEmstkPdck6KyuyBMLg9TfoXagUEM42sVLC55m-q6-XH3A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af06-6123-7421-955d-bf18a90fff95/output/model.usdz?Expires=4943203200&Signature=oYRN3ljyk-0RFWE4bwNASm09qPYhICDXeY4pnpX0~j23rehCcBSgL5U2zVJ0Hupsb0~-P2xYWxmEQZ0b~4X1KQPgAnUN7TeQM5GrtexWblj0MiQGbFywJg9AXw7TVBRcGUanvlJK98Xup5FETikrLlEUyP6mwo4AGf83yxBJkeuTD8kq4JojniYTgjC-ezI96YcbPaNhzjII4bxE8T8Y00KLCjWQEnnKWeK-yNInd5c04Eg85frkOq6mJTooviYl5gLAlJxqnjRB1MHLckIMfc1OEwll8PCR0vOM2ksvhT6ZWkD8uiLbrETpaanAhI3B4qiX9ysiYw41rt52sPoN3g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af06-6123-7421-955d-bf18a90fff95/output/model.obj?Expires=4943203200&Signature=Xc0kQhmnu~QeaCslq7-vRUcG~ZbVRLg8XOabtJzzBEUlEVmVxfWrKaH~MHk8paBkeWXOZwABpmwED2gfqLgPcINo~YUy6HjnHaROPExmQkcxkCt4OpF4nOaLTCfqycCWnAx9k1AqnadR9terVcwB8NmmU5e~A9wKpjPvIM9DBr6u6VFLWGRhbxjeywqUS5~o-~kkcwcYZEhgrVNOrR08WBEfu8dK91WYiFfxxbLXUPHp2Rkr6EinzN4BzWTLqUhkPYq8n8NaWGbrq5A8Tdyatr~drS00vUGsSNWKgvaQ6Flv9ljusgvBxSupjjCmzZn9MGS-Ko60U2wwtVtUffGVwg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af06-6123-7421-955d-bf18a90fff95/output/model.stl?Expires=4943203200&Signature=fUiStGUy4YuAk3H58fawrqtgnwTVh67aWp2TE9GP5EU2YRDXKPc1k5tAFzXo7j30H5WJwt5AbLxb8d9k3lhSPOz3IehF5dNip7~gqzAotpU0UvN6yZRbrxN6r0fi3lxFep1yjEg62E6VNOO8HLHP7kWy87MBhBlTR5m8-jjVTbInXEMFTEwP4ToTSYDdIvlJWMR04ORflNu-v9vcQzOnnbna8A81Ovwl1h2DHBOTiXQUEi~E7OqovLmFdUoHdZ4sqhyRqmdxcHw9bR8fyDSH4J3Y4Rw~nbKNg-y5r5lNYsol2odAsAxOhomy7W6G2TO~RWs9vV3r0sW~ngOITAUvzQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af06-6123-7421-955d-bf18a90fff95/output/preview.png?Expires=4943203200&Signature=C7Ugiw8DiOSvfevoJVW9BHDYDNsVvJp~886PIjM~SlcgahWY18RecX91szOdCXyWABr2gaFmioegU3JwWbwK2Yv0-NJf7eTtUUhUdcyo9DZvpZRko7IpgAmsJDPBeRHJG8uagjGuMqAx5XxWHAuvojXPzW9qHhxRD4f~IaWeqN51c7wJXD4Z6NkF3RNQw0PecjQV49lRAPRKs-Qb5J9vLWc-hPF1YnJQUi9SdJtqhIkskTGkfdPMjqAU3DRsKkbVitttK9k-SeTxml0o13A1v3SFI3qogw0XGrBD9NkIB7daARxQ3ewdJkiu5rD4lpCqHVvw7iMb7CKyaG5vB4PnRw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

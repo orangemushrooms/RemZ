@@ -1,0 +1,31 @@
+{
+  "id": "01a0aef6-a7c1-732f-99c2-72bea650cafa",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2854296893,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "low poly game asset, cut tree stump with roots, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789641797564,
+  "progress": 100,
+  "started_at": 1789641797569,
+  "finished_at": 1789641949462,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aef6-a7c1-732f-99c2-72bea650cafa/output/model.glb?Expires=4943203200&Signature=P5Rn9UKHIKqHGU7QfOlVgb6PYbK5MW9FdBeqvKmn4gCR8J~NUmPafrfdYsa0x7LCCk8i0~QS~sCcr6Bso0nL4V9hiyv5C8kmKIuNy9LYcgPMievOSt1j9qWarQx6RPyOF-pfOPgcyy~shyjd-pCJrM6kQGFBPGmRmxj6tpOhJiNTZAHIeYDWuIB8m08ziJYe-4dQ64cKM7oSvNJK0LtcrXx-jIfc6GkjWeGpxF~HRdEyXjPCSC2WELLOT7ckMF2CyNMajiYTFm4H3RvxQhTNY1SMgZklrqy45CqJ1U~ejWchSbrKlP0ezO~sQ8gGuztk-3u7ZFh69ffIWVPlymI7RQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aef6-a7c1-732f-99c2-72bea650cafa/output/model.fbx?Expires=4943203200&Signature=F9DqTxnJUxDheOTYJZOBm80mnuqjZ8Opax6GismDCnACyZxj4CDaWbYIH6WRbICrZMFeAGn253h1YVG13nhUJUp73tMPuMXm5-mY30hl93KPRhTg2rTQG9Fb2rzJwwNcHTYxAXiO7mFA0~~nJEJlrVwLtCbrffJbB~PFFx9Zcrtcb9~wXJQ3myCbDBI2RYn499~pmXQPRsp5uMQOYk1yROmpwfnQNsSAzOlRqdWZ5rR2ObEPoJBeYMaTt-p4rLbw3uV3hE6~LviMPRhybxgxrUiVEn-y7ajNv95p19QOQXadFtIkB1e~mQe5C0cmCoYPhx4jkKQbPaWQ0Q36x74TFQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aef6-a7c1-732f-99c2-72bea650cafa/output/model.usdz?Expires=4943203200&Signature=Mruw6SpZ1VV1l7Jo0JCIGnjZrbNYb6fmaIGnGteSptdYIJhbeZ5goi33HR0LUkp0~hxPynd~ZpgWhxpO327-jQaarrx9VvEFP5Pj4noeq1liFh8i3vivmJK0OMIqO9iEA3dyEmQ-NBDEgK5WAFMoyXVXAAj~sqZsjlGzDetAye7myNB~TR~Oow5ltHtOL3XrsmTQP4dCXTaCAenuCpkwx9492-VBeYZPZWl-h~7SDgAn67hqI30gf1VE-ugMULaqNqu2UXGj99It17wulSlDU7SGOAM5h8b072CPnKNXsmhmIN1VgT0OaZwyQFGRHn9QMA1xqeiQSGQ20wX5kBszIw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aef6-a7c1-732f-99c2-72bea650cafa/output/model.obj?Expires=4943203200&Signature=etNj-1N9o-1JJgFya2Lh5lede4SEl3afZ12CQsvfrsFe8TORdFOwzxDGO1fY8EpNi1lKFWbc6uF2f5~hIJpiDyqcthtQ3h49LJYhX6gEsaXRNG33koJkPdCCj2C3NBBoilTvq2nV63R6lIMDz78BbOPFks9u9zb1CnveCjLe5SSxjBJ66T8LkBKbzV3BOslhR-FvwNSsdZwlTCubRLDMJtIOBeTgafD8xB7I2Z3rt8N5DSrZzClzwYWtT4I5peoF0g8FdfeOptxdYrQPKlPzL7ovM3WmyPnf-aXNOJ-i~1p6E6ER7~Xrx9FT-44M4auhU43KV~8ktdqXojpJ4QY4ew__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aef6-a7c1-732f-99c2-72bea650cafa/output/model.stl?Expires=4943203200&Signature=ELFGeI2gDC2rhqBcMkOzURcvPiXkHCvVHn0Yt952-tJa~xefseynizkS7pdpRITdAujRK7cJ3jr~8FohkdXhMxI1f~SyHszVQCME2GPP2QxLIFBZ727C7lp0PKrSPqSYPvMb5rrzOQiHmEonlkQg~Hsbtm~l4hZa~Vw3oPI4IibYQF-fiTM44Qul2KFj5m9PQ8x0PSgVxKUaDhnUGIzqBKgoRkgFUQzNuEQk8kkjzQqtvMD~~-INWZEIPnHxGkDhVmH1wdCyZssfu95zl7ROPeJRkLZgFlWSYCos2YOV661XzDlm15sJNLgYsBauxniwKPUk3naDlD0UnIk65wYz3g__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aef6-a7c1-732f-99c2-72bea650cafa/output/preview.png?Expires=4943203200&Signature=M54WlX1gMnvqGynHEhFaL~Tyr4-RhelHJ9pC0H6booT-V~Ba~TIOsA2N3Bp8SB3JKvP6E-TW4ZrUO4IdcD1oDtuTrVQcqmYveE5ExCs90TLs-4c2dBkxeTBuTmxnxAwJskcHCzfBnP7vE6Sm5iIdmsbVIzWjEPXV~JcWAWHMqSu76Ogm79LPifVbXbdkHXscBR2oNCiN9Xq0IcHU1FspPjIJ0z672PpyBxa~QiFhQZwi~YxvhdSvCcyafUx1sKLcBDeDM-pivpmm6dmtRxYv7YyoNGqudrjKIPHJ~GlevbjX6a6mdRS~07c2V8ijFmPp2JnNAhfuIA18fUMIrJsPKQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

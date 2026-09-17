@@ -1,0 +1,16 @@
+{
+  "assets/index-DqDVMulB.js": "dist/assets/index-DqDVMulB.js",
+  "models/barricade.glb.json": "dist/models/barricade.glb.json",
+  "models/bench.glb.json": "dist/models/bench.glb.json",
+  "models/bush.glb.json": "dist/models/bush.glb.json",
+  "models/pistol.glb.json": "dist/models/pistol.glb.json",
+  "models/rifle.glb.json": "dist/models/rifle.glb.json",
+  "models/rock.glb.json": "dist/models/rock.glb.json",
+  "models/stump.glb.json": "dist/models/stump.glb.json",
+  "models/tree_dead.glb.json": "dist/models/tree_dead.glb.json",
+  "models/tree_leaf.glb.json": "dist/models/tree_leaf.glb.json",
+  "models/tree_pine.glb.json": "dist/models/tree_pine.glb.json",
+  "models/woodpile.glb.json": "dist/models/woodpile.glb.json",
+  "models/zombie_runner.glb.json": "dist/models/zombie_runner.glb.json",
+  "models/zombie_shambler.glb.json": "dist/models/zombie_shambler.glb.json"
+}

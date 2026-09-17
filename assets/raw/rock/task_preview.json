@@ -1,0 +1,31 @@
+{
+  "id": "01a0af07-99ba-7659-a009-3bfcf9b3d8c3",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3181452592,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "low poly game asset, mossy granite boulder, single rock, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789642908147,
+  "progress": 100,
+  "started_at": 1789642908153,
+  "finished_at": 1789642995125,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af07-99ba-7659-a009-3bfcf9b3d8c3/output/model.glb?Expires=4943203200&Signature=g62lVhhOduKOSes~9vGvZ7T8E4QEOB410sg5PLWQ7yCOtHVW84IkgdgEPH-Lvoo1JSkptB4ZsN54zNtbvOngU6bm0KiSVEBWd1DgGVwzyhDLkJWdyq0SBHobF~oakMmVpSzgHbqE-e4ck-LWo371OtPPEpn9bJIbhRJE~q6z5g4BRjqYfKzLkG0Jg9z00bftrN1GU8V5b9q4BdAOa-MQ9T1xYKHDgbAakJTejd76vAKVi60jTQkDewsjsghymJlO2G2ygU1icSd0d8IWcbeqZBrppMhFJzeMId4N0NeOXEiy-E5PcgcJq4ssWQJftKONsp201JkbSLoxwjGMp6Uo0g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af07-99ba-7659-a009-3bfcf9b3d8c3/output/model.fbx?Expires=4943203200&Signature=heIPPeHLBrQAnlxtSbZW9vvH~sXvTCkXkCYa9q2694Jp0HvNJDmHL2m0j5OvcJSdhqIlwop0DnMfSg3gxFkNobl-ihADJlLSLtqKmtRGcUWhunA~B6q9U7pR5UCGyCgjcuqSohwiniX1yRp7hYNb0dGYn1IhWygAg2F6q3UaEF9vrcXZXJ1rxvbgqztHBfgLXDxLIU0YnPPUqa-oYbLAvkfmAfWJBnZek1YKrf5ySNs0nCwsOKxatXesdtJATR7bGUbNQOMyzBDgDLLcmE-w3JJIpy~8MpHaJEMjTbhxPuoK6laZ4ZjIBdM5gP1D8HfhqSC8D6v3hftoBEGQKmMTkg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af07-99ba-7659-a009-3bfcf9b3d8c3/output/model.usdz?Expires=4943203200&Signature=k79XYkXLUYfO~mL9zZixLZ-bNZXT7cHqhd2prlPLmmrNJdnc5FfkWpVE1dTp-WAgjBHbfbipwpr6ZWnos7R08LknZSWUqs5R3eKS8o5-7PQXxyVzSXBnvG3DR079GlDHgnYJtu~0idDnQp30gcYF63j0BXbFIfFnYiFzGsP~uaQwMmS4jo6d7uCKLwaQDg9FagCfEJPj6DTIA3-42uMW7khR1fnd2wuCE1W0zBO89Ol4dYUrEXXKeSnMzER-7fcaqG9fppl9q-XPoR2dnwlX-xE63lvfzWr7PCVUUqLi5ltE~7dLIJly2H3YIfhAeVTFi9yCWrDQMQfQlbf8T-lnGg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af07-99ba-7659-a009-3bfcf9b3d8c3/output/model.obj?Expires=4943203200&Signature=U0R13WTRsd7JNwHs36qzxpxGWhiXWe7jeVxpSvgpiO5NQZiyjKYT8tknbxDMbpdgCJUgjDnRL~yng81iFlmgIii5BurSLuy4uIj0Pqt5kSbxU-HAxtdpZtLutSqnfUm1GdH--2je9xI38lt3j92d9f0zk1Lc9aafNf4aO~n8WSsgutVTF2pWhvCYxVnsWh43vA1cQF7RXl7XHSdnTYvBhSSUugVYUsXEdIyzWU~j4XqJ6VZheqxIcx-sbSrOE71dacoh631RfIRcNwBrxhzaxyqKHVygXvEMB8rwT4BOwpdH43ByuWMK2jrpRbbThVDUZpA~JvY9SLDl2UMa9wcgZw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af07-99ba-7659-a009-3bfcf9b3d8c3/output/model.stl?Expires=4943203200&Signature=DoVNG6DOwoKuGSLQodF1I4aOC1X3b1mG-075CPacvsUq9fjor~X2Kd~U51a11VTlI0BK0KXJMvi6C2qHivywZKe9wt6GCmI7RjrDHZyPSq~6OtIfVAXJHeDzi-h5j6FiytqYwhEPNuItHq5UpFtnGctmxUnu9~Ad1dbGxTOnZTxMz0SPj7jwOHTg8TCtJy-Wz6HpFTjWRUeVN2hMkr4VfSSn8kwc6KuZPqjjQZNH9soajK6hQgsTKGyQoUJpLk1VEV~qYCV0nHCJYdys4GvzNPJcYyCrW6sP6aYrHhzawip1os~JZFkdgjxVpXf~PYw6KUyvQyDUob3RA-UP-bW39w__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af07-99ba-7659-a009-3bfcf9b3d8c3/output/preview.png?Expires=4943203200&Signature=Wl4CM3SA7ZaR5ymT--ThQPNk~CJCdIRZ~Nv-edgeen7Es1~lZyL100LsOXnIZSrGgw5mo17~aNnTeLFSIUzVBBs2ofxKtr0FY9bfqzzS8ozHHms5gb0V0ZSiGTVIaFPdHbL3XTAFgIGJ8ahcQhQmlC7CZGIfgWokYVGblDTGopYxCiYmomlM9Qn1nJyKUMa59rqvX8QeoO8YYJhLL52EKW7F8taL459bpCwAKdA2kmlAnIm9GITTKAPc8KvkngJJYpFzw1O3Ys-M1yfIp1mg-x0CdsEAQzTqEzSMp8eXQ7kNBUjPrsCL7SZE6DWspVxBwjhriCTmaKIC5MWxVZ-E7g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

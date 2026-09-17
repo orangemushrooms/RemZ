@@ -1,0 +1,18 @@
+{
+  "project_name": "low poly game asset, stacked firewood log pile, rectangular stack of split logs, single object, no ground",
+  "folder": "woodpile",
+  "root_task_id": "01a0af00-479d-7479-9421-4ac21a6163aa",
+  "created_at": "2026-09-17T12:56:42.546762",
+  "updated_at": "2026-09-17T12:56:42.546797",
+  "tasks": [
+    {
+      "task_id": "01a0af00-479d-7479-9421-4ac21a6163aa",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T12:56:42.546793"
+    }
+  ]
+}

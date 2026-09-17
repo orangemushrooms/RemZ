@@ -1,0 +1,21 @@
+12:51:12 preview tree_dead
+TASK_CREATED: 01a0aefd-f1d2-7668-90e3-1a97c1fdf52a
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+12:51:59 refine tree_dead
+TASK_CREATED: 01a0aefe-a5ab-77fe-b64a-4ab288311f01
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (65.9375s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (95.9375s, poll #7)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_dead\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_dead\model.glb (4.3 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_dead\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\tree_dead\thumb.png (0.1 MB)
+12:53:40 DONE tree_dead

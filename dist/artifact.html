@@ -1,0 +1,30 @@
+<title>Birkenhof Nacht</title>
+<style>:root{--bg:#05070a;--fg:#e8e6df;--accent:#ffb347;--blood:#b3121a}html,body{background:var(--bg);height:100%;color:var(--fg);margin:0;font-family:Segoe UI,system-ui,sans-serif;overflow:hidden}#app{position:fixed;inset:0}canvas{display:block}#hud{pointer-events:none;position:fixed;inset:0}#crosshair{width:18px;height:18px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}#crosshair:before,#crosshair:after{content:"";background:#ffffffd9;position:absolute}#crosshair:before{width:2px;height:18px;top:0;left:8px}#crosshair:after{width:18px;height:2px;top:8px;left:0}#vignette{background:radial-gradient(#0000 55%,#000000bf 100%);position:absolute;inset:0}#damage{opacity:0;background:radial-gradient(#0000 40%,#b3121ab3 100%);transition:opacity .15s;position:absolute;inset:0}.panel{-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);background:#00000073;border:1px solid #ffffff1f;border-radius:6px;padding:10px 14px;font-size:15px;position:absolute}#stats{min-width:180px;bottom:16px;left:16px}#stats .bar{background:#ffffff1f;border-radius:5px;height:10px;margin:4px 0 8px;overflow:hidden}#stats .bar>i{background:var(--blood);width:100%;height:100%;transition:width .2s;display:block}#ammo{text-align:right;font-size:20px;bottom:16px;right:16px}#ammo small{opacity:.7;font-size:12px;display:block}#wave{text-align:center;top:16px;left:50%;transform:translate(-50%)}#wave b{color:var(--accent);font-size:18px}#msg{text-align:center;opacity:0;white-space:pre-line;font-size:22px;transition:opacity .3s;top:45%;left:50%;transform:translate(-50%,-50%)}#prompt{opacity:0;font-size:15px;transition:opacity .2s;bottom:22%;left:50%;transform:translate(-50%)}#overlay{z-index:10;background:#030508eb;justify-content:center;align-items:center;display:flex;position:fixed;inset:0}#overlay .card{text-align:center;background:#0b0f14;border:1px solid #ffffff26;border-radius:10px;max-width:520px;padding:32px 36px}#overlay h1{letter-spacing:2px;color:var(--accent);margin:0 0 6px;font-size:34px}#overlay h1 small{letter-spacing:4px;color:var(--fg);opacity:.6;margin-top:6px;font-size:13px;display:block}#overlay p{opacity:.85;font-size:15px;line-height:1.5}#overlay table{border-collapse:collapse;margin:14px auto;font-size:14px}#overlay td{text-align:left;padding:3px 12px}#overlay td:first-child{color:var(--accent);text-align:right;font-weight:600}#overlay button{background:var(--accent);color:#000;cursor:pointer;border:0;border-radius:6px;margin-top:12px;padding:12px 34px;font-size:17px;font-weight:600}#overlay button:hover{filter:brightness(1.1)}#loading{opacity:.6;margin-top:10px;font-size:13px}@media (width<=600px){.panel{font-size:13px}#overlay .card{margin:16px;padding:22px}}</style>
+  <script type="module" crossorigin src="./assets/index-DqDVMulB.js"></script>
+<div id="app"></div>
+<div id="hud">
+  <div id="vignette"></div>
+  <div id="damage"></div>
+  <div id="crosshair"></div>
+  <div id="wave" class="panel">Welle <b id="waveNo">1</b><br><span id="waveInfo">Bereit</span></div>
+  <div id="stats" class="panel">Leben<div class="bar"><i id="hp"></i></div>Punkte <b id="score">0</b></div>
+  <div id="ammo" class="panel"><span id="ammoNow">12</span> / <span id="ammoRes">60</span><small id="weaponName">Pistole</small></div>
+  <div id="prompt" class="panel"></div>
+  <div id="msg" class="panel"></div>
+</div>
+<div id="overlay">
+  <div class="card">
+    <h1>BIRKENHOF<small>NACHT AM WALDRAND</small></h1>
+    <p>Der Wendeplatz oben am Birkenhof ist der letzte sichere Ort. Die Zombies kommen den Weg herauf und aus dem Wald. Halte die Barrikaden, überlebe die Wellen.</p>
+    <table>
+      <tr><td>WASD</td><td>Bewegen, Shift sprinten</td></tr>
+      <tr><td>Maus</td><td>Zielen und schiessen</td></tr>
+      <tr><td>R</td><td>Nachladen</td></tr>
+      <tr><td>1 / 2</td><td>Pistole / Schrotflinte</td></tr>
+      <tr><td>E</td><td>Barrikade bauen oder reparieren</td></tr>
+      <tr><td>F</td><td>Taschenlampe</td></tr>
+    </table>
+    <button id="startBtn">Spiel starten</button>
+    <div id="loading">Lade Modelle ...</div>
+  </div>
+</div>

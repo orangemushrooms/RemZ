@@ -1,0 +1,26 @@
+13:04:51 preview pistol
+TASK_CREATED: 01a0af0a-7424-73bb-bc1f-d2a81f2129a3
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (85.625s, poll #8)
+13:06:23 refine pistol
+TASK_CREATED: 01a0af0b-d582-73f3-9d43-1f0306aa99b2
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (140.9375s, poll #9)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pistol\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pistol\model.glb (2.7 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pistol\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\pistol\thumb.png (0.1 MB)
+13:08:49 DONE pistol

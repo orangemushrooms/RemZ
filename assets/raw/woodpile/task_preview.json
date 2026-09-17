@@ -1,0 +1,31 @@
+{
+  "id": "01a0aefd-c387-7470-a473-7503be3be999",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3644444712,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "low poly game asset, stacked firewood log pile, rectangular stack of split logs, single object, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789642263474,
+  "progress": 100,
+  "started_at": 1789642263480,
+  "finished_at": 1789642423533,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aefd-c387-7470-a473-7503be3be999/output/model.glb?Expires=4943203200&Signature=T-tZxd4~jNM-wkY4y2x7VJXnH4-9BYugQQg-iFiSLBxriRhsHuODZUJE5cXFuOa~EecBr4P9DiflpAR2vEe0oNUMqhPOwUjroZdUjpx616K~xRLEh8QJYdSURaVHCQ~IavE5P5bob847Eey7tSgbxSy64fZMVMJoN0Xquli0U4DTCDYNXKdMXt8K4mN2XFUM6ttITDZjgnxdq~kF-GKRK-IV3IMtbY1eDWgmSIZPmSMSsMfRKaMXXKhQKklMEQhsuCJXrSOX2FL2GLkRDn6~jPMxEUr99bOU6ozIKX1jbnO6kuerYl6NjQRAMYeS~TqBetOhcKoBAw9OuQrjLsfTRA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aefd-c387-7470-a473-7503be3be999/output/model.fbx?Expires=4943203200&Signature=B6MLBX0FhfE0hzGJRvcjN1WgtOU4N448p8bUG67Zejf3Im3QZpNT0V0Pt1FGknIPOgQImo2KMktJZq-CnOBorwTO7amBwfDbrowyiZDVFEOc3Sk7WSqXWQnld5lJ1AmC6A4x8ej30HMcRyN11-P2evtpN-33CE3PEjPnaryPSMWbatWpELmnmdrtIYIah8cb7aA9O5jxcHr~nL16TikZqHjXBAm15MPMDnVKUY0CbT-FQbYLFfT8A~CJBOvc-NGsOuesj-Zb1Ys5m0Y2yIcBWSwrHRxrmee37YdzvkPbMTavHELUXQsMf~S2fmeZoNW-CLRKAnPHeSwtvleNYPsFkQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aefd-c387-7470-a473-7503be3be999/output/model.usdz?Expires=4943203200&Signature=KPXS-od-25dWcP9JDiCBO4W07n9OfwyZ6j9JLvH9V-8bE3yHkpE5WNs-cmV4bTapmFY1Hscs-yKCaBjWojzyrSAXeJ7Fqeqw~UPXtHMV~SACUKOT9x2jwWiCssUwTlbMqYmHtJ~2y8dcXoXw69Ftf3jfEHrKNYZ-j3OzOW0wfAnUxiedgSNsBFTEvp7krOWxIIETemCJBLgiEl1oaU0BJO4uGMFzmLfnhJPLuYid7Wneib5VbyuLiYtZXwwNLzu60MSxp5vkE4-09DI6v3PG9Avyu-8IEZIHsKQlYzflMssL7MpssUo8gmgi~Wt4loQi4qwK~8UZQxVaR629Z40hnA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aefd-c387-7470-a473-7503be3be999/output/model.obj?Expires=4943203200&Signature=qahlWz6zgtmTk7DiXqWnvoH3278hWJCFsIhEgyu-BdtrSAUFJpv3i5RTEav846h3EPjxW7vH7lPg-FoBL6rUM0TonWdbL9A6b93By33RDflg12YpfyCcMaIvEDk8CKc6ZMI~VxcAfj-Y8VefY9fSrEqBSIT3vXR1~CXqCMVgTxWZjdUFcQnQH2Jd8SVQl3oOIreWe7ws06vwWLUu5Z4YTDs8i3Ttgqgv0CVi7QG3ZNeUS1EhYjPqEGU0uGujSPPI3CAVO~bNt~6MyWV9LZnxNJr2wEOPY0fUuAWgtdIy7c-PwvSQ3mKU2kns5zCJdG8vaE4nCvHRsDYOGhfcN4w3SA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aefd-c387-7470-a473-7503be3be999/output/model.stl?Expires=4943203200&Signature=hFSIl9VK7t5ohJH6Mx89KGcFw614sNOP-ghLAvNMpC705MTVFf4OLuh3TTTS1SBiE5HJh-Cpoc~HkTuwzU6eCTUkkU27TuQkxT3fVPvE3BqLSNHIeml0q1JJnI22xTzNGlOPp1d0-w7IO9lKthRT-CXXPrINWFPWmOf4IhUv7~L6Fag3denQyCmCQzPmH9HsOe7R9UH9EpoYjTFR66baZMcrMDDSQQQxZdOeYloigLJJx6fbl6PYVAvBh~9PnqwBG3Kx2vesEVdP83gFIE3eY7aUDxjPbLx7FRLcwFX3~kCvGWJA46QGy6Mz-BWMSfFvmOA1bUjtMC3sDno5~kpZXw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0aefd-c387-7470-a473-7503be3be999/output/preview.png?Expires=4943203200&Signature=FzNrPwmzZ0IM3GGOAI4PyOTiy1E1u1mb54B~9V~z-g-ZI20OHWPEJSTr0pVgZRRSOAYqFDzdvuRw9G42oyjNa48JcwhEJ2zWfZQF3QjNcrIV3JvR1EE~DOAwRI8We2MXdrUFIHVFZvA~uLP2f7AEpVdjYjbdoaIdfBO28eO8G102Zas6chKV2Wq3gdgdSDoNqI8JFqkeB2Gtc7a~BJYK7mtZNP92lUn9XV2-DGRy8gSFFV2wYleID8zhwREApfcgTPqU2sHMakvhkO67Pd5RCV0goEfq3Gg~JEsydYq5VC~PFtfEJsqEDwRSQ~IPBrTTSH3b8E0pViDW~NWf1oa12w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,60 @@
+  [███████████████████░] 99% — IN_PROGRESS (0s, poll #1)
+  [███████████████████░] 99% — IN_PROGRESS (15s, poll #2)
+  [███████████████████░] 99% — IN_PROGRESS (30s, poll #3)
+  [███████████████████░] 99% — IN_PROGRESS (45s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (60s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (75s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (90s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (105s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (120s, poll #9)
+12:37:21 refine zombie_shambler
+TASK_CREATED: 01a0aef1-42fb-72c8-a64a-9f3b50ccd5a5
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████░░░░░] 75% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (140.9375s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (155.9375s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (170.9375s, poll #11)
+  [████████████████████] 100% — SUCCEEDED (185.9375s, poll #12)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\model.glb (4.2 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\thumb.png (0.1 MB)
+12:40:33 rig zombie_shambler
+TASK_CREATED: 01a0aef4-306c-7118-8166-fd955568104c
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\rigged.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\rigged.glb (8.7 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_walking.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_walking.glb (8.7 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_running.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_running.glb (8.7 MB)
+12:41:21 anim walk
+TASK_CREATED: 01a0aef4-e9a4-70b9-9c75-70e9dc546750
+12:41:21 anim attack
+TASK_CREATED: 01a0aef4-eb65-76d5-844a-d2e25d1f7d8b
+12:41:22 anim death
+TASK_CREATED: 01a0aef4-ecf5-7494-a822-fcfd6e916593
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [██████████████░░░░░░] 74% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_walk.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_walk.glb (8.7 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_attack.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_attack.glb (8.7 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_death.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_shambler\anim_death.glb (8.7 MB)
+12:42:05 DONE zombie_shambler
