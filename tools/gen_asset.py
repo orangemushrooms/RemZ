@@ -21,6 +21,7 @@ def main():
     ap.add_argument("--polycount", type=int, default=8000)
     ap.add_argument("--pose", default="")
     ap.add_argument("--height", type=float, default=1.7)
+    ap.add_argument("--pbr", action="store_true")
     args = ap.parse_args()
 
     spec = json.load(open(os.path.join(ROOT, "tools", "assets.json")))[args.name]
@@ -41,7 +42,7 @@ def main():
 
     # 2. refine
     if "refine" not in state:
-        payload = {"mode": "refine", "preview_task_id": state["preview"], "enable_pbr": False,
+        payload = {"mode": "refine", "preview_task_id": state["preview"], "enable_pbr": args.pbr,
                    "texture_prompt": spec.get("texture_prompt", ""), "texture_resolution": "2k"}
         log("refine", args.name); state["refine"] = create_task(T2D, payload); save()
     task = poll_task(T2D, state["refine"], timeout=900)
