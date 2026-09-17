@@ -1,0 +1,69 @@
+15:41:11 preview zombie_bloater
+TASK_CREATED: 01a0af99-91de-7335-811e-8c1b506437b7
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [██████████████░░░░░░] 72% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (145.625s, poll #12)
+  [███████████████████░] 99% — IN_PROGRESS (160.625s, poll #13)
+  [███████████████████░] 99% — IN_PROGRESS (175.625s, poll #14)
+  [███████████████████░] 99% — IN_PROGRESS (190.625s, poll #15)
+  [████████████████████] 100% — SUCCEEDED (205.625s, poll #16)
+15:44:42 refine zombie_bloater
+TASK_CREATED: 01a0af9c-c979-7257-b0d5-9b43a92221e8
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (65.9375s, poll #6)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (95.9375s, poll #7)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (155.9375s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (185.9375s, poll #10)
+  [████████████████████] 100% — SUCCEEDED (200.9375s, poll #11)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\model.glb (4.0 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\thumb.png (0.1 MB)
+15:48:10 rig zombie_bloater
+TASK_CREATED: 01a0af9f-f41e-758e-b531-9960723113fb
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 95% — IN_PROGRESS (40.625s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (55.625s, poll #6)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\rigged.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\rigged.glb (8.3 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_walking.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_walking.glb (8.3 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_running.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_running.glb (8.3 MB)
+15:49:11 anim walk
+TASK_CREATED: 01a0afa0-e229-764f-80a1-03d9ea1fe2d5
+15:49:11 anim attack
+TASK_CREATED: 01a0afa0-e433-7418-af5b-d48f08fa0e91
+15:49:12 anim death
+TASK_CREATED: 01a0afa0-e5b6-7515-90e2-1fd2cb7de93c
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [██████████████░░░░░░] 74% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_walk.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_walk.glb (8.4 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_attack.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_attack.glb (8.4 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_death.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_bloater\anim_death.glb (8.4 MB)
+15:49:55 DONE zombie_bloater

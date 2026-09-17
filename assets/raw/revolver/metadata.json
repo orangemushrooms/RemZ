@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, large .44 magnum revolver with long barrel and wooden grip, side view, first person shooter weapon, single object",
+  "folder": "revolver",
+  "root_task_id": "01a0afa1-0e87-755c-8f63-2194ffee0da3",
+  "created_at": "2026-09-17T15:52:03.595537",
+  "updated_at": "2026-09-17T15:52:03.595568",
+  "tasks": [
+    {
+      "task_id": "01a0afa1-0e87-755c-8f63-2194ffee0da3",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T15:52:03.595565"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "01a0af94-fd22-719a-9a5d-fbf35b67492a",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1147100542,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game character, zombie nurse in torn bloody white uniform, pale grey skin, sunken eyes, standing upright in T-pose, humanoid, symmetric, horror game asset",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789652174321,
+  "progress": 100,
+  "started_at": 1789652174329,
+  "finished_at": 1789652277857,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd22-719a-9a5d-fbf35b67492a/output/model.glb?Expires=4943203200&Signature=bxvywczzIBiS9nhdr0v3VRK4Ch3SDEDRqiEEx1aJtIDKsPvhkB8oU8WkcTnCXHmAvXeOYsae-bqiCMcppB8a1SN9Pys933segzQRpvcKYfro8MI1fD0eeFOVNSY6UrVcqiLFYzBkQdnExxrrs32xoDRSbQ~rxOuInYXRhXpae5GhET~so7RUOzGCvl8N1Ab9uoW2BbSibZp5MR1JlrJqBiPCVLmpcvnSiIzruSaIo4YRByJRYAJjXxIh7kxlxdkrKvONzLu5WyPvyF4sn1Q6VrWYkFLAGATiF8uaHboLyzdZNqW3tOiQ1jwkXgO-7I24LvBtgmA70tvzTqEmt8ytTQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd22-719a-9a5d-fbf35b67492a/output/model.fbx?Expires=4943203200&Signature=Wz8-oMUHFUxkCVepoDmxFk1bUHTb6Yk0cnp5Vn1in6~Yht3t5Ei3czVS~zc82fzka7zqN7BnqVNLOH9BtHu5KVaum-6utK0KOHQ8hi2xYJuezCl1HvhMeZoVrLkD-hOBZwzbo7gochNi1slRGfsj~W1zdJyIccgOUe1w5dwZNFLqDkRJDW04wqrWelF9WYUT2S9kANLpl6dGplQ5Z9e8zTn8KMceatxi3dNZCda9qs6XnExqW7yWyvlNgU6I8n6BlJHP1nwIZpTxMZ58W3Mhi622tx6Kqt4qOnEqRaE-FP3NJ7Xj5ra5m~tVVnD-Rc3huYo4TDBOnjL7WSDlFNiB3Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd22-719a-9a5d-fbf35b67492a/output/model.usdz?Expires=4943203200&Signature=qvsab5WxvIHbr8-NIjXOwHvx-w7MZ~mvYh3R3OPhUW163ZMofc9W8e6W1b-rKcLAR1~iNEHDen~EG27GNw~8Wwm2y3q3uLfKWH-ZuVuCydjBensyalKB-4d7xAxrgIBHhI~dgXEfe7gKUkUD8JYpPuLbamWh1MHZKi2w5oApxshqvUkDPGvRnDwffvI5GLTS~GmXtPKPeZErgRCRNLU29k28c6ugZ4TjuZjvJ0uMUIOEzFvDUWlexmlbY5pnw-U~S3VhxNcWBytzSVrZxlXqQuTiSzRgg-5q-6rCZdR4IgqW11-ITC2xzIzW3RWVtY6TqdmJvtjCrUpymj6M7nP49g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd22-719a-9a5d-fbf35b67492a/output/model.obj?Expires=4943203200&Signature=gYETMDRnlPMPZSyEWfV5TQgEhJYq38n6BMIGTnfvUPnfC4kqs5wEtZQLSRbO2mOXDkVkzQyInVEMr-YWgpBxTmH3cB8RvWEUvhe5TXUbiJR7L6F4Urfull0U4bAWD7WoKu8dyZ0qMcn7gjKi9CnB8hhPRi9pee7M27ZtOdvLh8WAMg6iBmJzCKL8dwQMNZ8q0ORoo5qPjKv26S0aCmecngmwHGEVIO6dlqzSaUOICt6uj31obXAhoOH-T0Y7wUPGqiLvf~Tq5UMXSWDMn1f5zVb8JK4Y43TA6HL6kZStCzKZ-5R4nw8McuLQZg4JcmmBJn4R8JqTwe8u8G7~9WxUBg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd22-719a-9a5d-fbf35b67492a/output/model.stl?Expires=4943203200&Signature=ZAE9NJuZ~q8dC0lL9s~tuI7Nz1OiUqOWuFV7Bcjoh1ve7UcmD1x08VV5vqyT75Kbg5dq4CccJFuTAH8w1hjCdtEoI1vkLa495-oGBOSRrMZE6Os5sAebM2~BVl5~S1GzWx3CXszef855HYLd4q-butZXkZh-98nfgQNTtNCAtBpCvjSNB0u7j4RLceY246m6SPSL8~xwhKSwKnAdKWm24YazgPdS0G4vx3-5sPFaDXmp6n3k-KFcxvwqnCJkGkSxXmZxgNhlbcmP4Qb-HKYlXDjVAakQpfeUJUO587GGBaJlgxoG3oJtoDab5LY93vv7S5XWms1c5R0ItxRVc2gfsQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd22-719a-9a5d-fbf35b67492a/output/preview.png?Expires=4943203200&Signature=S1-UEzBJZXP0S-03F5Eqjpyb3vowLD9EjZo0Zqy91PsTs0VLjd~jIjI0Ueom5eLFic7z19jb6noURlGkodkiuTH2n4Dxa7zzbD2zWzNd8J0ghsmgfRzMu6n~uOQa~8LtBRR-ilnuhiYPpc869Ou9iuLZXkZsBLVk7JTn94QunLJD4yLdZTu0G-A7ItU9Glc-lbBndNy~5zmqR6tGsZarkMrsZx2WQ6JkrLzMFxGfBPq-WTHk-ui2vOocBqAddswrdRPSUkyddfMLMbDyw7NNy7K2UiMQSAGc3R2F5qWYEv3GI~r3mM5algzbAXsfiNYXVBZIIocAipeOeDOuhBqWUw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

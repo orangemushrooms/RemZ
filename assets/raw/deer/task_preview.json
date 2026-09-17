@@ -1,0 +1,31 @@
+{
+  "id": "01a0af99-5629-75d2-9091-72f24401b992",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3172471920,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, realistic roe deer doe standing, brown coat, alert head, single animal, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789652459323,
+  "progress": 100,
+  "started_at": 1789652459353,
+  "finished_at": 1789652675563,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af99-5629-75d2-9091-72f24401b992/output/model.glb?Expires=4943203200&Signature=AWaakwQcjLW6OeNGSjhwl7Kt1qvXQ96XzLxgKX48~Lm7e7M6x3UCbU0ujtvatryTyfOPrgOkeLnuAWLuJUdVxxr-LRIo7dzSktJ1PQ3Yrtsu-wk5jp23dMka7utJXWFQ1WadTJUdU8nqCNsZjx4uixJ1mcWXhLExYwGa4ci5c8CtIS4ViWoGa97yzb4pCmLDg-sK6e72Ac-vngwMJnYjEJeOcBx~HTH04MXby2nx-2EHUUrOqBXY0Ic6cnjck9dpZpXMDGlAG-4u8P8qzYzQwvE23EyeHz1QNRAOESUysqYNyFEvBs5zmLvcpvo1Lv5neQ9EejjRhRK9COT9n2c89A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af99-5629-75d2-9091-72f24401b992/output/model.fbx?Expires=4943203200&Signature=SVFoAGUeW6NGQbJfcrDtXW29kgElPYDIfUvrCzmxW6XcVEhfmcOSBYcPGYS1WnycyxWqsV-diX24vk1AwRAyfoMfR-SN-BmOOOAHjakZgz8WNXrMzoRVIcoQmloGG1JW1Ka9HNh2roMIiNdyOtUgHHnoKHhbNucEbXLMsZwICpBx81aqiq2hML0rxaXSI-WofZIX2VlH2RMoaYIXF0K04jgPPx7Op0iOqqw2KOdJq7N4OaqefZRdpfBJWKHmdVtLSFH8IMj33BJ9i88dYGAgHIBZMjMG2wTgS7IPBHhkPchPLSXr3SoST6r7oPKb7YYJ9e9k2LN91IVtGhc7t5wC7w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af99-5629-75d2-9091-72f24401b992/output/model.usdz?Expires=4943203200&Signature=J~oSinFk9QzZ4wlGsyUaVYsU6B-rLN~fgCHOfrSa0DIzhsbiu-i6lzsYh~VzEDXcxg6mYiS94QnDcB7gDzgkfGIX40-8LPtt9Ccv1G4dSjW9-Xnivu-0jlaHzmD3eYRqZAmk292n6-hMojXM80bw6K3BsCcywdmfF88NlLbXFwj~3o~Y69dB9m~y3Btyd9EBfOsSKWKg8GuNKW6eRpB0PqlA-HjPps~JCGv0yozYamFcqgD5QfarDPYIBcGtkJ3AQTHdbh4Fo~FheVT6jhPrvEoghAS5DrXRcGgh31MIbadsI3fw6KK2xDlWezCxjnSb~Pxc7pyD6XqkcFImwf6LAw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af99-5629-75d2-9091-72f24401b992/output/model.obj?Expires=4943203200&Signature=Vsk6gcX4GrFgJXy0J5mCWVL-KXydJdSt8PBqUl2m60alEGfdj7otO1xJRfERhQRQ2Naeu1ld5t3M8wMVH7Zc2Is6qeYDygD3DHFxJgwbvR-uVNeLB9Pr83uxOS2HNYo73E~C0p6dwfxbmcuhw8u0HJ8dkjDN75~H~bogUkt8xE0zajyLt1lJfUrDgddMaXAbczINh7UmFwFD6bkVxOGUX45QT-nvcAZ7d2zMPRrBrscyt-2ZhbWRcZpVOviLWtWvYa54zsoDAE-g9qJkYTxH6FM9GQwPOsseSCW~ONAoWf93k03tl5EeRVBMFzc1xX97h~Hpz0EdWAMuRoRe9xqrSg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af99-5629-75d2-9091-72f24401b992/output/model.stl?Expires=4943203200&Signature=AZt7D6HUql2-KcNugazcs0q~lXmZ5DHTsCYNZBdlQSqRPlu4PS9G-ta6VdWQUllQYqYkFt4zRLaikhh~ZmAPeC3fOqCaBCm0l9j0niTIkjtRdvHOksNFxtU4zh6WznjRs41biTpOss0uMKXiKxo-nXJdrGNTTc1sPofP6I2-F~IgqA5-aCmOF1ihe9ZCP87CRDm6AgVI9YjApia1RZUMJmRBPBQA0qbTxqapTT60jZxxhLDXXTQocatXfqWdWpdpxnc3A4YS~jqZGwMEHn-TX-cyDK7wMjrMZW-2cOJpQ6DHmsik1yP-0QWDQ2honSDy5AwzjXGyVLX44ocXndox8g__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af99-5629-75d2-9091-72f24401b992/output/preview.png?Expires=4943203200&Signature=AKZAk70IE7U1WplBCQOH3NKiui9DFPyAsTyABr3IaERz9DAkvqOJR5JVfTIfn5bb3UGLZX14enNft40QSEL8I~Nt7vJOfT1CCsVLWXRwjt8FB64lVVbkIb60YJOrKrh3TUpOZElij9ZGmvedGFL57qsE3OqvAXLnNwWFbkclupAHYxa0-suwLpWZNxcZrcFI5HsKuaSNF69jE6qSlOKY9WkondJmN2eK2vIwZ8S7B99YUIiDldW6vrhvYK76AmlXwX8LFgQphFHMNF6X0otguGGPqvhCcvBHk0SYnTvazpjFlbRHnONe914EN8xWXPim8KZOnv0jYQZAqcurJKGhuw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,31 @@
+{
+  "id": "01a0af94-fd43-755d-9e52-6b32d7fd9df0",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1528523160,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game character, zombie soldier in ripped camouflage uniform with tactical vest, helmet, rotting face, standing upright in T-pose, humanoid, symmetric, horror game asset",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789652174029,
+  "progress": 100,
+  "started_at": 1789652174036,
+  "finished_at": 1789652269364,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd43-755d-9e52-6b32d7fd9df0/output/model.glb?Expires=4943203200&Signature=mxmjgOaxBfx2Zxs2yCZcFo6ramAqWoYqKmJEJP4JfZRFFwYFs5bFF2-9tZjN4xFygbfSe~bv2bSFWrR6T7Cn0fqe6TC881uRmstTmStz30ddGwtDI~Pk8x~vFVmh-z5rYROB7cbep2Jq9RQo-cvUUCf9WD1zKRzJxK67YNpI33tlIvB5pN1sINSNNmFKp5yHXBrB0kj4rMH8ozfNwZRRWkgPKRcNvm2vhoupnNDIz5Q6gozbgQ8PQ65d2MNr0snSVlX1ZvARyfnwv3j7WV92FN6rbguF4D6pWJ5ouJpGHcVvLMafgr7B7Rwq6r7EG47MJ0HZbrsqWxJ7gPTb5scJqw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd43-755d-9e52-6b32d7fd9df0/output/model.fbx?Expires=4943203200&Signature=XtqJvrJ42uvebhk~CGK3lMneKY5p-vFpvLA7MJC~fpj-9cfgiF2FB9RApnMiYsy0KKeN8t2fNgQUXDt-au3av3mSH~D7JWjaCzCEW-Vuwwi17hc8AuVJAkBddSP9rbusjnn4EE9zA~No2GcCVe-Rr-o-KmbpJrqkMw9HkmEW9m5Ui1eArqnLWoJqebx6~0f0EtOhFh7ARcpJv2DX2E75M092qc7KlgjOuURmQXeLywoA9b~TXOW-6Q5-V~CQqJmNXcaj66s88R9jXgjHY-dWkjiA9ZMya~6np~rM8NnXJNrUyn74n6fEUikti55FCvYCNGJpZrr8KZOYnzAulYW2Hw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd43-755d-9e52-6b32d7fd9df0/output/model.usdz?Expires=4943203200&Signature=BPKFplvx3qdWHfNLxpNmR1WDdx2HJes~RO7pGZ5Ebz0kTCWPY5fQPyneMZxUWYg3aiGjiNdVRdukq2sBei8F06x6nUmBq3pEp6Mdipb95uLfmDyUeIauzHd7AyN8yl2SMQv4JrwCXbx-xiiHWYy95NXbIViSNNXnbKB-RSa3qDidO0JS9mjXMxsVG5WE4p~AjmYmYegAn5pSf4TUODK3NuHOErBQvdjthjbQjkc~O3XFk~itqN6NHEKhprEeuawFwObKpd947MYv5HjjQt67SQ-ywBtdIWJNi4i0nOS9JlNXjhWRpAKeh36M-tCyrP~wFp8SYdDOMgO4-wzadlT4FA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd43-755d-9e52-6b32d7fd9df0/output/model.obj?Expires=4943203200&Signature=G7lC~AkNMtX~cRe4YmpN~47K8uB8dqltyUXdD0fStcUqatvMyln8G4iVC6sYr~2Xgt7NraQSIB03PZA7ELW69Zz0dGxq1rBPEaIVRSfLYZQ1cM-1Wk8wgfSdaEdA6FKIurBG2~9YH8VC87chI-OSYOSzjQJ31jfr31rhV6rFmLCQ6iXzGY6lK3IvPj7TR59dSk6SnD29LuqAVdCwYjgRCopyUt6eb8pBzpVd08EJbIZ6yNLEufqwW-xwzUShOdqubwWKTJc6GjQtmulyPoJrXC6XuOAyxwI9l8QObnbzZZZBNwcienSG7pOZWIvEcg1hgxHz8DegBQ~ln8ioZ9l2ZA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd43-755d-9e52-6b32d7fd9df0/output/model.stl?Expires=4943203200&Signature=MUqirke~4w295ZRC5tyyT9Vo5Y-RdLz2kQ9tyDZP7zGa0RZ~643ACxz8D8wJYz~ZonihZnG80~LRVYOwENpFpqqL8iGAw2tT3BnxFrAPSk5eTO6YOKGhcXYGh4O~L3INO2OBZ~iSFgOmBGQ0co9bhfZVkiIbQkdeVqs940Lb~XKJ90-SW6sBKy6QqZ23zz3UMo539L1x2D~lIQQytGMUdMN7~AlLY1ONW4wQdV~6KbAtk~0xyUksrrWfdj316EbBEhtAABzRqJ3faUl64bpozqWr2gISyCY-OfZijNAKSaTsq113klJiNed38NLSZklNmBIbe6ACDNxLRCPiYXf01w__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af94-fd43-755d-9e52-6b32d7fd9df0/output/preview.png?Expires=4943203200&Signature=bdyGPKu1zXhi~xM1RHRPm4C4eSQzqk22pxQORM--Q-YLCnejkRsZ6my~tuDWw8SeffKfzRqZCiwYyr8ISemilwOM5utNooGNgUsUFFoh-TJ6O-GUPq~yW1CwVuS98B2V09ZR0MCNW7-P9ldjWACFiNRIPzkPuJyhi5I8PDtlluY9oKvz1hWbbaCAkpRnMG93PHQICTeQMo-fN3ZG6FI~9hrlufCpxAaX~W-qnslGhs7KHETH23lNGusxj92jjBG~xPhZy5vz~ENmYraAUgLGfGCiJgFjN9hS1GDz59lCCEI5b6JCa5g6B4nh262EJwyjxxOSonScnrDrjcQHDrQadw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,35 @@
+15:52:04 preview grenade
+TASK_CREATED: 01a0afa3-89f6-70a2-9ed4-14f89030bd5b
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (145.625s, poll #12)
+  [███████████████████░] 99% — IN_PROGRESS (160.625s, poll #13)
+  [███████████████████░] 99% — IN_PROGRESS (175.625s, poll #14)
+  [████████████████████] 100% — SUCCEEDED (190.625s, poll #15)
+15:55:20 refine grenade
+TASK_CREATED: 01a0afa6-8447-74de-86f0-408501097682
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (40.625s, poll #5)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████░░░░░] 75% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (140.9375s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (155.9375s, poll #10)
+  [████████████████████] 100% — SUCCEEDED (170.9375s, poll #11)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\grenade\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\grenade\model.glb (3.3 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\grenade\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\grenade\thumb.png (0.2 MB)
+15:58:17 DONE grenade

@@ -1,0 +1,18 @@
+{
+  "project_name": "game character, zombie nurse in torn bloody white uniform, pale grey skin, sunken eyes, standing upright in T-pose, humanoid, symmetric, horror game asset",
+  "folder": "zombie_nurse",
+  "root_task_id": "01a0af96-d067-7283-af5e-4ac08ca93147",
+  "created_at": "2026-09-17T15:40:07.358595",
+  "updated_at": "2026-09-17T15:40:07.358612",
+  "tasks": [
+    {
+      "task_id": "01a0af96-d067-7283-af5e-4ac08ca93147",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T15:40:07.358610"
+    }
+  ]
+}

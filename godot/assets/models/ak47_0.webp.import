@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://hh7s2nwbqndy"
-path="res://.godot/imported/ak47_0.webp-e1c059d1a4adba2df72699f67bdd9b6e.ctex"
+path.s3tc="res://.godot/imported/ak47_0.webp-e1c059d1a4adba2df72699f67bdd9b6e.s3tc.ctex"
+path.etc2="res://.godot/imported/ak47_0.webp-e1c059d1a4adba2df72699f67bdd9b6e.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "496b11d43ec55555efa61a471702d5c8"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/ak47_0.webp"
-dest_files=["res://.godot/imported/ak47_0.webp-e1c059d1a4adba2df72699f67bdd9b6e.ctex"]
+dest_files=["res://.godot/imported/ak47_0.webp-e1c059d1a4adba2df72699f67bdd9b6e.s3tc.ctex", "res://.godot/imported/ak47_0.webp-e1c059d1a4adba2df72699f67bdd9b6e.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

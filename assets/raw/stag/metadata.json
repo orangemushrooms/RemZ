@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, realistic red deer stag with large antlers standing, single animal, no ground",
+  "folder": "stag",
+  "root_task_id": "01a0afa1-5bc2-70ec-a1f8-5d64cc8f5dd7",
+  "created_at": "2026-09-17T15:52:53.968760",
+  "updated_at": "2026-09-17T15:52:53.968789",
+  "tasks": [
+    {
+      "task_id": "01a0afa1-5bc2-70ec-a1f8-5d64cc8f5dd7",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T15:52:53.968786"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+15:36:10 preview zombie_nurse
+TASK_CREATED: 01a0af94-fd22-719a-9a5d-fbf35b67492a
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████░░░░░] 77% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (115.625s, poll #10)
+15:38:11 refine zombie_nurse
+TASK_CREATED: 01a0af96-d067-7283-af5e-4ac08ca93147
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (95.9375s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (110.9375s, poll #8)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\model.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\model.glb (4.2 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\thumb.png...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\thumb.png (0.1 MB)
+15:40:07 rig zombie_nurse
+TASK_CREATED: 01a0af98-952d-7485-b3f3-1e0e0a8e95a9
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\rigged.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\rigged.glb (8.6 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_walking.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_walking.glb (8.6 MB)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_running.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_running.glb (8.6 MB)
+15:40:53 anim walk
+TASK_CREATED: 01a0af99-4adb-7570-b95d-0e2e3c753b0d
+15:40:54 anim attack
+TASK_CREATED: 01a0af99-4cdd-7564-ad25-1ffaaa82dd7b
+15:40:54 anim death
+TASK_CREATED: 01a0af99-4ee2-7414-a736-76fd5be09188
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████████████████] 100% — SUCCEEDED (12.5s, poll #3)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_walk.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_walk.glb (8.7 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_attack.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_attack.glb (8.7 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_death.glb...
+DOWNLOADED: C:\Users\M Konrad\Desktop\Development\RemZ\assets\raw\zombie_nurse\anim_death.glb (8.6 MB)
+15:41:10 DONE zombie_nurse

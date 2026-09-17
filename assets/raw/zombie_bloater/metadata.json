@@ -1,0 +1,18 @@
+{
+  "project_name": "game character, huge bloated fat zombie, bare swollen torso with boils, torn trousers, standing upright in T-pose, humanoid, symmetric, horror game asset",
+  "folder": "zombie_bloater",
+  "root_task_id": "01a0af9c-c979-7257-b0d5-9b43a92221e8",
+  "created_at": "2026-09-17T15:48:10.422179",
+  "updated_at": "2026-09-17T15:48:10.422198",
+  "tasks": [
+    {
+      "task_id": "01a0af9c-c979-7257-b0d5-9b43a92221e8",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T15:48:10.422196"
+    }
+  ]
+}

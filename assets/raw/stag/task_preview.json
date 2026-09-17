@@ -1,0 +1,31 @@
+{
+  "id": "01a0af9f-c15c-7790-9846-6b1b39d1895a",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2663058714,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, realistic red deer stag with large antlers standing, single animal, no ground",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789652880576,
+  "progress": 100,
+  "started_at": 1789652880582,
+  "finished_at": 1789652976610,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af9f-c15c-7790-9846-6b1b39d1895a/output/model.glb?Expires=4943203200&Signature=XmQOAtVbim85PR8Hvqv8lKUIzYeEdAIRN-lRGh3korrc7bTQiuCReBbCAfdcMvpQFzCk0zmsotcHwKuKGZ9cLqulHUHqn-2FfxV4dnV7bLY1zOb~fYoPrFFvmWzrmVIOUpSLaV8VdnaMj2IiboOgFH~nyk~gt8nJdqxwwaJ-5QoUSKUqhMlUmOGZ1TzoDzJ7nF8rAM9t6Q07MIrZU02C8ZmFLQZd-viWlkcLM6K0KyMSucylwV0yuf7f3IUTnzhFaGtBGaXhoSe7EJA6jVk~VHuj2wi-vt70dr5ZMP0HS-HNE2GCmRSeikT0AKDngmoJpwSI0H47fjyiI3TywU5Q~w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af9f-c15c-7790-9846-6b1b39d1895a/output/model.fbx?Expires=4943203200&Signature=Y~234DTRtxDkgKmrtsrJ0NkExXzQysvFy0z~RjbVLJ2h665eRW5Slm-7lDWeqRMKIThqbVwa99lDJLJK4lj94b1Y5WqZuTsj83PsZ~3fw1SgMRbtJNgrK5IQxwio1LlBos4qeRLhM8N~4TMhuUzWG9FwiyFG8pk~5jRh8tOMMJrrzugH3bKLblsVkEHNMTyU2-JN9EbAiG593AEYqlkywWTXB2X7MhCl2H8S1XeiEyEViqSzYGRfgIW~0dL9fZoLytFpnciRA2NgJ5nN3CwPwGVr52WLc~aVQy4yBySpfywQgJY2LEfKHteg17XBZ~JGeihnMKXoLigygTm-wLebtQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af9f-c15c-7790-9846-6b1b39d1895a/output/model.usdz?Expires=4943203200&Signature=c2nfbDSdw0fhDSB-66~lMGI1oyI0kwp9tx1dFFDWgGrFn8c0krN5TMgGqhRMIMlUn6KUCT7t1N6TB~0cyBzj13esPdVXh-o2Teyyze5gjsrsGjF6VA0w~XCcLBAig-oq9xJ0LhjCAQLh1~hwS2ZwhnK7BrkvqKVedkrgW79tzDC4EHRiml0vrmmklkNU7wqIhk-VKT1ULUMW0iViokgFWXQE1U7LAIunjlDW7awoHDrKARJrZItJ-i0c81CKctBNIMBgu8gvNDkJcypQ62k1pi2n5PAcBp8h1qOviBrr5DFQxaWf0joIdl65wpTmaIO5pA5U7z3GxzOK6k2pcGV~RQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af9f-c15c-7790-9846-6b1b39d1895a/output/model.obj?Expires=4943203200&Signature=aUMRpDHmdvRV6YbSKL6KdnrRPeA-NyCJQv3p6Mgr3BHPmV7K-kOjWYV8M2~4xh1KhVFadwW2upFH6QJvpIsKmh9JRoKpUt9YMPlv4RwalG1jPdYWdtp2akRcGmdpqn8L4C7cB9GPcViuugUOhdja5bdpWa0H4lVS-2~rJcCmzgmffu~SGqMURaHWt3BK6ua6fYQ1h9IpTRhnzDdJ9dg70VlS4w92Dh8uvfWtddZL7RKLpp7fspFQL02QxChEFuMNrbqovgb9f4BtE8k4isC1l31bkFBU9Nb4g1Haq5VDPdXACta01nbrzs-mbimhKiAhgZmn-AYNiKjVV8~gxCz~gA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af9f-c15c-7790-9846-6b1b39d1895a/output/model.stl?Expires=4943203200&Signature=giOX3lfPEpWop1Z1rS2YR-pT4d5D83P0bIam1ZwQrE6qWb7VbjlqCg3Q0ZN7ZaLPw1KsTIwdjM~Ep3~qG7zLM7g1nH4AkyyRnvdAaMXY~ZNqQM6fWGhTKkDCqFqtBoiEC4N6gIX1385qbdRBJ850xhoYfdYNr2YzqbU2pU~jBHk8Ty2wlWuxGTdqO2ZBbhOiVgv9WiF9uTGMpqPpi3uwHnqBFwAqg3rcymW2ahdsvTGz4Lklcr93sqTGyY4dDOW6ULfVrC9aIHJhSwDSfSWo8VqkjYj7FJ5NedQtSqSNPgWI-Z62yBJjg7GS1EC5gXtO7ozqbYohZnroPjVARxpNOw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0af9f-c15c-7790-9846-6b1b39d1895a/output/preview.png?Expires=4943203200&Signature=oIPwlJuqHhzQ68-aEHCFmRKY~gtbVUEn~5B4DGOZ3SeVA3MtYxsvpYWKBWD~5wYIZbAVTq3DJteZd~SmEaWQN-ZK00IQzAHeLEaVrirl4TcH1HHfCZNd4jKChBZOmT~svhL~RQZxHgJjRSRlQNsJhkbJrxtAmfzDfTiJ5idfqKlsFgujphZynhCFaA6G6YZ4YnQXSvS17GyGfXI3lsGL1wFpeSWMsBUQhEqVc-kuBPYGJEzCA7dDAbT6PgG5QbWYLc4gRwfxIU9zJYOynacJvDU-DRQYXKzp8hofJ5HWulim47iBbR3y2uBBGDzrZcWHTfcg44Ht273e8f1rFs-Yyw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

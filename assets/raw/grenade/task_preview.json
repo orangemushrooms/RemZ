@@ -1,0 +1,31 @@
+{
+  "id": "01a0afa3-89f6-70a2-9ed4-14f89030bd5b",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1271373802,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "game asset, military hand grenade, olive green, with pin and lever, single object",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789653127696,
+  "progress": 100,
+  "started_at": 1789653127704,
+  "finished_at": 1789653317889,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0afa3-89f6-70a2-9ed4-14f89030bd5b/output/model.glb?Expires=4943203200&Signature=PPwOl0SeWVH~Md44YchG07ZI7POL5tBFAzOixADzQptWDXKIin1PZH61P4b4CuJrCOP~~9ddok8zTvRLfiONrJZkfMSMKxrMcpTSZSAFrXN7duNvdN75A00UcKwzOp9Uua6eZGHhUL7zLrJ2~F5S54IAramHRh0GTnfQSRP7p-Vbm2NDXPU2AkBSxkB6CDv-SsB2VwiPYQv8qAS4i2Tu-hK9TsMnTNrGR-lV9PxoAjOgH2SZ4XOvQx8Kow5f64TAsPIiwyiXkk0u41gIQauNYwGmLSjeysWW2K~S6AshbkUS4tcwna6Kg3nbOfJSXd87Eja2UQQOW3-K3cTHIeK9kw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0afa3-89f6-70a2-9ed4-14f89030bd5b/output/model.fbx?Expires=4943203200&Signature=Um6XMqF70ohfi~qo2HCXCm9gWF25D56H72Wv3sSIY6TQXsXkqgQOJFBHFlAPfLzP49QdvGTX7Tc1SeSYOrF3KQhp84DdleYDJ6rBIqmrjjf1qGCAIbhOSS~zu77USWO5LKqpXOIgDKxT21dBDWcn67NKfjVAnmNEOHTi42o3mEP2Rg6RMitsF3U4AV73B7zCE0cR80OCszf0n9ENmm4FJblGtJ5c-YtDis9XEAfKFlhTka9pPRrDQHcM6fSJtInfkHiEVW6fmeRv9TbXBNpNwHnPvJi29qi3A78fSniLWTLYFfLSoqwLnzPPCCTeCIVatDyJQtrAAzJNUJfVli6y8A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0afa3-89f6-70a2-9ed4-14f89030bd5b/output/model.usdz?Expires=4943203200&Signature=ZPvl3Kh76Cg-YzYfqy3zFavnE1vG5TAHPBqI9lkrh6h~SoJnJsIQe22Fj~3Hor~Say85PBNFlhWgq~x3E4~R9GIn3mMIa2Bu9xAc0iMwfhLeYlNAKvyFOQvOzcu58Yx2GRShuiJmuxi8MweJjJja0J6e5IjvL36bsDZ41htAeFXEMxTMhqVBebWxLubZpdnh33bIl0zIJ76BKxS65IsbN~iE8cq4xwhcZs1vT5tBIvUDyxZfRSbAbb8U9ZYIhCl~tTsrBYtFNyfLXomc7y1oRj55CxhqLRHgcD~zXY8uI49ScpkBP0Vgdz6d4SyLJ02dQSdJYHDB6sVjoLyHYlRpkw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0afa3-89f6-70a2-9ed4-14f89030bd5b/output/model.obj?Expires=4943203200&Signature=iWbl6fiPnUWsRZafsZIeo~2XnhwYeWnQS7Whbo4MAL~QNgF75yZtNXtvNuR3xoDaGlNX2slmGDDN4Puf93t6hTfPHmbL4w~9o-je5r-OEvqSSRatOB4llT1yWPtey1s9h-QuGs5a95RsSK81Jy-s~-HAUPYhWzHLMxC0rWU2pcOouQTjYFDSpLf3Bqqs6DXUAuvqpPBO3-iANpj8ztyc5zZtY3bXi8TuEGkg7EvmEfMdiWGNoDIMjzs9YcEEhFY76vM0fKFbbYHUgMRSTr13nuSitVRGd0ohBzdvISrfigAe86oYmSNO3ShTzhaqju90~UDyashzTB2FLzZawsDoag__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0afa3-89f6-70a2-9ed4-14f89030bd5b/output/model.stl?Expires=4943203200&Signature=lxK26FVoBVAKhdX9WcVdiO47qkGxG6eyYq32368fNNx3LR7w-RtE5SXFBB95wgaJu-Or7BshzIxpTT95mGsa2~7VVaRlGXg~BcLCapg0UNL2NaRZUlQNvhRSLAJekci1ahAUiLULEby8YgfhZljOK0XFfd~r9mit7NWwYNCSNgb4p~c4WR1FEPTJLzakyH9~dkik6V2-vNLkUEBIWFRrasckEXlmyQYjsZKQmMvHOtp61bPOtbZOOqOCmF2EbY1gPy1-EIjdOdJM01q2J~d5Pe1~MdtJMe29cWvuoTEuqgRROXTDi3G1ewyqfitPOO5WMhCdZyImiWBgvGzMWfeoSg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0afa3-89f6-70a2-9ed4-14f89030bd5b/output/preview.png?Expires=4943203200&Signature=RBvy3VQQ5mXTiqu-jVU4-Fy0CIafn9eKL66Zu07sWhOhkZv7GcVMPNcqGllLz8HAAi3mj0tLIEueKyKOPpGfalyVTiK3H8HF5iG~2zR-PjBrvFpkZHOLEFmJ-dcJAlUSnZVKp0oaYXPleJewEDg0D~PPK0nAfduiMcmGB1bl8V5lEpNSY2UAqFBo5XRCkIIoK-zBkCNg5DdzW5UNOFRWwIbZoktyfQRTt1~6nqwzx1YeKnokYnAu76yJGgirtQ5MhjfJABcfP1yX5iPa163jVfL6~QHIkoKype8sbiOXDQOgznxdefK3tK4c7zHgpVXIPF3DSOKDbsI8zNxyDjw51g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

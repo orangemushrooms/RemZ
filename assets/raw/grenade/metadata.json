@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, military hand grenade, olive green, with pin and lever, single object",
+  "folder": "grenade",
+  "root_task_id": "01a0afa6-8447-74de-86f0-408501097682",
+  "created_at": "2026-09-17T15:58:17.310118",
+  "updated_at": "2026-09-17T15:58:17.310139",
+  "tasks": [
+    {
+      "task_id": "01a0afa6-8447-74de-86f0-408501097682",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T15:58:17.310138"
+    }
+  ]
+}

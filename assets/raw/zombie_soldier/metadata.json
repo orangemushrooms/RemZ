@@ -1,0 +1,18 @@
+{
+  "project_name": "game character, zombie soldier in ripped camouflage uniform with tactical vest, helmet, rotting face, standing upright in T-pose, humanoid, symmetric, horror game asset",
+  "folder": "zombie_soldier",
+  "root_task_id": "01a0af96-93f8-7428-8222-7d2d9c16178c",
+  "created_at": "2026-09-17T15:39:52.166940",
+  "updated_at": "2026-09-17T15:39:52.166959",
+  "tasks": [
+    {
+      "task_id": "01a0af96-93f8-7428-8222-7d2d9c16178c",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T15:39:52.166957"
+    }
+  ]
+}
