@@ -12,13 +12,13 @@ editors; Claude generates assets and code. Reply in German (Swiss spelling, "ss"
   one continuous block; the only access from the Nordstrasse is the eastern "Weg zur Hütte". A zip of real photos
   for an exact rebuild is expected from the user; when it arrives, rebuild positions, sizes and materials from it.
 - Systems: waves, 4 barricade slots (E), 5 weapons with COD-style recoil + ADS, grenades (G), skill menu (Tab),
-  5 zombie types, fleeing deer, procedural ambience audio (no audio files), HUD.
+  5 zombie types, fleeing deer, procedural ambience (wind, fire, birds) plus recorded music/SFX, HUD.
 
 ## Code map (`godot/scripts/`)
 `main.gd` builds the whole world in `_ready` (terrain, roads, stream, forests, buildings, campsite, clutter,
 foliage) and wires the systems. `map.gd` layout + `ground_height`. `foliage.gd` PBR materials, terrain blend
 shader, ground leaves / grass / canopy multimeshes, falling leaves, campfire. `player.gd`, `weapons.gd`,
-`grenade.gd`, `zombie.gd`, `waves.gd`, `barricade.gd`, `skills.gd`, `deer.gd`, `ambience.gd`, `sfx.gd`, `hud.gd`.
+`grenade.gd`, `zombie.gd`, `waves.gd`, `barricade.gd`, `skills.gd`, `deer.gd`, `ambience.gd`, `sfx.gd`, `music.gd`, `hud.gd`.
 Scenes are built in code; `scenes/main.tscn` only holds the root.
 
 ## Assets
@@ -33,6 +33,11 @@ Scenes are built in code; `scenes/main.tscn` only holds the root.
   `blender -b -P tools/tree_reduce.py` (reduced GLBs into `godot/assets/trees`, gitignored, ~1 GB).
   Only `godot/assets/trees/*.glb` are needed to play.
 - PBR ground textures in `godot/assets/textures/` (Poly Haven), leaf/grass sprites in `godot/assets/sprites/`.
+- Audio: the user's sound library lives in `C:\Users\miche\Desktop\Developement\music` (not all of it fits the
+  game). Selected clips are copied to `godot/assets/audio/{music,sfx}` with clean names; `sfx.gd` maps logical
+  names to file variants (random pick) and falls back to procedural bursts, `music.gd` crossfades
+  title / night / combat / gameover plus a "horde" layer scaled by zombies alive. `--no-music` silences it.
+  After adding files run `Godot.exe --headless --path godot --import`.
 
 ## Testing
 - `godot --headless --path godot --quit-after 150` catches script errors.
