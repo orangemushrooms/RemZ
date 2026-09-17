@@ -138,6 +138,29 @@ func _navigation_baked() -> void:
 	hud.set_loading(false)
 	if _autotest or "--benchmark" in _flags:
 		_on_start()
+	for f in _flags:
+		if f.begins_with("--view="):
+			_shot_view(f.substr(7))
+
+# --view=x,z,yaw[,pitch]: start, teleport, screenshot to shots/view.png, quit (for checking single spots)
+func _shot_view(spec: String) -> void:
+	var a := spec.split(",")
+	_on_start()
+	for i in 20:
+		await get_tree().process_frame
+	player.global_position = Map.ground_pos(float(a[0]), float(a[1])) + Vector3(0, 0.3, 0)
+	player.velocity = Vector3.ZERO
+	player.rotation.y = float(a[2])
+	var pitch := float(a[3]) if a.size() > 3 else 0.0
+	player.pitch = pitch
+	player.head.rotation.x = pitch
+	for i in 12:
+		await get_tree().process_frame
+	var dir := ProjectSettings.globalize_path("res://") + "../shots/"
+	DirAccess.make_dir_recursive_absolute(dir)
+	get_viewport().get_texture().get_image().save_png(dir + "view.png")
+	print("SHOT_VIEW_DONE")
+	get_tree().quit()
 
 # ---------------------------------------------------------------- environment
 func _build_environment() -> void:

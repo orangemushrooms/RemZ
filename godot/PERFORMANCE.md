@@ -26,6 +26,8 @@ Ein früherer Lauf vor der Verdichtung der Baumkronen und vor Händen/Minimap er
 
 ## Technische Änderungen
 
+Die nachfolgend ergänzten Schusseffekte wurden funktional und gerendert geprüft (`../logs/check-weaponeffects.log`: 61 Prüfungen, 0 Fehler, einschließlich 11 Screenshot-Prüfungen). Der obige FPS-Messlauf stammt vor dieser Ergänzung und vor weiteren Änderungen des parallelen Karten-Workers.
+
 - Räumliche MultiMesh-Gruppen und Sichtweiten für Vegetation, Dekoration und wiederholte Modelle; Physikkollision bleibt erhalten.
 - Jolt, zeitlich verteilte Pfadberechnung, begrenzte gleichzeitige Gegnerzahl und wiederverwendete Trefferpartikel.
 - Keine Modell-Neuerzeugung pro Barrikadentreffer; vorab geladene Gegner und Sounds.
@@ -33,3 +35,4 @@ Ein früherer Lauf vor der Verdichtung der Baumkronen und vor Händen/Minimap er
 - Minimap zeichnet Gelände und Wege einmal; bewegliche Markierungen werden zehnmal pro Sekunde aktualisiert.
 - Die neuen Hände verwenden zwei modellierte, skelettierte Handschuhe und zwei Meshy-Ärmel je sichtbarer Waffe. Ein eigener transparenter Viewport zeichnet Waffen und Arme in voller Fensterauflösung mit 2× MSAA.
 - 72 Oberflächentexturen auf GPU-Kompression und Mipmaps umgestellt: Desktop-Importdateien zusammen 64,3 MiB inklusive Mipmaps, gegenüber 246 MiB unkomprimierter RGBA-Basisbildgröße.
+- Waffenfeuer: drei kurze Flash-Flächen und zwei schattenlose Lichtimpulse; Rauch wird über einen begrenzten MultiMesh-Pool gezeichnet. Die Ärmel verformen sich auf der GPU mit am Handgelenk fixierten Vertices. Waffenrückstoß verwendet eine zeitbasierte gedämpfte Feder.

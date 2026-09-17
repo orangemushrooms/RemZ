@@ -28,6 +28,8 @@ Beide Hände folgen der jeweiligen Waffe beim Zielen, Rückstoß und Nachladen. 
 
 Die Hände verwenden modellierte Handschuhe mit Fingerskelett und Normalmaps. Die Ärmel stammen aus einer Meshy-Generierung mit 4K-PBR-Materialien und werden an die Griffpositionen jeder Waffe angepasst. Waffen und Arme werden separat in voller Fensterauflösung mit Kantenglättung gerendert, unabhängig von der 3D-Skalierung der Karte. Quellen und Lizenzhinweise: `assets/viewmodel/SOURCES.md` und `assets/viewmodel/VALVE-LICENSE.txt`.
 
+Jede Waffe hat einen eigenen kurzen Mündungsblitz, Licht auf Händen und Umgebung sowie auslaufenden Pulverdampf. Der Rauch steigt auf und bleibt beim Umsehen in der Welt zurück. Rückstoß hebt die Waffe an, drückt sie zurück und federt gedämpft aus; beim Zielen ist er schwächer. Die Ärmel reagieren mit leichter Stoffbewegung auf Schüsse und Schritte, während die Bündchen an den Händen bleiben. Rauch nutzt einen gemeinsamen Pool mit maximal 48 Instanzen in einem MultiMesh; für die Stoffbewegung werden keine Meshes pro Bild neu aufgebaut. Alle Effekte pausieren mit dem Spiel.
+
 ## Grafik und Leistung
 
 Im Start- und Pausenmenü stehen drei Grafikprofile, Bildratenlimit, VSync, FPS-Anzeige, Mausempfindlichkeit und Lautstärke zur Verfügung. Änderungen werden lokal gespeichert. Das Profil **Flüssig** verwendet reduzierte Effekt- und Sichtweiten sowie 85 % 3D-Auflösung mit FSR; die Oberfläche bleibt scharf. Die Standardbegrenzung beträgt 144 FPS.
@@ -42,6 +44,7 @@ Aus dem übergeordneten Projektordner in PowerShell:
 
 ```powershell
 ./tools/check-game.ps1 -Mode Smoke
+./tools/check-game.ps1 -Mode WeaponEffects
 ./tools/check-game.ps1 -Mode Benchmark -Quality 0
 ./tools/check-game.ps1 -Mode ExportWindows
 ```
@@ -49,6 +52,8 @@ Aus dem übergeordneten Projektordner in PowerShell:
 Bei anderem Installationsort zusätzlich `-Godot 'C:/Pfad/Godot.exe'` angeben. Für den Export sind passende offizielle Windows-Templates erforderlich; das Preset verweist auf `../builds/templates/`. Benchmark mit geschlossenem weiteren Spielfenster durchführen. Der Benchmark verändert keine gespeicherten Einstellungen.
 
 Die 48 automatisierten Prüfungen decken Start, Navigation, Grafikprofile, Minimap-Ausrichtung, Hände und Kamerafreiraum für alle fünf Waffen, unabhängige Handdarstellung und Mündungsfeuer, Munition, Feuerrate bei 30/60/144 FPS, Barrikaden, Nahkampfsichtlinie, Wellen, Granaten, Pause, Fähigkeiten und Neustart ab. Visuelle Prüfungen aller Waffen: `--script res://tests/visual.gd -- --smoke-test`.
+
+`WeaponEffects` prüft zusätzlich alle fünf Waffen beim Schießen, Rauchabbau, Rückstoßrichtung und Rückkehr, Dauerfeuer, leere Magazine, Nachladen, Waffenwechsel, Stoffbewegung beim Laufen, Pause, langsame Frames und Zielen. Der gerenderte Lauf umfasst 50 Funktionsprüfungen und 11 Screenshot-Prüfungen. Bilder: `../artifacts/weapon-effects/`.
 
 ## Stand der Freigabe
 
