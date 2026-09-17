@@ -8,6 +8,8 @@ var weapons: Weapons
 var waves: Waves
 var skills: Skills
 var inventory: Inventory
+var achievements: Achievements
+var barricade_menu: BarricadeMenu
 var ambience: Ambience
 var music: Music
 var zombies_root: Node3D
@@ -98,6 +100,12 @@ func _ready() -> void:
 	inventory = Inventory.new()
 	add_child(inventory)
 	inventory.setup(player, weapons, hud, self)
+	achievements = Achievements.new()
+	add_child(achievements)
+	achievements.setup(player, weapons, hud, self)
+	barricade_menu = BarricadeMenu.new()
+	add_child(barricade_menu)
+	barricade_menu.setup(self)
 	ambience = Ambience.new()
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
@@ -706,6 +714,53 @@ func _hip_roof(parent: Node3D, size: Vector2, y: float, height: float, overhang:
 	mi.material_override = mat
 	parent.add_child(mi)
 
+# ridge cap, rafter ends under the eaves, gutters: the cheap details that make a roof read as real
+func _roof_details(parent: Node3D, size: Vector2, y: float, height: float, overhang: float, gable: bool) -> void:
+	var wood := _plain(Color(0.28, 0.18, 0.12), 0.85)
+	var zinc := _plain(Color(0.55, 0.56, 0.58), 0.4, 0.6)
+	var along_x := size.x >= size.y
+	var hx := size.x / 2.0 + overhang
+	var hz := size.y / 2.0 + overhang
+	var r := (absf(size.x - size.y) / 2.0) if not gable else (hx if along_x else hz)
+	# ridge cap
+	if along_x:
+		_box(parent, Vector3(r * 2.0 + 0.2, 0.09, 0.32), Vector3(0, y + height + 0.03, 0), zinc)
+	else:
+		_box(parent, Vector3(0.32, 0.09, r * 2.0 + 0.2), Vector3(0, y + height + 0.03, 0), zinc)
+	# rafter ends along the long eaves and gutters
+	var pitch := atan2(height, (hz if along_x else hx))
+	var n := int((size.x if along_x else size.y) / 0.7)
+	for k in n + 1:
+		var t := -0.5 + float(k) / n
+		for side in [-1.0, 1.0]:
+			var rafter := MeshInstance3D.new()
+			var rb := BoxMesh.new()
+			rb.size = Vector3(0.08, 0.14, overhang + 0.6) if along_x else Vector3(overhang + 0.6, 0.14, 0.08)
+			rafter.mesh = rb
+			rafter.material_override = wood
+			if along_x:
+				rafter.position = Vector3(t * size.x, y - 0.1 + tan(pitch) * (overhang + 0.3) * 0.5, side * (hz - (overhang + 0.3) / 2.0))
+				rafter.rotation.x = -side * pitch
+			else:
+				rafter.position = Vector3(side * (hx - (overhang + 0.3) / 2.0), y - 0.1 + tan(pitch) * (overhang + 0.3) * 0.5, t * size.y)
+				rafter.rotation.z = side * pitch
+			parent.add_child(rafter)
+	for side in [-1.0, 1.0]:
+		var g := MeshInstance3D.new()
+		var gm := CylinderMesh.new()
+		gm.top_radius = 0.06
+		gm.bottom_radius = 0.06
+		gm.height = (size.x if along_x else size.y) + overhang * 2.0
+		g.mesh = gm
+		g.material_override = zinc
+		if along_x:
+			g.position = Vector3(0, y - 0.05, side * (hz + 0.02))
+			g.rotation.z = PI / 2.0
+		else:
+			g.position = Vector3(side * (hx + 0.02), y - 0.05, 0)
+			g.rotation.x = PI / 2.0
+		parent.add_child(g)
+
 func _waldhuette() -> Node3D:
 	# Photos 14, 17, 19: garage door in the west face (north end), a second small double door in the base at the
 	# west end of the north face, the outside stair along the north face rising east to the upper door, the east side
@@ -724,7 +779,8 @@ func _waldhuette() -> Node3D:
 	var concrete := _mat("ph_concrete", 0.45, Color(0.95, 0.95, 0.92))
 	var wood := _mat("ph_cladding", 0.55, Color(0.5, 0.36, 0.3))
 	var dark_wood := _plain(Color(0.28, 0.14, 0.09), 0.75)
-	var roof := _plain(Color(0.16, 0.16, 0.17), 0.85)
+	var roof := Foliage.pbr("roof", 0.55, Color(0.42, 0.38, 0.36))
+	roof.uv1_triplanar = true
 	var hx := size.x / 2.0
 	var hz := size.y / 2.0
 	# garage storey: concrete walls with the door opening in the west face (north end), enterable (photo 14)
@@ -748,6 +804,7 @@ func _waldhuette() -> Node3D:
 	root.add_child(inner)
 	_box(root, Vector3(size.x + 0.9, 0.14, size.y + 0.9), Vector3(0, base_h + wall_h + 0.07, 0), dark_wood)
 	_hip_roof(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, roof)
+	_roof_details(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, false)
 	_box(root, Vector3(0.5, 1.6, 0.5), Vector3(hx * 0.4, base_h + wall_h + 1.4, -0.6), _plain(Color(0.35, 0.33, 0.3)))
 	# garage door: closed, opens with E (leaves swing out over the gravel)
 	var door := Door.new()
@@ -832,7 +889,9 @@ func _holzlager() -> Node3D:
 	var concrete := _mat("ph_concrete", 0.45, Color(0.9, 0.9, 0.88))
 	var metal := _mat("ph_corrugated", 0.35, Color(1.15, 1.1, 1.05))
 	metal.roughness = 0.6
-	var roof := _plain(Color(0.55, 0.55, 0.56), 0.5, 0.3)
+	var roof := _mat("ph_corrugated", 0.7, Color(1.3, 1.32, 1.35))
+	roof.roughness = 0.55
+	roof.metallic = 0.35
 	var dark_wood := _plain(Color(0.25, 0.13, 0.08), 0.75)
 	var hx := size.x / 2.0
 	var hz := size.y / 2.0
@@ -860,6 +919,7 @@ func _holzlager() -> Node3D:
 	_slab(root, Vector3(0.9, 0.55, 0.9), Vector3(-hx - 0.6, 0.275, 2.0), Foliage.pbr("planks", 0.8, Color(0.45, 0.38, 0.28)))
 	_slab(root, Vector3(0.9, 0.5, 0.9), Vector3(-hx + 0.75, 0.25 + base_h, 2.0), Foliage.pbr("planks", 0.8, Color(0.45, 0.38, 0.28)))
 	_hip_roof(root, Vector2(size.x + 1.2, size.y), base_h + wall_h, b["roof_h"], 0.5, roof, true)
+	_roof_details(root, Vector2(size.x + 1.2, size.y), base_h + wall_h, b["roof_h"], 0.5, true)
 	# eave struts under the wide overhang on the road side
 	for k in 5:
 		var zz := -hz + 1.2 + k * (size.y - 2.4) / 4.0
@@ -1192,7 +1252,7 @@ func _build_foliage() -> void:
 			return null
 		return Map.ground_pos(x, z)
 	if not "--no-leaves" in _flags:
-		add_child(Foliage.ground_leaves(150000, leaf_sampler, rng))
+		add_child(Foliage.ground_leaves(100000, leaf_sampler, rng))
 	var grass_sampler := func(r: RandomNumberGenerator):
 		var x: float = r.randf_range(-150.0, 150.0)
 		var z: float = r.randf_range(-60.0, 160.0)
@@ -1202,7 +1262,7 @@ func _build_foliage() -> void:
 			return null
 		return Map.ground_pos(x, z)
 	if not "--no-grass" in _flags:
-		add_child(Foliage.grass(240000, grass_sampler, rng))
+		add_child(Foliage.grass(180000, grass_sampler, rng))
 	if not "--no-particles" in _flags:
 		add_child(Foliage.falling_leaves(Map.ground_pos(Map.FIRE.x, Map.FIRE.y) + Vector3(0, 9, 10), Vector3(45, 7, 40)))
 
@@ -1255,6 +1315,8 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float) -> void:
 
 func _zombie_killed(_zombie: Zombie) -> void:
 	_alive_count = maxi(0, _alive_count - 1)
+	if achievements:
+		achievements.event("kills")
 
 func alive_zombies() -> int:
 	return _alive_count
@@ -1265,13 +1327,15 @@ func _process(delta: float) -> void:
 		fire_light.light_energy = 5.0 * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
 	if player and player.active:
 		var near = null
-		var nd := 3.2
+		var nd := Barricade.BUILD_REACH
 		for b in barricades:
-			var d: float = Vector2(b.center.x - player.global_position.x, b.center.z - player.global_position.z).length()
+			var d: float = b.distance_to_line(player.global_position)
 			if d < nd:
 				nd = d
 				near = b
 		near_bar = near
+		for b in barricades:
+			b.set_preview(b == near)
 		var loot = null
 		if not near:
 			var ld := 2.4
@@ -1280,15 +1344,24 @@ func _process(delta: float) -> void:
 					continue
 				var d: float = l.global_position.distance_to(player.global_position + Vector3(0, 0.8, 0))
 				if d < ld:
+					var q := PhysicsRayQueryParameters3D.create(player.global_position + Vector3(0, 1.5, 0), l.global_position + Vector3(0, 0.3, 0), 1)
+					q.exclude = [player.get_rid()]
+					var hit := get_world_3d().direct_space_state.intersect_ray(q)
+					if hit and hit.position.distance_to(l.global_position + Vector3(0, 0.3, 0)) > 0.6:
+						continue
 					ld = d
 					loot = l
 		hud.set_prompt(near.prompt_text() if near else (loot.prompt_text() if loot else ""))
 		if near and Input.is_action_just_pressed("interact"):
-			near.interact(player)
-			hud.set_prompt(near.prompt_text())
+			barricade_menu.open(near)
 		elif loot and Input.is_action_just_pressed("interact"):
+			var was_weapon: bool = loot is Loot and loot.kind == "weapon" and not weapons.unlocked.get(loot.id, false)
 			loot.take(weapons, hud)
 			hud.set_prompt("")
+			if loot is Door:
+				achievements.event("door")
+			elif was_weapon:
+				achievements.event("weapons")
 	if _autotest and started:
 		_autotest_step(delta)
 
@@ -1340,6 +1413,7 @@ func _autotest_step(delta: float) -> void:
 		player.head.rotation.x = v[2]
 		for i in 8:
 			await get_tree().process_frame
+		print("VIEW %d fps=%d" % [idx, Engine.get_frames_per_second()])
 		var img := get_viewport().get_texture().get_image()
 		var dir := ProjectSettings.globalize_path("res://") + "../shots/"
 		DirAccess.make_dir_recursive_absolute(dir)

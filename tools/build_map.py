@@ -64,6 +64,7 @@ for _r in ROADS:
 # Kiesplatz: fire plaza north-west of the Waldhütte (photos 13, 14, 15, 20), the track between the huts, both aprons
 CLEARING = [[-11, -16], [-4, -17], [3, -17], [9, -15], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-11, -12]]
 MEADOW_FORCE = [[-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 160], [-70, 160]]
+FIELD_SE = [[113, 24], [128, 18], [150, 8], [150, 160], [113, 160]]   # fields east of the Sennhofstrasse south of the junction
 # Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
 # upper door, east side buried in the slope (photos 14, 17, 19)
 WALDHUETTE = {"pos": [9.1, 4.6], "size": [6.6, 7.4], "yaw_deg": -8.0, "base_h": 2.4, "wall_h": 2.5, "roof_h": 1.9}
@@ -211,6 +212,7 @@ for i, s in enumerate(sizes):
 # clear zones
 forest &= ~poly_mask(CLEARING, 1)
 forest &= ~poly_mask(MEADOW_FORCE)
+forest &= ~poly_mask(FIELD_SE)
 for b in (WALDHUETTE, HOLZLAGER):
     forest &= ~poly_mask(rect_pts(b, 2.0))
 road_d = np.full((H, W), 1e9, np.float32)

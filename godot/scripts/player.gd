@@ -64,7 +64,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.screen_relative.x * SENS * mouse_sensitivity)
 		pitch = clampf(pitch - event.screen_relative.y * SENS * mouse_sensitivity, -1.45, 1.45)
-		head.rotation.x = pitch + recoil_offset.x
+		head.rotation.x = clampf(pitch + recoil_offset.x, -1.48, 1.48)
 	if event.is_action_pressed("flashlight"):
 		flashlight.visible = not flashlight.visible
 
@@ -93,7 +93,7 @@ func _physics_process(delta: float) -> void:
 	head.position.y = EYE + (sin(bob) * 0.04 if moving else 0.0)
 	wobble = maxf(0.0, wobble - delta * 3.0)
 	camera.rotation.z = (sin(bob * 0.5) * 0.004 if moving else 0.0) + sin(wobble * 30.0) * 0.02 * wobble
-	head.rotation.x = pitch + recoil_offset.x
+	head.rotation.x = clampf(pitch + recoil_offset.x, -1.48, 1.48)
 	camera.rotation.y = recoil_offset.y
 	if regen_timer > 0.0:
 		regen_timer -= delta
@@ -105,6 +105,9 @@ func damage(n: float) -> void:
 	if not alive:
 		return
 	hp -= n
+	var scene := get_tree().current_scene
+	if "achievements" in scene and scene.achievements:
+		scene.achievements.player_hurt()
 	regen_timer = 5.0
 	wobble = 1.0
 	hud.set_health(hp)

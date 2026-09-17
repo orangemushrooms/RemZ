@@ -9,15 +9,15 @@ const Effects = preload("res://scripts/weapon_effects.gd")
 
 const DEFS := {
 	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
-				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 1.4, "kick_yaw": 0.5, "kick_back": 0.06, "recover": 9.0 },
+				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 2.6, "kick_yaw": 0.75, "kick_back": 0.08, "recover": 7.0 },
 	"revolver": { "name": "Revolver", "model": "revolver", "height": 0.13, "mag": 6, "reserve": 30, "damage": 95.0, "rate": 0.45, "reload": 2.2, "pellets": 1, "spread": 0.008, "range": 80.0, "auto": false, "sfx": "revolver",
-				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 4.0, "kick_yaw": 1.2, "kick_back": 0.12, "recover": 7.0 },
+				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 6.8, "kick_yaw": 1.6, "kick_back": 0.15, "recover": 5.5 },
 	"smg":      { "name": "MP5", "model": "smg", "height": 0.16, "mag": 30, "reserve": 120, "damage": 22.0, "rate": 0.075, "reload": 1.6, "pellets": 1, "spread": 0.03, "range": 45.0, "auto": true, "sfx": "smg",
-				  "pos": Vector3(0.24, -0.22, -0.55), "ads": Vector3(0.0, -0.135, -0.4), "kick_pitch": 0.7, "kick_yaw": 0.45, "kick_back": 0.04, "recover": 12.0 },
+				  "pos": Vector3(0.24, -0.22, -0.55), "ads": Vector3(0.0, -0.135, -0.4), "kick_pitch": 1.35, "kick_yaw": 0.65, "kick_back": 0.055, "recover": 9.0 },
 	"ak47":     { "name": "AK-47", "model": "ak47", "height": 0.18, "mag": 30, "reserve": 90, "damage": 42.0, "rate": 0.1, "reload": 2.0, "pellets": 1, "spread": 0.022, "range": 90.0, "auto": true, "sfx": "ak47",
-				  "pos": Vector3(0.24, -0.23, -0.58), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 1.1, "kick_yaw": 0.7, "kick_back": 0.06, "recover": 10.0 },
+				  "pos": Vector3(0.24, -0.23, -0.58), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 2.2, "kick_yaw": 1.05, "kick_back": 0.085, "recover": 7.5 },
 	"shotgun":  { "name": "Schrotflinte", "model": "rifle", "height": 0.16, "mag": 6, "reserve": 24, "damage": 22.0, "rate": 0.85, "reload": 2.0, "pellets": 8, "spread": 0.07, "range": 28.0, "auto": false, "sfx": "shotgun",
-				  "pos": Vector3(0.22, -0.24, -0.6), "ads": Vector3(0.0, -0.15, -0.45), "kick_pitch": 5.0, "kick_yaw": 1.5, "kick_back": 0.16, "recover": 6.0 },
+				  "pos": Vector3(0.22, -0.24, -0.6), "ads": Vector3(0.0, -0.15, -0.45), "kick_pitch": 8.0, "kick_yaw": 2.0, "kick_back": 0.19, "recover": 4.5 },
 }
 const ORDER := ["pistol", "revolver", "smg", "ak47", "shotgun"]
 
@@ -205,9 +205,9 @@ func try_fire() -> void:
 	# recoil climbs while holding the trigger, drifts sideways, less when aiming
 	_shots_in_burst += 1
 	_burst_t = 0.25
-	var climb := minf(1.0 + _shots_in_burst * 0.12, 2.2)
-	var aim_f := 1.0 - ads * 0.45
-	var impulse := Vector3(deg_to_rad(float(d["kick_pitch"]) * 2.2 + 1.0), deg_to_rad(0.7 if _shots_in_burst % 2 == 0 else -0.7), float(d["kick_back"]) * 0.65) * aim_f
+	var climb := minf(1.0 + _shots_in_burst * 0.16, 2.4)
+	var aim_f := 1.0 - ads * 0.25
+	var impulse := Vector3(deg_to_rad(float(d["kick_pitch"]) * 2.2 + 1.0), deg_to_rad(1.0 if _shots_in_burst % 2 == 0 else -1.0), float(d["kick_back"]) * 0.90) * aim_f
 	_model_kick += impulse * 0.25
 	_model_velocity += impulse * (22.0 + float(d["recover"])) * 1.7
 	(s["hands"] as ViewmodelHands).shot_impulse(0.6 + float(d["kick_pitch"]) * 0.16)
@@ -225,12 +225,15 @@ func try_fire() -> void:
 		var hit := space.intersect_ray(q)
 		if hit and hit.collider is Breakable:
 			(hit.collider as Breakable).shatter()
+			get_tree().current_scene.achievements.event("window")
 		if hit and hit.collider is Zombie:
 			var z: Zombie = hit.collider
 			var headshot: bool = hit.position.y > z.global_position.y + z.height * 0.78
 			z.damage(float(d["damage"]) * damage_mul * (2.2 if headshot else 1.0), dir)
 			_blood(hit.position, dir)
 			hud.hitmarker(headshot)
+			if headshot:
+				get_tree().current_scene.achievements.event("headshots")
 	update_hud()
 
 func throw_grenade() -> void:
@@ -445,7 +448,7 @@ func _process(delta: float) -> void:
 	var applied_yaw := kick_yaw * (1.0 - exp(-delta * rec))
 	kick_pitch -= applied_pitch
 	kick_yaw -= applied_yaw
-	player.pitch = clampf(player.pitch + deg_to_rad(applied_pitch) * 0.35, -1.45, 1.45)
+	player.pitch = clampf(player.pitch + deg_to_rad(applied_pitch) * 0.45, -1.45, 1.45)
 	player.rotate_y(deg_to_rad(applied_yaw) * 0.35)
 	player.recoil_offset = Vector2(deg_to_rad(kick_pitch) * 0.65, deg_to_rad(kick_yaw) * 0.65)
 	# view model

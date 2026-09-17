@@ -104,13 +104,13 @@ func _draw_cartography() -> void:
 	for x in [0.0, fifty_meters]:
 		c.draw_line(scale_origin + Vector2(x, -3), scale_origin + Vector2(x, 3), Color.WHITE)
 	c.draw_string(_font, scale_origin + Vector2(0, -6), "50 m", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
-	c.draw_string(_font, Vector2(14, 331), "▲ Du   • Gegner   ◆ Barrikade", HORIZONTAL_ALIGNMENT_LEFT, 278, 11, Color(0.76, 0.81, 0.75))
+	c.draw_string(_font, Vector2(14, 331), "▲ Du   • Gegner   ━ Sperrlinie", HORIZONTAL_ALIGNMENT_LEFT, 278, 11, Color(0.76, 0.81, 0.75))
 	c.draw_rect(MAP_RECT, Color(0.71, 0.73, 0.62, 0.4), false, 1.0)
 
 func _draw_frame() -> void:
 	draw_style_box(_panel_style(), Rect2(Vector2.ZERO, Vector2(300, 340)))
 	draw_string(_font, Vector2(14, 25), TITLE, HORIZONTAL_ALIGNMENT_LEFT, 274, 18, Color(0.96, 0.87, 0.64))
-	draw_string(_font, Vector2(14, 331), "▲ Du   • Gegner   ◆ Barrikade", HORIZONTAL_ALIGNMENT_LEFT, 278, 11, Color(0.76, 0.81, 0.75))
+	draw_string(_font, Vector2(14, 331), "▲ Du   • Gegner   ━ Sperrlinie", HORIZONTAL_ALIGNMENT_LEFT, 278, 11, Color(0.76, 0.81, 0.75))
 
 func _panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -122,7 +122,7 @@ func _panel_style() -> StyleBoxFlat:
 
 func _draw_compass(c: Control) -> void:
 	# the rose turns with the player: the top of the rose is the view direction, the orange needle points north
-	var center := Vector2(263, 72) + MAP_RECT.position
+	var center := Vector2(263, 72)
 	var rot: float = player.rotation.y if is_instance_valid(player) else 0.0
 	c.draw_circle(center, 25.0, Color(0.025, 0.04, 0.035, 0.85))
 	for i in 4:
@@ -140,8 +140,13 @@ func _draw_symbols(c: Control) -> void:
 	for barricade in world.barricades:
 		var p := map_position(barricade.center)
 		if MAP_RECT.has_point(p):
-			var color := Color(0.35, 0.81, 0.92) if barricade.hp > 0.0 else Color(0.73, 0.7, 0.54)
-			c.draw_colored_polygon(PackedVector2Array([p + Vector2(0, -3), p + Vector2(3, 0), p + Vector2(0, 3), p + Vector2(-3, 0)]), color)
+			var color := Barricade.PLAN_COLOR if barricade.level == 0 else (Barricade.BUILT_COLOR if barricade.hp >= barricade.max_hp() * 0.5 else Color(1.0, 0.72, 0.3))
+			var a := map_position(barricade.point_at(-barricade.half_len))
+			var b := map_position(barricade.point_at(barricade.half_len))
+			var direction := (b - a).normalized()
+			var extent := maxf(4.0, a.distance_to(b) * 0.5)
+			c.draw_line(p - direction * extent, p + direction * extent, Color(0.02, 0.04, 0.03), 5.0, true)
+			c.draw_line(p - direction * extent, p + direction * extent, color, 2.5, true)
 	for zombie in world.zombies_root.get_children():
 		if zombie is Zombie and zombie.alive:
 			var p := map_position(zombie.global_position)

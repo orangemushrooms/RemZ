@@ -53,11 +53,18 @@ func plan(n: int) -> Array:
 
 func start(n: int) -> void:
 	wave = n
+	# the fallen of the last round stay until the next wave begins, then sink into the forest floor
+	if n > 1:
+		for z in main.zombies_root.get_children():
+			if z is Zombie and not z.alive:
+				z.clear_body()
 	queue = plan(n)
 	phase = "spawning"
 	spawn_t = 0.0
 	speed_mul = 1.0 + (n - 1) * 0.04
 	hud.set_wave(n, "%d Zombies" % queue.size())
+	if "achievements" in main and main.achievements:
+		main.achievements.wave_started()
 	hud.message("Welle %d" % n, 2.0)
 	Sfx.play(self, "wave", -4.0)
 	if main.music:
@@ -93,6 +100,8 @@ func _process(delta: float) -> void:
 			completed = wave
 			phase = "idle"
 			timer = 18.0
+			if "achievements" in main and main.achievements:
+				main.achievements.wave_cleared(wave)
 			var bonus := 40 + wave * 10
 			player.add_score(bonus)
 			weapons.refill_all()

@@ -89,7 +89,8 @@ func _ready() -> void:
 					anim.get_animation(n).loop_mode = Animation.LOOP_LINEAR if n == "walk" else Animation.LOOP_NONE
 			anim.speed_scale = randf_range(0.85, 1.15)
 			anim.play("walk")
-		var tint: Color = type.get("tint", Color.from_hsv(randf_range(0.2, 0.3), 0.25, randf_range(0.75, 1.0)))
+		# pale, desaturated decayed skin instead of the old green cast
+		var tint: Color = type.get("tint", Color.from_hsv(randf_range(0.02, 0.09), randf_range(0.08, 0.18), randf_range(0.7, 0.95)))
 		for m in model.find_children("*", "MeshInstance3D", true, false):
 			var mi := m as MeshInstance3D
 			for i in mi.mesh.get_surface_count():
@@ -136,6 +137,13 @@ func damage(n: float, dir: Vector3) -> void:
 		die(dir)
 
 var _stagger := 0.0
+var _pool: Decal
+var _fade_t := 0.0
+
+# called by the wave system: bodies of the previous round sink away
+func clear_body() -> void:
+	if not alive and _fade_t <= 0.0:
+		_fade_t = 4.0 + randf() * 3.0
 var _stagger_len := 0.3
 var _knock := Vector3.ZERO
 
@@ -162,6 +170,18 @@ func die(dir: Vector3) -> void:
 	if _on_kill.is_valid():
 		_on_kill.call(self)
 	global_position += Vector3(dir.x, 0.0, dir.z).normalized() * 0.3
+	# blood pool decal on the ground, grows while the body bleeds out
+	var scene := get_tree().current_scene
+	if "weapons" in scene and scene.weapons and scene.weapons._splat_tex:
+		_pool = Decal.new()
+		_pool.texture_albedo = scene.weapons._splat_tex
+		_pool.albedo_mix = 1.0
+		_pool.modulate = Color(0.32, 0.02, 0.02, 0.3)
+		_pool.size = Vector3(0.4, 0.5, 0.35)
+		_pool.cull_mask = 1
+		scene.add_child(_pool)
+		_pool.global_position = global_position + Vector3(dir.x, 0.0, dir.z).normalized() * 0.4 + Vector3(0, 0.05, 0)
+		_pool.rotation.y = randf() * TAU
 
 func _physics_process(delta: float) -> void:
 	if _flash_t > 0.0:
@@ -170,10 +190,19 @@ func _physics_process(delta: float) -> void:
 			_set_emission(false)
 	if not alive:
 		dead_t += delta
-		if dead_t > 6.0:
-			global_position.y -= delta * 0.4
-		if dead_t > 9.0:
-			queue_free()
+		if _pool:
+			var g := clampf(dead_t / 9.0, 0.0, 1.0)
+			var sz := 0.4 + 1.5 * (1.0 - pow(1.0 - g, 2.0))
+			_pool.size = Vector3(sz, 0.5, sz * 0.85)
+			_pool.modulate.a = minf(1.0, 0.3 + g)
+		if _fade_t > 0.0:
+			_fade_t -= delta
+			if _fade_t < 2.0:
+				global_position.y -= delta * 0.35
+			if _fade_t <= 0.0:
+				if _pool:
+					_pool.queue_free()
+				queue_free()
 		return
 	if not player or not player.active:
 		return

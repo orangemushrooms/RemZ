@@ -17,6 +17,7 @@ var panel: PanelContainer
 var grid: GridContainer
 var info: Label
 var _rage_t := 0.0
+var ach_label: Label
 
 func setup(p: Player, w: Weapons, h: Hud, m: Node) -> void:
 	player = p
@@ -59,6 +60,12 @@ func _ready() -> void:
 	info.custom_minimum_size = Vector2(700, 40)
 	info.add_theme_color_override("font_color", Color(0.85, 0.85, 0.8))
 	v.add_child(info)
+	ach_label = Label.new()
+	ach_label.add_theme_font_size_override("font_size", 13)
+	ach_label.add_theme_color_override("font_color", Color(1.0, 0.82, 0.4))
+	ach_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	ach_label.custom_minimum_size = Vector2(700, 60)
+	v.add_child(ach_label)
 	var hint := Label.new()
 	hint.text = "B schliessen · Klick auf eine Waffe: ausrüsten · Klick auf Pilze: essen"
 	hint.add_theme_font_size_override("font_size", 12)
@@ -68,6 +75,7 @@ func _ready() -> void:
 func add_mushroom(kind: String) -> void:
 	mushrooms[kind] = mushrooms.get(kind, 0) + 1
 	hud.message("%s gesammelt (%d)" % [MUSHROOMS[kind]["name"], mushrooms[kind]], 1.5)
+	main.achievements.event("mushrooms")
 
 func _slot(title: String, sub: String, color: Color, detail: String, on_click: Callable) -> void:
 	var b := Button.new()
@@ -94,6 +102,15 @@ func _slot(title: String, sub: String, color: Color, detail: String, on_click: C
 func _refresh() -> void:
 	for c in grid.get_children():
 		c.queue_free()
+	if main.achievements:
+		var names: Array = []
+		var next: Array = []
+		for d in Achievements.DEFS:
+			if main.achievements.unlocked.has(d["id"]):
+				names.append(d["title"])
+			elif next.size() < 3:
+				next.append("%s (%d/%d)" % [d["text"], main.achievements.counters.get(d["counter"], 0), d["target"]])
+		ach_label.text = "★ %s: %s\nNächste Ziele: %s" % [main.achievements.progress_text(), ", ".join(names) if names.size() > 0 else "noch keine", ", ".join(next)]
 	for id in weapons.DEFS:
 		if not weapons.unlocked.get(id, false):
 			continue
@@ -120,6 +137,7 @@ func _eat(kind: String) -> void:
 		_rage_t = 20.0
 		weapons.damage_mul = 2.0
 		hud.message("Fliegenpilz: Rausch! 20 s doppelter Schaden", 3.0)
+		main.achievements.event("rausch")
 	else:
 		hud.message("Steinpilz gegessen: +%d Leben" % int(heal), 2.0)
 	Sfx.play(self, "pickup", -8.0)
