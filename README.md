@@ -51,3 +51,16 @@ Danach `dist/artifact.html` zusammen mit den Dateien aus `dist/files.json` verö
 - `src/waves.js` Wellenplanung
 - `src/audio.js` Sounds per WebAudio, keine Dateien
 - `window.remz.step(dt, n)` treibt die Simulation ohne requestAnimationFrame voran (für Tests)
+
+
+## Umzug auf einen anderen PC
+
+1. Repo klonen (Code, Meshy-Modelle, Texturen, Sprites sind drin).
+2. Godot 4.7.2 (Windows, 64 Bit, Standard-Version ohne .NET) von godotengine.org laden, keine Installation nötig.
+3. Grosse Baummodelle sind nicht im Repo: entweder den Ordner `godot/assets/trees` (ca. 1 GB) vom alten PC kopieren,
+   oder neu erzeugen: Python 3.13 mit `pip install requests pillow numpy`, Blender 5.x, dann
+   `python tools/fetch_polyhaven.py`, `python tools/autumn_leaves.py`,
+   `"C:/Program Files/Blender Foundation/Blender 5.1/blender.exe" -b -P tools/tree_reduce.py`.
+4. Projekt in Godot öffnen, der erste Import dauert wegen der Bäume einige Minuten.
+5. Nur wenn weitere Meshy-Modelle erzeugt werden sollen: `.env` mit `MESHY_API_KEY` anlegen, Node.js installieren
+   und `npm install` im Repo ausführen.
