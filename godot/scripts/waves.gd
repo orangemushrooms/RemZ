@@ -7,6 +7,8 @@ var hud: Hud
 var player: Player
 var weapons: Weapons
 var wave := 0
+var completed := 0
+const MAX_ACTIVE := 48
 var phase := "idle"
 var timer := 4.0
 var queue: Array = []
@@ -57,10 +59,12 @@ func start(n: int) -> void:
 	speed_mul = 1.0 + (n - 1) * 0.04
 	hud.set_wave(n, "%d Zombies" % queue.size())
 	hud.message("Welle %d" % n, 2.0)
-	Sfx.play(self, "wave", -6.0)
+	Sfx.play(self, "wave", -4.0)
+	if main.music:
+		main.music.play("combat")
 	if n == 3 and not weapons.unlocked["shotgun"]:
 		weapons.unlock("shotgun")
-		hud.message("Welle 3\nSchrotflinte freigeschaltet (Taste 2)", 3.5)
+		hud.message("Welle 3\nSchrotflinte freigeschaltet (Taste 5)", 3.5)
 
 func _process(delta: float) -> void:
 	if not player or not player.active or not player.alive:
@@ -72,7 +76,7 @@ func _process(delta: float) -> void:
 			start(wave + 1)
 	elif phase == "spawning":
 		spawn_t -= delta
-		if spawn_t <= 0.0 and queue.size() > 0:
+		if spawn_t <= 0.0 and queue.size() > 0 and main.alive_zombies() < MAX_ACTIVE:
 			var e: Dictionary = queue.pop_front()
 			var pts: Array = Map.SPAWNS[e["lane"]]
 			var p: Vector2 = pts[randi() % pts.size()] + Vector2(randf_range(-1.5, 1.5), randf_range(-1.5, 1.5))
@@ -80,11 +84,17 @@ func _process(delta: float) -> void:
 			spawn_t = maxf(0.6, 2.2 - wave * 0.12)
 		var alive: int = main.alive_zombies()
 		hud.set_wave(wave, "%d übrig" % (alive + queue.size()))
+		if main.music:
+			main.music.horde = clampf(alive / 10.0, 0.15, 1.0)
 		if queue.is_empty() and alive == 0:
+			if main.music:
+				main.music.horde = 0.0
+				main.music.play("night")
+			completed = wave
 			phase = "idle"
 			timer = 18.0
 			var bonus := 40 + wave * 10
 			player.add_score(bonus)
 			weapons.refill_all()
 			hud.message("Welle %d überstanden\n+%d Punkte, Munition aufgefüllt\nBaue Barrikaden mit E" % [wave, bonus], 4.0)
-			Sfx.play(self, "pickup", -8.0)
+			Sfx.play(self, "menu", -6.0)

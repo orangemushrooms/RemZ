@@ -27,6 +27,7 @@ const UPGRADES := [
 ]
 
 func setup(p: Player, w: Weapons, h: Hud, m: Node) -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	player = p
 	weapons = w
 	hud = h
@@ -146,7 +147,7 @@ func _buy(id: String) -> void:
 			if id.begins_with("w_"):
 				weapons.unlock(id.substr(2))
 				weapons.add_ammo(id.substr(2), 0)
-	Sfx.play(self, "pickup", -8.0)
+	Sfx.play(self, "confirm", -8.0)
 	_refresh()
 
 func toggle() -> void:
@@ -156,17 +157,19 @@ func toggle() -> void:
 		open()
 
 func open() -> void:
-	if not player.alive:
+	if not player.alive or not player.active:
 		return
 	is_open = true
 	_refresh()
 	panel.visible = true
 	player.active = false
+	get_tree().paused = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func close() -> void:
 	is_open = false
 	panel.visible = false
+	get_tree().paused = false
 	player.active = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 

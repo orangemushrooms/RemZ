@@ -22,13 +22,24 @@ var _msg_timer := 0.0
 var _damage_t := 0.0
 var _hit_t := 0.0
 var hit_marks: Array = []
+var overlay_content: VBoxContainer
+var fps_label: Label
+var reload_bar: ProgressBar
+var reload_label: Label
+var _stats_time := 0.0
+var _stats_frames := 0
+var _message_tween: Tween
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	layer = 10
 	var root := Control.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(root)
+	fps_label = _label("", 13)
+	fps_label.position = Vector2(16, 16)
+	root.add_child(fps_label)
 
 	damage_rect = ColorRect.new()
 	damage_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -87,6 +98,14 @@ func _ready() -> void:
 	weapon_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	weapon_label.modulate.a = 0.7
 	ammo.add_child(weapon_label)
+	reload_label = _label("", 12)
+	ammo.add_child(reload_label)
+	reload_bar = ProgressBar.new()
+	reload_bar.custom_minimum_size = Vector2(180, 5)
+	reload_bar.max_value = 1.0
+	reload_bar.show_percentage = false
+	reload_bar.visible = false
+	ammo.add_child(reload_bar)
 
 	# wave top-center
 	var wave := _panel(root, Control.PRESET_CENTER_TOP, Vector2(0, 16))
@@ -134,6 +153,7 @@ func _ready() -> void:
 	card.add_theme_stylebox_override("panel", cs)
 	overlay.add_child(card)
 	var v := VBoxContainer.new()
+	overlay_content = v
 	v.add_theme_constant_override("separation", 10)
 	v.custom_minimum_size = Vector2(520, 0)
 	card.add_child(v)
@@ -149,14 +169,14 @@ func _ready() -> void:
 	overlay_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	overlay_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(overlay_text)
-	var keys := _label("WASD bewegen · Shift sprinten · Maus zielen und schiessen · R nachladen\n1 / 2 Pistole / Schrotflinte · E Barrikade bauen · F Taschenlampe · Esc Pause", 13)
+	var keys := _label("WASD bewegen · Shift sprinten · Linksklick schiessen · Rechtsklick zielen\n1–5 / Mausrad Waffen · R nachladen · G Granate · Tab Skills\nE Barrikade bauen / reparieren · F Taschenlampe · Esc Pause", 13)
 	keys.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	keys.modulate.a = 0.85
 	v.add_child(keys)
 	overlay_button = Button.new()
 	overlay_button.text = "Spiel starten"
 	overlay_button.custom_minimum_size = Vector2(0, 44)
-	overlay_button.pressed.connect(func(): start_pressed.emit())
+	overlay_button.pressed.connect(func(): Sfx.play(self, "click", -6.0); start_pressed.emit())
 	v.add_child(overlay_button)
 	overlay_status = _label("", 12)
 	overlay_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -197,11 +217,20 @@ func _label(text: String, size: int) -> Label:
 	return l
 
 func _process(delta: float) -> void:
+	_stats_time += delta
+	_stats_frames += 1
+	if _stats_time >= 0.5:
+		fps_label.text = "%d FPS · %.1f ms" % [roundi(_stats_frames / _stats_time), _stats_time * 1000.0 / _stats_frames]
+		_stats_time = 0.0
+		_stats_frames = 0
+	if get_tree().paused:
+		return
 	if _msg_timer > 0.0:
 		_msg_timer -= delta
 		if _msg_timer <= 0.0:
-			var tw := create_tween()
-			tw.tween_property(msg_label, "modulate:a", 0.0, 0.3)
+			_message_tween = create_tween()
+			_message_tween.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
+			_message_tween.tween_property(msg_label, "modulate:a", 0.0, 0.3)
 	if _damage_t > 0.0:
 		_damage_t -= delta
 		damage_rect.color.a = clampf(_damage_t * 3.0, 0.0, 0.45)
@@ -226,6 +255,8 @@ func set_wave(n: int, info: String) -> void:
 	wave_info.text = info
 
 func message(text: String, seconds: float = 2.5) -> void:
+	if _message_tween and _message_tween.is_valid():
+		_message_tween.kill()
 	msg_label.text = text
 	msg_label.modulate.a = 1.0
 	_msg_timer = seconds
@@ -250,3 +281,9 @@ func show_overlay(title: String, text: String, button: String, status: String = 
 
 func hide_overlay() -> void:
 	overlay.visible = false
+
+func set_reload(remaining: float, duration: float) -> void:
+	reload_bar.visible = remaining > 0.0
+	reload_label.text = "Nachladen ..." if remaining > 0.0 else ""
+	if remaining > 0.0:
+		reload_bar.value = 1.0 - remaining / maxf(0.01, duration)

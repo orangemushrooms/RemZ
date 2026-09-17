@@ -29,6 +29,16 @@ var dead_t := 0.0
 var speed_mul := 1.0
 var _repath := 0.0
 var _on_kill: Callable
+var _materials: Array[BaseMaterial3D] = []
+static var _scenes := {}
+
+static func preload_models() -> void:
+	for spec: Dictionary in TYPES.values():
+		var path := "res://assets/models/%s.glb" % spec["model"]
+		if not ResourceLoader.exists(path) and spec.has("fallback"):
+			path = "res://assets/models/%s.glb" % spec["fallback"]
+		if not _scenes.has(path):
+			_scenes[path] = load(path) if ResourceLoader.exists(path) else null
 
 func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: Callable) -> void:
 	type = TYPES[type_name]
@@ -39,6 +49,7 @@ func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: C
 	hp = type["hp"]
 	height = type["height"]
 	growl_t = randf_range(2.0, 8.0)
+	_repath = randf_range(0.05, 0.4)
 
 func _ready() -> void:
 	collision_layer = 2
@@ -56,13 +67,17 @@ func _ready() -> void:
 	agent.path_desired_distance = 0.8
 	agent.target_desired_distance = 1.0
 	agent.avoidance_enabled = true
+	agent.neighbor_distance = 6.0
+	agent.max_neighbors = 6
 	agent.max_speed = float(type["speed"]) * speed_mul
 	agent.velocity_computed.connect(_on_velocity_computed)
 	add_child(agent)
 	var path := "res://assets/models/%s.glb" % type["model"]
 	if not ResourceLoader.exists(path) and type.has("fallback"):
 		path = "res://assets/models/%s.glb" % type["fallback"]
-	var scene = load(path) if ResourceLoader.exists(path) else null
+	if not _scenes.has(path):
+		_scenes[path] = load(path) if ResourceLoader.exists(path) else null
+	var scene = _scenes[path]
 	if scene:
 		model = scene.instantiate()
 		add_child(model)
@@ -82,7 +97,10 @@ func _ready() -> void:
 				if mat is BaseMaterial3D:
 					var dup: BaseMaterial3D = mat.duplicate()
 					dup.albedo_color = dup.albedo_color * tint
+					dup.emission_enabled = true
+					dup.emission = Color.BLACK
 					mi.set_surface_override_material(i, dup)
+					_materials.append(dup)
 	var scale_var := randf_range(0.94, 1.08)
 	if model:
 		model.scale *= scale_var
@@ -117,19 +135,15 @@ func _flash() -> void:
 	_set_emission(true)
 
 func _set_emission(on: bool) -> void:
-	if not model:
-		return
-	for m in model.find_children("*", "MeshInstance3D", true, false):
-		var mi := m as MeshInstance3D
-		for i in mi.mesh.get_surface_count():
-			var mat := mi.get_surface_override_material(i)
-			if mat is BaseMaterial3D:
-				mat.emission_enabled = on
-				mat.emission = Color(0.5, 0.1, 0.1)
+	for material in _materials:
+		material.emission = Color(0.5, 0.1, 0.1) if on else Color.BLACK
 
 func die(dir: Vector3) -> void:
 	alive = false
+	hit_pending = 0.0
+	velocity = Vector3.ZERO
 	play("death")
+	Sfx.play_at(get_parent(), "growl", global_position, -2.0, 0.75)
 	collision_layer = 0
 	collision_mask = 1
 	agent.avoidance_enabled = false
@@ -151,6 +165,8 @@ func _physics_process(delta: float) -> void:
 			queue_free()
 		return
 	if not player or not player.active:
+		return
+	if NavigationServer3D.map_get_iteration_id(agent.get_navigation_map()) == 0:
 		return
 	var p := global_position
 	var to_player := player.global_position - p
@@ -177,6 +193,7 @@ func _physics_process(delta: float) -> void:
 	var reach: float = 1.9 if bar else type["reach"]
 	if d < reach:
 		velocity = Vector3.ZERO
+		agent.velocity = Vector3.ZERO
 		if attack_t <= 0.0:
 			play("attack")
 			attack_t = type["attack_time"]
@@ -191,8 +208,9 @@ func _physics_process(delta: float) -> void:
 		if state == "walk":
 			_repath -= delta
 			if _repath <= 0.0:
-				_repath = 0.4
-				agent.target_position = target
+				_repath = 0.35 if dist < 20.0 else 0.8
+				if agent.target_position.distance_squared_to(target) > 1.0 or agent.is_navigation_finished():
+					agent.target_position = target
 			var next := agent.get_next_path_position()
 			var mv := next - p
 			mv.y = 0.0
@@ -204,13 +222,14 @@ func _physics_process(delta: float) -> void:
 				_on_velocity_computed(want)
 		else:
 			velocity = Vector3.ZERO
+			agent.velocity = Vector3.ZERO
 	if not is_on_floor():
 		velocity.y -= 20.0 * delta
 	if hit_pending > 0.0:
 		hit_pending -= delta
 		if hit_pending <= 0.0:
 			var dd: float = hit_target.center.distance_to(global_position) if hit_target else player.global_position.distance_to(global_position)
-			if dd < hit_reach + 0.6:
+			if dd < hit_reach + 0.6 and _can_hit(hit_target):
 				if hit_target:
 					hit_target.damage(type["damage"] * 2.0)
 				elif player.alive:
@@ -218,9 +237,19 @@ func _physics_process(delta: float) -> void:
 	growl_t -= delta
 	if growl_t <= 0.0 and dist < 25.0:
 		growl_t = randf_range(4.0, 12.0)
-		Sfx.play_at(get_parent(), "growl", global_position, -4.0)
+		Sfx.play_at(get_parent(), "growl", global_position, -5.0)
 
 func _on_velocity_computed(safe: Vector3) -> void:
+	if not alive or not player or not player.active or get_tree().paused:
+		return
 	velocity.x = safe.x
 	velocity.z = safe.z
 	move_and_slide()
+
+func _can_hit(bar: Variant) -> bool:
+	var origin := global_position + Vector3.UP * height * 0.65
+	var target: Vector3 = bar.center + Vector3.UP if bar else player.global_position + Vector3.UP
+	var query := PhysicsRayQueryParameters3D.create(origin, target, 1 | 8)
+	query.exclude = [get_rid()]
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	return hit.is_empty() or (bar != null and hit.collider == bar.body)

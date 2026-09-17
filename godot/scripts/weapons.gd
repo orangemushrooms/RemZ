@@ -6,11 +6,11 @@ extends Node3D
 const DEFS := {
 	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol",
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 1.4, "kick_yaw": 0.5, "kick_back": 0.06, "recover": 9.0 },
-	"revolver": { "name": "Revolver", "model": "revolver", "height": 0.13, "mag": 6, "reserve": 30, "damage": 95.0, "rate": 0.45, "reload": 2.2, "pellets": 1, "spread": 0.008, "range": 80.0, "auto": false, "sfx": "shotgun",
+	"revolver": { "name": "Revolver", "model": "revolver", "height": 0.13, "mag": 6, "reserve": 30, "damage": 95.0, "rate": 0.45, "reload": 2.2, "pellets": 1, "spread": 0.008, "range": 80.0, "auto": false, "sfx": "revolver",
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 4.0, "kick_yaw": 1.2, "kick_back": 0.12, "recover": 7.0 },
-	"smg":      { "name": "MP5", "model": "smg", "height": 0.16, "mag": 30, "reserve": 120, "damage": 22.0, "rate": 0.075, "reload": 1.6, "pellets": 1, "spread": 0.03, "range": 45.0, "auto": true, "sfx": "pistol",
+	"smg":      { "name": "MP5", "model": "smg", "height": 0.16, "mag": 30, "reserve": 120, "damage": 22.0, "rate": 0.075, "reload": 1.6, "pellets": 1, "spread": 0.03, "range": 45.0, "auto": true, "sfx": "smg",
 				  "pos": Vector3(0.24, -0.22, -0.55), "ads": Vector3(0.0, -0.135, -0.4), "kick_pitch": 0.7, "kick_yaw": 0.45, "kick_back": 0.04, "recover": 12.0 },
-	"ak47":     { "name": "AK-47", "model": "ak47", "height": 0.18, "mag": 30, "reserve": 90, "damage": 42.0, "rate": 0.1, "reload": 2.0, "pellets": 1, "spread": 0.022, "range": 90.0, "auto": true, "sfx": "shotgun",
+	"ak47":     { "name": "AK-47", "model": "ak47", "height": 0.18, "mag": 30, "reserve": 90, "damage": 42.0, "rate": 0.1, "reload": 2.0, "pellets": 1, "spread": 0.022, "range": 90.0, "auto": true, "sfx": "ak47",
 				  "pos": Vector3(0.24, -0.23, -0.58), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 1.1, "kick_yaw": 0.7, "kick_back": 0.06, "recover": 10.0 },
 	"shotgun":  { "name": "Schrotflinte", "model": "rifle", "height": 0.16, "mag": 6, "reserve": 24, "damage": 22.0, "rate": 0.85, "reload": 2.0, "pellets": 8, "spread": 0.07, "range": 28.0, "auto": false, "sfx": "shotgun",
 				  "pos": Vector3(0.22, -0.24, -0.6), "ads": Vector3(0.0, -0.15, -0.45), "kick_pitch": 5.0, "kick_yaw": 1.5, "kick_back": 0.16, "recover": 6.0 },
@@ -41,6 +41,8 @@ var ads := 0.0
 var _shots_in_burst := 0
 var _burst_t := 0.0
 var _grenade_scene: PackedScene
+var _blood_pool: Array[GPUParticles3D] = []
+var _blood_next := 0
 
 func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	player = p
@@ -98,6 +100,7 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	var gp := "res://assets/models/grenade.glb"
 	_grenade_scene = load(gp) if ResourceLoader.exists(gp) else null
 	set_weapon("pistol")
+	_prepare_blood_pool()
 
 static func _fit_height(node: Node3D, height: float) -> void:
 	var aabb := AABB()
@@ -117,14 +120,22 @@ func cur() -> Dictionary:
 	return state[current]
 
 func set_weapon(id: String) -> void:
+	if not DEFS.has(id):
+		return
 	if not unlocked.get(id, false):
 		hud.message("%s im Skillmenü (Tab) freischalten" % DEFS[id]["name"], 1.4)
 		return
+	if current == id and cur()["node"].visible:
+		return
+	cur()["reloading"] = 0.0
 	for s in state.values():
 		s["node"].visible = false
 	current = id
 	cur()["node"].visible = true
 	cur()["reloading"] = 0.0
+	ads = 0.0
+	_shots_in_burst = 0
+	hud.set_reload(0.0, 1.0)
 	update_hud()
 
 func unlock(id: String) -> void:
@@ -159,14 +170,15 @@ func try_fire() -> void:
 	if s["cooldown"] > 0.0 or s["reloading"] > 0.0:
 		return
 	if s["ammo"] <= 0:
+		s["cooldown"] = 0.2
 		Sfx.play(self, "empty", -10.0)
 		reload()
 		return
 	var d: Dictionary = s["def"]
 	s["ammo"] -= 1
-	s["cooldown"] = d["rate"]
+	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"])
 	recoil = 1.0
-	Sfx.play(self, d["sfx"], -4.0)
+	Sfx.play(self, d["sfx"], -6.0)
 	flash.light_energy = 10.0
 	flash_mesh.visible = true
 	flash_mesh.scale = Vector3.ONE * randf_range(0.7, 1.3)
@@ -211,9 +223,15 @@ func throw_grenade() -> void:
 	player.wobble = maxf(player.wobble, 0.2)
 
 func _blood(pos: Vector3, dir: Vector3) -> void:
-	var p := GPUParticles3D.new()
+	var p := _blood_pool[_blood_next]
+	_blood_next = (_blood_next + 1) % _blood_pool.size()
+	p.global_position = pos
+	(p.process_material as ParticleProcessMaterial).direction = dir
+	p.restart()
+	p.emitting = true
+
+func _prepare_blood_pool() -> void:
 	var mat := ParticleProcessMaterial.new()
-	mat.direction = dir
 	mat.spread = 40.0
 	mat.initial_velocity_min = 2.0
 	mat.initial_velocity_max = 5.0
@@ -221,30 +239,36 @@ func _blood(pos: Vector3, dir: Vector3) -> void:
 	mat.scale_min = 0.03
 	mat.scale_max = 0.08
 	mat.color = Color(0.35, 0.02, 0.02)
-	p.process_material = mat
 	var mesh := SphereMesh.new()
 	mesh.radius = 0.5
 	mesh.height = 1.0
+	mesh.radial_segments = 6
+	mesh.rings = 3
 	var mm := StandardMaterial3D.new()
 	mm.albedo_color = Color(0.35, 0.02, 0.02)
 	mm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	mesh.material = mm
-	p.draw_pass_1 = mesh
-	p.amount = 14
-	p.lifetime = 0.6
-	p.one_shot = true
-	p.explosiveness = 1.0
-	get_tree().current_scene.add_child(p)
-	p.global_position = pos
-	p.emitting = true
-	get_tree().create_timer(1.0).timeout.connect(p.queue_free)
+	for i in 16:
+		var p := GPUParticles3D.new()
+		p.process_material = mat.duplicate()
+		p.draw_pass_1 = mesh
+		p.amount = 14
+		p.lifetime = 0.6
+		p.one_shot = true
+		p.explosiveness = 1.0
+		p.emitting = false
+		p.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		p.visibility_aabb = AABB(Vector3(-4, -5, -4), Vector3(8, 10, 8))
+		get_parent().add_child(p)
+		_blood_pool.append(p)
 
 func _process(delta: float) -> void:
 	if not player or not player.active:
 		return
+	for weapon_state: Dictionary in state.values():
+		weapon_state["cooldown"] = maxf(-delta, weapon_state["cooldown"] - delta)
 	var s := cur()
 	var d: Dictionary = s["def"]
-	s["cooldown"] = maxf(0.0, s["cooldown"] - delta)
 	if s["reloading"] > 0.0:
 		s["reloading"] -= delta
 		if s["reloading"] <= 0.0:
@@ -254,6 +278,7 @@ func _process(delta: float) -> void:
 			s["reserve"] -= take
 			s["reloading"] = 0.0
 			update_hud()
+	hud.set_reload(s["reloading"], float(d["reload"]) * reload_mul)
 	if d["auto"]:
 		if Input.is_action_pressed("fire"):
 			try_fire()
@@ -273,6 +298,8 @@ func _process(delta: float) -> void:
 			if unlocked[ORDER[idx]]:
 				set_weapon(ORDER[idx])
 				break
+	s = cur()
+	d = s["def"]
 	_burst_t -= delta
 	if _burst_t <= 0.0:
 		_shots_in_burst = 0
@@ -299,7 +326,7 @@ func _process(delta: float) -> void:
 	n.position = base_pos + Vector3(sin(sway_t * 5.0) * (0.008 if moving else 0.002) * sway_amp, absf(sin(sway_t * 5.0)) * (0.01 if moving else 0.003) * sway_amp + (-0.12 if s["reloading"] > 0.0 else 0.0), recoil * float(d["kick_back"]))
 	n.rotation.x = -recoil * 0.3 + (-0.4 if s["reloading"] > 0.0 else 0.0)
 	n.rotation.z = recoil * 0.05 * (1.0 if _shots_in_burst % 2 == 0 else -1.0)
-	flash.light_energy *= 0.55
+	flash.light_energy *= exp(-36.0 * delta)
 	if flash.light_energy < 0.2:
 		flash.light_energy = 0.0
 		flash_mesh.visible = false

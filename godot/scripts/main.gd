@@ -7,6 +7,7 @@ var weapons: Weapons
 var waves: Waves
 var skills: Skills
 var ambience: Ambience
+var music: Music
 var zombies_root: Node3D
 var barricades: Array = []
 var nav_region: NavigationRegion3D
@@ -25,11 +26,17 @@ var _flags: PackedStringArray = []
 var _fps_frames := 0
 var _fps_time := 0.0
 var _fps_done := false
+var settings: GameSettings
+var navigation_ready := false
+var _alive_count := 0
+var render_stats := {}
 
 func _ready() -> void:
 	rng.seed = 4242
 	_autotest = "--autotest" in OS.get_cmdline_user_args()
 	_flags = OS.get_cmdline_user_args()
+	settings = GameSettings.new()
+	add_child(settings)
 	_build_environment()
 	nav_region = NavigationRegion3D.new()
 	var nm := NavigationMesh.new()
@@ -53,6 +60,8 @@ func _ready() -> void:
 	_build_clutter()
 	_build_foliage()
 	_build_sky_extras()
+	render_stats = RenderOptimizer.optimize(self)
+	print("RENDER_OPTIMIZER ", render_stats)
 
 	hud = Hud.new()
 	add_child(hud)
@@ -82,10 +91,28 @@ func _ready() -> void:
 	ambience = Ambience.new()
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, 36.0))
+	music = Music.new()
+	add_child(music)
+	if not "--no-music" in _flags:
+		music.play("title")
 	_spawn_deer()
+	settings.add_controls(hud.overlay_content)
+	settings.apply()
+	for sound in ["pistol", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "boom", "pickup"]:
+		Sfx.get_stream(sound)
+	Zombie.preload_models()
 	hud.show_overlay("BIRKENHOF", "Die Lichtung mit der Waldhütte ist der letzte sichere Ort. Die Zombies kommen von der Nordstrasse über den Weg zur Hütte, über den Waldweg und aus der Wiese. Halte die Barrikaden, überlebe die Wellen.", "Spiel starten", "Wegnetz wird berechnet ...")
-	nav_region.bake_finished.connect(func(): hud.overlay_status.text = "Bereit."; if _autotest: _on_start())
+	hud.overlay_button.disabled = true
+	nav_region.bake_finished.connect(_navigation_baked)
 	nav_region.bake_navigation_mesh(true)
+	get_tree().paused = true
+
+func _navigation_baked() -> void:
+	navigation_ready = true
+	hud.overlay_button.disabled = false
+	hud.overlay_status.text = "Bereit."
+	if _autotest or "--benchmark" in _flags:
+		_on_start()
 
 # ---------------------------------------------------------------- environment
 func _build_environment() -> void:
@@ -144,6 +171,8 @@ func _build_environment() -> void:
 	add_child(we)
 	# low autumn sun in the north-east, shining across the clearing towards the camp
 	var sun := DirectionalLight3D.new()
+	settings.env = env
+	settings.sun = sun
 	sun.light_color = Color(1.0, 0.85, 0.62)
 	sun.light_energy = 2.6
 	sun.shadow_enabled = not "--no-shadows" in _flags
@@ -334,7 +363,7 @@ static func _prep_foliage_materials(node: Node3D) -> void:
 					bm.alpha_antialiasing_mode = BaseMaterial3D.ALPHA_ANTIALIASING_ALPHA_TO_COVERAGE
 				bm.metallic = 0.0
 				bm.metallic_texture = null
-				bm.specular = 0.12
+				bm.metallic_specular = 0.12
 				bm.roughness = 1.0
 				bm.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 
@@ -709,12 +738,18 @@ func _build_sky_extras() -> void:
 
 # ---------------------------------------------------------------- game flow
 func _on_start() -> void:
+	if not navigation_ready:
+		return
 	if over:
+		get_tree().paused = false
 		get_tree().reload_current_scene()
 		return
+	get_tree().paused = false
 	hud.hide_overlay()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	player.active = true
+	if not started and not "--no-music" in _flags:
+		music.play("night")
 	started = true
 
 func _pause() -> void:
@@ -722,36 +757,38 @@ func _pause() -> void:
 		return
 	player.active = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	hud.show_overlay("PAUSE", "Die Zombies warten nicht lange.", "Weiter")
+	get_tree().paused = true
+	hud.show_overlay("PAUSE", "Verschnaufpause. Hier kannst du Grafik und Steuerung anpassen.", "Weiter")
 
 func _game_over() -> void:
 	over = true
 	player.active = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	hud.show_overlay("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Punkten." % [waves.wave, "" if waves.wave == 1 else "n", player.score], "Nochmal")
+	music.horde = 0.0
+	music.play("gameover")
+	get_tree().paused = true
+	hud.show_overlay("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score], "Nochmal")
 
 func spawn_zombie(type: String, p: Vector2, speed_mul: float) -> void:
 	var z := Zombie.new()
-	z.setup(type, player, barricades, speed_mul, Callable())
+	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	zombies_root.add_child(z)
 	z.global_position = Map.ground_pos(p.x, p.y) + Vector3(0, 0.2, 0)
+	_alive_count += 1
+	z.tree_exiting.connect(func():
+		if z.alive:
+			_alive_count = maxi(0, _alive_count - 1))
+
+func _zombie_killed(_zombie: Zombie) -> void:
+	_alive_count = maxi(0, _alive_count - 1)
 
 func alive_zombies() -> int:
-	var n := 0
-	for z in zombies_root.get_children():
-		if z is Zombie and z.alive:
-			n += 1
-	return n
+	return _alive_count
 
 func _process(delta: float) -> void:
 	var t := Time.get_ticks_msec() / 1000.0
 	if fire_light:
 		fire_light.light_energy = 5.0 * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
-	if Input.is_action_just_pressed("pause"):
-		if skills and skills.is_open:
-			skills.close()
-		else:
-			_pause()
 	if player and player.active:
 		var near = null
 		var nd := 3.2

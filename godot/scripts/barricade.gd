@@ -52,7 +52,7 @@ func rebuild() -> void:
 	for c in visual.get_children():
 		c.queue_free()
 	body.process_mode = Node.PROCESS_MODE_INHERIT if level > 0 else Node.PROCESS_MODE_DISABLED
-	body.get_child(0).disabled = level == 0
+	body.get_child(0).set_deferred("disabled", level == 0)
 	var scene = load("res://assets/models/barricade.glb")
 	for i in int(slot["segments"]):
 		for l in level:
@@ -81,19 +81,22 @@ func repair() -> bool:
 	if level == 0 or hp >= max_hp():
 		return false
 	hp = max_hp()
-	rebuild()
+	visual.rotation.z = 0.0
 	return true
 
 func damage(n: float) -> void:
 	if hp <= 0.0:
 		return
 	hp -= n
-	Sfx.play_at(get_parent(), "wood", center, -4.0)
 	if hp <= 0.0:
 		hp = 0.0
 		level = 0
 		hud.message("Barrikade %s durchbrochen!" % slot["name"], 2.0)
-	rebuild()
+		Sfx.play_at(get_parent(), "barricade_break", center, 0.0)
+		rebuild()
+	else:
+		Sfx.play_at(get_parent(), "wood", center, -4.0)
+		visual.rotation.z = (1.0 - hp / max_hp()) * 0.12
 
 func _local(p: Vector3) -> Vector2:
 	var dx := p.x - center.x
@@ -108,6 +111,10 @@ func crosses(a: Vector3, b: Vector3) -> bool:
 	var t := la.y / (la.y - lb.y)
 	var u := la.x + (lb.x - la.x) * t
 	return absf(u) < half_len + 0.6
+
+func attack_point(from: Vector3) -> Vector3:
+	var along := clampf(_local(from).x, -half_len, half_len)
+	return center + Vector3(dir2.x, 0, dir2.y) * along
 
 func prompt_text() -> String:
 	if level == 0:
@@ -125,11 +132,13 @@ func interact(player: Player) -> void:
 			return
 		if build():
 			player.add_score(-COST_BUILD)
-			Sfx.play(self, "build", -6.0)
+			Sfx.play(self, "confirm", -8.0)
+			Sfx.play_at(get_parent(), "wood", center, -8.0)
 	elif hp < max_hp():
 		if player.score < COST_REPAIR:
 			hud.message("Zu wenig Punkte (%d)" % COST_REPAIR, 1.2)
 			return
 		if repair():
 			player.add_score(-COST_REPAIR)
-			Sfx.play(self, "build", -6.0)
+			Sfx.play(self, "confirm", -8.0)
+			Sfx.play_at(get_parent(), "wood", center, -8.0)
