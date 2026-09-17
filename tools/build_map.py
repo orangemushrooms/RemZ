@@ -36,14 +36,14 @@ ROADS = [
      "pts": [[7, 61], [-7.5, 65], [-45, 71], [-62, 72], [-67, 75], [-190, 132], [-275, 171]]},
     {"name": "Feldweg West", "surface": "dirt", "width": 2.8,
      "pts": [[-62, 72], [-66, 60], [-76, 45], [-88, 25], [-114, -18], [-134, -60], [-161, -96], [-166, -108], [-194, -181]]},
-    {"name": "Wiesenweg", "surface": "dirt", "width": 2.8,
-     "pts": [[7, 61], [8, 76], [11, 85], [22, 118], [40, 165]]},
+    {"name": "Wiesentor", "surface": "dirt", "width": 2.8,
+     "pts": [[7, 61], [8, 70]]},
     {"name": "Fussweg Nord", "surface": "dirt", "width": 1.6,
      "pts": [[-73, -152], [-66, -154], [-47, -168], [-20, -176]]},
 ]
 # gravel clearing around the fire, the aprons of both huts
 # Kiesplatz: fire plaza north-west of the Waldhütte (photos 13, 14, 15, 20), the track between the huts, both aprons
-CLEARING = [[-14, -24], [0, -28], [10, -24], [15, -14], [14, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [13, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-6, 10], [-14, 2], [-18, -10]]
+CLEARING = [[-7, -20], [2, -24], [10, -20], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-10, -12]]
 MEADOW_FORCE = [[-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 160], [-70, 160]]
 # Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
 # upper door, east side buried in the slope (photos 14, 17, 19)
@@ -52,14 +52,15 @@ HOLZLAGER = {"pos": [-2.5, 27.0], "size": [7.9, 14.6], "yaw_deg": -23.0, "base_h
 # fire plaza ~7 m north of the hut's north face; table west of the fire, fountain / bin / signpost at the north
 # track entrance (photos 15, 16, 18, 20, 21). Origin stays the OSM picnic node.
 FIRE = [4.0, -7.0]
-BENCHES = [[4.0, -3.7, 0.0], [4.0, -10.3, 0.0], [0.7, -7.0, 90.0], [7.3, -7.0, 90.0]]   # x, z, yaw (length axis)
-TABLE = [-3.0, -9.0, 20.0]
-FOUNTAIN = [-4.5, -16.0, 75.0]
-BIN = [-1.5, -19.0]
-SIGNPOST = [3.0, -21.0]
-LOG_SEAT = [-9.0, -12.0, 60.0]
+BENCHES = [[4.0, -4.2, 0.0], [4.0, -9.8, 0.0], [1.2, -7.0, 90.0], [6.8, -7.0, 90.0]]   # x, z, yaw (length axis)
+TABLE = [-2.5, -9.5, 15.0]
+FOUNTAIN = [-6.0, -15.5, 70.0]
+BIN = [-2.5, -19.5]
+SIGNPOST = [3.5, -21.5]
+LOG_SEAT = [-7.5, -8.5, 80.0]
 LANDMARK_OAK = [66.0, 34.0]
-BIG_TREES = [[1.5, 0.8, "beech", 1.35], [-8.0, -21.0, "beech", 1.25], [12.0, -12.0, "beech", 1.2], [-10.0, 6.0, "beech", 1.15],
+BIG_TREES = [[1.5, 0.8, "beech", 1.35], [-9.5, -19.0, "beech", 1.25], [14.5, -12.0, "beech", 1.2], [-9.0, 6.0, "beech", 1.15],
+             [-11.5, -10.0, "beech", 1.2], [-3.0, -23.5, "beech", 1.15], [9.5, -23.0, "oak", 1.1], [15.0, -3.0, "beech", 1.1],
              [-20.5, -9.0, "oak", 1.2], [14.5, 63.5, "oak", 1.25], [0.5, 66.5, "beech", 1.2], [-9.0, 14.0, "beech", 1.1],
              [14.0, -3.0, "spruce", 1.2], [-8.0, 42.0, "beech", 1.1], [12.5, 30.0, "beech", 1.15]]
 # pasture fence on the meadow side of the tracks (gap at the Wiesenweg gate)
@@ -69,7 +70,7 @@ SPAWNS = {"north": [[112, 28], [118, 8], [104, 31]], "east": [[32, 100], [58, 96
           "south": [[-78, 80], [-96, 88], [-70, 77]], "west": [[-44, -86], [-56, -108], [-40, -72]]}
 BARRICADES = [
     {"id": "ne", "name": "Weg zur Hütte", "pos": [28, 55], "yaw": -1.19, "segments": 2},
-    {"id": "e", "name": "Wiesentor", "pos": [7, 66], "yaw": 0.0, "segments": 2},
+    {"id": "e", "name": "Wiesentor", "pos": [7.5, 66], "yaw": 0.0, "segments": 2},
     {"id": "s", "name": "Weg Richtung Dorf", "pos": [-16, 66.5], "yaw": -1.55, "segments": 2},
     {"id": "w", "name": "Waldweg Nord", "pos": [-7, -33], "yaw": 0.68, "segments": 2},
 ]

@@ -125,8 +125,19 @@ func damage(n: float, dir: Vector3) -> void:
 	hp -= n
 	Sfx.play_at(get_parent(), "hit", global_position, -6.0)
 	_flash()
+	# flinch: short stagger with knockback along the shot direction, scaled by the hit (heavier for big calibres)
+	var k := clampf(n / 60.0, 0.3, 1.5)
+	_stagger = maxf(_stagger, 0.16 + 0.14 * k)
+	_stagger_len = _stagger
+	_knock = Vector3(dir.x, 0.0, dir.z).normalized() * (1.4 + 1.6 * k) / type["hp"] * 100.0
+	_knock = _knock.limit_length(3.2)
+	attack_t = maxf(attack_t, 0.25)
 	if hp <= 0.0:
 		die(dir)
+
+var _stagger := 0.0
+var _stagger_len := 0.3
+var _knock := Vector3.ZERO
 
 var _flash_t := 0.0
 
@@ -166,6 +177,21 @@ func _physics_process(delta: float) -> void:
 		return
 	if not player or not player.active:
 		return
+	if _stagger > 0.0:
+		_stagger -= delta
+		var t := _stagger / _stagger_len
+		velocity.x = _knock.x * t
+		velocity.z = _knock.z * t
+		if not is_on_floor():
+			velocity.y -= 20.0 * delta
+		move_and_slide()
+		if model:
+			model.rotation.x = -0.4 * sin(t * PI)
+			model.position.y = 0.06 * sin(t * PI)
+		return
+	if model and model.rotation.x != 0.0:
+		model.rotation.x = 0.0
+		model.position.y = 0.0
 	if NavigationServer3D.map_get_iteration_id(agent.get_navigation_map()) == 0:
 		return
 	var p := global_position
@@ -181,7 +207,7 @@ func _physics_process(delta: float) -> void:
 			if dd < bd:
 				bd = dd
 				bar = b
-	var target: Vector3 = bar.center if bar else player.global_position
+	var target: Vector3 = bar.attack_point(p) if bar else player.global_position
 	var to_target := target - p
 	to_target.y = 0.0
 	var d := to_target.length()
@@ -228,7 +254,7 @@ func _physics_process(delta: float) -> void:
 	if hit_pending > 0.0:
 		hit_pending -= delta
 		if hit_pending <= 0.0:
-			var dd: float = hit_target.center.distance_to(global_position) if hit_target else player.global_position.distance_to(global_position)
+			var dd: float = hit_target.attack_point(global_position).distance_to(global_position) if hit_target else player.global_position.distance_to(global_position)
 			if dd < hit_reach + 0.6 and _can_hit(hit_target):
 				if hit_target:
 					hit_target.damage(type["damage"] * 2.0)
@@ -248,7 +274,7 @@ func _on_velocity_computed(safe: Vector3) -> void:
 
 func _can_hit(bar: Variant) -> bool:
 	var origin := global_position + Vector3.UP * height * 0.65
-	var target: Vector3 = bar.center + Vector3.UP if bar else player.global_position + Vector3.UP
+	var target: Vector3 = bar.attack_point(global_position) + Vector3.UP if bar else player.global_position + Vector3.UP
 	var query := PhysicsRayQueryParameters3D.create(origin, target, 1 | 8)
 	query.exclude = [get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)

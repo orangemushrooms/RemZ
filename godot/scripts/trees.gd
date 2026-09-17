@@ -4,9 +4,9 @@
 class_name Trees
 
 const SPECIES := {
-	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 5.6, "crown_lo": 0.42, "cards": 34, "card": 3.7, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(1.0, 1.0, 1.0), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
-	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.0, "crown_lo": 0.32, "cards": 34, "card": 4.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.95, 0.92, 0.88), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
-	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.0, "crown_lo": 0.22, "cards": 30, "card": 3.0, "bark": ["ph_bark_oak"], "tint": Color(0.85, 0.62, 0.45), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
+	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 52, "card": 4.4, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.8, 0.8, 0.78), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
+	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 50, "card": 4.6, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.95, 0.92, 0.88), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
+	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 44, "card": 3.2, "bark": ["ph_bark_oak"], "tint": Color(0.85, 0.62, 0.45), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
 }
 const VARIANTS := 5
 const CELL := 48.0
@@ -160,7 +160,7 @@ static func _leaf_material(kind: String) -> ShaderMaterial:
 	m.shader = sh
 	m.set_shader_parameter("tex", load("res://assets/sprites/%s.png" % SPECIES[kind]["leaf"]))
 	m.set_shader_parameter("wind", 0.6 if kind == "spruce" else 1.0)
-	m.set_shader_parameter("tint", Vector3(0.9, 0.95, 0.78))
+	m.set_shader_parameter("tint", Vector3(0.62, 0.72, 0.5))
 	return m
 
 static func _multimesh_cells(mesh: Mesh, items: Array, mat: Material, near: Vector2, shadow_dist: float) -> Node3D:

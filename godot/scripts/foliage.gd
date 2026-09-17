@@ -42,9 +42,9 @@ uniform sampler2D leaf_rough : hint_default_white, filter_linear_mipmap_anisotro
 uniform sampler2D gravel_albedo : source_color, filter_linear_mipmap_anisotropic;
 uniform sampler2D gravel_normal : hint_normal, filter_linear_mipmap_anisotropic;
 uniform sampler2D gravel_rough : hint_default_white, filter_linear_mipmap_anisotropic;
-uniform vec3 grass_tint : source_color = vec3(0.95, 0.95, 0.8);
-uniform vec3 leaf_tint : source_color = vec3(1.0, 0.95, 0.85);
-uniform vec3 gravel_tint : source_color = vec3(0.65, 0.65, 0.65);
+uniform vec3 grass_tint : source_color = vec3(0.55, 0.62, 0.38);
+uniform vec3 leaf_tint : source_color = vec3(0.72, 0.64, 0.54);
+uniform vec3 gravel_tint : source_color = vec3(0.6, 0.57, 0.52);
 uniform float scale_grass = 0.3;
 uniform float scale_leaf = 0.28;
 uniform float scale_gravel = 0.33;
@@ -75,7 +75,7 @@ void fragment() {
 	ww /= max(ww.r + ww.g + ww.b, 0.001);
 	ALBEDO = la * ww.r + ga * ww.g + ka * ww.b;
 	NORMAL_MAP = normalize(ln * ww.r + gn * ww.g + kn * ww.b);
-	NORMAL_MAP_DEPTH = 1.1;
+	NORMAL_MAP_DEPTH = 0.5;
 	ROUGHNESS = texture(leaf_rough, ul).r * ww.r + texture(grass_rough, ug).r * ww.g + texture(gravel_rough, uk).r * ww.b;
 }
 """
@@ -178,7 +178,7 @@ static func ground_leaves(count: int, sampler: Callable, rng: RandomNumberGenera
 	var quad := QuadMesh.new()
 	quad.size = Vector2(0.22, 0.16)
 	quad.orientation = PlaneMesh.FACE_Y
-	var material := sprite_material("res://assets/sprites/leaves.png", Vector2(4, 2), 0.0, Color(1.0, 0.95, 0.85))
+	var material := sprite_material("res://assets/sprites/leaves.png", Vector2(4, 2), 0.0, Color(0.7, 0.6, 0.5))
 	var transforms: Array[Transform3D] = []
 	var colors: Array[Color] = []
 	var placed := 0
@@ -214,7 +214,7 @@ static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> 
 			st.set_normal(Vector3.UP)
 			st.add_vertex(verts[idx])
 	var mesh := st.commit()
-	var material := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(1.0, 0.9, 0.55))
+	var material := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(0.55, 0.68, 0.32))
 	var transforms: Array[Transform3D] = []
 	var colors: Array[Color] = []
 	var placed := 0

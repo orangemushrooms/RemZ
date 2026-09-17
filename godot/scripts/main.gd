@@ -126,8 +126,8 @@ func _build_environment() -> void:
 	env.background_mode = Environment.BG_SKY
 	var sky := Sky.new()
 	var sm := ProceduralSkyMaterial.new()
-	sm.sky_top_color = Color(0.62, 0.68, 0.78)
-	sm.sky_horizon_color = Color(1.0, 0.9, 0.75)
+	sm.sky_top_color = Color(0.55, 0.65, 0.8)
+	sm.sky_horizon_color = Color(0.95, 0.88, 0.75)
 	sm.sky_curve = 0.12
 	sm.ground_bottom_color = Color(0.3, 0.28, 0.22)
 	sm.ground_horizon_color = Color(0.8, 0.7, 0.55)
@@ -137,9 +137,9 @@ func _build_environment() -> void:
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 	env.ambient_light_sky_contribution = 1.0
-	env.ambient_light_energy = 1.0
+	env.ambient_light_energy = 1.35
 	env.tonemap_mode = Environment.TONE_MAPPER_ACES
-	env.tonemap_exposure = 1.1
+	env.tonemap_exposure = 1.05
 	env.tonemap_white = 6.0
 	env.ssao_enabled = not "--no-ssao" in _flags
 	env.ssao_intensity = 2.0
@@ -155,22 +155,22 @@ func _build_environment() -> void:
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 	env.fog_enabled = true
 	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
-	env.fog_light_color = Color(0.92, 0.88, 0.8)
+	env.fog_light_color = Color(0.75, 0.75, 0.7)
 	env.fog_light_energy = 1.0
 	env.fog_sun_scatter = 0.25
-	env.fog_density = 0.0035
+	env.fog_density = 0.0012
 	env.fog_aerial_perspective = 0.3
 	env.fog_sky_affect = 0.6
 	env.volumetric_fog_enabled = not "--no-vfog" in _flags
-	env.volumetric_fog_density = 0.008
-	env.volumetric_fog_albedo = Color(0.85, 0.82, 0.75)
+	env.volumetric_fog_density = 0.0025
+	env.volumetric_fog_albedo = Color(0.7, 0.7, 0.66)
 	env.volumetric_fog_emission = Color(0.8, 0.65, 0.45)
 	env.volumetric_fog_emission_energy = 0.02
 	env.volumetric_fog_length = 110.0
 	env.volumetric_fog_anisotropy = 0.5
 	env.volumetric_fog_ambient_inject = 0.2
 	env.adjustment_enabled = true
-	env.adjustment_saturation = 1.1
+	env.adjustment_saturation = 1.15
 	env.adjustment_contrast = 1.05
 	var we := WorldEnvironment.new()
 	we.environment = env
@@ -179,8 +179,8 @@ func _build_environment() -> void:
 	var sun := DirectionalLight3D.new()
 	settings.env = env
 	settings.sun = sun
-	sun.light_color = Color(1.0, 0.86, 0.65)
-	sun.light_energy = 2.6
+	sun.light_color = Color(1.0, 0.9, 0.75)
+	sun.light_energy = 2.5
 	sun.shadow_enabled = not "--no-shadows" in _flags
 	sun.directional_shadow_max_distance = 220.0
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
@@ -193,7 +193,7 @@ func _build_environment() -> void:
 	sun.look_at_from_position(Vector3(-90, 55, 110), Vector3(0, 0, 0))
 	var fill := DirectionalLight3D.new()
 	fill.light_color = Color(0.7, 0.72, 0.78)
-	fill.light_energy = 0.45
+	fill.light_energy = 0.7
 	fill.shadow_enabled = false
 	add_child(fill)
 	fill.look_at_from_position(Vector3(60, 40, -60), Vector3(0, 0, 0))
@@ -286,9 +286,10 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material) -> void:
 
 func _build_roads() -> void:
 	var asphalt := Foliage.pbr("ph_asphalt", 1.0, Color(0.9, 0.9, 0.9))
-	var gravel := Foliage.pbr("ph_gravel", 1.0, Color(0.72, 0.72, 0.72))
-	var dirt := Foliage.pbr("ph_gravel", 1.0, Color(0.65, 0.58, 0.5))
+	var gravel := Foliage.pbr("ph_gravel", 1.0, Color(0.5, 0.49, 0.47))
+	var dirt := Foliage.pbr("ph_gravel", 1.0, Color(0.42, 0.37, 0.3))
 	for m in [asphalt, gravel, dirt]:
+		m.normal_scale = 0.5
 		m.cull_mode = BaseMaterial3D.CULL_DISABLED
 		m.disable_receive_shadows = true
 		m.uv1_scale = Vector3(1.0, 1.0, 1.0)
@@ -1021,6 +1022,7 @@ func _autotest_step(delta: float) -> void:
 		[Vector3(96, 0, 33), PI / 2.0 + 0.25, 0.02],   # on the Weg zur Hütte looking west towards the oak (photo 10)
 		[Vector3(-9, 0, 4), -PI / 2.0, 0.06],     # west face of the Waldhütte with the garage door (photo 14)
 		[Vector3(9, 0, -9), PI, 0.06],            # north face with the stair (photo 17)
+		[Vector3(4, 0, -3), 0.0, 0.02],           # from the fire north to the fountain and the Waldweg entrance (photo 20)
 	]
 	if _shot_i == 0 and _shot_t > 1.5:
 		_fps_frames += 1
