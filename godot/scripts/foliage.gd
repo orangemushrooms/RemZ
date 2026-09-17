@@ -29,7 +29,7 @@ static func pbr(short: String, uv_scale: float, tint: Color = Color.WHITE) -> St
 	m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	return m
 
-# Terrain: leaf litter (weight from vertex COLOR.r) blended over meadow grass
+# Terrain: forest floor / meadow / gravel blended by the vertex colour (r, g, b) from the map's cover mask
 const TERRAIN_SHADER := """
 shader_type spatial;
 render_mode cull_disabled;
@@ -39,36 +39,44 @@ uniform sampler2D grass_rough : hint_default_white, filter_linear_mipmap_anisotr
 uniform sampler2D leaf_albedo : source_color, filter_linear_mipmap_anisotropic;
 uniform sampler2D leaf_normal : hint_normal, filter_linear_mipmap_anisotropic;
 uniform sampler2D leaf_rough : hint_default_white, filter_linear_mipmap_anisotropic;
-uniform sampler2D leaf_ao : hint_default_white, filter_linear_mipmap_anisotropic;
-uniform vec3 grass_tint : source_color = vec3(0.95, 0.9, 0.6);
-uniform vec3 leaf_tint : source_color = vec3(1.1, 0.9, 0.7);
-uniform float scale_grass = 0.35;
-uniform float scale_leaf = 0.5;
-varying float w;
+uniform sampler2D gravel_albedo : source_color, filter_linear_mipmap_anisotropic;
+uniform sampler2D gravel_normal : hint_normal, filter_linear_mipmap_anisotropic;
+uniform sampler2D gravel_rough : hint_default_white, filter_linear_mipmap_anisotropic;
+uniform vec3 grass_tint : source_color = vec3(0.95, 0.95, 0.8);
+uniform vec3 leaf_tint : source_color = vec3(1.0, 0.95, 0.85);
+uniform vec3 gravel_tint : source_color = vec3(0.65, 0.65, 0.65);
+uniform float scale_grass = 0.3;
+uniform float scale_leaf = 0.28;
+uniform float scale_gravel = 0.33;
+varying vec3 w;
 varying vec2 wuv;
 void vertex() {
-	w = COLOR.r;
+	w = COLOR.rgb;
 	wuv = VERTEX.xz;
+}
+vec3 tex2(sampler2D t, vec2 uv) {
+	vec2 uv2 = vec2(uv.y, -uv.x) * 0.71 + vec2(13.7, 4.2);
+	return mix(texture(t, uv).rgb, texture(t, uv2).rgb, 0.5);
 }
 void fragment() {
 	vec2 ug = wuv * scale_grass;
 	vec2 ul = wuv * scale_leaf;
-	// break tiling with a second rotated sample
-	vec2 ul2 = vec2(ul.y, -ul.x) * 0.71 + vec2(13.7, 4.2);
-	vec3 la = mix(texture(leaf_albedo, ul).rgb, texture(leaf_albedo, ul2).rgb, 0.5) * leaf_tint;
-	vec3 ln = mix(texture(leaf_normal, ul).rgb, texture(leaf_normal, ul2).rgb, 0.5);
-	float lr = texture(leaf_rough, ul).r;
-	float lao = texture(leaf_ao, ul).r;
-	vec3 ga = texture(grass_albedo, ug).rgb * grass_tint;
-	vec3 gn = texture(grass_normal, ug).rgb;
-	float gr = texture(grass_rough, ug).r;
-	float k = smoothstep(0.35, 0.65, w + (la.r - 0.35) * 0.4);
-	ALBEDO = mix(ga, la, k);
-	NORMAL_MAP = mix(gn, ln, k);
-	NORMAL_MAP_DEPTH = 1.2;
-	ROUGHNESS = mix(gr, lr, k);
-	AO = mix(1.0, lao, k);
-	AO_LIGHT_AFFECT = 0.6;
+	vec2 uk = wuv * scale_gravel;
+	vec3 la = tex2(leaf_albedo, ul) * leaf_tint;
+	vec3 ln = tex2(leaf_normal, ul);
+	vec3 ga = tex2(grass_albedo, ug) * grass_tint;
+	vec3 gn = tex2(grass_normal, ug);
+	vec3 ka = tex2(gravel_albedo, uk) * gravel_tint;
+	vec3 kn = tex2(gravel_normal, uk);
+	// sharpen the blend with the texture brightness so edges look natural
+	vec3 ww = w + vec3((la.r - 0.4) * 0.3, (ga.g - 0.4) * 0.3, (ka.r - 0.5) * 0.3);
+	ww = max(ww - 0.15, vec3(0.0));
+	ww = pow(ww, vec3(3.0));
+	ww /= max(ww.r + ww.g + ww.b, 0.001);
+	ALBEDO = la * ww.r + ga * ww.g + ka * ww.b;
+	NORMAL_MAP = normalize(ln * ww.r + gn * ww.g + kn * ww.b);
+	NORMAL_MAP_DEPTH = 1.1;
+	ROUGHNESS = texture(leaf_rough, ul).r * ww.r + texture(grass_rough, ug).r * ww.g + texture(gravel_rough, uk).r * ww.b;
 }
 """
 
@@ -77,13 +85,10 @@ static func terrain_material() -> ShaderMaterial:
 	sh.code = TERRAIN_SHADER
 	var m := ShaderMaterial.new()
 	m.shader = sh
-	m.set_shader_parameter("grass_albedo", _tex(TEX + "grass_albedo.jpg"))
-	m.set_shader_parameter("grass_normal", _tex(TEX + "grass_normal.jpg"))
-	m.set_shader_parameter("grass_rough", _tex(TEX + "grass_rough.jpg"))
-	m.set_shader_parameter("leaf_albedo", _tex(TEX + "leaves_albedo.jpg"))
-	m.set_shader_parameter("leaf_normal", _tex(TEX + "leaves_normal.jpg"))
-	m.set_shader_parameter("leaf_rough", _tex(TEX + "leaves_rough.jpg"))
-	m.set_shader_parameter("leaf_ao", _tex(TEX + "leaves_ao.jpg"))
+	for pair in [["grass", "ph_meadow"], ["leaf", "ph_forestfloor"], ["gravel", "ph_gravel"]]:
+		m.set_shader_parameter(pair[0] + "_albedo", _tex(TEX + pair[1] + "_albedo.jpg"))
+		m.set_shader_parameter(pair[0] + "_normal", _tex(TEX + pair[1] + "_normal.jpg"))
+		m.set_shader_parameter(pair[0] + "_rough", _tex(TEX + pair[1] + "_rough.jpg"))
 	return m
 
 # Instanced sprite shader: INSTANCE_CUSTOM.x = atlas cell, .y = brightness, .z = wind amount
@@ -139,13 +144,43 @@ static func _multimesh(mesh: Mesh, count: int, mat: Material) -> MultiMeshInstan
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	return mi
 
+# A whole-map MultiMesh cannot cull individual tufts. Partition the generated
+# transforms into local cells, including a conservative bound for shader wind.
+static func _partition(mesh: Mesh, material: Material, transforms: Array[Transform3D], colors: Array[Color], category: String) -> Node3D:
+	var root := Node3D.new()
+	root.name = category.capitalize()
+	var cells := {}
+	for i in transforms.size():
+		var p := transforms[i].origin
+		var cell := Vector2i(floori(p.x / 16.0), floori(p.z / 16.0))
+		if not cells.has(cell):
+			cells[cell] = []
+		cells[cell].append(i)
+	for cell: Vector2i in cells:
+		var indices: Array = cells[cell]
+		var instance := _multimesh(mesh, indices.size(), material)
+		instance.position = Vector3(cell.x * 16.0, 0, cell.y * 16.0)
+		instance.add_to_group("render_" + category)
+		var bounds := AABB()
+		for i in indices.size():
+			var transform := transforms[indices[i]]
+			transform.origin -= instance.position
+			instance.multimesh.set_instance_transform(i, transform)
+			instance.multimesh.set_instance_custom_data(i, colors[indices[i]])
+			var aabb := transform * mesh.get_aabb()
+			bounds = aabb if i == 0 else bounds.merge(aabb)
+		instance.multimesh.custom_aabb = bounds.grow(0.25)
+		root.add_child(instance)
+	return root
+
 # Flat leaves lying on the ground. sampler(rng) -> Vector3 position or null
-static func ground_leaves(count: int, sampler: Callable, rng: RandomNumberGenerator) -> MultiMeshInstance3D:
+static func ground_leaves(count: int, sampler: Callable, rng: RandomNumberGenerator) -> Node3D:
 	var quad := QuadMesh.new()
 	quad.size = Vector2(0.22, 0.16)
 	quad.orientation = PlaneMesh.FACE_Y
-	var mi := _multimesh(quad, count, sprite_material("res://assets/sprites/leaves.png", Vector2(4, 2), 0.0, Color(1.0, 0.95, 0.85)))
-	var mm := mi.multimesh
+	var material := sprite_material("res://assets/sprites/leaves.png", Vector2(4, 2), 0.0, Color(1.0, 0.95, 0.85))
+	var transforms: Array[Transform3D] = []
+	var colors: Array[Color] = []
 	var placed := 0
 	var tries := 0
 	while placed < count and tries < count * 4:
@@ -156,14 +191,13 @@ static func ground_leaves(count: int, sampler: Callable, rng: RandomNumberGenera
 		var b := Basis().rotated(Vector3.UP, rng.randf() * TAU)
 		b = b.rotated(Vector3(rng.randf() - 0.5, 0.0, rng.randf() - 0.5).normalized(), rng.randf() * 0.25)
 		b = b.scaled(Vector3.ONE * rng.randf_range(0.7, 1.3))
-		mm.set_instance_transform(placed, Transform3D(b, p + Vector3(0, 0.015, 0)))
-		mm.set_instance_custom_data(placed, Color(float(rng.randi() % 8), rng.randf_range(0.7, 1.1), 0.0, 0.0))
+		transforms.append(Transform3D(b, p + Vector3(0, 0.015, 0)))
+		colors.append(Color(float(rng.randi() % 8), rng.randf_range(0.7, 1.1), 0.0, 0.0))
 		placed += 1
-	mm.visible_instance_count = placed
-	return mi
+	return _partition(quad, material, transforms, colors, "leaves")
 
 # Crossed grass tufts with wind sway
-static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> MultiMeshInstance3D:
+static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> Node3D:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var h := 0.55
@@ -180,8 +214,9 @@ static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> 
 			st.set_normal(Vector3.UP)
 			st.add_vertex(verts[idx])
 	var mesh := st.commit()
-	var mi := _multimesh(mesh, count, sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(1.0, 0.9, 0.55)))
-	var mm := mi.multimesh
+	var material := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(1.0, 0.9, 0.55))
+	var transforms: Array[Transform3D] = []
+	var colors: Array[Color] = []
 	var placed := 0
 	var tries := 0
 	while placed < count and tries < count * 4:
@@ -190,11 +225,10 @@ static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> 
 		if p == null:
 			continue
 		var b := Basis().rotated(Vector3.UP, rng.randf() * TAU).scaled(Vector3(rng.randf_range(0.8, 1.4), rng.randf_range(0.7, 1.3), rng.randf_range(0.8, 1.4)))
-		mm.set_instance_transform(placed, Transform3D(b, p))
-		mm.set_instance_custom_data(placed, Color(float(rng.randi() % 4), rng.randf_range(0.75, 1.1), 1.0, 0.0))
+		transforms.append(Transform3D(b, p))
+		colors.append(Color(float(rng.randi() % 4), rng.randf_range(0.75, 1.1), 1.0, 0.0))
 		placed += 1
-	mm.visible_instance_count = placed
-	return mi
+	return _partition(mesh, material, transforms, colors, "grass")
 
 # Foliage cards around tree crowns: crowns = Array of [Vector3 center, float radius]
 static func canopy(crowns: Array, rng: RandomNumberGenerator) -> MultiMeshInstance3D:

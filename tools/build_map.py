@@ -29,9 +29,9 @@ ROADS = [
     {"name": "Weg zur Hütte", "surface": "gravel", "width": 3.4,
      "pts": [[124, 21], [100, 32], [70, 41], [53, 47.5], [30, 54.5], [7, 61]]},
     {"name": "Waldweg zwischen Hütten", "surface": "gravel", "width": 4.5,
-     "pts": [[7, 61], [6, 44], [6.5, 30], [5, 18], [1, 10], [-6, 2], [-12, -9]]},
+     "pts": [[7, 61], [6, 44], [6.5, 30], [5, 18], [3, 12]]},
     {"name": "Waldweg nach Hütte (Oberer Sorchen)", "surface": "gravel", "width": 3.2,
-     "pts": [[-12, -9], [-29, -49], [-33, -56], [-57, -112], [-69, -141], [-73, -152], [-80, -173], [-97, -207], [-115, -247], [-125, -275]]},
+     "pts": [[1, -22], [-8, -34], [-29, -49], [-33, -56], [-57, -112], [-69, -141], [-73, -152], [-80, -173], [-97, -207], [-115, -247], [-125, -275]]},
     {"name": "Weg Richtung Dorf", "surface": "gravel", "width": 3.2,
      "pts": [[7, 61], [-7.5, 65], [-45, 71], [-62, 72], [-67, 75], [-190, 132], [-275, 171]]},
     {"name": "Feldweg West", "surface": "dirt", "width": 2.8,
@@ -42,19 +42,24 @@ ROADS = [
      "pts": [[-73, -152], [-66, -154], [-47, -168], [-20, -176]]},
 ]
 # gravel clearing around the fire, the aprons of both huts
-CLEARING = [[-22, -15], [-8, -19], [6, -15], [9, -5], [8, 8], [11, 18], [13, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-6, 10], [-16, 5], [-24, -4]]
+# Kiesplatz: fire plaza north-west of the Waldhütte (photos 13, 14, 15, 20), the track between the huts, both aprons
+CLEARING = [[-14, -24], [0, -28], [10, -24], [15, -14], [14, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [13, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-6, 10], [-14, 2], [-18, -10]]
 MEADOW_FORCE = [[-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 160], [-70, 160]]
-WALDHUETTE = {"pos": [9.1, 4.5], "size": [6.6, 6.4], "yaw_deg": 8.0, "base_h": 2.4, "wall_h": 2.5, "roof_h": 1.9}
+# Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
+# upper door, east side buried in the slope (photos 14, 17, 19)
+WALDHUETTE = {"pos": [9.1, 4.6], "size": [6.6, 7.4], "yaw_deg": -8.0, "base_h": 2.4, "wall_h": 2.5, "roof_h": 1.9}
 HOLZLAGER = {"pos": [-2.5, 27.0], "size": [7.9, 14.6], "yaw_deg": -23.0, "base_h": 0.6, "wall_h": 3.6, "roof_h": 1.6}
-FIRE = [0.0, 0.0]
-BENCHES = [[0.0, 3.3, 0.0], [0.0, -3.3, 0.0], [-3.3, 0.0, 90.0], [3.3, 0.0, 90.0]]   # x, z, yaw (length axis)
-TABLE = [-8.0, -1.0, 15.0]
-FOUNTAIN = [-14.0, -6.0, 80.0]
-BIN = [-15.5, -9.5]
-SIGNPOST = [-9.0, -14.0]
-LOG_SEAT = [-17.0, -2.0, 60.0]
+# fire plaza ~7 m north of the hut's north face; table west of the fire, fountain / bin / signpost at the north
+# track entrance (photos 15, 16, 18, 20, 21). Origin stays the OSM picnic node.
+FIRE = [4.0, -7.0]
+BENCHES = [[4.0, -3.7, 0.0], [4.0, -10.3, 0.0], [0.7, -7.0, 90.0], [7.3, -7.0, 90.0]]   # x, z, yaw (length axis)
+TABLE = [-3.0, -9.0, 20.0]
+FOUNTAIN = [-4.5, -16.0, 75.0]
+BIN = [-1.5, -19.0]
+SIGNPOST = [3.0, -21.0]
+LOG_SEAT = [-9.0, -12.0, 60.0]
 LANDMARK_OAK = [66.0, 34.0]
-BIG_TREES = [[4.0, 10.8, "beech", 1.35], [-3.0, -14.5, "beech", 1.25], [7.5, -11.0, "beech", 1.2], [-12.0, 8.5, "beech", 1.15],
+BIG_TREES = [[1.5, 0.8, "beech", 1.35], [-8.0, -21.0, "beech", 1.25], [12.0, -12.0, "beech", 1.2], [-10.0, 6.0, "beech", 1.15],
              [-20.5, -9.0, "oak", 1.2], [14.5, 63.5, "oak", 1.25], [0.5, 66.5, "beech", 1.2], [-9.0, 14.0, "beech", 1.1],
              [14.0, -3.0, "spruce", 1.2], [-8.0, 42.0, "beech", 1.1], [12.5, 30.0, "beech", 1.15]]
 # pasture fence on the meadow side of the tracks (gap at the Wiesenweg gate)
@@ -66,9 +71,9 @@ BARRICADES = [
     {"id": "ne", "name": "Weg zur Hütte", "pos": [28, 55], "yaw": -1.19, "segments": 2},
     {"id": "e", "name": "Wiesentor", "pos": [7, 66], "yaw": 0.0, "segments": 2},
     {"id": "s", "name": "Weg Richtung Dorf", "pos": [-16, 66.5], "yaw": -1.55, "segments": 2},
-    {"id": "w", "name": "Waldweg Nord", "pos": [-20, -28], "yaw": 0.40, "segments": 2},
+    {"id": "w", "name": "Waldweg Nord", "pos": [-7, -33], "yaw": 0.68, "segments": 2},
 ]
-PLAYER_START = [-1.5, -6.0]
+PLAYER_START = [1.0, -4.0]
 BOUNDS = [-250, -230, 390, 370]   # x, z, w, d playable
 
 # ------------------------------------------------------------------ helpers
@@ -132,22 +137,21 @@ h = hs * (1 - k) + h * k
 hb = WALDHUETTE
 a = math.radians(hb["yaw_deg"])
 cx, cz = hb["pos"]
-base_level = float(h[int(cz + 5 - Z0), int(cx - Z0 * 0 - X0)])   # ground at the south face
-base_level = float(h[int(cz + 4 - Z0), int(cx - X0)])
+base_level = float(h[int(cz - Z0), int(cx - 4.5 - X0)])   # ground at the west face (gravel side)
 jj, ii = np.mgrid[0:H, 0:W]
 px, pz = ii + X0 - cx, jj + Z0 - cz
 lx = px * math.cos(a) + pz * math.sin(a); lz = -px * math.sin(a) + pz * math.cos(a)
 upper = base_level + hb["base_h"]
-# terrace region: behind the north face (lz < -sz/2 + 1.2) within a fan, blending out over 9 m
-tz = -lz - (hb["size"][1] / 2 - 1.4)                 # metres north of the terrace edge
-side = np.abs(lx) - hb["size"][0] / 2                # metres outside the east/west faces
+# terrace region: behind the east face within a fan, blending out over 9 m (the slope rises east anyway)
+tz = lx - (hb["size"][0] / 2 - 1.4)                  # metres east of the terrace edge
+side = np.abs(lz) - hb["size"][1] / 2                # metres outside the north/south faces
 t_in = np.clip(tz / 1.0, 0, 1) * np.clip(1.0 - np.maximum(side, 0) / 3.0, 0, 1)
 fade = np.clip(1.0 - np.maximum(tz - 3.0, 0) / 9.0, 0, 1) * np.clip(1.0 - np.maximum(side - 3.0, 0) / 6.0, 0, 1)
 target = np.maximum(h, upper - 0.05)
 h = h * (1 - t_in * fade) + target * (t_in * fade)
 # keep the footprint itself flat at the upper level (the hut model closes the gap)
 inside = (np.abs(lx) < hb["size"][0] / 2 + 0.3) & (np.abs(lz) < hb["size"][1] / 2 + 0.3)
-h = np.where(inside & (lz < 0.5), np.maximum(h, upper - 0.05), h)
+h = np.where(inside & (lx > -0.5), np.maximum(h, upper - 0.05), h)
 # Holzlager stands on a flat gravel pad
 hl = HOLZLAGER
 m = poly_mask(rect_pts(hl, 2.5))
@@ -208,7 +212,7 @@ forest_f = ndimage.gaussian_filter(forest.astype(np.float32), 1.5)
 leaf = np.clip(forest_f * 1.3, 0, 1)
 # leaf litter also under the clearing's trees and around the huts (photos 14, 19)
 leaf = np.maximum(leaf, np.clip(1.0 - (cd - 0.0) / 6.0, 0, 1) * (cd > 0))
-leaf = np.maximum(leaf, np.clip(1.0 - np.hypot(jj + Z0 - 4.5, ii + X0 - 9) / 16.0, 0, 1))
+leaf = np.maximum(leaf, np.clip(1.0 - np.hypot(jj + Z0 - 8, ii + X0 - 12) / 14.0, 0, 1))
 leaf *= 1.0 - gravel
 leaf *= 1.0 - asphalt
 meadow = np.clip(1.0 - leaf - gravel - asphalt, 0, 1)
@@ -350,7 +354,9 @@ function place(){{cam.position.set(tgt.x+dist*Math.cos(pitch)*Math.sin(yaw),tgt.
 addEventListener("mousedown",e=>{{drag=e.button+1;lx=e.clientX;ly=e.clientY;}});addEventListener("mouseup",()=>drag=0);addEventListener("contextmenu",e=>e.preventDefault());
 addEventListener("mousemove",e=>{{if(!drag)return;const dx=e.clientX-lx,dy=e.clientY-ly;lx=e.clientX;ly=e.clientY;if(drag==1){{yaw-=dx*0.005;pitch=Math.min(1.5,Math.max(0.05,pitch+dy*0.005));}}else{{const r=new THREE.Vector3(Math.cos(yaw),0,-Math.sin(yaw));const f=new THREE.Vector3(-Math.sin(yaw),0,-Math.cos(yaw));tgt.addScaledVector(r,-dx*dist*0.0015).addScaledVector(f,dy*dist*0.0015);}}}});
 addEventListener("wheel",e=>{{dist=Math.min(1500,Math.max(20,dist*(1+e.deltaY*0.001)));}});
-function loop(){{place();ren.render(scene,cam);requestAnimationFrame(loop);}}loop();
+function fit(){{if(ren.domElement.width!=innerWidth||ren.domElement.height!=innerHeight){{ren.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();}}}}
+addEventListener("resize",fit);
+function loop(){{fit();place();ren.render(scene,cam);requestAnimationFrame(loop);}}loop();
 </script></body></html>"""
 open(os.path.join(TOUT, "terrain_viewer.html"), "w", encoding="utf-8").write(html)
 print("heights: fire 0, hut", float(h[int(4.5 - Z0), int(9 - X0)]), "hut N", float(h[int(-2 - Z0), int(9 - X0)]), "Sennhofstr junction", float(h[int(21 - Z0), int(124 - X0)]), "fork", float(h[int(57 - Z0), int(5 - X0)]), "min", float(h.min()), "max", float(h.max()))

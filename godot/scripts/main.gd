@@ -1,4 +1,5 @@
-# Builds the level from Map (the hand-drawn plan) and wires player / weapons / zombies / waves / HUD.
+# Builds the Waldhütte Remetschwil level from Map (assets/map, generated from geodata) and wires
+# player / weapons / zombies / waves / HUD.
 extends Node3D
 
 var player: Player
@@ -16,7 +17,6 @@ var started := false
 var over := false
 var near_bar = null
 var rng := RandomNumberGenerator.new()
-var crowns: Array = []
 var _autotest := false
 var _shot_t := 0.0
 var _shot_i := 0
@@ -37,6 +37,7 @@ func _ready() -> void:
 	_flags = OS.get_cmdline_user_args()
 	settings = GameSettings.new()
 	add_child(settings)
+	Map._ensure()
 	_build_environment()
 	nav_region = NavigationRegion3D.new()
 	var nm := NavigationMesh.new()
@@ -47,19 +48,22 @@ func _ready() -> void:
 	nm.agent_height = 1.8
 	nm.agent_max_climb = 0.6
 	nm.agent_max_slope = 45.0
-	nm.cell_size = 0.35
-	nm.cell_height = 0.25
+	nm.cell_size = 0.5
+	nm.cell_height = 0.2
+	NavigationServer3D.map_set_cell_size(get_world_3d().navigation_map, nm.cell_size)
+	NavigationServer3D.map_set_cell_height(get_world_3d().navigation_map, nm.cell_height)
+	var walkable := Map.BOUNDS.grow(4.0)
+	nm.filter_baking_aabb = AABB(Vector3(walkable.position.x, -100, walkable.position.y), Vector3(walkable.size.x, 220, walkable.size.y))
 	nav_region.navigation_mesh = nm
 	add_child(nav_region)
 	_build_terrain()
 	_build_roads()
-	_build_stream()
 	_build_forests()
 	_build_buildings()
 	_build_campsite()
+	_build_fence()
 	_build_clutter()
 	_build_foliage()
-	_build_sky_extras()
 	render_stats = RenderOptimizer.optimize(self)
 	print("RENDER_OPTIMIZER ", render_stats)
 
@@ -74,6 +78,7 @@ func _ready() -> void:
 	player.died.connect(_game_over)
 	zombies_root = Node3D.new()
 	add_child(zombies_root)
+	hud.minimap.setup(player, self)
 	weapons = Weapons.new()
 	add_child(weapons)
 	weapons.setup(player, hud, zombies_root)
@@ -90,18 +95,19 @@ func _ready() -> void:
 	skills.setup(player, weapons, hud, self)
 	ambience = Ambience.new()
 	add_child(ambience)
-	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, 36.0))
+	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
 	music = Music.new()
+	music.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(music)
 	if not "--no-music" in _flags:
 		music.play("title")
 	_spawn_deer()
 	settings.add_controls(hud.overlay_content)
 	settings.apply()
-	for sound in ["pistol", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "boom", "pickup"]:
+	for sound in ["pistol", "revolver", "smg", "ak47", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "boom", "pickup"]:
 		Sfx.get_stream(sound)
 	Zombie.preload_models()
-	hud.show_overlay("BIRKENHOF", "Die Lichtung mit der Waldhütte ist der letzte sichere Ort. Die Zombies kommen von der Nordstrasse über den Weg zur Hütte, über den Waldweg und aus der Wiese. Halte die Barrikaden, überlebe die Wellen.", "Spiel starten", "Wegnetz wird berechnet ...")
+	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Die Zombies kommen von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Halte die Barrikaden, überlebe die Wellen.", "Spiel starten", "Wegnetz wird berechnet ...")
 	hud.overlay_button.disabled = true
 	nav_region.bake_finished.connect(_navigation_baked)
 	nav_region.bake_navigation_mesh(true)
@@ -120,20 +126,20 @@ func _build_environment() -> void:
 	env.background_mode = Environment.BG_SKY
 	var sky := Sky.new()
 	var sm := ProceduralSkyMaterial.new()
-	sm.sky_top_color = Color(0.7, 0.7, 0.74)
+	sm.sky_top_color = Color(0.62, 0.68, 0.78)
 	sm.sky_horizon_color = Color(1.0, 0.9, 0.75)
 	sm.sky_curve = 0.12
-	sm.ground_bottom_color = Color(0.35, 0.22, 0.12)
-	sm.ground_horizon_color = Color(0.8, 0.66, 0.5)
+	sm.ground_bottom_color = Color(0.3, 0.28, 0.22)
+	sm.ground_horizon_color = Color(0.8, 0.7, 0.55)
 	sm.sun_angle_max = 30.0
 	sm.sun_curve = 0.08
 	sky.sky_material = sm
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 	env.ambient_light_sky_contribution = 1.0
-	env.ambient_light_energy = 1.5
+	env.ambient_light_energy = 1.0
 	env.tonemap_mode = Environment.TONE_MAPPER_ACES
-	env.tonemap_exposure = 1.15
+	env.tonemap_exposure = 1.1
 	env.tonemap_white = 6.0
 	env.ssao_enabled = not "--no-ssao" in _flags
 	env.ssao_intensity = 2.0
@@ -143,37 +149,37 @@ func _build_environment() -> void:
 	env.ssil_radius = 6.0
 	env.sdfgi_enabled = false  # leaks light through thin leaf cards and burns them white
 	env.glow_enabled = true
-	env.glow_intensity = 0.45
-	env.glow_bloom = 0.08
+	env.glow_intensity = 0.4
+	env.glow_bloom = 0.06
 	env.glow_hdr_threshold = 1.1
 	env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SOFTLIGHT
 	env.fog_enabled = true
 	env.fog_mode = Environment.FOG_MODE_EXPONENTIAL
-	env.fog_light_color = Color(0.95, 0.88, 0.78)
+	env.fog_light_color = Color(0.92, 0.88, 0.8)
 	env.fog_light_energy = 1.0
 	env.fog_sun_scatter = 0.25
-	env.fog_density = 0.004
+	env.fog_density = 0.0035
 	env.fog_aerial_perspective = 0.3
-	env.fog_sky_affect = 0.7
+	env.fog_sky_affect = 0.6
 	env.volumetric_fog_enabled = not "--no-vfog" in _flags
-	env.volumetric_fog_density = 0.009
-	env.volumetric_fog_albedo = Color(0.85, 0.8, 0.72)
-	env.volumetric_fog_emission = Color(0.8, 0.6, 0.4)
+	env.volumetric_fog_density = 0.008
+	env.volumetric_fog_albedo = Color(0.85, 0.82, 0.75)
+	env.volumetric_fog_emission = Color(0.8, 0.65, 0.45)
 	env.volumetric_fog_emission_energy = 0.02
-	env.volumetric_fog_length = 90.0
+	env.volumetric_fog_length = 110.0
 	env.volumetric_fog_anisotropy = 0.5
 	env.volumetric_fog_ambient_inject = 0.2
 	env.adjustment_enabled = true
-	env.adjustment_saturation = 1.15
-	env.adjustment_contrast = 1.06
+	env.adjustment_saturation = 1.1
+	env.adjustment_contrast = 1.05
 	var we := WorldEnvironment.new()
 	we.environment = env
 	add_child(we)
-	# low autumn sun in the north-east, shining across the clearing towards the camp
+	# low late-afternoon sun from the south-west (the open valley side), as in the photos
 	var sun := DirectionalLight3D.new()
 	settings.env = env
 	settings.sun = sun
-	sun.light_color = Color(1.0, 0.85, 0.62)
+	sun.light_color = Color(1.0, 0.86, 0.65)
 	sun.light_energy = 2.6
 	sun.shadow_enabled = not "--no-shadows" in _flags
 	sun.directional_shadow_max_distance = 220.0
@@ -184,51 +190,59 @@ func _build_environment() -> void:
 	sun.shadow_blur = 1.5
 	sun.light_volumetric_fog_energy = 0.8
 	add_child(sun)
-	sun.look_at_from_position(Vector3(70, 62, -110), Vector3(-20, 0, 0))
+	sun.look_at_from_position(Vector3(-90, 55, 110), Vector3(0, 0, 0))
 	var fill := DirectionalLight3D.new()
-	fill.light_color = Color(0.7, 0.7, 0.75)
-	fill.light_energy = 0.5
+	fill.light_color = Color(0.7, 0.72, 0.78)
+	fill.light_energy = 0.45
 	fill.shadow_enabled = false
 	add_child(fill)
-	fill.look_at_from_position(Vector3(-40, 40, 60), Vector3(0, 0, 0))
-
-func _ground_normal(x: float, z: float) -> Vector3:
-	var e := 0.5
-	var dx := (Map.ground_height(x + e, z) - Map.ground_height(x - e, z)) / (2.0 * e)
-	var dz := (Map.ground_height(x, z + e) - Map.ground_height(x, z - e)) / (2.0 * e)
-	return Vector3(-dx, 1.0, -dz).normalized()
+	fill.look_at_from_position(Vector3(60, 40, -60), Vector3(0, 0, 0))
 
 # ---------------------------------------------------------------- terrain
 func _build_terrain() -> void:
+	var ext := Map.extent()
+	var w := int(ext.size.x) + 1
+	var d := int(ext.size.y) + 1
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var W := 360.0
-	var n := 240
-	var step := W / n
-	for j in n + 1:
-		for i in n + 1:
-			var x := -W / 2.0 + i * step
-			var z := -W / 2.0 + j * step
+	var heights := PackedFloat32Array()
+	heights.resize(w * d)
+	for j in d:
+		for i in w:
+			var x := ext.position.x + i
+			var z := ext.position.y + j
+			var h := Map.ground_height(x, z)
+			heights[j * w + i] = h
 			st.set_uv(Vector2(x, z))
-			st.set_color(Color(Map.leaf_weight(x, z), 0, 0))
-			st.set_normal(_ground_normal(x, z))
-			st.add_vertex(Vector3(x, Map.ground_height(x, z), z))
-	for j in n:
-		for i in n:
-			var a := j * (n + 1) + i
+			st.set_color(Map.cover(x, z))
+			st.set_normal(Map.ground_normal(x, z))
+			st.add_vertex(Vector3(x, h, z))
+	for j in d - 1:
+		for i in w - 1:
+			var a := j * w + i
 			var b := a + 1
-			var c := a + n + 1
-			var d := c + 1
+			var c := a + w
+			var e := c + 1
 			st.add_index(a); st.add_index(b); st.add_index(c)
-			st.add_index(b); st.add_index(d); st.add_index(c)
+			st.add_index(b); st.add_index(e); st.add_index(c)
 	st.generate_tangents()
 	var mi := MeshInstance3D.new()
 	mi.mesh = st.commit()
 	mi.material_override = Foliage.terrain_material()
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF   # otherwise it shadows the roads lying 4 cm above it
-	mi.add_to_group("navsource")
 	add_child(mi)
-	mi.create_trimesh_collision()
+	var body := StaticBody3D.new()
+	body.collision_layer = 1
+	body.add_to_group("navsource")
+	var cs := CollisionShape3D.new()
+	var shape := HeightMapShape3D.new()
+	shape.map_width = w
+	shape.map_depth = d
+	shape.map_data = heights
+	cs.shape = shape
+	cs.position = Vector3(ext.position.x + (w - 1) / 2.0, 0, ext.position.y + (d - 1) / 2.0)
+	body.add_child(cs)
+	add_child(body)
 
 # road ribbon along a polyline
 func _road_mesh(pts: Array, width: float, lift: float, mat: Material) -> void:
@@ -239,7 +253,7 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material) -> void:
 		var a: Vector2 = pts[i]
 		var b: Vector2 = pts[i + 1]
 		var len := a.distance_to(b)
-		var steps := maxi(1, int(len / 2.0))
+		var steps := maxi(1, int(len / 1.5))
 		for k in steps + (1 if i == pts.size() - 2 else 0):
 			var t := float(k) / steps
 			var p := a.lerp(b, t)
@@ -256,12 +270,12 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material) -> void:
 		for side: float in [-1.0, 1.0]:
 			var q: Vector2 = p + nrm * side * width / 2.0
 			st.set_uv(Vector2(0.0 if side < 0 else 1.0, dist / width))
-			st.set_normal(_ground_normal(q.x, q.y))
+			st.set_normal(Map.ground_normal(q.x, q.y))
 			st.add_vertex(Vector3(q.x, Map.ground_height(q.x, q.y) + lift, q.y))
 		if vi > 0:
 			var a := (vi - 1) * 2
-			st.add_index(a); st.add_index(a + 1); st.add_index(a + 2)
-			st.add_index(a + 1); st.add_index(a + 3); st.add_index(a + 2)
+			st.add_index(a); st.add_index(a + 2); st.add_index(a + 1)
+			st.add_index(a + 1); st.add_index(a + 2); st.add_index(a + 3)
 		vi += 1
 	st.generate_tangents()
 	var mi := MeshInstance3D.new()
@@ -271,67 +285,16 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material) -> void:
 	add_child(mi)
 
 func _build_roads() -> void:
-	var asphalt := Foliage.pbr("asphalt", 1.0, Color(0.85, 0.85, 0.85))
-	asphalt.cull_mode = BaseMaterial3D.CULL_DISABLED
-	var gravel := Foliage.pbr("gravel", 1.0, Color(1.45, 1.35, 1.2))
-	gravel.cull_mode = BaseMaterial3D.CULL_DISABLED
-	for m in [asphalt, gravel]:
+	var asphalt := Foliage.pbr("ph_asphalt", 1.0, Color(0.9, 0.9, 0.9))
+	var gravel := Foliage.pbr("ph_gravel", 1.0, Color(0.72, 0.72, 0.72))
+	var dirt := Foliage.pbr("ph_gravel", 1.0, Color(0.65, 0.58, 0.5))
+	for m in [asphalt, gravel, dirt]:
+		m.cull_mode = BaseMaterial3D.CULL_DISABLED
 		m.disable_receive_shadows = true
-	if "--road-plain" in _flags:
-		for m in [asphalt, gravel]:
-			m.normal_enabled = false
-			m.ao_enabled = false
-			m.roughness_texture = null
+		m.uv1_scale = Vector3(1.0, 1.0, 1.0)
 	for r in Map.ROADS:
-		_road_mesh(r["pts"], r["width"], 0.04, asphalt if r["surface"] == "asphalt" else gravel)
-
-func _build_stream() -> void:
-	# water surface in the stream bed
-	var st := SurfaceTool.new()
-	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var pts: Array = Map.STREAM
-	var vi := 0
-	for i in pts.size():
-		var p: Vector2 = pts[i]
-		var nxt: Vector2 = pts[mini(i + 1, pts.size() - 1)]
-		var prv: Vector2 = pts[maxi(i - 1, 0)]
-		var dir := (nxt - prv).normalized()
-		var nrm := Vector2(-dir.y, dir.x)
-		for side: float in [-1.0, 1.0]:
-			var q: Vector2 = p + nrm * side * 1.4
-			st.set_uv(Vector2(0.0 if side < 0 else 1.0, i * 2.0))
-			st.set_normal(Vector3.UP)
-			st.add_vertex(Vector3(q.x, Map.ground_height(p.x, p.y) + 0.35, q.y))
-		if vi > 0:
-			var a := (vi - 1) * 2
-			st.add_index(a); st.add_index(a + 1); st.add_index(a + 2)
-			st.add_index(a + 1); st.add_index(a + 3); st.add_index(a + 2)
-		vi += 1
-	var mi := MeshInstance3D.new()
-	mi.mesh = st.commit()
-	var wm := StandardMaterial3D.new()
-	wm.albedo_color = Color(0.25, 0.35, 0.38, 0.75)
-	wm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	wm.metallic = 0.6
-	wm.roughness = 0.08
-	wm.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mi.material_override = wm
-	add_child(mi)
-	# pebbles along the banks
-	var stone := Foliage.pbr("rock", 1.0, Color(0.7, 0.68, 0.62))
-	for i in 60:
-		var t := rng.randf()
-		var seg := int(t * (pts.size() - 1))
-		var p: Vector2 = pts[seg].lerp(pts[mini(seg + 1, pts.size() - 1)], fmod(t * (pts.size() - 1), 1.0))
-		var q := p + Vector2(rng.randf_range(-2.6, 2.6), rng.randf_range(-1.0, 1.0))
-		var s := MeshInstance3D.new()
-		var sm := SphereMesh.new()
-		sm.radius = rng.randf_range(0.08, 0.25)
-		sm.height = sm.radius * 1.4
-		s.mesh = sm
-		s.material_override = stone
-		add_child(s)
-		s.global_position = Map.ground_pos(q.x, q.y) + Vector3(0, sm.radius * 0.3, 0)
+		var mat: Material = { "asphalt": asphalt, "gravel": gravel, "dirt": dirt }[r["surface"]]
+		_road_mesh(r["pts"], r["width"], 0.04 if r["surface"] != "dirt" else 0.03, mat)
 
 # ---------------------------------------------------------------- models
 var _scenes := {}
@@ -380,6 +343,18 @@ func _collider(root: Node3D, radius: float, height: float = 4.0) -> void:
 	root.add_child(body)
 	root.add_to_group("navsource")
 
+func _box_collider(root: Node3D, size: Vector3, offset: Vector3 = Vector3.ZERO) -> void:
+	var body := StaticBody3D.new()
+	body.collision_layer = 1
+	var cs := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = size
+	cs.shape = box
+	cs.position = offset + Vector3(0, size.y / 2.0, 0)
+	body.add_child(cs)
+	root.add_child(body)
+	root.add_to_group("navsource")
+
 func _place(name: String, x: float, z: float, height: float, yaw: float = -1.0, scale := 1.0, collide := 0.0) -> Node3D:
 	var scene := _scene(name)
 	if not scene:
@@ -417,211 +392,414 @@ func _place_real(name: String, x: float, z: float, scale: float, collide: float,
 		_collider(model, collide)
 	return model
 
-# ---------------------------------------------------------------- forests
-const BROADLEAF := ["island_tree_01", "island_tree_02", "island_tree_03", "tree_small_02", "jacaranda_tree"]
-const CONIFER := ["fir_tree_01_a", "fir_tree_01_b", "fir_tree_01_c"]
+# simple textured box helper (triplanar so boards / ribs stay horizontal / vertical on every face)
+func _box(parent: Node3D, size: Vector3, pos: Vector3, mat: Material, yaw: float = 0.0) -> MeshInstance3D:
+	var mi := MeshInstance3D.new()
+	var bm := BoxMesh.new()
+	bm.size = size
+	mi.mesh = bm
+	mi.material_override = mat
+	mi.position = pos
+	mi.rotation.y = yaw
+	parent.add_child(mi)
+	return mi
 
-func _tree(x: float, z: float, big: bool = false) -> void:
+func _mat(tex: String, scale: float, tint: Color = Color.WHITE, triplanar: bool = true) -> StandardMaterial3D:
+	var m := Foliage.pbr(tex, scale, tint)
+	m.uv1_triplanar = triplanar
+	m.uv1_scale = Vector3.ONE * scale
+	return m
+
+func _plain(color: Color, rough: float = 0.8, metal: float = 0.0) -> StandardMaterial3D:
+	var m := StandardMaterial3D.new()
+	m.albedo_color = color
+	m.roughness = rough
+	m.metallic = metal
+	return m
+
+# ---------------------------------------------------------------- forests
+func _build_forests() -> void:
 	if "--no-trees" in _flags:
 		return
-	if Map.is_clear_zone(x, z):
-		return
-	var conifer := rng.randf() > 0.7
-	var near_camp := Vector2(x, z).distance_to(Map.FIRE) < 95.0
-	var pool: Array = CONIFER if conifer else BROADLEAF
-	var name: String = pool[rng.randi() % pool.size()]
-	if _tree_scene(name) and near_camp and (conifer or rng.randf() < 0.92):
-		var s := (0.9 if big else 0.7) + rng.randf() * 0.5
-		_place_real(name, x, z, s, 0.45 / s)
-		return
-	var kind := "tree_pine" if conifer else ("tree_leaf" if rng.randf() < 0.85 else "tree_dead")
-	if not conifer and _scene("tree_autumn_a"):
-		kind = "tree_autumn_a" if rng.randf() < 0.6 else "tree_autumn_b"
-	if conifer and _scene("spruce_detailed"):
-		kind = "spruce_detailed"
-	var h: float = { "tree_leaf": 11.0, "tree_pine": 12.0, "tree_dead": 8.0, "tree_autumn_a": 12.0, "tree_autumn_b": 13.0, "spruce_detailed": 15.0 }[kind]
-	var s := (1.0 if big else 0.75) + rng.randf() * 0.6
-	_place(kind, x, z, h, -1.0, s, 0.5)
+	Trees.build(self, Map.TREES, Map.SHRUBS, Map.FIRE, rng)
+	# the landmark oak leaning over the Weg zur Hütte (photo 24)
+	Trees.hero(self, "oak", Map.LANDMARK_OAK.x, Map.LANDMARK_OAK.y, 1.55, 0.6, rng)
+	_build_forest_blocker()
 
-func _bush(x: float, z: float, s: float) -> void:
-	var shrub: String = ["island_tree_02", "tree_small_02", "jacaranda_tree"][rng.randi() % 3]
-	if _tree_scene(shrub) and Vector2(x, z).distance_to(Map.FIRE) < 100.0:
-		_place_real(shrub, x, z, 0.16 + 0.1 * s, 0.9, -1.0)
-		return
-	_place("bush", x, z, 2.2, -1.0, s, 0.9)
-
-func _build_forests() -> void:
-	# fill each forest block with trees on a jittered grid, denser near the clearing
-	for key: String in Map.FORESTS:
-		var r: Rect2 = Map.FORESTS[key]
-		var far: bool = key.ends_with("hinten") or key.ends_with("ganz") or key == "Wald West"
-		var spacing := 7.5 if far else 5.5
-		var z := r.position.y + spacing * 0.5
-		while z < r.end.y:
-			var x := r.position.x + spacing * 0.5
-			while x < r.end.x:
-				var px := x + rng.randf_range(-spacing * 0.4, spacing * 0.4)
-				var pz := z + rng.randf_range(-spacing * 0.4, spacing * 0.4)
-				if rng.randf() < 0.85:
-					_tree(px, pz, not far)
-				x += spacing
-			z += spacing
-	# undergrowth along the forest edges facing the clearing and paths
-	for key: String in Map.FORESTS:
-		var r: Rect2 = Map.FORESTS[key]
-		if key.ends_with("hinten") or key.ends_with("ganz") or key == "Wald West":
-			continue
-		var n := int((r.size.x + r.size.y) / 3.0)
-		for i in n:
-			var side := rng.randi() % 4
-			var x: float
-			var z: float
-			match side:
-				0: x = r.position.x + rng.randf() * r.size.x; z = r.position.y + rng.randf_range(0.5, 2.5)
-				1: x = r.position.x + rng.randf() * r.size.x; z = r.end.y - rng.randf_range(0.5, 2.5)
-				2: x = r.position.x + rng.randf_range(0.5, 2.5); z = r.position.y + rng.randf() * r.size.y
-				_: x = r.end.x - rng.randf_range(0.5, 2.5); z = r.position.y + rng.randf() * r.size.y
-			if not Map.is_clear_zone(x, z):
-				_bush(x, z, 0.6 + rng.randf() * 0.7)
-
-# ---------------------------------------------------------------- buildings
-func _building_collider(root: Node3D, size: Vector2, height: float) -> void:
+# deep forest (more than ~8 m inside the tree line, away from every track) is impassable: undergrowth wall for
+# physics and the navigation bake, hidden behind the shrubs along the edges
+func _build_forest_blocker() -> void:
 	var body := StaticBody3D.new()
 	body.collision_layer = 1
-	var cs := CollisionShape3D.new()
-	var box := BoxShape3D.new()
-	box.size = Vector3(size.x, height, size.y)
-	cs.shape = box
-	cs.position.y = height / 2.0
-	body.add_child(cs)
-	root.add_child(body)
-	root.add_to_group("navsource")
+	body.add_to_group("navsource")
+	var ext := Map.extent()
+	var step := 5.0
+	var z := ext.position.y + step / 2.0
+	while z < ext.end.y:
+		var x := ext.position.x + step / 2.0
+		while x < ext.end.x:
+			if _deep_forest(x, z):
+				var cs := CollisionShape3D.new()
+				var box := BoxShape3D.new()
+				box.size = Vector3(step, 4.0, step)
+				cs.shape = box
+				cs.position = Map.ground_pos(x, z) + Vector3(0, 1.5, 0)
+				body.add_child(cs)
+			x += step
+		z += step
+	add_child(body)
 
-func _hut(spec: Dictionary, model_name: String, height: float, fallback_roof: bool) -> Node3D:
-	var pos: Vector2 = spec["pos"]
-	var size: Vector2 = spec["size"]
-	var yaw: float = spec["yaw"]
+func _deep_forest(x: float, z: float) -> bool:
+	var r := 8.0
+	for o in [Vector2(0, 0), Vector2(r, 0), Vector2(-r, 0), Vector2(0, r), Vector2(0, -r), Vector2(r, r) * 0.7, Vector2(-r, -r) * 0.7, Vector2(r, -r) * 0.7, Vector2(-r, r) * 0.7]:
+		if Map.leaf_weight(x + o.x, z + o.y) < 0.92:
+			return false
+	if Map.on_road(x, z, 6.0) or Vector2(x, z).distance_to(Map.FIRE) < 30.0:
+		return false
+	return true
+
+# ---------------------------------------------------------------- buildings
+func _hip_roof(parent: Node3D, size: Vector2, y: float, height: float, overhang: float, mat: Material, gable: bool = false) -> void:
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var hx := size.x / 2.0 + overhang
+	var hz := size.y / 2.0 + overhang
+	# ridge along the longer axis
+	var along_x := size.x >= size.y
+	var r := (absf(size.x - size.y) / 2.0) if not gable else (hx if along_x else hz)
+	var top := y + height
+	var a := Vector3(-hx, y, -hz); var b := Vector3(hx, y, -hz); var c := Vector3(hx, y, hz); var d := Vector3(-hx, y, hz)
+	var r0: Vector3; var r1: Vector3
+	if along_x:
+		r0 = Vector3(-r, top, 0); r1 = Vector3(r, top, 0)
+	else:
+		r0 = Vector3(0, top, -r); r1 = Vector3(0, top, r)
+	var faces: Array
+	if along_x:
+		faces = [[a, b, r1, r0], [c, d, r0, r1], [b, c, r1], [d, a, r0]]
+	else:
+		faces = [[b, c, r1, r0], [d, a, r0, r1], [a, b, r0], [c, d, r1]]
+	for f in faces:
+		var n: Vector3 = ((f[1] - f[0]).cross(f[2] - f[0])).normalized()
+		if n.y < 0.0:
+			n = -n
+			f.reverse()
+		var tris: Array = [[f[0], f[1], f[2]]] if f.size() == 3 else [[f[0], f[1], f[2]], [f[0], f[2], f[3]]]
+		for t in tris:
+			for v: Vector3 in t:
+				st.set_normal(n)
+				st.set_uv(Vector2(v.x + v.z, v.y) * 0.5)
+				st.add_vertex(v)
+	# soffit / underside
+	for t in [[a, c, b], [a, d, c]]:
+		for v: Vector3 in t:
+			st.set_normal(Vector3.DOWN)
+			st.set_uv(Vector2(v.x, v.z) * 0.5)
+			st.add_vertex(v)
+	st.generate_tangents()
+	var mi := MeshInstance3D.new()
+	mi.mesh = st.commit()
+	mi.material_override = mat
+	parent.add_child(mi)
+
+func _waldhuette() -> Node3D:
+	# Photos 14, 17, 19: garage door in the west face (north end), a second small double door in the base at the
+	# west end of the north face, the outside stair along the north face rising east to the upper door, the east side
+	# buried in the slope. Local axes: -x west, -z north.
+	var b: Dictionary = Map.BUILDINGS["waldhuette"]
+	var pos: Vector2 = b["pos"]
+	var size: Vector2 = b["size"]
+	var base_h: float = b["base_h"]
+	var wall_h: float = b["wall_h"]
 	var root := Node3D.new()
 	add_child(root)
-	root.position = Map.ground_pos(pos.x, pos.y)
-	root.rotation.y = yaw
-	var scene := _scene(model_name)
-	if scene:
-		var model: Node3D = scene.instantiate()
-		root.add_child(model)
-		Weapons._fit_height(model, height)
-		model.position.y += height / 2.0
-		# stretch the model footprint to the plan's size
-		var aabb := AABB()
-		var first := true
-		for m in model.find_children("*", "MeshInstance3D", true, false):
-			var b: AABB = root.global_transform.affine_inverse() * (m as MeshInstance3D).global_transform * (m as MeshInstance3D).get_aabb()
-			aabb = b if first else aabb.merge(b)
-			first = false
-		if aabb.size.x > 0.1 and aabb.size.z > 0.1:
-			model.scale = Vector3(model.scale.x * size.x / aabb.size.x, model.scale.y, model.scale.z * size.y / aabb.size.z)
-	else:
-		var wall := MeshInstance3D.new()
-		var wb := BoxMesh.new()
-		wb.size = Vector3(size.x, height * 0.6, size.y)
-		wall.mesh = wb
-		wall.material_override = Foliage.pbr("planks", 0.5)
-		wall.position.y = height * 0.3
-		root.add_child(wall)
-		if fallback_roof:
-			var roof := MeshInstance3D.new()
-			var rp := PrismMesh.new()
-			rp.size = Vector3(size.x * 1.15, height * 0.4, size.y * 1.15)
-			roof.mesh = rp
-			roof.material_override = Foliage.pbr("roof", 0.8)
-			roof.position.y = height * 0.8
-			root.add_child(roof)
-	_building_collider(root, size, height)
+	root.rotation.y = b["yaw"]
+	var west := Vector2(pos.x - cos(b["yaw"]) * size.x / 2.0, pos.y + sin(b["yaw"]) * size.x / 2.0)
+	var y0 := Map.ground_height(west.x, west.y) - 0.15
+	root.position = Vector3(pos.x, y0, pos.y)
+	var concrete := _mat("ph_concrete", 0.45, Color(0.95, 0.95, 0.92))
+	var wood := _mat("ph_cladding", 0.55, Color(0.5, 0.36, 0.3))
+	var dark_wood := _plain(Color(0.28, 0.14, 0.09), 0.75)
+	var roof := _plain(Color(0.16, 0.16, 0.17), 0.85)
+	var hx := size.x / 2.0
+	var hz := size.y / 2.0
+	_box(root, Vector3(size.x, base_h + 0.4, size.y), Vector3(0, (base_h + 0.4) / 2.0 - 0.4, 0), concrete)
+	_box(root, Vector3(size.x + 0.16, wall_h, size.y + 0.16), Vector3(0, base_h + wall_h / 2.0, 0), wood)
+	_box(root, Vector3(size.x + 0.9, 0.14, size.y + 0.9), Vector3(0, base_h + wall_h + 0.07, 0), dark_wood)
+	_hip_roof(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, roof)
+	_box(root, Vector3(0.5, 1.6, 0.5), Vector3(hx * 0.4, base_h + wall_h + 1.4, -0.6), _plain(Color(0.35, 0.33, 0.3)))
+	# garage door: west face, north end (photo 14)
+	_box(root, Vector3(0.08, 2.05, 2.6), Vector3(-hx - 0.02, 1.05, -hz + 1.9), dark_wood)
+	_box(root, Vector3(0.1, 2.05, 0.04), Vector3(-hx - 0.04, 1.05, -hz + 1.9), _plain(Color(0.1, 0.06, 0.04)))
+	# small double door in the base: north face, west end, under the start of the stair (photo 17)
+	_box(root, Vector3(1.5, 2.0, 0.08), Vector3(-hx + 1.4, 1.0, -hz - 0.02), dark_wood)
+	# closed shutters: north (2), west (1), east (1)
+	var shutter := _plain(Color(0.3, 0.15, 0.1), 0.7)
+	for sh in [[Vector3(-0.3, base_h + 1.55, -hz - 0.11), 0.0], [Vector3(-hx + 1.0, base_h + 1.55, -hz - 0.11), 0.0],
+			[Vector3(-hx - 0.11, base_h + 1.55, 1.0), PI / 2.0], [Vector3(hx + 0.11, base_h + 1.55, 1.5), PI / 2.0]]:
+		_box(root, Vector3(1.1, 0.9, 0.06), sh[0], shutter, sh[1])
+	# outside stair along the north face: 13 steps from the north-west corner up to the landing at the east end
+	var steps := 13
+	var rise := base_h / steps
+	var tread := 0.33
+	var stair_z := -hz - 0.55
+	var x_start := -hx + 0.3
+	var step_mat := _mat("ph_concrete", 0.5, Color(0.85, 0.85, 0.82))
+	for i in steps:
+		var x := x_start + i * tread
+		_box(root, Vector3(tread, rise * (i + 1), 0.95), Vector3(x + tread / 2.0, rise * (i + 1) / 2.0, stair_z), step_mat)
+	var x_top := x_start + steps * tread
+	_box(root, Vector3(hx - x_top, base_h, 0.95), Vector3((x_top + hx) / 2.0, base_h / 2.0, stair_z), step_mat)
+	# upper door on the north face at the east end, two small steps in front (photos 15, 17)
+	_box(root, Vector3(0.9, 2.0, 0.06), Vector3(hx - 0.9, base_h + 1.0, -hz - 0.1), dark_wood)
+	_box(root, Vector3(1.3, 0.16, 0.5), Vector3(hx - 0.9, base_h + 0.08, -hz - 0.35), step_mat)
+	# railing
+	var rail := _plain(Color(0.25, 0.25, 0.27), 0.5, 0.6)
+	for i in range(0, steps + 1, 3):
+		_box(root, Vector3(0.04, 1.0, 0.04), Vector3(x_start + i * tread, rise * i + 0.5, stair_z - 0.45), rail)
+	var run := steps * tread
+	var rl := MeshInstance3D.new()
+	var rb := BoxMesh.new()
+	rb.size = Vector3(sqrt(run * run + base_h * base_h), 0.04, 0.04)
+	rl.mesh = rb
+	rl.material_override = rail
+	rl.position = Vector3(x_start + run / 2.0, base_h / 2.0 + 1.0, stair_z - 0.45)
+	rl.rotation.z = atan2(base_h, run)
+	root.add_child(rl)
+	# collision: building block, walkable ramp over the stair, landing
+	_box_collider(root, Vector3(size.x + 0.2, base_h + wall_h, size.y + 0.2), Vector3(0, 0, 0))
+	var ramp := StaticBody3D.new()
+	ramp.collision_layer = 1
+	var rcs := CollisionShape3D.new()
+	var rbox := BoxShape3D.new()
+	rbox.size = Vector3(sqrt(run * run + base_h * base_h) + 0.3, 0.2, 0.95)
+	rcs.shape = rbox
+	rcs.position = Vector3(x_start + run / 2.0, base_h / 2.0 - 0.1, stair_z)
+	rcs.rotation.z = atan2(base_h, run)
+	ramp.add_child(rcs)
+	var lcs := CollisionShape3D.new()
+	var lbox := BoxShape3D.new()
+	lbox.size = Vector3(hx - x_top + 0.2, base_h, 0.95)
+	lcs.shape = lbox
+	lcs.position = Vector3((x_top + hx) / 2.0, base_h / 2.0, stair_z)
+	ramp.add_child(lcs)
+	root.add_child(ramp)
+	ramp.add_to_group("navsource")
+	# warm light at the upper door and over the garage
+	var wl := OmniLight3D.new()
+	wl.light_color = Color(1.0, 0.72, 0.42)
+	wl.light_energy = 2.5
+	wl.omni_range = 10.0
+	wl.shadow_enabled = true
+	wl.position = Vector3(hx - 0.9, base_h + 2.3, -hz - 0.8)
+	root.add_child(wl)
+	return root
+
+func _holzlager() -> Node3D:
+	var b: Dictionary = Map.BUILDINGS["holzlager"]
+	var pos: Vector2 = b["pos"]
+	var size: Vector2 = b["size"]
+	var base_h: float = b["base_h"]
+	var wall_h: float = b["wall_h"]
+	var root := Node3D.new()
+	add_child(root)
+	root.rotation.y = b["yaw"]
+	root.position = Map.ground_pos(pos.x, pos.y) - Vector3(0, 0.1, 0)
+	var concrete := _mat("ph_concrete", 0.45, Color(0.9, 0.9, 0.88))
+	var metal := _mat("ph_corrugated", 0.35, Color(1.15, 1.1, 1.05))
+	metal.roughness = 0.6
+	var roof := _plain(Color(0.55, 0.55, 0.56), 0.5, 0.3)
+	var dark_wood := _plain(Color(0.25, 0.13, 0.08), 0.75)
+	_box(root, Vector3(size.x, base_h + 0.4, size.y), Vector3(0, (base_h + 0.4) / 2.0 - 0.4, 0), concrete)
+	_box(root, Vector3(size.x + 0.1, wall_h, size.y + 0.1), Vector3(0, base_h + wall_h / 2.0, 0), metal)
+	_hip_roof(root, size, base_h + wall_h, b["roof_h"], 0.6, roof, true)
+	# big double door and a small door on the east side facing the gravel (photo 12)
+	_box(root, Vector3(0.08, 3.0, 3.6), Vector3(size.x / 2.0 + 0.07, base_h + 1.5, 2.2), dark_wood)
+	_box(root, Vector3(0.08, 2.1, 0.9), Vector3(size.x / 2.0 + 0.07, base_h + 1.05, -2.8), dark_wood)
+	# notice board
+	_box(root, Vector3(0.05, 0.7, 1.0), Vector3(size.x / 2.0 + 0.08, base_h + 2.1, -0.6), _plain(Color(0.6, 0.62, 0.55)))
+	_box_collider(root, Vector3(size.x + 0.2, base_h + wall_h, size.y + 0.2))
 	return root
 
 func _build_buildings() -> void:
-	var wh := _hut(Map.WALDHUETTE, "cabin", 6.5, true)
-	# warm window light and a lamp by the door of the Waldhütte
-	var wl := OmniLight3D.new()
-	wl.light_color = Color(1.0, 0.72, 0.42)
-	wl.light_energy = 3.0
-	wl.omni_range = 12.0
-	wl.shadow_enabled = true
-	wl.position = Vector3(0, 2.6, Map.WALDHUETTE["size"].y / 2.0 + 1.5)
-	wh.add_child(wl)
-	_hut(Map.HOLZAGER, "storage_hut", 6.0, true)
-	# firewood stacks beside the Holzager-Hütte
-	var hp: Vector2 = Map.HOLZAGER["pos"]
-	for i in 4:
-		_place("woodpile", hp.x - 10.0 + i * 1.6, hp.y + 6.5, 1.2, 0.0, 1.0, 1.1)
+	_waldhuette()
+	_holzlager()
+	# firewood stacks at the south end of the Holzlager
+	var hl: Dictionary = Map.BUILDINGS["holzlager"]
+	var hp: Vector2 = hl["pos"]
+	for i in 3:
+		_place("woodpile", hp.x + 2.0 + i * 1.7, hp.y + 9.5, 1.2, 0.0, 1.0, 1.1)
 
 # ---------------------------------------------------------------- campsite
+func _log_bench(x: float, z: float, yaw: float, length: float = 2.6) -> void:
+	var lb := _place("log_bench", x, z, 0.55, yaw + TAU, 1.0, 0.9)
+	if lb:
+		return
+	var root := Node3D.new()
+	add_child(root)
+	root.position = Map.ground_pos(x, z)
+	root.rotation.y = yaw
+	var bark := _mat("ph_bark_beech2", 0.6, Color(0.8, 0.7, 0.6), false)
+	var seat := MeshInstance3D.new()
+	var cm := CylinderMesh.new()
+	cm.top_radius = 0.16; cm.bottom_radius = 0.16; cm.height = length
+	seat.mesh = cm
+	seat.material_override = bark
+	seat.rotation.z = PI / 2.0
+	seat.position.y = 0.45
+	root.add_child(seat)
+	for sx in [-length * 0.35, length * 0.35]:
+		var leg := MeshInstance3D.new()
+		var lm := CylinderMesh.new()
+		lm.top_radius = 0.17; lm.bottom_radius = 0.19; lm.height = 0.32
+		leg.mesh = lm
+		leg.material_override = bark
+		leg.position = Vector3(sx, 0.16, 0)
+		root.add_child(leg)
+	_box_collider(root, Vector3(length, 0.6, 0.4))
+
+func _log_table(x: float, z: float, yaw: float) -> void:
+	var root := Node3D.new()
+	add_child(root)
+	root.position = Map.ground_pos(x, z)
+	root.rotation.y = yaw
+	var bark := _mat("ph_bark_beech2", 0.6, Color(0.55, 0.45, 0.38), false)
+	var plank := Foliage.pbr("planks", 0.8, Color(0.45, 0.36, 0.28))
+	for k in 3:
+		_box(root, Vector3(2.3, 0.09, 0.28), Vector3(0, 0.76, (k - 1) * 0.3), plank)
+	for side in [-1.0, 1.0]:
+		_box(root, Vector3(2.3, 0.09, 0.32), Vector3(0, 0.46, side * 0.78), plank)
+	for sx in [-0.85, 0.85]:
+		for sz in [-0.35, 0.35, -0.78, 0.78]:
+			var leg := MeshInstance3D.new()
+			var lm := CylinderMesh.new()
+			var tall := absf(sz) < 0.5
+			lm.top_radius = 0.11; lm.bottom_radius = 0.12; lm.height = 0.72 if tall else 0.42
+			leg.mesh = lm
+			leg.material_override = bark
+			leg.position = Vector3(sx, lm.height / 2.0, sz)
+			root.add_child(leg)
+	_box_collider(root, Vector3(2.3, 0.85, 1.9))
+
+func _fountain(x: float, z: float, yaw: float) -> void:
+	var root := Node3D.new()
+	add_child(root)
+	root.position = Map.ground_pos(x, z)
+	root.rotation.y = yaw
+	var bark := _mat("ph_bark_oak", 0.6, Color(0.7, 0.62, 0.55), false)
+	# hollowed log trough on two stumps, wooden post with a spout (photos 15, 21)
+	for sx in [-0.8, 0.8]:
+		var st := MeshInstance3D.new()
+		var sm := CylinderMesh.new()
+		sm.top_radius = 0.2; sm.bottom_radius = 0.22; sm.height = 0.35
+		st.mesh = sm
+		st.material_override = bark
+		st.position = Vector3(sx, 0.17, 0)
+		root.add_child(st)
+	var trough := MeshInstance3D.new()
+	var tm := CylinderMesh.new()
+	tm.top_radius = 0.27; tm.bottom_radius = 0.27; tm.height = 2.4
+	trough.mesh = tm
+	trough.material_override = bark
+	trough.rotation.z = PI / 2.0
+	trough.position.y = 0.6
+	root.add_child(trough)
+	# water surface inside
+	var water := MeshInstance3D.new()
+	var wq := BoxMesh.new()
+	wq.size = Vector3(2.1, 0.02, 0.36)
+	water.mesh = wq
+	var wm := _plain(Color(0.2, 0.28, 0.3, 0.85), 0.05, 0.4)
+	wm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	water.material_override = wm
+	water.position.y = 0.8
+	root.add_child(water)
+	_box(root, Vector3(0.16, 1.5, 0.16), Vector3(0.6, 0.75, -0.35), bark)
+	_box(root, Vector3(0.05, 0.05, 0.4), Vector3(0.6, 1.35, -0.12), _plain(Color(0.3, 0.3, 0.32), 0.4, 0.8))
+	_box_collider(root, Vector3(2.5, 0.9, 0.7))
+
+func _signpost(x: float, z: float) -> void:
+	var root := Node3D.new()
+	add_child(root)
+	root.position = Map.ground_pos(x, z)
+	root.rotation.y = 0.3
+	var post := _plain(Color(0.35, 0.3, 0.25), 0.8)
+	_box(root, Vector3(0.1, 2.4, 0.1), Vector3(0, 1.2, 0), post)
+	var yellow := _plain(Color(0.95, 0.8, 0.1), 0.6)
+	_box(root, Vector3(0.9, 0.14, 0.03), Vector3(0.45, 2.1, 0.06), yellow, 0.0)
+	_box(root, Vector3(0.9, 0.14, 0.03), Vector3(0.4, 1.9, -0.06), yellow, PI * 0.55)
+	# small wooden info board next to it (photo 16)
+	_box(root, Vector3(0.6, 0.5, 0.05), Vector3(1.0, 1.4, 0.3), Foliage.pbr("planks", 0.8, Color(0.6, 0.5, 0.4)))
+	_box(root, Vector3(0.08, 1.2, 0.08), Vector3(1.0, 0.6, 0.3), post)
+	_box_collider(root, Vector3(0.3, 2.4, 0.3))
+
 func _build_campsite() -> void:
+	# square stone fireplace with the swivel grill (photo 20)
 	var fire := Foliage.campfire(Map.ground_pos(Map.FIRE.x, Map.FIRE.y))
 	add_child(fire)
+	for c in fire.get_children():
+		if c is MeshInstance3D and (c as MeshInstance3D).mesh is SphereMesh:
+			c.queue_free()
 	fire_light = fire.get_node("Light")
-	var tripod := _place("tripod_cauldron", Map.FIRE.x, Map.FIRE.y, 1.9, 0.6, 1.0, 0.0)
-	_collider(fire, 0.9, 2.0)
-	# the four benches around the fire (Bank 1-4 on the plan)
+	var stone := _mat("rock", 0.8, Color(0.62, 0.6, 0.56))
+	for k in 4:
+		var yaw := k * PI / 2.0
+		var off := Vector3(cos(yaw), 0, sin(yaw)) * 0.85
+		_box(fire, Vector3(0.32, 0.35, 1.9), off + Vector3(0, 0.12, 0), stone, -yaw)
+	_box(fire, Vector3(1.6, 0.05, 1.6), Vector3(0, 0.0, 0), _plain(Color(0.12, 0.11, 0.1), 1.0))
+	_collider(fire, 1.1, 0.5)
+	var iron := _plain(Color(0.15, 0.15, 0.16), 0.45, 0.7)
+	_box(fire, Vector3(0.07, 1.9, 0.07), Vector3(1.05, 0.95, 1.05), iron)
+	_box(fire, Vector3(1.5, 0.04, 0.04), Vector3(0.35, 1.75, 0.35), iron, PI / 4.0)
+	var grate := MeshInstance3D.new()
+	var gm := CylinderMesh.new()
+	gm.top_radius = 0.42; gm.bottom_radius = 0.42; gm.height = 0.03
+	grate.mesh = gm
+	grate.material_override = iron
+	grate.position = Vector3(0, 0.72, 0)
+	fire.add_child(grate)
+	_box(fire, Vector3(0.02, 1.0, 0.02), Vector3(0, 1.25, 0), iron)
+	# the four round-log benches (photo 20), the log picnic table (photo 18)
 	var bi := 0
 	for b in Map.BENCHES:
-		var p: Vector2 = b[0]
-		var yaw: float = b[1]
-		var lb := _place("log_bench", p.x, p.y, 0.55, yaw + TAU, 1.0, 0.9)
-		if not lb:
-			var seat := MeshInstance3D.new()
-			var sm := BoxMesh.new()
-			sm.size = Vector3(2.6, 0.18, 0.45)
-			seat.mesh = sm
-			seat.material_override = Foliage.pbr("planks", 0.7, Color(0.55, 0.45, 0.35))
-			add_child(seat)
-			seat.global_position = Map.ground_pos(p.x, p.y) + Vector3(0, 0.42, 0)
-			seat.rotation.y = yaw
-		# blanket, mug, candle on the benches
-		if bi == 1:
-			_place_at("blanket", p.x, p.y + 0.6, 0.5, 0.45, yaw + TAU)
-			_place_at("mug", p.x, p.y - 0.8, 0.5, 0.11)
-		if bi == 2:
-			_place_at("candle", p.x + 0.7, p.y, 0.5, 0.12)
-			_place_at("mug", p.x - 0.6, p.y, 0.5, 0.11)
+		_log_bench(b[0].x, b[0].y, b[1])
+		if bi == 0:
+			_place_at("mug", b[0].x + 0.8, b[0].y + 0.1, 0.5, 0.11)
 		bi += 1
-	# table and well
-	var t := _place("table", Map.TABLE.x, Map.TABLE.y, 0.8, 0.0, 1.0, 1.0)
-	if not t:
-		var tm := MeshInstance3D.new()
-		var tb := BoxMesh.new()
-		tb.size = Vector3(1.8, 0.1, 0.9)
-		tm.mesh = tb
-		tm.material_override = Foliage.pbr("planks", 0.8)
-		add_child(tm)
-		tm.global_position = Map.ground_pos(Map.TABLE.x, Map.TABLE.y) + Vector3(0, 0.78, 0)
-		for lx in [-0.7, 0.7]:
-			var leg := MeshInstance3D.new()
-			var lb2 := BoxMesh.new()
-			lb2.size = Vector3(0.12, 0.75, 0.7)
-			leg.mesh = lb2
-			leg.material_override = Foliage.pbr("planks", 0.8)
-			add_child(leg)
-			leg.global_position = Map.ground_pos(Map.TABLE.x + lx, Map.TABLE.y) + Vector3(0, 0.37, 0)
-		_place_at("basket", Map.TABLE.x + 0.4, Map.TABLE.y, 0.83, 0.4)
-	var w := _place("well", Map.WELL.x, Map.WELL.y, 2.4, 0.0, 1.0, 1.1)
-	if not w:
-		var ring := MeshInstance3D.new()
-		var cm := CylinderMesh.new()
-		cm.top_radius = 1.0
-		cm.bottom_radius = 1.05
-		cm.height = 1.0
-		ring.mesh = cm
-		ring.material_override = Foliage.pbr("rock", 1.5, Color(0.75, 0.75, 0.7))
-		add_child(ring)
-		ring.global_position = Map.ground_pos(Map.WELL.x, Map.WELL.y) + Vector3(0, 0.5, 0)
-		_collider(ring, 1.1, 1.0)
-	# pumpkins and lanterns around the camp and the hut door
-	var wh: Vector2 = Map.WALDHUETTE["pos"]
-	var door := Vector2(wh.x - Map.WALDHUETTE["size"].x / 2.0 - 1.2, wh.y)
-	var pumpkins := [[door.x, door.y + 1.6, "pumpkin_lantern", 0.55], [door.x - 0.8, door.y + 2.2, "pumpkin", 0.42], [door.x, door.y - 1.6, "pumpkin_lantern", 0.6],
-		[Map.FIRE.x - 6.0, Map.FIRE.y + 4.0, "pumpkin", 0.5], [Map.TABLE.x + 1.8, Map.TABLE.y + 0.4, "pumpkin_lantern", 0.5], [Map.WELL.x + 1.6, Map.WELL.y - 0.5, "pumpkin", 0.4]]
-	for p in pumpkins:
+	_log_table(Map.TABLE.x, Map.TABLE.y, Map.TABLE.z)
+	_place_at("basket", Map.TABLE.x + 0.5, Map.TABLE.y, 0.83, 0.4)
+	# fountain, bin, signpost and the fallen log at the west edge (photos 15, 16, 21)
+	_fountain(Map.FOUNTAIN.x, Map.FOUNTAIN.y, Map.FOUNTAIN.z)
+	var bin := Node3D.new()
+	add_child(bin)
+	bin.position = Map.ground_pos(Map.BIN.x, Map.BIN.y)
+	var drum := MeshInstance3D.new()
+	var dm := CylinderMesh.new()
+	dm.top_radius = 0.26; dm.bottom_radius = 0.26; dm.height = 0.85
+	drum.mesh = dm
+	drum.material_override = _plain(Color(0.82, 0.82, 0.8), 0.6, 0.2)
+	drum.position.y = 0.43
+	bin.add_child(drum)
+	_box(bin, Vector3(0.54, 0.16, 0.54), Vector3(0, 0.9, 0), _plain(Color(0.1, 0.1, 0.1), 0.6))
+	_collider(bin, 0.3, 1.0)
+	_signpost(Map.SIGNPOST.x, Map.SIGNPOST.y)
+	var seat := Node3D.new()
+	add_child(seat)
+	seat.position = Map.ground_pos(Map.LOG_SEAT.x, Map.LOG_SEAT.y) + Vector3(0, 0.3, 0)
+	seat.rotation.y = Map.LOG_SEAT.z
+	var lg := MeshInstance3D.new()
+	var lgm := CylinderMesh.new()
+	lgm.top_radius = 0.28; lgm.bottom_radius = 0.32; lgm.height = 3.2
+	lg.mesh = lgm
+	lg.material_override = _mat("ph_bark_oak", 0.6, Color(0.75, 0.7, 0.62), false)
+	lg.rotation.z = PI / 2.0
+	seat.add_child(lg)
+	_box_collider(seat, Vector3(3.2, 0.6, 0.6), Vector3(0, -0.3, 0))
+	# pumpkin lanterns: game flavour at the stair, the table and the fountain
+	var wh: Dictionary = Map.BUILDINGS["waldhuette"]
+	var whp: Vector2 = wh["pos"]
+	var lanterns := [[whp.x - 4.6, whp.y - 4.2, "pumpkin_lantern", 0.55], [Map.TABLE.x + 1.6, Map.TABLE.y - 0.9, "pumpkin_lantern", 0.5], [Map.FOUNTAIN.x + 1.8, Map.FOUNTAIN.y + 0.6, "pumpkin", 0.42]]
+	for p in lanterns:
 		_place(p[2], p[0], p[1], p[3], -1.0, 1.0, 0.0)
 		if p[2] == "pumpkin_lantern":
 			var pl := OmniLight3D.new()
@@ -630,55 +808,95 @@ func _build_campsite() -> void:
 			pl.omni_range = 4.0
 			add_child(pl)
 			pl.global_position = Map.ground_pos(p[0], p[1]) + Vector3(0, p[3] * 0.6, 0)
-	# mushrooms along the clearing edge
-	for i in 30:
-		var x := Map.CLEARING.position.x + rng.randf() * Map.CLEARING.size.x
-		var z := Map.CLEARING.position.y + rng.randf() * Map.CLEARING.size.y
-		var edge := minf(minf(x - Map.CLEARING.position.x, Map.CLEARING.end.x - x), minf(z - Map.CLEARING.position.y, Map.CLEARING.end.y - z))
-		if edge > 6.0 or Map.is_clear_zone(x, z) and Vector2(x, z).distance_to(Map.FIRE) < 14.0:
+	# mushrooms in the leaf litter around the clearing
+	for i in 40:
+		var a := rng.randf() * TAU
+		var r := rng.randf_range(12.0, 30.0)
+		var x := Map.FIRE.x + cos(a) * r
+		var z := Map.FIRE.y + sin(a) * r
+		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0) or Map.in_clearing(x, z):
 			continue
-		var kind := "mushroom_cluster" if rng.randf() < 0.65 else "mushroom_fly"
-		_place(kind, x, z, 0.22 + rng.randf() * 0.18, -1.0, 1.0, 0.0)
+		_place("mushroom_cluster" if rng.randf() < 0.65 else "mushroom_fly", x, z, 0.22 + rng.randf() * 0.18, -1.0, 1.0, 0.0)
+
+# pasture fence between the tracks and the meadow (photos 4, 9): posts, two wires, collision
+func _build_fence() -> void:
+	var post_mat := _plain(Color(0.42, 0.36, 0.28), 0.9)
+	var wire_mat := _plain(Color(0.6, 0.6, 0.62), 0.4, 0.8)
+	var root := Node3D.new()
+	add_child(root)
+	root.add_to_group("navsource")
+	var body := StaticBody3D.new()
+	body.collision_layer = 1
+	root.add_child(body)
+	for line in Map.FENCE:
+		for i in line.size() - 1:
+			var a: Vector2 = line[i]
+			var b: Vector2 = line[i + 1]
+			var len := a.distance_to(b)
+			var n := maxi(1, int(len / 3.5))
+			var dir := (b - a) / n
+			for k in n + (1 if i == line.size() - 2 else 0):
+				var p := a + dir * k
+				var pp := Map.ground_pos(p.x, p.y)
+				_box(root, Vector3(0.09, 1.25, 0.09), pp + Vector3(0, 0.55, 0), post_mat)
+			for k in n:
+				var p0 := Map.ground_pos((a + dir * k).x, (a + dir * k).y)
+				var p1 := Map.ground_pos((a + dir * (k + 1)).x, (a + dir * (k + 1)).y)
+				for hgt in [0.55, 1.05]:
+					var w := MeshInstance3D.new()
+					var wm := BoxMesh.new()
+					wm.size = Vector3(0.02, 0.02, p0.distance_to(p1))
+					w.mesh = wm
+					w.material_override = wire_mat
+					w.position = (p0 + p1) / 2.0 + Vector3(0, hgt, 0)
+					w.look_at_from_position(w.position, p1 + Vector3(0, hgt, 0))
+					root.add_child(w)
+				var cs := CollisionShape3D.new()
+				var bx := BoxShape3D.new()
+				bx.size = Vector3(0.1, 1.3, p0.distance_to(p1) + 0.1)
+				cs.shape = bx
+				cs.position = (p0 + p1) / 2.0 + Vector3(0, 0.65, 0)
+				cs.look_at_from_position(cs.position, p1 + Vector3(0, 0.65, 0))
+				body.add_child(cs)
 
 # ---------------------------------------------------------------- clutter and foliage
 func _build_clutter() -> void:
-	var clutter := [["fern_02_a", 90, 0.9], ["fern_02_b", 60, 0.9], ["fern_02_c", 40, 0.9], ["fern_02_d", 40, 0.9],
-		["grass_medium_02_a", 60, 1.0], ["grass_medium_02_b", 60, 1.0], ["grass_medium_02_c", 60, 1.0], ["grass_medium_02_d", 60, 1.0], ["grass_medium_02_e", 60, 1.0],
-		["moss_01_a", 16, 1.0], ["moss_01_b", 16, 1.0], ["moss_01_c", 16, 1.0], ["moss_01_d", 16, 1.0], ["moss_01_g", 16, 1.0], ["moss_01_k", 16, 1.0],
-		["dry_branches_medium_01_a", 24, 1.0], ["dry_branches_medium_01_b", 24, 1.0], ["dry_branches_medium_01_c", 24, 1.0],
-		["bark_debris_01_a", 16, 1.0], ["bark_debris_01_b", 16, 1.0], ["bark_debris_01_c", 16, 1.0], ["bark_debris_01_d", 16, 1.0]]
+	# Poly Haven clutter is optional (not in the repo); everything below works without it
+	var clutter := [["fern_02_a", 60, 0.9], ["fern_02_b", 40, 0.9], ["fern_02_c", 30, 0.9], ["fern_02_d", 30, 0.9],
+		["grass_medium_02_a", 40, 1.0], ["grass_medium_02_b", 40, 1.0], ["grass_medium_02_c", 40, 1.0],
+		["moss_01_a", 12, 1.0], ["moss_01_b", 12, 1.0], ["moss_01_c", 12, 1.0],
+		["dry_branches_medium_01_a", 20, 1.0], ["dry_branches_medium_01_b", 20, 1.0], ["dry_branches_medium_01_c", 20, 1.0],
+		["bark_debris_01_a", 14, 1.0], ["bark_debris_01_b", 14, 1.0], ["bark_debris_01_c", 14, 1.0]]
 	for c in clutter:
 		if not _tree_scene(c[0]):
 			continue
 		for i in int(c[1]):
-			var x: float = rng.randf_range(-100.0, 60.0)
-			var z: float = rng.randf_range(-40.0, 62.0)
+			var x: float = rng.randf_range(-70.0, 60.0)
+			var z: float = rng.randf_range(-70.0, 70.0)
 			var is_grass: bool = c[0].begins_with("grass_medium")
 			if Map.leaf_weight(x, z) < 0.5 and not is_grass:
 				continue
-			if is_grass and Map.leaf_weight(x, z) > 0.5 and rng.randf() < 0.7:
+			if is_grass and Map.meadow_weight(x, z) < 0.5:
 				continue
-			if Map.on_road(x, z, 0.8) or Map.in_building(x, z, 1.5):
-				continue
-			if Vector2(x, z).distance_to(Map.FIRE) < 5.0:
+			if Map.on_road(x, z, 0.8) or Map.in_building(x, z, 1.5) or Map.in_clearing(x, z):
 				continue
 			_place_real(c[0], x, z, c[2] * (0.7 + rng.randf() * 0.6), 0.0)
-	for i in 12:
-		var x: float = rng.randf_range(-100.0, 40.0)
-		var z: float = rng.randf_range(-36.0, 62.0)
+	for i in 10:
+		var x: float = rng.randf_range(-70.0, 50.0)
+		var z: float = rng.randf_range(-70.0, 60.0)
 		if not Map.is_clear_zone(x, z) and Map.leaf_weight(x, z) > 0.5:
-			_place_real(["boulder_01", "tree_stump_01", "dead_tree_trunk_02"][i % 3], x, z, 0.8 + rng.randf() * 0.5, 0.8)
-	# mushrooms all over the forest floor
-	for i in 260:
-		var x: float = rng.randf_range(-105.0, 50.0)
-		var z: float = rng.randf_range(-40.0, 64.0)
-		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0):
+			if not _place_real(["boulder_01", "tree_stump_01", "dead_tree_trunk_02"][i % 3], x, z, 0.8 + rng.randf() * 0.5, 0.8):
+				_place(["rock", "stump", "stump"][i % 3], x, z, 0.6, -1.0, 1.0, 0.6)
+	# mushrooms over the forest floor near the camp
+	for i in 160:
+		var x: float = rng.randf_range(-80.0, 60.0)
+		var z: float = rng.randf_range(-90.0, 60.0)
+		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0) or Map.in_clearing(x, z):
 			continue
-		var kind := "mushroom_cluster" if rng.randf() < 0.7 else "mushroom_fly"
-		_place(kind, x, z, 0.18 + rng.randf() * 0.2, -1.0, 1.0, 0.0)
+		_place("mushroom_cluster" if rng.randf() < 0.7 else "mushroom_fly", x, z, 0.18 + rng.randf() * 0.2, -1.0, 1.0, 0.0)
 
 func _spawn_deer() -> void:
-	var groups := [[Vector2(-70, -18), "stag"], [Vector2(-66, -14), "deer"], [Vector2(-64, -20), "deer"], [Vector2(25, 34), "deer"], [Vector2(28, 38), "deer"], [Vector2(70, 30), "stag"], [Vector2(74, 34), "deer"], [Vector2(-60, 30), "deer"]]
+	var groups := [[Vector2(40, 108), "stag"], [Vector2(46, 114), "deer"], [Vector2(52, 106), "deer"], [Vector2(-130, 52), "deer"], [Vector2(-136, 58), "deer"], [Vector2(-60, -120), "stag"], [Vector2(-66, -126), "deer"], [Vector2(95, 85), "deer"]]
 	var i := 0
 	for g in groups:
 		var pos: Vector2 = g[0]
@@ -694,22 +912,22 @@ func _build_foliage() -> void:
 	if "--no-foliage" in _flags:
 		return
 	var leaf_sampler := func(r: RandomNumberGenerator):
-		var x: float = r.randf_range(-105.0, 60.0)
-		var z: float = r.randf_range(-45.0, 65.0)
+		var x: float = r.randf_range(-110.0, 110.0)
+		var z: float = r.randf_range(-120.0, 100.0)
 		var w := Map.leaf_weight(x, z)
 		if r.randf() > w * 0.9 + 0.05:
 			return null
 		if Map.on_road(x, z) and r.randf() > 0.25:
 			return null
-		if Map.in_building(x, z):
+		if Map.in_building(x, z) or (Map.in_clearing(x, z) and r.randf() > 0.15):
 			return null
 		return Map.ground_pos(x, z)
 	if not "--no-leaves" in _flags:
 		add_child(Foliage.ground_leaves(70000, leaf_sampler, rng))
 	var grass_sampler := func(r: RandomNumberGenerator):
-		var x: float = r.randf_range(-105.0, 110.0)
-		var z: float = r.randf_range(-45.0, 65.0)
-		if Map.leaf_weight(x, z) > 0.4:
+		var x: float = r.randf_range(-150.0, 150.0)
+		var z: float = r.randf_range(-60.0, 160.0)
+		if Map.meadow_weight(x, z) < 0.5:
 			return null
 		if Map.on_road(x, z, 0.5) or Map.in_building(x, z, 0.5):
 			return null
@@ -717,24 +935,7 @@ func _build_foliage() -> void:
 	if not "--no-grass" in _flags:
 		add_child(Foliage.grass(60000, grass_sampler, rng))
 	if not "--no-particles" in _flags:
-		add_child(Foliage.falling_leaves(Map.ground_pos(Map.FIRE.x, Map.FIRE.y) + Vector3(10, 9, 0), Vector3(45, 7, 24)))
-
-func _build_sky_extras() -> void:
-	for i in 30:
-		var l := MeshInstance3D.new()
-		var ls := SphereMesh.new()
-		ls.radius = 0.4
-		ls.height = 0.8
-		l.mesh = ls
-		var lm := StandardMaterial3D.new()
-		lm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		lm.albedo_color = Color(1.0, 0.85, 0.6)
-		lm.emission_enabled = true
-		lm.emission = lm.albedo_color
-		lm.emission_energy_multiplier = 2.0
-		l.material_override = lm
-		add_child(l)
-		l.global_position = Vector3(150.0 + rng.randf() * 60.0, -6.0 + rng.randf() * 3.0, -80.0 + rng.randf() * 200.0)
+		add_child(Foliage.falling_leaves(Map.ground_pos(Map.FIRE.x, Map.FIRE.y) + Vector3(0, 9, 10), Vector3(45, 7, 40)))
 
 # ---------------------------------------------------------------- game flow
 func _on_start() -> void:
@@ -773,7 +974,11 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float) -> void:
 	var z := Zombie.new()
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	zombies_root.add_child(z)
-	z.global_position = Map.ground_pos(p.x, p.y) + Vector3(0, 0.2, 0)
+	var spawn := Map.ground_pos(p.x, p.y)
+	var nav_map := nav_region.get_navigation_map()
+	if NavigationServer3D.map_get_iteration_id(nav_map) > 0:
+		spawn = NavigationServer3D.map_get_closest_point(nav_map, spawn)
+	z.global_position = spawn + Vector3(0, 0.2, 0)
 	_alive_count += 1
 	z.tree_exiting.connect(func():
 		if z.alive:
@@ -806,13 +1011,16 @@ func _process(delta: float) -> void:
 		_autotest_step(delta)
 
 # --autotest: start automatically, look around, save screenshots, quit (used by Claude for checks)
+# yaw 0 looks north (-Z), PI/2 west, -PI/2 east, PI south
 func _autotest_step(delta: float) -> void:
 	_shot_t += delta
 	var views := [
-		[Vector3(-28, 0, 8), 0.0, 0.03],          # from the Waldweg edge north over the fire to the forest
-		[Vector3(-34, 0, -9), -PI / 2.0, -0.02],  # from bench 1 east over the fire towards the Waldhütte
-		[Vector3(-20, 0, 20), 2.6, 0.0],          # from the Waldweg south-west to the Holzager hut and stream
-		[Vector3(41, 0, -30), 0.0, 0.02],         # down the Weg zur Hütte towards the clearing
+		[Vector3(3, 0, 5), 0.0, 0.02],            # from the hut's north-west corner north over the fire (photo 20)
+		[Vector3(-6, 0, -17), -2.3, 0.0],         # from the fountain south-east over the fire to the hut's north face (photo 15)
+		[Vector3(7, 0, 58), 0.0, 0.03],           # from the fork north between the huts (photo 22 reversed)
+		[Vector3(96, 0, 33), PI / 2.0 + 0.25, 0.02],   # on the Weg zur Hütte looking west towards the oak (photo 10)
+		[Vector3(-9, 0, 4), -PI / 2.0, 0.06],     # west face of the Waldhütte with the garage door (photo 14)
+		[Vector3(9, 0, -9), PI, 0.06],            # north face with the stair (photo 17)
 	]
 	if _shot_i == 0 and _shot_t > 1.5:
 		_fps_frames += 1
@@ -823,7 +1031,19 @@ func _autotest_step(delta: float) -> void:
 	if _shot_i == 0 and _shot_t > 0.5 and not _spawned_test:
 		_spawned_test = true
 		for i in 3:
-			spawn_zombie("shambler", Vector2(38 + i * 2.0, -30 - i * 4), 1.0)
+			spawn_zombie("shambler", Vector2(30 + i * 3.0, 54 - i), 1.0)
+		if "--pathtest" in _flags:
+			spawn_zombie("runner", Vector2(100, 32), 1.0)
+			spawn_zombie("runner", Vector2(-40, -75), 1.0)
+			spawn_zombie("runner", Vector2(-70, 77), 1.0)
+			spawn_zombie("runner", Vector2(30, 100), 1.0)
+	if "--pathtest" in _flags:
+		if _shot_t > 40.0:
+			for zz in zombies_root.get_children():
+				print("ZOMBIE at %s" % zz.global_position)
+			print("PATHTEST_DONE player=%s" % player.global_position)
+			get_tree().quit()
+		return
 	if _shot_t > 3.0 and _shot_i < views.size() and not _shooting:
 		_shooting = true
 		var idx := _shot_i
@@ -843,5 +1063,7 @@ func _autotest_step(delta: float) -> void:
 		_shot_t = 2.0
 		_shooting = false
 		if _shot_i >= views.size():
+			for zz in zombies_root.get_children():
+				print("ZOMBIE at %s" % zz.global_position)
 			print("AUTOTEST_DONE zombies=%d fps=%d" % [alive_zombies(), Engine.get_frames_per_second()])
 			get_tree().quit()

@@ -150,7 +150,7 @@ func _process(delta: float) -> void:
 	var p := player.global_position
 	var in_forest := Map.leaf_weight(p.x, p.z) > 0.5
 	# wind is strongest on the open meadow, rustle strongest under trees
-	_wind_target = -8.0 if p.x > Map.MEADOW_X - 10.0 else (-18.0 if in_forest else -13.0)
+	_wind_target = -8.0 if Map.meadow_weight(p.x, p.z) > 0.5 else (-18.0 if in_forest else -13.0)
 	_rustle_target = -9.0 if in_forest else -16.0
 	wind.volume_db = lerpf(wind.volume_db, _wind_target, delta * 0.8)
 	rustle.volume_db = lerpf(rustle.volume_db, _rustle_target, delta * 0.8)

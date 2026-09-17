@@ -1,0 +1,289 @@
+# Procedural trees for the Remetschwil forest: beech (Buche), oak (Eiche), spruce (Fichte).
+# Trunks and branches are generated meshes with bark cut from the site photos, crowns are leaf cards in a
+# MultiMesh with sphere-like fake normals. Everything is instanced per species variant and partitioned into cells.
+class_name Trees
+
+const SPECIES := {
+	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 5.6, "crown_lo": 0.42, "cards": 34, "card": 3.7, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(1.0, 1.0, 1.0), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
+	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.0, "crown_lo": 0.32, "cards": 34, "card": 4.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.95, 0.92, 0.88), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
+	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.0, "crown_lo": 0.22, "cards": 30, "card": 3.0, "bark": ["ph_bark_oak"], "tint": Color(0.85, 0.62, 0.45), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
+}
+const VARIANTS := 5
+const CELL := 48.0
+
+const LEAF_SHADER := """
+shader_type spatial;
+render_mode cull_disabled, depth_prepass_alpha;
+uniform sampler2D tex : source_color, filter_linear_mipmap_anisotropic;
+uniform float wind = 1.0;
+uniform vec3 tint : source_color = vec3(1.0);
+varying vec3 ccenter;
+varying float shade;
+void vertex() {
+	ccenter = INSTANCE_CUSTOM.xyz;
+	shade = INSTANCE_CUSTOM.a;
+	vec3 wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	float t = TIME * 1.3 + wp.x * 0.21 + wp.z * 0.17;
+	VERTEX.x += sin(t) * 0.07 * wind;
+	VERTEX.z += cos(t * 0.9) * 0.05 * wind;
+}
+void fragment() {
+	vec4 c = texture(tex, UV);
+	ALPHA = c.a;
+	ALPHA_SCISSOR_THRESHOLD = 0.5;
+	ALBEDO = c.rgb * tint * shade;
+	vec3 wpos = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	vec3 n = normalize(wpos - ccenter + vec3(0.0, 0.8, 0.0));
+	NORMAL = normalize((VIEW_MATRIX * vec4(n, 0.0)).xyz);
+	ROUGHNESS = 0.9;
+	SPECULAR = 0.12;
+	AO = 0.55 + 0.45 * shade;
+	AO_LIGHT_AFFECT = 0.5;
+}
+"""
+
+# ---------------------------------------------------------------- meshes
+static func _tube(st: SurfaceTool, pts: Array, radii: Array, segs: int, circ_tex: float, v0: float) -> void:
+	var rings: Array = []
+	var v := v0
+	var prev_p: Vector3 = pts[0]
+	for i in pts.size():
+		var p: Vector3 = pts[i]
+		var dir: Vector3 = (pts[mini(i + 1, pts.size() - 1)] - pts[maxi(i - 1, 0)]).normalized()
+		var side := dir.cross(Vector3.UP if absf(dir.y) < 0.95 else Vector3.RIGHT).normalized()
+		var fwd := side.cross(dir).normalized()
+		v += p.distance_to(prev_p) / 5.0
+		prev_p = p
+		var ring: Array = []
+		for k in segs + 1:
+			var a := TAU * k / segs
+			var n := side * cos(a) + fwd * sin(a)
+			ring.append([p + n * radii[i], n, Vector2(float(k) / segs * TAU * radii[i] / circ_tex, v)])
+		rings.append(ring)
+	for i in rings.size() - 1:
+		for k in segs:
+			var a: Array = rings[i][k]; var b: Array = rings[i][k + 1]
+			var c: Array = rings[i + 1][k]; var d: Array = rings[i + 1][k + 1]
+			for q in [a, c, b, b, c, d]:
+				st.set_normal(q[1]); st.set_uv(q[2]); st.add_vertex(q[0])
+
+static func _trunk_mesh(kind: String, rng: RandomNumberGenerator) -> ArrayMesh:
+	var sp: Dictionary = SPECIES[kind]
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var h: float = sp["height"]
+	var r0: float = sp["radius"]
+	var lean := Vector3(rng.randf_range(-0.03, 0.03), 0, rng.randf_range(-0.03, 0.03))
+	var pts: Array = []
+	var radii: Array = []
+	var n := 9
+	var wobble := Vector3(rng.randf_range(-0.4, 0.4), 0, rng.randf_range(-0.4, 0.4))
+	for i in n + 1:
+		var t := float(i) / n
+		var y := t * h
+		var p := Vector3(0, y, 0) + lean * y + wobble * sin(t * PI)
+		if i == 0:
+			p.y = -0.4   # buried, root flare
+		pts.append(p)
+		var flare := 1.0 + 0.7 * maxf(0.0, 1.0 - y / 1.2)
+		radii.append(r0 * flare * (1.0 - 0.82 * pow(t, 0.9 if kind == "spruce" else 0.7)))
+	_tube(st, pts, radii, 10, 1.2, 0.0)
+	# branches
+	var nb: int = 5 if kind != "spruce" else 0
+	var lo: float = sp["crown_lo"]
+	for b in nb:
+		var t := lo + (1.0 - lo) * (0.05 + 0.75 * b / nb) + rng.randf_range(-0.03, 0.03)
+		var base: Vector3 = pts[int(t * n)].lerp(pts[mini(int(t * n) + 1, n)], fmod(t * n, 1.0))
+		var yaw := rng.randf() * TAU
+		var up := rng.randf_range(0.35, 0.8) if kind == "beech" else rng.randf_range(0.15, 0.6)
+		var dir := Vector3(cos(yaw), up, sin(yaw)).normalized()
+		var len: float = sp["crown_r"] * rng.randf_range(0.7, 1.05) * (1.0 - 0.4 * t)
+		var bp: Array = [base]
+		var br: Array = [r0 * 0.55 * (1.0 - t)]
+		for k in range(1, 4):
+			var f := float(k) / 3.0
+			bp.append(base + dir * len * f + Vector3(0, 0.35 * f * f, 0) + Vector3(rng.randf_range(-0.3, 0.3), 0, rng.randf_range(-0.3, 0.3)) * f)
+			br.append(br[0] * (1.0 - 0.85 * f))
+		_tube(st, bp, br, 6, 1.2, rng.randf() * 3.0)
+	if kind == "spruce":
+		for b in 7:
+			var t := 0.2 + 0.7 * b / 7.0
+			var base: Vector3 = pts[int(t * n)].lerp(pts[mini(int(t * n) + 1, n)], fmod(t * n, 1.0))
+			var yaw := rng.randf() * TAU
+			var dir := Vector3(cos(yaw), -0.15, sin(yaw)).normalized()
+			var len: float = sp["crown_r"] * (1.0 - 0.8 * t) * 1.1
+			_tube(st, [base, base + dir * len], [r0 * 0.25 * (1.0 - t), 0.03], 5, 1.2, rng.randf())
+	st.generate_tangents()
+	return st.commit()
+
+static func _bark_material(tex: String, tint: Color) -> StandardMaterial3D:
+	var m := Foliage.pbr(tex, 1.0, tint)
+	m.uv1_scale = Vector3.ONE
+	m.roughness = 1.0
+	return m
+
+# ---------------------------------------------------------------- crowns
+static func _crown_cards(kind: String, scale: float, yaw: float, base: Vector3, rng: RandomNumberGenerator, out: Array) -> void:
+	var sp: Dictionary = SPECIES[kind]
+	var h: float = sp["height"] * scale
+	var cr: float = sp["crown_r"] * scale
+	var lo: float = sp["crown_lo"] * h
+	var cards: int = int(sp["cards"] * clampf(scale, 0.7, 1.4))
+	var card: float = sp["card"] * scale
+	var center := base + Vector3(0, (lo + h) * 0.5, 0)
+	var sh: Vector2 = sp["shade"]
+	for i in cards:
+		var p: Vector3
+		var b: Basis
+		if kind == "spruce":
+			# cone: level t from bottom of the crown to the tip, radius shrinks upward
+			var t := pow(rng.randf(), 0.8)
+			var y := lo + (h - lo) * t
+			var rr := cr * (1.0 - t) * rng.randf_range(0.5, 1.0)
+			var a := rng.randf() * TAU
+			p = base + Vector3(cos(a) * rr, y, sin(a) * rr)
+			# tilted downward-hanging branch fans, plus some vertical ones
+			b = Basis().rotated(Vector3.UP, a + PI / 2.0).rotated(Vector3(cos(a), 0, sin(a)).normalized(), rng.randf_range(-0.6, -0.2) if i % 3 else rng.randf_range(0.8, 1.4))
+			b = b.scaled(Vector3(card * (1.0 - 0.5 * t) * 1.2, card * (1.0 - 0.5 * t), 1.0))
+		else:
+			# ellipsoid shell, denser towards the outside
+			var v := Vector3(rng.randf_range(-1, 1), rng.randf_range(-1, 1), rng.randf_range(-1, 1)).normalized() * pow(rng.randf(), 0.4)
+			p = center + Vector3(v.x * cr, v.y * (h - lo) * 0.5, v.z * cr)
+			b = Basis().rotated(Vector3.UP, rng.randf() * TAU).rotated(Vector3.RIGHT, rng.randf_range(-0.9, 0.9))
+			b = b.scaled(Vector3.ONE * card * rng.randf_range(0.8, 1.2))
+		out.append([Transform3D(b, p), Color(center.x, center.y, center.z, rng.randf_range(sh.x, sh.y))])
+
+static func _leaf_material(kind: String) -> ShaderMaterial:
+	var sh := Shader.new()
+	sh.code = LEAF_SHADER
+	var m := ShaderMaterial.new()
+	m.shader = sh
+	m.set_shader_parameter("tex", load("res://assets/sprites/%s.png" % SPECIES[kind]["leaf"]))
+	m.set_shader_parameter("wind", 0.6 if kind == "spruce" else 1.0)
+	m.set_shader_parameter("tint", Vector3(0.9, 0.95, 0.78))
+	return m
+
+static func _multimesh_cells(mesh: Mesh, items: Array, mat: Material, near: Vector2, shadow_dist: float) -> Node3D:
+	var root := Node3D.new()
+	var cells := {}
+	for it in items:
+		var o: Vector3 = (it[0] as Transform3D).origin
+		var c := Vector2i(floori(o.x / CELL), floori(o.z / CELL))
+		if not cells.has(c):
+			cells[c] = []
+		cells[c].append(it)
+	for c: Vector2i in cells:
+		var list: Array = cells[c]
+		var mm := MultiMesh.new()
+		mm.transform_format = MultiMesh.TRANSFORM_3D
+		mm.use_custom_data = true
+		mm.mesh = mesh
+		mm.instance_count = list.size()
+		var origin := Vector3(c.x * CELL, 0, c.y * CELL)
+		var bounds := AABB()
+		for i in list.size():
+			var t: Transform3D = list[i][0]
+			t.origin -= origin
+			mm.set_instance_transform(i, t)
+			mm.set_instance_custom_data(i, list[i][1])
+			var ab := t * mesh.get_aabb()
+			bounds = ab if i == 0 else bounds.merge(ab)
+		mm.custom_aabb = bounds.grow(1.0)
+		var mi := MultiMeshInstance3D.new()
+		mi.multimesh = mm
+		mi.material_override = mat
+		mi.position = origin
+		var cell_center := Vector2(c.x * CELL + CELL / 2.0, c.y * CELL + CELL / 2.0)
+		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if cell_center.distance_to(near) < shadow_dist else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		root.add_child(mi)
+	return root
+
+# ---------------------------------------------------------------- build
+# trees: [x, z, kind, scale, yaw_deg]; shrubs: [x, z, scale, yaw_deg]; near: the fire (shadow radius centre)
+static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rng: RandomNumberGenerator, with_collision: bool = true) -> Dictionary:
+	var trunk_items := {}     # "kind:variant" -> Array of [Transform3D, Color]
+	var leaf_items := {}      # kind -> Array
+	var meshes := {}
+	var mats := {}
+	var crowns: Array = []
+	var colliders := StaticBody3D.new()
+	colliders.collision_layer = 1
+	colliders.add_to_group("navsource")
+	for k in SPECIES:
+		leaf_items[k] = []
+		for v in VARIANTS:
+			var r2 := RandomNumberGenerator.new()
+			r2.seed = hash(k) + v * 7919
+			meshes["%s:%d" % [k, v]] = _trunk_mesh(k, r2)
+			trunk_items["%s:%d" % [k, v]] = []
+			var barks: Array = SPECIES[k]["bark"]
+			mats["%s:%d" % [k, v]] = _bark_material(barks[v % barks.size()], SPECIES[k]["tint"])
+	for t in trees:
+		var kind: String = t[2]
+		var s: float = t[3]
+		var yaw := deg_to_rad(float(t[4]))
+		var pos := Map.ground_pos(t[0], t[1])
+		var v := rng.randi() % VARIANTS
+		var b := Basis().rotated(Vector3.UP, yaw).scaled(Vector3.ONE * s)
+		trunk_items["%s:%d" % [kind, v]].append([Transform3D(b, pos), Color.WHITE])
+		_crown_cards(kind, s, yaw, pos, rng, leaf_items[kind])
+		crowns.append([pos + Vector3(0, SPECIES[kind]["height"] * s * 0.7, 0), SPECIES[kind]["crown_r"] * s])
+		if with_collision:
+			var cs := CollisionShape3D.new()
+			var cyl := CylinderShape3D.new()
+			cyl.radius = SPECIES[kind]["radius"] * s * 1.15 + 0.1
+			cyl.height = 8.0
+			cs.shape = cyl
+			cs.position = pos + Vector3(0, 3.5, 0)
+			colliders.add_child(cs)
+	# shrubs: low clusters of beech cards (young beeches, brambles at the forest edges)
+	for sh in shrubs:
+		var pos := Map.ground_pos(sh[0], sh[1])
+		var s: float = sh[2]
+		var center := pos + Vector3(0, 0.9 * s, 0)
+		for i in 5:
+			var p := center + Vector3(rng.randf_range(-0.8, 0.8), rng.randf_range(-0.5, 0.6), rng.randf_range(-0.8, 0.8)) * s
+			var b := Basis().rotated(Vector3.UP, rng.randf() * TAU).rotated(Vector3.RIGHT, rng.randf_range(-0.7, 0.7)).scaled(Vector3.ONE * 1.5 * s)
+			leaf_items["beech"].append([Transform3D(b, p), Color(center.x, center.y, center.z, rng.randf_range(0.45, 0.75))])
+	for key in trunk_items:
+		if trunk_items[key].is_empty():
+			continue
+		parent.add_child(_multimesh_cells(meshes[key], trunk_items[key], mats[key], near, 170.0))
+	var quad := QuadMesh.new()
+	quad.size = Vector2.ONE
+	for k in SPECIES:
+		if leaf_items[k].is_empty():
+			continue
+		parent.add_child(_multimesh_cells(quad, leaf_items[k], _leaf_material(k), near, 150.0))
+	if with_collision:
+		parent.add_child(colliders)
+	return { "crowns": crowns }
+
+# a single hero tree with its own collider (the landmark oak)
+static func hero(parent: Node3D, kind: String, x: float, z: float, scale: float, yaw: float, rng: RandomNumberGenerator) -> void:
+	var pos := Map.ground_pos(x, z)
+	var r2 := RandomNumberGenerator.new()
+	r2.seed = 991
+	var mi := MeshInstance3D.new()
+	mi.mesh = _trunk_mesh(kind, r2)
+	mi.material_override = _bark_material(SPECIES[kind]["bark"][0], SPECIES[kind]["tint"])
+	mi.position = pos
+	mi.rotation.y = yaw
+	mi.scale = Vector3.ONE * scale
+	parent.add_child(mi)
+	var items: Array = []
+	_crown_cards(kind, scale, yaw, pos, rng, items)
+	var quad := QuadMesh.new()
+	quad.size = Vector2.ONE
+	parent.add_child(_multimesh_cells(quad, items, _leaf_material(kind), Vector2(x, z), 1000.0))
+	var body := StaticBody3D.new()
+	body.collision_layer = 1
+	var cs := CollisionShape3D.new()
+	var cyl := CylinderShape3D.new()
+	cyl.radius = SPECIES[kind]["radius"] * scale * 1.2
+	cyl.height = 8.0
+	cs.shape = cyl
+	cs.position = pos + Vector3(0, 3.5, 0)
+	body.add_child(cs)
+	body.add_to_group("navsource")
+	parent.add_child(body)

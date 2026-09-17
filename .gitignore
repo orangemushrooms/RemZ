@@ -1,4 +1,12 @@
 .env
+Meshy Key
+.test-user/
+logs/*-headless.log
+logs/*-render.log
+logs/import-check.log
+logs/smoke*.log
+logs/benchmark*.log
+builds/
 Meshy_Api_key
 meshy_output/
 node_modules/
