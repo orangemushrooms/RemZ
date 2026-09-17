@@ -1,0 +1,31 @@
+{
+  "id": "01a0b0ba-413e-7157-9251-698774a239ce",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 68190992,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "photorealistic AAA game weapon, modern 9mm semi-automatic pistol, Glock style polymer frame, steel slide, front sight, trigger, magazine, high detail, game ready",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789671393793,
+  "progress": 100,
+  "started_at": 1789671393804,
+  "finished_at": 1789671558095,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ba-413e-7157-9251-698774a239ce/output/model.glb?Expires=4943203200&Signature=F~nkpC~nBlQu6Xt2TZ1j9JwbhwmPHVSpYYuR8VX~yNlLMcOnPZmMdyBtDwNhbCoxSM322uGlVtU3htqD6dpi0wtLVOmlNyCagqE0AMGVHMB2BBXJqGGUl15ykyXp1-Oq~h7wDJWIWx2px20V2Y1grqbnz1efdfqmbQGAhIZtNuVWS0wWtRKWbGys8hRrLCbqHLU4twc6U292pUWxVwSDG9eLC2iIWJGrnIOni6AZJtwsax70C5U4BBCELEAhWUihhZjE8Pc~i~2VQyjExiun~YKTsQxdrqGkJQtCNlEBgjQDggzfhgKVfwWWhWXfrQNttv8klc5HV7pklWmQlqpSmQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ba-413e-7157-9251-698774a239ce/output/model.fbx?Expires=4943203200&Signature=OD5Z6N7kSX7amsApe8Lon52NMZQaak69PTsVzfA0zUjA4Xdg~s8PqAFgXK08vcotj7tt4JNZASp-iaEhw1QSo2fflq7-X9w5Ci6VV9W2lBDtWdY2qvvxvtMvE-belpy6S4V3FfCC~96PxaLX6Qs3-9IYolTQQtqiJ3z0latL2W9P5vxzGE4T3X0DYKxWLaf0gOcfYje50jdhZMrSF0f18VzSGMUbzi~0ThhSBFiZhCgw7CP87hGi69akflSeSkDOk-PRvydcjsuYeuyjKIxT8vAjtgY3WRJLcU1IENSnJcO3LgU7CU2~Ma-HaeqKYrRdHMwCsFrtnRmrd9aTPgeJMg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ba-413e-7157-9251-698774a239ce/output/model.usdz?Expires=4943203200&Signature=FCm4ijVDE7PiSD6MyfE-QWVW0JmSePABN4sSHTnSpJza0vN8yznzKJvio3vWEis~SIppqYgnKKqyEdlg1lhR5iAsLKk~AY~lSGzrHRM2v~hx4G9unlx9MK9-zEOtKBotl~3D652wIRcIOy4oTZv1TXTUt3XYyHW-fZd2WauV8Esu17OC6PVWTkpr7RkTmSA1Cg5zad0dRHSfFKTaACSnZ8Xw0zlQ~aaqsdF9tovmVjXqLgKbSO8qh6-ffpTiemOUuxLLieAG2DfXgybFOKF1cQ1uJareqsLxW2Aej0tgjZ8aXYAi0CVdyCWRHaW5TEfoWAjBe2pQTFQf~h3bg~CbFA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ba-413e-7157-9251-698774a239ce/output/model.obj?Expires=4943203200&Signature=O0OGQbTsOHID2YeJOIc4ZbfLCT0SqmcfZ56WWxJ3yzF1YdqabFuBSMlqGzc0KtHceBG5fbCufYsYIpHEDzfpQ58wRhDMnTaQ9pnfVxEJ~ctRXob8f1VhERSzvYkSXCkBW8-ng4SWzxzBWNQ6zkCWDZ0v2M6KcscNKC~ROTbDWghFyUT52toEPKwyYKoSZZ2-nNORdIxnLo7oYE2LuOGu-LimAciCi9IA9CX997eTO-b2DrEfyf7z9HirpmfIB0onXp23OfWGSsZFrVKR1HrK34b0PHuaiO1dj67GJJdzMXKyiHrRqOlXL074hbTuPL~wz2J9ZwUPY59V-gYMBk4zCQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ba-413e-7157-9251-698774a239ce/output/model.stl?Expires=4943203200&Signature=iMaGAIUEmVhHR2KI2HZ2zpTwEgIIkEKSKuHcQen9vs58mQTJXH7zWeq99fjQWU8QRJluLlE1wDQ1g6HTEVz5jpfwOemXvPhoevlB-SqlXSgm3LEYhZGWAZbMkFBhucj1oyb9thwsMRYLgbpcDB-iNhtDMsTMnj3PLzZjRyW9jAz8Yio5SoQVI0yrxTW0M0W7pyQkDLd4~Rd6uwWcK5K8zB8pDxntwsWr9bNS~1jSvH--mZPVj-ZTbeL1TlSFbfWJJJ4SY-jlB0J6sW1sNNDcIavzauCbw~-QOm5EYnWd82z9pPlfmXj5rrcC2ld3lmxJzin6ZZKG2IzrKiTFd9gRWQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ba-413e-7157-9251-698774a239ce/output/preview.png?Expires=4943203200&Signature=SgmSCrDMpvdhkXtV-8SX8VVJMnp0A5LlfnWgbrA1xyd5GmmTu1lJ75CSZK1JbE~DGiOerCG0PCVOkH63vm-Q~ZSXPTsGSOamz6G4M1nR3b7Czc07ZO6R0vt6fyQ2BtnhjXcQ9r5H1lkenSheDDolDSahK2q8YVCZVwSGndKkbWtKdL3CTfjKjFfwdvvhEPvl75zheenLo-vY9rzwztu5UTARfoD71jG2EwkEqyC8k81VQLmbrW4rmDsmyskf6gLRs5oXFv5c4uK2y-GzynGdVN4xziF0AwSy-fc-wVCkauJv0X9TRlMiTqv25LJ0U-6tuUET5NttHPeFe6~MTyLESA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,10 @@
+{
+  "preview": "01a0b0ba-4131-778b-9545-5d39a923268e",
+  "refine": "01a0b0bd-3d6e-74e8-bcf6-a6106b5c6273",
+  "rig": "01a0b0c0-385f-7550-8ac8-dd128793d478",
+  "anims": {
+    "walk": "01a0b0c1-5e23-71c6-aa18-f1e545ed2467",
+    "attack": "01a0b0c1-6131-766c-b7c8-61cef9667e5a",
+    "death": "01a0b0c1-6358-77f3-ad3e-762a4e7070b6"
+  }
+}

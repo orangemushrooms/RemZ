@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic AAA game weapon, MP5 submachine gun with collapsible stock, curved magazine, foregrip, iron sights, isolated single object floating, no base, no stand, no display plate, high detail, game ready",
+  "folder": "smg_v3",
+  "root_task_id": "01a0b0d8-c009-7586-993f-96805295044e",
+  "created_at": "2026-09-17T21:31:30.172564",
+  "updated_at": "2026-09-17T21:31:30.172582",
+  "tasks": [
+    {
+      "task_id": "01a0b0d8-c009-7586-993f-96805295044e",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T21:31:30.172580"
+    }
+  ]
+}

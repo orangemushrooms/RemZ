@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic AAA game weapon, AK-47 assault rifle with wooden stock and handguard, curved magazine, iron sights, high detail, game ready",
+  "folder": "ak47_v2",
+  "root_task_id": "01a0b0c8-8054-71af-9f2e-b1e2ed54b27e",
+  "created_at": "2026-09-17T21:14:46.495077",
+  "updated_at": "2026-09-17T21:14:46.495101",
+  "tasks": [
+    {
+      "task_id": "01a0b0c8-8054-71af-9f2e-b1e2ed54b27e",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T21:14:46.495098"
+    }
+  ]
+}

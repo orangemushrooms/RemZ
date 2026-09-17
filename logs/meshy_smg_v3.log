@@ -1,0 +1,22 @@
+21:28:48 preview smg_v3
+TASK_CREATED: 01a0b0d7-d248-74d7-9fe2-30d18b28569b
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (55.625s, poll #6)
+21:29:49 refine smg_v3
+TASK_CREATED: 01a0b0d8-c009-7586-993f-96805295044e
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (23.75s, poll #4)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (40.625s, poll #5)
+  [██████████████████░░] 90% — IN_PROGRESS (65.9375s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (95.9375s, poll #7)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\smg_v3\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\smg_v3\model.glb (8.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\smg_v3\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\smg_v3\thumb.png (0.0 MB)
+21:31:30 DONE smg_v3

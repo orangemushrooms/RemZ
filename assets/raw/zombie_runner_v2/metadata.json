@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic AAA game character, lean athletic infected zombie in ripped hoodie and cargo pants, pale grey decayed skin, bloody mouth, standing upright in T-pose, humanoid, symmetric, high detail",
+  "folder": "zombie_runner_v2",
+  "root_task_id": "01a0b0c3-fa52-77ae-b0ae-65c176250af2",
+  "created_at": "2026-09-17T21:10:12.595637",
+  "updated_at": "2026-09-17T21:10:12.595672",
+  "tasks": [
+    {
+      "task_id": "01a0b0c3-fa52-77ae-b0ae-65c176250af2",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T21:10:12.595669"
+    }
+  ]
+}

@@ -1,5 +1,35 @@
 # Prüfung vom 17. September 2026
 
+## Ergänzung: Tag-Nacht-Zyklus
+
+Die Uhr läuft mit 10×, setzt jede Welle auf 06:00 zurück und pausiert mit dem Spiel. Vorhandene Sonne, Fülllicht, Feuer und fünf Hütten-/Laternenlichter werden weiterverwendet. Es gibt keine zusätzlichen Lichtquellen, Schattenkarten, Nebelpartikel oder Himmelspässe. Die Lichtwerte aktualisieren sich mit 10 Hz. Der Himmel erhält alle 30 Spielsekunden neue Werte (alle drei echten Sekunden bei 10×); seine Reflexionen verwenden eine inkrementelle 128-Pixel-Cubemap. Die Waffenansicht besitzt eine statische Reflexionsumgebung ohne Abhängigkeit von den veränderlichen Lichtquellen.
+
+Der Vergleich stehende–laufende–laufende–stehende Uhr ergab GPU-Mediane von **11,833 / 12,437 / 11,666 / 59,760 ms**, jeweils **606 Zeichenaufrufe**. Die große Abweichung zwischen den beiden Kontrollmessungen macht eine zuverlässige Angabe des zusätzlichen Zeitaufwands unmöglich. Ein weiteres Spiel und der Editor liefen gleichzeitig; eine Stichprobe zeigte 99 % GPU-Auslastung bei 84 °C. Diese Anwendungen wurden nicht beendet. Der Lauf ist weder ein Nachweis von null FPS-Verlust noch des 100-FPS-Ziels.
+
+Rohdaten dieses Vergleichs vor der letzten Anpassung der Nachtfarben: `../artifacts/day-night/benchmark-concurrent.json`, `../logs/day-night-verified-render.log`. Der abschließende Funktions-/Sichttest und die Bilder werden separat in `../artifacts/day-night/report.json` und `../logs/day-night-release-render.log` geführt. Geprüft werden Wellenstart, Zeittempo bei 30/60/144 FPS, Mitternacht, sämtliche Pausenmenüs, Lichtverhältnisse, drei Grafikprofile und die Uhr bei 1280 × 720.
+
+**56 Prüfungen im gerenderten Lauf bestanden**, darunter elf Screenshot-Prüfungen. Nach der Integration beider Zeitmodi bestanden zusätzlich jeweils **40 Funktionsprüfungen** für den Standard (10×, Morgen je Welle) und den optionalen durchgehenden 15-Minuten-Tag: `day-night-default-headless.log` und `day-night-continuous-headless.log`. Die zuletzt bereinigte Himmelsmaske wurde separat zu vier Tageszeiten gerendert (`day-night-sky-preview.log`). Im schnellen optionalen Modus bleibt die Himmelsaktualisierung auf höchstens einmal pro echter Sekunde begrenzt.
+
+## Ergänzung: Alpenhorizont und dichterer Nebel
+
+Die folgenden Zahlen stammen vom statischen Alpenhimmel **vor** dem Tag-Nacht-Zyklus.
+
+Die neue Atmosphäre wurde mit der vorherigen Himmel-/Nebelkonfiguration im selben Spielprozess verglichen. NVIDIA RTX 3060 Ti, 1600 × 900 Fenster, Profil **Flüssig**, 85 % 3D-Auflösung. Pro Blickpunkt vier Messungen in der Reihenfolge vorher–nachher–nachher–vorher, jeweils 2,2 s nach Aufwärmen. Die Tabelle zeigt den Mittelwert der beiden GPU-Mediane pro Variante. Spiel, Gegner und Waffenansicht waren eingefroren/ausgeblendet; diese Werte messen den Grafikaufwand der Atmosphäre, nicht die Bildrate einer vollständigen Spielrunde.
+
+| Blickpunkt | GPU vorher | GPU nachher | Differenz | Zeichenaufrufe vorher / nachher |
+| --- | ---: | ---: | ---: | ---: |
+| Wiese, Osten | 1,909 ms | 1,917 ms | +0,008 ms / +0,39 % | 287 / 287 |
+| Alpen, Südwesten | 1,550 ms | 1,551 ms | +0,001 ms / +0,06 % | 39 / 39 |
+| Waldweg | 5,560 ms | 5,599 ms | +0,039 ms / +0,69 % | 588 / 588 |
+
+Auch die Zahl gerenderter Primitive blieb pro Blickpunkt identisch. Der Hintergrund nutzt eine Texturabfrage im bestehenden Himmelspass; die 4096 × 2048 HDR-Textur ist mit BC6H und Mipmaps komprimiert (11.184.900 Bytes Importdatei, rund 10,7 MiB). Es gibt keine zusätzlichen Schatten, Bergmodelle oder Nebelpartikel. Die vorhandenen volumetrischen Budgets der Grafikprofile bleiben unverändert. Sky-Radiance wird statisch mit 256 Pixeln Auflösung vorgefiltert.
+
+**21 Prüfungen bestanden**, einschließlich elf Bildern und der drei Grafikprofile. Quelle: `../logs/atmosphere-comparison-render.log`; Rohdaten und Vorher-/Nachher-Ansichten: `../artifacts/atmosphere/comparison.json`. Der parallele Editor/Worker lief weiter. Während einer Stichprobe meldete die GPU 71 °C und keine thermische Drosselung. Unterschiede unter 1 % erlauben keine Zusage von exakt null FPS-Verlust auf jeder Hardware. Der frühere vollständige Spielbenchmark unten bleibt davon getrennt.
+
+Die Sandbox konnte den Windows-Zertifikatsspeicher nicht lesen und den Shadercache nicht speichern; der Shader wurde dennoch gerendert. Der aktuelle, parallel überarbeitete Kartenstand meldete zwei Navigation-Kantenwarnungen. Die Atmosphärenprüfung endete ohne fehlgeschlagene Prüfung; diese Navigation-Warnungen werden durch den statischen Himmel nicht verändert.
+
+## Früherer vollständiger Spielbenchmark
+
 Godot 4.7.2, Windows, NVIDIA RTX 3060 Ti, Jolt Physics. Fenster 1920 × 1080, logischer Viewport 1600 × 900, Profil **Flüssig**, 3D-Skalierung 0,85, VSync aus, Bildrate unbegrenzt. Pro Blickpunkt zwei Sekunden Aufwärmen und fünf Sekunden Messung. Screenshot-Erfassung erfolgt außerhalb der Messintervalle.
 
 ## Aktueller Messlauf mit Händen und Minimap

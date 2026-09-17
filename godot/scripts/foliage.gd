@@ -375,6 +375,7 @@ static func campfire(pos: Vector3) -> Node3D:
 	fmat.albedo_texture = _soft_dot()
 	fq.material = fmat
 	fire.draw_pass_1 = fq
+	fire.add_to_group("day_night_flames")
 	fire.amount = 140
 	fire.lifetime = 0.9
 	fire.position.y = 0.15

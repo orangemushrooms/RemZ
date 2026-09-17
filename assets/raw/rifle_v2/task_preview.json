@@ -1,0 +1,31 @@
+{
+  "id": "01a0b0ca-fab3-7106-a192-be7978c533d6",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 891335385,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "photorealistic AAA game weapon, pump action 12 gauge shotgun, Remington 870 style, wooden stock and pump, long barrel, high detail, game ready",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789672490019,
+  "progress": 100,
+  "started_at": 1789672490024,
+  "finished_at": 1789672549173,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ca-fab3-7106-a192-be7978c533d6/output/model.glb?Expires=4943203200&Signature=AlQ8Xv68aSxw2m8gy53SVzGBj~nkEUB-iVxkq4hJo~BSgEA6LWrGl26T1kqPsodMQaPwkhgeWdNZIqllfoRlfdNqMzOocZXm04ayp99PK4WHXaL7TvuKrRD48uOdD9cqg9Zj6vjZ8lfw39FR9zpmeRVXSRudvK~jjTSYT2jFm119OWoolzQg8pOMImHao-kdntRn0WAW9Vprgf-3-UasCVhWY7gzz~L~EA3JUQz2KTp~w58GoTErOWCiXtz6Q4g3zdyRbbU~qxjfsYOJVgUynNi992i6jfND~S3KGz0~vWe-YWBbG6ciFVk4aANkb92gTDPIVXOj~o5YtRt2xQy42A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ca-fab3-7106-a192-be7978c533d6/output/model.fbx?Expires=4943203200&Signature=GagUaDYOZyMp7LPGtjx3-1lu2vNvWBTbA5jli1UqIpFfFEN~SkrEeH-QC6ZRxqooCpB7DRLuNYn2jv70AqhnlPHQS3boSpqu4tEWYG4kUNbUyiUqkSvTiC1M0g0oRxGZ3NABDNvr-rti063TLu3JoIybGx-TO38n0iyTWGSYIfUORuWT7uVAXz8rnItxT1y6G9d8NaPA7QOHu~hgTKi~VdgNrTnFjBBmTNZl9mJp0jjGkPNKEiSacUdOHZZ96Le6W-YxdM5F68xyJ-pQwP3-SNvpsQhU6dMw4RXx71swyoT8u8krgY-PjWefhjTZxpt0hBPfrCkHWgMs3PWdLHT9zg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ca-fab3-7106-a192-be7978c533d6/output/model.usdz?Expires=4943203200&Signature=Z8DY-ingC9STtT3f1aQDWGxT32Rh~0GMv0rNWmVPO~kOP-gxyqwU6lGR9DraPSwh7DOxCSTF6wyQ4Iv2eIaSoLiFvI5mkv55SMHl2GxaWGc~zDVp7bXTfdHpTOpBD-UeR7ywbSRKpO-GFLx10IYH5cOiW5TxNj7fIDSXc8z0z~7Dpi6qORBTZibE0C7wR0TJYqwF6GDIw2gpLY0plXpv9P1QFzK3ukFkTyW6zPa3GBnMT9SnncF2Ju-CThbAJ3cxci~A5wUmLGXYkip4cNRZbuUkMzQ-wMsVXKKlBfF3Bjqv0Zw2MMSm8N60MaoinypZJCjbYMSNzhSzjToCqMP4JA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ca-fab3-7106-a192-be7978c533d6/output/model.obj?Expires=4943203200&Signature=qekOp3g4ACWJHgep6SAJAl527ANHXxpQ37e5PmhTcjs3ML0pPiVhePCbFjv8UCTggHzR2UluxbZ6DBQgL6G7eMJDnV9BmpM5UvxLi40crs40F2dfdQFi~i5NdINS1uSDQZhGsrZyhPcWCwv9OnOQhQKgpkhCMv4rGYhESuOd1621lpIuwHbyMeIZTNi4ESNTzvamMIQOwN9n3OpWVObarWDwhyRq3McXKs2KC1CnpFfB1iC2on6H4DzJapGW0Ue61-orzCq-GyAQQucnAduvfTbCBiW-8A1VfaYCq0Odk18Cgw5zWiFH6TH5xMR1S6WYmFh5TY4VxRySzXbJ7IQI7A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ca-fab3-7106-a192-be7978c533d6/output/model.stl?Expires=4943203200&Signature=PfuyFg1a9W4Jz38YwzJHs687DB94qLd~nYSYUY5F~Zt8EOAZi-5OcKyPhdU6CyFfs3eGng7s2-1LvIElybZU6CxyTEUFrqyCMWp2Qkr-fExGfg85jljMRlU5m3~~g9xZskmeKjYm9KzalDe7SYhw-LDJY27i492Wjb63uuyGTdI5bILtUaRZvf4KAjuAFJQA9UPagdhbyQi0lD7z3ZUyAXjYGxeeOVph8nxiVwTvRjwbpl3hZgJxjQYSOoqQt-4STd1sKqh5bg5DHifcTuwrsltNUxiAx6eXxTuHNrZtNRhOimNBzXtYOLwU87XnUY7Mm-kQf3ht9kFxtQOk8YkRJg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0ca-fab3-7106-a192-be7978c533d6/output/preview.png?Expires=4943203200&Signature=qd4ojTa05RdlmMT27xJ3XMoxLYh9ZDfEqitrFwTHOjz0G9NZlvYyHczlK~BIvCi5fY2R1zU8NGtF~NX0zNMkKMzsoyFPXzqVOiY1MBLfeCsq-kJZf0q2V-ol8wfPW880a5WliZ4FPrexp78ZaXoCh5rbA2TKPII0Dc~xvHWAJt1JL188f4t8ELAN-eUKNs3wsCYa1jNJX2YaE9SNGbgbxhelfqWVu5O1r7oYGQZnkGiSZiS5gbjhRU2FAqlZCS8xWp5fq7H6jDTEL-fO5lQYubUgvr6ObG2feZzoiDUHBw9XUmycLbgsLGJvxD2UDxY1QQ-XWvv8bvqOYYK9MP9eVQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

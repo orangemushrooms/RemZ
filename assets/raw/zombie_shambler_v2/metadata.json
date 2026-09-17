@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic AAA game character, rotting zombie in torn dirty farmer clothes, plaid flannel shirt, worn jeans, pale grey decayed skin, exposed wounds, sunken eyes, standing upright in T-pose, humanoid, symmetric, high detail",
+  "folder": "zombie_shambler_v2",
+  "root_task_id": "01a0b0bd-3d6e-74e8-bcf6-a6106b5c6273",
+  "created_at": "2026-09-17T21:03:02.243965",
+  "updated_at": "2026-09-17T21:03:02.243985",
+  "tasks": [
+    {
+      "task_id": "01a0b0bd-3d6e-74e8-bcf6-a6106b5c6273",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T21:03:02.243982"
+    }
+  ]
+}

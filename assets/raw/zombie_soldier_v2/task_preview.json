@@ -1,0 +1,31 @@
+{
+  "id": "01a0b0cc-66e5-7661-bf01-a49843c144dd",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1421864201,
+  "art_style": "realistic",
+  "texture_richness": "",
+  "prompt": "photorealistic AAA game character, undead swiss army soldier zombie in torn camouflage uniform with tactical vest, helmet, pale grey decayed skin, standing upright in T-pose, humanoid, symmetric, high detail",
+  "negative_prompt": "",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789672583296,
+  "progress": 100,
+  "started_at": 1789672583307,
+  "finished_at": 1789672662634,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0cc-66e5-7661-bf01-a49843c144dd/output/model.glb?Expires=4943203200&Signature=Mkx-fCBfufGMKPqiReitWCWdabBmc09NAgLDj7G0RZLoTZYUuReBQUiLadbfnSEDr7J6Of8qB4SeEWbWWkT75tUiGHEfQ~hJ7Du79gnLB2XUVwZy7skA9A8e-5pch21MTIkm46GIdFlxF32LKPbnDRpZI3OhkiP5-qN8IPVCTSMEwIGrK8D8vFQ1muPHpAeYpFIDqGA9Hg0Mi9I5j4NyhK-6t2tse9iTwfjtJk49qRLMxhiPGlC8VEWiGcsz9X~2AKhpkxR3AwQ6UkmVUlzymCA~Mepx~VyNzff348YZMESBS~zzd77FCrRt2C1dCKldAsNbiRVzzAJdQENwTqE5Jw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0cc-66e5-7661-bf01-a49843c144dd/output/model.fbx?Expires=4943203200&Signature=IU3khZWY5ml2ET0y5R75oPPPCiNOX~NybfVfVAedRgqqUtccFmhwCBlV6V0C-UnNOCnteTK2GwUuTPkNXr-y0kz63iY5wwk5XXoB-BmuNp6fgP37PNrtx2ZcVHNscr6I-lBXFgAxdoFECo-5CdTCNcC6gOEjitUfykvj0eXMaLUxnQaSQiLHVlcSOLDw3vI6MT7vlZc4Fp5V3Z~GQQCOQOJBrO9~MRm~lWNHX2sGhcY40FerrTOmYC9BbA6J6GNqVUMZNg7fK-sWQXXDbECb-vpNfbvmF-pTXkBNnyX~90J9lZKTH3Zc5Qmk4NjmxnCVr2EVv1LUip-bAJTQY-vjyQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0cc-66e5-7661-bf01-a49843c144dd/output/model.usdz?Expires=4943203200&Signature=QTSgrqvzKptmoBjVgkt735VW~4l1k8xBrANjYrn~F0SFiAKwgssQ9ITccw5CNtr4ICPYLefgrmfTGJfS2X~QGbrGs4hV4DOed-X9ZeTD5b2Fo8Zh5WdpC6ao65rDoEuE0FQ2eg7nvCG0ckWr88~AIq4Espx4yQ2H~QSnareAwnX9GQFrmBYYmRlOM1aXUWjL0oVOQoeeAryZ0-cE2AWL-0ILjJ1sPXpyZXbY8FfjvzmS-ghopHVXs7qgyBmdHUIeJI24dhWVrbTD-KU85GnWg8vmrBVqWLzQKiayN2aYNxCXBQDM9Zi~-dq5WvBiHgKRDbll7Hry-P~RvsOa1aoC9Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0cc-66e5-7661-bf01-a49843c144dd/output/model.obj?Expires=4943203200&Signature=dZjX88ZAgEH~E4Dmu~3o58sPQwXFHPvRs2iZKgZkU6sGa7xqORLwKi9hE1b0ltp~yvv8rl2CE2nizF0xDmO47r7ZHLd6NMz8gAWumt2j0zPmkG-nxEnSJgyuSAoTkvJGsH7gyC4FW1qBSi5eUTZ5lapPn2PpMg1wOijlFURPvML088D6fIF1xzNaNvRkL3mZaLqwspoq2yyJ4KWs8W2KLxe4~CxTZg81XJEyCiutl3HjQ2ZF3-YUfm4ZjVYI5fxtrw1NhaiWzJrATagRe8czSKSC4RunXhaCtMEnPTewwOFq2NM1YtytdbzIa0YQLYsKQRemU7rm4egYmGbeMlFY0w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0cc-66e5-7661-bf01-a49843c144dd/output/model.stl?Expires=4943203200&Signature=C0pvqQ7HY-pmUFHZ~GgJrpWwKZ4wCZYUy6BwRe9E7yq7AdzrYw1jsnjKzE-3TqhEz4QYXCs5VlEJZxk6y4~pakEXWcJnqa3HVsRuIww7lQfgDh0C5ZYgqpEsrhx1SJ9GGXricVBTyWN6dYWZOnfwf38bnmmXtvmL6DEYqeK9yD4Qp4hb7iLnIwne3jo7kqLka3ssusiW79YS9qJXfTvavcymwjQM45GYJSbsVmcUuJcOz0i4KOgzRsZB10YG86Ia9IvMcOnm-50qW-OAt81z8WEghphxwo0xL9C-bXwN1C3M-Ry8eBVlwS7sLCaBSUokJHq6PAqE52iY~ZcyEmPJ0w__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0b0cc-66e5-7661-bf01-a49843c144dd/output/preview.png?Expires=4943203200&Signature=m7OK-yvm79mjEY5CyBB3vwxx4PpOuDInWTNJlqzBc~vSw-z6oeR7wWtsWP9Gd55TlZPPrC6Wl9-PhSAc-PJZq~1w87apSiaWyaYWRVuEmcju6MEu~WfeQUwL3~Chim2aVLrZ-SAM8fH8ZaOw7Ow9WcXkwsqYLpvqz3kVYKt4BYDk5ya4cCocgdwrDJ2MlkxBu-JkUWLu8KjxPPRMT4OGBBVNYo0zl-y3A2w8gCt9BsiehyXkqupuN~bxK1CxDqtDBa3b8bhLA2fg-NqpIDZYgDdRZkcKrdtOqs8PPknYVX8aqfBhgXPFhia3A7msEBZ~oe0WBAA9WaaayC8uUvRT1w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "video_url": "",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -155,7 +155,11 @@ func _fullscreen() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
-		if main.skills and main.skills.is_open:
+		if main.barricade_menu and main.barricade_menu.is_open:
+			main.barricade_menu.close()
+		elif main.inventory and main.inventory.is_open:
+			main.inventory.close()
+		elif main.skills and main.skills.is_open:
 			main.skills.close()
 		elif main.started and not main.over:
 			if get_tree().paused:

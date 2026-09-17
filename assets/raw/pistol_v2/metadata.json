@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic AAA game weapon, modern 9mm semi-automatic pistol, Glock style polymer frame, steel slide, front sight, trigger, magazine, high detail, game ready",
+  "folder": "pistol_v2",
+  "root_task_id": "01a0b0bd-0224-7798-9f12-938a03f4baa0",
+  "created_at": "2026-09-17T21:02:29.068939",
+  "updated_at": "2026-09-17T21:02:29.068969",
+  "tasks": [
+    {
+      "task_id": "01a0b0bd-0224-7798-9f12-938a03f4baa0",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T21:02:29.068968"
+    }
+  ]
+}

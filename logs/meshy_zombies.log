@@ -1,0 +1,298 @@
+20:56:30 preview zombie_shambler_v2
+TASK_CREATED: 01a0b0ba-4131-778b-9545-5d39a923268e
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████░░░░░] 77% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (145.625s, poll #12)
+  [███████████████████░] 99% — IN_PROGRESS (160.625s, poll #13)
+  [███████████████████░] 99% — IN_PROGRESS (175.625s, poll #14)
+  [████████████████████] 100% — SUCCEEDED (190.625s, poll #15)
+20:59:46 refine zombie_shambler_v2
+TASK_CREATED: 01a0b0bd-3d6e-74e8-bcf6-a6106b5c6273
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (65.9375s, poll #6)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████████░░░░░] 78% — IN_PROGRESS (155.9375s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (185.9375s, poll #10)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\model.glb (9.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\thumb.png (0.1 MB)
+21:03:02 rig zombie_shambler_v2
+TASK_CREATED: 01a0b0c0-385f-7550-8ac8-dd128793d478
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [██████████████████░░] 90% — IN_PROGRESS (40.625s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (65.9375s, poll #6)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\rigged.glb (9.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_walking.glb (9.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_running.glb (9.7 MB)
+21:04:17 anim walk
+TASK_CREATED: 01a0b0c1-5e23-71c6-aa18-f1e545ed2467
+21:04:18 anim attack
+TASK_CREATED: 01a0b0c1-6131-766c-b7c8-61cef9667e5a
+21:04:18 anim death
+TASK_CREATED: 01a0b0c1-6358-77f3-ad3e-762a4e7070b6
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 26% — IN_PROGRESS (5s, poll #2)
+  [████████████████████] 100% — SUCCEEDED (12.5s, poll #3)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_walk.glb (9.7 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_attack.glb (9.7 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v2\anim_death.glb (9.7 MB)
+21:04:36 DONE zombie_shambler_v2
+21:04:37 preview zombie_runner_v2
+TASK_CREATED: 01a0b0c1-ad25-7459-bcd6-b0909212f8b9
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████░░░░░] 77% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [████████████████████] 100% — SUCCEEDED (145.625s, poll #12)
+21:07:08 refine zombie_runner_v2
+TASK_CREATED: 01a0b0c3-fa52-77ae-b0ae-65c176250af2
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (65.9375s, poll #6)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████░░░░░] 78% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (155.9375s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (170.9375s, poll #10)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\model.glb (9.0 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\thumb.png (0.1 MB)
+21:10:12 rig zombie_runner_v2
+TASK_CREATED: 01a0b0c6-c978-7352-9964-0249cabb2227
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\rigged.glb (9.6 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_walking.glb (9.6 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_running.glb (9.6 MB)
+21:11:05 anim walk
+TASK_CREATED: 01a0b0c7-9625-7619-8865-597a246c901c
+21:11:05 anim attack
+TASK_CREATED: 01a0b0c7-9874-7460-9f0f-7bd0ff6ea03a
+21:11:06 anim death
+TASK_CREATED: 01a0b0c7-9a11-75c0-8ccc-28b826772532
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████████████████] 100% — SUCCEEDED (12.5s, poll #3)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_walk.glb (9.6 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_attack.glb (9.6 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v2\anim_death.glb (9.6 MB)
+21:11:27 DONE zombie_runner_v2
+21:11:28 preview zombie_nurse_v2
+TASK_CREATED: 01a0b0c7-f214-755f-bd2d-6096aa61938f
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████░░░░░] 77% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (85.625s, poll #8)
+21:12:58 refine zombie_nurse_v2
+TASK_CREATED: 01a0b0c9-5179-735d-a724-c09a574f5f94
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (65.9375s, poll #6)
+  [██████████████████░░] 90% — IN_PROGRESS (95.9375s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (125.9375s, poll #8)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\model.glb (10.2 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\thumb.png (0.1 MB)
+21:15:10 rig zombie_nurse_v2
+TASK_CREATED: 01a0b0cb-56eb-72cd-bfec-65c58cff8193
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\rigged.glb (10.0 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_walking.glb (10.0 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_running.glb (10.0 MB)
+21:16:00 anim walk
+TASK_CREATED: 01a0b0cc-18de-704f-a29c-64f586ec39e0
+21:16:01 anim attack
+TASK_CREATED: 01a0b0cc-1c0e-7044-aa08-90f0b2b46c83
+21:16:01 anim death
+TASK_CREATED: 01a0b0cc-1e17-74ff-9a85-9fa45c71d1e5
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████████████████] 100% — SUCCEEDED (12.5s, poll #3)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_walk.glb (10.0 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_attack.glb (10.0 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v2\anim_death.glb (10.0 MB)
+21:16:19 DONE zombie_nurse_v2
+21:16:20 preview zombie_soldier_v2
+TASK_CREATED: 01a0b0cc-66e5-7661-bf01-a49843c144dd
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████░░░░░] 77% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (85.625s, poll #8)
+21:17:50 refine zombie_soldier_v2
+TASK_CREATED: 01a0b0cd-c54e-7145-8ea8-0d6caf5720ca
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████░░░░░] 75% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (140.9375s, poll #9)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\model.glb (9.4 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\thumb.png (0.1 MB)
+21:20:17 rig zombie_soldier_v2
+TASK_CREATED: 01a0b0d0-05f3-75d8-978e-53c7eaf71872
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\rigged.glb (10.0 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_walking.glb (10.0 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_running.glb (10.0 MB)
+21:21:08 anim walk
+TASK_CREATED: 01a0b0d0-cb34-7085-85af-746ba5616800
+21:21:09 anim attack
+TASK_CREATED: 01a0b0d0-cdf9-736b-a768-7f9e3a47c230
+21:21:09 anim death
+TASK_CREATED: 01a0b0d0-d044-76c8-a94f-0c653efdb296
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 26% — IN_PROGRESS (5s, poll #2)
+  [███████████████████░] 95% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████████] 100% — SUCCEEDED (27.5s, poll #4)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_walk.glb (10.0 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_attack.glb (10.0 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v2\anim_death.glb (10.0 MB)
+21:21:44 DONE zombie_soldier_v2
+21:21:44 preview zombie_bloater_v2
+TASK_CREATED: 01a0b0d1-5bc9-70b0-8639-fd83e6f8e2b3
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████░░░░░] 77% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (115.625s, poll #10)
+21:23:45 refine zombie_bloater_v2
+TASK_CREATED: 01a0b0d3-2f7f-722c-8905-968c61be3f94
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (23.75s, poll #4)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (40.625s, poll #5)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (95.9375s, poll #7)
+  [██████████████████░░] 90% — IN_PROGRESS (125.9375s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (155.9375s, poll #9)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\model.glb (9.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\thumb.png (0.1 MB)
+21:26:28 rig zombie_bloater_v2
+TASK_CREATED: 01a0b0d5-acaa-76ae-8d52-a4d83f017873
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [██████████████████░░] 90% — IN_PROGRESS (40.625s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (65.9375s, poll #6)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\rigged.glb (9.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_walking.glb (9.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_running.glb (9.1 MB)
+21:27:43 anim walk
+TASK_CREATED: 01a0b0d6-d14b-710e-9f12-d62db4ee278c
+21:27:43 anim attack
+TASK_CREATED: 01a0b0d6-d350-7681-aa6a-3080b0283fa1
+21:27:44 anim death
+TASK_CREATED: 01a0b0d6-d756-7524-83fa-f2a2bcc2c660
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 26% — IN_PROGRESS (5s, poll #2)
+  [████████████████████] 100% — SUCCEEDED (12.5s, poll #3)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_walk.glb (9.1 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_attack.glb (9.1 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v2\anim_death.glb (9.1 MB)
+21:28:04 DONE zombie_bloater_v2
+GROUP_DONE zombies

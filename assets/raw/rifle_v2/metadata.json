@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic AAA game weapon, pump action 12 gauge shotgun, Remington 870 style, wooden stock and pump, long barrel, high detail, game ready",
+  "folder": "rifle_v2",
+  "root_task_id": "01a0b0cc-1d40-7391-a485-e24ad66de360",
+  "created_at": "2026-09-17T21:17:45.818131",
+  "updated_at": "2026-09-17T21:17:45.818431",
+  "tasks": [
+    {
+      "task_id": "01a0b0cc-1d40-7391-a485-e24ad66de360",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-17T21:17:45.818429"
+    }
+  ]
+}

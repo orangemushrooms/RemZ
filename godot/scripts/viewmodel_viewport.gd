@@ -5,6 +5,8 @@ extends CanvasLayer
 # world's FSR scale. It cannot disappear into nearby walls or inherit forest fog.
 var camera: Camera3D
 var viewport: SubViewport
+var _environment: Environment
+var _key_light: DirectionalLight3D
 
 func _ready() -> void:
 	layer = 0
@@ -18,18 +20,18 @@ func _ready() -> void:
 	add_child(viewport)
 	var environment := WorldEnvironment.new()
 	var env := Environment.new()
+	_environment = env
 	env.background_mode = Environment.BG_COLOR
 	env.background_color = Color(0, 0, 0, 0)
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = Color(0.82, 0.87, 0.94)
 	env.ambient_light_energy = 0.65
-	var sky_material := ProceduralSkyMaterial.new()
-	sky_material.sky_top_color = Color(0.26, 0.32, 0.42)
-	sky_material.sky_horizon_color = Color(0.64, 0.66, 0.69)
-	sky_material.ground_bottom_color = Color(0.12, 0.14, 0.11)
-	sky_material.ground_horizon_color = Color(0.46, 0.47, 0.44)
+	var sky_material := ShaderMaterial.new()
+	sky_material.shader = preload("res://shaders/viewmodel_sky.gdshader")
 	env.sky = Sky.new()
 	env.sky.sky_material = sky_material
+	env.sky.radiance_size = Sky.RADIANCE_SIZE_128
+	env.sky.process_mode = Sky.PROCESS_MODE_QUALITY
 	env.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	env.tonemap_mode = Environment.TONE_MAPPER_ACES
 	environment.environment = env
@@ -43,6 +45,7 @@ func _ready() -> void:
 	viewport.add_child(camera)
 	camera.make_current()
 	var key := DirectionalLight3D.new()
+	_key_light = key
 	key.light_cull_mask = 2
 	key.rotation_degrees = Vector3(-35, -35, 0)
 	key.light_color = Color(1.0, 0.95, 0.85)
@@ -59,6 +62,14 @@ func _ready() -> void:
 	image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	get_viewport().size_changed.connect(_resize)
 	_resize()
+
+func set_daylight(daylight: float, twilight: float) -> void:
+	# Hands remain legible while sharing the world's night/sunset palette.
+	_environment.ambient_light_energy = lerpf(0.26, 0.65, daylight)
+	_environment.background_energy_multiplier = lerpf(0.22, 1.0, daylight)
+	_environment.ambient_light_color = Color(0.65, 0.74, 0.94).lerp(Color(0.82, 0.87, 0.94), daylight)
+	_key_light.light_energy = lerpf(0.38, 1.25, daylight)
+	_key_light.light_color = Color(0.68, 0.76, 0.92).lerp(Color(1.0, 0.95, 0.85), daylight).lerp(Color(1.0, 0.64, 0.38), twilight * 0.45)
 
 func _resize() -> void:
 	# The root's canvas may use logical pixels. The view model uses window pixels.

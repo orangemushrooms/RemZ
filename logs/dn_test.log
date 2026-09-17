@@ -1,0 +1,54 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+PASS: Selected mode has the expected time scale
+PASS: Selected mode advances exactly one game hour
+PASS: Clock is frame-rate independent at 30 FPS
+PASS: Clock is frame-rate independent at 60 FPS
+PASS: Clock is frame-rate independent at 144 FPS
+PASS: Midnight wraps without losing elapsed seconds
+PASS: Clock displays valid hours and minutes at midnight
+PASS: Long sessions support multiple complete days
+PASS: Negative deltas cannot rewind the clock
+PASS: Optional continuous 15-minute mode reaches evening after 7.5 minutes
+PASS: Optional continuous mode keeps its time across waves
+PASS: Default wave-reset behaviour can be restored
+PASS: Sun rises east and sets west, matching minimap compass
+PASS: Evening darkens progressively from daylight to night
+PASS: Lighting has no jump at midnight
+RENDER_OPTIMIZER { "source_meshes": 1301, "batches": 29, "removed_render_nodes": 90 }
+PASS: Start screen is held at 06:00 and displays the selected speed
+PASS: First wave follows the selected reset policy
+PASS: Later waves follow the selected reset policy and phase
+PASS: Active gameplay advances visible clock
+PASS: Escape pause freezes world time
+PASS: Inventory freezes world time
+PASS: Skills menu freezes world time
+PASS: Barricade planner freezes world time
+PASS: Game over freezes world time
+PASS: Inactive player cannot advance world time
+WARNING: Navigation region synchronization had 2 edge error(s).
+More than 2 edges tried to occupy the same map rasterization space.
+This causes a logical error in the navigation mesh geometry and is commonly caused by overlap or too densely placed edges.
+Consider baking with a higher 'cell_size', greater geometry margin, and less detailed bake objects to cause fewer edges.
+Consider lowering the 'navigation/3d/merge_rasterizer_cell_scale' in the project settings.
+This warning can be toggled under 'navigation/3d/warnings/navmesh_edge_merge_errors' in the project settings.
+   at: _build_step_find_edge_connection_pairs (modules/navigation_3d/3d/nav_region_builder_3d.cpp:219)
+PASS: Clock advances through the actual scene process loop
+PASS: Scene-tree pause freezes the actual process loop
+PASS: Night substantially dims sunlight and fill
+PASS: Fire and fixture lights brighten at night
+PASS: Hands and weapons share the darker night lighting
+PASS: Weapon reflection sky stays static while its light changes
+PASS: Time of day preserves manual flashlight control
+PASS: Night adds no extra lights or shadows
+PASS: Sky reflections use a bounded incremental bake
+PASS: Quality 0 preserves the current night
+PASS: Quality 0 retains its volumetric-fog budget
+PASS: Quality 1 preserves the current night
+PASS: Quality 1 retains its volumetric-fog budget
+PASS: Quality 2 preserves the current night
+PASS: Quality 2 retains its volumetric-fog budget
+DAY_NIGHT_DONE checks=40 failures=0 rendered=false
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

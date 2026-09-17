@@ -10,6 +10,10 @@ var ammo_label: Label
 var weapon_label: Label
 var wave_label: Label
 var wave_info: Label
+var clock_label: Label
+var clock_phase: Label
+var clock_rate: Label
+var clock_progress: ProgressBar
 var msg_label: Label
 var prompt_label: Label
 var damage_rect: ColorRect
@@ -123,6 +127,34 @@ func _ready() -> void:
 	wave_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	wave.add_child(wave_info)
 
+	# World clock, distinct from the next-wave countdown in the centre.
+	var clock := _panel(root, Control.PRESET_TOP_RIGHT, Vector2(-16, 16))
+	clock.custom_minimum_size.x = 156
+	clock.add_child(_label("ORTSZEIT", 10))
+	var clock_row := HBoxContainer.new()
+	clock_row.add_theme_constant_override("separation", 16)
+	clock.add_child(clock_row)
+	clock_label = _label("06:00", 30)
+	clock_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	clock_row.add_child(clock_label)
+	clock_phase = _label("Morgen", 13)
+	clock_phase.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	clock_row.add_child(clock_phase)
+	clock_progress = ProgressBar.new()
+	clock_progress.custom_minimum_size.y = 3
+	clock_progress.max_value = 24.0 * 3600.0
+	clock_progress.show_percentage = false
+	var clock_track := StyleBoxFlat.new()
+	clock_track.bg_color = Color(1.0, 1.0, 1.0, 0.1)
+	clock_progress.add_theme_stylebox_override("background", clock_track)
+	var clock_fill := StyleBoxFlat.new()
+	clock_fill.bg_color = Color(0.94, 0.67, 0.34)
+	clock_progress.add_theme_stylebox_override("fill", clock_fill)
+	clock.add_child(clock_progress)
+	clock_rate = _label("96× · Spielzeit", 11)
+	clock_rate.modulate.a = 0.6
+	clock.add_child(clock_rate)
+
 	# message center, prompt lower center
 	msg_label = _label("", 24)
 	msg_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -185,7 +217,7 @@ func _ready() -> void:
 	overlay_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	overlay_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	v.add_child(overlay_text)
-	var keys := _label("WASD bewegen · Shift sprinten · Linksklick schiessen · Rechtsklick zielen\n1–5 / Mausrad Waffen · R nachladen · G Granate · Tab Skills\nE Barrikade bauen / reparieren · F Taschenlampe · Esc Pause", 13)
+	var keys := _label("WASD bewegen · Shift sprinten · Linksklick schiessen · Rechtsklick zielen\n1–5 / Mausrad Waffen · R nachladen · G Granate · Tab Skills · B Inventar\nE Interagieren · V Barrikaden planen · F Taschenlampe · Esc Pause", 13)
 	keys.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	keys.modulate.a = 0.85
 	v.add_child(keys)
@@ -232,7 +264,7 @@ func _panel(parent: Control, preset: int, offset: Vector2) -> VBoxContainer:
 		Control.PRESET_BOTTOM_LEFT, Control.PRESET_BOTTOM_RIGHT:
 			p.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	match preset:
-		Control.PRESET_BOTTOM_RIGHT:
+		Control.PRESET_BOTTOM_RIGHT, Control.PRESET_TOP_RIGHT:
 			p.grow_horizontal = Control.GROW_DIRECTION_BEGIN
 		Control.PRESET_CENTER_TOP:
 			p.grow_horizontal = Control.GROW_DIRECTION_BOTH
@@ -328,3 +360,10 @@ func set_reload(remaining: float, duration: float) -> void:
 	reload_label.text = "Nachladen ..." if remaining > 0.0 else ""
 	if remaining > 0.0:
 		reload_bar.value = 1.0 - remaining / maxf(0.01, duration)
+
+func set_world_time(seconds: float, phase: String, speed: float) -> void:
+	clock_label.text = DayNightCycle.clock_text(seconds)
+	clock_phase.text = phase
+	clock_phase.modulate = Color(0.61, 0.75, 1.0) if phase == "Nacht" else Color(1.0, 0.76, 0.43)
+	clock_progress.value = seconds
+	clock_rate.text = "%d× · Spielzeit" % roundi(speed)
