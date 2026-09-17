@@ -73,12 +73,12 @@ func setup(p: Player, fire_pos: Vector3, stream_pos: Vector3) -> void:
 	_rng.seed = 99
 	wind = AudioStreamPlayer.new()
 	wind.stream = _noise_bed(12.0, 0.012, 0.0008, 0.07, 0.8, 0.9, 1)
-	wind.volume_db = -14.0
+	wind.volume_db = -22.0
 	add_child(wind)
 	wind.play()
 	rustle = AudioStreamPlayer.new()
 	rustle.stream = _noise_bed(9.0, 0.35, 0.02, 0.11, 0.9, 0.35, 2)
-	rustle.volume_db = -16.0
+	rustle.volume_db = -24.0
 	add_child(rustle)
 	rustle.play()
 	fire = AudioStreamPlayer3D.new()
@@ -93,7 +93,7 @@ func setup(p: Player, fire_pos: Vector3, stream_pos: Vector3) -> void:
 	stream.stream = _noise_bed(8.0, 0.25, 0.01, 0.5, 0.3, 0.5, 4)
 	stream.unit_size = 5.0
 	stream.max_distance = 40.0
-	stream.volume_db = -6.0
+	stream.volume_db = -60.0   # there is no stream at the real site
 	add_child(stream)
 	stream.global_position = stream_pos + Vector3(0, 0.3, 0)
 	stream.play()
@@ -138,7 +138,7 @@ func _bird_chirp(pos: Vector3) -> void:
 	pl.stream = wav
 	pl.unit_size = 6.0
 	pl.max_distance = 70.0
-	pl.volume_db = -8.0
+	pl.volume_db = -2.0
 	add_child(pl)
 	pl.global_position = pos
 	pl.play()
@@ -150,13 +150,14 @@ func _process(delta: float) -> void:
 	var p := player.global_position
 	var in_forest := Map.leaf_weight(p.x, p.z) > 0.5
 	# wind is strongest on the open meadow, rustle strongest under trees
-	_wind_target = -8.0 if Map.meadow_weight(p.x, p.z) > 0.5 else (-18.0 if in_forest else -13.0)
-	_rustle_target = -9.0 if in_forest else -16.0
+	# subtle: a soft leaf rustle under the trees, light wind on the meadow, birds clearly audible above it
+	_wind_target = -17.0 if Map.meadow_weight(p.x, p.z) > 0.5 else (-26.0 if in_forest else -21.0)
+	_rustle_target = -20.0 if in_forest else -27.0
 	wind.volume_db = lerpf(wind.volume_db, _wind_target, delta * 0.8)
 	rustle.volume_db = lerpf(rustle.volume_db, _rustle_target, delta * 0.8)
 	_bird_t -= delta
 	if _bird_t <= 0.0:
-		_bird_t = _rng.randf_range(1.5, 5.0)
+		_bird_t = _rng.randf_range(0.8, 3.0)
 		# a bird somewhere in the trees around the player
 		var a := _rng.randf() * TAU
 		var r := _rng.randf_range(15.0, 45.0)
