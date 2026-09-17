@@ -170,7 +170,7 @@ func _ready() -> void:
 		overlay_logo.texture = load(logo_path)
 	overlay_logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	overlay_logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	overlay_logo.custom_minimum_size = Vector2(0, 220)
+	overlay_logo.custom_minimum_size = Vector2(0, 170)
 	overlay_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(overlay_logo)
 	overlay_title = _label("BIRKENHOF", 36)
