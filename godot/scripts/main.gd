@@ -98,7 +98,7 @@ func _build_environment() -> void:
 	sm.sky_curve = 0.12
 	sm.ground_bottom_color = Color(0.35, 0.22, 0.12)
 	sm.ground_horizon_color = Color(0.8, 0.66, 0.5)
-	sm.sun_angle_max = 22.0
+	sm.sun_angle_max = 30.0
 	sm.sun_curve = 0.08
 	sky.sky_material = sm
 	env.sky = sky
@@ -111,7 +111,7 @@ func _build_environment() -> void:
 	env.ssao_enabled = not "--no-ssao" in _flags
 	env.ssao_intensity = 2.0
 	env.ssao_radius = 1.2
-	env.ssil_enabled = true
+	env.ssil_enabled = not "--no-ssil" in _flags
 	env.ssil_intensity = 1.6
 	env.ssil_radius = 6.0
 	env.sdfgi_enabled = false  # leaks light through thin leaf cards and burns them white
@@ -155,7 +155,7 @@ func _build_environment() -> void:
 	sun.shadow_blur = 1.5
 	sun.light_volumetric_fog_energy = 0.8
 	add_child(sun)
-	sun.look_at_from_position(Vector3(80, 24, -130), Vector3(-20, 0, 0))
+	sun.look_at_from_position(Vector3(70, 62, -110), Vector3(-20, 0, 0))
 	var fill := DirectionalLight3D.new()
 	fill.light_color = Color(0.7, 0.7, 0.75)
 	fill.light_energy = 0.5
@@ -196,6 +196,7 @@ func _build_terrain() -> void:
 	var mi := MeshInstance3D.new()
 	mi.mesh = st.commit()
 	mi.material_override = Foliage.terrain_material()
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF   # otherwise it shadows the roads lying 4 cm above it
 	mi.add_to_group("navsource")
 	add_child(mi)
 	mi.create_trimesh_collision()
@@ -237,13 +238,16 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material) -> void:
 	var mi := MeshInstance3D.new()
 	mi.mesh = st.commit()
 	mi.material_override = mat
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF   # a flat ribbon on the ground only shadows itself
 	add_child(mi)
 
 func _build_roads() -> void:
 	var asphalt := Foliage.pbr("asphalt", 1.0, Color(0.85, 0.85, 0.85))
 	asphalt.cull_mode = BaseMaterial3D.CULL_DISABLED
-	var gravel := Foliage.pbr("gravel", 1.0, Color(1.0, 0.96, 0.9))
+	var gravel := Foliage.pbr("gravel", 1.0, Color(1.45, 1.35, 1.2))
 	gravel.cull_mode = BaseMaterial3D.CULL_DISABLED
+	for m in [asphalt, gravel]:
+		m.disable_receive_shadows = true
 	if "--road-plain" in _flags:
 		for m in [asphalt, gravel]:
 			m.normal_enabled = false
