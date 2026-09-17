@@ -1022,7 +1022,7 @@ func _autotest_step(delta: float) -> void:
 		[Vector3(96, 0, 33), PI / 2.0 + 0.25, 0.02],   # on the Weg zur Hütte looking west towards the oak (photo 10)
 		[Vector3(-9, 0, 4), -PI / 2.0, 0.06],     # west face of the Waldhütte with the garage door (photo 14)
 		[Vector3(9, 0, -9), PI, 0.06],            # north face with the stair (photo 17)
-		[Vector3(4, 0, -3), 0.0, 0.02],           # from the fire north to the fountain and the Waldweg entrance (photo 20)
+		[Vector3(4, 0, -3), 0.35, 0.02],          # from the fire north-west to the fountain and the Waldweg entrance (photos 16, 20)
 	]
 	if _shot_i == 0 and _shot_t > 1.5:
 		_fps_frames += 1

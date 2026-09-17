@@ -30,8 +30,8 @@ ROADS = [
      "pts": [[124, 21], [100, 32], [70, 41], [53, 47.5], [30, 54.5], [7, 61]]},
     {"name": "Waldweg zwischen Hütten", "surface": "gravel", "width": 4.5,
      "pts": [[7, 61], [6, 44], [6.5, 30], [5, 18], [3, 12]]},
-    {"name": "Waldweg nach Hütte (Oberer Sorchen)", "surface": "gravel", "width": 3.2,
-     "pts": [[1, -22], [-8, -34], [-29, -49], [-33, -56], [-57, -112], [-69, -141], [-73, -152], [-80, -173], [-97, -207], [-115, -247], [-125, -275]]},
+    {"name": "Waldweg nach Hütte (Oberer Sorchen)", "surface": "gravel", "width": 3.6,
+     "pts": [[-2, -10], [-9, -21], [-18, -34], [-29, -49], [-33, -56], [-57, -112], [-69, -141], [-73, -152], [-80, -173], [-97, -207], [-115, -247], [-125, -275]]},
     {"name": "Weg Richtung Dorf", "surface": "gravel", "width": 3.2,
      "pts": [[7, 61], [-7.5, 65], [-45, 71], [-62, 72], [-67, 75], [-190, 132], [-275, 171]]},
     {"name": "Feldweg West", "surface": "dirt", "width": 2.8,
@@ -43,7 +43,7 @@ ROADS = [
 ]
 # gravel clearing around the fire, the aprons of both huts
 # Kiesplatz: fire plaza north-west of the Waldhütte (photos 13, 14, 15, 20), the track between the huts, both aprons
-CLEARING = [[-7, -20], [2, -24], [10, -20], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-10, -12]]
+CLEARING = [[-12, -22], [-4, -22], [4, -22], [10, -19], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-11, -12]]
 MEADOW_FORCE = [[-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 160], [-70, 160]]
 # Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
 # upper door, east side buried in the slope (photos 14, 17, 19)
@@ -54,13 +54,13 @@ HOLZLAGER = {"pos": [-2.5, 27.0], "size": [7.9, 14.6], "yaw_deg": -23.0, "base_h
 FIRE = [4.0, -7.0]
 BENCHES = [[4.0, -4.2, 0.0], [4.0, -9.8, 0.0], [1.2, -7.0, 90.0], [6.8, -7.0, 90.0]]   # x, z, yaw (length axis)
 TABLE = [-2.5, -9.5, 15.0]
-FOUNTAIN = [-6.0, -15.5, 70.0]
-BIN = [-2.5, -19.5]
-SIGNPOST = [3.5, -21.5]
-LOG_SEAT = [-7.5, -8.5, 80.0]
+FOUNTAIN = [-1.5, -16.0, 70.0]
+BIN = [-3.5, -19.0]
+SIGNPOST = [-6.0, -20.5]
+LOG_SEAT = [-9.0, -5.0, 80.0]
 LANDMARK_OAK = [66.0, 34.0]
-BIG_TREES = [[1.5, 0.8, "beech", 1.35], [-9.5, -19.0, "beech", 1.25], [14.5, -12.0, "beech", 1.2], [-9.0, 6.0, "beech", 1.15],
-             [-11.5, -10.0, "beech", 1.2], [-3.0, -23.5, "beech", 1.15], [9.5, -23.0, "oak", 1.1], [15.0, -3.0, "beech", 1.1],
+BIG_TREES = [[1.5, 0.8, "beech", 1.35], [-13.5, -18.0, "beech", 1.25], [14.5, -12.0, "beech", 1.2], [-9.0, 6.0, "beech", 1.15],
+             [-14.0, -8.0, "beech", 1.2], [2.0, -25.0, "beech", 1.15], [-6.0, -25.5, "oak", 1.1], [9.5, -23.0, "oak", 1.1], [15.0, -3.0, "beech", 1.1],
              [-20.5, -9.0, "oak", 1.2], [14.5, 63.5, "oak", 1.25], [0.5, 66.5, "beech", 1.2], [-9.0, 14.0, "beech", 1.1],
              [14.0, -3.0, "spruce", 1.2], [-8.0, 42.0, "beech", 1.1], [12.5, 30.0, "beech", 1.15]]
 # pasture fence on the meadow side of the tracks (gap at the Wiesenweg gate)
@@ -72,7 +72,7 @@ BARRICADES = [
     {"id": "ne", "name": "Weg zur Hütte", "pos": [28, 55], "yaw": -1.19, "segments": 2},
     {"id": "e", "name": "Wiesentor", "pos": [7.5, 66], "yaw": 0.0, "segments": 2},
     {"id": "s", "name": "Weg Richtung Dorf", "pos": [-16, 66.5], "yaw": -1.55, "segments": 2},
-    {"id": "w", "name": "Waldweg Nord", "pos": [-7, -33], "yaw": 0.68, "segments": 2},
+    {"id": "w", "name": "Waldweg Nord", "pos": [-15, -30], "yaw": 0.59, "segments": 2},
 ]
 PLAYER_START = [1.0, -4.0]
 BOUNDS = [-250, -230, 390, 370]   # x, z, w, d playable
