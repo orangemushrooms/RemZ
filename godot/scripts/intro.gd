@@ -14,8 +14,8 @@ const LOGO_IN := 1.2
 const LOGO_HOLD := 2.6
 const LOGO_OUT := 1.0
 const WAKE := 3.0                             # black -> foggy world
-const FOG_DENSE := 0.075                      # exponential fog density when waking up (~25 m sight)
-const VFOG_DENSE := 0.05
+const FOG_DENSE := 0.045                      # exponential fog density when waking up (~40 m sight)
+const VFOG_DENSE := 0.03
 const MUSIC_DB := -6.0
 const TYPE_SPEED := 32.0                      # characters per second
 const BRIEFING := "Du wachst auf. Kalt. Nebel.\nFolge der Strasse nach Norden, dann dem Weg zur Waldhütte.\nDort halten die Barrikaden. Verteidige sie gegen die Zombies."
@@ -38,6 +38,8 @@ var _dist_label: Label
 var _music: AudioStreamPlayer
 var _fog_base := 0.0
 var _vfog_base := 0.0
+var _sky_affect_base := 1.0
+var _aerial_base := 0.0
 var _d0 := 1.0
 var _typed := 0.0
 var _briefing := BRIEFING
@@ -126,6 +128,8 @@ func begin() -> void:
 	_t = 0.0
 	_fog_base = env.fog_density
 	_vfog_base = env.volumetric_fog_density
+	_sky_affect_base = env.fog_sky_affect
+	_aerial_base = env.fog_aerial_perspective
 	player.global_position = Map.ground_pos(START.x, START.y) + Vector3(0, 0.3, 0)
 	player.velocity = Vector3.ZERO
 	player.rotation.y = START_YAW
@@ -135,6 +139,9 @@ func begin() -> void:
 	_d0 = maxf(1.0, START.distance_to(WAYPOINTS[WAYPOINTS.size() - 1]))
 	env.fog_density = FOG_DENSE
 	env.volumetric_fog_density = VFOG_DENSE
+	# the sky sinks into the same murk, otherwise the fogged trees stand out white against a dark sky
+	env.fog_sky_affect = 1.0
+	env.fog_aerial_perspective = 0.0
 	_black.visible = true
 	_black.color.a = 1.0
 	_logo.modulate.a = 0.0
@@ -192,6 +199,8 @@ func _process(delta: float) -> void:
 			var fog_k := smoothstep(0.0, 0.6, prog)
 			env.fog_density = lerpf(FOG_DENSE, _fog_base, fog_k)
 			env.volumetric_fog_density = lerpf(VFOG_DENSE, _vfog_base, fog_k)
+			env.fog_sky_affect = lerpf(1.0, _sky_affect_base, fog_k)
+			env.fog_aerial_perspective = lerpf(0.0, _aerial_base, fog_k)
 			_music.volume_db = MUSIC_DB + linear_to_db(maxf(0.001, pow(1.0 - prog, 1.4)))
 			if not _road_done and _dist_to_road() < 5.0:
 				_road_done = true
@@ -242,6 +251,8 @@ func _end() -> void:
 	phase = "done"
 	env.fog_density = _fog_base
 	env.volumetric_fog_density = _vfog_base
+	env.fog_sky_affect = _sky_affect_base
+	env.fog_aerial_perspective = _aerial_base
 	_music.stop()
 	_arrow.visible = false
 	_dist_label.visible = false
