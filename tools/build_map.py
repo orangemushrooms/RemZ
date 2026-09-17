@@ -94,6 +94,9 @@ BARRICADES = [
     {"id": "s", "name": "Weg Richtung Dorf", "pos": [-16, 66.5], "yaw": -1.55, "segments": 2},
     {"id": "w", "name": "Waldweg Nord", "pos": [-15, -30], "yaw": 0.59, "segments": 2},
 ]
+# forest pond west of the Waldweg Nord at the Fussweg junction, with a long wooden trough draining into it
+POND = {"pos": [-84.0, -159.0], "r": 7.0, "depth": 0.9}
+POND_TROUGH = [-76.5, -155.5]           # trough stands at the east rim next to the track, its mouth over the water
 PLAYER_START = [1.0, -4.0]
 BOUNDS = [-250, -230, 390, 370]   # x, z, w, d playable
 
@@ -154,6 +157,17 @@ cd = ndimage.distance_transform_edt(~cm)
 hs = ndimage.gaussian_filter(h, 3.0)
 k = np.clip(cd / 4.0, 0, 1)
 h = hs * (1 - k) + h * k
+# pond: a shallow dish, rim blended into the forest floor, flat enough to walk through
+pj, pi = np.mgrid[0:H, 0:W]
+pd = np.hypot(pi + X0 - POND["pos"][0], pj + Z0 - POND["pos"][1])
+rim_ring = (pd > POND["r"]) & (pd < POND["r"] + 2.0)
+pond_rim = float(h[rim_ring].mean())
+dish = pond_rim - POND["depth"] * np.clip(1.0 - (pd / POND["r"]) ** 2, 0, 1)
+# level bank 3 m wide all around (so the water never floats above the downhill side), then blend out over 8 m
+blend = np.clip((pd - POND["r"] - 3.0) / 8.0, 0, 1)
+h = np.where(pd < POND["r"] + 11.0, dish * (1 - blend) + h * blend, h)
+POND["rim"] = pond_rim
+POND["water_y"] = pond_rim - POND["depth"] * 0.35
 # Waldhütte terrace: ground north of the hut sits at the upper floor, the concrete base stands free on the south and west
 hb = WALDHUETTE
 a = math.radians(hb["yaw_deg"])
@@ -235,8 +249,12 @@ leaf = np.clip(forest_f * 1.3, 0, 1)
 # leaf litter also under the clearing's trees and around the huts (photos 14, 19)
 leaf = np.maximum(leaf, np.clip(1.0 - (cd - 0.0) / 6.0, 0, 1) * (cd > 0))
 leaf = np.maximum(leaf, np.clip(1.0 - np.hypot(jj + Z0 - 8, ii + X0 - 12) / 14.0, 0, 1))
+pond_bed = np.clip(1.0 - (pd - POND["r"] + 1.0) / 1.5, 0, 1)      # sandy bed under the water
+pond_grass = np.clip(1.0 - (pd - POND["r"] - 1.0) / 3.0, 0, 1)      # grassy bank around it
+gravel = np.maximum(gravel, pond_bed)
 leaf *= 1.0 - gravel
 leaf *= 1.0 - asphalt
+leaf *= 1.0 - pond_grass
 meadow = np.clip(1.0 - leaf - gravel - asphalt, 0, 1)
 ground = np.stack([leaf, meadow, gravel], axis=2)
 Image.fromarray((ground * 255).astype(np.uint8), "RGB").save(os.path.join(OUT, "ground.png"))
@@ -262,6 +280,8 @@ def tree_ok(x, z):
     if not (0 <= i < W and 0 <= j < H) or not forest[j, i]:
         return False
     if meadow_side_of_weg(x, z):
+        return False
+    if math.hypot(x - POND["pos"][0], z - POND["pos"][1]) < POND["r"] + 3.5:
         return False
     if road_d[j, i] < 1.6 or cm[j, i]:
         return False
@@ -369,7 +389,7 @@ data = {
     "bounds": BOUNDS, "player_start": PLAYER_START,
     "roads": ROADS, "clearing": CLEARING,
     "buildings": {"waldhuette": WALDHUETTE, "holzlager": HOLZLAGER},
-    "fire": FIRE, "benches": BENCHES, "table": TABLE, "fountain": FOUNTAIN, "bin": BIN, "signpost": SIGNPOST,
+    "fire": FIRE, "benches": BENCHES, "table": TABLE, "fountain": FOUNTAIN, "pond": {"pos": POND["pos"], "r": POND["r"], "depth": POND["depth"], "water_y": POND["water_y"], "trough": POND_TROUGH}, "bin": BIN, "signpost": SIGNPOST,
     "log_seat": LOG_SEAT, "landmark_oak": LANDMARK_OAK, "fence": FENCE,
     "spawns": SPAWNS, "barricades": BARRICADES,
     "trees": trees, "shrubs": shrubs, "ferns": ferns, "logs": logs, "border_trees": border, "village": village,

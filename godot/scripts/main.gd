@@ -10,6 +10,7 @@ var day_night: DayNightCycle
 var fill_light: DirectionalLight3D
 var skills: Skills
 var inventory: Inventory
+var forest_keys: ForestKeys
 var achievements: Achievements
 var barricade_menu: BarricadeMenu
 var ambience: Ambience
@@ -68,6 +69,7 @@ func _ready() -> void:
 	_build_forests()
 	_build_buildings()
 	_build_campsite()
+	_build_pond()
 	_build_fence()
 	_build_clutter()
 	_build_foliage()
@@ -106,6 +108,9 @@ func _ready() -> void:
 	inventory = Inventory.new()
 	add_child(inventory)
 	inventory.setup(player, weapons, hud, self)
+	forest_keys = ForestKeys.new()
+	add_child(forest_keys)
+	forest_keys.setup(self)
 	achievements = Achievements.new()
 	add_child(achievements)
 	achievements.setup(player, weapons, hud, self)
@@ -150,6 +155,21 @@ func _shot_menu() -> void:
 	get_tree().quit()
 
 func _navigation_baked() -> void:
+	# The baked region must reach the navigation server before validating key paths.
+	get_tree().paused = false
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	var nav_map := nav_region.get_navigation_map()
+	var start := Map.ground_pos(Map.PLAYER_START.x, Map.PLAYER_START.y)
+	# Baking and publishing the asynchronous map iteration are separate steps.
+	var deadline := Time.get_ticks_msec() + 15000
+	while not NavigationServer3D.map_get_closest_point_owner(nav_map, start).is_valid() and Time.get_ticks_msec() < deadline:
+		await get_tree().physics_frame
+	if not forest_keys.populate():
+		get_tree().paused = true
+		hud.overlay_status.text = "Schlüsselplätze konnten nicht vorbereitet werden. Bitte neu starten."
+		return
+	get_tree().paused = true
 	navigation_ready = true
 	hud.overlay_button.disabled = false
 	hud.overlay_status.text = "Bereit."
@@ -588,18 +608,28 @@ func _deep_forest(x: float, z: float) -> bool:
 # ---------------------------------------------------------------- buildings
 # walls of a room (local x/z, floor at y0, height h) with one opening: side "w"/"e"/"n"/"s", along = offset along the
 # wall, width, bottom, top. Every piece gets a collider so the room is enterable.
-func _walls(root: Node3D, size: Vector2, y0: float, h: float, thick: float, mat: Material, opening: Dictionary) -> void:
+func _walls(root: Node3D, size: Vector2, y0: float, h: float, thick: float, mat: Material, opening: Variant) -> void:
 	var hx := size.x / 2.0
 	var hz := size.y / 2.0
+	var openings: Array = opening if opening is Array else [opening]
 	for side in ["w", "e", "n", "s"]:
 		var horizontal: bool = side == "n" or side == "s"
 		var length: float = size.x if horizontal else size.y
 		var pieces: Array = [[-length / 2.0, length / 2.0, y0, y0 + h]]
-		if opening.get("side", "") == side:
-			var a: float = opening["along"] - opening["width"] / 2.0
-			var b: float = opening["along"] + opening["width"] / 2.0
-			pieces = [[-length / 2.0, a, y0, y0 + h], [b, length / 2.0, y0, y0 + h],
-				[a, b, y0, y0 + opening["bottom"]], [a, b, y0 + opening["top"], y0 + h]]
+		for hole: Dictionary in openings:
+			if hole.get("side", "") != side:
+				continue
+			var remaining: Array = []
+			for pc in pieces:
+				var a := maxf(pc[0], hole.along - hole.width / 2.0)
+				var b := minf(pc[1], hole.along + hole.width / 2.0)
+				var bottom := maxf(pc[2], y0 + hole.bottom)
+				var top := minf(pc[3], y0 + hole.top)
+				if b <= a or top <= bottom:
+					remaining.append(pc)
+				else:
+					remaining.append_array([[pc[0], a, pc[2], pc[3]], [b, pc[1], pc[2], pc[3]], [a, b, pc[2], bottom], [a, b, top, pc[3]]])
+			pieces = remaining
 		for pc in pieces:
 			var len: float = pc[1] - pc[0]
 			var hh: float = pc[3] - pc[2]
@@ -754,6 +784,17 @@ func _roof_details(parent: Node3D, size: Vector2, y: float, height: float, overh
 			g.rotation.x = PI / 2.0
 		parent.add_child(g)
 
+func _hut_door(root: Node3D, at: Vector3, yaw: float, w: float, h: float, text: String, key: String, mat: Material) -> Door:
+	var door := Door.new()
+	door.main = self
+	door.key_id = key
+	door.setup(w, h, text, mat)
+	# Dynamic colliders must not become permanent holes in the baked navigation mesh.
+	add_child(door)
+	door.global_transform = root.global_transform * Transform3D(Basis(Vector3.UP, yaw), at)
+	loots.append(door)
+	return door
+
 func _waldhuette() -> Node3D:
 	# Photos 14, 17, 19: garage door in the west face (north end), a second small double door in the base at the
 	# west end of the north face, the outside stair along the north face rising east to the upper door, the east side
@@ -779,8 +820,17 @@ func _waldhuette() -> Node3D:
 	# garage storey: concrete walls with the door opening in the west face (north end), enterable (photo 14)
 	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.3, concrete, { "side": "w", "along": -hz + 1.9, "width": 2.6, "bottom": 0.0, "top": 2.1 })
 	_slab(root, Vector3(size.x, 0.1, size.y), Vector3(0, -0.05, 0), _mat("ph_concrete", 0.6, Color(0.7, 0.7, 0.68)))
-	_slab(root, Vector3(size.x, 0.25, size.y), Vector3(0, base_h + 0.125, 0), _plain(Color(0.35, 0.25, 0.15), 0.9))
-	_box(root, Vector3(size.x + 0.16, wall_h, size.y + 0.16), Vector3(0, base_h + 0.25 + wall_h / 2.0 - 0.125, 0), wood)
+	var floor_wood := _mat("planks", 0.8, Color(0.52, 0.42, 0.31))
+	_slab(root, Vector3(size.x, 0.25, size.y), Vector3(0, base_h + 0.125, 0), floor_wood)
+	_walls(root, Vector2(size.x + 0.16, size.y + 0.16), base_h + 0.25, wall_h - 0.25, 0.18, wood,
+		{ "side": "n", "along": hx - 0.9, "width": 1.2, "bottom": 0.0, "top": 2.0 })
+	# The now-enterable upper room has a small supply table and bench.
+	var upper_floor := base_h + 0.25
+	_slab(root, Vector3(2.0, 0.10, 0.75), Vector3(hx - 1.4, upper_floor + 0.78, hz - 1.0), floor_wood)
+	for x: float in [hx - 2.25, hx - 0.55]:
+		_box(root, Vector3(0.12, 0.75, 0.65), Vector3(x, upper_floor + 0.375, hz - 1.0), dark_wood)
+	_slab(root, Vector3(0.55, 0.45, 2.2), Vector3(-hx + 0.7, upper_floor + 0.225, hz - 1.8), floor_wood)
+	_loot(root, "ammo", "", "Hüttenvorrat", Vector3(hx - 1.4, upper_floor + 0.84, hz - 1.0), "", 0.3)
 	# inside: workbench with an ammunition crate, shotgun and MP5 on the wall
 	_box(root, Vector3(2.2, 0.08, 0.7), Vector3(hx - 1.2, 0.85, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.5, 0.42, 0.3)))
 	for lx in [hx - 2.1, hx - 0.3]:
@@ -801,13 +851,7 @@ func _waldhuette() -> Node3D:
 	_roof_details(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, false)
 	_box(root, Vector3(0.5, 1.6, 0.5), Vector3(hx * 0.4, base_h + wall_h + 1.4, -0.6), _plain(Color(0.35, 0.33, 0.3)))
 	# garage door: closed, opens with E (leaves swing out over the gravel)
-	var door := Door.new()
-	door.setup(2.6, 2.1, "Garagentor", dark_wood)
-	root.add_child(door)
-	door.position = Vector3(-hx + 0.1, 0.0, -hz + 1.9)
-	loots.append(door)
-	# small double door in the base: north face, west end, under the start of the stair (photo 17)
-	_box(root, Vector3(1.5, 2.0, 0.08), Vector3(-hx + 1.4, 1.0, -hz - 0.02), dark_wood)
+	_hut_door(root, Vector3(-hx + 0.1, 0.0, -hz + 1.9), 0.0, 2.6, 2.1, "Garagentor", "waldhuette", wood)
 	# closed shutters: north (2), west (1), east (1)
 	var shutter := _plain(Color(0.3, 0.15, 0.1), 0.7)
 	for sh in [[Vector3(-0.3, base_h + 1.55, -hz - 0.11), 0.0], [Vector3(-hx + 1.0, base_h + 1.55, -hz - 0.11), 0.0],
@@ -815,7 +859,8 @@ func _waldhuette() -> Node3D:
 		_box(root, Vector3(1.1, 0.9, 0.06), sh[0], shutter, sh[1])
 	# outside stair along the north face: 13 steps from the north-west corner up to the landing at the east end
 	var steps := 13
-	var rise := base_h / steps
+	var stair_h := base_h + 0.25
+	var rise := stair_h / steps
 	var tread := 0.33
 	var stair_z := -hz - 0.55
 	var x_start := -hx + 0.3
@@ -824,10 +869,10 @@ func _waldhuette() -> Node3D:
 		var x := x_start + i * tread
 		_box(root, Vector3(tread, rise * (i + 1), 0.95), Vector3(x + tread / 2.0, rise * (i + 1) / 2.0, stair_z), step_mat)
 	var x_top := x_start + steps * tread
-	_box(root, Vector3(hx - x_top, base_h, 0.95), Vector3((x_top + hx) / 2.0, base_h / 2.0, stair_z), step_mat)
+	_box(root, Vector3(hx - x_top, stair_h, 0.95), Vector3((x_top + hx) / 2.0, stair_h / 2.0, stair_z), step_mat)
 	# upper door on the north face at the east end, two small steps in front (photos 15, 17)
-	_box(root, Vector3(0.9, 2.0, 0.06), Vector3(hx - 0.9, base_h + 1.0, -hz - 0.1), dark_wood)
-	_box(root, Vector3(1.3, 0.16, 0.5), Vector3(hx - 0.9, base_h + 0.08, -hz - 0.35), step_mat)
+	_hut_door(root, Vector3(hx - 0.9, base_h + 0.25, -hz - 0.02), PI / 2.0, 1.2, 2.0, "Hüttentür", "waldhuette", wood)
+	_slab(root, Vector3(1.3, 0.25, 0.6), Vector3(hx - 0.9, base_h + 0.125, -hz - 0.25), step_mat)
 	# railing
 	var rail := _plain(Color(0.25, 0.25, 0.27), 0.5, 0.6)
 	for i in range(0, steps + 1, 3):
@@ -835,28 +880,27 @@ func _waldhuette() -> Node3D:
 	var run := steps * tread
 	var rl := MeshInstance3D.new()
 	var rb := BoxMesh.new()
-	rb.size = Vector3(sqrt(run * run + base_h * base_h), 0.04, 0.04)
+	rb.size = Vector3(sqrt(run * run + stair_h * stair_h), 0.04, 0.04)
 	rl.mesh = rb
 	rl.material_override = rail
-	rl.position = Vector3(x_start + run / 2.0, base_h / 2.0 + 1.0, stair_z - 0.45)
-	rl.rotation.z = atan2(base_h, run)
+	rl.position = Vector3(x_start + run / 2.0, stair_h / 2.0 + 1.0, stair_z - 0.45)
+	rl.rotation.z = atan2(stair_h, run)
 	root.add_child(rl)
-	# collision: upper storey block (the garage below has its own walls), walkable ramp over the stair, landing
-	_box_collider(root, Vector3(size.x + 0.2, wall_h + 0.3, size.y + 0.2), Vector3(0, base_h, 0))
+	# Walkable ramp and landing meet the upper floor without a blocking doorstep.
 	var ramp := StaticBody3D.new()
 	ramp.collision_layer = 1
 	var rcs := CollisionShape3D.new()
 	var rbox := BoxShape3D.new()
-	rbox.size = Vector3(sqrt(run * run + base_h * base_h) + 0.3, 0.2, 0.95)
+	rbox.size = Vector3(sqrt(run * run + stair_h * stair_h) + 0.3, 0.2, 0.95)
 	rcs.shape = rbox
-	rcs.position = Vector3(x_start + run / 2.0, base_h / 2.0 - 0.1, stair_z)
-	rcs.rotation.z = atan2(base_h, run)
+	rcs.position = Vector3(x_start + run / 2.0, stair_h / 2.0 - 0.1, stair_z)
+	rcs.rotation.z = atan2(stair_h, run)
 	ramp.add_child(rcs)
 	var lcs := CollisionShape3D.new()
 	var lbox := BoxShape3D.new()
-	lbox.size = Vector3(hx - x_top + 0.2, base_h, 0.95)
+	lbox.size = Vector3(hx - x_top + 0.2, stair_h, 0.95)
 	lcs.shape = lbox
-	lcs.position = Vector3((x_top + hx) / 2.0, base_h / 2.0, stair_z)
+	lcs.position = Vector3((x_top + hx) / 2.0, stair_h / 2.0, stair_z)
 	ramp.add_child(lcs)
 	root.add_child(ramp)
 	ramp.add_to_group("navsource")
@@ -891,15 +935,19 @@ func _holzlager() -> Node3D:
 	var hx := size.x / 2.0
 	var hz := size.y / 2.0
 	# concrete base and sheet-metal walls as real walls; small back window in the west face (the way in)
-	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.25, concrete, { "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.0, "top": 0.0 })
+	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.25, concrete, { "side": "e", "along": 2.6, "width": 2.4, "bottom": 0.0, "top": base_h })
 	var boards := _mat("ph_cladding", 0.45, Color(0.55, 0.4, 0.3))
 	boards.uv1_triplanar = true
-	_walls(root, Vector2(size.x + 0.1, size.y + 0.1), base_h, wall_h, 0.12, boards, { "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.3, "top": 2.4 })
+	_walls(root, Vector2(size.x + 0.1, size.y + 0.1), base_h, wall_h, 0.12, boards, [
+		{ "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.3, "top": 2.4 },
+		{ "side": "e", "along": 2.6, "width": 2.4, "bottom": 0.0, "top": 2.6 - base_h }])
 	# gable ends in dark corrugated sheet metal (photo 12), vertical board lines on the long sides
 	for gz in [-hz - 0.07, hz + 0.07]:
 		_box(root, Vector3(size.x + 0.2, wall_h, 0.04), Vector3(0, base_h + wall_h / 2.0, gz), metal)
 	for k in int(size.y / 0.25):
 		var zz := -hz + 0.125 + k * 0.25
+		if absf(zz - 2.6) < 1.25:
+			continue
 		_box(root, Vector3(0.03, wall_h - 0.1, 0.05), Vector3(hx + 0.08, base_h + wall_h / 2.0, zz), _plain(Color(0.2, 0.13, 0.09), 0.85))
 	# notice signs on the road side
 	_box(root, Vector3(0.04, 0.6, 0.9), Vector3(hx + 0.12, base_h + 2.3, 1.5), _plain(Color(0.85, 0.88, 0.8), 0.7))
@@ -908,6 +956,10 @@ func _holzlager() -> Node3D:
 	root.add_child(pane)
 	pane.position = Vector3(-hx - 0.02, base_h + 0.85, 2.0)
 	pane.rotation.y = PI / 2.0
+	# The glass remains breakable, but the locked building cannot be bypassed through it.
+	var grille := _plain(Color(0.13, 0.15, 0.14), 0.5, 0.7)
+	for offset: float in [-0.43, 0.0, 0.43]:
+		_slab(root, Vector3(0.10, 2.1, 0.045), Vector3(-hx + 0.04, base_h + 1.35, 2.0 + offset), grille)
 	_slab(root, Vector3(size.x, 0.1, size.y), Vector3(0, -0.05, 0), _mat("ph_concrete", 0.6, Color(0.6, 0.6, 0.58)))
 	_slab(root, Vector3(size.x, 0.1, size.y), Vector3(0, base_h + wall_h, 0), _plain(Color(0.2, 0.2, 0.2)))
 	# crates as steps outside and inside the window
@@ -941,9 +993,7 @@ func _holzlager() -> Node3D:
 	inner.omni_range = 8.0
 	inner.position = Vector3(0, base_h + wall_h - 0.4, 0)
 	root.add_child(inner)
-	# the double door is part of the board wall: only hinges and a handle show
-	_box(root, Vector3(0.05, 0.08, 0.5), Vector3(hx + 0.12, base_h + 1.0, 2.6), _plain(Color(0.15, 0.15, 0.16), 0.5, 0.7))
-	_box(root, Vector3(0.05, 0.08, 0.5), Vector3(hx + 0.12, base_h + 2.6, 2.6), _plain(Color(0.15, 0.15, 0.16), 0.5, 0.7))
+	_hut_door(root, Vector3(hx + 0.02, 0, 2.6), PI, 2.4, 2.6, "Holzlagertor", "holzlager", boards)
 	return root
 
 func _build_buildings() -> void:
@@ -1048,6 +1098,144 @@ func _signpost(x: float, z: float) -> void:
 	_box(root, Vector3(0.6, 0.5, 0.05), Vector3(1.0, 1.4, 0.3), Foliage.pbr("planks", 0.8, Color(0.6, 0.5, 0.4)))
 	_box(root, Vector3(0.08, 1.2, 0.08), Vector3(1.0, 0.6, 0.3), post)
 	_box_collider(root, Vector3(0.3, 2.4, 0.3))
+
+# ---------------------------------------------------------------- pond
+const WATER_SHADER := """
+shader_type spatial;
+render_mode blend_mix, depth_draw_always, cull_disabled;
+uniform vec3 deep : source_color = vec3(0.03, 0.06, 0.05);
+uniform vec3 shallow : source_color = vec3(0.1, 0.14, 0.11);
+uniform float radius = 7.0;
+varying vec2 lp;
+void vertex() {
+	lp = VERTEX.xz;
+}
+void fragment() {
+	float t = TIME;
+	// two crossing ripple trains plus a slow drift, as normal perturbation
+	float a = sin(lp.x * 3.1 + t * 1.1) * 0.5 + sin((lp.x + lp.y) * 2.3 - t * 0.8) * 0.5;
+	float b = sin(lp.y * 2.7 - t * 0.9) * 0.5 + sin((lp.y - lp.x) * 1.9 + t * 0.7) * 0.5;
+	vec3 n = normalize(vec3(a * 0.06, 1.0, b * 0.06));
+	NORMAL = normalize((VIEW_MATRIX * vec4(n, 0.0)).xyz);
+	float edge = clamp(length(lp) / radius, 0.0, 1.0);
+	ALBEDO = mix(deep, shallow, edge * edge);
+	ALPHA = mix(0.9, 0.7, edge * edge);
+	ROUGHNESS = 0.12;
+	SPECULAR = 0.3;
+	METALLIC = 0.0;
+}
+"""
+
+func _build_pond() -> void:
+	if Map.POND.is_empty():
+		return
+	var pd: Dictionary = Map.POND
+	var c: Vector2 = pd["pos"]
+	var r: float = pd["r"]
+	var water_y: float = pd["water_y"]
+	# water surface: a subdivided disc with the ripple shader
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var rings := 6
+	var segs := 36
+	var idx := 0
+	st.set_normal(Vector3.UP); st.set_uv(Vector2(0.5, 0.5)); st.add_vertex(Vector3.ZERO)
+	for ri in range(1, rings + 1):
+		var rr := r * ri / rings
+		for k in segs:
+			var a := TAU * k / segs
+			st.set_normal(Vector3.UP); st.set_uv(Vector2(0.5 + cos(a) * rr / (2.0 * r), 0.5 + sin(a) * rr / (2.0 * r)))
+			st.add_vertex(Vector3(cos(a) * rr, 0, sin(a) * rr))
+	for k in segs:
+		st.add_index(0); st.add_index(1 + (k + 1) % segs); st.add_index(1 + k)
+	for ri in range(1, rings):
+		var i0 := 1 + (ri - 1) * segs
+		var i1 := 1 + ri * segs
+		for k in segs:
+			var k1 := (k + 1) % segs
+			st.add_index(i0 + k); st.add_index(i1 + k1); st.add_index(i1 + k)
+			st.add_index(i0 + k); st.add_index(i0 + k1); st.add_index(i1 + k1)
+	var water := MeshInstance3D.new()
+	water.mesh = st.commit()
+	var sh := Shader.new()
+	sh.code = WATER_SHADER
+	var wm := ShaderMaterial.new()
+	wm.shader = sh
+	wm.set_shader_parameter("radius", r)
+	water.material_override = wm
+	water.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	water.position = Vector3(c.x, water_y, c.y)
+	add_child(water)
+	# a few stones and reeds on the bank
+	var stone := _plain(Color(0.42, 0.4, 0.37), 0.9)
+	for i in 9:
+		var a := TAU * i / 9.0 + rng.randf_range(-0.2, 0.2)
+		var rr := r + rng.randf_range(0.2, 1.4)
+		var p := Map.ground_pos(c.x + cos(a) * rr, c.y + sin(a) * rr)
+		var sm := MeshInstance3D.new()
+		var sph := SphereMesh.new()
+		sph.radius = rng.randf_range(0.18, 0.42); sph.height = sph.radius * 1.4
+		sm.mesh = sph
+		sm.material_override = stone
+		sm.position = p + Vector3(0, sph.radius * 0.25, 0)
+		sm.rotation = Vector3(rng.randf(), rng.randf(), rng.randf())
+		add_child(sm)
+	# long hollowed-log trough on stumps, sloping down towards the pond, mouth over the water (feeds the pond)
+	var tp: Vector2 = pd["trough"]
+	var to_pond := (c - tp).normalized()
+	var root := Node3D.new()
+	add_child(root)
+	root.position = Map.ground_pos(tp.x, tp.y)
+	root.rotation.y = atan2(-to_pond.y, to_pond.x)   # local +x points at the pond
+	var bark := _mat("ph_bark_oak", 0.6, Color(0.7, 0.62, 0.55), false)
+	var len := 4.6
+	for sx in [-1.6, 0.4]:
+		var stump := MeshInstance3D.new()
+		var cm := CylinderMesh.new()
+		cm.top_radius = 0.22; cm.bottom_radius = 0.25; cm.height = 0.5 if sx < 0 else 0.35
+		stump.mesh = cm
+		stump.material_override = bark
+		stump.position = Vector3(sx, cm.height * 0.5, 0)
+		root.add_child(stump)
+	var trough := MeshInstance3D.new()
+	var tm := CylinderMesh.new()
+	tm.top_radius = 0.3; tm.bottom_radius = 0.3; tm.height = len
+	trough.mesh = tm
+	trough.material_override = bark
+	trough.rotation.z = PI / 2.0
+	trough.rotation.x = 0.0
+	trough.position = Vector3(0.3, 0.68, 0)
+	trough.rotation.y = 0.0
+	# tilt: near end high, mouth low
+	trough.rotation = Vector3(0, 0, PI / 2.0 - 0.06)
+	root.add_child(trough)
+	var wsurf := MeshInstance3D.new()
+	var wq := BoxMesh.new()
+	wq.size = Vector3(len - 0.3, 0.02, 0.4)
+	wsurf.mesh = wq
+	var wmat := _plain(Color(0.2, 0.28, 0.3, 0.85), 0.05, 0.4)
+	wmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	wsurf.material_override = wmat
+	wsurf.position = Vector3(0.3, 0.9, 0)
+	wsurf.rotation = Vector3(0, 0, -0.06)
+	root.add_child(wsurf)
+	# feed post with iron spout at the high end
+	_box(root, Vector3(0.16, 1.7, 0.16), Vector3(-1.9, 0.85, -0.38), bark)
+	_box(root, Vector3(0.05, 0.05, 0.45), Vector3(-1.9, 1.5, -0.14), _plain(Color(0.3, 0.3, 0.32), 0.4, 0.8))
+	# water falling from the mouth into the pond
+	var mouth := root.to_global(Vector3(0.3 + len * 0.5, 0.8, 0))
+	var fall_h := maxf(0.2, mouth.y - water_y)
+	var jet := MeshInstance3D.new()
+	var jm := BoxMesh.new()
+	jm.size = Vector3(0.07, fall_h, 0.14)
+	jet.mesh = jm
+	var jmat := _plain(Color(0.6, 0.7, 0.75, 0.35), 0.1, 0.0)
+	jmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	jet.material_override = jmat
+	jet.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	jet.position = mouth - Vector3(0, fall_h * 0.5, 0) + Vector3(to_pond.x, 0, to_pond.y) * 0.15
+	add_child(jet)
+	_box_collider(root, Vector3(len - 0.6, 0.9, 0.7), Vector3(0.0, 0.45, 0.0))
 
 func _build_campsite() -> void:
 	# square stone fireplace with the swivel grill (photo 20)
@@ -1345,31 +1533,39 @@ func _process(delta: float) -> void:
 		for b in barricades:
 			b.set_preview(b == near)
 		var loot = null
-		if not near:
-			var ld := 2.4
-			for l in loots:
-				if not is_instance_valid(l) or l.taken:
-					continue
-				var d: float = l.global_position.distance_to(player.global_position + Vector3(0, 0.8, 0))
-				if d < ld:
-					var q := PhysicsRayQueryParameters3D.create(player.global_position + Vector3(0, 1.5, 0), l.global_position + Vector3(0, 0.3, 0), 1)
-					q.exclude = [player.get_rid()]
-					var hit := get_world_3d().direct_space_state.intersect_ray(q)
-					if hit and hit.position.distance_to(l.global_position + Vector3(0, 0.3, 0)) > 0.6:
-						continue
+		var ld := Door.INTERACT_REACH
+		for l in loots:
+			if not is_instance_valid(l) or l.taken:
+				continue
+			if l is Door or l is ForestKey:
+				var d: float = player.camera.global_position.distance_to(l.interaction_point())
+				if d < ld and l.can_interact(player):
 					ld = d
 					loot = l
-		hud.set_prompt(near.prompt_text() if near else (loot.prompt_text() if loot else ""))
-		if near and Input.is_action_just_pressed("interact"):
-			barricade_menu.open(near)
-		elif loot and Input.is_action_just_pressed("interact"):
+			else:
+				var d: float = l.global_position.distance_to(player.global_position + Vector3(0, 0.8, 0))
+				if d >= minf(ld, 2.4):
+					continue
+				var target: Vector3 = l.global_position + Vector3(0, 0.3, 0)
+				var q := PhysicsRayQueryParameters3D.create(player.camera.global_position, target, 1 | 8, [player.get_rid()])
+				var hit := get_world_3d().direct_space_state.intersect_ray(q)
+				if not hit.is_empty():
+					continue
+				ld = d
+				loot = l
+		hud.set_prompt(loot.prompt_text() if loot else (near.prompt_text() if near else ""))
+		if loot and Input.is_action_just_pressed("interact"):
 			var was_weapon: bool = loot is Loot and loot.kind == "weapon" and not weapons.unlocked.get(loot.id, false)
-			loot.take(weapons, hud)
-			hud.set_prompt("")
 			if loot is Door:
-				achievements.event("door")
-			elif was_weapon:
-				achievements.event("weapons")
+				if loot.take(weapons, hud) and loot.is_open and achievements:
+					achievements.event("door")
+			else:
+				loot.take(weapons, hud)
+				if was_weapon and achievements:
+					achievements.event("weapons")
+			hud.set_prompt("")
+		elif near and Input.is_action_just_pressed("interact"):
+			barricade_menu.open(near)
 	if _autotest and started:
 		_autotest_step(delta)
 

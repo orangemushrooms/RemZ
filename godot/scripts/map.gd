@@ -27,6 +27,7 @@ static var FIRE := Vector2.ZERO
 static var BENCHES: Array = []
 static var TABLE := Vector3.ZERO          # x, z, yaw degrees
 static var FOUNTAIN := Vector3.ZERO
+static var POND: Dictionary = {}          # pos (Vector2), r, depth, water_y, trough (Vector2)
 static var BIN := Vector2.ZERO
 static var SIGNPOST := Vector2.ZERO
 static var LOG_SEAT := Vector3.ZERO
@@ -75,6 +76,9 @@ static func _ensure() -> void:
 	TABLE = Vector3(_d["table"][0], _d["table"][1], -deg_to_rad(_d["table"][2]))
 	FOUNTAIN = Vector3(_d["fountain"][0], _d["fountain"][1], -deg_to_rad(_d["fountain"][2]))
 	BIN = Vector2(_d["bin"][0], _d["bin"][1])
+	if _d.has("pond"):
+		var pdct: Dictionary = _d["pond"]
+		POND = { "pos": Vector2(pdct["pos"][0], pdct["pos"][1]), "r": float(pdct["r"]), "depth": float(pdct["depth"]), "water_y": float(pdct["water_y"]), "trough": Vector2(pdct["trough"][0], pdct["trough"][1]) }
 	SIGNPOST = Vector2(_d["signpost"][0], _d["signpost"][1])
 	LOG_SEAT = Vector3(_d["log_seat"][0], _d["log_seat"][1], -deg_to_rad(_d["log_seat"][2]))
 	LANDMARK_OAK = Vector2(_d["landmark_oak"][0], _d["landmark_oak"][1])
