@@ -18,7 +18,7 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | R | Nachladen |
 | 1–5 | Freigeschaltete Waffe wählen |
 | G | Granate |
-| E | Nahe Barrikade verwalten / Gegenstand aufnehmen / Tor öffnen |
+| E | Nahe Barrikade verwalten / Gegenstand aufnehmen / Tür öffnen und schliessen |
 | V | Barrikaden-Bauplanung mit Vorschau aller vier Zugänge |
 | B | Inventar |
 | F | Taschenlampe |
@@ -36,13 +36,19 @@ Jede Waffe hat einen eigenen kurzen Mündungsblitz, Licht auf Händen und Umgebu
 
 Die Rückstoßabstimmung wurde nach dem Spieltest verstärkt: 60–100 % mehr Grundimpuls nach oben, stärkere Rückwärtsbewegung und langsamere Erholung. Zielen reduziert den Impuls um 25 %; bei Dauerfeuer steigt der Hochschlag weiter an. Der vertikale Kamerawinkel bleibt begrenzt.
 
+## Hüttenschlüssel und Türen
+
+Waldhütte und Holzlager haben je einen eigenen Schlüssel. Beide liegen bei jedem neuen Spiel an anderen, geprüften Waldstellen in Wegnähe. Im Umkreis von 16 m erscheinen ein Hinweis, die Entfernung und ein Richtungspfeil; der Schlüssel liegt auf einem niedrigen Baumstumpf. Nahe herangehen und **E** drücken. Wände verhindern die Aufnahme durch Hindernisse.
+
+Gefundene Schlüssel bleiben für das gesamte Spiel im Inventar (**B**), auch über Wellenwechsel hinweg. Der Waldhüttenschlüssel passt zum Garagentor und zur oberen Hüttentür, der zweite zum Holzlagertor. **E** öffnet und schliesst die Türen wiederholt. Halte den Schwenkbereich frei; bei einem Hindernis bricht das Schliessen ab. Bereits aufgeschlossene Türen halten Gegner kurz auf, können unter anhaltenden Angriffen aber aufgedrückt werden. Das vergitterte Holzlagerfenster verhindert den Zugang ohne Schlüssel.
+
 ## Grafik und Leistung
 
-Jede Welle beginnt um **06:00 Uhr**. Die Ortszeit steht oben rechts; Morgen, Tag, Abend und Nacht gehen weich ineinander über. Der Faktor **10×** bedeutet sechs echte Minuten pro Spielstunde und 144 Minuten pro vollständigem Tag. Von 06:00 bis 18:00 vergehen 72 echte Minuten. Kurze Wellen bleiben deshalb morgens; der Tageswechsel ist nicht künstlich an die Zahl der verbleibenden Gegner gekoppelt. Pause, Inventar, Skills, Barrikadenplanung und Spielende halten die Uhr an.
+Der aktuelle Standard startet um **06:00 Uhr** und lässt die Zeit über Wellenwechsel hinweg weiterlaufen. Ein vollständiger Tag dauert **15 echte Minuten (96×)**. Die Ortszeit steht oben rechts; Morgen, Tag, Abend und Nacht gehen weich ineinander über. Pause, Inventar, Skills, Barrikadenplanung und Spielende halten die Uhr an.
 
 Sonnenstand, Himmelsfarben, Bergpanorama, Nebel und die Beleuchtung von Händen/Waffen folgen der Uhr. Nachts werden Feuer und die vorhandenen Hütten-/Laternenlichter stärker, die Umgebung wird dunkler. Die Taschenlampe bleibt mit **F** steuerbar. Die vorhandenen Schatten- und Volumennebelbudgets bleiben erhalten. Lichtwerte werden mit 10 Hz aktualisiert, Himmelsreflexionen alle 30 Spielsekunden mit einer kleinen, über mehrere Bilder verteilten Berechnung.
 
-Die parallel entwickelte Variante bleibt optional verfügbar: `RemZ.exe -- --continuous-day-night` startet einen durchgehenden Tag von 15 echten Minuten (96×), ohne Rücksetzung bei Wellenwechseln. Ohne diesen Parameter gilt weiterhin 10× mit Morgenstart je Welle.
+Die parallel entwickelte Variante mit durchgehendem 15-Minuten-Tag ist inzwischen Standard. `RemZ.exe -- --continuous-day-night` wählt diesen Modus weiterhin ausdrücklich. Die frühere Einstellung mit 10× und Morgenstart je Welle lässt sich im `DayNightCycle` über `time_scale = 10.0` und `reset_each_wave = true` wiederherstellen.
 
 Der Kartenhorizont verwendet ein echtes Schweizer Alpenpanorama von Andreas Mischok / Poly Haven (CC0), mit entfernter Bergkette und Dunst über den Tälern. Der Wald hat dichteren, kühleren Entfernungsnebel. Berge und Tageshimmel werden im vorhandenen Himmelspass gezeichnet: keine zusätzlichen Bergmodelle, Partikel, Schatten oder Viewports. Die 4K-HDR-Textur benötigt mit BC6H und Mipmaps rund 10,7 MiB GPU-Speicher. Quellen: `assets/sky/SOURCES.md`.
 
@@ -64,6 +70,7 @@ Aus dem übergeordneten Projektordner in PowerShell:
 ./tools/check-game.ps1 -Mode Barricades
 ./tools/check-game.ps1 -Mode Atmosphere
 ./tools/check-game.ps1 -Mode DayNight
+./tools/check-game.ps1 -Mode DoorsKeys
 ./tools/check-game.ps1 -Mode Benchmark -Quality 0
 ./tools/check-game.ps1 -Mode ExportWindows
 ```
@@ -79,6 +86,8 @@ Die 48 automatisierten Prüfungen decken Start, Navigation, Grafikprofile, Minim
 `Atmosphere` prüft Himmel, Nebel und die drei Grafikprofile. Es erstellt elf Vergleichs-/Himmelsansichten und misst den alten und neuen Himmel in der Reihenfolge vorher–nachher–nachher–vorher aus drei unveränderten Kamerapositionen. Aufwärmen und Screenshots liegen außerhalb der Messintervalle. Bilder und Messdaten: `../artifacts/atmosphere/`.
 
 `DayNight` prüft Zeittempo bei 30/60/144 FPS, Mitternacht, Wellenneustarts, alle Pausenmenüs, Nachtbeleuchtung und Grafikprofile. Es erstellt Ansichten von Morgen, Mittag, Abend, Nacht und Taschenlampe sowie einen Vergleich mit stehender/laufender Uhr. Bilder und Messdaten: `../artifacts/day-night/`. Ohne Fenster kann die Funktionsprüfung mit `--headless --script res://tests/day_night.gd -- --smoke-test --no-music` ausgeführt werden.
+
+`DoorsKeys` prüft zufällige erreichbare Fundorte, Entfernung und Sichtlinie bei der Aufnahme, Schlüsselbesitz, Türdurchgänge, Öffnen/Schliessen, Pause, Einklemmschutz, Gegnerdruck und Inventar. Bilder: `../artifacts/doors-keys/`. Reproduzierbare Fundorte sind mit `--key-seed=17` möglich; ohne Parameter werden sie bei jedem Spielstart neu ausgewählt.
 
 ## Stand der Freigabe
 

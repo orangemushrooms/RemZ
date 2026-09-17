@@ -31,8 +31,8 @@ func _ready() -> void:
 	panel = PanelContainer.new()
 	panel.visible = false
 	panel.set_anchors_preset(Control.PRESET_CENTER)
-	panel.custom_minimum_size = Vector2(760, 470)
-	panel.position = Vector2(-380, -235)
+	panel.custom_minimum_size = Vector2(760, 570)
+	panel.position = Vector2(-380, -285)
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.05, 0.05, 0.06, 0.94)
 	style.border_color = Color(0.55, 0.45, 0.25)
@@ -125,6 +125,12 @@ func _refresh() -> void:
 		var n: int = mushrooms.get(k, 0)
 		var md: Dictionary = MUSHROOMS[k]
 		_slot(md["name"], "%d Stück" % n, md["color"] if n > 0 else Color(0.3, 0.3, 0.3), md["text"], func(): _eat(k))
+
+	if main.forest_keys:
+		for key_id: String in ForestKeys.KEYS:
+			var found: bool = main.forest_keys.has_key(key_id)
+			var detail := "Schlüssel für %s. %s" % [ForestKeys.KEYS[key_id], "Bleibt bei dir und öffnet alle Türen dieser Hütte." if found else "Im Wald versteckt. In der Nähe helfen Hinweis und Richtungspfeil."]
+			_slot("Schlüssel: %s" % ForestKeys.KEYS[key_id], "Gefunden" if found else "Noch nicht gefunden", Color(0.95, 0.73, 0.32) if found else Color(0.3, 0.3, 0.3), detail, func(): info.text = detail)
 
 func _eat(kind: String) -> void:
 	if mushrooms.get(kind, 0) <= 0:

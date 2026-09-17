@@ -4,11 +4,11 @@ extends Node3D
 var taken := false
 var key_id := ""
 var manager: ForestKeys
+var pickup_visual: Node3D
 
 func _ready() -> void:
 	# A physical key on a low cut stump: readable without a permanent beacon.
-	var bark := StandardMaterial3D.new()
-	bark.albedo_color = Color(0.20, 0.15, 0.10)
+	var bark := Foliage.pbr("ph_bark_beech2", 1.0, Color(0.55, 0.45, 0.32))
 	bark.roughness = 1.0
 	var cut := StandardMaterial3D.new()
 	cut.albedo_color = Color(0.44, 0.34, 0.21)
@@ -22,15 +22,28 @@ func _ready() -> void:
 	var stump := CylinderMesh.new()
 	stump.top_radius = 0.27
 	stump.bottom_radius = 0.34
-	stump.height = 0.52
+	stump.height = 0.78
 	stump.radial_segments = 12
-	_mesh(stump, bark, Vector3(0, 0.26, 0))
+	_mesh(stump, bark, Vector3(0, 0.13, 0))
 	var top := CylinderMesh.new()
 	top.top_radius = 0.255
 	top.bottom_radius = 0.255
 	top.height = 0.012
 	top.radial_segments = 16
 	_mesh(top, cut, Vector3(0, 0.526, 0))
+	var body := StaticBody3D.new()
+	body.collision_layer = 1
+	body.collision_mask = 0
+	var collider := CollisionShape3D.new()
+	var cylinder := CylinderShape3D.new()
+	cylinder.radius = 0.28
+	cylinder.height = 0.52
+	collider.shape = cylinder
+	collider.position.y = 0.26
+	body.add_child(collider)
+	add_child(body)
+	pickup_visual = Node3D.new()
+	add_child(pickup_visual)
 	var ring := TorusMesh.new()
 	ring.inner_radius = 0.040
 	ring.outer_radius = 0.058
@@ -48,7 +61,10 @@ func _mesh(mesh: Mesh, mat: Material, at: Vector3) -> void:
 	instance.material_override = mat
 	instance.position = at
 	instance.add_to_group("render_dynamic")
-	add_child(instance)
+	if pickup_visual:
+		pickup_visual.add_child(instance)
+	else:
+		add_child(instance)
 
 func _box(size: Vector3, at: Vector3, mat: Material) -> void:
 	var box := BoxMesh.new()

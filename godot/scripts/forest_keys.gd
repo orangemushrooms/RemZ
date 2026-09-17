@@ -44,9 +44,10 @@ func populate() -> bool:
 # Called once after navigation synchronizes; no pathfinding or world scans per frame.
 func choose_spawn_points(random: RandomNumberGenerator) -> Array[Vector3]:
 	var result: Array[Vector3] = []
-	var nav: RID = main.get_world_3d().navigation_map
+	var nav: RID = main.nav_region.get_navigation_map()
 	var start := NavigationServer3D.map_get_closest_point(nav, Map.ground_pos(Map.PLAYER_START.x, Map.PLAYER_START.y))
 	var capsule := CapsuleShape3D.new()
+	var diagnostic := [0, 0, 0, 0]
 	capsule.radius = 0.55
 	capsule.height = 1.6
 	for attempt in 2400:
@@ -55,13 +56,15 @@ func choose_spawn_points(random: RandomNumberGenerator) -> Array[Vector3]:
 		var a: Vector2 = road.pts[segment]
 		var b: Vector2 = road.pts[segment + 1]
 		var normal := (b - a).normalized().orthogonal()
-		var candidate := a.lerp(b, random.randf_range(0.05, 0.95)) + normal * (road.width * 0.5 + random.randf_range(3, 10)) * (-1 if random.randf() < 0.5 else 1)
+		var candidate: Vector2 = a.lerp(b, random.randf_range(0.05, 0.95)) + normal * (road.width * 0.5 + random.randf_range(3, 10)) * (-1 if random.randf() < 0.5 else 1)
 		if not valid_forest_point(candidate):
 			continue
+		diagnostic[0] += 1
 		var ground := Map.ground_pos(candidate.x, candidate.y)
 		var point := NavigationServer3D.map_get_closest_point(nav, ground)
 		if Vector2(point.x, point.z).distance_to(candidate) > 0.85 or absf(point.y - ground.y) > 1.2:
 			continue
+		diagnostic[1] += 1
 		var too_close := false
 		for previous in result:
 			if previous.distance_to(ground) < 30:
@@ -74,12 +77,16 @@ func choose_spawn_points(random: RandomNumberGenerator) -> Array[Vector3]:
 		query.collision_mask = 1 | 8
 		if not main.get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty():
 			continue
+		diagnostic[2] += 1
 		var path := NavigationServer3D.map_get_path(nav, start, point, true)
 		if path.is_empty() or path[path.size() - 1].distance_to(point) > 0.8:
 			continue
+		diagnostic[3] += 1
 		result.append(ground)
 		if result.size() == KEYS.size():
 			break
+	if result.size() != KEYS.size():
+		print("KEY_SPAWN_DIAGNOSTIC ", diagnostic, " nav_iteration=", NavigationServer3D.map_get_iteration_id(nav), " start=", start, " region_count=", NavigationServer3D.map_get_regions(nav).size(), " polygons=", main.nav_region.navigation_mesh.get_polygon_count(), " active=", NavigationServer3D.map_is_active(nav), " bounds=", main.nav_region.get_bounds())
 	return result
 
 func valid_forest_point(point: Vector2) -> bool:
@@ -91,7 +98,7 @@ func collect(key: ForestKey) -> void:
 		return
 	key.taken = true
 	owned[key.key_id] = true
-	key.hide()
+	key.pickup_visual.hide()
 	hint.update_target(null, main.player)
 	main.hud.message("Schlüssel gefunden: %s\nAlle Türen dieser Hütte sind jetzt bedienbar. [B] Inventar" % KEYS[key.key_id], 4.0)
 	Sfx.play(self, "pickup", -6.0)
@@ -107,7 +114,7 @@ func _process(delta: float) -> void:
 		for key in spawned:
 			if key.taken:
 				continue
-			var d := main.player.global_position.distance_to(key.global_position)
+			var d: float = main.player.global_position.distance_to(key.global_position)
 			if d < distance:
 				distance = d
 				closest = key

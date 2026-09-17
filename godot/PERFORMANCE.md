@@ -1,6 +1,14 @@
 # Prüfung vom 17. September 2026
 
+## Ergänzung: Hüttentüren und Waldschlüssel
+
+`../logs/doors-keys-final-render.log`: **85 Prüfungen, 0 fehlgeschlagene Prüfungen**, inklusive acht reproduzierbarer Fundort-Auswahlen, Sichtlinie/Reichweite, drei echten Türdurchgängen mit Spieler-Kapsel, Öffnen und Schliessen, Pause, Einklemmschutz, tatsächlichem Gegnerangriff auf eine Tür und vollständigem Spielneustart. Elf Ansichten bei 1280 × 720 liegen unter `../artifacts/doors-keys/`.
+
+Die beiden Schlüssel verwenden kleine wiederverwendete Materialien und keine zusätzlichen Lichtquellen oder Partikeleffekte. Die erreichbaren Fundorte werden einmal beim Laden gegen die fertige Navigation und Weltkollision geprüft. Während des Spiels werden nur zwei Entfernungen mit 10 Hz geprüft; der sichtbare Richtungspfeil folgt der Kamera. Türabfragen laufen bei Interaktion und während der Bewegung; Gegner prüfen drei Türflächen zusätzlich. Bewegliche Türteile werden von statischen Render-Batches ausgeschlossen. Dies ist eine Funktionsprüfung, kein neuer FPS-Benchmark. Die bestehenden zwei Navigationskanten-Warnungen und die Sandbox-Meldungen zum Shadercache traten auch in diesem Lauf auf.
+
 ## Ergänzung: Tag-Nacht-Zyklus
+
+Die folgenden Tag-Nacht-Messungen dokumentieren den damaligen Stand. Der parallele Worker hat den Standard danach auf einen durchgehenden 15-Minuten-Tag (96×) umgestellt; dieser aktuelle Standard ist im Export mit den Hüttenschlüsseln erhalten.
 
 Die Uhr läuft mit 10×, setzt jede Welle auf 06:00 zurück und pausiert mit dem Spiel. Vorhandene Sonne, Fülllicht, Feuer und fünf Hütten-/Laternenlichter werden weiterverwendet. Es gibt keine zusätzlichen Lichtquellen, Schattenkarten, Nebelpartikel oder Himmelspässe. Die Lichtwerte aktualisieren sich mit 10 Hz. Der Himmel erhält alle 30 Spielsekunden neue Werte (alle drei echten Sekunden bei 10×); seine Reflexionen verwenden eine inkrementelle 128-Pixel-Cubemap. Die Waffenansicht besitzt eine statische Reflexionsumgebung ohne Abhängigkeit von den veränderlichen Lichtquellen.
 

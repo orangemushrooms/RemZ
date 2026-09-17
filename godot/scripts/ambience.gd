@@ -53,19 +53,36 @@ static func _noise_bed(seconds: float, lp: float, hp: float, mod_hz: float, mod_
 static func _crackle(seconds: float, seed_v: int) -> AudioStreamWAV:
 	var rate := 22050
 	var n := int(seconds * rate)
+	var blend := mini(int(0.12 * rate), n / 2)
 	var s := PackedFloat32Array()
-	s.resize(n)
+	s.resize(n + blend)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_v
-	var l := 0.0
-	var pop := 0.0
-	for i in n:
+	var flame := 0.0
+	var rumble := 0.0
+	var detail := 0.0
+	var ember := 0.0
+	var ember_low := 0.0
+	var texture := 0.0
+	for i in s.size():
 		var w := rng.randf_range(-1.0, 1.0)
-		l += (w - l) * 0.08
-		if rng.randf() < 0.0006:
-			pop = rng.randf_range(0.4, 1.0)
-		pop *= 0.995
-		s[i] = l * 0.35 + w * pop * 0.5 * (1.0 if rng.randf() < 0.5 else 0.3)
+		# Continuous fine crackle: no randomly triggered pops or burst envelopes.
+		# Remove low thumps and soften the top end before gently varying the texture.
+		flame += (w - flame) * 0.07
+		rumble += (flame - rumble) * 0.025
+		detail += (w - detail) * 0.40
+		ember += (detail - ember) * 0.24
+		ember_low += (ember - ember_low) * 0.10
+		texture += (rng.randf_range(-1.0, 1.0) - texture) * 0.006
+		var intensity := 0.55 + clampf(texture * 4.0, -0.25, 0.25)
+		var sample := (flame - rumble) * 0.18 + (ember - ember_low) * intensity * 0.24
+		# Smoothly bound peaks without a hard-clipping edge.
+		s[i] = sample / (1.0 + absf(sample) / 0.12)
+	# Blend an extra tail into the beginning so the loop itself cannot click.
+	for i in blend:
+		var t := smoothstep(0.0, 1.0, float(i) / maxf(blend - 1, 1))
+		s[i] = lerpf(s[n + i], s[i], t)
+	s.resize(n)
 	return _loop(s, rate)
 
 func setup(p: Player, fire_pos: Vector3, stream_pos: Vector3) -> void:
@@ -83,9 +100,10 @@ func setup(p: Player, fire_pos: Vector3, stream_pos: Vector3) -> void:
 	rustle.play()
 	fire = AudioStreamPlayer3D.new()
 	fire.stream = _crackle(8.0, 3)
-	fire.unit_size = 4.0
+	fire.unit_size = 3.0
 	fire.max_distance = 30.0
-	fire.volume_db = -4.0
+	fire.volume_db = -16.0
+	fire.max_db = -16.0 # No near-field amplification, even directly over the fire bowl.
 	add_child(fire)
 	fire.global_position = fire_pos + Vector3(0, 0.5, 0)
 	fire.play()

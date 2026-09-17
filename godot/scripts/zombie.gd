@@ -16,6 +16,7 @@ var height: float
 var alive := true
 var player: Player
 var barricades: Array = []
+var hut_doors: Array = []
 var agent: NavigationAgent3D
 var anim: AnimationPlayer
 var model: Node3D
@@ -52,6 +53,7 @@ func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: C
 	_repath = randf_range(0.05, 0.4)
 
 func _ready() -> void:
+	hut_doors = get_tree().get_nodes_in_group("hut_doors")
 	collision_layer = 2
 	collision_mask = 1 | 2 | 8 | 16
 	var shape := CollisionShape3D.new()
@@ -236,6 +238,12 @@ func _physics_process(delta: float) -> void:
 			if dd < bd:
 				bd = dd
 				bar = b
+	for door: Door in hut_doors:
+		if door.crosses(p, player.global_position):
+			var dd := door.center.distance_to(p)
+			if dd < bd:
+				bd = dd
+				bar = door
 	var target: Vector3 = bar.attack_point(p) if bar else player.global_position
 	var to_target := target - p
 	to_target.y = 0.0

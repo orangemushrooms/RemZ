@@ -1,0 +1,5 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+CAMPFIRE_PREVIEW {"largest_sample_step":0.03582763671875,"loop_seam_step":0.00555419921875,"maximum_listener_peak_dbfs":-40.1505246269567,"preview":"C:/Users/miche/Desktop/Developement/RemZ/godot/../artifacts/campfire-soft-preview.wav","save_error":0,"seconds":8.0,"source_peak_dbfs":-24.1505246269567,"source_rms_dbfs":-33.0232865340071}
