@@ -40,9 +40,11 @@ Die Rückstoßabstimmung wurde nach dem Spieltest verstärkt: 60–100 % mehr Gr
 
 Waldhütte und Holzlager haben je einen eigenen Schlüssel. Beide liegen bei jedem neuen Spiel an anderen, geprüften Waldstellen in Wegnähe. Im Umkreis von 16 m erscheinen ein Hinweis, die Entfernung und ein Richtungspfeil; der Schlüssel liegt auf einem niedrigen Baumstumpf. Nahe herangehen und **E** drücken. Wände verhindern die Aufnahme durch Hindernisse.
 
-Gefundene Schlüssel bleiben für das gesamte Spiel im Inventar (**B**), auch über Wellenwechsel hinweg. Der Waldhüttenschlüssel passt zum Garagentor und zur oberen Hüttentür, der zweite zum Holzlagertor. **E** öffnet und schliesst die Türen wiederholt. Halte den Schwenkbereich frei; bei einem Hindernis bricht das Schliessen ab. Bereits aufgeschlossene Türen halten Gegner kurz auf, können unter anhaltenden Angriffen aber aufgedrückt werden. Das vergitterte Holzlagerfenster verhindert den Zugang ohne Schlüssel.
+Gefundene Schlüssel bleiben für das gesamte Spiel im Inventar (**B**), auch über Wellenwechsel hinweg. Der Waldhüttenschlüssel passt zum Garagentor und zur oberen Hüttentür, der zweite zum Holzlagertor. **E** öffnet und schliesst die Türen wiederholt. Beim Öffnen schwingen die Flügel vom Spieler weg, auch wenn er direkt vor der Tür steht. Andere Personen im Schwenkbereich blockieren die Bewegung; beim Schliessen bleibt der Einklemmschutz aktiv. Bereits aufgeschlossene Türen halten Gegner kurz auf, können unter anhaltenden Angriffen aber aufgedrückt werden. Das vergitterte Holzlagerfenster verhindert den Zugang ohne Schlüssel.
 
 ## Grafik und Leistung
+
+Rund um die Feuerstelle liegt Waldboden mit Erde und Laub; die Zufahrtswege behalten ihren Kiesbelag. Der Holzbrunnen steht seitlich an der Waldhütte neben dem freien Durchgang. Gesammelte Steinpilze und Fliegenpilze verschwinden sofort vollständig und werden genau einmal im Inventar verbucht. Ihre Modelle bleiben auch nach der Kartenoptimierung mit dem Sammelobjekt verbunden.
 
 Der aktuelle Standard startet um **06:00 Uhr** und lässt die Zeit über Wellenwechsel hinweg weiterlaufen. Ein vollständiger Tag dauert **15 echte Minuten (96×)**. Die Ortszeit steht oben rechts; Morgen, Tag, Abend und Nacht gehen weich ineinander über. Pause, Inventar, Skills, Barrikadenplanung und Spielende halten die Uhr an.
 
@@ -71,6 +73,7 @@ Aus dem übergeordneten Projektordner in PowerShell:
 ./tools/check-game.ps1 -Mode Atmosphere
 ./tools/check-game.ps1 -Mode DayNight
 ./tools/check-game.ps1 -Mode DoorsKeys
+./tools/check-game.ps1 -Mode CampsitePickups
 ./tools/check-game.ps1 -Mode Benchmark -Quality 0
 ./tools/check-game.ps1 -Mode ExportWindows
 ```
@@ -87,7 +90,9 @@ Die 48 automatisierten Prüfungen decken Start, Navigation, Grafikprofile, Minim
 
 `DayNight` prüft Zeittempo bei 30/60/144 FPS, Mitternacht, Wellenneustarts, alle Pausenmenüs, Nachtbeleuchtung und Grafikprofile. Es erstellt Ansichten von Morgen, Mittag, Abend, Nacht und Taschenlampe sowie einen Vergleich mit stehender/laufender Uhr. Bilder und Messdaten: `../artifacts/day-night/`. Ohne Fenster kann die Funktionsprüfung mit `--headless --script res://tests/day_night.gd -- --smoke-test --no-music` ausgeführt werden.
 
-`DoorsKeys` prüft zufällige erreichbare Fundorte, Entfernung und Sichtlinie bei der Aufnahme, Schlüsselbesitz, Türdurchgänge, Öffnen/Schliessen, Pause, Einklemmschutz, Gegnerdruck und Inventar. Bilder: `../artifacts/doors-keys/`. Reproduzierbare Fundorte sind mit `--key-seed=17` möglich; ohne Parameter werden sie bei jedem Spielstart neu ausgewählt.
+`DoorsKeys` prüft zufällige erreichbare Fundorte, Entfernung und Sichtlinie bei der Aufnahme, Schlüsselbesitz, Türdurchgänge, Öffnen/Schliessen, Pause, Einklemmschutz, Gegnerdruck und Inventar. Zusätzlich werden alle drei Türen aus 0,5 m Entfernung von beiden Seiten über die tatsächliche E-Interaktion geöffnet und geschlossen; ein anderer Akteur hinter dem Tor muss die Öffnung weiterhin blockieren. Bilder: `../artifacts/doors-keys/`. Reproduzierbare Fundorte sind mit `--key-seed=17` möglich; ohne Parameter werden sie bei jedem Spielstart neu ausgewählt.
+
+`CampsitePickups` prüft beide Pilzarten nach der Kartenoptimierung: sofortiges Ausblenden, vollständiges Entfernen des Modells, einmalige Inventarbuchung und unveränderte übrige Pilze. Ansichten von Feuerstelle, Brunnen und Pilzen vor/nach dem Sammeln: `../artifacts/campsite-pickups/`.
 
 ## Stand der Freigabe
 

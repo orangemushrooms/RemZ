@@ -46,6 +46,37 @@ func doorway_hit(door: Door) -> Dictionary:
 	var ray := PhysicsRayQueryParameters3D.create(door.to_global(Vector3(-0.8, 1.0, 0)), door.to_global(Vector3(0.8, 1.0, 0)), 1 | 8, [game.player.get_rid()])
 	return game.get_world_3d().direct_space_state.intersect_ray(ray)
 
+func press_interact() -> void:
+	# Exercise the same nearest-pickup selection and E handler as actual gameplay.
+	Input.action_press("interact")
+	game._process(0.0)
+	Input.action_release("interact")
+	await frames()
+
+func close_range_cycle(door: Door, side: float) -> void:
+	var description := "%s from %s at 0.5 m" % [door.label, "local -x" if side < 0.0 else "local +x"]
+	stand(door.to_global(Vector3(side * 0.5, 0.1, 0)), door.interaction_point())
+	await frames()
+	check(door.can_interact(game.player), description + " has an interaction prompt")
+	await press_interact()
+	check(door.is_open, description + " opens using the gameplay E handler")
+	if not door.is_open:
+		return
+	await create_timer(1.0).timeout
+	await frames()
+	var away := true
+	for i in door.leaves.size():
+		var middle: Vector3 = door.leaves[i][0].transform * door._offsets[i].origin
+		away = away and middle.x * side < -0.3
+	check(away and not door.moving and doorway_hit(door).is_empty(), description + " swings away and clears the doorway")
+	await shot("07-near-" + door.key_id + "-" + str(door.width) + "-" + str(side))
+	await press_interact()
+	check(not door.is_open, description + " also closes without stepping back")
+	await create_timer(1.0).timeout
+	await frames()
+	var hit := doorway_hit(door)
+	check(not door.is_open and not door.moving and not hit.is_empty() and hit.collider == door.body, description + " restores closed collision")
+
 func run() -> void:
 	DirAccess.make_dir_recursive_absolute(folder)
 	game = load("res://scenes/main.tscn").instantiate()
@@ -129,6 +160,27 @@ func run() -> void:
 		var count := keys.owned.size()
 		key.take(game.weapons, game.hud)
 		check(keys.owned.size() == count, "A key cannot be collected twice")
+	for door: Door in doors:
+		for side: float in [-1.0, 1.0]:
+			await close_range_cycle(door, side)
+	# A real actor behind the door must still prevent opening towards it.
+	var store: Door = doors.back()
+	var blocker := StaticBody3D.new()
+	blocker.collision_layer = 2
+	var blocker_shape := CollisionShape3D.new()
+	var blocker_capsule := CapsuleShape3D.new()
+	blocker_capsule.radius = 0.4
+	blocker_capsule.height = 1.8
+	blocker_shape.shape = blocker_capsule
+	blocker_shape.position.y = 0.9
+	blocker.add_child(blocker_shape)
+	game.add_child(blocker)
+	stand(store.to_global(Vector3(-0.5, 0.1, 0)), store.interaction_point())
+	blocker.global_position = store.to_global(Vector3(0.7, 0.1, 0))
+	await frames()
+	check(not store.take(game.weapons, game.hud) and not store.is_open, "An actor on the opening side still blocks the wood-store gate")
+	blocker.queue_free()
+	await frames()
 	for door: Door in doors:
 		stand(door.to_global(Vector3(-2.2 if door.width > 1.4 else 2.0, 0.1, 0)), door.interaction_point())
 		await frames()

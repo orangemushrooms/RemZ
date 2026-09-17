@@ -3,6 +3,7 @@ extends Node3D
 
 const INTERACT_REACH := 2.8
 const HOLD_STRENGTH := 160.0
+const ACTOR_MARGIN := 0.02
 var taken := false # Doors remain interactable after opening.
 var label := "Tür"
 var width := 2.6
@@ -20,12 +21,13 @@ var _pressure := 0.0
 var _forced_cooldown := 0.0
 var _pending_collision := false
 var _swing_shape: BoxShape3D
+var _open_side := -1.0
 var center: Vector3:
 	get: return global_position
 var hp: float:
 	get: return 0.0 if is_open else HOLD_STRENGTH - _pressure
 
-# Local x=0 is the doorway; leaves swing towards local -x.
+# Local x=0 is the doorway; interaction opens the leaves away from the player.
 func setup(w: float, h: float, text: String, mat: Material) -> void:
 	width = w
 	height = h
@@ -60,7 +62,7 @@ func setup(w: float, h: float, text: String, mat: Material) -> void:
 		_offsets.append(local_offset)
 		leaves.append([hinge, side])
 	_swing_shape = BoxShape3D.new()
-	_swing_shape.size = Vector3(leaf_width + 0.7, height + 0.1, width + 0.5)
+	_swing_shape.size = Vector3(leaf_width + 0.12, height + 0.1, width + 0.12)
 
 func _piece(parent: Node3D, size: Vector3, at: Vector3, mat: Material) -> void:
 	var mesh := MeshInstance3D.new()
@@ -109,17 +111,25 @@ func take(weapons, hud) -> bool:
 		return false
 	if _forced_cooldown > 0:
 		return false
-	if _swing_blocked():
-		hud.message("Türbereich freihalten.\nGehe einen Schritt zurück.")
+	var excluded: Array[RID] = []
+	if not is_open:
+		_open_side = 1.0 if to_local(player.global_position).x < 0.0 else -1.0
+		# At the closed door the player can touch its collider. The leaves move away,
+		# so that contact must not prevent opening; other actors still block the sweep.
+		excluded.append(player.get_rid())
+	if _swing_blocked(excluded):
+		hud.message("Türbereich blockiert.\nHalte den Schwenkbereich frei.")
 		return false
 	_set_open(not is_open)
 	return true
 
-func _swing_blocked() -> bool:
+func _swing_blocked(excluded: Array[RID] = []) -> bool:
 	var query := PhysicsShapeQueryParameters3D.new()
 	query.shape = _swing_shape
-	query.transform = global_transform * Transform3D(Basis.IDENTITY, Vector3(-width / leaves.size() * 0.5, height * 0.5, 0))
+	query.transform = global_transform * Transform3D(Basis.IDENTITY, Vector3(_open_side * width / leaves.size() * 0.5, height * 0.5, 0))
 	query.collision_mask = 2 | 4
+	query.margin = ACTOR_MARGIN
+	query.exclude = excluded
 	return not get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty()
 
 func _set_open(open: bool) -> void:
@@ -133,7 +143,7 @@ func _set_open(open: bool) -> void:
 	_motion = create_tween().set_parallel().set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
 	_motion.set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
 	for leaf in leaves:
-		_motion.tween_property(leaf[0], "rotation:y", leaf[1] * 1.65 if open else 0.0, 0.75)
+		_motion.tween_property(leaf[0], "rotation:y", -leaf[1] * _open_side * 1.65 if open else 0.0, 0.75)
 	_motion.chain().tween_callback(_finish_motion)
 	set_physics_process(true)
 	Sfx.play_at(get_parent(), "wood", global_position + Vector3.UP, -9.0, 0.8 if open else 0.68)
@@ -156,7 +166,7 @@ func _sync_collision() -> void:
 		query.shape = cs.shape
 		query.transform = body.global_transform * cs.transform
 		query.collision_mask = 2 | 4
-		query.margin = 0.08
+		query.margin = ACTOR_MARGIN
 		var occupied := not get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty()
 		cs.set_deferred("disabled", occupied)
 		_pending_collision = _pending_collision or occupied

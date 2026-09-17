@@ -1,8 +1,8 @@
-# A pickup inside the huts: a weapon on a rack or an ammunition crate. main.gd shows the prompt and calls take().
+# Collectible with its own removable visuals. main.gd shows the prompt and calls take().
 class_name Loot
 extends Node3D
 
-var kind := "ammo"        # "weapon" | "ammo"
+var kind := "ammo"        # "weapon" | "ammo" | "mushroom"
 var id := ""              # weapon id for kind == "weapon"
 var label := ""
 var taken := false

@@ -1,6 +1,6 @@
 param(
     [string]$Godot = 'C:/Users/miche/Desktop/Godot.exe',
-    [ValidateSet('Smoke', 'WeaponEffects', 'Barricades', 'Atmosphere', 'DayNight', 'DoorsKeys', 'Benchmark', 'ExportPack', 'ExportWindows')]
+    [ValidateSet('Smoke', 'WeaponEffects', 'Barricades', 'Atmosphere', 'DayNight', 'DoorsKeys', 'CampsitePickups', 'Benchmark', 'ExportPack', 'ExportWindows')]
     [string]$Mode = 'Smoke',
     [ValidateRange(0, 2)][int]$Quality = 0
 )
@@ -40,6 +40,10 @@ switch ($Mode) {
     'DoorsKeys' {
         $arguments += @('--script', 'res://tests/doors_keys.gd', '--', '--smoke-test', '--no-intro', '--no-music', '--render-doors', '--restart-keys')
         $marker = 'DOORS_KEYS_DONE checks=\d+ failures=0'
+    }
+    'CampsitePickups' {
+        $arguments += @('--script', 'res://tests/campsite_pickups.gd', '--', '--smoke-test', '--no-intro', '--no-music', '--render-campsite')
+        $marker = 'CAMPSITE_PICKUPS_DONE checks=\d+ failures=0'
     }
     'ExportPack' {
         $output = Join-Path $workspace 'builds/windows/RemZ.pck'

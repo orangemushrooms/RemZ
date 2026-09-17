@@ -850,7 +850,7 @@ func _waldhuette() -> Node3D:
 	_hip_roof(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, roof)
 	_roof_details(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, false)
 	_box(root, Vector3(0.5, 1.6, 0.5), Vector3(hx * 0.4, base_h + wall_h + 1.4, -0.6), _plain(Color(0.35, 0.33, 0.3)))
-	# garage door: closed, opens with E (leaves swing out over the gravel)
+	# Garage door: closed; E opens the leaves away from the interacting player.
 	_hut_door(root, Vector3(-hx + 0.1, 0.0, -hz + 1.9), 0.0, 2.6, 2.1, "Garagentor", "waldhuette", wood)
 	# closed shutters: north (2), west (1), east (1)
 	var shutter := _plain(Color(0.3, 0.15, 0.1), 0.7)
