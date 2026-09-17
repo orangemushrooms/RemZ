@@ -106,5 +106,17 @@
   "candle": {
     "prompt": "game asset, small glass jar candle with lit flame, single object, no ground",
     "texture_prompt": "clear glass, cream wax, warm flame, realistic PBR"
+  },
+  "well": {
+    "prompt": "game asset, old stone water well with round stone wall, wooden crank with rope and bucket, small wooden roof, single object, no ground",
+    "texture_prompt": "grey mossy stone, weathered wood, rusty iron, realistic PBR"
+  },
+  "table": {
+    "prompt": "game asset, rustic wooden table made of thick planks, single object, no ground",
+    "texture_prompt": "weathered brown wood planks, realistic PBR"
+  },
+  "storage_hut": {
+    "prompt": "game asset, large open-front wooden log storage shed, log walls, gable roof with wooden shingles, firewood stacked inside, single building, no ground",
+    "texture_prompt": "dark weathered logs, wooden shingles, stacked firewood, realistic PBR"
   }
 }

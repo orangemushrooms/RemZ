@@ -31,7 +31,17 @@ func plan(n: int) -> Array:
 		if n >= 4 and r > 0.92:
 			t = "brute"
 		var lr := randf()
-		var lane := "south" if lr < (0.7 if n < 3 else 0.45) else ("east" if lr < 0.8 else "north")
+		var lane := "north"
+		if lr < 0.35:
+			lane = "north"
+		elif lr < 0.65:
+			lane = "south"
+		elif lr < 0.85:
+			lane = "east"
+		else:
+			lane = "west"
+		if n < 3 and lane == "west":
+			lane = "north"
 		q.append({ "type": t, "lane": lane })
 	return q
 

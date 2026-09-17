@@ -1,66 +1,142 @@
-# Birkenhof layout shared by world building, spawning and AI. +X = east, +Z = south (downhill).
+# Level layout from the user's hand-drawn plan (Map_1 / Map_2). +X = east, +Z = south, north is -Z.
+# Scale: the plan is treated as 210 m x 115 m, origin in the middle.
 class_name Map
 
-const ROAD_WIDTH := 3.6
-const ROAD_START := -38.0
-const ROAD_END := 120.0
-const BAY := Rect2(-7.5, -58.0, 15.0, 20.0)      # asphalt parking bay (x, z, w, d)
-const STRIP := Rect2(7.5, -60.0, 6.0, 20.0)      # grass strip with the benches
-const BOUNDS := Rect2(-70.0, -95.0, 125.0, 223.0)
+# ---- roads and paths: polylines of Vector2(x, z), with width and surface ----
+const ROADS := [
+	{ "name": "Nordstrasse", "pts": [Vector2(-110, -39), Vector2(110, -39)], "width": 5.0, "surface": "asphalt" },
+	{ "name": "Weg Richtung Dorf", "pts": [Vector2(54, -39), Vector2(54, 62)], "width": 4.5, "surface": "asphalt" },
+	{ "name": "Weg zur Hütte", "pts": [Vector2(41, -39), Vector2(41, 16)], "width": 3.6, "surface": "gravel" },
+	{ "name": "Waldweg nach Hütte", "pts": [Vector2(-110, 16), Vector2(54, 16)], "width": 4.0, "surface": "gravel" },
+]
+const STREAM := [Vector2(-44, 22), Vector2(-42, 30), Vector2(-38, 40), Vector2(-37, 50), Vector2(-36, 64)]
+
+# ---- forest blocks (Rect2 x, z, w, d) ----
+const FORESTS := {
+	"Wald Nord (Streifen zur Nordstrasse)": Rect2(-110, -36, 143, 13),   # one continuous forest, no gap to the road
+	"Wald Nord West": Rect2(-110, -23, 54, 33),
+	"Wald Nord 2": Rect2(-15, -23, 46, 8),
+	"Wald Süd 2": Rect2(-110, 24, 74, 42),
+	"Wald Süd 1": Rect2(15, 29, 17, 37),
+	"Wald Süd hinten": Rect2(-36, 49, 51, 17),
+	"Wald West": Rect2(-150, -60, 40, 130),
+	"Wald Nord hinten": Rect2(-150, -80, 300, 36),
+	"Wald Süd ganz": Rect2(-150, 66, 200, 30),
+}
+const CLEARING := Rect2(-56, -23, 89, 35)     # the campsite clearing (leaf litter floor)
+const MEADOW_X := 56.0                        # everything east of this is the meadow
+
+# ---- buildings ----
+const WALDHUETTE := { "pos": Vector2(12, -4), "size": Vector2(10, 8), "yaw": PI / 2.0 }   # door faces west
+const HOLZAGER := { "pos": Vector2(-6, 38), "size": Vector2(16, 9), "yaw": 0.0 }
+
+# ---- campsite ----
+const FIRE := Vector2(-28, -9)
+const BENCHES := [   # pos, yaw (bench length axis)
+	[Vector2(-37.5, -9), PI / 2.0],   # Bank 1 west
+	[Vector2(-18.5, -9), PI / 2.0],   # Bank 2 east
+	[Vector2(-28, -3.5), 0.0],        # Bank 3 south
+	[Vector2(-28, -16.5), 0.0],       # Bank 4 north
+]
+const TABLE := Vector2(-23.5, -1.0)
+const WELL := Vector2(-17, 5)
+const PLAYER_START := Vector2(-28, -1)
+
+const BOUNDS := Rect2(-120, -75, 240, 150)
 
 const BARRICADES := [
-	{ "id": "south", "name": "Weg (Süd)", "pos": Vector2(0.2, -30.0), "yaw": 0.0, "segments": 2 },
-	{ "id": "east", "name": "Waldrand (Ost)", "pos": Vector2(13.8, -50.0), "yaw": PI / 2.0, "segments": 2 },
-	{ "id": "north", "name": "Kiesweg (Nord)", "pos": Vector2(-9.5, -63.0), "yaw": 0.35, "segments": 2 },
+	{ "id": "e", "name": "Weg zur Hütte", "pos": Vector2(34, -6), "yaw": PI / 2.0, "segments": 2 },
+	{ "id": "sw", "name": "Waldweg West", "pos": Vector2(-44, 12), "yaw": 0.0, "segments": 3 },
+	{ "id": "s", "name": "Waldweg Mitte", "pos": Vector2(-14, 12), "yaw": 0.0, "segments": 3 },
+	{ "id": "se", "name": "Waldweg Ost", "pos": Vector2(20, 12), "yaw": 0.0, "segments": 3 },
 ]
-
 const SPAWNS := {
-	"south": [Vector2(0, 30), Vector2(1, 45), Vector2(-1, 60), Vector2(1, 75)],
-	"east": [Vector2(30, -52), Vector2(34, -44), Vector2(28, -36), Vector2(36, -50)],
-	"north": [Vector2(-14, -88), Vector2(-11, -92), Vector2(-17, -85), Vector2(-9, -90)],
+	"north": [Vector2(41, -46), Vector2(30, -46), Vector2(48, -46), Vector2(-20, -46)],
+	"south": [Vector2(-60, 22), Vector2(-20, 22), Vector2(30, 22), Vector2(54, 58)],
+	"east": [Vector2(68, -20), Vector2(70, 0), Vector2(66, 20)],
+	"west": [Vector2(-95, 16), Vector2(-100, 13)],
 }
 
-static func road_x(z: float) -> float:
-	var x := 1.6 * sin(z / 40.0) + 0.5 * sin(z / 13.0)
-	if z < -20.0:
-		x -= (-20.0 - z) * 0.03
-	return x
+static func dist_to_polyline(p: Vector2, pts: Array) -> float:
+	var best := 1e9
+	for i in pts.size() - 1:
+		var a: Vector2 = pts[i]
+		var b: Vector2 = pts[i + 1]
+		var ab := b - a
+		var t := clampf((p - a).dot(ab) / maxf(ab.length_squared(), 1e-6), 0.0, 1.0)
+		best = minf(best, (a + ab * t).distance_to(p))
+	return best
 
-static func track_x(z: float) -> float:
-	return -9.0 + (-58.0 - z) * 0.18
+static func on_road(x: float, z: float, margin: float = 0.0) -> bool:
+	var p := Vector2(x, z)
+	for r in ROADS:
+		if dist_to_polyline(p, r["pts"]) < r["width"] / 2.0 + margin:
+			return true
+	return false
+
+static func in_building(x: float, z: float, margin: float = 0.0) -> bool:
+	for b in [WALDHUETTE, HOLZAGER]:
+		var pos: Vector2 = b["pos"]
+		var size: Vector2 = b["size"]
+		var d := Vector2(x, z) - pos
+		var yaw: float = b["yaw"]
+		var l := Vector2(d.x * cos(yaw) + d.y * sin(yaw), -d.x * sin(yaw) + d.y * cos(yaw))
+		if absf(l.x) < size.x / 2.0 + margin and absf(l.y) < size.y / 2.0 + margin:
+			return true
+	return false
+
+static func in_forest(x: float, z: float) -> bool:
+	for r in FORESTS.values():
+		if (r as Rect2).has_point(Vector2(x, z)):
+			return true
+	return false
 
 static func ground_height(x: float, z: float) -> float:
-	var zz := maxf(z, ROAD_START)
-	var h := -(zz - ROAD_START) * 0.085
-	if z > 95.0:
-		h -= (z - 95.0) * 0.03
-	if z < -60.0:
-		h += (-60.0 - z) * 0.02
-	var dx := x - road_x(z)
-	var in_bay := z < -34.0 and x > -12.0 and x < 16.0
-	var flat := 0.0 if in_bay else clampf(minf(z + 34.0, 30.0) / 10.0, 0.0, 1.0)
-	if dx < -2.0:
-		var k := -dx - 2.0
-		var f := minf(1.0, k / 8.0)
-		h -= flat * (k * 0.06 + f * (sin(x * 0.11) * 0.4 + sin(z * 0.07 + x * 0.05) * 0.5))
-	if dx > 2.0:
-		var k := dx - 2.0
-		var f := minf(1.0, k / 8.0)
-		h += flat * (k * 0.03 + f * sin(x * 0.19 + z * 0.13) * 0.25)
+	var h := 0.35 * sin(x * 0.07 + 1.0) * cos(z * 0.05) + 0.2 * sin(x * 0.19 + z * 0.13)
+	h += -0.004 * x   # the land falls away gently towards the meadow in the east
+	# stream bed
+	var ds := dist_to_polyline(Vector2(x, z), STREAM)
+	if ds < 2.2:
+		h -= (1.0 - smoothstep(0.0, 2.2, ds)) * 0.7
+	# roads sit on a flattened bed
+	for r in ROADS:
+		var d := dist_to_polyline(Vector2(x, z), r["pts"])
+		var w: float = r["width"] / 2.0 + 1.5
+		if d < w:
+			var flat := 0.35 * sin(x * 0.07 + 1.0) * cos(z * 0.05) * 0.2 - 0.004 * x
+			h = lerpf(flat, h, smoothstep(w - 1.5, w, d))
 	return h
 
 static func ground_pos(x: float, z: float) -> Vector3:
 	return Vector3(x, ground_height(x, z), z)
 
-# Areas that must stay free of trees and bushes: road, bay + bench strip, gravel track, east approach
+# 1 = leaf litter (forest floor and clearing), 0 = meadow grass
+static func leaf_weight(x: float, z: float) -> float:
+	var w := 0.0
+	var p := Vector2(x, z)
+	for r in FORESTS.values():
+		var rr := (r as Rect2).grow(3.0)
+		if rr.has_point(p):
+			var edge := minf(minf(p.x - rr.position.x, rr.end.x - p.x), minf(p.y - rr.position.y, rr.end.y - p.y))
+			w = maxf(w, smoothstep(0.0, 4.0, edge))
+	var c := CLEARING.grow(2.0)
+	if c.has_point(p):
+		var edge := minf(minf(p.x - c.position.x, c.end.x - p.x), minf(p.y - c.position.y, c.end.y - p.y))
+		w = maxf(w, smoothstep(0.0, 3.0, edge))
+	if on_road(x, z, 0.6):
+		w *= 0.0
+	return w
+
+# Areas that must stay free of trees and shrubs
 static func is_clear_zone(x: float, z: float) -> bool:
-	var rw := ROAD_WIDTH / 2.0
-	if z > ROAD_START - 3.0 and absf(x - road_x(z)) < rw + 2.2:
+	if on_road(x, z, 2.5):
 		return true
-	if x > BAY.position.x - 2.0 and x < STRIP.end.x + 1.0 and z > BAY.position.y - 3.0 and z < BAY.end.y + 3.0:
+	if in_building(x, z, 3.0):
 		return true
-	if z < -46.0 and absf(x - track_x(z)) < 3.2:
+	if dist_to_polyline(Vector2(x, z), STREAM) < 2.5:
 		return true
-	if x > 13.0 and x < 40.0 and absf(z - (-50.0 + (x - 13.0) * 0.2)) < 2.6:
+	if Vector2(x, z).distance_to(FIRE) < 14.0:
+		return true
+	if Vector2(x, z).distance_to(WELL) < 4.0:
 		return true
 	return false
