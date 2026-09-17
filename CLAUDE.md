@@ -69,6 +69,12 @@ Scenes are built in code; `scenes/main.tscn` only holds the root.
   names to file variants (random pick) and falls back to procedural bursts, `music.gd` crossfades
   title / night / combat / gameover plus a "horde" layer scaled by zombies alive. `--no-music` silences it.
   After adding files run `Godot.exe --headless --path godot --import`.
+- Intro (`intro.gd`): after "Spiel starten" a KONM Games card with `assets/audio/music/intro.mp3`, then the
+  player wakes in dense fog at the south end of the Sennhofstrasse (136, 108) and is guided by a typewriter
+  briefing and a HUD arrow along waypoints to the hut. Fog and intro music fade with the distance to the hut;
+  reaching the Weg zur Hütte fires `road_reached` -> wave 1 (`waves.phase == "intro"` blocks the countdown
+  until then). `--no-intro` skips it (autotest, benchmark and `--view=` skip automatically), `--intro-test`
+  runs it headless-ish and saves `shots/intro_wake.png` / `intro_road.png`.
 
 ## Testing
 - `godot --headless --path godot --quit-after 150` catches script errors.

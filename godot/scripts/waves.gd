@@ -2,6 +2,8 @@
 class_name Waves
 extends Node
 
+signal wave_started(number: int)
+
 var main: Node
 var hud: Hud
 var player: Player
@@ -53,6 +55,7 @@ func plan(n: int) -> Array:
 
 func start(n: int) -> void:
 	wave = n
+	wave_started.emit(n)
 	# the fallen of the last round stay until the next wave begins, then sink into the forest floor
 	if n > 1:
 		for z in main.zombies_root.get_children():
@@ -75,6 +78,10 @@ func start(n: int) -> void:
 
 func _process(delta: float) -> void:
 	if not player or not player.active or not player.alive:
+		return
+	if phase == "intro":
+		# the opening walk: no countdown, wave 1 is released when the Weg zur Hütte is reached
+		hud.set_wave(1, "Erreiche den Weg zur Hütte")
 		return
 	if phase == "idle":
 		timer -= delta
