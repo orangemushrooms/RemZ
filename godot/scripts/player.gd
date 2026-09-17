@@ -26,6 +26,7 @@ var _gravity := 20.0
 var speed_mul := 1.0
 var regen_mul := 1.0
 var recoil_offset := Vector2.ZERO   # (pitch, yaw) radians of visual recoil still settling
+var mouse_sensitivity := 1.0
 
 func _ready() -> void:
 	collision_layer = 4
@@ -61,8 +62,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not active or not alive:
 		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(-event.relative.x * SENS)
-		pitch = clampf(pitch - event.relative.y * SENS, -1.45, 1.45)
+		rotate_y(-event.screen_relative.x * SENS * mouse_sensitivity)
+		pitch = clampf(pitch - event.screen_relative.y * SENS * mouse_sensitivity, -1.45, 1.45)
 		head.rotation.x = pitch + recoil_offset.x
 	if event.is_action_pressed("flashlight"):
 		flashlight.visible = not flashlight.visible
@@ -106,7 +107,8 @@ func damage(n: float) -> void:
 	wobble = 1.0
 	hud.set_health(hp)
 	hud.damage_flash()
-	Sfx.play(self, "hurt", -6.0)
+	Sfx.play(self, "hurt", -3.0, 0.85)
+	Sfx.play(self, "hurt_thud", -10.0)
 	if hp <= 0.0:
 		hp = 0.0
 		alive = false

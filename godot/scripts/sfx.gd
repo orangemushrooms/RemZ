@@ -17,6 +17,7 @@ const FILES := {
 	"confirm": ["confirm"],
 	"menu": ["confirm_menu"],
 	"hit": ["impact"],
+	"hurt": ["impact"],
 	"growl": ["zombie_1", "zombie_2", "zombie_3", "zombie_4"],
 	"barricade_break": ["barricade_break_1", "barricade_break_2", "barricade_break_3", "barricade_break_4"],
 	"wave": ["wave_start"],
@@ -65,6 +66,7 @@ static func _procedural(name: String) -> AudioStreamWAV:
 		"empty": return _burst(0.05, 0.01, 0.9, 0.25, 1200.0, 0.0)
 		"hit": return _burst(0.12, 0.04, 0.2, 0.5)
 		"hurt": return _burst(0.4, 0.15, 0.15, 0.6, 120.0, -100.0)
+		"hurt_thud": return _burst(0.35, 0.09, 0.04, 0.9, 60.0, -40.0)
 		"growl": return _burst(0.8, 0.35, 0.05, 0.35, 70.0 + _rng.randf() * 50.0, -20.0)
 		"build": return _burst(0.2, 0.06, 0.4, 0.5, 220.0, 0.0)
 		"wave": return _burst(1.4, 0.6, 0.02, 0.4, 110.0, 30.0)
