@@ -48,6 +48,12 @@ var _road_done := false
 var _road_pts: PackedVector2Array
 var _test := false
 var _test_t := 0.0
+var _route: PackedVector2Array          # START + WAYPOINTS, the walk the music follows
+var _route_len := 1.0
+var _path_prog := 0.0                   # 0..1 along the route, never decreases
+var _fade_t := -1.0                     # >= 0: the intro track is fading out (seconds elapsed)
+const FADE_OUT := 4.0
+const MUSIC_STOP_DIST := 45.0           # silent before the player stands at the fire
 
 func setup(m: Node, p: Player, e: Environment) -> void:
 	main = m
@@ -137,6 +143,14 @@ func begin() -> void:
 	player.head.rotation.x = 0.0
 	player.active = false
 	_d0 = maxf(1.0, START.distance_to(WAYPOINTS[WAYPOINTS.size() - 1]))
+	_route = PackedVector2Array([START])
+	for w in WAYPOINTS:
+		_route.append(w)
+	_route_len = 0.0
+	for i in _route.size() - 1:
+		_route_len += _route[i].distance_to(_route[i + 1])
+	_path_prog = 0.0
+	_fade_t = -1.0
 	env.fog_density = FOG_DENSE
 	env.volumetric_fog_density = VFOG_DENSE
 	# the sky sinks into the same murk, otherwise the fogged trees stand out white against a dark sky
@@ -153,6 +167,25 @@ func _progress() -> float:
 	var p := Vector2(player.global_position.x, player.global_position.z)
 	var d := p.distance_to(WAYPOINTS[WAYPOINTS.size() - 1])
 	return clampf(1.0 - d / _d0, 0.0, 1.0)
+
+# fraction of the route (start -> junction -> Weg zur Hütte -> fork -> hut) already walked, measured along the
+# polyline from the nearest point, so the music fades with the actual way and never comes back up
+func _path_progress() -> float:
+	var p := Vector2(player.global_position.x, player.global_position.z)
+	var best := INF
+	var along := 0.0
+	var acc := 0.0
+	for i in _route.size() - 1:
+		var a := _route[i]
+		var b := _route[i + 1]
+		var q := Geometry2D.get_closest_point_to_segment(p, a, b)
+		var dist := p.distance_to(q)
+		if dist < best:
+			best = dist
+			along = acc + a.distance_to(q)
+		acc += a.distance_to(b)
+	_path_prog = maxf(_path_prog, clampf(along / maxf(_route_len, 1.0), 0.0, 1.0))
+	return _path_prog
 
 func _dist_to_road() -> float:
 	var p := Vector2(player.global_position.x, player.global_position.z)
@@ -201,15 +234,27 @@ func _process(delta: float) -> void:
 			env.volumetric_fog_density = lerpf(VFOG_DENSE, _vfog_base, fog_k)
 			env.fog_sky_affect = lerpf(1.0, _sky_affect_base, fog_k)
 			env.fog_aerial_perspective = lerpf(0.0, _aerial_base, fog_k)
-			_music.volume_db = MUSIC_DB + linear_to_db(maxf(0.001, pow(1.0 - prog, 1.4)))
+			# the track follows the walked route: full at the start, half as loud at the junction, a whisper
+			# at the fork, and it fades out completely once wave 1 begins or the hut is 45 m away
+			var pp := _path_progress()
+			var base_db := MUSIC_DB + linear_to_db(maxf(0.001, pow(1.0 - pp, 2.2)))
+			var to_hut := Vector2(player.global_position.x, player.global_position.z).distance_to(WAYPOINTS[WAYPOINTS.size() - 1])
+			if _fade_t < 0.0 and (_road_done or to_hut < MUSIC_STOP_DIST):
+				_fade_t = 0.0
+			if _fade_t >= 0.0:
+				_fade_t += delta
+				var k := clampf(_fade_t / FADE_OUT, 0.0, 1.0)
+				_music.volume_db = base_db + linear_to_db(maxf(0.001, 1.0 - k))
+				if k >= 1.0 and _music.playing:
+					_music.stop()
+			else:
+				_music.volume_db = base_db
 			if not _road_done and _dist_to_road() < 5.0:
 				_road_done = true
 				_briefing = BRIEFING_ROAD
 				_typed = 0.0
 				_text.text = ""
 				road_reached.emit()
-			if _road_done and _music.playing and prog > 0.9:
-				_music.stop()
 			if prog > 0.93:
 				_end()
 		_:
@@ -272,7 +317,9 @@ func _test_step(delta: float) -> void:
 		player.rotation.y = PI / 2.0
 	if _road_done and _test_t > 11.0 and _test_t - delta <= 11.0:
 		_shot("intro_road.png")
-		print("INTRO_ROAD_REACHED zombies=", main.alive_zombies(), " waves_phase=", main.waves.phase, " music_db=", _music.volume_db)
+		print("INTRO_ROAD_REACHED zombies=", main.alive_zombies(), " waves_phase=", main.waves.phase, " music_db=", _music.volume_db, " path_prog=", _path_prog)
+	if _road_done and _test_t > 14.0:
+		print("INTRO_MUSIC_AFTER_FADE playing=", _music.playing, " db=", _music.volume_db)
 		get_tree().quit()
 
 func _shot(name: String) -> void:

@@ -44,6 +44,8 @@ static var _buses_ready := false
 static var _cache: Dictionary = {}
 static var _rng := RandomNumberGenerator.new()
 static var _last_footstep := -1
+static var _voices: Dictionary = {}        # name -> Array of live players; automatic fire never stacks more than MAX_VOICES
+const MAX_VOICES := 3
 
 static func _wav(samples: PackedFloat32Array, rate: int = 22050) -> AudioStreamWAV:
 	var wav := AudioStreamWAV.new()
@@ -143,6 +145,20 @@ static func play(node: Node, name: String, volume_db: float = 0.0, pitch: float 
 	node.add_child(p)
 	p.play()
 	p.finished.connect(p.queue_free)
+	_limit_voices(name, p)
+
+static func _limit_voices(name: String, p: Node) -> void:
+	var list: Array = _voices.get(name, [])
+	var live: Array = []
+	for v in list:
+		if is_instance_valid(v) and v.is_inside_tree() and v.playing:
+			live.append(v)
+	live.append(p)
+	while live.size() > MAX_VOICES:
+		var old: Node = live.pop_front()
+		if is_instance_valid(old):
+			old.queue_free()
+	_voices[name] = live
 
 static func play_at(node: Node, name: String, pos: Vector3, volume_db: float = 0.0, pitch: float = 1.0) -> void:
 	var p := AudioStreamPlayer3D.new()
@@ -154,6 +170,7 @@ static func play_at(node: Node, name: String, pos: Vector3, volume_db: float = 0
 	p.global_position = pos
 	p.play()
 	p.finished.connect(p.queue_free)
+	_limit_voices("3d:" + name, p)
 
 # ---------------------------------------------------------------- footsteps
 static func _ensure_step_buses() -> void:
