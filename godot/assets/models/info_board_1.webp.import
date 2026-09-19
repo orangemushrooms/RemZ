@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bfrdor4yeo4nd"
-path="res://.godot/imported/info_board_1.webp-d56522d2c9407deaf1bcf507d39e1203.ctex"
+path.s3tc="res://.godot/imported/info_board_1.webp-d56522d2c9407deaf1bcf507d39e1203.s3tc.ctex"
+path.etc2="res://.godot/imported/info_board_1.webp-d56522d2c9407deaf1bcf507d39e1203.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "bf8e226bdd71d9acb59ecaed73da3ee9"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/info_board_1.webp"
-dest_files=["res://.godot/imported/info_board_1.webp-d56522d2c9407deaf1bcf507d39e1203.ctex"]
+dest_files=["res://.godot/imported/info_board_1.webp-d56522d2c9407deaf1bcf507d39e1203.s3tc.ctex", "res://.godot/imported/info_board_1.webp-d56522d2c9407deaf1bcf507d39e1203.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

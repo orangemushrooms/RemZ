@@ -117,6 +117,26 @@ static func _sample(x: float, z: float) -> float:
 	var c := _h[(j + 1) * _w + i]; var d := _h[(j + 1) * _w + i + 1]
 	return lerpf(lerpf(a, b, tx), lerpf(c, d, tx), tz)
 
+# Match the two triangles of each 1 m terrain cell, rather than the bilinear
+# height used for smooth placement. Ground overlays must follow the rendered surface.
+static func surface_height(x: float, z: float) -> float:
+	_ensure()
+	if not extent().has_point(Vector2(x, z)):
+		return ground_height(x, z)
+	var fx := x - _x0
+	var fz := z - _z0
+	var i := mini(int(fx), _w - 2)
+	var j := mini(int(fz), _hh - 2)
+	var tx := fx - i
+	var tz := fz - j
+	var a := _h[j * _w + i]
+	var b := _h[j * _w + i + 1]
+	var c := _h[(j + 1) * _w + i]
+	if tx + tz <= 1.0:
+		return a + (b - a) * tx + (c - a) * tz
+	var d := _h[(j + 1) * _w + i + 1]
+	return d + (c - d) * (1.0 - tx) + (b - d) * (1.0 - tz)
+
 # outside the playable extent the coarse 10 m surroundings raster (same DEM) takes over
 static func _far(x: float, z: float) -> float:
 	var fx := clampf((x - _skx0) / _skc, 0.0, _skw - 1.001)

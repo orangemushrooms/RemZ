@@ -446,44 +446,7 @@ func _build_skirt(ext: Rect2) -> void:
 	mi.material_override = Foliage.terrain_material()
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(mi)
-	var wall := _mat("ph_cladding", 0.5, Color(0.75, 0.7, 0.62))
-	var wall2 := _plain(Color(0.85, 0.82, 0.75), 0.9)
-	var roof := _plain(Color(0.42, 0.2, 0.14), 0.85)
-	for v in Map.VILLAGE:
-		var pts: PackedVector2Array = []
-		for p in v["poly"]:
-			pts.append(Vector2(p[0], p[1]))
-		if pts.size() < 3:
-			continue
-		# oriented box from the longest edge
-		var best := 0
-		var bl := 0.0
-		for i in pts.size():
-			var l := pts[i].distance_to(pts[(i + 1) % pts.size()])
-			if l > bl:
-				bl = l
-				best = i
-		var dir := (pts[(best + 1) % pts.size()] - pts[best]).normalized()
-		var c := Vector2.ZERO
-		for p in pts:
-			c += p
-		c /= pts.size()
-		var minu := 1e9; var maxu := -1e9; var minv := 1e9; var maxv := -1e9
-		for p in pts:
-			var d := p - c
-			var u := d.dot(dir)
-			var w := d.dot(Vector2(-dir.y, dir.x))
-			minu = minf(minu, u); maxu = maxf(maxu, u); minv = minf(minv, w); maxv = maxf(maxv, w)
-		var size := Vector2(maxu - minu, maxv - minv)
-		if size.x < 3.0 or size.y < 3.0:
-			continue
-		var root := Node3D.new()
-		add_child(root)
-		root.position = Map.ground_pos(c.x, c.y) - Vector3(0, 0.3, 0)
-		root.rotation.y = -atan2(dir.y, dir.x)
-		var hgt: float = v["h"]
-		_box(root, Vector3(size.x, hgt, size.y), Vector3(0, hgt / 2.0, 0), wall if rng.randf() < 0.4 else wall2)
-		_hip_roof(root, size, hgt, minf(size.y, size.x) * 0.35, 0.5, roof, true)
+	add_child(preload("res://scripts/village_buildings.gd").new().build())
 
 # road ribbon along a polyline
 func _road_mesh(pts: Array, width: float, lift: float, mat: Material, fade: bool = true) -> void:
@@ -1078,11 +1041,12 @@ func _gable_roof_details(parent: Node3D, size: Vector2, y: float, height: float,
 		var st := SurfaceTool.new()
 		st.begin(Mesh.PRIMITIVE_TRIANGLES)
 		var v := gs * (wall_v + 0.04)
-		var pts := [Vector3(-half_u, y - 0.3, v), Vector3(half_u, y - 0.3, v), Vector3(0, top - 0.06, v)]
+		var pts := [Vector3(-half_u, y - 0.14, v), Vector3(half_u, y - 0.14, v), Vector3(0, top - 0.14, v)]
 		if along_x:
-			pts = [Vector3(v, y - 0.3, -half_u), Vector3(v, y - 0.3, half_u), Vector3(v, top - 0.06, 0)]
+			pts = [Vector3(v, y - 0.14, -half_u), Vector3(v, y - 0.14, half_u), Vector3(v, top - 0.14, 0)]
 		var n := Vector3(0, 0, gs) if not along_x else Vector3(gs, 0, 0)
-		var order := [0, 1, 2] if gs > 0.0 else [0, 2, 1]
+		# Godot front faces are clockwise; exchanging the ridge axes reverses winding.
+		var order := [0, 2, 1] if (gs > 0.0) != along_x else [0, 1, 2]
 		for i in order:
 			st.set_normal(n)
 			st.set_uv(Vector2(pts[i].x + pts[i].z, pts[i].y) * 0.5)
@@ -1098,7 +1062,7 @@ func _gable_roof_details(parent: Node3D, size: Vector2, y: float, height: float,
 		if og > 0.4:
 			for pu: float in [0.0, -0.58, 0.58]:
 				var u := pu * half_u
-				var py := top - slope * absf(u) - 0.22
+				var py := top - slope * absf(u) - 0.14 - 0.09 - slope * 0.07
 				var beam := MeshInstance3D.new()
 				var bm := BoxMesh.new()
 				bm.size = Vector3(0.14, 0.18, og + 0.9) if not along_x else Vector3(og + 0.9, 0.18, 0.14)
@@ -1117,9 +1081,9 @@ func _gable_roof_details(parent: Node3D, size: Vector2, y: float, height: float,
 					brace.material_override = wood
 					place.call(brace, u, py - 0.1 - drop / 2.0, gs * (wall_v + run / 2.0))
 					if along_x:
-						brace.rotation.z = -gs * atan2(drop, run)
+						brace.rotation.z = gs * atan2(drop, run)
 					else:
-						brace.rotation.x = gs * atan2(drop, run)
+						brace.rotation.x = -gs * atan2(drop, run)
 					parent.add_child(brace)
 	# rafter ends and gutters along both eaves
 	var n_rafters := int(v_len / 0.7)
@@ -1131,12 +1095,14 @@ func _gable_roof_details(parent: Node3D, size: Vector2, y: float, height: float,
 			var v := v_neg + 0.1 + (v_len - 0.2) * float(k) / n_rafters
 			var rafter := MeshInstance3D.new()
 			var rb := BoxMesh.new()
-			var len := over + 0.5
+			# Length follows the slope; keep the timber ends inside the roof edge.
+			var run := over + 0.5 - 0.08
+			var len := run * sqrt(1.0 + slope * slope)
 			rb.size = Vector3(len, 0.13, 0.08) if not along_x else Vector3(0.08, 0.13, len)
 			rafter.mesh = rb
 			rafter.material_override = wood
-			var u_mid := side * (half_u + over - len / 2.0)
-			place.call(rafter, u_mid, top - slope * absf(u_mid) - 0.17, v)
+			var u_mid := side * (half_u + over - 0.08 - run / 2.0)
+			place.call(rafter, u_mid, top - slope * absf(u_mid) - 0.14 - 0.065 * sqrt(1.0 + slope * slope), v)
 			if along_x:
 				rafter.rotation.x = side * atan(slope)
 			else:
@@ -1346,18 +1312,30 @@ func _holzlager() -> Node3D:
 	_slab(root, Vector3(0.9, 0.5, 0.9), Vector3(-hx + 0.75, 0.25 + base_h, 2.0), Foliage.pbr("planks", 0.8, Color(0.45, 0.38, 0.28)))
 	# gable roof along the long axis; the overhang is wide on the road side (east, ~1.4 m on struts) and short on the
 	# forest side (photos 12, 22)
-	_gable_roof(root, size, base_h + wall_h, b["roof_h"], Vector2(0.6, 0.6), Vector2(0.45, 1.4), roof, false)
-	_gable_roof_details(root, size, base_h + wall_h, b["roof_h"], Vector2(0.6, 0.6), Vector2(0.45, 1.4), false, metal)
-	# eave struts under the wide overhang on the road side
+	var roof_y := base_h + wall_h
+	var roof_height: float = b["roof_h"]
+	var over_eave := Vector2(0.45, 1.4)
+	_gable_roof(root, size, roof_y, roof_height, Vector2(0.6, 0.6), over_eave, roof, false)
+	_gable_roof_details(root, size, roof_y, roof_height, Vector2(0.6, 0.6), over_eave, false, metal)
+	# The wide east overhang rests on a continuous purlin beneath the rafters.
+	# Derive the braces from their actual joints so they cannot pierce the roof.
+	var timber := _plain(Color(0.28, 0.18, 0.12), 0.85)
+	var slope := roof_height / hx
+	var support_x := hx + over_eave.y - 0.28
+	var support_y := roof_y + roof_height - slope * support_x - 0.14 - 0.13 * sqrt(1.0 + slope * slope) - 0.08 - slope * 0.07
+	_box(root, Vector3(0.14, 0.16, size.y + 0.9), Vector3(support_x, support_y, 0), timber)
 	for k in 6:
 		var zz := -hz + 1.0 + k * (size.y - 2.0) / 5.0
+		var wall_joint := Vector3(hx + 0.06, support_y - 0.78, zz)
+		var outer_joint := Vector3(support_x, support_y - 0.08, zz)
+		var direction := outer_joint - wall_joint
 		var strut := MeshInstance3D.new()
 		var sb := BoxMesh.new()
-		sb.size = Vector3(1.55, 0.09, 0.09)
+		sb.size = Vector3(direction.length(), 0.1, 0.1)
 		strut.mesh = sb
-		strut.material_override = _plain(Color(0.25, 0.16, 0.1), 0.85)
-		strut.position = Vector3(hx + 0.62, base_h + wall_h - 0.5, zz)
-		strut.rotation.z = 0.62
+		strut.material_override = timber
+		strut.position = (wall_joint + outer_joint) / 2.0
+		strut.rotation.z = atan2(direction.y, direction.x)
 		root.add_child(strut)
 	# inside: the good weapons on a rack, ammunition, firewood
 	_box(root, Vector3(2.6, 1.6, 0.08), Vector3(0, base_h + 1.4, hz - 0.2), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
@@ -1534,22 +1512,71 @@ func _signpost(x: float, z: float) -> void:
 	var root := Node3D.new()
 	add_child(root)
 	root.position = Map.ground_pos(x, z)
-	root.rotation.y = 0.3
-	var post_model := _prop(root, "guidepost", 2.4, "y")
-	if post_model:
-		_box_collider(root, Vector3(0.3, 2.4, 0.3))
-		if _prop(root, "info_board", 1.9, "y", Vector3(1.0, 0.0, 0.3), -0.2):
-			_box_collider(root, Vector3(0.7, 1.9, 0.3), Vector3(1.0, 0.0, 0.3))
-			return
 	var post := _plain(Color(0.35, 0.3, 0.25), 0.8)
-	_box(root, Vector3(0.1, 2.4, 0.1), Vector3(0, 1.2, 0), post)
-	var yellow := _plain(Color(0.95, 0.8, 0.1), 0.6)
-	_box(root, Vector3(0.9, 0.14, 0.03), Vector3(0.45, 2.1, 0.06), yellow, 0.0)
-	_box(root, Vector3(0.9, 0.14, 0.03), Vector3(0.4, 1.9, -0.06), yellow, PI * 0.55)
+	# Swiss hiking guidepost: round wooden post with two yellow arrow plates. "Oberrohrdorf" on top points north
+	# along the Waldweg, "Remetschwil" below points south down the track between the huts.
+	var pm := MeshInstance3D.new()
+	var pc := CylinderMesh.new()
+	pc.top_radius = 0.06; pc.bottom_radius = 0.07; pc.height = 2.5; pc.radial_segments = 10
+	pm.mesh = pc
+	pm.material_override = post
+	pm.position.y = 1.25
+	root.add_child(pm)
+	_sign_arrow(root, "Oberrohrdorf", 2.15, 0.0)
+	_sign_arrow(root, "Remetschwil", 1.9, PI)
+	_box_collider(root, Vector3(0.3, 2.5, 0.3))
 	# small wooden info board next to it (photo 16)
-	_box(root, Vector3(0.6, 0.5, 0.05), Vector3(1.0, 1.4, 0.3), Foliage.pbr("planks", 0.8, Color(0.6, 0.5, 0.4)))
-	_box(root, Vector3(0.08, 1.2, 0.08), Vector3(1.0, 0.6, 0.3), post)
-	_box_collider(root, Vector3(0.3, 2.4, 0.3))
+	if _prop(root, "info_board", 1.9, "y", Vector3(1.0, 0.0, 0.3), -0.2):
+		_box_collider(root, Vector3(0.7, 1.9, 0.3), Vector3(1.0, 0.0, 0.3))
+	else:
+		_box(root, Vector3(0.6, 0.5, 0.05), Vector3(1.0, 1.4, 0.3), Foliage.pbr("planks", 0.8, Color(0.6, 0.5, 0.4)))
+		_box(root, Vector3(0.08, 1.2, 0.08), Vector3(1.0, 0.6, 0.3), post)
+
+# yellow arrow plate on the post at height y, pointing along -z rotated by yaw, black text on both faces
+func _sign_arrow(root: Node3D, text: String, y: float, yaw: float) -> void:
+	var arm := Node3D.new()
+	arm.rotation.y = yaw
+	arm.position.y = y
+	root.add_child(arm)
+	var yellow := _plain(Color(1.0, 0.82, 0.05), 0.55)
+	var plate_len := 0.78
+	# plate body: starts at the post, runs forward (-z)
+	_box(arm, Vector3(0.03, 0.15, plate_len), Vector3(0.09, 0.0, -plate_len * 0.5 - 0.02), yellow)
+	# arrow tip: a flat prism from two triangles
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var z0 := -plate_len - 0.02
+	var tip := Vector3(0.09, 0.0, z0 - 0.14)
+	for sx: float in [-1.0, 1.0]:
+		var xo := 0.09 + sx * 0.015
+		var p0 := Vector3(xo, 0.075, z0)
+		var p1 := Vector3(xo, -0.075, z0)
+		var t := Vector3(xo, 0.0, z0 - 0.14)
+		var order := [p0, t, p1] if sx > 0.0 else [p0, p1, t]
+		for p: Vector3 in order:
+			st.set_normal(Vector3(sx, 0, 0))
+			st.set_uv(Vector2(p.z, p.y))
+			st.add_vertex(p)
+	st.generate_normals()
+	var tm := MeshInstance3D.new()
+	tm.mesh = st.commit()
+	tm.material_override = yellow
+	arm.add_child(tm)
+	for side: float in [-1.0, 1.0]:
+		var label := Label3D.new()
+		label.text = text
+		label.font_size = 56
+		label.pixel_size = 0.0017
+		label.modulate = Color(0.05, 0.05, 0.05)
+		label.outline_size = 0
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.no_depth_test = false
+		label.double_sided = false
+		label.position = Vector3(0.09 + side * 0.018, 0.0, -plate_len * 0.5 - 0.02)
+		# Label3D faces +Z; turn that normal outwards (+X on the right face, -X on the left face)
+		label.rotation.y = PI / 2.0 if side > 0.0 else -PI / 2.0
+		arm.add_child(label)
 
 # ---------------------------------------------------------------- pond
 const WATER_SHADER := """

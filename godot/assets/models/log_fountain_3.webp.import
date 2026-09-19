@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dphpurc8d8b56"
-path="res://.godot/imported/log_fountain_3.webp-415238a3d36da4051cfa5b382ba7847e.ctex"
+path.s3tc="res://.godot/imported/log_fountain_3.webp-415238a3d36da4051cfa5b382ba7847e.s3tc.ctex"
+path.etc2="res://.godot/imported/log_fountain_3.webp-415238a3d36da4051cfa5b382ba7847e.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "efeebdda98ec1d7fb2ad83d23f0713bf"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/log_fountain_3.webp"
-dest_files=["res://.godot/imported/log_fountain_3.webp-415238a3d36da4051cfa5b382ba7847e.ctex"]
+dest_files=["res://.godot/imported/log_fountain_3.webp-415238a3d36da4051cfa5b382ba7847e.s3tc.ctex", "res://.godot/imported/log_fountain_3.webp-415238a3d36da4051cfa5b382ba7847e.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

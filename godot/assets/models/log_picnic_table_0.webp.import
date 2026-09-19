@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://x1ri3x5vmq1n"
-path="res://.godot/imported/log_picnic_table_0.webp-2f4f0ddff18c9c4117988b8b9ab10608.ctex"
+path.s3tc="res://.godot/imported/log_picnic_table_0.webp-2f4f0ddff18c9c4117988b8b9ab10608.s3tc.ctex"
+path.etc2="res://.godot/imported/log_picnic_table_0.webp-2f4f0ddff18c9c4117988b8b9ab10608.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "7f1fdaeab69f9be10b7b97240d017eef"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/log_picnic_table_0.webp"
-dest_files=["res://.godot/imported/log_picnic_table_0.webp-2f4f0ddff18c9c4117988b8b9ab10608.ctex"]
+dest_files=["res://.godot/imported/log_picnic_table_0.webp-2f4f0ddff18c9c4117988b8b9ab10608.s3tc.ctex", "res://.godot/imported/log_picnic_table_0.webp-2f4f0ddff18c9c4117988b8b9ab10608.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

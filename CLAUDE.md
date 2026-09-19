@@ -65,6 +65,13 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   only fence is the wire fence on the east side of the Sennhofstrasse south of the junction. The Sennhofstrasse
   leaves the forest at the guidepost (124, 21) where the Weg zur Hütte branches off; north of it the road runs
   through dense forest on both sides. The Alps are a low band on the far horizon (sky `elevation_scale` 4.6).
+  West of the Feldweg West and south of the Weg Richtung Dorf everything is farmland (the aerial classifier read
+  the dark maize field as forest; `MEADOW_FORCE` now covers it), so the Weg Richtung Dorf has open fields on its
+  south side all the way to the map edge. The village backdrop (`village_buildings.gd`, OSM footprints outside
+  the extent) is Sennhof / Remetschwil farm style: white one- or two-storey houses under steep tile roofs, dark
+  timber barns, long farmhouses with the barn under the same roof, never more than two window rows. The guidepost
+  at the Waldweg entrance is procedural (`_sign_arrow`, Label3D): "Oberrohrdorf" on top points north,
+  "Remetschwil" below points south.
 - `tools/photo_textures.py` cuts tileable textures out of the photos into `godot/assets/textures/ph_*` (gravel,
   asphalt, forest floor, meadow, 4 barks, cladding, concrete, corrugated metal) and draws the leaf card sprites
   `assets/sprites/leaf_{beech,oak,spruce}.png` with colours sampled from the photos. Photo regions are in the

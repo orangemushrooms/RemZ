@@ -68,7 +68,9 @@ PLAZA = [[-10, -18], [-3, -20], [6, -19], [12, -16], [14.5, -10], [14, -1], [6, 
 # Photos 15, 18, 20: the benches and the fire stand on fine grey gravel; only the north-west part of the plaza
 # (picnic table, fountain, under the big beeches) is earth with leaf litter.
 CAMP_FOREST_FLOOR = [[-13, -21], [-6, -23], [-1, -19.5], [-3.5, -14.5], [-6.5, -11], [-13, -9]]
-MEADOW_FORCE = [[-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 160], [-70, 160]]
+# The dark crop south-west of Feldweg West is farmland, not tree crowns. Keep the
+# whole downhill field open across Weg Richtung Dorf and out towards the village.
+MEADOW_FORCE = [[-400, -120], [-190, -120], [-166, -100], [-138, -59], [-118, -16], [-92, 27], [-80, 47], [-70, 64], [-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 260], [-400, 260]]
 FIELD_SE = [[113, 24], [128, 18], [150, 8], [150, 160], [113, 160]]   # fields east of the Sennhofstrasse south of the junction
 # Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
 # upper door, east side buried in the slope (photos 14, 17, 19)
@@ -357,6 +359,8 @@ for z in np.arange(Z0 - 90, Z1 + 90, 6.0):
         if z > Z1 - 3:                     # south: open fields towards Remetschwil
             continue
         px_, pz_ = x + rng.uniform(-2.5, 2.5), z + rng.uniform(-2.5, 2.5)
+        if px_ < X0 + 3 and pz_ > -120:    # west: the downhill fields continue beyond the fine terrain
+            continue
         kind = "spruce" if rng.random() < 0.35 else "beech"
         border.append([round(float(px_), 1), round(float(pz_), 1), kind, round(float(rng.uniform(0.9, 1.3)), 2), int(rng.integers(0, 360))])
 def lv95(lat, lon):

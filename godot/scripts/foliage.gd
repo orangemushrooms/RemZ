@@ -55,6 +55,10 @@ varying vec2 wuv;
 varying float vdist;
 void vertex() {
 	w = COLOR.rgb;
+	// Asphalt is a separate ribbon; its mask leaves the terrain weights empty.
+	// Keep a gravel bed underneath so exposed shoulders never become untextured,
+	// zero-roughness patches at the edge of the ribbon.
+	w.b += max(1.0 - (w.r + w.g + w.b), 0.0);
 	wuv = VERTEX.xz;
 	vdist = length((MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz);
 }
@@ -131,6 +135,7 @@ render_mode cull_disabled;
 uniform sampler2D atlas : source_color, filter_linear_mipmap;
 uniform vec2 cells = vec2(4.0, 2.0);
 uniform float wind = 0.0;
+uniform bool meadow_distance_thinning = false;
 uniform vec3 tint : source_color = vec3(1.0);
 varying float bright;
 void vertex() {
@@ -143,6 +148,13 @@ void vertex() {
 	float t = TIME * 1.6 + wp.x * 0.35 + wp.z * 0.27;
 	VERTEX.x += sin(t) * sway * 0.12;
 	VERTEX.z += cos(t * 0.8) * sway * 0.08;
+	if (meadow_distance_thinning) {
+		// Keep the close field dense, but avoid drawing layers of sub-pixel blades behind it.
+		float distance_to_camera = length((MODELVIEW_MATRIX * vec4(0.0, 0.0, 0.0, 1.0)).xyz);
+		float keep = mix(1.0, 0.22, smoothstep(10.0, 45.0, distance_to_camera));
+		// A stable per-tuft rank and gradual shrinking avoid flicker or abrupt disappearance.
+		VERTEX *= smoothstep(INSTANCE_CUSTOM.w - 0.055, INSTANCE_CUSTOM.w + 0.055, keep);
+	}
 }
 void fragment() {
 	vec4 c = texture(atlas, UV);
@@ -244,24 +256,63 @@ static func _tuft_mesh(w: float, h: float) -> ArrayMesh:
 			st.add_vertex(verts[idx])
 	return st.commit()
 
-# Crossed grass tufts with wind sway
-static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> Node3D:
-	var mesh := _tuft_mesh(0.7, 0.34)
+# Dense meadow cover: jittered spacing fills the gaps left by independent random clumps.
+static func meadow_grass() -> Node3D:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 34127
+	var patches := FastNoiseLite.new()
+	patches.seed = 34127
+	patches.frequency = 0.06
+	var mesh := _tuft_mesh(0.82, 0.4)
 	var material := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(0.55, 0.56, 0.31))
+	material.set_shader_parameter("meadow_distance_thinning", true)
 	var transforms: Array[Transform3D] = []
 	var colors: Array[Color] = []
-	var placed := 0
-	var tries := 0
-	while placed < count and tries < count * 4:
-		tries += 1
-		var p = sampler.call(rng)
-		if p == null:
-			continue
-		var b := Basis().rotated(Vector3.UP, rng.randf() * TAU).scaled(Vector3(rng.randf_range(0.8, 1.4), rng.randf_range(0.65, 1.15), rng.randf_range(0.8, 1.4)))
-		transforms.append(Transform3D(b, p))
-		colors.append(Color(float(rng.randi() % 4), rng.randf_range(0.7, 1.05), 1.0, 0.0))
-		placed += 1
-	return _partition(mesh, material, transforms, colors, "grass")
+	# Include a border beyond the playable bounds so the field does not end at the player limit.
+	var area := Map.BOUNDS.grow(20.0).intersection(Map.extent())
+	# Buffer roads once instead of scanning every road segment for every blade cluster.
+	var road_buffers: Array = []
+	for road in Map.ROADS:
+		for polygon in Geometry2D.offset_polyline(PackedVector2Array(road.pts), road.width * 0.5 + 0.7, Geometry2D.JOIN_ROUND, Geometry2D.END_ROUND):
+			var bounds := Rect2(polygon[0], Vector2.ZERO)
+			for point in polygon:
+				bounds = bounds.expand(point)
+			road_buffers.append({"bounds": bounds, "polygon": polygon})
+	var spacing := 0.28
+	for row in ceili(area.size.y / spacing):
+		for column in ceili(area.size.x / spacing):
+			var x := area.position.x + (column + rng.randf_range(0.12, 0.88)) * spacing
+			var z := area.position.y + (row + rng.randf_range(0.12, 0.88)) * spacing
+			var point := Vector2(x, z)
+			if not area.has_point(point):
+				continue
+			var cover := Map.meadow_weight(x, z)
+			if cover < 0.5 or (cover < 0.85 and rng.randf() > cover):
+				continue
+			if Map.in_building(x, z, 0.8) or Map.in_clearing(x, z):
+				continue
+			var by_road := false
+			for buffer in road_buffers:
+				if buffer.bounds.has_point(point) and Geometry2D.is_point_in_polygon(point, buffer.polygon):
+					by_road = true
+					break
+			if by_road:
+				continue
+			if not Map.POND.is_empty() and point.distance_to(Map.POND.pos) < Map.POND.r + 1.0:
+				continue
+			var normal := Map.ground_normal(x, z)
+			if normal.y < 0.72:
+				continue
+			var patch := clampf(patches.get_noise_2d(x, z) * 1.5 + 0.5, 0.0, 1.0)
+			var basis := Basis(Quaternion(Vector3.UP, normal)) * Basis(Vector3.UP, rng.randf() * TAU)
+			var width := rng.randf_range(0.9, 1.3)
+			var height := rng.randf_range(0.7, 1.15) * lerpf(0.85, 1.15, patch)
+			var pos := Map.ground_pos(x, z) - Vector3.UP * 0.025
+			transforms.append(Transform3D(basis * Basis.from_scale(Vector3(width, height, width)), pos))
+			colors.append(Color(float(rng.randi() % 4), rng.randf_range(0.75, 1.05), 1.0, rng.randf_range(0.0, 0.9)))
+	var root := _partition(mesh, material, transforms, colors, "grass")
+	root.name = "MeadowGrass"
+	return root
 
 # Low woodland cover across the playable map, including the approach to the hut.
 # A jittered grid fills gaps; broad patches vary density, height and fern abundance.

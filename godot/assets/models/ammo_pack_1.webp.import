@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bq78n85sslw86"
-path="res://.godot/imported/ammo_pack_1.webp-1acaa9af6ffdec77ad94609e66d172bb.ctex"
+path.s3tc="res://.godot/imported/ammo_pack_1.webp-1acaa9af6ffdec77ad94609e66d172bb.s3tc.ctex"
+path.etc2="res://.godot/imported/ammo_pack_1.webp-1acaa9af6ffdec77ad94609e66d172bb.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "650bdcf4b4772d0f874adadefd6bc5bf"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/ammo_pack_1.webp"
-dest_files=["res://.godot/imported/ammo_pack_1.webp-1acaa9af6ffdec77ad94609e66d172bb.ctex"]
+dest_files=["res://.godot/imported/ammo_pack_1.webp-1acaa9af6ffdec77ad94609e66d172bb.s3tc.ctex", "res://.godot/imported/ammo_pack_1.webp-1acaa9af6ffdec77ad94609e66d172bb.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0
