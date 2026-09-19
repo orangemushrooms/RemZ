@@ -1,0 +1,19 @@
+TASK_CREATED: 01a0ba81-a9cd-7527-b7db-d23a1bec65f6
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (12.5s, poll #3)
+  [█████████░░░░░░░░░░░] 49% — IN_PROGRESS (23.75s, poll #4)
+  [█████████████░░░░░░░] 69% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (80.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (95.9375s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (110.9375s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (140.9375s, poll #11)
+  [████████████████████] 100% — SUCCEEDED (155.9375s, poll #12)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\waste_bin_plain\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\waste_bin_plain\model.glb (6.2 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\waste_bin_plain\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\waste_bin_plain\thumb.png (0.1 MB)
+DONE waste_bin plain
+EXIT 0

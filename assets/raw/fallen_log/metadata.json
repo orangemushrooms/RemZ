@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, fallen beech tree trunk lying on its side, bark, a few broken branch stubs, moss patches on top, about three metres long, single object, no ground",
+  "folder": "fallen_log",
+  "root_task_id": "01a0ba73-1a8b-70f4-b383-4839c31f6f53",
+  "created_at": "2026-09-19T18:18:11.620800",
+  "updated_at": "2026-09-19T18:18:11.620823",
+  "tasks": [
+    {
+      "task_id": "01a0ba73-1a8b-70f4-b383-4839c31f6f53",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:18:11.620821"
+    }
+  ]
+}

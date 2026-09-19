@@ -70,8 +70,8 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 		var scene = load(path) if ResourceLoader.exists(path) else null
 		if scene:
 			var model: Node3D = scene.instantiate()
-			# This asset's barrel faces the opposite way to the other Meshy guns.
-			model.rotation.y = PI / 2.0 if id == "ak47" else -PI / 2.0
+			# The Meshy barrels point along -X; rotate them towards camera forward (-Z).
+			model.rotation.y = -PI / 2.0
 			var inner := Node3D.new()
 			inner.add_child(model)
 			holder.add_child(inner)
@@ -528,6 +528,10 @@ func muzzle_transform() -> Transform3D:
 	var s := cur()
 	var bounds: AABB = s["bounds"]
 	var tip := Vector3(bounds.get_center().x, bounds.end.y - 0.015, bounds.position.z - 0.006)
+	if current == "ak47":
+		# Bore centre measured on ak47.glb, below the raised front sight.
+		tip.x = bounds.position.x + bounds.size.x * 0.31
+		tip.y = bounds.position.y + bounds.size.y * 0.805
 	return (s["node"] as Node3D).transform * Transform3D(Basis.IDENTITY, tip)
 
 func _step_model_recoil(delta: float) -> void:

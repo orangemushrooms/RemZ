@@ -1,0 +1,27 @@
+{
+  "id": "01a0ba6e-bbf6-760e-b3dd-8c93742742f2",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1441774630,
+  "prompt": "game asset, fallen beech tree trunk lying on its side, bark, a few broken branch stubs, moss patches on top, about three metres long, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789834216346,
+  "progress": 100,
+  "started_at": 1789834216415,
+  "finished_at": 1789834488497,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-bbf6-760e-b3dd-8c93742742f2/output/model.glb?Expires=4943376000&Signature=Nb0PMnoRYSA55U4djMWa8IltvZ6tBnF1jiD4ilWzA~PnjqxdmL9ZOoe53KJnZi-ttMVouMf2NtlIIGen5idnf2s1oqmdEgcRuENPn5RCOrzFHAJvTBK8J45nHQazYi9Gt6~XT6M8G5urF62-uZZJ2gAk~351ZyJpvmjqNkBcdZa7Q5SzeDzkTegMXACbkP~yxIAS2X1s00kYt2rwWxGlw2kAtylrfkUUp0uHyTLyscrQkf~F5jg5w0CvYXw934QpjmfjdN8motzyrrx1xfIUCHT9WcQ7YPVeKV7opM3RulzssvZcyvmI6h2j~tlkddAW44tKaWVKrkAD-h-HUTZfAQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-bbf6-760e-b3dd-8c93742742f2/output/model.fbx?Expires=4943376000&Signature=PwuwG1KIEVS7NV~oOHx5tdJdbMWuIWkKC9D~0X7e4EOvysd6wOsXQpXOb2OvSq84u2MbN16IiNcHL3CsZIgIIyo5tdm71YOCgcAHq8w0iMr9jUUAUS5h1a6wRp65jNYuX1n-6BNYjBsdjLrvqxfuw1rEDwHjSgJA4iwNBBDCIE9~K02tyov9n--NDJDD13oAe8mFw6gitiFSGHffZFYASgSH2UsWW~HzvCDChCMHwSCL~RinCK96shC-867dTKccldxJ3Tq3tndbfKsFKCiB-Wgms75SXcJY5dAc3nnf51bczp5fvriZLNnqxyhPbSpQG6SUWrQ~UX1KIDWS3Qq05A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-bbf6-760e-b3dd-8c93742742f2/output/model.usdz?Expires=4943376000&Signature=MuV5c99QKHxOSDYU519X~j-tR~o4-dDvbSSCq82Rqo~Ff9eDyMhQZrcS0l7UU8seQTJL6eM2bbXVIOEgEfI5X73fa9Y7G5TC-Kzp1GWVOCnBqXz4~cpq9ikgY515DTtQTJQBPtqOmps9Rw~iwQZk50VdqveqBFgTHNvBPuVcWs5sCRSG7GJPFjPyXoikngoOON2PM~3DX96NeJy5k39vAlNc12cAM2itwQU8VGN8kvQIid3vt0XQG~fqNPu4Dk4LsnrwT-E1I~t706TG7PBVq~B4Z58EeZV9paH8GQVvSCcA5h83W6DoqGyyVbXQczgerKEpeyPMwv5kCrzeFqHq1Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-bbf6-760e-b3dd-8c93742742f2/output/model.obj?Expires=4943376000&Signature=lt6EA3aU43RdGkT-HdFO2bSGobGO48UkD0DsRfShn2P2ajM~kXcbQr09qmCszRk7~AU31LYDKBm-FFRJHHn8Evte4XMwEPTVro9UJbN-bX4uO7AmD6kMthJ297ASQ5p5eyCm3YC7ltZLkwZkVeekgyeS5jWs9jUU4jbdhKFtCS0XRT4q0XfJMIFjwvANVc1rf6CxhN~WH8Cy609wwkiPQYdfDpDOUm6WEQKvpMA1XpSPDcG7LwgsIXcGM9~kxbLcyEQttNQGU8gHUzm8xDyUALkEedg4-2Su9P1dBNrpV~OrFxGsPK5PJmNOZ6h2ERl~BbdJa~ZW3-koKFRAZMEtpA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-bbf6-760e-b3dd-8c93742742f2/output/model.stl?Expires=4943376000&Signature=WWg6Fa3nLkW~Wvf8bZg61mK8SAnoXaqCBDo8MJcr-Vp1MCAb-XfJESL0rQslTFAeguqHiYkzsnq5bP0IbAf6~~eIxx6rt2b3krYv77uQ3yy0bwj~jOvTbG2Y~iOTL2Gt38m1w9-UE634ZnNneM0XArWnVfTh7IK8CwwrRxbzoLbF6kQ-3YLtwZ5drimSAlU3TA1PkwF1SPLGyo7~N4fQdZLncQL0ZibanP4Ik8ADUu6c~oXTXNniCitYwgvrNqNtmZp7M5E3wPhTpfcmFAuLScLFBVnnOzLRazxjIrs83lUg8uwKxA4N5aP6P2RJe-FFXwJ4V-t~UUO3zMzAwfx1yg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-bbf6-760e-b3dd-8c93742742f2/output/preview.png?Expires=4943376000&Signature=QNvFf8vuCnWxYfhjQWlZX9ras6BWtDXv3qr1yQqtbrMUoA3f-LDb3KYyeu6vbxO5XZCj3Lwr394oZ2Dz5momYXUiHCCGGKPKX4Zk3RrthPJFLuZPJ0DVqeoEgk3aMsorkXPqkB~BMWNV-fUjRjAHqVsFRrRAX9wg9dExaJH83i1SARvORFPxo1ag~93h9kgx~gBUWg-vm4QFuv-442Rq-nFPUmGxCKY~KwrYpmq6-3PkJo2-ZsAySkB1sORiJJA0ey8CQh041CmSyx0fXe-Cvth4Lzf0HPwedGnQJ7vqrQNBtSHsjmn5tI2zGHdc8iWSQXGZLaCVcSJCjZJAxyDzrw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

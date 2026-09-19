@@ -1,0 +1,34 @@
+18:10:16 preview workbench
+TASK_CREATED: 01a0ba6e-c7f5-75c9-a254-abde4f4de7db
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (145.625s, poll #12)
+  [███████████████████░] 99% — IN_PROGRESS (160.625s, poll #13)
+  [████████████████████] 100% — SUCCEEDED (175.625s, poll #14)
+18:13:17 refine workbench
+TASK_CREATED: 01a0ba71-86f3-7613-9c0b-2a26ea4698c7
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (65.9375s, poll #6)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (155.9375s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (170.9375s, poll #10)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\workbench\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\workbench\model.glb (7.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\workbench\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\workbench\thumb.png (0.1 MB)
+18:16:14 DONE workbench
+EXIT 0

@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, square outdoor fireplace built from four rectangular grey natural stone blocks forming a low square frame, black ash and a few burnt logs inside, a vertical black iron post at one corner with a horizontal swivel arm holding a round iron barbecue grate over the centre, no flames, single object, no ground",
+  "folder": "fire_pit",
+  "root_task_id": "01a0ba73-1f83-77e8-9f6a-123cf462ce90",
+  "created_at": "2026-09-19T18:20:29.170292",
+  "updated_at": "2026-09-19T18:20:29.170323",
+  "tasks": [
+    {
+      "task_id": "01a0ba73-1f83-77e8-9f6a-123cf462ce90",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:20:29.170319"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "id": "01a0ba6d-08d9-71fa-864f-edf6ff1da977",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1155514119,
+  "prompt": "game asset, white painted round steel drum waste bin with a flat black lid, mounted on a short dark metal post, Swiss picnic area litter bin, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789834105184,
+  "progress": 100,
+  "started_at": 1789834105193,
+  "finished_at": 1789834312785,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-08d9-71fa-864f-edf6ff1da977/output/model.glb?Expires=4943376000&Signature=Qrp~JIjdipECLxDi8QhKmnoBhxSs4lC3xLpNKQLLv3WdK6QpNirFloroiM0D-S8uHyw0eVejXErOtn6Jxp1wUpbTV7OH5gk6gI726Jgad4JFXplKs5n-o0Mf60SHmvaqnMavyy9XSHe6X9fptUmbEdgSJaEqMK2rrtjh0tk~8uztkPc1k78hnjcOvCp1VTQuSnUkw2zXguozOAgxhJSfky3b6siQRk1bOXyRLneiBE8AO4IsRsZ2k3-9SIs-val1i5akftEWVFC8~HVb9tZ4TEdn6tH2kl1f0dX9MwpP8PXSd9PtL3-CL4d1iFYGQ0BwtUSHQdqJZTds6WMO33Cd8Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-08d9-71fa-864f-edf6ff1da977/output/model.fbx?Expires=4943376000&Signature=C1u1RRmplqtA6kKqhZABIBeOlZEdVMqWQkIIzhC5RmE2pR~Zc5Mq70BnynHjc2fnrAjjVmmUuPx5ZzftTyZ7AfsyIeqHdPf7EWl0if3A3gt9obT0L1lUOGE2eUrfJpXtyNvUQ~-fbfTCJg5Xa6mYQwaSRh9VoOUpZOK5MD6ZQc5Ly-jao2f4LG0J3-SpNQe6BHkEv~u-gM~uYQVIMXGeLSZpv83qOY7KrS2lV9gCclfCSHjJKacvV59h7oK2KeQ0qRUPyO64L7c2tCKz7H7CVljuF2b7e5wViHsamDwF3Ex0QWub~NjCI7JASI2qljTXNg3FBTxz9itv~D-JsKqlpw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-08d9-71fa-864f-edf6ff1da977/output/model.usdz?Expires=4943376000&Signature=RPjMmKqIilfDOqmqOOnduanLgjFpz4~FzmJILlr~dOw3TZONt2bQYPpfhJR2G07JixNtEPLHVrxqCJ-HgpFg~ivfRcQUgvxUuh-gnMk5mYXWSxC5neaCVjmmOctzrQVq5lGmmGdZ25wp5FXgQ07kA6xExsYij-faKjc8puaQLi30dri9rrCmEF8lQALjbmp2e-5nMoKQKM0RE2NuMnb41dFCWSgavGNHmOvexZeAF6Wj9UZbnvT3sRNR2zKZNL2EztWb6iVKaW0r8bhcTCOe5dPbodqEERyWzDrNwUPFGUUaABf3LPR7KmQFFnM6mMC7MVB6mEQVG0sWw2PaRAsFPw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-08d9-71fa-864f-edf6ff1da977/output/model.obj?Expires=4943376000&Signature=ghVRIj8rIx8CY2yPa7ntZVfhroINQuQnfnYDl-ER2DMcfZgg4HgAj3-WZM1M4Zil15PA~b0YoXE~TO1Po7nE1KexwO21ciEbCLZBquWdOWGX0WLfWTy0UQ~uSZvQ-QyYdbe4p5PEeqd6AMVSCw1sfNHZN2Ns3sfLpnIl4bovJOgU2~3z5yz6UARhDxOUg2WigMJA3~UHe5yx8P9ZbN8T72vXpCC5SI3euoHRwTTqOFGYwEnKz4zVhhrrYT1WwvBl0rwLyaWI0e1B3W5AFzCt3mS3TaYpU0cQHjFetv65ACx-VCJ1jWgpVmYyPPSzcSaGW0Tp1CFRW-eNnyzNLmtiKg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-08d9-71fa-864f-edf6ff1da977/output/model.stl?Expires=4943376000&Signature=XsRA1SbDTmqH55xeT6pQBFNKS2Y3iYF7IB3IxpN5sxW~PaZQ9G1hgqLQSTGPDut4CmBoZiqKZ-I~z3wadAsKSifLxkdnXL9LkXvMMM3To5TEJgn-9zPSDqEwxa16A7WA6QjDN7zpVmi5h0SybnK960qrxUKnA7s5~EIq9qxdwO38VE1mmBHc87DCDBWzf-dTu~G0rzHoBEfcRdJKvYd~TZFzMKdakcY29ZD40vy17s39vDbPl8zp5cVpFiYtlz2ZXUJNWRzgYbFZ0Hoj2tQ3J7Y7DJyuk3mirjy4pZuJPU3KGjdBgjPMTIO74WDUB8ERkcSjQ1fPJ3V~ucNdsMPuEQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-08d9-71fa-864f-edf6ff1da977/output/preview.png?Expires=4943376000&Signature=VJ1GH2iyrPATSkMDr7Bz2rR58c8-Jch8Zvq5VlnyGKy8sGKnk9ymKlpQyTwnBXszAp1nKHgCSBic-QzzKNMdBmBNFrpXv6yY1~l29srJ5s4G3i4t4vWwuNWYGUj7gNyiO~6tQpH0kj5rJGVe-QvzSyP-VX3ttVWH9H~nfNvlZ3wjjm5Xt-IIcgqYzbDJOe9SrW-jEUI-0NV6XH1BC8XDRzCPU4f6sNNKJ6vytKqO3VaIetZFb3mEi9KKN-9zLwtDMUjeVhZtau8rPwXJmGtQ8VB1~8OtSayq-VlYfO2KuRUxtO6SyaMwaAfVHvGj~Y8zZmuf2iT1wrCGNX9Xx1TlLw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

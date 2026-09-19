@@ -1,0 +1,27 @@
+{
+  "id": "01a0ba6e-9811-7642-8d9a-43b87fa859d2",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1051606321,
+  "prompt": "game asset, small olive green metal military ammunition can with a hinged lid, side latch and yellow stencil markings, closed, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789834207146,
+  "progress": 100,
+  "started_at": 1789834207166,
+  "finished_at": 1789834483563,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-9811-7642-8d9a-43b87fa859d2/output/model.glb?Expires=4943376000&Signature=NSG1P3llVF7vENmHU-5hbxfvg0m-rTx1BnoyirPQ0so1GfbUpQa9k-RaKIfzRJlJGMW-CL8o3z1LmJ7pSOj9T6cK2-VzCrMz0FGkIyvwlMcpehbfLGpDIoPkIiK99emPYiiNLUZeW~AA2sON7I29SDjP~lTCnyLUN3QZtCRNOquU3j9Qt9ZOfRBSyAi1ScmPa3qi-Ze89TC5wtM5LtzyLlB6DDL7vNuZJZz2U1Uv0vQjRRi6TQ6plrqSUZ6~yLFcHmBTeuzZm2wFHFRNdY-7Wp2WvaDrZXSQ6rnhvjJLgUupJkTNJ7FTdCTuvsJ1LMRvg6eueSdtFZMcUy-npsfPYA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-9811-7642-8d9a-43b87fa859d2/output/model.fbx?Expires=4943376000&Signature=EwJF7AuaRX5oM42dQxMSO4s8tzKnzwo1ot8-DMhkYwD2q8SGxhsxelFzGDuPR~gQtB-k-ufUa-ufN2NdfnyXw6ybZDTq5l~VNz5ytP-EGIQBdQU-HQj3nAAD7A6D9rWC-3TVTBirrbBXFB2jk-Y2xXbQ0X2TgxLgiNafK44iC97K3N94Il-1IhZYVVFQ4Fc0TrprWa4AvSbpu7nvDiHksastl0EJ4MJxqskbRJh9FjdwZdI6ASIXhtb4DJqzZ8IMo-03i6VMploO7EsFg8W0ULYfMsf3vOLZiX9rbKf1OJ3JxVRZCWLSaIHO7x678ficWw1X95X~mvqn2zMqudcLWw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-9811-7642-8d9a-43b87fa859d2/output/model.usdz?Expires=4943376000&Signature=Gp94GdKp3UT6euKaG12YLdk4atWgjaP436zZXKecP0DVmOcu4r1-mHRY7~x-IgOufqF-ksaRGznK6izs-hEctS9QcwBo2RU~35jqzPaDiFWRyEAk~9iObvk2pLAZRcV3gCBBVcMhi39d-7sFxfoGAHZZjyM3po~SxUa3cb4nJtTRc5dp0G50jPaJtcYc3Mp-fffIv~PxF9MQhEckeCEVJpu1-Rl5tHRBKWG19bYgHlMTp71L72LywnZJtDPXxZUHb7gI1dRGsN57HcwSOSSu5ruXsb9fb5fHkArmxBFZTk1jEmQlRXpKuQJ5z2rZ7Et~IiKJ8R~KOMmyHwPrRXLR6A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-9811-7642-8d9a-43b87fa859d2/output/model.obj?Expires=4943376000&Signature=PahjXmpLPERF2IgCKX6Bu7zxENAkskK9hw4QdQOcYCA1yVJSUvZLSNePTSnmOvRmNKShCRIKL-oCKo201j35C~W-D8~ODiTIZax7dkW5E9CcRjaMeXkBU4MK6e1twmkt6FAf6DxgC75xsVcg3wav~LltQj9Y0JBLG7Nd~do~dHoD-cCk4IN7JB2AyBifjJ4rAeBeT~4P0G4kPsazWLXHf-kGcRHhVg9EV6p18yHzWSsUyayAgJ6o5afA~syXmnzGZMoESaWbK6FconkgdPCNmbH2UKjXHLOlgB21Qv3~XeQYiVyZQaM0panzlb5M6LdAdJq4P6ReIThRQ0riHck7UA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-9811-7642-8d9a-43b87fa859d2/output/model.stl?Expires=4943376000&Signature=h9EeqgtVW-WY3yL0M98eHdSSS91LXc2oIKhLwfc4CnR4snZzpOmDZXuoFny24dlrNAjGf~F-i~45V3~HJomy-MIpE456Z145GnolZ6bg9dvgYUJCE6Fw34ONwTCaPt2TqAC-gqe4MfJEz-6q7S1jMFkdVL6puhWLL4hLnyPbU8pTg0Uo~tmjhTBkgxjCWQiuZc-IlyGs~OWuHkoGms8FAFzVoonb6BDgNAsONhQ62Kj9~b1WmTyxTWqL1l4iwmIdmXHNfa6h19KMd-3KGufXptVi4hw3eSl7N~Ua9Er7XJcVt-SUm2F1pwG1t6NLRyiL3cyq8MoJc5rmKiN9imJqkQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-9811-7642-8d9a-43b87fa859d2/output/preview.png?Expires=4943376000&Signature=C9RnoY3LuQmyHdIes-O3kmS8p0obEVPgfwi~ElDb4BDb~TXb4z2ksXjZJHUwTBZmGe4viAZ78yE6c2y0Lgtq9qzQKH4~ywqGMad3qX8RqFKMMHb3apI5l1u5FMcNJDb4qOFnir7G8~FnOKTW8JoAL-vwWLP~Ir9B5tfPg0Eo2NJiLTRHSpLrK636k0ItG3fruRGa-dUbKKkNUHnbnn7JAYFVgzyran4fWalUU87QtDsZOXtWJEUM~JMDG53MWmkb2vylS0u2lErP8MGLa3JIc2nczs6-~cxtj2dksYoz1mzhkZw1py07ZRZwYW7YkiTe8aeV4MX12Vuy6iMoBbo-iw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, olive green wooden military ammunition crate with rope handles and white stencil text, lid slightly open showing rows of brass cartridges inside, single object, no ground",
+  "folder": "ammo_crate",
+  "root_task_id": "01a0ba72-9bc9-746d-96bf-338c36fc6d86",
+  "created_at": "2026-09-19T18:17:54.963814",
+  "updated_at": "2026-09-19T18:17:54.963833",
+  "tasks": [
+    {
+      "task_id": "01a0ba72-9bc9-746d-96bf-338c36fc6d86",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:17:54.963831"
+    }
+  ]
+}

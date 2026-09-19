@@ -1,0 +1,27 @@
+{
+  "id": "01a0ba6c-d8e4-77f6-838a-a00d4f614287",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2663790612,
+  "prompt": "game asset, Swiss forest log fountain: one long tree trunk split lengthwise and hollowed out as a water trough, resting horizontally on two short round log blocks, at one end a thick upright tree trunk post about twice as tall as the trough with a small iron pipe spout sticking out over the trough, weathered grey wood, single object, no water, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789834093715,
+  "progress": 100,
+  "started_at": 1789834093726,
+  "finished_at": 1789834263666,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-d8e4-77f6-838a-a00d4f614287/output/model.glb?Expires=4943376000&Signature=PlbT57XuyECNBpXF6XHFEXgxOQvO-H8nAX-waVe4kyNb1S5qNDZQ5sQi-qMtvV~NyfxqPDgQFCBqwrCXYgGRwXD3tfF7eLAXPzakt9pri13vGyUrkG~OXDl5Y75N~PdImR1f5ECWbiAKuhHNckuyJ1BB7QYPtaHkGh2Ax74bvfTpfYxkPszd4XsMG0C5HjIFQUZBxbeIkFpjhHA2iLL83zCO8d71bFK6ppVlsuOFW2PffaX-zlV~xOH70VMuMD50TfeSZThU1KY~aDQzgWCEPouvAId~Br2WwI2L0kQgitpZA-utnm0Ek-WnerFbB245EdZ9PeKrqTOA8yO5KZwxgg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-d8e4-77f6-838a-a00d4f614287/output/model.fbx?Expires=4943376000&Signature=SzLFP9IyfWz-VkJKAmiEMHab4RP0AN8jYclUjPPtiCvu~G7Ai-8W0AiJKxUf4O9uof7V0p8AXWI68NxNsOUyCCqsDV4cOjDj1eKAOrAjfajc7RvHahDbf8iupJHE5PbWSiUroBixnYMesFkXiD~USwA63veIJLdQ5G2aDVGuyBtuiaqsRbt8Wfwk5x9VniDGTV5sJF1ql0-LeJY8ryO6AcAj~6BBSABLy6uFSRWyT3PM5tlHPnxM1HYL97NiTfGPdp6fDdXXTPE0lR-6q80nWuDquWvGkflEecUNwSu-skfJovlWSg9uA9UJTkwh6LA0NWHgAjoTsdtyqIl~vRhLig__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-d8e4-77f6-838a-a00d4f614287/output/model.usdz?Expires=4943376000&Signature=NhhPTSlcBlz70ZazGqfKHSJcY8QnZhldy1FGSfDA8hd5-IzdOuS~xS107xjiHps8qYsnh5VzVCEpgC9pz7h2pPLWEaCZdfZ5L10R37YA0empc47828Oi6peHhfc-bE~pbBjN9OhEnYusHdwoukTrsNsWPPoeXscFjFy~AAjGiYip5NX-AokyJyplc8OI8BufZilq~TvKodScqnWippFrzavBD8-1-QlOKFYaFCN~WLZwteORRA7szDWy0mdpkdev71fyl~XXrUhHkjeun40BqJ2O1MiBY7ehBCH9~QUhOpWXCsJD5IiiH~SBPWTSN78CHhlyxGziVhteL6WQLdKwTQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-d8e4-77f6-838a-a00d4f614287/output/model.obj?Expires=4943376000&Signature=EWK4t0lNz-IAgLxvJsY1UpL0O580rbS2Lr21Dy8MLiZmlMA23A~hkEMY9lxLZMUHGl3OIratAVdfoWN94GtXEbESZgmtUkzWnNh9IWO5YGdAmx-KAEAXhNTiE2ZMqRy~mw9NKzkIvS2-D37SFWKKrcNEWxeOuglXuXl1dPGphbZJutD6aHS33B-O9G9gZE7RYRNTM3af0p0CUrVFJoDzPpJrX934GjVYuatgHm6oJ3zQlfetFGmAIDCg0ryjd4YrfABEaRoVsDQEjVaR3rj~Lb5s4nmr-YheoWdF5054uWObc2s450NxJR5N4zf~1Q9r0zkgUHSPhPSntnpvoEok~Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-d8e4-77f6-838a-a00d4f614287/output/model.stl?Expires=4943376000&Signature=AZ~wJ9PzFgGuhHDcz68foueUJir2HhIpvNxnFJq6B6XUpvd14FDYPaZI5klp3W-X8IxpVsUKFAOqGTi0sn-rAzvLZgnPH3iCpPt2OC~-IlgTRheBqJJoVLiso-5Ss2-8ZkZ4~5jDZMvvk6YNUxxq2Es~6J46h7EHMOHvq1GI~XtUtN2OfWcPPVcWpCeIqPcHiZU80H8c3TQwLf6g7qNhsON6qm0DHHfr7Ks7slKd-lZWw8A8w2p4zPvHhczHfroRfYDKbm1N9gk0~NJl2MTbIy8D702PDvaMHtHWKd2EXz7z7ll68kACm5YEd0FOEEUyNijkt7i4aziBKlW9tjCC~A__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-d8e4-77f6-838a-a00d4f614287/output/preview.png?Expires=4943376000&Signature=PoFS8wOSUyxHXLNog3~8cyxsX6s-y3s1vWXNaXeRK9oUhnlXxb7ctCb7UhOpB9UYdarvrBoPxTnIjzw0Hmp6TSNW2YHYmiNV3qmHS64Oedw64oQDcVAXOHHYGJzDM5HzfSdUiOz8yYzUI5Wu0-Vf1SBk-2ShaEQsoGGnu3OFghY64YeSeJVkPSAAXq754lvbcbUPGaf3u0qMSIqtMnIqIFel6-vnzJsbj-N0owT7QbBgflR3GDJqr0LHqLkYyBjoMIkbV1IF8cvFzGvJC5frqScvbO22pEfFxF1npV8EVlR17nTMWa9~u4VlY-rKARZ2XJSVe8ns5FaZCGSarURUzA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

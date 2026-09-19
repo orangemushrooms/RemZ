@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, rustic outdoor bench: one long thick dark squared wooden beam resting flat on two short vertical round log sections with bark, Swiss forest picnic site bench, single object, no ground",
+  "folder": "log_bench_beam",
+  "root_task_id": "01a0ba70-3259-777c-83dd-f3be264d1ceb",
+  "created_at": "2026-09-19T18:15:31.356740",
+  "updated_at": "2026-09-19T18:15:31.356781",
+  "tasks": [
+    {
+      "task_id": "01a0ba70-3259-777c-83dd-f3be264d1ceb",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:15:31.356765"
+    }
+  ]
+}

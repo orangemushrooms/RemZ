@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, Swiss forest log fountain: one long tree trunk split lengthwise and hollowed out as a water trough, resting horizontally on two short round log blocks, at one end a thick upright tree trunk post about twice as tall as the trough with a small iron pipe spout sticking out over the trough, weathered grey wood, single object, no water, no ground",
+  "folder": "log_fountain",
+  "root_task_id": "01a0ba6f-9c5f-744f-913d-3435d948d03b",
+  "created_at": "2026-09-19T18:14:53.169209",
+  "updated_at": "2026-09-19T18:14:53.169535",
+  "tasks": [
+    {
+      "task_id": "01a0ba6f-9c5f-744f-913d-3435d948d03b",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:14:53.169533"
+    }
+  ]
+}

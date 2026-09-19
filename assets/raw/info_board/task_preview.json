@@ -1,0 +1,27 @@
+{
+  "id": "01a0ba6e-8c26-746e-a011-3d7bec05e939",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1898929286,
+  "prompt": "game asset, small wooden information notice board on a single square wooden post with a tiny pitched wooden roof, forest trail information panel, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789834203904,
+  "progress": 100,
+  "started_at": 1789834203923,
+  "finished_at": 1789834403820,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-8c26-746e-a011-3d7bec05e939/output/model.glb?Expires=4943376000&Signature=MQ2f8vjvm~WMsllZi1ZW11q-nNad3f3d33JS3kxc1ecR4qVB0W2iikC6RkQ1jkvoju~XEk2Oj4LArcgbR8lbbIM8ddnFIPJBJvxfNuIrbImkBn-YkdcMOxPF2D49hDRQKYgN5ifHmvn4yLSO9WXJhhjtioI6dUl2Dpa~GbrDBuJGGY0Hbgix-T6Qw1EMjf~kMtUOPu3aOShC8MJc30ZCOtn14y~UxSMkrYrA-ZnFWl8hwUfX1endX3edNVXP9KEHa3jdgyFyHzUBSc4EOaq7Raqk2vfcqsz9fHkhF~EWQCyVKr4kSSxATTKdk6zvpd2Hes3FBeXiHf3tzGrScyO96g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-8c26-746e-a011-3d7bec05e939/output/model.fbx?Expires=4943376000&Signature=P4jwkGeA5pp3LJG-brzxt1XoNqTOyn8Px77QpzW9mc~nFz41ovx8HlcsWFDAdwbdh-eXbFCZoSlax7F5e~vcIpkoTxruH7l8t-76xhTGGLvprSBWvGbrTfbjbzCCaZR~3oRPiasa26RSoPkq9GbO1UUJNSGcMyLn7xPFuZ1F8JKYeLfJPdclGsugC5DFZt9cDV1VoqmPZF2Riaw9ZQXmFx6rsQ1l~Euun6u-ZPTbCNVfUOemorNeK~1YQvOCj2Hydd4sGgrk855-Dtq~NeUOqzrWaEt0wp0vbDesgeKx1KeSqC9jUiEyFPUqkeJG10kZz-NtCmdcq9Uo4tgT5gmgJw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-8c26-746e-a011-3d7bec05e939/output/model.usdz?Expires=4943376000&Signature=Q6ztiuaXquj22nvXiRMRMysIvIpkIn~abQVegAf4nmm4eX9NAQusPwE5eOLDA0yNNymU5lNrE0zd2ZSfnY1aIf5QQX3TbZo5ChkoQceJNsCRYN9kVA0D0jLuiDnTH1GBfforZs7uoCZb4M9MzqxuF4np0So33OixLn72ACYauc9egVifsVhJFk3wd13nr0JhnSL20OIW~5yEeREDIzCm6v4nxjEQlNlRV5~ZEUwUsYlhjp6NH2XfYeRUa-7v3vVyljn6jcyaUe6shMSVQwHM3UO5v-AkMUieVs6---Wme~BsfaOQWm6EigDnau9tMYBE~rAi1fiWn9JmQ3lZC7fzyw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-8c26-746e-a011-3d7bec05e939/output/model.obj?Expires=4943376000&Signature=TmW2wSJi8kpDGqnuMTicbmiMKYyDSJBylEcLdhD1X8CrDa6~Cu0F8P4sH~10l-8xSyFwvxQMokCBk5W1oDvHkIwCerlPzApILEbRxOxOMd1J0735KqwTaVq~BYlEqEj~S~PUKxrVq2dBSu0jsQiVf3sV5ncFfZ89Cg7G3QGe3HdXwKdyJxTTZkfPWURBsM2liIDkzOoPO6kVq3GeEnDWZzp3k~9HFAoX2cFrfyr49eH2DVj4L6D~iJQ9d0rfLwchjs2p9I4YHJCp~chXiOBu1INFB7gZKbKK39LS7vGQfezHtoKFJ7OmOBdOZXXmoEAj6SbAHNryeLpS32dtC1G9-w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-8c26-746e-a011-3d7bec05e939/output/model.stl?Expires=4943376000&Signature=QGYu6HyIJpKRjzvmSDCniao9lZmuBs-U8kYZSf4MQd-sHhRQh5jSQkP~GxbuXjV0yVaA9RmXCDSJiz-4b2b7a7f6UpldQ2gcvgt2CaegNOCatl-l14NuT3nPz-KbUZdLl5IEbbIlfwDgIOu-ctUUi2Jh3GJWuhr~h4ez6EEc9j8lOcLJQth6qeZvMLzm4yegd4TA9jR2NYs6n0xuwiqpvc6-~fQQWPSKPugne0Vy5ygj35HSZXIg4jlV57MMOMlmuWz2ZYWoSPTSWDbpQlYi1yr~qtxPTBdur12ELP1vZGeYwmAmaFc6qc2tkgH8Yo6ysEa4Pl-~fUBM3Ok3IV05KA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-8c26-746e-a011-3d7bec05e939/output/preview.png?Expires=4943376000&Signature=AkautP2wo-tn32NrZDoNOV9GQ~SyUD8jJA1elhGmZg0np3wajZIo442Ezo2MnMI1RE2hB8Fd5lew9Xa-UrwNTi1Zz3DOlH1W78H17LChKO~plBCgcp-0j1~nmAFnmag6KJrPcrgY2kmQeEzQWShPMID~Jupvpu0DzRGi1nVbvv-pH4DJZW-F2Lnhmy50Nzn3Bz8NbfLpTg7QD6tZT08ZXMRz8ME-I5-mEBUjq-SANG6Ocu1dA6dFb7YZtndOdr7CQSaTPBswosOSeV2Qn2fjrKgMSTMMk9udeAPRDdpP4lW~-E9T-w~tVY4gFBXKkAoADvR2S8BfhiKC-EODXYy-0A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

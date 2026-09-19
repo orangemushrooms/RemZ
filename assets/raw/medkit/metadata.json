@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, white plastic first aid kit case with a red cross on the lid and a carry handle, closed, single object, no ground",
+  "folder": "medkit",
+  "root_task_id": "01a0ba71-a239-75ed-a0e4-d7c375e64e65",
+  "created_at": "2026-09-19T18:17:36.966895",
+  "updated_at": "2026-09-19T18:17:36.966914",
+  "tasks": [
+    {
+      "task_id": "01a0ba71-a239-75ed-a0e4-d7c375e64e65",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:17:36.966912"
+    }
+  ]
+}

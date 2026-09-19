@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, small wooden information notice board on a single square wooden post with a tiny pitched wooden roof, forest trail information panel, single object, no ground",
+  "folder": "info_board",
+  "root_task_id": "01a0ba71-c14d-71da-a360-80b7eacdd3df",
+  "created_at": "2026-09-19T18:18:13.776188",
+  "updated_at": "2026-09-19T18:18:13.776207",
+  "tasks": [
+    {
+      "task_id": "01a0ba71-c14d-71da-a360-80b7eacdd3df",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:18:13.776205"
+    }
+  ]
+}

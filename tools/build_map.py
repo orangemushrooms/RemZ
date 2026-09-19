@@ -73,7 +73,7 @@ CAMP_FOREST_FLOOR = [[-13, -21], [-6, -23], [-1, -19.5], [-3.5, -14.5], [-6.5, -
 MEADOW_FORCE = [[-400, -120], [-190, -120], [-166, -100], [-138, -59], [-118, -16], [-92, 27], [-80, 47], [-70, 64], [-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 260], [-400, 260]]
 FIELD_SE = [[113, 24], [128, 18], [150, 8], [150, 160], [113, 160]]   # fields east of the Sennhofstrasse south of the junction
 # Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
-# upper door, east side buried in the slope (photos 14, 17, 19)
+# upper door; a shallow bank follows the east side (photos 14, 17, 19)
 WALDHUETTE = {"pos": [9.1, 4.6], "size": [6.6, 7.4], "yaw_deg": -8.0, "base_h": 2.4, "wall_h": 2.5, "roof_h": 1.5}
 HOLZLAGER = {"pos": [-3.0, 26.3], "size": [7.9, 13.6], "yaw_deg": -14.0, "base_h": 0.8, "wall_h": 3.6, "roof_h": 1.6}   # ridge and roof edges in the aerial run at 14 deg, not the 23 deg of the OSM outline
 # Seat group 3 m east of the OSM picnic node. Photo 20 (from the south bench, looking north): picnic table behind
@@ -83,6 +83,9 @@ HOLZLAGER = {"pos": [-3.0, 26.3], "size": [7.9, 13.6], "yaw_deg": -14.0, "base_h
 # benches. All coordinates use true north; the annotated photo plans are schematic. Origin stays the OSM picnic node.
 FIRE = [7.0, -7.0]
 BENCHES = [[7.0, -4.2, 0.0], [7.0, -9.8, 0.0], [4.2, -7.0, 90.0], [9.8, -7.0, 90.0]]   # x, z, yaw (length axis)
+# Small stone fire ring inside the forest at the Feldweg West / village-path fork.
+SMALL_CAMPSITE = {"pos": [-56.0, 63.0], "radius": 4.2,
+                  "benches": [[-56.0, 60.7, 0.0], [-53.7, 63.0, 90.0], [-56.0, 65.3, 0.0]]}
 TABLE = [1.2, -11.0, 5.0]           # north-west of the fire, 3 m west of the west bench, on leaf litter (photo 18)
 FOUNTAIN = [-2.0, -13.0, 90.0]      # trough north-south with the post at the south end, beside the Waldweg entrance
 BIN = [-0.5, -16.0]                 # white drum on a post, between table and track entrance (photos 15, 16, 20)
@@ -189,7 +192,7 @@ blend = np.clip((pd - POND["r"] - 3.0) / 8.0, 0, 1)
 h = np.where(pd < POND["r"] + 11.0, dish * (1 - blend) + h * blend, h)
 POND["rim"] = pond_rim
 POND["water_y"] = pond_rim - POND["depth"] * 0.35
-# Waldhütte terrace: ground north of the hut sits at the upper floor, the concrete base stands free on the south and west
+# Waldhütte: a low, rounded bank behind the east wall, not an upper-floor terrace.
 hb = WALDHUETTE
 a = math.radians(hb["yaw_deg"])
 cx, cz = hb["pos"]
@@ -197,15 +200,19 @@ base_level = float(h[int(cz - Z0), int(cx - 4.5 - X0)])   # ground at the west f
 jj, ii = np.mgrid[0:H, 0:W]
 px, pz = ii + X0 - cx, jj + Z0 - cz
 lx = px * math.cos(a) + pz * math.sin(a); lz = -px * math.sin(a) + pz * math.cos(a)
-upper = base_level + hb["base_h"]
-# terrace region: behind the east face within a fan, blending out over 9 m (the slope rises east anyway)
-tz = lx - hb["size"][0] / 2                          # metres east of the east face
-side = np.abs(lz) - hb["size"][1] / 2                # metres outside the north/south faces
-t_in = np.clip(tz / 1.0, 0, 1) * np.clip(1.0 - np.maximum(side, 0) / 3.0, 0, 1)
-fade = np.clip(1.0 - np.maximum(tz - 3.0, 0) / 9.0, 0, 1) * np.clip(1.0 - np.maximum(side - 3.0, 0) / 6.0, 0, 1)
-target = np.maximum(h, upper - 0.05)
-h = h * (1 - t_in * fade) + target * (t_in * fade)
-# keep the footprint itself flat at the upper level (the hut model closes the gap)
+bank_distance = np.hypot(np.maximum(np.abs(lx) - hb["size"][0] / 2 - 0.6, 0),
+                         np.maximum(np.abs(lz) - hb["size"][1] / 2 - 0.6, 0))
+# Rise only 35 cm over the first 5 m; join the natural hillside over another 12 m.
+# Smoothstep at both ends prevents a sharp lip beside the stair and the foundation.
+bank_rise = np.clip(bank_distance / 5.0, 0, 1)
+bank_rise = bank_rise * bank_rise * (3.0 - 2.0 * bank_rise)
+bank_blend = np.clip((bank_distance - 5.0) / 12.0, 0, 1)
+bank_blend = bank_blend * bank_blend * (3.0 - 2.0 * bank_blend)
+east_weight = np.clip((lx - hb["size"][0] / 2 + 1.0) / 2.0, 0, 1)
+east_weight = east_weight * east_weight * (3.0 - 2.0 * east_weight)
+bank_weight = east_weight * (1.0 - bank_blend)
+h = np.minimum(h, h * (1.0 - bank_weight) + (base_level + 0.35 * bank_rise) * bank_weight)
+# Keep the garage floor level inside the footprint.
 inside = (np.abs(lx) < hb["size"][0] / 2 + 0.6) & (np.abs(lz) < hb["size"][1] / 2 + 0.6)
 h = np.where(inside, base_level, h)     # garage floor, the hut is walkable inside
 # Holzlager stands on a flat gravel pad
@@ -215,6 +222,12 @@ lvl = float(np.mean(h[m]))
 dl = ndimage.distance_transform_edt(~m)
 k = np.clip(dl / 4.0, 0, 1)
 h = lvl * (1 - k) + h * k
+# A compact level pad for the small fire and its benches, blended into the slope.
+small_d = np.hypot(ii + X0 - SMALL_CAMPSITE["pos"][0], jj + Z0 - SMALL_CAMPSITE["pos"][1])
+small_level = float(h[int(SMALL_CAMPSITE["pos"][1] - Z0), int(SMALL_CAMPSITE["pos"][0] - X0)])
+small_blend = np.clip((small_d - 3.1) / 2.0, 0, 1)
+small_blend = small_blend * small_blend * (3.0 - 2.0 * small_blend)
+h = np.where(small_d < 5.1, small_level * (1.0 - small_blend) + h * small_blend, h)
 h[:, :] = h.astype(np.float32)
 
 # ------------------------------------------------------------------ 2. ground cover from the aerial image
@@ -248,6 +261,7 @@ for i, s in enumerate(sizes):
 forest &= ~poly_mask(CLEARING, 1)
 forest &= ~poly_mask(MEADOW_FORCE)
 forest &= ~poly_mask(FIELD_SE)
+forest &= small_d > SMALL_CAMPSITE["radius"]
 for b in (WALDHUETTE, HOLZLAGER):
     forest &= ~poly_mask(rect_pts(b, 2.0))
 road_d = np.full((H, W), 1e9, np.float32)
@@ -284,6 +298,8 @@ leaf *= 1.0 - asphalt
 leaf *= 1.0 - pond_grass
 meadow = np.clip(1.0 - leaf - gravel - asphalt, 0, 1)
 ground = np.stack([leaf, meadow, gravel], axis=2)
+small_soil = np.clip((SMALL_CAMPSITE["radius"] - small_d) / 0.9, 0, 1)[:, :, None]
+ground = ground * (1.0 - small_soil) + np.array([0.45, 0.0, 0.55]) * small_soil
 Image.fromarray((ground * 255).astype(np.uint8), "RGB").save(os.path.join(OUT, "ground.png"))
 Image.fromarray((asphalt * 255).astype(np.uint8), "L").save(os.path.join(TOUT, "asphalt_mask.png"))
 
@@ -399,6 +415,13 @@ for k in sel:
         shrubs.append([round(x, 1), round(z, 1), round(rng.uniform(0.5, 1.1), 2), int(rng.integers(0, 360))])
     elif r < 0.68:
         logs.append([round(x, 1), round(z, 1), round(rng.uniform(1.5, 4.0), 2), int(rng.integers(0, 360))])
+# Keep trunks, shrub crowns and long fallen branches out of the small seating area.
+def outside_small_campsite(item, margin):
+    return math.hypot(item[0] - SMALL_CAMPSITE["pos"][0], item[1] - SMALL_CAMPSITE["pos"][1]) >= SMALL_CAMPSITE["radius"] + margin
+trees = [t for t in trees if outside_small_campsite(t, 0.8)]
+shrubs = [t for t in shrubs if outside_small_campsite(t, 1.6)]
+ferns = [t for t in ferns if outside_small_campsite(t, 0.8)]
+logs = [t for t in logs if outside_small_campsite(t, t[2] * 0.5)]
 print("trees", len(trees), "shrubs", len(shrubs), "ferns", len(ferns), "logs", len(logs), "border", len(border), "village", len(village), "forest cells", int(forest.sum()))
 
 # ------------------------------------------------------------------ 4. write
@@ -418,7 +441,7 @@ data = {
     "bounds": BOUNDS, "player_start": PLAYER_START,
     "roads": ROADS, "clearing": CLEARING,
     "buildings": {"waldhuette": WALDHUETTE, "holzlager": HOLZLAGER},
-    "fire": FIRE, "benches": BENCHES, "table": TABLE, "fountain": FOUNTAIN, "pond": {"pos": POND["pos"], "r": POND["r"], "depth": POND["depth"], "water_y": POND["water_y"], "trough": POND_TROUGH}, "bin": BIN, "signpost": SIGNPOST,
+    "fire": FIRE, "benches": BENCHES, "small_campsite": SMALL_CAMPSITE, "table": TABLE, "fountain": FOUNTAIN, "pond": {"pos": POND["pos"], "r": POND["r"], "depth": POND["depth"], "water_y": POND["water_y"], "trough": POND_TROUGH}, "bin": BIN, "signpost": SIGNPOST,
     "log_seat": LOG_SEAT, "landmark_oak": LANDMARK_OAK, "fence": FENCE,
     "spawns": SPAWNS, "barricades": BARRICADES,
     "trees": trees, "shrubs": shrubs, "ferns": ferns, "logs": logs, "border_trees": border, "village": village,
@@ -436,6 +459,9 @@ d = ImageDraw.Draw(pv)
 for r in ROADS:
     d.line([P(*p) for p in r["pts"]], fill=(255, 255, 0) if r["surface"] == "asphalt" else (255, 140, 0), width=max(2, int(r["width"] * 2)))
 d.polygon([P(*p) for p in CLEARING], outline=(255, 255, 255))
+_sx, _sz = SMALL_CAMPSITE["pos"]
+_sr = SMALL_CAMPSITE["radius"]
+d.ellipse([P(_sx - _sr, _sz - _sr), P(_sx + _sr, _sz + _sr)], outline=(255, 255, 255), width=2)
 for b in (WALDHUETTE, HOLZLAGER):
     d.polygon([P(*p) for p in rect_pts(b)], fill=(220, 40, 40))
 for f in FENCE:

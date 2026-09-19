@@ -1,0 +1,69 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+PASS: Selected mode has the expected time scale
+PASS: Selected mode advances exactly one game hour
+PASS: Clock is frame-rate independent at 30 FPS
+PASS: Clock is frame-rate independent at 60 FPS
+PASS: Clock is frame-rate independent at 144 FPS
+PASS: Midnight wraps without losing elapsed seconds
+PASS: Clock displays valid hours and minutes at midnight
+PASS: Long sessions support multiple complete days
+PASS: Negative deltas cannot rewind the clock
+PASS: Optional continuous 15-minute mode reaches evening after 7.5 minutes
+PASS: Optional continuous mode keeps its time across waves
+PASS: Default wave-reset behaviour can be restored
+PASS: Sun rises east and sets west, matching minimap compass
+PASS: Evening darkens progressively from daylight to night
+PASS: Lighting has no jump at midnight
+RENDER_OPTIMIZER { "source_meshes": 995, "batches": 9, "removed_render_nodes": 21 }
+PASS: Start screen is held at 06:00 and displays the selected speed
+PASS: First wave follows the selected reset policy
+PASS: Later waves follow the selected reset policy and phase
+PASS: Active gameplay advances visible clock
+PASS: Escape pause freezes world time
+PASS: Inventory freezes world time
+PASS: Skills menu freezes world time
+PASS: Barricade planner freezes world time
+PASS: Game over freezes world time
+PASS: Inactive player cannot advance world time
+PASS: Clock advances through the actual scene process loop
+PASS: Scene-tree pause freezes the actual process loop
+PASS: Night substantially dims sunlight and fill
+PASS: Fire and fixture lights brighten at night
+PASS: Hands and weapons share the darker night lighting
+PASS: Weapon reflection sky stays static while its light changes
+PASS: Time of day preserves manual flashlight control
+PASS: Night adds no extra lights or shadows
+PASS: Sky reflections use a bounded incremental bake
+PASS: Quality 0 preserves the current night
+PASS: Quality 0 retains its volumetric-fog budget
+PASS: Quality 1 preserves the current night
+PASS: Quality 1 retains its volumetric-fog budget
+PASS: Quality 2 preserves the current night
+PASS: Quality 2 retains its volumetric-fog budget
+PASS: Screenshot lager-0600
+PASS: Rendered clock agrees with lager at 6.0 h
+PASS: Screenshot lager-1200
+PASS: Rendered clock agrees with lager at 12.0 h
+PASS: Screenshot lager-1850
+PASS: Rendered clock agrees with lager at 18.5 h
+PASS: Screenshot lager-2300
+PASS: Rendered clock agrees with lager at 23.0 h
+PASS: Screenshot alpen-0600
+PASS: Rendered clock agrees with alpen at 6.0 h
+PASS: Screenshot alpen-1200
+PASS: Rendered clock agrees with alpen at 12.0 h
+PASS: Screenshot alpen-1850
+PASS: Rendered clock agrees with alpen at 18.5 h
+PASS: Screenshot alpen-2300
+PASS: Rendered clock agrees with alpen at 23.0 h
+PASS: Screenshot wald-nacht-taschenlampe
+PASS: Clock fits top-right at 1280x720
+PASS: Screenshot uhr-1280x720
+PASS: Screenshot nacht-hohe-qualitaet
+DAY_NIGHT_SAMPLE {"cpu_ms_median":1.01199996471405,"draw_calls":724.0,"frame_ms_median":4.462,"frames":1009,"gpu_ms_median":3.95000004768372,"gpu_ms_p95":4.03000020980835,"running":false}
+DAY_NIGHT_SAMPLE {"cpu_ms_median":1.00899994373322,"draw_calls":719.0,"frame_ms_median":4.498,"frames":997,"gpu_ms_median":3.98300004005432,"gpu_ms_p95":4.33300018310547,"running":true}
+DAY_NIGHT_SAMPLE {"cpu_ms_median":1.00800001621246,"draw_calls":719.0,"frame_ms_median":4.509,"frames":996,"gpu_ms_median":4.00099992752075,"gpu_ms_p95":4.15100002288818,"running":true}
+DAY_NIGHT_SAMPLE {"cpu_ms_median":1.0110000371933,"draw_calls":724.0,"frame_ms_median":4.511,"frames":998,"gpu_ms_median":4.00099992752075,"gpu_ms_p95":4.06799983978271,"running":false}
+DAY_NIGHT_DONE checks=60 failures=0 rendered=true

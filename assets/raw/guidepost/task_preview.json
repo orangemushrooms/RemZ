@@ -1,0 +1,27 @@
+{
+  "id": "01a0ba6d-1470-7655-a156-a04e520cf23d",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 411105870,
+  "prompt": "game asset, Swiss yellow hiking guidepost: a plain wooden post with two flat yellow direction sign arrows mounted at different heights pointing in different directions, black text on the signs, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789834109263,
+  "progress": 100,
+  "started_at": 1789834109270,
+  "finished_at": 1789834423148,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-1470-7655-a156-a04e520cf23d/output/model.glb?Expires=4943376000&Signature=Bc4V3IWkionczKNhrHXVFIbFI8fhqxvyF8uCnpUOm6~x27ci6coGGAsWoDhLt1vAtt3ONbcr0j71z~QfXEsC1HaSP99zKuvb1omVIWnpkDTJKBMkWmb7KUgBaCmlAGTRPxw5IlpN2VEL747r7tZ2pIRA1O4FDJXkpIfyfU6cEoOW~d7OaYeQ~Gc4DUJepyPaOvmXlk90iVO5xBG0H9wUb86Q-n91Lam-SRCtm~4jfw5hnExtDdIYHICGw8ncu-1l0lyZDp2lG3c5sA3iAtJFtazPMOVhLkEnmlnHy2oQJw0EvCzcpApNFRIAYvEHQEsee83m5mFYu22ZzMOcKXyWsg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-1470-7655-a156-a04e520cf23d/output/model.fbx?Expires=4943376000&Signature=PwCxtIG1T6Xee2BUchxIcNfCcYAnjuhk2JzH5qV1gfPTlAy~IdPXPyCs46DzN9ha-0-lCy1UkZ2ES3ImRoUy-H~UzezLDHqKHo1vpYDhhIQvlfqsVVW1O8LKCWbyHlFw3dPuj-eqQE3jqOgdtJ0S0iOS6-pgab5Huzj20FbBOo7YlA0~wr3juVp71rgLNM5OWjMKhMP21QCMg52CZIhUFPhJJhmt-F23hWmboRq4Fi3qrqMr1Yazk3~iZCGk6zy3Jy37SgCwC4cTXe2WyDzijTnuksPyEgWOM~sW-Y0a-qkiMsKkERtH7Mn6L6PYWe4De-t~gYYiPYZwuVuFcy95mA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-1470-7655-a156-a04e520cf23d/output/model.usdz?Expires=4943376000&Signature=dY4OeI8WGSbwUHKokXd-PIR1HA2fLIIFVXIGkzrwVRShCOnISktqIPxQ6p0-Twcd5ibn2mt4sseIfvpgd8ghtjwa2F-Pz2sIO8pT6gPZllgXtwWOSMlxUmU1f9U9RxskL9MTnWIKskjKeUCv478rfWb0Zu~C2sdn4~dPzzKAitm5EUt7O09Lb9Hj-PktfmJNSm27CcNNyhdexum9D0wQWykDzDGeinxTPx0NrQNeZDIHWqH6rk4jjLb3deQNyLFdjV7PyYhLymVM1eC2j~FjqRc5ULaDz~TnIptg9ZaXhxmxyYiyWbl8EE8-C-M5gbdEN-9kS~n4rbHGWPvEGCWYlQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-1470-7655-a156-a04e520cf23d/output/model.obj?Expires=4943376000&Signature=m7iSqxaldfsUczZpS-DvjkOPdfGmd9gw~fjGN2cv8J-tHXxwFiUwPWZjoAF8s-aCa1iS-XWyxs6nKoWWCxMcG0~SDZiGrNEP~wS3IiEDwAC2I2p4Ov3023K3rz7Zneilx3K8H~loCGAykjfMHFuybOcP0QHPJ2lsfUrxaeg~brJ6z3YilPOEuEeDhNegz44DUF19uVlmaGSiq2fzH~p-uBT7y2dm-avfOlGBHlUTrGb4kQFpX8XOBIEMXd6YzdOPAVc8Gc1eeUEmnCbRfbp4K9FuBANzDXhp29e3TIBpct3NL7dHE4xu8mpu-AR7Ipw1lscR6YIHVoavCUsV1oNdRQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-1470-7655-a156-a04e520cf23d/output/model.stl?Expires=4943376000&Signature=qx1xu13GjnN02MPh0nnYBFzfbC8bMd1k7XGfRnqM2ibzAlcDsaFjt1f~~piU9ASSayciCDzsjHERyOaThFIeapHErOmeoOw0bh3FoajhbODVxAe4oVjQvF~0cSPi96E4Ee1ULR76TONbFtnyKCF8lig1BR9BL6NWJK~~2IqmAC1aB831ZU6l1xRyzTOWX75BvhG~lO-96x-zZd6h-EzCfESrptUkvPT5m99MwMaCvRhY~3hDIOlKf33B2U4yUAAgz1Yqw5YJuIVYKjYKg00qqiw5JqfM-vN9oTOjEipuZt~XSoR4GhIzQh5Ss-~l1y45SeyhFzslP-WutZZQ0WfAGQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6d-1470-7655-a156-a04e520cf23d/output/preview.png?Expires=4943376000&Signature=FKYR6A3RmQU1zixhDTder8dQyR2152SSoKRrEoRKtqWDmvLjVUoLu8Q4kegOhqRa3rRbuZpGPKb-1oiKAhNjSfvkEZwe~D6Z3qfQFOgi0vPiM9YvyGq6qtkLgSMDxnEomp7Z2IYh1QI4ieiHk8Y5rqdJ~YXMZVXCeMRNOUM5acIg9bjNbK7QAXQA~KX4uVwFvH-QGY7pzTBp~h2VWi4wGBjsMk4UqZULf8aJcP5NhCnF2u23hRbFAux51ByQsLwOC5EPa2Tu--oJ4ZxCb541egZvxWRQa4BizqC1UKybRoyEzZnoa5GZFadPTrieX87LCGNHe4BHYYSdWQ6B5eD0Xw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

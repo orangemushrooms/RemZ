@@ -107,6 +107,18 @@ func setup(p: Player, fire_pos: Vector3, stream_pos: Vector3) -> void:
 	add_child(fire)
 	fire.global_position = fire_pos + Vector3(0, 0.5, 0)
 	fire.play()
+	if not Map.SMALL_CAMPSITE.is_empty():
+		var small_fire := AudioStreamPlayer3D.new()
+		small_fire.name = "SmallCampfireSound"
+		small_fire.stream = fire.stream
+		small_fire.unit_size = 1.5
+		small_fire.max_distance = 18.0
+		small_fire.volume_db = -23.0
+		small_fire.max_db = -23.0
+		add_child(small_fire)
+		var at: Vector2 = Map.SMALL_CAMPSITE.pos
+		small_fire.global_position = Map.ground_pos(at.x, at.y) + Vector3.UP * 0.3
+		small_fire.play()
 	stream = AudioStreamPlayer3D.new()
 	stream.stream = _noise_bed(8.0, 0.25, 0.01, 0.5, 0.3, 0.5, 4)
 	stream.unit_size = 5.0

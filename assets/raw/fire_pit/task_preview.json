@@ -1,0 +1,27 @@
+{
+  "id": "01a0ba6c-e46c-76c7-ba74-2a1c4dfb2fad",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 19776387,
+  "prompt": "game asset, square outdoor fireplace built from four rectangular grey natural stone blocks forming a low square frame, black ash and a few burnt logs inside, a vertical black iron post at one corner with a horizontal swivel arm holding a round iron barbecue grate over the centre, no flames, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789834096397,
+  "progress": 100,
+  "started_at": 1789834096404,
+  "finished_at": 1789834500352,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-e46c-76c7-ba74-2a1c4dfb2fad/output/model.glb?Expires=4943376000&Signature=a309CZ~8xFhFkPySIKtCkof~Wt6lWVsAX3Sb~zelmguCLw7L179ShDIzPuVNDJpnj51ns21G2LslOi8iPRwuTcXI-VR~dsSHCScwuQKEAypNri9t6fGqxzdeCxWEEpggVkMX1dtGsTn~AsHY0U~tyiedoJy92TlTwidJVAEpNzrgqj~fakT4Yv0zJubexeRq-8iipkMW7Q2ANeq4VaF0JfSPqfKOAN-u-CY942whf0QCaGnmTC5h93hvdI-RY~hPZ-C6Zys86BFDaEabLAkPPh8z6sI3O5yJZTCp5XA20hD54APDgZhT5v88yFj6WBB23ViQrFKHfCmG6W9NGf2H1A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-e46c-76c7-ba74-2a1c4dfb2fad/output/model.fbx?Expires=4943376000&Signature=pyKehtfBO4BYLLQnFA~7ywVsVbmMN8hZ2g9qjldBGA0DyreFltlSDkwF5GS5REyQktb1x98ZPPj4oxVTDLil1ZrZYSjID6URx7xqHlhryDUXJKnGvj8ulL17okqKLl3cOA74taRw-4GbZUIlVAoavXpQt10I9iQJl9TIF1eWZaKAik08EpDXloNPws31HoC~2jeAc9xW5rwohFRE8KLsNvconTSMxpyL3WtNrMFf6uOdk4oXtCet~gj9LBhv4M9cyU8RI43qr4PhedxIH1skFhQ94-IzD8HRZifJQyA3Er56DvsKeduCdDQp-0avO9NT5GZpoTzPP4-4pbTHi-arsg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-e46c-76c7-ba74-2a1c4dfb2fad/output/model.usdz?Expires=4943376000&Signature=aLJnljQdLL0Rc6sLSmCr--HZ0FGJJCLWDDqrlXZWyxA9nonoA6I3eGOY4XtYLR5LlYwSL1CMibTgtYsXwlS9mA8CL0K5HUd~jYJch7ZeEYZLj3kR1njsdb7-3LLt9ydhlV~8FgrABxSLKSALomQ8-hvfhalt5An7ukfqZMEKxyiDwNEQqRjDEP6Y2XJc0U5MPrOX4TijzXYkV2eH5SN5l-VRZFSFiQP12XFpYAWekusnRRtHfMeTJUp7cssK1TUFF~~GUScJt1sVq6MedS-iw2cYVoytNmAEC85doRqm7Gj35Qzsk8xQPtfvQ8ZPYgSK5UAEriA5mIgnWbnL--pbDA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-e46c-76c7-ba74-2a1c4dfb2fad/output/model.obj?Expires=4943376000&Signature=Owsjmd5iakY2Ud6h-0YJZls2TqHXpdzAFdXgYa6Sn6IApGdhNVBKDVC80CzF64fpfx-SPWugC8Xi5PbPsoYKdJny7FGaVXhZJYkVcFaB28H1-lUtraZqKsyaWy0qrhEKdQp8UFn2VrpFEeDolVel36lGYJb8aOl0FIiVb75WC3deBvzgNdqDqaIeUnlWayF463-HnMOkVl4fLvGaUHv86hbkewZJ9n8ReFSGSXtHuu6JkOxRxXrUI3G3MnelNPS~k159ayVtffNwv0-RE4dGClTcxPA8TIM2rMOvrrwkwxsgsDsoJ102r4T1b3tx779Ig11Y3DivygCBelfLk3rIYg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-e46c-76c7-ba74-2a1c4dfb2fad/output/model.stl?Expires=4943376000&Signature=lnIn0wSSgeueLzmksqYsv7nPU0hivg~crOWTdI86CWA7Uye~k0x-b62RmIrZDx6R37SCpy39qYHXaKfBZJq3kJ~K61xO6KSIj7PSLD8PKH4QFIpv2qppXgOw1sMZHn2SauWjlsnMybcftDydMOZxln~MaOzX2R828Whn-73qww23HloyuXIFVOR8HCH68vGS5hNlgjfzDA3Qgt1Q7wvraTUGB9U~3fTDFpzNytdeNQ6DU97YDe8DgxFrrL-E10tBA6kdgc6MOvv8phWhGCsXTHP7pztCmXbTNbB3DJ1AzGdRVHyn3xmYyVlnsT0YdbSVHh~2TqTGpW5bMbcUiOzOSA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-e46c-76c7-ba74-2a1c4dfb2fad/output/preview.png?Expires=4943376000&Signature=LDCgISQEQToSyre7q6wCZVf67kayMoA~-4KUqD~1fWfThfGcusoCUBBPMp7NG2oQalXLPb05ZtXq4tmRN4ZVf94sCUTSXNy1DvV5hMNUSuv6gUySvoCXUCeBMDJ-e3ln1eDC5Fywm96H8AQytHjJd47MaJmFwE~QnDk8mt~Xw~hHDoT-sBzkcagK1kZFxzm54fiwRlwaj2tCGHQ8CfFK4wZJGuCxcdcRVrvsSwGhKG5Uotbmj9jEsMABSC2bjGOOznZ0p7uhZ4h~eJy1BhOLXgVryuUb8qDfWU26GakKTPwQoGm3NeWAfnCODNTtmSaHIpImdPvOcbAGPHxa-hUXAw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

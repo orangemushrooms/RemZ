@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, rustic log picnic table: thick plank tabletop on four round log legs, with one attached plank bench on each long side supported by short round logs, weathered dark wood with bark on the legs, single object, no ground",
+  "folder": "log_picnic_table",
+  "root_task_id": "01a0ba70-650c-7008-bee5-94828a624775",
+  "created_at": "2026-09-19T18:17:44.595196",
+  "updated_at": "2026-09-19T18:17:44.595223",
+  "tasks": [
+    {
+      "task_id": "01a0ba70-650c-7008-bee5-94828a624775",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:17:44.595220"
+    }
+  ]
+}

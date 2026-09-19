@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, Swiss yellow hiking guidepost: a plain wooden post with two flat yellow direction sign arrows mounted at different heights pointing in different directions, black text on the signs, single object, no ground",
+  "folder": "guidepost",
+  "root_task_id": "01a0ba71-ef08-7266-ae37-c728f6b4f300",
+  "created_at": "2026-09-19T18:16:55.186573",
+  "updated_at": "2026-09-19T18:16:55.186597",
+  "tasks": [
+    {
+      "task_id": "01a0ba71-ef08-7266-ae37-c728f6b4f300",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:16:55.186594"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ const GRIPS := {
 	"pistol": Vector4(0.29, 0.78, 0.24, 0.70),
 	"revolver": Vector4(0.27, 0.86, 0.22, 0.79),
 	"smg": Vector4(0.30, 0.70, 0.53, 0.24),
-	"ak47": Vector4(0.40, 0.49, 0.65, 0.19),
+	"ak47": Vector4(0.40, 0.64, 0.73, 0.30),
 	"shotgun": Vector4(0.49, 0.56, 0.56, 0.32),
 }
 var support: Node3D
@@ -79,6 +79,10 @@ static func build(weapon_id: String, bounds: AABB) -> ViewmodelHands:
 	var landmarks: Vector4 = GRIPS[weapon_id]
 	rig.trigger_grip = Vector3(bounds.end.x + 0.012, bounds.position.y + bounds.size.y * landmarks.x, bounds.position.z + bounds.size.z * landmarks.y)
 	rig.support_grip = Vector3(bounds.position.x - 0.011, bounds.position.y + bounds.size.y * landmarks.z, bounds.position.z + bounds.size.z * landmarks.w)
+	if weapon_id == "ak47":
+		# The charging handle widens the bounds; both wooden grips sit nearer the bore.
+		rig.trigger_grip.x = bounds.get_center().x - 0.002
+		rig.support_grip.x = bounds.get_center().x - 0.012
 	var right_basis := Basis(Vector3.UP, PI)
 	var right_wrist := rig.trigger_grip + Vector3(0.012, -0.008, 0.059)
 	var right := rig._arm(true, false, Transform3D(right_basis, right_wrist), Vector3(0.18, -0.27, 0.40))

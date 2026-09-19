@@ -1,0 +1,27 @@
+{
+  "id": "01a0ba6c-f063-7535-9b32-7b2aa5832bd8",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 611647229,
+  "prompt": "game asset, rustic log picnic table: thick plank tabletop on four round log legs, with one attached plank bench on each long side supported by short round logs, weathered dark wood with bark on the legs, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789834099584,
+  "progress": 100,
+  "started_at": 1789834099592,
+  "finished_at": 1789834312999,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-f063-7535-9b32-7b2aa5832bd8/output/model.glb?Expires=4943376000&Signature=Cb-NMLuEt13iv2vyOOKMDca6WghP3iqZuCC6kLps1Gpw~VwFhsQUKEY18sTlXukZeUVDOFcBCgUp3qK6aX44ZPZctjUehI5RfozxG766jG9w1-OXhFRxikx1SXNPTmSUxl5nT3W~o2hH-gfY-QhAMG9BGYKBNt9BpGaoIPAlLyyEYi9QSLIj30yyhp5yOfE3m2YUt3gvyOXSCMC8F0gvvYdy7JnU~rCCDmNuqDWQZ2A0c7IQSZjhoyZBp6FidvzWc7mFP-QsWyABGa-aqlHOjzZp5vfnIxBSZWYociaBJP4ZmVQBGVJueRtIilCM8mk~omnf1AKB9wSLBFLcZfqdTQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-f063-7535-9b32-7b2aa5832bd8/output/model.fbx?Expires=4943376000&Signature=SPV9IpiI0UamctC~xFNLLnoKqiAcChRcGbtVNI5LmiaktEtd3LmQjhd6cnW8q0cBqnOTBK0ihjFbuMgQKx8ARgenSPZJ5jAFQmKqOuipKP6BVGXZYrknAschyAhHeXSjnyGBb3la9PAcA0fUmeY3g4C129iiH8WEpPr4T3qPBRYdsfl-GSVoG~2k-xHaE-VrzBn62apNwZvTMv~QWn~qgtbWDX6nqeiL9sLyJ72ikDhCAwvxfsu0uCwOKIencMbPfr1C9Vxm~6mdR8v3eM5DzAVD5sTctbKbKE0V4vmXxXT3Fms0T6kZuyf5t36j-J-dLz~lPI2yQvsZzGgChSNR-A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-f063-7535-9b32-7b2aa5832bd8/output/model.usdz?Expires=4943376000&Signature=azKOy1XXfw69sKHcmpny3g0yoxxOegX7YannYMswQp0my~-ssGGnNHdnXcAAYGgTK2y6XFS1PxjtNlhFY-GIXWywbisyRHeGW246-juWf86t66H-4a7TiHuOSNvBuza6cq2-gZ0Wa-ssQMy6yIkYE5bo4CP7D16uomdEOJZRSHmg2hTeEKkrTDw9gokhW32oEidBwTQOhDKIDLT9QUZW6bTaHUKNG33py-zSMH-NDQPZP4HJfcMWrny-3qa9bl~p1fX9nbiaPluKSVHdCrmiZ1NHLMJlxdR8qJx9TBF5~YOG1Y1mRQwFbxTjqA6TijooIRexk2EZIhDNqkr3W6mBpQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-f063-7535-9b32-7b2aa5832bd8/output/model.obj?Expires=4943376000&Signature=iOi80YIwsTkv0BE24nL1qU~Nlr00Xlli2aaFUOZ54xenKRUA~UvLWGqd4Zc8FyObH4nSdzjzEW3EHZ~3bXlrYYhQWk2Xb7L8FCLlUXYvdc7LCJK9ykqEmjONFgItAspmO2E7SNAbCmO4lqIKNVQJu8~CYSq0woOy56yTcsqCtFB5tszb2JcC5IET1Kz1wukBy~UoYXq~sHPG9FELqaJaJTtIaqTYREJk8SssT0w5X0yQAF1JbJxlPzTlU7MxeR-3bOyILVwZVnkBR8uSV9w0wLxlVFMc3XNiHx2ZUqH3nbDSO7tXZ4FYMoyOhKsFv0fP1wkdb~a2Hl78n7jcYTjQ-g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-f063-7535-9b32-7b2aa5832bd8/output/model.stl?Expires=4943376000&Signature=axH2Go3pTkOZrOArIMk9WHT9vPPrkfhokCzAbfugaGKFV5pA~voWhSvE2xc5bWqMKgONnu3jWP4m9Ar8AKCaoIWcRRev2ptmjoGFwr1Ir2k7WkR1t9soCFF4GMB3m7civJ7bgFik1RjfNp6KMKi0Qwf4~V6V6vfA5zBct13XkIoz-v84M7grHIPfRAIJ7Xc4Gzk7JItVXgAtq6zVbdiOJsg-EIVnHchIJnTzBKkNZX2EWFt4DYB1arUfA61NYnQzkyR13duJu-tOxSHa9UYHdGLuWQoWnN8AFwsPZqKE6rSKKXmd4UD~NCXhmsOZBW-1S~uFzmE2ClnnkEGq1FwWzg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6c-f063-7535-9b32-7b2aa5832bd8/output/preview.png?Expires=4943376000&Signature=T84S7AOvletmhiLcrUjCmwCetidwmDMjSYvibbZHXSt3NSbcn7CRsx0LQj73g2o8w8GQKT1HsT4~UBMFDX4I-Bm7cmVHWnVXObjGh-PfoQ~tVxVH2aP7QQr46MJdKsapBs6ZyVknNkKM6FjFJ9RP7z6U6rDIyASsodAMQcuD4Wp94aIqwA8evF4xv2xHcWlCT7dm9qXfl1WSoHzC-33Hyn6C1x-G-3Q2PcBwq53UFvM6eWZjKj20yCd1u04oIXKmF5uoQKjygC7LpEYy2-jTCAU3826jZptqvw5BzKOv8EzSdLz0M~xf9Ax--S3J7LJbgcAdJ-olbJSKOyhvycWo1Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

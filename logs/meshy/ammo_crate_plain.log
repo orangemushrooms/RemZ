@@ -1,0 +1,13 @@
+TASK_CREATED: 01a0ba7f-b3f0-7071-8a98-44f10fbca2b2
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (23.75s, poll #4)
+  [█████████████░░░░░░░] 69% — IN_PROGRESS (40.625s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (65.9375s, poll #6)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\ammo_crate_plain\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\ammo_crate_plain\model.glb (7.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\ammo_crate_plain\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\ammo_crate_plain\thumb.png (0.1 MB)
+DONE ammo_crate plain
+EXIT 0

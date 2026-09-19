@@ -1,0 +1,42 @@
+18:08:16 preview log_picnic_table
+TASK_CREATED: 01a0ba6c-f063-7535-9b32-7b2aa5832bd8
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (145.625s, poll #12)
+  [███████████████████░] 99% — IN_PROGRESS (160.625s, poll #13)
+  [███████████████████░] 99% — IN_PROGRESS (175.625s, poll #14)
+  [███████████████████░] 99% — IN_PROGRESS (190.625s, poll #15)
+  [███████████████████░] 99% — IN_PROGRESS (205.625s, poll #16)
+  [████████████████████] 100% — SUCCEEDED (220.625s, poll #17)
+18:12:02 refine log_picnic_table
+TASK_CREATED: 01a0ba70-650c-7008-bee5-94828a624775
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (65.9375s, poll #6)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (95.9375s, poll #7)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (125.9375s, poll #8)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (155.9375s, poll #9)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (185.9375s, poll #10)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (215.9375s, poll #11)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (245.9375s, poll #12)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (275.9375s, poll #13)
+  [██████████████████░░] 90% — IN_PROGRESS (305.9375s, poll #14)
+  [████████████████████] 100% — SUCCEEDED (335.9375s, poll #15)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\log_picnic_table\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\log_picnic_table\model.glb (7.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\log_picnic_table\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\log_picnic_table\thumb.png (0.1 MB)
+18:17:44 DONE log_picnic_table
+EXIT 0

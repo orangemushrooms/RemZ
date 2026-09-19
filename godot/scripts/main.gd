@@ -74,6 +74,7 @@ func _ready() -> void:
 	_build_forests()
 	_build_buildings()
 	_build_campsite()
+	_build_small_campsite()
 	_build_pond()
 	_build_fence()
 	_build_clutter()
@@ -1365,14 +1366,14 @@ func _build_buildings() -> void:
 		_place("woodpile", hp.x + 2.0 + i * 1.7, hp.y + 9.5, 1.2, 0.0, 1.0, 1.1)
 
 # ---------------------------------------------------------------- campsite
-func _log_bench(x: float, z: float, yaw: float, length: float = 2.6) -> void:
+func _log_bench(x: float, z: float, yaw: float, length: float = 2.6) -> Node3D:
 	var root := Node3D.new()
 	add_child(root)
 	root.position = Map.ground_pos(x, z)
 	root.rotation.y = yaw
 	if _prop(root, "log_bench_beam", length, "x"):
 		_box_collider(root, Vector3(length, 0.55, 0.4))
-		return
+		return root
 	var bark := _mat("ph_bark_beech2", 0.6, Color(0.6, 0.55, 0.5), false)
 	var beam := Foliage.pbr("planks", 0.7, Color(0.32, 0.27, 0.22))
 	_box(root, Vector3(length, 0.13, 0.24), Vector3(0, 0.47, 0), beam)
@@ -1385,6 +1386,59 @@ func _log_bench(x: float, z: float, yaw: float, length: float = 2.6) -> void:
 		leg.position = Vector3(sx, 0.2, 0)
 		root.add_child(leg)
 	_box_collider(root, Vector3(length, 0.55, 0.35))
+	return root
+
+func _build_small_campsite() -> void:
+	if Map.SMALL_CAMPSITE.is_empty():
+		return
+	var center: Vector2 = Map.SMALL_CAMPSITE.pos
+	var site := Node3D.new()
+	site.name = "SmallCampsite"
+	add_child(site)
+	site.position = Map.ground_pos(center.x, center.y)
+	# A low, simple stone ring with a small fire; no grill frame or picnic table.
+	var fire := Foliage.campfire(Vector3.ZERO)
+	fire.name = "Fire"
+	fire.scale = Vector3.ONE * 0.7
+	site.add_child(fire)
+	var ash := MeshInstance3D.new()
+	var bed := CylinderMesh.new()
+	bed.top_radius = 0.65
+	bed.bottom_radius = 0.65
+	bed.height = 0.025
+	bed.radial_segments = 24
+	ash.mesh = bed
+	ash.material_override = _plain(Color(0.11, 0.10, 0.09), 1.0)
+	ash.position.y = 0.012
+	fire.add_child(ash)
+	for child in fire.get_children():
+		if child is GPUParticles3D:
+			child.local_coords = true
+			child.amount = 36 if child.name == "Smoke" else 45
+			if child.name != "Smoke":
+				child.lifetime = 0.7
+				var flame: ParticleProcessMaterial = child.process_material
+				flame.initial_velocity_min = 0.35
+				flame.initial_velocity_max = 0.65
+				flame.gravity = Vector3(0, 0.5, 0)
+				flame.scale_min = 0.35
+				flame.scale_max = 0.65
+				flame.turbulence_noise_strength = 0.16
+		elif child is MeshInstance3D and child.mesh is CylinderMesh and child != ash:
+			child.material_override = _mat("ph_bark_beech2", 0.8, Color(0.22, 0.18, 0.14))
+	var light: OmniLight3D = fire.get_node("Light")
+	light.light_energy = 1.6
+	light.omni_range = 7.0
+	light.light_volumetric_fog_energy = 0.4
+	light.shadow_enabled = false
+	light.add_to_group("day_night_lamps")
+	_collider(fire, 0.83, 0.28)
+	var seat_index := 0
+	for b in Map.SMALL_CAMPSITE.benches:
+		var bench := _log_bench(b[0].x, b[0].y, b[1], 2.2)
+		bench.name = "Bench%d" % (seat_index + 1)
+		bench.reparent(site)
+		seat_index += 1
 
 func _log_table(x: float, z: float, yaw: float) -> void:
 	var root := Node3D.new()

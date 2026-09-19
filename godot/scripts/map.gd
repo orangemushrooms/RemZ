@@ -25,6 +25,7 @@ static var BUILDINGS: Dictionary = {}
 static var CLEARING: PackedVector2Array
 static var FIRE := Vector2.ZERO
 static var BENCHES: Array = []
+static var SMALL_CAMPSITE: Dictionary = {}
 static var TABLE := Vector3.ZERO          # x, z, yaw degrees
 static var FOUNTAIN := Vector3.ZERO
 static var POND: Dictionary = {}          # pos (Vector2), r, depth, water_y, trough (Vector2)
@@ -73,6 +74,12 @@ static func _ensure() -> void:
 	FIRE = Vector2(_d["fire"][0], _d["fire"][1])
 	for b in _d["benches"]:
 		BENCHES.append([Vector2(b[0], b[1]), -deg_to_rad(b[2])])
+	if _d.has("small_campsite"):
+		var site: Dictionary = _d["small_campsite"]
+		var seats: Array = []
+		for b in site["benches"]:
+			seats.append([Vector2(b[0], b[1]), -deg_to_rad(b[2])])
+		SMALL_CAMPSITE = {"pos": Vector2(site["pos"][0], site["pos"][1]), "radius": float(site["radius"]), "benches": seats}
 	TABLE = Vector3(_d["table"][0], _d["table"][1], -deg_to_rad(_d["table"][2]))
 	FOUNTAIN = Vector3(_d["fountain"][0], _d["fountain"][1], -deg_to_rad(_d["fountain"][2]))
 	BIN = Vector2(_d["bin"][0], _d["bin"][1])
@@ -218,6 +225,8 @@ static func in_building(x: float, z: float, margin: float = 0.0) -> bool:
 
 static func in_clearing(x: float, z: float) -> bool:
 	_ensure()
+	if not SMALL_CAMPSITE.is_empty() and Vector2(x, z).distance_to(SMALL_CAMPSITE.pos) < SMALL_CAMPSITE.radius:
+		return true
 	return Geometry2D.is_point_in_polygon(Vector2(x, z), CLEARING)
 
 # Areas that must stay free of trees and shrubs

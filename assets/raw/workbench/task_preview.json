@@ -1,0 +1,27 @@
+{
+  "id": "01a0ba6e-c7f5-75c9-a254-abde4f4de7db",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1872464132,
+  "prompt": "game asset, old garage workbench: heavy wooden top on a plank frame, a bench vice at one end, a few scattered tools and a shelf underneath, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789834219280,
+  "progress": 100,
+  "started_at": 1789834219322,
+  "finished_at": 1789834387587,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-c7f5-75c9-a254-abde4f4de7db/output/model.glb?Expires=4943376000&Signature=HVC6BBkWUAiaYEi-hVHJIQLLDFiGpRvZbHSiCy~XLa8hdbWrj0a1JdMeh7PGpdi0ZBIexL2EEdRfIR2Zz3MAt3lLj~7xq2qLc7Qv52OdBfgRUZKJfWMs8Nx47VrEkD6GPwQga~oqKUTtVJ0eHw1TjEqbt7EEQcGwBGUnxdwp0IM-~Qy6lFYtdWTPpG1AjNsd4SONW3PM0hbyc2PXWEGonU0Lww9OggzEoyJAStecIdoKOYDcWiKlDRj3AmkY-EmQ2EPlIvQGjYKxfTKJf9HEvELoogIEv61wyGZp8maukz3KENjYayKyYE8Dw1kdgiMAZB8b~gcFdxObkd213hJJwQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-c7f5-75c9-a254-abde4f4de7db/output/model.fbx?Expires=4943376000&Signature=Tn7nq~Ki3YzLT~jH0RaEm78VfT9GhE55ateE22IuwjYCEVP9g9vpi47yZr9gNSl72ipb~IoQ2Dn-cO77nmUHCqEi2iSIRUtyanI03O0BwKitviSypY1ReJenbHInY6Xfmk0qANZa~lI0s9CIuv7ZiU92PopeCaq5wQcN~PKCDOzMmqcn8K9sb6~EBaffJ8827E9kEKa0Ay4UP07btNB2ymeTJR5ZTZAlZqw3FU5acq-JninbJ7esJAK6IuJUCJjDTBnhfFkRBqyaeNiKVvA6~wv8sIyBt9BGkx0SfuZU31IP0ARrvW-rp2w8VnMZpEiceqz-zZSplLFyfJ5uUEmbhA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-c7f5-75c9-a254-abde4f4de7db/output/model.usdz?Expires=4943376000&Signature=bGPSZFAr2qPK9ARP1Dn0f7FpqjNN5caBJFSs4J8BI-fUq6XT54n3SISurruzHaM8ThHATP-f1OyqVaPfi2cPxR7mMR9gQ4pV8BPWDWR5EdwTwYla9MgR2M5z8MqFNrC1lbjBmuzPm3Kl8Ynxfse1cU8zZUN4T6d3JnWanC2kgvNSxZMNo6MnCmmdHX-BTVwqxYX0ZUEOd~-MwJWvRQv64gRJAAoJ6jcM8qMMPg6mYamjjcoqYEXopcRQV61HEmefz98CJ3pFfaN7k0G8sHDVMj2tyDbWoEA9RIyIns3Uiuys30-rBK2GNbiduvs~Kc~YhWmqV9ro1dh1PCSjgaZIsQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-c7f5-75c9-a254-abde4f4de7db/output/model.obj?Expires=4943376000&Signature=eZVQns1mH-C3ikucrrHzt8TZMmBXxWj6gTy~dr9gKn~TdqVxIRWHLEBGIDr8KsIntfRLmpMy6NCnSfYYuW1xoK8X7jX8GlISf79MYKVo1AHJBfnO1och49a4MQYF5XXYJFonHY8ocUUpA2ChIuf03JM1woOGvFr-b~IvxU8dBG0LvG8bZx2ZCWRkUW7jrXNTuM3Ujc4HbR9-2mlhZbsiGhJ7fNSF0hQNlZ7z4bXCxglqIkTcYwgw1Ugc0epsJjjlGGwlnd7Y4fI-HMGfTfwjo9-K6th0vkhezcU6LJj0lMxhFkoMMsGi1q3dbU3KiCUAcWrlCyDnptWNv4wkUxBbNA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-c7f5-75c9-a254-abde4f4de7db/output/model.stl?Expires=4943376000&Signature=U63l9gekKskISE5skAEDBKbXQdN5m-gL01hCEJX6VdOT43eCXLMuBn-Vo6a6ix0sCqa~eo7saorwcnHnZr4u5Dm4g48uTr3XY7j6inc8nOHdehQts0mQu~zu56POV19oBLRUV1u0JRa7aE88yaOHQXzKCDLuoi3qfKIqKHcYOEaQ7KhKrjDsA8crCNMUM4QPe14E6x0GLrz~8BxoUXmWitiSidssz1Tdiu5wO39QNGrc5STdl4mckRQH~a3nuKFaepS5EGdUuzd-iBP6R2uG11sa6fLvw2v5h7-hnqVHaMhXkIhjAJKMVEaKryUP8AEwiWF7IuMOl464aXk~LCwQaQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ba6e-c7f5-75c9-a254-abde4f4de7db/output/preview.png?Expires=4943376000&Signature=T404Fe1vyU-klkhtxvVzL1RX9gCJC3QZJFSfimFV4HIMhhmlLXGyxYC0qczYEzmXaBLVYISdEt-NwdDhszzEEKtigs-ajOf5kzCsYOxRqIa6YoMXEMRk~2m0bumNMmaOQEliXg2jH9quV~Sh-uYAvCsyBcH5hSX6miRBgwLh3~JlEN4y8n99R7MQEJPzoafDmxlqMgiE2DQA~Y2agcisbYTAx2S5uajXX-WNcI1cteN3hosJq9HAWPnsubjTowONAq0VBB6Z6E-v6eVmI~s6RLCNlSzipHXKBbafhiudkJ6CLbdgx44gl91PGhQLvAYk5zQcBHqka0Pz4rusn-lo7A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

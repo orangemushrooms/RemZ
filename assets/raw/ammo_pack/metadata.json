@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, small olive green metal military ammunition can with a hinged lid, side latch and yellow stencil markings, closed, single object, no ground",
+  "folder": "ammo_pack",
+  "root_task_id": "01a0ba72-f65a-718f-a95f-874a11e6a1bf",
+  "created_at": "2026-09-19T18:18:32.724202",
+  "updated_at": "2026-09-19T18:18:32.724223",
+  "tasks": [
+    {
+      "task_id": "01a0ba72-f65a-718f-a95f-874a11e6a1bf",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T18:18:32.724221"
+    }
+  ]
+}
