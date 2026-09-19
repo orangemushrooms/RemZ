@@ -6,7 +6,8 @@ render_mode use_debanding;
 uniform sampler2D alpine_panorama : filter_linear_mipmap, repeat_enable;
 // Fixed geographic rotation of the Alpine horizon; the live sun moves separately.
 uniform float panorama_rotation = -0.01;
-uniform float elevation_scale = 3.0;
+// Higher = flatter: from the Heitersberg the Alps are a low band on the far horizon, not a nearby wall.
+uniform float elevation_scale = 4.6;
 uniform float exposure = 0.8;
 uniform vec3 horizon_color : source_color = vec3(0.69, 0.74, 0.77);
 uniform vec3 zenith_color : source_color = vec3(0.37, 0.51, 0.68);

@@ -29,7 +29,11 @@ var growl_t := 0.0
 var dead_t := 0.0
 var speed_mul := 1.0
 var _repath := 0.0
+var _shadow_t := 0.0
 var _on_kill: Callable
+var damage_mul := 1.0           # difficulty
+var last_headshot := false      # set by weapons before damage(), read by the kill statistics
+var killer_weapon := ""          # weapon id of the fatal shot ("" = grenade / other)
 var _materials: Array[BaseMaterial3D] = []
 static var _scenes := {}
 
@@ -168,10 +172,10 @@ func die(dir: Vector3) -> void:
 	collision_layer = 0
 	collision_mask = 1
 	agent.avoidance_enabled = false
-	player.add_score(type["score"])
 	if _on_kill.is_valid():
-		_on_kill.call(self)
+		_on_kill.call(self)   # main scores the kill (difficulty, streak) and keeps the statistics
 	global_position += Vector3(dir.x, 0.0, dir.z).normalized() * 0.3
+	_drop_loot()
 	# blood pool decal on the ground, grows while the body bleeds out
 	var scene := get_tree().current_scene
 	if "weapons" in scene and scene.weapons and scene.weapons._splat_tex:
@@ -208,6 +212,13 @@ func _physics_process(delta: float) -> void:
 		return
 	if not player or not player.active:
 		return
+	# skinned shadow casters are expensive: only the zombies within 35 m of the player throw shadows
+	_shadow_t -= delta
+	if _shadow_t <= 0.0 and model:
+		_shadow_t = 0.5
+		var near_player := global_position.distance_squared_to(player.global_position) < 35.0 * 35.0
+		for m in model.find_children("*", "MeshInstance3D", true, false):
+			(m as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if near_player else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	if _stagger > 0.0:
 		_stagger -= delta
 		var t := _stagger / _stagger_len
@@ -294,9 +305,9 @@ func _physics_process(delta: float) -> void:
 			var dd: float = hit_target.attack_point(global_position).distance_to(global_position) if hit_target else player.global_position.distance_to(global_position)
 			if dd < hit_reach + 0.6 and _can_hit(hit_target):
 				if hit_target:
-					hit_target.damage(type["damage"] * 2.0)
+					hit_target.damage(type["damage"] * 2.0 * damage_mul)
 				elif player.alive:
-					player.damage(type["damage"])
+					player.damage(type["damage"] * damage_mul, global_position)
 	growl_t -= delta
 	if growl_t <= 0.0 and dist < 25.0:
 		growl_t = randf_range(4.0, 12.0)
@@ -316,3 +327,34 @@ func _can_hit(bar: Variant) -> bool:
 	query.exclude = [get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
 	return hit.is_empty() or (bar != null and hit.collider == bar.body)
+
+# strong push from a melee strike, independent of the hit stagger scaling
+func shove(impulse: Vector3) -> void:
+	if not alive:
+		return
+	_stagger = maxf(_stagger, 0.42)
+	_stagger_len = _stagger
+	_knock = Vector3(impulse.x, 0.0, impulse.z) * (100.0 / maxf(float(type["hp"]), 60.0))
+	_knock = _knock.limit_length(5.0)
+	attack_t = maxf(attack_t, 0.5)
+
+# Supply drops: bigger zombies drop more often. Ammunition for the current gun, sometimes a grenade or a medkit.
+func _drop_loot() -> void:
+	var scene := get_tree().current_scene
+	if not ("weapons" in scene) or scene.weapons == null:
+		return
+	var chance := 0.16 + 0.06 * (float(type["score"]) / 10.0)
+	if "difficulty" in scene:
+		chance *= float(scene.difficulty.get("drop", 1.0))
+	if randf() > chance:
+		return
+	var r := randf()
+	var kind := "ammo"
+	if r < 0.14:
+		kind = "medkit"
+	elif r < 0.34:
+		kind = "grenade"
+	var drop := Pickup.new()
+	drop.setup(kind)
+	scene.add_child(drop)
+	drop.global_position = global_position + Vector3(randf_range(-0.4, 0.4), 0.05, randf_range(-0.4, 0.4))

@@ -10,11 +10,13 @@ const SPECIES := {
 }
 const VARIANTS := 5
 const CELL := 48.0
+# cells whose shadow casting follows the player (see update_shadows); [MultiMeshInstance3D, Vector2 centre, radius]
+static var shadow_cells: Array = []
 
 const LEAF_SHADER := """
 shader_type spatial;
 render_mode cull_disabled;
-uniform sampler2D tex : source_color, filter_linear_mipmap_anisotropic;
+uniform sampler2D tex : source_color, filter_linear_mipmap;
 uniform float wind = 1.0;
 uniform vec3 tint : source_color = vec3(1.0);
 varying vec3 ccenter;
@@ -160,13 +162,14 @@ static func _bark_material(tex: String, tint: Color, shade: float = 0.4) -> Shad
 	return m
 
 # ---------------------------------------------------------------- crowns
-static func _crown_cards(kind: String, scale: float, yaw: float, base: Vector3, rng: RandomNumberGenerator, out: Array) -> void:
+static func _crown_cards(kind: String, scale: float, yaw: float, base: Vector3, rng: RandomNumberGenerator, out: Array, detail: float = 1.0) -> void:
 	var sp: Dictionary = SPECIES[kind]
 	var h: float = sp["height"] * scale
 	var cr: float = sp["crown_r"] * scale
 	var lo: float = sp["crown_lo"] * h
-	var cards: int = int(sp["cards"] * clampf(scale, 0.7, 1.4))
-	var card: float = sp["card"] * scale
+	# detail < 1: fewer but larger cards (distant border forest)
+	var cards: int = maxi(6, int(sp["cards"] * clampf(scale, 0.7, 1.4) * detail))
+	var card: float = sp["card"] * scale / sqrt(maxf(detail, 0.2))
 	var center := base + Vector3(0, (lo + h) * 0.5, 0)
 	var sh: Vector2 = sp["shade"]
 	for i in cards:
@@ -200,7 +203,7 @@ static func _leaf_material(kind: String) -> ShaderMaterial:
 	m.set_shader_parameter("tint", Vector3(0.62, 0.72, 0.5))
 	return m
 
-static func _multimesh_cells(mesh: Mesh, items: Array, mat: Material, near: Vector2, shadow_dist: float) -> Node3D:
+static func _multimesh_cells(mesh: Mesh, items: Array, mat: Material, near: Vector2, shadow_dist: float, shadows_only: bool = false) -> Node3D:
 	var root := Node3D.new()
 	var cells := {}
 	for it in items:
@@ -231,15 +234,31 @@ static func _multimesh_cells(mesh: Mesh, items: Array, mat: Material, near: Vect
 		mi.material_override = mat
 		mi.position = origin
 		var cell_center := Vector2(c.x * CELL + CELL / 2.0, c.y * CELL + CELL / 2.0)
-		mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if cell_center.distance_to(near) < shadow_dist else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		var on := GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY if shadows_only else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+		mi.cast_shadow = on if cell_center.distance_to(near) < shadow_dist else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		if shadow_dist > 0.0 and shadow_dist < 500.0:
+			shadow_cells.append([mi, cell_center, shadow_dist, on])
 		root.add_child(mi)
 	return root
 
+# Called by main every half second: only the cells near the player throw shadows. Cheaper than a fixed circle
+# around the fire and it never leaves the player standing in a shadowless patch at the map edge.
+static func update_shadows(at: Vector2, radius: float) -> void:
+	var r2 := (radius + CELL * 0.71) * (radius + CELL * 0.71)
+	for cell in shadow_cells:
+		var mi: MultiMeshInstance3D = cell[0]
+		if not is_instance_valid(mi):
+			continue
+		var want: int = cell[3] if (cell[1] as Vector2).distance_squared_to(at) < r2 else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		if mi.cast_shadow != want:
+			mi.cast_shadow = want
+
 # ---------------------------------------------------------------- build
 # trees: [x, z, kind, scale, yaw_deg]; shrubs: [x, z, scale, yaw_deg]; near: the fire (shadow radius centre)
-static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rng: RandomNumberGenerator, with_collision: bool = true) -> Dictionary:
+static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rng: RandomNumberGenerator, with_collision: bool = true, detail: float = 1.0, shadow_radius: float = 110.0) -> Dictionary:
 	var trunk_items := {}     # "kind:variant" -> Array of [Transform3D, Color]
 	var leaf_items := {}      # kind -> Array
+	var shadow_items := {}    # kind -> Array: coarse shadow-only proxy crowns (a third of the cards, larger)
 	var meshes := {}
 	var mats := {}
 	var crowns: Array = []
@@ -248,6 +267,7 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 	colliders.add_to_group("navsource")
 	for k in SPECIES:
 		leaf_items[k] = []
+		shadow_items[k] = []
 		for v in VARIANTS:
 			var r2 := RandomNumberGenerator.new()
 			r2.seed = hash(k) + v * 7919
@@ -263,7 +283,9 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 		var v := rng.randi() % VARIANTS
 		var b := Basis().rotated(Vector3.UP, yaw).scaled(Vector3.ONE * s)
 		trunk_items["%s:%d" % [kind, v]].append([Transform3D(b, pos), Color.WHITE])
-		_crown_cards(kind, s, yaw, pos, rng, leaf_items[kind])
+		_crown_cards(kind, s, yaw, pos, rng, leaf_items[kind], detail)
+		if shadow_radius > 0.0:
+			_crown_cards(kind, s, yaw, pos, rng, shadow_items[kind], 0.35)
 		crowns.append([pos + Vector3(0, SPECIES[kind]["height"] * s * 0.7, 0), SPECIES[kind]["crown_r"] * s])
 		if with_collision:
 			var cs := CollisionShape3D.new()
@@ -282,16 +304,20 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 			var p := center + Vector3(rng.randf_range(-0.8, 0.8), rng.randf_range(-0.5, 0.6), rng.randf_range(-0.8, 0.8)) * s
 			var b := Basis().rotated(Vector3.UP, rng.randf() * TAU).rotated(Vector3.RIGHT, rng.randf_range(-0.7, 0.7)).scaled(Vector3.ONE * 1.5 * s)
 			leaf_items["beech"].append([Transform3D(b, p), Color(center.x, center.y, center.z, rng.randf_range(0.45, 0.75))])
+	var flags := OS.get_cmdline_user_args()
 	for key in trunk_items:
-		if trunk_items[key].is_empty():
+		if trunk_items[key].is_empty() or "--no-trunks" in flags:
 			continue
-		parent.add_child(_multimesh_cells(meshes[key], trunk_items[key], mats[key], near, 130.0))
+		parent.add_child(_multimesh_cells(meshes[key], trunk_items[key], mats[key], near, shadow_radius + 20.0))
 	var quad := QuadMesh.new()
 	quad.size = Vector2.ONE
 	for k in SPECIES:
-		if leaf_items[k].is_empty():
+		if leaf_items[k].is_empty() or "--no-crowns" in flags:
 			continue
-		parent.add_child(_multimesh_cells(quad, leaf_items[k], _leaf_material(k), near, 110.0))
+		# the visible crowns never enter the shadow pass; the coarse proxies below cast the (soft) crown shadows
+		parent.add_child(_multimesh_cells(quad, leaf_items[k], _leaf_material(k), near, 0.0))
+		if not shadow_items[k].is_empty() and not "--no-crown-shadows" in flags:
+			parent.add_child(_multimesh_cells(quad, shadow_items[k], _leaf_material(k), near, shadow_radius, true))
 	if with_collision:
 		parent.add_child(colliders)
 	return { "crowns": crowns }

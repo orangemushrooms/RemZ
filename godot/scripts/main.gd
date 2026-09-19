@@ -35,6 +35,8 @@ var _fps_frames := 0
 var _fps_time := 0.0
 var _fps_done := false
 var settings: GameSettings
+var stats: RunStats
+var difficulty: Dictionary = GameSettings.DIFFICULTIES[1]
 var navigation_ready := false
 var _alive_count := 0
 var render_stats := {}
@@ -45,6 +47,9 @@ func _ready() -> void:
 	_flags = OS.get_cmdline_user_args()
 	settings = GameSettings.new()
 	add_child(settings)
+	difficulty = GameSettings.DIFFICULTIES[settings.difficulty]
+	stats = RunStats.new()
+	add_child(stats)
 	Map._ensure()
 	_build_environment()
 	nav_region = NavigationRegion3D.new()
@@ -77,8 +82,15 @@ func _ready() -> void:
 	print("RENDER_OPTIMIZER ", render_stats)
 
 	hud = Hud.new()
+	hud.game = self
 	add_child(hud)
 	hud.start_pressed.connect(_on_start)
+	hud.main_menu_pressed.connect(_to_main_menu)
+	hud.set_difficulties(GameSettings.DIFFICULTIES, settings.difficulty, func(i: int):
+		settings.difficulty = i
+		settings._changed()
+		difficulty = GameSettings.DIFFICULTIES[i]
+		player.regen_mul = float(difficulty["regen"]))
 	player = Player.new()
 	player.hud = hud
 	add_child(player)
@@ -130,12 +142,13 @@ func _ready() -> void:
 	if not "--no-music" in _flags:
 		music.play("title")
 	_spawn_deer()
-	settings.add_controls(hud.overlay_content)
+	settings.add_controls(hud.settings_box, false)
+	player.regen_mul = float(difficulty["regen"])
 	settings.apply()
 	for sound in ["pistol", "revolver", "smg", "ak47", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "boom", "pickup"]:
 		Sfx.get_stream(sound)
 	Zombie.preload_models()
-	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Die Zombies kommen von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Halte die Barrikaden, überlebe die Wellen.", "Spiel starten", "Wegnetz wird berechnet ...")
+	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Halte die Barrikaden, überlebe die Wellen, und trag dich in die Bestenliste ein.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
 	hud.overlay_button.disabled = true
 	hud.set_loading(true)
 	nav_region.bake_finished.connect(_navigation_baked)
@@ -179,6 +192,91 @@ func _navigation_baked() -> void:
 	for f in _flags:
 		if f.begins_with("--view="):
 			_shot_view(f.substr(7))
+		elif f.begins_with("--views="):
+			_shot_views(f.substr(8))
+		elif f == "--shot-ui":
+			_shot_ui()
+
+# --views=x,z,yaw[,pitch[,hour]];...: like --view but several spots in one run, saved as shots/view_N.png
+func _shot_views(spec: String) -> void:
+	_on_start()
+	for i in 20:
+		await get_tree().process_frame
+	var dir := ProjectSettings.globalize_path("res://") + "../shots/"
+	DirAccess.make_dir_recursive_absolute(dir)
+	var n := 0
+	for part in spec.split(";"):
+		var a := part.split(",")
+		if a.size() < 3:
+			continue
+		if a.size() > 4 and day_night:
+			day_night.set_time_hours(float(a[4]))
+		player.global_position = Map.ground_pos(float(a[0]), float(a[1])) + Vector3(0, 0.3, 0)
+		player.velocity = Vector3.ZERO
+		player.rotation.y = float(a[2])
+		var pitch := float(a[3]) if a.size() > 3 else 0.0
+		player.pitch = pitch
+		player.head.rotation.x = pitch
+		for i in 14:
+			await get_tree().process_frame
+		var frames := 0
+		var t0 := Time.get_ticks_usec()
+		while Time.get_ticks_usec() - t0 < 1500000:
+			await get_tree().process_frame
+			frames += 1
+		print("VIEW_FPS %d %.1f at %s" % [n, frames / ((Time.get_ticks_usec() - t0) / 1000000.0), player.global_position])
+		get_viewport().get_texture().get_image().save_png(dir + "view_%d.png" % n)
+		n += 1
+	print("SHOT_VIEWS_DONE %d" % n)
+	get_tree().quit()
+
+# --shot-ui: screenshots of inventory, skills, pause menu tabs and the game-over screen into shots/ui_*.png
+func _shot_ui() -> void:
+	_on_start()
+	for i in 20:
+		await get_tree().process_frame
+	var dir := ProjectSettings.globalize_path("res://") + "../shots/"
+	DirAccess.make_dir_recursive_absolute(dir)
+	var shot := func(name: String) -> void:
+		for i in 6:
+			await get_tree().process_frame
+		get_viewport().get_texture().get_image().save_png(dir + "ui_%s.png" % name)
+	for id in ["revolver", "smg", "shotgun"]:
+		weapons.unlock(id)
+	inventory.add_mushroom("steinpilz")
+	inventory.add_mushroom("fliegenpilz")
+	player.add_score(640)
+	stats.kills = 17; stats.headshots = 6; stats.shots = 90; stats.hits = 52; stats.best_streak = 5; stats.seconds = 412.0
+	inventory.open()
+	await shot.call("inventory")
+	inventory.close()
+	skills.open()
+	await shot.call("skills")
+	skills.close()
+	player.hp = 22.0
+	hud.set_health(player.hp)
+	hud.damage_flash(0.8)
+	hud.streak(4, 20)
+	spawn_zombie("shambler", Vector2(player.global_position.x + 6.0, player.global_position.z), 1.0)
+	await shot.call("hud_lowhp")
+	_pause()
+	await shot.call("pause")
+	hud.show_tab("difficulty")
+	await shot.call("pause_difficulty")
+	hud.show_tab("settings")
+	await shot.call("pause_settings")
+	hud.show_tab("achievements")
+	await shot.call("pause_achievements")
+	_on_start()
+	for i in 4:
+		await get_tree().process_frame
+	waves.completed = 4
+	player.damage(10000.0)
+	await shot.call("gameover")
+	hud.show_tab("records")
+	await shot.call("gameover_records")
+	print("SHOT_UI_DONE")
+	get_tree().quit()
 
 # --view=x,z,yaw[,pitch]: start, teleport, screenshot to shots/view.png, quit (for checking single spots)
 func _shot_view(spec: String) -> void:
@@ -565,8 +663,11 @@ func _plain(color: Color, rough: float = 0.8, metal: float = 0.0) -> StandardMat
 func _build_forests() -> void:
 	if "--no-trees" in _flags:
 		return
-	Trees.build(self, Map.TREES, Map.SHRUBS, Map.FIRE, rng)
-	Trees.build(self, Map.BORDER_TREES, [], Map.FIRE, rng, false)
+	Trees.shadow_cells.clear()
+	Trees.build(self, Map.TREES, Map.SHRUBS, Map.FIRE, rng, true, 1.0, 65.0)
+	# border forest outside the playable area: a third of the cards, no shadows (it is never closer than ~60 m)
+	if not "--no-border" in _flags:
+		Trees.build(self, Map.BORDER_TREES, [], Map.FIRE, rng, false, 0.35, 0.0)
 	Trees.understory(self, Map.FERNS, Map.LOGS, Map.FIRE, rng)
 	# the landmark oak leaning over the Weg zur Hütte (photo 24)
 	Trees.hero(self, "oak", Map.LANDMARK_OAK.x, Map.LANDMARK_OAK.y, 1.55, 0.6, rng)
@@ -784,6 +885,199 @@ func _roof_details(parent: Node3D, size: Vector2, y: float, height: float, overh
 			g.rotation.x = PI / 2.0
 		parent.add_child(g)
 
+# Gable roof ("Satteldach") with the ridge along z (along_x = false) or x, separate overhangs for the gable ends and
+# the two eave sides (over_eave.x = negative axis side, .y = positive side), a thin slab with fascia boards and a
+# closed underside so the wide gable overhangs read as real roof structure (Waldhütte photos 14, 17, 19).
+func _gable_roof(parent: Node3D, size: Vector2, y: float, height: float, over_gable: Vector2, over_eave: Vector2, mat: Material, along_x: bool, under_mat: Material = null) -> void:
+	# work in a frame where the ridge runs along "v" and the slopes fall along "u"; over_gable.x / .y = overhang at the
+	# negative / positive end of the ridge, over_eave.x / .y = overhang on the negative / positive slope side
+	var half_u := (size.x if not along_x else size.y) / 2.0
+	var wall_v := (size.y if not along_x else size.x) / 2.0
+	var v_neg := -(wall_v + over_gable.x)
+	var v_pos := wall_v + over_gable.y
+	var slope := height / half_u
+	var u_neg := -(half_u + over_eave.x)
+	var u_pos := half_u + over_eave.y
+	var thick := 0.14
+	var st_top := SurfaceTool.new()
+	st_top.begin(Mesh.PRIMITIVE_TRIANGLES)
+	# soffit and fascias in dark boards, a separate surface so the tile texture never shows from below
+	var st_under := SurfaceTool.new()
+	st_under.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var to_local := func(u: float, yy: float, v: float) -> Vector3:
+		return Vector3(v, yy, u) if along_x else Vector3(u, yy, v)
+	# lambdas capture by value, so the target tool is passed explicitly
+	var quad := func(tool: SurfaceTool, pts: Array, n: Vector3) -> void:
+		for t in [[pts[0], pts[1], pts[2]], [pts[0], pts[2], pts[3]]]:
+			for p: Vector3 in t:
+				tool.set_normal(n)
+				tool.set_uv(Vector2(p.x + p.z, p.y) * 0.5)
+				tool.add_vertex(p)
+	var top := y + height
+	for side: float in [-1.0, 1.0]:
+		var u_edge := u_pos if side > 0.0 else u_neg
+		var y_edge := top - slope * absf(u_edge)
+		var n_top := Vector3(side, 1.0 / slope, 0.0).normalized() if slope > 0.0 else Vector3.UP
+		var n3: Vector3 = Vector3(0.0, n_top.y, n_top.x) if along_x else n_top
+		# top surface
+		var a: Vector3 = to_local.call(0.0, top, v_neg)
+		var b: Vector3 = to_local.call(u_edge, y_edge, v_neg)
+		var c: Vector3 = to_local.call(u_edge, y_edge, v_pos)
+		var d: Vector3 = to_local.call(0.0, top, v_pos)
+		if side > 0.0:
+			quad.call(st_top, [a, d, c, b], n3)
+		else:
+			quad.call(st_top, [a, b, c, d], n3)
+		# underside (soffit), same plane lowered by the slab thickness
+		var a2: Vector3 = to_local.call(0.0, top - thick, v_neg)
+		var b2: Vector3 = to_local.call(u_edge, y_edge - thick, v_neg)
+		var c2: Vector3 = to_local.call(u_edge, y_edge - thick, v_pos)
+		var d2: Vector3 = to_local.call(0.0, top - thick, v_pos)
+		if side > 0.0:
+			quad.call(st_under, [a2, b2, c2, d2], -n3)
+		else:
+			quad.call(st_under, [a2, d2, c2, b2], -n3)
+		# eave fascia
+		var fn: Vector3 = to_local.call(side, 0.0, 0.0)
+		if side > 0.0:
+			quad.call(st_under, [b, c, c2, b2], fn)
+		else:
+			quad.call(st_under, [c, b, b2, c2], fn)
+		# gable fascias (both ends) for this slope
+		for gs: float in [-1.0, 1.0]:
+			var gv := v_pos if gs > 0.0 else v_neg
+			var p0: Vector3 = to_local.call(0.0, top, gv)
+			var p1: Vector3 = to_local.call(u_edge, y_edge, gv)
+			var p2: Vector3 = to_local.call(u_edge, y_edge - thick, gv)
+			var p3: Vector3 = to_local.call(0.0, top - thick, gv)
+			var gn: Vector3 = to_local.call(0.0, 0.0, gs)
+			if (gs > 0.0) == (side > 0.0):
+				quad.call(st_under, [p0, p1, p2, p3], gn)
+			else:
+				quad.call(st_under, [p0, p3, p2, p1], gn)
+	st_top.generate_tangents()
+	var mi := MeshInstance3D.new()
+	mi.mesh = st_top.commit()
+	mi.material_override = mat
+	parent.add_child(mi)
+	st_under.generate_tangents()
+	var under := MeshInstance3D.new()
+	under.mesh = st_under.commit()
+	under.material_override = under_mat if under_mat else _plain(Color(0.22, 0.14, 0.09), 0.9)
+	parent.add_child(under)
+
+# ridge cap, purlins protruding under the gable overhangs with knee braces, rafter ends and gutters along the eaves
+func _gable_roof_details(parent: Node3D, size: Vector2, y: float, height: float, over_gable: Vector2, over_eave: Vector2, along_x: bool, wall_mat: Material) -> void:
+	var wood := _plain(Color(0.28, 0.18, 0.12), 0.85)
+	var zinc := _plain(Color(0.24, 0.25, 0.27), 0.5, 0.5)   # weathered dark sheet metal (photos 14, 19)
+	var half_u := (size.x if not along_x else size.y) / 2.0
+	var wall_v := (size.y if not along_x else size.x) / 2.0
+	var v_neg := -(wall_v + over_gable.x)
+	var v_pos := wall_v + over_gable.y
+	var v_mid := (v_neg + v_pos) / 2.0
+	var v_len := v_pos - v_neg
+	var slope := height / half_u
+	var top := y + height
+	var place := func(node: Node3D, u: float, yy: float, v: float) -> void:
+		node.position = Vector3(v, yy, u) if along_x else Vector3(u, yy, v)
+	# ridge cap: a low angled cap sitting on the ridge (two thin boards), not a light slab
+	for cs: float in [-1.0, 1.0]:
+		var board := MeshInstance3D.new()
+		var bmesh := BoxMesh.new()
+		bmesh.size = Vector3(0.24, 0.03, v_len + 0.06) if not along_x else Vector3(v_len + 0.06, 0.03, 0.24)
+		board.mesh = bmesh
+		board.material_override = zinc
+		var tilt := atan(slope)
+		if along_x:
+			board.position = Vector3(v_mid, top + 0.035 - sin(tilt) * 0.11, cs * cos(tilt) * 0.11)
+			board.rotation.x = cs * tilt
+		else:
+			board.position = Vector3(cs * cos(tilt) * 0.11, top + 0.035 - sin(tilt) * 0.11, v_mid)
+			board.rotation.z = -cs * tilt
+		parent.add_child(board)
+	# closed gable triangles between the wall top and the roof, in the wall material
+	for gs: float in [-1.0, 1.0]:
+		var st := SurfaceTool.new()
+		st.begin(Mesh.PRIMITIVE_TRIANGLES)
+		var v := gs * (wall_v + 0.04)
+		var pts := [Vector3(-half_u, y - 0.3, v), Vector3(half_u, y - 0.3, v), Vector3(0, top - 0.06, v)]
+		if along_x:
+			pts = [Vector3(v, y - 0.3, -half_u), Vector3(v, y - 0.3, half_u), Vector3(v, top - 0.06, 0)]
+		var n := Vector3(0, 0, gs) if not along_x else Vector3(gs, 0, 0)
+		var order := [0, 1, 2] if gs > 0.0 else [0, 2, 1]
+		for i in order:
+			st.set_normal(n)
+			st.set_uv(Vector2(pts[i].x + pts[i].z, pts[i].y) * 0.5)
+			st.add_vertex(pts[i])
+		st.generate_tangents()
+		var tri := MeshInstance3D.new()
+		tri.mesh = st.commit()
+		tri.material_override = wall_mat
+		parent.add_child(tri)
+	# purlins under the gable overhangs: ridge purlin plus one per slope, with knee braces at the wall
+	for gs: float in [-1.0, 1.0]:
+		var og := over_gable.y if gs > 0.0 else over_gable.x
+		if og > 0.4:
+			for pu: float in [0.0, -0.58, 0.58]:
+				var u := pu * half_u
+				var py := top - slope * absf(u) - 0.22
+				var beam := MeshInstance3D.new()
+				var bm := BoxMesh.new()
+				bm.size = Vector3(0.14, 0.18, og + 0.9) if not along_x else Vector3(og + 0.9, 0.18, 0.14)
+				beam.mesh = bm
+				beam.material_override = wood
+				place.call(beam, u, py, gs * (wall_v + og / 2.0 - 0.45))
+				parent.add_child(beam)
+				if pu != 0.0:
+					# diagonal brace from the wall down-inward to the purlin's outer end
+					var brace := MeshInstance3D.new()
+					var bb := BoxMesh.new()
+					var run := og * 0.85
+					var drop := og * 0.85
+					bb.size = Vector3(0.1, 0.1, sqrt(run * run + drop * drop)) if not along_x else Vector3(sqrt(run * run + drop * drop), 0.1, 0.1)
+					brace.mesh = bb
+					brace.material_override = wood
+					place.call(brace, u, py - 0.1 - drop / 2.0, gs * (wall_v + run / 2.0))
+					if along_x:
+						brace.rotation.z = -gs * atan2(drop, run)
+					else:
+						brace.rotation.x = gs * atan2(drop, run)
+					parent.add_child(brace)
+	# rafter ends and gutters along both eaves
+	var n_rafters := int(v_len / 0.7)
+	for side: float in [-1.0, 1.0]:
+		var over := over_eave.y if side > 0.0 else over_eave.x
+		var u_edge := side * (half_u + over)
+		var y_edge := top - slope * absf(u_edge)
+		for k in n_rafters + 1:
+			var v := v_neg + 0.1 + (v_len - 0.2) * float(k) / n_rafters
+			var rafter := MeshInstance3D.new()
+			var rb := BoxMesh.new()
+			var len := over + 0.5
+			rb.size = Vector3(len, 0.13, 0.08) if not along_x else Vector3(0.08, 0.13, len)
+			rafter.mesh = rb
+			rafter.material_override = wood
+			var u_mid := side * (half_u + over - len / 2.0)
+			place.call(rafter, u_mid, top - slope * absf(u_mid) - 0.17, v)
+			if along_x:
+				rafter.rotation.x = side * atan(slope)
+			else:
+				rafter.rotation.z = -side * atan(slope)
+			parent.add_child(rafter)
+		var g := MeshInstance3D.new()
+		var gm := CylinderMesh.new()
+		gm.top_radius = 0.06
+		gm.bottom_radius = 0.06
+		gm.height = v_len
+		g.mesh = gm
+		g.material_override = zinc
+		place.call(g, u_edge + side * 0.03, y_edge - 0.16, v_mid)
+		if along_x:
+			g.rotation.z = PI / 2.0
+		else:
+			g.rotation.x = PI / 2.0
+		parent.add_child(g)
+
 func _hut_door(root: Node3D, at: Vector3, yaw: float, w: float, h: float, text: String, key: String, mat: Material) -> Door:
 	var door := Door.new()
 	door.main = self
@@ -796,9 +1090,10 @@ func _hut_door(root: Node3D, at: Vector3, yaw: float, w: float, h: float, text: 
 	return door
 
 func _waldhuette() -> Node3D:
-	# Photos 14, 17, 19: garage door in the west face (north end), a second small double door in the base at the
-	# west end of the north face, the outside stair along the north face rising east to the upper door, the east side
-	# buried in the slope. Local axes: -x west, -z north.
+	# Photos 13, 14, 15, 17, 19, 22: concrete garage storey with the garage door in the west face (north end), red
+	# board upper storey, gable roof with the ridge east-west (west gable towards the track, wide overhang on knee
+	# braces), the outside stair along the north face rising east to the upper door, the east side buried in the
+	# slope. Local axes: -x west, -z north.
 	var b: Dictionary = Map.BUILDINGS["waldhuette"]
 	var pos: Vector2 = b["pos"]
 	var size: Vector2 = b["size"]
@@ -813,11 +1108,15 @@ func _waldhuette() -> Node3D:
 	var concrete := _mat("ph_concrete", 0.45, Color(0.95, 0.95, 0.92))
 	var wood := _mat("ph_cladding", 0.55, Color(0.5, 0.36, 0.3))
 	var dark_wood := _plain(Color(0.28, 0.14, 0.09), 0.75)
-	var roof := Foliage.pbr("roof", 0.55, Color(0.42, 0.38, 0.36))
+	var roof := Foliage.pbr("roof", 0.55, Color(0.56, 0.52, 0.47))   # mossy grey-brown clay tiles (photo 19)
 	roof.uv1_triplanar = true
+	# old tiles are matte: without this the slope mirrors the sky at grazing angles and reads as a light slab
+	roof.roughness_texture = null
+	roof.roughness = 1.0
+	roof.metallic_specular = 0.12
 	var hx := size.x / 2.0
 	var hz := size.y / 2.0
-	# garage storey: concrete walls with the door opening in the west face (north end), enterable (photo 14)
+	# garage storey: concrete walls with the garage door in the west face (north end), enterable (photos 14, 17)
 	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.3, concrete, { "side": "w", "along": -hz + 1.9, "width": 2.6, "bottom": 0.0, "top": 2.1 })
 	_slab(root, Vector3(size.x, 0.1, size.y), Vector3(0, -0.05, 0), _mat("ph_concrete", 0.6, Color(0.7, 0.7, 0.68)))
 	var floor_wood := _mat("planks", 0.8, Color(0.52, 0.42, 0.31))
@@ -846,24 +1145,34 @@ func _waldhuette() -> Node3D:
 	inner.omni_range = 6.0
 	inner.position = Vector3(0, base_h - 0.3, 0)
 	root.add_child(inner)
-	_box(root, Vector3(size.x + 0.9, 0.14, size.y + 0.9), Vector3(0, base_h + wall_h + 0.07, 0), dark_wood)
-	_hip_roof(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, roof)
-	_roof_details(root, size, base_h + wall_h + 0.14, b["roof_h"], 0.55, false)
-	_box(root, Vector3(0.5, 1.6, 0.5), Vector3(hx * 0.4, base_h + wall_h + 1.4, -0.6), _plain(Color(0.35, 0.33, 0.3)))
+	_box(root, Vector3(size.x + 0.4, 0.14, size.y + 0.8), Vector3(0, base_h + wall_h + 0.07, 0), dark_wood)
+	# Satteldach with the ridge east-west: the gable end faces the track in the west with a wide overhang on purlins
+	# and knee braces, the eaves run along the north (stair) and south faces (photos 14, 17, 19, 22)
+	var roof_y := base_h + wall_h + 0.14
+	_gable_roof(root, size, roof_y, b["roof_h"], Vector2(1.4, 0.7), Vector2(0.5, 0.5), roof, true)
+	_gable_roof_details(root, size, roof_y, b["roof_h"], Vector2(1.4, 0.7), Vector2(0.5, 0.5), true, wood)
+	# small metal vent on the ridge near the west gable (photos 13, 14)
+	_box(root, Vector3(0.36, 0.7, 0.36), Vector3(-1.6, roof_y + b["roof_h"] + 0.2, 0.0), _plain(Color(0.5, 0.5, 0.52), 0.45, 0.6))
 	# Garage door: closed; E opens the leaves away from the interacting player.
 	_hut_door(root, Vector3(-hx + 0.1, 0.0, -hz + 1.9), 0.0, 2.6, 2.1, "Garagentor", "waldhuette", wood)
-	# closed shutters: north (2), west (1), east (1)
+	# two small cellar windows in the base near the south end of the west face (photo 14)
+	var glass := _plain(Color(0.08, 0.1, 0.11), 0.3, 0.2)
+	for wz: float in [1.85, 2.55]:
+		_box(root, Vector3(0.05, 0.4, 0.55), Vector3(-hx - 0.02, 1.65, wz), glass)
+		_box(root, Vector3(0.05, 0.05, 0.62), Vector3(-hx - 0.03, 1.88, wz), _plain(Color(0.6, 0.6, 0.58), 0.8))
+	# closed shutters: north (2 in the west half, photo 17), west (1, north half, photo 14), south (1, photo 22)
 	var shutter := _plain(Color(0.3, 0.15, 0.1), 0.7)
-	for sh in [[Vector3(-0.3, base_h + 1.55, -hz - 0.11), 0.0], [Vector3(-hx + 1.0, base_h + 1.55, -hz - 0.11), 0.0],
-			[Vector3(-hx - 0.11, base_h + 1.55, 1.0), PI / 2.0], [Vector3(hx + 0.11, base_h + 1.55, 1.5), PI / 2.0]]:
+	for sh in [[Vector3(-hx + 0.9, base_h + 1.55, -hz - 0.11), 0.0], [Vector3(-hx + 2.9, base_h + 1.55, -hz - 0.11), 0.0],
+			[Vector3(-hx - 0.11, base_h + 1.55, -1.3), PI / 2.0], [Vector3(0.6, base_h + 1.55, hz + 0.11), 0.0]]:
 		_box(root, Vector3(1.1, 0.9, 0.06), sh[0], shutter, sh[1])
-	# outside stair along the north face: 13 steps from the north-west corner up to the landing at the east end
-	var steps := 13
+	# outside stair along the north face: 12 concrete block steps without a railing, starting 2.5 m from the
+	# north-west corner and rising east to the landing with the upper door (photos 15, 17)
+	var steps := 12
 	var stair_h := base_h + 0.25
 	var rise := stair_h / steps
-	var tread := 0.33
+	var tread := 0.29
 	var stair_z := -hz - 0.55
-	var x_start := -hx + 0.3
+	var x_start := -hx + 2.5
 	var step_mat := _mat("ph_concrete", 0.5, Color(0.85, 0.85, 0.82))
 	for i in steps:
 		var x := x_start + i * tread
@@ -873,19 +1182,7 @@ func _waldhuette() -> Node3D:
 	# upper door on the north face at the east end, two small steps in front (photos 15, 17)
 	_hut_door(root, Vector3(hx - 0.9, base_h + 0.25, -hz - 0.02), PI / 2.0, 1.2, 2.0, "Hüttentür", "waldhuette", wood)
 	_slab(root, Vector3(1.3, 0.25, 0.6), Vector3(hx - 0.9, base_h + 0.125, -hz - 0.25), step_mat)
-	# railing
-	var rail := _plain(Color(0.25, 0.25, 0.27), 0.5, 0.6)
-	for i in range(0, steps + 1, 3):
-		_box(root, Vector3(0.04, 1.0, 0.04), Vector3(x_start + i * tread, rise * i + 0.5, stair_z - 0.45), rail)
 	var run := steps * tread
-	var rl := MeshInstance3D.new()
-	var rb := BoxMesh.new()
-	rb.size = Vector3(sqrt(run * run + stair_h * stair_h), 0.04, 0.04)
-	rl.mesh = rb
-	rl.material_override = rail
-	rl.position = Vector3(x_start + run / 2.0, stair_h / 2.0 + 1.0, stair_z - 0.45)
-	rl.rotation.z = atan2(stair_h, run)
-	root.add_child(rl)
 	# Walkable ramp and landing meet the upper floor without a blocking doorstep.
 	var ramp := StaticBody3D.new()
 	ramp.collision_layer = 1
@@ -928,25 +1225,28 @@ func _holzlager() -> Node3D:
 	var concrete := _mat("ph_concrete", 0.45, Color(0.9, 0.9, 0.88))
 	var metal := _mat("ph_corrugated", 0.35, Color(1.15, 1.1, 1.05))
 	metal.roughness = 0.6
-	var roof := _mat("ph_corrugated", 0.7, Color(1.3, 1.32, 1.35))
-	roof.roughness = 0.55
-	roof.metallic = 0.35
+	# light fibre-cement sheets: white in the aerial, mid grey seen from the track below (photos 12, 22)
+	var roof := _mat("ph_corrugated", 0.7, Color(0.95, 0.96, 0.98))
+	roof.roughness = 0.78
+	roof.metallic = 0.05
 	var dark_wood := _plain(Color(0.25, 0.13, 0.08), 0.75)
 	var hx := size.x / 2.0
 	var hz := size.y / 2.0
 	# concrete base and sheet-metal walls as real walls; small back window in the west face (the way in)
-	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.25, concrete, { "side": "e", "along": 2.6, "width": 2.4, "bottom": 0.0, "top": base_h })
+	# the big double door sits in the southern part of the east face, one metre from the south-east corner (photos 12, 22)
+	var door_z := hz - 2.3
+	_walls(root, Vector2(size.x, size.y), 0.0, base_h, 0.25, concrete, { "side": "e", "along": door_z, "width": 2.4, "bottom": 0.0, "top": base_h })
 	var boards := _mat("ph_cladding", 0.45, Color(0.55, 0.4, 0.3))
 	boards.uv1_triplanar = true
 	_walls(root, Vector2(size.x + 0.1, size.y + 0.1), base_h, wall_h, 0.12, boards, [
 		{ "side": "w", "along": 2.0, "width": 1.3, "bottom": 0.3, "top": 2.4 },
-		{ "side": "e", "along": 2.6, "width": 2.4, "bottom": 0.0, "top": 2.6 - base_h }])
+		{ "side": "e", "along": door_z, "width": 2.4, "bottom": 0.0, "top": 2.6 - base_h }])
 	# gable ends in dark corrugated sheet metal (photo 12), vertical board lines on the long sides
 	for gz in [-hz - 0.07, hz + 0.07]:
 		_box(root, Vector3(size.x + 0.2, wall_h, 0.04), Vector3(0, base_h + wall_h / 2.0, gz), metal)
 	for k in int(size.y / 0.25):
 		var zz := -hz + 0.125 + k * 0.25
-		if absf(zz - 2.6) < 1.25:
+		if absf(zz - door_z) < 1.25:
 			continue
 		_box(root, Vector3(0.03, wall_h - 0.1, 0.05), Vector3(hx + 0.08, base_h + wall_h / 2.0, zz), _plain(Color(0.2, 0.13, 0.09), 0.85))
 	# notice signs on the road side
@@ -965,18 +1265,20 @@ func _holzlager() -> Node3D:
 	# crates as steps outside and inside the window
 	_slab(root, Vector3(0.9, 0.55, 0.9), Vector3(-hx - 0.6, 0.275, 2.0), Foliage.pbr("planks", 0.8, Color(0.45, 0.38, 0.28)))
 	_slab(root, Vector3(0.9, 0.5, 0.9), Vector3(-hx + 0.75, 0.25 + base_h, 2.0), Foliage.pbr("planks", 0.8, Color(0.45, 0.38, 0.28)))
-	_hip_roof(root, Vector2(size.x + 1.2, size.y), base_h + wall_h, b["roof_h"], 0.5, roof, true)
-	_roof_details(root, Vector2(size.x + 1.2, size.y), base_h + wall_h, b["roof_h"], 0.5, true)
+	# gable roof along the long axis; the overhang is wide on the road side (east, ~1.4 m on struts) and short on the
+	# forest side (photos 12, 22)
+	_gable_roof(root, size, base_h + wall_h, b["roof_h"], Vector2(0.6, 0.6), Vector2(0.45, 1.4), roof, false)
+	_gable_roof_details(root, size, base_h + wall_h, b["roof_h"], Vector2(0.6, 0.6), Vector2(0.45, 1.4), false, metal)
 	# eave struts under the wide overhang on the road side
-	for k in 5:
-		var zz := -hz + 1.2 + k * (size.y - 2.4) / 4.0
+	for k in 6:
+		var zz := -hz + 1.0 + k * (size.y - 2.0) / 5.0
 		var strut := MeshInstance3D.new()
 		var sb := BoxMesh.new()
-		sb.size = Vector3(1.3, 0.08, 0.08)
+		sb.size = Vector3(1.55, 0.09, 0.09)
 		strut.mesh = sb
 		strut.material_override = _plain(Color(0.25, 0.16, 0.1), 0.85)
-		strut.position = Vector3(hx + 0.55, base_h + wall_h - 0.45, zz)
-		strut.rotation.z = 0.6
+		strut.position = Vector3(hx + 0.62, base_h + wall_h - 0.5, zz)
+		strut.rotation.z = 0.62
 		root.add_child(strut)
 	# inside: the good weapons on a rack, ammunition, firewood
 	_box(root, Vector3(2.6, 1.6, 0.08), Vector3(0, base_h + 1.4, hz - 0.2), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
@@ -993,7 +1295,7 @@ func _holzlager() -> Node3D:
 	inner.omni_range = 8.0
 	inner.position = Vector3(0, base_h + wall_h - 0.4, 0)
 	root.add_child(inner)
-	_hut_door(root, Vector3(hx + 0.02, 0, 2.6), PI, 2.4, 2.6, "Holzlagertor", "holzlager", boards)
+	_hut_door(root, Vector3(hx + 0.02, 0, door_z), PI, 2.4, 2.6, "Holzlagertor", "holzlager", boards)
 	return root
 
 func _build_buildings() -> void:
@@ -1053,37 +1355,81 @@ func _fountain(x: float, z: float, yaw: float) -> void:
 	add_child(root)
 	root.position = Map.ground_pos(x, z)
 	root.rotation.y = yaw
-	var bark := _mat("ph_bark_oak", 0.6, Color(0.7, 0.62, 0.55), false)
-	# hollowed log trough on two stumps, wooden post with a spout (photos 15, 21)
-	for sx in [-0.8, 0.8]:
+	var bark := _mat("ph_bark_oak", 0.6, Color(0.62, 0.56, 0.5), false)
+	bark.roughness_texture = null
+	bark.roughness = 1.0
+	# weathered grey trough: the smooth beech bark photo, darkened and fully matte
+	var grey_wood := _mat("ph_bark_beech2", 0.5, Color(0.58, 0.56, 0.52), false)
+	grey_wood.roughness_texture = null
+	grey_wood.roughness = 1.0
+	grey_wood.metallic_specular = 0.1
+	# Photo 15: a hollowed, weathered grey log trough (~2.4 m) on two short log blocks, a thick trunk post
+	# (~1.9 m) at the +x end with an iron pipe spout, a ring of stones on the ground at the other end.
+	for sx in [-0.85, 0.75]:
 		var st := MeshInstance3D.new()
 		var sm := CylinderMesh.new()
-		sm.top_radius = 0.2; sm.bottom_radius = 0.22; sm.height = 0.35
+		sm.top_radius = 0.2; sm.bottom_radius = 0.23; sm.height = 0.36
 		st.mesh = sm
 		st.material_override = bark
-		st.position = Vector3(sx, 0.17, 0)
+		st.position = Vector3(sx, 0.18, 0)
 		root.add_child(st)
 	var trough := MeshInstance3D.new()
 	var tm := CylinderMesh.new()
-	tm.top_radius = 0.27; tm.bottom_radius = 0.27; tm.height = 2.4
+	tm.top_radius = 0.3; tm.bottom_radius = 0.3; tm.height = 2.4
+	tm.radial_segments = 14
 	trough.mesh = tm
-	trough.material_override = bark
+	trough.material_override = grey_wood
 	trough.rotation.z = PI / 2.0
-	trough.position.y = 0.6
+	trough.position.y = 0.66
 	root.add_child(trough)
-	# water surface inside
+	# flattened top with the water surface inside
+	_box(root, Vector3(2.3, 0.06, 0.5), Vector3(0, 0.93, 0), grey_wood)
 	var water := MeshInstance3D.new()
 	var wq := BoxMesh.new()
-	wq.size = Vector3(2.1, 0.02, 0.36)
+	wq.size = Vector3(2.05, 0.02, 0.34)
 	water.mesh = wq
-	var wm := _plain(Color(0.2, 0.28, 0.3, 0.85), 0.05, 0.4)
+	var wm := _plain(Color(0.16, 0.22, 0.24, 0.9), 0.04, 0.3)
 	wm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	water.material_override = wm
-	water.position.y = 0.8
+	water.position.y = 0.95
 	root.add_child(water)
-	_box(root, Vector3(0.16, 1.5, 0.16), Vector3(0.6, 0.75, -0.35), bark)
-	_box(root, Vector3(0.05, 0.05, 0.4), Vector3(0.6, 1.35, -0.12), _plain(Color(0.3, 0.3, 0.32), 0.4, 0.8))
-	_box_collider(root, Vector3(2.5, 0.9, 0.7))
+	# thick trunk section as the post (photos 15, 21: ~0.5 m across, 1.9 m tall) with the spout pipe
+	var post := MeshInstance3D.new()
+	var pm := CylinderMesh.new()
+	pm.top_radius = 0.24; pm.bottom_radius = 0.28; pm.height = 1.9
+	pm.radial_segments = 12
+	post.mesh = pm
+	post.material_override = grey_wood
+	post.position = Vector3(1.5, 0.95, 0.0)
+	root.add_child(post)
+	var iron := _plain(Color(0.28, 0.28, 0.3), 0.4, 0.8)
+	_box(root, Vector3(0.55, 0.04, 0.04), Vector3(1.05, 1.25, 0.0), iron)
+	_box(root, Vector3(0.04, 0.16, 0.04), Vector3(0.83, 1.18, 0.0), iron)
+	# thin falling water jet from the spout
+	var jet := MeshInstance3D.new()
+	var jm := BoxMesh.new()
+	jm.size = Vector3(0.025, 0.2, 0.025)
+	jet.mesh = jm
+	var jmat := _plain(Color(0.7, 0.8, 0.85, 0.45), 0.1, 0.0)
+	jmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	jet.material_override = jmat
+	jet.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	jet.position = Vector3(0.83, 1.03, 0.0)
+	root.add_child(jet)
+	# stone ring (soak-away) beside the far end
+	var stone := _mat("rock", 0.8, Color(0.6, 0.58, 0.54))
+	for i in 8:
+		var a := TAU * i / 8.0
+		var sm2 := MeshInstance3D.new()
+		var sph := SphereMesh.new()
+		sph.radius = 0.11 + 0.04 * (i % 3); sph.height = sph.radius * 1.3
+		sm2.mesh = sph
+		sm2.material_override = stone
+		sm2.position = Vector3(-1.55 + cos(a) * 0.38, 0.05, 0.45 + sin(a) * 0.38)
+		sm2.rotation = Vector3(0.4 * i, 0.7 * i, 0.0)
+		root.add_child(sm2)
+	_box_collider(root, Vector3(2.5, 1.0, 0.7))
+	_box_collider(root, Vector3(0.6, 1.9, 0.6), Vector3(1.5, 0.0, 0.0))
 
 func _signpost(x: float, z: float) -> void:
 	var root := Node3D.new()
@@ -1157,6 +1503,7 @@ func _build_pond() -> void:
 			st.add_index(i0 + k); st.add_index(i1 + k1); st.add_index(i1 + k)
 			st.add_index(i0 + k); st.add_index(i0 + k1); st.add_index(i1 + k1)
 	var water := MeshInstance3D.new()
+	water.name = "ForestPondWater"
 	water.mesh = st.commit()
 	var sh := Shader.new()
 	sh.code = WATER_SHADER
@@ -1185,6 +1532,7 @@ func _build_pond() -> void:
 	var tp: Vector2 = pd["trough"]
 	var to_pond := (c - tp).normalized()
 	var root := Node3D.new()
+	root.name = "ForestPondTrough"
 	add_child(root)
 	root.position = Map.ground_pos(tp.x, tp.y)
 	root.rotation.y = atan2(-to_pond.y, to_pond.x)   # local +x points at the pond
@@ -1275,18 +1623,33 @@ func _build_campsite() -> void:
 	_place_at("basket", Map.TABLE.x + 0.5, Map.TABLE.y, 0.83, 0.4)
 	# fountain, bin, signpost and the fallen log at the west edge (photos 15, 16, 21)
 	_fountain(Map.FOUNTAIN.x, Map.FOUNTAIN.y, Map.FOUNTAIN.z)
+	# white steel drum with a black lid on a short post (photo 15)
 	var bin := Node3D.new()
 	add_child(bin)
 	bin.position = Map.ground_pos(Map.BIN.x, Map.BIN.y)
+	var post_m := MeshInstance3D.new()
+	var postm := CylinderMesh.new()
+	postm.top_radius = 0.04; postm.bottom_radius = 0.04; postm.height = 0.6
+	post_m.mesh = postm
+	post_m.material_override = _plain(Color(0.15, 0.15, 0.16), 0.5, 0.6)
+	post_m.position.y = 0.3
+	bin.add_child(post_m)
 	var drum := MeshInstance3D.new()
 	var dm := CylinderMesh.new()
-	dm.top_radius = 0.26; dm.bottom_radius = 0.26; dm.height = 0.85
+	dm.top_radius = 0.23; dm.bottom_radius = 0.23; dm.height = 0.62
 	drum.mesh = dm
-	drum.material_override = _plain(Color(0.82, 0.82, 0.8), 0.6, 0.2)
-	drum.position.y = 0.43
+	drum.material_override = _plain(Color(0.86, 0.86, 0.84), 0.55, 0.25)
+	drum.position.y = 0.6 + 0.31
 	bin.add_child(drum)
-	_box(bin, Vector3(0.54, 0.16, 0.54), Vector3(0, 0.9, 0), _plain(Color(0.1, 0.1, 0.1), 0.6))
-	_collider(bin, 0.3, 1.0)
+	var lid := MeshInstance3D.new()
+	var lm2 := CylinderMesh.new()
+	lm2.top_radius = 0.2; lm2.bottom_radius = 0.26; lm2.height = 0.09
+	lid.mesh = lm2
+	lid.material_override = _plain(Color(0.08, 0.08, 0.08), 0.5)
+	lid.position.y = 0.6 + 0.62 + 0.045
+	bin.add_child(lid)
+	_box(bin, Vector3(0.14, 0.12, 0.47), Vector3(0.0, 0.85, 0.0), _plain(Color(0.12, 0.12, 0.12), 0.6))
+	_collider(bin, 0.28, 1.3)
 	_signpost(Map.SIGNPOST.x, Map.SIGNPOST.y)
 	var seat := Node3D.new()
 	add_child(seat)
@@ -1451,6 +1814,7 @@ func _build_foliage() -> void:
 		return Map.ground_pos(x, z)
 	if not "--no-grass" in _flags:
 		add_child(Foliage.grass(180000, grass_sampler, rng))
+		add_child(Foliage.forest_floor())
 	if not "--no-particles" in _flags:
 		add_child(Foliage.falling_leaves(Map.ground_pos(Map.FIRE.x, Map.FIRE.y) + Vector3(0, 9, 10), Vector3(45, 7, 40)))
 
@@ -1467,11 +1831,11 @@ func _on_start() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	player.active = true
 	if not started:
-		var skip_intro := "--no-intro" in _flags or _autotest or "--benchmark" in _flags
+		var skip_intro := "--no-intro" in _flags or _autotest or "--benchmark" in _flags or "--smoke-test" in _flags
 		for f in _flags:
-			if f.begins_with("--view="):
+			if f.begins_with("--view=") or f.begins_with("--views=") or f == "--shot-ui":
 				skip_intro = true
-		if skip_intro:
+		if skip_intro or "--shot-ui" in _flags:
 			if not "--no-music" in _flags:
 				music.play("night")
 		else:
@@ -1486,7 +1850,11 @@ func _pause() -> void:
 	player.active = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	get_tree().paused = true
-	hud.show_overlay("PAUSE", "Verschnaufpause. Hier kannst du Grafik und Steuerung anpassen.", "Weiter")
+	hud.show_overlay("PAUSE", "Verschnaufpause. Die Zombies warten, die Uhr steht.", "Weiter", "", "pause")
+
+func _to_main_menu() -> void:
+	get_tree().paused = false
+	get_tree().reload_current_scene()
 
 func _game_over() -> void:
 	over = true
@@ -1495,11 +1863,15 @@ func _game_over() -> void:
 	music.horde = 0.0
 	music.play("gameover")
 	get_tree().paused = true
-	hud.show_overlay("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score], "Nochmal")
+	var rank := stats.finish(player.score, waves.completed, str(difficulty["name"]))
+	hud.show_overlay("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score], "Nochmal", "", "over")
+	hud.show_run_summary(stats, player.score, waves.completed, rank, str(difficulty["name"]))
 
 func spawn_zombie(type: String, p: Vector2, speed_mul: float) -> void:
 	var z := Zombie.new()
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
+	z.hp *= float(difficulty["hp"])
+	z.damage_mul = float(difficulty["dmg"])
 	zombies_root.add_child(z)
 	var spawn := Map.ground_pos(p.x, p.y)
 	var nav_map := nav_region.get_navigation_map()
@@ -1511,16 +1883,39 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float) -> void:
 		if z.alive:
 			_alive_count = maxi(0, _alive_count - 1))
 
-func _zombie_killed(_zombie: Zombie) -> void:
+func _zombie_killed(zombie: Zombie) -> void:
 	_alive_count = maxi(0, _alive_count - 1)
+	# points: base value x difficulty, plus up to +100 % for a kill streak (from the third kill within 4 s)
+	var base := float(zombie.type["score"]) * float(difficulty["score"])
+	var streak := stats.streak() + 1
+	var bonus := clampf((streak - 2) * 0.1, 0.0, 1.0)
+	var points := int(round(base * (1.0 + bonus) * (1.5 if zombie.last_headshot else 1.0)))
+	player.add_score(points)
+	stats.kill(zombie.last_headshot, points)
+	hud.score_popup(points, zombie.last_headshot)
+	if streak >= 3:
+		hud.streak(streak, int(round(bonus * 100.0)))
+		if streak == 3 or streak % 5 == 0:
+			Sfx.play(self, "streak", -12.0, 1.0 + minf(streak, 10) * 0.03)
 	if achievements:
 		achievements.event("kills")
+		if streak >= 10:
+			achievements.event("streak_10")
 
 func alive_zombies() -> int:
 	return _alive_count
 
+var _shadow_cells_t := 0.0
+
 func _process(delta: float) -> void:
 	var t := Time.get_ticks_msec() / 1000.0
+	if started and not over and player and player.active and not get_tree().paused:
+		stats.tick(delta)
+	_shadow_cells_t -= delta
+	if _shadow_cells_t <= 0.0 and player:
+		_shadow_cells_t = 0.5
+		var cam := player.camera.global_position if player.camera.current else get_viewport().get_camera_3d().global_position
+		Trees.update_shadows(Vector2(cam.x, cam.z), 65.0)
 	if fire_light:
 		var daylight_multiplier := day_night.fire_energy_multiplier if day_night else 1.0
 		fire_light.light_energy = 5.0 * daylight_multiplier * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))

@@ -44,7 +44,7 @@ uniform sampler2D leaf_rough : hint_default_white, filter_linear_mipmap_anisotro
 uniform sampler2D gravel_albedo : source_color, filter_linear_mipmap_anisotropic;
 uniform sampler2D gravel_normal : hint_normal, filter_linear_mipmap_anisotropic;
 uniform sampler2D gravel_rough : hint_default_white, filter_linear_mipmap_anisotropic;
-uniform vec3 grass_tint : source_color = vec3(0.55, 0.62, 0.38);
+uniform vec3 grass_tint : source_color = vec3(0.52, 0.53, 0.33);
 uniform vec3 leaf_tint : source_color = vec3(0.72, 0.64, 0.54);
 uniform vec3 gravel_tint : source_color = vec3(0.46, 0.45, 0.42);
 uniform float scale_grass = 0.22;
@@ -52,30 +52,53 @@ uniform float scale_leaf = 0.2;
 uniform float scale_gravel = 0.2;
 varying vec3 w;
 varying vec2 wuv;
+varying float vdist;
 void vertex() {
 	w = COLOR.rgb;
 	wuv = VERTEX.xz;
+	vdist = length((MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz);
 }
 vec3 tex2(sampler2D t, vec2 uv) {
+	vec3 a = texture(t, uv).rgb;
+	if (vdist > 45.0) {
+		return a;
+	}
 	vec2 uv2 = vec2(uv.y, -uv.x) * 0.71 + vec2(13.7, 4.2);
-	return mix(texture(t, uv).rgb, texture(t, uv2).rgb, 0.5);
+	return mix(a, texture(t, uv2).rgb, 0.5);
 }
 void fragment() {
 	vec2 ug = wuv * scale_grass;
 	vec2 ul = wuv * scale_leaf;
 	vec2 uk = wuv * scale_gravel;
-	// forest floor: brown leaf litter with patches of the bare photo floor, slow large-scale darkening (soil, moss)
-	float patch = sin(wuv.x * 0.11 + 1.3) * sin(wuv.y * 0.09 + 0.4) * 0.5 + 0.5;
-	float dark = 0.75 + 0.25 * (sin(wuv.x * 0.05) * sin(wuv.y * 0.043 + 2.0) * 0.5 + 0.5);
-	vec3 la = mix(tex2(litter_albedo, ul * 1.3) * vec3(0.9, 0.8, 0.65), tex2(leaf_albedo, ul) * leaf_tint, smoothstep(0.7, 0.95, patch)) * dark;
-	vec3 ln = mix(tex2(litter_normal, ul * 1.3), tex2(leaf_normal, ul), smoothstep(0.7, 0.95, patch));
-	vec3 ga = tex2(grass_albedo, ug) * grass_tint;
-	vec3 gn = tex2(grass_normal, ug);
-	// worn gravel: low-frequency brown dirt patches and slightly lighter compacted lanes
-	float wear = sin(wuv.x * 0.23 + 0.7) * sin(wuv.y * 0.19 + 1.9) * 0.5 + 0.5;
-	float fine = sin(wuv.x * 1.7) * sin(wuv.y * 1.3) * 0.5 + 0.5;
-	vec3 ka = mix(tex2(gravel_albedo, uk) * gravel_tint, tex2(litter_albedo, uk * 1.5) * vec3(0.55, 0.47, 0.38), smoothstep(0.62, 0.9, wear * 0.8 + fine * 0.2));
-	vec3 kn = tex2(gravel_normal, uk);
+	// Most fragments belong to a single layer: skip the texture reads of the absent ones (up to 22 samples saved).
+	bool has_l = w.r > 0.02;
+	bool has_g = w.g > 0.02;
+	bool has_k = w.b > 0.02;
+	vec3 la = vec3(0.4); vec3 ln = vec3(0.5, 0.5, 1.0); float lr = 1.0;
+	vec3 ga = vec3(0.4); vec3 gn = vec3(0.5, 0.5, 1.0); float gr = 1.0;
+	vec3 ka = vec3(0.5); vec3 kn = vec3(0.5, 0.5, 1.0); float kr = 1.0;
+	if (has_l) {
+		// forest floor: brown leaf litter with patches of the bare photo floor, slow large-scale darkening (soil, moss)
+		float patch = sin(wuv.x * 0.11 + 1.3) * sin(wuv.y * 0.09 + 0.4) * 0.5 + 0.5;
+		float dark = 0.75 + 0.25 * (sin(wuv.x * 0.05) * sin(wuv.y * 0.043 + 2.0) * 0.5 + 0.5);
+		float pk = smoothstep(0.7, 0.95, patch);
+		la = mix(tex2(litter_albedo, ul * 1.3) * vec3(0.9, 0.8, 0.65), tex2(leaf_albedo, ul) * leaf_tint, pk) * dark;
+		ln = mix(tex2(litter_normal, ul * 1.3), tex2(leaf_normal, ul), pk);
+		lr = texture(leaf_rough, ul).r;
+	}
+	if (has_g) {
+		ga = tex2(grass_albedo, ug) * grass_tint;
+		gn = tex2(grass_normal, ug);
+		gr = texture(grass_rough, ug).r;
+	}
+	if (has_k) {
+		// worn gravel: low-frequency brown dirt patches and slightly lighter compacted lanes
+		float wear = sin(wuv.x * 0.23 + 0.7) * sin(wuv.y * 0.19 + 1.9) * 0.5 + 0.5;
+		float fine = sin(wuv.x * 1.7) * sin(wuv.y * 1.3) * 0.5 + 0.5;
+		ka = mix(tex2(gravel_albedo, uk) * gravel_tint, tex2(litter_albedo, uk * 1.5) * vec3(0.55, 0.47, 0.38), smoothstep(0.62, 0.9, wear * 0.8 + fine * 0.2));
+		kn = tex2(gravel_normal, uk);
+		kr = texture(gravel_rough, uk).r;
+	}
 	// sharpen the blend with the texture brightness so edges look natural
 	vec3 ww = w + vec3((la.r - 0.4) * 0.3, (ga.g - 0.4) * 0.3, (ka.r - 0.5) * 0.3);
 	ww = max(ww - 0.15, vec3(0.0));
@@ -84,7 +107,7 @@ void fragment() {
 	ALBEDO = la * ww.r + ga * ww.g + ka * ww.b;
 	NORMAL_MAP = normalize(ln * ww.r + gn * ww.g + kn * ww.b);
 	NORMAL_MAP_DEPTH = 0.35;
-	ROUGHNESS = texture(leaf_rough, ul).r * ww.r + texture(grass_rough, ug).r * ww.g + texture(gravel_rough, uk).r * ww.b;
+	ROUGHNESS = lr * ww.r + gr * ww.g + kr * ww.b;
 }
 """
 
@@ -206,25 +229,25 @@ static func ground_leaves(count: int, sampler: Callable, rng: RandomNumberGenera
 		placed += 1
 	return _partition(quad, material, transforms, colors, "leaves")
 
-# Crossed grass tufts with wind sway
-static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> Node3D:
+static func _tuft_mesh(w: float, h: float) -> ArrayMesh:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var h := 0.45
-	var w := 0.7
 	for k in 3:
 		var ang := k * PI / 3.0
 		var dx := cos(ang) * w / 2.0
 		var dz := sin(ang) * w / 2.0
-		var base := st.get_primitive_type()
 		var verts := [Vector3(-dx, 0, -dz), Vector3(dx, 0, dz), Vector3(dx, h, dz), Vector3(-dx, h, -dz)]
 		var uvs := [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)]
 		for idx in [0, 1, 2, 0, 2, 3]:
 			st.set_uv(uvs[idx])
 			st.set_normal(Vector3.UP)
 			st.add_vertex(verts[idx])
-	var mesh := st.commit()
-	var material := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(0.55, 0.68, 0.32))
+	return st.commit()
+
+# Crossed grass tufts with wind sway
+static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> Node3D:
+	var mesh := _tuft_mesh(0.7, 0.34)
+	var material := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(0.55, 0.56, 0.31))
 	var transforms: Array[Transform3D] = []
 	var colors: Array[Color] = []
 	var placed := 0
@@ -234,11 +257,81 @@ static func grass(count: int, sampler: Callable, rng: RandomNumberGenerator) -> 
 		var p = sampler.call(rng)
 		if p == null:
 			continue
-		var b := Basis().rotated(Vector3.UP, rng.randf() * TAU).scaled(Vector3(rng.randf_range(0.8, 1.4), rng.randf_range(0.7, 1.3), rng.randf_range(0.8, 1.4)))
+		var b := Basis().rotated(Vector3.UP, rng.randf() * TAU).scaled(Vector3(rng.randf_range(0.8, 1.4), rng.randf_range(0.65, 1.15), rng.randf_range(0.8, 1.4)))
 		transforms.append(Transform3D(b, p))
-		colors.append(Color(float(rng.randi() % 4), rng.randf_range(0.75, 1.1), 1.0, 0.0))
+		colors.append(Color(float(rng.randi() % 4), rng.randf_range(0.7, 1.05), 1.0, 0.0))
 		placed += 1
 	return _partition(mesh, material, transforms, colors, "grass")
+
+# Low woodland cover across the playable map, including the approach to the hut.
+# A jittered grid fills gaps; broad patches vary density, height and fern abundance.
+# Its own seed leaves trees, pickups and the existing meadow distribution unchanged.
+static func forest_floor() -> Node3D:
+	var root := Node3D.new()
+	root.name = "ForestFloor"
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 62017
+	var patches := FastNoiseLite.new()
+	patches.seed = 62017
+	patches.frequency = 0.055
+	var grasses: Array[Transform3D] = []
+	var grass_colors: Array[Color] = []
+	var ferns: Array[Transform3D] = []
+	var fern_colors: Array[Color] = []
+	var area := Map.BOUNDS.intersection(Map.extent())
+	# Buffer tracks once; avoid scanning every road segment for every tuft.
+	var road_buffers: Array = []
+	for road in Map.ROADS:
+		for polygon in Geometry2D.offset_polyline(PackedVector2Array(road.pts), road.width * 0.5 + 0.7, Geometry2D.JOIN_ROUND, Geometry2D.END_ROUND):
+			var bounds := Rect2(polygon[0], Vector2.ZERO)
+			for point in polygon:
+				bounds = bounds.expand(point)
+			road_buffers.append({"bounds": bounds, "polygon": polygon})
+	var spacing := 0.65
+	for row in ceili(area.size.y / spacing):
+		for column in ceili(area.size.x / spacing):
+			var x := area.position.x + (column + rng.randf_range(0.1, 0.9)) * spacing
+			var z := area.position.y + (row + rng.randf_range(0.1, 0.9)) * spacing
+			var cover := Map.leaf_weight(x, z)
+			if cover < 0.6:
+				continue
+			var patch := clampf(patches.get_noise_2d(x, z) * 1.5 + 0.5, 0.0, 1.0)
+			if rng.randf() > lerpf(0.62, 0.98, patch) * cover:
+				continue
+			if Map.in_building(x, z, 1.3) or Map.in_clearing(x, z):
+				continue
+			var by_road := false
+			for buffer in road_buffers:
+				if buffer.bounds.has_point(Vector2(x, z)) and Geometry2D.is_point_in_polygon(Vector2(x, z), buffer.polygon):
+					by_road = true
+					break
+			if by_road:
+				continue
+			if not Map.POND.is_empty() and Vector2(x, z).distance_to(Map.POND.pos) < Map.POND.r + 1.0:
+				continue
+			var normal := Map.ground_normal(x, z)
+			if normal.y < 0.72:
+				continue
+			var pos := Map.ground_pos(x, z) - Vector3.UP * 0.035
+			var basis := Basis(Quaternion(Vector3.UP, normal)) * Basis(Vector3.UP, rng.randf() * TAU)
+			var width := rng.randf_range(1.15, 1.85)
+			var height := rng.randf_range(0.6, 1.05) * lerpf(0.8, 1.15, patch)
+			grasses.append(Transform3D(basis * Basis.from_scale(Vector3(width, height, width)), pos))
+			grass_colors.append(Color(float(rng.randi() % 4), rng.randf_range(0.75, 1.15), 0.45, 0.0))
+			if rng.randf() < lerpf(0.08, 0.35, patch):
+				var size := rng.randf_range(0.65, 1.15)
+				ferns.append(Transform3D(basis * Basis.from_scale(Vector3(size, size, size)), pos))
+				fern_colors.append(Color(0.0, rng.randf_range(0.7, 1.1), 0.3, 0.0))
+	var grass_mat := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 0.65, Color(0.62, 0.64, 0.4))
+	var fern_mat := sprite_material("res://assets/sprites/leaf_fern.png", Vector2.ONE, 0.55, Color(0.68, 0.75, 0.5))
+	# Reuse the grass profile's distance limits and shadow-free 16 m spatial batches.
+	var grass_cells := _partition(_tuft_mesh(0.7, 0.45), grass_mat, grasses, grass_colors, "grass")
+	grass_cells.name = "WoodlandGrass"
+	root.add_child(grass_cells)
+	var fern_cells := _partition(_tuft_mesh(1.25, 0.65), fern_mat, ferns, fern_colors, "grass")
+	fern_cells.name = "WoodlandFerns"
+	root.add_child(fern_cells)
+	return root
 
 # Foliage cards around tree crowns: crowns = Array of [Vector3 center, float radius]
 static func canopy(crowns: Array, rng: RandomNumberGenerator) -> MultiMeshInstance3D:
@@ -380,46 +473,90 @@ static func campfire(pos: Vector3) -> Node3D:
 	fire.lifetime = 0.9
 	fire.position.y = 0.15
 	root.add_child(fire)
-	# smoke
+	# Buoyant smoke: a slow, coherent plume with gentle drift and small eddies.
+	# Avoid the old constant 0.5 m/s² lift, which accelerated puffs out of the fire.
 	var smoke := GPUParticles3D.new()
+	smoke.name = "Smoke"
 	var smm := ParticleProcessMaterial.new()
 	smm.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
-	smm.emission_sphere_radius = 0.2
-	smm.direction = Vector3(0.2, 1, 0)
-	smm.spread = 15.0
-	smm.initial_velocity_min = 0.5
-	smm.initial_velocity_max = 0.9
-	smm.gravity = Vector3(0.15, 0.5, 0.05)
-	smm.scale_min = 0.8
-	smm.scale_max = 1.6
+	smm.emission_sphere_radius = 0.18
+	smm.direction = Vector3(0.06, 1, 0.02)
+	smm.spread = 7.0
+	smm.initial_velocity_min = 0.38
+	smm.initial_velocity_max = 0.58
+	smm.gravity = Vector3(0.018, 0.045, 0.008)
+	smm.damping_min = 0.035
+	smm.damping_max = 0.055
+	var speed := Curve.new()
+	speed.add_point(Vector2(0, 0.7))
+	speed.add_point(Vector2(0.45, 0.6))
+	speed.add_point(Vector2(1, 0.45))
+	var speed_texture := CurveTexture.new()
+	speed_texture.curve = speed
+	smm.velocity_limit_curve = speed_texture
+	smm.angle_min = -180.0
+	smm.angle_max = 180.0
+	smm.angular_velocity_min = -3.0
+	smm.angular_velocity_max = 3.0
+	smm.scale_min = 0.85
+	smm.scale_max = 1.25
 	var ssc := Curve.new()
-	ssc.add_point(Vector2(0, 0.3))
-	ssc.add_point(Vector2(1, 2.5))
+	ssc.max_value = 4.0
+	ssc.add_point(Vector2(0, 0.35))
+	ssc.add_point(Vector2(0.22, 1.0))
+	ssc.add_point(Vector2(0.6, 2.2))
+	ssc.add_point(Vector2(1, 3.4))
 	var ssct := CurveTexture.new()
 	ssct.curve = ssc
 	smm.scale_curve = ssct
 	var sg := Gradient.new()
-	sg.set_color(0, Color(0.5, 0.45, 0.4, 0.35))
-	sg.set_color(1, Color(0.6, 0.6, 0.6, 0.0))
+	sg.set_color(0, Color(0.48, 0.46, 0.43, 0.0))
+	sg.set_color(1, Color(0.59, 0.6, 0.61, 0.0))
+	sg.add_point(0.08, Color(0.49, 0.48, 0.46, 0.16))
+	sg.add_point(0.24, Color(0.53, 0.53, 0.52, 0.22))
+	sg.add_point(0.55, Color(0.57, 0.58, 0.58, 0.12))
+	sg.add_point(0.82, Color(0.59, 0.6, 0.61, 0.035))
 	var sgt := GradientTexture1D.new()
 	sgt.gradient = sg
 	smm.color_ramp = sgt
 	smm.turbulence_enabled = true
-	smm.turbulence_noise_strength = 0.8
+	smm.turbulence_noise_strength = 0.16
+	smm.turbulence_noise_scale = 4.0
+	smm.turbulence_noise_speed = Vector3(0.025, 0.018, 0.01)
+	smm.turbulence_noise_speed_random = 0.0
+	smm.turbulence_influence_min = 0.03
+	smm.turbulence_influence_max = 0.06
+	var eddies := Curve.new()
+	eddies.add_point(Vector2(0, 0.0))
+	eddies.add_point(Vector2(0.3, 0.4))
+	eddies.add_point(Vector2(1, 1.0))
+	var eddy_texture := CurveTexture.new()
+	eddy_texture.curve = eddies
+	smm.turbulence_influence_over_life = eddy_texture
 	smoke.process_material = smm
 	var sq := QuadMesh.new()
 	sq.size = Vector2(0.8, 0.8)
 	var smat := StandardMaterial3D.new()
-	smat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	smat.shading_mode = BaseMaterial3D.SHADING_MODE_PER_VERTEX
 	smat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	smat.depth_draw_mode = BaseMaterial3D.DEPTH_DRAW_DISABLED
 	smat.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
 	smat.vertex_color_use_as_albedo = true
-	smat.albedo_texture = _soft_dot()
+	smat.albedo_texture = _smoke_texture()
+	smat.roughness = 1.0
+	smat.metallic_specular = 0.0
+	smat.proximity_fade_enabled = true
+	smat.proximity_fade_distance = 0.6
 	sq.material = smat
 	smoke.draw_pass_1 = sq
-	smoke.amount = 90
-	smoke.lifetime = 6.0
-	smoke.preprocess = 6.0
+	smoke.amount = 120
+	smoke.lifetime = 10.0
+	smoke.preprocess = 10.0
+	smoke.fixed_fps = 30
+	smoke.interpolate = true
+	smoke.draw_order = GPUParticles3D.DRAW_ORDER_VIEW_DEPTH
+	smoke.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	smoke.visibility_aabb = AABB(Vector3(-4, -2, -4), Vector3(11, 12, 10))
 	smoke.position.y = 0.8
 	root.add_child(smoke)
 	# light
@@ -435,6 +572,27 @@ static func campfire(pos: Vector3) -> Node3D:
 	return root
 
 static var _dot: ImageTexture
+static var _smoke: ImageTexture
+
+# Shared, softly broken-up density instead of a stack of identical round dots.
+# Generated once; motion comes from the particles, so the texture never jitters.
+static func _smoke_texture() -> ImageTexture:
+	if _smoke:
+		return _smoke
+	var noise := FastNoiseLite.new()
+	noise.seed = 2718
+	noise.frequency = 0.055
+	noise.fractal_octaves = 3
+	var img := Image.create(128, 128, false, Image.FORMAT_RGBA8)
+	for y in 128:
+		for x in 128:
+			var radius := Vector2(x - 63.5, y - 63.5).length() / 63.5
+			var edge := 1.0 - smoothstep(0.15, 1.0, radius)
+			var density := clampf(0.55 + noise.get_noise_2d(x, y) * 0.65, 0.15, 0.95)
+			img.set_pixel(x, y, Color(1, 1, 1, edge * edge * density))
+	img.generate_mipmaps()
+	_smoke = ImageTexture.create_from_image(img)
+	return _smoke
 
 static func _soft_dot() -> ImageTexture:
 	if _dot:

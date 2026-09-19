@@ -56,10 +56,12 @@ func _explode() -> void:
 			var d: float = z.global_position.distance_to(pos)
 			if d < RADIUS and _visible_from(pos, z.global_position + Vector3.UP):
 				var f := 1.0 - (d / RADIUS) * 0.8
+				z.last_headshot = false
+				z.killer_weapon = "grenade"
 				z.damage(DAMAGE * f, (z.global_position - pos).normalized())
 	var pd := player.global_position.distance_to(pos)
 	if pd < RADIUS * 0.7 and _visible_from(pos, player.global_position + Vector3.UP):
-		player.damage(40.0 * (1.0 - pd / (RADIUS * 0.7)))
+		player.damage(40.0 * (1.0 - pd / (RADIUS * 0.7)), pos)
 	player.wobble = maxf(player.wobble, clampf(1.6 - pd / 20.0, 0.3, 1.5))
 	Sfx.play_at(get_tree().current_scene, "boom", pos, 2.0)
 	# fireball

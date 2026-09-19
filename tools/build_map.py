@@ -31,7 +31,7 @@ ROADS = [
     {"name": "Waldweg zwischen Hütten", "surface": "gravel", "width": 4.5,
      "pts": [[7, 61], [6, 44], [6.5, 30], [5, 18], [3, 12]]},
     {"name": "Waldweg nach Hütte (Oberer Sorchen)", "surface": "gravel", "width": 3.6,
-     "pts": [[-2, -10], [-9, -21], [-18, -34], [-29, -49], [-33, -56], [-57, -112], [-69, -141], [-73, -152], [-80, -173], [-97, -207], [-115, -247], [-125, -275]]},
+     "pts": [[-4, -11], [-9, -21], [-18, -34], [-29, -49], [-33, -56], [-57, -112], [-69, -141], [-73, -152], [-80, -173], [-97, -207], [-115, -247], [-125, -275]]},
     {"name": "Weg Richtung Dorf", "surface": "gravel", "width": 3.2,
      "pts": [[7, 61], [-7.5, 65], [-45, 71], [-62, 72], [-67, 75], [-190, 132], [-275, 171]]},
     {"name": "Feldweg West", "surface": "dirt", "width": 2.8,
@@ -39,7 +39,7 @@ ROADS = [
     {"name": "Wiesentor", "surface": "dirt", "width": 2.8,
      "pts": [[7, 61], [8, 70]]},
     {"name": "Fussweg Nord", "surface": "dirt", "width": 1.6,
-     "pts": [[-73, -152], [-66, -154], [-47, -168], [-20, -176]]},
+     "pts": [[-73, -152], [-66, -154], [-47, -168], [-35.7, -171.7]]},  # ends at the pond's west bank
     {"name": "Feldweg Ost", "surface": "gravel", "width": 3.0,
      "pts": [[124, 21], [140, 17], [160, 12]]},
 ]
@@ -63,31 +63,37 @@ for _r in ROADS:
 # gravel clearing around the fire, the aprons of both huts
 # Kiesplatz: fire plaza north-west of the Waldhütte (photos 13, 14, 15, 20), the track between the huts, both aprons
 CLEARING = [[-11, -16], [-4, -17], [3, -17], [9, -15], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-11, -12]]
-# The seating area has earth and leaf litter; only the actual access tracks keep gravel.
-CAMP_FOREST_FLOOR = [[-13, -18], [-4, -20], [9, -18], [16, -12], [16, 0], [6, 3], [5, 11], [-6, 12], [-12, 2], [-14, -10]]
+# the level fire plaza (terrain), see the height section
+PLAZA = [[-10, -18], [-3, -20], [6, -19], [12, -16], [14.5, -10], [14, -1], [6, 1.5], [-3, 0], [-9, -3], [-12, -9]]
+# Photos 15, 18, 20: the benches and the fire stand on fine grey gravel; only the north-west part of the plaza
+# (picnic table, fountain, under the big beeches) is earth with leaf litter.
+CAMP_FOREST_FLOOR = [[-13, -21], [-6, -23], [-1, -19.5], [-3.5, -14.5], [-6.5, -11], [-13, -9]]
 MEADOW_FORCE = [[-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 160], [-70, 160]]
 FIELD_SE = [[113, 24], [128, 18], [150, 8], [150, 160], [113, 160]]   # fields east of the Sennhofstrasse south of the junction
 # Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
 # upper door, east side buried in the slope (photos 14, 17, 19)
-WALDHUETTE = {"pos": [9.1, 4.6], "size": [6.6, 7.4], "yaw_deg": -8.0, "base_h": 2.4, "wall_h": 2.5, "roof_h": 1.9}
-HOLZLAGER = {"pos": [-2.5, 27.0], "size": [7.9, 14.6], "yaw_deg": -23.0, "base_h": 0.6, "wall_h": 3.6, "roof_h": 1.6}
-# fire plaza ~7 m north of the hut's north face; table west of the fire, fountain / bin / signpost at the north
-# track entrance (photos 15, 16, 18, 20, 21). Origin stays the OSM picnic node.
-FIRE = [4.0, -7.0]
-BENCHES = [[4.0, -4.2, 0.0], [4.0, -9.8, 0.0], [1.2, -7.0, 90.0], [6.8, -7.0, 90.0]]   # x, z, yaw (length axis)
-TABLE = [-0.5, -8.5, 10.0]          # right next to the west bench (photo 20)
-FOUNTAIN = [3.3, 7.0, -98.0]       # beside the Waldhuette's west wall, beyond the garage door's swing
-BIN = [-3.5, -18.5]
-SIGNPOST = [-4.5, -21.5]
+WALDHUETTE = {"pos": [9.1, 4.6], "size": [6.6, 7.4], "yaw_deg": -8.0, "base_h": 2.4, "wall_h": 2.5, "roof_h": 1.5}
+HOLZLAGER = {"pos": [-3.0, 26.3], "size": [7.9, 13.6], "yaw_deg": -14.0, "base_h": 0.8, "wall_h": 3.6, "roof_h": 1.6}   # ridge and roof edges in the aerial run at 14 deg, not the 23 deg of the OSM outline
+# Seat group 3 m east of the OSM picnic node. Photo 20 (from the south bench, looking north): picnic table behind
+# the north bench to the left, the white bin straight behind the table, the log fountain at the far left at the
+# plaza's west edge. Photo 15 (from the west edge, looking east): fountain in front, bin behind it, benches beyond,
+# the hut's stair at the right. Photo 13 (from the track in the south): fountain and bin almost in line, left of the
+# benches. All coordinates use true north; the annotated photo plans are schematic. Origin stays the OSM picnic node.
+FIRE = [7.0, -7.0]
+BENCHES = [[7.0, -4.2, 0.0], [7.0, -9.8, 0.0], [4.2, -7.0, 90.0], [9.8, -7.0, 90.0]]   # x, z, yaw (length axis)
+TABLE = [1.2, -11.0, 5.0]           # north-west of the fire, 3 m west of the west bench, on leaf litter (photo 18)
+FOUNTAIN = [-2.0, -13.0, 90.0]      # trough north-south with the post at the south end, beside the Waldweg entrance
+BIN = [-0.5, -16.0]                 # white drum on a post, between table and track entrance (photos 15, 16, 20)
+SIGNPOST = [-5.5, -21.0]            # info board and sign east of the Waldweg (photo 16)
 LOG_SEAT = [-10.0, -4.0, 75.0]
 LANDMARK_OAK = [66.0, 34.0]
 BIG_TREES = [[1.5, 0.8, "beech", 1.35], [-13.5, -18.0, "beech", 1.25], [14.5, -12.0, "beech", 1.2], [-9.0, 6.0, "beech", 1.15],
              [-14.0, -8.0, "beech", 1.2], [2.0, -25.0, "beech", 1.15], [-6.0, -25.5, "oak", 1.1], [9.5, -23.0, "oak", 1.1], [15.0, -3.0, "beech", 1.1],
              [-20.5, -9.0, "oak", 1.2], [-9.0, 14.0, "beech", 1.1],
              [14.0, -3.0, "spruce", 1.2], [-8.0, 42.0, "beech", 1.1], [12.5, 30.0, "beech", 1.15]]
-# pasture fence on the meadow side of the tracks (gap at the Wiesenweg gate)
-FENCE = [[[121, 27], [100, 35], [70, 44], [53, 50.5], [30, 57.5], [13, 64]], [[1, 66], [-7.5, 68], [-45, 74], [-62, 75], [-67, 78], [-120, 100]],
-         [[128, 30], [140, 112], [149, 150]]]
+# Photos 9, 10, 11, 24: the Weg zur Huette and the fork have an open grass verge towards the field, no fence.
+# The only fence is the wire fence on the east side of the Sennhofstrasse south of the junction (photos 4, 5).
+FENCE = [[[128, 30], [140, 112], [149, 150]]]
 SPAWNS = {"north": [[112, 28], [118, 8], [104, 31]], "east": [[32, 100], [58, 96], [18, 112]],
           "south": [[-78, 80], [-96, 88], [-70, 77]], "west": [[-44, -86], [-56, -108], [-40, -72]]}
 BARRICADES = [
@@ -96,9 +102,9 @@ BARRICADES = [
     {"id": "s", "name": "Weg Richtung Dorf", "pos": [-16, 66.5], "yaw": -1.55, "segments": 2},
     {"id": "w", "name": "Waldweg Nord", "pos": [-15, -30], "yaw": 0.59, "segments": 2},
 ]
-# forest pond west of the Waldweg Nord at the Fussweg junction, with a long wooden trough draining into it
-POND = {"pos": [-84.0, -159.0], "r": 7.0, "depth": 0.9}
-POND_TROUGH = [-76.5, -155.5]           # trough stands at the east rim next to the track, its mouth over the water
+# Forest pond at the eastern end of Fussweg Nord (player position in the reference screenshot).
+POND = {"pos": [-28.0, -174.0], "r": 7.0, "depth": 0.9}
+POND_TROUGH = [-31.5, -166.5]           # south-west bank, beside the approach; the mouth feeds the water
 PLAYER_START = [1.0, -4.0]
 BOUNDS = [-250, -230, 390, 370]   # x, z, w, d playable
 
@@ -159,6 +165,17 @@ cd = ndimage.distance_transform_edt(~cm)
 hs = ndimage.gaussian_filter(h, 3.0)
 k = np.clip(cd / 4.0, 0, 1)
 h = hs * (1 - k) + h * k
+# fire plaza: the photos (15, 17, 20) show one level place from the hut's garage door and the foot of the outside stair
+# across the benches to the Waldweg entrance; the raw DEM climbs 1.3 m towards the north-east there. Pull the plaza
+# onto a plane anchored at the hut's west face with a 1.2 % rise to the north-east, blended out over 7 m.
+_pj, _pi = np.mgrid[0:H, 0:W]
+_px, _pz = _pi + X0, _pj + Z0
+_anchor = float(h[int(WALDHUETTE["pos"][1] - Z0), int(WALDHUETTE["pos"][0] - 4.5 - X0)])
+plaza_plane = _anchor + 0.012 * (_px - (WALDHUETTE["pos"][0] - 4.5)) - 0.012 * (_pz - WALDHUETTE["pos"][1])
+pm = poly_mask(PLAZA)
+pd_plaza = ndimage.distance_transform_edt(~pm)
+k = np.clip(pd_plaza / 7.0, 0, 1)
+h = plaza_plane * (1 - k) + h * k
 # pond: a shallow dish, rim blended into the forest floor, flat enough to walk through
 pj, pi = np.mgrid[0:H, 0:W]
 pd = np.hypot(pi + X0 - POND["pos"][0], pj + Z0 - POND["pos"][1])
@@ -327,7 +344,7 @@ ej, ei = np.nonzero(edge)
 shrubs = []
 for k in rng.choice(len(ej), size=min(1400, len(ej)), replace=False):
     x, z = ei[k] + X0 + rng.uniform(-0.5, 0.5), ej[k] + Z0 + rng.uniform(-0.5, 0.5)
-    if road_d[int(z - Z0), int(x - X0)] > 1.2 and not cm[int(z - Z0), int(x - X0)]:
+    if road_d[int(z - Z0), int(x - X0)] > 1.2 and not cm[int(z - Z0), int(x - X0)] and math.hypot(x - POND["pos"][0], z - POND["pos"][1]) >= POND["r"] + 3.5:
         shrubs.append([round(x, 1), round(z, 1), round(rng.uniform(0.7, 1.4), 2), int(rng.integers(0, 360))])
 # dense border forest outside the playable extent so no map edge is ever visible (no collision needed)
 border = []

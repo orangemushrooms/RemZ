@@ -27,6 +27,10 @@ var speed_mul := 1.0
 var regen_mul := 1.0
 var recoil_offset := Vector2.ZERO   # (pitch, yaw) radians of visual recoil still settling
 var mouse_sensitivity := 1.0
+var _step_t := 0.0
+var _step_side := 1.0
+var _heart_t := 0.0
+var _was_on_floor := true
 
 func _ready() -> void:
 	collision_layer = 4
@@ -89,6 +93,7 @@ func _physics_process(delta: float) -> void:
 	global_position.x = clampf(global_position.x, Map.BOUNDS.position.x, Map.BOUNDS.end.x)
 	global_position.z = clampf(global_position.z, Map.BOUNDS.position.y, Map.BOUNDS.end.y)
 	var moving := Vector2(velocity.x, velocity.z).length() > 0.5
+	_footsteps(delta, moving, sprint)
 	bob += delta * ((13.0 if sprint else 9.0) if moving else 0.0)
 	head.position.y = EYE + (sin(bob) * 0.04 if moving else 0.0)
 	wobble = maxf(0.0, wobble - delta * 3.0)
@@ -101,17 +106,24 @@ func _physics_process(delta: float) -> void:
 		hp = minf(max_hp, hp + delta * 4.0 * regen_mul)
 		hud.set_health(hp)
 
-func damage(n: float) -> void:
+# from: world position of the attacker (Vector3.INF = unknown) for the HUD direction indicator
+func damage(n: float, from: Vector3 = Vector3.INF) -> void:
 	if not alive:
 		return
 	hp -= n
 	var scene := get_tree().current_scene
 	if "achievements" in scene and scene.achievements:
 		scene.achievements.player_hurt()
+	if "stats" in scene and scene.stats:
+		scene.stats.damage_taken += n
 	regen_timer = 5.0
 	wobble = 1.0
 	hud.set_health(hp)
-	hud.damage_flash()
+	if from.is_finite():
+		var local := global_transform.basis.inverse() * (from - global_position)
+		hud.damage_flash(atan2(local.x, -local.z))
+	else:
+		hud.damage_flash()
 	Sfx.play(self, "hurt", -3.0, 0.85)
 	Sfx.play(self, "hurt_thud", -10.0)
 	if hp <= 0.0:
@@ -122,3 +134,34 @@ func damage(n: float) -> void:
 func add_score(n: int) -> void:
 	score += n
 	hud.set_score(score)
+
+# Footsteps on the surface under the player (gravel, grass or leaf litter), a landing thud, heartbeat when low.
+func _footsteps(delta: float, moving: bool, sprint: bool) -> void:
+	var on_floor := is_on_floor()
+	if on_floor and not _was_on_floor:
+		Sfx.play(self, _surface_step(), -10.0, 0.8)
+	_was_on_floor = on_floor
+	if moving and on_floor:
+		_step_t -= delta * (1.0 if not sprint else 1.35) * speed_mul
+		if _step_t <= 0.0:
+			_step_t = 0.48
+			_step_side = -_step_side
+			Sfx.play(self, _surface_step(), -14.0 if not sprint else -11.0, 1.0 + 0.05 * _step_side)
+	else:
+		_step_t = minf(_step_t, 0.12)
+	if alive and hp < max_hp * 0.35:
+		_heart_t -= delta
+		if _heart_t <= 0.0:
+			_heart_t = lerpf(0.55, 1.1, clampf(hp / (max_hp * 0.35), 0.0, 1.0))
+			Sfx.play(self, "heartbeat", -6.0, 1.0)
+			get_tree().create_timer(0.22, false).timeout.connect(func():
+				if is_instance_valid(self):
+					Sfx.play(self, "heartbeat", -10.0, 1.15))
+
+func _surface_step() -> String:
+	var c := Map.cover(global_position.x, global_position.z)
+	if c.b > 0.5:
+		return "step_gravel"
+	if c.g > 0.5:
+		return "step_grass"
+	return "step_leaves"

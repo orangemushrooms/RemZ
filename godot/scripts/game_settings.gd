@@ -4,12 +4,21 @@ extends Node
 const PATH := "user://settings.cfg"
 const PROFILES := ["Flüssig", "Ausgewogen", "Hohe Qualität"]
 const LIMITS := [0, 60, 100, 120, 144, 165, 240]
+# hp / dmg: zombie health and damage, count: zombies per wave, speed: zombie speed, drop: supply drop chance,
+# score: points per kill, regen: player regeneration
+const DIFFICULTIES := [
+	{ "name": "Leicht", "desc": "Zum Kennenlernen der Hütte: schwächere Zombies, kleinere Wellen, viele Vorräte.", "hp": 0.8, "dmg": 0.7, "count": 0.8, "speed": 1.0, "drop": 1.4, "score": 0.8, "regen": 1.3 },
+	{ "name": "Normal", "desc": "Die ausgewogene Nacht am Heitersberg.", "hp": 1.0, "dmg": 1.0, "count": 1.0, "speed": 1.0, "drop": 1.0, "score": 1.0, "regen": 1.0 },
+	{ "name": "Schwer", "desc": "Zähere und schnellere Horden, weniger Vorräte, 30 % mehr Punkte.", "hp": 1.25, "dmg": 1.3, "count": 1.25, "speed": 1.05, "drop": 0.8, "score": 1.3, "regen": 0.8 },
+	{ "name": "Albtraum", "desc": "Riesige Wellen, brutale Treffer, kaum Regeneration. 70 % mehr Punkte für die Bestenliste.", "hp": 1.5, "dmg": 1.7, "count": 1.5, "speed": 1.12, "drop": 0.6, "score": 1.7, "regen": 0.5 },
+]
 const RANGES := [
 	{"trees": 190.0, "props": 100.0, "detail": 45.0, "leaves": 32.0, "grass": 55.0},
 	{"trees": 230.0, "props": 140.0, "detail": 65.0, "leaves": 45.0, "grass": 75.0},
 	{"trees": 280.0, "props": 180.0, "detail": 90.0, "leaves": 65.0, "grass": 100.0},
 ]
 var profile := 0
+var difficulty := 1
 var fps_limit := 144
 var vsync := false
 var sensitivity := 1.0
@@ -38,9 +47,12 @@ func _ready() -> void:
 			show_fps = bool(cfg.get_value("video", "show_fps", true))
 			sensitivity = clampf(float(cfg.get_value("input", "sensitivity", 1.0)), 0.2, 3.0)
 			volume = clampf(float(cfg.get_value("audio", "volume", 0.8)), 0.0, 1.0)
+			difficulty = clampi(int(cfg.get_value("game", "difficulty", 1)), 0, DIFFICULTIES.size() - 1)
 	for arg in _flags:
 		if arg.begins_with("--quality="):
 			profile = clampi(arg.get_slice("=", 1).to_int(), 0, 2)
+		if arg.begins_with("--difficulty="):
+			difficulty = clampi(arg.get_slice("=", 1).to_int(), 0, DIFFICULTIES.size() - 1)
 	_save_timer = Timer.new()
 	_save_timer.one_shot = true
 	_save_timer.wait_time = 0.4
@@ -50,7 +62,7 @@ func _ready() -> void:
 
 func apply() -> void:
 	var viewport := get_viewport()
-	viewport.msaa_3d = Viewport.MSAA_DISABLED if profile == 0 else Viewport.MSAA_2X
+	viewport.msaa_3d = Viewport.MSAA_DISABLED if (profile == 0 or "--no-msaa" in _flags) else Viewport.MSAA_2X
 	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if profile == 0 else Viewport.SCREEN_SPACE_AA_DISABLED
 	viewport.mesh_lod_threshold = [4.0, 2.5, 1.5][profile]
 	viewport.scaling_3d_scale = [0.85, 1.0, 1.0][profile]
@@ -91,10 +103,11 @@ func save() -> void:
 	cfg.set_value("video", "show_fps", show_fps)
 	cfg.set_value("input", "sensitivity", sensitivity)
 	cfg.set_value("audio", "volume", volume)
+	cfg.set_value("game", "difficulty", difficulty)
 	if cfg.save(PATH) != OK:
 		push_warning("Einstellungen konnten nicht gespeichert werden.")
 
-func add_controls(parent: VBoxContainer) -> void:
+func add_controls(parent: VBoxContainer, with_quit: bool = true) -> void:
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.add_theme_constant_override("h_separation", 20)
@@ -136,10 +149,11 @@ func add_controls(parent: VBoxContainer) -> void:
 	fullscreen.text = "Vollbild umschalten (F11)"
 	fullscreen.pressed.connect(_fullscreen)
 	parent.add_child(fullscreen)
-	var quit_button := Button.new()
-	quit_button.text = "Spiel beenden"
-	quit_button.pressed.connect(func(): save(); get_tree().quit())
-	parent.add_child(quit_button)
+	if with_quit:
+		var quit_button := Button.new()
+		quit_button.text = "Spiel beenden"
+		quit_button.pressed.connect(func(): save(); get_tree().quit())
+		parent.add_child(quit_button)
 
 func _row(grid: GridContainer, title: String, control: Control) -> void:
 	var label := Label.new()

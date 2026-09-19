@@ -51,6 +51,8 @@ var _burst_t := 0.0
 var _grenade_scene: PackedScene
 var _blood_pool: Array[GPUParticles3D] = []
 var _blood_next := 0
+var _melee_t := 0.0
+var _melee_anim := 0.0
 
 func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	player = p
@@ -218,6 +220,11 @@ func try_fire() -> void:
 	var base := -camera.global_transform.basis.z
 	var space := get_world_3d().direct_space_state
 	var spread: float = float(d["spread"]) * spread_mul * (1.0 - ads * 0.6) * (1.0 + minf(_shots_in_burst, 8) * 0.06)
+	var scene := get_tree().current_scene
+	var stats: RunStats = scene.stats if "stats" in scene else null
+	if stats:
+		stats.shots += 1
+	var any_hit := false
 	for i in int(d["pellets"]):
 		var dir: Vector3 = (base + Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * spread).normalized()
 		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * float(d["range"]), 1 | 2 | 8)
@@ -229,18 +236,58 @@ func try_fire() -> void:
 		if hit and hit.collider is Zombie:
 			var z: Zombie = hit.collider
 			var headshot: bool = hit.position.y > z.global_position.y + z.height * 0.78
+			z.last_headshot = headshot
+			z.killer_weapon = current
 			z.damage(float(d["damage"]) * damage_mul * (2.2 if headshot else 1.0), dir)
 			_blood(hit.position, dir)
 			hud.hitmarker(headshot)
+			any_hit = true
 			if headshot:
 				get_tree().current_scene.achievements.event("headshots")
+	if any_hit and stats:
+		stats.hits += 1
 	update_hud()
+
+# Gun-butt strike (Q): short reach, heavy knockback, works while reloading or with an empty magazine.
+func melee() -> void:
+	if not player.active or not player.alive or _melee_t > 0.0:
+		return
+	_melee_t = 0.65
+	_melee_anim = 1.0
+	player.wobble = maxf(player.wobble, 0.3)
+	Sfx.play(self, "melee", -8.0, randf_range(0.9, 1.1))
+	var origin := camera.global_position
+	var forward := -camera.global_transform.basis.z
+	var space := get_world_3d().direct_space_state
+	var hit_any := false
+	# a short fan of rays so a zombie slightly off-centre is still hit
+	for off: float in [0.0, -0.18, 0.18]:
+		var dir: Vector3 = (forward + camera.global_transform.basis.x * off).normalized()
+		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * 2.1, 2 | 8)
+		q.exclude = [player.get_rid()]
+		var hit := space.intersect_ray(q)
+		if hit and hit.collider is Zombie and (hit.collider as Zombie).alive:
+			var z: Zombie = hit.collider
+			z.last_headshot = false
+			z.killer_weapon = "melee"
+			z.damage(45.0 * damage_mul, forward)
+			z.shove(forward * 4.5)
+			_blood(hit.position, forward)
+			hit_any = true
+			break
+	if hit_any:
+		hud.hitmarker(false)
+		Sfx.play(self, "hit", -4.0, 0.8)
+		if "stats" in get_tree().current_scene and get_tree().current_scene.stats:
+			get_tree().current_scene.stats.melee_hits += 1
 
 func throw_grenade() -> void:
 	if not player.active or not player.alive or grenades <= 0:
 		return
 	grenades -= 1
 	update_hud()
+	if "stats" in get_tree().current_scene and get_tree().current_scene.stats:
+		get_tree().current_scene.stats.grenades_thrown += 1
 	var g := Grenade.new()
 	g.setup(_grenade_scene, zombies_root, player)
 	get_tree().current_scene.add_child(g)
@@ -423,6 +470,10 @@ func _process(delta: float) -> void:
 		reload()
 	if Input.is_action_just_pressed("grenade"):
 		throw_grenade()
+	if Input.is_action_just_pressed("melee"):
+		melee()
+	_melee_t = maxf(0.0, _melee_t - delta)
+	_melee_anim = maxf(0.0, _melee_anim - delta * 3.2)
 	for i in ORDER.size():
 		if Input.is_action_just_pressed("weapon_%d" % (i + 1)):
 			set_weapon(ORDER[i])
@@ -459,8 +510,11 @@ func _process(delta: float) -> void:
 	var base_pos: Vector3 = (d["pos"] as Vector3).lerp(s["aim_position"], ads)
 	var sway_amp := 1.0 - ads * 0.8
 	n.position = base_pos + Vector3(sin(sway_t * 5.0) * (0.008 if moving else 0.002) * sway_amp, sin(sway_t * 10.0) * (0.005 if moving else 0.0015) * sway_amp + (-0.12 if s["reloading"] > 0.0 else 0.0), _model_kick.z)
-	n.rotation.x = _model_kick.x + (-0.4 if s["reloading"] > 0.0 else 0.0)
-	n.rotation.z = _model_kick.y
+	# melee: the gun lunges forward and rolls, then springs back
+	var lunge := sin(clampf(_melee_anim, 0.0, 1.0) * PI)
+	n.position += Vector3(-0.06, -0.02, -0.16) * lunge
+	n.rotation.x = _model_kick.x + (-0.4 if s["reloading"] > 0.0 else 0.0) - 0.35 * lunge
+	n.rotation.z = _model_kick.y + 0.5 * lunge
 	(s["hands"] as ViewmodelHands).animate_reload(1.0 - float(s["reloading"]) / (float(d["reload"]) * reload_mul), s["reloading"] > 0.0)
 	(s["hands"] as ViewmodelHands).animate_cloth(delta, Vector2(player.velocity.x, player.velocity.z).length(), ads)
 	effects.sync_muzzle(muzzle_transform())

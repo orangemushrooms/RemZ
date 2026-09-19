@@ -32,6 +32,8 @@ const DEFS := [
 	{ "id": "road", "title": "Bis zur Sennhofstrasse", "text": "Die Sennhofstrasse erreicht", "counter": "road", "target": 1, "reward": { "score": 100, "grenades": 1 } },
 	{ "id": "north", "title": "Oberer Sorchen", "text": "Den Waldweg nach Norden bis zum Ende gegangen", "counter": "north", "target": 1, "reward": { "score": 150 } },
 	{ "id": "grenade_3", "title": "Sprengmeister", "text": "3 Zombies mit einer Granate", "counter": "grenade_multi", "target": 1, "reward": { "score": 300, "grenades": 2 } },
+	{ "id": "streak_10", "title": "Im Rausch", "text": "10 Abschüsse in Serie", "counter": "streak_10", "target": 1, "reward": { "score": 400, "grenades": 1 } },
+	{ "id": "drops_10", "title": "Aufgelesen", "text": "10 Vorräte von Zombies aufgesammelt", "counter": "drops", "target": 10, "reward": { "score": 200, "ammo": true } },
 ]
 
 var player: Player
@@ -58,12 +60,12 @@ func setup(p: Player, w: Weapons, h: Hud, m: Node) -> void:
 	_load()
 
 func _ready() -> void:
-	layer = 15
+	layer = 9   # below the HUD menu overlay so the pause / game-over screen covers the toast
 	_toast = PanelContainer.new()
 	_toast.visible = false
 	_toast.set_anchors_preset(Control.PRESET_CENTER_TOP)
 	_toast.custom_minimum_size = Vector2(460, 96)
-	_toast.position = Vector2(-230, 70)
+	_toast.position = Vector2(-230, 110)
 	var st := StyleBoxFlat.new()
 	st.bg_color = Color(0.06, 0.05, 0.03, 0.92)
 	st.border_color = Color(1.0, 0.8, 0.3)
@@ -161,12 +163,12 @@ func _next() -> void:
 	_reward.text = item[1] + ("" if item[2] else "  (schon einmal erreicht)")
 	_toast.visible = true
 	_toast.modulate = Color(1, 1, 1, 0)
-	_toast.position.y = 40
+	_toast.position.y = 80
 	Sfx.play(self, "confirm", 0.0)
 	var tw := create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(_toast, "modulate:a", 1.0, 0.25)
-	tw.tween_property(_toast, "position:y", 70.0, 0.35).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	tw.tween_property(_toast, "position:y", 110.0, 0.35).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	# blinking star and border glow
 	var blink := create_tween()
 	blink.set_loops(6)

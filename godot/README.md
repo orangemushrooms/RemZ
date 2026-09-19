@@ -18,6 +18,8 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | R | Nachladen |
 | 1–5 | Freigeschaltete Waffe wählen |
 | G | Granate |
+| Q | Nahkampf: Kolbenschlag mit Rückstoss, auch beim Nachladen |
+| Enter | Wartezeit überspringen, nächste Welle sofort starten |
 | E | Nahe Barrikade verwalten / Gegenstand aufnehmen / Tür öffnen und schliessen |
 | V | Barrikaden-Bauplanung mit Vorschau aller vier Zugänge |
 | B | Inventar |
@@ -25,6 +27,8 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | Tab | Fähigkeiten und Waffen kaufen |
 | Escape | Pause / fortsetzen |
 | F11 | Vollbild umschalten |
+
+**Spielablauf.** Vor dem Start wählt man im Hauptmenü einen von vier Schwierigkeitsgraden (Leicht, Normal, Schwer, Albtraum: Lebenspunkte, Schaden, Wellengrösse, Tempo, Vorräte, Regeneration und Punktefaktor der Zombies). Jede fünfte Welle ist eine Bosswelle mit zusätzlichen Brocken. Gefallene Zombies lassen Munition für die aktuelle Waffe, Granaten oder Verbandspäckli fallen, die man durch Hindurchlaufen aufnimmt. Abschüsse in schneller Folge (4 s) bauen eine Serie auf, ab dem dritten gibt jeder weitere 10 % mehr Punkte (maximal +100 %); Kopfschüsse zählen das 1,5-Fache. Punkte erscheinen als Einblendung neben dem Fadenkreuz, Treffer auf den Spieler zeigen einen roten Richtungsbogen. Unter 35 % Leben pulsiert eine rote Vignette und der Herzschlag wird hörbar. Schritte klingen je nach Untergrund (Kies, Wiese, Laub). Nach dem Tod zeigt die Bilanz Abschüsse, Kopfschüsse, Treffgenauigkeit, beste Serie, Granaten, Barrikaden und Spielzeit; die zehn besten Runden landen dauerhaft in der Bestenliste (`user://highscores.json`). Das Menü (Start, Pause, Spielende) hat Reiter für Briefing, Schwierigkeit, Steuerung, Einstellungen, Bestenliste und Erfolge; aus der Pause führt ein Knopf zurück ins Hauptmenü.
 
 Beide Hände folgen der jeweiligen Waffe beim Zielen, Rückstoß und Nachladen. Die Minimap unten rechts bildet die tatsächlichen Kartendaten ab. Norden bleibt auf der Karte oben; der Spielerpfeil und die Windrose reagieren auf die Blickrichtung. Rote Punkte zeigen Gegner. Sperrlinien sind rot (ungebaut), grün (gebaut) oder gelb (stark beschädigt).
 
@@ -44,7 +48,13 @@ Gefundene Schlüssel bleiben für das gesamte Spiel im Inventar (**B**), auch ü
 
 ## Grafik und Leistung
 
-Rund um die Feuerstelle liegt Waldboden mit Erde und Laub; die Zufahrtswege behalten ihren Kiesbelag. Der Holzbrunnen steht seitlich an der Waldhütte neben dem freien Durchgang. Gesammelte Steinpilze und Fliegenpilze verschwinden sofort vollständig und werden genau einmal im Inventar verbucht. Ihre Modelle bleiben auch nach der Kartenoptimierung mit dem Sammelobjekt verbunden.
+Der Waldboden trägt eine dichte, niedrige Schicht aus Gräsern und Farnen bis entlang des Wegs zur Hütte. Unregelmäßige Gruppen, unterschiedliche Wuchshöhen und gedämpfte Grün-/Brauntöne lassen Laub zwischen den Pflanzen sichtbar. Wege, Gebäude, Lichtung und Teich bleiben frei. Der Bewuchs folgt dem Gelände und nutzt die Grassichtweite des gewählten Grafikprofils sowie räumliche Instanzgruppen ohne zusätzliche Schatten oder Kollisionen.
+
+Der Waldteich mit seinem speisenden Holzbrunnen liegt am östlichen Ende des schmalen nördlichen Fußwegs. Der Weg endet am Westufer; Mulde, Wasserstand und Uferbewuchs folgen der neuen Position. Die frühere Teichstelle westlich der Weggabelung ist wieder Waldboden.
+
+Der Lagerfeuerrauch steigt langsam auf und driftet mit schwachem Wind. Gedämpfte Wirbel, begrenzte Geschwindigkeit und über zehn Sekunden wachsende, weich ausblendende Rauchwolken ersetzen die schnelle Bewegung. Der Rauch reagiert auf die Beleuchtung und blendet an nahen Oberflächen weich aus.
+
+Der Grillplatz ist nach den Standortfotos eine ebene Kiesfläche (das Gelände wird dort auf eine Ebene gezogen): Feuerstelle mit vier Rundholzbänken auf Kies, der Picknicktisch drei Meter westlich auf Laub, der ausgehöhlte graue Holzbrunnen mit dickem Stammpfosten und Eisenrohr am Westrand des Platzes, der weisse Abfalleimer auf einem Pfosten dazwischen, Infotafel und Wegweiser am Eingang des Waldwegs. Die Waldhütte hat ein Satteldach mit Ost-West-First: der Giebel mit weitem Vordach auf Pfetten und Kopfbändern zeigt zum Weg im Westen, die Aussentreppe aus Betonblöcken führt ohne Geländer der Nordseite entlang zur oberen Tür, in der Westwand sitzen zwei Kellerfenster. Das Holzlager steht mit 14 Grad Drehung wie im Luftbild, mit hellem Faserzementdach und weitem Vordach auf Streben zur Strasse; das grosse Tor liegt nahe der Südostecke. Entlang des Wegs zur Hütte gibt es wie auf den Fotos keinen Zaun, nur den Drahtzaun östlich der Sennhofstrasse. Die Zugänge zum Garagentor und zur Aussentreppe bleiben frei. Gesammelte Steinpilze und Fliegenpilze verschwinden sofort vollständig und werden genau einmal im Inventar verbucht. Ihre Modelle bleiben auch nach der Kartenoptimierung mit dem Sammelobjekt verbunden.
 
 Der aktuelle Standard startet um **06:00 Uhr** und lässt die Zeit über Wellenwechsel hinweg weiterlaufen. Ein vollständiger Tag dauert **15 echte Minuten (96×)**. Die Ortszeit steht oben rechts; Morgen, Tag, Abend und Nacht gehen weich ineinander über. Pause, Inventar, Skills, Barrikadenplanung und Spielende halten die Uhr an.
 

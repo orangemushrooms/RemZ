@@ -68,9 +68,10 @@ func run() -> void:
 	await shot("01-fire-clearing")
 	view(Vector2(7, -3), Vector2(-5, -12), 0.6)
 	await shot("02-forest-floor")
-	view(Vector2(0, 7), Map.BUILDINGS.waldhuette.pos, 1.5)
+	var fountain := Vector2(Map.FOUNTAIN.x, Map.FOUNTAIN.y)
+	view(fountain + Vector2(-4, 5), (fountain + Map.FIRE) * 0.5, 0.8)
 	await shot("03-fountain-beside-cabin")
-	view(Vector2(1.0, 8.7), Vector2(Map.FOUNTAIN.x, Map.FOUNTAIN.y), 0.7)
+	view(fountain + Vector2(-2.3, 1.7), fountain, 0.7)
 	await shot("04-fountain-close")
 	# Regression: shared imported pickup meshes must remain owned by their Loot node.
 	var selected := {}

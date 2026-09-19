@@ -31,6 +31,11 @@ func run() -> void:
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
 	current_scene = game
+	# Achievement rewards ("Zimmermann" +100) would distort the exact point arithmetic below.
+	if game.achievements:
+		game.achievements.process_mode = Node.PROCESS_MODE_DISABLED
+		game.achievements.hide()
+		game.achievements = null
 	while not game.navigation_ready:
 		await process_frame
 	game._on_start()

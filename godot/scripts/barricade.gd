@@ -212,6 +212,8 @@ func build() -> bool:
 	var scene := get_tree().current_scene
 	if "achievements" in scene and scene.achievements:
 		scene.achievements.event("barricades")
+	if "stats" in scene and scene.stats:
+		scene.stats.barricades_built += 1
 	return true
 
 func repair() -> bool:

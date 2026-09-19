@@ -16,6 +16,8 @@ var timer := 4.0
 var queue: Array = []
 var spawn_t := 0.0
 var speed_mul := 1.0
+var total := 0
+var boss_wave := false
 
 func setup(m: Node, h: Hud, p: Player, w: Weapons) -> void:
 	main = m
@@ -24,9 +26,23 @@ func setup(m: Node, h: Hud, p: Player, w: Weapons) -> void:
 	weapons = w
 	hud.set_wave(1, "Bereit machen ...")
 
+func _difficulty(key: String) -> float:
+	if main and "difficulty" in main and main.difficulty is Dictionary:
+		return float(main.difficulty.get(key, 1.0))
+	return 1.0
+
+# size of wave n without touching the random generator (shown during the intermission)
+func preview_count(n: int) -> int:
+	var count := int(round((6 + n * 3) * _difficulty("count")))
+	return count + (2 + n / 5 if n % 5 == 0 else 0)
+
 func plan(n: int) -> Array:
 	var q: Array = []
-	var count := 6 + n * 3
+	var count := int(round((6 + n * 3) * _difficulty("count")))
+	boss_wave = n % 5 == 0
+	if boss_wave:
+		for k in 2 + n / 5:
+			q.append({ "type": "brute", "lane": ["north", "south", "east", "west"][k % 4] })
 	for i in count:
 		var r := randf()
 		var t := "shambler"
@@ -62,13 +78,15 @@ func start(n: int) -> void:
 			if z is Zombie and not z.alive:
 				z.clear_body()
 	queue = plan(n)
+	total = queue.size()
 	phase = "spawning"
 	spawn_t = 0.0
-	speed_mul = 1.0 + (n - 1) * 0.04
+	speed_mul = (1.0 + (n - 1) * 0.04) * _difficulty("speed")
 	hud.set_wave(n, "%d Zombies" % queue.size())
+	hud.set_wave_progress(total, total)
 	if "achievements" in main and main.achievements:
 		main.achievements.wave_started()
-	hud.message("Welle %d" % n, 2.0)
+	hud.message("Welle %d" % n if not boss_wave else "Welle %d\nBOSSWELLE: die Brocken kommen" % n, 2.0 if not boss_wave else 3.5)
 	Sfx.play(self, "wave", -4.0)
 	if main.music:
 		main.music.play("combat")
@@ -85,7 +103,12 @@ func _process(delta: float) -> void:
 		return
 	if phase == "idle":
 		timer -= delta
-		hud.set_wave(wave + 1, "Start in %d s" % ceili(timer))
+		if Input.is_action_just_pressed("next_wave") and wave > 0 and timer > 1.0:
+			timer = 1.0
+			hud.message("Welle %d kommt!" % (wave + 1), 1.2)
+		var boss := (wave + 1) % 5 == 0
+		hud.set_wave(wave + 1, "Start in %d s  ·  %d Zombies%s
+Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELLE" if boss else ""])
 		if timer <= 0.0:
 			start(wave + 1)
 	elif phase == "spawning":
@@ -98,6 +121,7 @@ func _process(delta: float) -> void:
 			spawn_t = maxf(0.6, 2.2 - wave * 0.12)
 		var alive: int = main.alive_zombies()
 		hud.set_wave(wave, "%d übrig" % (alive + queue.size()))
+		hud.set_wave_progress(alive + queue.size(), total)
 		if main.music:
 			main.music.horde = clampf(alive / 10.0, 0.15, 1.0)
 		if queue.is_empty() and alive == 0:
@@ -107,6 +131,7 @@ func _process(delta: float) -> void:
 			completed = wave
 			phase = "idle"
 			timer = 18.0
+			hud.set_wave_progress(0, total)
 			if "achievements" in main and main.achievements:
 				main.achievements.wave_cleared(wave)
 			var bonus := 40 + wave * 10

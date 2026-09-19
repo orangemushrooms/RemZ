@@ -74,6 +74,12 @@ static func _procedural(name: String) -> AudioStreamWAV:
 		"rustle": return _burst(0.5, 0.18, 0.75, 0.35)   # leaves, a deer bolting
 		"boom": return _burst(1.6, 0.45, 0.05, 1.4, 45.0, -30.0)
 		"pickup": return _burst(0.2, 0.08, 0.9, 0.3, 660.0, 800.0)
+		"step_gravel": return _burst(0.14, 0.035, 0.55, 0.42)
+		"step_grass": return _burst(0.16, 0.05, 0.22, 0.26)
+		"step_leaves": return _burst(0.18, 0.06, 0.32, 0.34)
+		"heartbeat": return _burst(0.32, 0.07, 0.03, 1.0, 48.0, -25.0)
+		"streak": return _burst(0.18, 0.06, 0.8, 0.3, 880.0, 400.0)
+		"melee": return _burst(0.22, 0.05, 0.25, 0.7, 90.0, -60.0)
 	return _burst(0.1, 0.03, 0.5, 0.3)
 
 static func _file(stem: String) -> AudioStream:
