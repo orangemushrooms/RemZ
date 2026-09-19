@@ -168,7 +168,7 @@ static func _add_bar(parent: Node3D, a: Vector3, b: Vector3, width: float, mat: 
 	parent.add_child(mesh)
 
 func max_hp() -> float:
-	return level * 150.0
+	return level * 300.0
 
 func rebuild() -> void:
 	for child in visual.get_children():
@@ -324,7 +324,7 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 	return true
 
 func prompt_text() -> String:
-	return "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  Bauplanung [V]" % [slot["name"], "Bauplatz" if level == 0 else "Stufe %d · %d/%d" % [level, ceili(hp), int(max_hp())], half_len * 2.0]
+	return "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren%s" % [slot["name"], "Bauplatz" if level == 0 else "Stufe %d · %d/%d" % [level, ceili(hp), int(max_hp())], half_len * 2.0, "  ·  Leertaste: drüberklettern" if level > 0 else ""]
 
 func interact(player: Player) -> void:
 	# Scripted callers keep the original shortcut; the game opens the planner.

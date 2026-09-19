@@ -137,6 +137,15 @@ func _draw_symbols(c: Control) -> void:
 	_draw_compass(c)
 	if not is_instance_valid(player) or not is_instance_valid(world):
 		return
+	if "progression" in world and world.progression:
+		for id in world.progression.npcs:
+			if id == "secret" and not world.progression.local_data().discovered: continue
+			var npc_point := map_position(world.progression.npcs[id].global_position)
+			c.draw_circle(npc_point, 3.5, Color(0.94, 0.73, 0.37))
+			c.draw_string(_font, npc_point + Vector2(5, -3), str(Progression.NPCS[id].name), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1, 0.88, 0.65))
+		if world.progression.local_data().accepted.get("supplies", false) and not world.progression.team.cache:
+			var cache_point := map_position(Vector3(Progression.CACHE.x, 0, Progression.CACHE.y))
+			c.draw_circle(cache_point, 4, Color(0.9, 0.67, 0.16), false, 1.5)
 	if NetSession.enabled and NetSession.world:
 		for id in NetSession.world.actors:
 			if id == NetSession.local_id(): continue
@@ -144,6 +153,15 @@ func _draw_symbols(c: Control) -> void:
 			var point := map_position(teammate.global_position)
 			if MAP_RECT.has_point(point):
 				c.draw_circle(point, 4.0, Color(0.3, 0.8, 1.0) if teammate.alive else Color(1.0, 0.7, 0.2))
+	if "perimeter" in world and world.perimeter:
+		var ring: Perimeter = world.perimeter
+		for i in ring.points.size():
+			if ring.gate_edge[i]: continue
+			var wa := map_position(Vector3(ring.points[i].x, 0.0, ring.points[i].y))
+			var wb := map_position(Vector3(ring.points[(i + 1) % ring.points.size()].x, 0.0, ring.points[(i + 1) % ring.points.size()].y))
+			if MAP_RECT.has_point(wa) or MAP_RECT.has_point(wb):
+				c.draw_line(wa, wb, Color(0.02, 0.04, 0.03), 3.0, true)
+				c.draw_line(wa, wb, Color(0.86, 0.78, 0.6), 1.5, true)
 	for barricade in world.barricades:
 		var p := map_position(barricade.center)
 		if MAP_RECT.has_point(p):

@@ -15,7 +15,8 @@ editors; Claude generates assets and code. Reply in German (Swiss spelling, "ss"
   north-south on the east edge; "Wiese" is really south of the Weg zur Hütte; "Waldweg nach Hütte" comes from the
   north). Translate before touching positions.
 - Systems: waves (10 + 5 n zombies times the difficulty factor, boss wave every 5th with brutes, 27 m field
-  titans from wave 6 every third wave, `Waves.MAX_ACTIVE` 72), 4 barricade slots (E / planner V), 5 weapons with
+  titans from wave 6 every third wave, `Waves.MAX_ACTIVE` 72), a closed palisade ring (`perimeter.gd`) whose
+  only openings are the 4 barricade slots = gates (E / planner V; the player vaults a built gate with Space), 5 weapons with
   COD-style recoil + ADS, melee gun butt (Q), grenades (G), skill menu (Tab), inventory (B), 6 zombie types with
   several Meshy skins each (`Zombie.TYPES[..].skins`, picked at random per zombie, missing GLBs skipped), supply drops
   from kills (ammo / grenade / medkit, walk through), kill streaks (+10 % per kill from the 3rd within 4 s, score
@@ -34,7 +35,10 @@ photo bark, leaf-card crowns with fake sphere normals, MultiMesh per species and
 `foliage.gd` PBR materials, 3-way terrain blend shader (forest floor / meadow / gravel from vertex colour),
 ground leaves / grass multimeshes, falling leaves, campfire. `player.gd`, `weapons.gd`,
 `grenade.gd`, `zombie.gd`, `waves.gd`, `barricade.gd`, `skills.gd`, `deer.gd`, `ambience.gd`, `sfx.gd`, `music.gd`, `hud.gd`,
-`pickup.gd` (drops), `run_stats.gd` (statistics + high scores), `game_settings.gd` (profiles, difficulty, config).
+`pickup.gd` (drops), `run_stats.gd` (statistics + high scores), `game_settings.gd` (profiles, difficulty, config),
+`perimeter.gd` (palisade ring: `CORNERS` between the gate endpoints, log/rail MultiMeshes, collision boxes in the
+`navsource` group so the navmesh only connects outside and inside through the gates; `contains()`, `points`,
+`gate_edge`; `tools/plot_perimeter.py` overlays the ring on roads and terrain before touching a corner).
 Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scored in `main._zombie_killed`
 (difficulty multiplier, streak bonus, headshot x1.5); zombies only report through the `_on_kill` callback.
 
@@ -133,6 +137,10 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
 
 ## Testing
 - `godot --headless --path godot --quit-after 150` catches script errors.
+- Perimeter: `--suite=perimeter --smoke-test --no-intro --no-music` (headless, 17 checks: ring closed, roads only
+  through gates, navmesh paths from every lane enter through a gate, sealed gates keep zombies outside and get
+  attacked, a broken gate lets them in, Space vaults a built gate) and `--suite=perimeter_visual --no-intro` ->
+  `shots/perimeter_*.png`. `--no-perimeter` builds the world without the ring (isolation).
 - Horde checks: `Godot.exe --path godot --script res://tests/run.gd -- --suite=horde_visual --no-intro` (titan on the
   field, second skin, skin line, short titan walk -> `shots/horde_*.png`, prints HORDE_TITAN / HORDE_SKINS /
   HORDE_WALK) and `--suite=horde_bench --no-intro` (60 zombies: frozen / no shadows / anims paused / simulated FPS;

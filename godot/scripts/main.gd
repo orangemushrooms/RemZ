@@ -14,11 +14,13 @@ var forest_keys: ForestKeys
 var achievements: Achievements
 var barricade_menu: BarricadeMenu
 var defences: DefenceSystem
+var progression: Progression
 var ambience: Ambience
 var music: Music
 var intro: Intro
 var zombies_root: Node3D
 var barricades: Array = []
+var perimeter: Perimeter                  # palisade ring, its gates are the barricade slots
 var loots: Array = []
 var nav_region: NavigationRegion3D
 var fire_light: OmniLight3D
@@ -52,6 +54,7 @@ func _ready() -> void:
 	stats = RunStats.new()
 	add_child(stats)
 	Map._ensure()
+	Progression.clear_space()
 	_build_environment()
 	nav_region = NavigationRegion3D.new()
 	var nm := NavigationMesh.new()
@@ -110,6 +113,11 @@ func _ready() -> void:
 		b.setup(s, hud)
 		add_child(b)
 		barricades.append(b)
+	# the palisade ring closes every way to the campsite except the four gates; it is part of the navmesh bake
+	if not "--no-perimeter" in _flags:
+		perimeter = Perimeter.new()
+		add_child(perimeter)
+		perimeter.setup(barricades)
 	waves = Waves.new()
 	add_child(waves)
 	waves.setup(self, hud, player, weapons)
@@ -134,6 +142,9 @@ func _ready() -> void:
 	defences = DefenceSystem.new()
 	add_child(defences)
 	defences.setup(self)
+	progression = Progression.new()
+	add_child(progression)
+	progression.setup(self)
 	ambience = Ambience.new()
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
@@ -153,7 +164,7 @@ func _ready() -> void:
 	for sound in ["pistol", "revolver", "smg", "ak47", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "boom", "pickup"]:
 		Sfx.get_stream(sound)
 	Zombie.preload_models()
-	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Halte die Barrikaden, überlebe die Wellen, und trag dich in die Bestenliste ein.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
+	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Ein Palisadenring aus Rundholz schliesst Hütte, Holzlager und Feuerplatz ein; seine vier Tore sind die einzigen Zugänge. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
 	hud.overlay_button.disabled = true
 	hud.set_loading(true)
 	nav_region.bake_finished.connect(_navigation_baked)
@@ -1212,8 +1223,8 @@ func _waldhuette() -> Node3D:
 		for lx in [hx - 2.1, hx - 0.3]:
 			_box(root, Vector3(0.1, 0.85, 0.6), Vector3(lx, 0.42, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
 	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 1.2, 0.9, hz - 0.6), "", 0.3)
-	_loot(root, "weapon", "shotgun", "Schrotflinte", Vector3(hx - 0.35, 1.5, 0.5), "rifle", 0.25, PI / 2.0)
-	_loot(root, "weapon", "smg", "MP5", Vector3(-0.5, 1.4, -hz + 0.35), "smg", 0.22, 0.0)
+	_loot(root, "ammo", "", "Geborgene Vorräte", Vector3(hx - 0.35, 1.5, 0.5), "", 0.3)
+	_loot(root, "ammo", "", "Geborgene Vorräte", Vector3(-0.5, 1.4, -hz + 0.35), "", 0.3)
 	_loot(root, "ammo", "", "Munitionskiste", Vector3(-hx + 0.6, 0.0, hz - 0.5), "", 0.3)
 	var inner := OmniLight3D.new()
 	inner.light_color = Color(1.0, 0.8, 0.55)
@@ -1371,8 +1382,8 @@ func _holzlager() -> Node3D:
 		root.add_child(strut)
 	# inside: the good weapons on a rack, ammunition, firewood
 	_box(root, Vector3(2.6, 1.6, 0.08), Vector3(0, base_h + 1.4, hz - 0.2), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
-	_loot(root, "weapon", "ak47", "AK-47", Vector3(-0.7, base_h + 1.4, hz - 0.3), "ak47", 0.28, 0.0)
-	_loot(root, "weapon", "revolver", "Revolver", Vector3(0.7, base_h + 1.4, hz - 0.3), "revolver", 0.16, 0.0)
+	_loot(root, "ammo", "", "Geborgene Vorräte", Vector3(-0.7, base_h + 1.4, hz - 0.3), "", 0.3)
+	_loot(root, "ammo", "", "Geborgene Vorräte", Vector3(0.7, base_h + 1.4, hz - 0.3), "", 0.3)
 	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 0.9, base_h, -hz + 1.2), "", 0.3)
 	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 0.9, base_h, -hz + 2.2), "", 0.3)
 	for k in 3:
@@ -2118,6 +2129,7 @@ func _on_start() -> void:
 	started = true
 
 func _pause() -> void:
+	if progression and progression.is_open: progression.close()
 	if not started or over:
 		return
 	player.active = false
@@ -2182,7 +2194,15 @@ func _zombie_killed(zombie: Zombie) -> void:
 	var points := int(round(base * (1.0 + bonus) * (1.5 if zombie.last_headshot else 1.0)))
 	var scorer: Player = NetSession.world.actor(zombie.killer_peer) if NetSession.is_host() else player
 	if not is_instance_valid(scorer): scorer = player
+	if zombie.killer_weapon == "tower": points = maxi(1, roundi(points * 0.5))
 	scorer.add_score(points)
+	progression.event("kills")
+	if zombie.net_kind == "titan": progression.event("titans")
+	# Support players earn a modest shared contribution without multiplying the full bounty.
+	if NetSession.is_host():
+		for peer in NetSession.world.actors:
+			var ally: Player = NetSession.world.actor(peer)
+			if ally != scorer and ally.alive: ally.add_score(maxi(1, roundi(points * 0.25)))
 	stats.kill(zombie.last_headshot, points)
 	scorer.hud.score_popup(points, zombie.last_headshot)
 	if streak >= 3:
@@ -2245,8 +2265,12 @@ func _process(delta: float) -> void:
 				loot = l
 		var downed: int = NetSession.world.nearby_downed_player() if NetSession.enabled and NetSession.world else 0
 		var tower := defences.nearest(player)
-		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("[E] Geschützturm verwalten · [T] Neuen Turm setzen" if tower else (near.prompt_text() if near else "[T] Geschützturm setzen · 120 P"))))
-		if downed and Input.is_action_just_pressed("interact"):
+		var npc := progression.nearest(player)
+		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("[E] Turm ausrichten · [F] Reparieren · Ausbau bei Mira" if tower else (near.prompt_text() if near else "[T] Geschützturm setzen · 120 P"))))
+		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
+		if not npc.is_empty() and not downed and Input.is_action_just_pressed("interact"):
+			progression.interact(npc)
+		elif downed and Input.is_action_just_pressed("interact"):
 			NetSession.command("revive", [downed])
 		elif loot and Input.is_action_just_pressed("interact"):
 			var was_weapon: bool = loot is Loot and loot.kind == "weapon" and not weapons.unlocked.get(loot.id, false)
@@ -2259,9 +2283,10 @@ func _process(delta: float) -> void:
 					achievements.event("weapons")
 			hud.set_prompt("")
 		elif tower and Input.is_action_just_pressed("interact"):
-			defences.open(tower)
+			defences.begin_rotation(tower)
 		elif near and Input.is_action_just_pressed("interact"):
-			barricade_menu.open(near)
+			if NetSession.enabled: NetSession.command("repair" if near.level > 0 and near.hp < near.max_hp() else "build", [barricades.find(near)])
+			else: near.purchase(player, "repair" if near.level > 0 and near.hp < near.max_hp() else "build")
 	if _autotest and started:
 		_autotest_step(delta)
 

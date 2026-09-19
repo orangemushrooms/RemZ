@@ -6,6 +6,7 @@ signal died
 
 const WALK_SPEED := 4.4
 const SPRINT_SPEED := 7.2
+const VAULT_SPEED := 9.4              # clears a 1.55 m barricade with 0.6 m to spare at gravity 20
 const EYE := 1.7
 const SENS := 0.0022
 
@@ -98,7 +99,8 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= _gravity * delta
 	elif Input.is_key_pressed(KEY_SPACE):
-		velocity.y = 6.5
+		# a built gate barricade right in front: climb over it (zombies cannot)
+		velocity.y = VAULT_SPEED if _barricade_ahead() else 6.5
 	else:
 		velocity.y = -1.0
 	move_and_slide()
@@ -154,6 +156,15 @@ func _regenerate(delta: float) -> void:
 		hud.set_health(hp)
 
 # from: world position of the attacker (Vector3.INF = unknown) for the HUD direction indicator
+func _barricade_ahead() -> bool:
+	var fwd := -transform.basis.z
+	fwd.y = 0.0
+	if fwd.length_squared() < 0.01:
+		return false
+	var from := global_position + Vector3.UP * 0.9
+	var q := PhysicsRayQueryParameters3D.create(from, from + fwd.normalized() * 1.5, 8)
+	return not get_world_3d().direct_space_state.intersect_ray(q).is_empty()
+
 func damage(n: float, from: Vector3 = Vector3.INF) -> void:
 	if NetSession.is_client():
 		return

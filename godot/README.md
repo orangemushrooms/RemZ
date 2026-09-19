@@ -18,16 +18,16 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | Shift | Sprinten |
 | Linke / rechte Maustaste | Schießen / zielen |
 | R | Nachladen |
-| 1–5 | Freigeschaltete Waffe wählen |
+| 1–9 / Mausrad | Gekaufte Waffe wählen |
 | G | Granate |
 | Q | Nahkampf: Kolbenschlag mit Rückstoss, auch beim Nachladen |
 | Enter | Wartezeit überspringen, nächste Welle sofort starten |
-| E | Nahe Barrikade verwalten / Gegenstand aufnehmen / Tür öffnen und schliessen |
-| V | Barrikaden-Bauplanung mit Vorschau aller vier Zugänge |
-| T | Geschützturm platzieren; E bestätigt, T/Escape bricht ab |
+| E | NPC ansprechen / Barrikade bauen oder reparieren / Turm ausrichten / Gegenstand oder Tür |
+| V | Verteidigungsberatung bei Mira |
+| T | Turmvorschau; R/Mausrad dreht, E bestätigt, T/Escape bricht ab |
 | B | Inventar |
-| F | Taschenlampe |
-| Tab | Fähigkeiten und Waffen kaufen |
+| F | Am Turm reparieren, sonst Taschenlampe |
+| Tab | Auftragsanzeige ein-/ausblenden |
 | Escape | Pause / fortsetzen |
 | F11 | Vollbild umschalten |
 
@@ -35,7 +35,9 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 
 Beide Hände folgen der jeweiligen Waffe beim Zielen, Rückstoß und Nachladen. Die Minimap unten rechts bildet die tatsächlichen Kartendaten ab. Norden bleibt auf der Karte oben; der Spielerpfeil und die Windrose reagieren auf die Blickrichtung. Rote Punkte zeigen Gegner. Sperrlinien sind rot (ungebaut), grün (gebaut) oder gelb (stark beschädigt).
 
-Die Barrikaden-Bauplanung pausiert das Spiel und zeigt den gewählten Zugang aus einer Übersichtskamera. Rot markiert die komplette geplante Linie samt Modellen und Geländeumriss. **Ein Klick baut beide zusammenhängenden Segmente für insgesamt 50 Punkte**. Jede weitere Stufe kostet 50 Punkte, erhöht die Haltbarkeit um 150 TP und repariert die Linie; maximal sind 450 TP möglich. Eine separate vollständige Reparatur kostet 25 Punkte. Material und Kollision folgen dem Gelände, die Segmente überlappen leicht an den Verbindungen. Bauaktionen sind bis 6 m Abstand von jedem Teil der Linie möglich; Spieler oder Gegner in der Baufläche verhindern den Neubau ohne Punkteabzug. Im Menü wählen 1–4 den Zugang, R repariert, V/Escape kehrt zurück. Entfernte Bauplätze lassen sich ansehen, aber nicht aus der Ferne bebauen.
+**E an einer Barrikade** baut die ganze Linie für 50 Punkte, verstärkt eine intakte Linie oder repariert eine beschädigte für 25 Punkte. Jede Stufe bringt 300 Strukturpunkte, bis zu 900. Material und Kollision folgen dem Gelände. Bauaktionen sind bis 6 m Abstand möglich; belegte Flächen verhindern den Neubau ohne Punkteabzug. Beratung und Turmausbau gibt es bei Mira.
+
+**Händler und Aufträge:** Reto verkauft Waffen am Lagerfeuer, Mira bietet Training und Verteidigung, ein versteckter Händler im Wald führt seltene Waffen. Fünf Aufträge, neun Waffen und drei Lackierungen sind an verdiente Punkte und erreichte Ziele gebunden. Handel findet ausschliesslich beim NPC statt. Steuerung, Preise und Spielregeln: [Fortschritt und Händler](../docs/FORTSCHRITT.md).
 
 Die Hände verwenden modellierte Handschuhe mit Fingerskelett und Normalmaps. Die Ärmel stammen aus einer Meshy-Generierung mit 4K-PBR-Materialien und werden an die Griffpositionen jeder Waffe angepasst. Waffen und Arme werden separat in voller Fensterauflösung mit Kantenglättung gerendert, unabhängig von der 3D-Skalierung der Karte. Quellen und Lizenzhinweise: `assets/viewmodel/SOURCES.md` und `assets/viewmodel/VALVE-LICENSE.txt`.
 
@@ -45,7 +47,9 @@ Die Rückstoßabstimmung wurde nach dem Spieltest verstärkt: 60–100 % mehr Gr
 
 ## Verteidigung und Titanen
 
-Barrikaden binden anrückende Zombies bis zum Durchbruch; verstärkte Linien absorbieren mehr Schaden. Mit **T** lassen sich automatische Geschütztürme für 120 Punkte setzen, maximal sechs pro Team. **E** am Turm öffnet Ausbauen, Reparieren und Abbauen. Sie brauchen freie Sicht, überhitzen bei Dauerfeuer und können zerstört werden.
+**Palisadenring.** Ein 270 m langer Ring aus zugespitzten Rundhölzern umschliesst Feuerplatz, Waldhütte, Holzlager und den Weg hinunter bis zur Gabelung. Er ist Teil des Wegnetzes: Zombies können ihn weder überklettern noch umgehen, die einzigen Öffnungen sind die vier Tore (Waldweg Nord, Weg zur Hütte, Wiesentor, Weg Richtung Dorf), in denen die Sperrlinien gebaut werden. Ein Zombie läuft deshalb immer auf ein Tor zu und schlägt dort auf die Sperre ein (300 Punkte Struktur pro Ausbaustufe, verstärkte Stufen dämpfen den Schaden zusätzlich); erst ein durchbrochenes Tor lässt die Horde hinein. Der Spieler klettert mit der Leertaste über eine gebaute Sperre, um Vorräte vor dem Tor einzusammeln. Die Minimap zeichnet den Ring und die Tore. Prüfung: `--script res://tests/run.gd -- --suite=perimeter --smoke-test --no-intro --no-music`.
+
+Barrikaden binden anrückende Zombies bis zum Durchbruch. Mit **T** lassen sich automatische Geschütztürme für 120 Punkte setzen, maximal sechs pro Team. **R/Mausrad** dreht die Vorschau, **E** bestätigt. Am Turm richtet **E** ihn neu aus, **F** repariert. Ausbau und Abbau verwaltet Mira. Türme decken einen 160°-Sektor ab, brauchen freie Sicht, überhitzen bei Dauerfeuer und können zerstört werden.
 
 Ab **Welle 6**, danach alle drei Wellen, kommen rund 27 m grosse Feldtitanen. Ihre orange markierten Flächenangriffe kündigen sich 2,4 Sekunden vorher an. Ab Welle 12 kommen zwei, ab Welle 24 höchstens drei Titanen in diesen Wellen. Alle Systeme unterstützen den Koop. Einzelheiten: [Verteidigungsanleitung](../docs/VERTEIDIGUNG.md).
 
