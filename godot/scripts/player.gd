@@ -48,7 +48,7 @@ func _ready() -> void:
 	camera = Camera3D.new()
 	camera.fov = 75.0
 	camera.near = 0.05
-	camera.far = 300.0
+	camera.far = 600.0
 	head.add_child(camera)
 	camera.make_current()
 	flashlight = SpotLight3D.new()
@@ -139,14 +139,14 @@ func add_score(n: int) -> void:
 func _footsteps(delta: float, moving: bool, sprint: bool) -> void:
 	var on_floor := is_on_floor()
 	if on_floor and not _was_on_floor:
-		Sfx.play(self, _surface_step(), -10.0, 0.8)
+		Sfx.footstep(self, _surface_step(), -8.0, 0.8)
 	_was_on_floor = on_floor
 	if moving and on_floor:
 		_step_t -= delta * (1.0 if not sprint else 1.35) * speed_mul
 		if _step_t <= 0.0:
 			_step_t = 0.48
 			_step_side = -_step_side
-			Sfx.play(self, _surface_step(), -14.0 if not sprint else -11.0, 1.0 + 0.05 * _step_side)
+			Sfx.footstep(self, _surface_step(), -13.0 if not sprint else -10.0, 1.0 + 0.05 * _step_side)
 	else:
 		_step_t = minf(_step_t, 0.12)
 	if alive and hp < max_hp * 0.35:
@@ -158,10 +158,23 @@ func _footsteps(delta: float, moving: bool, sprint: bool) -> void:
 				if is_instance_valid(self):
 					Sfx.play(self, "heartbeat", -10.0, 1.15))
 
+# "hard" (asphalt, concrete), "gravel" (tracks and the fire plaza), "grass" (meadow), "leaves" (forest floor)
+# or "wood" (the hut's upper floor). Asphalt has no cover weight at all in ground.png.
 func _surface_step() -> String:
-	var c := Map.cover(global_position.x, global_position.z)
+	var x := global_position.x
+	var z := global_position.z
+	if Map.in_building(x, z):
+		# the Waldhuette's upper room has a plank floor 2.65 m above the garage slab; everything else is concrete
+		var hut: Dictionary = Map.BUILDINGS["waldhuette"]
+		var hp: Vector2 = hut["pos"]
+		if Vector2(x, z).distance_to(hp) < 7.0 and global_position.y > Map.ground_height(hp.x - 4.5, hp.y) + 1.5:
+			return "wood"
+		return "hard"
+	var c := Map.cover(x, z)
+	if c.r < 0.3 and c.g < 0.3 and c.b < 0.3:
+		return "hard"
 	if c.b > 0.5:
-		return "step_gravel"
+		return "gravel"
 	if c.g > 0.5:
-		return "step_grass"
-	return "step_leaves"
+		return "grass"
+	return "leaves"

@@ -20,6 +20,7 @@ const DEFS := {
 				  "pos": Vector3(0.22, -0.24, -0.6), "ads": Vector3(0.0, -0.15, -0.45), "kick_pitch": 8.0, "kick_yaw": 2.0, "kick_back": 0.19, "recover": 4.5 },
 }
 const ORDER := ["pistol", "revolver", "smg", "ak47", "shotgun"]
+const HIT_RAY_LENGTH := 600.0   # longer than the map diagonal
 
 var player: Player
 var hud: Hud
@@ -227,7 +228,9 @@ func try_fire() -> void:
 	var any_hit := false
 	for i in int(d["pellets"]):
 		var dir: Vector3 = (base + Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * spread).normalized()
-		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * float(d["range"]), 1 | 2 | 8)
+		# the ray crosses the whole map: enemies are hit at any distance, "range" only starts a gentle damage
+		# falloff (full damage inside it, 55 % at three times the range)
+		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * HIT_RAY_LENGTH, 1 | 2 | 8)
 		q.exclude = [player.get_rid()]
 		var hit := space.intersect_ray(q)
 		if hit and hit.collider is Breakable:
@@ -238,7 +241,9 @@ func try_fire() -> void:
 			var headshot: bool = hit.position.y > z.global_position.y + z.height * 0.78
 			z.last_headshot = headshot
 			z.killer_weapon = current
-			z.damage(float(d["damage"]) * damage_mul * (2.2 if headshot else 1.0), dir)
+			var dist := origin.distance_to(hit.position)
+			var falloff := 1.0 - 0.45 * clampf((dist - float(d["range"])) / (2.0 * float(d["range"])), 0.0, 1.0)
+			z.damage(float(d["damage"]) * damage_mul * falloff * (2.2 if headshot else 1.0), dir)
 			_blood(hit.position, dir)
 			hud.hitmarker(headshot)
 			any_hit = true

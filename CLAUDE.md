@@ -117,6 +117,10 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   `--quality=0..2` override the saved settings. Test runs (`--autotest`, `--smoke-test`, `--views`, `--shot-ui`)
   never write the high-score table. After regenerating `ground.png` run `Godot.exe --headless --path godot
   --import`, otherwise the game keeps the old texture. Godot.exe lives on the Desktop.
+- `tests/range_steps.gd` (headless, `-- --smoke-test --no-intro --no-music`) checks long-range hits and the
+  per-surface footsteps (`Sfx.footstep`: low-pass bus per surface + procedural texture layer; asphalt has zero
+  cover weight in `ground.png`, so "all channels < 0.3" means hard ground) and dumps the step textures to
+  `artifacts/footsteps/*.wav`. Weapon `range` is only the start of a 55 % damage falloff; the hit ray is 600 m.
 - Other agents (a Codex/VS Code session, earlier a second Claude session) edit this working tree concurrently:
   check `git status` and mtimes before editing, patch instead of overwrite, stage only your own files.
 - Pitfalls learned: SDFGI leaks through leaf cards and burns them white (keep it off, use SSIL). Flat road
