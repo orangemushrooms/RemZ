@@ -54,6 +54,18 @@ var _blood_pool: Array[GPUParticles3D] = []
 var _blood_next := 0
 var _melee_t := 0.0
 var _melee_anim := 0.0
+var server_proxy := false
+var network_apply := false
+
+func setup_proxy(p: Player, h: Hud, zr: Node3D) -> void:
+	server_proxy = true
+	player = p
+	hud = h
+	camera = p.camera
+	zombies_root = zr
+	for id in DEFS:
+		state[id] = {"def": DEFS[id], "ammo": DEFS[id].mag, "reserve": DEFS[id].reserve, "cooldown": 0.0, "reloading": 0.0}
+	_grenade_scene = load("res://assets/models/grenade.glb")
 
 func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	player = p
@@ -140,6 +152,12 @@ func set_weapon(id: String) -> void:
 	if not unlocked.get(id, false):
 		hud.message("%s im Skillmenü (Tab) freischalten" % DEFS[id]["name"], 1.4)
 		return
+	if server_proxy:
+		cur().reloading = 0.0
+		current = id
+		return
+	if NetSession.is_client() and not network_apply and id != current:
+		NetSession.command("weapon", [id])
 	if current == id and cur()["node"].visible:
 		return
 	cur()["reloading"] = 0.0
@@ -186,7 +204,10 @@ func reload() -> void:
 	if s["reloading"] > 0.0 or s["ammo"] == s["def"]["mag"] or s["reserve"] <= 0:
 		return
 	s["reloading"] = float(s["def"]["reload"]) * reload_mul
-	Sfx.play(self, "reload", -8.0)
+	if NetSession.is_client() and not network_apply:
+		NetSession.command("reload")
+	if not server_proxy:
+		Sfx.play(self, "reload", -8.0)
 
 func try_fire() -> void:
 	if not player.active or not player.alive:
@@ -203,8 +224,9 @@ func try_fire() -> void:
 	s["ammo"] -= 1
 	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"])
 	recoil = 1.0
-	Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)))
-	effects.fire(current, muzzle_transform(), player.velocity)
+	if not server_proxy:
+		Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)))
+		effects.fire(current, muzzle_transform(), player.velocity)
 	# recoil climbs while holding the trigger, drifts sideways, less when aiming
 	_shots_in_burst += 1
 	_burst_t = 0.25
@@ -213,10 +235,17 @@ func try_fire() -> void:
 	var impulse := Vector3(deg_to_rad(float(d["kick_pitch"]) * 2.2 + 1.0), deg_to_rad(1.0 if _shots_in_burst % 2 == 0 else -1.0), float(d["kick_back"]) * 0.90) * aim_f
 	_model_kick += impulse * 0.25
 	_model_velocity += impulse * (22.0 + float(d["recover"])) * 1.7
-	(s["hands"] as ViewmodelHands).shot_impulse(0.6 + float(d["kick_pitch"]) * 0.16)
+	if not server_proxy:
+		(s["hands"] as ViewmodelHands).shot_impulse(0.6 + float(d["kick_pitch"]) * 0.16)
 	kick_pitch += float(d["kick_pitch"]) * climb * aim_f * randf_range(0.85, 1.15)
 	kick_yaw += float(d["kick_yaw"]) * aim_f * randf_range(-1.0, 1.0) * (1.0 if _shots_in_burst % 2 == 0 else -0.6)
 	player.wobble = maxf(player.wobble, 0.35)
+	if NetSession.is_client():
+		NetSession.command("fire", [current, ads, camera.global_rotation.y, camera.global_rotation.x])
+		update_hud()
+		return
+	if NetSession.enabled:
+		NetSession.weapon_fired(player.peer_id, current)
 	var origin := camera.global_position
 	var base := -camera.global_transform.basis.z
 	var space := get_world_3d().direct_space_state
@@ -241,6 +270,7 @@ func try_fire() -> void:
 			var headshot: bool = hit.position.y > z.global_position.y + z.height * 0.78
 			z.last_headshot = headshot
 			z.killer_weapon = current
+			z.killer_peer = player.peer_id
 			var dist := origin.distance_to(hit.position)
 			var falloff := 1.0 - 0.45 * clampf((dist - float(d["range"])) / (2.0 * float(d["range"])), 0.0, 1.0)
 			z.damage(float(d["damage"]) * damage_mul * falloff * (2.2 if headshot else 1.0), dir)
@@ -261,6 +291,9 @@ func melee() -> void:
 	_melee_anim = 1.0
 	player.wobble = maxf(player.wobble, 0.3)
 	Sfx.play(self, "melee", -8.0, randf_range(0.9, 1.1))
+	if NetSession.is_client():
+		NetSession.command("melee", [camera.global_rotation.y, camera.global_rotation.x])
+		return
 	var origin := camera.global_position
 	var forward := -camera.global_transform.basis.z
 	var space := get_world_3d().direct_space_state
@@ -275,6 +308,7 @@ func melee() -> void:
 			var z: Zombie = hit.collider
 			z.last_headshot = false
 			z.killer_weapon = "melee"
+			z.killer_peer = player.peer_id
 			z.damage(45.0 * damage_mul, forward)
 			z.shove(forward * 4.5)
 			_blood(hit.position, forward)
@@ -291,6 +325,9 @@ func throw_grenade() -> void:
 		return
 	grenades -= 1
 	update_hud()
+	if NetSession.is_client():
+		NetSession.command("grenade", [camera.global_rotation.y, camera.global_rotation.x])
+		return
 	if "stats" in get_tree().current_scene and get_tree().current_scene.stats:
 		get_tree().current_scene.stats.grenades_thrown += 1
 	var g := Grenade.new()
@@ -300,6 +337,8 @@ func throw_grenade() -> void:
 	g.global_position = camera.global_position + dir * 0.6 + Vector3(0.2, -0.1, 0)
 	g.linear_velocity = dir * 15.0 + Vector3(0, 4.0, 0) + player.velocity
 	g.angular_velocity = Vector3(randf_range(-6, 6), randf_range(-6, 6), randf_range(-6, 6))
+	if NetSession.enabled:
+		NetSession.track_grenade(g)
 	player.wobble = maxf(player.wobble, 0.2)
 
 var _mist_pool: Array[GPUParticles3D] = []
@@ -308,6 +347,10 @@ var _decal_next := 0
 var _splat_tex: ImageTexture
 
 func _blood(pos: Vector3, dir: Vector3) -> void:
+	if server_proxy:
+		get_tree().current_scene.weapons._blood(pos, dir)
+		return
+	if NetSession.is_host(): NetSession.blood(pos, dir)
 	var p := _blood_pool[_blood_next]
 	var m := _mist_pool[_blood_next]
 	_blood_next = (_blood_next + 1) % _blood_pool.size()
@@ -448,10 +491,26 @@ func _prepare_blood_pool() -> void:
 
 
 func _process(delta: float) -> void:
+	if server_proxy:
+		if player.active and player.alive:
+			_tick_ammo(delta)
+		return
 	if not player or not player.active:
+		if player and NetSession.enabled and player.alive:
+			_tick_ammo(delta)
 		return
 	effects.advance(delta, player.velocity)
 	_step_model_recoil(delta)
+	_tick_ammo(delta)
+	var s := cur()
+	var d: Dictionary = s["def"]
+	hud.set_reload(s["reloading"], float(d["reload"]) * reload_mul)
+	_handle_weapon_input(delta)
+
+func _tick_ammo(delta: float) -> void:
+	_burst_t -= delta
+	if _burst_t <= 0.0: _shots_in_burst = 0
+	_melee_t = maxf(0.0, _melee_t - delta)
 	for weapon_state: Dictionary in state.values():
 		weapon_state["cooldown"] = maxf(-delta, weapon_state["cooldown"] - delta)
 	var s := cur()
@@ -465,7 +524,9 @@ func _process(delta: float) -> void:
 			s["reserve"] -= take
 			s["reloading"] = 0.0
 			update_hud()
-	hud.set_reload(s["reloading"], float(d["reload"]) * reload_mul)
+func _handle_weapon_input(delta: float) -> void:
+	var s := cur()
+	var d: Dictionary = s["def"]
 	if d["auto"]:
 		if Input.is_action_pressed("fire"):
 			try_fire()
@@ -477,7 +538,6 @@ func _process(delta: float) -> void:
 		throw_grenade()
 	if Input.is_action_just_pressed("melee"):
 		melee()
-	_melee_t = maxf(0.0, _melee_t - delta)
 	_melee_anim = maxf(0.0, _melee_anim - delta * 3.2)
 	for i in ORDER.size():
 		if Input.is_action_just_pressed("weapon_%d" % (i + 1)):
@@ -491,9 +551,6 @@ func _process(delta: float) -> void:
 				break
 	s = cur()
 	d = s["def"]
-	_burst_t -= delta
-	if _burst_t <= 0.0:
-		_shots_in_burst = 0
 	# aim down sights
 	var want_ads := 1.0 if Input.is_action_pressed("aim") and s["reloading"] <= 0.0 else 0.0
 	ads = lerpf(ads, want_ads, minf(1.0, delta * 10.0))

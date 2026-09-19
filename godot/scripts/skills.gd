@@ -118,6 +118,9 @@ func _refresh() -> void:
 			r["btn"].disabled = player.score < _cost(u)
 
 func _buy(id: String) -> void:
+	if NetSession.enabled:
+		NetSession.command("upgrade", [id])
+		return
 	var u: Dictionary = rows[id]["def"]
 	if levels[id] >= int(u["max"]) or player.score < _cost(u):
 		return
@@ -163,7 +166,7 @@ func open() -> void:
 	_refresh()
 	panel.visible = true
 	player.active = false
-	get_tree().paused = true
+	get_tree().paused = not NetSession.enabled
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func close() -> void:

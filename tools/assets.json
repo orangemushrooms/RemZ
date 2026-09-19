@@ -246,5 +246,25 @@
  "workbench": {
   "prompt": "game asset, old garage workbench: heavy wooden top on a plank frame, a bench vice at one end, a few scattered tools and a shelf underneath, single object, no ground",
   "texture_prompt": "oily dark wood, scratched grey steel vice, rusty tools, realistic PBR"
+ },
+ "tractor": {
+  "prompt": "game asset, classic Swiss farm tractor, green body with white wheel rims, open cab with a small roof frame, large rear wheels, single vehicle, no ground",
+  "texture_prompt": "faded green paint with scratches and mud, black rubber tyres, dull metal, realistic PBR"
+ },
+ "silage_bales": {
+  "prompt": "game asset, row of four round hay bales wrapped in white plastic film lying on their sides next to each other, farm silage bales, single object, no ground",
+  "texture_prompt": "white stretch plastic film with slight dirt and green stains, realistic PBR"
+ },
+ "car_estate": {
+  "prompt": "game asset, modern grey compact estate car, parked, closed doors, single vehicle, no ground",
+  "texture_prompt": "metallic grey paint, dark glass, black tyres, realistic PBR"
+ },
+ "fence_post_wire": {
+  "prompt": "game asset, single weathered wooden pasture fence post, square cross section, slightly leaning, with two rusty steel wire strands attached by insulators on one side, Swiss farm fence, single object, no ground",
+  "texture_prompt": "grey weathered wood with cracks, rusty wire, white plastic insulators, realistic PBR"
+ },
+ "deer_feeder": {
+  "prompt": "game asset, small wooden forest hunting feeder: a roofed wooden rack for hay on four posts with a low pitched shingle roof, Swiss forest, single object, no ground",
+  "texture_prompt": "weathered grey-brown wood, moss on the shingles, realistic PBR"
  }
 }

@@ -38,12 +38,21 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
 
 ## Map (`godot/assets/map/`, generated, committed)
 - `tools/geo_fetch.py` downloads swissALTI3D 0.5 m tiles (STAC), OSM (Overpass) and a swissimage WMTS mosaic
-  into `input/geo/` (gitignored, ~40 MB). `tools/build_map.py` turns them into `heightmap.f32` (float32 LE,
+  into `input/geo/` (gitignored, ~40 MB); `tools/geo_fetch_wide.py` adds `aerial_wide.jpg` (x -480..300,
+  z -300..430, 10 cm) covering Sennhof, the north edge of Remetschwil and the hamlet in the west. swissimage is
+  the same imagery Google Maps shows for Switzerland, so it is the 1:1 reference for the village. `tools/build_map.py` turns them into `heightmap.f32` (float32 LE,
   1 m grid, rows = z south, cols = x east, metres relative to the fire, 659 m a.s.l.), `ground.png`
   (R forest floor, G meadow, B gravel), `map.json` (extent, roads as polylines with surface/width, hut boxes,
   campsite objects, fence lines, spawns per lane, barricade slots, 3300 tree positions with species from the
   aerial colour, shrubs) plus `tools/out/map_preview.png` and `tools/out/terrain_viewer.html` (three.js) for
-  checking. All hand-tuned layout numbers live at the top of `build_map.py`; rerun it after changes.
+  checking. All hand-tuned layout numbers live at the top of `build_map.py`; rerun it after changes. Both
+  aerials are resampled to exactly 10 px per metre before the 1 m block statistics (until 19 Sep the main aerial
+  was squeezed to 9 px blocks, which shifted every aerial-derived feature by up to 40 m to the south-east).
+  With the wide aerial the border trees follow the real crowns (closed forest, single trees around the farms,
+  nothing on the fields) and every village footprint carries `roof` (median sRGB from the aerial), `ridge`
+  ("long" / "short" / "flat" from the brightness step between the two slopes) and `dark_frac` (solar panels);
+  `village_buildings.gd` picks tile vs. slate, ridge axis and flat roofs from that. Farm-yard props (silage
+  bales, tractor, two cars) are placed by `main._village_props` at aerial positions.
 - Coordinates: x east, z south, origin = OSM picnic node 427671292 (fire is at (7, -7) after the photo analysis).
   Godot yaw = -deg_to_rad(yaw_deg) of the JSON (python rotation convention is mirrored).
 - Layout facts from the photos (re-checked 19 Sep 2026 against all 25 photos and the aerial): Waldhütte =
@@ -87,6 +96,11 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   `python tools/retexture.py <name> "<prompt>" <suffix>` re-textures an existing model (used to strip the
   gibberish lettering Meshy paints on crates and bins: ask for "no text, no letters"). Windows: set
   `PYTHONIOENCODING=utf-8 PYTHONUTF8=1` or the progress bar crashes.
+- The Waldhütte's cladding and leaf sprites come from `tools/gen_hut_textures.py`: `ph_boards_*` (horizontal
+  red-brown tongue-and-groove boards, 9 per metre, sRGB matched to photo 14) and `leaf_beech/oak.png` (1024 px
+  twig clusters with veined leaves, a few yellowing). The hut roof is dark corrugated fibre cement
+  (`ph_corrugated`, grey tint), not clay tiles. The leaf shader adds per-tree hue/value variation (hash of the
+  crown centre), a September `autumn` yellowing on some trees and `BACKLIGHT` translucency.
 - Props are Meshy models placed through `main._prop(parent, name, size, axis)`: it turns the model's longest
   horizontal extent onto local +x, scales by length (`axis` "x") or height ("y"), puts the bottom on the ground,
   applies `PROP_YAW` / `PROP_TINT` and returns null when the GLB is missing so every call site keeps its old

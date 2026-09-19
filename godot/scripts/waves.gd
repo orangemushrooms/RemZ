@@ -34,11 +34,13 @@ func _difficulty(key: String) -> float:
 # size of wave n without touching the random generator (shown during the intermission)
 func preview_count(n: int) -> int:
 	var count := int(round((6 + n * 3) * _difficulty("count")))
+	if NetSession.enabled: count = roundi(count * (1.0 + 0.55 * (NetSession.roster.size()-1)))
 	return count + (2 + n / 5 if n % 5 == 0 else 0)
 
 func plan(n: int) -> Array:
 	var q: Array = []
 	var count := int(round((6 + n * 3) * _difficulty("count")))
+	if NetSession.enabled: count = roundi(count * (1.0 + 0.55 * (NetSession.roster.size()-1)))
 	boss_wave = n % 5 == 0
 	if boss_wave:
 		for k in 2 + n / 5:
@@ -70,6 +72,8 @@ func plan(n: int) -> Array:
 	return q
 
 func start(n: int) -> void:
+	if NetSession.is_client(): return
+	if NetSession.is_host(): NetSession.world.wave_started(n)
 	wave = n
 	wave_started.emit(n)
 	# the fallen of the last round stay until the next wave begins, then sink into the forest floor
@@ -95,7 +99,9 @@ func start(n: int) -> void:
 		hud.message("Welle 3\nSchrotflinte freigeschaltet (Taste 5)", 3.5)
 
 func _process(delta: float) -> void:
-	if not player or not player.active or not player.alive:
+	if NetSession.is_client() or (NetSession.enabled and (not main.started or main.over)):
+		return
+	if not player or (not NetSession.enabled and (not player.active or not player.alive)):
 		return
 	if phase == "intro":
 		# the opening walk: no countdown, wave 1 is released when the Weg zur Hütte is reached
@@ -137,5 +143,6 @@ Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELL
 			var bonus := 40 + wave * 10
 			player.add_score(bonus)
 			weapons.refill_all()
+			if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
 			hud.message("Welle %d überstanden\n+%d Punkte, Munition aufgefüllt\nBaue Barrikaden mit E" % [wave, bonus], 4.0)
 			Sfx.play(self, "menu", -6.0)

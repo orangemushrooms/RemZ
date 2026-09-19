@@ -188,6 +188,7 @@ func _navigation_baked() -> void:
 	hud.overlay_button.disabled = false
 	hud.overlay_status.text = "Bereit."
 	hud.set_loading(false)
+	NetSession.attach(self)
 	if _autotest or "--benchmark" in _flags or "--intro-test" in _flags:
 		_on_start()
 	for f in _flags:
@@ -339,8 +340,8 @@ func _build_environment() -> void:
 	env.volumetric_fog_anisotropy = 0.5
 	env.volumetric_fog_ambient_inject = 0.2
 	env.adjustment_enabled = true
-	env.adjustment_saturation = 1.15
-	env.adjustment_contrast = 1.05
+	env.adjustment_saturation = 1.04
+	env.adjustment_contrast = 1.08
 	AlpineAtmosphere.apply(env)
 	var we := WorldEnvironment.new()
 	we.environment = env
@@ -448,6 +449,24 @@ func _build_skirt(ext: Rect2) -> void:
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(mi)
 	add_child(preload("res://scripts/village_buildings.gd").new().build())
+	_village_props()
+
+# Farm yard details that the aerial shows around Sennhof (all outside the playable bounds, decoration only):
+# a row of wrapped silage bales east of the big barn, a tractor in the yard between the barns, a car on the
+# Parkplatz Sennhof beside the big hall and one parked along the village street.
+func _village_props() -> void:
+	var root := Node3D.new()
+	root.name = "VillageProps"
+	add_child(root)
+	for spec in [["silage_bales", 4.8, Vector2(247.0, 280.0), PI / 2.0], ["tractor", 3.7, Vector2(223.0, 296.0), 0.3],
+			["car_estate", 4.4, Vector2(149.0, 250.5), 0.15], ["car_estate", 4.4, Vector2(186.0, 291.0), PI / 2.0 + 0.05]]:
+		var holder := Node3D.new()
+		root.add_child(holder)
+		holder.position = Map.ground_pos(spec[2].x, spec[2].y) - Vector3(0, 0.25, 0)
+		var n := _prop(holder, spec[0], spec[1], "x", Vector3.ZERO, spec[3])
+		if n:
+			for mi in n.find_children("*", "MeshInstance3D", true, false):
+				(mi as MeshInstance3D).add_to_group("render_backdrop")
 
 # road ribbon along a polyline
 func _road_mesh(pts: Array, width: float, lift: float, mat: Material, fade: bool = true) -> void:
@@ -502,7 +521,10 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material, fade: bool
 	add_child(mi)
 
 func _build_roads() -> void:
-	var asphalt := Foliage.pbr("ph_asphalt", 1.0, Color(0.9, 0.9, 0.9))
+	var asphalt := Foliage.pbr("ph_asphalt", 1.0, Color(0.58, 0.58, 0.56))
+	asphalt.roughness_texture = null
+	asphalt.roughness = 0.97
+	asphalt.metallic_specular = 0.2
 	var gravel := Foliage.pbr("ph_gravel", 1.0, Color(0.6, 0.57, 0.52))   # same tint as the terrain gravel
 	var dirt := Foliage.pbr("ph_gravel", 1.0, Color(0.5, 0.45, 0.38))
 	for m in [asphalt, gravel, dirt]:
@@ -604,7 +626,7 @@ const PROP_YAW := {
 }
 
 # albedo tint per model: Meshy renders weathered wood almost white, the site photos show grey-brown
-const PROP_TINT := { "log_fountain": Color(0.95, 0.93, 0.9), "fallen_log": Color(0.82, 0.8, 0.74), "log_bench_beam": Color(0.92, 0.9, 0.87) }
+const PROP_TINT := { "log_fountain": Color(0.95, 0.93, 0.9), "fallen_log": Color(0.82, 0.8, 0.74), "log_bench_beam": Color(0.92, 0.9, 0.87), "fence_post_wire": Color(0.62, 0.58, 0.5), "deer_feeder": Color(0.8, 0.76, 0.68) }
 
 func _prop(parent: Node3D, name: String, size: float, axis: String, local_pos: Vector3 = Vector3.ZERO, yaw: float = 0.0) -> Node3D:
 	var scene := _scene(name)
@@ -692,6 +714,9 @@ func _mat(tex: String, scale: float, tint: Color = Color.WHITE, triplanar: bool 
 	m.uv1_triplanar = triplanar
 	m.uv1_scale = Vector3.ONE * scale
 	return m
+
+func _tex_or_null(short: String) -> Texture2D:
+	return Foliage._tex(Foliage.TEX + short + ".jpg")
 
 func _plain(color: Color, rough: float = 0.8, metal: float = 0.0) -> StandardMaterial3D:
 	var m := StandardMaterial3D.new()
@@ -1151,14 +1176,16 @@ func _waldhuette() -> Node3D:
 	var y0 := Map.ground_height(west.x, west.y) - 0.15
 	root.position = Vector3(pos.x, y0, pos.y)
 	var concrete := _mat("ph_concrete", 0.45, Color(0.95, 0.95, 0.92))
-	var wood := _mat("ph_cladding", 0.55, Color(0.5, 0.36, 0.3))
+	# horizontal tongue-and-groove boards, red-brown paint (tools/gen_hut_textures.py), 1 m tile = 9 boards
+	var wood := _mat("ph_boards", 1.0, Color(1.0, 1.0, 1.0))
+	wood.roughness_texture = _tex_or_null("ph_boards_rough")
 	var dark_wood := _plain(Color(0.28, 0.14, 0.09), 0.75)
-	var roof := Foliage.pbr("roof", 0.55, Color(0.56, 0.52, 0.47))   # mossy grey-brown clay tiles (photo 19)
-	roof.uv1_triplanar = true
-	# old tiles are matte: without this the slope mirrors the sky at grazing angles and reads as a light slab
+	# dark grey corrugated fibre-cement sheets with a slight sheen (photos 14, 17)
+	var roof := _mat("ph_corrugated", 0.6, Color(0.5, 0.51, 0.53))
 	roof.roughness_texture = null
-	roof.roughness = 1.0
-	roof.metallic_specular = 0.12
+	roof.roughness = 0.88
+	roof.metallic = 0.04
+	roof.metallic_specular = 0.25
 	var hx := size.x / 2.0
 	var hz := size.y / 2.0
 	# garage storey: concrete walls with the garage door in the west face (north end), enterable (photos 14, 17)
@@ -1586,6 +1613,24 @@ func _signpost(x: float, z: float) -> void:
 		_box(root, Vector3(0.6, 0.5, 0.05), Vector3(1.0, 1.4, 0.3), Foliage.pbr("planks", 0.8, Color(0.6, 0.5, 0.4)))
 		_box(root, Vector3(0.08, 1.2, 0.08), Vector3(1.0, 0.6, 0.3), post)
 
+# guidepost at the junction Sennhofstrasse / Weg zur Hütte (photo 8), on the verge north of the track
+func _junction_guidepost() -> void:
+	var root := Node3D.new()
+	add_child(root)
+	root.position = Map.ground_pos(121.5, 18.5)
+	var pm := MeshInstance3D.new()
+	var pc := CylinderMesh.new()
+	pc.top_radius = 0.06; pc.bottom_radius = 0.07; pc.height = 2.5; pc.radial_segments = 10
+	pm.mesh = pc
+	pm.material_override = _plain(Color(0.35, 0.3, 0.25), 0.8)
+	pm.position.y = 1.25
+	root.add_child(pm)
+	# arrows: yaw 0 = -z = north
+	_sign_arrow(root, "Waldhütte Remetschwil", 2.15, PI / 2.0 + 0.35)   # west-south-west along the Weg zur Hütte
+	_sign_arrow(root, "Oberrohrdorf", 1.9, -0.2)                        # north along the Sennhofstrasse
+	_sign_arrow(root, "Remetschwil", 1.65, PI - 0.15)                    # south along the Sennhofstrasse
+	_box_collider(root, Vector3(0.3, 2.5, 0.3))
+
 # yellow arrow plate on the post at height y, pointing along -z rotated by yaw, black text on both faces
 func _sign_arrow(root: Node3D, text: String, y: float, yaw: float) -> void:
 	var arm := Node3D.new()
@@ -1829,6 +1874,7 @@ func _campsite_seating() -> void:
 	else:
 		_bin_boxes(bin)
 	_signpost(Map.SIGNPOST.x, Map.SIGNPOST.y)
+	_junction_guidepost()
 	var seat := Node3D.new()
 	add_child(seat)
 	seat.position = Map.ground_pos(Map.LOG_SEAT.x, Map.LOG_SEAT.y) + Vector3(0, 0.3, 0)
@@ -1916,10 +1962,16 @@ func _build_fence() -> void:
 			var len := a.distance_to(b)
 			var n := maxi(1, int(len / 3.5))
 			var dir := (b - a) / n
+			var yaw := atan2(-dir.y, dir.x)
 			for k in n + (1 if i == line.size() - 2 else 0):
 				var p := a + dir * k
 				var pp := Map.ground_pos(p.x, p.y)
-				_box(root, Vector3(0.09, 1.25, 0.09), pp + Vector3(0, 0.55, 0), post_mat)
+				# Meshy post (weathered square post with insulators) with the box as fallback
+				var holder := Node3D.new()
+				root.add_child(holder)
+				holder.position = pp - Vector3(0, 0.05, 0)
+				if not _prop(holder, "fence_post_wire", 1.3, "y", Vector3.ZERO, yaw + rng.randf_range(-0.15, 0.15)):
+					_box(root, Vector3(0.09, 1.25, 0.09), pp + Vector3(0, 0.55, 0), post_mat)
 			for k in n:
 				var p0 := Map.ground_pos((a + dir * k).x, (a + dir * k).y)
 				var p1 := Map.ground_pos((a + dir * (k + 1)).x, (a + dir * (k + 1)).y)
@@ -1968,6 +2020,12 @@ func _build_clutter() -> void:
 		if not Map.is_clear_zone(x, z) and Map.leaf_weight(x, z) > 0.5:
 			if not _place_real(["boulder_01", "tree_stump_01", "dead_tree_trunk_02"][i % 3], x, z, 0.8 + rng.randf() * 0.5, 0.8):
 				_place(["rock", "stump", "stump"][i % 3], x, z, 0.6, -1.0, 1.0, 0.6)
+	# hunting feeder beside the Waldweg nach Hütte (east verge, in the beech stand)
+	var feeder := Node3D.new()
+	add_child(feeder)
+	feeder.position = Map.ground_pos(-26.0, -63.0)
+	if _prop(feeder, "deer_feeder", 2.3, "y", Vector3.ZERO, 0.9):
+		_box_collider(feeder, Vector3(2.0, 2.3, 1.4))
 	# mushrooms over the forest floor near the camp
 	for i in 160:
 		var x: float = rng.randf_range(-80.0, 60.0)
@@ -2026,6 +2084,13 @@ func _build_foliage() -> void:
 func _on_start() -> void:
 	if not navigation_ready:
 		return
+	if NetSession.enabled and not NetSession._applying:
+		if NetSession.phase == "over":
+			NetSession.restart()
+			return
+		if not started:
+			NetSession.start_game()
+			return
 	if over:
 		get_tree().paused = false
 		get_tree().reload_current_scene()
@@ -2035,7 +2100,7 @@ func _on_start() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	player.active = true
 	if not started:
-		var skip_intro := "--no-intro" in _flags or _autotest or "--benchmark" in _flags or "--smoke-test" in _flags
+		var skip_intro := NetSession.enabled or "--no-intro" in _flags or _autotest or "--benchmark" in _flags or "--smoke-test" in _flags
 		for f in _flags:
 			if f.begins_with("--view=") or f.begins_with("--views=") or f == "--shot-ui":
 				skip_intro = true
@@ -2053,14 +2118,20 @@ func _pause() -> void:
 		return
 	player.active = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	get_tree().paused = true
-	hud.show_overlay("PAUSE", "Verschnaufpause. Die Zombies warten, die Uhr steht.", "Weiter", "", "pause")
+	get_tree().paused = not NetSession.enabled
+	hud.show_overlay("MENÜ" if NetSession.enabled else "PAUSE", "Koop läuft weiter. Dein Spieler bleibt in der Welt." if NetSession.enabled else "Verschnaufpause. Die Zombies warten, die Uhr steht.", "Weiter", "", "pause")
 
 func _to_main_menu() -> void:
+	if NetSession.enabled:
+		NetSession.leave()
+		return
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 
 func _game_over() -> void:
+	if NetSession.enabled:
+		if NetSession.world: NetSession.world.check_team()
+		return
 	over = true
 	player.active = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -2072,6 +2143,7 @@ func _game_over() -> void:
 	hud.show_run_summary(stats, player.score, waves.completed, rank, str(difficulty["name"]))
 
 func spawn_zombie(type: String, p: Vector2, speed_mul: float) -> void:
+	if NetSession.is_client(): return
 	var z := Zombie.new()
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	z.hp *= float(difficulty["hp"])
@@ -2094,9 +2166,11 @@ func _zombie_killed(zombie: Zombie) -> void:
 	var streak := stats.streak() + 1
 	var bonus := clampf((streak - 2) * 0.1, 0.0, 1.0)
 	var points := int(round(base * (1.0 + bonus) * (1.5 if zombie.last_headshot else 1.0)))
-	player.add_score(points)
+	var scorer: Player = NetSession.world.actor(zombie.killer_peer) if NetSession.is_host() else player
+	if not is_instance_valid(scorer): scorer = player
+	scorer.add_score(points)
 	stats.kill(zombie.last_headshot, points)
-	hud.score_popup(points, zombie.last_headshot)
+	scorer.hud.score_popup(points, zombie.last_headshot)
 	if streak >= 3:
 		hud.streak(streak, int(round(bonus * 100.0)))
 		if streak == 3 or streak % 5 == 0:
@@ -2113,7 +2187,7 @@ var _shadow_cells_t := 0.0
 
 func _process(delta: float) -> void:
 	var t := Time.get_ticks_msec() / 1000.0
-	if started and not over and player and player.active and not get_tree().paused:
+	if started and not over and player and (player.active or NetSession.is_host()) and not get_tree().paused and not NetSession.is_client():
 		stats.tick(delta)
 	_shadow_cells_t -= delta
 	if _shadow_cells_t <= 0.0 and player:
@@ -2155,8 +2229,11 @@ func _process(delta: float) -> void:
 					continue
 				ld = d
 				loot = l
-		hud.set_prompt(loot.prompt_text() if loot else (near.prompt_text() if near else ""))
-		if loot and Input.is_action_just_pressed("interact"):
+		var downed: int = NetSession.world.nearby_downed_player() if NetSession.enabled and NetSession.world else 0
+		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else (near.prompt_text() if near else "")))
+		if downed and Input.is_action_just_pressed("interact"):
+			NetSession.command("revive", [downed])
+		elif loot and Input.is_action_just_pressed("interact"):
 			var was_weapon: bool = loot is Loot and loot.kind == "weapon" and not weapons.unlocked.get(loot.id, false)
 			if loot is Door:
 				if loot.take(weapons, hud) and loot.is_open and achievements:

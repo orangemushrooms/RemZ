@@ -34,6 +34,11 @@ var _on_kill: Callable
 var damage_mul := 1.0           # difficulty
 var last_headshot := false      # set by weapons before damage(), read by the kill statistics
 var killer_weapon := ""          # weapon id of the fatal shot ("" = grenade / other)
+var killer_peer := 1
+var net_kind := "shambler"
+var replica := false
+var net_position := Vector3.ZERO
+var net_yaw := 0.0
 var _materials: Array[BaseMaterial3D] = []
 static var _scenes := {}
 
@@ -46,6 +51,7 @@ static func preload_models() -> void:
 			_scenes[path] = load(path) if ResourceLoader.exists(path) else null
 
 func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: Callable) -> void:
+	net_kind = type_name
 	type = TYPES[type_name]
 	player = p
 	barricades = bars
@@ -72,7 +78,7 @@ func _ready() -> void:
 	agent.height = height
 	agent.path_desired_distance = 0.8
 	agent.target_desired_distance = 1.0
-	agent.avoidance_enabled = true
+	agent.avoidance_enabled = not replica
 	agent.neighbor_distance = 6.0
 	agent.max_neighbors = 6
 	agent.max_speed = float(type["speed"]) * speed_mul
@@ -127,6 +133,7 @@ func play(name: String) -> void:
 		anim.play(name, 0.15)
 
 func damage(n: float, dir: Vector3) -> void:
+	if replica or NetSession.is_client(): return
 	if not alive:
 		return
 	hp -= n
@@ -175,7 +182,7 @@ func die(dir: Vector3) -> void:
 	if _on_kill.is_valid():
 		_on_kill.call(self)   # main scores the kill (difficulty, streak) and keeps the statistics
 	global_position += Vector3(dir.x, 0.0, dir.z).normalized() * 0.3
-	_drop_loot()
+	if not replica: _drop_loot()
 	# blood pool decal on the ground, grows while the body bleeds out
 	var scene := get_tree().current_scene
 	if "weapons" in scene and scene.weapons and scene.weapons._splat_tex:
@@ -192,8 +199,20 @@ func die(dir: Vector3) -> void:
 func _physics_process(delta: float) -> void:
 	if _flash_t > 0.0:
 		_flash_t -= delta
-		if _flash_t <= 0.0:
-			_set_emission(false)
+		if _flash_t <= 0.0: _set_emission(false)
+	if replica:
+		global_position = global_position.lerp(net_position, 1.0-exp(-delta*16.0))
+		rotation.y = lerp_angle(rotation.y, net_yaw, 1.0-exp(-delta*16.0))
+		if not alive and is_instance_valid(_pool):
+			dead_t += delta
+			var growth := clampf(dead_t / 9.0, 0.0, 1.0)
+			var size := 0.4 + 1.5 * (1.0 - pow(1.0 - growth, 2.0))
+			_pool.size = Vector3(size, 0.5, size * 0.85)
+			_pool.modulate.a = minf(1.0, 0.3 + growth)
+		return
+	if NetSession.enabled:
+		var target_player := NetSession.nearest_player(global_position)
+		if target_player: player = target_player
 	if not alive:
 		dead_t += delta
 		if _pool:
@@ -210,7 +229,7 @@ func _physics_process(delta: float) -> void:
 					_pool.queue_free()
 				queue_free()
 		return
-	if not player or not player.active:
+	if not player or not player.alive or (not player.active and not NetSession.enabled):
 		return
 	# skinned shadow casters are expensive: only the zombies within 35 m of the player throw shadows
 	_shadow_t -= delta
@@ -314,7 +333,7 @@ func _physics_process(delta: float) -> void:
 		Sfx.play_at(get_parent(), "growl", global_position, -5.0)
 
 func _on_velocity_computed(safe: Vector3) -> void:
-	if not alive or not player or not player.active or get_tree().paused:
+	if replica or not alive or not player or (not player.active and not NetSession.enabled) or get_tree().paused:
 		return
 	velocity.x = safe.x
 	velocity.z = safe.z

@@ -51,12 +51,14 @@ var _reward: Label
 var _badge: Label
 var _showing := false
 var _wave_damage := false
+var persist := true
 
 func setup(p: Player, w: Weapons, h: Hud, m: Node) -> void:
 	player = p
 	weapons = w
 	hud = h
 	main = m
+	persist = not ("--smoke-test" in OS.get_cmdline_user_args() or "--autotest" in OS.get_cmdline_user_args())
 	_load()
 
 func _ready() -> void:
@@ -112,12 +114,14 @@ func _load() -> void:
 				unlocked[k] = true
 
 func _save() -> void:
+	if not persist: return
 	var f := FileAccess.open(SAVE, FileAccess.WRITE)
 	if f:
 		f.store_string(JSON.stringify({ "unlocked": unlocked.keys() }))
 
 # report progress: event("kills"), event("waves", 3), ...
 func event(name: String, amount: int = 1, absolute: bool = false) -> void:
+	if NetSession.is_client(): return
 	counters[name] = amount if absolute else counters.get(name, 0) + amount
 	for d in DEFS:
 		if d["counter"] == name and counters[name] >= d["target"] and not session_unlocked.has(d["id"]):
@@ -147,6 +151,17 @@ func _unlock(d: Dictionary) -> void:
 		weapons.refill_all()
 		parts.append("Munition voll")
 	weapons.update_hud()
+	if NetSession.is_host():
+		for id in NetSession.world.actors:
+			if id == 1: continue
+			var p: Player = NetSession.world.actor(id)
+			var w: Weapons = NetSession.world.weapons[id]
+			p.add_score(int(r.get("score", 0)))
+			w.grenades += int(r.get("grenades", 0))
+			p.max_hp += float(r.get("hp", 0))
+			p.hp = minf(p.hp + float(r.get("hp", 0)), p.max_hp)
+			if r.has("ammo"): w.refill_all()
+			NetSession.feedback(id, "message", ["Teamerfolg: " + str(d.title), 3.5])
 	_queue.append([d, ", ".join(parts), fresh])
 	if not _showing:
 		_next()
@@ -180,9 +195,15 @@ func _next() -> void:
 	hold.tween_callback(func(): _toast.visible = false; _next())
 
 func _process(_delta: float) -> void:
-	if not player or not player.active:
+	if NetSession.is_host() and NetSession.world:
+		for teammate: Player in NetSession.world.actors.values():
+			if teammate.alive: _explore(teammate.global_position)
 		return
-	var p := player.global_position
+	if not player or not player.active or NetSession.is_client():
+		return
+	_explore(player.global_position)
+
+func _explore(p: Vector3) -> void:
 	if not counters.has("oak") and Vector2(p.x, p.z).distance_to(Map.LANDMARK_OAK) < 9.0:
 		event("oak")
 	if not counters.has("road") and p.x > 100.0:

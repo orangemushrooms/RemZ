@@ -39,6 +39,7 @@ var overlay_logo: TextureRect
 var overlay_mode := "start"
 var loading_bar: ProgressBar
 var fps_label: Label
+var team_label: Label
 var reload_bar: ProgressBar
 var reload_label: Label
 var minimap: Minimap
@@ -83,6 +84,11 @@ func _ready() -> void:
 	fps_label = _label("", 13)
 	fps_label.position = Vector2(16, 16)
 	root.add_child(fps_label)
+	team_label = _label("", 15)
+	team_label.position = Vector2(16, 42)
+	team_label.add_theme_constant_override("outline_size", 4)
+	team_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
+	root.add_child(team_label)
 
 	# low-health vignette (radial gradient, red rim) and the flat damage flash on top
 	vignette = TextureRect.new()
@@ -313,7 +319,7 @@ func _build_overlay() -> void:
 	loading_bar.visible = false
 	v.add_child(loading_bar)
 	v.add_child(_spacer(4))
-	for tab in [["briefing", "Briefing"], ["difficulty", "Schwierigkeit"], ["controls", "Steuerung"], ["settings", "Einstellungen"], ["records", "Bestenliste"], ["achievements", "Erfolge"]]:
+	for tab in [["briefing", "Briefing"], ["multiplayer", "Mehrspieler / Hamachi"], ["difficulty", "Schwierigkeit"], ["controls", "Steuerung"], ["settings", "Einstellungen"], ["records", "Bestenliste"], ["achievements", "Erfolge"]]:
 		var b := _menu_button(tab[1], false)
 		var id: String = tab[0]
 		b.pressed.connect(func(): Sfx.play(self, "click", -8.0); show_tab(id))
@@ -348,7 +354,7 @@ func _build_overlay() -> void:
 	var host := VBoxContainer.new()
 	host.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	scroll.add_child(host)
-	for id in ["briefing", "difficulty", "controls", "settings", "records", "achievements", "summary"]:
+	for id in ["briefing", "multiplayer", "difficulty", "controls", "settings", "records", "achievements", "summary"]:
 		var box := VBoxContainer.new()
 		box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		box.add_theme_constant_override("separation", 10)
@@ -357,6 +363,9 @@ func _build_overlay() -> void:
 		_tabs[id] = box
 	_build_briefing(_tabs["briefing"])
 	_build_controls(_tabs["controls"])
+	var coop_menu = preload("res://scripts/coop_menu.gd").new()
+	_tabs["multiplayer"].add_child(coop_menu)
+	coop_menu.setup(self)
 	settings_box = _tabs["settings"]
 	settings_box.add_child(_label("Änderungen werden sofort übernommen und gespeichert.", 12, MUTED))
 	_records_box = _tabs["records"]
@@ -480,7 +489,7 @@ func show_tab(id: String) -> void:
 		return
 	for k in _tabs:
 		_tabs[k].visible = k == id
-	var titles := { "briefing": "BRIEFING", "difficulty": "SCHWIERIGKEIT", "controls": "STEUERUNG", "settings": "EINSTELLUNGEN", "records": "BESTENLISTE", "achievements": "ERFOLGE", "summary": "BILANZ DER RUNDE" }
+	var titles := { "briefing": "BRIEFING", "multiplayer": "MEHRSPIELER / HAMACHI", "difficulty": "SCHWIERIGKEIT", "controls": "STEUERUNG", "settings": "EINSTELLUNGEN", "records": "BESTENLISTE", "achievements": "ERFOLGE", "summary": "BILANZ DER RUNDE" }
 	_tab_title.text = titles.get(id, id.to_upper())
 	for k in _tab_buttons:
 		var b: Button = _tab_buttons[k]
@@ -580,6 +589,7 @@ func show_overlay(title: String, text: String, button: String, status: String = 
 	overlay_title.text = title
 	overlay_text.text = text
 	overlay_button.text = button
+	overlay_button.disabled = _loading
 	overlay_status.text = status
 	overlay_logo.visible = mode == "start"
 	_home_button.visible = mode != "start"
@@ -693,6 +703,13 @@ func _process(delta: float) -> void:
 	_stats_time += delta
 	_stats_frames += 1
 	if _stats_time >= 0.5:
+		team_label.visible = NetSession.enabled and NetSession.phase == "running"
+		if team_label.visible and NetSession.world:
+			var teammates: Array[String] = []
+			for id in NetSession.roster:
+				var p: Player = NetSession.world.actor(id)
+				if p: teammates.append("%s%s  ·  %s" % [NetSession.roster[id], " (du)" if id == NetSession.local_id() else "", "%d LP" % ceili(p.hp) if p.alive else "am Boden"])
+			team_label.text = "\n".join(teammates)
 		fps_label.text = "%d FPS · %.1f ms" % [roundi(_stats_frames / _stats_time), _stats_time * 1000.0 / _stats_frames]
 		_stats_time = 0.0
 		_stats_frames = 0

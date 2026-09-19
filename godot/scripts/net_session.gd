@@ -1,0 +1,474 @@
+extends Node
+
+signal changed
+
+const PORT := 24567
+const MAX_PLAYERS := 4
+const PROTOCOL := 1
+const BUILD := "remz-coop-20260919-1"
+const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
+var enabled := false
+var phase := "offline"
+var status := "Koop über LAN oder Hamachi · bis zu 4 Spieler"
+var player_name := "Spieler"
+var address := ""
+var port := PORT
+var roster: Dictionary = {}
+var ready_peers: Dictionary = {}
+var game: Node3D
+var world
+var epoch := 0
+var _elapsed := 0.0
+var _snapshot_t := 0.0
+var _pose_t := 0.0
+var _connect_t := 0.0
+var _hello_t := 0.0
+var _fingerprint := ""
+var _sequence := 0
+var _received_sequence := -1
+var _command_seq := 0
+var _commands: Dictionary = {}
+var _rates: Dictionary = {}
+var _applying := false
+var _message_after_load := ""
+var _snapshot_parts: Dictionary = {}
+var _cli_used := false
+var _auto_start := 0
+
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	multiplayer.peer_connected.connect(_peer_connected)
+	multiplayer.peer_disconnected.connect(_peer_disconnected)
+	multiplayer.connected_to_server.connect(_connected)
+	multiplayer.connection_failed.connect(func(): leave("Verbindung fehlgeschlagen. Hamachi-IP, Netzwerk und UDP-Port prüfen."))
+	multiplayer.server_disconnected.connect(func(): leave("Der Host hat die Verbindung beendet."))
+	var context := HashingContext.new()
+	context.start(HashingContext.HASH_SHA256)
+	context.update(BUILD.to_utf8_buffer())
+	for file in ["map.json", "heightmap.f32"]:
+		context.update(FileAccess.get_file_as_bytes("res://assets/map/" + file))
+	_fingerprint = context.finish().hex_encode()
+
+func is_host() -> bool:
+	return enabled and multiplayer.is_server()
+
+func is_client() -> bool:
+	return enabled and not multiplayer.is_server()
+
+func local_id() -> int:
+	return multiplayer.get_unique_id() if enabled else 1
+
+func attach(node: Node3D) -> void:
+	game = node
+	world = preload("res://scripts/coop_world.gd").new()
+	world.setup(game)
+	game.player.peer_id = local_id()
+	if enabled:
+		if is_host():
+			ready_peers[1] = true
+			world.add_player(1)
+			for id in roster:
+				if id != 1:
+					world.add_player(id)
+			_send_lobby()
+		else:
+			world.make_client()
+			_level_ready.rpc_id(1, epoch)
+	if not _message_after_load.is_empty():
+		status = _message_after_load
+		_message_after_load = ""
+		game.hud.show_tab("multiplayer")
+	changed.emit()
+	if not _cli_used:
+		_cli_used = true
+		_command_line()
+
+# Optional shortcuts for LAN launchers; the same lobby is available in the menu.
+func _command_line() -> void:
+	var requested_host := false
+	var requested_ip := ""
+	var requested_name := "Spieler"
+	var requested_port := PORT
+	for arg in OS.get_cmdline_user_args():
+		if arg == "--host": requested_host = true
+		elif arg.begins_with("--join="): requested_ip = arg.trim_prefix("--join=")
+		elif arg.begins_with("--name="): requested_name = arg.trim_prefix("--name=")
+		elif arg.begins_with("--port="): requested_port = int(arg.trim_prefix("--port="))
+		elif arg.begins_with("--coop-auto-start="): _auto_start = clampi(int(arg.trim_prefix("--coop-auto-start=")), 1, 4)
+	if requested_host: host(requested_name, requested_port)
+	elif not requested_ip.is_empty(): join(requested_ip, requested_name, requested_port)
+	if requested_host or not requested_ip.is_empty(): game.hud.show_tab("multiplayer")
+
+func host(display_name: String, requested_port: int = PORT) -> Error:
+	if enabled or not is_instance_valid(game) or not game.navigation_ready or game.started:
+		return ERR_BUSY
+	if requested_port < 1024 or requested_port > 65535:
+		status = "Port muss zwischen 1024 und 65535 liegen."
+		changed.emit()
+		return ERR_INVALID_PARAMETER
+	var peer := ENetMultiplayerPeer.new()
+	var error := peer.create_server(requested_port, MAX_PLAYERS - 1, 3)
+	if error != OK:
+		status = "Host konnte nicht gestartet werden. Ist der UDP-Port bereits belegt?"
+		changed.emit()
+		return error
+	multiplayer.multiplayer_peer = peer
+	enabled = true
+	phase = "lobby"
+	epoch += 1
+	port = requested_port
+	player_name = clean_name(display_name)
+	roster = {1: player_name}
+	ready_peers = {1: true}
+	game.player.peer_id = 1
+	world.add_player(1)
+	status = "Host bereit · Hamachi-IP an die Mitspieler weitergeben · UDP %d" % port
+	print("COOP_HOST_READY port=", port)
+	changed.emit()
+	return OK
+
+func join(ip: String, display_name: String, requested_port: int = PORT) -> Error:
+	if enabled or not is_instance_valid(game) or not game.navigation_ready or game.started:
+		return ERR_BUSY
+	ip = ip.strip_edges()
+	if not ip.is_valid_ip_address() or requested_port < 1024 or requested_port > 65535:
+		status = "Gültige Hamachi-/LAN-IP und einen Port zwischen 1024 und 65535 eingeben."
+		changed.emit()
+		return ERR_INVALID_PARAMETER
+	var peer := ENetMultiplayerPeer.new()
+	var error := peer.create_client(ip, requested_port, 3)
+	if error != OK:
+		status = "Verbindung konnte nicht geöffnet werden."
+		changed.emit()
+		return error
+	multiplayer.multiplayer_peer = peer
+	enabled = true
+	phase = "connecting"
+	_command_seq = 0
+	_received_sequence = -1
+	_snapshot_parts.clear()
+	address = ip
+	port = requested_port
+	player_name = clean_name(display_name)
+	_connect_t = 15.0
+	status = "Verbinde mit %s:%d …" % [ip, port]
+	changed.emit()
+	return OK
+
+static func clean_name(value: String) -> String:
+	value = value.strip_edges().replace("\n", " ").replace("\r", " ").replace("\t", " ").left(24)
+	return "Spieler" if value.is_empty() else value
+
+func _connected() -> void:
+	_hello_t = 0.0
+	_connect_t = 12.0
+	_hello.rpc_id(1, PROTOCOL, _fingerprint, player_name)
+
+func _peer_connected(id: int) -> void:
+	if is_host():
+		_rates[id] = {"deadline": _elapsed + 12.0, "tokens": 80.0, "time": _elapsed}
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _hello(version: int, fingerprint: String, display_name: String) -> void:
+	if not is_host(): return
+	var id := multiplayer.get_remote_sender_id()
+	if roster.has(id): return
+	if not world or not is_instance_valid(game) or not game.navigation_ready:
+		_rejected.rpc_id(id, "Der Host lädt gerade die Karte. Bitte gleich noch einmal beitreten.")
+		return
+	if version != PROTOCOL or fingerprint != _fingerprint:
+		_rejected.rpc_id(id, "Andere Spielversion/Karte. Bitte dieselbe Windows-Version verwenden.")
+		return
+	if roster.size() >= MAX_PLAYERS:
+		_rejected.rpc_id(id, "Diese Sitzung ist voll (4/4 Spieler).")
+		return
+	roster[id] = clean_name(display_name)
+	print("COOP_PEER_ACCEPTED count=", roster.size())
+	ready_peers[id] = false
+	_rates[id].deadline = _elapsed + 30.0
+	world.add_player(id)
+	_welcome.rpc_id(id, epoch, roster, phase, game.settings.difficulty)
+	_send_lobby()
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _rejected(reason: String) -> void:
+	leave(reason)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _welcome(session_epoch: int, players: Dictionary, session_phase: String, difficulty_index: int) -> void:
+	epoch = session_epoch
+	roster = players
+	phase = session_phase
+	_connect_t = 0.0
+	_received_sequence = -1
+	_snapshot_parts.clear()
+	game.player.peer_id = local_id()
+	game.difficulty = GameSettings.DIFFICULTIES[clampi(difficulty_index, 0, GameSettings.DIFFICULTIES.size()-1)]
+	world.make_client()
+	for id in roster:
+		world.add_player(id)
+	_level_ready.rpc_id(1, epoch)
+	status = "Verbunden · warte auf den Host" if phase == "lobby" else "Spielstand wird geladen …"
+	print("COOP_CONNECTED players=", roster.size())
+	changed.emit()
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _level_ready(session_epoch: int) -> void:
+	var id := multiplayer.get_remote_sender_id()
+	if not is_host() or epoch != session_epoch or not roster.has(id) or not is_instance_valid(game) or not game.navigation_ready:
+		return
+	ready_peers[id] = true
+	_world_state.rpc_id(id, epoch, _sequence, world.snapshot(), true)
+	if phase == "running":
+		_begin.rpc_id(id, epoch)
+	_send_lobby()
+
+func _send_lobby() -> void:
+	if not is_host(): return
+	_lobby.rpc(epoch, roster, ready_peers, phase)
+	changed.emit()
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _lobby(session_epoch: int, players: Dictionary, ready: Dictionary, session_phase: String) -> void:
+	if session_epoch != epoch: return
+	roster = players
+	ready_peers = ready
+	phase = session_phase
+	if world:
+		world.sync_roster()
+	changed.emit()
+
+func start_game() -> void:
+	if not is_host() or phase != "lobby" or not game.navigation_ready: return
+	for id in roster:
+		if not ready_peers.get(id, false):
+			status = "Ein Spieler lädt noch."
+			changed.emit()
+			return
+	phase = "running"
+	for id in roster:
+		world.actor(id).active = true
+		world.actor(id).regen_mul = float(game.difficulty.regen)
+		if id != 1: _world_state.rpc_id(id, epoch, _sequence, world.snapshot(), true)
+	_begin.rpc(epoch)
+	_begin(epoch)
+	_send_lobby()
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _begin(session_epoch: int) -> void:
+	if epoch != session_epoch: return
+	phase = "running"
+	_applying = true
+	game._on_start()
+	_applying = false
+	status = "Koop · %d/4 Spieler" % roster.size()
+	changed.emit()
+	print("COOP_RUNNING players=", roster.size())
+
+func _peer_disconnected(id: int) -> void:
+	if not enabled: return
+	roster.erase(id)
+	ready_peers.erase(id)
+	_commands.erase(id)
+	_rates.erase(id)
+	if world: world.remove_player(id)
+	if is_host():
+		_send_lobby()
+		if world: world.check_team()
+	changed.emit()
+
+func leave(reason := "Sitzung verlassen.") -> void:
+	if not enabled:
+		status = reason
+		changed.emit()
+		return
+	enabled = false
+	phase = "offline"
+	_auto_start = 0
+	_command_seq = 0
+	_connect_t = 0.0
+	if multiplayer.multiplayer_peer:
+		multiplayer.multiplayer_peer.close()
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	roster.clear()
+	ready_peers.clear()
+	_commands.clear()
+	_rates.clear()
+	_snapshot_parts.clear()
+	world = null
+	game = null
+	_message_after_load = reason
+	get_tree().paused = false
+	get_tree().call_deferred("reload_current_scene")
+
+func restart() -> void:
+	if not is_host() or phase != "over": return
+	epoch += 1
+	_reload.rpc(epoch)
+	_reload(epoch)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _reload(session_epoch: int) -> void:
+	epoch = session_epoch
+	phase = "lobby"
+	ready_peers.clear()
+	_command_seq = 0
+	for id in _rates: _rates[id].deadline = _elapsed + 120.0
+	_commands.clear()
+	_received_sequence = -1
+	_snapshot_parts.clear()
+	world = null
+	game = null
+	get_tree().paused = false
+	get_tree().call_deferred("reload_current_scene")
+
+func command(operation: String, args: Array = []) -> void:
+	if not enabled or phase != "running": return
+	if is_host():
+		world.action(1, operation, args)
+	else:
+		_command_seq += 1
+		_action.rpc_id(1, epoch, _command_seq, operation, args)
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _action(session_epoch: int, sequence: int, operation: String, args: Array) -> void:
+	var id := multiplayer.get_remote_sender_id()
+	if not _accept(id, session_epoch) or phase != "running" or args.size() > 8 or operation.length() > 24: return
+	if sequence <= int(_commands.get(id, -1)): return
+	_commands[id] = sequence
+	world.action(id, operation, args)
+
+func _accept(id: int, session_epoch: int) -> bool:
+	if not is_host() or epoch != session_epoch or not ready_peers.get(id, false) or not world: return false
+	var budget: Dictionary = _rates.get(id, {})
+	if budget.is_empty(): return false
+	budget.tokens = minf(80.0, budget.tokens + (_elapsed - float(budget.time)) * 100.0)
+	budget.time = _elapsed
+	if budget.tokens < 1.0: return false
+	budget.tokens -= 1.0
+	return true
+
+@rpc("any_peer", "call_remote", "unreliable_ordered", 1)
+func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3) -> void:
+	var id := multiplayer.get_remote_sender_id()
+	if not _accept(id, session_epoch) or phase != "running": return
+	if not position.is_finite() or not motion.is_finite() or not is_finite(yaw) or not is_finite(pitch): return
+	world.move_player(id, position, yaw, pitch, light, motion, _elapsed)
+
+@rpc("authority", "call_remote", "unreliable", 2)
+func _snapshot_part(session_epoch: int, sequence: int, part: int, count: int, raw_size: int, bytes: PackedByteArray) -> void:
+	if epoch != session_epoch or sequence <= _received_sequence or not world: return
+	if count < 1 or count > 64 or part < 0 or part >= count or raw_size < 1 or raw_size > 524288 or bytes.size() > SNAPSHOT_CHUNK: return
+	if not _snapshot_parts.has(sequence):
+		_snapshot_parts[sequence] = {"count": count, "size": raw_size, "parts": {}}
+	var pending: Dictionary = _snapshot_parts[sequence]
+	if pending.count != count or pending.size != raw_size: return
+	pending.parts[part] = bytes
+	for old in _snapshot_parts.keys():
+		if old < sequence - 2: _snapshot_parts.erase(old)
+	if pending.parts.size() != count: return
+	var packed := PackedByteArray()
+	for i in count: packed.append_array(pending.parts[i])
+	_snapshot_parts.erase(sequence)
+	var unpacked := packed.decompress(raw_size, FileAccess.COMPRESSION_DEFLATE)
+	if unpacked.size() != raw_size: return
+	var data = bytes_to_var(unpacked)
+	if not data is Dictionary: return
+	_received_sequence = sequence
+	world.apply_snapshot(data, false)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _world_state(session_epoch: int, sequence: int, data: Dictionary, initial: bool) -> void:
+	if epoch != session_epoch or not world: return
+	_received_sequence = maxi(_received_sequence, sequence)
+	_snapshot_parts.clear()
+	world.apply_snapshot(data, initial)
+
+func feedback(id: int, kind: String, args: Array) -> void:
+	if not is_host(): return
+	if id == 1:
+		_feedback(epoch, kind, args)
+	elif ready_peers.get(id, false):
+		_feedback.rpc_id(id, epoch, kind, args)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _feedback(session_epoch: int, kind: String, args: Array) -> void:
+	if epoch != session_epoch or not is_instance_valid(game): return
+	match kind:
+		"message": game.hud.message(args[0], args[1])
+		"hit": game.hud.hitmarker(args[0])
+		"hurt":
+			game.hud.damage_flash(args[0])
+			Sfx.play(game, "hurt", -3.0)
+		"score": game.hud.score_popup(args[0], args[1])
+		"streak": game.hud.streak(args[0], args[1])
+
+func weapon_fired(id: int, weapon: String) -> void:
+	if not is_host(): return
+	_shot.rpc(epoch, id, weapon)
+	_shot(epoch, id, weapon)
+
+@rpc("authority", "call_remote", "unreliable", 1)
+func _shot(session_epoch: int, id: int, weapon: String) -> void:
+	if epoch == session_epoch and id != local_id() and world:
+		world.show_shot(id, weapon)
+
+func track_grenade(grenade: Node3D) -> void:
+	if is_host() and world: world.track_grenade(grenade)
+
+func explosion(position: Vector3) -> void:
+	if is_host(): _explosion.rpc(epoch, position)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _explosion(session_epoch: int, position: Vector3) -> void:
+	if epoch == session_epoch and world: world.show_explosion(position)
+
+func nearest_player(position: Vector3) -> Player:
+	return world.nearest_player(position) if enabled and world else null
+
+func blood(position: Vector3, direction: Vector3) -> void:
+	if is_host(): _blood.rpc(epoch, position, direction)
+
+@rpc("authority", "call_remote", "unreliable", 1)
+func _blood(session_epoch: int, position: Vector3, direction: Vector3) -> void:
+	if epoch == session_epoch and is_instance_valid(game): game.weapons._blood(position, direction)
+
+func _process(delta: float) -> void:
+	_elapsed += delta
+	if not enabled: return
+	if _connect_t > 0.0:
+		_connect_t -= delta
+		if _connect_t <= 0.0:
+			leave("Keine Antwort vom Host. Hamachi-Verbindung und Freigabe von UDP %d in der Windows-Firewall prüfen." % port)
+			return
+	if is_host():
+		for id in _rates.keys():
+			if not ready_peers.get(id, false) and _elapsed > float(_rates[id].deadline):
+				multiplayer.multiplayer_peer.disconnect_peer(id)
+		if _auto_start > 0 and phase == "lobby" and roster.size() >= _auto_start and ready_peers.size() == roster.size() and not false in ready_peers.values():
+			_auto_start = 0
+			start_game()
+	elif is_instance_valid(game) and world and game.navigation_ready and phase == "lobby" and not ready_peers.get(local_id(), false):
+		_hello_t += delta
+		if _hello_t > 1.0:
+			_hello_t = 0.0
+			_level_ready.rpc_id(1, epoch)
+	if not is_instance_valid(game) or not world or phase != "running": return
+	world.tick(delta)
+	if is_host():
+		_snapshot_t += delta
+		if _snapshot_t >= 0.1:
+			_snapshot_t = 0.0
+			_sequence += 1
+			var raw := var_to_bytes(world.snapshot())
+			var packed := raw.compress(FileAccess.COMPRESSION_DEFLATE)
+			var count := ceili(float(packed.size()) / SNAPSHOT_CHUNK)
+			for i in count:
+				var chunk := packed.slice(i * SNAPSHOT_CHUNK, (i+1) * SNAPSHOT_CHUNK)
+				for id in ready_peers:
+					if id != 1 and ready_peers[id]: _snapshot_part.rpc_id(id, epoch, _sequence, i, count, raw.size(), chunk)
+	else:
+		_pose_t += delta
+		if _pose_t >= 0.05 and game.player.alive:
+			_pose_t = 0.0
+			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity)

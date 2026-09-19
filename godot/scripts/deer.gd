@@ -57,7 +57,10 @@ func _set_graze_origin() -> void:
 
 func _physics_process(delta: float) -> void:
 	_t += delta
-	if not player:
+	if NetSession.is_host():
+		var closest := NetSession.nearest_player(global_position)
+		if closest: player = closest
+	if not is_instance_valid(player):
 		return
 	var to_p := player.global_position - global_position
 	to_p.y = 0.0

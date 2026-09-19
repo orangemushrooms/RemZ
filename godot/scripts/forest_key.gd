@@ -84,6 +84,9 @@ func prompt_text() -> String:
 	return "[E] Schlüssel nehmen · %s" % ForestKeys.KEYS[key_id]
 
 func take(weapons, _hud) -> void:
+	if NetSession.enabled:
+		NetSession.command("interact", [str(get_meta("coop_id", ""))])
+		return
 	if not weapons.player.active or not weapons.player.alive or not can_interact(weapons.player):
 		return
 	manager.collect(self)

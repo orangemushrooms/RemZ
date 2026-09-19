@@ -19,11 +19,15 @@ render_mode cull_disabled;
 uniform sampler2D tex : source_color, filter_linear_mipmap;
 uniform float wind = 1.0;
 uniform vec3 tint : source_color = vec3(1.0);
+uniform float autumn = 0.25;
 varying vec3 ccenter;
 varying float shade;
+varying float treehash;
 void vertex() {
 	ccenter = INSTANCE_CUSTOM.xyz;
 	shade = INSTANCE_CUSTOM.a;
+	// one random number per tree (the crown centre is shared by all cards of a tree)
+	treehash = fract(sin(dot(ccenter.xz, vec2(12.9898, 78.233))) * 43758.5453);
 	vec3 wp = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	float t = TIME * 1.3 + wp.x * 0.21 + wp.z * 0.17;
 	VERTEX.x += sin(t) * 0.07 * wind;
@@ -33,12 +37,21 @@ void fragment() {
 	vec4 c = texture(tex, UV);
 	ALPHA = c.a;
 	ALPHA_SCISSOR_THRESHOLD = 0.5;
-	ALBEDO = c.rgb * tint * shade;
+	// per-tree hue and value variation, plus a September touch of yellow on some trees
+	vec3 col = c.rgb * tint;
+	float h = treehash;
+	col *= mix(vec3(0.86, 0.94, 0.82), vec3(1.1, 1.04, 0.92), h);
+	float yellowing = smoothstep(0.55, 1.0, fract(h * 7.31)) * autumn;
+	vec3 lum = vec3(dot(col, vec3(0.3, 0.59, 0.11)));
+	col = mix(col, lum * vec3(1.55, 1.25, 0.55), yellowing);
+	ALBEDO = col * shade;
 	vec3 wpos = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	vec3 n = normalize(wpos - ccenter + vec3(0.0, 0.8, 0.0));
 	NORMAL = normalize((VIEW_MATRIX * vec4(n, 0.0)).xyz);
-	ROUGHNESS = 0.9;
-	SPECULAR = 0.12;
+	ROUGHNESS = 0.85;
+	SPECULAR = 0.15;
+	// sunlight through the leaf: the canopy glows when the sun is behind it
+	BACKLIGHT = col * 0.55;
 	AO = 0.55 + 0.45 * shade;
 	AO_LIGHT_AFFECT = 0.5;
 }
@@ -200,7 +213,8 @@ static func _leaf_material(kind: String) -> ShaderMaterial:
 	m.shader = sh
 	m.set_shader_parameter("tex", load("res://assets/sprites/%s.png" % SPECIES[kind]["leaf"]))
 	m.set_shader_parameter("wind", 0.6 if kind == "spruce" else 1.0)
-	m.set_shader_parameter("tint", Vector3(0.62, 0.72, 0.5))
+	m.set_shader_parameter("tint", Vector3(0.66, 0.74, 0.52))
+	m.set_shader_parameter("autumn", 0.0 if kind == "spruce" else 0.3)
 	return m
 
 static func _multimesh_cells(mesh: Mesh, items: Array, mat: Material, near: Vector2, shadow_dist: float, shadows_only: bool = false) -> Node3D:

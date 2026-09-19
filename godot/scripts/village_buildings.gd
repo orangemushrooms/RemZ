@@ -98,10 +98,16 @@ func _build_house(data: Dictionary, id: int) -> void:
 	var mid := (low + high) * 0.5
 	var center := direction * mid.x + side * mid.y
 	var yaw := -direction.angle()
-	# Use one local frame: the ridge always follows the longer building axis.
+	# Local frame: x along the longer building axis. The aerial says whether the ridge runs along the long axis
+	# ("long", the usual case), across it ("short") or whether the roof is flat.
 	if size.y > size.x:
 		size = Vector2(size.y, size.x)
 		yaw += PI / 2.0
+	var ridge: String = str(data.get("ridge", "long"))
+	if ridge == "short":
+		size = Vector2(size.y, size.x)
+		yaw += PI / 2.0
+	var flat := ridge == "flat"
 	_frame = Transform3D(Basis(Vector3.UP, yaw), Map.ground_pos(center.x, center.y))
 	_cell = Vector2i(floori(center.x / CELL_SIZE), floori(center.y / CELL_SIZE))
 	_rng.seed = 81013 + id * 7919
@@ -127,6 +133,20 @@ func _build_house(data: Dictionary, id: int) -> void:
 	var shutter_color: Color = SHUTTERS[id % SHUTTERS.size()]
 	var roof_material := "slate" if barn or shed or id % 7 == 3 else "tiles"
 	var roof_color := (Color(0.62, 0.4, 0.3) if roof_material == "tiles" else Color(0.42, 0.4, 0.38)) * _rng.randf_range(0.85, 1.1)
+	if data.has("roof"):
+		# measured median roof colour from the aerial (linear-ish sRGB); lift it a little, the aerial is seen from
+		# above at noon while the game roofs face a low autumn sun
+		var measured := Color(float(data.roof[0]), float(data.roof[1]), float(data.roof[2]))
+		var warm := measured.r > measured.b * 1.25 and measured.r > 0.3
+		roof_material = "tiles" if warm else "slate"
+		roof_color = (measured * 1.35).clamp(Color(0.08, 0.08, 0.08), Color(1.1, 1.1, 1.1))
+		if roof_material == "slate":
+			roof_color = roof_color.lerp(Color(0.62, 0.62, 0.62), 0.25)   # grey texture is dark: keep light metal roofs light
+		else:
+			roof_color = roof_color.lerp(Color(0.62, 0.4, 0.3), 0.3)
+		# a big light-roofed hall on a farm is a machinery / livestock hall, not a timber barn
+		if barn and measured.r + measured.g + measured.b > 1.5:
+			wood_color = Color(0.72, 0.68, 0.6)
 	# Extend foundations into the hillside instead of letting downhill corners float.
 	var lowest := 0.0
 	for x: float in [-size.x * 0.5, size.x * 0.5]:
@@ -141,7 +161,13 @@ func _build_house(data: Dictionary, id: int) -> void:
 		house_len = clampf(size.x * 0.42, 8.0, 14.0)
 		var barn_len := size.x - house_len
 		_box("wood", Vector3(barn_len, height - 0.45, size.y + 0.04), Vector3(size.x * 0.5 - barn_len * 0.5, (height + 0.45) * 0.5, 0), wood_color)
-	_roof(size, height, roof_height, roof_material, roof_color, wood_color, wall_color if not barn and not shed else wood_color, barn or shed or farmhouse)
+	if flat:
+		# flat roof with a parapet and a dark gravel top
+		_box("trim", Vector3(size.x + 0.5, 0.35, size.y + 0.5), Vector3(0, height + 0.12, 0), Color(0.55, 0.53, 0.5))
+		_box("slate", Vector3(size.x + 0.1, 0.06, size.y + 0.1), Vector3(0, height + 0.32, 0), roof_color * 0.9)
+		roof_height = 0.3
+	else:
+		_roof(size, height, roof_height, roof_material, roof_color, wood_color, wall_color if not barn and not shed else wood_color, barn or shed or farmhouse)
 	for face in 4:
 		var length := size.x if face < 2 else size.y
 		var front := _facade(size, face)
@@ -183,12 +209,14 @@ func _build_house(data: Dictionary, id: int) -> void:
 				_window(front, x, 1.55 + floor_index * 2.55, shutter_color, 0.9)
 	# Small gable loft opening, retained as part of the same spatial batch.
 	for face in [2, 3]:
+		if flat:
+			break
 		var front := _facade(size, face)
 		if not barn and not shed and not (farmhouse and face == 2):
 			_window(front, 0.0, height + roof_height * 0.38, shutter_color, 0.65)
 		else:
 			_box("trim", Vector3(0.7, 0.9, 0.06), front * Vector3(0, height + roof_height * 0.32, 0.05), Color(0.075, 0.065, 0.052), front.basis)
-	if not barn and not shed:
+	if not barn and not shed and not flat:
 		var chimney_z := size.y * 0.15
 		var chimney_x := -size.x * 0.22 if not farmhouse else -size.x * 0.5 + house_len * 0.5
 		var chimney_bottom := height + roof_height * 0.62

@@ -103,6 +103,9 @@ func _process(delta: float) -> void:
 		queue_free()
 
 func _on_body(body: Node3D) -> void:
+	if NetSession.enabled:
+		if body is Player and NetSession.is_host(): NetSession.world.collect_drop(self, body.peer_id)
+		return
 	if _taken or not body is Player:
 		return
 	var scene := get_tree().current_scene

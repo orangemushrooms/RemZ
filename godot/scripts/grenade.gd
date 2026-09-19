@@ -10,14 +10,21 @@ var zombies_root: Node3D
 var player: Player
 var _t := 0.0
 var _done := false
+var replica := false
+var owner_peer := 1
 
 func setup(scene: PackedScene, zr: Node3D, p: Player) -> void:
 	zombies_root = zr
 	player = p
+	if is_instance_valid(p): owner_peer = p.peer_id
 	mass = 0.4
 	continuous_cd = true
 	collision_layer = 1
 	collision_mask = 1 | 2 | 8
+	if replica:
+		freeze = true
+		collision_layer = 0
+		collision_mask = 0
 	var cs := CollisionShape3D.new()
 	var sph := SphereShape3D.new()
 	sph.radius = 0.06
@@ -43,6 +50,7 @@ func setup(scene: PackedScene, zr: Node3D, p: Player) -> void:
 		add_child(mi)
 
 func _physics_process(delta: float) -> void:
+	if replica: return
 	_t += delta
 	if _t >= FUSE and not _done:
 		_explode()
@@ -51,18 +59,25 @@ func _explode() -> void:
 	_done = true
 	var pos := global_position
 	# damage
-	for z in zombies_root.get_children():
-		if z is Zombie and z.alive:
-			var d: float = z.global_position.distance_to(pos)
-			if d < RADIUS and _visible_from(pos, z.global_position + Vector3.UP):
-				var f := 1.0 - (d / RADIUS) * 0.8
-				z.last_headshot = false
-				z.killer_weapon = "grenade"
-				z.damage(DAMAGE * f, (z.global_position - pos).normalized())
-	var pd := player.global_position.distance_to(pos)
-	if pd < RADIUS * 0.7 and _visible_from(pos, player.global_position + Vector3.UP):
-		player.damage(40.0 * (1.0 - pd / (RADIUS * 0.7)), pos)
-	player.wobble = maxf(player.wobble, clampf(1.6 - pd / 20.0, 0.3, 1.5))
+	if not replica:
+		for z in zombies_root.get_children():
+			if z is Zombie and z.alive:
+				var d: float = z.global_position.distance_to(pos)
+				if d < RADIUS and _visible_from(pos, z.global_position + Vector3.UP):
+					var f := 1.0 - (d / RADIUS) * 0.8
+					z.last_headshot = false
+					z.killer_weapon = "grenade"
+					z.killer_peer = owner_peer
+					z.damage(DAMAGE * f, (z.global_position - pos).normalized())
+		if NetSession.enabled: NetSession.explosion(pos)
+	if is_instance_valid(player):
+		var pd := player.global_position.distance_to(pos)
+		if not replica and pd < RADIUS * 0.7 and _visible_from(pos, player.global_position + Vector3.UP):
+			player.damage(40.0 * (1.0 - pd / (RADIUS * 0.7)), pos)
+	var viewer: Player = NetSession.game.player if NetSession.enabled and is_instance_valid(NetSession.game) else player
+	if is_instance_valid(viewer):
+		var distance := viewer.global_position.distance_to(pos)
+		viewer.wobble = maxf(viewer.wobble, clampf(1.6 - distance / 20.0, 0.0, 1.5))
 	Sfx.play_at(get_tree().current_scene, "boom", pos, 2.0)
 	# fireball
 	var fire := GPUParticles3D.new()

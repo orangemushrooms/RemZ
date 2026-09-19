@@ -103,6 +103,9 @@ func prompt_text() -> String:
 	return "[E] %s %s" % [label, "schliessen" if is_open else "öffnen"]
 
 func take(weapons, hud) -> bool:
+	if NetSession.is_client():
+		NetSession.command("interact", [str(get_meta("coop_id", ""))])
+		return false
 	var player = weapons.player
 	if not player.active or not player.alive or not can_interact(player) or moving:
 		return false
@@ -149,7 +152,7 @@ func _set_open(open: bool) -> void:
 	Sfx.play_at(get_parent(), "wood", global_position + Vector3.UP, -9.0, 0.8 if open else 0.68)
 
 func _finish_motion() -> void:
-	if not is_open and _swing_blocked():
+	if not NetSession.is_client() and not is_open and _swing_blocked():
 		_set_open(true)
 		return
 	moving = false
@@ -173,7 +176,7 @@ func _sync_collision() -> void:
 
 func _physics_process(delta: float) -> void:
 	_forced_cooldown = maxf(0.0, _forced_cooldown - delta)
-	if moving and not is_open and _swing_blocked():
+	if not NetSession.is_client() and moving and not is_open and _swing_blocked():
 		_set_open(true)
 	elif not moving and _pending_collision:
 		_sync_collision()

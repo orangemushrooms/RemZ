@@ -176,7 +176,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif main.skills and main.skills.is_open:
 			main.skills.close()
 		elif main.started and not main.over:
-			if get_tree().paused:
+			if get_tree().paused or (NetSession.enabled and main.hud.overlay.visible):
 				main._on_start()
 			else:
 				main._pause()

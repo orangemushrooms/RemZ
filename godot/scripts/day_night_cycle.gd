@@ -61,7 +61,7 @@ func set_time_hours(hours: float) -> void:
 func _process(delta: float) -> void:
 	if not main or get_tree().paused or not main.started or main.over:
 		return
-	if not main.player.active or not main.player.alive:
+	if not NetSession.enabled and (not main.player.active or not main.player.alive):
 		return
 	advance(delta)
 

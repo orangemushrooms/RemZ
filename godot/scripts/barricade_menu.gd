@@ -36,6 +36,7 @@ var _was_paused := false
 var _saved_mouse := Input.MOUSE_MODE_CAPTURED
 var _refresh_time := 0.0
 var _card: PanelContainer
+var _controls_hint: Label
 
 func setup(game: Node) -> void:
 	main = game
@@ -222,7 +223,8 @@ func _build_ui() -> void:
 	var hint := _label("Rot zeigt die geplante Linie. Grün zeigt die gebaute Sperre.\nAlle Segmente werden zusammen gesetzt, verstärkt oder repariert.", 14)
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.add_child(hint)
-	layout.add_child(_label("1–4  Bauplatz wählen     ·     R  Reparieren     ·     V / Esc  Zurück     ·     Spiel pausiert während der Planung", 13, MUTED))
+	_controls_hint = _label("", 13, MUTED)
+	layout.add_child(_controls_hint)
 
 func _resize() -> void:
 	if not _card:
@@ -250,8 +252,9 @@ func open(site: Barricade = null) -> void:
 	_saved_viewmodel_update = main.weapons.viewmodel.viewport.render_target_update_mode
 	_saved_flashlight = player.flashlight.visible
 	is_open = true
+	_controls_hint.text = "1–4  Bauplatz wählen     ·     R  Reparieren     ·     V / Esc  Zurück     ·     " + ("Koop läuft während der Planung weiter" if NetSession.enabled else "Spiel pausiert während der Planung")
 	player.active = false
-	get_tree().paused = true
+	get_tree().paused = not NetSession.enabled
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	main.hud.hide()
 	main.weapons.viewmodel.hide()
@@ -338,6 +341,9 @@ func _refresh() -> void:
 		status.add_theme_color_override("font_color", GOLD if not build_error.is_empty() else MUTED)
 
 func _purchase(action: String) -> void:
+	if NetSession.enabled:
+		if selected: NetSession.command(action, [main.barricades.find(selected)])
+		return
 	if not is_open:
 		return
 	var error := selected.action_error(player, action)

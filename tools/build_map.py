@@ -233,10 +233,10 @@ h[:, :] = h.astype(np.float32)
 # ------------------------------------------------------------------ 2. ground cover from the aerial image
 aer = Image.open(os.path.join(GEO, "aerial.jpg")).convert("RGB")
 meta = json.load(open(os.path.join(GEO, "aerial.json")))
-ppm = meta["ppm"]
-aer = aer.resize((int(W * ppm), int(H * ppm)))
+ppm = 10                                   # resample to exactly 10 px per metre: 1 m blocks == the metre grid
+aer = aer.resize((W * ppm, H * ppm), Image.LANCZOS)
 A = np.asarray(aer).astype(np.float32) / 255.0
-n = int(ppm)
+n = ppm
 # block statistics per metre
 def block(f, red):
     return red(f[:H * n, :W * n].reshape(H, n, W, n), axis=(1, 3))
@@ -364,21 +364,86 @@ for k in rng.choice(len(ej), size=min(1400, len(ej)), replace=False):
     x, z = ei[k] + X0 + rng.uniform(-0.5, 0.5), ej[k] + Z0 + rng.uniform(-0.5, 0.5)
     if road_d[int(z - Z0), int(x - X0)] > 1.2 and not cm[int(z - Z0), int(x - X0)] and math.hypot(x - POND["pos"][0], z - POND["pos"][1]) >= POND["r"] + 3.5:
         shrubs.append([round(x, 1), round(z, 1), round(rng.uniform(0.7, 1.4), 2), int(rng.integers(0, 360))])
-# dense border forest outside the playable extent so no map edge is ever visible (no collision needed)
+# Surroundings beyond the playable extent. With the wide swissimage mosaic (tools/geo_fetch_wide.py) the trees
+# follow the aerial: closed forest where the classifier sees forest, single crowns around the farms, nothing on
+# the fields. Without it the old random ring (forest north and west, open east and south) is used.
 border = []
-for z in np.arange(Z0 - 90, Z1 + 90, 6.0):
-    for x in np.arange(X0 - 90, X1 + 90, 6.0):
-        if X0 + 3 < x < X1 - 3 and Z0 + 3 < z < Z1 - 3:
-            continue
-        if x > X1 - 3 and z > -120:        # east: fields and the village, no forest
-            continue
-        if z > Z1 - 3:                     # south: open fields towards Remetschwil
-            continue
-        px_, pz_ = x + rng.uniform(-2.5, 2.5), z + rng.uniform(-2.5, 2.5)
-        if px_ < X0 + 3 and pz_ > -120:    # west: the downhill fields continue beyond the fine terrain
-            continue
-        kind = "spruce" if rng.random() < 0.35 else "beech"
-        border.append([round(float(px_), 1), round(float(pz_), 1), kind, round(float(rng.uniform(0.9, 1.3)), 2), int(rng.integers(0, 360))])
+WIDE = None
+if os.path.exists(os.path.join(GEO, "aerial_wide.jpg")):
+    WIDE = json.load(open(os.path.join(GEO, "aerial_wide.json")))
+    WIDE["ppm"] = 10.0
+    _wi = Image.open(os.path.join(GEO, "aerial_wide.jpg")).convert("RGB")
+    WIDE["img"] = np.asarray(_wi.resize((int(WIDE["x1"] - WIDE["x0"]) * 10, int(WIDE["z1"] - WIDE["z0"]) * 10), Image.LANCZOS)).astype(np.float32) / 255.0
+def wide_px(x, z):
+    return int((x - WIDE["x0"]) * WIDE["ppm"]), int((z - WIDE["z0"]) * WIDE["ppm"])
+if WIDE is not None:
+    wimg = WIDE["img"]; wpp = WIDE["ppm"]
+    WX0, WZ0, WX1, WZ1 = WIDE["x0"], WIDE["z0"], WIDE["x1"], WIDE["z1"]
+    WW, WH = int((WX1 - WX0)), int((WZ1 - WZ0))
+    n = int(wpp)
+    def wblock(f, red):
+        return red(f[:WH * n, :WW * n].reshape(WH, n, WW, n), axis=(1, 3))
+    wlum = wimg.mean(axis=2)
+    wmean = np.stack([wblock(wimg[:, :, c], np.mean) for c in range(3)], axis=2)
+    wstd = wblock(wlum, np.std)
+    wv = wmean.max(axis=2); wmn = wmean.min(axis=2)
+    wsat = (wv - wmn) / np.maximum(wv, 1e-3)
+    wgreen = wmean[:, :, 1] - np.maximum(wmean[:, :, 0], wmean[:, :, 2])
+    # tree crowns: darker than grass, green, textured; fields (maize, stubble) are excluded by texture + brightness
+    wforest = ((wv < 0.40) | ((wv < 0.47) & (wstd > 0.09))) & (wgreen > 0.0) & ~((wsat < 0.15) & (wv > 0.45))
+    wforest = ndimage.binary_opening(wforest, iterations=2)
+    wforest = ndimage.binary_closing(wforest, iterations=2)
+    wlab, wn = ndimage.label(wforest)
+    wsizes = ndimage.sum(wforest, wlab, range(1, wn + 1))
+    for i, s in enumerate(wsizes):
+        if s < 12:                                   # a crown needs ~12 m2 of canopy
+            wforest[wlab == i + 1] = False
+    # the same field exclusions as inside the extent
+    def wide_poly_mask(pts):
+        im = Image.new("L", (WW, WH), 0)
+        ImageDraw.Draw(im).polygon([(x - WX0, z - WZ0) for x, z in pts], fill=255)
+        return np.array(im) > 0
+    wforest &= ~wide_poly_mask(MEADOW_FORCE)
+    wforest &= ~wide_poly_mask(FIELD_SE)
+    wdist = ndimage.distance_transform_edt(~wforest)  # metres to the nearest crown cell
+    wdark = wmean.mean(axis=2)
+    # the whole mosaic (village gardens included), plus the old 90 m ring north of it
+    for z in np.arange(min(Z0 - 90, WZ0), max(Z1 + 90, WZ1), 5.0):
+        for x in np.arange(min(X0 - 90, WX0), max(X1 + 90, WX1), 5.0):
+            if X0 + 3 < x < X1 - 3 and Z0 + 3 < z < Z1 - 3:
+                continue
+            px_, pz_ = x + rng.uniform(-2.0, 2.0), z + rng.uniform(-2.0, 2.0)
+            i, j = int(px_ - WX0), int(pz_ - WZ0)
+            if not (0 <= i < WW and 0 <= j < WH):
+                # north of the mosaic: closed forest (Heitersberg)
+                if pz_ < WZ0:
+                    border.append([round(float(px_), 1), round(float(pz_), 1), "spruce" if rng.random() < 0.4 else "beech", round(float(rng.uniform(0.9, 1.3)), 2), int(rng.integers(0, 360))])
+                continue
+            if not wforest[j, i]:
+                continue
+            # closed forest: every cell; single crowns / hedges: keep the density of the aerial
+            d = wdark[j, i]
+            kind = "spruce" if d < 0.19 else ("oak" if rng.random() < 0.3 else "beech")
+            sc = rng.uniform(0.85, 1.25)
+            if wdist[max(0, j - 6):j + 7, max(0, i - 6):i + 7].max() < 3.0:
+                pass                                    # inside a closed stand
+            elif rng.random() < 0.25:
+                continue                                # thin out isolated crowns a little
+            border.append([round(float(px_), 1), round(float(pz_), 1), kind, round(float(sc), 2), int(rng.integers(0, 360))])
+else:
+    for z in np.arange(Z0 - 90, Z1 + 90, 6.0):
+        for x in np.arange(X0 - 90, X1 + 90, 6.0):
+            if X0 + 3 < x < X1 - 3 and Z0 + 3 < z < Z1 - 3:
+                continue
+            if x > X1 - 3 and z > -120:        # east: fields and the village, no forest
+                continue
+            if z > Z1 - 3:                     # south: open fields towards Remetschwil
+                continue
+            px_, pz_ = x + rng.uniform(-2.5, 2.5), z + rng.uniform(-2.5, 2.5)
+            if px_ < X0 + 3 and pz_ > -120:    # west: the downhill fields continue beyond the fine terrain
+                continue
+            kind = "spruce" if rng.random() < 0.35 else "beech"
+            border.append([round(float(px_), 1), round(float(pz_), 1), kind, round(float(rng.uniform(0.9, 1.3)), 2), int(rng.integers(0, 360))])
 def lv95(lat, lon):
     p = (lat * 3600 - 169028.66) / 10000
     l = (lon * 3600 - 26782.5) / 10000
@@ -397,7 +462,34 @@ for e in osm["elements"]:
         poly.append([round(E - E0, 1), round(-(N - N0), 1)])
     cx_, cz_ = float(np.mean([p[0] for p in poly])), float(np.mean([p[1] for p in poly]))
     if abs(cx_) < 600 and abs(cz_) < 600 and not (X0 < cx_ < X1 and Z0 < cz_ < Z1):
-        village.append({"poly": poly[:-1], "h": 6.5 if t.get("building") in ("yes", "house", "residential") else 4.5})
+        entry = {"poly": poly[:-1], "h": 6.5 if t.get("building") in ("yes", "house", "residential") else 4.5, "tag": t.get("building", "yes")}
+        if WIDE is not None:
+            # roof from the aerial: median colour inside the footprint (1 m in from the edge), ridge orientation from
+            # the brightness step between the two slopes, flat when neither split shows a step
+            P2 = np.array(poly[:-1], float)
+            k0 = max(range(len(P2)), key=lambda k: np.linalg.norm(P2[(k + 1) % len(P2)] - P2[k]))
+            du = P2[(k0 + 1) % len(P2)] - P2[k0]; du /= max(np.linalg.norm(du), 1e-6); dv = np.array([-du[1], du[0]])
+            cen = P2.mean(axis=0)
+            mask_img = Image.new("L", (wimg.shape[1], wimg.shape[0]), 0)
+            ImageDraw.Draw(mask_img).polygon([((x - WX0) * wpp, (z - WZ0) * wpp) for x, z in poly[:-1]], fill=255)
+            m = np.array(mask_img) > 0
+            m = ndimage.binary_erosion(m, iterations=int(wpp * 1.0))
+            ys, xs = np.nonzero(m)
+            if xs.size > 40:
+                cols = wimg[ys, xs]
+                roof = np.median(cols, axis=0)
+                lum = cols.mean(axis=1)
+                wx = xs / wpp + WX0 - cen[0]; wz = ys / wpp + WZ0 - cen[1]
+                u = wx * du[0] + wz * du[1]; v = wx * dv[0] + wz * dv[1]
+                def step(coord):
+                    a = lum[coord < -0.3]; c = lum[coord > 0.3]
+                    return abs(a.mean() - c.mean()) if a.size > 10 and c.size > 10 else 0.0
+                sv, su = step(v), step(u)
+                ridge = "flat" if max(sv, su) < 0.045 else ("long" if sv >= su else "short")
+                entry["roof"] = [round(float(roof[0]), 3), round(float(roof[1]), 3), round(float(roof[2]), 3)]
+                entry["ridge"] = ridge
+                entry["dark_frac"] = round(float((lum < 0.22).mean()), 2)   # solar panels / dark roofs
+        village.append(entry)
 # understory inside the forest near the camp: young beeches, ferns, dead branches
 ferns = []
 logs = []

@@ -190,6 +190,9 @@ func _refresh() -> void:
 			_slot("Schlüssel: %s" % ForestKeys.KEYS[key_id], "Gefunden" if found else "Noch nicht gefunden", Color(0.95, 0.73, 0.32) if found else Color(0.3, 0.3, 0.3), detail, func(): info.text = detail)
 
 func _eat(kind: String) -> void:
+	if NetSession.enabled:
+		NetSession.command("eat", [kind])
+		return
 	if mushrooms.get(kind, 0) <= 0:
 		info.text = "Keine %s im Inventar." % MUSHROOMS[kind]["name"]
 		return
@@ -219,7 +222,7 @@ func open() -> void:
 	_refresh()
 	panel.visible = true
 	player.active = false
-	get_tree().paused = true
+	get_tree().paused = not NetSession.enabled
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func close() -> void:
@@ -230,6 +233,7 @@ func close() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _process(delta: float) -> void:
+	if NetSession.enabled: return
 	if _rage_t > 0.0 and not get_tree().paused:
 		_rage_t -= delta
 		if _rage_t <= 0.0:

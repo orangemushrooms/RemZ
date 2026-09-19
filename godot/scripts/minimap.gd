@@ -137,6 +137,13 @@ func _draw_symbols(c: Control) -> void:
 	_draw_compass(c)
 	if not is_instance_valid(player) or not is_instance_valid(world):
 		return
+	if NetSession.enabled and NetSession.world:
+		for id in NetSession.world.actors:
+			if id == NetSession.local_id(): continue
+			var teammate: Player = NetSession.world.actor(id)
+			var point := map_position(teammate.global_position)
+			if MAP_RECT.has_point(point):
+				c.draw_circle(point, 4.0, Color(0.3, 0.8, 1.0) if teammate.alive else Color(1.0, 0.7, 0.2))
 	for barricade in world.barricades:
 		var p := map_position(barricade.center)
 		if MAP_RECT.has_point(p):

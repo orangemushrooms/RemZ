@@ -31,6 +31,8 @@ var _step_t := 0.0
 var _step_side := 1.0
 var _heart_t := 0.0
 var _was_on_floor := true
+var peer_id := 1
+var remote_actor := false
 
 func _ready() -> void:
 	collision_layer = 4
@@ -50,7 +52,8 @@ func _ready() -> void:
 	camera.near = 0.05
 	camera.far = 600.0
 	head.add_child(camera)
-	camera.make_current()
+	if not remote_actor:
+		camera.make_current()
 	flashlight = SpotLight3D.new()
 	flashlight.light_color = Color(1.0, 0.95, 0.84)
 	flashlight.light_energy = 6.0
@@ -63,7 +66,7 @@ func _ready() -> void:
 	rotation.y = PI
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not active or not alive:
+	if remote_actor or not active or not alive:
 		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(-event.screen_relative.x * SENS * mouse_sensitivity)
@@ -73,6 +76,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		flashlight.visible = not flashlight.visible
 
 func _physics_process(delta: float) -> void:
+	if remote_actor:
+		if NetSession.is_host() and alive:
+			_regenerate(delta)
+		return
 	if not active or not alive:
 		return
 	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -100,6 +107,10 @@ func _physics_process(delta: float) -> void:
 	camera.rotation.z = (sin(bob * 0.5) * 0.004 if moving else 0.0) + sin(wobble * 30.0) * 0.02 * wobble
 	head.rotation.x = clampf(pitch + recoil_offset.x, -1.48, 1.48)
 	camera.rotation.y = recoil_offset.y
+	if not NetSession.is_client():
+		_regenerate(delta)
+
+func _regenerate(delta: float) -> void:
 	if regen_timer > 0.0:
 		regen_timer -= delta
 	elif hp < max_hp:
@@ -108,6 +119,8 @@ func _physics_process(delta: float) -> void:
 
 # from: world position of the attacker (Vector3.INF = unknown) for the HUD direction indicator
 func damage(n: float, from: Vector3 = Vector3.INF) -> void:
+	if NetSession.is_client():
+		return
 	if not alive:
 		return
 	hp -= n
@@ -124,8 +137,9 @@ func damage(n: float, from: Vector3 = Vector3.INF) -> void:
 		hud.damage_flash(atan2(local.x, -local.z))
 	else:
 		hud.damage_flash()
-	Sfx.play(self, "hurt", -3.0, 0.85)
-	Sfx.play(self, "hurt_thud", -10.0)
+	if not remote_actor:
+		Sfx.play(self, "hurt", -3.0, 0.85)
+		Sfx.play(self, "hurt_thud", -10.0)
 	if hp <= 0.0:
 		hp = 0.0
 		alive = false

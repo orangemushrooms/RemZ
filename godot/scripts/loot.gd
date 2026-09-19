@@ -17,6 +17,9 @@ func prompt_text() -> String:
 	return "[E] %s sammeln" % label if kind == "mushroom" else "[E] %s aufnehmen" % label
 
 func take(weapons: Weapons, hud: Hud) -> void:
+	if NetSession.enabled:
+		NetSession.command("interact", [str(get_meta("coop_id", ""))])
+		return
 	if taken:
 		return
 	taken = true

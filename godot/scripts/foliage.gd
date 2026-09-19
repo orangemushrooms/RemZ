@@ -264,7 +264,7 @@ static func meadow_grass() -> Node3D:
 	patches.seed = 34127
 	patches.frequency = 0.06
 	var mesh := _tuft_mesh(0.82, 0.4)
-	var material := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(0.55, 0.56, 0.31))
+	var material := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(0.5, 0.52, 0.3))
 	material.set_shader_parameter("meadow_distance_thinning", true)
 	var transforms: Array[Transform3D] = []
 	var colors: Array[Color] = []

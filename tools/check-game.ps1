@@ -14,35 +14,35 @@ $arguments = @('--path', ('"' + $project + '"'), '--log-file', ('"' + $log + '"'
 $marker = $null
 switch ($Mode) {
     'Smoke' {
-        $arguments += @('--headless', '--script', 'res://tests/smoke.gd', '--', '--smoke-test')
+        $arguments += @('--headless', '--script', 'res://tests/run.gd', '--', '--suite=smoke', '--smoke-test')
         $marker = 'SMOKE_DONE checks=\d+ failures=0'
     }
     'Benchmark' {
-        $arguments += @('--disable-vsync', '--script', 'res://tests/benchmark.gd', '--', '--benchmark', "--quality=$Quality", '--screenshots')
+        $arguments += @('--disable-vsync', '--script', 'res://tests/run.gd', '--', '--suite=benchmark', '--benchmark', "--quality=$Quality", '--screenshots')
         $marker = 'BENCHMARK_DONE'
     }
     'WeaponEffects' {
-        $arguments += @('--script', 'res://tests/weapon_effects.gd', '--', '--smoke-test', '--render-effects')
+        $arguments += @('--script', 'res://tests/run.gd', '--', '--suite=weapon_effects', '--smoke-test', '--render-effects')
         $marker = 'EFFECTS_DONE checks=\d+ failures=0'
     }
     'Barricades' {
-        $arguments += @('--script', 'res://tests/barricades.gd', '--', '--smoke-test', '--render-barricades')
+        $arguments += @('--script', 'res://tests/run.gd', '--', '--suite=barricades', '--smoke-test', '--render-barricades')
         $marker = 'BARRICADES_DONE checks=\d+ failures=0'
     }
     'Atmosphere' {
-        $arguments += @('--script', 'res://tests/atmosphere.gd', '--', '--smoke-test', '--atmosphere-benchmark')
+        $arguments += @('--script', 'res://tests/run.gd', '--', '--suite=atmosphere', '--smoke-test', '--atmosphere-benchmark')
         $marker = 'ATMOSPHERE_DONE checks=\d+ failures=0'
     }
     'DayNight' {
-        $arguments += @('--script', 'res://tests/day_night.gd', '--', '--smoke-test', '--no-music', '--day-night-benchmark')
+        $arguments += @('--script', 'res://tests/run.gd', '--', '--suite=day_night', '--smoke-test', '--no-music', '--day-night-benchmark')
         $marker = 'DAY_NIGHT_DONE checks=\d+ failures=0'
     }
     'DoorsKeys' {
-        $arguments += @('--script', 'res://tests/doors_keys.gd', '--', '--smoke-test', '--no-intro', '--no-music', '--render-doors', '--restart-keys')
+        $arguments += @('--script', 'res://tests/run.gd', '--', '--suite=doors_keys', '--smoke-test', '--no-intro', '--no-music', '--render-doors', '--restart-keys')
         $marker = 'DOORS_KEYS_DONE checks=\d+ failures=0'
     }
     'CampsitePickups' {
-        $arguments += @('--script', 'res://tests/campsite_pickups.gd', '--', '--smoke-test', '--no-intro', '--no-music', '--render-campsite')
+        $arguments += @('--script', 'res://tests/run.gd', '--', '--suite=campsite_pickups', '--smoke-test', '--no-intro', '--no-music', '--render-campsite')
         $marker = 'CAMPSITE_PICKUPS_DONE checks=\d+ failures=0'
     }
     'ExportPack' {

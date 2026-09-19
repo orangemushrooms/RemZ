@@ -112,7 +112,7 @@ func _process(delta: float) -> void:
 	var distance := HINT_RADIUS
 	if main.started and not main.over and main.player.active:
 		for key in spawned:
-			if key.taken:
+			if not is_instance_valid(key) or key.taken:
 				continue
 			var d: float = main.player.global_position.distance_to(key.global_position)
 			if d < distance:
