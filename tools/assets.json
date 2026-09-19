@@ -198,5 +198,53 @@
  "smg_v3": {
   "prompt": "photorealistic AAA game weapon, MP5 submachine gun with collapsible stock, curved magazine, foregrip, iron sights, isolated single object floating, no base, no stand, no display plate, high detail, game ready",
   "texture_prompt": "photorealistic 4k PBR, black parkerized steel and polymer, edge wear, dust"
+ },
+ "log_fountain": {
+  "prompt": "game asset, Swiss forest log fountain: one long tree trunk split lengthwise and hollowed out as a water trough, resting horizontally on two short round log blocks, at one end a thick upright tree trunk post about twice as tall as the trough with a small iron pipe spout sticking out over the trough, weathered grey wood, single object, no water, no ground",
+  "texture_prompt": "weathered silver-grey cracked wood, dark bark on the post, rusty black iron pipe, realistic PBR"
+ },
+ "waste_bin": {
+  "prompt": "game asset, white painted round steel drum waste bin with a flat black lid, mounted on a short dark metal post, Swiss picnic area litter bin, single object, no ground",
+  "texture_prompt": "chipped white paint, matte black lid, dark grey metal post, slight rust, realistic PBR"
+ },
+ "guidepost": {
+  "prompt": "game asset, Swiss yellow hiking guidepost: a plain wooden post with two flat yellow direction sign arrows mounted at different heights pointing in different directions, black text on the signs, single object, no ground",
+  "texture_prompt": "bright yellow signs with black lettering, weathered brown wooden post, realistic PBR"
+ },
+ "info_board": {
+  "prompt": "game asset, small wooden information notice board on a single square wooden post with a tiny pitched wooden roof, forest trail information panel, single object, no ground",
+  "texture_prompt": "weathered brown wood, paper notice under glass, small shingle roof, realistic PBR"
+ },
+ "fire_pit": {
+  "prompt": "game asset, square outdoor fireplace built from four rectangular grey natural stone blocks forming a low square frame, black ash and a few burnt logs inside, a vertical black iron post at one corner with a horizontal swivel arm holding a round iron barbecue grate over the centre, no flames, single object, no ground",
+  "texture_prompt": "grey rough natural stone with soot, black cast iron, ash, charred wood, realistic PBR"
+ },
+ "log_bench_beam": {
+  "prompt": "game asset, rustic outdoor bench: one long thick dark squared wooden beam resting flat on two short vertical round log sections with bark, Swiss forest picnic site bench, single object, no ground",
+  "texture_prompt": "dark oiled brown wood beam, grey-brown beech bark on the log feet, realistic PBR"
+ },
+ "log_picnic_table": {
+  "prompt": "game asset, rustic log picnic table: thick plank tabletop on four round log legs, with one attached plank bench on each long side supported by short round logs, weathered dark wood with bark on the legs, single object, no ground",
+  "texture_prompt": "weathered dark brown planks, grey-brown bark on the round legs, realistic PBR"
+ },
+ "ammo_pack": {
+  "prompt": "game asset, small olive green metal military ammunition can with a hinged lid, side latch and yellow stencil markings, closed, single object, no ground",
+  "texture_prompt": "olive drab scratched metal, yellow stencil text, worn edges, realistic PBR"
+ },
+ "medkit": {
+  "prompt": "game asset, white plastic first aid kit case with a red cross on the lid and a carry handle, closed, single object, no ground",
+  "texture_prompt": "white scuffed plastic, bright red cross, grey handle, realistic PBR"
+ },
+ "ammo_crate": {
+  "prompt": "game asset, olive green wooden military ammunition crate with rope handles and white stencil text, lid slightly open showing rows of brass cartridges inside, single object, no ground",
+  "texture_prompt": "olive painted rough wood, white stencil letters, brass cartridges, rope, realistic PBR"
+ },
+ "fallen_log": {
+  "prompt": "game asset, fallen beech tree trunk lying on its side, bark, a few broken branch stubs, moss patches on top, about three metres long, single object, no ground",
+  "texture_prompt": "grey-brown smooth beech bark, green moss, pale broken wood, realistic PBR"
+ },
+ "workbench": {
+  "prompt": "game asset, old garage workbench: heavy wooden top on a plank frame, a bench vice at one end, a few scattered tools and a shelf underneath, single object, no ground",
+  "texture_prompt": "oily dark wood, scratched grey steel vice, rusty tools, realistic PBR"
  }
 }

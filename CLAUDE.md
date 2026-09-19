@@ -73,10 +73,20 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   collider; the render mesh is the full 1 m grid.
 
 ## Assets
-- Meshy API (key in `.env` as `MESHY_API_KEY`, never print it). Prompts in `tools/assets.json`.
-  `python tools/gen_asset.py <name> [--rig --pose t-pose --anim ID:label ...]` then
-  `node tools/pack.mjs <name> --size 2048` and copy `public/models/<name>.glb` to `godot/assets/models/`.
-  Windows: set `PYTHONIOENCODING=utf-8 PYTHONUTF8=1` or the progress bar crashes.
+- Meshy API (key in the file `Meshy Key` in the repo root, export it as `MESHY_API_KEY`, never print it).
+  Prompts in `tools/assets.json`. `python tools/gen_asset.py <name> --pbr --polycount N` (preview + refine,
+  ~6 min, runs fine with 6 in parallel) then `node tools/pack.mjs <name> --size 2048` and copy
+  `public/models/<name>.glb` to `godot/assets/models/`, then `Godot.exe --headless --path godot --import`.
+  `python tools/retexture.py <name> "<prompt>" <suffix>` re-textures an existing model (used to strip the
+  gibberish lettering Meshy paints on crates and bins: ask for "no text, no letters"). Windows: set
+  `PYTHONIOENCODING=utf-8 PYTHONUTF8=1` or the progress bar crashes.
+- Props are Meshy models placed through `main._prop(parent, name, size, axis)`: it turns the model's longest
+  horizontal extent onto local +x, scales by length (`axis` "x") or height ("y"), puts the bottom on the ground,
+  applies `PROP_YAW` / `PROP_TINT` and returns null when the GLB is missing so every call site keeps its old
+  box version as fallback. Models (Sep 2026): log_fountain, waste_bin, guidepost, info_board, fire_pit,
+  log_bench_beam, log_picnic_table, fallen_log, workbench, ammo_crate (loot), ammo_pack / medkit (drops,
+  `pickup.gd`). `tests/prop_info.gd` prints AABB and triangle counts of the GLBs; `--spawn-drops` with
+  `--views=` puts the three drops on the plaza for a look.
 - Meshy rigged characters are 1.7 m tall; scale by height/1.7, never by mesh AABB. Meshy statics come as
   ~1.9-unit boxes; `Weapons._fit_height` normalises them. Weapons/animals face +X / +Z, see rotations in code.
 - Trees are procedural (`trees.gd`), nothing to download. Poly Haven clutter (ferns, moss, branches) is

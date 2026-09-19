@@ -27,9 +27,10 @@ func setup(k: String) -> void:
 	var color := Color(0.9, 0.75, 0.3)
 	match kind:
 		"ammo":
-			_box(Vector3(0.36, 0.2, 0.24), Vector3(0, 0.1, 0), Color(0.3, 0.34, 0.22))
-			_box(Vector3(0.38, 0.03, 0.26), Vector3(0, 0.21, 0), Color(0.22, 0.25, 0.16))
-			_box(Vector3(0.1, 0.02, 0.27), Vector3(0, 0.225, 0), Color(0.85, 0.7, 0.3))
+			if not _model("ammo_pack", 0.24):
+				_box(Vector3(0.36, 0.2, 0.24), Vector3(0, 0.1, 0), Color(0.3, 0.34, 0.22))
+				_box(Vector3(0.38, 0.03, 0.26), Vector3(0, 0.21, 0), Color(0.22, 0.25, 0.16))
+				_box(Vector3(0.1, 0.02, 0.27), Vector3(0, 0.225, 0), Color(0.85, 0.7, 0.3))
 			color = Color(1.0, 0.8, 0.35)
 		"grenade":
 			var m := MeshInstance3D.new()
@@ -46,9 +47,10 @@ func setup(k: String) -> void:
 			_box(Vector3(0.05, 0.06, 0.05), Vector3(0, 0.24, 0), Color(0.5, 0.5, 0.52))
 			color = Color(0.5, 1.0, 0.5)
 		_:
-			_box(Vector3(0.3, 0.14, 0.22), Vector3(0, 0.07, 0), Color(0.9, 0.9, 0.88))
-			_box(Vector3(0.16, 0.03, 0.05), Vector3(0, 0.15, 0), Color(0.85, 0.1, 0.1))
-			_box(Vector3(0.05, 0.03, 0.16), Vector3(0, 0.15, 0), Color(0.85, 0.1, 0.1))
+			if not _model("medkit", 0.22):
+				_box(Vector3(0.3, 0.14, 0.22), Vector3(0, 0.07, 0), Color(0.9, 0.9, 0.88))
+				_box(Vector3(0.16, 0.03, 0.05), Vector3(0, 0.15, 0), Color(0.85, 0.1, 0.1))
+				_box(Vector3(0.05, 0.03, 0.16), Vector3(0, 0.15, 0), Color(0.85, 0.1, 0.1))
 			color = Color(1.0, 0.45, 0.4)
 	_light = OmniLight3D.new()
 	_light.light_color = color
@@ -59,6 +61,24 @@ func setup(k: String) -> void:
 	add_child(_light)
 	body_entered.connect(_on_body)
 	add_to_group("render_dynamic")
+
+static var _scenes := {}
+
+# Meshy model fitted to `height`, bottom on the ground; false when the GLB is not there
+func _model(name: String, height: float) -> bool:
+	if not _scenes.has(name):
+		var path := "res://assets/models/%s.glb" % name
+		_scenes[name] = load(path) if ResourceLoader.exists(path) else null
+	var scene: PackedScene = _scenes[name]
+	if not scene:
+		return false
+	var m: Node3D = scene.instantiate()
+	_mesh.add_child(m)
+	Weapons._fit_height(m, height)
+	m.position.y += height / 2.0
+	for mi in m.find_children("*", "MeshInstance3D", true, false):
+		(mi as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	return true
 
 func _box(size: Vector3, at: Vector3, color: Color) -> void:
 	var m := MeshInstance3D.new()

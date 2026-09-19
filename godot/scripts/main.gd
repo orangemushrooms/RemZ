@@ -202,6 +202,15 @@ func _shot_views(spec: String) -> void:
 	_on_start()
 	for i in 20:
 		await get_tree().process_frame
+	if "--spawn-drops" in _flags:
+		# the three supply drops side by side on the plaza for visual checks
+		var k := 0
+		for kind in ["ammo", "grenade", "medkit"]:
+			var drop := Pickup.new()
+			drop.setup(kind)
+			add_child(drop)
+			drop.global_position = Map.ground_pos(4.0 + k * 0.8, -2.0) + Vector3(0, 0.05, 0)
+			k += 1
 	var dir := ProjectSettings.globalize_path("res://") + "../shots/"
 	DirAccess.make_dir_recursive_absolute(dir)
 	var n := 0
@@ -485,7 +494,7 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material, fade: bool
 		var a: Vector2 = pts[i]
 		var b: Vector2 = pts[i + 1]
 		var len := a.distance_to(b)
-		var steps := maxi(1, int(len / 1.5))
+		var steps := maxi(1, ceili(len / 0.25))
 		for k in steps + (1 if i == pts.size() - 2 else 0):
 			var t := float(k) / steps
 			var p := a.lerp(b, t)
@@ -497,6 +506,10 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material, fade: bool
 	for i in samples.size() - 1:
 		total += (samples[i][0] as Vector2).distance_to(samples[i + 1][0])
 	var prev: Vector2 = samples[0][0]
+	# Subdivide across the width too: a single quad bridges the roadbed and can
+	# disappear below the terrain, especially where gravel tracks join the road.
+	var across := maxi(1, ceili(width / 0.25))
+	var stride := across + 1
 	for s in samples:
 		var p: Vector2 = s[0]
 		var nrm: Vector2 = s[1]
@@ -504,16 +517,18 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material, fade: bool
 		prev = p
 		# fade the ribbon in and out over 6 m so it merges with the gravel of the clearing / the forest floor
 		var opacity := 1.0 if not fade else clampf(minf(dist, total - dist) / 6.0, 0.0, 1.0)
-		for side: float in [-1.0, 1.0]:
+		for column in stride:
+			var side := float(column) / across * 2.0 - 1.0
 			var q: Vector2 = p + nrm * side * width / 2.0
 			st.set_uv(Vector2((0.5 + side * 0.5) * width / 5.0, dist / 5.0))
 			st.set_color(Color(1, 1, 1, opacity))
 			st.set_normal(Map.ground_normal(q.x, q.y))
-			st.add_vertex(Vector3(q.x, Map.ground_height(q.x, q.y) + lift, q.y))
+			st.add_vertex(Vector3(q.x, Map.surface_height(q.x, q.y) + lift, q.y))
 		if vi > 0:
-			var a := (vi - 1) * 2
-			st.add_index(a); st.add_index(a + 2); st.add_index(a + 1)
-			st.add_index(a + 1); st.add_index(a + 2); st.add_index(a + 3)
+			for column in across:
+				var a := (vi - 1) * stride + column
+				st.add_index(a); st.add_index(a + stride); st.add_index(a + 1)
+				st.add_index(a + 1); st.add_index(a + stride); st.add_index(a + stride + 1)
 		vi += 1
 	st.generate_tangents()
 	var mi := MeshInstance3D.new()
@@ -536,7 +551,8 @@ func _build_roads() -> void:
 		m.render_priority = 1
 	for r in Map.ROADS:
 		var mat: Material = { "asphalt": asphalt, "gravel": gravel, "dirt": dirt }[r["surface"]]
-		_road_mesh(r["pts"], r["width"], 0.04 if r["surface"] != "dirt" else 0.03, mat, r["surface"] != "asphalt")
+		# Dirt tracks cross steeper cell creases and need a little more clearance.
+		_road_mesh(r["pts"], r["width"], 0.04 if r["surface"] != "dirt" else 0.05, mat, r["surface"] != "asphalt")
 
 # ---------------------------------------------------------------- models
 var _scenes := {}
@@ -613,6 +629,67 @@ func _place(name: String, x: float, z: float, height: float, yaw: float = -1.0, 
 	if collide > 0.0:
 		_collider(root, collide)
 	return root
+
+# Meshy prop fitted by one dimension: axis "x" / "z" = length along that local axis, "y" = height. The model's
+# longest horizontal extent is turned onto local +x first, so every prop's length runs along x regardless of how
+# Meshy oriented it; PROP_YAW adds a per-model correction (flip / quarter turn) found with tests/prop_info.gd.
+# Returns null when the GLB is missing so the caller can keep its primitive version.
+const PROP_YAW := {
+	"log_fountain": 0.0, "log_bench_beam": 0.0, "log_picnic_table": 0.0, "fire_pit": 0.0, "fallen_log": 0.0,
+	"workbench": 0.0, "guidepost": 0.0, "info_board": 0.0, "waste_bin": 0.0, "ammo_crate": 0.0, "ammo_pack": 0.0, "medkit": 0.0,
+}
+
+# albedo tint per model: Meshy renders weathered wood almost white, the site photos show grey-brown
+const PROP_TINT := { "log_fountain": Color(0.95, 0.93, 0.9), "fallen_log": Color(0.82, 0.8, 0.74), "log_bench_beam": Color(0.92, 0.9, 0.87) }
+
+func _prop(parent: Node3D, name: String, size: float, axis: String, local_pos: Vector3 = Vector3.ZERO, yaw: float = 0.0) -> Node3D:
+	var scene := _scene(name)
+	if not scene:
+		return null
+	var holder := Node3D.new()
+	var model: Node3D = scene.instantiate()
+	holder.add_child(model)
+	parent.add_child(holder)
+	var aabb := AABB()
+	var first := true
+	for mi in model.find_children("*", "MeshInstance3D", true, false):
+		var b: AABB = (model.global_transform.affine_inverse() * (mi as Node3D).global_transform) * (mi as MeshInstance3D).get_aabb()
+		aabb = b if first else aabb.merge(b)
+		first = false
+	if aabb.size.length() <= 0.0:
+		return holder
+	# longest horizontal extent onto +x
+	var turn := 0.0
+	if aabb.size.z > aabb.size.x * 1.15:
+		turn = PI / 2.0
+	var ext := aabb.size
+	if turn != 0.0:
+		ext = Vector3(aabb.size.z, aabb.size.y, aabb.size.x)
+	var ref := ext.y if axis == "y" else (ext.z if axis == "z" else ext.x)
+	var s := size / maxf(ref, 0.001)
+	model.scale = Vector3.ONE * s
+	model.rotation.y = turn + float(PROP_YAW.get(name, 0.0))
+	# centre horizontally, bottom on the ground
+	var c := aabb.get_center()
+	var offset := Vector3(-c.x, -aabb.position.y, -c.z) * s
+	model.position = offset.rotated(Vector3.UP, model.rotation.y)
+	holder.position = local_pos
+	holder.rotation.y = yaw
+	var tint: Color = PROP_TINT.get(name, Color.WHITE)
+	for mi in model.find_children("*", "MeshInstance3D", true, false):
+		var inst := mi as MeshInstance3D
+		inst.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+		if tint != Color.WHITE:
+			for i in inst.mesh.get_surface_count():
+				var mat := inst.mesh.surface_get_material(i)
+				if mat is BaseMaterial3D:
+					var dup: BaseMaterial3D = mat.duplicate()
+					dup.albedo_color = dup.albedo_color * tint
+					# weathered wood is matte: no sky reflection that turns the grey logs pale blue
+					dup.roughness = 1.0
+					dup.metallic_specular = 0.15
+					inst.set_surface_override_material(i, dup)
+	return holder
 
 func _place_at(name: String, x: float, z: float, y_offset: float, height: float, yaw: float = -1.0) -> Node3D:
 	var n := _place(name, x, z, height, yaw, 1.0, 0.0)
@@ -781,12 +858,13 @@ func _loot(root: Node3D, kind: String, id: String, label: String, local_pos: Vec
 		l.add_child(m)
 		Weapons._fit_height(m, height)
 		m.position.y += height / 2.0
-	else:
+	elif kind != "ammo":
 		_box(l, Vector3(0.6, 0.35, 0.4), Vector3(0, 0.18, 0), Foliage.pbr("planks", 0.8, Color(0.5, 0.42, 0.3)))
 	if kind == "ammo":
 		# olive ammunition crate with a lid
-		_box(l, Vector3(0.62, 0.32, 0.4), Vector3(0, 0.16, 0), _plain(Color(0.28, 0.32, 0.2), 0.8))
-		_box(l, Vector3(0.66, 0.05, 0.44), Vector3(0, 0.34, 0), _plain(Color(0.22, 0.26, 0.16), 0.8))
+		if not _prop(l, "ammo_crate", 0.66, "x"):
+			_box(l, Vector3(0.62, 0.32, 0.4), Vector3(0, 0.16, 0), _plain(Color(0.28, 0.32, 0.2), 0.8))
+			_box(l, Vector3(0.66, 0.05, 0.44), Vector3(0, 0.34, 0), _plain(Color(0.22, 0.26, 0.16), 0.8))
 	var light := OmniLight3D.new()
 	light.light_color = Color(1.0, 0.85, 0.6)
 	light.light_energy = 0.6
@@ -1131,9 +1209,10 @@ func _waldhuette() -> Node3D:
 	_slab(root, Vector3(0.55, 0.45, 2.2), Vector3(-hx + 0.7, upper_floor + 0.225, hz - 1.8), floor_wood)
 	_loot(root, "ammo", "", "Hüttenvorrat", Vector3(hx - 1.4, upper_floor + 0.84, hz - 1.0), "", 0.3)
 	# inside: workbench with an ammunition crate, shotgun and MP5 on the wall
-	_box(root, Vector3(2.2, 0.08, 0.7), Vector3(hx - 1.2, 0.85, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.5, 0.42, 0.3)))
-	for lx in [hx - 2.1, hx - 0.3]:
-		_box(root, Vector3(0.1, 0.85, 0.6), Vector3(lx, 0.42, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
+	if not _prop(root, "workbench", 2.2, "x", Vector3(hx - 1.2, 0.0, hz - 0.6)):
+		_box(root, Vector3(2.2, 0.08, 0.7), Vector3(hx - 1.2, 0.85, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.5, 0.42, 0.3)))
+		for lx in [hx - 2.1, hx - 0.3]:
+			_box(root, Vector3(0.1, 0.85, 0.6), Vector3(lx, 0.42, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
 	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 1.2, 0.9, hz - 0.6), "", 0.3)
 	_loot(root, "weapon", "shotgun", "Schrotflinte", Vector3(hx - 0.35, 1.5, 0.5), "rifle", 0.25, PI / 2.0)
 	_loot(root, "weapon", "smg", "MP5", Vector3(-0.5, 1.4, -hz + 0.35), "smg", 0.22, 0.0)
@@ -1313,6 +1392,9 @@ func _log_bench(x: float, z: float, yaw: float, length: float = 2.6) -> void:
 	add_child(root)
 	root.position = Map.ground_pos(x, z)
 	root.rotation.y = yaw
+	if _prop(root, "log_bench_beam", length, "x"):
+		_box_collider(root, Vector3(length, 0.55, 0.4))
+		return
 	var bark := _mat("ph_bark_beech2", 0.6, Color(0.6, 0.55, 0.5), false)
 	var beam := Foliage.pbr("planks", 0.7, Color(0.32, 0.27, 0.22))
 	_box(root, Vector3(length, 0.13, 0.24), Vector3(0, 0.47, 0), beam)
@@ -1331,6 +1413,9 @@ func _log_table(x: float, z: float, yaw: float) -> void:
 	add_child(root)
 	root.position = Map.ground_pos(x, z)
 	root.rotation.y = yaw
+	if _prop(root, "log_picnic_table", 2.3, "x"):
+		_box_collider(root, Vector3(2.3, 0.85, 1.9))
+		return
 	var bark := _mat("ph_bark_beech2", 0.6, Color(0.55, 0.45, 0.38), false)
 	var plank := Foliage.pbr("planks", 0.8, Color(0.45, 0.36, 0.28))
 	for k in 3:
@@ -1355,6 +1440,20 @@ func _fountain(x: float, z: float, yaw: float) -> void:
 	add_child(root)
 	root.position = Map.ground_pos(x, z)
 	root.rotation.y = yaw
+	if _prop(root, "log_fountain", 2.7, "x"):
+		# water surface in the trough and a thin jet, the model itself is dry
+		var wsurf := MeshInstance3D.new()
+		var wbox := BoxMesh.new()
+		wbox.size = Vector3(1.9, 0.02, 0.3)
+		wsurf.mesh = wbox
+		var wmat2 := _plain(Color(0.16, 0.22, 0.24, 0.9), 0.04, 0.3)
+		wmat2.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		wsurf.material_override = wmat2
+		wsurf.position = Vector3(-0.35, 0.62, 0.0)
+		root.add_child(wsurf)
+		_box_collider(root, Vector3(2.4, 1.0, 0.8), Vector3(-0.35, 0.0, 0.0))
+		_box_collider(root, Vector3(0.6, 1.9, 0.6), Vector3(1.25, 0.0, 0.0))
+		return
 	var bark := _mat("ph_bark_oak", 0.6, Color(0.62, 0.56, 0.5), false)
 	bark.roughness_texture = null
 	bark.roughness = 1.0
@@ -1436,6 +1535,12 @@ func _signpost(x: float, z: float) -> void:
 	add_child(root)
 	root.position = Map.ground_pos(x, z)
 	root.rotation.y = 0.3
+	var post_model := _prop(root, "guidepost", 2.4, "y")
+	if post_model:
+		_box_collider(root, Vector3(0.3, 2.4, 0.3))
+		if _prop(root, "info_board", 1.9, "y", Vector3(1.0, 0.0, 0.3), -0.2):
+			_box_collider(root, Vector3(0.7, 1.9, 0.3), Vector3(1.0, 0.0, 0.3))
+			return
 	var post := _plain(Color(0.35, 0.3, 0.25), 0.8)
 	_box(root, Vector3(0.1, 2.4, 0.1), Vector3(0, 1.2, 0), post)
 	var yellow := _plain(Color(0.95, 0.8, 0.1), 0.6)
@@ -1594,6 +1699,14 @@ func _build_campsite() -> void:
 		if c is MeshInstance3D and (c as MeshInstance3D).mesh is SphereMesh:
 			c.queue_free()
 	fire_light = fire.get_node("Light")
+	if _prop(fire, "fire_pit", 2.0, "x", Vector3(0, -0.05, 0), 0.0):
+		_collider(fire, 1.1, 0.5)
+		# the Meshy pit has the swivel arm in it; keep only the flames, embers, smoke and light of the campfire
+		for c in fire.get_children():
+			if c is MeshInstance3D and (c as MeshInstance3D).mesh is CylinderMesh:
+				c.queue_free()
+		_campsite_seating()
+		return
 	var stone := _mat("rock", 0.8, Color(0.62, 0.6, 0.56))
 	for k in 4:
 		var yaw := k * PI / 2.0
@@ -1612,6 +1725,9 @@ func _build_campsite() -> void:
 	grate.position = Vector3(0, 0.72, 0)
 	fire.add_child(grate)
 	_box(fire, Vector3(0.02, 1.0, 0.02), Vector3(0, 1.25, 0), iron)
+	_campsite_seating()
+
+func _campsite_seating() -> void:
 	# the four round-log benches (photo 20), the log picnic table (photo 18)
 	var bi := 0
 	for b in Map.BENCHES:
@@ -1627,6 +1743,22 @@ func _build_campsite() -> void:
 	var bin := Node3D.new()
 	add_child(bin)
 	bin.position = Map.ground_pos(Map.BIN.x, Map.BIN.y)
+	if _prop(bin, "waste_bin", 1.25, "y"):
+		_collider(bin, 0.3, 1.3)
+	else:
+		_bin_boxes(bin)
+	_signpost(Map.SIGNPOST.x, Map.SIGNPOST.y)
+	var seat := Node3D.new()
+	add_child(seat)
+	seat.position = Map.ground_pos(Map.LOG_SEAT.x, Map.LOG_SEAT.y) + Vector3(0, 0.3, 0)
+	seat.rotation.y = Map.LOG_SEAT.z
+	if _prop(seat, "fallen_log", 3.2, "x", Vector3(0, -0.3, 0)):
+		_box_collider(seat, Vector3(3.2, 0.6, 0.6), Vector3(0, -0.3, 0))
+	else:
+		_seat_log(seat)
+	_campsite_lanterns()
+
+func _bin_boxes(bin: Node3D) -> void:
 	var post_m := MeshInstance3D.new()
 	var postm := CylinderMesh.new()
 	postm.top_radius = 0.04; postm.bottom_radius = 0.04; postm.height = 0.6
@@ -1650,11 +1782,8 @@ func _build_campsite() -> void:
 	bin.add_child(lid)
 	_box(bin, Vector3(0.14, 0.12, 0.47), Vector3(0.0, 0.85, 0.0), _plain(Color(0.12, 0.12, 0.12), 0.6))
 	_collider(bin, 0.28, 1.3)
-	_signpost(Map.SIGNPOST.x, Map.SIGNPOST.y)
-	var seat := Node3D.new()
-	add_child(seat)
-	seat.position = Map.ground_pos(Map.LOG_SEAT.x, Map.LOG_SEAT.y) + Vector3(0, 0.3, 0)
-	seat.rotation.y = Map.LOG_SEAT.z
+
+func _seat_log(seat: Node3D) -> void:
 	var lg := MeshInstance3D.new()
 	var lgm := CylinderMesh.new()
 	lgm.top_radius = 0.28; lgm.bottom_radius = 0.32; lgm.height = 3.2
@@ -1663,6 +1792,8 @@ func _build_campsite() -> void:
 	lg.rotation.z = PI / 2.0
 	seat.add_child(lg)
 	_box_collider(seat, Vector3(3.2, 0.6, 0.6), Vector3(0, -0.3, 0))
+
+func _campsite_lanterns() -> void:
 	# pumpkin lanterns: game flavour at the stair, the table and the fountain
 	var wh: Dictionary = Map.BUILDINGS["waldhuette"]
 	var whp: Vector2 = wh["pos"]
@@ -1804,16 +1935,8 @@ func _build_foliage() -> void:
 		return Map.ground_pos(x, z)
 	if not "--no-leaves" in _flags:
 		add_child(Foliage.ground_leaves(100000, leaf_sampler, rng))
-	var grass_sampler := func(r: RandomNumberGenerator):
-		var x: float = r.randf_range(-150.0, 150.0)
-		var z: float = r.randf_range(-60.0, 160.0)
-		if Map.meadow_weight(x, z) < 0.5:
-			return null
-		if Map.on_road(x, z, 0.5) or Map.in_building(x, z, 0.5):
-			return null
-		return Map.ground_pos(x, z)
 	if not "--no-grass" in _flags:
-		add_child(Foliage.grass(180000, grass_sampler, rng))
+		add_child(Foliage.meadow_grass())
 		add_child(Foliage.forest_floor())
 	if not "--no-particles" in _flags:
 		add_child(Foliage.falling_leaves(Map.ground_pos(Map.FIRE.x, Map.FIRE.y) + Vector3(0, 9, 10), Vector3(45, 7, 40)))
