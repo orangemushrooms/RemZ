@@ -1,270 +1,298 @@
 {
- "zombie_shambler": {
-  "prompt": "low poly game character, rotting zombie in torn dirty farmer clothes, plaid shirt, jeans, pale greenish skin, wounds, standing upright in T-pose, humanoid, symmetric, dark forest horror game asset",
-  "texture_prompt": "dirty torn clothes, bloody stains, pale grey-green rotting skin, mud, dark realistic game texture"
- },
- "zombie_runner": {
-  "prompt": "low poly game character, thin emaciated fast zombie, ragged hoodie and torn trousers, sunken face, open mouth, humanoid standing upright in T-pose, symmetric, horror game asset",
-  "texture_prompt": "grey rotting skin, dark bloodstained ragged hoodie, dirt, veins, dark horror game texture"
- },
- "tree_pine": {
-  "prompt": "low poly game asset, tall spruce fir tree, straight trunk, dense dark green conifer branches, single tree, no ground",
-  "texture_prompt": "dark green needles, brown rough bark, stylized realistic game texture"
- },
- "tree_leaf": {
-  "prompt": "low poly game asset, deciduous beech tree, thick trunk, wide round dark green leafy crown, single tree, no ground",
-  "texture_prompt": "dark green summer leaves, grey-brown smooth bark, game texture"
- },
- "tree_dead": {
-  "prompt": "low poly game asset, dead bare tree, twisted trunk, crooked leafless branches, spooky, single tree, no ground",
-  "texture_prompt": "grey weathered cracked dead wood, dark, horror game texture"
- },
- "bush": {
-  "prompt": "low poly game asset, dense hazel hedge bush, round leafy shrub, single bush, no ground",
-  "texture_prompt": "green leaves, dark undergrowth, game texture"
- },
- "rock": {
-  "prompt": "low poly game asset, mossy granite boulder, single rock, no ground",
-  "texture_prompt": "grey granite with green moss patches, game texture"
- },
- "stump": {
-  "prompt": "low poly game asset, cut tree stump with roots, single object, no ground",
-  "texture_prompt": "brown bark, pale cut wood rings, moss, game texture"
- },
- "woodpile": {
-  "prompt": "low poly game asset, stacked firewood log pile, rectangular stack of split logs, single object, no ground",
-  "texture_prompt": "split firewood, brown bark, pale wood ends, game texture"
- },
- "barricade": {
-  "prompt": "low poly game asset, improvised wooden barricade made of planks and boards nailed crosswise, barbed wire, single object, no ground",
-  "texture_prompt": "old weathered wood planks, rusty nails, barbed wire, game texture"
- },
- "bench": {
-  "prompt": "low poly game asset, simple green painted wooden park bench with metal legs, single object, no ground",
-  "texture_prompt": "green painted worn wood slats, dark metal legs, game texture"
- },
- "pistol": {
-  "prompt": "low poly game asset, modern semi-automatic pistol, side view, first person shooter weapon, single object",
-  "texture_prompt": "black matte metal, worn edges, game texture"
- },
- "rifle": {
-  "prompt": "low poly game asset, pump action shotgun, wooden stock, first person shooter weapon, single object",
-  "texture_prompt": "dark blued steel, worn brown wooden stock, game texture"
- },
- "cabin": {
-  "prompt": "game asset, small wooden forest cabin, horizontal timber plank walls, concrete base, hipped roof with red clay tiles covered in autumn leaves, wooden door with three steps, one window with warm light, single building, no ground",
-  "texture_prompt": "weathered brown wood planks, red-orange roof tiles, grey concrete base, realistic PBR game texture"
- },
- "tripod_cauldron": {
-  "prompt": "game asset, campfire tripod made of three wooden sticks with a black iron cauldron hanging on a chain, single object, no fire, no ground",
-  "texture_prompt": "dark wood sticks, black cast iron pot, rusty chain, realistic game texture"
- },
- "log_bench": {
-  "prompt": "game asset, rustic bench made of one long split log plank resting on two short round logs, single object, no ground",
-  "texture_prompt": "dark weathered wood, bark on the log ends, realistic game texture"
- },
- "pumpkin_lantern": {
-  "prompt": "game asset, carved halloween jack-o-lantern pumpkin with glowing face, single object, no ground",
-  "texture_prompt": "orange pumpkin skin with ridges, dark carved face, realistic game texture"
- },
- "pumpkin": {
-  "prompt": "game asset, plain orange pumpkin with a short stem, single object, no ground",
-  "texture_prompt": "orange ribbed pumpkin skin, green-brown stem, realistic game texture"
- },
- "mushroom_cluster": {
-  "prompt": "game asset, cluster of forest mushrooms, chanterelles and porcini growing together from a small mossy patch, single object",
-  "texture_prompt": "golden yellow chanterelles, brown cap porcini, moss, realistic game texture"
- },
- "mushroom_fly": {
-  "prompt": "game asset, group of three fly agaric mushrooms with red caps and white dots, single object, no ground",
-  "texture_prompt": "red caps with white spots, white stems, realistic game texture"
- },
- "basket": {
-  "prompt": "game asset, wicker basket filled with small pumpkins and autumn leaves, single object, no ground",
-  "texture_prompt": "woven wicker, orange pumpkins, autumn leaves, realistic game texture"
- },
- "tree_autumn_a": {
-  "prompt": "highly detailed realistic beech tree in autumn, dense foliage of thousands of orange, red and golden leaves, thick textured trunk with branches, single tree, no ground, game asset",
-  "texture_prompt": "realistic autumn leaves orange red gold, rough grey-brown beech bark, photorealistic PBR"
- },
- "tree_autumn_b": {
-  "prompt": "highly detailed realistic maple tree in autumn, wide crown of dense red and orange leaves, gnarled trunk, single tree, no ground, game asset",
-  "texture_prompt": "realistic red orange maple leaves, dark brown bark, photorealistic PBR"
- },
- "spruce_detailed": {
-  "prompt": "highly detailed realistic tall spruce tree, dense dark green needle branches drooping, textured bark, single tree, no ground, game asset",
-  "texture_prompt": "realistic dark green spruce needles, brown scaly bark, photorealistic PBR"
- },
- "blanket": {
-  "prompt": "game asset, knitted wool blanket folded and draped, mustard yellow with dark green second blanket underneath, single object, no ground",
-  "texture_prompt": "knitted wool texture, mustard yellow and dark green, realistic PBR"
- },
- "mug": {
-  "prompt": "game asset, white enamel camping mug with black rim, single object, no ground",
-  "texture_prompt": "white enamel with chips, black rim, realistic PBR"
- },
- "candle": {
-  "prompt": "game asset, small glass jar candle with lit flame, single object, no ground",
-  "texture_prompt": "clear glass, cream wax, warm flame, realistic PBR"
- },
- "well": {
-  "prompt": "game asset, old stone water well with round stone wall, wooden crank with rope and bucket, small wooden roof, single object, no ground",
-  "texture_prompt": "grey mossy stone, weathered wood, rusty iron, realistic PBR"
- },
- "table": {
-  "prompt": "game asset, rustic wooden table made of thick planks, single object, no ground",
-  "texture_prompt": "weathered brown wood planks, realistic PBR"
- },
- "storage_hut": {
-  "prompt": "game asset, large open-front wooden log storage shed, log walls, gable roof with wooden shingles, firewood stacked inside, single building, no ground",
-  "texture_prompt": "dark weathered logs, wooden shingles, stacked firewood, realistic PBR"
- },
- "zombie_nurse": {
-  "prompt": "game character, zombie nurse in torn bloody white uniform, pale grey skin, sunken eyes, standing upright in T-pose, humanoid, symmetric, horror game asset",
-  "texture_prompt": "torn blood stained white nurse uniform, pale grey rotting skin, dark veins, realistic PBR"
- },
- "zombie_soldier": {
-  "prompt": "game character, zombie soldier in ripped camouflage uniform with tactical vest, helmet, rotting face, standing upright in T-pose, humanoid, symmetric, horror game asset",
-  "texture_prompt": "dirty green camouflage, black vest, rotting green-grey skin, blood, realistic PBR"
- },
- "zombie_bloater": {
-  "prompt": "game character, huge bloated fat zombie, bare swollen torso with boils, torn trousers, standing upright in T-pose, humanoid, symmetric, horror game asset",
-  "texture_prompt": "swollen sickly yellow-green skin with boils and veins, dirty torn trousers, realistic PBR"
- },
- "deer": {
-  "prompt": "game asset, realistic roe deer doe standing, brown coat, alert head, single animal, no ground",
-  "texture_prompt": "reddish brown short fur, white belly, realistic PBR"
- },
- "stag": {
-  "prompt": "game asset, realistic red deer stag with large antlers standing, single animal, no ground",
-  "texture_prompt": "dark brown fur, pale antlers, realistic PBR"
- },
- "ak47": {
-  "prompt": "game asset, AK-47 assault rifle with wooden stock and handguard, side view, first person shooter weapon, single object",
-  "texture_prompt": "black steel receiver, worn brown wood, realistic PBR"
- },
- "smg": {
-  "prompt": "game asset, MP5 submachine gun with collapsible stock, side view, first person shooter weapon, single object",
-  "texture_prompt": "black matte polymer and steel, scratches, realistic PBR"
- },
- "revolver": {
-  "prompt": "game asset, large .44 magnum revolver with long barrel and wooden grip, side view, first person shooter weapon, single object",
-  "texture_prompt": "polished dark steel, walnut grip, realistic PBR"
- },
- "grenade": {
-  "prompt": "game asset, military hand grenade, olive green, with pin and lever, single object",
-  "texture_prompt": "olive green painted steel, scratches, realistic PBR"
- },
- "zombie_shambler_v2": {
-  "prompt": "photorealistic AAA game character, rotting zombie in torn dirty farmer clothes, plaid flannel shirt, worn jeans, pale grey decayed skin, exposed wounds, sunken eyes, standing upright in T-pose, humanoid, symmetric, high detail",
-  "texture_prompt": "photorealistic 4k PBR, pale grey rotting skin with dark veins, dried blood, torn dirty fabric, mud, subsurface skin detail, horror game"
- },
- "zombie_runner_v2": {
-  "prompt": "photorealistic AAA game character, lean athletic infected zombie in ripped hoodie and cargo pants, pale grey decayed skin, bloody mouth, standing upright in T-pose, humanoid, symmetric, high detail",
-  "texture_prompt": "photorealistic 4k PBR, pale grey rotting skin, dark veins, blood splatter, torn dirty hoodie, mud"
- },
- "zombie_nurse_v2": {
-  "prompt": "photorealistic AAA game character, undead nurse zombie in blood stained white uniform, pale grey decayed skin, torn sleeves, standing upright in T-pose, humanoid, symmetric, high detail",
-  "texture_prompt": "photorealistic 4k PBR, dirty blood stained white nurse uniform, pale grey rotting skin, dark veins, horror game"
- },
- "zombie_soldier_v2": {
-  "prompt": "photorealistic AAA game character, undead swiss army soldier zombie in torn camouflage uniform with tactical vest, helmet, pale grey decayed skin, standing upright in T-pose, humanoid, symmetric, high detail",
-  "texture_prompt": "photorealistic 4k PBR, torn muddy camouflage fabric, worn tactical gear, pale grey rotting skin, dried blood"
- },
- "zombie_bloater_v2": {
-  "prompt": "photorealistic AAA game character, huge bloated zombie brute, swollen torso with burst skin and boils, torn overalls, pale yellowish grey decayed skin, standing upright in T-pose, humanoid, symmetric, high detail",
-  "texture_prompt": "photorealistic 4k PBR, bloated pale yellow-grey rotting skin, pus and boils, torn dirty overalls, dried blood"
- },
- "pistol_v2": {
-  "prompt": "photorealistic AAA game weapon, modern 9mm semi-automatic pistol, Glock style polymer frame, steel slide, front sight, trigger, magazine, high detail, game ready",
-  "texture_prompt": "photorealistic 4k PBR, matte black polymer, brushed steel slide with fine wear on edges, subtle scratches"
- },
- "revolver_v2": {
-  "prompt": "photorealistic AAA game weapon, .357 magnum revolver, stainless steel, wooden grip, 6 inch barrel, high detail, game ready",
-  "texture_prompt": "photorealistic 4k PBR, polished stainless steel with fingerprints and wear, dark walnut wood grip"
- },
- "smg_v2": {
-  "prompt": "photorealistic AAA game weapon, MP5 submachine gun with collapsible stock, curved magazine, foregrip, iron sights, high detail, game ready",
-  "texture_prompt": "photorealistic 4k PBR, black parkerized steel and polymer, edge wear, dust"
- },
- "ak47_v2": {
-  "prompt": "photorealistic AAA game weapon, AK-47 assault rifle with wooden stock and handguard, curved magazine, iron sights, high detail, game ready",
-  "texture_prompt": "photorealistic 4k PBR, worn dark steel receiver, scratched laminated wood stock, dust and oil"
- },
- "rifle_v2": {
-  "prompt": "photorealistic AAA game weapon, pump action 12 gauge shotgun, Remington 870 style, wooden stock and pump, long barrel, high detail, game ready",
-  "texture_prompt": "photorealistic 4k PBR, blued steel barrel with wear, dark oiled walnut stock, subtle scratches"
- },
- "smg_v3": {
-  "prompt": "photorealistic AAA game weapon, MP5 submachine gun with collapsible stock, curved magazine, foregrip, iron sights, isolated single object floating, no base, no stand, no display plate, high detail, game ready",
-  "texture_prompt": "photorealistic 4k PBR, black parkerized steel and polymer, edge wear, dust"
- },
- "log_fountain": {
-  "prompt": "game asset, Swiss forest log fountain: one long tree trunk split lengthwise and hollowed out as a water trough, resting horizontally on two short round log blocks, at one end a thick upright tree trunk post about twice as tall as the trough with a small iron pipe spout sticking out over the trough, weathered grey wood, single object, no water, no ground",
-  "texture_prompt": "weathered silver-grey cracked wood, dark bark on the post, rusty black iron pipe, realistic PBR"
- },
- "waste_bin": {
-  "prompt": "game asset, white painted round steel drum waste bin with a flat black lid, mounted on a short dark metal post, Swiss picnic area litter bin, single object, no ground",
-  "texture_prompt": "chipped white paint, matte black lid, dark grey metal post, slight rust, realistic PBR"
- },
- "guidepost": {
-  "prompt": "game asset, Swiss yellow hiking guidepost: a plain wooden post with two flat yellow direction sign arrows mounted at different heights pointing in different directions, black text on the signs, single object, no ground",
-  "texture_prompt": "bright yellow signs with black lettering, weathered brown wooden post, realistic PBR"
- },
- "info_board": {
-  "prompt": "game asset, small wooden information notice board on a single square wooden post with a tiny pitched wooden roof, forest trail information panel, single object, no ground",
-  "texture_prompt": "weathered brown wood, paper notice under glass, small shingle roof, realistic PBR"
- },
- "fire_pit": {
-  "prompt": "game asset, square outdoor fireplace built from four rectangular grey natural stone blocks forming a low square frame, black ash and a few burnt logs inside, a vertical black iron post at one corner with a horizontal swivel arm holding a round iron barbecue grate over the centre, no flames, single object, no ground",
-  "texture_prompt": "grey rough natural stone with soot, black cast iron, ash, charred wood, realistic PBR"
- },
- "log_bench_beam": {
-  "prompt": "game asset, rustic outdoor bench: one long thick dark squared wooden beam resting flat on two short vertical round log sections with bark, Swiss forest picnic site bench, single object, no ground",
-  "texture_prompt": "dark oiled brown wood beam, grey-brown beech bark on the log feet, realistic PBR"
- },
- "log_picnic_table": {
-  "prompt": "game asset, rustic log picnic table: thick plank tabletop on four round log legs, with one attached plank bench on each long side supported by short round logs, weathered dark wood with bark on the legs, single object, no ground",
-  "texture_prompt": "weathered dark brown planks, grey-brown bark on the round legs, realistic PBR"
- },
- "ammo_pack": {
-  "prompt": "game asset, small olive green metal military ammunition can with a hinged lid, side latch and yellow stencil markings, closed, single object, no ground",
-  "texture_prompt": "olive drab scratched metal, yellow stencil text, worn edges, realistic PBR"
- },
- "medkit": {
-  "prompt": "game asset, white plastic first aid kit case with a red cross on the lid and a carry handle, closed, single object, no ground",
-  "texture_prompt": "white scuffed plastic, bright red cross, grey handle, realistic PBR"
- },
- "ammo_crate": {
-  "prompt": "game asset, olive green wooden military ammunition crate with rope handles and white stencil text, lid slightly open showing rows of brass cartridges inside, single object, no ground",
-  "texture_prompt": "olive painted rough wood, white stencil letters, brass cartridges, rope, realistic PBR"
- },
- "fallen_log": {
-  "prompt": "game asset, fallen beech tree trunk lying on its side, bark, a few broken branch stubs, moss patches on top, about three metres long, single object, no ground",
-  "texture_prompt": "grey-brown smooth beech bark, green moss, pale broken wood, realistic PBR"
- },
- "workbench": {
-  "prompt": "game asset, old garage workbench: heavy wooden top on a plank frame, a bench vice at one end, a few scattered tools and a shelf underneath, single object, no ground",
-  "texture_prompt": "oily dark wood, scratched grey steel vice, rusty tools, realistic PBR"
- },
- "tractor": {
-  "prompt": "game asset, classic Swiss farm tractor, green body with white wheel rims, open cab with a small roof frame, large rear wheels, single vehicle, no ground",
-  "texture_prompt": "faded green paint with scratches and mud, black rubber tyres, dull metal, realistic PBR"
- },
- "silage_bales": {
-  "prompt": "game asset, row of four round hay bales wrapped in white plastic film lying on their sides next to each other, farm silage bales, single object, no ground",
-  "texture_prompt": "white stretch plastic film with slight dirt and green stains, realistic PBR"
- },
- "car_estate": {
-  "prompt": "game asset, modern grey compact estate car, parked, closed doors, single vehicle, no ground",
-  "texture_prompt": "metallic grey paint, dark glass, black tyres, realistic PBR"
- },
- "fence_post_wire": {
-  "prompt": "game asset, single weathered wooden pasture fence post, square cross section, slightly leaning, with two rusty steel wire strands attached by insulators on one side, Swiss farm fence, single object, no ground",
-  "texture_prompt": "grey weathered wood with cracks, rusty wire, white plastic insulators, realistic PBR"
- },
- "deer_feeder": {
-  "prompt": "game asset, small wooden forest hunting feeder: a roofed wooden rack for hay on four posts with a low pitched shingle roof, Swiss forest, single object, no ground",
-  "texture_prompt": "weathered grey-brown wood, moss on the shingles, realistic PBR"
- }
+  "zombie_titan": {
+    "prompt": "realistic game character, colossal grotesque zombie titan, emaciated giant humanoid with overlong arms and huge clawed hands, exposed ribcage and spine, torn grey rotting skin hanging in strips, several milky eyes, gaping jaw with broken teeth, remnants of clothing, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+    "texture_prompt": "grey-green rotting flesh, black veins, exposed yellowed bone, dried dark blood, torn cloth, dark realistic PBR"
+  },
+  "zombie_shambler": {
+    "prompt": "low poly game character, rotting zombie in torn dirty farmer clothes, plaid shirt, jeans, pale greenish skin, wounds, standing upright in T-pose, humanoid, symmetric, dark forest horror game asset",
+    "texture_prompt": "dirty torn clothes, bloody stains, pale grey-green rotting skin, mud, dark realistic game texture"
+  },
+  "zombie_runner": {
+    "prompt": "low poly game character, thin emaciated fast zombie, ragged hoodie and torn trousers, sunken face, open mouth, humanoid standing upright in T-pose, symmetric, horror game asset",
+    "texture_prompt": "grey rotting skin, dark bloodstained ragged hoodie, dirt, veins, dark horror game texture"
+  },
+  "tree_pine": {
+    "prompt": "low poly game asset, tall spruce fir tree, straight trunk, dense dark green conifer branches, single tree, no ground",
+    "texture_prompt": "dark green needles, brown rough bark, stylized realistic game texture"
+  },
+  "tree_leaf": {
+    "prompt": "low poly game asset, deciduous beech tree, thick trunk, wide round dark green leafy crown, single tree, no ground",
+    "texture_prompt": "dark green summer leaves, grey-brown smooth bark, game texture"
+  },
+  "tree_dead": {
+    "prompt": "low poly game asset, dead bare tree, twisted trunk, crooked leafless branches, spooky, single tree, no ground",
+    "texture_prompt": "grey weathered cracked dead wood, dark, horror game texture"
+  },
+  "bush": {
+    "prompt": "low poly game asset, dense hazel hedge bush, round leafy shrub, single bush, no ground",
+    "texture_prompt": "green leaves, dark undergrowth, game texture"
+  },
+  "rock": {
+    "prompt": "low poly game asset, mossy granite boulder, single rock, no ground",
+    "texture_prompt": "grey granite with green moss patches, game texture"
+  },
+  "stump": {
+    "prompt": "low poly game asset, cut tree stump with roots, single object, no ground",
+    "texture_prompt": "brown bark, pale cut wood rings, moss, game texture"
+  },
+  "woodpile": {
+    "prompt": "low poly game asset, stacked firewood log pile, rectangular stack of split logs, single object, no ground",
+    "texture_prompt": "split firewood, brown bark, pale wood ends, game texture"
+  },
+  "barricade": {
+    "prompt": "low poly game asset, improvised wooden barricade made of planks and boards nailed crosswise, barbed wire, single object, no ground",
+    "texture_prompt": "old weathered wood planks, rusty nails, barbed wire, game texture"
+  },
+  "bench": {
+    "prompt": "low poly game asset, simple green painted wooden park bench with metal legs, single object, no ground",
+    "texture_prompt": "green painted worn wood slats, dark metal legs, game texture"
+  },
+  "pistol": {
+    "prompt": "low poly game asset, modern semi-automatic pistol, side view, first person shooter weapon, single object",
+    "texture_prompt": "black matte metal, worn edges, game texture"
+  },
+  "rifle": {
+    "prompt": "low poly game asset, pump action shotgun, wooden stock, first person shooter weapon, single object",
+    "texture_prompt": "dark blued steel, worn brown wooden stock, game texture"
+  },
+  "cabin": {
+    "prompt": "game asset, small wooden forest cabin, horizontal timber plank walls, concrete base, hipped roof with red clay tiles covered in autumn leaves, wooden door with three steps, one window with warm light, single building, no ground",
+    "texture_prompt": "weathered brown wood planks, red-orange roof tiles, grey concrete base, realistic PBR game texture"
+  },
+  "tripod_cauldron": {
+    "prompt": "game asset, campfire tripod made of three wooden sticks with a black iron cauldron hanging on a chain, single object, no fire, no ground",
+    "texture_prompt": "dark wood sticks, black cast iron pot, rusty chain, realistic game texture"
+  },
+  "log_bench": {
+    "prompt": "game asset, rustic bench made of one long split log plank resting on two short round logs, single object, no ground",
+    "texture_prompt": "dark weathered wood, bark on the log ends, realistic game texture"
+  },
+  "pumpkin_lantern": {
+    "prompt": "game asset, carved halloween jack-o-lantern pumpkin with glowing face, single object, no ground",
+    "texture_prompt": "orange pumpkin skin with ridges, dark carved face, realistic game texture"
+  },
+  "pumpkin": {
+    "prompt": "game asset, plain orange pumpkin with a short stem, single object, no ground",
+    "texture_prompt": "orange ribbed pumpkin skin, green-brown stem, realistic game texture"
+  },
+  "mushroom_cluster": {
+    "prompt": "game asset, cluster of forest mushrooms, chanterelles and porcini growing together from a small mossy patch, single object",
+    "texture_prompt": "golden yellow chanterelles, brown cap porcini, moss, realistic game texture"
+  },
+  "mushroom_fly": {
+    "prompt": "game asset, group of three fly agaric mushrooms with red caps and white dots, single object, no ground",
+    "texture_prompt": "red caps with white spots, white stems, realistic game texture"
+  },
+  "basket": {
+    "prompt": "game asset, wicker basket filled with small pumpkins and autumn leaves, single object, no ground",
+    "texture_prompt": "woven wicker, orange pumpkins, autumn leaves, realistic game texture"
+  },
+  "tree_autumn_a": {
+    "prompt": "highly detailed realistic beech tree in autumn, dense foliage of thousands of orange, red and golden leaves, thick textured trunk with branches, single tree, no ground, game asset",
+    "texture_prompt": "realistic autumn leaves orange red gold, rough grey-brown beech bark, photorealistic PBR"
+  },
+  "tree_autumn_b": {
+    "prompt": "highly detailed realistic maple tree in autumn, wide crown of dense red and orange leaves, gnarled trunk, single tree, no ground, game asset",
+    "texture_prompt": "realistic red orange maple leaves, dark brown bark, photorealistic PBR"
+  },
+  "spruce_detailed": {
+    "prompt": "highly detailed realistic tall spruce tree, dense dark green needle branches drooping, textured bark, single tree, no ground, game asset",
+    "texture_prompt": "realistic dark green spruce needles, brown scaly bark, photorealistic PBR"
+  },
+  "blanket": {
+    "prompt": "game asset, knitted wool blanket folded and draped, mustard yellow with dark green second blanket underneath, single object, no ground",
+    "texture_prompt": "knitted wool texture, mustard yellow and dark green, realistic PBR"
+  },
+  "mug": {
+    "prompt": "game asset, white enamel camping mug with black rim, single object, no ground",
+    "texture_prompt": "white enamel with chips, black rim, realistic PBR"
+  },
+  "candle": {
+    "prompt": "game asset, small glass jar candle with lit flame, single object, no ground",
+    "texture_prompt": "clear glass, cream wax, warm flame, realistic PBR"
+  },
+  "well": {
+    "prompt": "game asset, old stone water well with round stone wall, wooden crank with rope and bucket, small wooden roof, single object, no ground",
+    "texture_prompt": "grey mossy stone, weathered wood, rusty iron, realistic PBR"
+  },
+  "table": {
+    "prompt": "game asset, rustic wooden table made of thick planks, single object, no ground",
+    "texture_prompt": "weathered brown wood planks, realistic PBR"
+  },
+  "storage_hut": {
+    "prompt": "game asset, large open-front wooden log storage shed, log walls, gable roof with wooden shingles, firewood stacked inside, single building, no ground",
+    "texture_prompt": "dark weathered logs, wooden shingles, stacked firewood, realistic PBR"
+  },
+  "zombie_nurse": {
+    "prompt": "game character, zombie nurse in torn bloody white uniform, pale grey skin, sunken eyes, standing upright in T-pose, humanoid, symmetric, horror game asset",
+    "texture_prompt": "torn blood stained white nurse uniform, pale grey rotting skin, dark veins, realistic PBR"
+  },
+  "zombie_soldier": {
+    "prompt": "game character, zombie soldier in ripped camouflage uniform with tactical vest, helmet, rotting face, standing upright in T-pose, humanoid, symmetric, horror game asset",
+    "texture_prompt": "dirty green camouflage, black vest, rotting green-grey skin, blood, realistic PBR"
+  },
+  "zombie_bloater": {
+    "prompt": "game character, huge bloated fat zombie, bare swollen torso with boils, torn trousers, standing upright in T-pose, humanoid, symmetric, horror game asset",
+    "texture_prompt": "swollen sickly yellow-green skin with boils and veins, dirty torn trousers, realistic PBR"
+  },
+  "deer": {
+    "prompt": "game asset, realistic roe deer doe standing, brown coat, alert head, single animal, no ground",
+    "texture_prompt": "reddish brown short fur, white belly, realistic PBR"
+  },
+  "stag": {
+    "prompt": "game asset, realistic red deer stag with large antlers standing, single animal, no ground",
+    "texture_prompt": "dark brown fur, pale antlers, realistic PBR"
+  },
+  "ak47": {
+    "prompt": "game asset, AK-47 assault rifle with wooden stock and handguard, side view, first person shooter weapon, single object",
+    "texture_prompt": "black steel receiver, worn brown wood, realistic PBR"
+  },
+  "smg": {
+    "prompt": "game asset, MP5 submachine gun with collapsible stock, side view, first person shooter weapon, single object",
+    "texture_prompt": "black matte polymer and steel, scratches, realistic PBR"
+  },
+  "revolver": {
+    "prompt": "game asset, large .44 magnum revolver with long barrel and wooden grip, side view, first person shooter weapon, single object",
+    "texture_prompt": "polished dark steel, walnut grip, realistic PBR"
+  },
+  "grenade": {
+    "prompt": "game asset, military hand grenade, olive green, with pin and lever, single object",
+    "texture_prompt": "olive green painted steel, scratches, realistic PBR"
+  },
+  "zombie_shambler_v2": {
+    "prompt": "photorealistic AAA game character, rotting zombie in torn dirty farmer clothes, plaid flannel shirt, worn jeans, pale grey decayed skin, exposed wounds, sunken eyes, standing upright in T-pose, humanoid, symmetric, high detail",
+    "texture_prompt": "photorealistic 4k PBR, pale grey rotting skin with dark veins, dried blood, torn dirty fabric, mud, subsurface skin detail, horror game"
+  },
+  "zombie_runner_v2": {
+    "prompt": "photorealistic AAA game character, lean athletic infected zombie in ripped hoodie and cargo pants, pale grey decayed skin, bloody mouth, standing upright in T-pose, humanoid, symmetric, high detail",
+    "texture_prompt": "photorealistic 4k PBR, pale grey rotting skin, dark veins, blood splatter, torn dirty hoodie, mud"
+  },
+  "zombie_nurse_v2": {
+    "prompt": "photorealistic AAA game character, undead nurse zombie in blood stained white uniform, pale grey decayed skin, torn sleeves, standing upright in T-pose, humanoid, symmetric, high detail",
+    "texture_prompt": "photorealistic 4k PBR, dirty blood stained white nurse uniform, pale grey rotting skin, dark veins, horror game"
+  },
+  "zombie_soldier_v2": {
+    "prompt": "photorealistic AAA game character, undead swiss army soldier zombie in torn camouflage uniform with tactical vest, helmet, pale grey decayed skin, standing upright in T-pose, humanoid, symmetric, high detail",
+    "texture_prompt": "photorealistic 4k PBR, torn muddy camouflage fabric, worn tactical gear, pale grey rotting skin, dried blood"
+  },
+  "zombie_bloater_v2": {
+    "prompt": "photorealistic AAA game character, huge bloated zombie brute, swollen torso with burst skin and boils, torn overalls, pale yellowish grey decayed skin, standing upright in T-pose, humanoid, symmetric, high detail",
+    "texture_prompt": "photorealistic 4k PBR, bloated pale yellow-grey rotting skin, pus and boils, torn dirty overalls, dried blood"
+  },
+  "pistol_v2": {
+    "prompt": "photorealistic AAA game weapon, modern 9mm semi-automatic pistol, Glock style polymer frame, steel slide, front sight, trigger, magazine, high detail, game ready",
+    "texture_prompt": "photorealistic 4k PBR, matte black polymer, brushed steel slide with fine wear on edges, subtle scratches"
+  },
+  "revolver_v2": {
+    "prompt": "photorealistic AAA game weapon, .357 magnum revolver, stainless steel, wooden grip, 6 inch barrel, high detail, game ready",
+    "texture_prompt": "photorealistic 4k PBR, polished stainless steel with fingerprints and wear, dark walnut wood grip"
+  },
+  "smg_v2": {
+    "prompt": "photorealistic AAA game weapon, MP5 submachine gun with collapsible stock, curved magazine, foregrip, iron sights, high detail, game ready",
+    "texture_prompt": "photorealistic 4k PBR, black parkerized steel and polymer, edge wear, dust"
+  },
+  "ak47_v2": {
+    "prompt": "photorealistic AAA game weapon, AK-47 assault rifle with wooden stock and handguard, curved magazine, iron sights, high detail, game ready",
+    "texture_prompt": "photorealistic 4k PBR, worn dark steel receiver, scratched laminated wood stock, dust and oil"
+  },
+  "rifle_v2": {
+    "prompt": "photorealistic AAA game weapon, pump action 12 gauge shotgun, Remington 870 style, wooden stock and pump, long barrel, high detail, game ready",
+    "texture_prompt": "photorealistic 4k PBR, blued steel barrel with wear, dark oiled walnut stock, subtle scratches"
+  },
+  "smg_v3": {
+    "prompt": "photorealistic AAA game weapon, MP5 submachine gun with collapsible stock, curved magazine, foregrip, iron sights, isolated single object floating, no base, no stand, no display plate, high detail, game ready",
+    "texture_prompt": "photorealistic 4k PBR, black parkerized steel and polymer, edge wear, dust"
+  },
+  "log_fountain": {
+    "prompt": "game asset, Swiss forest log fountain: one long tree trunk split lengthwise and hollowed out as a water trough, resting horizontally on two short round log blocks, at one end a thick upright tree trunk post about twice as tall as the trough with a small iron pipe spout sticking out over the trough, weathered grey wood, single object, no water, no ground",
+    "texture_prompt": "weathered silver-grey cracked wood, dark bark on the post, rusty black iron pipe, realistic PBR"
+  },
+  "waste_bin": {
+    "prompt": "game asset, white painted round steel drum waste bin with a flat black lid, mounted on a short dark metal post, Swiss picnic area litter bin, single object, no ground",
+    "texture_prompt": "chipped white paint, matte black lid, dark grey metal post, slight rust, realistic PBR"
+  },
+  "guidepost": {
+    "prompt": "game asset, Swiss yellow hiking guidepost: a plain wooden post with two flat yellow direction sign arrows mounted at different heights pointing in different directions, black text on the signs, single object, no ground",
+    "texture_prompt": "bright yellow signs with black lettering, weathered brown wooden post, realistic PBR"
+  },
+  "info_board": {
+    "prompt": "game asset, small wooden information notice board on a single square wooden post with a tiny pitched wooden roof, forest trail information panel, single object, no ground",
+    "texture_prompt": "weathered brown wood, paper notice under glass, small shingle roof, realistic PBR"
+  },
+  "fire_pit": {
+    "prompt": "game asset, square outdoor fireplace built from four rectangular grey natural stone blocks forming a low square frame, black ash and a few burnt logs inside, a vertical black iron post at one corner with a horizontal swivel arm holding a round iron barbecue grate over the centre, no flames, single object, no ground",
+    "texture_prompt": "grey rough natural stone with soot, black cast iron, ash, charred wood, realistic PBR"
+  },
+  "log_bench_beam": {
+    "prompt": "game asset, rustic outdoor bench: one long thick dark squared wooden beam resting flat on two short vertical round log sections with bark, Swiss forest picnic site bench, single object, no ground",
+    "texture_prompt": "dark oiled brown wood beam, grey-brown beech bark on the log feet, realistic PBR"
+  },
+  "log_picnic_table": {
+    "prompt": "game asset, rustic log picnic table: thick plank tabletop on four round log legs, with one attached plank bench on each long side supported by short round logs, weathered dark wood with bark on the legs, single object, no ground",
+    "texture_prompt": "weathered dark brown planks, grey-brown bark on the round legs, realistic PBR"
+  },
+  "ammo_pack": {
+    "prompt": "game asset, small olive green metal military ammunition can with a hinged lid, side latch and yellow stencil markings, closed, single object, no ground",
+    "texture_prompt": "olive drab scratched metal, yellow stencil text, worn edges, realistic PBR"
+  },
+  "medkit": {
+    "prompt": "game asset, white plastic first aid kit case with a red cross on the lid and a carry handle, closed, single object, no ground",
+    "texture_prompt": "white scuffed plastic, bright red cross, grey handle, realistic PBR"
+  },
+  "ammo_crate": {
+    "prompt": "game asset, olive green wooden military ammunition crate with rope handles and white stencil text, lid slightly open showing rows of brass cartridges inside, single object, no ground",
+    "texture_prompt": "olive painted rough wood, white stencil letters, brass cartridges, rope, realistic PBR"
+  },
+  "fallen_log": {
+    "prompt": "game asset, fallen beech tree trunk lying on its side, bark, a few broken branch stubs, moss patches on top, about three metres long, single object, no ground",
+    "texture_prompt": "grey-brown smooth beech bark, green moss, pale broken wood, realistic PBR"
+  },
+  "workbench": {
+    "prompt": "game asset, old garage workbench: heavy wooden top on a plank frame, a bench vice at one end, a few scattered tools and a shelf underneath, single object, no ground",
+    "texture_prompt": "oily dark wood, scratched grey steel vice, rusty tools, realistic PBR"
+  },
+  "tractor": {
+    "prompt": "game asset, classic Swiss farm tractor, green body with white wheel rims, open cab with a small roof frame, large rear wheels, single vehicle, no ground",
+    "texture_prompt": "faded green paint with scratches and mud, black rubber tyres, dull metal, realistic PBR"
+  },
+  "silage_bales": {
+    "prompt": "game asset, row of four round hay bales wrapped in white plastic film lying on their sides next to each other, farm silage bales, single object, no ground",
+    "texture_prompt": "white stretch plastic film with slight dirt and green stains, realistic PBR"
+  },
+  "car_estate": {
+    "prompt": "game asset, modern grey compact estate car, parked, closed doors, single vehicle, no ground",
+    "texture_prompt": "metallic grey paint, dark glass, black tyres, realistic PBR"
+  },
+  "fence_post_wire": {
+    "prompt": "game asset, single weathered wooden pasture fence post, square cross section, slightly leaning, with two rusty steel wire strands attached by insulators on one side, Swiss farm fence, single object, no ground",
+    "texture_prompt": "grey weathered wood with cracks, rusty wire, white plastic insulators, realistic PBR"
+  },
+  "deer_feeder": {
+    "prompt": "game asset, small wooden forest hunting feeder: a roofed wooden rack for hay on four posts with a low pitched shingle roof, Swiss forest, single object, no ground",
+    "texture_prompt": "weathered grey-brown wood, moss on the shingles, realistic PBR"
+  },
+  "zombie_farmer": {
+    "prompt": "realistic game character, Swiss farmer turned zombie, blue work dungarees over a torn checked shirt, rubber boots, rotting grey skin with wounds, slack jaw, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+    "texture_prompt": "faded blue denim dungarees, dirty checked flannel, mud, dried blood, pale grey-green rotting skin, realistic PBR"
+  },
+  "zombie_hiker": {
+    "prompt": "realistic game character, zombie hiker in a torn red outdoor jacket, grey hiking trousers, hiking boots, small daypack, rotting skin, torn cheek, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+    "texture_prompt": "red weathered softshell jacket, grey trousers, brown leather boots, dried blood, grey rotting skin, realistic PBR"
+  },
+  "zombie_forester": {
+    "prompt": "realistic game character, zombie forestry worker, orange high-visibility jacket with reflective stripes, chainsaw protection trousers, forestry helmet with mesh visor, rotting skin, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+    "texture_prompt": "orange hi-vis fabric with grey reflective stripes, dark green chainsaw trousers, scratched orange helmet, dried blood, grey rotting skin, realistic PBR"
+  },
+  "zombie_jogger": {
+    "prompt": "realistic game character, thin fast zombie jogger, neon yellow running shirt, black shorts, running shoes, emaciated grey skin, open screaming mouth, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+    "texture_prompt": "neon yellow synthetic shirt with blood stains, black shorts, worn sneakers, grey veined rotting skin, realistic PBR"
+  },
+  "zombie_grandma": {
+    "prompt": "realistic game character, elderly woman zombie, floral apron dress, knitted cardigan, grey hair in a bun, slippers, wrinkled rotting grey skin, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+    "texture_prompt": "faded floral cotton dress, beige knitted cardigan, grey hair, pale wrinkled rotting skin, dried blood, realistic PBR"
+  },
+  "zombie_colossus": {
+    "prompt": "realistic game character, colossal grotesque zombie titan, emaciated giant humanoid with overlong arms and huge clawed hands, exposed ribcage and spine, torn grey rotting skin hanging in strips, several milky eyes, gaping jaw with broken teeth, remnants of clothing, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+    "texture_prompt": "grey-green rotting flesh, black veins, exposed yellowed bone, dried dark blood, torn cloth, dark realistic PBR"
+  }
 }

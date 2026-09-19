@@ -2,12 +2,16 @@
 class_name Zombie
 extends CharacterBody3D
 
+# "skins": every GLB in assets/models that may stand in for the type, one is picked per zombie (missing files
+# are skipped, "model" / "fallback" remain the default). The field titan is taller than the beeches (22-29 m)
+# and handled by titan.gd (ground strike, no stagger, always casts shadows).
 const TYPES := {
-	"shambler": { "model": "zombie_shambler", "hp": 100.0, "speed": 1.6, "damage": 12.0, "reach": 1.6, "attack_time": 1.1, "score": 10, "height": 1.8 },
-	"runner": { "model": "zombie_runner", "hp": 60.0, "speed": 4.2, "damage": 8.0, "reach": 1.4, "attack_time": 0.7, "score": 15, "height": 1.7 },
+	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 3000.0, "speed": 3.4, "damage": 48.0, "reach": 12.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
+	"shambler": { "model": "zombie_shambler", "skins": ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma"], "hp": 100.0, "speed": 1.6, "damage": 12.0, "reach": 1.6, "attack_time": 1.1, "score": 10, "height": 1.8 },
+	"runner": { "model": "zombie_runner", "skins": ["zombie_runner", "zombie_jogger"], "hp": 60.0, "speed": 4.2, "damage": 8.0, "reach": 1.4, "attack_time": 0.7, "score": 15, "height": 1.7 },
 	"brute":    { "model": "zombie_bloater", "fallback": "zombie_shambler", "hp": 320.0, "speed": 1.2, "damage": 25.0, "reach": 2.0, "attack_time": 1.6, "score": 40, "height": 2.3, "tint": Color(0.9, 0.85, 0.6) },
 	"nurse":    { "model": "zombie_nurse", "fallback": "zombie_runner", "hp": 80.0, "speed": 2.6, "damage": 10.0, "reach": 1.5, "attack_time": 0.9, "score": 15, "height": 1.7 },
-	"soldier":  { "model": "zombie_soldier", "fallback": "zombie_shambler", "hp": 180.0, "speed": 1.9, "damage": 16.0, "reach": 1.6, "attack_time": 1.0, "score": 25, "height": 1.85 },
+	"soldier":  { "model": "zombie_soldier", "skins": ["zombie_soldier", "zombie_forester"], "fallback": "zombie_shambler", "hp": 180.0, "speed": 1.9, "damage": 16.0, "reach": 1.6, "attack_time": 1.0, "score": 25, "height": 1.85 },
 }
 
 var type: Dictionary
@@ -36,19 +40,48 @@ var last_headshot := false      # set by weapons before damage(), read by the ki
 var killer_weapon := ""          # weapon id of the fatal shot ("" = grenade / other)
 var killer_peer := 1
 var net_kind := "shambler"
+var model_path := ""
+var appearance_seed := 0
 var replica := false
+var siege_target: Node3D
+var lane_bar: Barricade
+var max_hp := 100.0
 var net_position := Vector3.ZERO
 var net_yaw := 0.0
 var _materials: Array[BaseMaterial3D] = []
 static var _scenes := {}
+static var force_skin := ""          # tests: every new zombie uses this model while it is set (and exists)
 
 static func preload_models() -> void:
 	for spec: Dictionary in TYPES.values():
-		var path := "res://assets/models/%s.glb" % spec["model"]
-		if not ResourceLoader.exists(path) and spec.has("fallback"):
-			path = "res://assets/models/%s.glb" % spec["fallback"]
-		if not _scenes.has(path):
-			_scenes[path] = load(path) if ResourceLoader.exists(path) else null
+		for name in skin_names(spec):
+			var path := "res://assets/models/%s.glb" % name
+			if not _scenes.has(path):
+				_scenes[path] = load(path) if ResourceLoader.exists(path) else null
+
+# all model names a type may use: its skins, the default model and the fallback
+static func skin_names(spec: Dictionary) -> Array:
+	var names: Array = []
+	for n in spec.get("skins", []):
+		names.append(n)
+	if not names.has(spec["model"]): names.append(spec["model"])
+	if spec.has("fallback") and not names.has(spec["fallback"]): names.append(spec["fallback"])
+	return names
+
+# one of the type's generated skins at random; the default model, then the fallback, when none exists yet
+static func pick_model_path(spec: Dictionary) -> String:
+	if force_skin != "" and ResourceLoader.exists("res://assets/models/%s.glb" % force_skin):
+		return "res://assets/models/%s.glb" % force_skin
+	var avail: Array = []
+	for n in spec.get("skins", [spec["model"]]):
+		if ResourceLoader.exists("res://assets/models/%s.glb" % n):
+			avail.append(n)
+	if not avail.is_empty():
+		return "res://assets/models/%s.glb" % avail[randi() % avail.size()]
+	var path := "res://assets/models/%s.glb" % spec["model"]
+	if not ResourceLoader.exists(path) and spec.has("fallback"):
+		path = "res://assets/models/%s.glb" % spec["fallback"]
+	return path
 
 func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: Callable) -> void:
 	net_kind = type_name
@@ -58,7 +91,10 @@ func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: C
 	speed_mul = spd_mul
 	_on_kill = on_kill
 	hp = type["hp"]
+	max_hp = hp
 	height = type["height"]
+	model_path = pick_model_path(type)
+	appearance_seed = randi()
 	growl_t = randf_range(2.0, 8.0)
 	_repath = randf_range(0.05, 0.4)
 
@@ -84,9 +120,9 @@ func _ready() -> void:
 	agent.max_speed = float(type["speed"]) * speed_mul
 	agent.velocity_computed.connect(_on_velocity_computed)
 	add_child(agent)
-	var path := "res://assets/models/%s.glb" % type["model"]
-	if not ResourceLoader.exists(path) and type.has("fallback"):
-		path = "res://assets/models/%s.glb" % type["fallback"]
+	var appearance := RandomNumberGenerator.new()
+	appearance.seed = appearance_seed
+	var path := model_path
 	if not _scenes.has(path):
 		_scenes[path] = load(path) if ResourceLoader.exists(path) else null
 	var scene = _scenes[path]
@@ -99,10 +135,10 @@ func _ready() -> void:
 			for n in ["walk", "attack", "death"]:
 				if anim.has_animation(n):
 					anim.get_animation(n).loop_mode = Animation.LOOP_LINEAR if n == "walk" else Animation.LOOP_NONE
-			anim.speed_scale = randf_range(0.85, 1.15)
+			anim.speed_scale = appearance.randf_range(0.85, 1.15)
 			anim.play("walk")
 		# pale, desaturated decayed skin instead of the old green cast
-		var tint: Color = type.get("tint", Color.from_hsv(randf_range(0.02, 0.09), randf_range(0.08, 0.18), randf_range(0.7, 0.95)))
+		var tint: Color = type.get("tint", Color.from_hsv(appearance.randf_range(0.02, 0.09), appearance.randf_range(0.08, 0.18), appearance.randf_range(0.7, 0.95)))
 		for m in model.find_children("*", "MeshInstance3D", true, false):
 			var mi := m as MeshInstance3D
 			for i in mi.mesh.get_surface_count():
@@ -114,7 +150,7 @@ func _ready() -> void:
 					dup.emission = Color.BLACK
 					mi.set_surface_override_material(i, dup)
 					_materials.append(dup)
-	var scale_var := randf_range(0.94, 1.08)
+	var scale_var := appearance.randf_range(0.94, 1.08)
 	if model:
 		model.scale *= scale_var
 
@@ -223,7 +259,7 @@ func _physics_process(delta: float) -> void:
 		if _fade_t > 0.0:
 			_fade_t -= delta
 			if _fade_t < 2.0:
-				global_position.y -= delta * 0.35
+				global_position.y -= delta * (0.35 if height < 5.0 else height * 0.2)
 			if _fade_t <= 0.0:
 				if _pool:
 					_pool.queue_free()
@@ -235,7 +271,7 @@ func _physics_process(delta: float) -> void:
 	_shadow_t -= delta
 	if _shadow_t <= 0.0 and model:
 		_shadow_t = 0.5
-		var near_player := global_position.distance_squared_to(player.global_position) < 35.0 * 35.0
+		var near_player: bool = bool(type.get("giant", false)) or global_position.distance_squared_to(player.global_position) < 35.0 * 35.0
 		for m in model.find_children("*", "MeshInstance3D", true, false):
 			(m as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if near_player else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	if _stagger > 0.0:
@@ -259,22 +295,36 @@ func _physics_process(delta: float) -> void:
 	var to_player := player.global_position - p
 	to_player.y = 0.0
 	var dist := to_player.length()
-	# a barricade between us and the player becomes the target
+	# Commit to a breach: steering sideways must not cancel a defence target.
 	var bar = null
 	var bd := 1e9
+	if is_instance_valid(siege_target) and siege_target.hp > 0.0:
+		bar = siege_target
+		bd = bar.attack_point(p).distance_squared_to(p)
+	var path := agent.get_current_navigation_path().slice(agent.get_current_navigation_path_index())
 	for b in barricades:
-		if b.hp > 0.0 and b.crosses(p, player.global_position):
-			var dd: float = b.center.distance_to(p)
-			if dd < bd:
+		if b.intercepts(p, player.global_position, path) or (b == lane_bar and b.hp > 0.0 and b._local(p).y * b._local(player.global_position).y < 0.0):
+			var dd: float = b.attack_point(p).distance_squared_to(p)
+			if bar == null or dd + 16.0 < bd:
 				bd = dd
 				bar = b
+	# Nearby exposed towers can be attacked; a blocking fence still takes priority.
+	if bar == null:
+		for tower in get_tree().get_nodes_in_group("defence_towers"):
+			if tower.hp > 0.0 and tower.global_position.distance_squared_to(p) < 12.0 * 12.0:
+				var dd: float = tower.attack_point(p).distance_squared_to(p)
+				if dd < bd and dd < to_player.length_squared():
+					bar = tower
+					bd = dd
+	siege_target = bar
 	for door: Door in hut_doors:
 		if door.crosses(p, player.global_position):
-			var dd := door.center.distance_to(p)
+			var dd := door.center.distance_squared_to(p)
 			if dd < bd:
 				bd = dd
 				bar = door
 	var target: Vector3 = bar.attack_point(p) if bar else player.global_position
+	agent.target_desired_distance = 0.25 if bar else 1.0
 	var to_target := target - p
 	to_target.y = 0.0
 	var d := to_target.length()
@@ -303,7 +353,7 @@ func _physics_process(delta: float) -> void:
 			if _repath <= 0.0:
 				_repath = 0.35 if dist < 20.0 else 0.8
 				if agent.target_position.distance_squared_to(target) > 1.0 or agent.is_navigation_finished():
-					agent.target_position = target
+					agent.target_position = bar.approach_point(p) if bar is Barricade else target
 			var next := agent.get_next_path_position()
 			var mv := next - p
 			mv.y = 0.0
@@ -321,10 +371,13 @@ func _physics_process(delta: float) -> void:
 	if hit_pending > 0.0:
 		hit_pending -= delta
 		if hit_pending <= 0.0:
+			if hit_target != null and not is_instance_valid(hit_target):
+				hit_target = null
+				return
 			var dd: float = hit_target.attack_point(global_position).distance_to(global_position) if hit_target else player.global_position.distance_to(global_position)
 			if dd < hit_reach + 0.6 and _can_hit(hit_target):
 				if hit_target:
-					hit_target.damage(type["damage"] * 2.0 * damage_mul)
+					hit_target.damage(type["damage"] * damage_mul)
 				elif player.alive:
 					player.damage(type["damage"] * damage_mul, global_position)
 	growl_t -= delta

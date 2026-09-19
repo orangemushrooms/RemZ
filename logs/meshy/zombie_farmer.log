@@ -1,0 +1,61 @@
+20:51:12 preview zombie_farmer
+TASK_CREATED: 01a0bb02-1e5b-7276-885e-6e1c47756128
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████░░░░░] 77% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [████████████████████] 100% — SUCCEEDED (145.625s, poll #12)
+20:53:42 refine zombie_farmer
+TASK_CREATED: 01a0bb04-682d-7734-ae3f-6f0c3c7d81d0
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████░░░░░] 78% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (110.9375s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (125.9375s, poll #9)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\model.glb (9.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\thumb.png (0.1 MB)
+20:55:54 rig zombie_farmer
+TASK_CREATED: 01a0bb06-688d-7291-abea-e2a02e2c40e7
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\rigged.glb (9.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_walking.glb (9.8 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_running.glb (9.8 MB)
+20:56:53 anim walk
+TASK_CREATED: 01a0bb07-4f4a-7043-bbf2-e98665c4e565
+20:56:53 anim attack
+TASK_CREATED: 01a0bb07-5138-708b-bdef-509dd8751e3a
+20:56:54 anim death
+TASK_CREATED: 01a0bb07-5337-725e-af3f-eef4120c5ed0
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████████████████] 100% — SUCCEEDED (12.5s, poll #3)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_walk.glb (9.8 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_attack.glb (9.8 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer\anim_death.glb (9.8 MB)
+20:57:11 DONE zombie_farmer
+EXIT 0

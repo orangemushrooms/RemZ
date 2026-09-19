@@ -1,0 +1,66 @@
+20:51:24 preview zombie_grandma
+TASK_CREATED: 01a0bb02-4e05-71eb-bb8a-7a9ae6899c27
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (5s, poll #2)
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (12.5s, poll #3)
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (23.75s, poll #4)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (80.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (95.9375s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (110.9375s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (140.9375s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (155.9375s, poll #12)
+  [████████████████████] 100% — SUCCEEDED (170.9375s, poll #13)
+20:54:20 refine zombie_grandma
+TASK_CREATED: 01a0bb04-fa09-74fc-91ce-83f5046912ad
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (65.9375s, poll #6)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (95.9375s, poll #7)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (125.9375s, poll #8)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (155.9375s, poll #9)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (185.9375s, poll #10)
+  [███████████████░░░░░] 78% — IN_PROGRESS (215.9375s, poll #11)
+  [████████████████████] 100% — SUCCEEDED (245.9375s, poll #12)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\model.glb (10.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\thumb.png (0.1 MB)
+20:58:31 rig zombie_grandma
+TASK_CREATED: 01a0bb08-d136-759c-b63f-e717aa4b3901
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\rigged.glb (10.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_walking.glb (10.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_running.glb (10.7 MB)
+20:59:22 anim walk
+TASK_CREATED: 01a0bb09-9710-7393-a38e-b9dbdfd16db8
+20:59:23 anim attack
+TASK_CREATED: 01a0bb09-994f-71eb-b895-a484a3c07d6a
+20:59:23 anim death
+TASK_CREATED: 01a0bb09-9b03-71e3-aa13-99887c1cf55b
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [███████████████████░] 95% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████████] 100% — SUCCEEDED (27.5s, poll #4)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_walk.glb (10.7 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_attack.glb (10.7 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma\anim_death.glb (10.7 MB)
+20:59:57 DONE zombie_grandma
+EXIT 0

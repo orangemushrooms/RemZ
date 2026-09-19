@@ -1,0 +1,68 @@
+20:51:21 preview zombie_jogger
+TASK_CREATED: 01a0bb02-4225-777c-9659-1a9f8303cb96
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████░░░░░] 77% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (145.625s, poll #12)
+  [███████████████████░] 99% — IN_PROGRESS (160.625s, poll #13)
+  [███████████████████░] 99% — IN_PROGRESS (175.625s, poll #14)
+  [███████████████████░] 99% — IN_PROGRESS (190.625s, poll #15)
+  [███████████████████░] 99% — IN_PROGRESS (205.625s, poll #16)
+  [████████████████████] 100% — SUCCEEDED (220.625s, poll #17)
+20:55:08 refine zombie_jogger
+TASK_CREATED: 01a0bb05-b6d8-7269-8ec6-97eee5b60a2a
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (65.9375s, poll #6)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████░░░░░] 75% — IN_PROGRESS (125.9375s, poll #8)
+  [██████████████████░░] 90% — IN_PROGRESS (155.9375s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (185.9375s, poll #10)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\model.glb (11.4 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\thumb.png (0.1 MB)
+20:58:21 rig zombie_jogger
+TASK_CREATED: 01a0bb08-a797-7213-8314-57fa3e7866de
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\rigged.glb (9.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_walking.glb (9.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_running.glb (9.7 MB)
+20:59:20 anim walk
+TASK_CREATED: 01a0bb09-8f59-70c0-9a23-4321322fedf7
+20:59:21 anim attack
+TASK_CREATED: 01a0bb09-91ae-75e6-87dd-b27418888a4d
+20:59:21 anim death
+TASK_CREATED: 01a0bb09-936e-771f-89ea-23f7db836056
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [███████████████████░] 95% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████████] 100% — SUCCEEDED (27.5s, poll #4)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_walk.glb (9.8 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_attack.glb (9.8 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger\anim_death.glb (9.7 MB)
+20:59:55 DONE zombie_jogger
+EXIT 0

@@ -1,0 +1,62 @@
+20:51:15 preview zombie_hiker
+TASK_CREATED: 01a0bb02-2a35-72ea-be0e-6d0886302ff5
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 23% — IN_PROGRESS (5s, poll #2)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (12.5s, poll #3)
+  [███████████████░░░░░] 77% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (145.625s, poll #12)
+  [████████████████████] 100% — SUCCEEDED (160.625s, poll #13)
+20:54:00 refine zombie_hiker
+TASK_CREATED: 01a0bb04-ae26-7008-829d-87b298f0436a
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████░░░░░] 78% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (140.9375s, poll #9)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\model.glb (9.0 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\thumb.png (0.1 MB)
+20:56:27 rig zombie_hiker
+TASK_CREATED: 01a0bb06-e9a0-76c9-9c22-3413e617c135
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 68% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\rigged.glb (9.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_walking.glb (9.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_running.glb (9.5 MB)
+20:57:29 anim walk
+TASK_CREATED: 01a0bb07-df0b-73d9-a260-fb5181328172
+20:57:30 anim attack
+TASK_CREATED: 01a0bb07-e10d-7292-86ac-089d402ab1a7
+20:57:30 anim death
+TASK_CREATED: 01a0bb07-e2a3-7421-a4e2-1e9910e87e70
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (5s, poll #2)
+  [████████████████████] 100% — SUCCEEDED (12.5s, poll #3)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_walk.glb (9.5 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_attack.glb (9.5 MB)
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker\anim_death.glb (9.5 MB)
+20:57:47 DONE zombie_hiker
+EXIT 0

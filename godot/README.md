@@ -24,13 +24,14 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | Enter | Wartezeit überspringen, nächste Welle sofort starten |
 | E | Nahe Barrikade verwalten / Gegenstand aufnehmen / Tür öffnen und schliessen |
 | V | Barrikaden-Bauplanung mit Vorschau aller vier Zugänge |
+| T | Geschützturm platzieren; E bestätigt, T/Escape bricht ab |
 | B | Inventar |
 | F | Taschenlampe |
 | Tab | Fähigkeiten und Waffen kaufen |
 | Escape | Pause / fortsetzen |
 | F11 | Vollbild umschalten |
 
-**Spielablauf.** Vor dem Start wählt man im Hauptmenü einen von vier Schwierigkeitsgraden (Leicht, Normal, Schwer, Albtraum: Lebenspunkte, Schaden, Wellengrösse, Tempo, Vorräte, Regeneration und Punktefaktor der Zombies). Jede fünfte Welle ist eine Bosswelle mit zusätzlichen Brocken. Gefallene Zombies lassen Munition für die aktuelle Waffe, Granaten oder Verbandspäckli fallen, die man durch Hindurchlaufen aufnimmt. Abschüsse in schneller Folge (4 s) bauen eine Serie auf, ab dem dritten gibt jeder weitere 10 % mehr Punkte (maximal +100 %); Kopfschüsse zählen das 1,5-Fache. Punkte erscheinen als Einblendung neben dem Fadenkreuz, Treffer auf den Spieler zeigen einen roten Richtungsbogen. Unter 35 % Leben pulsiert eine rote Vignette und der Herzschlag wird hörbar. Schritte klingen je nach Untergrund: Auf Asphalt und Beton laufen die drei Aufnahmen footstep1.mp3 bis footstep3 roh, auf Kies leicht gedämpft mit feinem Knirschen, auf der Wiese dumpfer mit Gras-Rascheln, auf Waldboden am dumpfsten mit Laub-Knistern, im Obergeschoss der Hütte mit hohlem Holzklang (je ein Tiefpass-Bus plus eine prozedurale Texturschicht, `Sfx.footstep`). Gegner werden auf jede Distanz getroffen; ab der Nennreichweite der Waffe fällt der Schaden sanft bis auf 55 % ab.mp3 mit zufälligem Wechsel ohne direkte Wiederholung. Beim Sprinten folgen sie schneller und lauter; Landungen klingen tiefer. Nach dem Tod zeigt die Bilanz Abschüsse, Kopfschüsse, Treffgenauigkeit, beste Serie, Granaten, Barrikaden und Spielzeit; die zehn besten Runden landen dauerhaft in der Bestenliste (`user://highscores.json`). Das Menü (Start, Pause, Spielende) hat Reiter für Briefing, Schwierigkeit, Steuerung, Einstellungen, Bestenliste und Erfolge; aus der Pause führt ein Knopf zurück ins Hauptmenü.
+**Spielablauf.** Vor dem Start wählt man im Hauptmenü einen von vier Schwierigkeitsgraden (Leicht, Normal, Schwer, Albtraum: Lebenspunkte, Schaden, Wellengrösse, Tempo, Vorräte, Regeneration und Punktefaktor der Zombies). Die Wellen sind gross: 10 + 5 n Zombies mal Schwierigkeitsfaktor (Welle 1 auf Normal 15, Welle 10 60, auf Albtraum das Anderthalbfache), bis zu 72 gleichzeitig, Läufer schon ab Welle 1, Brocken ab Welle 3. Jede fünfte Welle ist eine Bosswelle mit zusätzlichen Brocken. Jeder Zombie erhält zufällig eine von mehreren Meshy-Hüllen: Schlurfer als Bauer, Wanderer, Grossmutter oder klassischer Zombie, Läufer auch als Jogger, Soldaten auch als Forstwart in Warnweste, Titanen als Henker oder ausgemergelter Koloss. Gefallene Zombies lassen Munition für die aktuelle Waffe, Granaten oder Verbandspäckli fallen, die man durch Hindurchlaufen aufnimmt. Abschüsse in schneller Folge (4 s) bauen eine Serie auf, ab dem dritten gibt jeder weitere 10 % mehr Punkte (maximal +100 %); Kopfschüsse zählen das 1,5-Fache. Punkte erscheinen als Einblendung neben dem Fadenkreuz, Treffer auf den Spieler zeigen einen roten Richtungsbogen. Unter 35 % Leben pulsiert eine rote Vignette und der Herzschlag wird hörbar. Schritte klingen je nach Untergrund: Auf Asphalt und Beton laufen die drei Aufnahmen footstep1.mp3 bis footstep3 roh, auf Kies leicht gedämpft mit feinem Knirschen, auf der Wiese dumpfer mit Gras-Rascheln, auf Waldboden am dumpfsten mit Laub-Knistern, im Obergeschoss der Hütte mit hohlem Holzklang (je ein Tiefpass-Bus plus eine prozedurale Texturschicht, `Sfx.footstep`). Gegner werden auf jede Distanz getroffen; ab der Nennreichweite der Waffe fällt der Schaden sanft bis auf 55 % ab.mp3 mit zufälligem Wechsel ohne direkte Wiederholung. Beim Sprinten folgen sie schneller und lauter; Landungen klingen tiefer. Nach dem Tod zeigt die Bilanz Abschüsse, Kopfschüsse, Treffgenauigkeit, beste Serie, Granaten, Barrikaden und Spielzeit; die zehn besten Runden landen dauerhaft in der Bestenliste (`user://highscores.json`). Das Menü (Start, Pause, Spielende) hat Reiter für Briefing, Schwierigkeit, Steuerung, Einstellungen, Bestenliste und Erfolge; aus der Pause führt ein Knopf zurück ins Hauptmenü.
 
 Beide Hände folgen der jeweiligen Waffe beim Zielen, Rückstoß und Nachladen. Die Minimap unten rechts bildet die tatsächlichen Kartendaten ab. Norden bleibt auf der Karte oben; der Spielerpfeil und die Windrose reagieren auf die Blickrichtung. Rote Punkte zeigen Gegner. Sperrlinien sind rot (ungebaut), grün (gebaut) oder gelb (stark beschädigt).
 
@@ -41,6 +42,12 @@ Die Hände verwenden modellierte Handschuhe mit Fingerskelett und Normalmaps. Di
 Jede Waffe hat einen eigenen kurzen Mündungsblitz, Licht auf Händen und Umgebung sowie auslaufenden Pulverdampf. Der Rauch steigt auf und bleibt beim Umsehen in der Welt zurück. Rückstoß hebt die Waffe an, drückt sie zurück und federt gedämpft aus; beim Zielen ist er schwächer. Die Ärmel reagieren mit leichter Stoffbewegung auf Schüsse und Schritte, während die Bündchen an den Händen bleiben. Rauch nutzt einen gemeinsamen Pool mit maximal 48 Instanzen in einem MultiMesh; für die Stoffbewegung werden keine Meshes pro Bild neu aufgebaut. Alle Effekte pausieren mit dem Spiel.
 
 Die Rückstoßabstimmung wurde nach dem Spieltest verstärkt: 60–100 % mehr Grundimpuls nach oben, stärkere Rückwärtsbewegung und langsamere Erholung. Zielen reduziert den Impuls um 25 %; bei Dauerfeuer steigt der Hochschlag weiter an. Der vertikale Kamerawinkel bleibt begrenzt.
+
+## Verteidigung und Titanen
+
+Barrikaden binden anrückende Zombies bis zum Durchbruch; verstärkte Linien absorbieren mehr Schaden. Mit **T** lassen sich automatische Geschütztürme für 120 Punkte setzen, maximal sechs pro Team. **E** am Turm öffnet Ausbauen, Reparieren und Abbauen. Sie brauchen freie Sicht, überhitzen bei Dauerfeuer und können zerstört werden.
+
+Ab **Welle 6**, danach alle drei Wellen, kommen rund 27 m grosse Feldtitanen. Ihre orange markierten Flächenangriffe kündigen sich 2,4 Sekunden vorher an. Ab Welle 12 kommen zwei, ab Welle 24 höchstens drei Titanen in diesen Wellen. Alle Systeme unterstützen den Koop. Einzelheiten: [Verteidigungsanleitung](../docs/VERTEIDIGUNG.md).
 
 ## Hüttenschlüssel und Türen
 
@@ -88,6 +95,7 @@ Aus dem übergeordneten Projektordner in PowerShell:
 ./tools/check-game.ps1 -Mode Smoke
 ./tools/check-game.ps1 -Mode WeaponEffects
 ./tools/check-game.ps1 -Mode Barricades
+./tools/check-game.ps1 -Mode Defence
 ./tools/check-game.ps1 -Mode Atmosphere
 ./tools/check-game.ps1 -Mode DayNight
 ./tools/check-game.ps1 -Mode DoorsKeys

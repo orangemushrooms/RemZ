@@ -10,7 +10,7 @@ var player: Player
 var weapons: Weapons
 var wave := 0
 var completed := 0
-const MAX_ACTIVE := 48
+const MAX_ACTIVE := 72
 var phase := "idle"
 var timer := 4.0
 var queue: Array = []
@@ -33,28 +33,37 @@ func _difficulty(key: String) -> float:
 
 # size of wave n without touching the random generator (shown during the intermission)
 func preview_count(n: int) -> int:
-	var count := int(round((6 + n * 3) * _difficulty("count")))
+	var count := int(round((10 + n * 5) * _difficulty("count")))
 	if NetSession.enabled: count = roundi(count * (1.0 + 0.55 * (NetSession.roster.size()-1)))
-	return count + (2 + n / 5 if n % 5 == 0 else 0)
+	return count + (3 + n / 4 if n % 5 == 0 else 0) + titan_count(n)
+
+# field titans: the first one in wave 6, then every third wave, a second from wave 12, a third from wave 24
+static func titan_count(n: int) -> int:
+	if n < 6 or n % 3 != 0: return 0
+	return mini(3, 1 + n / 12)
 
 func plan(n: int) -> Array:
 	var q: Array = []
-	var count := int(round((6 + n * 3) * _difficulty("count")))
+	# Titans enter across the open southern fields, never inside the forest.
+	var fields := [Vector2(10, 126), Vector2(-110, 108), Vector2(-42, 126)]
+	for i in titan_count(n):
+		q.append({"type": "titan", "lane": "east" if i == 0 else "south", "point": fields[i]})
+	var count := int(round((10 + n * 5) * _difficulty("count")))
 	if NetSession.enabled: count = roundi(count * (1.0 + 0.55 * (NetSession.roster.size()-1)))
 	boss_wave = n % 5 == 0
 	if boss_wave:
-		for k in 2 + n / 5:
+		for k in 3 + n / 4:
 			q.append({ "type": "brute", "lane": ["north", "south", "east", "west"][k % 4] })
 	for i in count:
 		var r := randf()
 		var t := "shambler"
-		if n >= 2 and r < 0.15 + n * 0.04:
+		if n >= 1 and r < 0.18 + n * 0.04:
 			t = "runner"
 		if n >= 2 and r > 0.7 and r < 0.85:
 			t = "nurse"
 		if n >= 3 and r > 0.85 and r < 0.93:
 			t = "soldier"
-		if n >= 4 and r > 0.93:
+		if n >= 3 and r > 0.92:
 			t = "brute"
 		var lr := randf()
 		var lane := "north"
@@ -91,6 +100,8 @@ func start(n: int) -> void:
 	if "achievements" in main and main.achievements:
 		main.achievements.wave_started()
 	hud.message("Welle %d" % n if not boss_wave else "Welle %d\nBOSSWELLE: die Brocken kommen" % n, 2.0 if not boss_wave else 3.5)
+	if titan_count(n) > 0:
+		hud.message("Welle %d · TITANEN\nBewegung auf dem Feld. Bereite die Verteidigung vor!" % n, 5.0)
 	Sfx.play(self, "wave", -4.0)
 	if main.music:
 		main.music.play("combat")
@@ -112,7 +123,7 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("next_wave") and wave > 0 and timer > 1.0:
 			timer = 1.0
 			hud.message("Welle %d kommt!" % (wave + 1), 1.2)
-		var boss := (wave + 1) % 5 == 0
+		var boss := (wave + 1) % 5 == 0 or titan_count(wave + 1) > 0
 		hud.set_wave(wave + 1, "Start in %d s  ·  %d Zombies%s
 Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELLE" if boss else ""])
 		if timer <= 0.0:
@@ -123,8 +134,9 @@ Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELL
 			var e: Dictionary = queue.pop_front()
 			var pts: Array = Map.SPAWNS[e["lane"]]
 			var p: Vector2 = pts[randi() % pts.size()] + Vector2(randf_range(-1.5, 1.5), randf_range(-1.5, 1.5))
-			main.spawn_zombie(e["type"], p, speed_mul)
-			spawn_t = maxf(0.6, 2.2 - wave * 0.12)
+			if e.has("point"): p = e.point
+			main.spawn_zombie(e["type"], p, speed_mul, e["lane"])
+			spawn_t = maxf(0.3, 1.5 - wave * 0.1)
 		var alive: int = main.alive_zombies()
 		hud.set_wave(wave, "%d übrig" % (alive + queue.size()))
 		hud.set_wave_progress(alive + queue.size(), total)

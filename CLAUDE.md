@@ -14,8 +14,10 @@ editors; Claude generates assets and code. Reply in German (Swiss spelling, "ss"
   north. The user describes directions in the plan's frame ("Nordstrasse" = Sennhofstrasse, which really runs
   north-south on the east edge; "Wiese" is really south of the Weg zur Hütte; "Waldweg nach Hütte" comes from the
   north). Translate before touching positions.
-- Systems: waves (boss wave every 5th with brutes), 4 barricade slots (E / planner V), 5 weapons with COD-style
-  recoil + ADS, melee gun butt (Q), grenades (G), skill menu (Tab), inventory (B), 5 zombie types, supply drops
+- Systems: waves (10 + 5 n zombies times the difficulty factor, boss wave every 5th with brutes, 27 m field
+  titans from wave 6 every third wave, `Waves.MAX_ACTIVE` 72), 4 barricade slots (E / planner V), 5 weapons with
+  COD-style recoil + ADS, melee gun butt (Q), grenades (G), skill menu (Tab), inventory (B), 6 zombie types with
+  several Meshy skins each (`Zombie.TYPES[..].skins`, picked at random per zombie, missing GLBs skipped), supply drops
   from kills (ammo / grenade / medkit, walk through), kill streaks (+10 % per kill from the 3rd within 4 s, score
   popups), 4 difficulties (`GameSettings.DIFFICULTIES`, chosen in the start menu, saved), run statistics and a
   persistent top-10 table (`run_stats.gd`, `user://highscores.json`), 28 achievements, fleeing deer, procedural
@@ -108,7 +110,10 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   log_bench_beam, log_picnic_table, fallen_log, workbench, ammo_crate (loot), ammo_pack / medkit (drops,
   `pickup.gd`). `tests/prop_info.gd` prints AABB and triangle counts of the GLBs; `--spawn-drops` with
   `--views=` puts the three drops on the plaza for a look.
-- Meshy rigged characters are 1.7 m tall; scale by height/1.7, never by mesh AABB. Meshy statics come as
+- Meshy rigged characters are 1.7 m tall; scale by height/1.7, never by mesh AABB. Zombie skins: shambler =
+  shambler/farmer/hiker/grandma, runner = runner/jogger, soldier = soldier/forester, titan = titan/colossus; a new
+  skin only needs the GLB in `godot/assets/models/` plus its name in the `skins` list. `gen_asset.py` reuses the
+  task state in `assets/raw/<name>/` when that folder exists: a second variant needs a new asset name. Meshy statics come as
   ~1.9-unit boxes; `Weapons._fit_height` normalises them. Weapons/animals face +X / +Z, see rotations in code.
 - Trees are procedural (`trees.gd`), nothing to download. Poly Haven clutter (ferns, moss, branches) is
   optional: `python tools/fetch_polyhaven.py` + `blender -b -P tools/tree_reduce.py` into `godot/assets/trees`
@@ -128,6 +133,10 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
 
 ## Testing
 - `godot --headless --path godot --quit-after 150` catches script errors.
+- Horde checks: `Godot.exe --path godot --script res://tests/run.gd -- --suite=horde_visual --no-intro` (titan on the
+  field, second skin, skin line, short titan walk -> `shots/horde_*.png`, prints HORDE_TITAN / HORDE_SKINS /
+  HORDE_WALK) and `--suite=horde_bench --no-intro` (60 zombies: frozen / no shadows / anims paused / simulated FPS;
+  Sep 2026 on the dev PC 148 -> 113 FPS, the horde itself is cheap). `Zombie.force_skin` pins a model for tests.
 - `godot --path godot --resolution 1600x900 -- --autotest` starts the game, saves six screenshots to `shots/`
   (plaza, fountain view, fork, Weg zur Hütte, hut west face, hut north face) and quits; `--autotest --pathtest`
   instead spawns zombies on all four lanes and prints their positions after 40 s. Flags like `--no-shadows`,
