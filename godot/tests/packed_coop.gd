@@ -46,6 +46,7 @@ func run() -> void:
 	game.hud.overlay_button.pressed.emit()
 	check(game.player.active and not game.hud.overlay.visible, "Resume button returns client to play")
 	game.inventory.open()
+	await process_frame
 	var first_slot: Node = game.inventory.grid.get_child(0)
 	await create_timer(0.5).timeout
 	check(is_instance_valid(first_slot), "Unchanged snapshots preserve clickable inventory controls")

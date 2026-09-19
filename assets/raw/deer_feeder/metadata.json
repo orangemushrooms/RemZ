@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, small wooden forest hunting feeder: a roofed wooden rack for hay on four posts with a low pitched shingle roof, Swiss forest, single object, no ground",
+  "folder": "deer_feeder",
+  "root_task_id": "01a0bae5-f429-70a4-9c8e-15e826a9a9fa",
+  "created_at": "2026-09-19T20:24:38.707004",
+  "updated_at": "2026-09-19T20:24:38.707408",
+  "tasks": [
+    {
+      "task_id": "01a0bae5-f429-70a4-9c8e-15e826a9a9fa",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:24:38.707405"
+    }
+  ]
+}

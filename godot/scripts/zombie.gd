@@ -211,7 +211,7 @@ func die(dir: Vector3) -> void:
 	hit_pending = 0.0
 	velocity = Vector3.ZERO
 	play("death")
-	Sfx.play_at(get_parent(), "growl", global_position, -2.0, 0.75)
+	if not type.get("giant", false): Sfx.play_at(get_parent(), "growl", global_position, -2.0, 0.75)
 	collision_layer = 0
 	collision_mask = 1
 	agent.avoidance_enabled = false

@@ -1,0 +1,27 @@
+{
+  "id": "01a0bae3-e632-74c8-a9d2-29cc19df71b6",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1629282264,
+  "prompt": "game asset, small wooden forest hunting feeder: a roofed wooden rack for hay on four posts with a low pitched shingle roof, Swiss forest, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789841894906,
+  "progress": 100,
+  "started_at": 1789841894911,
+  "finished_at": 1789842027031,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-e632-74c8-a9d2-29cc19df71b6/output/model.glb?Expires=4943376000&Signature=AHluA0foygQvrMcnQYnrXRFUkeFbORldBwEIuFM6ikA6k46xMS9H6yRvTd1etCf1XK~kXjN~aIs4OX-9c-3Wc2QuvP-1atxtFW4fS2lconVDabuCTeFNIEUMxob2mxHAx6xQMvcZx2YD6pnwzk046ZO53Z8blUmkKgoClleV38vYcvt2ko7bwZTq5MnynLZniHuTQdhRHibe6ujPfmx8XuRFBO-3DrTzOX7WxBPRNkQ8no-q5vjG1hZIn~HmAxZMmtXnZMNQQGrkkZ9OKm9GHvOPzcHCSkRVdvRaJNCO2BWaJSysCkPWHFw-Nv0JFP900mlyamNGllggfELa~32B1A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-e632-74c8-a9d2-29cc19df71b6/output/model.fbx?Expires=4943376000&Signature=peWWZtT7c-9ser9BW67xndn9gReS-JN7vGsXVY3c1vehGTMQOCk2P4a2UrOPS4TyRTE7-wW~KkarKbSwzDrv7ugfw8dJWlqxD2LiwO96OpzE5iqn2auTv7F77qzpLqXHItNd35W19O~3oxMxlMxeI6F-zgYtzMN7cZDGZKE~TpdsUZfZVkdw2MF8q~bVeZSQYTuNDi4421hKchfXu7uS-jB44CuRPpFySyHSR8GPLH7xyxdE2cWK6xoi3OWVxauOFr70B4H4VhN74rtuibMpXt21yutc-UwD3j3UTMzAhF90OT-JXGATHlNulK4VVlrA9FfKv5gUwmBmTZ2xeKu9wA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-e632-74c8-a9d2-29cc19df71b6/output/model.usdz?Expires=4943376000&Signature=CpBpsIwT7n3c69t5e3ZLJ~7gZpxQKkF0HM-ykjJM0yc3Sz1czBfxgTrXxjhctNpD53cSEVJnGST5IG4otw52zGQguK4esfzLQr-tO97EJSZFKD4D2gRsdMZI-WsWpFVsPDBipIHp6tgzpZieZ~mSwmEWVrorSvj6xsnUA6yBe5GmTzgSy5I3cuGtqpTRby6VHciWX7gIOxnZjD7no0zyACV6qnbmgtu8IjWtK1Pv3pnUZxHdhfk8gQfUkoo~f2moAlJ5sRcOMSwjmYGo~NT9FGMzNteOjzlDMstOczH~ceP10EYNGhzrfw001Yk8ApGcSFBq1LdqD508Bdhp5U-g6Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-e632-74c8-a9d2-29cc19df71b6/output/model.obj?Expires=4943376000&Signature=RL~hwBQPY9iYDFM3t-I2FijLXkjH1APxF9xXrxPwJ4JiC77liiu71Fcg8ELq-pT-WFF~COh~vbKklUR1HluzbUI-eBiTkJ5cMcnRZHLVD9X5XS8v3p4jteWWndZKSeTBMT2vLys0QgYoMDg3K580oqivmAsXd7~h8da4Kdtao5rl1kTAtR-nOCPxvWrG-SsEvMLbC4lSbGb1lMR~WwYy8dvA7CbcNDfX~xE~vewUWiKbX0DLJfUte70CrslswFRA~WjrgjVRqHe5X5Hiu-Uj2Jac7cPC2RX4fvG~d5hiiuy8k7NjL895lT6tAii6mu1szr6m9QXSv~dFVncQKvU6OA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-e632-74c8-a9d2-29cc19df71b6/output/model.stl?Expires=4943376000&Signature=AOPNZAS2yHvV~7OpD2d2PHKKJlhZD7t0Z~jkRl27a02AOQ7D1B-BYRwsEFBXiPNIev98fQRtk2JKxJpjcxu4a-I7QbiLSBQ-ijSpKyTM2QW~z3pegWRr7XTsrck6JmaqS0OF-RRoDJGaXLcJ95-DorDfbvxjDGfZhRF3daLBBWIjxWECyiWbFTn0nqa6Uyq46DhmRF6Bsy67lECaFkU6GY9SQckC1IctftCnngMOJMbYz-WJejIHR5twfzh9tZf6A0a3euC8ZuzVKR-QV9r8bhXs3UGvS0~LvP6KgmRl1uUGdd5RHEAsFJwmHQHrfk1Ql6pzfXd9OfbZXdmxxpymoQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-e632-74c8-a9d2-29cc19df71b6/output/preview.png?Expires=4943376000&Signature=XTCzNijW-llCtLJVmbFOTXXRdeKM3YyIdIpVThKjawpkUg4Qc65LkhnLpU0xEelegOSNi2M18yR-H9dHyYq2AjxNzF4pj1Rib8cFKSGXr1YFRT5hdUOOjDZs~ys4feltfXXiTMdF2jLDlPFpL4vvPuRxtoRkj9bG3R9oEVsWDaRH3g4mNxS0uci5m3cpHbYsTbEHpzXwj2-N7OryqrT817ve3ffjIIkIqP2PG34~1Wyo2Nx0xgoW1dvTu9Y-e711hhryE7FfON-VJvK4JhowMm73fVcQoCGJlqe-YHoE1sb4lJeGi-xutVJS9Z1Yc6vowrvmbhEpVWqLWGisgt09VQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

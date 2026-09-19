@@ -1,0 +1,27 @@
+{
+  "id": "01a0bad5-6915-769e-b6d0-6feb28d5ae8c",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1454639065,
+  "prompt": "game asset, classic Swiss farm tractor, green body with white wheel rims, open cab with a small roof frame, large rear wheels, single vehicle, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789840945282,
+  "progress": 100,
+  "started_at": 1789840945292,
+  "finished_at": 1789841127870,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-6915-769e-b6d0-6feb28d5ae8c/output/model.glb?Expires=4943376000&Signature=beGOlbI10XTfKX-Wh6LMaVCBz5mgpRSagE0dn-EMued7l2iWUFQi6rAlK~nI51-gogrOnUWfGjFp7UdN7yxfCqBGJY9Kn~R13LbCXqY5SBUuFnCcTbkDgpHTRcg1guAFpU5K5PPyyBf4jY1aAYGGg6e3hTki2C12mQNdL2ppbu~VpKT1o6hRjObGnofn7KnaEC2L9auzaf-mgVRtPQSnnOVRjldLmKD-bgURJXVOfgwT2ANCEnqwj4MLbFrMMrJFMk6~0BGoiG5Qi7IG2XjLBd~7hZtCgrwdNDq2FRfcSSDua0PDe1zKBKpTdi6CzExDl7YYaUPgOhoWTb5JYLGjBg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-6915-769e-b6d0-6feb28d5ae8c/output/model.fbx?Expires=4943376000&Signature=MsPGtCPXt6ITVNvYuiPwQwuLJjvQEqFyxDbcIrf~YpEZJjT-M~CdjL7DGUD54g8kLdlBG832i4uoHaGjzDRE1kGrG2XHTQqR17HjZ7Qcy~k9IoX29Xpjl9ZelSDotXcyoOfdFogvyFMHTXBe6mhFJw3CqYOjzBFSFnF2GioGCraE-f5l-yYN4utiahsMrDgBw8npKtTEthyjtX0w0uyqqpZyYDyMM~nV3mD4FEQUgRzbG2GTg9NBiNOPfkLQ4cRal2jLqTMJ0a-A36m7h1kY52GpDRibRacXtnv~TEcX~OFZ4JvOjzNdRiuQVtIw6oEorrSA39zpV6x5opnx5lvlMw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-6915-769e-b6d0-6feb28d5ae8c/output/model.usdz?Expires=4943376000&Signature=S05fREa1pwYeZFVAwBBLckT0mPi5WRtDt90J~K49EudQrTbyJwVB6OD4Jixf8Tyl3DiW7sScFU-WLc66yoUyGDkD4nhDJsvHZIzj95FSuAWAi9f8iDLNxfw8fvJiO1bMSEV6DB68WlIUkeE6uHyvnCVWaAqPk63ag3MVMnYm5c45YFrI1lt-VzVe9eKH7p~7-Xllpp4bdMPvkEuRHCFQT7puDadx1RLYNp6Mbb2iybGk~23EPK6lg99W0bLHVmZDgSlp4oFessIuVeQvtH0YrHxFDq8RvUHpq9jDVCH5UT5vyn-Ayg6BfJOXUBk8Ucc14EgQCXaLZ~3BHZq-iZQbtg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-6915-769e-b6d0-6feb28d5ae8c/output/model.obj?Expires=4943376000&Signature=LBYqt0OAr3jQQ9bQkuro9TZuCElno-TUGlphyxbYlXPv8~czLjgtoeVzq~MXY7vbEYfautrvQ-cp1izffItJdvFWMBErBxXbb9-MdcpOzZR7v73uLVK8u1EGIah9cTPi0cScvZxng6rYGLbhg-5K1VhQpXpIY706AYzKR1I6F0jkZpoRQHJSvFZa3u4YSU7N17KkdkilSPM1PLNlNSxTgu6M1WJnkC-ClXI1~wRJC0~3TGlGo-bz0TT2PS6Bq7Y9u5Pj~IQmbrYcYuLsKxgUrgkcu3d6pImtKdEEAocMNRMMRSsg9ENrktRredsoP1VOVJsL8G1nhX83tLV8EFlxTw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-6915-769e-b6d0-6feb28d5ae8c/output/model.stl?Expires=4943376000&Signature=p~oWqtMi~KjAyiYi5bKxq6GJ4~HijAE~rP4-F~RlT1Bh23mIx06SsCC75V2VAIL-SOjDSYsuwj7PQBjgAy7L~nuCkRNTdBy34EQfZ8cy~icBtSZ-jwLDS-NWIYSTkiUlPhsbRv3-~g2eyCXt7tB9qi1uOgSbP8PIkbTLNKdMWzYHxepR2-sioReDjYnczuAI3kLinOZEZh2TLLH~1edq4aPhPBIwizBwUUtlHZncWT7O0dFfgr3gHshKZf2pnmOIJRr3tYANshDfU2kDZ7H7vIfqIYhGqX4HGU4kETUUYaRaIOkrZoJcj42qRKbeevxvF3vNJsXAtTQpel79Bsk6gw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-6915-769e-b6d0-6feb28d5ae8c/output/preview.png?Expires=4943376000&Signature=pZ05SOf9ByVGIGIinE4Zs7WtT3lxUmHhXu4LeZArulzMB2MJtZH9y9i5Y-6glBEEM5-qrAk2W4W9jCWahvyBKfuH563FcVFRz6vx671Fwv9Nff-uXPA9xkUcK9H--l~g22OV7F-nQLR~Jm3~hVrmtfZx81EKge5Pp61aLQ0i1Uda2P~AZJiUK2YsXg-dzh1GFn3Bro4MvSAYTX1VEi~rKI9b75NaBw1fL-x~iAmmgKd1Mr3jdTvZ6Sjskx27Vg~eT5lGb1DQrw8znWMnNO2YIY7JYGt2SVhii9Sjj6ioCUzBD0xErCGHeQlaK-7C223xw-yoCxJCIoIWRR3l4easCQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

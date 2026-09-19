@@ -1,0 +1,27 @@
+{
+  "id": "01a0bad5-70d9-72f6-a6d7-727e146780f0",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1624565395,
+  "prompt": "game asset, row of four round hay bales wrapped in white plastic film lying on their sides next to each other, farm silage bales, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789840947460,
+  "progress": 100,
+  "started_at": 1789840947467,
+  "finished_at": 1789841052934,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-70d9-72f6-a6d7-727e146780f0/output/model.glb?Expires=4943376000&Signature=Nzk4GC7~U8l5aFCxENOzhTidRStXwUFq4HanJ~DaQOG5A2JeHFP4O~UNgYDzAE4jPtXCBaRfd9~Irzace0gqUh0Ep9glvWgBORb5ZU745~U-MQemgo52dN44Ar1bySizu~E5GntBb-dTeNLtvgb6R4MuXH9W2eCVIw~niuRvKB5Gf1YJPie62H~ZkOOq9LnK4zVAMucPDctoPl~K6lQzSaEGP~~gQFlOP4nMeNF0VO1~8o6PB1EDaU1Ecp9OD5GIN1BiRLq2KZydF1dxkbO65zR7yI41WozTlfQBSuOB~p53LTJa1ECLy7LREbrKEM99hTue8goeiJZBCAbcZbw5yA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-70d9-72f6-a6d7-727e146780f0/output/model.fbx?Expires=4943376000&Signature=pFr8C1kwc2zx8NOtid8udHz10Tvs-dwG8HPFqOTwMAvcXlpYsxciZbZWbcWnlXRKt2ROtpRNeVwUyG4lEtSOOfbsUmE19j7wvQW7kHCW00WjPuJSq5XoSmbxNq1K8MPrIXK6uz0m-GnqnxE~HP97ZTFSXYCY3d1JcRWmdMzRnAY3LbDKQg0he-pHQKze-N9-AgSsImVnpwyTJuytyjqn-hkrruZKOxWn~tRQ36dCRJlq~Iwp-m1JzanHorFNlP5ZK3dTSdpJZ-SjROW-mWHS4AQlQAiBLNZFvejkceQm4mdrYqo2de6-mUPm4VVZq-3XKD9nzQhHL-OtZ04VZyUM-Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-70d9-72f6-a6d7-727e146780f0/output/model.usdz?Expires=4943376000&Signature=hiu-TUmOe1572lvXqeyslQB5cq4TWxSwR6BG1mnZS3xaR3gzFV9vNuEb34XCvIQSn0fHJGhiu~PzdtpiHnhaPQGLIDwEOOVOZdSgtVEGGAtAmwHnibX6XsA6VFQ3PZqnfm6Q33BmR5dUHXfSkeLfZmG~rQut27AloWCFeKm0mlH5UOhp-s2SzNRELK-B8Noe6bD7YMYiF~62-kSRcatveKk3dK49xNCdZDS80fqvRSpo~wc265wysWTc8pKnvTaBjTXK6EEafI9jzO1owyzhyUsD5OgwF22cnMmKcMtih7aHkY7f6cyhlBAxX~xZKDzWA0j3VgmHhac0c5MnkD~~Zw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-70d9-72f6-a6d7-727e146780f0/output/model.obj?Expires=4943376000&Signature=VvMtoYzLm5Q67Dv3ceA6mocQ8Ke2h8WbkqngT87wqtjIY2K8LPiZlzGQ5-fKzOfOwjFHT3SaG1EL5CMshhjzQlBDNpK5VJrqjCYF2lxUoYfqlooNyq3Ryo1CIngEQ-hjTYc1uecow1N1Q82TbpyF452nJ1RR24Bn4HgOMLMglDuVlizk5DrZ8CYm0JdzIssQOjdR7Gv~YmhXYPayl2kyRVoAHsmZW42-Tp5~HHJENSmbSKmZ2nJuiLUUYMn2c~jSdIAAlCgt76RpZDRHNL9EWyCnvJMPiclWugrlBM2zSEpNciwOeKFpbh0ajENtlML9i56TfhHCloquEFhSYGgG0g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-70d9-72f6-a6d7-727e146780f0/output/model.stl?Expires=4943376000&Signature=hueTZ9e4tG~Xp3Bb5kcI41MM6mKQVJjc7727MGZXLa66GdG6ELzZ5FpV6A67clqIeHff53aXiQ8jFM2zDnxrHZ1PQjvYJmWcu1nf3uJ2T4oYrgL~JyOV-kh91F4XgAzursVKpHb-~s~gXJ8H4LOa5NPM1HHiPodClBp37df5dYTHTgMf1rTObTGBF92mWXn5oX4qqF1ivjSFXd4E6s6FpL9xZJ-O-iMgQK6NsHba2rd5wvV8m5A4hdQjLx8RKMFMy4N5OsYO6dcm1nDF-UbfabhwcKKQ~r0cEqs43LNw54d7pwWFhSYf0rzkSiongP6cf0IBacqttmyKgLEBDo55Zw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bad5-70d9-72f6-a6d7-727e146780f0/output/preview.png?Expires=4943376000&Signature=ID4rJvjc1AoygOW0H1OBHM9TJbmVPClJ~~NH69PdFf7t-o4k0w4dt-t-4EQUyOPwFcVgjY2lw6Nbw1RXORo6s3jccqVNyyDBqCAmjXuwfxDKVxuPFkIxRE1hGzd7Lm4PIoxQ8WQZUMB7fmBXNWKztUJBRz-HwELI6rS6Ey4ocpaVDuql8sbKAj6F3QrwzaPoe9yikUVtlcHp57gbelta~QxzaBeXQtZBh9XS5kvUFm6yanc8RPBSGKiMkpUsP9ItK6aw93MWVEOOCJ2l8XN2F1pLsQrVG4YSrAsEEjwsY~A8logJTAfSxTDuvY5pFT1Z9tPj7S8lSq~YuGvhu-hC3Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,27 @@
+{
+  "id": "01a0bb02-4e05-71eb-bb8a-7a9ae6899c27",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 4202273574,
+  "prompt": "realistic game character, elderly woman zombie, floral apron dress, knitted cardigan, grey hair in a bun, slippers, wrinkled rotting grey skin, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789843887439,
+  "progress": 100,
+  "started_at": 1789843887443,
+  "finished_at": 1789844050482,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-4e05-71eb-bb8a-7a9ae6899c27/output/model.glb?Expires=4943376000&Signature=lQv~gLIE1y0zq4BV~IwgGFrBtEO1yVWkGrGEF65YZUeRE94aS34sg-YPegqYH95W6A82gdb93vUs9QedZTJFxECyz8V2PvlPNrIl2jo~sFM~GvCtQOoyW46YIR7Ec8X-Yb1LSr4RDMIYTT2B~MMQeneVWBuEiZUa8Yy94CdONhvS-2z372VN059EJ60jB4st8uQ97whMSDvRfIqISVq42Ar4Tqs5xFZrwD~6YmToKKXNbjK7k7J3JTVwz0JNUUwl2IG3b00mKmIoCHvDaTegSVbhozEgBx2Bu3Q9IJfS176ZJmSlgnUVZQJSehNUjetBmWJP3L5FwGyV75BOL2VhOg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-4e05-71eb-bb8a-7a9ae6899c27/output/model.fbx?Expires=4943376000&Signature=KdmiUuwZQ5kQ2U-LpUkeJcyu5wLdQS-gmS55cQf5153ISZ3lpp0AqEx7fWgSb~y0PUZOSQjB7GZQkOYIJi0vNq5YaNZj7AEbfUgjqVEr5~Ta3zNRlS9f-Z0nsWDMLukAa9ACLL4kZLlUEjq8LFJv20O4sp-5ZH9IcKoX6IVK9hYeU0Hb13uM29C1RqjS3hh-44gH0RaNCOX2XYxaWaKEninWa52KuJ5WOfofPAyxXDBnQpqxPN~ljInWaFt0pZV-P3hJbybQP8ktEiYZx6Uw490QnPC6xvRzXeVx2hobPpMzNAnaLo6bTVIGSh-gh48ekC-Pw6gxo3M3Hs01mithAg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-4e05-71eb-bb8a-7a9ae6899c27/output/model.usdz?Expires=4943376000&Signature=lUU5uCANRpo4iOLZNuwp7McSHe-zYtZs2Cyt71loNyPBbUtv4rksTNSDkNF9nl1dp6BDSKSM9df9MAIQg9jLiYS0f1OyRE6wuaFG6W4CQWCWYtDalrkZscnZW4rjdjyVePkbawUoPtrxyD-qPaisoslxqz47Fj8jNOxnybu5K2RLc44aP9b9UsmAaOIE44TrNf9ta7bd3ovi72MafRYeYZUW6230dnWjwlcrfWq56WEyIniqGHRxb6EujxSDHJV1YfcBKBZ2GnV9Q4RDG0nhbcYprjGuS4qZdpd7QSxiG~2Z0SN9Ff~PPkQhxTybHHH8yU~W1CSxc4lBrJ0p6MAgpg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-4e05-71eb-bb8a-7a9ae6899c27/output/model.obj?Expires=4943376000&Signature=o9AJFQCOYAJptDVphgnyiv0tB54Hm3UppGHZVYXwnXE3rRpYtF1wGBVHdoOIPz5Hm-~6owfW9BuEvifi4mgArNrczs5zDqnHQPcP4Dp6DiXwAIO5lKTydMNy-29q7z56dSVqEoLwEh~mDJ07t4sf8lGtS3ZQWJtJ3bmihn5t4fqa5g6wQyAtdyTEILOaA1Xer1o9wDpZf0Coz3f~Vqp-LnejtwRp~FSi917UtjCY9W5NAX4jcGdM7YJmH8HAro1qMLAvu2HbG2ErvOQWVsSfHpK1JsIjto1fR9ExRrYaMNngqVkZLHUTxRYyjI1JmU4Q6kL90LficCO-ll46pouMRQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-4e05-71eb-bb8a-7a9ae6899c27/output/model.stl?Expires=4943376000&Signature=AsUBid0VAwHb8zd6ipdrCfYVEbbSQ9gZBmsIH~beiLOQqxCda10pOzEWlZ9AhbCmKUCxsIXsvMPQxvthfJZQnCGMkOpVIK6vMmF1fMqZANQK4qQECWHYpFmFYDykJ4rKkeDsRWM2jlFKs~b4XBhsTSk2f8LoGv4V2zsEpnOdFm5Loiw8TCgF9t7cBe448uBqSFB76YshS4G5HoqW70hv1PJzkBC2s-GmI1FcJ6lXifILhStz8-G6QYnH1kYvewNI~OAHNL4nPRAYgb6M5v~KFDNUyk0K1pj-m~GG1ay16Z7kTQVxnKME0dmmha5jEnh8QEpBPn3s0z9XFbphj7-5pQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-4e05-71eb-bb8a-7a9ae6899c27/output/preview.png?Expires=4943376000&Signature=UibASPNWkI-9B5UiA28eDMFAupTH7Ul~g3stvKBKnD16Jpb5gWndqE9lQFwSsxOcgAN0J89E1gsx4r-807uRQbKOg9Hf-7SK4GvA2clfvYlvSkpsGcbVtWwrmWt7RdVLGsRrrWHdgh8jgXPYAkg4hO8iNZzgvO5h6p2EKriAqt-RbMkbMcB~3r-rUJqIV2KmC13OOPtuZ2PtVhmEy~vTw4pblN9q13WANnLI-uXvZd3Pc41mvE1rJQJFliJEYsPEA~eiR1DYEnhOsUK4ACZolW2nILIwvgf-L9aQ-KMkNordeb4DYxsad6EwzR92hFojM-PqxK41nRFoBB8uyIJj2g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

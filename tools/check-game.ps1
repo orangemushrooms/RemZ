@@ -1,6 +1,6 @@
 param(
     [string]$Godot = 'C:/Users/miche/Desktop/Godot.exe',
-    [ValidateSet('Smoke', 'WeaponEffects', 'Barricades', 'Atmosphere', 'DayNight', 'DoorsKeys', 'CampsitePickups', 'Benchmark', 'ExportPack', 'ExportWindows')]
+    [ValidateSet('Smoke', 'Defence', 'WeaponEffects', 'Barricades', 'Atmosphere', 'DayNight', 'DoorsKeys', 'CampsitePickups', 'Benchmark', 'ExportPack', 'ExportWindows')]
     [string]$Mode = 'Smoke',
     [ValidateRange(0, 2)][int]$Quality = 0
 )
@@ -13,6 +13,10 @@ $log = Join-Path $logDir ('check-' + $Mode.ToLowerInvariant() + '.log')
 $arguments = @('--path', ('"' + $project + '"'), '--log-file', ('"' + $log + '"'))
 $marker = $null
 switch ($Mode) {
+    'Defence' {
+        $arguments += @('--headless', '--script', 'res://tests/run.gd', '--', '--suite=defence', '--smoke-test', '--no-intro', '--no-music', '--no-foliage')
+        $marker = 'DEFENCE_DONE checks=\d+ failures=0'
+    }
     'Smoke' {
         $arguments += @('--headless', '--script', 'res://tests/run.gd', '--', '--suite=smoke', '--smoke-test')
         $marker = 'SMOKE_DONE checks=\d+ failures=0'

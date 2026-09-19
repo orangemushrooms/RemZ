@@ -1,0 +1,18 @@
+{
+  "project_name": "realistic game character, elderly woman zombie, floral apron dress, knitted cardigan, grey hair in a bun, slippers, wrinkled rotting grey skin, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+  "folder": "zombie_grandma",
+  "root_task_id": "01a0bb04-fa09-74fc-91ce-83f5046912ad",
+  "created_at": "2026-09-19T20:58:31.929902",
+  "updated_at": "2026-09-19T20:58:31.929919",
+  "tasks": [
+    {
+      "task_id": "01a0bb04-fa09-74fc-91ce-83f5046912ad",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:58:31.929917"
+    }
+  ]
+}

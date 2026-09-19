@@ -1,0 +1,18 @@
+{
+  "project_name": "realistic game character, Swiss farmer turned zombie, blue work dungarees over a torn checked shirt, rubber boots, rotting grey skin with wounds, slack jaw, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+  "folder": "zombie_farmer",
+  "root_task_id": "01a0bb04-682d-7734-ae3f-6f0c3c7d81d0",
+  "created_at": "2026-09-19T20:55:54.053816",
+  "updated_at": "2026-09-19T20:55:54.053834",
+  "tasks": [
+    {
+      "task_id": "01a0bb04-682d-7734-ae3f-6f0c3c7d81d0",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:55:54.053832"
+    }
+  ]
+}

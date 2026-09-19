@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, modern grey compact estate car, parked, closed doors, single vehicle, no ground",
+  "folder": "car_estate",
+  "root_task_id": "01a0bad7-104c-7696-9f9c-d59e5e610844",
+  "created_at": "2026-09-19T20:06:06.986558",
+  "updated_at": "2026-09-19T20:06:06.986573",
+  "tasks": [
+    {
+      "task_id": "01a0bad7-104c-7696-9f9c-d59e5e610844",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:06:06.986572"
+    }
+  ]
+}

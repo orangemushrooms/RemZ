@@ -18,6 +18,13 @@ var _players: Dictionary = {}
 var _target: Dictionary = {}   # track -> linear volume target
 var current := ""
 var horde := 0.0               # 0..1 intensity of the horde layer
+var _titan_duck := 0.0
+var _titan_hold := 0.0
+var _titan_mix := 1.0
+
+func titan_duck(amount: float, duration: float) -> void:
+	_titan_duck = maxf(_titan_duck, clampf(amount, 0, 0.7))
+	_titan_hold = maxf(_titan_hold, duration)
 
 func _ready() -> void:
 	for name in TRACKS:
@@ -52,10 +59,13 @@ func stop_all() -> void:
 		_target[n] = 0.0
 
 func _process(delta: float) -> void:
+	_titan_hold = maxf(0, _titan_hold - delta)
+	if _titan_hold <= 0: _titan_duck = 0
+	_titan_mix = move_toward(_titan_mix, 1.0 - _titan_duck, delta * (3.0 if _titan_duck > 0 else 0.45))
 	_target["horde"] = clampf(horde, 0.0, 1.0) * db_to_linear(TRACKS["horde"]["db"]) if _target.has("horde") else 0.0
 	for n in _players:
 		var p: AudioStreamPlayer = _players[n]
-		var want: float = _target[n]
+		var want: float = _target[n] * _titan_mix
 		var have: float = p.volume_linear
 		if want > 0.0 and not p.playing:
 			p.play()

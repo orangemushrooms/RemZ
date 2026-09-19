@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 1
-const BUILD := "remz-coop-20260919-1"
+const BUILD := "remz-coop-titan-horror-20260919-1"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -45,6 +45,12 @@ func _ready() -> void:
 	var context := HashingContext.new()
 	context.start(HashingContext.HASH_SHA256)
 	context.update(BUILD.to_utf8_buffer())
+	# Variant availability changes the spawned/collidable characters. Reject a
+	# partially updated install just as we reject a different terrain version.
+	context.update(var_to_bytes(Zombie.TYPES))
+	for spec: Dictionary in Zombie.TYPES.values():
+		for asset in Zombie.skin_names(spec):
+			context.update((str(asset) + str(ResourceLoader.exists("res://assets/models/%s.glb" % asset))).to_utf8_buffer())
 	for file in ["map.json", "heightmap.f32"]:
 		context.update(FileAccess.get_file_as_bytes("res://assets/map/" + file))
 	_fingerprint = context.finish().hex_encode()
@@ -425,6 +431,17 @@ func _explosion(session_epoch: int, position: Vector3) -> void:
 
 func nearest_player(position: Vector3) -> Player:
 	return world.nearest_player(position) if enabled and world else null
+
+func titan_cue(kind: String, origin: Vector3, body_height: float, emitter: int, serial: int) -> void:
+	if not is_host(): return
+	for id in ready_peers:
+		if id != 1 and ready_peers[id]:
+			_titan_cue.rpc_id(id, epoch, kind, origin, body_height, emitter, serial)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _titan_cue(session_epoch: int, kind: String, origin: Vector3, body_height: float, emitter: int, serial: int) -> void:
+	if epoch != session_epoch or not world or not is_instance_valid(game): return
+	TitanPresence.for_scene(game).receive(kind, origin, body_height, emitter, serial)
 
 func blood(position: Vector3, direction: Vector3) -> void:
 	if is_host(): _blood.rpc(epoch, position, direction)

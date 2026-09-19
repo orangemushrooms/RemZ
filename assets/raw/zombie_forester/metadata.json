@@ -1,0 +1,18 @@
+{
+  "project_name": "realistic game character, zombie forestry worker, orange high-visibility jacket with reflective stripes, chainsaw protection trousers, forestry helmet with mesh visor, rotting skin, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+  "folder": "zombie_forester",
+  "root_task_id": "01a0bb04-87ec-7221-8eb6-c78a2a340e91",
+  "created_at": "2026-09-19T20:56:02.334535",
+  "updated_at": "2026-09-19T20:56:02.334554",
+  "tasks": [
+    {
+      "task_id": "01a0bb04-87ec-7221-8eb6-c78a2a340e91",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:56:02.334552"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+20:18:10 preview fence_post_wire
+TASK_CREATED: 01a0bae3-de9f-7443-843a-97709207db72
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (70.625s, poll #7)
+20:19:25 refine fence_post_wire
+TASK_CREATED: 01a0bae5-0299-745d-a44b-4257117c2b40
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (40.625s, poll #5)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████░░░░░] 78% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (140.9375s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (155.9375s, poll #10)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fence_post_wire\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fence_post_wire\model.glb (7.8 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fence_post_wire\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fence_post_wire\thumb.png (0.1 MB)
+20:22:06 DONE fence_post_wire
+EXIT 0

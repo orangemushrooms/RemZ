@@ -1,0 +1,18 @@
+{
+  "project_name": "realistic game character, colossal grotesque zombie titan, emaciated giant humanoid with overlong arms and huge clawed hands, exposed ribcage and spine, torn grey rotting skin hanging in strips, several milky eyes, gaping jaw with broken teeth, remnants of clothing, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+  "folder": "zombie_colossus",
+  "root_task_id": "01a0bb0b-3714-7748-9804-6961814269ca",
+  "created_at": "2026-09-19T21:04:35.613529",
+  "updated_at": "2026-09-19T21:04:35.616169",
+  "tasks": [
+    {
+      "task_id": "01a0bb0b-3714-7748-9804-6961814269ca",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T21:04:35.616166"
+    }
+  ]
+}

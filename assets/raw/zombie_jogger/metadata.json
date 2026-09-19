@@ -1,0 +1,18 @@
+{
+  "project_name": "realistic game character, thin fast zombie jogger, neon yellow running shirt, black shorts, running shoes, emaciated grey skin, open screaming mouth, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+  "folder": "zombie_jogger",
+  "root_task_id": "01a0bb05-b6d8-7269-8ec6-97eee5b60a2a",
+  "created_at": "2026-09-19T20:58:21.265205",
+  "updated_at": "2026-09-19T20:58:21.265230",
+  "tasks": [
+    {
+      "task_id": "01a0bb05-b6d8-7269-8ec6-97eee5b60a2a",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:58:21.265227"
+    }
+  ]
+}

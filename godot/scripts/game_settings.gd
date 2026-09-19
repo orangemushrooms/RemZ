@@ -23,6 +23,7 @@ var fps_limit := 144
 var vsync := false
 var sensitivity := 1.0
 var volume := 0.8
+var tremor := 1.0
 var show_fps := true
 var env: Environment
 var sun: DirectionalLight3D
@@ -47,6 +48,7 @@ func _ready() -> void:
 			show_fps = bool(cfg.get_value("video", "show_fps", true))
 			sensitivity = clampf(float(cfg.get_value("input", "sensitivity", 1.0)), 0.2, 3.0)
 			volume = clampf(float(cfg.get_value("audio", "volume", 0.8)), 0.0, 1.0)
+			tremor = clampf(float(cfg.get_value("video", "tremor", 1.0)), 0.0, 1.0)
 			difficulty = clampi(int(cfg.get_value("game", "difficulty", 1)), 0, DIFFICULTIES.size() - 1)
 	for arg in _flags:
 		if arg.begins_with("--quality="):
@@ -85,6 +87,7 @@ func apply() -> void:
 			node.visibility_range_end_margin = 4.0
 	if main.player:
 		main.player.mouse_sensitivity = sensitivity
+		main.player.tremor_scale = tremor
 	if main.hud:
 		main.hud.fps_label.visible = show_fps
 
@@ -103,6 +106,7 @@ func save() -> void:
 	cfg.set_value("video", "show_fps", show_fps)
 	cfg.set_value("input", "sensitivity", sensitivity)
 	cfg.set_value("audio", "volume", volume)
+	cfg.set_value("video", "tremor", tremor)
 	cfg.set_value("game", "difficulty", difficulty)
 	if cfg.save(PATH) != OK:
 		push_warning("Einstellungen konnten nicht gespeichert werden.")
@@ -145,6 +149,13 @@ func add_controls(parent: VBoxContainer, with_quit: bool = true) -> void:
 	audio.value = volume
 	audio.value_changed.connect(func(value: float): volume = value; _changed())
 	_row(grid, "Lautstärke", audio)
+	var shake := HSlider.new()
+	shake.max_value = 1.0
+	shake.step = 0.05
+	shake.value = tremor
+	shake.tooltip_text = "Bodenbeben durch Titanen: links aus, rechts volle Stärke."
+	shake.value_changed.connect(func(value: float): tremor = value; _changed())
+	_row(grid, "Titanen-Bodenbeben", shake)
 	var fullscreen := Button.new()
 	fullscreen.text = "Vollbild umschalten (F11)"
 	fullscreen.pressed.connect(_fullscreen)

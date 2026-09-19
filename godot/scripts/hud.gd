@@ -46,6 +46,7 @@ var minimap: Minimap
 var settings_box: VBoxContainer
 var difficulty_button: Button
 var hit_marks: Array = []
+var crosshair_parts: Array[Control] = []
 var _msg_timer := 0.0
 var _damage_t := 0.0
 var _hit_t := 0.0
@@ -131,6 +132,7 @@ func _ready() -> void:
 		c.position = -size / 2.0
 		c.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		root.add_child(c)
+		crosshair_parts.append(c)
 	# hitmarker: four short diagonal ticks around the crosshair
 	for k in 4:
 		var m := ColorRect.new()
@@ -421,7 +423,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	box.add_child(grid)
 	for pair in [["WASD", "Bewegen"], ["Maus", "Umsehen"], ["Shift", "Sprinten"], ["Leertaste", "Springen"],
 			["Linksklick", "Schiessen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–5 / Mausrad", "Waffe wählen"],
-			["G", "Granate werfen"], ["E", "Interagieren: Türen, Loot, Barrikade"], ["V", "Barrikaden planen"], ["B", "Inventar"],
+			["G", "Granate werfen"], ["E", "Interagieren / Turm verwalten"], ["V", "Barrikaden planen"], ["T", "Geschützturm platzieren · E bestätigt"], ["B", "Inventar"],
 			["Tab", "Skills und Waffen kaufen"], ["F", "Taschenlampe"], ["Q", "Nahkampf (Kolbenschlag)"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110

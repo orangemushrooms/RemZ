@@ -13,6 +13,7 @@ var inventory: Inventory
 var forest_keys: ForestKeys
 var achievements: Achievements
 var barricade_menu: BarricadeMenu
+var defences: DefenceSystem
 var ambience: Ambience
 var music: Music
 var intro: Intro
@@ -130,6 +131,9 @@ func _ready() -> void:
 	barricade_menu = BarricadeMenu.new()
 	add_child(barricade_menu)
 	barricade_menu.setup(self)
+	defences = DefenceSystem.new()
+	add_child(defences)
+	defences.setup(self)
 	ambience = Ambience.new()
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
@@ -2142,11 +2146,21 @@ func _game_over() -> void:
 	hud.show_overlay("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score], "Nochmal", "", "over")
 	hud.show_run_summary(stats, player.score, waves.completed, rank, str(difficulty["name"]))
 
-func spawn_zombie(type: String, p: Vector2, speed_mul: float) -> void:
+func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "") -> void:
 	if NetSession.is_client(): return
-	var z := Zombie.new()
+	var z: Zombie = Titan.new() if type == "titan" else Zombie.new()
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	z.hp *= float(difficulty["hp"])
+	if type == "titan":
+		z.hp *= (1.0 + maxf(0, waves.wave - 8) * 0.12) * (1.0 + 0.65 * (NetSession.roster.size() - 1) if NetSession.enabled else 1.0)
+		var message := "DER FELDTITAN\nEin Gigant nähert sich über die Wiese!"
+		hud.message(message, 5)
+		if NetSession.is_host():
+			for peer in NetSession.ready_peers:
+				if peer != 1: NetSession.feedback(peer, "message", [message, 5.0])
+	z.max_hp = z.hp
+	var lane_slots := {"north": 0, "east": 1, "south": 2, "west": 3}
+	if lane_slots.has(lane): z.lane_bar = barricades[lane_slots[lane]]
 	z.damage_mul = float(difficulty["dmg"])
 	zombies_root.add_child(z)
 	var spawn := Map.ground_pos(p.x, p.y)
@@ -2197,7 +2211,7 @@ func _process(delta: float) -> void:
 	if fire_light:
 		var daylight_multiplier := day_night.fire_energy_multiplier if day_night else 1.0
 		fire_light.light_energy = 5.0 * daylight_multiplier * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
-	if player and player.active:
+	if player and player.active and not defences.placing and defences.input_grace <= 0:
 		var near = null
 		var nd := Barricade.BUILD_REACH
 		for b in barricades:
@@ -2230,7 +2244,8 @@ func _process(delta: float) -> void:
 				ld = d
 				loot = l
 		var downed: int = NetSession.world.nearby_downed_player() if NetSession.enabled and NetSession.world else 0
-		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else (near.prompt_text() if near else "")))
+		var tower := defences.nearest(player)
+		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("[E] Geschützturm verwalten · [T] Neuen Turm setzen" if tower else (near.prompt_text() if near else "[T] Geschützturm setzen · 120 P"))))
 		if downed and Input.is_action_just_pressed("interact"):
 			NetSession.command("revive", [downed])
 		elif loot and Input.is_action_just_pressed("interact"):
@@ -2243,6 +2258,8 @@ func _process(delta: float) -> void:
 				if was_weapon and achievements:
 					achievements.event("weapons")
 			hud.set_prompt("")
+		elif tower and Input.is_action_just_pressed("interact"):
+			defences.open(tower)
 		elif near and Input.is_action_just_pressed("interact"):
 			barricade_menu.open(near)
 	if _autotest and started:

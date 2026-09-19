@@ -1,0 +1,27 @@
+{
+  "id": "01a0bb02-2a35-72ea-be0e-6d0886302ff5",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3492252817,
+  "prompt": "realistic game character, zombie hiker in a torn red outdoor jacket, grey hiking trousers, hiking boots, small daypack, rotting skin, torn cheek, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789843878310,
+  "progress": 100,
+  "started_at": 1789843878315,
+  "finished_at": 1789844030879,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-2a35-72ea-be0e-6d0886302ff5/output/model.glb?Expires=4943376000&Signature=UAfKDlUl721t2Jf8LtS1dAszxJL695COCCzmntPVHm9wROyRwIFrMipLTulZtCFi1oPmJCeua8tX9aKiQgRoxJzrflsL440ZNlOJAMO9EY~9fWmdvCwDbMRf1Kk21R6kYNqnQNtDai6hmxcMziaIdAYGb7GYeN88JYKN4zovcB2-eBtNHwxcYnqYbXXI6qzkUIeLMNEYEBHwBaFMEoMKUrC0mfh1gyxT1oH0f1B-TDWWS8CqMWQ9XOxrucqNSEYWF9LlE2DB9uiNmf3-RspOzpcR1ub3tgaknv6dK1yj3oJFj9oTjAhDum2776kWAyBiD3mIazbSy1Zt9Sa-LNyCug__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-2a35-72ea-be0e-6d0886302ff5/output/model.fbx?Expires=4943376000&Signature=ikakoIR465tZLuPVVlZFPOZ8aVyzPC5QvuvFoK8IgiHADl07bNlSbdJ8C9zoCwBSGlYRv2STL5ouMEshqUzSe4mWW4Sc9Gf2IEqZmsKTWXZ3ov4dbBbOERfwaSdkoS1q6NYi3hXKeNswnO8R9vSs7M2D~75OVbCRAv6NWbSlzlaUJ6j2WxfqCEtVzudCCvlwO~LpzQIX-gxthJ8FQsPAQpKLaevlngRQTRrsdAoNW~rbIBh0qZ0eSNIx45QgZ0q9Z6uxdeeJc2e6iuW5vtpFzqCsx-PVGhM3aD353d6fwThWN9Y6049BS0aUmlh42LPvt1N5AQYkQcqqfi0YVjh1fg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-2a35-72ea-be0e-6d0886302ff5/output/model.usdz?Expires=4943376000&Signature=ET~ahkWxkavEIwWPEP0w9G0q7aq6gTNtxKoEc4x1KXfvAjWJqZGR1kt3KyVTXNvnxXfIxdZRigE0KpSS0laPhM6DAvjogoAjNzse0JYKVc4Di2fN3Hs2N7M-8v4Y3xUxIf-X8GLPyrnToUeQisFnUcd3hKGGg9~dRVb3Dsi9XYFWYLK6-uBuLm3CrlIimK2DvomweAQxkF-JgLS~uF8EXmg7axO9NKFGvsTHAqljFOuUV1gic8b7jkRxPnhUZCIJSgtm1onEGffFViy6GEOnqbdR1n191RHl2gwQOnL0uIdTAM1xink0-krZuv4lCJUojgxmQv5M43OEd~fK3scgOA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-2a35-72ea-be0e-6d0886302ff5/output/model.obj?Expires=4943376000&Signature=l5DDgVcBmXenrzKY~CL5vNLGSDgq7p~qcXzljmgqnD21KrmR~UXJYNupcrY5DOG9eF25CACOA3~hcaydM6QybR~Z4YaaeVdcQja3ph9ZWqrtXxljhcNNST2ApsjPN7~pBBhJ7s5H0u1EJ12jBHMJVynWET~Ft4LSRogEGK-Mx4PjMRq4Cb6x5kSmVJMXvSKjIE5ltPJ0P~SNa7XwDz5u6w7kKMASwLG4Wp4fhwY6bDxnL9PCwMneKwj4H14WCHJpl3tS6VwUJlxGw6gUFYCFHSyYQyDGfQtSBserrrFn-a0MA5zpw57xdu8efmchMIO-4M~90OCX27WXJX418PMC-w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-2a35-72ea-be0e-6d0886302ff5/output/model.stl?Expires=4943376000&Signature=TjND3S8fiwi1pJZAKqaTc7TgfdRDMskP9xTXWTkHalB1R6aQw4sIJSOrW0leE7HE0yaekr0D11IA8P0OsMklJTbpHb14fLBH9Qzh3n34UTmEIdXcX~Gevd7BbR90l8pb3SNt0kAjAFxGjiX8nQ0iv2mGzku-I4H5cevtFE4fowKuf6I-FwhcukNfjSMRqOKJdRBBVfZyiLKJTerOYuqORDnwiuJ46ao6QLOgDpJwPRrATAt0zF2TvC1ylEao1KjOJE9DLV0sTZhEGg52DL1LhvViMZTBhPbvlzlh5Kjn9prVcsuU1g0pOdyrrMlKON7z2w50zE1x7xw7qlLwrtzh3Q__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb02-2a35-72ea-be0e-6d0886302ff5/output/preview.png?Expires=4943376000&Signature=QsBWFsgm6-D~HEzcmwFvfj-vpteEtjRweBpWrTzOSUO41ToCA6lfD1gZghyTQj5JlKGejY1rmQ1yDErVDvUQEeCN~2jVir9k56uz5e0VeXvCE6tSwe2cq5aXfq57Q3LPAaj9SYIoseRbuZeVrqvGstC-~7y-G82ULcWxhqUHaSJtqncTkghC6JR1r9kcQbA6SMJ28gla3n48Y--hoMh0DLM4KWs0aa8LUVwAoyLLhBUmhjivRHtHNygx52wirPSHSmmeVJwL95jgnSAsToBDMp~~9EvFnhWowN2PCpFe7urnqrzbEBnmp~sPhQjsgNL17Tv4gaZ2gL8VRi5oWdQY4w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

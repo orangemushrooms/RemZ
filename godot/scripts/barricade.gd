@@ -226,7 +226,8 @@ func repair() -> bool:
 func damage(n: float) -> void:
 	if hp <= 0.0 or n <= 0.0:
 		return
-	hp = maxf(0.0, hp - n)
+	# Reinforced lines absorb pressure as well as having more structural health.
+	hp = maxf(0.0, hp - n / (1.0 + 0.45 * (level - 1)))
 	if hp <= 0.0:
 		level = 0
 		hud.message("Barrikade %s durchbrochen!" % slot["name"], 2.0)
@@ -254,6 +255,27 @@ func crosses(a: Vector3, b: Vector3) -> bool:
 
 func attack_point(from: Vector3) -> Vector3:
 	return point_at(clampf(_local(from).x, -half_len, half_len))
+
+func approach_point(from: Vector3) -> Vector3:
+	var side := signf(_local(from).y)
+	if side == 0.0: side = 1.0
+	var p := attack_point(from) + Vector3(normal2.x, 0, normal2.y) * side * 1.15
+	return Map.ground_pos(p.x, p.z)
+
+func intercepts(from: Vector3, destination: Vector3, path: PackedVector3Array) -> bool:
+	if hp <= 0.0: return false
+	if crosses(from, destination): return true
+	# Catch a route around the end of a defended entrance before avoidance can
+	# turn it into a permanent flank. Open countryside remains traversable.
+	var a := _local(from)
+	var b := _local(destination)
+	if a.y * b.y < 0.0 and absf(a.x) < half_len + 9.0 and absf(a.y) < 18.0:
+		return true
+	var previous := from
+	for point in path:
+		if crosses(previous, point): return true
+		previous = point
+	return false
 
 func placement_blocked(player: Player) -> bool:
 	# A just-moved player may not be in the physics broad phase yet.

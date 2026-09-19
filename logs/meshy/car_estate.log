@@ -1,0 +1,27 @@
+20:02:26 preview car_estate
+TASK_CREATED: 01a0bad5-78f8-752b-b860-a7fb5598fecc
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (100.625s, poll #9)
+20:04:11 refine car_estate
+TASK_CREATED: 01a0bad7-104c-7696-9f9c-d59e5e610844
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (40.625s, poll #5)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (95.9375s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (110.9375s, poll #8)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\car_estate\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\car_estate\model.glb (8.3 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\car_estate\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\car_estate\thumb.png (0.1 MB)
+20:06:06 DONE car_estate
+EXIT 0

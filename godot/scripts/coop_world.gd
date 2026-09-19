@@ -92,6 +92,9 @@ func spawn_position(index: int) -> Vector3:
 	return NavigationServer3D.map_get_closest_point(nav, point) + Vector3.UP * 0.3
 
 func remove_player(id: int) -> void:
+	if NetSession.is_host():
+		for tower: DefenceTower in game.defences.towers.values():
+			if tower.owner_peer == id: tower.owner_peer = 1
 	if actors.has(id) and is_instance_valid(actors[id]) and actors[id] != game.player:
 		actors[id].hud.queue_free()
 		actors[id].queue_free()
@@ -150,6 +153,14 @@ func action(id: int, operation: String, args: Array) -> void:
 	if not p or not p.alive: return
 	var w: Weapons = weapons[id]
 	match operation:
+		"tower_place":
+			if args.size() != 1 or not args[0] is Vector3 or not args[0].is_finite(): return
+			var error: String = game.defences.purchase(p, args[0])
+			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
+		"tower_upgrade", "tower_repair", "tower_sell":
+			if args.size() != 1 or not args[0] is int: return
+			var error: String = game.defences.maintain(p, args[0], operation.trim_prefix("tower_"))
+			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"fire":
 			if args.size() != 4 or not args[0] is String or not args[1] is float or not is_finite(args[1]) or not _aim(p, args, 2): return
 			w.set_weapon(args[0])
@@ -302,7 +313,8 @@ func _show_game_over() -> void:
 	game.stats.finish(game.player.score, game.waves.completed, "Koop · " + str(game.difficulty.name))
 
 func _close_local_menus() -> void:
-	for menu in [game.skills, game.inventory, game.barricade_menu]:
+	game.defences.cancel_placement()
+	for menu in [game.skills, game.inventory, game.barricade_menu, game.defences]:
 		if menu.is_open: menu.close()
 	game.get_tree().paused = false
 
@@ -400,7 +412,7 @@ func snapshot() -> Dictionary:
 	var zs := {}
 	for z in game.zombies_root.get_children():
 		if not z is Zombie: continue
-		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul]
+		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul, z.max_hp, z.boss_state() if z is Titan else [], z.model_path, z.appearance_seed, z.height]
 	var gs := {}
 	for id in grenades.keys():
 		var g = grenades[id]
@@ -430,7 +442,7 @@ func snapshot() -> Dictionary:
 		if is_instance_valid(broken_nodes[id]): intact.append(id)
 	var animals: Array = []
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
-	return {"players": players, "zombies": zs, "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
 		"difficulty": game.settings.difficulty,
@@ -440,6 +452,7 @@ func snapshot() -> Dictionary:
 
 func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	if not NetSession.is_client(): return
+	game.defences.apply_snapshot(data.get("towers", {}), initial)
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
 	if initial: game.hud._mark_difficulty(int(data.difficulty))
 	for id in data.players:
@@ -500,14 +513,20 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game._alive_count = 0
 	for id in data.zombies:
 		var s: Array = data.zombies[id]
+		var fresh := not zombies.has(id)
 		if not zombies.has(id):
-			var z := Zombie.new()
+			var z: Zombie = Titan.new() if s[0] == "titan" else Zombie.new()
 			z.replica = true
 			z.setup(s[0], game.player, game.barricades, s[6], Callable())
+			z.model_path = s[9]
+			z.appearance_seed = s[10]
+			z.height = s[11]
 			game.zombies_root.add_child(z)
 			z.global_position = s[1]
 			zombies[id] = z
 		var z: Zombie = zombies[id]
+		z.max_hp = s[7]
+		if z is Titan: z.apply_boss_state(s[8], initial or fresh)
 		z.net_position = s[1]
 		z.net_yaw = s[2]
 		if z.hp > float(s[3]): z._flash()

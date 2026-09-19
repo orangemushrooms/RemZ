@@ -1,0 +1,27 @@
+{
+  "id": "01a0bafa-420a-703c-a389-7a06fd52d53c",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 688782221,
+  "prompt": "AAA realistic dark fantasy survival horror boss character, colossal undead giant executioner, entire full body standing symmetrical T pose, two arms two legs five fingers, broad hunched shoulders, enormous heavy muscular body, small bald skull face sunken eyes, grey decayed skin, weathered asymmetrical iron shoulder plates strapped to body, rusty chains wrapped around torso, ragged dark leather waistcloth and torn trousers, heavy bare feet, no weapon, no ground, no pedestal, terrifying imposing silhouette, detailed anatomy, original design",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789843360227,
+  "progress": 100,
+  "started_at": 1789843360239,
+  "finished_at": 1789843457025,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bafa-420a-703c-a389-7a06fd52d53c/output/model.glb?Expires=4943376000&Signature=AlTuopDAngRLQ8sIl5tRRsi5g9oVOIhixkZWzfjfO5qqAoVwb4kf4YKoJ5N2F43kRpfgFrZbuH~9sA1ao4J32FsLi8j4DtPbOZ8JSiY65npXTaup9wxTnCiZWSg-i9FU5FjSXJFqsaZ8zDMC8OPqQDIrBAuGYMnN0Sw1Z064LBnKt2yOrwH97hp-nOeGLoSWmjPamuPkopvfM7OzH9zEv4P0UsQzeRIRRlUxcAqHM2ilZjIQc4wlkph-wEU2OopjviWT3QO5e4vQFQLEr-C6EP85S9Ow0~MvyBeyanvX0UbfFLin6GH67Wj35580SQMCJhZLn4xJDZEigP56G7gI2Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bafa-420a-703c-a389-7a06fd52d53c/output/model.fbx?Expires=4943376000&Signature=beUrU4VHDQcOBjQz39MuF4RjxhIPa1AvKrvF2eTFAAFUyaCGsnGYOdA35rwLvTh8vvRjpBUTJbvalrQinOxogYmwI6qQGNCjGNT1OwmCS7B0CUzKjVw1Obk-0a~9fdwTmC5~qCBMbtHz0dxJdo1ls4fI2eUc3rqZZ~Il8PM33T~rTdEaJrwX~kR0ZW5txabWnCdAVKs6zU~mjSI2hIGhfogtBsWwjldznHa4rQC3vTlVW1sT8PGVkcKbm7QmZU0nLobJfAgy1VT2noIptep8w9rfvD7kGtmWusXp38RnSRe7yhHsWMp79LpubwBEM7VqiUhfUjba3P4Fgp6KW-Z4MQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bafa-420a-703c-a389-7a06fd52d53c/output/model.usdz?Expires=4943376000&Signature=l55N6kW4toszXJstuINPrqK7EuV994VCIG2~~3euAoqiW6iGYYpmOt5Ec2ygSVUPPKZx9wbDls5XbtRe8xz5PjWZG0hvsqDvStHeTT5M2K0cfFI0TQEZRB4lK8adKAcTEN5FtosnoTWEd1f8hN72SY29Fml2kEpLVR4KVvPKacD5hrdB9xToMuiSYsTZtvLRU~Kihs0JXzP2W7i8XofFHFDWGoAz7cOpKRUzp6Q9s3a~Kpd-F9TybBhAf1fvE-vs6YdJCVFyem58-nE9lInFSTsc~JEOAU94957HdCwhWRbhwpRpWSGXl52iOncUb4dO1koddB65-XpVNSZleoijYw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bafa-420a-703c-a389-7a06fd52d53c/output/model.obj?Expires=4943376000&Signature=ZE857Wm5CSM6qSilPp5IOQQaf6yBCd2MXDR92rh1KPuufm0Ch5w9oPw9LZ~gXnMqDeEBU1698YYSp1imzowaVnIBTmJKNTm16uaLFc87BkMgW4oEkXwkL44CsjWm-vgoe0yj4WuRtvwUdlkwbaXjSP2Zwr9tMLkv1~hruIqlAyfVGRBfNJHNSnasCilXwS6TdleWdzoCCr0Bgk6geZVpwdKCdiRBelMSs8sjAaEW~c~gyvFwNwNaCgBdDcW~di6qWxVs4YbcbVyaqSd1l4KoX-iUsLDB5TBQx-Rskn72Lra8mjZlDUEAuKPg~WaDYLHILIt~oEs8ZU0lkiy9l6RJZA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bafa-420a-703c-a389-7a06fd52d53c/output/model.stl?Expires=4943376000&Signature=TXC0egSo7zDX2NU0~xzBZYkDxMJWit4Z23rQcuXB4VWLOd5ZHaPSb-PFVwzpIEUrsLwiu819iLgN01btdK7lq-zlvTNcS1B0a7M4J9uQ7n26eW8QEvoKHhSFx6cdAH0cLC1J3DzVZcjEQwut6J7g0wNX5fO9cD6bF1lJlfY-n9Ol68fk4DZduHjR47w-ixi6fr2Fh5JCxDjzTrr~DAD1pKhNXMTN367I-Tf-lq02ffSSmxdfkm8Ux5M0j8ApjERPjn3ICRV1YZldLtP9NyjVFSR-5VBrF-~zD70F9PbJSkBjEcrF~09tzfr2eGXKcBsWQi-2CGkCD5cuOJvdXzXRng__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bafa-420a-703c-a389-7a06fd52d53c/output/preview.png?Expires=4943376000&Signature=RBu9UZ6ixQcf-az4Q5YRl31mDcLXEDKRRNOgCHUObC8vz-ngOEPlGjf7TdbzqMlLRlvV-uvM3sf5ZorD5YEY0pGEpWw30WE6FfN5gKPzOPnLzIUOEFB0~bLkWvjGMLPkKXoAg9U~gatbzZxXEXxO3-63LMovOdUB5PPBVTNzZtBJlDY14covMYHIX8T7D4X1y3Qibfsr2EEnO2Ou1PKz1bxTMXW-ciPdAk527Dup96EP1lBZNKw8gUdloeJMhMjqQpT7HhxPIE2zrIyWuc7z8P~gijf1ECU7fqQMlrS-3GQJDtflLNXF-6aF2q0hFC3Ldp05~MyHY4L7lar060RBbQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

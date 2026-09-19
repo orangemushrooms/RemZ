@@ -1,0 +1,27 @@
+{
+  "id": "01a0bb08-ed89-77f7-b9e8-0c3fc06da18d",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2975689712,
+  "prompt": "realistic game character, colossal grotesque zombie titan, emaciated giant humanoid with overlong arms and huge clawed hands, exposed ribcage and spine, torn grey rotting skin hanging in strips, several milky eyes, gaping jaw with broken teeth, remnants of clothing, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789844321583,
+  "progress": 100,
+  "started_at": 1789844321589,
+  "finished_at": 1789844464026,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb08-ed89-77f7-b9e8-0c3fc06da18d/output/model.glb?Expires=4943376000&Signature=RTXr6ZyPUgQp1CkyNRNEAonXJ0pp~eGL72NA2X75ZYeY~9I0TBzEf6WgEJybG5nxV5LGWSWkSt00DxHvZfa29kLWnu6xRFS4rP4grtSE10BYJo29KPrN~hPajuKm7xn7GVfaKRPguixdvLMorj7mBD3aIk~A6nwOd0eFDuo3z46~2t81ouogITSAc9y5HjXc6B2AE883EwRc4kX2ECn-XN8OOI1zFZ0FR2nIpyqPv1Gg0PgV~eAtRceOpKHxO3xWlYSkQXSWcVlqu6LphO2LDZuXeqx1vMQDyMlhOWJjoRbiH5EiFzodllJPLXGbOoQnIXdX8q~9d54gO-Yl5GqfzA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb08-ed89-77f7-b9e8-0c3fc06da18d/output/model.fbx?Expires=4943376000&Signature=e-wtcuCYkBcxLCxabIGX4~AmEygu7oKQ21dthdq5Zp9UTRDbdBmRnn4FYMdYgEZcm8QFv7PYaHeSNNf6yJOfPuXEKPab7igtb46CjI5KZ8h8Vh30ucHEph3lpKEg2t4KZ7kcvbhqb6FsDoDIBkA7E-XVgoRxCXpzwlpRd~zJg0sA7a-GHROlnD~72nALai3u5J0gpciQdFA3xtxDujzyoyF8vXczOAtuiAHaNEmMXg8Lj~CF5uvJ7RppZ5M~LpYfvCl9z82n7jPmlqJXmXONszqDY98mK2yewkQWIjzuMyYf~9jI507hLKP6hsM4Qrz-VeELpse2-ERqNYO993VQNg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb08-ed89-77f7-b9e8-0c3fc06da18d/output/model.usdz?Expires=4943376000&Signature=Rvi5KZVwlNG1vorwaAZmPoxdity9ilr5ifLCfOefwAXBgf0U~yOTJvNF54nuP7H3O6MQpqHrb93RI3Q5NMPNO-kk6IshLxR1fENYw-W2gwozjppxr-K7japhrj3DVRulg06ASiR8s2qnuHL3ENdDM1PWZTbkD3HnDQQKoBOvAvld5pEYaEUN4PoCvclyGgSmvBKtsFM9Ty5d1XMpqUsKv9ruEp~Qt7-N3-pDguv8h1ugfynHk4NVVmzJtIV1Bfsb22aXyT9ws6x52yKVwe4P0lIsb3qoy9RFUGDdbHTK-KCu0lqa0UX8KhaHT9iO0YoOLYTKFOEGUPvBdT1i~Q1jYw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb08-ed89-77f7-b9e8-0c3fc06da18d/output/model.obj?Expires=4943376000&Signature=oGF41kpHgY2mkVbZPeb425li0SELvwIpllx0n80rKn5xv4yZn-HazBFjl7t8dYpZAf~ERbtaIygvBzQiNGIEPwJxkZfnzevdhBuIdgRZQFbFreOPpqeHDPYuoAQBgNGVPvY9bAlr6D0-G7r5ED4vfc-8Z76KMXKL0dIUJAiRxBtFzROCkexQgDfSbBv48UQ56lhwDweZjnE1~xrnsMFOch5bma6fL32HrQogE57~nEBCH0kHJPJyXk9OrVfR9crKkhuLxPbOebDU8WVfSuuAxGS~rOyo9GH4BrvU9Q0n6J8N8Bp3hN-EzdvULslYER7O4HHnM6QhzN-rYsyIb7qXrA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb08-ed89-77f7-b9e8-0c3fc06da18d/output/model.stl?Expires=4943376000&Signature=em-TBM5lxVzsQJFYLF9S8cX5Hj3v-7eXZDVTJ-r75FFWFInOXVlFrJ0nnzgv-A1Bn8YsdRXEOkoR-RlpBUY05atpoBpcmuLADyNGlFrqhJCKriWVBl3LVEworu7Jq6~O~jaxy8ewgQrGsEa4qTZK7yjTA9WhnsU~GoWXEj4hpCnk1qvt-VmzsEqtYCbc3hNjiMton-rYSVjAr9a22kmzo4jHBb1PniXlavXxLc6WEBSDoCtBP7enuUbygR1q-Uf4kxycNRCHl9REdduHIGq6~OK~BfvZYhyp6VpwRQMIOVFEOmaJ-jGfl2x4zov4W4Bhlb5MCLBUUN0XHsenWAPsrQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bb08-ed89-77f7-b9e8-0c3fc06da18d/output/preview.png?Expires=4943376000&Signature=cCeCoEHoYGpTGW8uRHJAdXVU7Ez4UQXNrIp7AFnD0afWLCjSxkjGnHECoapf2mGtuqnTZpgu3A2feJcmT9mC099-dM457PoCLrKOaFcmRMyPqaVvk-JOK-GgGPYE~zFQwpLtq3Sj54Ky5j9JRAGCqok8hYq1l8-Cj-s3JJ9rdCzWZx4vjIfRU4DYtkjZV0y27kSNn19OXDsJx0zJ0MypY5iXuhPfRyBazMBWW2nUN1Oto8fHclxaj92CoY~pLFVpVwX3UZ8kJVGtL2C9zKKM4Nzot7KLJ-l3TYHPePSEHSSGj-okY8QLH8-DUwj-a~8oXL6mZXCncuXWKOr01qd15A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

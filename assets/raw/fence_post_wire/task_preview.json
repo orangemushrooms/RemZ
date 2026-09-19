@@ -1,0 +1,27 @@
+{
+  "id": "01a0bae3-de9f-7443-843a-97709207db72",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3629920651,
+  "prompt": "game asset, single weathered wooden pasture fence post, square cross section, slightly leaning, with two rusty steel wire strands attached by insulators on one side, Swiss farm fence, single object, no ground",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789841893763,
+  "progress": 100,
+  "started_at": 1789841893776,
+  "finished_at": 1789841950890,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-de9f-7443-843a-97709207db72/output/model.glb?Expires=4943376000&Signature=EdKNJC6lJMZPOccy3nfrQHfK2rgZqmR3zB5kaui6Dgb4KXYmjJdG9zzMmJpDkZM0qi62Jx8Vzw7dzynZkNcK0ATn02XKZgNpCs~usyKw7YGuo7mPMHOxVgYl8OPgllRbwXV3Q69wmRrg~g2-laqWYyiJzDIjlXAIJAh7p3fWL4d5LSm2loguQ8OU0DhL07PLddfXf6zYJmhjtM8J9gYN~wPXcKXB4m2Y8i9h2gPiioQIy9xNeZWdWyijgc9YWJSnP0jIUDEOsktxNDPhluPIrE5iszl-GTeM8QAL~SLS2Vv7hiSzV6Npd2qELiVQ7L9wq6WVzZNloP6Lvi5UWyOKDQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-de9f-7443-843a-97709207db72/output/model.fbx?Expires=4943376000&Signature=D2alWKlkkW85j4O34h4QadQ03JOh5lR2oag6-mGcQIIlJjUwXohiNogHYNxNVVbF7GkPCcda6QMGsLvdVZ6e9x68W-fIYtLwWqnWjk3DhJtOjRD76VLrB7EgNboljGLLaqihgnJGVwhP1YXDJeUvhJW8r3t~NsiZG6ao-sBjpLjAZtxprQ1~TDZjqneu~jPERYxipsxfO3CUX-Otp0S5qH7zDS9no2RZ~GqYM3MqppAPJzWRUQLZT08NFrqhXzF35Qfspb9rUWX4kCul8leJfAOELmHi7CebIooSqVbPzRaiZlk2NDS6TjBs853P5SrFJtCQyTE-b~Va8bFipF7Rfw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-de9f-7443-843a-97709207db72/output/model.usdz?Expires=4943376000&Signature=grFl8iSUOOJGzqysJps22CIhqxbKHh7AF7htpOCCl9HPuXCEsMk2wpqdmi69AdmwPQgcpAwqisLlZ6klJc8~jRS5ZwA4s3GDYBfxB507D2kePM5HtoSmgDWa5NqNCyawei9hc-GJRCEYw7RE9gONUxOMTakON6wgPObTwOXSnK4acRgY15vzvmoYm~AR3qlu2lsmRD9LewgY7hc09ZHyITCJUxIX~QG5J7lT9NMY4qmTMZT9NIKZP-q6xTxv99JdJdSTYH4F7VyTubabEj0Qr1hnZlQKlNT6XO54NM60g9j48egcA~25z9wBlQrGCpQ55RujM1h8JZs4E2gkzmDU~A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-de9f-7443-843a-97709207db72/output/model.obj?Expires=4943376000&Signature=Vbkvo29ShxDg~c6JrjBvk~im-lLDTyj7Hz~0tJBOyFNpx2JmNpfNRg7xs7wZrK3HQ-fLnrH0S7~qbIsiqIZPRVvuXTC74rvLgic6Y68asY~RHYAFWcvu2BwbkP3waaqLQgATWTU1PVIsIgtozLWzGkoHUo3C2EyjMLQEAsOVQZhLhx-XbyIfkYU-EnTWCriqoUH1apuGVOc8cU2~-b~PWc4wau1~qYxVgNsbadG3e5yzaiHC-NI1U8X8v-rczq3dyfBX0suyTSo9Q7UehRC2vzAbXB9nhHlGklHHAapwkM~xBUUe-MSpTVpa-WujVRH-snU2InX6Gj5KJxE3PrC2yA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-de9f-7443-843a-97709207db72/output/model.stl?Expires=4943376000&Signature=nwBhhu9uP4DNAztBAivBaMHd9m5-G3jxeWsPnm3PdA4csplqcFrLblAi~7uWNpgYB0FeJ93~61bUlq83~VTchRmm06nIhY90tQDSl-l02PdTy-nfF4lX9PA9ULBQXGGwjIHWG9vPXy6BBRNbE6WM5y3J5A49MoQtyV979St7pKsT3wtfjqLc1-QlksT4fNA-gIsOrUfpzQ1WoHDNKn~pCvjPPFvc9s4~nrU52dG0SIA7hHJ7yfLj-d8prMptROIxxt3VZOGlrpukm-mJ~aQABtsrX8abQoOEkjltoFh-EuXePH9hNWqC3MbVTKem926CtZZBQJ6JSp5TwQN7HWmewA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0bae3-de9f-7443-843a-97709207db72/output/preview.png?Expires=4943376000&Signature=crh5L37gY-Cm7bFKKc8eZWx3cHpCqrc352azz5R6mZ1tq6Ret8Y1kUdn11KJ5BGpcX05bnNd78cis4rYDEUZHAWizqG0rup5wGavblBVJJsAJK3P~U11Dphgi3483rV4w8jNZnzZnyA9DrfXsdYh6yGsnb~pppGlbSyW4dr9Quc88aqBWZocFctHZK9LFw5uEh5Q3XDao--LVWR~~MbuZmoqVNq-5PVbRXK40w~BaATP03sBFB5p9gTZOtNSftL-lLY2rOHtfCqzigowRYaqA-f754YdA3fLwQVKu0K1SRJTmVRxtRbRIlIWH8iCIpFQGagILFZEJ8ghLeye8tZW-A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

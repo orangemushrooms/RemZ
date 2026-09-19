@@ -1,0 +1,18 @@
+{
+  "project_name": "realistic game character, zombie hiker in a torn red outdoor jacket, grey hiking trousers, hiking boots, small daypack, rotting skin, torn cheek, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
+  "folder": "zombie_hiker",
+  "root_task_id": "01a0bb04-ae26-7008-829d-87b298f0436a",
+  "created_at": "2026-09-19T20:56:27.103293",
+  "updated_at": "2026-09-19T20:56:27.103319",
+  "tasks": [
+    {
+      "task_id": "01a0bb04-ae26-7008-829d-87b298f0436a",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:56:27.103315"
+    }
+  ]
+}

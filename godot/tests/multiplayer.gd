@@ -192,11 +192,74 @@ func host_run() -> void:
 	check(bar.hp == bar.max_hp(), "Remote repair restores host barricade")
 	await command_clients("inspect", ["c2"])
 	check(read_json("done-c2").bar == 1 and read_json("done-c2").open_doors > 0, "Door and barricade states reach other peers")
+	# Real remote building commands, autonomous fire, boss telegraphs and late join.
+	await teleport(c2, Map.ground_pos(60, 117) + Vector3.UP * 0.1)
+	var tower_score: int = NetSession.world.actor(c2).score
+	await command_clients("tower_place", ["c2"], [[60, Map.ground_height(60, 112), 112]])
+	await wait_seconds(0.5)
+	check(game.defences.towers.size() == 1 and NetSession.world.actor(c2).score == tower_score - 120, "Remote tower placement creates one host tower and charges builder")
+	await command_clients("tower_place", ["c2"], [[60, Map.ground_height(60, 112), 112]])
+	await wait_seconds(0.3)
+	check(game.defences.towers.size() == 1 and NetSession.world.actor(c2).score == tower_score - 120, "Duplicate remote tower placement rejected")
+	var tower: DefenceTower = game.defences.towers.values()[0]
+	await command_clients("tower_upgrade", ["c2"], [tower.tower_id])
+	await wait_seconds(0.4)
+	check(tower.level == 2 and tower.hp == 400, "Remote tower upgrade is authoritative")
+	tower.damage(100)
+	await command_clients("tower_repair", ["c2"], [tower.tower_id])
+	await wait_seconds(0.4)
+	check(tower.hp == 400, "Remote tower repair restores shared health")
+	game.spawn_zombie("shambler", Vector2(60, 99), 1)
+	var tower_target: Zombie = game.zombies_root.get_children().back()
+	tower_target.set_physics_process(false)
+	tower_target.agent.avoidance_enabled = false
+	tower_target.hp = 10000
+	await wait_seconds(2.5)
+	await command_clients("inspect", ["c1"])
+	check(tower.shots > 0 and tower_target.hp < 10000 and read_json("done-c1").tower_shots > 0, "Host turret fire and target damage replicate")
+	game.waves.wave = 8
+	game.spawn_zombie("titan", Vector2(20, 125), 1, "east")
+	var titan: Titan = game.zombies_root.get_children().back()
+	titan.set_physics_process(false)
+	titan.agent.avoidance_enabled = false
+	titan.begin_strike(Map.ground_pos(20, 121))
+	await wait_seconds(0.5)
+	await command_clients("inspect", ["c1", "c2", "c3"])
+	for label in ["c1", "c2", "c3"]:
+		var report: Dictionary = read_json("done-" + label)
+		check(report.titans == 1 and report.boss_phase == "windup" and report.boss_max_hp == titan.max_hp, label + " receives full titan health and exact attack phase")
+		check(report.boss_model == titan.model_path and int(report.boss_seed) == titan.appearance_seed and report.boss_height == titan.height, label + " sees the same boss model, size and appearance")
+		check(int(report.titan_cues.get("arrival", 0)) == 1 and int(report.titan_cues.get("windup", 0)) == 1, label + " hears one arrival and one attack cry from the host")
+	titan.emit_cue("step")
+	titan.emit_cue("rage")
+	titan.resolve_strike()
+	titan.strike_phase = "recovery"
+	await wait_seconds(0.4)
+	await command_clients("inspect", ["c1", "c2", "c3"])
+	check(read_json("done-c1").boss_impact == titan.impact_serial, "Boss impact event reaches client")
+	for label in ["c1", "c2", "c3"]:
+		var cues: Dictionary = read_json("done-" + label).titan_cues
+		check(int(cues.get("step", 0)) == 1 and int(cues.get("rage", 0)) == 1 and int(cues.get("slam", 0)) == 1, label + " receives exactly one synchronized footstep, rage cry and slam")
+	titan.die(Vector3.ZERO)
+	await wait_seconds(2.0)
+	await command_clients("inspect", ["c1", "c2", "c3"])
+	for label in ["c1", "c2", "c3"]:
+		var cues: Dictionary = read_json("done-" + label).titan_cues
+		check(int(cues.get("death", 0)) == 1 and int(cues.get("collapse", 0)) == 1, label + " hears death and delayed body impact without replica duplicates")
+	titan.queue_free()
+	tower_target.queue_free()
+	await wait_seconds(0.4)
 	await command_clients("rejoin", ["c3"])
 	c3 = find_peer("c3")
 	check(c3 > 1 and NetSession.roster.size() == 4, "A player can reconnect to an ongoing round")
 	var joined: Dictionary = read_json("done-c3")
 	check(joined.started and joined.bar == 1 and joined.keys > 0 and joined.open_doors > 0 and joined.zombies == 1, "Late join restores doors, keys, barricades and enemies")
+	check(joined.towers == 1 and joined.tower_hp == 400, "Late join restores upgraded tower and exact structure health")
+	check(joined.titan_cues.is_empty(), "Late join does not replay earlier titan roars or impacts")
+	tower.damage(10000)
+	await wait_seconds(0.5)
+	await command_clients("inspect", ["c3"])
+	check(read_json("done-c3").towers == 0, "Destroyed tower disappears on other peers")
 	# A downed player leaves the team fighting; another player revives them.
 	await teleport(c2, Map.ground_pos(-5, -12) + Vector3.UP * 0.1)
 	await teleport(c3, Map.ground_pos(-6.5, -12) + Vector3.UP * 0.1)
@@ -223,21 +286,21 @@ func host_run() -> void:
 		await wait_seconds(0.02)
 	check(extra.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED, "Fifth player is refused by ENet capacity")
 	extra.close()
-	for i in 47:
+	for i in Waves.MAX_ACTIVE - 1:
 		game.spawn_zombie("shambler", Vector2(-20 + i % 8 * 2, -30 - i / 8 * 2), 1.0)
 		var enemy: Zombie = game.zombies_root.get_children().back()
 		enemy.set_physics_process(false)
 		enemy.agent.avoidance_enabled = false
 	await wait_seconds(1.0)
 	await command_clients("inspect", ["c1", "c2", "c3"])
-	for label in ["c1", "c2", "c3"]: check(read_json("done-"+label).zombies == 48, label + " assembles full-capacity horde snapshots")
+	for label in ["c1", "c2", "c3"]: check(read_json("done-"+label).zombies == Waves.MAX_ACTIVE, label + " assembles full-capacity horde snapshots")
 	var earned_before: int = NetSession.world.actor(c1).score
 	z.killer_peer = c1
 	z.damage(10000.0, Vector3.FORWARD)
 	await wait_seconds(0.5)
 	check(NetSession.world.actor(c1).score > earned_before, "Remote killer receives authoritative kill rewards")
 	await command_clients("inspect", ["c2"])
-	check(read_json("done-c2").alive_zombies == 47, "Zombie death reaches another client")
+	check(read_json("done-c2").alive_zombies == Waves.MAX_ACTIVE - 1, "Zombie death reaches another client")
 	# Team defeat and an in-session restart.
 	for p: Player in NetSession.world.actors.values(): p.damage(10000)
 	await wait_seconds(0.7)
@@ -257,9 +320,12 @@ func host_run() -> void:
 	await wait_seconds(0.5)
 	await command_clients("inspect", ["c1", "c2", "c3"])
 	for label in ["c1", "c2", "c3"]: check(read_json("done-"+label).started, label + " starts the second round")
+	check(game.defences.towers.is_empty(), "Session restart removes towers from previous round")
+	var orphan: DefenceTower = game.defences.create_tower(Map.ground_pos(60, 112), c3)
 	await command_clients("exit", ["c3"])
 	await wait_seconds(0.7)
 	check(NetSession.roster.size() == 3 and NetSession.world.actors.size() == 3, "Disconnected player is removed")
+	check(orphan.owner_peer == 1, "Host inherits towers when their builder disconnects")
 	test_step += 1
 	write_json("step", {"number": test_step, "action": "wait_host_left", "targets": ["c1", "c2"], "args": []})
 	await wait_seconds(0.2)
@@ -290,8 +356,9 @@ func client_run() -> void:
 		if not request is Dictionary or int(request.number) <= step_seen or not role in request.targets: continue
 		step_seen = int(request.number)
 		var args: Array = request.args
-		if request.action in ["build", "repair", "revive"]: args[0] = int(args[0])
+		if request.action in ["build", "repair", "revive", "tower_upgrade", "tower_repair", "tower_sell"]: args[0] = int(args[0])
 		match request.action:
+			"tower_place": NetSession.command("tower_place", [Vector3(args[0][0], args[0][1], args[0][2])])
 			"menus":
 				game.skills.open()
 				await wait_seconds(0.2)
@@ -342,9 +409,35 @@ func client_run() -> void:
 		for item in game.loots:
 			if is_instance_valid(item) and item is Door and item.is_open: open_doors += 1
 		var zombie_count := 0
+		var titan_count := 0
+		var boss_phase := ""
+		var boss_max_hp := 0.0
+		var boss_impact := 0
+		var boss_model := ""
+		var boss_seed := 0
+		var boss_height := 0.0
 		for node in game.zombies_root.get_children():
 			if node is Zombie: zombie_count += 1
+			if node is Titan:
+				titan_count += 1
+				boss_phase = node.strike_phase
+				boss_max_hp = node.max_hp
+				boss_impact = node.impact_serial
+				boss_model = node.model_path
+				boss_seed = node.appearance_seed
+				boss_height = node.height
+		var tower_shots := 0
+		var presence := game.get_node_or_null("TitanPresence") as TitanPresence
+		var titan_cues: Dictionary = presence.received.duplicate() if presence else {}
+		var tower_hp := 0.0
+		for tower: DefenceTower in game.defences.towers.values():
+			tower_shots += tower.shots
+			tower_hp += tower.hp
 		write_json("done-"+role, {"step": step_seen, "players": NetSession.roster.size(), "avatars": NetSession.world.avatars.size(),
+			"towers": game.defences.towers.size(), "tower_shots": tower_shots, "tower_hp": tower_hp,
+			"titans": titan_count, "boss_phase": boss_phase, "boss_max_hp": boss_max_hp, "boss_impact": boss_impact,
+			"boss_model": boss_model, "boss_seed": boss_seed, "boss_height": boss_height,
+			"titan_cues": titan_cues,
 			"started": game.started, "paused": paused, "alive": game.player.alive, "over": game.over,
 			"bar": game.barricades[0].level, "open_doors": open_doors,
 			"alive_zombies": game.alive_zombies(),

@@ -22,6 +22,11 @@ var pitch := 0.0
 var bob := 0.0
 var regen_timer := 0.0
 var wobble := 0.0
+var tremor_scale := 1.0
+var _tremor := 0.0
+var _tremor_left := 0.0
+var _tremor_duration := 1.0
+var _tremor_phase := 0.0
 var _gravity := 20.0
 var speed_mul := 1.0
 var regen_mul := 1.0
@@ -81,6 +86,7 @@ func _physics_process(delta: float) -> void:
 			_regenerate(delta)
 		return
 	if not active or not alive:
+		_clear_tremor()
 		return
 	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var sprint := Input.is_action_pressed("sprint")
@@ -107,8 +113,38 @@ func _physics_process(delta: float) -> void:
 	camera.rotation.z = (sin(bob * 0.5) * 0.004 if moving else 0.0) + sin(wobble * 30.0) * 0.02 * wobble
 	head.rotation.x = clampf(pitch + recoil_offset.x, -1.48, 1.48)
 	camera.rotation.y = recoil_offset.y
+	_update_tremor(delta)
 	if not NetSession.is_client():
 		_regenerate(delta)
+
+# Slow, damped soil vibration; separate from hit feedback and mouse/recoil state.
+# Multiple nearby giants cannot accumulate an unbounded shake.
+func add_tremor(strength: float, duration: float) -> void:
+	if remote_actor or not active or not alive or tremor_scale <= 0: return
+	if not is_finite(strength) or not is_finite(duration) or strength <= 0: return
+	var remaining := _tremor * pow(_tremor_left / _tremor_duration, 2)
+	_tremor = clampf(maxf(remaining, strength) + minf(remaining, strength) * 0.15, 0, 1)
+	_tremor_duration = clampf(duration, 0.15, 3.0)
+	_tremor_left = _tremor_duration
+
+func _clear_tremor() -> void:
+	_tremor = 0
+	_tremor_left = 0
+	if camera:
+		camera.position = Vector3.ZERO
+		camera.rotation.x = 0
+		camera.rotation.z = 0
+
+func _update_tremor(delta: float) -> void:
+	_tremor_left = maxf(0, _tremor_left - delta)
+	_tremor_phase += delta
+	var envelope := pow(_tremor_left / _tremor_duration, 2)
+	var attack := clampf((_tremor_duration - _tremor_left) / 0.075, 0, 1)
+	var amount := _tremor * envelope * attack * tremor_scale
+	var t := _tremor_phase
+	camera.position = Vector3(sin(t * 24.7) * 0.012, (sin(t * 31.0) + sin(t * 47.0) * 0.25) * 0.035, 0) * amount
+	camera.rotation.x = (sin(t * 23.0) + sin(t * 39.0) * 0.3) * 0.006 * amount
+	camera.rotation.z += sin(t * 19.0) * 0.004 * amount
 
 func _regenerate(delta: float) -> void:
 	if regen_timer > 0.0:

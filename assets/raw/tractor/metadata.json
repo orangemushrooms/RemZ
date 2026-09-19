@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, classic Swiss farm tractor, green body with white wheel rims, open cab with a small roof frame, large rear wheels, single vehicle, no ground",
+  "folder": "tractor",
+  "root_task_id": "01a0bad8-6364-732c-ae33-5f1ff530c513",
+  "created_at": "2026-09-19T20:09:49.511294",
+  "updated_at": "2026-09-19T20:09:49.511317",
+  "tasks": [
+    {
+      "task_id": "01a0bad8-6364-732c-ae33-5f1ff530c513",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:09:49.511315"
+    }
+  ]
+}

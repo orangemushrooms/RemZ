@@ -1,0 +1,27 @@
+{
+  "project_name": "AAA realistic dark fantasy survival horror boss character, colossal undead giant executioner, entire full body standing symmetrical T pose, two arms two legs five fingers, broad hunched shoulders, enormous heavy muscular body, small bald skull face sunken eyes, grey decayed skin, weathered asymmetrical iron shoulder plates strapped to body, rusty chains wrapped around torso, ragged dark leather waistcloth and torn trousers, heavy bare feet, no weapon, no ground, no pedestal, terrifying imposing silhouette, detailed anatomy, original design",
+  "folder": "zombie_titan",
+  "root_task_id": "01a0bafb-d9c2-74f7-bb4b-c8f0ac4d2332",
+  "created_at": "2026-09-19T20:47:04.673169",
+  "updated_at": "2026-09-19T20:51:28.549907",
+  "tasks": [
+    {
+      "task_id": "01a0bafb-d9c2-74f7-bb4b-c8f0ac4d2332",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:47:04.673186"
+    },
+    {
+      "task_id": "01a0bafb-d9c2-74f7-bb4b-c8f0ac4d2332",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:51:28.549895"
+    }
+  ]
+}

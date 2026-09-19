@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, single weathered wooden pasture fence post, square cross section, slightly leaning, with two rusty steel wire strands attached by insulators on one side, Swiss farm fence, single object, no ground",
+  "folder": "fence_post_wire",
+  "root_task_id": "01a0bae5-0299-745d-a44b-4257117c2b40",
+  "created_at": "2026-09-19T20:22:06.286277",
+  "updated_at": "2026-09-19T20:22:06.286297",
+  "tasks": [
+    {
+      "task_id": "01a0bae5-0299-745d-a44b-4257117c2b40",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-19T20:22:06.286295"
+    }
+  ]
+}

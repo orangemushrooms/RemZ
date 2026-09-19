@@ -154,11 +154,17 @@ func _draw_symbols(c: Control) -> void:
 			var extent := maxf(4.0, a.distance_to(b) * 0.5)
 			c.draw_line(p - direction * extent, p + direction * extent, Color(0.02, 0.04, 0.03), 5.0, true)
 			c.draw_line(p - direction * extent, p + direction * extent, color, 2.5, true)
+	if world.defences:
+		for tower in world.defences.towers.values():
+			if not is_instance_valid(tower): continue
+			var point := map_position(tower.global_position)
+			if MAP_RECT.has_point(point):
+				c.draw_rect(Rect2(point - Vector2.ONE * 3, Vector2.ONE * 6), Color(0.3, 0.85, 0.95))
 	for zombie in world.zombies_root.get_children():
 		if zombie is Zombie and zombie.alive:
 			var p := map_position(zombie.global_position)
 			if MAP_RECT.has_point(p):
-				c.draw_circle(p, 2.0, Color(1.0, 0.29, 0.22))
+				c.draw_circle(p, 5.0 if zombie.net_kind == "titan" else 2.0, Color(1.0, 0.29, 0.22))
 	var p := map_position(player.global_position).clamp(MAP_RECT.position + Vector2.ONE * 5, MAP_RECT.end - Vector2.ONE * 5)
 	var heading := Vector2(-sin(player.rotation.y), -cos(player.rotation.y))
 	var side := heading.orthogonal()
