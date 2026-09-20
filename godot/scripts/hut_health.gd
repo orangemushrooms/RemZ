@@ -132,6 +132,7 @@ func update_attack_alert(seconds: float, notify := true) -> void:
 	var was := under_attack()
 	attack_alert_remaining = maxf(0.0, seconds) if hp > 0.0 else 0.0
 	var hud := _hud()
+	if hud: hud.set_hut(hp, MAX_HP, under_attack())
 	if notify and under_attack() and not was and hud:
 		hud.message(WARNING, 3.5)
 		Sfx.play(self, "wave", -14.0, 0.7)

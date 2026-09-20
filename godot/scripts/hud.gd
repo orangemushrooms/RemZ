@@ -24,6 +24,8 @@ var wave_label: Label
 var wave_info: Label
 var wave_bar: ProgressBar
 var hut_label: Label
+var hut_alarm: PanelContainer
+var hut_alarm_text: Label
 var clock_label: Label
 var clock_phase: Label
 var clock_rate: Label
@@ -228,6 +230,30 @@ func _ready() -> void:
 	hut_label.add_theme_constant_override("outline_size", 3)
 	hut_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.7))
 	wave.add_child(hut_label)
+	hut_alarm = PanelContainer.new()
+	root.add_child(hut_alarm)
+	hut_alarm.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	hut_alarm.offset_left = -390
+	hut_alarm.offset_right = 390
+	hut_alarm.offset_top = 142
+	hut_alarm.offset_bottom = 238
+	hut_alarm.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var alarm_style := StyleBoxFlat.new()
+	alarm_style.bg_color = Color(0.12, 0.005, 0.005, 0.94)
+	alarm_style.border_color = Color(1, 0.08, 0.06)
+	alarm_style.set_border_width_all(3)
+	alarm_style.set_corner_radius_all(8)
+	alarm_style.set_content_margin_all(14)
+	hut_alarm.add_theme_stylebox_override("panel", alarm_style)
+	hut_alarm_text = _label("ALARM! WALDHÜTTE WIRD ANGEGRIFFEN!", 32, Color(1, 0.12, 0.08))
+	hut_alarm_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hut_alarm_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	hut_alarm_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hut_alarm_text.add_theme_constant_override("outline_size", 5)
+	hut_alarm_text.add_theme_color_override("font_outline_color", Color(0.05, 0, 0))
+	hut_alarm_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	hut_alarm.add_child(hut_alarm_text)
+	hut_alarm.hide()
 
 	# world clock
 	var clock := _panel(root, Control.PRESET_TOP_RIGHT, Vector2(-16, 16))
@@ -838,6 +864,9 @@ func set_wave(n: int, info: String) -> void:
 # Waldhütte health under the wave bar: green when intact, orange when damaged, pulsing red under attack
 func set_hut(hp: float, max_hp: float, under_attack: bool) -> void:
 	if not hut_label: return
+	hut_alarm.visible = under_attack and hp > 0 and game != null and game.started and not game.over
+	if hut_alarm.visible:
+		hut_alarm.modulate.a = 0.85 + 0.15 * (0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.006))
 	hut_label.text = "HÜTTE %d / %d" % [ceili(hp), int(max_hp)]
 	var ratio := clampf(hp / maxf(1.0, max_hp), 0.0, 1.0)
 	var color := Color(0.75, 0.9, 0.7) if ratio > 0.6 else (Color(1.0, 0.65, 0.3) if ratio > 0.25 else Color(1.0, 0.35, 0.25))

@@ -28,12 +28,12 @@ func run() -> void:
 	# warning and alert
 	hut.damage(40)
 	check(hut.hp == HutHealth.MAX_HP - 40 and hut.under_attack(), "Damage lowers health and raises the alert")
-	check(game.hud.msg_label.text == HutHealth.WARNING, "First hit shows the attack warning")
+	check(game.hud.msg_label.text == HutHealth.WARNING and game.hud.hut_alarm.visible, "First hit immediately shows the large attack alarm")
 	game.hud.message("keep", 3.0)
 	hut.damage(40)
-	check(game.hud.msg_label.text == "keep", "Repeated hits do not spam the warning")
+	check(game.hud.msg_label.text == "keep" and game.hud.hut_alarm.visible, "Attack alarm stays visible independently of ordinary messages")
 	hut._process(HutHealth.ATTACK_ALERT_SECONDS + 0.1)
-	check(not hut.under_attack(), "Alert expires after the attacks stop")
+	check(not hut.under_attack() and not game.hud.hut_alarm.visible, "Alert disappears after the attacks stop")
 	check(game.hud.hut_label.text.begins_with("HÜTTE %d" % ceili(hut.hp)), "HUD shows the hut health")
 	# repair: reach, cost, step
 	var player: Player = game.player
@@ -67,7 +67,7 @@ func run() -> void:
 	check(hut.hp < before, "Zombie attack damages the hut (%.0f -> %.0f after %.1f s)" % [before, hut.hp, t])
 	# destruction loses the round
 	hut.damage(100000)
-	check(hut.destroyed and hut.hp == 0.0, "Hut is destroyed at zero health")
+	check(hut.destroyed and hut.hp == 0.0 and not game.hud.hut_alarm.visible, "Destroyed hut clears the attack alarm")
 	check(game.over and game.hud.overlay_title.text == "HÜTTE VERLOREN", "Destroyed hut ends the round with its own title")
 	print("HUT_HEALTH_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)
