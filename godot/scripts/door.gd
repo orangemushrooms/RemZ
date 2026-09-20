@@ -111,6 +111,7 @@ func take(weapons, hud) -> bool:
 		return false
 	if is_locked():
 		hud.message("Schlüssel fehlt: %s\nSuche im Wald. In der Nähe erscheint ein Hinweis." % ForestKeys.KEYS[key_id])
+		Sfx.play_at(get_parent(), "door_locked", global_position + Vector3.UP, -8.0)
 		return false
 	if _forced_cooldown > 0:
 		return false
@@ -150,7 +151,7 @@ func _set_open(open: bool) -> void:
 	_motion.chain().tween_callback(_finish_motion)
 	set_physics_process(true)
 	if open: Sfx.play_at(get_parent(), "door_open", global_position + Vector3.UP, -6.0)
-	else: Sfx.play_at(get_parent(), "wood", global_position + Vector3.UP, -9.0, 0.68)
+	else: Sfx.play_at(get_parent(), "door_close", global_position + Vector3.UP, -8.0)
 
 func _finish_motion() -> void:
 	if not NetSession.is_client() and not is_open and _swing_blocked():
@@ -203,7 +204,7 @@ func damage(amount: float) -> void:
 	if is_open or moving or is_locked():
 		return
 	_pressure += maxf(amount, 0)
-	Sfx.play_at(get_parent(), "wood", global_position + Vector3.UP, -7.0, 0.65)
+	Sfx.play_at(get_parent(), "wood_hit", global_position + Vector3.UP, -7.0)
 	if _pressure >= HOLD_STRENGTH:
 		_forced_cooldown = 4.0
 		_set_open(true)

@@ -129,6 +129,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		head.rotation.x = clampf(pitch + recoil_offset.x, -1.48, 1.48)
 	if event.is_action_pressed("flashlight"):
 		flashlight.visible = not flashlight.visible
+		Sfx.play(self, "flashlight", -12.0)
 	if event.is_action_pressed("drop_cash") and not event.is_echo():
 		if NetSession.enabled: NetSession.command("drop_cash")
 		else:
@@ -247,13 +248,14 @@ func damage(n: float, from: Vector3 = Vector3.INF) -> void:
 	else:
 		hud.damage_flash()
 	if not remote_actor:
-		Sfx.play(self, "hurt", -3.0, 0.85)
+		Sfx.play(self, "hurt", -4.0)
 		Sfx.play(self, "hurt_thud", -10.0)
 	if hp <= 0.0:
 		if "progression" in scene and scene.progression and scene.progression.rare_market.prevent_death(self): return
 		hp = 0.0
 		alive = false
 		mushroom_effects.clear()
+		if not remote_actor: Sfx.play(self, "player_death", -2.0)
 		died.emit()
 
 func add_score(n: int) -> void:
@@ -265,6 +267,7 @@ func _footsteps(delta: float, moving: bool, sprint: bool) -> void:
 	var on_floor := is_on_floor()
 	if on_floor and not _was_on_floor:
 		Sfx.footstep(self, _surface_step(), -8.0, 0.8)
+		Sfx.play(self, "land", -14.0)
 	_was_on_floor = on_floor
 	if moving and on_floor:
 		_step_t -= delta * (1.0 if not sprint else 1.35) * speed_mul
@@ -277,11 +280,10 @@ func _footsteps(delta: float, moving: bool, sprint: bool) -> void:
 	if alive and hp < max_hp * 0.35:
 		_heart_t -= delta
 		if _heart_t <= 0.0:
-			_heart_t = lerpf(0.55, 1.1, clampf(hp / (max_hp * 0.35), 0.0, 1.0))
-			Sfx.play(self, "heartbeat", -6.0, 1.0)
-			get_tree().create_timer(0.22, false).timeout.connect(func():
-				if is_instance_valid(self):
-					Sfx.play(self, "heartbeat", -10.0, 1.15))
+			# one recorded lub-dub (1.5 s clip) per interval, faster and a little higher when close to death
+			var urgency := clampf(hp / (max_hp * 0.35), 0.0, 1.0)
+			_heart_t = lerpf(0.9, 1.5, urgency)
+			Sfx.play(self, "heartbeat", -6.0, lerpf(1.25, 1.0, urgency))
 
 # "hard" (asphalt, concrete), "gravel" (tracks and the fire plaza), "grass" (meadow), "leaves" (forest floor)
 # or "wood" (the hut's upper floor). Asphalt has no cover weight at all in ground.png.

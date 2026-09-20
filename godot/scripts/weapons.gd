@@ -14,7 +14,7 @@ const MeleeModels = preload("res://scripts/melee_models.gd")
 const DEFS := {
 	"knife": {"name": "Feldmesser", "model": "knife", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 2.2, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "melee", "shove": 3.5,
 		"pos": Vector3(0.29, -0.23, -0.57), "ads": Vector3(0.29, -0.23, -0.57), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 8.0},
-	"hatchet": {"name": "Waldaxt", "model": "hatchet", "melee": true, "height": 0.61, "mag": 0, "reserve": 0, "damage": 125.0, "rate": 0.95, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 2.35, "auto": false, "sfx": "melee", "shove": 7.0,
+	"hatchet": {"name": "Waldaxt", "model": "hatchet", "melee": true, "height": 0.57, "stab_damage": 225.0, "stab_rate": 1.45, "stab_range": 2.5, "mag": 0, "reserve": 0, "damage": 125.0, "rate": 0.95, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 2.35, "auto": false, "sfx": "melee", "shove": 7.0,
 		"pos": Vector3(0.28, -0.30, -0.65), "ads": Vector3(0.28, -0.30, -0.65), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 5.0},
 	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 2.6, "kick_yaw": 0.75, "kick_back": 0.08, "recover": 7.0 },
@@ -207,6 +207,7 @@ func set_weapon(id: String) -> void:
 		hud.message("%s beim Waffenhändler kaufen" % DEFS[id]["name"], 1.4)
 		return
 	if current != id:
+		if is_inside_tree(): Sfx.play(self, "weapon_switch", -10.0)
 		_aim_kick = Vector2.ZERO
 		_bloom = 0.0
 		_shots_in_burst = 0
@@ -241,7 +242,7 @@ func set_weapon(id: String) -> void:
 	var holder: Node3D = cur()["node"]
 	holder.position = cur()["def"]["pos"]
 	holder.rotation = Vector3.ZERO
-	if current == "knife": (cur()["hands"] as ViewmodelHands).anchor_melee_elbows(viewmodel.camera)
+	if is_melee(current): (cur()["hands"] as ViewmodelHands).anchor_melee_elbows(viewmodel.camera)
 	effects.sync_muzzle(muzzle_transform())
 	hud.set_reload(0.0, 1.0)
 	update_hud()
@@ -302,7 +303,7 @@ func update_hud() -> void:
 	if not server_proxy and scene and "progression" in scene and scene.progression and scene.progression.rare_market:
 		hud.ammo_label.text += scene.progression.rare_market.ammo_label(player.peer_id)
 	if is_melee(current) and not server_proxy:
-		hud.ammo_label.text = "Nahkampf · LMB Schnitt / RMB Stich" if current == "knife" else "Nahkampf · LMB / Q"
+		hud.ammo_label.text = "Nahkampf · LMB Schnitt / RMB Stich" if current == "knife" else "Nahkampf · LMB leicht / RMB schwer"
 
 func reload() -> void:
 	if is_melee(current): return
@@ -455,12 +456,12 @@ func melee(stab: bool = false) -> void:
 		return
 	var armed := is_melee(current)
 	var spec: Dictionary = cur()["def"]
-	_melee_stab = stab and current == "knife"
+	_melee_stab = stab and armed
 	_melee_t = float(spec.stab_rate) if _melee_stab else float(spec.rate) if armed else 0.65
 	_melee_duration = _melee_t
 	_melee_anim = 1.0
 	player.wobble = maxf(player.wobble, 0.3)
-	Sfx.play(self, "melee", -6.0 if _melee_stab else -8.0, 0.75 if _melee_stab else 1.1)
+	Sfx.play(self, "melee_stab" if _melee_stab else "melee", -6.0 if _melee_stab else -8.0)
 	if NetSession.is_client():
 		NetSession.command("melee", [camera.global_rotation.y, camera.global_rotation.x, _melee_stab])
 		return
@@ -499,6 +500,7 @@ func throw_grenade() -> void:
 		return
 	grenades -= 1
 	update_hud()
+	Sfx.play(self, "grenade_throw", -10.0)
 	if NetSession.is_client():
 		NetSession.command("grenade", [camera.global_rotation.y, camera.global_rotation.x])
 		return
@@ -725,7 +727,7 @@ func _handle_weapon_input(delta: float) -> void:
 			try_fire()
 	elif Input.is_action_just_pressed("fire"):
 		try_fire()
-	if current == "knife" and Input.is_action_just_pressed("aim"):
+	if is_melee(current) and Input.is_action_just_pressed("aim"):
 		melee(true)
 	if Input.is_action_just_pressed("reload"):
 		reload()
@@ -792,9 +794,13 @@ func _handle_weapon_input(delta: float) -> void:
 		else:
 			n.position += Vector3(-0.19,0.015,-0.08)*lunge
 			n.rotation = Vector3(-0.5,-0.4,-0.12)+Vector3(-0.18,0.4,1.0)*lunge
+	if current == "hatchet":
+		n.position = base_pos + Vector3(sin(sway_t*5)*0.002,0,0)
+		n.position += Vector3(-0.12,0.04,-0.25)*lunge if _melee_stab else Vector3(-0.09,0,-0.10)*lunge
+		n.rotation = Vector3(-0.22,-0.38,-0.16) + (Vector3(-1.1,0.2,0.65) if _melee_stab else Vector3(-0.45,0.15,0.45))*lunge
 	(s["hands"] as ViewmodelHands).animate_reload(1.0 - float(s["reloading"]) / (float(d["reload"]) * effective_reload_mul()), s["reloading"] > 0.0)
 	(s["hands"] as ViewmodelHands).animate_cloth(delta, Vector2(player.velocity.x, player.velocity.z).length(), ads)
-	if current == "knife": (cur()["hands"] as ViewmodelHands).anchor_melee_elbows(viewmodel.camera)
+	if is_melee(current): (cur()["hands"] as ViewmodelHands).anchor_melee_elbows(viewmodel.camera)
 	effects.sync_muzzle(muzzle_transform())
 
 func muzzle_transform() -> Transform3D:

@@ -34,6 +34,11 @@ func setup(scene: PackedScene, zr: Node3D, p: Player) -> void:
 	pm.bounce = 0.35
 	pm.friction = 0.8
 	physics_material_override = pm
+	if not replica:
+		# metallic tick on every bounce (rate limited)
+		contact_monitor = true
+		max_contacts_reported = 2
+		body_entered.connect(_on_bounce)
 	if scene:
 		var model: Node3D = scene.instantiate()
 		add_child(model)
@@ -48,6 +53,13 @@ func setup(scene: PackedScene, zr: Node3D, p: Player) -> void:
 		mat.albedo_color = Color(0.25, 0.32, 0.18)
 		mi.material_override = mat
 		add_child(mi)
+
+var _bounce_t := 0.0
+
+func _on_bounce(_body: Node) -> void:
+	if _done or _t - _bounce_t < 0.15: return
+	_bounce_t = _t
+	Sfx.play_at(get_tree().current_scene, "grenade_bounce", global_position, -12.0)
 
 func _physics_process(delta: float) -> void:
 	if replica: return

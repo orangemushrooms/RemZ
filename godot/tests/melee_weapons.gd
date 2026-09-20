@@ -61,11 +61,11 @@ func run() -> void:
 		w._handle_weapon_input(float(w.cur().def.rate) * 0.5)
 		check(absf(w.cur().node.rotation.z) > 0.2, id + " has a visible swing")
 		await shot(id + "-swing")
-		if id == "knife":
+		if id in ["knife","hatchet"]:
 			w._melee_t = 0
 			w.melee(true)
-			w._handle_weapon_input(0.425)
-			await shot("knife-stab")
+			w._handle_weapon_input(float(w.cur().def.stab_rate)*0.5)
+			await shot(id+"-heavy")
 	w.set_weapon("knife")
 	game.inventory._refresh()
 	check(w.ammo_weapon() == "pistol", "Ammunition pickups while holding melee supply the last firearm")
@@ -105,6 +105,17 @@ func run() -> void:
 		w.set_weapon(id)
 		w.try_fire()
 		check(z.hp == after, id + " weapon switching cannot bypass cooldown")
+	w.set_weapon("hatchet")
+	w._melee_t = 0
+	z.hp = 1000
+	Input.action_press("aim")
+	w._handle_weapon_input(0.01)
+	Input.action_release("aim")
+	check(w._melee_stab and is_equal_approx(z.hp,1000-225*w.effective_damage_mul()),"Axe right-click deals heavy damage")
+	check(is_equal_approx(w._melee_t,1.45),"Heavy axe has longer recovery")
+	var axe_hp := z.hp
+	w.try_fire()
+	check(z.hp==axe_hp,"Light attack cannot bypass heavy axe cooldown")
 	w.set_weapon("knife")
 	w._melee_t = 0
 	z.hp = 1000
@@ -165,6 +176,14 @@ func run() -> void:
 	NetSession.world.avatars[2].shot("knife",[true])
 	check(NetSession.world.avatars[2].knife_stab,"Remote animation receives the stabbing attack mode")
 	check(not NetSession.world.avatars[2].flash.visible, "Remote melee swings have no muzzle flash")
+	proxy.unlocked.hatchet = true
+	proxy.set_weapon("hatchet")
+	proxy._melee_t = 0
+	z.hp = 1000
+	NetSession.world.action(2,"melee",[0.0,0.0,true])
+	check(is_equal_approx(z.hp,1000-225*proxy.effective_damage_mul()),"Host applies remote heavy axe damage")
+	NetSession.world.avatars[2].shot("hatchet",[true])
+	check(NetSession.world.avatars[2].axe_heavy,"Remote avatar distinguishes heavy axe animation")
 	NetSession.enabled = false
 	print("MELEE_WEAPONS_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

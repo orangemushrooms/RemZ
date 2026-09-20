@@ -1,0 +1,193 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+WARNING: 'res://assets/models/knife_real.glb': In external resource #0, invalid UID: 'uid://dtogwot2l5wmj' - using text path instead: 'res://assets/models/knife_real_0.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+WARNING: 'res://assets/models/knife_real.glb': In external resource #1, invalid UID: 'uid://btptm5tipvhx8' - using text path instead: 'res://assets/models/knife_real_1.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+WARNING: 'res://assets/models/knife_real.glb': In external resource #2, invalid UID: 'uid://dkisxnugl57p3' - using text path instead: 'res://assets/models/knife_real_2.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+WARNING: 'res://assets/models/raven_real.glb': In external resource #0, invalid UID: 'uid://cnln2oqa08al8' - using text path instead: 'res://assets/models/raven_real_0.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #1, invalid UID: 'uid://iutbkr48osjv' - using text path instead: 'res://assets/models/raven_real_1.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #2, invalid UID: 'uid://nsl1a0tbdrp2' - using text path instead: 'res://assets/models/raven_real_2.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #0, invalid UID: 'uid://cnln2oqa08al8' - using text path instead: 'res://assets/models/raven_real_0.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #1, invalid UID: 'uid://iutbkr48osjv' - using text path instead: 'res://assets/models/raven_real_1.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #2, invalid UID: 'uid://nsl1a0tbdrp2' - using text path instead: 'res://assets/models/raven_real_2.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #0, invalid UID: 'uid://cnln2oqa08al8' - using text path instead: 'res://assets/models/raven_real_0.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #1, invalid UID: 'uid://iutbkr48osjv' - using text path instead: 'res://assets/models/raven_real_1.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #2, invalid UID: 'uid://nsl1a0tbdrp2' - using text path instead: 'res://assets/models/raven_real_2.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #0, invalid UID: 'uid://cnln2oqa08al8' - using text path instead: 'res://assets/models/raven_real_0.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #1, invalid UID: 'uid://iutbkr48osjv' - using text path instead: 'res://assets/models/raven_real_1.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #2, invalid UID: 'uid://nsl1a0tbdrp2' - using text path instead: 'res://assets/models/raven_real_2.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #0, invalid UID: 'uid://cnln2oqa08al8' - using text path instead: 'res://assets/models/raven_real_0.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #1, invalid UID: 'uid://iutbkr48osjv' - using text path instead: 'res://assets/models/raven_real_1.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #2, invalid UID: 'uid://nsl1a0tbdrp2' - using text path instead: 'res://assets/models/raven_real_2.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #0, invalid UID: 'uid://cnln2oqa08al8' - using text path instead: 'res://assets/models/raven_real_0.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #1, invalid UID: 'uid://iutbkr48osjv' - using text path instead: 'res://assets/models/raven_real_1.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #2, invalid UID: 'uid://nsl1a0tbdrp2' - using text path instead: 'res://assets/models/raven_real_2.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #0, invalid UID: 'uid://cnln2oqa08al8' - using text path instead: 'res://assets/models/raven_real_0.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #1, invalid UID: 'uid://iutbkr48osjv' - using text path instead: 'res://assets/models/raven_real_1.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+WARNING: 'res://assets/models/raven_real.glb': In external resource #2, invalid UID: 'uid://nsl1a0tbdrp2' - using text path instead: 'res://assets/models/raven_real_2.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/field_bird.gd:21)
+       [1] build (res://scripts/cornfield.gd:161)
+       [2] _ready (res://scripts/main.gd:96)
+       [3] run (res://tests/cornfield.gd:15)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] optimize (res://scripts/render_optimizer.gd:84)
+       [1] _ready (res://scripts/main.gd:98)
+       [2] run (res://tests/cornfield.gd:15)
+RENDER_OPTIMIZER { "source_meshes": 671, "batches": 13, "removed_render_nodes": 32 }
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+COOP_LOAD MAP_READY
+PASS: Dense field uses a bounded number of batched corn stalks
+CORN_PLANTS 6154
+PASS: All corn stays on southern meadow, outside forest and six metres from trees
+PASS: Five distinct rewards are hidden in maze dead ends
+PASS: Every passage and the second exit connect to the entrance
+PASS: Navigation reaches cache: fire
+PASS: Navigation reaches cache: frost
+PASS: Navigation reaches cache: cache_cash
+PASS: Navigation reaches cache: cache_grenade
+PASS: Navigation reaches cache: ammo
+PASS: Full special-ammo inventory leaves its cache intact
+PASS: Fire cache grants twelve rounds exactly once
+PASS: Cash cache grants its reward exactly once
+PASS: Host awards maze special ammunition to the collecting teammate
+PASS: Duplicate coop requests cannot duplicate rewards
+PASS: Meshy raven loads a complete articulated wing rig
+PASS: Raven uses supplied recordings without immediate repetition
+PASS: Nearby player or gunshot makes ravens take flight
+PASS: Owls remain hidden during daylight
+PASS: Owls become airborne at night
+CORN_RENDER p95_ms=3.7037037037037 median_ms=3.53 primitives=1757051.0 calls=405.0
+BASE_RENDER p95_ms=3.33333333333333
+CORNFIELD_DONE checks=19 failures=0

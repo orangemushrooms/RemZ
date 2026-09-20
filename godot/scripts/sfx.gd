@@ -29,8 +29,32 @@ const FILES := {
 	"door_open": ["door_open"],
 	"owl": ["owl1", "owl2", "owl3", "owl4"],
 	"raven": ["raven_1", "raven2", "raven3"],
-	"hit": ["impact"],
-	"hurt": ["impact"],
+	"hit": ["flesh_hit_1", "flesh_hit_2", "flesh_hit_3", "flesh_hit_4", "flesh_hit_5"],
+	"hurt": ["hurt_1", "hurt_2", "hurt_3", "hurt_4", "hurt_5"],
+	"player_death": ["player_death_1", "player_death_2"],
+	"zombie_death": ["zombie_death_1", "zombie_death_2", "zombie_death_3", "zombie_death_4"],
+	"melee": ["melee_1", "melee_2", "melee_3"],
+	"melee_stab": ["melee_stab_1", "melee_stab_2"],
+	"wood_hit": ["wood_hit_1", "wood_hit_2", "wood_hit_3", "wood_hit_4", "wood_hit_5"],
+	"build": ["build_1", "build_2", "build_3", "build_4", "build_5"],
+	"crash": ["crash"],
+	"pumpkin_splat": ["pumpkin_splat"],
+	"boom": ["boom"],
+	"grenade_throw": ["grenade_throw"],
+	"grenade_bounce": ["grenade_bounce_1", "grenade_bounce_2", "grenade_bounce_3"],
+	"heartbeat": ["heartbeat"],
+	"land": ["land"],
+	"weapon_switch": ["weapon_switch_1", "weapon_switch_2"],
+	"flashlight": ["flashlight"],
+	"hover": ["hover_1", "hover_2", "hover_3"],
+	"achievement": ["achievement"],
+	"streak": ["streak"],
+	"consume": ["consume_1", "consume_2", "consume_3"],
+	"mushroom_pickup": ["mushroom_pickup"],
+	"rustle": ["rustle"],
+	"door_close": ["door_close_1", "door_close_2", "door_close_3"],
+	"door_locked": ["door_locked"],
+	"hut_collapse": ["hut_collapse"],
 	"growl": ["zombie_1", "zombie_2", "zombie_3", "zombie_4"],
 	"barricade_break": ["barricade_break_1", "barricade_break_2", "barricade_break_3", "barricade_break_4"],
 	"wave": ["wave_start"],
@@ -58,7 +82,7 @@ static var _rng := RandomNumberGenerator.new()
 static var _last_footstep := -1
 static var _last_event_variant: Dictionary = {}
 const EVENTS := {"consume": -8.0, "pickup": -8.0, "mushroom_pickup": -10.0, "key_pickup": -6.0, "weapon_pickup": -8.0, "quest_accept": -10.0, "quest_complete": -8.0, "purchase": -12.0,
-	"vendor_vocal": -3.0, "secret_vendor_vocal": -3.0, "mechanic_vocal": -3.0}
+	"vendor_vocal": -3.0, "secret_vendor_vocal": -3.0, "mechanic_vocal": -3.0, "achievement": -5.0}
 static var _voices: Dictionary = {}        # name -> Array of live players; automatic fire never stacks more than MAX_VOICES
 const MAX_VOICES := 3
 
@@ -124,10 +148,12 @@ static func _file(stem: String) -> AudioStream:
 	var key := "file:" + stem
 	if _cache.has(key):
 		return _cache[key]
-	var path := DIR + stem + ".mp3"
 	var st: AudioStream = null
-	if ResourceLoader.exists(path):
-		st = load(path)
+	for ext: String in [".mp3", ".ogg", ".wav"]:
+		var path := DIR + stem + ext
+		if ResourceLoader.exists(path):
+			st = load(path)
+			break
 	_cache[key] = st
 	return st
 

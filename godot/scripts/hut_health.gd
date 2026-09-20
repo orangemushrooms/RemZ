@@ -140,11 +140,11 @@ func damage(n: float) -> void:
 	if destroyed or n <= 0.0 or NetSession.is_client(): return
 	hp = maxf(0.0, hp - n)
 	update_attack_alert(ATTACK_ALERT_SECONDS)
-	Sfx.play_at(get_parent(), "wood", center, -3.0)
+	Sfx.play_at(get_parent(), "wood_hit", center, -3.0)
 	if hp <= 0.0:
 		destroyed = true
 		attack_alert_remaining = 0.0
-		Sfx.play_at(get_parent(), "barricade_break", center, 2.0)
+		Sfx.play_at(get_parent(), "hut_collapse", center, 3.0)
 		if game.has_method("_hut_lost"): game._hut_lost()
 
 func can_repair(player: Player) -> bool:
@@ -160,7 +160,7 @@ func repair(player: Player) -> String:
 	player.add_score(-REPAIR_COST)
 	hp = minf(MAX_HP, hp + REPAIR_STEP)
 	Sfx.event(self, player.peer_id, "purchase")
-	Sfx.play_at(get_parent(), "wood", center, -8.0)
+	Sfx.play_at(get_parent(), "build", center, -6.0)
 	return ""
 
 func prompt_text() -> String:

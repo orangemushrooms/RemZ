@@ -1,8 +1,10 @@
 extends RefCounted
-# Original low-poly meshes built in metres; shared by MultiMesh batches.
+# Original procedural meshes built in metres; shared by MultiMesh batches.
 static var surface: SurfaceTool
+static var is_corn := false
 static func triangle(a: Vector3, b: Vector3, c: Vector3, color: Color) -> void:
 	for v in [a,b,c]:
+		if is_corn: surface.set_uv2(Vector2.ZERO)
 		surface.set_color(color)
 		surface.add_vertex(v)
 static func tube(a: Vector3, b: Vector3, radius: float, color: Color, sides: int = 5) -> void:
@@ -26,39 +28,80 @@ static func ellipsoid(at: Vector3, size: Vector3, color: Color) -> void:
 				pts.append(at + Vector3(sin(lat)*cos(lon),cos(lat),sin(lat)*sin(lon))*size)
 			triangle(pts[0],pts[1],pts[2],color)
 			triangle(pts[0],pts[2],pts[3],color)
+# Curved ribbon leaves have a raised midrib, tapered tips and drooping ends.
+static func leaf(start: Vector3, yaw: float, length: float, width: float, rise: float, droop: float, color: Color, segments: int) -> void:
+	var direction := Vector3(cos(yaw),0,sin(yaw))
+	var side := Vector3(-sin(yaw),0,cos(yaw))
+	for i in segments:
+		var vertices: Array[Vector3] = []
+		var uvs: Array[Vector2] = []
+		for step in [i,i+1]:
+			var t := float(step)/segments
+			var center := start+direction*length*t+Vector3.UP*(rise*sin(t*PI*0.8)-droop*t*t)
+			var breadth := width*pow(sin(PI*t),0.75)*0.5+0.001
+			for edge in [-1,0,1]:
+				vertices.append(center+side*breadth*edge+Vector3.UP*(0.022*sin(t*PI)*(1-abs(edge))))
+				uvs.append(Vector2(t,(edge+1)*0.5))
+		for index in [0,3,4,0,4,1,1,4,5,1,5,2]:
+			surface.set_uv(uvs[index])
+			surface.set_uv2(Vector2(1,0))
+			surface.set_color(color.darkened(uvs[index].x*0.12))
+			surface.add_vertex(vertices[index])
+
+static func corn(far: bool, ripe: bool) -> void:
+	var green := Color(0.30,0.40,0.17) if ripe else Color(0.24,0.38,0.16)
+	var height := 2.32 if ripe else 2.48
+	if far:
+		triangle(Vector3(-0.012,0,0),Vector3(0.012,0,0),Vector3(0.04,height,0),green)
+		for i in 7:
+			var t := i/6.0
+			leaf(Vector3(0,0.25+t*1.9,0),i*3.02,0.88-0.38*t,0.10,0.23+0.15*t,0.45*(1.0-t)+0.10,green,2)
+		for j in 3:
+			var tip := Vector3(cos(j*2.4)*0.13,height+0.20,sin(j*2.4)*0.13)
+			triangle(Vector3(0.04,height-0.1,0),tip,tip+Vector3(0.003,0,0.003),Color(0.51,0.46,0.30))
+		return
+	var sections := 10
+	for i in sections:
+		var lo := float(i)/sections
+		var hi := float(i+1)/sections
+		tube(Vector3(0.045*lo*lo,height*lo,0),Vector3(0.045*hi*hi,height*hi,0),lerpf(0.018,0.007,lo),green.lightened(0.035),3 if far else 6)
+	for i in (7 if far else 10):
+		var t := float(i)/(6 if far else 9)
+		var yaw := i*3.02+(0.5 if ripe else 0.0)
+		var y := 0.20+t*1.95
+		var length := (0.88-0.38*t)*(0.94 if ripe else 1.0)
+		var tone := green.lerp(Color(0.48,0.40,0.22),0.65 if i<2 else (0.16 if ripe else 0.0))
+		leaf(Vector3(0.02,y,0),yaw,length,0.105 if i<6 else 0.075,0.23+0.15*t,0.45*(1.0-t)+0.10,tone,3 if far else 8)
+	if not far:
+		# A tapered green husk encloses the ear; only brown silk is exposed.
+		var ear := Vector3(0.095,1.18,0.015)
+		ellipsoid(ear,Vector3(0.048,0.19,0.045),green.lightened(0.07))
+		for j in 3:
+			leaf(ear-Vector3.UP*0.15,j*2.1,0.16,0.06,0.24,0.05,green.lightened(0.035*j),5)
+		for j in 5:
+			tube(ear+Vector3(j*0.005,0.17,0),ear+Vector3(0.025+j*0.008,0.22-j*0.009,0.015),0.0015,Color(0.29,0.19,0.095),3)
+	var straw := Color(0.51,0.46,0.30)
+	tube(Vector3(0.045,height-0.13,0),Vector3(0.05,height+0.25,0),0.0035,straw,3)
+	for j in (4 if far else 9):
+		var angle := j*2.4
+		var start := Vector3(0.045,height-0.1+j*0.015,0)
+		var tip := start+Vector3(cos(angle)*0.13,0.19,sin(angle)*0.13)
+		tube(start,tip,0.0025,straw,3)
+		if not far:
+			for k in 3:
+				var at := start.lerp(tip,0.3+k*0.2)
+				tube(at,at+Vector3(0.025,0.04,0.012),0.0017,straw.lightened(0.06),3)
+
 static func make(kind: String) -> ArrayMesh:
 	surface = SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	if kind == "corn_far":
-		var green := Color(0.34,0.43,0.1)
-		triangle(Vector3(-0.025,0,0),Vector3(0.025,0,0),Vector3(0,2.55,0),green)
-		for i in 6:
-			var angle := i*2.4
-			var direction := Vector3(cos(angle),0,sin(angle))
-			var side := Vector3(-sin(angle),0,cos(angle))*0.12
-			var start := Vector3(0,0.4+i*0.31,0)
-			var middle := start+direction*0.35+Vector3.UP*0.22
-			var tip := start+direction*0.66
-			triangle(start,middle+side,tip,green.lightened(0.05))
-			triangle(start,tip,middle-side,green)
-	elif kind.begins_with("corn"):
-		var green := Color(0.3,0.43,0.08) if kind == "corn_a" else Color(0.48,0.48,0.12)
-		tube(Vector3.ZERO,Vector3(0.04,2.55,0),0.025,green,4)
-		for i in 8:
-			var yaw := i*2.4
-			var direction := Vector3(cos(yaw),0,sin(yaw))
-			var side := Vector3(-sin(yaw),0,cos(yaw))*0.1
-			var start := Vector3(0,0.35+i*0.245,0)
-			var middle := start+direction*0.38+Vector3.UP*0.22
-			var tip := start+direction*(0.62 if i<6 else 0.42)-Vector3.UP*0.12
-			triangle(start,middle+side,middle,green.lightened(0.1))
-			triangle(start,middle,middle-side,green)
-			triangle(middle+side,tip,middle,green.lightened(0.1))
-			triangle(middle,tip,middle-side,green)
-		tube(Vector3(0.08,1.12,0),Vector3(0.12,1.5,0),0.065,Color(0.8,0.61,0.17),6)
-		for i in 5:
-			var angle := i*TAU/5
-			tube(Vector3(0.04,2.4,0),Vector3(cos(angle)*0.16,2.7,sin(angle)*0.16),0.014,Color(0.71,0.57,0.26),3)
+	is_corn = kind.begins_with("corn")
+	if is_corn:
+		surface.set_smooth_group(0)
+		surface.set_uv(Vector2.ZERO)
+		surface.set_uv2(Vector2.ZERO)
+	if kind.begins_with("corn"):
+		corn(kind == "corn_far", kind == "corn_b")
 	elif kind == "scarecrow":
 		tube(Vector3.ZERO,Vector3(0,2.5,0),0.065,Color(0.27,0.16,0.07))
 		tube(Vector3(-1,1.7,0),Vector3(1,1.7,0),0.045,Color(0.31,0.2,0.1))

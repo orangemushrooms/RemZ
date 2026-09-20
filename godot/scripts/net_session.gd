@@ -82,7 +82,7 @@ func _ready() -> void:
 	context.update(var_to_bytes(Zombie.TYPES))
 	context.update(var_to_bytes(Weapons.DEFS))
 	context.update(var_to_bytes(Weapons.Mods.DEFS))
-	context.update("aim-ballistics-v6-knife-stab".to_utf8_buffer())
+	context.update("aim-ballistics-v11-western-field".to_utf8_buffer())
 	context.update(var_to_bytes([Waves.ARMY_START, Waves.ARMY_STEP, Waves.ARMY_MAX, Waves.MAX_ACTIVE, Waves.MAX_CORPSES, Waves.MAX_TITANS]))
 	context.update(var_to_bytes(Player.RareItems.DEFS))
 	context.update(var_to_bytes(Progression.NPCS))
@@ -594,7 +594,7 @@ func weapon_fired(id: int, weapon: String, stab: bool = false) -> void:
 	if not is_host(): return
 	var definition: Dictionary = world.weapons[id].state[weapon].def
 	var mod_effects := [definition.get("sfx_db", -8.0), definition.get("flash_scale", 1.0), definition.kick_pitch]
-	if Weapons.is_melee(weapon): mod_effects = [stab and weapon == "knife"]
+	if Weapons.is_melee(weapon): mod_effects = [stab and Weapons.is_melee(weapon)]
 	_shot.rpc(epoch, id, weapon, mod_effects)
 	_shot(epoch, id, weapon, mod_effects)
 

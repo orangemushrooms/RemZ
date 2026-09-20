@@ -73,7 +73,7 @@ var title: Label
 var subtitle: Label
 var balance: Label
 var status: Label
-var tracker: Label
+var tracker: RichTextLabel
 var tutorial: Label
 var _tabs: Dictionary = {}
 var _row_nodes: Array = []
@@ -319,27 +319,40 @@ func _objectives_complete(quest: String) -> bool:
 		"titan": return team.titans > 0
 	return false
 
-func quest_progress(id: String, peer := -1) -> String:
+static func _goal_text(text: String, done: bool, rich: bool) -> String:
+	return "[color=#79df96]" + text + "[/color]" if rich and done else text
+
+func quest_progress(id: String, peer := -1, rich := false) -> String:
 	if peer < 0: peer = game.player.peer_id
-	var text := _objective_progress(id)
-	if data(peer).accepted.get(id, false) and not has_claim(peer, id) and int(QUESTS[id].waves_after_accept) > 0:
+	var claimed := has_claim(peer, id)
+	var text := _objective_progress(id, rich, claimed)
+	if data(peer).accepted.get(id, false) and not claimed and int(QUESTS[id].waves_after_accept) > 0:
 		var remaining := maxi(0, required_completion_wave(peer, id) - game.waves.completed)
-		text += " · Nach Annahme: noch %d Welle(n) überstehen" % remaining
+		text += ("\n" if rich else " · ") + _goal_text("Nach Annahme: noch %d Welle(n) überstehen" % remaining, remaining == 0, rich)
 	return text
 
-func _objective_progress(id: String) -> String:
+func _objective_progress(id: String, rich := false, claimed := false) -> String:
+	var parts := PackedStringArray()
 	if QUESTS.has(id) and QUESTS[id].has("goals"):
-		var parts := PackedStringArray()
 		for kind in QUESTS[id].goals:
 			var target := int(QUESTS[id].goals[kind])
-			parts.append("%s %d/%d" % [GOAL_LABELS[kind], mini(goal_value(kind), target), target])
-		return " · ".join(parts)
-	match id:
-		"watch": return "Turm %d/1 · Ausrichten %d/1 · Barrikade bauen" % [mini(team.built, 1), mini(team.turned, 1)]
-		"line": return "Wellen %d/2 · Zombies %d/30" % [mini(game.waves.completed, 2), mini(team.kills, 30)]
-		"supplies": return "Lieferung geborgen" if team.cache else "Lieferung am nördlichen Waldweg suchen"
-		"titan": return "Titanen %d/1" % mini(team.titans, 1)
-	return "Vendor am Lagerfeuer kennenlernen"
+			parts.append(_goal_text("%s %d/%d" % [GOAL_LABELS[kind], target if claimed else mini(goal_value(kind), target), target], claimed or goal_value(kind) >= target, rich))
+	else:
+		match id:
+			"watch":
+				var wall := claimed
+				for barricade in game.barricades:
+					if barricade.level > 0: wall = true
+				parts.append(_goal_text("Turm %d/1" % (1 if claimed else mini(team.built, 1)), claimed or team.built > 0, rich))
+				parts.append(_goal_text("Ausrichten %d/1" % (1 if claimed else mini(team.turned, 1)), claimed or team.turned > 0, rich))
+				parts.append(_goal_text("Barrikade bauen %d/1" % int(wall), wall, rich))
+			"line":
+				parts.append(_goal_text("Wellen %d/2" % (2 if claimed else mini(game.waves.completed, 2)), claimed or game.waves.completed >= 2, rich))
+				parts.append(_goal_text("Zombies %d/30" % (30 if claimed else mini(team.kills, 30)), claimed or team.kills >= 30, rich))
+			"supplies": parts.append(_goal_text("Lieferung geborgen" if claimed or team.cache else "Lieferung am nördlichen Waldweg suchen", claimed or team.cache, rich))
+			"titan": parts.append(_goal_text("Titanen %d/1" % (1 if claimed else mini(team.titans, 1)), claimed or team.titans > 0, rich))
+			_: parts.append(_goal_text("Vendor am Lagerfeuer kennenlernen", true, rich))
+	return ("\n" if rich else " · ").join(parts)
 
 func lock_reason(p: Player, id: String) -> String:
 	var spec: Dictionary = GOODS[id]
@@ -650,11 +663,23 @@ func _label(text: String, size := 18) -> Label:
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	return label
 
+func _rich_label(text: String, size := 18) -> RichTextLabel:
+	var label := RichTextLabel.new()
+	label.bbcode_enabled = true
+	label.fit_content = true
+	label.scroll_active = false
+	label.text = text
+	label.add_theme_font_size_override("normal_font_size", size)
+	label.add_theme_font_size_override("bold_font_size", size)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return label
+
 func _build_ui() -> void:
-	tracker = _label("", 14)
+	tracker = _rich_label("", 14)
 	tracker.position = Vector2(26, 154)
 	tracker.size = Vector2(390, 0)
-	tracker.add_theme_color_override("font_color", Color(0.93, 0.83, 0.61))
+	tracker.add_theme_color_override("default_color", Color(0.93, 0.83, 0.61))
 	tracker.add_theme_color_override("font_shadow_color", Color.BLACK)
 	tracker.add_theme_constant_override("shadow_offset_x", 2)
 	tracker.add_theme_constant_override("shadow_offset_y", 2)
@@ -732,7 +757,7 @@ func _build_ui() -> void:
 	column.add_child(done)
 	panel.hide()
 
-func _row(heading: String, details: String, button_text: String, action: Callable, disabled := false, blocked_reason := "") -> void:
+func _row(heading: String, details: String, button_text: String, action: Callable, disabled := false, blocked_reason := "", rich := false) -> void:
 	# Updating prices and quest counters must preserve the button receiving a click.
 	if not _building_layout:
 		var widgets: Array = _row_nodes[_row_index]
@@ -755,8 +780,9 @@ func _row(heading: String, details: String, button_text: String, action: Callabl
 	box.add_child(text)
 	var heading_label := _label(heading, 19)
 	text.add_child(heading_label)
-	var desc := _label(details, 14)
-	desc.modulate = Color(0.72, 0.8, 0.72)
+	var desc := _rich_label(details, 14)
+	desc.bbcode_enabled = rich
+	desc.add_theme_color_override("default_color", Color(0.72, 0.8, 0.72))
 	text.add_child(desc)
 	var warning := _label(blocked_reason, 14)
 	warning.add_theme_color_override("font_color", Color(1.0, 0.35, 0.3))
@@ -841,7 +867,7 @@ func _render() -> void:
 					heading = "%s · %d/%d · %s" % [QUEST_CHAINS[chain].name, QUEST_CHAINS[chain].quests.find(id) + 1, QUEST_CHAINS[chain].quests.size(), heading]
 					details += "\n" + chain_description(p.peer_id, chain, false)
 				if int(q.waves_after_accept) > 0: details += "\nAb Annahme %d weitere Welle(n) überstehen. Teamziele zählen rückwirkend; Belohnung persönlich abholen." % q.waves_after_accept
-				_row(heading, details + "\n" + quest_progress(id), text, request.bind("quest", id), claimed or locked or (accepted and not complete(id)), blocked if locked and not claimed else "")
+				_row(heading, details + "\n" + quest_progress(id, -1, true), text, request.bind("quest", id), claimed or locked or (accepted and not complete(id)), blocked if locked and not claimed else "", true)
 		"Handel":
 			if shop in ["camp", "secret"]:
 				var refill := refill_quote(p)
@@ -989,9 +1015,18 @@ func _process(delta: float) -> void:
 					break
 			break
 	else:
-		var entries := PackedStringArray(["AUFTRÄGE (%d) · TAB ein/aus" % tracked.size()])
+		var ready := PackedStringArray()
+		var ongoing := PackedStringArray()
 		for id in tracked:
-			entries.append("%s\n%s" % [QUESTS[id].name, "Erfüllt · Belohnung bei " + str(NPCS[QUESTS[id].npc].name) + " abholen" if complete(id) else quest_progress(id)])
+			if complete(id):
+				ready.append("[color=#ffd479][b]BEREIT ZUR ABGABE[/b]\n[b]%s[/b]\nBei %s abgeben · %d P Belohnung[/color]" % [QUESTS[id].name, NPCS[QUESTS[id].npc].name, QUESTS[id].reward])
+			else:
+				ongoing.append("%s\n%s" % [QUESTS[id].name, quest_progress(id, -1, true)])
+		var entries := PackedStringArray(["AUFTRÄGE (%d) · TAB ein/aus" % tracked.size()])
+		if not ready.is_empty():
+			entries.append("[color=#ffd479][b]%d zur Abgabe bereit[/b][/color]" % ready.size())
+		entries.append_array(ready)
+		entries.append_array(ongoing)
 		tracker.text = "\n\n".join(entries)
 	tracker.size.y = 0
 	if not d.claimed.get("arrival", false):

@@ -1,0 +1,98 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: forest_basket rejects acceptance below minimum level
+PASS: forest_basket becomes available at intended level
+PASS: forest_basket cannot be immediately claimed after acceptance
+PASS: forest_basket explains remaining wave requirement
+PASS: forest_basket uses a fixed completion boundary
+PASS: restless_paths rejects acceptance below minimum level
+PASS: restless_paths becomes available at intended level
+PASS: restless_paths cannot be immediately claimed after acceptance
+PASS: restless_paths explains remaining wave requirement
+PASS: restless_paths uses a fixed completion boundary
+PASS: forest_watch rejects acceptance below minimum level
+PASS: forest_watch becomes available at intended level
+PASS: forest_watch cannot be immediately claimed after acceptance
+PASS: forest_watch explains remaining wave requirement
+PASS: forest_watch uses a fixed completion boundary
+PASS: arrival becomes available at intended level
+PASS: watch rejects acceptance below minimum level
+PASS: watch becomes available at intended level
+PASS: watch cannot be immediately claimed after acceptance
+PASS: watch explains remaining wave requirement
+PASS: watch uses a fixed completion boundary
+PASS: line rejects acceptance below minimum level
+PASS: line becomes available at intended level
+PASS: line cannot be immediately claimed after acceptance
+PASS: line explains remaining wave requirement
+PASS: line uses a fixed completion boundary
+PASS: supplies rejects acceptance below minimum level
+PASS: supplies becomes available at intended level
+PASS: supplies cannot be immediately claimed after acceptance
+PASS: supplies explains remaining wave requirement
+PASS: supplies uses a fixed completion boundary
+PASS: titan rejects acceptance below minimum level
+PASS: titan becomes available at intended level
+PASS: titan cannot be immediately claimed after acceptance
+PASS: titan explains remaining wave requirement
+PASS: titan uses a fixed completion boundary
+PASS: steady_aim rejects acceptance below minimum level
+PASS: steady_aim becomes available at intended level
+PASS: steady_aim cannot be immediately claimed after acceptance
+PASS: steady_aim explains remaining wave requirement
+PASS: steady_aim uses a fixed completion boundary
+PASS: marksman_training rejects acceptance below minimum level
+PASS: marksman_training becomes available at intended level
+PASS: marksman_training cannot be immediately claimed after acceptance
+PASS: marksman_training explains remaining wave requirement
+PASS: marksman_training uses a fixed completion boundary
+PASS: night_shift rejects acceptance below minimum level
+PASS: night_shift becomes available at intended level
+PASS: night_shift cannot be immediately claimed after acceptance
+PASS: night_shift explains remaining wave requirement
+PASS: night_shift uses a fixed completion boundary
+PASS: last_light rejects acceptance below minimum level
+PASS: last_light becomes available at intended level
+PASS: last_light cannot be immediately claimed after acceptance
+PASS: last_light explains remaining wave requirement
+PASS: last_light uses a fixed completion boundary
+PASS: crossfire rejects acceptance below minimum level
+PASS: crossfire becomes available at intended level
+PASS: crossfire cannot be immediately claimed after acceptance
+PASS: crossfire explains remaining wave requirement
+PASS: crossfire uses a fixed completion boundary
+PASS: reinforced rejects acceptance below minimum level
+PASS: reinforced becomes available at intended level
+PASS: reinforced cannot be immediately claimed after acceptance
+PASS: reinforced explains remaining wave requirement
+PASS: reinforced uses a fixed completion boundary
+PASS: clockwork rejects acceptance below minimum level
+PASS: clockwork becomes available at intended level
+PASS: clockwork cannot be immediately claimed after acceptance
+PASS: clockwork explains remaining wave requirement
+PASS: clockwork uses a fixed completion boundary
+PASS: silent_deal rejects acceptance below minimum level
+PASS: silent_deal becomes available at intended level
+PASS: silent_deal cannot be immediately claimed after acceptance
+PASS: silent_deal explains remaining wave requirement
+PASS: silent_deal uses a fixed completion boundary
+PASS: giant_debt rejects acceptance below minimum level
+PASS: giant_debt becomes available at intended level
+PASS: giant_debt cannot be immediately claimed after acceptance
+PASS: giant_debt explains remaining wave requirement
+PASS: giant_debt uses a fixed completion boundary
+PASS: nameless rejects acceptance below minimum level
+PASS: nameless becomes available at intended level
+PASS: nameless cannot be immediately claimed after acceptance
+PASS: nameless explains remaining wave requirement
+PASS: nameless uses a fixed completion boundary
+PASS: Shared counters cannot bypass another peer's personal acceptance wave
+PASS: Peer-specific guidance uses its own progress
+PASS: Snapshot preserves acceptance boundaries
+PASS: A later completion unlocks the second peer's reward
+PASS: Huge existing counters cannot immediately complete next chain stage
+QUEST_BALANCE_DONE checks=91 failures=0

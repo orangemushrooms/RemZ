@@ -52,5 +52,5 @@ func shatter(effects: bool = true) -> void:
 	get_tree().current_scene.add_child(particles)
 	particles.global_position = global_position + Vector3.UP * 0.2
 	particles.emitting = true
-	Sfx.play_at(self, "wood", particles.global_position, -8.0, 1.4)
+	Sfx.play_at(self, "pumpkin_splat", particles.global_position, -8.0)
 	get_tree().create_timer(1.2).timeout.connect(particles.queue_free)

@@ -268,18 +268,14 @@ func collect_loot(id: int, key: String) -> void:
 		NetSession.feedback(id, "message", [item.label + " gesammelt", 1.5])
 		game.achievements.event("mushrooms")
 	else:
-		if not w.has_ammo_space(w.ammo_weapon()):
-			NetSession.feedback(id, "message", ["Munitionsreserve voll", 1.4])
-			return
-		w.add_ammo(w.ammo_weapon(), int(Weapons.DEFS[w.ammo_weapon()].mag))
-		NetSession.feedback(id, "message", ["Vorräte: ein Magazin", 2.0])
+		if not item.grant_supplies(w, p.hud): return
 	item.taken = true
 	Sfx.event(game, id, "key_pickup" if item is ForestKey else "mushroom_pickup" if item.kind == "mushroom" else "pickup")
 	if item is ForestKey:
 		item.pickup_visual.hide()
 	else:
 		item.hide()
-		item.queue_free()
+		if not (item is Loot and item.renewable): item.queue_free()
 	w.update_hud()
 
 func collect_drop(drop: Pickup, id: int) -> void:
@@ -635,6 +631,11 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			if data.doors.has(key) and node.is_open != data.doors[key][0]:
 				node._open_side = data.doors[key][1]
 				node._set_open(data.doors[key][0])
+		elif node is Loot and node.renewable:
+			node.stocked_wave = int(data.wave[0])
+			node.magazines = mini(4, 1 + maxi(0, node.stocked_wave - 1) / 4)
+			node.taken = not key in data.loots
+			node.visible = not node.taken
 		elif not key in data.loots:
 			node.taken = true
 			if node is ForestKey: node.pickup_visual.hide()

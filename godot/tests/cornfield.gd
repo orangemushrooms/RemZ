@@ -22,9 +22,18 @@ func run() -> void:
 	var w: Weapons = game.weapons
 	p.set_physics_process(false)
 	var field = game.cornfield
-	check(field.plant_count>10000 and field.plant_count<40000,"Dense field uses a bounded number of batched corn stalks")
+	check(field.plant_count>4000 and field.plant_count<40000,"Dense field uses a bounded number of batched corn stalks")
 	print("CORN_PLANTS ",field.plant_count)
-	var start: Vector3 = Map.ground_pos(40.25,72)
+	# The headless dummy renderer does not retain MultiMesh instance transforms.
+	if DisplayServer.get_name() != "headless":
+		var south_only := true
+		for child in field.get_children():
+			if child is MultiMeshInstance3D:
+				for i in child.multimesh.instance_count:
+					var at: Vector3 = child.position + child.multimesh.get_instance_transform(i).origin
+					if at.x >= -80 or at.z < 78 or not field.field_ground(Vector2(at.x,at.z)): south_only = false
+		check(south_only, "All corn stays on lower western meadow, outside forest and six metres from trees")
+	var start: Vector3 = Map.ground_pos(-203.5,78)
 	var caches: Array = []
 	for item in game.loots:
 		if is_instance_valid(item) and item is Loot and item.kind=="maze_cache": caches.append(item)
@@ -70,6 +79,13 @@ func run() -> void:
 	remote.global_position = Vector3(120,20,-100)
 	NetSession.enabled = false
 	var crow = field.birds[0]
+	check(crow.skeleton != null and crow.wing_bones.size()==4 and not crow.wing_bones.has(-1), "Meshy raven loads a complete articulated wing rig")
+	crow.voice.stop()
+	crow.call_voice()
+	var first_call: int = crow.last_call
+	crow.voice.stop()
+	crow.call_voice()
+	check(crow.last_call!=first_call and crow.voice.stream.resource_path.begins_with("res://assets/audio/sfx/raven"), "Raven uses supplied recordings without immediate repetition")
 	crow.set_process(false)
 	crow.scare(crow.global_position)
 	crow._process(0.4)
@@ -88,19 +104,31 @@ func run() -> void:
 		game.add_child(camera)
 		camera.make_current()
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://../artifacts/cornfield"))
-		camera.position = Map.ground_pos(27,65)+Vector3.UP*8
-		camera.look_at(Map.ground_pos(58,96)+Vector3.UP)
+		camera.position = Map.ground_pos(-214,71)+Vector3.UP*8
+		camera.look_at(Map.ground_pos(-188,98)+Vector3.UP)
 		await capture("overview")
-		camera.position = Map.ground_pos(40.25,72.8)+Vector3.UP*1.7
-		camera.look_at(Map.ground_pos(40.25,90)+Vector3.UP*1.7)
+		camera.position = Map.ground_pos(-203.5,79)+Vector3.UP*1.7
+		camera.look_at(Map.ground_pos(-203.5,96)+Vector3.UP*1.7)
 		await capture("maze")
+		var raven_position: Vector3 = crow.position
+		crow.position += Vector3.UP*4.0
+		crow.flying = 5.0
+		crow.clock = 0.0
+		crow._pose_raven()
+		camera.position = crow.position+Vector3(1.1,0.65,-1.3)
+		camera.look_at(crow.position+Vector3.UP*0.22)
+		await capture("raven-flight")
+		crow.flying = 0.0
+		crow._pose_raven()
+		await capture("raven-perched")
+		crow.position = raven_position
 		game.day_night.set_time_hours(23)
 		owl._process(0.1)
 		camera.position = owl.position+Vector3(2,1,-3)
 		camera.look_at(owl.position+Vector3.UP*0.2)
 		await capture("owl")
-		camera.position = Map.ground_pos(27,65)+Vector3.UP*8
-		camera.look_at(Map.ground_pos(58,96)+Vector3.UP)
+		camera.position = Map.ground_pos(-214,71)+Vector3.UP*8
+		camera.look_at(Map.ground_pos(-188,98)+Vector3.UP)
 		game.day_night.set_time_hours(12)
 		for i in 60: await process_frame
 		var times: Array[float] = []

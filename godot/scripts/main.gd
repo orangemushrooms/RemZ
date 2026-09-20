@@ -134,6 +134,7 @@ func _ready() -> void:
 	waves = Waves.new()
 	add_child(waves)
 	waves.setup(self, hud, player, weapons)
+	waves.wave_started.connect(_restock_huts)
 	day_night = DayNightCycle.new()
 	add_child(day_night)
 	day_night.setup(self, fill_light)
@@ -179,7 +180,8 @@ func _ready() -> void:
 	settings.add_controls(hud.settings_box, false)
 	player.regen_mul = float(difficulty["regen"])
 	settings.apply()
-	for sound in ["pistol", "revolver", "smg", "ak47", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "boom", "pickup"]:
+	for sound in ["pistol", "revolver", "smg", "ak47", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "wood_hit", "boom", "pickup",
+			"zombie_death", "melee", "melee_stab", "grenade_throw", "grenade_bounce", "heartbeat", "land", "weapon_switch", "door_close", "crash"]:
 		Sfx.get_stream(sound)
 	Zombie.preload_models()
 	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein. Die Zombies gehen auch auf die Waldhütte selbst los: fällt sie, ist die Runde verloren. Repariere sie mit E an ihrer Wand.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
@@ -885,9 +887,17 @@ func _slab(root: Node3D, size: Vector3, pos: Vector3, mat: Material) -> void:
 	body.add_child(cs)
 	root.add_child(body)
 
-func _loot(root: Node3D, kind: String, id: String, label: String, local_pos: Vector3, model: String, height: float, yaw: float = 0.0) -> void:
+func _restock_huts(number: int) -> void:
+	for item in loots:
+		if is_instance_valid(item) and item is Loot and item.renewable:
+			item.restock(number)
+
+func _loot(root: Node3D, kind: String, id: String, label: String, local_pos: Vector3, model: String, height: float, yaw: float = 0.0, first_wave := 0) -> void:
 	var l := Loot.new()
 	l.setup(kind, id, label)
+	l.renewable = true
+	l.first_wave = first_wave
+	l.restock(0)
 	root.add_child(l)
 	l.position = local_pos
 	l.rotation.y = yaw
@@ -1252,6 +1262,7 @@ func _waldhuette() -> Node3D:
 		_box(root, Vector3(0.12, 0.75, 0.65), Vector3(x, upper_floor + 0.375, hz - 1.0), dark_wood)
 	_slab(root, Vector3(0.55, 0.45, 2.2), Vector3(-hx + 0.7, upper_floor + 0.225, hz - 1.8), floor_wood)
 	_loot(root, "ammo", "", "Hüttenvorrat", Vector3(hx - 1.4, upper_floor + 0.84, hz - 1.0), "", 0.3)
+	_loot(root, "weapon", "smg", "MP5", Vector3(hx - 2.2, upper_floor + 0.84, hz - 1.0), "smg", 0.3, 0.0, 3)
 	# inside: workbench with an ammunition crate, shotgun and MP5 on the wall
 	if not _prop(root, "workbench", 2.2, "x", Vector3(hx - 1.2, 0.0, hz - 0.6)):
 		_box(root, Vector3(2.2, 0.08, 0.7), Vector3(hx - 1.2, 0.85, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.5, 0.42, 0.3)))
@@ -1421,6 +1432,8 @@ func _holzlager() -> Node3D:
 	_loot(root, "ammo", "", "Geborgene Vorräte", Vector3(0.7, base_h + 1.4, hz - 0.3), "", 0.3)
 	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 0.9, base_h, -hz + 1.2), "", 0.3)
 	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 0.9, base_h, -hz + 2.2), "", 0.3)
+	_loot(root, "weapon", "shotgun", "Schrotflinte", Vector3(-1.0, base_h + 0.55, hz - 0.5), "rifle", 0.3, 0.0, 3)
+	_loot(root, "weapon", "marksman", "Waldläufer .308", Vector3(1.0, base_h + 0.55, hz - 0.5), "marksman", 0.3, 0.0, 8)
 	for k in 3:
 		_box(root, Vector3(0.9, 1.1, 2.2), Vector3(-hx + 0.6, base_h + 0.55, -hz + 2.0 + k * 2.5), _mat("ph_bark_beech2", 0.5, Color(0.7, 0.6, 0.5), true))
 	var inner := OmniLight3D.new()

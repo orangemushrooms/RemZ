@@ -1,14 +1,32 @@
 extends Node3D
-const ORIGIN := Vector2(35,72)
-const CELL := 3.5
+const ORIGIN := Vector2(-208,78)
+const CELL := 3.0
 const SIZE := 13
-const FIELD := Rect2(-120,62,234,76)
+# Lower western meadow toward the village, downhill from Mara. +X is east (Sennhof).
+const FIELD := Rect2(-235,78,155,60)
 const Bird = preload("res://scripts/field_bird.gd")
 var game: Node
 var passages: Dictionary = {}
 var birds: Array = []
 var plant_count := 0
 var random := RandomNumberGenerator.new()
+
+static var _tree_cells: Dictionary = {}
+static func field_ground(p: Vector2) -> bool:
+	if not FIELD.has_point(p): return false
+	if Map.meadow_weight(p.x,p.y)<0.75 or Map.leaf_weight(p.x,p.y)>0.12: return false
+	if _tree_cells.is_empty():
+		for tree in Map.TREES:
+			var at := Vector2(tree[0],tree[1])
+			var cell := Vector2i(floori(at.x/8.0),floori(at.y/8.0))
+			if not _tree_cells.has(cell): _tree_cells[cell] = []
+			_tree_cells[cell].append(at)
+	var cell := Vector2i(floori(p.x/8.0),floori(p.y/8.0))
+	for z in range(-1,2):
+		for x in range(-1,2):
+			for tree: Vector2 in _tree_cells.get(cell+Vector2i(x,z),[]):
+				if p.distance_squared_to(tree)<36.0: return false
+	return true
 
 static func inside_maze(p: Vector2) -> bool:
 	return Rect2(ORIGIN,Vector2.ONE*SIZE*CELL).has_point(p)
@@ -36,10 +54,10 @@ func build(main: Node) -> void:
 	passages[Vector2i(1,0)] = true
 	passages[Vector2i(SIZE-2,SIZE-1)] = true
 	var batches: Dictionary = {}
-	for z in range(63,138):
-		for x in range(-119,114):
+	for z in range(int(FIELD.position.y) + 1, int(FIELD.end.y)):
+		for x in range(int(FIELD.position.x) + 1, int(FIELD.end.x)):
 			var p := Vector2(x,z)
-			if Map.on_road(x,z,2.5) or Map.leaf_weight(x,z)>0.4: continue
+			if not field_ground(p) or Map.on_road(x,z,2.5): continue
 			# Open access lanes keep all existing field spawns connected.
 			if absf(p.x-10)<5 or p.distance_to(Vector2(-110,108))<10 or p.distance_to(Vector2(-42,126))<8: continue
 			if inside_maze(p):
@@ -49,10 +67,11 @@ func build(main: Node) -> void:
 			# Denser maze hedges; one stalk per square metre in the outer rows.
 			for j in (2 if inside_maze(p) else 1):
 				var at := p+Vector2(random.randf_range(-0.28,0.28),j*0.45-0.22)
+				if not field_ground(at): continue
 				var key := Vector3i(floori(x/16.0),floori(z/16.0),random.randi_range(0,1))
 				if not batches.has(key): batches[key] = []
 				var scale := random.randf_range(0.88,1.15)
-				batches[key].append(Transform3D(Basis(Vector3.UP,random.randf()*TAU).scaled(Vector3.ONE*scale),Map.ground_pos(at.x,at.y)))
+				batches[key].append(Transform3D(Basis(Vector3.UP,(0.15 if j==0 else 0.4)+random.randf_range(-0.25,0.25)).scaled(Vector3.ONE*scale),Map.ground_pos(at.x,at.y)))
 				plant_count += 1
 	var wind := ShaderMaterial.new()
 	wind.shader = load("res://shaders/corn_wind.gdshader")
@@ -70,7 +89,7 @@ func build(main: Node) -> void:
 		node.multimesh = multimesh
 		node.material_override = wind
 		node.position = tile
-		node.visibility_range_end = 28
+		node.visibility_range_end = 22
 		node.visibility_range_end_margin = 2
 		node.extra_cull_margin = 0.4
 		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -87,7 +106,7 @@ func build(main: Node) -> void:
 			distant.multimesh.set_instance_transform(i,t)
 		distant.material_override = wind
 		distant.position = tile
-		distant.visibility_range_begin = 28
+		distant.visibility_range_begin = 22
 		distant.visibility_range_begin_margin = 2
 		distant.visibility_range_end = 150
 		distant.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

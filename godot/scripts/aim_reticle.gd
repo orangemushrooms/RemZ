@@ -18,8 +18,8 @@ func update_aim(point: Vector2, radius: float, ads: float, bloom: float) -> void
 
 func _draw() -> void:
 	var radius := cone_radius
-	var tint := Color(0.76, 0.92, 0.9, lerpf(0.52, 0.28, aiming))
-	var shadow := Color(0.015, 0.025, 0.025, 0.25)
+	var tint := Color(1.0, 0.08, 0.08, lerpf(0.95, 0.8, aiming))
+	var shadow := Color(0.015, 0.01, 0.02, 0.8)
 	# Four straight ticks frame the dispersion cone without covering the target.
 	for i in 4:
 		var angle := float(i) * PI * 0.5

@@ -8,4 +8,6 @@ void vertex() {
  VERTEX.z += cos(TIME*1.1+world.z*0.3)*0.06*weight;
  tint = COLOR;
 }
-void fragment() { ALBEDO=pow(tint.rgb,vec3(2.2)); ROUGHNESS=0.95; }
+void fragment() { float veins = (sin(UV.y*160.0 + sin(UV.x*23.0)*0.5)*0.025 + 0.975);
+ float rib = 1.0 + 0.12*exp(-abs(UV.y-0.5)*90.0);
+ ALBEDO=pow(tint.rgb,vec3(2.2))*mix(1.0,veins*rib,UV2.x); ROUGHNESS=0.95; }

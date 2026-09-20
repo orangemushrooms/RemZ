@@ -73,6 +73,6 @@ func shatter() -> void:
 	p.emitting = true
 	get_parent().add_child(p)
 	p.global_transform = global_transform
-	Sfx.play_at(get_parent(), "wood", global_position, -2.0, 1.6)
+	Sfx.play_at(get_parent(), "crash", global_position, -2.0)
 	get_tree().create_timer(2.0).timeout.connect(p.queue_free)
 	queue_free()

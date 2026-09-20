@@ -715,6 +715,7 @@ func _menu_button(text: String, primary: bool) -> Button:
 	dis.bg_color = Color(0.06, 0.07, 0.08)
 	b.add_theme_stylebox_override("disabled", dis)
 	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	b.mouse_entered.connect(func(): if not b.disabled: Sfx.play(self, "hover", -16.0))
 	return b
 
 # ---------------------------------------------------------------- per frame

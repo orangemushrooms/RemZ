@@ -15,6 +15,7 @@ var weapon := ""
 var flash_t := 0.0
 var recoil := 0.0
 var knife_stab := false
+var axe_heavy := false
 var tint := Color.WHITE
 var step_distance := 0.0
 var crouch_blend := 0.0
@@ -105,6 +106,7 @@ func shot(id: String, mod_effects: Array = []) -> void:
 	if field: field.scare(global_position)
 	set_weapon(id)
 	if Weapons.is_melee(id):
+		axe_heavy = id == "hatchet" and mod_effects.size() == 1 and mod_effects[0] == true
 		knife_stab = id == "knife" and mod_effects.size() == 1 and mod_effects[0] == true
 		recoil = 0.75
 		Sfx.play_at(self, "melee", global_position + Vector3.UP * 1.3, -8.0)
@@ -137,6 +139,8 @@ func _process(delta: float) -> void:
 	aim.position.z = -0.04 - swing*(0.3 if knife_stab else 0.08)
 	aim.rotation.z = swing*0.65 if not knife_stab else 0.0
 	aim.rotation.x = pitch + recoil - (0.12 if sprinting else 0.0)
+	if axe_heavy: aim.rotation.x = pitch - swing*1.1
+	if knife_stab: aim.rotation.x = pitch - swing*1.45
 	visual.pose(delta, speed, pitch, gun.to_global(right_grip), gun.to_global(left_grip), actor.alive, crouch_blend)
 	label.text = "%s\n%d / %d" % [NetSession.roster.get(actor.peer_id, "Spieler"), maxi(0, ceili(actor.hp)), int(actor.max_hp)] if actor.alive else "%s\nWiederbeleben [E]" % NetSession.roster.get(actor.peer_id, "Spieler")
 

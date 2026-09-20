@@ -299,7 +299,7 @@ func damage(n: float) -> void:
 		Sfx.play_at(get_parent(), "barricade_break", center, 0.0)
 		rebuild()
 	else:
-		Sfx.play_at(get_parent(), "wood", center, -4.0)
+		Sfx.play_at(get_parent(), "wood_hit", center, -4.0)
 		changed.emit()
 
 func _local(p: Vector3) -> Vector2:
@@ -385,7 +385,7 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 		return false
 	player.add_score(-COST_REPAIR if action == "repair" else -COST_BUILD)
 	Sfx.play(self, "confirm", -8.0)
-	Sfx.play_at(get_parent(), "wood", center, -8.0)
+	Sfx.play_at(get_parent(), "build", center, -6.0)
 	return true
 
 func prompt_text() -> String:

@@ -180,7 +180,7 @@ func _next() -> void:
 	_toast.visible = true
 	_toast.modulate = Color(1, 1, 1, 0)
 	_toast.position.y = 80
-	Sfx.play(self, "confirm", 0.0)
+	Sfx.play(self, "achievement", Sfx.EVENTS["achievement"])
 	var tw := create_tween()
 	tw.set_parallel(true)
 	tw.tween_property(_toast, "modulate:a", 1.0, 0.25)

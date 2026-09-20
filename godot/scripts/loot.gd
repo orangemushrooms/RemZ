@@ -7,6 +7,36 @@ var id := ""              # weapon id for kind == "weapon"
 var label := ""
 var taken := false
 
+var renewable := false
+var first_wave := 0
+var stocked_wave := -1
+var magazines := 1
+
+func restock(wave: int) -> void:
+	if not renewable or wave <= stocked_wave: return
+	stocked_wave = wave
+	magazines = mini(4, 1 + maxi(0, wave - 1) / 4)
+	taken = wave < first_wave
+	visible = not taken
+
+func grant_supplies(w: Weapons, hud: Hud) -> bool:
+	var wid := id if kind == "weapon" else w.ammo_weapon()
+	if kind == "weapon" and not w.unlocked.get(wid, false):
+		var reason: String = get_tree().current_scene.progression.lock_reason(w.player, wid)
+		if not reason.is_empty():
+			hud.message(reason, 3.0)
+			return false
+		w.unlock(wid)
+		hud.message(Weapons.DEFS[wid].name + " gefunden", 2.5)
+	else:
+		if not w.has_ammo_space(wid):
+			hud.message("Munitionsreserve voll", 1.4)
+			return false
+		hud.message("Vorräte: %d Magazin(e) für %s" % [magazines, Weapons.DEFS[wid].name], 2.5)
+	w.add_ammo(wid, int(Weapons.DEFS[wid].mag) * magazines)
+	w.update_hud()
+	return true
+
 func setup(k: String, weapon_id: String, text: String) -> void:
 	kind = k
 	id = weapon_id
@@ -28,24 +58,16 @@ func take(weapons: Weapons, hud: Hud) -> void:
 		hide()
 		queue_free()
 		return
-	if kind != "mushroom" and not weapons.has_ammo_space(weapons.ammo_weapon()):
-		hud.message("Munitionsreserve voll", 1.4)
-		return
-	taken = true
-	hide()
 	if kind == "mushroom":
 		get_tree().current_scene.inventory.add_mushroom(id)
 		if id == "steinpilz": get_tree().current_scene.progression.event("edible_mushrooms")
 		Sfx.event(get_tree().current_scene, weapons.player.peer_id, "mushroom_pickup")
-		queue_free()
-		return
-	# World crates supply the selected gun, never grant merchant-exclusive weapons.
-	var wid: String = weapons.ammo_weapon()
-	weapons.add_ammo(wid, int(Weapons.DEFS[wid].mag))
-	hud.message("Vorräte: ein Magazin für " + str(Weapons.DEFS[wid].name), 2.5)
-	weapons.update_hud()
-	Sfx.play(get_tree().current_scene, "pickup", -6.0)
-	queue_free()
+	else:
+		if not grant_supplies(weapons, hud): return
+		Sfx.play(get_tree().current_scene, "pickup", -6.0)
+	taken = true
+	hide()
+	if not renewable: queue_free()
 
 # Shared host-side transaction: full inventories leave their cache untouched.
 func grant_cache(p: Player, w: Weapons) -> bool:

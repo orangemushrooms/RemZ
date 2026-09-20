@@ -239,6 +239,7 @@ func _refresh() -> void:
 		var eq: bool = id == weapons.current
 		if Weapons.is_melee(id):
 			var detail := "%s · %d Schaden pro Schlag · %.2f s Schlagabstand · %.2f m Reichweite. Keine Munition. Angriff: Linksklick oder Q." % [d.name, roundi(float(d.damage) * weapons.effective_damage_mul()), d.rate, d.range]
+			detail += "\nRechtsklick: %d Schaden, %.2f s Erholung, %.2f m Reichweite." % [roundi(float(d.stab_damage) * weapons.effective_damage_mul()), d.stab_rate, d.stab_range]
 			_slot(d.name + ("  ●" if eq else ""), "Nahkampf · " + ("Taste 0" if id == "knife" else "Mausrad / Inventar"), Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45), detail, func(): weapons.set_weapon(id); _refresh(), 1.0, id)
 			continue
 		var per_second := 1.0 / maxf(0.01, float(d["rate"]))
@@ -306,7 +307,7 @@ func _process(delta: float) -> void:
 	_effects_ui_t = 0.1
 	var text := Mushrooms.summary(player.mushroom_effects)
 	effects_label.text = text
-	var quests: Label = main.progression.tracker
+	var quests: RichTextLabel = main.progression.tracker
 	effects_label.position.y = maxf(320.0, quests.position.y + quests.get_minimum_size().y + 16.0) if quests.visible else 320.0
 	effects_label.visible = main.started and not main.over and player.alive and player.active and not text.is_empty()
 	active_label.text = text
