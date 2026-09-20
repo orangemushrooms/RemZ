@@ -167,6 +167,90 @@ func run() -> void:
 	market.equip(p, "phoenix")
 	p.damage(1000)
 	check(p.alive and p.hp == p.max_hp * 0.4, "Phoenix prevents one lethal hit")
+	# Every legendary the merchant can carry is purchasable, equips itself and changes the real mechanic it names.
+	game.waves.completed = 20
+	market.stock_key = ""
+	market.data(p.peer_id).owned = {}
+	market.data(p.peer_id).active = ""
+	p.relic = ""
+	var relic_ids: Array = []
+	for id in market.Items.DEFS:
+		if market.Items.DEFS[id].kind == "relic": relic_ids.append(id)
+		market.stock[id] = 1
+	var bought := 0
+	for id in relic_ids:
+		p.score = 10000
+		var reply: String = market.buy(p, id)
+		if reply.begins_with("Gekauft") and p.relic == id and market.stock[id] == 0 and p.score == 10000 - int(market.Items.DEFS[id].price): bought += 1
+	check(bought == relic_ids.size() and relic_ids.size() == 14, "All %d legendaries can be bought, charge their price and equip (%d ok)" % [relic_ids.size(), bought])
+	market.equip(p, "none")
+	var plain_damage := w.effective_damage_mul()
+	var plain_speed := p.effective_speed_mul()
+	var plain_reload := w.effective_reload_mul()
+	market.equip(p, "ember")
+	check(is_equal_approx(w.effective_damage_mul(), plain_damage * 1.15), "Glutkern raises the damage multiplier used by real bullet hits")
+	market.equip(p, "stag")
+	check(is_equal_approx(p.effective_speed_mul(), plain_speed * 1.18), "Hirschkrone raises the movement speed multiplier")
+	market.equip(p, "raven")
+	w.set_weapon("pistol")
+	w.cur().ammo = 0
+	w.cur().reserve = 50
+	w.cur().reloading = 0.0
+	w.reload()
+	check(is_equal_approx(w.effective_reload_mul(), plain_reload * 0.7) and is_equal_approx(w.cur().reloading, float(w.cur().def.reload) * plain_reload * 0.7), "Rabenfeder shortens the actual reload timer")
+	w.cur().reloading = 0.0
+	w.cur().ammo = 12
+	market.equip(p, "root")
+	p.hp = 100
+	p.damage(40)
+	check(p.hp == 70, "Wurzelband cuts real incoming damage by a quarter")
+	market.equip(p, "moss")
+	p.hp = 100
+	p.damage(40)
+	check(p.hp == 66 and is_equal_approx(p.effective_speed_mul(), plain_speed * 1.05), "Moosmantel reduces damage and adds tempo")
+	market.equip(p, "lantern")
+	p.hp = 100
+	p.damage(40)
+	check(p.hp == 66 and is_equal_approx(w.effective_damage_mul(), plain_damage * 1.08), "Nebellaterne guards and adds damage")
+	market.equip(p, "owl")
+	check(is_equal_approx(p.relic_multiplier("spread"), 0.7) and is_equal_approx(p.relic_multiplier("recoil"), 0.85), "Eulenauge tightens spread and recoil")
+	# recoil: fire once without and once with Stahlherz, compare the pitch kick (random 0.85..1.15 per shot)
+	market.equip(p, "none")
+	p.camera.rotation.x = PI * 0.4
+	w.cur().cooldown = 0
+	w.kick_pitch = 0.0
+	w._shots_in_burst = 0
+	w.try_fire()
+	var plain_kick: float = w.kick_pitch
+	market.equip(p, "steel")
+	w.cur().cooldown = 0
+	w.kick_pitch = 0.0
+	w._shots_in_burst = 0
+	w.try_fire()
+	check(plain_kick > 0 and w.kick_pitch < plain_kick * 0.8, "Stahlherz cuts the real recoil kick (%.3f -> %.3f)" % [plain_kick, w.kick_pitch])
+	# score: a real kill through the game's scoring path with and without Wegzoll
+	market.equip(p, "none")
+	var victim := Zombie.new()
+	victim.setup("shambler", p, game.barricades, 1, Callable())
+	game.zombies_root.add_child(victim)
+	victim.killer_peer = p.peer_id
+	victim.last_headshot = false
+	# stats.points_earned records exactly the kill bounty; p.score would also pick up quest rewards fired by the kill event
+	game.stats._streak = 0
+	var earned_before: int = game.stats.points_earned
+	game._zombie_killed(victim)
+	var plain_points: int = game.stats.points_earned - earned_before
+	market.equip(p, "coin")
+	game.stats._streak = 0
+	earned_before = game.stats.points_earned
+	p.score = 0
+	game._zombie_killed(victim)
+	var coin_points: int = game.stats.points_earned - earned_before
+	check(plain_points > 0 and coin_points == maxi(1, roundi(plain_points * 1.2)) and p.score >= coin_points, "Wegzoll pays 20 %% more for a real kill (%d -> %d)" % [plain_points, coin_points])
+	victim.queue_free()
+	market.equip(p, "none")
+	market.data(p.peer_id).owned = {"hawk": true, "blood": true, "bark": true, "wind": true, "phoenix": true}
+	market.equip(p, "phoenix")
 	market.equip(p, "hawk")
 	market.equip(p, "phoenix")
 	check(not market.prevent_death(p), "Changing talismans cannot reset Phoenix cooldown")
