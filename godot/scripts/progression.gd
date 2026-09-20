@@ -1,6 +1,8 @@
 class_name Progression
 extends CanvasLayer
 
+const QUEST_MARKER_COLOR := Color(1.0, 0.78, 0.2)
+
 # One authoritative catalogue is shared by the UI, solo game and host validation.
 const NPCS := {
 	"camp": {"name": "Vendor", "role": "Waffen & Vorräte", "model": "npc_quartermaster", "height": 1.82, "pos": Vector2(4.0, -16.0), "line": "Bleib am Leben. Ich handle mit Leuten, die ihren Teil beitragen."},
@@ -101,6 +103,16 @@ func data(peer: int) -> Dictionary:
 
 func local_data() -> Dictionary:
 	return data(NetSession.local_id() if NetSession.enabled else game.player.peer_id)
+
+func has_ready_quest(npc_id: String) -> bool:
+	var d := local_data()
+	if npc_id == "secret" and not d.discovered: return false
+	for id in QUESTS:
+		var quest: Dictionary = QUESTS[id]
+		if quest.npc != npc_id or not d.accepted.get(id, false) or d.claimed.get(id, false): continue
+		if not quest.requires.is_empty() and not d.claimed.get(quest.requires, false): continue
+		if complete(id): return true
+	return false
 
 func has_claim(peer: int, quest: String) -> bool:
 	return quest.is_empty() or data(peer).claimed.get(quest, false)
@@ -427,7 +439,7 @@ func _render() -> void:
 		_tabs[tab].visible = tab in (["Aufträge", "Training", "Türme"] if shop == "mechanic" else ["Handel", "Aufträge", "Skins"])
 	var owners := []
 	for tower: DefenceTower in game.defences.towers.values(): owners.append([tower.tower_id, tower.owner_peer])
-	var layout := str([shop, page, game.weapons.current, owners])
+	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners])
 	_building_layout = layout != _layout_key
 	_layout_key = layout
 	_row_index = 0
@@ -462,9 +474,14 @@ func _render() -> void:
 				var details := "%s\n%d Schaden × %d · %d Schuss · %.1f s Nachladen\n%s" % [spec.desc, int(gun.damage), gun.pellets, gun.mag, gun.reload, "Im Besitz" if owned else reason]
 				_row(gun.name, details, "Im Besitz" if owned else "Kaufen · %d P" % spec.price, request.bind("weapon", id), owned or not reason.is_empty() or p.score < int(spec.price))
 			if shop != "mechanic":
-				var wid: String = game.weapons.current
-				var cost := int(GOODS[wid].ammo) if GOODS.has(wid) else 12
-				_row("Munition · " + str(Weapons.DEFS[wid].name), "Zwei Magazine. Vorratslimit: %d Schuss. Waffe im Inventar auswählen." % game.weapons.reserve_limit(wid), "%d P" % cost, request.bind("ammo", wid), p.score < cost)
+				for wid in Weapons.ORDER:
+					if not game.weapons.unlocked.get(wid, false): continue
+					var cost := int(GOODS[wid].ammo) if GOODS.has(wid) else 12
+					var reserve: int = game.weapons.state[wid].reserve
+					var limit: int = game.weapons.reserve_limit(wid)
+					var full := reserve >= limit
+					var amount := int(Weapons.DEFS[wid].mag) * 2
+					_row("Munition · " + str(Weapons.DEFS[wid].name), "Zwei Magazine (+%d Schuss, bis zum Vorratslimit). Vorrat: %d / %d." % [amount, reserve, limit], "Vorrat voll" if full else "%d P" % cost, request.bind("ammo", wid), full or p.score < cost)
 			if shop == "camp":
 				_row("Verband", "+60 Gesundheit, bis zum Maximum", "35 P", request.bind("medicine"), p.score < 35 or p.hp >= p.max_hp)
 				_row("Handgranate", "Eine Granate, bis die Tasche voll ist", "45 P", request.bind("grenade"), p.score < 45 or game.weapons.grenades >= game.weapons.grenades_max)
@@ -506,6 +523,8 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	if not game: return
+	for id in npcs:
+		npcs[id].quest_marker.visible = game.started and not game.over and has_ready_quest(id)
 	if is_open and not close_enough(game.player, shop): close()
 	var playing: bool = game.started and not game.over and game.player.active and not game.hud.overlay.visible
 	var guiding: bool = game.intro != null and game.intro.showing_guidance()

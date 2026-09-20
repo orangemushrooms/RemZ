@@ -6,6 +6,7 @@ var game: Node
 var body: StaticBody3D
 var figure: Node3D
 var caption: Label3D
+var quest_marker: Label3D
 var anim: AnimationPlayer
 
 func setup(id: String, main: Node) -> void:
@@ -52,6 +53,19 @@ func setup(id: String, main: Node) -> void:
 	caption.modulate = Color(0.95, 0.78, 0.46)
 	caption.visibility_range_end = 12
 	add_child(caption)
+	quest_marker = Label3D.new()
+	quest_marker.name = "QuestReady"
+	quest_marker.text = "?"
+	quest_marker.position.y = float(spec.height) + 0.85
+	quest_marker.font_size = 64
+	quest_marker.pixel_size = 0.006
+	quest_marker.outline_size = 10
+	quest_marker.modulate = Progression.QUEST_MARKER_COLOR
+	quest_marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	quest_marker.no_depth_test = true
+	quest_marker.visibility_range_end = 35.0
+	quest_marker.visible = false
+	add_child(quest_marker)
 	# A small shop counter, folded canvas canopy and warm lamp anchor the merchant in the world.
 	var wood := Foliage.pbr("planks", 0.8, Color(0.43, 0.35, 0.23))
 	var steel := DefenceTower.material(Color(0.12, 0.14, 0.13), 0.65)

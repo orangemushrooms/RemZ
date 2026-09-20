@@ -69,12 +69,20 @@ func run() -> void:
 	check(not paused and p.active, "Leaving merchant restores controls")
 	shop.transact(p, "camp", "weapon", "revolver")
 	check(not w.unlocked.revolver and p.score == before, "Points alone cannot bypass quest and wave gates")
+	check(not shop.has_ready_quest("camp"), "Unaccepted quest has no turn-in marker")
 	shop.transact(p, "camp", "quest", "arrival")
 	check(not shop.has_claim(p.peer_id, "arrival"), "Accepting a quest does not claim its reward")
 	check(Sfx._voices.has("quest_accept"), "Accepted quest plays its dedicated sound")
+	await process_frame
+	await process_frame
+	check(shop.has_ready_quest("camp") and shop.npcs.camp.quest_marker.visible, "Completed accepted quest marks its giver in world and minimap state")
+	check(not shop.has_ready_quest("mechanic") and not shop.has_ready_quest("secret"), "Other givers and undiscovered secret shop remain unmarked")
 	shop.transact(p, "camp", "quest", "arrival")
 	check(shop.has_claim(p.peer_id, "arrival") and p.score == before + 20, "Completed quest pays exactly once")
 	check(Sfx._voices.has("quest_complete"), "Quest reward plays completion sound")
+	await process_frame
+	await process_frame
+	check(not shop.has_ready_quest("camp") and not shop.npcs.camp.quest_marker.visible, "Claimed reward removes the turn-in marker")
 	var completion_voices: Array = Sfx._voices["quest_complete"].duplicate()
 	var rewarded_score := p.score
 	shop.transact(p, "camp", "quest", "arrival")
@@ -90,6 +98,14 @@ func run() -> void:
 	shop.transact(p, "camp", "weapon", "revolver")
 	check(w.unlocked.revolver and p.score == 0 and w.state.revolver.reserve == 12, "Eligible weapon purchase charges once with bounded starting ammunition")
 	check(Sfx._voices.has("weapon_pickup"), "Purchased weapon plays gun pickup sound")
+	shop._render()
+	var ammo_rows := 0
+	var revolver_ammo := false
+	for widgets in shop._row_nodes:
+		if widgets[0].text.begins_with("Munition"):
+			ammo_rows += 1
+			if widgets[0].text.contains("Revolver"): revolver_ammo = true
+	check(ammo_rows == 2 and revolver_ammo, "Shop adds ammunition for every owned weapon after purchase")
 	shop.transact(p, "camp", "weapon", "revolver")
 	check(p.score == 0, "Duplicate purchase never charges again")
 	p.score = 5000

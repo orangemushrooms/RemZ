@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+RENDER_OPTIMIZER { "source_meshes": 689, "batches": 17, "removed_render_nodes": 40 }
+PASS: Level 1 still blocks movement ray
+PASS: Real bullet hits zombie through level 1 barricade
+PASS: Level 2 still blocks movement ray
+PASS: Real bullet hits zombie through level 2 barricade
+PASS: Level 3 still blocks movement ray
+PASS: Real bullet hits zombie through level 3 barricade
+PASS: Solid wall still blocks bullets behind the barricade
+BARRICADE_SHOOTING_DONE checks=7 failures=0

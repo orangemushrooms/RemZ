@@ -191,6 +191,14 @@ func _draw_symbols(c: Control) -> void:
 	c.draw_colored_polygon(PackedVector2Array([p, p + heading.rotated(-half_fov) * 24, p + heading.rotated(half_fov) * 24]), Color(0.8, 0.94, 1, 0.15))
 	c.draw_circle(p, 6.0, Color(0.025, 0.04, 0.035, 0.9))
 	c.draw_colored_polygon(PackedVector2Array([p + heading * 8, p - heading * 5 + side * 4, p - heading * 5 - side * 4]), Color(0.88, 0.98, 1))
+	# Draw ready-to-turn-in quests last so nearby enemies and players cannot cover them.
+	if "progression" in world and world.progression:
+		for id in world.progression.npcs:
+			if not world.progression.has_ready_quest(id): continue
+			var marker := map_position(world.progression.npcs[id].global_position) + Vector2(-5, -7)
+			marker = marker.clamp(MAP_RECT.position + Vector2(2, 20), MAP_RECT.end - Vector2(12, 2))
+			c.draw_string_outline(_font, marker, "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 4, Color(0.06, 0.045, 0.015))
+			c.draw_string(_font, marker, "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Progression.QUEST_MARKER_COLOR)
 
 func _process(delta: float) -> void:
 	_elapsed += delta

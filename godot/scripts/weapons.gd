@@ -282,12 +282,17 @@ func try_fire() -> void:
 	if stats:
 		stats.shots += 1
 	var any_hit := false
+	# Barricade boxes block movement across the entire line, including visible gaps.
+	# Exclude only those boxes from bullets; towers, walls and terrain still stop shots.
+	var bullet_exclude: Array[RID] = [player.get_rid()]
+	for barrier_body: StaticBody3D in get_tree().get_nodes_in_group("barricade"):
+		bullet_exclude.append(barrier_body.get_rid())
 	for i in int(d["pellets"]):
 		var dir: Vector3 = (base + Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * spread).normalized()
 		# the ray crosses the whole map: enemies are hit at any distance, "range" only starts a gentle damage
 		# falloff (full damage inside it, 55 % at three times the range)
 		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * HIT_RAY_LENGTH, 1 | 2 | 8)
-		q.exclude = [player.get_rid()]
+		q.exclude = bullet_exclude
 		var hit := space.intersect_ray(q)
 		if hit and hit.collider is Breakable:
 			(hit.collider as Breakable).shatter()
