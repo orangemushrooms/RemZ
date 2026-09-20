@@ -5,9 +5,10 @@ const QUEST_MARKER_COLOR := Color(1.0, 0.78, 0.2)
 
 # One authoritative catalogue is shared by the UI, solo game and host validation.
 const NPCS := {
+	"ranger": {"name": "Mara", "role": "Försterin · Waldaufträge", "model": "npc_mechanic", "height": 1.7, "pos": Vector2(-58.8, 63.0), "quests_only": true, "line": "Setz dich kurz ans Feuer. Der Wald gibt uns Schutz, aber wir müssen auf ihn aufpassen."},
 	"camp": {"name": "Vendor", "role": "Waffen & Vorräte", "model": "npc_quartermaster", "height": 1.82, "pos": Vector2(4.0, -16.0), "line": "Bleib am Leben. Ich handle mit Leuten, die ihren Teil beitragen."},
 	"mechanic": {"name": "Mechanic", "role": "Verteidigung & Training", "model": "npc_mechanic", "height": 1.7, "pos": Vector2(-5, -24), "line": "Eine Sperre hält sie auf. Ein richtig ausgerichteter Wächter erledigt den Rest."},
-	"secret": {"name": "Secret Vendor", "role": "Seltene Ausrüstung", "model": "npc_secret_trader", "height": 1.9, "pos": Vector2(-43, -119), "line": "Du hast mich gefunden. Jetzt zeig mir, dass du diese Waffen führen kannst."},
+	"secret": {"name": "Secret Vendor", "role": "Seltene Ausrüstung", "model": "npc_secret_trader", "height": 1.9, "pos": Vector2(-100, -140), "line": "Du hast mich gefunden. Jetzt zeig mir, dass du diese Waffen führen kannst."},
 }
 const CACHE := Vector2(-64, -147)
 const GOODS := {
@@ -21,12 +22,25 @@ const GOODS := {
 	"titanbreaker": {"npc": "secret", "price": 2400, "wave": 9, "quest": "titan", "ammo": 110, "desc": "Titanenbrecher .50. 75 % Zusatzschaden gegen Titanen, teure Munition."},
 }
 const QUESTS := {
+	"forest_basket": {"npc": "ranger", "name": "Was der Wald uns gibt", "requires": "arrival", "reward": 90, "desc": "Sammelt als Team fünf Steinpilze. Mara zeigt euch, worauf man im Wald achten muss. Bereits gesammelte Pilze zählen; ihr dürft sie behalten.", "goals": {"edible_mushrooms": 5}},
+	"restless_paths": {"npc": "ranger", "name": "Unruhe auf den Wegen", "requires": "forest_basket", "reward": 140, "desc": "Besiegt als Team zwölf Läufer. Ihre schnellen Schritte lassen selbst hier am kleinen Feuer niemanden zur Ruhe kommen.", "goals": {"runner_kills": 12}},
+	"forest_watch": {"npc": "ranger", "name": "Solange das Feuer brennt", "requires": "restless_paths", "reward": 220, "desc": "Übersteht Welle 6 und besiegt insgesamt 80 Zombies. Kehre danach zu Mara an die kleine Feuerstelle zurück.", "goals": {"waves": 6, "kills": 80}},
 	"arrival": {"npc": "camp", "name": "Am Feuer", "requires": "", "reward": 20, "desc": "Sprich mit Vendor am Lagerfeuer. Er erklärt dir Handel und Versorgung."},
 	"watch": {"npc": "mechanic", "name": "Der erste Wächter", "requires": "arrival", "reward": 110, "desc": "Baue eine Barrikade und einen Turm. Richte den Turm anschliessend neu aus. T: Vorschau · R/Mausrad: drehen · E: bestätigen. Am Turm E: ausrichten, F: reparieren."},
 	"line": {"npc": "camp", "name": "Die Linie halten", "requires": "arrival", "reward": 140, "desc": "Übersteht als Team zwei Wellen und besiegt 30 Zombies. Kehre zu Vendor zurück."},
 	"supplies": {"npc": "mechanic", "name": "Die verlorene Lieferung", "requires": "watch", "reward": 180, "desc": "Folge dem nördlichen Waldweg bis kurz vor den Abzweig zum Teich. Rechts des Weges liegt eine markierte Werkzeugkiste. Bringe die Lieferung zu Mechanic. Ein Händler soll weiter südöstlich im Wald lagern."},
 	"titan": {"npc": "secret", "name": "Was auf dem Feld lauert", "requires": "supplies", "reward": 300, "desc": "Besiegt gemeinsam einen Feldtitanen. Sie erscheinen ab Welle 6. Hole danach deine Belohnung beim Secret Vendor ab."},
+	"steady_aim": {"npc": "camp", "name": "Eine ruhige Hand", "requires": "arrival", "reward": 90, "desc": "Besiegt als Team 15 Zombies mit Kopfschüssen. Jeder gezielte Treffer spart Vorräte.", "goals": {"headshot_kills": 15}},
+	"night_shift": {"npc": "camp", "name": "Die lange Schicht", "requires": "line", "reward": 160, "desc": "Übersteht als Team Welle 4. Vendor braucht Leute, die auch nach dem ersten Ansturm bleiben.", "goals": {"waves": 4}},
+	"last_light": {"npc": "camp", "name": "Das letzte Licht", "requires": "night_shift", "reward": 240, "desc": "Übersteht Welle 8 und besiegt insgesamt 150 Zombies. Haltet das Lager am Leben.", "goals": {"waves": 8, "kills": 150}},
+	"crossfire": {"npc": "mechanic", "name": "Kreuzfeuer", "requires": "watch", "reward": 100, "desc": "Stellt zwei aktive Geschütztürme gleichzeitig auf. Beide müssen bei der Abgabe noch stehen.", "goals": {"active_towers": 2}},
+	"reinforced": {"npc": "mechanic", "name": "Doppelt hält besser", "requires": "crossfire", "reward": 140, "desc": "Verstärkt zwei Barrikaden auf mindestens Stufe 2. Erhaltet beide bis zur Abgabe.", "goals": {"reinforced_barricades": 2}},
+	"clockwork": {"npc": "mechanic", "name": "Wie ein Uhrwerk", "requires": "reinforced", "reward": 220, "desc": "Baut einen Geschützturm auf Stufe 3 aus und lasst eure Türme insgesamt 40 Zombies besiegen. Der ausgebaute Turm muss noch stehen.", "goals": {"elite_towers": 1, "tower_kills": 40}},
+	"silent_deal": {"npc": "secret", "name": "Ein diskreter Auftrag", "requires": "supplies", "reward": 180, "desc": "40 tödliche Kopfschüsse. Keine Namen, keine Fragen. Nur ein Geschäft.", "goals": {"headshot_kills": 40}},
+	"giant_debt": {"npc": "secret", "name": "Die Schuld der Riesen", "requires": "titan", "reward": 260, "desc": "Besiegt insgesamt drei Feldtitanen. Manche Schulden lassen sich nur mit Mut begleichen.", "goals": {"titans": 3}},
+	"nameless": {"npc": "secret", "name": "Ein Name, den keiner kennt", "requires": "giant_debt", "reward": 380, "desc": "Übersteht Welle 12 und besiegt insgesamt fünf Feldtitanen. Danach sprechen wir als Gleichgestellte.", "goals": {"waves": 12, "titans": 5}},
 }
+const GOAL_LABELS := {"edible_mushrooms": "Steinpilze", "runner_kills": "Läufer", "headshot_kills": "Kopfschuss-Kills", "waves": "Wellen", "kills": "Zombies", "active_towers": "Aktive Türme", "reinforced_barricades": "Barrikaden Stufe 2+", "elite_towers": "Türme Stufe 3", "tower_kills": "Turm-Kills", "titans": "Titanen"}
 const SKINS := {
 	"forest": {"name": "Waldtarn", "price": 160, "npc": "camp", "quest": "line", "desc": "Moos, Oliv und dunkle Erde. Rein optisch."},
 	"bronze": {"name": "Rußbronze", "price": 300, "npc": "secret", "quest": "supplies", "desc": "Geschwärztes Metall mit bronzenen Flächen. Rein optisch."},
@@ -56,6 +70,7 @@ var _building_layout := false
 var _refresh_time := 0.0
 var _last_signature := ""
 var _journal := true
+var _tower_tutorial_remaining := 12.0
 
 static func clear_space() -> void:
 	# Deterministic clearings, before forests and navmesh are constructed on every peer.
@@ -150,9 +165,28 @@ func prompt(id: String) -> String:
 
 func event(kind: String) -> void:
 	if NetSession.is_client(): return
-	if kind in ["kills", "titans", "built", "turned"]: team[kind] += 1
+	if kind in ["kills", "titans", "built", "turned", "headshot_kills", "tower_kills", "edible_mushrooms", "runner_kills"]:
+		team[kind] = int(team.get(kind, 0)) + 1
+
+func goal_value(kind: String) -> int:
+	if kind == "waves": return game.waves.completed
+	if kind == "reinforced_barricades":
+		var count := 0
+		for b: Barricade in game.barricades:
+			if b.level >= 2 and b.hp > 0: count += 1
+		return count
+	if kind in ["active_towers", "elite_towers"]:
+		var count := 0
+		for tower in game.defences.towers.values():
+			if is_instance_valid(tower) and tower.hp > 0 and (kind == "active_towers" or tower.level >= 3): count += 1
+		return count
+	return int(team.get(kind, 0))
 
 func complete(quest: String) -> bool:
+	if QUESTS.has(quest) and QUESTS[quest].has("goals"):
+		for kind in QUESTS[quest].goals:
+			if goal_value(kind) < int(QUESTS[quest].goals[kind]): return false
+		return true
 	match quest:
 		"arrival": return true
 		"watch":
@@ -166,6 +200,12 @@ func complete(quest: String) -> bool:
 	return false
 
 func quest_progress(id: String) -> String:
+	if QUESTS.has(id) and QUESTS[id].has("goals"):
+		var parts := PackedStringArray()
+		for kind in QUESTS[id].goals:
+			var target := int(QUESTS[id].goals[kind])
+			parts.append("%s %d/%d" % [GOAL_LABELS[kind], mini(goal_value(kind), target), target])
+		return " · ".join(parts)
 	match id:
 		"watch": return "Turm %d/1 · Ausrichten %d/1 · Barrikade bauen" % [mini(team.built, 1), mini(team.turned, 1)]
 		"line": return "Wellen %d/2 · Zombies %d/30" % [mini(game.waves.completed, 2), mini(team.kills, 30)]
@@ -182,6 +222,8 @@ func lock_reason(p: Player, id: String) -> String:
 func transact(p: Player, npc: String, action: String, id: String, extra := "") -> String:
 	if NetSession.is_client(): return "Der Host bestätigt den Handel."
 	if not close_enough(p, npc): return "Gehe zum Händler. Handel ist nur vor Ort möglich."
+	if NPCS.get(npc, {}).get("quests_only", false) and action not in ["visit", "quest"]:
+		return "Mara vergibt Waldaufträge. Vorräte bekommst du bei Vendor."
 	var d := data(p.peer_id)
 	var w := weapon_for(p)
 	if npc == "secret": d.discovered = true
@@ -284,7 +326,8 @@ func interact(id: String) -> void:
 		return
 	if not game.player.active or not close_enough(game.player, id): return
 	shop = id
-	page = "Aufträge" if not local_data().claimed.get("arrival", false) or id == "mechanic" else "Handel"
+	_greet(id)
+	page = "Aufträge" if not local_data().claimed.get("arrival", false) or id == "mechanic" or NPCS[id].get("quests_only", false) else "Handel"
 	is_open = true
 	game.player.active = false
 	game.weapons.viewmodel.hide()
@@ -296,6 +339,21 @@ func interact(id: String) -> void:
 	request("visit")
 	status.text = "Koop läuft weiter. Bleibe in Deckung." if NetSession.enabled else ""
 	_render()
+
+# NPC greeting when the dialogue opens (random variant per NPC, plays through the pause)
+const VOCALS := {"camp": "vendor_vocal", "secret": "secret_vendor_vocal", "mechanic": "mechanic_vocal"}
+var _greeting: AudioStreamPlayer
+
+func _greet(id: String) -> void:
+	if not VOCALS.has(id): return
+	if is_instance_valid(_greeting): _greeting.queue_free()
+	_greeting = AudioStreamPlayer.new()
+	_greeting.stream = Sfx.get_stream(VOCALS[id])
+	_greeting.volume_db = Sfx.EVENTS[VOCALS[id]]
+	_greeting.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(_greeting)
+	_greeting.play()
+	_greeting.finished.connect(_greeting.queue_free)
 
 func close() -> void:
 	if not is_open: return
@@ -436,7 +494,7 @@ func _info(text: String, size := 18) -> void:
 
 func _render() -> void:
 	for tab in _tabs:
-		_tabs[tab].visible = tab in (["Aufträge", "Training", "Türme"] if shop == "mechanic" else ["Handel", "Aufträge", "Skins"])
+		_tabs[tab].visible = tab in (["Aufträge"] if NPCS[shop].get("quests_only", false) else (["Aufträge", "Training", "Türme"] if shop == "mechanic" else ["Handel", "Aufträge", "Skins"]))
 	var owners := []
 	for tower: DefenceTower in game.defences.towers.values(): owners.append([tower.tower_id, tower.owner_peer])
 	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners])
@@ -462,7 +520,9 @@ func _render() -> void:
 				var accepted: bool = d.accepted.get(id, false)
 				var locked := not has_claim(p.peer_id, q.requires)
 				var text := "Erledigt" if claimed else ("Vorheriger Auftrag fehlt" if locked else ("Belohnung abholen" if accepted and complete(id) else ("In Arbeit" if accepted else "Auftrag annehmen")))
-				_row(q.name + " · %d P" % q.reward, q.desc + "\n" + quest_progress(id), text, request.bind("quest", id), claimed or locked or (accepted and not complete(id)))
+				var details: String = q.desc
+				if q.has("goals"): details += "\nTeamfortschritt dieser Runde zählt auch vor der Annahme. Belohnung hier abholen."
+				_row(q.name + " · %d P" % q.reward, details + "\n" + quest_progress(id), text, request.bind("quest", id), claimed or locked or (accepted and not complete(id)))
 		"Handel":
 			if shop == "mechanic": _info("Mechanic bietet Training, Turmausbauten und Aufträge an. Waffen und Vorräte gibt es bei Vendor am Lagerfeuer.")
 			for id in GOODS:
@@ -530,6 +590,8 @@ func _process(delta: float) -> void:
 	var guiding: bool = game.intro != null and game.intro.showing_guidance()
 	tracker.visible = playing and _journal and not game.defences.placing and not guiding
 	tutorial.visible = playing and not game.defences.placing and not guiding
+	if tutorial.visible and local_data().claimed.get("arrival", false) and team.built == 0:
+		_tower_tutorial_remaining = maxf(0.0, _tower_tutorial_remaining - delta)
 	_refresh_time -= delta
 	if _refresh_time > 0: return
 	_refresh_time = 0.25
@@ -537,6 +599,7 @@ func _process(delta: float) -> void:
 	if is_open:
 		var structures := []
 		for tower: DefenceTower in game.defences.towers.values(): structures.append([tower.tower_id, tower.level, ceili(tower.hp)])
+		for barrier: Barricade in game.barricades: structures.append([barrier.level, barrier.hp > 0])
 		var signature := str([game.player.score, ceili(game.player.hp), game.weapons.grenades, game.weapons.cur().reserve, game.weapons.unlocked, people, team, game.waves.completed, game.skills.levels, game.weapons.current, structures])
 		if signature != _last_signature:
 			_last_signature = signature
@@ -554,7 +617,7 @@ func _process(delta: float) -> void:
 	if not d.claimed.get("arrival", false):
 		tutorial.text = "WAFFEN & AUFTRÄGE\n[E] Sprich mit Vendor am Lagerfeuer."
 	elif team.built == 0:
-		tutorial.text = "VERTEIDIGUNG · [T] GESCHÜTZTURM\n120 P · R/Mausrad dreht die Vorschau · E baut · Mechanic erklärt den Ausbau."
+		tutorial.text = "VERTEIDIGUNG · [T] GESCHÜTZTURM\n120 P · R/Mausrad dreht die Vorschau · E baut · Mechanic erklärt den Ausbau." if _tower_tutorial_remaining > 0.0 else ""
 	elif team.turned == 0:
 		tutorial.text = "RICHTE DEINEN WÄCHTER AUS\nAm Turm E drücken, mit R/Mausrad drehen und mit E bestätigen."
 	else: tutorial.text = ""

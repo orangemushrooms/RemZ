@@ -578,10 +578,15 @@ func _handle_weapon_input(delta: float) -> void:
 	for i in ORDER.size():
 		if InputMap.has_action("weapon_%d" % (i + 1)) and Input.is_action_just_pressed("weapon_%d" % (i + 1)):
 			set_weapon(ORDER[i])
+	var step := 0
 	if Input.is_action_just_pressed("weapon_next"):
+		step = 1
+	elif InputMap.has_action("weapon_prev") and Input.is_action_just_pressed("weapon_prev"):
+		step = -1
+	if step != 0:
 		var idx := ORDER.find(current)
 		for k in ORDER.size():
-			idx = (idx + 1) % ORDER.size()
+			idx = posmod(idx + step, ORDER.size())
 			if unlocked[ORDER[idx]]:
 				set_weapon(ORDER[idx])
 				break

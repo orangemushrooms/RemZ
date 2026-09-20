@@ -4,17 +4,30 @@ Waffen werden bei Figuren in der Spielwelt gekauft. Es gibt kein frei zugänglic
 
 ## Am Lagerfeuer anfangen
 
+An der kleinen Feuerstelle am westlichen Feldweg wartet **Mara, die Försterin**. Mit **E** öffnet sich ihr Auftragsmenü. Sie hat keinen Warenverkauf und vergibt eine eigene Kette: „Was der Wald uns gibt“ (5 Steinpilze, 90 P), „Unruhe auf den Wegen“ (12 Läufer, 140 P) und „Solange das Feuer brennt“ (Welle 6 und 80 Zombies, 220 P). Der erste Auftrag wird nach „Am Feuer“ verfügbar. Pilze bleiben im Inventar; der Teamfortschritt zählt in Solo und Koop. Mara erscheint auf der Minimap und erhält bei fertigen Aufträgen ein goldenes Fragezeichen.
+
 **Vendor** steht am Lagerfeuer und verkauft Waffen, Munition, Verbände und Granaten. Mit **E** sprechen, unter **Aufträge** „Am Feuer“ annehmen und die Belohnung abholen. **Mechanic** steht etwas weiter nördlich beim Wegweiser. Sie bietet Verteidigungsaufträge, Training und die Verwaltung bereits gebauter Türme. Beide erscheinen auf der Minimap.
 
 Aufträge werden beim jeweiligen NPC angenommen und abgegeben. Erledigte Ziele geben ihre Belohnung genau einmal. Im Koop zählen gebaute Verteidigungen, Abschüsse, die Lieferung und Titanensiege gemeinsam; Annahme, Belohnung, Waffen und Skins gehören dem einzelnen Spieler.
 
 | Auftrag | Auftraggeber | Ziel | Belohnung |
 | --- | --- | --- | ---: |
-| Am Feuer | Vendor | Vendor kennenlernen | 40 P |
+| Am Feuer | Vendor | Vendor kennenlernen | 20 P |
 | Der erste Wächter | Mechanic | Eine Barrikade bauen, einen Turm setzen und anschliessend neu ausrichten | 110 P |
 | Die Linie halten | Vendor | Zwei Wellen überstehen und 30 Zombies als Team besiegen | 140 P |
 | Die verlorene Lieferung | Mechanic | Nach dem Wächter-Auftrag die Werkzeugkiste am nördlichen Waldweg bergen und zurückkehren | 180 P |
 | Was auf dem Feld lauert | Secret Vendor | Nach der Lieferung einen Feldtitanen besiegen | 300 P |
+| Eine ruhige Hand | Vendor | Nach „Am Feuer“: 15 tödliche Kopfschüsse | 90 P |
+| Die lange Schicht | Vendor | Nach „Die Linie halten“: Welle 4 überstehen | 160 P |
+| Das letzte Licht | Vendor | Nach „Die lange Schicht“: Welle 8 und 150 Zombie-Kills | 240 P |
+| Kreuzfeuer | Mechanic | Nach „Der erste Wächter“: zwei aktive Türme gleichzeitig | 100 P |
+| Doppelt hält besser | Mechanic | Nach „Kreuzfeuer“: zwei intakte Barrikaden auf Stufe 2+ | 140 P |
+| Wie ein Uhrwerk | Mechanic | Nach „Doppelt hält besser“: aktiver Stufe-3-Turm und 40 Turm-Kills | 220 P |
+| Ein diskreter Auftrag | Secret Vendor | Nach der Lieferung: 40 tödliche Kopfschüsse | 180 P |
+| Die Schuld der Riesen | Secret Vendor | Nach dem ersten Titanenauftrag: insgesamt drei Titanen | 260 P |
+| Ein Name, den keiner kennt | Secret Vendor | Nach „Die Schuld der Riesen“: Welle 12 und insgesamt fünf Titanen | 380 P |
+
+Für die Zusatzaufträge zählt der gemeinsame Fortschritt der laufenden Runde auch vor der Annahme. Geforderte Verteidigungen müssen bei der Abgabe noch stehen. Jeder Spieler holt seine Belohnung einmalig beim jeweiligen Auftraggeber ab; ein goldenes Fragezeichen über der Figur und auf der Minimap zeigt abgabebereite Aufträge an.
 
 Die Hinweise zur Lieferung führen in den nördlichen Wald. Dort gibt es auch einen versteckten Händler mit eigenem Stand. Sein Kartenzeichen erscheint erst nach einem Gespräch. Er verkauft seltene Waffen und besondere Lackierungen.
 

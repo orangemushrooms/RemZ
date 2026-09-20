@@ -207,5 +207,25 @@ func run() -> void:
 	await physics_frame
 	check(not tower.can_see(front), "Rotated turret does not fire behind its covered sector")
 	front.queue_free()
+	await visit("ranger")
+	check(shop.close_enough(p, "ranger"), "Mara can be reached beside the small campfire")
+	var reserve_before: int = w.state.pistol.reserve
+	shop.transact(p, "ranger", "ammo", "pistol")
+	check(w.state.pistol.reserve == reserve_before, "Quest-only ranger cannot be used as a hidden shop")
+	shop.interact("ranger")
+	check(shop.is_open and shop.page == "Aufträge" and not shop._tabs.Handel.visible, "Mara opens her own quest-only conversation")
+	shop.close()
+	shop.transact(p, "ranger", "quest", "forest_basket")
+	var gathered := int(shop.team.get("edible_mushrooms", 0))
+	for i in 5:
+		var mushroom := Loot.new()
+		mushroom.setup("mushroom", "steinpilz", "Steinpilz")
+		game.add_child(mushroom)
+		mushroom.take(w, game.hud)
+	check(shop.team.edible_mushrooms == gathered + 5 and shop.has_ready_quest("ranger"), "Real mushroom pickups complete Mara's first quest")
+	before = p.score
+	shop.transact(p, "ranger", "quest", "forest_basket")
+	shop.transact(p, "ranger", "quest", "forest_basket")
+	check(p.score == before + 90 and shop.has_claim(p.peer_id, "forest_basket"), "Mara pays her reward exactly once")
 	print("PROGRESSION_DONE checks=%d failures=%d" % [checks, failures])
 	quit(0 if failures == 0 else 1)

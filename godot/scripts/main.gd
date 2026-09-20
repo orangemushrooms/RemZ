@@ -27,7 +27,9 @@ var fire_light: OmniLight3D
 var started := false
 var over := false
 var near_bar = null
+var _tower_hint_remaining := 12.0
 var notice_board: Node3D
+var _notice_open := false
 const SECRET_SHOP_NOTICE := "Zwischen den Zeilen steht, von Hand ergänzt:\n\nMan sagt, es gebe einen Laden, der keinen Namen trägt.\nSeine Waren stehen auf keiner Liste. Sein Händler stellt keine Fragen.\nWer ihn findet, versteht, warum niemand von ihm spricht."
 var rng := RandomNumberGenerator.new()
 var _autotest := false
@@ -1662,7 +1664,24 @@ func _looking_at_notice() -> bool:
 
 func _read_notice() -> void:
 	# Local flavour only: reading never discovers the trader or reveals a map marker.
-	hud.message(SECRET_SHOP_NOTICE, 14.0)
+	_notice_open = true
+	hud.message(SECRET_SHOP_NOTICE, 0.0)
+
+func _close_notice() -> void:
+	_notice_open = false
+	# Do not erase a newer wave, quest or combat message.
+	if hud.msg_label.text == SECRET_SHOP_NOTICE:
+		hud.message("", 0.0)
+
+func _update_notice() -> void:
+	if not _notice_open: return
+	if hud.msg_label.text != SECRET_SHOP_NOTICE:
+		_notice_open = false
+		return
+	if not is_instance_valid(notice_board) or not player.active or not player.alive:
+		_close_notice()
+	elif player.camera.global_position.distance_to(notice_board.to_global(Vector3(0, 1.2, 0))) > Door.INTERACT_REACH + 0.4:
+		_close_notice()
 
 # guidepost at the junction Sennhofstrasse / Weg zur Hütte (photo 8), on the verge north of the track
 func _junction_guidepost() -> void:
@@ -2251,6 +2270,9 @@ func _zombie_killed(zombie: Zombie) -> void:
 	if zombie.killer_weapon == "tower": points = maxi(1, roundi(points * 0.5))
 	scorer.add_score(points)
 	progression.event("kills")
+	if zombie.net_kind == "runner": progression.event("runner_kills")
+	if zombie.last_headshot: progression.event("headshot_kills")
+	if zombie.killer_weapon == "tower": progression.event("tower_kills")
 	if zombie.net_kind == "titan": progression.event("titans")
 	# Support players earn a modest shared contribution without multiplying the full bounty.
 	if NetSession.is_host():
@@ -2274,6 +2296,7 @@ func alive_zombies() -> int:
 var _shadow_cells_t := 0.0
 
 func _process(delta: float) -> void:
+	_update_notice()
 	var t := Time.get_ticks_msec() / 1000.0
 	if started and not over and player and (player.active or NetSession.is_host()) and not get_tree().paused and not NetSession.is_client():
 		stats.tick(delta)
@@ -2286,6 +2309,8 @@ func _process(delta: float) -> void:
 		var daylight_multiplier := day_night.fire_energy_multiplier if day_night else 1.0
 		fire_light.light_energy = 5.0 * daylight_multiplier * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
 	if player and player.active and not defences.placing and defences.input_grace <= 0:
+		if not intro.showing_guidance():
+			_tower_hint_remaining = maxf(0.0, _tower_hint_remaining - delta)
 		var near = null
 		var nd := Barricade.BUILD_REACH
 		for b in barricades:
@@ -2321,11 +2346,14 @@ func _process(delta: float) -> void:
 		var tower := defences.nearest(player)
 		var npc := progression.nearest(player)
 		var reading_notice := _looking_at_notice() and not downed
-		var idle_prompt := "" if intro.showing_guidance() else "[T] Geschützturm setzen · 120 P"
+		var idle_prompt := "[T] Geschützturm setzen · 120 P" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
 		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("[E] Turm ausrichten · [F] Reparieren · Ausbau bei Mechanic" if tower else (near.prompt_text() if near else idle_prompt))))
 		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
 		if reading_notice: hud.set_prompt("[E] Schild lesen · Eine seltsame Notiz")
-		if reading_notice and Input.is_action_just_pressed("interact"):
+		if _notice_open: hud.set_prompt("[E] Hinweis schließen")
+		if _notice_open and Input.is_action_just_pressed("interact"):
+			_close_notice()
+		elif reading_notice and Input.is_action_just_pressed("interact"):
 			_read_notice()
 		elif not npc.is_empty() and not downed and Input.is_action_just_pressed("interact"):
 			progression.interact(npc)

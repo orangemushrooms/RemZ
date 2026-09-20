@@ -23,6 +23,9 @@ const FILES := {
 	"quest_accept": ["acceppt_1", "acceppt_2"],
 	"quest_complete": ["quest_aaccept_Finish"],
 	"purchase": ["gun_pick_up"],
+	"vendor_vocal": ["vendor_vocal_1", "vendor_vocal_2", "vendor_vocal_3"],
+	"secret_vendor_vocal": ["secret_vendor_vocal"],
+	"mechanic_vocal": ["mechanic_vocal", "mechanic_vocal_2", "mechanic_vocal_3"],
 	"hit": ["impact"],
 	"hurt": ["impact"],
 	"growl": ["zombie_1", "zombie_2", "zombie_3", "zombie_4"],
@@ -51,7 +54,8 @@ static var _cache: Dictionary = {}
 static var _rng := RandomNumberGenerator.new()
 static var _last_footstep := -1
 static var _last_event_variant: Dictionary = {}
-const EVENTS := {"pickup": -8.0, "key_pickup": -6.0, "weapon_pickup": -8.0, "quest_accept": -10.0, "quest_complete": -8.0, "purchase": -12.0}
+const EVENTS := {"pickup": -8.0, "key_pickup": -6.0, "weapon_pickup": -8.0, "quest_accept": -10.0, "quest_complete": -8.0, "purchase": -12.0,
+	"vendor_vocal": -3.0, "secret_vendor_vocal": -3.0, "mechanic_vocal": -3.0}
 static var _voices: Dictionary = {}        # name -> Array of live players; automatic fire never stacks more than MAX_VOICES
 const MAX_VOICES := 3
 

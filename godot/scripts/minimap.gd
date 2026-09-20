@@ -11,6 +11,13 @@ var _map_bounds := Rect2()
 var _scale := 1.0
 var _elapsed := 0.0
 var _font: Font
+var reveal_secret := false  # Ctrl+Shift+D: Debug, zeigt den Secret Vendor auch vor der Entdeckung
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_D and event.ctrl_pressed and event.shift_pressed:
+		reveal_secret = not reveal_secret
+		if world and "hud" in world and world.hud:
+			world.hud.message("Debug: Secret Vendor auf der Minimap %s" % ("sichtbar" if reveal_secret else "verborgen"), 2.5)
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -139,7 +146,7 @@ func _draw_symbols(c: Control) -> void:
 		return
 	if "progression" in world and world.progression:
 		for id in world.progression.npcs:
-			if id == "secret" and not world.progression.local_data().discovered: continue
+			if id == "secret" and not reveal_secret and not world.progression.local_data().discovered: continue
 			var npc_point := map_position(world.progression.npcs[id].global_position)
 			c.draw_circle(npc_point, 3.5, Color(0.94, 0.73, 0.37))
 			var label_offset := Vector2(-28, 13) if id == "camp" else Vector2(5, -5)

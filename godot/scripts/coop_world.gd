@@ -224,6 +224,7 @@ func collect_loot(id: int, key: String) -> void:
 		for peer in actors: NetSession.feedback(peer, "message", ["Teamschlüssel gefunden: " + ForestKeys.KEYS[item.key_id], 3.0])
 	elif item.kind == "mushroom":
 		mushrooms[id][item.id] += 1
+		if item.id == "steinpilz": game.progression.event("edible_mushrooms")
 		NetSession.feedback(id, "message", [item.label + " gesammelt", 1.5])
 		game.achievements.event("mushrooms")
 	else:

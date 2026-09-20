@@ -26,6 +26,7 @@ func take(weapons: Weapons, hud: Hud) -> void:
 	hide()
 	if kind == "mushroom":
 		get_tree().current_scene.inventory.add_mushroom(id)
+		if id == "steinpilz": get_tree().current_scene.progression.event("edible_mushrooms")
 		Sfx.play(get_tree().current_scene, "pickup", -10.0)
 		queue_free()
 		return

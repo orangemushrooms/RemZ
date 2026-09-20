@@ -21,6 +21,15 @@ func setup(id: String, main: Node) -> void:
 	if ResourceLoader.exists(path):
 		var model: Node3D = load(path).instantiate()
 		figure.add_child(model)
+		if id == "ranger":
+			# Keep the working rig and textures; use private materials for Mara's woodland palette.
+			for mesh: MeshInstance3D in model.find_children("*", "MeshInstance3D", true, false):
+				for surface in mesh.mesh.get_surface_count():
+					var original := mesh.get_active_material(surface)
+					if original is StandardMaterial3D:
+						var material: StandardMaterial3D = original.duplicate()
+						material.albedo_color *= Color(0.72, 0.84, 0.61)
+						mesh.set_surface_override_material(surface, material)
 		# Rigging already exports metres at spec.height. Bind-pose mesh AABBs do not
 		# describe the deformed character and must not be used for rescaling.
 		model.position = Vector3.ZERO
@@ -66,6 +75,10 @@ func setup(id: String, main: Node) -> void:
 	quest_marker.visibility_range_end = 35.0
 	quest_marker.visible = false
 	add_child(quest_marker)
+	if id == "ranger":
+		# The existing campfire and benches are her meeting place, without a merchant counter.
+		figure.rotation.y = PI * 0.5
+		return
 	# A small shop counter, folded canvas canopy and warm lamp anchor the merchant in the world.
 	var wood := Foliage.pbr("planks", 0.8, Color(0.43, 0.35, 0.23))
 	var steel := DefenceTower.material(Color(0.12, 0.14, 0.13), 0.65)
