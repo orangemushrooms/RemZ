@@ -47,7 +47,12 @@ func pose(delta: float, speed: float, pitch: float, right_wrist: Vector3, left_w
 		animation.speed_scale = clampf(speed / (4.5 if clip == "run" else 2.2), 0.6, 2.0)
 		animation.advance(delta)
 		for i in skeleton.get_bone_count():
-			skeleton.set_bone_pose_rotation(i, rest_rotations[i].slerp(skeleton.get_bone_pose_rotation(i), walk_weight))
+			var bone_name := skeleton.get_bone_name(i)
+			# Locomotion drives the lower body. Running's arm swing must not
+			# rotate the shoulders/neck away from the two-handed weapon pose.
+			var lower_body := "Leg" in bone_name or "Foot" in bone_name or "Toe" in bone_name
+			var weight := walk_weight if lower_body else walk_weight * 0.15 if bone_name == "Hips" else 0.0
+			skeleton.set_bone_pose_rotation(i, rest_rotations[i].slerp(skeleton.get_bone_pose_rotation(i), weight))
 		# Remove horizontal root motion: the network actor owns displacement.
 		var hip := skeleton.get_bone_pose_position(bones.Hips)
 		hip.x = hip_origin.x

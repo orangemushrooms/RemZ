@@ -72,6 +72,7 @@ func run() -> void:
 	check(head.y > 1.4 and head.y < 1.85, "human scale and head height")
 	check(rig.get_bone_count() >= 20, "skinned humanoid skeleton")
 	check(avatar.visual.animation.has_animation("walk"), "walk clip imported")
+	check(avatar.visual.animation.has_animation("run"), "run clip imported")
 	for id in Weapons.ORDER:
 		avatar.set_weapon(id)
 		for pitch in [-0.85, 0.0, 0.85]:
@@ -85,10 +86,20 @@ func run() -> void:
 		actor.pitch = 0.0
 		avatar._process(0.016)
 		if id in ["pistol", "ak47", "shotgun"]: await capture(id)
+		if id == "ak47":
+			var original := camera.transform
+			camera.position = Vector3(0.85, 1.55, -1.5)
+			camera.look_at(Vector3(0, 1.38, -0.1))
+			await capture("grip-detail")
+			camera.transform = original
 	avatar.set_weapon("ak47")
 	actor.velocity = Vector3(0, 0, -4.4)
 	for i in 30: avatar._process(0.016)
 	await capture("walking")
+	actor.velocity = Vector3(0, 0, -7.2)
+	for i in 30: avatar._process(0.016)
+	check(avatar.visual.animation.current_animation == "run", "sprinting selects run animation")
+	await capture("running")
 	actor.velocity = Vector3.ZERO
 	actor.alive = false
 	for i in 90: avatar._process(0.016)

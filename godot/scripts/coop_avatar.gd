@@ -2,12 +2,14 @@ extends Node3D
 
 const COLORS := [Color("66864b"), Color("497e9c"), Color("a9783f"), Color("865c94")]
 const SurvivorRig = preload("res://scripts/survivor_rig.gd")
+const SurvivorHands = preload("res://scripts/survivor_hands.gd")
 var actor: Player
 var body: Node3D
 var visual: SurvivorRig
 var aim: Node3D
 var label: Label3D
 var gun: Node3D
+var hands: Node3D
 var flash: OmniLight3D
 var weapon := ""
 var flash_t := 0.0
@@ -73,6 +75,19 @@ func set_weapon(id: String) -> void:
 		left_grip.z = maxf(left_grip.z, right_grip.z - 0.15)
 	# Anchor the trigger wrist; long barrels extend forward, not into the chest.
 	gun.position = Vector3(0.12, -0.08, -0.18) - right_grip
+	if hands:
+		hands.get_parent().remove_child(hands)
+		hands.queue_free()
+	hands = Node3D.new()
+	aim.add_child(hands)
+	var right_hand := SurvivorHands.glove(true, false)
+	var left_hand := SurvivorHands.glove(false, id not in ["pistol", "revolver"])
+	hands.add_child(right_hand)
+	hands.add_child(left_hand)
+	right_hand.position = gun.position + right_grip
+	left_hand.position = gun.position + left_grip
+	right_hand.rotation.y = PI
+	left_hand.rotation = Vector3(0, PI, -0.25 if id in ["pistol", "revolver"] else PI * 0.5)
 	flash.position = gun.position + Vector3(bounds.get_center().x, bounds.end.y - 0.025, bounds.position.z - 0.025)
 
 func shot(id: String) -> void:
@@ -97,7 +112,9 @@ func _process(delta: float) -> void:
 	flash.visible = flash_t > 0.0 and actor.alive
 	recoil = move_toward(recoil, 0.0, delta * 0.8)
 	var pitch := clampf(actor.pitch, -0.85, 0.85) if actor.alive else 0.0
-	aim.rotation.x = pitch + recoil
+	var sprinting := actor.alive and speed > 5.0
+	aim.position.y = lerpf(aim.position.y, 1.23 if sprinting else 1.40, minf(1.0, delta * 10.0))
+	aim.rotation.x = pitch + recoil - (0.12 if sprinting else 0.0)
 	visual.pose(delta, speed, pitch, gun.to_global(right_grip), gun.to_global(left_grip), actor.alive)
 	label.text = "%s\n%d / %d" % [NetSession.roster.get(actor.peer_id, "Spieler"), maxi(0, ceili(actor.hp)), int(actor.max_hp)] if actor.alive else "%s\nWiederbeleben [E]" % NetSession.roster.get(actor.peer_id, "Spieler")
 

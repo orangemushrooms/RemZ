@@ -1,6 +1,7 @@
 {
-  "triangles": 61214,
-  "bytes": 10580348,
+  "triangles": 55858,
+  "removedHandTriangles": 5356,
+  "bytes": 10883364,
   "uvMatch": 1,
   "animations": [
     "walk",

@@ -16,3 +16,9 @@ textures, walking and running clips. Exact counts: `packed-report.json`.
 Runtime: `scripts/survivor_rig.gd`, shared by all remote co-op players.
 Verification: avatar renders and grip checks using `--suite=player_avatar`;
 four-peer gameplay and opening via `tools/test_multiplayer.ps1 -Intro`.
+
+The generated rig has no finger joints. Its open palms are removed during
+packing and replaced at runtime with the existing articulated viewmodel gloves
+(`assets/viewmodel/VALVE-LICENSE.txt` and `SOURCES.md`). The original Meshy mesh
+and all textures remain intact in the raw folder. These gloves are separate
+from weapon skins and cast world shadows.

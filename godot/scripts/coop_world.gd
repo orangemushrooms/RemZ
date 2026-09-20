@@ -634,7 +634,10 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.waves.phase = data.wave[2]
 	game.waves.timer = data.wave[3]
 	game.waves.total = data.wave[4]
-	game.hud.set_wave(data.wave[0] if data.wave[2] != "idle" else data.wave[0]+1, "%d übrig" % data.wave[5] if data.wave[2] != "idle" else "Start in %d s · Host startet die nächste Welle" % ceili(data.wave[3]))
+	if data.wave[2] == "intro":
+		game.hud.set_wave(1, "Erreiche den Weg zur Hütte")
+	else:
+		game.hud.set_wave(data.wave[0] if data.wave[2] != "idle" else data.wave[0]+1, "%d übrig" % data.wave[5] if data.wave[2] != "idle" else "Start in %d s · Host startet die nächste Welle" % ceili(data.wave[3]))
 	game.hud.set_wave_progress(data.wave[5], data.wave[4])
 	if current_wave != data.wave[0]:
 		current_wave = data.wave[0]
