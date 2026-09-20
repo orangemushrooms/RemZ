@@ -2,7 +2,7 @@ extends Node3D
 
 # Meshy character in metres, facing -Z. Arms are solved after locomotion so
 # wrists follow the equipped weapon, including aiming and recoil.
-const MODEL := "res://assets/models/player_survivor.glb"
+const MODEL := "res://assets/models/player_survivor_v2.glb"
 var skeleton: Skeleton3D
 var animation: AnimationPlayer
 var bones: Dictionary = {}
@@ -26,7 +26,8 @@ func setup() -> void:
 	resting_foot_height = _lowest_foot()
 	if animation and animation.has_animation("walk"):
 		animation.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
-		animation.get_animation("walk").loop_mode = Animation.LOOP_LINEAR
+		for clip in ["walk", "run"]:
+			if animation.has_animation(clip): animation.get_animation(clip).loop_mode = Animation.LOOP_LINEAR
 		animation.play("walk")
 	for mesh: MeshInstance3D in model.find_children("*", "MeshInstance3D", true, false):
 		# Keep animated limbs from disappearing at the edge of the camera.
@@ -41,7 +42,9 @@ func pose(delta: float, speed: float, pitch: float, right_wrist: Vector3, left_w
 	walk_weight = move_toward(walk_weight, clampf(speed / 1.2, 0.0, 1.0) if alive else 0.0, delta * 6.0)
 	skeleton.reset_bone_poses()
 	if animation and animation.has_animation("walk"):
-		animation.speed_scale = clampf(speed / 1.5, 0.6, 2.6)
+		var clip := "run" if speed > 5.0 and animation.has_animation("run") else "walk"
+		if animation.current_animation != clip: animation.play(clip, 0.18)
+		animation.speed_scale = clampf(speed / (4.5 if clip == "run" else 2.2), 0.6, 2.0)
 		animation.advance(delta)
 		for i in skeleton.get_bone_count():
 			skeleton.set_bone_pose_rotation(i, rest_rotations[i].slerp(skeleton.get_bone_pose_rotation(i), walk_weight))

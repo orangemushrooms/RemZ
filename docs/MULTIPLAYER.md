@@ -20,6 +20,7 @@ Bei Verbindungsproblemen zuerst Hamachis Online-Status, die Host-IP, den Port un
 
 ## Spielregeln
 
+- Eine neue Sitzung beginnt mit dem normalen Intro: KONM-Logo, Aufwachen im Nebel und gemeinsamer Start auf der Sennhofstrasse. Der Richtungspfeil zeigt den Weg zur Waldhütte. Sobald ein Teammitglied den Weg zur Hütte erreicht, startet die erste gemeinsame Welle. Später beitretende Spieler erscheinen beim Team; nach einem Team-Wipe startet die nächste Runde wie im Einzelspieler ohne erneutes Intro.
 - Gemeinsame Wellen, Gegner, Uhrzeit, Türen, Schlüssel, Fenster und Barrikaden. Die Gegnerzahl wächst mit der Spielerzahl.
 - Jeder besitzt eigene Lebenspunkte, Punkte, Waffen, Munition, Granaten, Verbesserungen, Skins und Questbelohnungen. Ein Weltgegenstand kann nur einmal aufgehoben werden. Schlüssel und Auftragsziele wie Lieferungen und Titanensiege gelten für das Team.
 - Waffen und Training werden ausschliesslich bei NPCs gekauft. Der Host prüft Standort, Sichtlinie, Preis und Freischaltungen erneut. Vendor steht am Lagerfeuer, Mechanic nördlich davon; seltene Waffen gibt es beim versteckten Secret Vendor. [Händler, Aufträge und Preise](FORTSCHRITT.md).

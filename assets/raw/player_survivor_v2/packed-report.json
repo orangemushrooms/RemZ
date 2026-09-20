@@ -1,0 +1,26 @@
+{
+  "triangles": 61214,
+  "bytes": 10580348,
+  "uvMatch": 1,
+  "animations": [
+    "walk",
+    "run"
+  ],
+  "textures": [
+    {
+      "name": "survivor_albedo",
+      "width": 4096,
+      "height": 4096
+    },
+    {
+      "name": "survivor_normal",
+      "width": 4096,
+      "height": 4096
+    },
+    {
+      "name": "survivor_metal_rough",
+      "width": 2048,
+      "height": 2048
+    }
+  ]
+}
