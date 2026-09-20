@@ -215,12 +215,13 @@ static func _limit_voices(name: String, p: Node) -> void:
 			old.queue_free()
 	_voices[name] = live
 
-static func play_at(node: Node, name: String, pos: Vector3, volume_db: float = 0.0, pitch: float = 1.0) -> void:
+static func play_at(node: Node, name: String, pos: Vector3, volume_db: float = 0.0, pitch: float = 1.0, unit_size: float = 10.0, max_distance: float = 60.0) -> void:
 	var p := AudioStreamPlayer3D.new()
 	p.stream = get_stream(name)
 	p.volume_db = volume_db
 	p.pitch_scale = pitch * _pitch(0.08)
-	p.max_distance = 60.0
+	p.unit_size = unit_size
+	p.max_distance = max_distance
 	node.add_child(p)
 	p.global_position = pos
 	p.play()

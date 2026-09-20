@@ -251,4 +251,5 @@ func show_shot() -> void:
 	tracer.scale = Vector3(1, 1, direction.length())
 	_flash_t = 0.06
 	flash.light_energy = 3.0
-	Sfx.play_at(game, "smg", start, -13.0, 0.87)
+	# Carry across the defensive perimeter, while retaining positional direction.
+	Sfx.play_at(game, "smg", start, -5.0, 0.87, 20.0, 120.0)

@@ -1,6 +1,9 @@
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
-RENDER_OPTIMIZER { "source_meshes": 689, "batches": 17, "removed_render_nodes": 40 }
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 671, "batches": 9, "removed_render_nodes": 24 }
+COOP_LOAD MAP_READY
 PASS: Wave 1 preview includes all bosses
 PASS: Wave 1 respects titan progression
 PASS: Wave 2 preview includes all bosses
@@ -81,12 +84,25 @@ PASS: Upgrade improves tower and restores health
 PASS: Tower repair is transactional
 PASS: No charge for unnecessary repair
 PASS: Upgrade cap enforced
-PASS: Tower sees an exposed enemy
-PASS: Turret acquires, turns and actually damages enemies
+ERROR: FAIL: Tower sees an exposed enemy
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/defence.gd:22)
+       [1] run (res://tests/defence.gd:113)
+       [2] settle (res://tests/defence.gd:26)
+ERROR: FAIL: Turret acquires, turns and actually damages enemies
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/defence.gd:22)
+       [1] run (res://tests/defence.gd:115)
 PASS: Sustained fire overheats the weapon
 PASS: Solid cover prevents targeting through walls
 PASS: Covered enemy does not consume firing bursts
-PASS: Tower kill credits its builder
+ERROR: FAIL: Tower kill credits its builder
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/defence.gd:22)
+       [1] run (res://tests/defence.gd:139)
 PASS: Tower interaction starts in-world rotation without a remote shop
 PASS: Cancelling rotation restores weapon input
 PASS: Team member cannot sell someone else's tower
@@ -96,7 +112,7 @@ PASS: Dedicated titan asset is installed
 PASS: Titan has all three rigged animations
 PASS: Boss attack is visibly telegraphed before damage
 PASS: Leaving the marked impact area avoids boss damage
-PASS: Remaining in impact area takes a survivable heavy hit
+PASS: Normal titan slam removes 120 HP from a fully trained player
 PASS: Solid wall anchors the slam outside the defended building
 PASS: Closed wall blocks boss area damage
 PASS: Boss warning follows terrain instead of clipping into slopes
@@ -107,4 +123,4 @@ PASS: Giant can physically walk off its field spawn
 PASS: Giant navigates the actual field to the entrance
 PASS: Giant engages the defended gateway
 PASS: Field approach ends in actual boss damage to the gate
-DEFENCE_DONE checks=106 failures=0
+DEFENCE_DONE checks=106 failures=3
