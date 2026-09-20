@@ -22,15 +22,16 @@ for(const name of process.argv.slice(2)) {
  console.log(name,'original bounds',bounds);
  // All assets are generated upright. Reverse raven forward (+Z) into Godot -Z.
  const bird=name==='raven_real';
+ const scarecrow=name==='scarecrow_real';
  const rotation=identity();
  if(bird||name==='hatchet_real'){rotation[0]=-1;rotation[10]=-1;}
  for(const mesh of meshes) transformMesh(mesh,rotation);
  bounds=getBounds(scene);
  const size=bounds.max.map((v,i)=>v-bounds.min[i]);
- const scale=(bird?1.3:name==='knife_real'?0.37:0.57)/(bird?size[0]:size[1]);
+ const scale=(scarecrow?1.7:bird?1.3:name==='knife_real'?0.37:0.57)/(bird?size[0]:size[1]);
  const m=identity();m[0]=m[5]=m[10]=scale;
  let gripCenter=bounds.min[0]+size[0]*0.5;
- if(!bird){
+ if(!bird&&!scarecrow){
   let lo=Infinity,hi=-Infinity;
   for(const mesh of meshes)for(const prim of mesh.listPrimitives()){
    const pos=prim.getAttribute('POSITION');
@@ -42,7 +43,7 @@ for(const name of process.argv.slice(2)) {
   if(Number.isFinite(lo))gripCenter=(lo+hi)/2;
  }
  m[12]=-gripCenter*scale;
- m[13]=-bounds.min[1]*scale+(bird?0:name==='knife_real'?-0.12:-0.145);
+ m[13]=-bounds.min[1]*scale+(bird||scarecrow?0:name==='knife_real'?-0.12:-0.145);
  m[14]=-(bounds.min[2]+size[2]*0.5)*scale;
  for(const mesh of meshes) transformMesh(mesh,m);
  if(bird){
@@ -76,7 +77,7 @@ for(const name of process.argv.slice(2)) {
    }
   }
  }
- for(const material of root.listMaterials())material.setDoubleSided(bird);
+ for(const material of root.listMaterials())material.setDoubleSided(bird||scarecrow);
  await doc.transform(dedup(),prune(),textureCompress({encoder:sharp,targetFormat:'webp',resize:[bird?1024:2048,bird?1024:2048],quality:92}));
  const target=`godot/assets/models/${name}.glb`;
  await io.write(target,doc);

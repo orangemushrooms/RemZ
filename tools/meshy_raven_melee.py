@@ -12,6 +12,9 @@ SPECS = {
 'knife_real': ('A single realistic full tang fixed blade bushcraft knife, upright with blade tip pointing up and handle down. 30 cm total length, 17 cm drop point blade and 13 cm ergonomic grip. Thick steel spine narrowing to a sharp continuous cutting bevel, restrained finger guard, black textured micarta handle scales fixed with three flush steel rivets, exposed metal tang and small lanyard hole in pommel. Practical premium survival tool with natural proportions, modeled bevel and contoured handle. One knife only, no hand, no sheath, no stand, no text, no decorations, no fantasy shapes.', 'Photoreal satin brushed hardened steel blade with subtle directional grinding marks, polished cutting bevel, worn black charcoal micarta grip with fine woven fibers and three steel rivets. Realistic metal roughness and restrained use marks. No painted lighting.', 16000),
 'hatchet_real': ('A single realistic traditional European forestry hatchet, upright handle down and axe head at top, cutting edge facing right along X axis. 55 cm curved hickory wood handle with oval cross section, narrow waist and flared ergonomic butt. Compact asymmetric hand forged steel axe head, thick rectangular hammer poll left, oval handle eye with visible wedged wooden tenon, broad gently convex thin sharpened cutting edge right. Natural working tool proportions, visibly three dimensional head taper and cutting bevel. Single complete axe only, no hand, no sheath, no stand, no text, no fantasy details.', 'Photoreal oiled honey brown hickory handle with longitudinal woodgrain and darker worn grip, charcoal forged steel axe head with subtle hammer marks and patina, bright ground steel cutting bevel, visible end grain and metal wedge in eye. Realistic roughness and normal maps, no baked lighting.', 18000)
 }
+SPECS['scarecrow_real'] = (
+ 'One frightening photoreal old field scarecrow on a single rough wooden vertical stake, 2.5 metres tall. Human sized slumped straw stuffed torso with asymmetrical outstretched arms tied to a crooked wooden crossbar. Weathered burlap sack head with deep empty eye holes and a roughly sewn crooked mouth, rope tied around neck, battered floppy wide brim felt hat. Long shredded dark brown coat with ragged hanging fabric strips, frayed sleeves, tangled dry straw protruding at wrists and chest, exposed broken twigs as fingers. Convincing fabric folds, seams, ropes, layered straw and irregular silhouette. Rural folk horror, disturbing handmade abandoned farm object. No living person, no blood, no pumpkin, no cartoon, no base or ground, no scenery, no text.',
+ 'Photoreal weathered dirty burlap weave with torn seams and dark hollow eyes, faded charcoal brown canvas coat with rain stains and frayed edges, old rope fibers, dry muted golden straw, split grey brown wooden stake, distressed dark felt hat. Matte rough organic materials, subtle weathering, no glowing eyes, no painted lighting.', 22000)
 ENDPOINT='/openapi/v2/text-to-3d'
 HISTORY_LOCK=threading.Lock()
 def generate(name, spec):
@@ -41,5 +44,6 @@ def generate(name, spec):
 if __name__=='__main__':
  authenticate()
  with ThreadPoolExecutor(max_workers=3) as pool:
-  jobs=[pool.submit(generate,name,spec) for name,spec in SPECS.items()]
+  names=sys.argv[1:] or ['raven_real','knife_real','hatchet_real']
+  jobs=[pool.submit(generate,name,SPECS[name]) for name in names]
   for job in jobs: job.result()

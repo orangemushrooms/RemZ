@@ -55,7 +55,7 @@ static func corn(far: bool, ripe: bool) -> void:
 		triangle(Vector3(-0.012,0,0),Vector3(0.012,0,0),Vector3(0.04,height,0),green)
 		for i in 7:
 			var t := i/6.0
-			leaf(Vector3(0,0.25+t*1.9,0),i*3.02,0.88-0.38*t,0.10,0.23+0.15*t,0.45*(1.0-t)+0.10,green,2)
+			leaf(Vector3(0,0.25+t*1.9,0),i*2.65,1.02-0.28*t,0.18,0.23+0.15*t,0.45*(1.0-t)+0.10,green,2)
 		for j in 3:
 			var tip := Vector3(cos(j*2.4)*0.13,height+0.20,sin(j*2.4)*0.13)
 			triangle(Vector3(0.04,height-0.1,0),tip,tip+Vector3(0.003,0,0.003),Color(0.51,0.46,0.30))
@@ -67,11 +67,11 @@ static func corn(far: bool, ripe: bool) -> void:
 		tube(Vector3(0.045*lo*lo,height*lo,0),Vector3(0.045*hi*hi,height*hi,0),lerpf(0.018,0.007,lo),green.lightened(0.035),3 if far else 6)
 	for i in (7 if far else 10):
 		var t := float(i)/(6 if far else 9)
-		var yaw := i*3.02+(0.5 if ripe else 0.0)
+		var yaw := i*2.65+(0.5 if ripe else 0.0)
 		var y := 0.20+t*1.95
-		var length := (0.88-0.38*t)*(0.94 if ripe else 1.0)
+		var length := (1.02-0.28*t)*(0.94 if ripe else 1.0)
 		var tone := green.lerp(Color(0.48,0.40,0.22),0.65 if i<2 else (0.16 if ripe else 0.0))
-		leaf(Vector3(0.02,y,0),yaw,length,0.105 if i<6 else 0.075,0.23+0.15*t,0.45*(1.0-t)+0.10,tone,3 if far else 8)
+		leaf(Vector3(0.02,y,0),yaw,length,0.17 if i<6 else 0.14,0.23+0.15*t,0.45*(1.0-t)+0.10,tone,3 if far else 8)
 	if not far:
 		# A tapered green husk encloses the ear; only brown silk is exposed.
 		var ear := Vector3(0.095,1.18,0.015)
@@ -100,7 +100,19 @@ static func make(kind: String) -> ArrayMesh:
 		surface.set_smooth_group(0)
 		surface.set_uv(Vector2.ZERO)
 		surface.set_uv2(Vector2.ZERO)
-	if kind.begins_with("corn"):
+	if kind == "corn_distant":
+		var green := Color(0.27,0.39,0.16)
+		triangle(Vector3(-0.018,0,0),Vector3(0.018,0,0),Vector3(0,2.55,0),green)
+		for i in 8:
+			var angle := i*2.65
+			var direction := Vector3(cos(angle),0,sin(angle))
+			var side := Vector3(-sin(angle),0,cos(angle))*0.10
+			var start := Vector3(0,0.3+i*0.27,0)
+			var middle := start+direction*0.44+Vector3.UP*0.15
+			var tip := start+direction*(0.94-i*0.028)-Vector3.UP*0.12
+			triangle(start,middle+side,tip,green)
+			triangle(start,tip,middle-side,green)
+	elif kind.begins_with("corn"):
 		corn(kind == "corn_far", kind == "corn_b")
 	elif kind == "scarecrow":
 		tube(Vector3.ZERO,Vector3(0,2.5,0),0.065,Color(0.27,0.16,0.07))

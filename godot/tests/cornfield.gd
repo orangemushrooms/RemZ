@@ -22,7 +22,7 @@ func run() -> void:
 	var w: Weapons = game.weapons
 	p.set_physics_process(false)
 	var field = game.cornfield
-	check(field.plant_count>4000 and field.plant_count<40000,"Dense field uses a bounded number of batched corn stalks")
+	check(field.plant_count>35000 and field.plant_count<70000,"Dense field uses a bounded number of batched corn stalks")
 	print("CORN_PLANTS ",field.plant_count)
 	# The headless dummy renderer does not retain MultiMesh instance transforms.
 	if DisplayServer.get_name() != "headless":
@@ -110,6 +110,15 @@ func run() -> void:
 		camera.position = Map.ground_pos(-203.5,79)+Vector3.UP*1.7
 		camera.look_at(Map.ground_pos(-203.5,96)+Vector3.UP*1.7)
 		await capture("maze")
+		var inside: Vector2 = field.cell_position(Vector2i(1,1))
+		camera.position = Map.ground_pos(inside.x,inside.y)+Vector3.UP*1.7
+		camera.look_at(camera.position+Vector3.LEFT*3)
+		await capture("dense-wall")
+		var scarecrow: Node3D = field.get_node("Scarecrow_1_0")
+		camera.position = scarecrow.global_position+scarecrow.basis.z*3.8+scarecrow.basis.x*0.6+Vector3.UP*1.6
+		camera.look_at(scarecrow.global_position+Vector3.UP*1.3)
+		game.hud.msg_label.text = ""
+		await capture("scarecrow")
 		var raven_position: Vector3 = crow.position
 		crow.position += Vector3.UP*4.0
 		crow.flying = 5.0
