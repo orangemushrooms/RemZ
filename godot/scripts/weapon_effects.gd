@@ -12,6 +12,10 @@ const PROFILES := {
 	"smg": Vector4(0.065, 0.15, 0.032, 0.55),
 	"ak47": Vector4(0.10, 0.24, 0.045, 0.85),
 	"shotgun": Vector4(0.15, 0.31, 0.055, 1.15),
+	"marksman": Vector4(0.13, 0.30, 0.055, 1.0),
+	"lmg": Vector4(0.12, 0.26, 0.040, 0.9),
+	"breacher": Vector4(0.17, 0.34, 0.060, 1.2),
+	"titanbreaker": Vector4(0.22, 0.48, 0.080, 1.5),
 }
 class Puff:
 	var age := 100.0
@@ -106,7 +110,7 @@ func sync_muzzle(muzzle: Transform3D) -> void:
 
 func fire(weapon_id: String, muzzle: Transform3D, player_velocity: Vector3) -> void:
 	sync_muzzle(muzzle)
-	_profile = PROFILES[weapon_id]
+	_profile = PROFILES.get(weapon_id, PROFILES["ak47"])
 	flash_age = 0.0
 	flash_duration = _profile.z
 	var variation := _rng.randf_range(0.85, 1.15)

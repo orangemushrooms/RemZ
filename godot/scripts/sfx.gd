@@ -17,6 +17,12 @@ const FILES := {
 	"click": ["click"],
 	"confirm": ["confirm"],
 	"menu": ["confirm_menu"],
+	"pickup": ["gun_pick_up"],
+	"key_pickup": ["key_Pickup"],
+	"weapon_pickup": ["gun_pick_up"],
+	"quest_accept": ["acceppt_1", "acceppt_2"],
+	"quest_complete": ["quest_aaccept_Finish"],
+	"purchase": ["gun_pick_up"],
 	"hit": ["impact"],
 	"hurt": ["impact"],
 	"growl": ["zombie_1", "zombie_2", "zombie_3", "zombie_4"],
@@ -44,6 +50,8 @@ static var _buses_ready := false
 static var _cache: Dictionary = {}
 static var _rng := RandomNumberGenerator.new()
 static var _last_footstep := -1
+static var _last_event_variant: Dictionary = {}
+const EVENTS := {"pickup": -8.0, "key_pickup": -6.0, "weapon_pickup": -8.0, "quest_accept": -10.0, "quest_complete": -8.0, "purchase": -12.0}
 static var _voices: Dictionary = {}        # name -> Array of live players; automatic fire never stacks more than MAX_VOICES
 const MAX_VOICES := 3
 
@@ -94,7 +102,7 @@ static func _procedural(name: String) -> AudioStreamWAV:
 		"wood": return _burst(0.3, 0.1, 0.3, 0.8)
 		"rustle": return _burst(0.5, 0.18, 0.75, 0.35)   # leaves, a deer bolting
 		"boom": return _burst(1.6, 0.45, 0.05, 1.4, 45.0, -30.0)
-		"pickup": return _burst(0.2, 0.08, 0.9, 0.3, 660.0, 800.0)
+		"pickup", "consume": return _burst(0.2, 0.08, 0.9, 0.3, 660.0, 800.0)
 		"step_gravel": return _burst(0.14, 0.035, 0.55, 0.42)
 		"step": return _burst(0.14, 0.035, 0.55, 0.42)
 		"step_grass": return _burst(0.16, 0.05, 0.22, 0.26)
@@ -119,6 +127,10 @@ static func get_stream(name: String) -> AudioStream:
 	if FILES.has(name):
 		var variants: Array = FILES[name]
 		var index := _rng.randi_range(0, variants.size() - 1)
+		if EVENTS.has(name) and variants.size() > 1:
+			var previous: int = _last_event_variant.get(name, -1)
+			if previous >= 0: index = (previous + _rng.randi_range(1, variants.size() - 1)) % variants.size()
+			_last_event_variant[name] = index
 		if variants == FOOTSTEPS:
 			# Share the previous variant across surfaces and landings.
 			if _last_footstep >= 0:
@@ -137,11 +149,19 @@ static func get_stream(name: String) -> AudioStream:
 static func _pitch(spread: float) -> float:
 	return 1.0 + _rng.randf_range(-spread, spread)
 
+static func event(node: Node, peer_id: int, name: String) -> void:
+	if not EVENTS.has(name): return
+	if NetSession.enabled:
+		if NetSession.is_host(): NetSession.feedback(peer_id, "sfx", [name])
+	else:
+		play(node, name, EVENTS[name])
+
 static func play(node: Node, name: String, volume_db: float = 0.0, pitch: float = 1.0) -> void:
 	var p := AudioStreamPlayer.new()
 	p.stream = get_stream(name)
 	p.volume_db = volume_db
-	p.pitch_scale = pitch * _pitch(0.04)
+	p.pitch_scale = pitch if EVENTS.has(name) else pitch * _pitch(0.04)
+	if EVENTS.has(name): p.process_mode = Node.PROCESS_MODE_ALWAYS
 	node.add_child(p)
 	p.play()
 	p.finished.connect(p.queue_free)

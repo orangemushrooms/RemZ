@@ -1,0 +1,30 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Beam connects both endpoints: (6.0, 0.0, 0.0)
+PASS: Beam thickness stays constant after rotation
+PASS: Beam connects both endpoints: (0.0, 0.0, 6.0)
+PASS: Beam thickness stays constant after rotation
+PASS: Beam connects both endpoints: (4.0, 1.2, 5.0)
+PASS: Beam thickness stays constant after rotation
+PASS: Beam connects both endpoints: (-3.0, -2.0, 7.0)
+PASS: Beam thickness stays constant after rotation
+PASS: Pointed tips stay attached to tilted logs: Palisade_ne
+PASS: All wall rails keep their intended dimensions: Palisade_ne
+PASS: Lintel rests on gate post 0: Palisade_ne
+PASS: Lintel rests on gate post 1: Palisade_ne
+PASS: Pointed tips stay attached to tilted logs: Palisade_e
+PASS: All wall rails keep their intended dimensions: Palisade_e
+PASS: Lintel rests on gate post 0: Palisade_e
+PASS: Lintel rests on gate post 1: Palisade_e
+PASS: Pointed tips stay attached to tilted logs: Palisade_s
+PASS: All wall rails keep their intended dimensions: Palisade_s
+PASS: Lintel rests on gate post 0: Palisade_s
+PASS: Lintel rests on gate post 1: Palisade_s
+PASS: Pointed tips stay attached to tilted logs: Palisade_w
+PASS: All wall rails keep their intended dimensions: Palisade_w
+PASS: Lintel rests on gate post 0: Palisade_w
+PASS: Lintel rests on gate post 1: Palisade_w
+PERIMETER_BEAMS_DONE checks=24 failures=0

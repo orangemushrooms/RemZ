@@ -121,7 +121,7 @@ func _on_body(body: Node3D) -> void:
 			weapons.add_ammo(id, mag)
 			hud.message("Munition: +%d %s" % [mag, weapons.DEFS[id]["name"]], 1.4)
 		"grenade":
-			weapons.grenades += 1
+			weapons.grenades = mini(weapons.grenades_max, weapons.grenades + 1)
 			weapons.update_hud()
 			hud.message("+1 Granate", 1.4)
 		_:

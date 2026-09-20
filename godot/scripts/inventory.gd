@@ -68,7 +68,11 @@ func _ready() -> void:
 	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 10)
 	grid.add_theme_constant_override("v_separation", 10)
-	v.add_child(grid)
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(795, 310)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	v.add_child(scroll)
+	scroll.add_child(grid)
 	var info_panel := PanelContainer.new()
 	var ist := StyleBoxFlat.new()
 	ist.bg_color = Color(0.03, 0.042, 0.055)
@@ -92,7 +96,7 @@ func _ready() -> void:
 	ach_label.custom_minimum_size = Vector2(760, 40)
 	v.add_child(ach_label)
 	var hint := Label.new()
-	hint.text = "B / Esc schliessen  ·  Klick auf eine Waffe: ausrüsten  ·  Klick auf Pilze: essen  ·  Munition und Granaten gibt es von gefallenen Zombies und nach jeder Welle"
+	hint.text = "B / Esc schliessen  ·  Klick auf eine Waffe: ausrüsten  ·  Klick auf Pilze: essen  ·  Waffen und Nachschub bei Vendor kaufen. Skins beim Händler für die ausgerüstete Waffe wählen."
 	hint.add_theme_font_size_override("font_size", 12)
 	hint.add_theme_color_override("font_color", Color(0.6, 0.6, 0.55))
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -104,11 +108,28 @@ func add_mushroom(kind: String) -> void:
 	if main.achievements:
 		main.achievements.event("mushrooms")
 
-func _slot(title: String, sub: String, color: Color, detail: String, on_click: Callable, fill: float = -1.0) -> void:
+func _slot(title: String, sub: String, color: Color, detail: String, on_click: Callable, fill: float = -1.0, icon_id := "item") -> void:
 	var b := Button.new()
-	b.custom_minimum_size = Vector2(186, 96)
+	b.custom_minimum_size = Vector2(186, 148)
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	b.text = "%s\n%s" % [title, sub]
+	b.tooltip_text = title + "\n" + detail
+	var content := VBoxContainer.new()
+	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	b.add_child(content)
+	content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	content.offset_left = 10
+	content.offset_right = -10
+	content.offset_top = 6
+	content.offset_bottom = -18
+	content.add_child(ItemIcons.view(icon_id, Vector2(160, 74)))
+	for line in [title, sub]:
+		var label := Label.new()
+		label.text = line
+		label.add_theme_font_size_override("font_size", 13)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		content.add_child(label)
 	b.add_theme_font_size_override("font_size", 14)
 	b.add_theme_color_override("font_color", Color(0.93, 0.92, 0.88))
 	var st := StyleBoxFlat.new()
@@ -176,18 +197,18 @@ func _refresh() -> void:
 			d["name"], "  (ausgerüstet)" if eq else "", s["ammo"], int(d["mag"]), s["reserve"], int(d["damage"]), " × %d Schrot" % int(d["pellets"]) if int(d["pellets"]) > 1 else "", weapons.damage_mul, per_second, int(dps), int(d["range"]), float(d["reload"]) * weapons.reload_mul]
 		var fill := float(s["ammo"] + s["reserve"]) / float(int(d["mag"]) + int(d["reserve"]))
 		_slot(d["name"] + ("  ●" if eq else ""), "%d / %d  ·  Taste %d" % [s["ammo"], s["reserve"], weapons.ORDER.find(id) + 1], Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45),
-			detail, func(): weapons.set_weapon(id); _refresh(), fill)
-	_slot("Granaten", "%d Stück  ·  Taste G" % weapons.grenades, Color(0.4, 0.5, 0.35), "Handgranaten: 2,6 s Zünder, 7 m Radius, 260 Schaden im Zentrum. Werfen mit G. Nach jeder Welle wieder voll (%d), Zombies lassen weitere fallen." % weapons.grenades_max, func(): pass, float(weapons.grenades) / maxf(1.0, weapons.grenades_max))
+			detail, func(): weapons.set_weapon(id); _refresh(), fill, id)
+	_slot("Granaten", "%d Stück  ·  Taste G" % weapons.grenades, Color(0.4, 0.5, 0.35), "Handgranaten: 2,6 s Zünder, 7 m Radius, 260 Schaden im Zentrum. Werfen mit G. Taschenlimit: %d. Nachschub bei Vendor oder von gefallenen Zombies." % weapons.grenades_max, func(): pass, float(weapons.grenades) / maxf(1.0, weapons.grenades_max), "grenade")
 	for k in MUSHROOMS:
 		var n: int = mushrooms.get(k, 0)
 		var md: Dictionary = MUSHROOMS[k]
-		_slot(md["name"], "%d Stück  ·  Klick: essen" % n, md["color"] if n > 0 else Color(0.3, 0.3, 0.3), md["text"] + "  ·  Wächst im Laub rund um den Grillplatz, mit E sammeln.", func(): _eat(k))
+		_slot(md["name"], "%d Stück  ·  Klick: essen" % n, md["color"] if n > 0 else Color(0.3, 0.3, 0.3), md["text"] + "  ·  Wächst im Laub rund um den Grillplatz, mit E sammeln.", func(): _eat(k), -1, k)
 
 	if main.forest_keys:
 		for key_id: String in ForestKeys.KEYS:
 			var found: bool = main.forest_keys.has_key(key_id)
 			var detail := "Schlüssel für %s. %s" % [ForestKeys.KEYS[key_id], "Bleibt bei dir und öffnet alle Türen dieser Hütte." if found else "Im Wald versteckt. In der Nähe helfen Hinweis und Richtungspfeil."]
-			_slot("Schlüssel: %s" % ForestKeys.KEYS[key_id], "Gefunden" if found else "Noch nicht gefunden", Color(0.95, 0.73, 0.32) if found else Color(0.3, 0.3, 0.3), detail, func(): info.text = detail)
+			_slot("Schlüssel: %s" % ForestKeys.KEYS[key_id], "Gefunden" if found else "Noch nicht gefunden", Color(0.95, 0.73, 0.32) if found else Color(0.3, 0.3, 0.3), detail, func(): info.text = detail, -1, "key")
 
 func _eat(kind: String) -> void:
 	if NetSession.enabled:
@@ -206,7 +227,7 @@ func _eat(kind: String) -> void:
 		main.achievements.event("rausch")
 	else:
 		hud.message("Steinpilz gegessen: +%d Leben" % int(heal), 2.0)
-	Sfx.play(self, "pickup", -8.0)
+	Sfx.play(self, "consume", -8.0)
 	_refresh()
 
 func toggle() -> void:

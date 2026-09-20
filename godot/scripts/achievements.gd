@@ -6,34 +6,34 @@ extends CanvasLayer
 const SAVE := "user://achievements.json"
 # id: title, text, counter, target, reward {score, grenades, ammo, hp}
 const DEFS := [
-	{ "id": "first_blood", "title": "Erstes Blut", "text": "Ersten Zombie erledigt", "counter": "kills", "target": 1, "reward": { "score": 50 } },
-	{ "id": "kills_5", "title": "Warmgeschossen", "text": "5 Zombies erledigt", "counter": "kills", "target": 5, "reward": { "score": 100 } },
-	{ "id": "kills_25", "title": "Waldpolizei", "text": "25 Zombies erledigt", "counter": "kills", "target": 25, "reward": { "score": 300, "grenades": 1 } },
-	{ "id": "kills_100", "title": "Heitersberg-Schlächter", "text": "100 Zombies erledigt", "counter": "kills", "target": 100, "reward": { "score": 800, "hp": 10 } },
-	{ "id": "kills_250", "title": "Legende von Remetschwil", "text": "250 Zombies erledigt", "counter": "kills", "target": 250, "reward": { "score": 2000, "hp": 20, "grenades": 3 } },
-	{ "id": "head_1", "title": "Volltreffer", "text": "Erster Kopfschuss", "counter": "headshots", "target": 1, "reward": { "score": 75 } },
-	{ "id": "head_10", "title": "Scharfschütze", "text": "10 Kopfschüsse", "counter": "headshots", "target": 10, "reward": { "score": 300, "grenades": 1 } },
-	{ "id": "head_50", "title": "Kopfjäger", "text": "50 Kopfschüsse", "counter": "headshots", "target": 50, "reward": { "score": 1000, "ammo": true } },
-	{ "id": "wave_1", "title": "Erste Nacht", "text": "Welle 1 überstanden", "counter": "waves", "target": 1, "reward": { "score": 150, "hp": 10 } },
-	{ "id": "wave_3", "title": "Durchhalten", "text": "Welle 3 überstanden", "counter": "waves", "target": 3, "reward": { "score": 400, "hp": 10 } },
-	{ "id": "wave_5", "title": "Hüttenwart", "text": "Welle 5 überstanden", "counter": "waves", "target": 5, "reward": { "score": 1000, "hp": 15, "grenades": 2 } },
-	{ "id": "wave_10", "title": "Unsterblich", "text": "Welle 10 überstanden", "counter": "waves", "target": 10, "reward": { "score": 3000, "hp": 25, "ammo": true } },
-	{ "id": "flawless", "title": "Kein Kratzer", "text": "Eine Welle ohne Schaden überstanden", "counter": "flawless", "target": 1, "reward": { "score": 250, "grenades": 1 } },
-	{ "id": "bar_1", "title": "Zimmermann", "text": "Erste Barrikade gebaut", "counter": "barricades", "target": 1, "reward": { "score": 100 } },
-	{ "id": "bar_6", "title": "Festung Waldhütte", "text": "6 Barrikadenstufen gebaut", "counter": "barricades", "target": 6, "reward": { "score": 300, "hp": 10 } },
-	{ "id": "loot_1", "title": "Fundstück", "text": "Erste Waffe gefunden", "counter": "weapons", "target": 1, "reward": { "score": 100 } },
-	{ "id": "loot_4", "title": "Arsenal", "text": "Alle vier Waffen gefunden", "counter": "weapons", "target": 4, "reward": { "score": 500, "ammo": true } },
-	{ "id": "door", "title": "Aufgemacht", "text": "Garagentor der Waldhütte geöffnet", "counter": "door", "target": 1, "reward": { "score": 50 } },
-	{ "id": "window", "title": "Einbrecher", "text": "Hinterfenster des Holzlagers zerschossen", "counter": "window", "target": 1, "reward": { "score": 150 } },
-	{ "id": "shroom_1", "title": "Pilzsammler", "text": "Ersten Pilz gesammelt", "counter": "mushrooms", "target": 1, "reward": { "score": 50 } },
-	{ "id": "shroom_10", "title": "Pilzkenner", "text": "10 Pilze gesammelt", "counter": "mushrooms", "target": 10, "reward": { "score": 300, "hp": 10 } },
-	{ "id": "rausch", "title": "Rausch", "text": "Fliegenpilz gegessen", "counter": "rausch", "target": 1, "reward": { "score": 100 } },
-	{ "id": "oak", "title": "Die Eiche", "text": "Die grosse Eiche am Weg zur Hütte besucht", "counter": "oak", "target": 1, "reward": { "score": 100 } },
-	{ "id": "road", "title": "Bis zur Sennhofstrasse", "text": "Die Sennhofstrasse erreicht", "counter": "road", "target": 1, "reward": { "score": 100, "grenades": 1 } },
-	{ "id": "north", "title": "Oberer Sorchen", "text": "Den Waldweg nach Norden bis zum Ende gegangen", "counter": "north", "target": 1, "reward": { "score": 150 } },
-	{ "id": "grenade_3", "title": "Sprengmeister", "text": "3 Zombies mit einer Granate", "counter": "grenade_multi", "target": 1, "reward": { "score": 300, "grenades": 2 } },
-	{ "id": "streak_10", "title": "Im Rausch", "text": "10 Abschüsse in Serie", "counter": "streak_10", "target": 1, "reward": { "score": 400, "grenades": 1 } },
-	{ "id": "drops_10", "title": "Aufgelesen", "text": "10 Vorräte von Zombies aufgesammelt", "counter": "drops", "target": 10, "reward": { "score": 200, "ammo": true } },
+	{ "id": "first_blood", "title": "Erstes Blut", "text": "Ersten Zombie erledigt", "counter": "kills", "target": 1, "reward": { "score": 10 } },
+	{ "id": "kills_5", "title": "Warmgeschossen", "text": "5 Zombies erledigt", "counter": "kills", "target": 5, "reward": { "score": 20 } },
+	{ "id": "kills_25", "title": "Waldpolizei", "text": "25 Zombies erledigt", "counter": "kills", "target": 25, "reward": { "score": 40, "grenades": 1 } },
+	{ "id": "kills_100", "title": "Heitersberg-Schlächter", "text": "100 Zombies erledigt", "counter": "kills", "target": 100, "reward": { "score": 100, "hp": 2 } },
+	{ "id": "kills_250", "title": "Legende von Remetschwil", "text": "250 Zombies erledigt", "counter": "kills", "target": 250, "reward": { "score": 250, "hp": 4, "grenades": 3 } },
+	{ "id": "head_1", "title": "Volltreffer", "text": "Erster Kopfschuss", "counter": "headshots", "target": 1, "reward": { "score": 10 } },
+	{ "id": "head_10", "title": "Scharfschütze", "text": "10 Kopfschüsse", "counter": "headshots", "target": 10, "reward": { "score": 40, "grenades": 1 } },
+	{ "id": "head_50", "title": "Kopfjäger", "text": "50 Kopfschüsse", "counter": "headshots", "target": 50, "reward": { "score": 120, "ammo": true } },
+	{ "id": "wave_1", "title": "Erste Nacht", "text": "Welle 1 überstanden", "counter": "waves", "target": 1, "reward": { "score": 25, "hp": 2 } },
+	{ "id": "wave_3", "title": "Durchhalten", "text": "Welle 3 überstanden", "counter": "waves", "target": 3, "reward": { "score": 50, "hp": 2 } },
+	{ "id": "wave_5", "title": "Hüttenwart", "text": "Welle 5 überstanden", "counter": "waves", "target": 5, "reward": { "score": 100, "hp": 3, "grenades": 2 } },
+	{ "id": "wave_10", "title": "Unsterblich", "text": "Welle 10 überstanden", "counter": "waves", "target": 10, "reward": { "score": 200, "hp": 5, "ammo": true } },
+	{ "id": "flawless", "title": "Kein Kratzer", "text": "Eine Welle ohne Schaden überstanden", "counter": "flawless", "target": 1, "reward": { "score": 30, "grenades": 1 } },
+	{ "id": "bar_1", "title": "Zimmermann", "text": "Erste Barrikade gebaut", "counter": "barricades", "target": 1, "reward": { "score": 15 } },
+	{ "id": "bar_6", "title": "Festung Waldhütte", "text": "6 Barrikadenstufen gebaut", "counter": "barricades", "target": 6, "reward": { "score": 50, "hp": 2 } },
+	{ "id": "loot_1", "title": "Fundstück", "text": "Erste Waffe gekauft", "counter": "weapons", "target": 1, "reward": {} },
+	{ "id": "loot_4", "title": "Arsenal", "text": "Vier Waffen gekauft", "counter": "weapons", "target": 4, "reward": {} },
+	{ "id": "door", "title": "Aufgemacht", "text": "Garagentor der Waldhütte geöffnet", "counter": "door", "target": 1, "reward": { "score": 10 } },
+	{ "id": "window", "title": "Einbrecher", "text": "Hinterfenster des Holzlagers zerschossen", "counter": "window", "target": 1, "reward": { "score": 15 } },
+	{ "id": "shroom_1", "title": "Pilzsammler", "text": "Ersten Pilz gesammelt", "counter": "mushrooms", "target": 1, "reward": { "score": 5 } },
+	{ "id": "shroom_10", "title": "Pilzkenner", "text": "10 Pilze gesammelt", "counter": "mushrooms", "target": 10, "reward": { "score": 25, "hp": 2 } },
+	{ "id": "rausch", "title": "Rausch", "text": "Fliegenpilz gegessen", "counter": "rausch", "target": 1, "reward": { "score": 10 } },
+	{ "id": "oak", "title": "Die Eiche", "text": "Die grosse Eiche am Weg zur Hütte besucht", "counter": "oak", "target": 1, "reward": { "score": 10 } },
+	{ "id": "road", "title": "Bis zur Sennhofstrasse", "text": "Die Sennhofstrasse erreicht", "counter": "road", "target": 1, "reward": { "score": 10, "grenades": 1 } },
+	{ "id": "north", "title": "Oberer Sorchen", "text": "Den Waldweg nach Norden bis zum Ende gegangen", "counter": "north", "target": 1, "reward": { "score": 20 } },
+	{ "id": "grenade_3", "title": "Sprengmeister", "text": "3 Zombies mit einer Granate", "counter": "grenade_multi", "target": 1, "reward": { "score": 40, "grenades": 2 } },
+	{ "id": "streak_10", "title": "Im Rausch", "text": "10 Abschüsse in Serie", "counter": "streak_10", "target": 1, "reward": { "score": 40, "grenades": 1 } },
+	{ "id": "drops_10", "title": "Aufgelesen", "text": "10 Vorräte von Zombies aufgesammelt", "counter": "drops", "target": 10, "reward": { "score": 30, "ammo": true } },
 ]
 
 var player: Player
@@ -141,7 +141,7 @@ func _unlock(d: Dictionary) -> void:
 		player.add_score(int(r["score"]))
 		parts.append("+%d Punkte" % int(r["score"]))
 	if r.has("grenades"):
-		weapons.grenades += int(r["grenades"])
+		weapons.grenades = mini(weapons.grenades_max, weapons.grenades + int(r["grenades"]))
 		parts.append("+%d Granaten" % int(r["grenades"]))
 	if r.has("hp"):
 		player.max_hp += float(r["hp"])
@@ -149,7 +149,7 @@ func _unlock(d: Dictionary) -> void:
 		parts.append("+%d max. Leben" % int(r["hp"]))
 	if r.has("ammo"):
 		weapons.refill_all()
-		parts.append("Munition voll")
+		parts.append("Pistolenreserve gesichert")
 	weapons.update_hud()
 	if NetSession.is_host():
 		for id in NetSession.world.actors:
@@ -157,7 +157,7 @@ func _unlock(d: Dictionary) -> void:
 			var p: Player = NetSession.world.actor(id)
 			var w: Weapons = NetSession.world.weapons[id]
 			p.add_score(int(r.get("score", 0)))
-			w.grenades += int(r.get("grenades", 0))
+			w.grenades = mini(w.grenades_max, w.grenades + int(r.get("grenades", 0)))
 			p.max_hp += float(r.get("hp", 0))
 			p.hp = minf(p.hp + float(r.get("hp", 0)), p.max_hp)
 			if r.has("ammo"): w.refill_all()

@@ -81,7 +81,7 @@ func add_player(id: int) -> void:
 	weapons[id] = w
 	pose_times[id] = NetSession._elapsed
 	rage[id] = 0.0
-	if NetSession.is_host() and game.waves.wave >= 3: w.unlock("shotgun")
+	game.progression.data(id)
 
 func spawn_position(index: int) -> Vector3:
 	var point: Vector3 = Map.ground_pos(Map.PLAYER_START.x + index * 1.3, Map.PLAYER_START.y + 1.0)
@@ -153,9 +153,20 @@ func action(id: int, operation: String, args: Array) -> void:
 	if not p or not p.alive: return
 	var w: Weapons = weapons[id]
 	match operation:
+		"shop":
+			if args.size() != 4: return
+			for argument in args:
+				if not argument is String or argument.length() > 80: return
+			var result: String = game.progression.transact(p, args[0], args[1], args[2], args[3])
+			NetSession.feedback(id, "trade", [result])
+		"tower_rotate":
+			if args.size() != 2 or not args[0] is int or not args[1] is float or not is_finite(args[1]): return
+			var error: String = game.defences.rotate_tower(p, args[0], args[1])
+			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"tower_place":
-			if args.size() != 1 or not args[0] is Vector3 or not args[0].is_finite(): return
-			var error: String = game.defences.purchase(p, args[0])
+			if args.size() not in [1, 2] or not args[0] is Vector3 or not args[0].is_finite(): return
+			if args.size() == 2 and (not args[1] is float or not is_finite(args[1])): return
+			var error: String = game.defences.purchase(p, args[0], float(args[1]) if args.size() == 2 else 0.0)
 			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"tower_upgrade", "tower_repair", "tower_sell":
 			if args.size() != 1 or not args[0] is int: return
@@ -215,16 +226,11 @@ func collect_loot(id: int, key: String) -> void:
 		mushrooms[id][item.id] += 1
 		NetSession.feedback(id, "message", [item.label + " gesammelt", 1.5])
 		game.achievements.event("mushrooms")
-	elif item.kind == "weapon":
-		if w.unlocked.get(item.id, false): w.add_ammo(item.id, int(Weapons.DEFS[item.id].reserve))
-		else: w.unlock(item.id)
-		NetSession.feedback(id, "message", [item.label + " aufgenommen", 2.0])
-		game.achievements.event("weapons")
 	else:
-		for weapon_id in w.unlocked:
-			if w.unlocked[weapon_id]: w.add_ammo(weapon_id, int(Weapons.DEFS[weapon_id].reserve))
-		w.grenades += 2
+		w.add_ammo(w.current, int(Weapons.DEFS[w.current].mag))
+		NetSession.feedback(id, "message", ["Vorräte: ein Magazin", 2.0])
 	item.taken = true
+	Sfx.event(game, id, "key_pickup" if item is ForestKey else "pickup")
 	if item is ForestKey:
 		item.pickup_visual.hide()
 	else:
@@ -240,45 +246,19 @@ func collect_drop(drop: Pickup, id: int) -> void:
 	drop._taken = true
 	match drop.kind:
 		"ammo": w.add_ammo(w.current, int(Weapons.DEFS[w.current].mag))
-		"grenade": w.grenades += 1
+		"grenade": w.grenades = mini(w.grenades_max, w.grenades + 1)
 		_: p.hp = minf(p.max_hp, p.hp + 30.0)
 	w.update_hud()
 	p.hud.set_health(p.hp)
 	NetSession.feedback(id, "message", ["Vorrat aufgenommen", 1.4])
+	Sfx.event(game, id, "pickup")
 	game.achievements.event("drops")
 	drop.queue_free()
 
 func buy_upgrade(id: int, key: String) -> void:
-	if not levels[id].has(key): return
-	var spec: Dictionary = {}
-	for entry in Skills.UPGRADES:
-		if entry.id == key: spec = entry
-	var level: int = levels[id][key]
-	var cost := int(spec.cost) + int(spec.cost) * level / 2
-	var p: Player = actor(id)
-	var w: Weapons = weapons[id]
-	if level >= int(spec.max) or p.score < cost: return
-	p.add_score(-cost)
-	levels[id][key] += 1
-	match key:
-		"hp":
-			p.max_hp += 25.0
-			p.hp = minf(p.max_hp, p.hp + 25.0)
-		"speed": p.speed_mul += 0.08
-		"regen": p.regen_mul += 0.6
-		"damage": w.damage_mul = (1.0 + 0.12 * levels[id][key]) * (2.0 if rage[id] > 0 else 1.0)
-		"reload": w.reload_mul *= 0.85
-		"steady": w.spread_mul *= 0.85
-		"grenades":
-			w.grenades_max += 1
-			w.grenades += 1
-		_: w.unlock(key.trim_prefix("w_"))
-	if id == 1:
-		game.hud.hp_bar.max_value = p.max_hp
-		game.skills._refresh()
-	p.hud.set_health(p.hp)
-	w.update_hud()
-	NetSession.feedback(id, "message", ["Verbesserung gekauft: " + spec.name, 1.5])
+	# Legacy command still validates merchant proximity and never unlocks a weapon.
+	var result: String = game.progression.transact(actor(id), "mechanic", "training", key)
+	NetSession.feedback(id, "trade", [result])
 
 func eat(id: int, kind: String) -> void:
 	if not Inventory.MUSHROOMS.has(kind) or mushrooms[id].get(kind, 0) <= 0: return
@@ -314,7 +294,7 @@ func _show_game_over() -> void:
 
 func _close_local_menus() -> void:
 	game.defences.cancel_placement()
-	for menu in [game.skills, game.inventory, game.barricade_menu, game.defences]:
+	for menu in [game.skills, game.inventory, game.barricade_menu, game.defences, game.progression]:
 		if menu.is_open: menu.close()
 	game.get_tree().paused = false
 
@@ -406,7 +386,7 @@ func snapshot() -> Dictionary:
 			ammo[wid] = [s.ammo, s.reserve, s.reloading]
 		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity,
 			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul,
-			"light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(),
+			"light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(),
 			"grenades": w.grenades, "grenades_max": w.grenades_max, "mods": [w.damage_mul, w.reload_mul, w.spread_mul],
 			"levels": levels[id].duplicate(), "mushrooms": mushrooms[id].duplicate(), "ack": NetSession._commands.get(id, 0)}
 	var zs := {}
@@ -442,7 +422,7 @@ func snapshot() -> Dictionary:
 		if is_instance_valid(broken_nodes[id]): intact.append(id)
 	var animals: Array = []
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
-	return {"players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
 		"difficulty": game.settings.difficulty,
@@ -453,6 +433,7 @@ func snapshot() -> Dictionary:
 func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	if not NetSession.is_client(): return
 	game.defences.apply_snapshot(data.get("towers", {}), initial)
+	game.progression.apply_snapshot(data.get("progression", {}))
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
 	if initial: game.hud._mark_difficulty(int(data.difficulty))
 	for id in data.players:
@@ -472,6 +453,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			if initial: p.global_position = s.p
 			move_targets[id] = [s.p, s.yaw]
 			avatars[id].set_weapon(s.weapon)
+			avatars[id].set_skin(str(s.get("skins", {}).get(s.weapon, "")))
 		else:
 			if initial or p.global_position.distance_to(s.p) > 1.8:
 				p.global_position = s.p
@@ -486,6 +468,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 				var w: Weapons = game.weapons
 				var inventory_changed: bool = w.unlocked != s.unlocked or game.inventory.mushrooms != s.mushrooms or w.grenades != s.grenades
 				w.unlocked = s.unlocked.duplicate()
+				for wid in s.get("skins", {}): w.apply_skin(wid, s.skins[wid])
 				w.network_apply = true
 				w.set_weapon(s.weapon)
 				w.network_apply = false
@@ -629,9 +612,8 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		NetSession.phase = "over"
 		_show_game_over()
 
-func wave_started(number: int) -> void:
-	if number == 3:
-		for w: Weapons in weapons.values(): w.unlock("shotgun")
+func wave_started(_number: int) -> void:
+	pass
 
 func wave_cleared(bonus: int) -> void:
 	for id in actors:
@@ -643,4 +625,4 @@ func wave_cleared(bonus: int) -> void:
 			p.alive = true
 			p.hp = p.max_hp
 			p.active = true
-		NetSession.feedback(id, "message", ["Welle überstanden · Munition aufgefüllt · +%d Punkte" % bonus, 3.0])
+		NetSession.feedback(id, "message", ["Welle überstanden · Pistolenreserve gesichert · +%d Punkte" % bonus, 3.0])

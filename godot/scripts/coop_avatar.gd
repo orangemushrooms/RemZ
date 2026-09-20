@@ -105,6 +105,7 @@ func _leg(side: float) -> Node3D:
 func set_weapon(id: String) -> void:
 	if id == weapon or not Weapons.DEFS.has(id): return
 	weapon = id
+	_skin = "__unset"
 	if gun: gun.queue_free()
 	gun = Node3D.new()
 	body.add_child(gun)
@@ -121,7 +122,7 @@ func shot(id: String) -> void:
 	flash_t = 0.065
 	flash.visible = true
 	flash.light_energy = 2.5
-	Sfx.play_at(self, Weapons.DEFS[id].sfx, global_position + Vector3.UP * 1.3, -8.0)
+	Sfx.play_at(self, Weapons.DEFS[id].sfx, global_position + Vector3.UP * 1.3, float(Weapons.DEFS[id].get("sfx_db", -8.0)), float(Weapons.DEFS[id].get("sfx_pitch", 1.0)))
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(actor): return
@@ -141,3 +142,10 @@ func _process(delta: float) -> void:
 	flash.visible = flash_t > 0.0
 	gun.rotation.x = actor.pitch * 0.65
 	label.text = "%s\n%d / %d" % [NetSession.roster.get(actor.peer_id, "Spieler"), maxi(0, ceili(actor.hp)), int(actor.max_hp)] if actor.alive else "%s\nWiederbeleben [E]" % NetSession.roster.get(actor.peer_id, "Spieler")
+
+var _skin := "__unset"
+
+func set_skin(finish: String) -> void:
+	if not gun or _skin == finish: return
+	_skin = finish
+	WeaponSkins.apply(gun, finish)

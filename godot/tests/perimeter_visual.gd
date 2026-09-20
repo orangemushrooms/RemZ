@@ -42,6 +42,8 @@ func run() -> void:
 		game.day_night.advance(1)
 		game.day_night.set_process(false)
 	game.hud.message("", 0.0)
+	view(Vector2(44, 51), Map.ground_pos(28, 55) + Vector3.UP * 1.4)
+	await capture("perimeter_unbuilt")
 	for bar in game.barricades:
 		bar.build()
 	var ring: Perimeter = game.perimeter

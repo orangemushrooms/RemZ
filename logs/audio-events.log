@@ -1,0 +1,27 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Recorded clip loads: key_Pickup
+AUDIO_LENGTH key_Pickup 4.11507940292358
+PASS: Recorded clip loads: key_Pickup
+AUDIO_LENGTH key_Pickup 4.11507940292358
+PASS: Recorded clip loads: gun_pick_up
+AUDIO_LENGTH gun_pick_up 2.81213140487671
+PASS: Recorded clip loads: acceppt_1
+AUDIO_LENGTH acceppt_1 2.22362804412842
+PASS: Recorded clip loads: acceppt_2
+AUDIO_LENGTH acceppt_2 1.7329478263855
+PASS: Recorded clip loads: quest_aaccept_Finish
+AUDIO_LENGTH quest_aaccept_Finish 4.06160974502563
+PASS: Recorded clip loads: acceppt_1
+AUDIO_LENGTH acceppt_1 2.22362804412842
+PASS: Recorded clip loads: acceppt_2
+AUDIO_LENGTH acceppt_2 1.7329478263855
+PASS: Accept variants do not repeat immediately
+PASS: Quest feedback plays while solo shop is paused
+PASS: Feedback preserves the recorded pitch
+PASS: Remote player feedback does not play on host
+PASS: Old session sound feedback is ignored
+PASS: Authoritative feedback plays the recipient sound
+AUDIO_EVENTS_DONE checks=14 failures=0

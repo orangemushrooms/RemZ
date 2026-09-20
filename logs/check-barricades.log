@@ -1,59 +1,114 @@
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
-Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
 
-RENDER_OPTIMIZER { "source_meshes": 995, "batches": 9, "removed_render_nodes": 21 }
+RENDER_OPTIMIZER { "source_meshes": 689, "batches": 17, "removed_render_nodes": 40 }
 PASS: Unbuilt line has no physical models
 PASS: Unaffordable line creates nothing and charges nothing
-PASS: V opens the nearest defence line
-PASS: Planner pauses combat
-PASS: Planner frames the whole line and clears the combat HUD
+ERROR: FAIL: V opens the nearest defence line
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:60)
+ERROR: FAIL: Planner pauses combat
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:61)
+ERROR: FAIL: Planner frames the whole line and clears the combat HUD
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:62)
 PASS: Red preview covers every segment
-PASS: Planner stops the hidden weapon viewport
+ERROR: FAIL: Planner stops the hidden weapon viewport
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:64)
 PASS: Terrain markers share one batched draw
-PASS: New line offers one complete purchase
-PASS: Saved 01-whole-line-plan
-PASS: One click builds the complete line for 50 total points
-PASS: Every planned model is built together
-PASS: Built line replaces the ghost and retains its green outline
-PASS: Built segment collision is active
-PASS: Built segment collision is active
-PASS: Build confirmation stays in the planner
-PASS: Saved 02-built-line
-PASS: Physical line covers position -3.00 m
-PASS: Physical line covers position -0.05 m
-PASS: Physical line covers position 0.00 m
-PASS: Physical line covers position 0.05 m
-PASS: Physical line covers position 3.00 m
+ERROR: FAIL: New line offers one complete purchase
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:66)
+ERROR: FAIL: One click builds the complete line for 50 total points
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:71)
+ERROR: FAIL: Every planned model is built together
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:72)
+ERROR: FAIL: Built line replaces the ghost and retains its green outline
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:73)
+ERROR: FAIL: Built segment collision is active
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:75)
+ERROR: FAIL: Built segment collision is active
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:75)
+ERROR: FAIL: Build confirmation stays in the planner
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:76)
+ERROR: FAIL: Physical line covers position -3.00 m
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:83)
+ERROR: FAIL: Physical line covers position -0.05 m
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:83)
+ERROR: FAIL: Physical line covers position 0.00 m
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:83)
+ERROR: FAIL: Physical line covers position 0.05 m
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:83)
+ERROR: FAIL: Physical line covers position 3.00 m
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/barricades.gd:24)
+       [1] run (res://tests/barricades.gd:83)
+ERROR: Index p_index = 0 is out of bounds ((int)data.children_cache.size() - data.internal_children_front_count_cache - data.internal_children_back_count_cache = 0).
+   at: get_child (scene/main/node.cpp:1861)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/barricades.gd:84)
+ERROR: Index p_index = 1 is out of bounds ((int)data.children_cache.size() - data.internal_children_front_count_cache - data.internal_children_back_count_cache = 0).
+   at: get_child (scene/main/node.cpp:1861)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/barricades.gd:85)
+SCRIPT ERROR: Invalid access to property or key 'transform' on a base object of type 'null instance'.
+   at: _bounds (res://scripts/barricade.gd:120)
+   GDScript backtrace (most recent call first):
+       [0] _bounds (res://scripts/barricade.gd:120)
+       [1] run (res://tests/barricades.gd:86)
+SCRIPT ERROR: Invalid access to property or key 'transform' on a base object of type 'null instance'.
+   at: _bounds (res://scripts/barricade.gd:120)
+   GDScript backtrace (most recent call first):
+       [0] _bounds (res://scripts/barricade.gd:120)
+       [1] run (res://tests/barricades.gd:87)
 PASS: Adjacent visual segments meet without a gap
-PASS: Saved 03-damaged-line
-PASS: Repair restores the whole line for exactly 25 points
-PASS: Damage and repair reuse the existing geometry
-PASS: Repeated repair cannot waste points
-PASS: Upgrade restores and strengthens all segments together
-PASS: Final upgrade reaches 450 HP at the advertised cost
-PASS: Maximum level cannot be purchased twice
-PASS: Saved 04-reinforced-line
-PASS: Site buttons select their own complete line
-PASS: Remote preview cannot purchase beyond build reach
-PASS: Saved 05-distant-site
-PASS: Escape closes construction and resumes combat
-PASS: Closing restores the player camera, hands and HUD
-PASS: Returning resumes weapon rendering
-PASS: Planning never teleports or rotates the player
-PASS: Destruction removes every segment collider
-PASS: Destruction removes every segment collider
-PASS: Player inside the line blocks construction
-PASS: Blocked build leaves points and all segments untouched
-PASS: Saved 06-occupied-line
-PASS: Enemy occupying any segment blocks construction
-PASS: Interaction uses the entire line, including its ends
-PASS: Destroyed line can be rebuilt from an endpoint
-PASS: Construction cannot open over another modal menu
-PASS: Escape also closes inventory without leaving a stale modal
-PASS: Saved site-ne
-PASS: Saved site-e
-PASS: Saved site-s
-PASS: Saved site-w
-PASS: Build action remains on screen at 1280x720
-PASS: Saved 07-menu-1280x720
-BARRICADES_DONE checks=54 failures=0
+SCRIPT ERROR: Cannot call method 'get_instance_id' on a null value.
+   at: run (res://tests/barricades.gd:89)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/barricades.gd:89)
+ERROR: BARRICADES_TIMEOUT
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/barricades.gd:14)

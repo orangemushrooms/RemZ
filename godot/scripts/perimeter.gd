@@ -1,8 +1,5 @@
-# Palisadenring: a closed wall of logs around the fire plaza, both huts and the track down to the fork. Its only
-# openings are the four barricade slots (the gates), so a zombie either comes through a gate or has to break the
-# barricade in it; nothing can walk around the defence any more. The wall collision is part of the navigation bake
-# ("navsource"), so the navmesh only connects the outside with the inside through the gates. Visuals are three
-# MultiMeshes (logs, tips, rails) plus a post and a lintel per gate.
+# Each gate builds its nearest palisade runs. Unbuilt or destroyed sections have
+# neither visible wood nor collision; only built sections enter the navigation bake.
 class_name Perimeter
 extends Node3D
 
@@ -30,6 +27,13 @@ var walls: Array = []              # [Vector2 a, Vector2 b] per wall run
 var length := 0.0                  # metres of wall (gates excluded)
 var body: StaticBody3D
 var log_count := 0
+var sections: Array[Node3D] = []
+var _section_bodies: Array[StaticBody3D] = []
+var _barriers: Array = []
+var _section: Node3D
+var _gate_filter := -1
+var _wall_sections: Dictionary = {}
+signal layout_changed
 
 func setup(barricades: Array) -> void:
 	var by_id := {}
@@ -53,8 +57,48 @@ func setup(barricades: Array) -> void:
 		if not gate_edge[i]:
 			walls.append([points[i], points[j]])
 			length += points[i].distance_to(points[j])
-	_build_collision()
-	_build_visuals()
+	_barriers = barricades
+	var all_walls := walls.duplicate()
+	for barrier: Barricade in barricades:
+		_section = Node3D.new()
+		_section.name = "Palisade_" + str(barrier.slot.id)
+		add_child(_section)
+		sections.append(_section)
+		walls = []
+		for wall in all_walls:
+			var midpoint: Vector2 = (wall[0] + wall[1]) * 0.5
+			var closest: Barricade = barricades[0]
+			for candidate: Barricade in barricades:
+				if candidate.distance_to_line(Map.ground_pos(midpoint.x, midpoint.y)) < closest.distance_to_line(Map.ground_pos(midpoint.x, midpoint.y)):
+					closest = candidate
+			if closest == barrier:
+				walls.append(wall)
+				_wall_sections[wall[0]] = sections.size() - 1
+		_gate_filter = -1
+		for i in points.size():
+			if gate_edge[i] and kinds[i] == "gate:" + str(barrier.slot.id): _gate_filter = i
+		_build_collision()
+		_section_bodies.append(body)
+		_build_visuals()
+		barrier.changed.connect(_sync_sections)
+	walls = all_walls
+	_sync_sections()
+
+func is_wall_built(start: Vector2) -> bool:
+	return _wall_sections.has(start) and sections[_wall_sections[start]].visible
+
+func _sync_sections() -> void:
+	var changed := false
+	for i in sections.size():
+		var built: bool = _barriers[i].level > 0 and _barriers[i].hp > 0.0
+		var collider := _section_bodies[i]
+		if sections[i].visible == built and collider.is_in_group("navsource") == built: continue
+		sections[i].visible = built
+		collider.collision_layer = 1 if built else 0
+		if built: collider.add_to_group("navsource")
+		else: collider.remove_from_group("navsource")
+		changed = true
+	if changed: layout_changed.emit()
 
 func contains(p: Vector2) -> bool:
 	return Geometry2D.is_point_in_polygon(p, points)
@@ -78,8 +122,7 @@ func _build_collision() -> void:
 	body.name = "PalisadeBody"
 	body.collision_layer = 1
 	body.collision_mask = 0
-	body.add_to_group("navsource")
-	add_child(body)
+	_section.add_child(body)
 	for w in walls:
 		var a: Vector2 = w[0]
 		var b: Vector2 = w[1]
@@ -90,7 +133,7 @@ func _build_collision() -> void:
 			_box(Map.ground_pos(pa.x, pa.y), Map.ground_pos(pb.x, pb.y), 0.5, WALL_HEIGHT)
 	# gate posts narrow the opening a little on both ends
 	for i in points.size():
-		if gate_edge[i]:
+		if gate_edge[i] and i == _gate_filter:
 			for p in [points[i], points[(i + 1) % points.size()]]:
 				var g := Map.ground_pos(p.x, p.y)
 				_box(g + Vector3(0, 0, -0.25), g + Vector3(0, 0, 0.25), 0.5, POST_HEIGHT)
@@ -145,8 +188,9 @@ func _build_visuals() -> void:
 			var g := Map.ground_pos(p.x, p.y)
 			var basis := Basis(Vector3.UP, rng.randf() * TAU)
 			basis = Basis(Vector3(d.x, 0, d.y), rng.randf_range(-0.03, 0.03)) * Basis(Vector3(n.x, 0, n.y), rng.randf_range(-0.02, 0.02)) * basis
-			logs.append(Transform3D(basis.scaled(Vector3(1, h, 1)), g + Vector3.UP * (h * 0.5 - 0.08)))
-			tips.append(Transform3D(basis, g + Vector3.UP * (h - 0.08 + 0.15)))
+			var foot := g - Vector3.UP * 0.08
+			logs.append(Transform3D(basis * Basis.from_scale(Vector3(1, h, 1)), foot + basis.y * h * 0.5))
+			tips.append(Transform3D(basis, foot + basis.y * (h + 0.15)))
 		# two rails on the inside face, one per <= 3 m piece
 		var pieces := ceili(run / 3.0)
 		for k in pieces:
@@ -154,11 +198,10 @@ func _build_visuals() -> void:
 			var pb := a.lerp(b, float(k + 1) / pieces)
 			var ga := Map.ground_pos(pa.x, pa.y)
 			var gb := Map.ground_pos(pb.x, pb.y)
-			var dir3 := (gb - ga).normalized()
-			var mid := (ga + gb) * 0.5 + Vector3(n.x, 0, n.y) * (LOG_RADIUS + 0.06)
+			var inset := Vector3(n.x, 0, n.y) * LOG_RADIUS * 0.7
 			for y in [1.0, 1.9]:
-				rails.append(Transform3D(Basis.looking_at(dir3, Vector3.UP).scaled(Vector3(0.09, 0.14, ga.distance_to(gb) + 0.05)), mid + Vector3.UP * y))
-	log_count = logs.size()
+				rails.append(beam_transform(ga + inset + Vector3.UP * y, gb + inset + Vector3.UP * y, 0.09, 0.14, 0.05))
+	log_count += logs.size()
 	var log_mesh := CylinderMesh.new()
 	log_mesh.top_radius = LOG_RADIUS * 0.82
 	log_mesh.bottom_radius = LOG_RADIUS
@@ -186,18 +229,22 @@ func _build_visuals() -> void:
 	var posts: Array[Transform3D] = []
 	var lintels: Array[Transform3D] = []
 	for i in points.size():
-		if not gate_edge[i]:
+		if not gate_edge[i] or i != _gate_filter:
 			continue
 		var ga := Map.ground_pos(points[i].x, points[i].y)
 		var gb := Map.ground_pos(points[(i + 1) % points.size()].x, points[(i + 1) % points.size()].y)
 		for g in [ga, gb]:
 			posts.append(Transform3D(Basis.IDENTITY.scaled(Vector3(1, POST_HEIGHT, 1)), g + Vector3.UP * (POST_HEIGHT * 0.5 - 0.1)))
-		var top := maxf(ga.y, gb.y) + POST_HEIGHT - 0.35
-		var la := Vector3(ga.x, top, ga.z)
-		var lb := Vector3(gb.x, top, gb.z)
-		lintels.append(Transform3D(Basis.looking_at((lb - la).normalized(), Vector3.UP).scaled(Vector3(0.28, 0.28, la.distance_to(lb) + 0.5)), (la + lb) * 0.5))
+		var la := ga + Vector3.UP * (POST_HEIGHT - 0.35)
+		var lb := gb + Vector3.UP * (POST_HEIGHT - 0.35)
+		lintels.append(beam_transform(la, lb, 0.28, 0.28, 0.5))
 	_multimesh("Posts", post_mesh, posts, bark, true)
 	_multimesh("Lintels", rail_mesh, lintels, wood, true)
+
+static func beam_transform(a: Vector3, b: Vector3, width: float, height: float, extra_length := 0.0) -> Transform3D:
+	# Scale the box in its own axes before rotating it along the endpoints.
+	var basis := Basis.looking_at((b - a).normalized(), Vector3.UP) * Basis.from_scale(Vector3(width, height, a.distance_to(b) + extra_length))
+	return Transform3D(basis, (a + b) * 0.5)
 
 func _multimesh(name: String, mesh: Mesh, transforms: Array[Transform3D], material: Material, shadows: bool) -> void:
 	if transforms.is_empty():
@@ -213,4 +260,4 @@ func _multimesh(name: String, mesh: Mesh, transforms: Array[Transform3D], materi
 	inst.multimesh = mm
 	inst.material_override = material
 	inst.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if shadows else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	add_child(inst)
+	_section.add_child(inst)

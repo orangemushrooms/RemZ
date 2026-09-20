@@ -7,6 +7,7 @@ const LIMIT := 6
 const HEALTH := [240.0, 400.0, 600.0]
 const RANGE := [26.0, 32.0, 38.0]
 const UPGRADES := [100, 175]
+const HALF_ARC := 80.0 * PI / 180.0
 var tower_id := 0
 var owner_peer := 1
 var level := 1
@@ -178,6 +179,10 @@ func refresh() -> void:
 
 func can_see(z: Zombie) -> bool:
 	if not is_instance_valid(z) or not z.alive: return false
+	var direction := z.global_position - global_position
+	if Vector2(direction.x, direction.z).length_squared() > 0.01:
+		var yaw := atan2(-direction.x, -direction.z)
+		if absf(angle_difference(rotation.y, yaw)) > HALF_ARC: return false
 	var aim := z.global_position + Vector3.UP * z.height * 0.55
 	if muzzle.global_position.distance_squared_to(aim) > pow(RANGE[level - 1], 2): return false
 	var q := PhysicsRayQueryParameters3D.create(muzzle.global_position, aim, 1 | 2 | 8, [body.get_rid()])
@@ -207,7 +212,7 @@ func _physics_process(delta: float) -> void:
 				target = z
 	if not is_instance_valid(target) or not target.alive: return
 	var direction := target.global_position + Vector3.UP * target.height * 0.55 - gun.global_position
-	aim_yaw = atan2(-direction.x, -direction.z)
+	aim_yaw = wrapf(atan2(-direction.x, -direction.z) - rotation.y, -PI, PI)
 	aim_pitch = atan2(direction.y, Vector2(direction.x, direction.z).length())
 	if cooldown <= 0 and not overheated and absf(angle_difference(gun.rotation.y, aim_yaw)) < 0.12 and absf(angle_difference(gun.rotation.x, aim_pitch)) < 0.12 and can_see(target):
 		shoot()

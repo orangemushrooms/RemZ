@@ -27,8 +27,11 @@ var fire_light: OmniLight3D
 var started := false
 var over := false
 var near_bar = null
+var notice_board: Node3D
+const SECRET_SHOP_NOTICE := "Zwischen den Zeilen steht, von Hand ergänzt:\n\nMan sagt, es gebe einen Laden, der keinen Namen trägt.\nSeine Waren stehen auf keiner Liste. Sein Händler stellt keine Fragen.\nWer ihn findet, versteht, warum niemand von ihm spricht."
 var rng := RandomNumberGenerator.new()
 var _autotest := false
+var _restarted := false      # scene rebuilt by "Nochmal": skip the start menu and the intro
 var _shot_t := 0.0
 var _shot_i := 0
 var _spawned_test := false
@@ -41,6 +44,7 @@ var settings: GameSettings
 var stats: RunStats
 var difficulty: Dictionary = GameSettings.DIFFICULTIES[1]
 var navigation_ready := false
+var _perimeter_navigation_dirty := false
 var _alive_count := 0
 var render_stats := {}
 
@@ -113,11 +117,12 @@ func _ready() -> void:
 		b.setup(s, hud)
 		add_child(b)
 		barricades.append(b)
-	# the palisade ring closes every way to the campsite except the four gates; it is part of the navmesh bake
+	# Palisade sections follow gate construction; navigation is refreshed when their state changes.
 	if not "--no-perimeter" in _flags:
 		perimeter = Perimeter.new()
 		add_child(perimeter)
 		perimeter.setup(barricades)
+		perimeter.layout_changed.connect(_perimeter_changed)
 	waves = Waves.new()
 	add_child(waves)
 	waves.setup(self, hud, player, weapons)
@@ -164,7 +169,7 @@ func _ready() -> void:
 	for sound in ["pistol", "revolver", "smg", "ak47", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "boom", "pickup"]:
 		Sfx.get_stream(sound)
 	Zombie.preload_models()
-	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Ein Palisadenring aus Rundholz schliesst Hütte, Holzlager und Feuerplatz ein; seine vier Tore sind die einzigen Zugänge. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
+	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
 	hud.overlay_button.disabled = true
 	hud.set_loading(true)
 	nav_region.bake_finished.connect(_navigation_baked)
@@ -183,7 +188,19 @@ func _shot_menu() -> void:
 	print("SHOT_MENU_DONE")
 	get_tree().quit()
 
+func _perimeter_changed() -> void:
+	_perimeter_navigation_dirty = true
+	call_deferred("_refresh_perimeter_navigation")
+
+func _refresh_perimeter_navigation() -> void:
+	if not navigation_ready or nav_region.is_baking() or not _perimeter_navigation_dirty: return
+	_perimeter_navigation_dirty = false
+	nav_region.bake_navigation_mesh(true)
+
 func _navigation_baked() -> void:
+	if navigation_ready:
+		_refresh_perimeter_navigation()
+		return
 	# The baked region must reach the navigation server before validating key paths.
 	get_tree().paused = false
 	await get_tree().physics_frame
@@ -204,6 +221,11 @@ func _navigation_baked() -> void:
 	hud.overlay_status.text = "Bereit."
 	hud.set_loading(false)
 	NetSession.attach(self)
+	if NetSession.restart_pending and not NetSession.enabled:
+		# "Nochmal" after a death: straight into the next round, no start menu and no intro
+		NetSession.restart_pending = false
+		_restarted = true
+		_on_start()
 	if _autotest or "--benchmark" in _flags or "--intro-test" in _flags:
 		_on_start()
 	for f in _flags:
@@ -1622,11 +1644,25 @@ func _signpost(x: float, z: float) -> void:
 	_sign_arrow(root, "Remetschwil", 1.9, PI)
 	_box_collider(root, Vector3(0.3, 2.5, 0.3))
 	# small wooden info board next to it (photo 16)
-	if _prop(root, "info_board", 1.9, "y", Vector3(1.0, 0.0, 0.3), -0.2):
-		_box_collider(root, Vector3(0.7, 1.9, 0.3), Vector3(1.0, 0.0, 0.3))
-	else:
-		_box(root, Vector3(0.6, 0.5, 0.05), Vector3(1.0, 1.4, 0.3), Foliage.pbr("planks", 0.8, Color(0.6, 0.5, 0.4)))
-		_box(root, Vector3(0.08, 1.2, 0.08), Vector3(1.0, 0.6, 0.3), post)
+	notice_board = Node3D.new()
+	notice_board.name = "ReadableNoticeBoard"
+	root.add_child(notice_board)
+	notice_board.position = Vector3(1.0, 0.0, 0.3)
+	if not _prop(notice_board, "info_board", 1.9, "y", Vector3.ZERO, -0.2):
+		_box(notice_board, Vector3(0.6, 0.5, 0.05), Vector3(0, 1.4, 0), Foliage.pbr("planks", 0.8, Color(0.6, 0.5, 0.4)))
+		_box(notice_board, Vector3(0.08, 1.2, 0.08), Vector3(0, 0.6, 0), post)
+	_box_collider(notice_board, Vector3(0.7, 1.9, 0.3))
+
+func _looking_at_notice() -> bool:
+	if not is_instance_valid(notice_board): return false
+	var eye := player.camera.global_position
+	var query := PhysicsRayQueryParameters3D.create(eye, eye - player.camera.global_basis.z * Door.INTERACT_REACH, 1 | 8, [player.get_rid()])
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	return not hit.is_empty() and hit.collider.get_parent() == notice_board
+
+func _read_notice() -> void:
+	# Local flavour only: reading never discovers the trader or reveals a map marker.
+	hud.message(SECRET_SHOP_NOTICE, 14.0)
 
 # guidepost at the junction Sennhofstrasse / Weg zur Hütte (photo 8), on the verge north of the track
 func _junction_guidepost() -> void:
@@ -1641,7 +1677,7 @@ func _junction_guidepost() -> void:
 	pm.position.y = 1.25
 	root.add_child(pm)
 	# arrows: yaw 0 = -z = north
-	_sign_arrow(root, "Waldhütte Remetschwil", 2.15, PI / 2.0 + 0.35)   # west-south-west along the Weg zur Hütte
+	_sign_arrow(root, "Waldhütte", 2.15, PI / 2.0 + 0.35)   # west-south-west along the Weg zur Hütte
 	_sign_arrow(root, "Oberrohrdorf", 1.9, -0.2)                        # north along the Sennhofstrasse
 	_sign_arrow(root, "Remetschwil", 1.65, PI - 0.15)                    # south along the Sennhofstrasse
 	_box_collider(root, Vector3(0.3, 2.5, 0.3))
@@ -2107,6 +2143,7 @@ func _on_start() -> void:
 			NetSession.start_game()
 			return
 	if over:
+		NetSession.restart_pending = true
 		get_tree().paused = false
 		get_tree().reload_current_scene()
 		return
@@ -2115,7 +2152,7 @@ func _on_start() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	player.active = true
 	if not started:
-		var skip_intro := NetSession.enabled or "--no-intro" in _flags or _autotest or "--benchmark" in _flags or "--smoke-test" in _flags
+		var skip_intro := NetSession.enabled or _restarted or "--no-intro" in _flags or _autotest or "--benchmark" in _flags or "--smoke-test" in _flags
 		for f in _flags:
 			if f.begins_with("--view=") or f.begins_with("--views=") or f == "--shot-ui":
 				skip_intro = true
@@ -2158,8 +2195,24 @@ func _game_over() -> void:
 	hud.show_overlay("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score], "Nochmal", "", "over")
 	hud.show_run_summary(stats, player.score, waves.completed, rank, str(difficulty["name"]))
 
-func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "") -> void:
-	if NetSession.is_client(): return
+func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimum_distance := 0.0) -> bool:
+	if NetSession.is_client(): return false
+	var spawn := Map.ground_pos(p.x, p.y)
+	var nav_map := nav_region.get_navigation_map()
+	if minimum_distance > 0.0 and NavigationServer3D.map_get_iteration_id(nav_map) == 0:
+		return false
+	if NavigationServer3D.map_get_iteration_id(nav_map) > 0:
+		spawn = NavigationServer3D.map_get_closest_point(nav_map, spawn)
+	# Check the final navigable position, since projection can move a spawn toward a player.
+	if minimum_distance > 0.0:
+		var actors: Array = [player]
+		if NetSession.is_host() and NetSession.world:
+			actors.append_array(NetSession.world.actors.values())
+		for actor in actors:
+			if not is_instance_valid(actor) or not actor.alive: continue
+			var offset: Vector3 = spawn - actor.global_position
+			if Vector2(offset.x, offset.z).length_squared() < minimum_distance * minimum_distance:
+				return false
 	var z: Zombie = Titan.new() if type == "titan" else Zombie.new()
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	z.hp *= float(difficulty["hp"])
@@ -2175,20 +2228,21 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "") -> voi
 	if lane_slots.has(lane): z.lane_bar = barricades[lane_slots[lane]]
 	z.damage_mul = float(difficulty["dmg"])
 	zombies_root.add_child(z)
-	var spawn := Map.ground_pos(p.x, p.y)
-	var nav_map := nav_region.get_navigation_map()
-	if NavigationServer3D.map_get_iteration_id(nav_map) > 0:
-		spawn = NavigationServer3D.map_get_closest_point(nav_map, spawn)
 	z.global_position = spawn + Vector3(0, 0.2, 0)
 	_alive_count += 1
 	z.tree_exiting.connect(func():
 		if z.alive:
 			_alive_count = maxi(0, _alive_count - 1))
+	return true
+
+# Points are the only currency (barricades, towers, vendors). Kills pay 60 % of the type value so the
+# first barricade takes most of wave 1 and gates, towers and guns have to be earned wave by wave.
+const KILL_VALUE := 0.6
 
 func _zombie_killed(zombie: Zombie) -> void:
 	_alive_count = maxi(0, _alive_count - 1)
-	# points: base value x difficulty, plus up to +100 % for a kill streak (from the third kill within 4 s)
-	var base := float(zombie.type["score"]) * float(difficulty["score"])
+	# points: base value x difficulty x KILL_VALUE, plus up to +100 % for a kill streak (from the third kill within 4 s)
+	var base := float(zombie.type["score"]) * float(difficulty["score"]) * KILL_VALUE
 	var streak := stats.streak() + 1
 	var bonus := clampf((streak - 2) * 0.1, 0.0, 1.0)
 	var points := int(round(base * (1.0 + bonus) * (1.5 if zombie.last_headshot else 1.0)))
@@ -2266,9 +2320,14 @@ func _process(delta: float) -> void:
 		var downed: int = NetSession.world.nearby_downed_player() if NetSession.enabled and NetSession.world else 0
 		var tower := defences.nearest(player)
 		var npc := progression.nearest(player)
-		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("[E] Turm ausrichten · [F] Reparieren · Ausbau bei Mira" if tower else (near.prompt_text() if near else "[T] Geschützturm setzen · 120 P"))))
+		var reading_notice := _looking_at_notice() and not downed
+		var idle_prompt := "" if intro.showing_guidance() else "[T] Geschützturm setzen · 120 P"
+		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("[E] Turm ausrichten · [F] Reparieren · Ausbau bei Mechanic" if tower else (near.prompt_text() if near else idle_prompt))))
 		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
-		if not npc.is_empty() and not downed and Input.is_action_just_pressed("interact"):
+		if reading_notice: hud.set_prompt("[E] Schild lesen · Eine seltsame Notiz")
+		if reading_notice and Input.is_action_just_pressed("interact"):
+			_read_notice()
+		elif not npc.is_empty() and not downed and Input.is_action_just_pressed("interact"):
 			progression.interact(npc)
 		elif downed and Input.is_action_just_pressed("interact"):
 			NetSession.command("revive", [downed])

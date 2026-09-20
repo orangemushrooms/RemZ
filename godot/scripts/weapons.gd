@@ -18,8 +18,16 @@ const DEFS := {
 				  "pos": Vector3(0.24, -0.23, -0.58), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 2.2, "kick_yaw": 1.05, "kick_back": 0.085, "recover": 7.5 },
 	"shotgun":  { "name": "Schrotflinte", "model": "rifle", "height": 0.16, "mag": 6, "reserve": 24, "damage": 22.0, "rate": 0.85, "reload": 2.0, "pellets": 8, "spread": 0.07, "range": 28.0, "auto": false, "sfx": "shotgun", "sfx_db": -7.0,
 				  "pos": Vector3(0.22, -0.24, -0.6), "ads": Vector3(0.0, -0.15, -0.45), "kick_pitch": 8.0, "kick_yaw": 2.0, "kick_back": 0.19, "recover": 4.5 },
+	"marksman": {"name": "Waldläufer .308", "model": "marksman", "height": 0.20, "mag": 5, "reserve": 10, "damage": 165.0, "rate": 1.15, "reload": 2.8, "pellets": 1, "spread": 0.0025, "range": 150.0, "auto": false, "sfx": "revolver", "sfx_db": -10.0,
+		"pos": Vector3(0.24, -0.23, -0.62), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 7.0, "kick_yaw": 1.0, "kick_back": 0.16, "recover": 4.0},
+	"lmg": {"name": "MG-60", "model": "lmg", "height": 0.23, "mag": 60, "reserve": 120, "damage": 40.0, "rate": 0.085, "reload": 4.2, "pellets": 1, "spread": 0.034, "range": 85.0, "auto": true, "sfx": "ak47", "sfx_db": -16.0, "sfx_pitch": 0.88,
+		"pos": Vector3(0.25, -0.27, -0.64), "ads": Vector3(0, -0.16, -0.46), "kick_pitch": 2.0, "kick_yaw": 1.4, "kick_back": 0.085, "recover": 7.0},
+	"breacher": {"name": "Nachtbrecher 12", "model": "breacher", "height": 0.20, "mag": 8, "reserve": 16, "damage": 25.0, "rate": 0.5, "reload": 3.3, "pellets": 9, "spread": 0.075, "range": 25.0, "auto": false, "sfx": "shotgun", "sfx_db": -6.0,
+		"pos": Vector3(0.24, -0.24, -0.6), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 8.5, "kick_yaw": 2.2, "kick_back": 0.19, "recover": 4.8},
+	"titanbreaker": {"name": "Titanenbrecher .50", "model": "titanbreaker", "height": 0.23, "mag": 4, "reserve": 8, "damage": 420.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
+		"pos": Vector3(0.24, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.48), "kick_pitch": 12.0, "kick_yaw": 1.6, "kick_back": 0.23, "recover": 3.2},
 }
-const ORDER := ["pistol", "revolver", "smg", "ak47", "shotgun"]
+const ORDER := ["pistol", "revolver", "smg", "ak47", "shotgun", "marksman", "lmg", "breacher", "titanbreaker"]
 const HIT_RAY_LENGTH := 600.0   # longer than the map diagonal
 
 var player: Player
@@ -29,6 +37,7 @@ var viewmodel: ViewmodelViewport
 var state := {}
 var current := "pistol"
 var unlocked := { "pistol": true, "revolver": false, "smg": false, "ak47": false, "shotgun": false }
+var skins: Dictionary = {}
 var recoil := 0.0
 var sway_t := 0.0
 var flash: OmniLight3D
@@ -64,6 +73,7 @@ func setup_proxy(p: Player, h: Hud, zr: Node3D) -> void:
 	camera = p.camera
 	zombies_root = zr
 	for id in DEFS:
+		unlocked[id] = id == "pistol"
 		state[id] = {"def": DEFS[id], "ammo": DEFS[id].mag, "reserve": DEFS[id].reserve, "cooldown": 0.0, "reloading": 0.0}
 	_grenade_scene = load("res://assets/models/grenade.glb")
 
@@ -72,9 +82,17 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	hud = h
 	camera = p.camera
 	zombies_root = zr
+	for i in range(6, 10):
+		var action := "weapon_%d" % i
+		if not InputMap.has_action(action):
+			InputMap.add_action(action)
+			var key := InputEventKey.new()
+			key.physical_keycode = KEY_0 + i
+			InputMap.action_add_event(action, key)
 	viewmodel = Viewmodel.new()
 	add_child(viewmodel)
 	for id in DEFS:
+		unlocked[id] = id == "pistol"
 		var d: Dictionary = DEFS[id]
 		var holder := Node3D.new()
 		holder.position = d["pos"]
@@ -101,6 +119,8 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 			holder.add_child(box)
 		holder.visible = false
 		viewmodel.camera.add_child(holder)
+		for mesh in holder.find_children("*", "MeshInstance3D", true, false):
+			mesh.set_meta("weapon_surface", true)
 		var bounds := Hands.weapon_bounds(holder)
 		var hands := Hands.build(id, bounds)
 		holder.add_child(hands)
@@ -150,7 +170,7 @@ func set_weapon(id: String) -> void:
 	if not DEFS.has(id):
 		return
 	if not unlocked.get(id, false):
-		hud.message("%s im Skillmenü (Tab) freischalten" % DEFS[id]["name"], 1.4)
+		hud.message("%s beim Waffenhändler kaufen" % DEFS[id]["name"], 1.4)
 		return
 	if server_proxy:
 		cur().reloading = 0.0
@@ -185,15 +205,22 @@ func unlock(id: String) -> void:
 	unlocked[id] = true
 
 func add_ammo(id: String, n: int) -> void:
-	state[id]["reserve"] += n
+	state[id]["reserve"] = mini(reserve_limit(id), int(state[id]["reserve"]) + n)
 	update_hud()
 
+func reserve_limit(id: String) -> int:
+	return int(DEFS[id].mag) * (8 if id == "pistol" else 4)
+
 func refill_all() -> void:
-	for id in state:
-		if unlocked[id]:
-			state[id]["reserve"] += int(DEFS[id]["mag"]) * 3
-	grenades = grenades_max
+	# A survival safety net, not unlimited free ammunition for the strongest gun.
+	state["pistol"].reserve = maxi(int(state["pistol"].reserve), 36)
 	update_hud()
+
+func apply_skin(id: String, finish: String) -> void:
+	if not state.has(id) or skins.get(id, "__unset") == finish: return
+	skins[id] = finish
+	if not server_proxy: WeaponSkins.apply(state[id].node, finish, true)
+
 
 func update_hud() -> void:
 	var s := cur()
@@ -225,7 +252,7 @@ func try_fire() -> void:
 	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"])
 	recoil = 1.0
 	if not server_proxy:
-		Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)))
+		Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)), float(d.get("sfx_pitch", 1.0)))
 		effects.fire(current, muzzle_transform(), player.velocity)
 	# recoil climbs while holding the trigger, drifts sideways, less when aiming
 	_shots_in_burst += 1
@@ -273,7 +300,8 @@ func try_fire() -> void:
 			z.killer_peer = player.peer_id
 			var dist := origin.distance_to(hit.position)
 			var falloff := 1.0 - 0.45 * clampf((dist - float(d["range"])) / (2.0 * float(d["range"])), 0.0, 1.0)
-			z.damage(float(d["damage"]) * damage_mul * falloff * (2.2 if headshot else 1.0), dir)
+			var titan_bonus := float(d.get("titan_multiplier", 1.0)) if z.net_kind == "titan" else 1.0
+			z.damage(float(d["damage"]) * damage_mul * titan_bonus * falloff * (2.2 if headshot else 1.0), dir)
 			_blood(hit.position, dir)
 			hud.hitmarker(headshot)
 			any_hit = true
@@ -543,7 +571,7 @@ func _handle_weapon_input(delta: float) -> void:
 		melee()
 	_melee_anim = maxf(0.0, _melee_anim - delta * 3.2)
 	for i in ORDER.size():
-		if Input.is_action_just_pressed("weapon_%d" % (i + 1)):
+		if InputMap.has_action("weapon_%d" % (i + 1)) and Input.is_action_just_pressed("weapon_%d" % (i + 1)):
 			set_weapon(ORDER[i])
 	if Input.is_action_just_pressed("weapon_next"):
 		var idx := ORDER.find(current)
@@ -557,7 +585,8 @@ func _handle_weapon_input(delta: float) -> void:
 	# aim down sights
 	var want_ads := 1.0 if Input.is_action_pressed("aim") and s["reloading"] <= 0.0 else 0.0
 	ads = lerpf(ads, want_ads, minf(1.0, delta * 10.0))
-	camera.fov = lerpf(75.0, 52.0, ads)
+	var aimed_fov := 32.0 if current == "marksman" else (26.0 if current == "titanbreaker" else 52.0)
+	camera.fov = lerpf(75.0, aimed_fov, ads)
 	# camera recoil recovery: part of the kick stays (the camera really moved), the rest settles back
 	var rec: float = float(d["recover"])
 	var applied_pitch := kick_pitch * (1.0 - exp(-delta * rec))

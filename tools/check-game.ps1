@@ -1,6 +1,6 @@
 param(
     [string]$Godot = 'C:/Users/miche/Desktop/Godot.exe',
-    [ValidateSet('Smoke', 'Defence', 'WeaponEffects', 'Barricades', 'Atmosphere', 'DayNight', 'DoorsKeys', 'CampsitePickups', 'Benchmark', 'ExportPack', 'ExportWindows')]
+    [ValidateSet('Smoke', 'Progression', 'Defence', 'TitanHorror', 'TitanMix', 'WeaponEffects', 'Barricades', 'Atmosphere', 'DayNight', 'DoorsKeys', 'CampsitePickups', 'Benchmark', 'ExportPack', 'ExportWindows')]
     [string]$Mode = 'Smoke',
     [ValidateRange(0, 2)][int]$Quality = 0
 )
@@ -13,6 +13,18 @@ $log = Join-Path $logDir ('check-' + $Mode.ToLowerInvariant() + '.log')
 $arguments = @('--path', ('"' + $project + '"'), '--log-file', ('"' + $log + '"'))
 $marker = $null
 switch ($Mode) {
+    'Progression' {
+        $arguments += @('--headless', '--script', 'res://tests/run.gd', '--', '--suite=progression', '--smoke-test', '--no-intro', '--no-music', '--no-foliage')
+        $marker = 'PROGRESSION_DONE checks=\d+ failures=0'
+    }
+    'TitanHorror' {
+        $arguments += @('--headless', '--script', 'res://tests/run.gd', '--', '--suite=titan_horror', '--smoke-test', '--no-intro', '--no-music', '--no-foliage')
+        $marker = 'TITAN_HORROR_DONE checks=\d+ failures=0'
+    }
+    'TitanMix' {
+        $arguments += @('--headless', '--script', 'res://tests/run.gd', '--', '--suite=titan_mix', '--smoke-test')
+        $marker = 'TITAN_MIX_DONE checks=\d+ failures=0'
+    }
     'Defence' {
         $arguments += @('--headless', '--script', 'res://tests/run.gd', '--', '--suite=defence', '--smoke-test', '--no-intro', '--no-music', '--no-foliage')
         $marker = 'DEFENCE_DONE checks=\d+ failures=0'

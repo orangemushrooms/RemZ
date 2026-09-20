@@ -18,7 +18,7 @@ const FOG_DENSE := 0.045                      # exponential fog density when wak
 const VFOG_DENSE := 0.03
 const MUSIC_DB := -6.0
 const TYPE_SPEED := 32.0                      # characters per second
-const BRIEFING := "Du wachst auf. Kalt. Nebel.\nFolge der Strasse nach Norden, dann dem Weg zur Waldhütte.\nDort halten die Barrikaden. Verteidige sie gegen die Zombies."
+const BRIEFING := "Finde die Waldhütte.\nFolge der Strasse und dem Richtungspfeil."
 const BRIEFING_ROAD := "Sie haben dich gehört.\nZur Waldhütte, halte die Barrikaden!"
 # the arrow follows the road: junction, along the Weg zur Hütte, the fork, the hut
 const WAYPOINTS := [Vector2(124.0, 21.0), Vector2(70.0, 41.0), Vector2(30.0, 54.5), Vector2(7.0, 61.0), Vector2(4.0, -4.0)]
@@ -92,11 +92,15 @@ func setup(m: Node, p: Player, e: Environment) -> void:
 	_text.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
 	_text.add_theme_constant_override("shadow_offset_x", 1)
 	_text.add_theme_constant_override("shadow_offset_y", 1)
+	_text.add_theme_constant_override("line_spacing", 10)
+	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_text.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	_text.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	_text.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	_text.position.y = -250
+	_text.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	_text.anchor_left = 0.2
+	_text.anchor_right = 0.8
+	_text.offset_top = -250
+	_text.offset_bottom = -150
+	_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_text.visible = false
 	_layer.add_child(_text)
@@ -127,6 +131,9 @@ func setup(m: Node, p: Player, e: Environment) -> void:
 		_music.stream = st
 	_music.volume_db = MUSIC_DB
 	add_child(_music)
+
+func showing_guidance() -> bool:
+	return active or (_text != null and _text.visible)
 
 func begin() -> void:
 	active = true

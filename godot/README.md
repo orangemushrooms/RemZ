@@ -23,7 +23,7 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | Q | Nahkampf: Kolbenschlag mit Rückstoss, auch beim Nachladen |
 | Enter | Wartezeit überspringen, nächste Welle sofort starten |
 | E | NPC ansprechen / Barrikade bauen oder reparieren / Turm ausrichten / Gegenstand oder Tür |
-| V | Verteidigungsberatung bei Mira |
+| V | Verteidigungsberatung bei Mechanic |
 | T | Turmvorschau; R/Mausrad dreht, E bestätigt, T/Escape bricht ab |
 | B | Inventar |
 | F | Am Turm reparieren, sonst Taschenlampe |
@@ -35,9 +35,9 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 
 Beide Hände folgen der jeweiligen Waffe beim Zielen, Rückstoß und Nachladen. Die Minimap unten rechts bildet die tatsächlichen Kartendaten ab. Norden bleibt auf der Karte oben; der Spielerpfeil und die Windrose reagieren auf die Blickrichtung. Rote Punkte zeigen Gegner. Sperrlinien sind rot (ungebaut), grün (gebaut) oder gelb (stark beschädigt).
 
-**E an einer Barrikade** baut die ganze Linie für 50 Punkte, verstärkt eine intakte Linie oder repariert eine beschädigte für 25 Punkte. Jede Stufe bringt 300 Strukturpunkte, bis zu 900. Material und Kollision folgen dem Gelände. Bauaktionen sind bis 6 m Abstand möglich; belegte Flächen verhindern den Neubau ohne Punkteabzug. Beratung und Turmausbau gibt es bei Mira.
+**E an einer Barrikade** baut die ganze Linie für 50 Punkte, verstärkt eine intakte Linie oder repariert eine beschädigte für 25 Punkte. Jede Stufe bringt 300 Strukturpunkte, bis zu 900. Material und Kollision folgen dem Gelände. Bauaktionen sind bis 6 m Abstand möglich; belegte Flächen verhindern den Neubau ohne Punkteabzug. Beratung und Turmausbau gibt es bei Mechanic.
 
-**Händler und Aufträge:** Reto verkauft Waffen am Lagerfeuer, Mira bietet Training und Verteidigung, ein versteckter Händler im Wald führt seltene Waffen. Fünf Aufträge, neun Waffen und drei Lackierungen sind an verdiente Punkte und erreichte Ziele gebunden. Handel findet ausschliesslich beim NPC statt. Steuerung, Preise und Spielregeln: [Fortschritt und Händler](../docs/FORTSCHRITT.md).
+**Händler und Aufträge:** Vendor verkauft Waffen am Lagerfeuer, Mechanic bietet Training und Verteidigung, ein versteckter Händler im Wald führt seltene Waffen. Fünf Aufträge, neun Waffen und drei Lackierungen sind an verdiente Punkte und erreichte Ziele gebunden. Handel findet ausschliesslich beim NPC statt. Steuerung, Preise und Spielregeln: [Fortschritt und Händler](../docs/FORTSCHRITT.md).
 
 Die Hände verwenden modellierte Handschuhe mit Fingerskelett und Normalmaps. Die Ärmel stammen aus einer Meshy-Generierung mit 4K-PBR-Materialien und werden an die Griffpositionen jeder Waffe angepasst. Waffen und Arme werden separat in voller Fensterauflösung mit Kantenglättung gerendert, unabhängig von der 3D-Skalierung der Karte. Quellen und Lizenzhinweise: `assets/viewmodel/SOURCES.md` und `assets/viewmodel/VALVE-LICENSE.txt`.
 
@@ -47,9 +47,9 @@ Die Rückstoßabstimmung wurde nach dem Spieltest verstärkt: 60–100 % mehr Gr
 
 ## Verteidigung und Titanen
 
-**Palisadenring.** Ein 270 m langer Ring aus zugespitzten Rundhölzern umschliesst Feuerplatz, Waldhütte, Holzlager und den Weg hinunter bis zur Gabelung. Er ist Teil des Wegnetzes: Zombies können ihn weder überklettern noch umgehen, die einzigen Öffnungen sind die vier Tore (Waldweg Nord, Weg zur Hütte, Wiesentor, Weg Richtung Dorf), in denen die Sperrlinien gebaut werden. Ein Zombie läuft deshalb immer auf ein Tor zu und schlägt dort auf die Sperre ein (300 Punkte Struktur pro Ausbaustufe, verstärkte Stufen dämpfen den Schaden zusätzlich); erst ein durchbrochenes Tor lässt die Horde hinein. Der Spieler klettert mit der Leertaste über eine gebaute Sperre, um Vorräte vor dem Tor einzusammeln. Die Minimap zeichnet den Ring und die Tore. Prüfung: `--script res://tests/run.gd -- --suite=perimeter --smoke-test --no-intro --no-music`.
+**Palisadenring.** Der Ring entsteht abschnittsweise: Eine Barrikade zu bauen errichtet auch den zugehörigen Palisadenabschnitt. Ungebaute Abschnitte sind unsichtbar und frei begehbar. Wird die Barrikade zerstört, fällt auch ihr Abschnitt weg. Die Minimap zeigt nur gebaute Wände; die Gegnerwege werden nach Bau und Zerstörung neu berechnet. Der Spieler kann gebaute Torsperren mit der Leertaste überklettern. Prüfung: `--script res://tests/run.gd -- --suite=perimeter --smoke-test --no-intro --no-music`.
 
-Barrikaden binden anrückende Zombies bis zum Durchbruch. Mit **T** lassen sich automatische Geschütztürme für 120 Punkte setzen, maximal sechs pro Team. **R/Mausrad** dreht die Vorschau, **E** bestätigt. Am Turm richtet **E** ihn neu aus, **F** repariert. Ausbau und Abbau verwaltet Mira. Türme decken einen 160°-Sektor ab, brauchen freie Sicht, überhitzen bei Dauerfeuer und können zerstört werden.
+Barrikaden binden anrückende Zombies bis zum Durchbruch. Ein sichtbarer Spieler innerhalb von 10 Metern hat jedoch Vorrang: Zombies lösen sich von der Sperre und greifen ihn an. Die Verfolgung bleibt bis 14 Meter bestehen; versperren Wände oder geschlossene Tore die Sicht, nehmen sie die Belagerung wieder auf. Das gilt auch im Koop und für Titanen. Mit **T** lassen sich automatische Geschütztürme für 120 Punkte setzen, maximal sechs pro Team. **R/Mausrad** dreht die Vorschau, **E** bestätigt. Am Turm richtet **E** ihn neu aus, **F** repariert. Ausbau und Abbau verwaltet Mechanic. Türme decken einen 160°-Sektor ab, brauchen freie Sicht, überhitzen bei Dauerfeuer und können zerstört werden.
 
 Ab **Welle 6**, danach alle drei Wellen, kommen rund 27 m grosse Feldtitanen. Ihre orange markierten Flächenangriffe kündigen sich 2,4 Sekunden vorher an. Ab Welle 12 kommen zwei, ab Welle 24 höchstens drei Titanen in diesen Wellen. Alle Systeme unterstützen den Koop. Einzelheiten: [Verteidigungsanleitung](../docs/VERTEIDIGUNG.md).
 
@@ -91,6 +91,8 @@ Die Physik verwendet Jolt. Vegetation und wiederholte Objekte werden räumlich g
 
 Die 72 separaten Oberflächentexturen verwenden jetzt GPU-Kompression und Mipmaps. Ihre Desktop-Importdateien belegen zusammen etwa 64 MiB einschließlich Mipmaps; die unkomprimierten RGBA-Basisbilder entsprechen etwa 246 MiB. Farbkarten verwenden BC7, Normalmaps die passende Normalmap-Kompression.
 
+Bleiben nach dem letzten Spawn höchstens drei Zombies für 20 Sekunden übrig, suchen sie aktiv den Spieler. Sie geben alte Belagerungsziele auf und aktualisieren ihren Weg jede Sekunde. Sperren auf dem Weg werden weiterhin angegriffen. Im Koop suchen sie einen lebenden Spieler; die Entscheidung trifft der Host.
+
 ## Prüfen und exportieren
 
 Aus dem übergeordneten Projektordner in PowerShell:
@@ -110,7 +112,7 @@ Aus dem übergeordneten Projektordner in PowerShell:
 
 Bei anderem Installationsort zusätzlich `-Godot 'C:/Pfad/Godot.exe'` angeben. Für den Export sind passende offizielle Windows-Templates erforderlich; das Preset verweist auf `../builds/templates/`. Benchmark mit geschlossenem weiteren Spielfenster durchführen. Der Benchmark verändert keine gespeicherten Einstellungen.
 
-Die 48 automatisierten Prüfungen decken Start, Navigation, Grafikprofile, Minimap-Ausrichtung, Hände und Kamerafreiraum für alle fünf Waffen, unabhängige Handdarstellung und Mündungsfeuer, Munition, Feuerrate bei 30/60/144 FPS, Barrikaden, Nahkampfsichtlinie, Wellen, Granaten, Pause, Fähigkeiten und Neustart ab. Visuelle Prüfungen aller Waffen: `--script res://tests/run.gd -- --suite=visual --smoke-test`.
+Die 56 automatisierten Smoke-Prüfungen decken Start, Navigation, Grafikprofile, Minimap-Ausrichtung, Hände und Kamerafreiraum für alle neun Waffen, unabhängige Handdarstellung und Mündungsfeuer, Munition, Feuerrate bei 30/60/144 FPS, Barrikaden, Nahkampfsichtlinie, Wellen, Granaten, Pause, Fähigkeiten und Neustart ab. Visuelle Prüfungen aller Waffen: `--script res://tests/run.gd -- --suite=visual --smoke-test`.
 
 `WeaponEffects` prüft zusätzlich alle fünf Waffen beim Schießen, Rauchabbau, Rückstoßrichtung und Rückkehr, Dauerfeuer, leere Magazine, Nachladen, Waffenwechsel, Stoffbewegung beim Laufen, Pause, langsame Frames und Zielen. Der gerenderte Lauf umfasst 50 Funktionsprüfungen und 11 Screenshot-Prüfungen. Bilder: `../artifacts/weapon-effects/`.
 

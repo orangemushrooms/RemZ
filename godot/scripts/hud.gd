@@ -14,6 +14,10 @@ const INK := Color(0.043, 0.06, 0.08)
 var game: Node
 var hp_bar: ProgressBar
 var score_label: Label
+var money_delta: Label
+var _money_delta_t := 0.0
+var _money_pulse := 0.0
+var _money_shown := 0
 var ammo_label: Label
 var weapon_label: Label
 var wave_label: Label
@@ -159,6 +163,23 @@ func _ready() -> void:
 
 	# stats bottom-left
 	var stats := _panel(root, Control.PRESET_BOTTOM_LEFT, Vector2(16, -16))
+	# money: as prominent as the ammunition counter, with a delta popup on every change
+	var money_row := HBoxContainer.new()
+	money_row.add_theme_constant_override("separation", 10)
+	money_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stats.add_child(money_row)
+	score_label = _label("0 P", 26, GOLD)
+	score_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
+	score_label.add_theme_constant_override("shadow_offset_y", 1)
+	score_label.pivot_offset = Vector2(0, 16)
+	money_row.add_child(score_label)
+	money_delta = _label("", 16, GOLD)
+	money_delta.modulate.a = 0.0
+	money_delta.size_flags_vertical = Control.SIZE_SHRINK_END
+	money_row.add_child(money_delta)
+	var money_caption := _label("PUNKTE · Bauen, Kaufen, Ausbilden", 10, MUTED)
+	stats.add_child(money_caption)
+	stats.add_child(_spacer(4))
 	stats.add_child(_label("Leben", 14))
 	hp_bar = ProgressBar.new()
 	hp_bar.custom_minimum_size = Vector2(180, 12)
@@ -168,8 +189,6 @@ func _ready() -> void:
 	hp_bar.add_theme_stylebox_override("fill", _flat(Color(0.7, 0.07, 0.1), 4))
 	hp_bar.add_theme_stylebox_override("background", _flat(Color(1, 1, 1, 0.12), 4))
 	stats.add_child(hp_bar)
-	score_label = _label("Punkte 0", 15)
-	stats.add_child(score_label)
 
 	# ammunition beside the minimap
 	var ammo := _panel(root, Control.PRESET_BOTTOM_RIGHT, Vector2(-332, -16))
@@ -398,12 +417,12 @@ func _build_briefing(box: VBoxContainer) -> void:
 	box.add_child(_pause_stats)
 	box.add_child(_heading("SO ÜBERLEBST DU"))
 	for tip in [
-		"Vier Zugänge führen zur Hütte: Weg zur Hütte (Nordost), Wiesentor (Ost), Weg Richtung Dorf (Süd) und Waldweg Nord. Mit V planst du Barrikaden, jede Linie kostet 50 Punkte.",
+		"Vier Zugänge führen zur Hütte: Weg zur Hütte (Nordost), Wiesentor (Ost), Weg Richtung Dorf (Süd) und Waldweg Nord. E baut oder repariert direkt an der Linie; Bauen kostet 50 Punkte. Mechanic berät dich zur Verteidigung.",
 		"Kopfschüsse machen den 2,2-fachen Schaden. Abschüsse in schneller Folge bauen eine Serie auf und geben bis zu 100 % Bonuspunkte.",
 		"Gefallene Zombies lassen Munition, Granaten und Verbandspäckli fallen. Einfach hindurchlaufen.",
-		"In der Waldhütte und im Holzlager liegen bessere Waffen. Die Schlüssel dazu liegen im Wald, in der Nähe zeigt ein Pfeil den Weg.",
+		"Vendor verkauft Waffen am Lagerfeuer. Erfülle Aufträge und überstehe Wellen, um sein Angebot freizuschalten. Ein geheimer Händler wartet im Wald.",
 		"Steinpilze heilen, Fliegenpilze verdoppeln kurz den Schaden. Beides im Inventar (B) essen.",
-		"Nach jeder Welle wird Munition aufgefüllt. Punkte fliessen im Skillmenü (Tab) in Ausdauer, Schaden oder neue Waffen.",
+		"T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm richtet E neu aus, F repariert. Ausbau bei Mechanic. Tab zeigt deine Aufträge.",
 	]:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 10)
@@ -422,9 +441,9 @@ func _build_controls(box: VBoxContainer) -> void:
 	grid.add_theme_constant_override("v_separation", 6)
 	box.add_child(grid)
 	for pair in [["WASD", "Bewegen"], ["Maus", "Umsehen"], ["Shift", "Sprinten"], ["Leertaste", "Springen"],
-			["Linksklick", "Schiessen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–5 / Mausrad", "Waffe wählen"],
-			["G", "Granate werfen"], ["E", "Interagieren / Turm verwalten"], ["V", "Barrikaden planen"], ["T", "Geschützturm platzieren · E bestätigt"], ["B", "Inventar"],
-			["Tab", "Skills und Waffen kaufen"], ["F", "Taschenlampe"], ["Q", "Nahkampf (Kolbenschlag)"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
+			["Linksklick", "Schiessen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–9 / Mausrad", "Waffe wählen"],
+			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["B", "Inventar"],
+			["Tab", "Auftragsanzeige ein/aus"], ["F", "Taschenlampe"], ["Q", "Nahkampf (Kolbenschlag)"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110
 		grid.add_child(k)
@@ -741,6 +760,12 @@ func _process(delta: float) -> void:
 	if _streak_t > 0.0:
 		_streak_t -= delta
 		streak_label.modulate.a = clampf(_streak_t * 2.0, 0.0, 1.0)
+	if _money_delta_t > 0.0:
+		_money_delta_t -= delta
+		money_delta.modulate.a = clampf(_money_delta_t * 1.5, 0.0, 1.0)
+	if _money_pulse > 0.0:
+		_money_pulse = maxf(_money_pulse - delta * 4.0, 0.0)
+		score_label.scale = Vector2.ONE * (1.0 + 0.18 * _money_pulse)
 	if not _popups.is_empty():
 		var alive: Array = []
 		for p in _popups:
@@ -783,7 +808,23 @@ func set_health(v: float) -> void:
 	_low_hp = frac < 0.35 and v > 0.0
 
 func set_score(v: int) -> void:
-	score_label.text = "Punkte %d" % v
+	var diff := v - _money_shown
+	_money_shown = v
+	score_label.text = "%s P" % _thousands(v)
+	if diff != 0:
+		money_delta.text = ("+%s" if diff > 0 else "−%s") % _thousands(absi(diff))
+		money_delta.add_theme_color_override("font_color", GOLD if diff > 0 else Color(1.0, 0.45, 0.35))
+		money_delta.modulate.a = 1.0
+		_money_delta_t = 1.6
+		_money_pulse = 1.0
+
+static func _thousands(v: int) -> String:
+	var t := str(absi(v))
+	var out := ""
+	while t.length() > 3:
+		out = " " + t.substr(t.length() - 3) + out
+		t = t.substr(0, t.length() - 3)
+	return ("-" if v < 0 else "") + t + out
 
 func set_ammo(now: int, reserve: int, weapon: String) -> void:
 	ammo_label.text = "%d / %d" % [now, reserve]

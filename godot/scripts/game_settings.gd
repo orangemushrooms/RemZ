@@ -180,7 +180,9 @@ func _fullscreen() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
-		if main.barricade_menu and main.barricade_menu.is_open:
+		if main.progression and main.progression.is_open:
+			main.progression.close()
+		elif main.barricade_menu and main.barricade_menu.is_open:
 			main.barricade_menu.close()
 		elif main.inventory and main.inventory.is_open:
 			main.inventory.close()

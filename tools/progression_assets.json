@@ -1,0 +1,36 @@
+{
+  "npc_quartermaster": {
+    "rig": true,
+    "height": 1.82,
+    "prompt": "Full body realistic male Swiss forest ranger survivor quartermaster, middle aged rugged face short greying beard, dark green wool field jacket open over brown leather utility vest, canvas ammunition pouches on waist belt, fingerless brown gloves, dark cargo trousers and sturdy hiking boots. Rust orange scarf. Friendly weathered veteran, believable human anatomy, symmetrical T-pose for rigging, empty hands no weapon, individual character no scenery no pedestal. Detailed game ready realistic survival horror NPC.",
+    "texture_prompt": "Physically based weathered moss green woven wool, scuffed brown leather ammunition pouches, muted rusty orange scarf, natural skin and grey beard, muddy dark hiking boots, restrained realistic European forest survival palette, no lettering."
+  },
+  "npc_mechanic": {
+    "rig": true,
+    "height": 1.7,
+    "prompt": "Full body realistic adult female field engineer survivor, dark auburn hair tied back, safety goggles resting above forehead, charcoal work overalls with rolled up sleeves, muted mustard yellow undershirt, leather tool belt with wrench pouches, knee pads, steel toe work boots, practical canvas gloves. Strong believable human proportions, symmetrical T-pose for rigging with empty hands, no weapon no scenery no pedestal. Distinct resourceful European mechanic in grounded woodland survival horror game.",
+    "texture_prompt": "Worn charcoal canvas overalls with dusty seams and subtle oil marks, dull mustard cotton sleeves, scuffed leather belt, oxidized metal buckles and tool handles, realistic freckled skin, dark auburn tied hair, understated PBR materials no logos."
+  },
+  "npc_secret_trader": {
+    "rig": true,
+    "height": 1.9,
+    "prompt": "Full body mysterious human black market woodland trader, tall adult wearing a layered dark waxed canvas hooded coat ending above knees, face partially concealed by a weathered cloth half mask, small brass round goggles over eyes, leather shoulder harness with compact sealed ammunition boxes, belts, heavy brown boots, gloved empty hands. Ominous grounded survival horror merchant, realistic human anatomy, symmetrical T-pose ready for rigging. Individual character without weapons scenery or pedestal.",
+    "texture_prompt": "Nearly black olive waxed canvas with rain wear, dark brown leather and tarnished brass, bone grey cloth half mask, muted red scarf lining, dusty hiking boots, realistic distressed PBR fabric and metal, no symbols no text."
+  },
+  "marksman": {
+    "prompt": "One realistic modern bolt action woodland marksman rifle isolated without hands, long narrow steel barrel and compact cylindrical telescopic optic, ergonomic weathered dark walnut stock, black steel bolt receiver, short five round detachable magazine, visible trigger guard and rubber butt pad. Entire firearm visible, barrel points left in side profile and stock right. Grounded high detail survival game weapon, accurate practical mechanical proportions, no stand no sling no scenery.",
+    "texture_prompt": "Weathered oiled walnut grain on stock, matte parkerized dark steel barrel and receiver, scratched black optic tube, dark rubber shoulder pad, small worn edge highlights, physically based realistic materials no logos."
+  },
+  "lmg": {
+    "prompt": "One realistic belt fed infantry light machine gun isolated without hands, long vented barrel shroud, folded integrated bipod, carry handle above receiver, olive canvas ammunition box attached under receiver, solid angular black polymer shoulder stock and pistol grip, iron sights. Entire weapon visible with muzzle pointing left in side profile, buttstock right. Detailed believable military survival game weapon, no bullets firing no stand no scenery no text.",
+    "texture_prompt": "Matte worn gunmetal steel with subtle machining, olive drab canvas ammo box, charcoal polymer stock and grip, restrained brass ammunition links at feeding port, heat discoloration near muzzle, realistic PBR roughness."
+  },
+  "breacher": {
+    "prompt": "One imposing realistic compact tactical semi automatic combat shotgun isolated without hands. Thick short barrel with slotted muzzle brake, tubular magazine below barrel, vented black receiver, sturdy pistol grip, skeletal shoulder stock with rubber pad, top picatinny rail and open iron sights. Entire gun visible muzzle left and stock right in side profile. Distinct heavy close quarters survival horror weapon, practical mechanical detail, no scenery no stand no logos.",
+    "texture_prompt": "Distressed dark titanium metal receiver, charcoal ribbed foregrip and rubber shoulder pad, dull bronze screws, small worn steel edges, realistic PBR industrial finish, no lettering."
+  },
+  "titanbreaker": {
+    "prompt": "One massive realistic bolt action anti materiel sniper rifle isolated without hands, extremely long heavy fluted barrel with large rectangular two chamber muzzle brake, robust angular steel receiver, large telescopic scope, skeletonized shoulder stock with adjustable cheek rest, five round box magazine and folded bipod. Industrial bespoke survivor weapon for hunting giant monsters. Entire firearm visible barrel points left and stock right in side profile. Plausible mechanical detail, no science fiction no scenery no stand.",
+    "texture_prompt": "Weathered charcoal steel receiver and barrel, desaturated forest green stock panels, dark leather cheek rest, exposed machined silver bolt, subtle brass fasteners and realistic worn edges, high detail physically based materials without text."
+  }
+}

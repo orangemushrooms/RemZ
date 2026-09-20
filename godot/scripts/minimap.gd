@@ -142,7 +142,8 @@ func _draw_symbols(c: Control) -> void:
 			if id == "secret" and not world.progression.local_data().discovered: continue
 			var npc_point := map_position(world.progression.npcs[id].global_position)
 			c.draw_circle(npc_point, 3.5, Color(0.94, 0.73, 0.37))
-			c.draw_string(_font, npc_point + Vector2(5, -3), str(Progression.NPCS[id].name), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1, 0.88, 0.65))
+			var label_offset := Vector2(-28, 13) if id == "camp" else Vector2(5, -5)
+			c.draw_string(_font, npc_point + label_offset, str(Progression.NPCS[id].name), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1, 0.88, 0.65))
 		if world.progression.local_data().accepted.get("supplies", false) and not world.progression.team.cache:
 			var cache_point := map_position(Vector3(Progression.CACHE.x, 0, Progression.CACHE.y))
 			c.draw_circle(cache_point, 4, Color(0.9, 0.67, 0.16), false, 1.5)
@@ -156,7 +157,7 @@ func _draw_symbols(c: Control) -> void:
 	if "perimeter" in world and world.perimeter:
 		var ring: Perimeter = world.perimeter
 		for i in ring.points.size():
-			if ring.gate_edge[i]: continue
+			if ring.gate_edge[i] or not ring.is_wall_built(ring.points[i]): continue
 			var wa := map_position(Vector3(ring.points[i].x, 0.0, ring.points[i].y))
 			var wb := map_position(Vector3(ring.points[(i + 1) % ring.points.size()].x, 0.0, ring.points[(i + 1) % ring.points.size()].y))
 			if MAP_RECT.has_point(wa) or MAP_RECT.has_point(wb):

@@ -45,6 +45,13 @@ var appearance_seed := 0
 var replica := false
 var siege_target: Node3D
 var lane_bar: Barricade
+const AGGRO_RANGE := 10.0
+const AGGRO_RELEASE_RANGE := 14.0
+var _aggro_target: Player
+var _aggro_check := 0.0
+var hunting := false
+var _hunt_refresh := 0.0
+var _hunt_path := PackedVector3Array()
 var max_hp := 100.0
 var net_position := Vector3.ZERO
 var net_yaw := 0.0
@@ -291,6 +298,8 @@ func _physics_process(delta: float) -> void:
 		model.position.y = 0.0
 	if NavigationServer3D.map_get_iteration_id(agent.get_navigation_map()) == 0:
 		return
+	var player_priority := _nearby_player_priority(delta)
+	_update_hunt(delta)
 	var p := global_position
 	var to_player := player.global_position - p
 	to_player.y = 0.0
@@ -298,18 +307,19 @@ func _physics_process(delta: float) -> void:
 	# Commit to a breach: steering sideways must not cancel a defence target.
 	var bar = null
 	var bd := 1e9
-	if is_instance_valid(siege_target) and siege_target.hp > 0.0:
+	if not hunting and is_instance_valid(siege_target) and siege_target.hp > 0.0:
 		bar = siege_target
 		bd = bar.attack_point(p).distance_squared_to(p)
-	var path := agent.get_current_navigation_path().slice(agent.get_current_navigation_path_index())
+	var path := _hunt_path if hunting else agent.get_current_navigation_path().slice(agent.get_current_navigation_path_index())
 	for b in barricades:
-		if b.intercepts(p, player.global_position, path) or (b == lane_bar and b.hp > 0.0 and b._local(p).y * b._local(player.global_position).y < 0.0):
+		var blocking: bool = _blocks_hunt(b, path) if hunting else (b.intercepts(p, player.global_position, path) or (b == lane_bar and b.hp > 0.0 and b._local(p).y * b._local(player.global_position).y < 0.0))
+		if blocking:
 			var dd: float = b.attack_point(p).distance_squared_to(p)
 			if bar == null or dd + 16.0 < bd:
 				bd = dd
 				bar = b
 	# Nearby exposed towers can be attacked; a blocking fence still takes priority.
-	if bar == null:
+	if bar == null and not hunting:
 		for tower in get_tree().get_nodes_in_group("defence_towers"):
 			if tower.hp > 0.0 and tower.global_position.distance_squared_to(p) < 12.0 * 12.0:
 				var dd: float = tower.attack_point(p).distance_squared_to(p)
@@ -323,6 +333,7 @@ func _physics_process(delta: float) -> void:
 			if dd < bd:
 				bd = dd
 				bar = door
+	if player_priority: bar = null
 	var target: Vector3 = bar.attack_point(p) if bar else player.global_position
 	agent.target_desired_distance = 0.25 if bar else 1.0
 	var to_target := target - p
@@ -357,6 +368,9 @@ func _physics_process(delta: float) -> void:
 			var next := agent.get_next_path_position()
 			var mv := next - p
 			mv.y = 0.0
+			if hunting and bar == null and _can_hit(null):
+				# An open approach must not stall at an obsolete or finished path.
+				mv = to_player
 			var sp: float = type["speed"] * speed_mul
 			var want: Vector3 = mv.normalized() * sp if mv.length() > 0.05 else Vector3.ZERO
 			if agent.avoidance_enabled:
@@ -384,6 +398,62 @@ func _physics_process(delta: float) -> void:
 	if growl_t <= 0.0 and dist < 25.0:
 		growl_t = randf_range(4.0, 12.0)
 		Sfx.play_at(get_parent(), "growl", global_position, -5.0)
+
+func begin_hunt() -> void:
+	hunting = true
+	siege_target = null
+	lane_bar = null
+	hit_pending = 0.0
+	_hunt_refresh = 0.0
+	_repath = 0.0
+
+func _update_hunt(delta: float) -> void:
+	if not hunting: return
+	_hunt_refresh -= delta
+	if _hunt_refresh <= 0.0:
+		_hunt_refresh = 1.0
+		siege_target = null
+		_hunt_path = NavigationServer3D.map_get_path(agent.get_navigation_map(), global_position, player.global_position, true)
+		agent.target_position = player.global_position
+		agent.get_next_path_position()
+		_repath = 0.0
+
+func _blocks_hunt(bar: Barricade, path: PackedVector3Array) -> bool:
+	if bar.hp <= 0.0: return false
+	# Only attack barriers on the actual route, never the old assigned spawn lane.
+	var previous := global_position
+	if path.size() < 2: return bar.crosses(previous, player.global_position)
+	for point in path:
+		if bar.crosses(previous, point): return true
+		previous = point
+	return false
+
+func _nearby_player_priority(delta: float) -> bool:
+	_aggro_check -= delta
+	if _aggro_check <= 0.0 or (is_instance_valid(_aggro_target) and not _aggro_target.alive):
+		_aggro_check = 0.2
+		var previous := _aggro_target
+		_aggro_target = null
+		var candidates: Array = NetSession.world.actors.values() if NetSession.is_host() and NetSession.world else [player]
+		var nearest := INF
+		for candidate: Player in candidates:
+			if not is_instance_valid(candidate) or not candidate.alive: continue
+			var distance := global_position.distance_to(candidate.global_position)
+			var radius := AGGRO_RELEASE_RANGE if candidate == previous else AGGRO_RANGE
+			if distance > radius or distance >= nearest: continue
+			# Check at ground level even for titans: seeing over a wall must not bypass it.
+			var query := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, candidate.global_position + Vector3.UP, 1 | 8, [get_rid()])
+			if not get_world_3d().direct_space_state.intersect_ray(query).is_empty(): continue
+			nearest = distance
+			_aggro_target = candidate
+		if previous != _aggro_target:
+			_repath = 0.0
+			# Cancel a pending swing at the old target when changing priorities.
+			hit_pending = 0.0
+	if is_instance_valid(_aggro_target) and _aggro_target.alive:
+		player = _aggro_target
+		return true
+	return false
 
 func _on_velocity_computed(safe: Vector3) -> void:
 	if replica or not alive or not player or (not player.active and not NetSession.enabled) or get_tree().paused:

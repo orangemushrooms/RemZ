@@ -11,6 +11,14 @@ var weapons: Weapons
 var wave := 0
 var completed := 0
 const MAX_ACTIVE := 72
+const SPAWN_DISTANCE := 28.0
+const TITAN_SPAWN_DISTANCE := 40.0
+const SPAWN_RETRY_DELAY := 1.0
+const TITAN_FIELDS := [Vector2(10, 126), Vector2(-110, 108), Vector2(-42, 126)]
+const STRAGGLER_LIMIT := 3
+const STRAGGLER_DELAY := 20.0
+var _straggler_time := 0.0
+var _stragglers_hunting := false
 var phase := "idle"
 var timer := 4.0
 var queue: Array = []
@@ -45,7 +53,7 @@ static func titan_count(n: int) -> int:
 func plan(n: int) -> Array:
 	var q: Array = []
 	# Titans enter across the open southern fields, never inside the forest.
-	var fields := [Vector2(10, 126), Vector2(-110, 108), Vector2(-42, 126)]
+	var fields := TITAN_FIELDS
 	for i in titan_count(n):
 		q.append({"type": "titan", "lane": "east" if i == 0 else "south", "point": fields[i]})
 	var count := int(round((10 + n * 5) * _difficulty("count")))
@@ -84,6 +92,8 @@ func start(n: int) -> void:
 	if NetSession.is_client(): return
 	if NetSession.is_host(): NetSession.world.wave_started(n)
 	wave = n
+	_straggler_time = 0.0
+	_stragglers_hunting = false
 	wave_started.emit(n)
 	# the fallen of the last round stay until the next wave begins, then sink into the forest floor
 	if n > 1:
@@ -105,9 +115,6 @@ func start(n: int) -> void:
 	Sfx.play(self, "wave", -4.0)
 	if main.music:
 		main.music.play("combat")
-	if n == 3 and not weapons.unlocked["shotgun"]:
-		weapons.unlock("shotgun")
-		hud.message("Welle 3\nSchrotflinte freigeschaltet (Taste 5)", 3.5)
 
 func _process(delta: float) -> void:
 	if NetSession.is_client() or (NetSession.enabled and (not main.started or main.over)):
@@ -131,13 +138,16 @@ Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELL
 	elif phase == "spawning":
 		spawn_t -= delta
 		if spawn_t <= 0.0 and queue.size() > 0 and main.alive_zombies() < MAX_ACTIVE:
-			var e: Dictionary = queue.pop_front()
-			var pts: Array = Map.SPAWNS[e["lane"]]
-			var p: Vector2 = pts[randi() % pts.size()] + Vector2(randf_range(-1.5, 1.5), randf_range(-1.5, 1.5))
-			if e.has("point"): p = e.point
-			main.spawn_zombie(e["type"], p, speed_mul, e["lane"])
-			spawn_t = maxf(0.3, 1.5 - wave * 0.1)
+			# Keep blocked entries queued, but allow other enemy types to enter meanwhile.
+			var e: Dictionary = queue[0]
+			if _try_spawn(e):
+				queue.pop_front()
+				spawn_t = maxf(0.3, 1.5 - wave * 0.1)
+			else:
+				queue.append(queue.pop_front())
+				spawn_t = SPAWN_RETRY_DELAY
 		var alive: int = main.alive_zombies()
+		_update_stragglers(delta, alive)
 		hud.set_wave(wave, "%d übrig" % (alive + queue.size()))
 		hud.set_wave_progress(alive + queue.size(), total)
 		if main.music:
@@ -148,13 +158,53 @@ Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELL
 				main.music.play("night")
 			completed = wave
 			phase = "idle"
-			timer = 18.0
+			timer = 90.0
 			hud.set_wave_progress(0, total)
 			if "achievements" in main and main.achievements:
 				main.achievements.wave_cleared(wave)
-			var bonus := 40 + wave * 10
+			var bonus := 20 + wave * 6
 			player.add_score(bonus)
 			weapons.refill_all()
 			if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
-			hud.message("Welle %d überstanden\n+%d Punkte, Munition aufgefüllt\nBaue Barrikaden mit E" % [wave, bonus], 4.0)
+			hud.message("Welle %d überstanden\n+%d Punkte, Pistolenreserve gesichert\nHändler und Aufträge: Vendor & Mechanic · T: Turm" % [wave, bonus], 4.0)
 			Sfx.play(self, "menu", -6.0)
+
+func _try_spawn(entry: Dictionary) -> bool:
+	if entry["type"] == "titan":
+		# Giants stay on the open fields even when their planned entrance is occupied.
+		var fields: Array = TITAN_FIELDS.duplicate()
+		if entry.has("point"):
+			fields.erase(entry.point)
+			fields.push_front(entry.point)
+		for point: Vector2 in fields:
+			var lane := "east" if point == TITAN_FIELDS[0] else "south"
+			if main.spawn_zombie("titan", point, speed_mul, lane, TITAN_SPAWN_DISTANCE):
+				return true
+		return false
+	var lanes: Array = Map.SPAWNS.keys()
+	lanes.shuffle()
+	lanes.erase(entry["lane"])
+	lanes.push_front(entry["lane"])
+	for lane: String in lanes:
+		var points: Array = Map.SPAWNS.get(lane, []).duplicate()
+		points.shuffle()
+		for point: Vector2 in points:
+			var candidate := point + Vector2(randf_range(-1.5, 1.5), randf_range(-1.5, 1.5))
+			if main.spawn_zombie(entry["type"], candidate, speed_mul, lane, SPAWN_DISTANCE):
+				return true
+	return false
+
+func _update_stragglers(delta: float, alive: int) -> void:
+	if not queue.is_empty() or alive <= 0 or alive > STRAGGLER_LIMIT:
+		_straggler_time = 0.0
+		return
+	if _stragglers_hunting: return
+	_straggler_time += delta
+	if _straggler_time < STRAGGLER_DELAY: return
+	_stragglers_hunting = true
+	for zombie in main.zombies_root.get_children():
+		if zombie is Zombie and zombie.alive: zombie.begin_hunt()
+	hud.message("Die letzten Zombies suchen dich!", 3.0)
+	if NetSession.is_host():
+		for peer in NetSession.ready_peers:
+			if peer != 1: NetSession.feedback(peer, "message", ["Die letzten Zombies suchen dich!", 3.0])

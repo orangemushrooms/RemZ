@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+RENDER_OPTIMIZER { "source_meshes": 689, "batches": 17, "removed_render_nodes": 40 }
+PASS: Invalid IP rejected without entering a session
+COOP_HOST_READY port=24687
+PASS: Host binds an ENet UDP socket
+ERROR: Couldn't create an ENet host.
+   at: _create (modules/enet/enet_connection.cpp:319)
+   GDScript backtrace (most recent call first):
+       [0] host_run (res://tests/multiplayer.gd:85)
+       [1] run (res://tests/multiplayer.gd:53)
+PASS: A second host cannot bind the same port
+ERROR: FAIL: Host plus three clients share the lobby
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/multiplayer.gd:31)
+       [1] host_run (res://tests/multiplayer.gd:92)
+       [2] wait_seconds (res://tests/multiplayer.gd:34)

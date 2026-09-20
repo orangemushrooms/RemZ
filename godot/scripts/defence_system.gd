@@ -11,14 +11,9 @@ var ghost: Node3D
 var ghost_material: StandardMaterial3D
 var build_position := Vector3.ZERO
 var build_error := ""
-var selected: DefenceTower
+var build_yaw := 0.0
+var rotating_id := 0
 var hint: Label
-var card: PanelContainer
-var title: Label
-var description: Label
-var upgrade: Button
-var repair: Button
-var feedback: Label
 var boss_panel: VBoxContainer
 var boss_name: Label
 var boss_bar: ProgressBar
@@ -38,37 +33,9 @@ func setup(main: Node) -> void:
 	hint.add_theme_constant_override("shadow_offset_y", 2)
 	hint.hide()
 	add_child(hint)
-	card = PanelContainer.new()
-	add_child(card)
-	card.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	card.offset_left = -265
-	card.offset_right = 265
-	card.offset_top = -195
-	card.offset_bottom = 195
-	card.custom_minimum_size = Vector2(530, 390)
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.04, 0.06, 0.055, 0.97)
-	style.border_color = Color(0.64, 0.51, 0.29)
-	style.set_border_width_all(1)
-	style.set_content_margin_all(24)
-	card.add_theme_stylebox_override("panel", style)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation", 14)
-	card.add_child(column)
-	title = Label.new()
-	title.add_theme_font_size_override("font_size", 26)
-	column.add_child(title)
-	description = Label.new()
-	description.add_theme_font_size_override("font_size", 18)
-	column.add_child(description)
-	upgrade = _button(column, "", func(): request("upgrade"))
-	repair = _button(column, "", func(): request("repair"))
-	_button(column, "Abbauen · 40 Punkte zurück", func(): request("sell"))
-	feedback = Label.new()
-	feedback.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	column.add_child(feedback)
-	_button(column, "Zurück · Esc", close)
-	card.hide()
+	var tower_icon := ItemIcons.view("tower", Vector2(96, 64))
+	hint.add_child(tower_icon)
+	tower_icon.position = Vector2(352, -70)
 	boss_panel = VBoxContainer.new()
 	add_child(boss_panel)
 	boss_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
@@ -101,21 +68,23 @@ func setup(main: Node) -> void:
 	preview.body.collision_layer = 0
 	preview.label.hide()
 	Barricade._override_preview(preview, ghost_material)
-	var circle := TorusMesh.new()
-	circle.inner_radius = DefenceTower.RANGE[0] - 0.07
-	circle.outer_radius = DefenceTower.RANGE[0] + 0.07
-	circle.rings = 64
-	circle.ring_segments = 8
-	DefenceTower.piece(ghost, circle, Vector3(0, 0.15, 0), ghost_material)
+	var sector := ImmediateMesh.new()
+	sector.surface_begin(Mesh.PRIMITIVE_LINES)
+	var radius: float = DefenceTower.RANGE[0]
+	for i in 40:
+		for step in [i, i + 1]:
+			var angle := lerpf(-DefenceTower.HALF_ARC, DefenceTower.HALF_ARC, step / 40.0)
+			sector.surface_add_vertex(Vector3(sin(angle) * radius, 0.15, -cos(angle) * radius))
+	for angle in [-DefenceTower.HALF_ARC, DefenceTower.HALF_ARC]:
+		sector.surface_add_vertex(Vector3(0, 0.15, 0))
+		sector.surface_add_vertex(Vector3(sin(angle) * radius, 0.15, -cos(angle) * radius))
+	sector.surface_end()
+	DefenceTower.piece(ghost, sector, Vector3.ZERO, ghost_material)
+	DefenceTower.box(ghost, Vector3(0.16, 0.05, 4), Vector3(0, 0.15, -2.0), ghost_material)
+	for sign in [-1, 1]:
+		var tip := DefenceTower.box(ghost, Vector3(0.16, 0.05, 1.2), Vector3(sign * 0.38, 0.15, -3.6), ghost_material)
+		tip.rotation.y = sign * -0.75
 	ghost.hide()
-
-func _button(parent: Node, text: String, action: Callable) -> Button:
-	var button := Button.new()
-	button.text = text
-	button.custom_minimum_size.y = 42
-	button.pressed.connect(action)
-	parent.add_child(button)
-	return button
 
 func placement_error(p: Player, point: Vector3) -> String:
 	if not p.alive or not point.is_finite(): return "Bauen momentan nicht möglich."
@@ -162,21 +131,27 @@ func create_tower(point: Vector3, owner: int, id := 0, remote := false) -> Defen
 	tower.tree_exiting.connect(func(): towers.erase(id))
 	return tower
 
-func purchase(p: Player, point: Vector3) -> String:
+func purchase(p: Player, point: Vector3, yaw := 0.0) -> String:
 	if NetSession.is_client(): return "Nur der Host bestätigt Bauten."
+	if not is_finite(yaw): return "Ungültige Ausrichtung."
 	var error := placement_error(p, point)
 	if not error.is_empty(): return error
 	p.add_score(-DefenceTower.COST)
-	create_tower(Map.ground_pos(point.x, point.z), p.peer_id)
+	var tower := create_tower(Map.ground_pos(point.x, point.z), p.peer_id)
+	tower.rotation.y = wrapf(yaw, -PI, PI)
+	game.progression.event("built")
 	Sfx.play_at(game, "build", point, -8)
 	return ""
 
-func maintain(p: Player, id: int, action: String) -> String:
+func maintain(p: Player, id: int, action: String, at_merchant := false) -> String:
 	if NetSession.is_client(): return "Nur der Host bestätigt Bauten."
 	if not towers.has(id) or not is_instance_valid(towers[id]): return "Turm nicht mehr vorhanden."
 	var tower: DefenceTower = towers[id]
-	if not p.alive or p.global_position.distance_to(tower.global_position) > 6: return "Zu weit vom Turm entfernt."
-	if not reachable(p, tower): return "Keine freie Sicht zum Turm."
+	if action in ["upgrade", "sell"]:
+		if not at_merchant or not game.progression.close_enough(p, "mechanic"): return "Ausbau und Abbau nur bei Mechanic."
+	else:
+		if not p.alive or p.global_position.distance_to(tower.global_position) > 6: return "Zu weit vom Turm entfernt."
+		if not reachable(p, tower): return "Keine freie Sicht zum Turm."
 	var cost := 0
 	match action:
 		"upgrade":
@@ -190,6 +165,7 @@ func maintain(p: Player, id: int, action: String) -> String:
 			p.add_score(40)
 			towers.erase(id)
 			tower.queue_free()
+			Sfx.event(self, p.peer_id, "purchase")
 			return ""
 		_: return "Unbekannte Aktion."
 	if p.score < cost: return "Zu wenig Punkte."
@@ -197,15 +173,8 @@ func maintain(p: Player, id: int, action: String) -> String:
 	if action == "upgrade": tower.level += 1
 	tower.hp = tower.max_hp()
 	tower.refresh()
+	Sfx.event(self, p.peer_id, "purchase")
 	return ""
-
-func request(action: String) -> void:
-	if not is_instance_valid(selected): return
-	if NetSession.enabled:
-		NetSession.command("tower_" + action, [selected.tower_id])
-	else:
-		feedback.text = maintain(game.player, selected.tower_id, action)
-	if action == "sell": close()
 
 func nearest(p: Player) -> DefenceTower:
 	var found: DefenceTower
@@ -224,70 +193,79 @@ func reachable(p: Player, tower: DefenceTower) -> bool:
 	return hit.is_empty() or hit.collider == tower.body
 
 func open(tower: DefenceTower) -> void:
-	if not game.player.active or placing: return
-	selected = tower
-	is_open = true
-	card.show()
-	game.player.active = false
+	begin_rotation(tower)
+
+func begin_rotation(tower: DefenceTower) -> void:
+	if not game.player.active or not is_instance_valid(tower): return
+	rotating_id = tower.tower_id
+	build_yaw = tower.rotation.y
+	build_position = tower.global_position
+	placing = true
 	game.hud.set_prompt("")
-	for part in game.hud.crosshair_parts: part.hide()
-	game.weapons.viewmodel.hide()
-	feedback.text = "Koop läuft weiter." if NetSession.enabled else ""
-	get_tree().paused = not NetSession.enabled
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	_refresh_menu()
+
+func rotate_tower(p: Player, id: int, yaw: float) -> String:
+	if NetSession.is_client() or not is_finite(yaw): return "Ungültige Ausrichtung."
+	var tower: DefenceTower = towers.get(id)
+	if not is_instance_valid(tower) or not p.alive: return "Turm nicht vorhanden."
+	if p.global_position.distance_to(tower.global_position) > 6 or not reachable(p, tower): return "Gehe näher an den Turm."
+	if absf(angle_difference(tower.rotation.y, yaw)) < 0.05: return "Drehe den Turm mit R oder dem Mausrad."
+	tower.rotation.y = wrapf(yaw, -PI, PI)
+	tower.target = null
+	tower.aim_yaw = 0
+	game.progression.event("turned")
+	return ""
 
 func close() -> void:
+	cancel_placement()
 	is_open = false
-	card.hide()
-	get_tree().paused = false
-	game.player.active = game.player.alive and not game.over
-	game.weapons.viewmodel.visible = game.player.active
-	for part in game.hud.crosshair_parts: part.show()
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if game.player.active else Input.MOUSE_MODE_VISIBLE
 
 func cancel_placement() -> void:
 	placing = false
+	rotating_id = 0
 	input_grace = 0.2
 	ghost.hide()
 	hint.hide()
 
 func _input(event: InputEvent) -> void:
 	if not game or not game.started or game.over: return
+	if placing and event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+		build_yaw = wrapf(build_yaw + deg_to_rad(15) * (-1 if event.button_index == MOUSE_BUTTON_WHEEL_UP else 1), -PI, PI)
+		get_viewport().set_input_as_handled()
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode == KEY_T and game.player.active:
 			if placing: cancel_placement()
 			else:
 				placing = true
+				rotating_id = 0
+				build_yaw = game.player.rotation.y
 				game.hud.set_prompt("")
 			get_viewport().set_input_as_handled()
+		elif event.physical_keycode == KEY_R and placing:
+			build_yaw = wrapf(build_yaw + deg_to_rad(15) * (-1 if event.shift_pressed else 1), -PI, PI)
+			get_viewport().set_input_as_handled()
+		elif event.physical_keycode == KEY_F and game.player.active and not placing:
+			var tower := nearest(game.player)
+			if tower:
+				if NetSession.enabled: NetSession.command("tower_repair", [tower.tower_id])
+				else: game.hud.message(maintain(game.player, tower.tower_id, "repair"), 2)
+				get_viewport().set_input_as_handled()
 		elif event.physical_keycode == KEY_ESCAPE and (placing or is_open):
 			if placing: cancel_placement()
 			else: close()
 			get_viewport().set_input_as_handled()
 		elif placing and event.is_action_pressed("interact"):
 			if build_error.is_empty():
-				if NetSession.enabled: NetSession.command("tower_place", [build_position])
-				else: game.hud.message(purchase(game.player, build_position), 1.5)
+				if rotating_id:
+					if NetSession.enabled: NetSession.command("tower_rotate", [rotating_id, build_yaw])
+					else: game.hud.message(rotate_tower(game.player, rotating_id, build_yaw), 2)
+				elif NetSession.enabled: NetSession.command("tower_place", [build_position, build_yaw])
+				else: game.hud.message(purchase(game.player, build_position, build_yaw), 2)
 				cancel_placement()
 			get_viewport().set_input_as_handled()
-
-func _refresh_menu() -> void:
-	if not is_instance_valid(selected) or selected.is_queued_for_deletion():
-		close()
-		return
-	title.text = "WÄCHTER · STUFE %d" % selected.level
-	description.text = "%d / %d Struktur · %d m Reichweite\nPunkte: %d · Türme: %d / 6" % [ceili(selected.hp), int(selected.max_hp()), int(DefenceTower.RANGE[selected.level - 1]), game.player.score, towers.size()]
-	upgrade.text = "Maximal ausgebaut" if selected.level == 3 else "Ausbauen · %d Punkte" % DefenceTower.UPGRADES[selected.level - 1]
-	upgrade.disabled = selected.level == 3 or game.player.score < DefenceTower.UPGRADES[mini(selected.level - 1, 1)]
-	repair.text = "Reparieren · 35 Punkte"
-	repair.disabled = selected.hp >= selected.max_hp() or game.player.score < DefenceTower.REPAIR_COST
 
 func _process(delta: float) -> void:
 	if not game: return
 	input_grace = maxf(0, input_grace - delta)
-	if is_open and (not game.player.alive or game.over): close()
-	if is_open: _refresh_menu()
 	if placing:
 		if not game.player.active or not game.player.alive:
 			cancel_placement()
@@ -297,12 +275,21 @@ func _process(delta: float) -> void:
 			var ray := PhysicsRayQueryParameters3D.create(from, from - camera.global_basis.z * 10, 1)
 			var hit: Dictionary = game.get_world_3d().direct_space_state.intersect_ray(ray)
 			var point: Vector3 = hit.position if not hit.is_empty() else from - camera.global_basis.z * 6
-			build_position = Map.ground_pos(point.x, point.z)
-			build_error = placement_error(game.player, build_position)
+			if rotating_id:
+				var tower: DefenceTower = towers.get(rotating_id)
+				if not is_instance_valid(tower):
+					cancel_placement()
+					return
+				build_position = tower.global_position
+				build_error = "" if game.player.global_position.distance_to(build_position) <= 6 and reachable(game.player, tower) else "Gehe näher an den Turm."
+			else:
+				build_position = Map.ground_pos(point.x, point.z)
+				build_error = placement_error(game.player, build_position)
+			ghost.rotation.y = build_yaw
 			ghost.global_position = build_position
 			ghost.show()
 			ghost_material.albedo_color = Color(0.2, 0.95, 0.5, 0.28) if build_error.is_empty() else Color(1, 0.16, 0.08, 0.3)
-			hint.text = "WÄCHTER · 120 P · %d / 6 Türme\n%s\n[E] Platzieren    [T / Esc] Abbrechen" % [towers.size(), "Freier Bauplatz · 26 m Reichweite" if build_error.is_empty() else build_error]
+			hint.text = ("WÄCHTER AUSRICHTEN · kostenlos" if rotating_id else "WÄCHTER · 120 P") + " · %d / 6 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen" % [towers.size(), "160° Feuersektor · 26 m Reichweite" if build_error.is_empty() else build_error]
 			hint.show()
 	var titan: Zombie
 	for z in game.zombies_root.get_children():
@@ -319,7 +306,7 @@ func snapshot() -> Dictionary:
 	for id in towers:
 		var tower: DefenceTower = towers[id]
 		if not is_instance_valid(tower) or tower.is_queued_for_deletion(): continue
-		data[id] = [tower.global_position, tower.owner_peer, tower.level, tower.hp, tower.aim_yaw, tower.aim_pitch, tower.shots, tower.last_impact, tower.heat]
+		data[id] = [tower.global_position, tower.owner_peer, tower.level, tower.hp, tower.aim_yaw, tower.aim_pitch, tower.shots, tower.last_impact, tower.heat, tower.rotation.y]
 	return data
 
 func apply_snapshot(data: Dictionary, initial: bool) -> void:
@@ -339,6 +326,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		tower.aim_pitch = state[5]
 		tower.last_impact = state[7]
 		tower.heat = state[8]
+		tower.rotation.y = state[9] if state.size() > 9 else 0.0
 		if state[6] > tower.shots and not initial and not fresh: tower.show_shot()
 		tower.shots = state[6]
 		tower.refresh()

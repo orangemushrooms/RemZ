@@ -29,6 +29,9 @@ var footprint: Node3D
 var _line_material: StandardMaterial3D
 var _segment_transforms: Array[Transform3D] = []
 var _focused := false
+var health_display: Node3D
+var health_fill: Sprite3D
+var health_label: Label3D
 
 func setup(s: Dictionary, h: Hud) -> void:
 	slot = s
@@ -88,7 +91,54 @@ func _ready() -> void:
 		_add_bar(footprint, a, b, 0.06, _line_material)
 		_add_bar(footprint, (a + b) * 0.5, (a + b) * 0.5 + Vector3.UP * 2.1, 0.04, _line_material)
 	_batch_footprint()
+	_create_health_display()
+	changed.connect(_update_health_display)
 	rebuild()
+
+func _create_health_display() -> void:
+	health_display = Node3D.new()
+	health_display.name = "HealthDisplay"
+	health_display.position.y = 3.4
+	for frame in _segment_transforms:
+		health_display.position.y = maxf(health_display.position.y, frame.origin.y + HEIGHT + 0.6)
+	add_child(health_display)
+	var image := Image.create(256, 18, false, Image.FORMAT_RGBA8)
+	image.fill(Color.WHITE)
+	var texture := ImageTexture.create_from_image(image)
+	for background in [true, false]:
+		var sprite := Sprite3D.new()
+		sprite.texture = texture
+		sprite.pixel_size = 0.008
+		sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		sprite.no_depth_test = true
+		sprite.render_priority = 10 if background else 11
+		sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		health_display.add_child(sprite)
+		if background:
+			sprite.modulate = Color(0.025, 0.035, 0.04, 0.9)
+			sprite.scale = Vector3(1.04, 1.6, 1)
+		else:
+			health_fill = sprite
+			health_fill.region_enabled = true
+	health_label = Label3D.new()
+	health_label.position.y = 0.27
+	health_label.font_size = 32
+	health_label.outline_size = 8
+	health_label.pixel_size = 0.006
+	health_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	health_label.no_depth_test = true
+	health_label.render_priority = 12
+	health_display.add_child(health_label)
+
+func _update_health_display() -> void:
+	health_display.visible = level > 0 and hp > 0.0
+	if not health_display.visible: return
+	var ratio := clampf(hp / max_hp(), 0.0, 1.0)
+	var width := 256.0 * ratio
+	health_fill.region_rect = Rect2(0, 0, width, 18)
+	health_fill.offset.x = (width - 256.0) * 0.5
+	health_fill.modulate = Color(0.3, 0.9, 0.5) if ratio > 0.5 else (Color(1.0, 0.72, 0.2) if ratio > 0.25 else Color(1.0, 0.25, 0.2))
+	health_label.text = "%d / %d" % [ceili(hp), int(max_hp())]
 
 func _batch_footprint() -> void:
 	# Every ground strip and endpoint shares a single draw call.

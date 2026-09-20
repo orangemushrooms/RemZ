@@ -8,8 +8,10 @@ import sharp from 'sharp';
 import fs from 'node:fs';
 
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
-const source = await io.read('assets/raw/zombie_titan/model.glb');
-const target = await io.read('public/models/zombie_titan.glb');
+const name = process.argv[2] || 'zombie_titan';
+if (!/^[a-z0-9_]+$/.test(name)) throw new Error('Invalid asset name');
+const source = await io.read(`assets/raw/${name}/model.glb`);
+const target = await io.read(`public/models/${name}.glb`);
 function uvSet(doc) {
   const result = new Set();
   for (const mesh of doc.getRoot().listMeshes()) for (const primitive of mesh.listPrimitives()) {
@@ -34,7 +36,7 @@ for (const mat of target.getRoot().listMaterials()) {
   mat.setEmissiveTexture(null).setEmissiveFactor([0, 0, 0]);
 }
 await target.transform(prune(), textureCompress({encoder: sharp, targetFormat: 'webp', resize: [2048,2048], quality: 90}));
-await io.write('public/models/zombie_titan.glb', target);
-fs.writeFileSync('public/models/zombie_titan.glb.json', JSON.stringify({b64: fs.readFileSync('public/models/zombie_titan.glb').toString('base64')}));
-fs.copyFileSync('public/models/zombie_titan.glb', 'godot/assets/models/zombie_titan.glb');
-console.log(`Titan material maps restored; ${shared}/${rigUV.size} matching UV coordinates.`);
+await io.write(`public/models/${name}.glb`, target);
+fs.writeFileSync(`public/models/${name}.glb.json`, JSON.stringify({b64: fs.readFileSync(`public/models/${name}.glb`).toString('base64')}));
+fs.copyFileSync(`public/models/${name}.glb`, `godot/assets/models/${name}.glb`);
+console.log(`${name}: material maps restored; ${shared}/${rigUV.size} matching UV coordinates.`);

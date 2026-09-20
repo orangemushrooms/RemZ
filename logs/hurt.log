@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Compile Error: Identifier not found: NetSession
+   at: GDScript::reload (res://scripts/zombie.gd:179)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://tests/hurt.gd:0)
+ERROR: Failed to load script "res://tests/hurt.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid call. Nonexistent function 'skin_names' in base 'GDScript'.
+   at: _ready (res://scripts/net_session.gd:59)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/net_session.gd:59)
+RENDER_OPTIMIZER { "source_meshes": 689, "batches": 17, "removed_render_nodes": 40 }
+SCRIPT ERROR: Invalid call. Nonexistent function 'preload_models' in base 'GDScript'.
+   at: _ready (res://scripts/main.gd:168)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/main.gd:168)
+       [1] run (res://tests/hurt.gd:7)
+HURT nav wait

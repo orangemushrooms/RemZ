@@ -49,7 +49,7 @@ for (const name of names) {
   // drop any animation shipped with the base file, we add our own clips
   for (const a of doc.getRoot().listAnimations()) a.dispose();
   for (const f of fs.readdirSync(dir)) {
-    const m = /^anim_(walk|attack|death)\.glb$/.exec(f);
+    const m = /^anim_(walk|attack|death|idle|talk)\.glb$/.exec(f);
     if (!m) continue;
     const ad = await io.read(path.join(dir, f));
     if (mergeAnimation(doc, ad, m[1])) console.log(`  + clip ${m[1]}`);

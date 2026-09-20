@@ -163,6 +163,7 @@ func _build_ui() -> void:
 	title = _label("", 23)
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	details.add_child(title)
+	details.add_child(ItemIcons.view("barricade", Vector2(200, 80)))
 	dimensions = _label("", 14, MUTED)
 	details.add_child(dimensions)
 	var levels := HBoxContainer.new()
@@ -191,9 +192,15 @@ func _build_ui() -> void:
 	card_content.add_child(HSeparator.new())
 	card_content.add_child(_label("BAUEN & INSTAND HALTEN", 12, GOLD))
 	primary = _button("", true)
+	primary.icon = ItemIcons.texture("barricade")
+	primary.expand_icon = true
+	primary.add_theme_constant_override("icon_max_width", 42)
 	primary.pressed.connect(_purchase.bind("build"))
 	card_content.add_child(primary)
 	repair_button = _button("Ganze Linie reparieren  ·  25 P")
+	repair_button.icon = ItemIcons.texture("skill_regen")
+	repair_button.expand_icon = true
+	repair_button.add_theme_constant_override("icon_max_width", 32)
 	repair_button.pressed.connect(_purchase.bind("repair"))
 	card_content.add_child(repair_button)
 	status = _label("", 14, MUTED)
@@ -325,7 +332,7 @@ func _refresh() -> void:
 	repair_button.disabled = not repair_error.is_empty()
 	repair_button.tooltip_text = repair_error
 	repair_button.visible = selected.level > 0
-	explanation.text = "50 Punkte für die vollständige Linie. Keine Einzelteile platzieren; die Vorschau zeigt die genaue Position." if selected.level == 0 else "Verstärken erhöht die Haltbarkeit um 150 TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
+	explanation.text = "50 Punkte für die Sperrlinie und ihren Palisadenabschnitt. Beide entstehen erst beim Bauen." if selected.level == 0 else "Verstärken erhöht die Haltbarkeit um 150 TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
 	preview_title.text = "%02d   /   %s" % [main.barricades.find(selected) + 1, selected.slot["name"]]
 	preview_status.text = "ROTE BAUVORSCHAU   ·   %.1f M GESAMTLÄNGE" % (selected.half_len * 2.0) if selected.level == 0 else "LINIE GESICHERT   ·   STUFE %d / 3" % selected.level
 	preview_status.add_theme_color_override("font_color", RED if selected.level == 0 else GREEN)
@@ -363,7 +370,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		if is_open:
 			close()
 		else:
-			open()
+			if main.progression.close_enough(player, "mechanic"):
+				main.progression.interact("mechanic")
+				main.progression.page = "Türme"
+				main.progression._render()
+			else: main.hud.message("Verteidigungsberatung bei Mechanic. Direkt an einer Barrikade baut oder repariert E die Linie.", 3)
 		get_viewport().set_input_as_handled()
 	elif is_open and event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_4:

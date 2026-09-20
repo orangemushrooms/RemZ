@@ -21,12 +21,13 @@ Bei Verbindungsproblemen zuerst Hamachis Online-Status, die Host-IP, den Port un
 ## Spielregeln
 
 - Gemeinsame Wellen, Gegner, Uhrzeit, Türen, Schlüssel, Fenster und Barrikaden. Die Gegnerzahl wächst mit der Spielerzahl.
-- Jeder besitzt eigene Lebenspunkte, Punkte, Waffen, Munition, Granaten, Verbesserungen und Pilze. Ein Weltgegenstand kann nur einmal aufgehoben werden. Schlüssel gelten für das ganze Team.
+- Jeder besitzt eigene Lebenspunkte, Punkte, Waffen, Munition, Granaten, Verbesserungen, Skins und Questbelohnungen. Ein Weltgegenstand kann nur einmal aufgehoben werden. Schlüssel und Auftragsziele wie Lieferungen und Titanensiege gelten für das Team.
+- Waffen und Training werden ausschliesslich bei NPCs gekauft. Der Host prüft Standort, Sichtlinie, Preis und Freischaltungen erneut. Vendor steht am Lagerfeuer, Mechanic nördlich davon; seltene Waffen gibt es beim versteckten Secret Vendor. [Händler, Aufträge und Preise](FORTSCHRITT.md).
 - Mitspieler sind sichtbar, tragen ihre aktuelle Waffe und erscheinen auf der Minimap. Namen und Lebenspunkte werden angezeigt. Schüsse und Schritte anderer Spieler sind räumlich hörbar.
 - Kein Schaden durch Beschuss von Mitspielern. Eigene Granaten können den Werfer weiterhin verletzen.
 - Bei 0 Lebenspunkten bleibt der Spieler am Boden. Ein lebender Mitspieler drückt in der Nähe **E** und bleibt drei Sekunden innerhalb von 2,5 Metern mit freier Sicht. Entfernen oder Sterben bricht die Wiederbelebung ab. Sie stellt 50 Lebenspunkte her.
 - Nach einer überstandenen Welle kehren auch ausgeschiedene Spieler zurück. Erst wenn das ganze Team ausgeschieden ist, endet die Runde. Der Host kann eine neue Runde starten; die Gruppe bleibt verbunden.
-- **Esc, Tab, B und V halten im Koop die Welt nicht an.** Der Spieler bleibt während der Menübedienung angreifbar.
+- **Händlergespräche, Esc und B halten im Koop die Welt nicht an.** Der Spieler bleibt während der Menübedienung angreifbar. Tab schaltet die Auftragsanzeige um, V verweist auf Verteidigungsberatung bei Mechanic.
 - Freie Plätze können während der Runde belegt werden. Nach einer getrennten Verbindung ist erneutes Beitreten möglich; der persönliche Vorrat beginnt dabei neu, der gemeinsame Weltzustand bleibt erhalten.
 - Verlässt der Host die Sitzung, kehren die Mitspieler mit einer Meldung ins Hauptmenü zurück. Es gibt keine automatische Hostübernahme oder Speicherung einer laufenden Koop-Runde.
 

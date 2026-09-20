@@ -71,6 +71,15 @@ CAMP_FOREST_FLOOR = [[-13, -21], [-6, -23], [-1, -19.5], [-3.5, -14.5], [-6.5, -
 # The dark crop south-west of Feldweg West is farmland, not tree crowns. Keep the
 # whole downhill field open across Weg Richtung Dorf and out towards the village.
 MEADOW_FORCE = [[-400, -120], [-190, -120], [-166, -100], [-138, -59], [-118, -16], [-92, 27], [-80, 47], [-70, 64], [-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 260], [-400, 260]]
+# Looking north from the small fire, the entire LEFT side of Feldweg West is
+# open farmland. Follow the actual smoothed track, not the coarse aerial mask:
+# its old offset boundary left a narrow row of trees beside the path.
+WEST_FIELD_EDGE = np.array(next(r["pts"] for r in ROADS if r["name"] == "Feldweg West"))[::-1]
+
+def in_west_field(x, z):
+    return ((z >= WEST_FIELD_EDGE[0, 1]) & (z <= WEST_FIELD_EDGE[-1, 1])
+            & (x <= np.interp(z, WEST_FIELD_EDGE[:, 1], WEST_FIELD_EDGE[:, 0])))
+
 FIELD_SE = [[113, 24], [128, 18], [150, 8], [150, 160], [113, 160]]   # fields east of the Sennhofstrasse south of the junction
 # Waldhütte (OSM way 36785519): garage door in the west face, outside stair along the north face rising east to the
 # upper door; a shallow bank follows the east side (photos 14, 17, 19)
@@ -300,7 +309,7 @@ meadow = np.clip(1.0 - leaf - gravel - asphalt, 0, 1)
 ground = np.stack([leaf, meadow, gravel], axis=2)
 small_soil = np.clip((SMALL_CAMPSITE["radius"] - small_d) / 0.9, 0, 1)[:, :, None]
 ground = ground * (1.0 - small_soil) + np.array([0.45, 0.0, 0.55]) * small_soil
-Image.fromarray((ground * 255).astype(np.uint8), "RGB").save(os.path.join(OUT, "ground.png"))
+# Written after the precise field exclusions below, together with vegetation.
 Image.fromarray((asphalt * 255).astype(np.uint8), "L").save(os.path.join(TOUT, "asphalt_mask.png"))
 
 # ------------------------------------------------------------------ 3. trees from the forest mask + aerial colour
@@ -514,6 +523,20 @@ trees = [t for t in trees if outside_small_campsite(t, 0.8)]
 shrubs = [t for t in shrubs if outside_small_campsite(t, 1.6)]
 ferns = [t for t in ferns if outside_small_campsite(t, 0.8)]
 logs = [t for t in logs if outside_small_campsite(t, t[2] * 0.5)]
+# Apply this after candidate generation to retain every other tree's seeded
+# position/appearance. Both playable and distant trees share the same boundary.
+trees = [t for t in trees if not in_west_field(t[0], t[1])]
+border = [t for t in border if not in_west_field(t[0], t[1])]
+shrubs = [t for t in shrubs if not in_west_field(t[0], t[1])]
+ferns = [t for t in ferns if not in_west_field(t[0], t[1])]
+logs = [t for t in logs if not in_west_field(t[0], t[1])]
+west_field = in_west_field(ii + X0, jj + Z0)
+forest &= ~west_field
+# Replace leaf litter with meadow while preserving road/gravel weights. This
+# also clears the minimap forest shading and the runtime deep-forest blockers.
+ground[west_field, 1] = np.clip(ground[west_field, 1] + ground[west_field, 0], 0, 1)
+ground[west_field, 0] = 0
+Image.fromarray((ground * 255).astype(np.uint8), "RGB").save(os.path.join(OUT, "ground.png"))
 print("trees", len(trees), "shrubs", len(shrubs), "ferns", len(ferns), "logs", len(logs), "border", len(border), "village", len(village), "forest cells", int(forest.sum()))
 
 # ------------------------------------------------------------------ 4. write

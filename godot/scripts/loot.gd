@@ -29,20 +29,10 @@ func take(weapons: Weapons, hud: Hud) -> void:
 		Sfx.play(get_tree().current_scene, "pickup", -10.0)
 		queue_free()
 		return
-	if kind == "weapon":
-		if weapons.unlocked.get(id, false):
-			var d: Dictionary = weapons.DEFS[id]
-			weapons.add_ammo(id, int(d["reserve"]))
-			hud.message("%s: Munition aufgefüllt" % d["name"], 2.0)
-		else:
-			weapons.unlock(id)
-			hud.message("%s aufgenommen" % weapons.DEFS[id]["name"], 2.5)
-	else:
-		for wid in weapons.unlocked:
-			if weapons.unlocked[wid]:
-				weapons.add_ammo(wid, int(weapons.DEFS[wid]["reserve"]))
-		weapons.grenades += 2
-		hud.message("Munitionskiste: alle Waffen aufgefüllt, +2 Granaten", 2.5)
+	# World crates supply the selected gun, never grant merchant-exclusive weapons.
+	var wid: String = weapons.current
+	weapons.add_ammo(wid, int(Weapons.DEFS[wid].mag))
+	hud.message("Vorräte: ein Magazin für " + str(Weapons.DEFS[wid].name), 2.5)
 	weapons.update_hud()
 	Sfx.play(get_tree().current_scene, "pickup", -6.0)
 	queue_free()

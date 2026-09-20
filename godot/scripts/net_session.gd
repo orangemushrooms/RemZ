@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 1
-const BUILD := "remz-coop-titan-horror-20260919-1"
+const BUILD := "remz-coop-npc-progression-20260919-1"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -34,6 +34,8 @@ var _message_after_load := ""
 var _snapshot_parts: Dictionary = {}
 var _cli_used := false
 var _auto_start := 0
+# "Nochmal" / "Neue Runde": the rebuilt scene starts the next round itself instead of showing the start menu.
+var restart_pending := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -48,6 +50,13 @@ func _ready() -> void:
 	# Variant availability changes the spawned/collidable characters. Reject a
 	# partially updated install just as we reject a different terrain version.
 	context.update(var_to_bytes(Zombie.TYPES))
+	context.update(var_to_bytes(Weapons.DEFS))
+	context.update(var_to_bytes(Progression.NPCS))
+	context.update(var_to_bytes(Progression.GOODS))
+	for spec: Dictionary in Progression.NPCS.values():
+		context.update((str(spec.model) + str(ResourceLoader.exists("res://assets/models/%s.glb" % spec.model))).to_utf8_buffer())
+	for spec: Dictionary in Weapons.DEFS.values():
+		context.update((str(spec.model) + str(ResourceLoader.exists("res://assets/models/%s.glb" % spec.model))).to_utf8_buffer())
 	for spec: Dictionary in Zombie.TYPES.values():
 		for asset in Zombie.skin_names(spec):
 			context.update((str(asset) + str(ResourceLoader.exists("res://assets/models/%s.glb" % asset))).to_utf8_buffer())
@@ -291,6 +300,7 @@ func leave(reason := "Sitzung verlassen.") -> void:
 	enabled = false
 	phase = "offline"
 	_auto_start = 0
+	restart_pending = false
 	_command_seq = 0
 	_connect_t = 0.0
 	if multiplayer.multiplayer_peer:
@@ -310,6 +320,7 @@ func leave(reason := "Sitzung verlassen.") -> void:
 func restart() -> void:
 	if not is_host() or phase != "over": return
 	epoch += 1
+	_auto_start = clampi(roster.size(), 1, 4)
 	_reload.rpc(epoch)
 	_reload(epoch)
 
@@ -401,6 +412,12 @@ func feedback(id: int, kind: String, args: Array) -> void:
 func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 	if epoch != session_epoch or not is_instance_valid(game): return
 	match kind:
+		"sfx":
+			if args.size() == 1 and args[0] is String and Sfx.EVENTS.has(args[0]):
+				Sfx.play(game, args[0], Sfx.EVENTS[args[0]])
+		"trade":
+			game.progression.status.text = str(args[0])
+			if not game.progression.is_open and not str(args[0]).is_empty(): game.hud.message(str(args[0]), 3)
 		"message": game.hud.message(args[0], args[1])
 		"hit": game.hud.hitmarker(args[0])
 		"hurt":

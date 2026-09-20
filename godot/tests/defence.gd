@@ -87,14 +87,23 @@ func run() -> void:
 	check(not defence.purchase(player, point).is_empty() and player.score == before - 120, "Duplicate placement cannot overlap or charge")
 	var tower: DefenceTower = defence.towers.values()[0]
 	check(tower.body.collision_layer == 8 and tower.hp == 240, "Tower has blocking, destructible structure")
-	check(defence.maintain(player, tower.tower_id, "upgrade").is_empty() and tower.level == 2 and tower.hp == 400, "Upgrade improves tower and restores health")
+	var field_position := player.global_position
+	player.global_position = game.progression.npcs["mechanic"].global_position + Vector3(0, 0.1, 2.3)
+	await settle()
+	check(defence.maintain(player, tower.tower_id, "upgrade", true).is_empty() and tower.level == 2 and tower.hp == 400, "Upgrade improves tower and restores health")
+	player.global_position = field_position
+	await settle()
 	tower.damage(120)
 	before = player.score
 	check(defence.maintain(player, tower.tower_id, "repair").is_empty() and tower.hp == 400 and player.score == before - 35, "Tower repair is transactional")
 	before = player.score
 	check(not defence.maintain(player, tower.tower_id, "repair").is_empty() and player.score == before, "No charge for unnecessary repair")
-	defence.maintain(player, tower.tower_id, "upgrade")
-	check(tower.level == 3 and not defence.maintain(player, tower.tower_id, "upgrade").is_empty(), "Upgrade cap enforced")
+	player.global_position = game.progression.npcs["mechanic"].global_position + Vector3(0, 0.1, 2.3)
+	await settle()
+	defence.maintain(player, tower.tower_id, "upgrade", true)
+	check(tower.level == 3 and not defence.maintain(player, tower.tower_id, "upgrade", true).is_empty(), "Upgrade cap enforced")
+	player.global_position = field_position
+	await settle()
 	game.spawn_zombie("shambler", Vector2(60, 99), 1)
 	z = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
 	z.set_physics_process(false)
@@ -129,14 +138,16 @@ func run() -> void:
 	await create_timer(2.0, false).timeout
 	check(not z.alive and player.score > before, "Tower kill credits its builder")
 	defence.open(tower)
-	check(defence.is_open and paused and not player.active, "Maintenance menu pauses solo combat")
-	defence.close()
-	check(not paused and player.active, "Closing maintenance restores control")
+	check(defence.placing and not paused and player.active, "Tower interaction starts in-world rotation without a remote shop")
+	defence.cancel_placement()
+	check(not paused and player.active, "Cancelling rotation restores weapon input")
 	var id := tower.tower_id
+	player.global_position = game.progression.npcs["mechanic"].global_position + Vector3(0, 0.1, 2.3)
+	await settle()
 	tower.owner_peer = 99
-	check(not defence.maintain(player, id, "sell").is_empty(), "Team member cannot sell someone else's tower")
+	check(not defence.maintain(player, id, "sell", true).is_empty(), "Team member cannot sell someone else's tower")
 	tower.owner_peer = 1
-	check(defence.maintain(player, id, "sell").is_empty() and not defence.towers.has(id), "Owner can dismantle tower")
+	check(defence.maintain(player, id, "sell", true).is_empty() and not defence.towers.has(id), "Owner can dismantle tower")
 	await settle()
 	game.waves.wave = 8
 	game.spawn_zombie("titan", Vector2(20, 125), 1, "east")

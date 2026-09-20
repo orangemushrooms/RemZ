@@ -155,6 +155,11 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   `--quality=0..2` override the saved settings. Test runs (`--autotest`, `--smoke-test`, `--views`, `--shot-ui`)
   never write the high-score table. After regenerating `ground.png` run `Godot.exe --headless --path godot
   --import`, otherwise the game keeps the old texture. Godot.exe lives on the Desktop.
+- Economy: points are the only currency. `main.KILL_VALUE` (0.6) scales the kill bounty, the wave bonus is
+  20 + 6 n, quest "arrival" pays 20; the HUD shows the balance bottom-left in gold with a +/- delta popup.
+  "Nochmal" / "Neue Runde" rebuild the scene and start the next round directly (`NetSession.restart_pending`
+  offline, `_auto_start` for the coop host); `--suite=menu_flow --smoke-test --no-intro --no-music --no-foliage`
+  checks zombie damage, death -> Nochmal, pause -> Hauptmenü and the coop restart (11 checks, ~45 s).
 - `tests/range_steps.gd` (headless, `-- --smoke-test --no-intro --no-music`) checks long-range hits and the
   per-surface footsteps (`Sfx.footstep`: low-pass bus per surface + procedural texture layer; asphalt has zero
   cover weight in `ground.png`, so "all channels < 0.3" means hard ground) and dumps the step textures to

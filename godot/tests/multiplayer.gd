@@ -118,10 +118,25 @@ func host_run() -> void:
 	await wait_seconds(0.5)
 	await command_clients("upgrade", ["c1"], ["w_ak47"])
 	await wait_seconds(0.4)
-	check(NetSession.world.weapons[c1].unlocked.ak47 and NetSession.world.actor(c1).score == 700, "Client weapon purchase is charged once by host")
-	await command_clients("upgrade", ["c1"], ["w_ak47"])
+	check(not NetSession.world.weapons[c1].unlocked.ak47 and NetSession.world.actor(c1).score == 1000, "Legacy remote weapon unlock rejected")
+	await command_clients("shop", ["c1"], ["camp", "weapon", "ak47", ""])
 	await wait_seconds(0.3)
-	check(NetSession.world.actor(c1).score == 700, "Duplicate unlock cannot spend twice")
+	check(not NetSession.world.weapons[c1].unlocked.ak47, "Remote NPC purchase cannot bypass proximity")
+	game.waves.completed = 4
+	game.progression.data(c1).claimed = {"arrival": true, "line": true}
+	await teleport(c1, game.progression.npcs.camp.global_position + Vector3(0, 0.1, 2.3))
+	await command_clients("shop", ["c1"], ["camp", "weapon", "ak47", ""])
+	await wait_seconds(0.4)
+	check(NetSession.world.weapons[c1].unlocked.ak47 and NetSession.world.actor(c1).score == 220, "Eligible NPC weapon purchase is charged once by host")
+	await command_clients("shop", ["c1"], ["camp", "weapon", "ak47", ""])
+	await wait_seconds(0.3)
+	check(NetSession.world.actor(c1).score == 220, "Duplicate purchase cannot spend twice")
+	NetSession.world.actor(c1).score = 1000
+	await command_clients("shop", ["c1"], ["camp", "skin", "forest", "ak47"])
+	await wait_seconds(0.4)
+	await command_clients("inspect", ["c1", "c2"])
+	check(NetSession.world.weapons[c1].skins.get("ak47") == "forest" and read_json("done-c1").skins.get("ak47") == "forest", "Purchased weapon skin replicates to owner")
+	check(read_json("done-c2").progress_people > 1, "Individual quest state reaches the other peers")
 	await command_clients("menus", ["c2"])
 	var menu_report: Dictionary = read_json("done-c2")
 	check(not menu_report.paused and not paused, "Client menus do not pause the common world")
@@ -204,7 +219,17 @@ func host_run() -> void:
 	var tower: DefenceTower = game.defences.towers.values()[0]
 	await command_clients("tower_upgrade", ["c2"], [tower.tower_id])
 	await wait_seconds(0.4)
-	check(tower.level == 2 and tower.hp == 400, "Remote tower upgrade is authoritative")
+	check(tower.level == 1, "Remote turret upgrade requires the mechanic")
+	await command_clients("tower_rotate", ["c2"], [tower.tower_id, 0.4])
+	await wait_seconds(0.4)
+	check(is_equal_approx(tower.rotation.y, 0.4), "Remote tower rotation is authoritative")
+	await command_clients("inspect", ["c1"])
+	check(is_equal_approx(float(read_json("done-c1").tower_yaw), 0.4), "Tower heading replicates to other players")
+	await teleport(c2, game.progression.npcs.mechanic.global_position + Vector3(0, 0.1, 2.3))
+	await command_clients("shop", ["c2"], ["mechanic", "tower_upgrade", str(tower.tower_id), ""])
+	await wait_seconds(0.4)
+	check(tower.level == 2 and tower.hp == 400, "NPC turret upgrade applies on host")
+	await teleport(c2, Map.ground_pos(60, 117) + Vector3.UP * 0.1)
 	tower.damage(100)
 	await command_clients("tower_repair", ["c2"], [tower.tower_id])
 	await wait_seconds(0.4)
@@ -314,7 +339,8 @@ func host_run() -> void:
 		await wait_seconds(0.25)
 	game = NetSession.game
 	check(is_instance_valid(game) and game.navigation_ready and NetSession.roster.size() == 4, "Session survives host restart with four peers")
-	check(NetSession.phase == "lobby" and game.player.hp == 100.0, "Restart resets run and returns to coop lobby")
+	await wait_seconds(0.5)
+	check(NetSession.phase == "running" and game.player.hp == 100.0 and not game.over, "Restart resets the run and starts the next round once every peer is ready")
 	NetSession.start_game()
 	game.waves.timer = 10000.0
 	await wait_seconds(0.5)
@@ -357,6 +383,9 @@ func client_run() -> void:
 		step_seen = int(request.number)
 		var args: Array = request.args
 		if request.action in ["build", "repair", "revive", "tower_upgrade", "tower_repair", "tower_sell"]: args[0] = int(args[0])
+		if request.action == "tower_rotate":
+			args[0] = int(args[0])
+			args[1] = float(args[1])
 		match request.action:
 			"tower_place": NetSession.command("tower_place", [Vector3(args[0][0], args[0][1], args[0][2])])
 			"menus":
@@ -435,6 +464,8 @@ func client_run() -> void:
 			tower_hp += tower.hp
 		write_json("done-"+role, {"step": step_seen, "players": NetSession.roster.size(), "avatars": NetSession.world.avatars.size(),
 			"towers": game.defences.towers.size(), "tower_shots": tower_shots, "tower_hp": tower_hp,
+			"tower_yaw": game.defences.towers.values()[0].rotation.y if game.defences.towers.size() else 0.0,
+			"skins": game.weapons.skins, "progress_people": game.progression.people.size(),
 			"titans": titan_count, "boss_phase": boss_phase, "boss_max_hp": boss_max_hp, "boss_impact": boss_impact,
 			"boss_model": boss_model, "boss_seed": boss_seed, "boss_height": boss_height,
 			"titan_cues": titan_cues,

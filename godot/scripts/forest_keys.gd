@@ -101,7 +101,7 @@ func collect(key: ForestKey) -> void:
 	key.pickup_visual.hide()
 	hint.update_target(null, main.player)
 	main.hud.message("Schlüssel gefunden: %s\nAlle Türen dieser Hütte sind jetzt bedienbar. [B] Inventar" % KEYS[key.key_id], 4.0)
-	Sfx.play(self, "pickup", -6.0)
+	Sfx.play(self, "key_pickup", -6.0)
 
 func _process(delta: float) -> void:
 	_hint_time -= delta

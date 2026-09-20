@@ -148,7 +148,7 @@ func run() -> void:
 	await create_timer(0.1).timeout
 	check(grenade._t > fuse, "Resume continues grenade simulation")
 	game.skills.open()
-	check(paused and not game.player.active and game.skills.is_open, "Skill menu pauses combat")
+	check(not paused and game.player.active and not game.progression.is_open, "Remote skill menu no longer grants purchases")
 	game.skills.close()
 	check(not paused and game.player.active, "Closing skills resumes combat")
 	grenade.queue_free()
@@ -161,7 +161,7 @@ func run() -> void:
 	while not game.navigation_ready:
 		await process_frame
 	check(game.player.hp == 100.0 and game.waves.completed == 0 and game.alive_zombies() == 0, "Restart resets health, waves and enemies")
-	check(paused and not game.started, "Restart returns to a ready start menu")
+	check(not paused and game.started and game.player.active, "Restart goes straight into the next round")
 	print("SMOKE_DONE checks=%d failures=%d" % [checks, failures])
 	paused = false
 	quit(0 if failures == 0 else 1)

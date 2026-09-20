@@ -76,7 +76,7 @@ static func build(weapon_id: String, bounds: AABB) -> ViewmodelHands:
 	var rig := ViewmodelHands.new()
 	rig.name = "Hands"
 	var pistol := weapon_id in ["pistol", "revolver"]
-	var landmarks: Vector4 = GRIPS[weapon_id]
+	var landmarks: Vector4 = GRIPS.get(weapon_id, Vector4(0.32, 0.72, 0.48, 0.3))
 	rig.trigger_grip = Vector3(bounds.end.x + 0.012, bounds.position.y + bounds.size.y * landmarks.x, bounds.position.z + bounds.size.z * landmarks.y)
 	rig.support_grip = Vector3(bounds.position.x - 0.011, bounds.position.y + bounds.size.y * landmarks.z, bounds.position.z + bounds.size.z * landmarks.w)
 	if weapon_id == "ak47":

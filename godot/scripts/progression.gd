@@ -3,9 +3,9 @@ extends CanvasLayer
 
 # One authoritative catalogue is shared by the UI, solo game and host validation.
 const NPCS := {
-	"camp": {"name": "Reto", "role": "Waffen & Vorräte", "model": "npc_quartermaster", "height": 1.82, "pos": Vector2(1.0, -5.0), "line": "Bleib am Leben. Ich handle mit Leuten, die ihren Teil beitragen."},
-	"mechanic": {"name": "Mira", "role": "Verteidigung & Training", "model": "npc_mechanic", "height": 1.7, "pos": Vector2(-5, -24), "line": "Eine Sperre hält sie auf. Ein richtig ausgerichteter Wächter erledigt den Rest."},
-	"secret": {"name": "Der Waldhändler", "role": "Seltene Ausrüstung", "model": "npc_secret_trader", "height": 1.9, "pos": Vector2(-43, -119), "line": "Du hast mich gefunden. Jetzt zeig mir, dass du diese Waffen führen kannst."},
+	"camp": {"name": "Vendor", "role": "Waffen & Vorräte", "model": "npc_quartermaster", "height": 1.82, "pos": Vector2(4.0, -16.0), "line": "Bleib am Leben. Ich handle mit Leuten, die ihren Teil beitragen."},
+	"mechanic": {"name": "Mechanic", "role": "Verteidigung & Training", "model": "npc_mechanic", "height": 1.7, "pos": Vector2(-5, -24), "line": "Eine Sperre hält sie auf. Ein richtig ausgerichteter Wächter erledigt den Rest."},
+	"secret": {"name": "Secret Vendor", "role": "Seltene Ausrüstung", "model": "npc_secret_trader", "height": 1.9, "pos": Vector2(-43, -119), "line": "Du hast mich gefunden. Jetzt zeig mir, dass du diese Waffen führen kannst."},
 }
 const CACHE := Vector2(-64, -147)
 const GOODS := {
@@ -19,11 +19,11 @@ const GOODS := {
 	"titanbreaker": {"npc": "secret", "price": 2400, "wave": 9, "quest": "titan", "ammo": 110, "desc": "Titanenbrecher .50. 75 % Zusatzschaden gegen Titanen, teure Munition."},
 }
 const QUESTS := {
-	"arrival": {"npc": "camp", "name": "Am Feuer", "requires": "", "reward": 40, "desc": "Sprich mit Reto am Lagerfeuer. Er erklärt dir Handel und Versorgung."},
+	"arrival": {"npc": "camp", "name": "Am Feuer", "requires": "", "reward": 20, "desc": "Sprich mit Vendor am Lagerfeuer. Er erklärt dir Handel und Versorgung."},
 	"watch": {"npc": "mechanic", "name": "Der erste Wächter", "requires": "arrival", "reward": 110, "desc": "Baue eine Barrikade und einen Turm. Richte den Turm anschliessend neu aus. T: Vorschau · R/Mausrad: drehen · E: bestätigen. Am Turm E: ausrichten, F: reparieren."},
-	"line": {"npc": "camp", "name": "Die Linie halten", "requires": "arrival", "reward": 140, "desc": "Übersteht als Team zwei Wellen und besiegt 30 Zombies. Kehre zu Reto zurück."},
-	"supplies": {"npc": "mechanic", "name": "Die verlorene Lieferung", "requires": "watch", "reward": 180, "desc": "Folge dem nördlichen Waldweg bis kurz vor den Abzweig zum Teich. Rechts des Weges liegt eine markierte Werkzeugkiste. Bringe die Lieferung zu Mira. Ein Händler soll weiter südöstlich im Wald lagern."},
-	"titan": {"npc": "secret", "name": "Was auf dem Feld lauert", "requires": "supplies", "reward": 300, "desc": "Besiegt gemeinsam einen Feldtitanen. Sie erscheinen ab Welle 6. Hole danach deine Belohnung beim Waldhändler ab."},
+	"line": {"npc": "camp", "name": "Die Linie halten", "requires": "arrival", "reward": 140, "desc": "Übersteht als Team zwei Wellen und besiegt 30 Zombies. Kehre zu Vendor zurück."},
+	"supplies": {"npc": "mechanic", "name": "Die verlorene Lieferung", "requires": "watch", "reward": 180, "desc": "Folge dem nördlichen Waldweg bis kurz vor den Abzweig zum Teich. Rechts des Weges liegt eine markierte Werkzeugkiste. Bringe die Lieferung zu Mechanic. Ein Händler soll weiter südöstlich im Wald lagern."},
+	"titan": {"npc": "secret", "name": "Was auf dem Feld lauert", "requires": "supplies", "reward": 300, "desc": "Besiegt gemeinsam einen Feldtitanen. Sie erscheinen ab Welle 6. Hole danach deine Belohnung beim Secret Vendor ab."},
 }
 const SKINS := {
 	"forest": {"name": "Waldtarn", "price": 160, "npc": "camp", "quest": "line", "desc": "Moos, Oliv und dunkle Erde. Rein optisch."},
@@ -86,7 +86,7 @@ func setup(main: Node) -> void:
 	for x in [-0.25, 0.25]:
 		DefenceTower.box(cache_node, Vector3(0.07, 0.62, 0.57), Vector3(x, 0.31, 0), band)
 	var marker := Label3D.new()
-	marker.text = "LIEFERUNG · MIRA"
+	marker.text = "LIEFERUNG · MECHANIC"
 	marker.position.y = 1.1
 	marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	marker.font_size = 30
@@ -109,7 +109,7 @@ func weapon_for(p: Player) -> Weapons:
 	return NetSession.world.weapons[p.peer_id] if NetSession.is_host() else game.weapons
 
 func close_enough(p: Player, id: String) -> bool:
-	if not p.alive or game.over: return false
+	if not p.alive or not game.started or game.over: return false
 	var target: Vector3
 	var body: Object = null
 	if id == "cache": target = cache_node.global_position + Vector3.UP * 0.6
@@ -134,7 +134,7 @@ func nearest(p: Player) -> String:
 	return found
 
 func prompt(id: String) -> String:
-	return "[E] Miras Lieferung bergen" if id == "cache" else "[E] %s · %s" % [NPCS[id].name, NPCS[id].role]
+	return "[E] Lieferung von Mechanic bergen" if id == "cache" else "[E] %s · %s" % [NPCS[id].name, NPCS[id].role]
 
 func event(kind: String) -> void:
 	if NetSession.is_client(): return
@@ -159,7 +159,7 @@ func quest_progress(id: String) -> String:
 		"line": return "Wellen %d/2 · Zombies %d/30" % [mini(game.waves.completed, 2), mini(team.kills, 30)]
 		"supplies": return "Lieferung geborgen" if team.cache else "Lieferung am nördlichen Waldweg suchen"
 		"titan": return "Titanen %d/1" % mini(team.titans, 1)
-	return "Reto am Lagerfeuer kennenlernen"
+	return "Vendor am Lagerfeuer kennenlernen"
 
 func lock_reason(p: Player, id: String) -> String:
 	var spec: Dictionary = GOODS[id]
@@ -177,10 +177,11 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 		"visit": return ""
 		"cache":
 			if npc != "cache" or team.cache: return "Die Lieferung wurde bereits geborgen."
-			if not d.accepted.get("supplies", false): return "Mira weiss, wem diese Lieferung gehört. Sprich mit ihr."
+			if not d.accepted.get("supplies", false): return "Mechanic weiss, wem diese Lieferung gehört. Sprich mit ihr."
 			team.cache = true
 			cache_node.hide()
-			return "Lieferung geborgen. Kehre zu Mira zurück."
+			Sfx.event(self, p.peer_id, "pickup")
+			return "Lieferung geborgen. Kehre zu Mechanic zurück."
 		"quest":
 			if not QUESTS.has(id) or QUESTS[id].npc != npc: return "Dieser Auftrag gehört zu einem anderen Händler."
 			var q: Dictionary = QUESTS[id]
@@ -188,10 +189,12 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			if not has_claim(p.peer_id, q.requires): return "Schliesse zuerst den vorherigen Auftrag ab."
 			if not d.accepted.get(id, false):
 				d.accepted[id] = true
+				Sfx.event(self, p.peer_id, "quest_accept")
 				return "Auftrag angenommen: " + str(q.name)
 			if not complete(id): return "Auftrag noch nicht erfüllt. " + quest_progress(id)
 			d.claimed[id] = true
 			p.add_score(int(q.reward))
+			Sfx.event(self, p.peer_id, "quest_complete")
 			return "Auftrag abgeschlossen · +%d P · %s" % [q.reward, q.name]
 		"weapon":
 			if not GOODS.has(id) or GOODS[id].npc != npc: return "Diese Waffe wird hier nicht angeboten."
@@ -204,6 +207,7 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			w.state[id].ammo = Weapons.DEFS[id].mag
 			w.state[id].reserve = int(Weapons.DEFS[id].mag) * 2
 			game.achievements.event("weapons")
+			Sfx.event(self, p.peer_id, "weapon_pickup")
 			return "Gekauft: %s · Magazin + 2 Reservemagazine" % Weapons.DEFS[id].name
 		"ammo":
 			if npc == "mechanic" or not Weapons.DEFS.has(id) or not w.unlocked.get(id, false): return "Waffe nicht verfügbar."
@@ -212,9 +216,10 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			if p.score < cost: return "Zu wenig Punkte."
 			p.add_score(-cost)
 			w.add_ammo(id, int(Weapons.DEFS[id].mag) * 2)
+			Sfx.event(self, p.peer_id, "pickup")
 			return "Zwei Reservemagazine gekauft."
 		"medicine", "grenade":
-			if npc != "camp": return "Vorräte gibt es bei Reto."
+			if npc != "camp": return "Vorräte gibt es bei Vendor."
 			var cost := 35 if action == "medicine" else 45
 			if action == "medicine" and p.hp >= p.max_hp: return "Gesundheit bereits voll."
 			if action == "grenade" and w.grenades >= w.grenades_max: return "Granatentasche voll."
@@ -225,6 +230,7 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 				p.hud.set_health(p.hp)
 			else: w.grenades += 1
 			w.update_hud()
+			Sfx.event(self, p.peer_id, "pickup")
 			return "Vorrat gekauft."
 		"skin":
 			if not SKINS.has(id) or SKINS[id].npc != npc or not w.unlocked.get(extra, false): return "Lackierung nicht verfügbar."
@@ -236,16 +242,18 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 				p.add_score(-int(s.price))
 				d.skins[key] = true
 			w.apply_skin(extra, id)
+			Sfx.event(self, p.peer_id, "purchase")
 			return "Lackierung angelegt: " + str(s.name)
 		"stock_skin":
 			if not w.unlocked.get(id, false): return "Waffe nicht verfügbar."
 			w.apply_skin(id, "")
+			Sfx.event(self, p.peer_id, "purchase")
 			return "Originalfinish angelegt."
 		"training":
-			if npc != "mechanic": return "Training gibt es bei Mira."
+			if npc != "mechanic": return "Training gibt es bei Mechanic."
 			return game.skills.purchase(p, w, id)
 		"tower_upgrade", "tower_sell":
-			if npc != "mechanic" or not id.is_valid_int(): return "Ausbauten gibt es bei Mira."
+			if npc != "mechanic" or not id.is_valid_int(): return "Ausbauten gibt es bei Mechanic."
 			return game.defences.maintain(p, int(id), action.trim_prefix("tower_"), true)
 	return "Unbekannte Aktion."
 
@@ -255,7 +263,6 @@ func request(action: String, id := "", extra := "") -> void:
 		status.text = "Anfrage an den Host …"
 	else:
 		status.text = transact(game.player, shop, action, id, extra)
-		Sfx.play(self, "confirm", -12)
 	_last_signature = ""
 
 func interact(id: String) -> void:
@@ -310,6 +317,8 @@ func _build_ui() -> void:
 	tutorial.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	tutorial.position = Vector2(-330, -240)
 	tutorial.size = Vector2(660, 70)
+	tutorial.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tutorial.add_theme_constant_override("line_spacing", 10)
 	tutorial.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	tutorial.add_theme_color_override("font_shadow_color", Color.BLACK)
 	tutorial.add_theme_constant_override("shadow_offset_x", 2)
@@ -384,11 +393,14 @@ func _row(heading: String, details: String, button_text: String, action: Callabl
 		widgets[1].text = details
 		widgets[2].text = button_text
 		widgets[2].disabled = disabled
+		widgets[3].texture = ItemIcons.texture(ItemIcons.action_id(action))
 		_row_index += 1
 		return
 	var box := HBoxContainer.new()
 	box.add_theme_constant_override("separation", 14)
 	rows.add_child(box)
+	var icon := ItemIcons.view(ItemIcons.action_id(action), Vector2(112, 76))
+	box.add_child(icon)
 	var text := VBoxContainer.new()
 	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	box.add_child(text)
@@ -404,7 +416,7 @@ func _row(heading: String, details: String, button_text: String, action: Callabl
 	button.pressed.connect(action)
 	box.add_child(button)
 	rows.add_child(HSeparator.new())
-	_row_nodes.append([heading_label, desc, button])
+	_row_nodes.append([heading_label, desc, button, icon])
 	_row_index += 1
 
 func _info(text: String, size := 18) -> void:
@@ -440,7 +452,7 @@ func _render() -> void:
 				var text := "Erledigt" if claimed else ("Vorheriger Auftrag fehlt" if locked else ("Belohnung abholen" if accepted and complete(id) else ("In Arbeit" if accepted else "Auftrag annehmen")))
 				_row(q.name + " · %d P" % q.reward, q.desc + "\n" + quest_progress(id), text, request.bind("quest", id), claimed or locked or (accepted and not complete(id)))
 		"Handel":
-			if shop == "mechanic": _info("Mira bietet Training, Turmausbauten und Aufträge an. Waffen und Vorräte gibt es bei Reto am Lagerfeuer.")
+			if shop == "mechanic": _info("Mechanic bietet Training, Turmausbauten und Aufträge an. Waffen und Vorräte gibt es bei Vendor am Lagerfeuer.")
 			for id in GOODS:
 				var spec: Dictionary = GOODS[id]
 				if spec.npc != shop: continue
@@ -457,15 +469,16 @@ func _render() -> void:
 				_row("Verband", "+60 Gesundheit, bis zum Maximum", "35 P", request.bind("medicine"), p.score < 35 or p.hp >= p.max_hp)
 				_row("Handgranate", "Eine Granate, bis die Tasche voll ist", "45 P", request.bind("grenade"), p.score < 45 or game.weapons.grenades >= game.weapons.grenades_max)
 		"Training":
-			if shop != "mechanic": _info("Training gibt es bei Mira nördlich des Lagerfeuers.")
+			if shop != "mechanic": _info("Training gibt es bei Mechanic nördlich des Lagerfeuers.")
 			else:
 				for spec in Skills.UPGRADES:
 					var level: int = game.skills.levels.get(spec.id, 0)
 					var cost := int(spec.cost) + int(spec.cost) * level / 2
 					_row(spec.name + " · %d/%d" % [level, spec.max], spec.desc, "%d P" % cost, request.bind("training", spec.id), level >= int(spec.max) or p.score < cost)
 		"Türme":
+			if _building_layout: rows.add_child(ItemIcons.view("tower", Vector2(140, 90)))
 			_info("T: Bauvorschau · R/Mausrad: drehen · E: platzieren\nAm Turm: E zum Ausrichten, F zum Reparieren. 160° Feuersektor, freie Sicht nötig. Dauerfeuer führt zum Abkühlen.", 16)
-			if shop != "mechanic": _info("Ausbauten und Abbau verwaltet Mira. Nur eigene Türme können verkauft werden.")
+			if shop != "mechanic": _info("Ausbauten und Abbau verwaltet Mechanic. Nur eigene Türme können verkauft werden.")
 			else:
 				for id in game.defences.towers:
 					var tower: DefenceTower = game.defences.towers[id]
@@ -494,6 +507,10 @@ func _input(event: InputEvent) -> void:
 func _process(delta: float) -> void:
 	if not game: return
 	if is_open and not close_enough(game.player, shop): close()
+	var playing: bool = game.started and not game.over and game.player.active and not game.hud.overlay.visible
+	var guiding: bool = game.intro != null and game.intro.showing_guidance()
+	tracker.visible = playing and _journal and not game.defences.placing and not guiding
+	tutorial.visible = playing and not game.defences.placing and not guiding
 	_refresh_time -= delta
 	if _refresh_time > 0: return
 	_refresh_time = 0.25
@@ -501,13 +518,10 @@ func _process(delta: float) -> void:
 	if is_open:
 		var structures := []
 		for tower: DefenceTower in game.defences.towers.values(): structures.append([tower.tower_id, tower.level, ceili(tower.hp)])
-		var signature := str([game.player.score, people, team, game.waves.completed, game.skills.levels, game.weapons.current, structures])
+		var signature := str([game.player.score, ceili(game.player.hp), game.weapons.grenades, game.weapons.cur().reserve, game.weapons.unlocked, people, team, game.waves.completed, game.skills.levels, game.weapons.current, structures])
 		if signature != _last_signature:
 			_last_signature = signature
 			_render()
-	var playing: bool = game.started and not game.over and game.player.active and not game.hud.overlay.visible
-	tracker.visible = playing and _journal and not game.defences.placing
-	tutorial.visible = playing and not game.defences.placing
 	var d := local_data()
 	var tracked := ""
 	for id in QUESTS:
@@ -515,13 +529,13 @@ func _process(delta: float) -> void:
 			tracked = id
 			break
 	if tracked.is_empty():
-		tracker.text = "AUFTRÄGE · TAB ein/aus\nSprich mit Reto am Lagerfeuer und Mira nördlich davon."
+		tracker.text = "ALLE AUFTRÄGE ERLEDIGT\nHalte die Hütte und überstehe die nächste Welle." if d.claimed.size() == QUESTS.size() else "AUFTRÄGE · TAB ein/aus\nSprich mit Vendor am Lagerfeuer und Mechanic nördlich davon."
 	else:
 		tracker.text = "AUFTRAG · " + str(QUESTS[tracked].name) + "\n" + ("Erfüllt · Belohnung bei " + str(NPCS[QUESTS[tracked].npc].name) + " abholen" if complete(tracked) else quest_progress(tracked))
 	if not d.claimed.get("arrival", false):
-		tutorial.text = "WAFFEN & AUFTRÄGE\nSprich mit Reto am Lagerfeuer [E]. Verdiene Ausrüstung durch Überleben."
+		tutorial.text = "WAFFEN & AUFTRÄGE\n[E] Sprich mit Vendor am Lagerfeuer."
 	elif team.built == 0:
-		tutorial.text = "VERTEIDIGUNG · [T] GESCHÜTZTURM\n120 P · R/Mausrad dreht die Vorschau · E baut · Mira erklärt den Ausbau."
+		tutorial.text = "VERTEIDIGUNG · [T] GESCHÜTZTURM\n120 P · R/Mausrad dreht die Vorschau · E baut · Mechanic erklärt den Ausbau."
 	elif team.turned == 0:
 		tutorial.text = "RICHTE DEINEN WÄCHTER AUS\nAm Turm E drücken, mit R/Mausrad drehen und mit E bestätigen."
 	else: tutorial.text = ""

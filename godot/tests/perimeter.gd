@@ -68,6 +68,31 @@ func run() -> void:
 			road_hits += wall_crossings(ring, pts[i], pts[i + 1])
 	check("no wall crosses a road (roads pass only through gates)", road_hits == 0, "crossings=%d" % road_hits)
 	check("logs were placed (more than 600)", ring.log_count > 600, str(ring.log_count))
+	check("all palisade sections start hidden", ring.sections.all(func(s): return not s.visible))
+	check("unbuilt sections have no collision or navigation obstacles", ring._section_bodies.all(func(b): return b.collision_layer == 0 and not b.is_in_group("navsource")))
+	game.barricades[0].build()
+	check("building one gate reveals only its section", ring.sections[0].visible and ring.sections.filter(func(s): return s.visible).size() == 1)
+	check("built section blocks movement", ring._section_bodies[0].collision_layer == 1 and ring._section_bodies[0].is_in_group("navsource"))
+	game.barricades[0].damage(1e6)
+	check("destroyed section disappears and becomes passable", not ring.sections[0].visible and ring._section_bodies[0].collision_layer == 0)
+	# Also exercise the rebuild path used by multiplayer snapshots and round resets.
+	game.barricades[0].level = 1
+	game.barricades[0].hp = 300.0
+	game.barricades[0].rebuild()
+	check("replicated build restores its section", ring.sections[0].visible)
+	game.barricades[0].level = 0
+	game.barricades[0].hp = 0.0
+	game.barricades[0].rebuild()
+	check("replicated reset hides its section", not ring.sections[0].visible)
+	for bar in game.barricades:
+		for k in 3: bar.build()
+	await process_frame
+	while game.nav_region.is_baking() or game._perimeter_navigation_dirty: await process_frame
+	await physics_frame
+	await physics_frame
+	NavigationServer3D.map_force_update(game.nav_region.get_navigation_map())
+	# Publishing the newly baked region is asynchronous, even after bake_finished.
+	await create_timer(1.0).timeout
 	# navmesh: from each lane spawn a path leads to the plaza and only passes the ring at a gate
 	var nav_map: RID = game.nav_region.get_navigation_map()
 	var plaza := Map.ground_pos(7, -3)

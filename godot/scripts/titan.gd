@@ -179,24 +179,28 @@ func _physics_process(delta: float) -> void:
 		update_warning()
 		return
 	if NavigationServer3D.map_get_iteration_id(agent.get_navigation_map()) == 0: return
+	var player_priority := _nearby_player_priority(delta)
+	_update_hunt(delta)
 	var obstruction: Node3D
 	var best := INF
-	var path := agent.get_current_navigation_path().slice(agent.get_current_navigation_path_index())
-	if is_instance_valid(siege_target) and siege_target.hp > 0:
+	var path := _hunt_path if hunting else agent.get_current_navigation_path().slice(agent.get_current_navigation_path_index())
+	if not hunting and is_instance_valid(siege_target) and siege_target.hp > 0:
 		obstruction = siege_target
 		best = obstruction.attack_point(global_position).distance_squared_to(global_position)
 	for b in barricades:
-		if b.intercepts(global_position, player.global_position, path) or (b == lane_bar and b.hp > 0 and b._local(global_position).y * b._local(player.global_position).y < 0):
+		var blocking: bool = _blocks_hunt(b, path) if hunting else (b.intercepts(global_position, player.global_position, path) or (b == lane_bar and b.hp > 0 and b._local(global_position).y * b._local(player.global_position).y < 0))
+		if blocking:
 			var d: float = b.attack_point(global_position).distance_squared_to(global_position)
 			if d < best:
 				best = d
 				obstruction = b
 	for tower in get_tree().get_nodes_in_group("defence_towers"):
 		var d: float = tower.global_position.distance_squared_to(global_position)
-		if tower.hp > 0 and d < 100 and d < best and obstruction == null:
+		if not hunting and tower.hp > 0 and d < 100 and d < best and obstruction == null:
 			obstruction = tower
 			best = d
 	siege_target = obstruction
+	if player_priority: obstruction = null
 	var destination: Vector3 = obstruction.attack_point(global_position) if obstruction else player.global_position
 	var direction := destination - global_position
 	direction.y = 0
