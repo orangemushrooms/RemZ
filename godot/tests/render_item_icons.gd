@@ -33,6 +33,9 @@ func run() -> void:
 	camera.current = true
 	var catalogue := {"ammo": "ammo_pack", "medicine": "medkit", "grenade": "grenade", "steinpilz": "mushroom_cluster", "fliegenpilz": "mushroom_fly", "barricade": "barricade", "tower": ""}
 	for id in Weapons.ORDER: catalogue[id] = Weapons.DEFS[id].model
+	if "--fireworks-only" in OS.get_cmdline_user_args(): catalogue = {}
+	catalogue.firework_rocket = "firework_rocket"
+	catalogue.firework_cracker = "firework_cracker"
 	for id in catalogue:
 		var holder := Node3D.new()
 		world.add_child(holder)
@@ -51,6 +54,7 @@ func run() -> void:
 		var scale_factor := 2.0 / maxf(maxf(bounds.size.x, bounds.size.y), bounds.size.z)
 		object.scale *= scale_factor
 		object.position = -bounds.get_center() * scale_factor
+		if id.begins_with("firework_"): holder.rotation.z = -0.6
 		camera.position = Vector3(0.4, 0.3, 5) if id in Weapons.ORDER else Vector3(3, 2, 5)
 		camera.look_at(Vector3.ZERO)
 		camera.size = 2.5

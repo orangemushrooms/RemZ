@@ -1,6 +1,8 @@
 extends Node3D
 
 const STAR_SHADER = preload("res://scripts/firework_stars.gdshader")
+const ROCKET_MODEL = preload("res://assets/models/firework_rocket.glb")
+const CRACKER_MODEL = preload("res://assets/models/firework_cracker.glb")
 const AUDIO := "res://assets/audio/fireworks/"
 var kind := "fw_ruby"
 var origin := Vector3.ZERO
@@ -20,9 +22,7 @@ var launched := false
 var burst := false
 
 static func model(is_rocket: bool) -> Node3D:
-	var path := "res://assets/models/firework_%s.glb" % ("rocket" if is_rocket else "cracker")
-	if ResourceLoader.exists(path): return load(path).instantiate()
-	return Node3D.new() # Imports may still be pending while the editor scans new assets.
+	return (ROCKET_MODEL if is_rocket else CRACKER_MODEL).instantiate()
 
 func configure(id: String, start: Vector3, end: Vector3, seed_value: int, elapsed: float, path := PackedVector3Array()) -> void:
 	kind = id
@@ -43,12 +43,15 @@ func _ready() -> void:
 	add_child(body)
 	sparks = particles(Color(1, 0.6, 0.12), 24, 0.28, 0.04, 1.6, Vector3(0, -2, 0), false)
 	add_child(sparks)
-	sparks.position.y = 0.36 if rocket else 0.15
+	sparks.position.y = 0.3 if rocket else 0.15
 	sparks.emitting = age < (1.2 if rocket else burst_at)
 	trail = particles(Color(1, 0.55, 0.12), 100, 0.65, 0.12, 1.4, Vector3(0, -3, 0), false)
 	add_child(trail)
+	trail.position.y = 0.27 if rocket else 0.0
 	trail.emitting = false
-	if age < (1.2 if rocket else burst_at): fuse_sound = sound("fuse", -15, 22)
+	if age < (1.2 if rocket else burst_at):
+		fuse_sound = sound("fuse", -15, 22)
+		if fuse_sound.stream is AudioStreamWAV: (fuse_sound.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
 	_tick()
 
 func _process(delta: float) -> void:
@@ -73,6 +76,7 @@ func _tick() -> void:
 			global_position = flight_path[base].lerp(flight_path[mini(base + 1, flight_path.size() - 1)], index - base)
 		else: global_position = landing
 		body.rotation = Vector3(age * 5, 0.3, age * 7) if age < (flight_path.size() - 1) * 0.05 else Vector3(0, 0.3, PI * 0.5)
+		sparks.position = body.transform * Vector3(0, 0.15, 0)
 	if age >= burst_at and not burst: _burst(age - burst_at < 0.4)
 	if burst:
 		if star_material: star_material.set_shader_parameter("age", age - burst_at)
@@ -117,6 +121,8 @@ func _stars() -> void:
 	star_material.shader = STAR_SHADER
 	star_material.set_shader_parameter("fall", 1.45 if kind == "fw_gold" else (2.0 if rocket else 3.6))
 	star_material.set_shader_parameter("star_size", 0.22 if rocket else 0.045)
+	star_material.set_shader_parameter("tail_length", 1.0 if kind == "fw_gold" else 0.42)
+	star_material.set_shader_parameter("tail_step", (1.0 if kind == "fw_gold" else 0.42) / maxf(1, tails - 1))
 	mesh.material = star_material
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
@@ -195,7 +201,13 @@ static func particles(color: Color, amount: int, life: float, size: float, speed
 
 func sound(stem: String, volume: float, distance: float) -> AudioStreamPlayer3D:
 	var voice := AudioStreamPlayer3D.new()
-	voice.stream = load(AUDIO + stem + ".wav")
+	# numbered variants (burst_1..4, cracker_1..4) are picked at random; single files keep their plain stem
+	var variants: Array = []
+	for ext: String in [".wav", ".mp3", ".ogg"]:
+		for i in range(1, 6):
+			if ResourceLoader.exists(AUDIO + "%s_%d%s" % [stem, i, ext]): variants.append(AUDIO + "%s_%d%s" % [stem, i, ext])
+		if variants.is_empty() and ResourceLoader.exists(AUDIO + stem + ext): variants.append(AUDIO + stem + ext)
+	voice.stream = load(variants[randi() % variants.size()]) if not variants.is_empty() else null
 	voice.volume_db = volume
 	voice.unit_size = 12
 	voice.max_distance = distance

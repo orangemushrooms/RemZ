@@ -490,6 +490,9 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 	if npc == "secret": d.discovered = true
 	if action.begins_with("sell_"): return sell(p, npc, action, id)
 	match action:
+		"firework":
+			if npc != "camp": return "Feuerwerk gibt es bei Vendor am Lagerfeuer."
+			return game.fireworks.buy(p, id)
 		"visit": return ""
 		"rare":
 			if npc != "wanderer": return "Diese Raritäten führt nur der Nebelkrämer."
@@ -730,7 +733,7 @@ func _build_ui() -> void:
 	column.add_child(balance)
 	var tabs := HBoxContainer.new()
 	column.add_child(tabs)
-	for tab in ["Handel", "Verkaufen", "Aufträge", "Training", "Türme", "Mods", "Skins", "Raritäten"]:
+	for tab in ["Handel", "Feuerwerk", "Verkaufen", "Aufträge", "Training", "Türme", "Mods", "Skins", "Raritäten"]:
 		var button := Button.new()
 		button.text = tab
 		button.custom_minimum_size = Vector2(160, 38)
@@ -806,7 +809,7 @@ func _render() -> void:
 		if shop == "wanderer":
 			_tabs[tab].visible = tab == "Raritäten"
 			continue
-		_tabs[tab].visible = tab in (["Aufträge"] if NPCS[shop].get("quests_only", false) else (["Aufträge", "Training", "Türme", "Mods"] if shop == "mechanic" else (["Handel", "Verkaufen", "Aufträge", "Mods", "Skins"] if shop == "secret" else ["Handel", "Verkaufen", "Aufträge", "Skins"])))
+		_tabs[tab].visible = tab in (["Aufträge"] if NPCS[shop].get("quests_only", false) else (["Aufträge", "Training", "Türme", "Mods"] if shop == "mechanic" else (["Handel", "Verkaufen", "Aufträge", "Mods", "Skins"] if shop == "secret" else ["Handel", "Feuerwerk", "Verkaufen", "Aufträge", "Skins"])))
 	var owners := []
 	for tower: DefenceTower in game.defences.towers.values(): owners.append([tower.tower_id, tower.owner_peer])
 	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners, _mod_weapon, rare_market.stock.keys()])
@@ -824,6 +827,14 @@ func _render() -> void:
 	var p: Player = game.player
 	var d := local_data()
 	match page:
+		"Feuerwerk":
+			_info("LICHTER ÜBER DEM WALD", 21)
+			_info("Im Inventar [I] auswählen, dann mit Linksklick zünden. Rechtsklick: zur Waffe.\nRaketen steigen etwa 34 m hoch. Reines Feuerwerk ohne Kampfschaden. Vorräte gelten für diese Runde.", 14)
+			for id in Fireworks.DEFS:
+				var spec: Dictionary = Fireworks.DEFS[id]
+				var blocked: String = game.fireworks.buy_error(p, id)
+				var detail: String = spec.desc + "\n%d / %d im Inventar · Feuerwerktasche %d / %d" % [game.fireworks.stock(p.peer_id)[id], spec.limit, game.fireworks.count(p.peer_id), Fireworks.CAPACITY]
+				_row(spec.name, detail, "%s · %d P" % ["5er-Pack" if spec.pack == 5 else "1 Rakete", spec.price], request.bind("firework", id), not blocked.is_empty(), blocked)
 		"Raritäten":
 			_info("Wechselndes Sortiment pro Welle · Bestand mit allen Spielern geteilt.\nEin Talisman aktiv. Auswahl und Spezialmunition im Inventar [I]. Käufe gelten für diese Runde.", 14)
 			for id in rare_market.stock:
@@ -996,7 +1007,7 @@ func _process(delta: float) -> void:
 		for barrier: Barricade in game.barricades: structures.append([barrier.level, barrier.hp > 0])
 		var reserves := {}
 		for wid in game.weapons.state: reserves[wid] = [game.weapons.state[wid].ammo, game.weapons.state[wid].reserve]
-		var signature := str([game.player.score, ceili(game.player.hp), game.weapons.grenades, reserves, mushroom_stock(game.player), game.weapons.unlocked, people, team, game.waves.completed, game.skills.levels, game.weapons.current, structures, game.weapons.mod_owned, game.weapons.mod_loadout, rare_market.stock, rare_market.people])
+		var signature := str([game.player.score, ceili(game.player.hp), game.weapons.grenades, reserves, mushroom_stock(game.player), game.weapons.unlocked, people, team, game.waves.completed, game.skills.levels, game.weapons.current, structures, game.weapons.mod_owned, game.weapons.mod_loadout, rare_market.stock, rare_market.people, game.fireworks.stock(game.player.peer_id)])
 		if signature != _last_signature:
 			_last_signature = signature
 			_render()

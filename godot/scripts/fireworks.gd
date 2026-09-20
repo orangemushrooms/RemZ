@@ -19,6 +19,7 @@ var selected := ""
 var armed := false
 var input_grace := 0.0
 var held: Node3D
+var hands: ViewmodelHands
 var hint: Label
 var _clock := 0.0
 
@@ -77,20 +78,31 @@ func select(id: String) -> void:
 	armed = true
 	input_grace = 0.3
 	game.weapons._reset_scope()
-	game.weapons.viewmodel.hide()
+	game.weapons.cur().node.hide()
+	game.weapons.viewmodel.show()
 	if is_instance_valid(held): held.queue_free()
-	held = Effect.model(bool(DEFS[id].rocket))
-	game.player.camera.add_child(held)
-	held.position = Vector3(0.27, -0.34, -0.55)
-	held.rotation = Vector3(-0.15, 0.3, -0.15)
-	if not DEFS[id].rocket: held.scale = Vector3.ONE * 1.4
+	held = Node3D.new()
+	game.weapons.viewmodel.camera.add_child(held)
+	var prop := Effect.model(bool(DEFS[id].rocket))
+	held.add_child(prop)
+	prop.position.y = -0.13 if DEFS[id].rocket else -0.07
+	hands = ViewmodelHands.build("knife", ViewmodelHands.weapon_bounds(prop))
+	held.add_child(hands)
+	hands.support.hide()
+	for mesh in held.find_children("*", "MeshInstance3D", true, false):
+		mesh.layers = 2
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	held.position = Vector3(0.27, -0.30, -0.62)
+	held.rotation = Vector3(-0.12, 0.3, -0.12)
 
 func cancel() -> void:
 	if not armed: return
 	armed = false
 	if is_instance_valid(held): held.queue_free()
 	hint.hide()
+	game.weapons.cur().node.show()
 	game.weapons.viewmodel.visible = game.player.active and game.player.alive
+	game.weapons.update_hud()
 	input_grace = 0.2
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -112,12 +124,17 @@ func _process(delta: float) -> void:
 		cancel()
 		return
 	var playing: bool = game.player.active
-	game.weapons.viewmodel.hide()
+	for state in game.weapons.state.values(): state.node.hide()
+	game.weapons.viewmodel.visible = playing
 	if is_instance_valid(held):
 		held.visible = playing
-		held.position.y = -0.34 + sin(_clock * 2.4) * 0.005
+		held.position.y = -0.30 + sin(_clock * 2.4) * 0.005 - sin(input_grace * PI / 0.65) * 0.055
+		hands.animate_cloth(delta, game.player.velocity.length(), 0.0)
+		hands.anchor_melee_elbows(game.weapons.viewmodel.camera)
 	hint.visible = playing
-	hint.text = "%s · %d Stück\nLinksklick: %s · Rechtsklick: zurück zur Waffe" % [DEFS[selected].name, stock(game.player.peer_id)[selected], "aufstellen & zünden" if DEFS[selected].rocket else "anzünden & werfen"]
+	hint.text = "Linksklick: %s\nRechtsklick: zurück zur Waffe" % ("Rakete aufstellen & zünden" if DEFS[selected].rocket else "Böller anzünden & werfen")
+	game.hud.ammo_label.text = "%d Stück" % stock(game.player.peer_id)[selected]
+	game.hud.weapon_label.text = str(DEFS[selected].name) + " · Feuerwerk"
 	if playing and input_grace <= 0 and Input.is_action_just_pressed("fire"):
 		input_grace = 0.65
 		if NetSession.enabled:
@@ -141,6 +158,7 @@ func ignite(p: Player, id: String) -> String:
 	var eye := p.camera.global_position
 	var origin := eye + forward * 0.5
 	var landing := origin
+	var path := PackedVector3Array([origin])
 	var space := get_world_3d().direct_space_state
 	var exclude: Array[RID] = [p.get_rid()]
 	if DEFS[id].rocket:
@@ -156,6 +174,7 @@ func ignite(p: Player, id: String) -> String:
 	else:
 		# Trace the complete short arc so a thrown cracker cannot cross a wall.
 		origin = eye
+		path = PackedVector3Array([origin])
 		var velocity := -p.head.global_basis.z * 7.0 + Vector3.UP * 2.0
 		var previous := origin
 		for step in range(1, 41):
@@ -163,14 +182,16 @@ func ignite(p: Player, id: String) -> String:
 			var at := origin + velocity * t + Vector3.DOWN * 4.9 * t * t
 			var hit := space.intersect_ray(PhysicsRayQueryParameters3D.create(previous, at, 1 | 8, exclude))
 			if not hit.is_empty():
-				landing = hit.position + hit.normal * 0.07
+				landing = hit.position + hit.normal * 0.025
+				path.append(landing)
 				break
 			landing = at
+			path.append(at)
 			previous = at
 	stock(p.peer_id)[id] -= 1
 	cooldowns[p.peer_id] = 0.9
 	var effect = Effect.new()
-	effect.configure(id, origin, landing, randi() & 0x7fffffff, 0.0)
+	effect.configure(id, origin, landing, randi() & 0x7fffffff, 0.0, path)
 	add_child(effect)
 	active[next_id] = effect
 	next_id += 1
@@ -195,7 +216,7 @@ func apply_snapshot(data: Dictionary) -> void:
 		var s: Array = live[id]
 		if not active.has(id) or not is_instance_valid(active[id]):
 			var effect = Effect.new()
-			effect.configure(s[0], s[1], s[2], s[3], s[4])
+			effect.configure(s[0], s[1], s[2], s[3], s[4], s[5])
 			add_child(effect)
 			active[id] = effect
 		elif absf(active[id].age - float(s[4])) > 0.35:

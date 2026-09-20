@@ -14,6 +14,7 @@ var _scale := 1.0
 var _elapsed := 0.0
 var _font: Font
 var reveal_secret := false  # Cheat menu: show the secret vendor before discovery.
+var reveal_wanderer := false  # Track the roaming merchant once he enters the forest.
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_M and not event.ctrl_pressed and not event.alt_pressed and not event.meta_pressed and is_visible_in_tree():
@@ -158,17 +159,31 @@ func _draw_compass(c: Control) -> void:
 		var p: Vector2 = center + (label[1] as Vector2).rotated(rot)
 		c.draw_string(_font, p + Vector2(-3, 4), label[0], HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
 
+func _npc_visible(id: String) -> bool:
+	if id == "wanderer":
+		if not world.progression.rare_market.active: return false
+		if reveal_wanderer: return true
+	return world.progression.has_seen_npc(id) or (id == "secret" and reveal_secret)
+
 func _draw_symbols(c: Control) -> void:
 	_draw_compass(c)
 	if not is_instance_valid(player) or not is_instance_valid(world):
 		return
 	if "progression" in world and world.progression:
 		for id in world.progression.npcs:
-			if not world.progression.has_seen_npc(id) and not (id == "secret" and reveal_secret): continue
+			if not _npc_visible(id): continue
 			var npc_point := map_position(world.progression.npcs[id].global_position)
-			c.draw_circle(npc_point, 3.5, Color(0.94, 0.73, 0.37))
+			var wandering: bool = id == "wanderer"
+			var marker_color := Color(0.85, 0.58, 1.0) if wandering else Color(0.94, 0.73, 0.37)
+			if wandering:
+				c.draw_circle(npc_point, 6.0, Color(0.04, 0.02, 0.06, 0.9))
+			c.draw_circle(npc_point, 4.0 if wandering else 3.5, marker_color)
 			var label_offset := Vector2(-28, 13) if id == "camp" else Vector2(5, -5)
-			c.draw_string(_font, npc_point + label_offset, str(Progression.NPCS[id].name), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1, 0.88, 0.65))
+			var label := "Wanderhändler" if wandering else str(Progression.NPCS[id].name)
+			if wandering:
+				label_offset.x = -_font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x - 5 if npc_point.x > MAP_RECT.get_center().x else 5
+				c.draw_string_outline(_font, npc_point + label_offset, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color(0.04, 0.02, 0.06))
+			c.draw_string(_font, npc_point + label_offset, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, marker_color if wandering else Color(1, 0.88, 0.65))
 		if world.progression.local_data().accepted.get("supplies", false) and not world.progression.team.cache:
 			var cache_point := map_position(Vector3(Progression.CACHE.x, 0, Progression.CACHE.y))
 			c.draw_circle(cache_point, 4, Color(0.9, 0.67, 0.16), false, 1.5)
@@ -237,7 +252,7 @@ func _draw_symbols(c: Control) -> void:
 	# Draw ready-to-turn-in quests last so nearby enemies and players cannot cover them.
 	if "progression" in world and world.progression:
 		for id in world.progression.npcs:
-			if not world.progression.has_seen_npc(id) and not (id == "secret" and reveal_secret): continue
+			if not _npc_visible(id): continue
 			if not world.progression.has_ready_quest(id): continue
 			var marker := map_position(world.progression.npcs[id].global_position) + Vector2(-5, -7)
 			marker = marker.clamp(MAP_RECT.position + Vector2(2, 20), MAP_RECT.end - Vector2(12, 2))

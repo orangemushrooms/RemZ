@@ -95,6 +95,14 @@ BENCHES = [[7.0, -4.2, 0.0], [7.0, -9.8, 0.0], [4.2, -7.0, 90.0], [9.8, -7.0, 90
 # Small stone fire ring inside the forest at the Feldweg West / village-path fork.
 SMALL_CAMPSITE = {"pos": [-56.0, 63.0], "radius": 4.2,
                   "benches": [[-56.0, 60.7, 0.0], [-53.7, 63.0, 90.0], [-56.0, 65.3, 0.0]]}
+# Authored forest edge beside Mara, between the seating area and village path.
+# Keep the campsite and NPC approach open; trunks sit at least 1.7 m off the road.
+MARA_EDGE_TREES = [
+    [-53.0, 68.0, "beech", 0.82, 147],
+    [-48.2, 66.8, "oak", 0.78, 32],
+    [-43.5, 67.4, "beech", 0.94, 264],
+    [-37.8, 66.1, "beech", 0.76, 91],
+]
 TABLE = [1.2, -11.0, 5.0]           # north-west of the fire, 3 m west of the west bench, on leaf litter (photo 18)
 FOUNTAIN = [-2.0, -13.0, 90.0]      # trough north-south with the post at the south end, beside the Waldweg entrance
 BIN = [-0.5, -16.0]                 # white drum on a post, between table and track entrance (photos 15, 16, 20)
@@ -526,6 +534,7 @@ logs = [t for t in logs if outside_small_campsite(t, t[2] * 0.5)]
 # Apply this after candidate generation to retain every other tree's seeded
 # position/appearance. Both playable and distant trees share the same boundary.
 trees = [t for t in trees if not in_west_field(t[0], t[1])]
+trees.extend(MARA_EDGE_TREES)
 border = [t for t in border if not in_west_field(t[0], t[1])]
 shrubs = [t for t in shrubs if not in_west_field(t[0], t[1])]
 ferns = [t for t in ferns if not in_west_field(t[0], t[1])]

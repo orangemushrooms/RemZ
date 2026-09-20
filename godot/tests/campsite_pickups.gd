@@ -77,9 +77,16 @@ func run() -> void:
 	var selected := {}
 	var mushrooms := 0
 	var owned_visuals := 0
+	var distant := 0
+	var regions := {}
+	var forest_only := true
 	for loot in game.loots:
 		if loot is Loot and loot.kind == "mushroom":
 			mushrooms += 1
+			var point := Vector2(loot.global_position.x, loot.global_position.z)
+			if point.distance_to(Map.FIRE) > 100.0: distant += 1
+			regions[Vector2i(floori(point.x / 60.0), floori(point.y / 60.0))] = true
+			forest_only = forest_only and Map.BOUNDS.has_point(point) and Map.in_forest(point.x, point.y) and not Map.is_clear_zone(point.x, point.y)
 			var meshes: Array = loot.find_children("*", "MeshInstance3D", true, false)
 			if not meshes.is_empty():
 				owned_visuals += 1
@@ -87,6 +94,10 @@ func run() -> void:
 				selected[loot.id] = loot
 	check(mushrooms > 0 and owned_visuals == mushrooms, "Every mushroom still owns its visible model after map optimization")
 	check(selected.size() == Inventory.MUSHROOMS.size(), "All mushroom varieties are available for collection")
+	check(distant > mushrooms / 2, "Most mushrooms are available more than 100 metres from the hut")
+	check(regions.size() >= 20, "Mushrooms cover at least twenty distinct forest regions")
+	check(forest_only, "Mushrooms stay on playable forest floor outside roads, clearings and buildings")
+	print("MUSHROOM_DISTRIBUTION total=%d distant=%d regions=%d" % [mushrooms, distant, regions.size()])
 	check(game.render_stats.removed_render_nodes > 0, "Static scenery continues to use render batches")
 	for kind: String in selected:
 		var mushroom: Loot = selected[kind]

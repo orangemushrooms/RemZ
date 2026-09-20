@@ -180,6 +180,10 @@ func action(id: int, operation: String, args: Array) -> void:
 	if not p or not p.alive: return
 	var w: Weapons = weapons[id]
 	match operation:
+		"firework":
+			if args.size() != 3 or not args[0] is String or not _aim(p, args, 1): return
+			var error: String = game.fireworks.ignite(p, args[0])
+			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"drop_cash":
 			if not args.is_empty(): return
 			var message := Pickup.throw_cash(p)
@@ -480,7 +484,7 @@ func snapshot() -> Dictionary:
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
-	return {"pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
@@ -513,6 +517,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	if initial: NetSession.trace_load("STATE_STAGE structures")
 	game.defences.apply_snapshot(data.get("towers", {}), initial)
 	game.progression.apply_snapshot(data.get("progression", {}))
+	game.fireworks.apply_snapshot(data.get("fireworks", {}))
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
 	if initial: game.hud._mark_difficulty(int(data.difficulty))
 	if initial: NetSession.trace_load("STATE_STAGE players")

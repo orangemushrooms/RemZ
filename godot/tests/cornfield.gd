@@ -31,9 +31,14 @@ func run() -> void:
 			if child is MultiMeshInstance3D:
 				for i in child.multimesh.instance_count:
 					var at: Vector3 = child.position + child.multimesh.get_instance_transform(i).origin
-					if at.x >= -80 or at.z < 78 or not field.field_ground(Vector2(at.x,at.z)): south_only = false
-		check(south_only, "All corn stays on lower western meadow, outside forest and six metres from trees")
-	var start: Vector3 = Map.ground_pos(-203.5,78)
+					if at.x >= -80 or not field.field_ground(Vector2(at.x,at.z)) or Map.on_road(at.x,at.z,2.0): south_only = false
+		check(south_only, "All corn stays on western meadow, clear of forest, trees and village road")
+	var entrance: Vector2 = field.cell_position(Vector2i(1,0))
+	var start: Vector3 = Map.ground_pos(entrance.x,entrance.y)
+	check(field.FIELD_AXIS.dot(Vector2(76,112).normalized()) > 0.995,"Long field edge follows the NW-SE forest boundary")
+	check(not field.field_ground(Vector2(-220,120)),"Previous crosswise field footprint returns to meadow")
+	var soil: MeshInstance3D = field.get_node("CornSoil")
+	check(soil.material_override is ShaderMaterial and soil.material_override.get_shader_parameter("normal_tex") != null,"Soil uses textured PBR relief instead of flat triangle colors")
 	var caches: Array = []
 	for item in game.loots:
 		if is_instance_valid(item) and item is Loot and item.kind=="maze_cache": caches.append(item)
@@ -104,15 +109,18 @@ func run() -> void:
 		game.add_child(camera)
 		camera.make_current()
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://../artifacts/cornfield"))
-		camera.position = Map.ground_pos(-214,71)+Vector3.UP*8
-		camera.look_at(Map.ground_pos(-188,98)+Vector3.UP)
+		var overlook: Vector2 = field.field_to_world(Vector2(70,100))
+		var center: Vector2 = field.field_to_world(Vector2(70,26))
+		camera.position = Map.ground_pos(overlook.x,overlook.y)+Vector3.UP*60
+		camera.look_at(Map.ground_pos(center.x,center.y)+Vector3.UP)
 		await capture("overview")
-		camera.position = Map.ground_pos(-203.5,79)+Vector3.UP*1.7
-		camera.look_at(Map.ground_pos(-203.5,96)+Vector3.UP*1.7)
+		camera.position = start+Vector3.UP*1.7
+		var inward: Vector2 = field.cell_position(Vector2i(1,2))
+		camera.look_at(Map.ground_pos(inward.x,inward.y)+Vector3.UP*0.8)
 		await capture("maze")
 		var inside: Vector2 = field.cell_position(Vector2i(1,1))
 		camera.position = Map.ground_pos(inside.x,inside.y)+Vector3.UP*1.7
-		camera.look_at(camera.position+Vector3.LEFT*3)
+		camera.look_at(camera.position-Vector3(field.FIELD_AXIS.x,0,field.FIELD_AXIS.y)*3)
 		await capture("dense-wall")
 		var scarecrow: Node3D = field.get_node("Scarecrow_1_0")
 		camera.position = scarecrow.global_position+scarecrow.basis.z*3.8+scarecrow.basis.x*0.6+Vector3.UP*1.6
@@ -136,8 +144,8 @@ func run() -> void:
 		camera.position = owl.position+Vector3(2,1,-3)
 		camera.look_at(owl.position+Vector3.UP*0.2)
 		await capture("owl")
-		camera.position = Map.ground_pos(-214,71)+Vector3.UP*8
-		camera.look_at(Map.ground_pos(-188,98)+Vector3.UP)
+		camera.position = Map.ground_pos(overlook.x,overlook.y)+Vector3.UP*60
+		camera.look_at(Map.ground_pos(center.x,center.y)+Vector3.UP)
 		game.day_night.set_time_hours(12)
 		for i in 60: await process_frame
 		var times: Array[float] = []

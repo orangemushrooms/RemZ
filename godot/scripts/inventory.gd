@@ -69,7 +69,7 @@ func _ready() -> void:
 	stats_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	head.add_child(stats_label)
 	var legend := Label.new()
-	legend.text = "WAFFEN  ·  VORRÄTE  ·  SCHLÜSSEL"
+	legend.text = "WAFFEN  ·  FEUERWERK  ·  VORRÄTE  ·  SCHLÜSSEL"
 	legend.add_theme_font_size_override("font_size", 12)
 	legend.add_theme_color_override("font_color", Color(1.0, 0.7, 0.28))
 	v.add_child(legend)
@@ -218,6 +218,11 @@ func _refresh() -> void:
 	if "stats" in main and main.stats:
 		var st = main.stats
 		stats_label.text = "Diese Runde: %d Abschüsse · %d Kopfschüsse · Treffer %d %% · Serie %d" % [st.kills, st.headshots, int(round(st.accuracy() * 100.0)), st.best_streak]
+	for id in Fireworks.DEFS:
+		var spec: Dictionary = Fireworks.DEFS[id]
+		var amount: int = main.fireworks.stock(player.peer_id)[id]
+		if amount <= 0: continue
+		_slot(spec.name, "%d Stück · Auswählen" % amount, spec.color, spec.desc + "\n\nANWENDUNG\nAuswählen schliesst das Inventar. Linksklick: " + ("aufstellen und zünden. Raketen benötigen freien Himmel." if spec.rocket else "anzünden und werfen. Knall nach 2,4 Sekunden.") + "\nRechtsklick: zur Waffe. Kein Kampfschaden.", main.fireworks.select.bind(id), float(amount) / spec.limit, "firework_rocket" if spec.rocket else "firework_cracker")
 	var market = main.progression.rare_market
 	var rare: Dictionary = market.data(player.peer_id)
 	for id in rare.owned:
@@ -240,7 +245,7 @@ func _refresh() -> void:
 		if Weapons.is_melee(id):
 			var detail := "%s · %d Schaden pro Schlag · %.2f s Schlagabstand · %.2f m Reichweite. Keine Munition. Angriff: Linksklick oder Q." % [d.name, roundi(float(d.damage) * weapons.effective_damage_mul()), d.rate, d.range]
 			detail += "\nRechtsklick: %d Schaden, %.2f s Erholung, %.2f m Reichweite." % [roundi(float(d.stab_damage) * weapons.effective_damage_mul()), d.stab_rate, d.stab_range]
-			_slot(d.name + ("  ●" if eq else ""), "Nahkampf · " + ("Taste 0" if id == "knife" else "Mausrad / Inventar"), Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45), detail, func(): weapons.set_weapon(id); _refresh(), 1.0, id)
+			_slot(d.name + ("  ●" if eq else ""), "Nahkampf · " + ("Taste 0" if id == "knife" else "Mausrad / Inventar"), Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45), detail, func(): main.fireworks.cancel(); weapons.set_weapon(id); _refresh(), 1.0, id)
 			continue
 		var per_second := 1.0 / maxf(0.01, float(d["rate"]))
 		var dps := float(d["damage"]) * float(d["pellets"]) * per_second * weapons.effective_damage_mul()
@@ -250,7 +255,7 @@ func _refresh() -> void:
 		detail += "\n" + Weapons.Mods.summary(weapons.mod_loadout.get(id, {}))
 		if d.has("pierce_targets"): detail += "\n" + Weapons.piercing_description(id, d)
 		_slot(d["name"] + ("  ●" if eq else ""), "%d / %d  ·  Taste %d" % [s["ammo"], s["reserve"], weapons.ORDER.find(id) + 1], Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45),
-			detail, func(): weapons.set_weapon(id); _refresh(), fill, id)
+			detail, func(): main.fireworks.cancel(); weapons.set_weapon(id); _refresh(), fill, id)
 	_slot("Granaten", "%d Stück  ·  Taste G" % weapons.grenades, Color(0.4, 0.5, 0.35), "Handgranaten: 2,6 s Zünder, 7 m Radius, 260 Schaden im Zentrum. Werfen mit G. Taschenlimit: %d. Nachschub bei Vendor oder von gefallenen Zombies." % weapons.grenades_max, func(): pass, float(weapons.grenades) / maxf(1.0, weapons.grenades_max), "grenade")
 	for k in MUSHROOMS:
 		var n: int = mushrooms.get(k, 0)
@@ -298,6 +303,7 @@ func close() -> void:
 	panel.visible = false
 	get_tree().paused = false
 	player.active = player.alive and not main.over
+	weapons.viewmodel.visible = player.active
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if player.active else Input.MOUSE_MODE_VISIBLE
 
 func _process(delta: float) -> void:

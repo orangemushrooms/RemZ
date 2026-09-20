@@ -10,6 +10,7 @@ var day_night: DayNightCycle
 var cornfield: Node3D
 var fill_light: DirectionalLight3D
 var skills: Skills
+var fireworks: Fireworks
 var inventory: Inventory
 var cheat_menu: CanvasLayer
 var forest_keys: ForestKeys
@@ -144,6 +145,9 @@ func _ready() -> void:
 	inventory = Inventory.new()
 	add_child(inventory)
 	inventory.setup(player, weapons, hud, self)
+	fireworks = Fireworks.new()
+	add_child(fireworks)
+	fireworks.setup(self)
 	forest_keys = ForestKeys.new()
 	add_child(forest_keys)
 	forest_keys.setup(self)
@@ -2041,15 +2045,6 @@ func _campsite_lanterns() -> void:
 			pl.omni_range = 4.0
 			add_child(pl)
 			pl.global_position = Map.ground_pos(p[0], p[1]) + Vector3(0, p[3] * 0.6, 0)
-	# mushrooms in the leaf litter around the clearing
-	for i in 40:
-		var a := rng.randf() * TAU
-		var r := rng.randf_range(12.0, 30.0)
-		var x := Map.FIRE.x + cos(a) * r
-		var z := Map.FIRE.y + sin(a) * r
-		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0) or Map.in_clearing(x, z):
-			continue
-		_mushroom(x, z, Inventory.Mushrooms.choose(rng), 0.22 + rng.randf() * 0.18)
 
 # pasture fence between the tracks and the meadow (photos 4, 9): posts, two wires, collision
 func _build_fence() -> void:
@@ -2132,13 +2127,41 @@ func _build_clutter() -> void:
 	feeder.position = Map.ground_pos(-26.0, -63.0)
 	if _prop(feeder, "deer_feeder", 2.3, "y", Vector3.ZERO, 0.9):
 		_box_collider(feeder, Vector3(2.0, 2.3, 1.4))
-	# mushrooms over the forest floor near the camp
-	for i in 160:
-		var x: float = rng.randf_range(-80.0, 60.0)
-		var z: float = rng.randf_range(-90.0, 60.0)
-		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0) or Map.in_clearing(x, z):
-			continue
-		_mushroom(x, z, Inventory.Mushrooms.choose(rng), 0.18 + rng.randf() * 0.2)
+	_build_mushrooms()
+
+func _build_mushrooms() -> void:
+	# Stratified placement covers the whole playable forest, including its interior.
+	# Zombie navigation excludes deep forest; players can still forage there.
+	# A dedicated seed keeps item ordering identical for co-op peers.
+	var random := RandomNumberGenerator.new()
+	random.seed = 731942
+	var bounds := Map.BOUNDS.grow(-2.0)
+	var cell_size := 18.0
+	for row in ceili(bounds.size.y / cell_size):
+		for column in ceili(bounds.size.x / cell_size):
+			var origin := bounds.position + Vector2(column, row) * cell_size
+			var cell_end := (origin + Vector2.ONE * cell_size).min(bounds.end)
+			var placed: Array[Vector2] = []
+			for attempt in 16:
+				var point := Vector2(random.randf_range(origin.x, cell_end.x), random.randf_range(origin.y, cell_end.y))
+				if not _mushroom_ground_clear(point): continue
+				if not placed.is_empty() and point.distance_to(placed[0]) < 2.0: continue
+				_mushroom(point.x, point.y, Inventory.Mushrooms.choose(random), random.randf_range(0.22, 0.4))
+				placed.append(point)
+				if placed.size() == 2: break
+
+func _mushroom_ground_clear(point: Vector2) -> bool:
+	if not Map.in_forest(point.x, point.y) or Map.is_clear_zone(point.x, point.y): return false
+	if Map.ground_normal(point.x, point.y).y < 0.82: return false
+	if not Map.POND.is_empty() and point.distance_to(Map.POND.pos) < float(Map.POND.r) + 2.0: return false
+	for tree in Map.TREES:
+		var radius: float = Trees.SPECIES[tree[2]].radius * float(tree[3]) * 1.15 + 0.75
+		if point.distance_squared_to(Vector2(tree[0], tree[1])) < radius * radius: return false
+	for log_entry in Map.LOGS:
+		if point.distance_to(Vector2(log_entry[0], log_entry[1])) < float(log_entry[2]) * 0.5 + 0.6: return false
+	for npc: Dictionary in Progression.NPCS.values():
+		if point.distance_to(npc.pos) < 3.0: return false
+	return true
 
 func _mushroom(x: float, z: float, kind: String, height: float) -> void:
 	var n: Node3D

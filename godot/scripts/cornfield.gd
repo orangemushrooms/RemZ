@@ -1,10 +1,14 @@
 extends Node3D
-const ORIGIN := Vector2(-208,78)
+# Field coordinates follow the NW-SE forest edge; +V points downhill into the meadow.
+const FIELD_ORIGIN := Vector2(-178,-40)
+const FIELD_AXIS := Vector2(0.6,0.8)
+const FIELD_CROSS := Vector2(-0.8,0.6)
+const ORIGIN := Vector2(69,6)
 const CELL := 3.0
 const SIZE := 13
 const BATCH_SIZE := 8.0
 # Lower western meadow toward the village, downhill from Mara. +X is east (Sennhof).
-const FIELD := Rect2(-235,78,155,60)
+const FIELD := Rect2(0,0,140,52)
 const Bird = preload("res://scripts/field_bird.gd")
 var game: Node
 var passages: Dictionary = {}
@@ -13,8 +17,13 @@ var plant_count := 0
 var random := RandomNumberGenerator.new()
 
 static var _tree_cells: Dictionary = {}
+static func field_to_world(p: Vector2) -> Vector2:
+	return FIELD_ORIGIN + FIELD_AXIS*p.x + FIELD_CROSS*p.y
+static func world_to_field(p: Vector2) -> Vector2:
+	var relative := p-FIELD_ORIGIN
+	return Vector2(relative.dot(FIELD_AXIS),relative.dot(FIELD_CROSS))
 static func field_ground(p: Vector2) -> bool:
-	if not FIELD.has_point(p): return false
+	if not FIELD.has_point(world_to_field(p)): return false
 	if Map.meadow_weight(p.x,p.y)<0.75 or Map.leaf_weight(p.x,p.y)>0.12: return false
 	if _tree_cells.is_empty():
 		for tree in Map.TREES:
@@ -30,9 +39,9 @@ static func field_ground(p: Vector2) -> bool:
 	return true
 
 static func inside_maze(p: Vector2) -> bool:
-	return Rect2(ORIGIN,Vector2.ONE*SIZE*CELL).has_point(p)
+	return Rect2(ORIGIN,Vector2.ONE*SIZE*CELL).has_point(world_to_field(p))
 func cell_position(cell: Vector2i) -> Vector2:
-	return ORIGIN+(Vector2(cell)+Vector2.ONE*0.5)*CELL
+	return field_to_world(ORIGIN+(Vector2(cell)+Vector2.ONE*0.5)*CELL)
 func build(main: Node) -> void:
 	game = main
 	random.seed = 87261
@@ -57,20 +66,21 @@ func build(main: Node) -> void:
 	var batches: Dictionary = {}
 	for z in range(int(FIELD.position.y) + 1, int(FIELD.end.y)):
 		for x in range(int(FIELD.position.x) + 1, int(FIELD.end.x)):
-			var p := Vector2(x,z)
-			if not field_ground(p) or Map.on_road(x,z,2.5): continue
+			var local := Vector2(x,z)
+			var p := field_to_world(local)
+			if not field_ground(p) or Map.on_road(p.x,p.y,2.5): continue
 			# Open access lanes keep all existing field spawns connected.
 			if absf(p.x-10)<5 or p.distance_to(Vector2(-110,108))<10 or p.distance_to(Vector2(-42,126))<8: continue
 			if inside_maze(p):
-				var cell := Vector2i((p-ORIGIN)/CELL)
+				var cell := Vector2i((local-ORIGIN)/CELL)
 				if passages.has(cell): continue
-			elif (p.x>ORIGIN.x and p.x<ORIGIN.x+CELL*3 and p.y<ORIGIN.y) or (p.x>ORIGIN.x+CELL*10 and p.x<ORIGIN.x+CELL*13 and p.y>ORIGIN.y+CELL*SIZE): continue
+			elif (local.x>ORIGIN.x and local.x<ORIGIN.x+CELL*3 and local.y<ORIGIN.y) or (local.x>ORIGIN.x+CELL*10 and local.x<ORIGIN.x+CELL*13 and local.y>ORIGIN.y+CELL*SIZE): continue
 			# Staggered rows: six stalks per square metre, eight in maze walls.
 			var row_count := 4 if inside_maze(p) else 3
 			for j in row_count*2:
-				var at := p+Vector2((j%2)*0.5-0.25+random.randf_range(-0.07,0.07), (floori(j/2.0)+0.5)/row_count-0.5+random.randf_range(-0.04,0.04))
+				var at := field_to_world(local+Vector2((j%2)*0.5-0.25+random.randf_range(-0.07,0.07), (floori(j/2.0)+0.5)/row_count-0.5+random.randf_range(-0.04,0.04)))
 				if not field_ground(at): continue
-				if inside_maze(at) and passages.has(Vector2i((at-ORIGIN)/CELL)): continue
+				if inside_maze(at) and passages.has(Vector2i((world_to_field(at)-ORIGIN)/CELL)): continue
 				var key := Vector3i(floori(at.x/BATCH_SIZE),floori(at.y/BATCH_SIZE),random.randi_range(0,1))
 				if not batches.has(key): batches[key] = []
 				var scale := random.randf_range(0.98,1.14)
@@ -115,7 +125,7 @@ func build(main: Node) -> void:
 			var low := Map.ground_height(p.x,p.y)
 			var high := low
 			for corner: Vector2 in [Vector2(-1,-1),Vector2(1,-1),Vector2(-1,1),Vector2(1,1)]:
-				var edge := p+corner*CELL*0.5
+				var edge := p+(FIELD_AXIS*corner.x+FIELD_CROSS*corner.y)*CELL*0.5
 				var height := Map.ground_height(edge.x,edge.y)
 				low = minf(low,height)
 				high = maxf(high,height)
@@ -125,6 +135,7 @@ func build(main: Node) -> void:
 			wall.add_child(shape)
 			add_child(wall)
 			wall.global_position = Map.ground_pos(p.x,p.y)
+			wall.rotation.y = -FIELD_AXIS.angle()
 	# Meshy figures mounted on timber stakes, with no floating entrance label.
 	var timber := Foliage.pbr("planks",0.8,Color(0.38,0.31,0.22))
 	for cell: Vector2i in [Vector2i(1,0),Vector2i(11,12),Vector2i(5,5),Vector2i(9,3)]:
@@ -132,8 +143,9 @@ func build(main: Node) -> void:
 		var scarecrow := Node3D.new()
 		scarecrow.name = "Scarecrow_%d_%d" % [cell.x,cell.y]
 		add_child(scarecrow)
-		scarecrow.global_position = Map.ground_pos(p.x-1.1,p.y)
-		scarecrow.rotation.y = PI if cell.y==0 else (0.0 if cell.y==SIZE-1 else random.randf()*TAU)
+		var beside := p-FIELD_AXIS*1.1
+		scarecrow.global_position = Map.ground_pos(beside.x,beside.y)
+		scarecrow.rotation.y = -FIELD_AXIS.angle() + (PI if cell.y==0 else (0.0 if cell.y==SIZE-1 else random.randf()*TAU))
 		var figure: Node3D = load("res://assets/models/scarecrow_real.glb").instantiate()
 		figure.position.y = 0.8
 		scarecrow.add_child(figure)
@@ -208,26 +220,37 @@ func scare(origin: Vector3) -> void:
 	for bird in birds: bird.scare(origin)
 
 func _path_surface() -> void:
+	# Match the terrain's world-grid triangles exactly, so the soil neither floats
+	# above the hillside nor intersects it when the field is rotated.
+	var bounds := Rect2(FIELD_ORIGIN,Vector2.ZERO)
+	for corner in [Vector2.ZERO,Vector2(FIELD.size.x,0),FIELD.size,Vector2(0,FIELD.size.y)]:
+		bounds = bounds.expand(field_to_world(corner))
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for cell: Vector2i in passages:
-		var base := ORIGIN+Vector2(cell)*CELL
-		for z in 4:
-			for x in 4:
-				var points: Array[Vector3] = []
-				for offset: Vector2 in [Vector2(x,z),Vector2(x+1,z),Vector2(x+1,z+1),Vector2(x,z+1)]:
-					var p := base+offset*CELL/4
-					points.append(Vector3(p.x,Map.surface_height(p.x,p.y)+0.025,p.y))
-				for i in [0,2,1,0,3,2]:
-					st.set_color(Color(0.28,0.21,0.115).lightened(random.randf_range(0,0.045)))
-					st.add_vertex(points[i])
-	st.generate_normals()
+	for z in range(floori(bounds.position.y)-1,ceili(bounds.end.y)+1):
+		for x in range(floori(bounds.position.x)-1,ceili(bounds.end.x)+1):
+			if not FIELD.grow(1.5).has_point(world_to_field(Vector2(x+0.5,z+0.5))): continue
+			var points := [Vector2(x,z),Vector2(x+1,z),Vector2(x+1,z+1),Vector2(x,z+1)]
+			for index in [0,3,1,1,3,2]:
+				var at: Vector2 = points[index]
+				var local := world_to_field(at)
+				var path := 0.0
+				if inside_maze(at) and passages.has(Vector2i((local-ORIGIN)/CELL)): path = 1.0
+				st.set_color(Color(path,0,0,1))
+				st.set_uv(at*0.5)
+				st.set_uv2(local)
+				st.set_normal(Map.ground_normal(at.x,at.y))
+				st.add_vertex(Vector3(at.x,Map.surface_height(at.x,at.y)+0.018,at.y))
+	st.generate_tangents()
+	st.index()
 	var node := MeshInstance3D.new()
+	node.name = "CornSoil"
 	node.mesh = st.commit()
-	var material := StandardMaterial3D.new()
-	material.vertex_color_use_as_albedo = true
-	material.vertex_color_is_srgb = true
-	material.roughness = 1
-	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	var material := ShaderMaterial.new()
+	material.shader = preload("res://shaders/corn_soil.gdshader")
+	for channel in ["albedo","normal","rough","ao"]:
+		material.set_shader_parameter(channel+"_tex",load("res://assets/textures/gravel_"+channel+".jpg"))
+	material.set_shader_parameter("field_size",FIELD.size)
 	node.material_override = material
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	add_child(node)

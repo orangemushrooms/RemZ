@@ -6,6 +6,7 @@ var panel: Control
 var status: Label
 var skip_button: Button
 var secret_toggle: CheckButton
+var wanderer_toggle: CheckButton
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -52,6 +53,10 @@ func _ready() -> void:
 	secret_toggle.text = "Geheimen Händler auf der Minimap anzeigen"
 	secret_toggle.toggled.connect(func(value: bool): main.hud.minimap.reveal_secret = value)
 	items.add_child(secret_toggle)
+	wanderer_toggle = CheckButton.new()
+	wanderer_toggle.text = "Wanderhändler auf der Karte anzeigen (ab Welle 5)"
+	wanderer_toggle.toggled.connect(func(value: bool): main.hud.minimap.reveal_wanderer = value)
+	items.add_child(wanderer_toggle)
 	var back := Button.new()
 	back.text = "Schliessen (Esc / Strg+Shift+D)"
 	back.pressed.connect(close)
@@ -65,6 +70,7 @@ func open() -> void:
 	if NetSession.is_client(): status.text += " · Nur der Host kann Wellen überspringen."
 	skip_button.disabled = NetSession.is_client()
 	secret_toggle.set_pressed_no_signal(main.hud.minimap.reveal_secret)
+	wanderer_toggle.set_pressed_no_signal(main.hud.minimap.reveal_wanderer)
 	panel.show()
 	main.player.active = false
 	get_tree().paused = not NetSession.enabled

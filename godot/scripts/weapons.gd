@@ -12,7 +12,7 @@ const Effects = preload("res://scripts/weapon_effects.gd")
 const MeleeModels = preload("res://scripts/melee_models.gd")
 
 const DEFS := {
-	"knife": {"name": "Feldmesser", "model": "knife", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 2.2, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "melee", "shove": 3.5,
+	"knife": {"name": "Feldmesser", "model": "knife", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 2.2, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "knife_swing", "shove": 3.5,
 		"pos": Vector3(0.29, -0.23, -0.57), "ads": Vector3(0.29, -0.23, -0.57), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 8.0},
 	"hatchet": {"name": "Waldaxt", "model": "hatchet", "melee": true, "height": 0.57, "stab_damage": 225.0, "stab_rate": 1.45, "stab_range": 2.5, "mag": 0, "reserve": 0, "damage": 125.0, "rate": 0.95, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 2.35, "auto": false, "sfx": "melee", "shove": 7.0,
 		"pos": Vector3(0.28, -0.30, -0.65), "ads": Vector3(0.28, -0.30, -0.65), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 5.0},
@@ -461,7 +461,8 @@ func melee(stab: bool = false) -> void:
 	_melee_duration = _melee_t
 	_melee_anim = 1.0
 	player.wobble = maxf(player.wobble, 0.3)
-	Sfx.play(self, "melee_stab" if _melee_stab else "melee", -6.0 if _melee_stab else -8.0)
+	# stab = right click, armed swing = the weapon's own clip (knife: knife_leftklick), gun butt = generic melee
+	Sfx.play(self, "melee_stab" if _melee_stab else (str(spec.sfx) if armed else "melee"), -6.0 if _melee_stab else -8.0)
 	if NetSession.is_client():
 		NetSession.command("melee", [camera.global_rotation.y, camera.global_rotation.x, _melee_stab])
 		return
@@ -717,6 +718,9 @@ func _tick_ammo(delta: float) -> void:
 			update_hud()
 func _handle_weapon_input(delta: float) -> void:
 	var scene := get_tree().current_scene
+	if "fireworks" in scene and scene.fireworks and (scene.fireworks.armed or scene.fireworks.input_grace > 0):
+		_reset_scope()
+		return
 	if "defences" in scene and scene.defences and (scene.defences.placing or scene.defences.input_grace > 0):
 		_reset_scope()
 		return
