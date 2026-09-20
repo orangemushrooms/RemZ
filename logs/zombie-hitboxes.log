@@ -1,0 +1,41 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+PASS: Weapons script compiles
+PASS: Tower script compiles
+PASS: Brute has separate animated body and limb hitboxes
+PASS: Ray hits animated RightHand
+PASS: Ray hits animated RightForeArm
+PASS: Ray hits animated RightArm
+PASS: Ray hits animated RightToeBase
+PASS: Ray hits animated RightFoot
+PASS: Ray hits animated RightLeg
+PASS: Ray hits animated RightShoulder
+PASS: Ray hits animated RightUpLeg
+PASS: Ray hits animated Hips
+PASS: Ray hits animated Spine01
+PASS: Ray hits animated Spine02
+PASS: Ray hits animated Head
+PASS: Ray hits animated Spine
+PASS: Ray hits animated LeftShoulder
+PASS: Ray hits animated LeftLeg
+PASS: Ray hits animated LeftUpLeg
+PASS: Ray hits animated LeftArm
+PASS: Ray hits animated LeftFoot
+PASS: Ray hits animated LeftForeArm
+PASS: Ray hits animated LeftToeBase
+PASS: Ray hits animated LeftHand
+PASS: Visible limbs outside the old capsule are hittable
+PASS: Hitbox transforms match the model's actual metre scale
+PASS: Visible head registers a headshot
+PASS: Point-blank shots hit even when the camera is inside the hitbox
+PASS: Hand remains hittable during attack animation
+PASS: Hand remains hittable during attack animation
+PASS: World geometry still blocks bullets before a hitbox
+PASS: Dead zombies no longer block shots
+PASS: zombie_titan has model-fitted hitboxes
+PASS: zombie_titan hitboxes scale with the giant model
+PASS: zombie_colossus has model-fitted hitboxes
+PASS: zombie_colossus hitboxes scale with the giant model
+ZOMBIE_HITBOXES_DONE checks=36 failures=0

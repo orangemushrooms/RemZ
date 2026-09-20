@@ -40,15 +40,41 @@ RemZ.exe -- --join=25.12.34.56 --name=Luca --port=24567
 
 Optional startet `--coop-auto-start=4` auf dem Host automatisch, sobald vier Spieler bereit sind. Ohne diese Option startet der Host über das Menü.
 
+## Schnelltest mit zwei Fenstern auf einem PC
+
+Im Projektordner in PowerShell ausführen:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/start_local_coop.ps1
+```
+
+Das öffnet zwei Fenster der Windows-Ausgabe: `LocalHost` erstellt das Spiel, `LocalClient` verbindet sich mit `127.0.0.1` auf Port 24567. Sobald beide fertig geladen und bereit sind, im Host **Koop starten** drücken. Mit **Alt+Tab** zwischen den Fenstern wechseln. Hamachi ist für diesen Test nicht nötig. Bei langsamerem Laden des Hosts gegebenenfalls im Client nochmals **Beitreten** drücken. Bereits laufende Tests auf demselben Port vorher beenden; alternativ `-Port 24568` an den Aufruf anhängen.
+
+Ohne Skript: `RemZ.exe` zweimal öffnen, im ersten Fenster unter **Mehrspieler / Hamachi** ein Spiel erstellen, im zweiten mit Host-IP **127.0.0.1** und demselben Port beitreten. Nur der Host startet die Runde.
+
+Kurzer manueller Durchlauf:
+
+1. Beide Figuren bewegen und schiessen lassen; die andere Figur muss jeweils sichtbar reagieren.
+2. Beim Host **Esc** öffnen, zum Client wechseln und weiterlaufen/schiessen. Gegner und Uhr müssen weiterlaufen. Anschliessend die Rollen tauschen.
+3. Dasselbe mit **B** (Inventar), einem Händlergespräch (**E** beim NPC) und dem Barrikaden-Baumenü wiederholen. Der Menübenutzer bleibt angreifbar.
+4. Einen Gegenstand aufnehmen, eine Barrikade bauen und einen Gegner töten: der Weltzustand muss in beiden Fenstern übereinstimmen.
+5. Einen Spieler sterben lassen und mit dem anderen wiederbeleben; erst beim Tod des ganzen Teams endet die Runde. Danach als Host neu starten.
+6. Client verlassen und erneut beitreten. Abschliessend den Host verlassen: der Client muss ins Hauptmenü zurückkehren.
+
+Zwei gerenderte Fenster benötigen deutlich mehr Grafikleistung als eines. Bei Bedarf die Grafikqualität reduzieren. Die getrennten Protokolle liegen in `artifacts/local-coop`.
+
 ## Entwicklung und Prüfung
 
 Die ENet-Verbindung läuft über UDP; siehe [Godots ENet-Dokumentation](https://docs.godotengine.org/en/stable/classes/class_enetmultiplayerpeer.html). Der Host entscheidet über Treffer, Schaden, Nachladen, Käufe, Gegenstände und den gemeinsamen Spielzustand. Bewegung wird lokal dargestellt und vom Host gegen Reichweite und Kollision geprüft. Momentaufnahmen werden komprimiert und in kleine Pakete aufgeteilt; alte, unvollständige und doppelte Momentaufnahmen werden verworfen. Befehle benutzen einen zuverlässigen Kanal mit Sitzungs- und Sequenzprüfung.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File tools/test_multiplayer.ps1
+powershell -ExecutionPolicy Bypass -File tools/test_packed_coop.ps1
 ```
 
 Der Test startet vier echte Godot-Prozesse über localhost mit separaten ENet-Verbindungen und prüft Lobby, Bewegung, Kampf, Käufe, gemeinsam beanspruchte Beute, Schlüssel, Türen, Barrikaden, Wiederbelebung, Granaten, eine volle Horde, Spielerlimit, Wiedereinstieg, Neustart und Hostende. Protokolle liegen in `artifacts/multiplayer`. Die Dateien zur Testkoordination ersetzen keine Netzwerkverbindung; Spielbefehle und Zustände laufen über ENet.
+
+Der zweite Befehl prüft zusätzlich die exportierte Windows-Ausgabe mit drei EXE-Prozessen und einem Prüfclient. Protokolle liegen in `artifacts/defence`. Der Menütest öffnet Pause, Inventar, Händler und Barrikadenmenü auf Host und Client, simuliert Fokusverlust und prüft weiterlaufende Bewegung, Weltzeit und Netzwerkupdates. Weltzustandsprüfungen warten auf eine aktuelle Momentaufnahme, damit langsames Laden nicht mit einem Synchronisationsfehler verwechselt wird.
 
 Weitere Tests starten nach Initialisierung der Autoloads, zum Beispiel:
 

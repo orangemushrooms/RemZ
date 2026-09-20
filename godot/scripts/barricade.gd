@@ -10,6 +10,8 @@ const MAX_LEVEL := 3
 const SEGMENT_LENGTH := 3.2
 const HEIGHT := 1.55
 const BUILD_REACH := 6.0
+const ATTACK_ALERT_SECONDS := 5.0
+var attack_alert_remaining := 0.0
 const MODEL := preload("res://assets/models/barricade.glb")
 const PLAN_COLOR := Color(1.0, 0.16, 0.12)
 const BUILT_COLOR := Color(0.25, 0.91, 0.65)
@@ -220,6 +222,18 @@ static func _add_bar(parent: Node3D, a: Vector3, b: Vector3, width: float, mat: 
 func max_hp() -> float:
 	return level * 300.0
 
+func under_attack() -> bool:
+	return level > 0 and hp > 0.0 and attack_alert_remaining > 0.0
+
+func update_attack_alert(seconds: float, notify := true) -> void:
+	var was_under_attack := under_attack()
+	attack_alert_remaining = maxf(0.0, seconds) if level > 0 and hp > 0.0 else 0.0
+	if notify and under_attack() and not was_under_attack and hud:
+		hud.message("WARNUNG: %s wird angegriffen!" % slot["name"], 3.0)
+
+func _process(delta: float) -> void:
+	attack_alert_remaining = maxf(0.0, attack_alert_remaining - delta) if level > 0 else 0.0
+
 func rebuild() -> void:
 	for child in visual.get_children():
 		visual.remove_child(child)
@@ -278,6 +292,7 @@ func damage(n: float) -> void:
 		return
 	# Reinforced lines absorb pressure as well as having more structural health.
 	hp = maxf(0.0, hp - n / (1.0 + 0.45 * (level - 1)))
+	update_attack_alert(ATTACK_ALERT_SECONDS)
 	if hp <= 0.0:
 		level = 0
 		hud.message("Barrikade %s durchbrochen!" % slot["name"], 2.0)

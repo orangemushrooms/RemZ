@@ -3,6 +3,8 @@ extends Control
 
 const TITLE := "Remetschwil Sennhof"
 const MAP_RECT := Rect2(12, 38, 276, 276)
+const PANEL_SIZE := Vector2(300, 340)
+var expanded := false
 var player: Player
 var world: Node
 var _cartography: Control
@@ -11,22 +13,20 @@ var _map_bounds := Rect2()
 var _scale := 1.0
 var _elapsed := 0.0
 var _font: Font
-var reveal_secret := false  # Ctrl+Shift+D: Debug, zeigt den Secret Vendor auch vor der Entdeckung
+var reveal_secret := false  # Cheat menu: show the secret vendor before discovery.
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_D and event.ctrl_pressed and event.shift_pressed:
-		reveal_secret = not reveal_secret
-		if world and "hud" in world and world.hud:
-			world.hud.message("Debug: Secret Vendor auf der Minimap %s" % ("sichtbar" if reveal_secret else "verborgen"), 2.5)
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_M and not event.ctrl_pressed and not event.alt_pressed and not event.meta_pressed and is_visible_in_tree():
+		expanded = not expanded
+		_update_layout()
+		get_viewport().set_input_as_handled()
+		return
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	clip_contents = true
-	set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-	offset_left = -316
-	offset_top = -356
-	offset_right = -16
-	offset_bottom = -16
+	_update_layout()
+	get_parent().resized.connect(_update_layout)
 	_font = ThemeDB.fallback_font
 	Map._ensure()
 	# Fit the complete playable area without distorting distances or angles.
@@ -63,6 +63,24 @@ func _ready() -> void:
 	clipping.add_child(symbols)
 	clipping.name = "MapClip"
 	set_process(false)
+
+func _update_layout() -> void:
+	if expanded:
+		var available: Vector2 = get_parent().size * 0.85
+		var factor := minf(available.x / PANEL_SIZE.x, available.y / PANEL_SIZE.y)
+		set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+		scale = Vector2.ONE * factor
+		offset_left = -PANEL_SIZE.x * factor * 0.5
+		offset_top = -PANEL_SIZE.y * factor * 0.5
+		offset_right = offset_left + PANEL_SIZE.x
+		offset_bottom = offset_top + PANEL_SIZE.y
+	else:
+		scale = Vector2.ONE
+		set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
+		offset_left = -316
+		offset_top = -356
+		offset_right = -16
+		offset_bottom = -16
 
 func setup(p: Player, main: Node) -> void:
 	player = p
@@ -146,7 +164,7 @@ func _draw_symbols(c: Control) -> void:
 		return
 	if "progression" in world and world.progression:
 		for id in world.progression.npcs:
-			if id == "secret" and not reveal_secret and not world.progression.local_data().discovered: continue
+			if not world.progression.has_seen_npc(id) and not (id == "secret" and reveal_secret): continue
 			var npc_point := map_position(world.progression.npcs[id].global_position)
 			c.draw_circle(npc_point, 3.5, Color(0.94, 0.73, 0.37))
 			var label_offset := Vector2(-28, 13) if id == "camp" else Vector2(5, -5)
@@ -198,9 +216,28 @@ func _draw_symbols(c: Control) -> void:
 	c.draw_colored_polygon(PackedVector2Array([p, p + heading.rotated(-half_fov) * 24, p + heading.rotated(half_fov) * 24]), Color(0.8, 0.94, 1, 0.15))
 	c.draw_circle(p, 6.0, Color(0.025, 0.04, 0.035, 0.9))
 	c.draw_colored_polygon(PackedVector2Array([p + heading * 8, p - heading * 5 + side * 4, p - heading * 5 - side * 4]), Color(0.88, 0.98, 1))
+	# Alerts sit above enemy dots and the player marker so an attacked gate stays legible.
+	for barricade: Barricade in world.barricades:
+		if not barricade.under_attack(): continue
+		var center := map_position(barricade.center)
+		if not MAP_RECT.has_point(center): continue
+		var a := map_position(barricade.point_at(-barricade.half_len))
+		var b := map_position(barricade.point_at(barricade.half_len))
+		var direction := (b - a).normalized()
+		var extent := maxf(4.0, a.distance_to(b) * 0.5)
+		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.009)
+		c.draw_circle(center, 9.0 + pulse * 4.0, Color(1, 0.06, 0.02, 0.15 + pulse * 0.2))
+		c.draw_line(center - direction * extent, center + direction * extent, Color(1, 0.08, 0.03, 0.3 + pulse * 0.4), 8.0, true)
+		c.draw_line(center - direction * extent, center + direction * extent, Color(1, 0.12 + pulse * 0.18, 0.06), 3.5, true)
+	if "hut" in world and world.hut and world.hut.under_attack():
+		var hut_point := map_position(world.hut.center)
+		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.009)
+		c.draw_circle(hut_point, 11.0 + pulse * 5.0, Color(1, 0.06, 0.02, 0.15 + pulse * 0.2))
+		c.draw_circle(hut_point, 7.0, Color(1, 0.12 + pulse * 0.18, 0.06), false, 2.5, true)
 	# Draw ready-to-turn-in quests last so nearby enemies and players cannot cover them.
 	if "progression" in world and world.progression:
 		for id in world.progression.npcs:
+			if not world.progression.has_seen_npc(id) and not (id == "secret" and reveal_secret): continue
 			if not world.progression.has_ready_quest(id): continue
 			var marker := map_position(world.progression.npcs[id].global_position) + Vector2(-5, -7)
 			marker = marker.clamp(MAP_RECT.position + Vector2(2, 20), MAP_RECT.end - Vector2(12, 2))

@@ -13,7 +13,8 @@ foreach ($name in @('host-ready', 'step', 'done-c1', 'done-c2', 'done-c3', 'resu
 $runs = @()
 try {
     foreach ($role in @('host', 'c1', 'c2', 'c3')) {
-        $arguments = @('--headless', '--path', 'godot', '--log-file', "../artifacts/multiplayer/$role.log",
+        $logPath = Join-Path $artifacts "$role.log"
+        $arguments = @('--headless', '--path', 'godot', '--log-file', ('"' + $logPath + '"'),
             '--script', 'res://tests/run.gd', '--', '--suite=multiplayer', '--smoke-test', '--no-foliage',
             "--coop-role=$role", "--coop-port=$Port")
         $process = Start-Process -FilePath $GodotBinary -WorkingDirectory $workspace -ArgumentList $arguments -WindowStyle Hidden -PassThru

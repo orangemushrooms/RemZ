@@ -54,7 +54,7 @@ switch ($Mode) {
         $marker = 'DAY_NIGHT_DONE checks=\d+ failures=0'
     }
     'DoorsKeys' {
-        $arguments += @('--script', 'res://tests/run.gd', '--', '--suite=doors_keys', '--smoke-test', '--no-intro', '--no-music', '--render-doors', '--restart-keys')
+        $arguments += @('--script', 'res://tests/run.gd', '--', '--suite=doors_keys', '--smoke-test', '--no-intro', '--no-music', '--render-doors', '--restart-keys', '--all-forest-keys')
         $marker = 'DOORS_KEYS_DONE checks=\d+ failures=0'
     }
     'CampsitePickups' {

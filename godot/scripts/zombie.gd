@@ -6,7 +6,7 @@ extends CharacterBody3D
 # are skipped, "model" / "fallback" remain the default). The field titan is taller than the beeches (22-29 m)
 # and handled by titan.gd (ground strike, no stagger, always casts shadows).
 const TYPES := {
-	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 3000.0, "speed": 3.4, "damage": 48.0, "reach": 12.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
+	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 7500.0, "speed": 4.2, "damage": 65.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
 	"shambler": { "model": "zombie_shambler", "skins": ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma"], "hp": 100.0, "speed": 1.6, "damage": 12.0, "reach": 1.6, "attack_time": 1.1, "score": 10, "height": 1.8 },
 	"runner": { "model": "zombie_runner", "skins": ["zombie_runner", "zombie_jogger"], "hp": 60.0, "speed": 4.2, "damage": 8.0, "reach": 1.4, "attack_time": 0.7, "score": 15, "height": 1.7 },
 	"brute":    { "model": "zombie_bloater", "fallback": "zombie_shambler", "hp": 320.0, "speed": 1.2, "damage": 25.0, "reach": 2.0, "attack_time": 1.6, "score": 40, "height": 2.3, "tint": Color(0.9, 0.85, 0.6) },
@@ -21,6 +21,9 @@ var alive := true
 var player: Player
 var barricades: Array = []
 var hut_doors: Array = []
+var hut: HutHealth                 # the Waldhütte; raiders inside the ring go for it, everyone hits it when close
+var perimeter: Perimeter
+var raider := false
 var agent: NavigationAgent3D
 var anim: AnimationPlayer
 var model: Node3D
@@ -58,6 +61,9 @@ var net_yaw := 0.0
 var _materials: Array[BaseMaterial3D] = []
 static var _scenes := {}
 static var force_skin := ""          # tests: every new zombie uses this model while it is set (and exists)
+const HITBOX_LAYER := 32
+static var _hitbox_shapes := {}
+var _hitboxes: Array[Area3D] = []
 
 static func preload_models() -> void:
 	for spec: Dictionary in TYPES.values():
@@ -104,9 +110,14 @@ func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: C
 	appearance_seed = randi()
 	growl_t = randf_range(2.0, 8.0)
 	_repath = randf_range(0.05, 0.4)
+	raider = randf() < 0.35
 
 func _ready() -> void:
 	hut_doors = get_tree().get_nodes_in_group("hut_doors")
+	var huts := get_tree().get_nodes_in_group("hut_health")
+	if not huts.is_empty():
+		hut = huts[0]
+		perimeter = hut.game.perimeter
 	collision_layer = 2
 	collision_mask = 1 | 2 | 8 | 16
 	var shape := CollisionShape3D.new()
@@ -160,6 +171,66 @@ func _ready() -> void:
 	var scale_var := appearance.randf_range(0.94, 1.08)
 	if model:
 		model.scale *= scale_var
+		if net_kind == "brute" or type.get("giant", false):
+			_build_hitboxes()
+
+# Keep navigation capsules small; bullets use convex volumes fitted to the rig's
+# weighted vertices. Bone attachments follow walking, attacks and model scaling.
+func _build_hitboxes() -> void:
+	for mesh_node in model.find_children("*", "MeshInstance3D", true, false):
+		var mesh := mesh_node as MeshInstance3D
+		if not mesh.skin or mesh.skeleton.is_empty(): continue
+		var rig := mesh.get_node_or_null(mesh.skeleton) as Skeleton3D
+		if not rig: continue
+		var cache_key := model_path + ":" + str(model.get_path_to(mesh))
+		if not _hitbox_shapes.has(cache_key):
+			var points := {}
+			for surface in mesh.mesh.get_surface_count():
+				var arrays := mesh.mesh.surface_get_arrays(surface)
+				var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+				var bones: PackedInt32Array = arrays[Mesh.ARRAY_BONES]
+				var weights: PackedFloat32Array = arrays[Mesh.ARRAY_WEIGHTS]
+				if vertices.is_empty() or bones.is_empty(): continue
+				var influences := bones.size() / vertices.size()
+				for vertex in vertices.size():
+					for influence in influences:
+						var index := vertex * influences + influence
+						if weights[index] < 0.25: continue
+						var bind := bones[index]
+						var bone := mesh.skin.get_bind_bone(bind)
+						if bone < 0: bone = rig.find_bone(mesh.skin.get_bind_name(bind))
+						if bone < 0: continue
+						if not points.has(bone): points[bone] = PackedVector3Array()
+						points[bone].append(mesh.skin.get_bind_pose(bind) * vertices[vertex])
+			var shapes := {}
+			for bone in points:
+				if points[bone].size() < 4: continue
+				var hull := ConvexPolygonShape3D.new()
+				hull.points = points[bone]
+				shapes[bone] = hull
+			_hitbox_shapes[cache_key] = shapes
+		for bone in _hitbox_shapes[cache_key]:
+			var attachment := BoneAttachment3D.new()
+			attachment.bone_name = rig.get_bone_name(bone)
+			rig.add_child(attachment)
+			var area := Area3D.new()
+			area.collision_layer = HITBOX_LAYER
+			area.collision_mask = 0
+			area.monitoring = false
+			area.monitorable = false
+			area.set_meta("zombie", self)
+			area.set_meta("headshot", "head" in str(attachment.bone_name).to_lower())
+			attachment.add_child(area)
+			var shape := CollisionShape3D.new()
+			shape.shape = _hitbox_shapes[cache_key][bone]
+			area.add_child(shape)
+			_hitboxes.append(area)
+
+static func from_hit(hit: Dictionary) -> Zombie:
+	if hit.is_empty(): return null
+	var collider: Object = hit.collider
+	if collider is Zombie: return collider
+	return collider.get_meta("zombie", null) as Zombie
 
 func _fit_model() -> void:
 	# Meshy rigs are exported in metres at the height passed to the rigging step (1.7 m).
@@ -215,6 +286,8 @@ func _set_emission(on: bool) -> void:
 
 func die(dir: Vector3) -> void:
 	alive = false
+	for hitbox in _hitboxes:
+		hitbox.collision_layer = 0
 	hit_pending = 0.0
 	velocity = Vector3.ZERO
 	play("death")
@@ -326,6 +399,14 @@ func _physics_process(delta: float) -> void:
 				if dd < bd and dd < to_player.length_squared():
 					bar = tower
 					bd = dd
+	# The Waldhütte itself: raiders inside the ring head for its walls, every zombie close to a wall hits it.
+	if bar == null and not player_priority and is_instance_valid(hut) and hut.hp > 0.0:
+		var hut_point := hut.attack_point(p)
+		var hd := hut_point.distance_squared_to(p)
+		var inside: bool = not is_instance_valid(perimeter) or perimeter.contains(Vector2(p.x, p.z))
+		if (raider and inside and not hunting) or (hd < HutHealth.RAID_RANGE * HutHealth.RAID_RANGE and hd < to_player.length_squared()):
+			bar = hut
+			bd = hd
 	siege_target = bar
 	for door: Door in hut_doors:
 		if door.crosses(p, player.global_position):
@@ -468,7 +549,9 @@ func _can_hit(bar: Variant) -> bool:
 	var query := PhysicsRayQueryParameters3D.create(origin, target, 1 | 8)
 	query.exclude = [get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
-	return hit.is_empty() or (bar != null and hit.collider == bar.body)
+	if hit.is_empty(): return true
+	if bar == null: return false
+	return hit.collider == bar.body or (bar is HutHealth and hit.collider.is_in_group("hut_body"))
 
 # strong push from a melee strike, independent of the hit stagger scaling
 func shove(impulse: Vector3) -> void:

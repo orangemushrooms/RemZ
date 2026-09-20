@@ -46,6 +46,7 @@ func run() -> void:
 	NetSession = root.get_node("NetSession")
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
+	game._flags.append("--all-forest-keys") # Keep the team-key pickup test deterministic.
 	current_scene = game
 	while not game.navigation_ready: await process_frame
 	game.settings._testing = true
@@ -55,7 +56,8 @@ func run() -> void:
 
 func command_clients(action: String, targets: Array, args: Array = []) -> void:
 	test_step += 1
-	write_json("step", {"number": test_step, "action": action, "targets": targets, "args": args})
+	var minimum_sequence: int = NetSession._sequence + (1 if NetSession.phase == "running" else 0)
+	write_json("step", {"number": test_step, "action": action, "targets": targets, "args": args, "minimum_sequence": minimum_sequence})
 	var deadline := Time.get_ticks_msec() + (90000 if action == "rejoin" else 12000)
 	while Time.get_ticks_msec() < deadline:
 		var done := true
@@ -77,6 +79,35 @@ func teleport(id: int, point: Vector3) -> void:
 	p.velocity = Vector3.ZERO
 	NetSession._world_state.rpc_id(id, NetSession.epoch, NetSession._sequence, NetSession.world.snapshot(), true)
 	await wait_seconds(0.4)
+
+func verify_menu(kind: String, is_host: bool) -> void:
+	var before: float = game.day_night.clock_seconds
+	var sequence: int = NetSession._received_sequence
+	match kind:
+		"pause": game._pause()
+		"inventory": game.inventory.open()
+		"shop": game.progression.interact("camp")
+		"barricades": game.barricade_menu.open()
+	check(not game.player.active and not paused, role + " opens " + kind + " without pausing the world")
+	game.settings._testing = false
+	game.settings._notification(MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	game.settings._testing = true
+	check(game.hud.overlay.visible == (kind == "pause"), role + " focus loss does not stack menus during " + kind)
+	if is_host:
+		var remote: Player = NetSession.world.actor(find_peer("c3"))
+		var position_before := remote.global_position
+		await command_clients("walk", ["c3"])
+		check(remote.global_position.distance_to(position_before) > 1.0, "Other player moves while host opens " + kind)
+	else:
+		await wait_seconds(0.6)
+		check(NetSession._received_sequence > sequence, role + " receives snapshots during " + kind)
+	check(game.day_night.clock_seconds > before, role + " world advances during " + kind)
+	match kind:
+		"pause": game._on_start()
+		"inventory": game.inventory.close()
+		"shop": game.progression.close()
+		"barricades": game.barricade_menu.close()
+	check(game.player.active and not paused, role + " resumes after " + kind)
 
 func host_run() -> void:
 	check(NetSession.join("not-an-ip", "test", test_port) == ERR_INVALID_PARAMETER and not NetSession.enabled, "Invalid IP rejected without entering a session")
@@ -110,6 +141,12 @@ func host_run() -> void:
 	await wait_seconds(0.5)
 	check(not paused and game.day_night.clock_seconds > clock_before, "Host pause menu leaves world clock running")
 	game._on_start()
+	for menu in ["pause", "inventory", "shop", "barricades"]:
+		var original_position: Vector3 = game.player.global_position
+		game.player.global_position = game.progression.npcs.camp.global_position + Vector3(0, 0.1, 2.3)
+		await wait_seconds(0.1)
+		await verify_menu(menu, true)
+		game.player.global_position = original_position
 	var moving_from: Vector3 = NetSession.world.actor(c1).global_position
 	await command_clients("walk", ["c1"])
 	await wait_seconds(0.5)
@@ -137,6 +174,7 @@ func host_run() -> void:
 	await command_clients("inspect", ["c1", "c2"])
 	check(NetSession.world.weapons[c1].skins.get("ak47") == "forest" and read_json("done-c1").skins.get("ak47") == "forest", "Purchased weapon skin replicates to owner")
 	check(read_json("done-c2").progress_people > 1, "Individual quest state reaches the other peers")
+	await teleport(c2, game.progression.npcs.camp.global_position + Vector3(0, 0.1, 2.3))
 	await command_clients("menus", ["c2"])
 	var menu_report: Dictionary = read_json("done-c2")
 	check(not menu_report.paused and not paused, "Client menus do not pause the common world")
@@ -283,7 +321,7 @@ func host_run() -> void:
 	check(joined.titan_cues.is_empty(), "Late join does not replay earlier titan roars or impacts")
 	tower.damage(10000)
 	await wait_seconds(0.5)
-	await command_clients("inspect", ["c3"])
+	await command_clients("wait_tower_removed", ["c3"])
 	check(read_json("done-c3").towers == 0, "Destroyed tower disappears on other peers")
 	# A downed player leaves the team fighting; another player revives them.
 	await teleport(c2, Map.ground_pos(-5, -12) + Vector3.UP * 0.1)
@@ -387,16 +425,14 @@ func client_run() -> void:
 			args[0] = int(args[0])
 			args[1] = float(args[1])
 		match request.action:
+			"wait_tower_removed":
+				var deadline := Time.get_ticks_msec() + 5000
+				while not game.defences.towers.is_empty() and Time.get_ticks_msec() < deadline:
+					await wait_seconds(0.1)
 			"tower_place": NetSession.command("tower_place", [Vector3(args[0][0], args[0][1], args[0][2])])
 			"menus":
-				game.skills.open()
-				await wait_seconds(0.2)
-				check(not paused, "Skills do not pause coop")
-				game.skills.close()
-				game.inventory.open()
-				await wait_seconds(0.2)
-				check(not paused, "Inventory does not pause coop")
-				game.inventory.close()
+				for menu in ["pause", "inventory", "shop", "barricades"]:
+					await verify_menu(menu, false)
 			"walk":
 				game.player.set_physics_process(true)
 				Input.action_press("move_forward")
@@ -431,7 +467,14 @@ func client_run() -> void:
 				print("COOP_CLIENT_DONE ", role)
 				quit(0)
 				return
-			"inspect": pass
+			"inspect":
+				# During play, inspect a snapshot produced after this request.
+				# Game over sends one final reliable state, then stops snapshots.
+				# Disk coordination can otherwise overtake the real UDP packets.
+				var deadline := Time.get_ticks_msec() + 5000
+				while NetSession._received_sequence < int(request.get("minimum_sequence", -1)) and Time.get_ticks_msec() < deadline:
+					await wait_seconds(0.1)
+				check(NetSession._received_sequence >= int(request.get("minimum_sequence", -1)), role + " received fresh world state for inspection")
 			_: NetSession.command(request.action, args)
 		await wait_seconds(0.2)
 		var open_doors := 0

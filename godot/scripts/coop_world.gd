@@ -172,6 +172,10 @@ func action(id: int, operation: String, args: Array) -> void:
 			if args.size() != 1 or not args[0] is int: return
 			var error: String = game.defences.maintain(p, args[0], operation.trim_prefix("tower_"))
 			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
+		"hut_repair":
+			if not game.hut: return
+			var error: String = game.hut.repair(p)
+			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"fire":
 			if args.size() != 4 or not args[0] is String or not args[1] is float or not is_finite(args[1]) or not _aim(p, args, 2): return
 			w.set_weapon(args[0])
@@ -285,17 +289,28 @@ func check_team() -> void:
 			if id != 1 and NetSession.ready_peers[id]: NetSession._world_state.rpc_id(id, NetSession.epoch, NetSession._sequence, snapshot(), false)
 		_show_game_over()
 
+# the Waldhütte fell (host only): the whole team loses the round
+func hut_lost() -> void:
+	if not NetSession.is_host() or NetSession.phase != "running": return
+	NetSession.phase = "over"
+	game.over = true
+	NetSession._send_lobby()
+	for id in NetSession.ready_peers:
+		if id != 1 and NetSession.ready_peers[id]: NetSession._world_state.rpc_id(id, NetSession.epoch, NetSession._sequence, snapshot(), false)
+	_show_game_over()
+
 func _show_game_over() -> void:
 	_close_local_menus()
 	game.over = true
 	game.player.active = false
-	game.hud.show_overlay("TEAM AUSGESCHIEDEN", "Alle Spieler sind ausgeschieden. Der Host kann eine neue Runde starten.", "Neue Runde" if NetSession.is_host() else "Warte auf Host", "", "over")
+	var hut_fell: bool = game.hut != null and game.hut.destroyed
+	game.hud.show_overlay("HÜTTE VERLOREN" if hut_fell else "TEAM AUSGESCHIEDEN", ("Die Waldhütte ist zerstört." if hut_fell else "Alle Spieler sind ausgeschieden.") + " Der Host kann eine neue Runde starten.", "Neue Runde" if NetSession.is_host() else "Warte auf Host", "", "over")
 	game.hud.overlay_button.disabled = NetSession.is_client()
 	game.stats.finish(game.player.score, game.waves.completed, "Koop · " + str(game.difficulty.name))
 
 func _close_local_menus() -> void:
 	game.defences.cancel_placement()
-	for menu in [game.skills, game.inventory, game.barricade_menu, game.defences, game.progression]:
+	for menu in [game.skills, game.inventory, game.barricade_menu, game.defences, game.progression, game.cheat_menu]:
 		if menu.is_open: menu.close()
 	game.get_tree().paused = false
 
@@ -417,13 +432,14 @@ func snapshot() -> Dictionary:
 			available.append(key)
 			if node is ForestKey: key_positions[key] = node.global_position
 	var bars: Array = []
-	for b in game.barricades: bars.append([b.level, b.hp])
+	for b in game.barricades: bars.append([b.level, b.hp, b.attack_alert_remaining])
 	var intact: Array = []
 	for id in broken_nodes:
 		if is_instance_valid(broken_nodes[id]): intact.append(id)
 	var animals: Array = []
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	return {"progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
 		"difficulty": game.settings.difficulty,
@@ -560,7 +576,10 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			else:
 				node.hide()
 				node.queue_free()
-		elif node is ForestKey and data.key_positions.has(key): node.global_position = data.key_positions[key]
+		elif node is ForestKey and data.key_positions.has(key):
+			node.global_position = data.key_positions[key]
+			node.taken = false
+			node.pickup_visual.show()
 	for i in game.barricades.size():
 		var b: Barricade = game.barricades[i]
 		var changed: bool = b.level != data.bars[i][0] or b.hp != data.bars[i][1]
@@ -570,9 +589,15 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			game.hud.message("Barrikade %s durchbrochen!" % b.slot.name, 2.0)
 		b.level = data.bars[i][0]
 		b.hp = data.bars[i][1]
+		if data.bars[i].size() > 2:
+			b.update_attack_alert(float(data.bars[i][2]), state_loaded)
 		if changed:
 			if rebuild: b.rebuild()
 			b.changed.emit()
+	if game.hut and data.get("hut", []).size() == 3:
+		game.hut.hp = float(data.hut[0])
+		game.hut.destroyed = bool(data.hut[2])
+		game.hut.update_attack_alert(float(data.hut[1]), state_loaded)
 	for id in broken_nodes:
 		if not id in data.intact and is_instance_valid(broken_nodes[id]): broken_nodes[id].shatter()
 	for i in mini(deer.size(), data.deer.size()):

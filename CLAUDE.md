@@ -16,7 +16,11 @@ editors; Claude generates assets and code. Reply in German (Swiss spelling, "ss"
   north). Translate before touching positions.
 - Systems: waves (10 + 5 n zombies times the difficulty factor, boss wave every 5th with brutes, 27 m field
   titans from wave 6 every third wave, `Waves.MAX_ACTIVE` 72), a closed palisade ring (`perimeter.gd`) whose
-  only openings are the 4 barricade slots = gates (E / planner V; the player vaults a built gate with Space), 5 weapons with
+  only openings are the 4 barricade slots = gates (E / planner V; the player vaults a built gate with Space), the
+  Waldhütte's own health (`hut_health.gd`, 5000 HP: 35 % of the zombies are "raiders" that head for its walls once
+  inside the ring, every zombie within 9 m of a wall hits it, titan strikes hurt it, HUD line under the wave bar,
+  minimap pulse and "ACHTUNG: DIE WALDHÜTTE WIRD ANGEGRIFFEN!"; E at a wall repairs 500 HP for 30 P; at zero the
+  round is lost, `main._hut_lost` / `CoopWorld.hut_lost`; `--suite=hut_health` has 19 checks), 5 weapons with
   COD-style recoil + ADS, melee gun butt (Q), grenades (G), skill menu (Tab), inventory (B), 6 zombie types with
   several Meshy skins each (`Zombie.TYPES[..].skins`, picked at random per zombie, missing GLBs skipped), supply drops
   from kills (ammo / grenade / medkit, walk through), kill streaks (+10 % per kill from the 3rd within 4 s, score

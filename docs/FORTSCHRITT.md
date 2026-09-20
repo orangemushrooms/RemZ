@@ -8,6 +8,10 @@ An der kleinen Feuerstelle am westlichen Feldweg wartet **Mara, die Försterin**
 
 **Vendor** steht am Lagerfeuer und verkauft Waffen, Munition, Verbände und Granaten. Mit **E** sprechen, unter **Aufträge** „Am Feuer“ annehmen und die Belohnung abholen. **Mechanic** steht etwas weiter nördlich beim Wegweiser. Sie bietet Verteidigungsaufträge, Training und die Verwaltung bereits gebauter Türme. Beide erscheinen auf der Minimap.
 
+## Die Waldhütte halten
+
+Die Waldhütte hat eigene Lebenspunkte (5000, Anzeige unter der Wellenleiste). Zombies, die in den Ring gelangen, gehen zu einem guten Teil direkt auf ihre Wände los, und jeder Zombie nahe an einer Wand schlägt zu; Titanenschläge treffen sie ebenfalls. Beim ersten Treffer erscheint die Warnung **„ACHTUNG: DIE WALDHÜTTE WIRD ANGEGRIFFEN! Verteidigen!“**, die Hütte pulsiert rot auf der Minimap. Mit **E** an einer Wand repariert man 500 Punkte Bausubstanz für 30 P. Fällt die Hütte auf null, ist die Runde verloren, auch wenn alle Spieler noch leben.
+
 Aufträge werden beim jeweiligen NPC angenommen und abgegeben. Erledigte Ziele geben ihre Belohnung genau einmal. Im Koop zählen gebaute Verteidigungen, Abschüsse, die Lieferung und Titanensiege gemeinsam; Annahme, Belohnung, Waffen und Skins gehören dem einzelnen Spieler.
 
 | Auftrag | Auftraggeber | Ziel | Belohnung |

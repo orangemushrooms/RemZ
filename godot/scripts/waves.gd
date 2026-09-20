@@ -116,6 +116,18 @@ func start(n: int) -> void:
 	if main.music:
 		main.music.play("combat")
 
+func skip_current_wave() -> bool:
+	if NetSession.is_client() or not main.started or main.over:
+		return false
+	queue.clear()
+	for zombie in main.zombies_root.get_children():
+		if zombie is Zombie and zombie.alive:
+			zombie.damage(maxf(zombie.hp, 1.0), Vector3.ZERO)
+	if phase == "spawning":
+		_complete_wave()
+	start(wave + 1)
+	return true
+
 func _process(delta: float) -> void:
 	if NetSession.is_client() or (NetSession.enabled and (not main.started or main.over)):
 		return
@@ -153,21 +165,24 @@ Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELL
 		if main.music:
 			main.music.horde = clampf(alive / 10.0, 0.15, 1.0)
 		if queue.is_empty() and alive == 0:
-			if main.music:
-				main.music.horde = 0.0
-				main.music.play("night")
-			completed = wave
-			phase = "idle"
-			timer = 90.0
-			hud.set_wave_progress(0, total)
-			if "achievements" in main and main.achievements:
-				main.achievements.wave_cleared(wave)
-			var bonus := 20 + wave * 6
-			player.add_score(bonus)
-			weapons.refill_all()
-			if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
-			hud.message("Welle %d überstanden\n+%d Punkte, Pistolenreserve gesichert\nHändler und Aufträge: Vendor & Mechanic · T: Turm" % [wave, bonus], 4.0)
-			Sfx.play(self, "menu", -6.0)
+			_complete_wave()
+
+func _complete_wave() -> void:
+	if main.music:
+		main.music.horde = 0.0
+		main.music.play("night")
+	completed = wave
+	phase = "idle"
+	timer = 90.0
+	hud.set_wave_progress(0, total)
+	if "achievements" in main and main.achievements:
+		main.achievements.wave_cleared(wave)
+	var bonus := 20 + wave * 6
+	player.add_score(bonus)
+	weapons.refill_all()
+	if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
+	hud.message("Welle %d überstanden\n+%d Punkte, Pistolenreserve gesichert\nHändler und Aufträge: Vendor & Mechanic · T: Turm" % [wave, bonus], 4.0)
+	Sfx.play(self, "menu", -6.0)
 
 func _try_spawn(entry: Dictionary) -> bool:
 	if entry["type"] == "titan":

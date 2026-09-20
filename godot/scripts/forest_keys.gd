@@ -3,6 +3,7 @@ extends Node
 
 const KEYS := {"waldhuette": "Waldhütte", "holzlager": "Holzlager"}
 const HINT_RADIUS := 16.0
+const SPAWN_CHANCE := 0.20
 var main: Node3D
 var owned: Dictionary = {}
 var spawned: Array[ForestKey] = []
@@ -20,6 +21,7 @@ func has_key(id: String) -> bool:
 	return owned.get(id, false)
 
 func populate() -> bool:
+	if not spawned.is_empty(): return true
 	var random := RandomNumberGenerator.new()
 	random.randomize()
 	for flag in main._flags:
@@ -37,9 +39,17 @@ func populate() -> bool:
 		main.add_child(key)
 		key.global_position = points[i]
 		key.rotation.y = random.randf_range(0, TAU)
+		# Keep stable network IDs and empty stumps even when this run has no key.
+		# Clients wait for the host's loot snapshot instead of making their own roll.
+		if NetSession.is_client() or (not "--all-forest-keys" in main._flags and not roll_spawn(random)):
+			key.taken = true
+			key.pickup_visual.hide()
 		spawned.append(key)
 		main.loots.append(key)
 	return true
+
+static func roll_spawn(random: RandomNumberGenerator) -> bool:
+	return random.randf() < SPAWN_CHANCE
 
 # Called once after navigation synchronizes; no pathfinding or world scans per frame.
 func choose_spawn_points(random: RandomNumberGenerator) -> Array[Vector3]:

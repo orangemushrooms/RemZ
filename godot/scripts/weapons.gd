@@ -291,15 +291,17 @@ func try_fire() -> void:
 		var dir: Vector3 = (base + Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * spread).normalized()
 		# the ray crosses the whole map: enemies are hit at any distance, "range" only starts a gentle damage
 		# falloff (full damage inside it, 55 % at three times the range)
-		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * HIT_RAY_LENGTH, 1 | 2 | 8)
+		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * HIT_RAY_LENGTH, 1 | 2 | 8 | Zombie.HITBOX_LAYER)
+		q.collide_with_areas = true
+		q.hit_from_inside = true
 		q.exclude = bullet_exclude
 		var hit := space.intersect_ray(q)
 		if hit and hit.collider is Breakable:
 			(hit.collider as Breakable).shatter()
 			get_tree().current_scene.achievements.event("window")
-		if hit and hit.collider is Zombie:
-			var z: Zombie = hit.collider
-			var headshot: bool = hit.position.y > z.global_position.y + z.height * 0.78
+		var z := Zombie.from_hit(hit)
+		if z and z.alive:
+			var headshot: bool = hit.collider.get_meta("headshot", hit.position.y > z.global_position.y + z.height * 0.78)
 			z.last_headshot = headshot
 			z.killer_weapon = current
 			z.killer_peer = player.peer_id
@@ -334,11 +336,13 @@ func melee() -> void:
 	# a short fan of rays so a zombie slightly off-centre is still hit
 	for off: float in [0.0, -0.18, 0.18]:
 		var dir: Vector3 = (forward + camera.global_transform.basis.x * off).normalized()
-		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * 2.1, 2 | 8)
+		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * 2.1, 2 | 8 | Zombie.HITBOX_LAYER)
+		q.collide_with_areas = true
+		q.hit_from_inside = true
 		q.exclude = [player.get_rid()]
 		var hit := space.intersect_ray(q)
-		if hit and hit.collider is Zombie and (hit.collider as Zombie).alive:
-			var z: Zombie = hit.collider
+		var z := Zombie.from_hit(hit)
+		if z and z.alive:
 			z.last_headshot = false
 			z.killer_weapon = "melee"
 			z.killer_peer = player.peer_id

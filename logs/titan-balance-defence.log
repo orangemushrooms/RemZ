@@ -1,0 +1,68 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+RENDER_OPTIMIZER { "source_meshes": 674, "batches": 18, "removed_render_nodes": 44 }
+PASS: Wave 1 preview includes all bosses
+PASS: Wave 1 respects titan progression
+PASS: Wave 2 preview includes all bosses
+PASS: Wave 2 respects titan progression
+PASS: Wave 3 preview includes all bosses
+PASS: Wave 3 respects titan progression
+PASS: Wave 4 preview includes all bosses
+PASS: Wave 4 respects titan progression
+PASS: Wave 5 preview includes all bosses
+PASS: Wave 5 respects titan progression
+PASS: Titan wave 6 enters from open field
+PASS: Wave 6 preview includes all bosses
+PASS: Wave 6 respects titan progression
+PASS: Wave 7 preview includes all bosses
+PASS: Wave 7 respects titan progression
+PASS: Wave 8 preview includes all bosses
+PASS: Wave 8 respects titan progression
+PASS: Titan wave 9 enters from open field
+PASS: Wave 9 preview includes all bosses
+PASS: Wave 9 respects titan progression
+PASS: Wave 10 preview includes all bosses
+PASS: Wave 10 respects titan progression
+PASS: Wave 11 preview includes all bosses
+PASS: Wave 11 respects titan progression
+PASS: Titan wave 12 enters from open field
+PASS: Titan wave 12 enters from open field
+PASS: Wave 12 preview includes all bosses
+PASS: Wave 12 respects titan progression
+PASS: Wave 13 preview includes all bosses
+PASS: Wave 13 respects titan progression
+PASS: Wave 14 preview includes all bosses
+PASS: Wave 14 respects titan progression
+PASS: Titan wave 15 enters from open field
+PASS: Titan wave 15 enters from open field
+PASS: Wave 15 preview includes all bosses
+PASS: Wave 15 respects titan progression
+PASS: Wave 16 preview includes all bosses
+PASS: Wave 16 respects titan progression
+PASS: Wave 17 preview includes all bosses
+PASS: Wave 17 respects titan progression
+PASS: Titan wave 18 enters from open field
+PASS: Titan wave 18 enters from open field
+PASS: Wave 18 preview includes all bosses
+PASS: Wave 18 respects titan progression
+PASS: Wave 19 preview includes all bosses
+PASS: Wave 19 respects titan progression
+PASS: Wave 20 preview includes all bosses
+PASS: Wave 20 respects titan progression
+PASS: Titan wave 21 enters from open field
+PASS: Titan wave 21 enters from open field
+PASS: Wave 21 preview includes all bosses
+PASS: Wave 21 respects titan progression
+PASS: Wave 22 preview includes all bosses
+PASS: Wave 22 respects titan progression
+PASS: Wave 23 preview includes all bosses
+PASS: Wave 23 respects titan progression
+PASS: Titan wave 24 enters from open field
+PASS: Titan wave 24 enters from open field
+PASS: Titan wave 24 enters from open field
+PASS: Wave 24 preview includes all bosses
+PASS: Wave 24 respects titan progression
+PASS: Very late waves keep a bounded number of giant bosses
+PASS: Simultaneous bosses have separate field spawns

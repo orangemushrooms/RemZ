@@ -70,6 +70,32 @@ var _building_layout := false
 var _refresh_time := 0.0
 var _last_signature := ""
 var _journal := true
+const NPC_SIGHT_RANGE := 30.0
+# Exploration belongs to this local player, never to the host's shared quest snapshot.
+var _seen_npcs: Dictionary = {}
+
+func has_seen_npc(id: String) -> bool:
+	return _seen_npcs.get(id, false)
+
+func _discover_visible_npcs() -> void:
+	if not game.started or game.over or not game.player.active: return
+	var camera: Camera3D = game.player.camera
+	if not camera.is_current(): return
+	var eye := camera.global_position
+	var space: PhysicsDirectSpaceState3D = game.get_world_3d().direct_space_state
+	for id in npcs:
+		if has_seen_npc(id): continue
+		var npc: WorldNpc = npcs[id]
+		if not npc.is_visible_in_tree(): continue
+		for height: float in [1.0, float(NPCS[id].height) * 0.9]:
+			var target := npc.global_position + Vector3.UP * height
+			if eye.distance_squared_to(target) > NPC_SIGHT_RANGE * NPC_SIGHT_RANGE or not camera.is_position_in_frustum(target): continue
+			var query := PhysicsRayQueryParameters3D.create(eye, target, 1 | 8, [game.player.get_rid()])
+			var hit := space.intersect_ray(query)
+			if hit.is_empty() or hit.collider == npc.body:
+				_seen_npcs[id] = true
+				break
+
 var _tower_tutorial_remaining := 12.0
 
 static func clear_space() -> void:
@@ -595,6 +621,7 @@ func _process(delta: float) -> void:
 	_refresh_time -= delta
 	if _refresh_time > 0: return
 	_refresh_time = 0.25
+	_discover_visible_npcs()
 	cache_node.visible = not team.cache
 	if is_open:
 		var structures := []

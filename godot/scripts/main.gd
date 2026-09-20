@@ -10,6 +10,7 @@ var day_night: DayNightCycle
 var fill_light: DirectionalLight3D
 var skills: Skills
 var inventory: Inventory
+var cheat_menu: CanvasLayer
 var forest_keys: ForestKeys
 var achievements: Achievements
 var barricade_menu: BarricadeMenu
@@ -21,6 +22,7 @@ var intro: Intro
 var zombies_root: Node3D
 var barricades: Array = []
 var perimeter: Perimeter                  # palisade ring, its gates are the barricade slots
+var hut: HutHealth                        # Waldhütte health: attacked by zombies, repaired with E, lost at zero
 var loots: Array = []
 var nav_region: NavigationRegion3D
 var fire_light: OmniLight3D
@@ -158,7 +160,11 @@ func _ready() -> void:
 	intro = Intro.new()
 	add_child(intro)
 	intro.setup(self, player, settings.env)
-	intro.road_reached.connect(func(): waves.start(1))
+	intro.road_reached.connect(func():
+		if waves.wave == 0: waves.start(1))
+	cheat_menu = preload("res://scripts/cheat_menu.gd").new()
+	cheat_menu.main = self
+	add_child(cheat_menu)
 	music = Music.new()
 	music.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(music)
@@ -171,7 +177,7 @@ func _ready() -> void:
 	for sound in ["pistol", "revolver", "smg", "ak47", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "boom", "pickup"]:
 		Sfx.get_stream(sound)
 	Zombie.preload_models()
-	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
+	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein. Die Zombies gehen auch auf die Waldhütte selbst los: fällt sie, ist die Runde verloren. Repariere sie mit E an ihrer Wand.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
 	hud.overlay_button.disabled = true
 	hud.set_loading(true)
 	nav_region.bake_finished.connect(_navigation_baked)
@@ -1423,7 +1429,10 @@ func _holzlager() -> Node3D:
 	return root
 
 func _build_buildings() -> void:
-	_waldhuette()
+	var hut_root := _waldhuette()
+	hut = HutHealth.new()
+	add_child(hut)
+	hut.setup(self, hut_root, Map.BUILDINGS["waldhuette"]["size"])
 	_holzlager()
 	# firewood stacks at the south end of the Holzlager
 	var hl: Dictionary = Map.BUILDINGS["holzlager"]
@@ -2168,8 +2177,8 @@ func _on_start() -> void:
 		return
 	get_tree().paused = false
 	hud.hide_overlay()
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	player.active = true
+	player.active = player.alive
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if player.active else Input.MOUSE_MODE_VISIBLE
 	if not started:
 		var skip_intro := NetSession.enabled or _restarted or "--no-intro" in _flags or _autotest or "--benchmark" in _flags or "--smoke-test" in _flags
 		for f in _flags:
@@ -2185,6 +2194,7 @@ func _on_start() -> void:
 	started = true
 
 func _pause() -> void:
+	if cheat_menu and cheat_menu.is_open: cheat_menu.close()
 	if progression and progression.is_open: progression.close()
 	if not started or over:
 		return
@@ -2204,6 +2214,18 @@ func _game_over() -> void:
 	if NetSession.enabled:
 		if NetSession.world: NetSession.world.check_team()
 		return
+	_end_round("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score])
+
+# the Waldhütte fell: the round is lost even with everyone alive
+func _hut_lost() -> void:
+	if over: return
+	if NetSession.enabled:
+		if NetSession.world: NetSession.world.hut_lost()
+		return
+	_end_round("HÜTTE VERLOREN", "Die Waldhütte ist zerstört. Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score])
+
+func _end_round(title: String, text: String) -> void:
+	if over: return
 	over = true
 	player.active = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -2211,7 +2233,7 @@ func _game_over() -> void:
 	music.play("gameover")
 	get_tree().paused = true
 	var rank := stats.finish(player.score, waves.completed, str(difficulty["name"]))
-	hud.show_overlay("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score], "Nochmal", "", "over")
+	hud.show_overlay(title, text, "Nochmal", "", "over")
 	hud.show_run_summary(stats, player.score, waves.completed, rank, str(difficulty["name"]))
 
 func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimum_distance := 0.0) -> bool:
@@ -2347,6 +2369,8 @@ func _process(delta: float) -> void:
 		var npc := progression.nearest(player)
 		var reading_notice := _looking_at_notice() and not downed
 		var idle_prompt := "[T] Geschützturm setzen · 120 P" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
+		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
+		if hut_fix: idle_prompt = hut.prompt_text()
 		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("[E] Turm ausrichten · [F] Reparieren · Ausbau bei Mechanic" if tower else (near.prompt_text() if near else idle_prompt))))
 		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
 		if reading_notice: hud.set_prompt("[E] Schild lesen · Eine seltsame Notiz")
@@ -2374,6 +2398,11 @@ func _process(delta: float) -> void:
 		elif near and Input.is_action_just_pressed("interact"):
 			if NetSession.enabled: NetSession.command("repair" if near.level > 0 and near.hp < near.max_hp() else "build", [barricades.find(near)])
 			else: near.purchase(player, "repair" if near.level > 0 and near.hp < near.max_hp() else "build")
+		elif hut_fix and Input.is_action_just_pressed("interact"):
+			if NetSession.enabled: NetSession.command("hut_repair")
+			else:
+				var error := hut.repair(player)
+				if not error.is_empty(): hud.message(error, 2.0)
 	if _autotest and started:
 		_autotest_step(delta)
 

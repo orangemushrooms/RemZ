@@ -15,7 +15,7 @@ try {
             '--join=127.0.0.1', '--port=24692', "--name=$name", '--smoke-test', '--no-foliage', '--no-music')
         $runs += Start-Process -FilePath $binary -WorkingDirectory (Split-Path $binary) -ArgumentList $arguments -WindowStyle Hidden -PassThru
     }
-    $probeArgs = @('--headless', '--path', 'godot', '--log-file', '../artifacts/defence/packed-probe.log',
+    $probeArgs = @('--headless', '--path', 'godot', '--log-file', ('"' + (Join-Path $folder 'packed-probe.log') + '"'),
         '--script', 'res://tests/run.gd', '--', '--suite=packed_coop', '--smoke-test', '--no-foliage', '--no-music')
     $probe = Start-Process -FilePath $GodotBinary -WorkingDirectory $workspace -ArgumentList $probeArgs -WindowStyle Hidden -PassThru
     $runs += $probe

@@ -282,8 +282,8 @@ func close() -> void:
 	main.weapons.viewmodel.visible = _saved_viewmodel
 	main.weapons.viewmodel.viewport.render_target_update_mode = _saved_viewmodel_update
 	player.flashlight.visible = _saved_flashlight
-	get_tree().paused = _was_paused or main.over
-	player.active = player.alive and not get_tree().paused
+	get_tree().paused = not NetSession.enabled and (_was_paused or main.over)
+	player.active = player.alive and not main.over and not get_tree().paused
 	Input.mouse_mode = _saved_mouse if player.active else Input.MOUSE_MODE_VISIBLE
 	main.hud.set_prompt("")
 

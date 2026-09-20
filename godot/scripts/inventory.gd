@@ -207,7 +207,7 @@ func _refresh() -> void:
 	if main.forest_keys:
 		for key_id: String in ForestKeys.KEYS:
 			var found: bool = main.forest_keys.has_key(key_id)
-			var detail := "Schlüssel für %s. %s" % [ForestKeys.KEYS[key_id], "Bleibt bei dir und öffnet alle Türen dieser Hütte." if found else "Im Wald versteckt. In der Nähe helfen Hinweis und Richtungspfeil."]
+			var detail := "Schlüssel für %s. %s" % [ForestKeys.KEYS[key_id], "Bleibt bei dir und öffnet alle Türen dieser Hütte." if found else "Ein seltener Fund im Wald – nicht in jedem Durchlauf vorhanden. In der Nähe helfen Hinweis und Richtungspfeil."]
 			_slot("Schlüssel: %s" % ForestKeys.KEYS[key_id], "Gefunden" if found else "Noch nicht gefunden", Color(0.95, 0.73, 0.32) if found else Color(0.3, 0.3, 0.3), detail, func(): info.text = detail, -1, "key")
 
 func _eat(kind: String) -> void:
@@ -250,8 +250,8 @@ func close() -> void:
 	is_open = false
 	panel.visible = false
 	get_tree().paused = false
-	player.active = true
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	player.active = player.alive and not main.over
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if player.active else Input.MOUSE_MODE_VISIBLE
 
 func _process(delta: float) -> void:
 	if NetSession.enabled: return

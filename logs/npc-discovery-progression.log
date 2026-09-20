@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "space" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://scripts/progression.gd:85)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "target" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://scripts/progression.gd:91)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "hit" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://scripts/progression.gd:94)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/minimap.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/hud.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/player.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/net_session.gd:0)
+ERROR: Failed to load script "res://scripts/net_session.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+SCRIPT ERROR: Invalid call. Nonexistent function 'clear_space' in base 'GDScript'.
+   at: _ready (res://scripts/main.gd:63)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/main.gd:63)
+       [1] run (res://tests/progression.gd:29)

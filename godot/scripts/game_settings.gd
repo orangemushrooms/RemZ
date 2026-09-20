@@ -199,5 +199,5 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and not _testing and is_instance_valid(main) and main.started and not main.over and not get_tree().paused:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT and not _testing and is_instance_valid(main) and main.started and not main.over and main.player.active and not get_tree().paused:
 		main._pause()

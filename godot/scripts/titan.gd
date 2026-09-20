@@ -3,6 +3,9 @@ extends Zombie
 
 const WINDUP := 2.4                     # long enough to run out of the ring
 const BLAST_RADIUS := 8.5
+const RAGE_THRESHOLD := 0.55
+const RECOVERY := 1.6
+const RAGE_RECOVERY := 1.0
 var strike_point := Vector3.ZERO
 var strike_phase := "arrival"
 var strike_time := 2.8
@@ -156,7 +159,7 @@ func _physics_process(delta: float) -> void:
 	if strike_phase == "walk" and _roar_time <= 0:
 		emit_cue("roar")
 		_roar_time = 20.0 + float((appearance_seed + _cue_serial) % 11)
-	var rage := hp < max_hp * 0.4
+	var rage := hp < max_hp * RAGE_THRESHOLD
 	if rage and not _rage_announced:
 		_rage_announced = true
 		emit_cue("rage")
@@ -172,7 +175,7 @@ func _physics_process(delta: float) -> void:
 			if strike_phase == "windup":
 				resolve_strike()
 				strike_phase = "recovery"
-				strike_time = 1.7 if rage else 2.2
+				strike_time = RAGE_RECOVERY if rage else RECOVERY
 			else:
 				strike_phase = "walk"
 				play("walk")
@@ -214,7 +217,7 @@ func _physics_process(delta: float) -> void:
 		agent.target_position = destination
 	var next := agent.get_next_path_position() - global_position
 	next.y = 0
-	var speed: float = type.speed * minf(speed_mul, 1.35) * (1.2 if rage else 1.0)
+	var speed: float = type.speed * minf(speed_mul, 1.35) * (1.25 if rage else 1.0)
 	agent.max_speed = speed
 	agent.velocity = next.normalized() * speed
 	if not is_on_floor(): velocity.y -= 20 * delta
@@ -253,16 +256,18 @@ func resolve_strike() -> void:
 	var actors: Array = NetSession.world.actors.values() if NetSession.is_host() else [player]
 	for actor: Player in actors:
 		if actor.alive and actor.global_position.distance_to(strike_point) < BLAST_RADIUS and clear_strike_line(actor.global_position):
-			actor.damage(48.0 * damage_mul, strike_point)
+			actor.damage(float(type.damage) * damage_mul, strike_point)
 	for b in barricades:
 		if b.hp > 0 and b.attack_point(strike_point).distance_to(strike_point) < BLAST_RADIUS and clear_strike_line(b.attack_point(strike_point), b.body):
-			b.damage(90.0 * damage_mul)
+			b.damage(115.0 * damage_mul)
 	for tower in get_tree().get_nodes_in_group("defence_towers"):
 		if tower.hp > 0 and tower.attack_point(strike_point).distance_to(strike_point) < BLAST_RADIUS and clear_strike_line(tower.attack_point(strike_point), tower.body):
-			tower.damage(95.0 * damage_mul)
+			tower.damage(120.0 * damage_mul)
 	for door: Door in hut_doors:
 		if door.hp > 0 and door.attack_point(strike_point).distance_to(strike_point) < BLAST_RADIUS and clear_strike_line(door.attack_point(strike_point), door.body):
-			door.damage(90.0 * damage_mul)
+			door.damage(115.0 * damage_mul)
+	if is_instance_valid(hut) and hut.hp > 0 and hut.attack_point(strike_point).distance_to(strike_point) < BLAST_RADIUS:
+		hut.damage(220.0 * damage_mul)
 
 func update_warning() -> void:
 	if not warning: return

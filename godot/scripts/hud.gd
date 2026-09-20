@@ -23,6 +23,7 @@ var weapon_label: Label
 var wave_label: Label
 var wave_info: Label
 var wave_bar: ProgressBar
+var hut_label: Label
 var clock_label: Label
 var clock_phase: Label
 var clock_rate: Label
@@ -228,6 +229,11 @@ func _ready() -> void:
 	wave_bar.add_theme_stylebox_override("background", _flat(Color(1, 1, 1, 0.1), 2))
 	wave_bar.visible = false
 	wave.add_child(wave_bar)
+	hut_label = _label("", 12)
+	hut_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hut_label.add_theme_constant_override("outline_size", 3)
+	hut_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.7))
+	wave.add_child(hut_label)
 
 	# world clock
 	var clock := _panel(root, Control.PRESET_TOP_RIGHT, Vector2(-16, 16))
@@ -442,8 +448,8 @@ func _build_controls(box: VBoxContainer) -> void:
 	box.add_child(grid)
 	for pair in [["WASD", "Bewegen"], ["Maus", "Umsehen"], ["Shift", "Sprinten"], ["Leertaste", "Springen"],
 			["Linksklick", "Schiessen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–9 / Mausrad", "Waffe wählen"],
-			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["B", "Inventar"],
-			["Tab", "Auftragsanzeige ein/aus"], ["F", "Taschenlampe"], ["Q", "Nahkampf (Kolbenschlag)"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
+			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten / Hütte reparieren"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["B", "Inventar"],
+			["Tab", "Auftragsanzeige ein/aus"], ["M", "Minimap gross / klein"], ["Strg+Shift+D", "Cheatmenü"], ["F", "Taschenlampe"], ["Q", "Nahkampf (Kolbenschlag)"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110
 		grid.add_child(k)
@@ -833,6 +839,17 @@ func set_ammo(now: int, reserve: int, weapon: String) -> void:
 func set_wave(n: int, info: String) -> void:
 	wave_label.text = "Welle %d" % n
 	wave_info.text = info
+
+# Waldhütte health under the wave bar: green when intact, orange when damaged, pulsing red under attack
+func set_hut(hp: float, max_hp: float, under_attack: bool) -> void:
+	if not hut_label: return
+	hut_label.text = "HÜTTE %d / %d" % [ceili(hp), int(max_hp)]
+	var ratio := clampf(hp / maxf(1.0, max_hp), 0.0, 1.0)
+	var color := Color(0.75, 0.9, 0.7) if ratio > 0.6 else (Color(1.0, 0.65, 0.3) if ratio > 0.25 else Color(1.0, 0.35, 0.25))
+	if under_attack:
+		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.012)
+		color = Color(1.0, 0.15 + 0.35 * pulse, 0.1)
+	hut_label.add_theme_color_override("font_color", color)
 
 func set_wave_progress(remaining: int, total: int) -> void:
 	wave_bar.visible = total > 0 and remaining > 0
