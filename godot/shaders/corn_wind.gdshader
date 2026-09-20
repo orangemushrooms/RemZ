@@ -8,6 +8,9 @@ void vertex() {
  VERTEX.z += cos(TIME*1.1+world.z*0.3)*0.06*weight;
  tint = COLOR;
 }
-void fragment() { float veins = (sin(UV.y*160.0 + sin(UV.x*23.0)*0.5)*0.025 + 0.975);
- float rib = 1.0 + 0.12*exp(-abs(UV.y-0.5)*90.0);
+void fragment() {
+ // Fade subpixel veins instead of letting their stripes sparkle in the wind.
+ float detail = 1.0-smoothstep(0.3,1.0,fwidth(UV.y)*80.0+fwidth(UV.x)*12.0);
+ float veins = 0.975 + sin(UV.y*160.0 + sin(UV.x*23.0)*0.5)*0.025*detail;
+ float rib = 1.0 + 0.12*exp(-abs(UV.y-0.5)*90.0)*detail;
  ALBEDO=pow(tint.rgb,vec3(2.2))*mix(1.0,veins*rib,UV2.x); ROUGHNESS=0.95; }

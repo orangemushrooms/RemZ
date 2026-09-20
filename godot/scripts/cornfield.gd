@@ -15,6 +15,11 @@ var passages: Dictionary = {}
 var birds: Array = []
 var plant_count := 0
 var random := RandomNumberGenerator.new()
+const LOD_DISTANCES := [12.0,42.0]
+const LOD_HYSTERESIS := 2.0
+var _plant_batches: Array[MultiMeshInstance3D] = []
+var _plant_meshes: Array[ArrayMesh] = []
+var _lod_elapsed := 0.0
 
 static var _tree_cells: Dictionary = {}
 static func field_to_world(p: Vector2) -> Vector2:
@@ -89,30 +94,36 @@ func build(main: Node) -> void:
 				plant_count += 1
 	var wind := ShaderMaterial.new()
 	wind.shader = load("res://shaders/corn_wind.gdshader")
+	for asset in ["a","b","far","distant"]:
+		_plant_meshes.append(load("res://assets/cornfield/corn_%s.res" % asset))
 	for key: Vector3i in batches:
 		var tile := Vector3(key.x*BATCH_SIZE,0,key.y*BATCH_SIZE)
-		for lod in 3:
-			var multimesh := MultiMesh.new()
-			multimesh.transform_format = MultiMesh.TRANSFORM_3D
-			var asset: String = ("a" if key.z==0 else "b") if lod==0 else ("far" if lod==1 else "distant")
-			multimesh.mesh = load("res://assets/cornfield/corn_%s.res" % asset)
-			multimesh.instance_count = batches[key].size()
-			for i in multimesh.instance_count:
-				var transform: Transform3D = batches[key][i]
-				transform.origin -= tile
-				multimesh.set_instance_transform(i,transform)
-			var node := MultiMeshInstance3D.new()
-			node.multimesh = multimesh
-			node.material_override = wind
-			node.position = tile
-			node.visibility_range_begin = [0,12,42][lod]
-			node.visibility_range_end = [12,42,150][lod]
-			node.visibility_range_begin_margin = 1
-			node.visibility_range_end_margin = 1
-			node.extra_cull_margin = 0.4
-			node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-			node.add_to_group("render_dynamic")
-			add_child(node)
+		var multimesh := MultiMesh.new()
+		multimesh.transform_format = MultiMesh.TRANSFORM_3D
+		multimesh.mesh = _plant_meshes[3]
+		multimesh.instance_count = batches[key].size()
+		# All detail levels use one stable bound, including maximum wind displacement.
+		var plant_bounds := _plant_meshes[key.z].get_aabb().merge(_plant_meshes[2].get_aabb()).merge(_plant_meshes[3].get_aabb()).grow(0.2)
+		var bounds := AABB()
+		for i in multimesh.instance_count:
+			var transform: Transform3D = batches[key][i]
+			transform.origin -= tile
+			multimesh.set_instance_transform(i,transform)
+			var instance_bounds := transform * plant_bounds
+			bounds = instance_bounds if i==0 else bounds.merge(instance_bounds)
+		multimesh.custom_aabb = bounds
+		var node := MultiMeshInstance3D.new()
+		node.multimesh = multimesh
+		node.material_override = wind
+		node.position = tile
+		node.visibility_range_end = 150
+		node.visibility_range_end_margin = 4
+		node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		node.set_meta("corn_variant",key.z)
+		node.set_meta("corn_lod",2)
+		node.add_to_group("render_dynamic")
+		add_child(node)
+		_plant_batches.append(node)
 	for y in SIZE:
 		for x in SIZE:
 			if passages.has(Vector2i(x,y)): continue
@@ -179,6 +190,28 @@ func build(main: Node) -> void:
 		bird.home = Map.ground_pos(home.x,home.y)+Vector3.UP*(3.7 if bird.owl else 0.2)
 		bird.position = bird.home
 		birds.append(bird)
+
+func _process(delta: float) -> void:
+	_lod_elapsed += delta
+	if _lod_elapsed < 0.1: return
+	_lod_elapsed = 0.0
+	var camera := get_viewport().get_camera_3d()
+	if camera: _update_plant_lods(camera.global_position)
+
+func _update_plant_lods(camera_position: Vector3) -> void:
+	# Swap one mesh instead of independently hiding three overlapping copies.
+	# Shared hysteresis prevents camera bob/wind from toggling whole tiles each frame.
+	for node in _plant_batches:
+		var center := node.global_transform * node.multimesh.custom_aabb.get_center()
+		var distance := camera_position.distance_to(center)
+		var previous: int = node.get_meta("corn_lod")
+		var lod := previous
+		while lod < 2 and distance > LOD_DISTANCES[lod] + LOD_HYSTERESIS: lod += 1
+		while lod > 0 and distance < LOD_DISTANCES[lod-1] - LOD_HYSTERESIS: lod -= 1
+		if lod == previous: continue
+		var mesh_index: int = node.get_meta("corn_variant") if lod == 0 else lod+1
+		node.multimesh.mesh = _plant_meshes[mesh_index]
+		node.set_meta("corn_lod",lod)
 
 func _make_caches() -> void:
 	var ends: Array[Vector2i] = []

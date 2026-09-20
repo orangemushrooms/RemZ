@@ -24,6 +24,30 @@ func run() -> void:
 	var field = game.cornfield
 	check(field.plant_count>35000 and field.plant_count<70000,"Dense field uses a bounded number of batched corn stalks")
 	print("CORN_PLANTS ",field.plant_count)
+	var rendered_instances := 0
+	for batch: MultiMeshInstance3D in field._plant_batches:
+		rendered_instances += batch.multimesh.instance_count
+	check(rendered_instances == field.plant_count,"Each corn stalk has exactly one render instance, without overlapping LOD copies")
+	var sample: MultiMeshInstance3D = field._plant_batches[field._plant_batches.size()/2]
+	var stable_bounds := sample.multimesh.custom_aabb
+	var sample_center := sample.global_transform * stable_bounds.get_center()
+	field._update_plant_lods(sample_center)
+	check(sample.get_meta("corn_lod")==0,"Approaching corn selects its detailed mesh")
+	var stable := true
+	for distance in [11.7,12.3,11.9,12.1,13.0]:
+		field._update_plant_lods(sample_center+Vector3.RIGHT*distance)
+		stable = stable and sample.get_meta("corn_lod")==0
+	check(stable,"Camera bob across the near boundary does not flicker between corn meshes")
+	field._update_plant_lods(sample_center+Vector3.RIGHT*15)
+	check(sample.get_meta("corn_lod")==1,"Moving beyond hysteresis switches once to medium detail")
+	field._update_plant_lods(sample_center+Vector3.RIGHT*45)
+	stable = sample.get_meta("corn_lod")==2
+	for distance in [41.7,42.3,41.9,42.1,41.0]:
+		field._update_plant_lods(sample_center+Vector3.RIGHT*distance)
+		stable = stable and sample.get_meta("corn_lod")==2
+	check(stable,"Distant corn remains stable around its LOD boundary")
+	field._update_plant_lods(sample_center)
+	check(sample.get_meta("corn_lod")==0 and sample.multimesh.custom_aabb==stable_bounds,"Returning to close detail retains the same wind-safe culling bounds")
 	# The headless dummy renderer does not retain MultiMesh instance transforms.
 	if DisplayServer.get_name() != "headless":
 		var south_only := true
@@ -109,6 +133,14 @@ func run() -> void:
 		game.add_child(camera)
 		camera.make_current()
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://../artifacts/cornfield"))
+		# Several frames while moving at the field edge expose tile flashes and gaps.
+		game.day_night.set_process(false)
+		for frame in 8:
+			var edge: Vector2 = field.field_to_world(Vector2(48+frame*0.35,-9))
+			var ahead: Vector2 = field.field_to_world(Vector2(62,18))
+			camera.position = Map.ground_pos(edge.x,edge.y)+Vector3.UP*(1.7+sin(frame*1.7)*0.04)
+			camera.look_at(Map.ground_pos(ahead.x,ahead.y)+Vector3.UP*1.8)
+			await capture("edge-motion-%02d" % frame)
 		var overlook: Vector2 = field.field_to_world(Vector2(70,100))
 		var center: Vector2 = field.field_to_world(Vector2(70,26))
 		camera.position = Map.ground_pos(overlook.x,overlook.y)+Vector3.UP*60
