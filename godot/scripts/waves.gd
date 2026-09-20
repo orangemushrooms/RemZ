@@ -173,7 +173,7 @@ func _complete_wave() -> void:
 		main.music.play("night")
 	completed = wave
 	phase = "idle"
-	timer = 90.0
+	timer = 120.0
 	hud.set_wave_progress(0, total)
 	if "achievements" in main and main.achievements:
 		main.achievements.wave_cleared(wave)

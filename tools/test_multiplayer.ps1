@@ -1,6 +1,7 @@
 param(
     [string]$GodotBinary = 'C:/Users/miche/Desktop/Godot.exe',
-    [int]$Port = 24687
+    [int]$Port = 24687,
+    [switch]$Intro
 )
 $ErrorActionPreference = 'Stop'
 $workspace = Split-Path -Parent $PSScriptRoot
@@ -17,6 +18,7 @@ try {
         $arguments = @('--headless', '--path', 'godot', '--log-file', ('"' + $logPath + '"'),
             '--script', 'res://tests/run.gd', '--', '--suite=multiplayer', '--smoke-test', '--no-foliage',
             "--coop-role=$role", "--coop-port=$Port")
+        if ($Intro) { $arguments += '--test-coop-intro' }
         $process = Start-Process -FilePath $GodotBinary -WorkingDirectory $workspace -ArgumentList $arguments -WindowStyle Hidden -PassThru
         $runs += @{ Role = $role; Process = $process }
     }

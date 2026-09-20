@@ -1,0 +1,13 @@
+{
+  "ai_model": "meshy-7.1",
+  "geometry_resolution": "2k",
+  "image_enhancement": false,
+  "should_texture": true,
+  "enable_pbr": true,
+  "texture_resolution": "4k",
+  "should_remesh": true,
+  "target_polycount": 60000,
+  "topology": "triangle",
+  "save_pre_remeshed_model": true,
+  "pose_mode": "t-pose"
+}

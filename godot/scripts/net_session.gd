@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 1
-const BUILD := "remz-coop-npc-progression-20260919-1"
+const BUILD := "remz-coop-intro-survivor-20260920-2"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -36,6 +36,7 @@ var _cli_used := false
 var _auto_start := 0
 # "Nochmal" / "Neue Runde": the rebuilt scene starts the next round itself instead of showing the start menu.
 var restart_pending := false
+var _round_restart := false
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -235,7 +236,7 @@ func _level_ready(session_epoch: int) -> void:
 	ready_peers[id] = true
 	_world_state.rpc_id(id, epoch, _sequence, world.snapshot(), true)
 	if phase == "running":
-		_begin.rpc_id(id, epoch)
+		_begin.rpc_id(id, epoch, false) # Late joins keep the replicated team position.
 	_send_lobby()
 
 func _send_lobby() -> void:
@@ -261,20 +262,22 @@ func start_game() -> void:
 			changed.emit()
 			return
 	phase = "running"
+	var play_intro: bool = not _round_restart and game.should_play_intro()
+	if play_intro: world.prepare_intro()
 	for id in roster:
 		world.actor(id).active = true
 		world.actor(id).regen_mul = float(game.difficulty.regen)
 		if id != 1: _world_state.rpc_id(id, epoch, _sequence, world.snapshot(), true)
-	_begin.rpc(epoch)
-	_begin(epoch)
+	_begin.rpc(epoch, play_intro)
+	_begin(epoch, play_intro)
 	_send_lobby()
 
 @rpc("authority", "call_remote", "reliable", 0)
-func _begin(session_epoch: int) -> void:
+func _begin(session_epoch: int, play_intro: bool = false) -> void:
 	if epoch != session_epoch: return
 	phase = "running"
 	_applying = true
-	game._on_start()
+	game._on_start(play_intro)
 	_applying = false
 	status = "Koop · %d/4 Spieler" % roster.size()
 	changed.emit()
@@ -301,6 +304,7 @@ func leave(reason := "Sitzung verlassen.") -> void:
 	phase = "offline"
 	_auto_start = 0
 	restart_pending = false
+	_round_restart = false
 	_command_seq = 0
 	_connect_t = 0.0
 	if multiplayer.multiplayer_peer:
@@ -327,6 +331,7 @@ func restart() -> void:
 @rpc("authority", "call_remote", "reliable", 0)
 func _reload(session_epoch: int) -> void:
 	epoch = session_epoch
+	_round_restart = true
 	phase = "lobby"
 	ready_peers.clear()
 	_command_seq = 0

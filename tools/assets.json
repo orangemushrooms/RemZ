@@ -1,4 +1,8 @@
 {
+  "player_survivor": {
+    "prompt": "Realistic adult male human survivor for a grounded AAA forest survival game, anatomically correct athletic average build, realistic face with short brown hair and stubble, olive green field jacket with tailored sleeves and natural fabric folds, charcoal cargo trousers, worn brown leather hiking boots, fitted dark tactical gloves, compact chest rig with canvas pouches, utility belt. Human proportions, head one eighth of total height, detailed hands with five fingers. Standing upright in strict symmetrical T-pose, straight arms sideways, straight legs, feet shoulder width apart. No weapon, no helmet, no mask, no base, no scenery. Fully separate arms and legs, production game character, realistic PBR materials, not cartoon or toy.",
+    "texture_prompt": "Photorealistic muted olive woven canvas jacket, realistic skin pores and natural facial features, short brown hair and stubble, charcoal ripstop cargo pants, weathered brown leather boots, black fabric gloves, subtle mud on boot soles and knees, stitched seams, restrained wear, no painted lighting, no cartoon outlines."
+  },
   "zombie_titan": {
     "prompt": "realistic game character, colossal grotesque zombie titan, emaciated giant humanoid with overlong arms and huge clawed hands, exposed ribcage and spine, torn grey rotting skin hanging in strips, several milky eyes, gaping jaw with broken teeth, remnants of clothing, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
     "texture_prompt": "grey-green rotting flesh, black veins, exposed yellowed bone, dried dark blood, torn cloth, dark realistic PBR"

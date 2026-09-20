@@ -1,0 +1,18 @@
+{
+  "project_name": "Realistic adult male human survivor for a grounded AAA forest survival game, anatomically correct athletic average build, realistic face with short brown hair and stubble, olive green field jacket with tailored sleeves and natural fabric folds, charcoal cargo trousers, worn brown leather hiking boots, fitted dark tactical gloves, compact chest rig with canvas pouches, utility belt. Human proportions, head one eighth of total height, detailed hands with five fingers. Standing upright in strict symmetrical T-pose, straight arms sideways, straight legs, feet shoulder width apart. No weapon, no helmet, no mask, no base, no scenery. Fully separate arms and legs, production game character, realistic PBR materials, not cartoon or toy.",
+  "folder": "player_survivor",
+  "root_task_id": "01a0be76-658d-749e-ada4-a8dda46d5cc9",
+  "created_at": "2026-09-20T12:58:46.012236",
+  "updated_at": "2026-09-20T12:58:46.012254",
+  "tasks": [
+    {
+      "task_id": "01a0be76-658d-749e-ada4-a8dda46d5cc9",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-20T12:58:46.012252"
+    }
+  ]
+}

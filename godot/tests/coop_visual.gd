@@ -37,7 +37,7 @@ func run() -> void:
 	await capture("lobby-1280.png")
 	root.size = Vector2i(1600, 900)
 	net._applying = true
-	game._on_start()
+	game._on_start(false)
 	net._applying = false
 	net.phase = "running"
 	game.waves.set_process(false)

@@ -125,7 +125,11 @@ func host_run() -> void:
 		quit(1)
 		return
 	check(not false in NetSession.ready_peers.values(), "All four maps are ready")
+	if "--test-coop-intro" in OS.get_cmdline_user_args():
+		game._flags.erase("--smoke-test")
+		game._flags.erase("--no-intro")
 	NetSession.start_game()
+	if "--test-coop-intro" in OS.get_cmdline_user_args(): await verify_intro()
 	game.waves.timer = 10000.0
 	game.player.set_physics_process(false)
 	await wait_seconds(1.0)
@@ -407,6 +411,60 @@ func host_run() -> void:
 	write_json("result", {"checks": checks, "failures": failures})
 	quit(0 if failures == 0 else 1)
 
+func verify_intro() -> void:
+	game.player.set_physics_process(false)
+	game.waves.set_process(false)
+	check(game.intro.active and game.intro.phase == "logo" and not game.player.active, "Host starts with the normal intro card")
+	var positions: Array[Vector3] = []
+	for id in NetSession.roster:
+		var p: Player = NetSession.world.actor(id)
+		check(Vector2(p.global_position.x, p.global_position.z).distance_to(Intro.START) < 4.0, "Teammate starts on Sennhofstrasse")
+		for previous in positions: check(previous.distance_to(p.global_position) > 1.0, "Intro spawns do not overlap")
+		positions.append(p.global_position)
+	var c1 := find_peer("c1")
+	var before: Vector3 = NetSession.world.actor(c1).global_position
+	NetSession.world.move_player(c1, before + Vector3(0.2, 0, 0), 0, 0, false, Vector3.RIGHT, NetSession._elapsed)
+	check(NetSession.world.actor(c1).global_position == before, "Logo prevents remote movement")
+	game._pause()
+	game._on_start()
+	check(not game.player.active, "Resume cannot bypass intro card")
+	await command_clients("inspect", ["c1", "c2", "c3"])
+	for label in ["c1", "c2", "c3"]:
+		var report: Dictionary = read_json("done-" + label)
+		check(report.intro_active and report.intro_phase == "logo", label + " plays the intro")
+		check(report.intro_distance < 4.0 and report.wave == 0, label + " retains the road spawn through snapshots")
+	await wait_seconds(Intro.LOGO_IN + Intro.LOGO_HOLD + Intro.LOGO_OUT + Intro.WAKE)
+	check(game.player.active and game.intro.phase == "walk", "Host wakes and can walk")
+	check(game.waves.wave == 0 and game.waves.phase == "intro", "Wave one waits for the road trigger")
+	await command_clients("inspect", ["c1", "c2", "c3"])
+	for label in ["c1", "c2", "c3"]:
+		var report: Dictionary = read_json("done-" + label)
+		check(report.intro_phase == "walk" and report.player_active and report.wave == 0, label + " wakes without starting a local wave")
+	await teleport(c1, Map.ground_pos(118.0, 24.0) + Vector3.UP * 0.3)
+	await wait_seconds(0.3)
+	check(game.waves.wave == 1 and game.waves.phase == "spawning", "A remote teammate releases the host's first wave")
+	await command_clients("inspect", ["c1", "c2", "c3"])
+	for label in ["c1", "c2", "c3"]:
+		var report: Dictionary = read_json("done-" + label)
+		check(report.wave == 1, label + " receives the authoritative first wave")
+	# Continue the existing gameplay suite from its usual campsite fixture.
+	game.intro._end()
+	await command_clients("finish_intro", ["c1", "c2", "c3"])
+	game.waves.queue.clear()
+	game.waves.wave = 0
+	game.waves.phase = "idle"
+	game.waves.timer = 10000.0
+	game.waves.set_process(true)
+	var index := 0
+	for id in NetSession.roster:
+		var p: Player = NetSession.world.actor(id)
+		p.global_position = Map.ground_pos(Map.PLAYER_START.x + index * 1.3, Map.PLAYER_START.y + 1.0) + Vector3.UP * 0.3
+		p.rotation.y = PI
+		p.velocity = Vector3.ZERO
+		index += 1
+	for id in NetSession.roster:
+		if id != 1: NetSession._world_state.rpc_id(id, NetSession.epoch, NetSession._sequence, NetSession.world.snapshot(), true)
+
 func client_run() -> void:
 	while not FileAccess.file_exists(folder + "host-ready.json"): await wait_seconds(0.2)
 	check(NetSession.join("127.0.0.1", role, test_port) == OK, "Client creates connection")
@@ -425,6 +483,7 @@ func client_run() -> void:
 			args[0] = int(args[0])
 			args[1] = float(args[1])
 		match request.action:
+			"finish_intro": game.intro._end()
 			"wait_tower_removed":
 				var deadline := Time.get_ticks_msec() + 5000
 				while not game.defences.towers.is_empty() and Time.get_ticks_msec() < deadline:
@@ -506,6 +565,8 @@ func client_run() -> void:
 			tower_shots += tower.shots
 			tower_hp += tower.hp
 		write_json("done-"+role, {"step": step_seen, "players": NetSession.roster.size(), "avatars": NetSession.world.avatars.size(),
+			"intro_active": game.intro.active, "intro_phase": game.intro.phase, "player_active": game.player.active,
+			"intro_distance": Vector2(game.player.global_position.x, game.player.global_position.z).distance_to(Intro.START), "wave": game.waves.wave,
 			"towers": game.defences.towers.size(), "tower_shots": tower_shots, "tower_hp": tower_hp,
 			"tower_yaw": game.defences.towers.values()[0].rotation.y if game.defences.towers.size() else 0.0,
 			"skins": game.weapons.skins, "progress_people": game.progression.people.size(),

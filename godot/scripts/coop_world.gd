@@ -20,6 +20,21 @@ var next_id := 1
 var local_dead := false
 var current_wave := 0
 var state_loaded := false
+var intro_lock := 0.0
+
+func prepare_intro() -> void:
+	game.waves.phase = "intro"
+	intro_lock = Intro.LOGO_IN + Intro.LOGO_HOLD + Intro.LOGO_OUT
+	var ids: Array = actors.keys()
+	ids.sort()
+	for index in ids.size():
+		var p: Player = actor(ids[index])
+		p.global_position = Intro.start_position(index)
+		p.velocity = Vector3.ZERO
+		p.rotation.y = Intro.START_YAW
+		p.pitch = 0.0
+		p.head.rotation.x = 0.0
+		pose_times[ids[index]] = NetSession._elapsed
 
 func setup(node: Node3D) -> void:
 	game = node
@@ -124,6 +139,7 @@ func nearest_player(position: Vector3) -> Player:
 	return nearest
 
 func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, now: float) -> void:
+	if intro_lock > 0.0: return
 	var p: Player = actor(id)
 	if not p or not p.alive: return
 	var dt := clampf(now - float(pose_times.get(id, now)), 0.01, 0.5)
@@ -149,6 +165,7 @@ func _aim(p: Player, args: Array, offset: int) -> bool:
 	return true
 
 func action(id: int, operation: String, args: Array) -> void:
+	if intro_lock > 0.0: return
 	var p: Player = actor(id)
 	if not p or not p.alive: return
 	var w: Weapons = weapons[id]
@@ -316,6 +333,13 @@ func _close_local_menus() -> void:
 
 func tick(delta: float) -> void:
 	if NetSession.is_host():
+		intro_lock = maxf(0.0, intro_lock - delta)
+		# Any teammate can reach the junction; only the host releases wave one.
+		if intro_lock == 0.0 and game.waves.phase == "intro" and game.waves.wave == 0:
+			for p: Player in actors.values():
+				if p.alive and game.intro.distance_to_road(p.global_position) < 5.0:
+					game.waves.start(1)
+					break
 		for id in avatars: avatars[id].set_weapon(weapons[id].current)
 		for id in rage:
 			if rage[id] > 0:

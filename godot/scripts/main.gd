@@ -161,7 +161,7 @@ func _ready() -> void:
 	add_child(intro)
 	intro.setup(self, player, settings.env)
 	intro.road_reached.connect(func():
-		if waves.wave == 0: waves.start(1))
+		if not NetSession.enabled and waves.wave == 0: waves.start(1))
 	cheat_menu = preload("res://scripts/cheat_menu.gd").new()
 	cheat_menu.main = self
 	add_child(cheat_menu)
@@ -2160,7 +2160,14 @@ func _build_foliage() -> void:
 		add_child(Foliage.falling_leaves(Map.ground_pos(Map.FIRE.x, Map.FIRE.y) + Vector3(0, 9, 10), Vector3(45, 7, 40)))
 
 # ---------------------------------------------------------------- game flow
-func _on_start() -> void:
+func should_play_intro() -> bool:
+	if _restarted or _autotest: return false
+	for flag in _flags:
+		if flag in ["--no-intro", "--benchmark", "--smoke-test", "--shot-ui"] or flag.begins_with("--view=") or flag.begins_with("--views="):
+			return false
+	return true
+
+func _on_start(play_intro: bool = true) -> void:
 	if not navigation_ready:
 		return
 	if NetSession.enabled and not NetSession._applying:
@@ -2177,20 +2184,18 @@ func _on_start() -> void:
 		return
 	get_tree().paused = false
 	hud.hide_overlay()
-	player.active = player.alive
+	player.active = player.alive and not (intro.active and intro.phase == "logo")
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if player.active else Input.MOUSE_MODE_VISIBLE
 	if not started:
-		var skip_intro := NetSession.enabled or _restarted or "--no-intro" in _flags or _autotest or "--benchmark" in _flags or "--smoke-test" in _flags
-		for f in _flags:
-			if f.begins_with("--view=") or f.begins_with("--views=") or f == "--shot-ui":
-				skip_intro = true
-		if skip_intro or "--shot-ui" in _flags:
+		# The host supplies the decision to clients, including late joins.
+		var show_intro := play_intro if NetSession.enabled else play_intro and should_play_intro()
+		if not show_intro:
 			if not "--no-music" in _flags:
 				music.play("night")
 		else:
 			waves.phase = "intro"
 			music.stop_all()   # only the intro track plays during the opening, the menu music fades out
-			intro.begin()
+			intro.begin(NetSession.enabled)
 	started = true
 
 func _pause() -> void:

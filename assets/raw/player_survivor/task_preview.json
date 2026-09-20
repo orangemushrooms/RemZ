@@ -1,0 +1,27 @@
+{
+  "id": "01a0be75-4606-7728-9146-833b624b2f8e",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 81308176,
+  "prompt": "Realistic adult male human survivor for a grounded AAA forest survival game, anatomically correct athletic average build, realistic face with short brown hair and stubble, olive green field jacket with tailored sleeves and natural fabric folds, charcoal cargo trousers, worn brown leather hiking boots, fitted dark tactical gloves, compact chest rig with canvas pouches, utility belt. Human proportions, head one eighth of total height, detailed hands with five fingers. Standing upright in strict symmetrical T-pose, straight arms sideways, straight legs, feet shoulder width apart. No weapon, no helmet, no mask, no base, no scenery. Fully separate arms and legs, production game character, realistic PBR materials, not cartoon or toy.",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1789901753483,
+  "progress": 100,
+  "started_at": 1789901753492,
+  "finished_at": 1789901816654,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0be75-4606-7728-9146-833b624b2f8e/output/model.glb?Expires=4943462400&Signature=DGyLkb80XDHiMXz4iMR-rxWcJJOOMqMqedKzjo3XNRIL3G3q~ZHU75IAyvBy4Qz3PFioZvZcgBnh5unQzkzo22zu2T3t7p7g5TrjCh~iucLWyvpytbRC4yGzG4YtK-8cIDM1hcbOeOjrKIO5-w~2MnpYcxMY66OMlxGbPQrG-yqWkZ0F-wOoMZwPtXJRXt8dNwjKBb70B8cSHhqwCBDBGcYLb4tH~CXodwO2pInbQezB88S8VHR8oPjzMSrYi5acs9Wzbv6No0mEV1uv-JmxdRH0Aryp9Fi5YWZo-kSDdU0gAaofXfa05NVLqmxfjUtBNIwL8dFVT2gsy3~yIi0~-g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0be75-4606-7728-9146-833b624b2f8e/output/model.fbx?Expires=4943462400&Signature=qeAdhZEIvznijJqbV0aQMSIPo0BZO9T8W8YaM7HKy5czTZpN8BKLXZsD8DE7medvlPmOGu9x8lTmeKMb4nYmY99TW0F7P00h8e2whYE7ckQJeCq-mw4fXOm2ZLF1vMTlsxjCa9xssMdWw0v9V-nN3LIv58ial5aQeMJcvmrHdWH68gLbQBhq3KmOcrp1t1r73HbBGwaFwlyXwIT2qaufb2eS6NIph9ED7QvgIg77Jw1~nG1eEjBt5UlitVGktSpeGPNIXxQfb7n1Wcr30qNYS6IqBL3RjK-gM6iCyvidaD-0gOfOtJA9H1sUj8412wnimzZCiRQzzHD6wg9qPMAykQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0be75-4606-7728-9146-833b624b2f8e/output/model.usdz?Expires=4943462400&Signature=bR-xZ6HUpfrkwx~kWF3yl4RNM~2Ie1Vca7Q5BwqF4OmY6~yZogaAutyUiodZNTN0CklsJ87r-QP~3r6m6KTIhVUXVLfLatJkLwHswejMzcadRN0-vtZWSw5QtYGi8UUCI5izo2CAbJ85XaD-7bjP71Hu~qbuucKQbu0Lg1KOjjR1DMiZPg9wCGpUwQGvTvl8gDqWxJoWo6LXH-JvT~jy8JZ-jpCKKpalX4upHrttj~ZEynEkluiIRTeal45sTYU3qPB~HMCK1ZZfC2xCvjmjEiIuGwOfwAExA9RN4wZKY1bRlb-jS1x-cNU6Lp8zEmvH26~LAAM-1D2ehsq4cM3LnA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0be75-4606-7728-9146-833b624b2f8e/output/model.obj?Expires=4943462400&Signature=qPW2SRRcJWOQ-IDVYqdxTatR-9NK5BhWN6Kyixb5uhi0DWs7hhCxxC3bqGs660lawihQuMgSzO7AVaGG7DggkIH9mOOB-dN6w~NCh0rCCkbxxu6~TThG-Z5EZGsVYDw4blegxh11ssC70-ZY-k~5Ukm4urGhbIPgPXUkkyB22MSTJ0eAL5K1OxWQ91wGq-Bvxbgo5S1De6KcntHvgEPyqga-eN4Z0ee4w60rIdsNkxSqUJys4z2SZumeOhzQIDpj0BMYtLbnRh6jhpKlEgSXNwJgOe8H1Fjy7k54UVU50b9shOvWaayaK8jcfRM713rXx-9LLNVFsIDfIqYwoktzJA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0be75-4606-7728-9146-833b624b2f8e/output/model.stl?Expires=4943462400&Signature=kJKjDpAMgrWIoYt3LIHEyDqdbrrTU9WRmN72jCUX0suUrvEfZdpLaP4V3FHtsUcjTYDfuO9c7tuQERog2QA2L-A6TJHtHgMqlxeiOt8PSow~yFbbud1EqecZ0j3LVCsP5u1mTO5H4IyU~RlMPYYATdqVtlK-v5yFMFDnvQ48t5CrInDidCMKLGDIr5oS54t5P~M0m6n~qF01uoq-zPYTuzfYTK90aLSkxcuGtbQxuHKpfcdRZY0frsGE5SNgx70SKcz9jCEAq9qMBPGlUIRUgs0UrVLbKB8Ppq-L0BW46vdK34BMIyFKSZrRrhnxjvf--UCasjksdADmPii64jTLoQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0be75-4606-7728-9146-833b624b2f8e/output/preview.png?Expires=4943462400&Signature=elXNOX9b-YkJFb-NhhgtZLCLVZI04T0TVOc4Z4fGGOVGaC8D23ZUda61Xp59r72QzC1SO1B-Va0Isnv~HVUJnl6r3I0U~nu7~ipg9ZsDF9Dal2R9gSrNlWu-8Ja1kHRBIJ4WdOejy7QaTzWcqF1GSkdERFXSHnhrXcFDqWUgmdOAcrLLxIGUW3fdNXDY084nPrqRgflTs1s2ypldhuS~OaTPbTp3zlsaAGyYjBllIPu9UiJXtWC5CWgEE24lsaEakRAeZPhP1FIh61h05qeZrXS20VKUkjdjq005Y2g8uzjyeNfi5rnvvlxRd-yrmABFkUHCElgZPjn3DPXjF8OIxA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

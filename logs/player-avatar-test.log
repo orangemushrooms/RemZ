@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+WARNING: 'res://assets/models/player_survivor.glb': In external resource #0, invalid UID: 'uid://cn4yb3fdikqy6' - using text path instead: 'res://assets/models/player_survivor_texture_0.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] setup (res://scripts/survivor_rig.gd:17)
+       [1] setup (res://scripts/coop_avatar.gd:28)
+       [2] run (res://tests/player_avatar.gd:61)
+WARNING: 'res://assets/models/player_survivor.glb': In external resource #1, invalid UID: 'uid://b8i70h4441tlo' - using text path instead: 'res://assets/models/player_survivor_titan_metal_rough.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] setup (res://scripts/survivor_rig.gd:17)
+       [1] setup (res://scripts/coop_avatar.gd:28)
+       [2] run (res://tests/player_avatar.gd:61)
+WARNING: 'res://assets/models/player_survivor.glb': In external resource #2, invalid UID: 'uid://fm4uhqhnv1eo' - using text path instead: 'res://assets/models/player_survivor_titan_normal.webp'.
+   at: open (core/io/resource_format_binary.cpp:1025)
+   GDScript backtrace (most recent call first):
+       [0] setup (res://scripts/survivor_rig.gd:17)
+       [1] setup (res://scripts/coop_avatar.gd:28)
+       [2] run (res://tests/player_avatar.gd:61)
+PLAYER_AVATAR_DONE checks=59 failures=0

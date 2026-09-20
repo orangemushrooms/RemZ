@@ -135,7 +135,11 @@ func setup(m: Node, p: Player, e: Environment) -> void:
 func showing_guidance() -> bool:
 	return active or (_text != null and _text.visible)
 
-func begin() -> void:
+static func start_position(index: int = 0) -> Vector3:
+	var point := START + Vector2(float(index % 2) * 1.3, float(index / 2) * 1.5)
+	return Map.ground_pos(point.x, point.y) + Vector3.UP * 0.3
+
+func begin(keep_position: bool = false) -> void:
 	active = true
 	phase = "logo"
 	_t = 0.0
@@ -143,7 +147,7 @@ func begin() -> void:
 	_vfog_base = env.volumetric_fog_density
 	_sky_affect_base = env.fog_sky_affect
 	_aerial_base = env.fog_aerial_perspective
-	player.global_position = Map.ground_pos(START.x, START.y) + Vector3(0, 0.3, 0)
+	if not keep_position: player.global_position = start_position()
 	player.velocity = Vector3.ZERO
 	player.rotation.y = START_YAW
 	player.pitch = 0.0
@@ -195,7 +199,10 @@ func _path_progress() -> float:
 	return _path_prog
 
 func _dist_to_road() -> float:
-	var p := Vector2(player.global_position.x, player.global_position.z)
+	return distance_to_road(player.global_position)
+
+func distance_to_road(at: Vector3) -> float:
+	var p := Vector2(at.x, at.z)
 	var best := 1e9
 	for i in _road_pts.size() - 1:
 		var q := Geometry2D.get_closest_point_to_segment(p, _road_pts[i], _road_pts[i + 1])
@@ -219,7 +226,7 @@ func _process(delta: float) -> void:
 				_logo.visible = false
 				phase = "wake"
 				_t = 0.0
-				player.active = true
+				player.active = player.alive and not main.hud.overlay.visible
 				_text.visible = true
 				_text.text = ""
 				_typed = 0.0
@@ -246,7 +253,7 @@ func _process(delta: float) -> void:
 			var pp := _path_progress()
 			var base_db := MUSIC_DB + linear_to_db(maxf(0.001, pow(1.0 - pp, 2.2)))
 			var to_hut := Vector2(player.global_position.x, player.global_position.z).distance_to(WAYPOINTS[WAYPOINTS.size() - 1])
-			if _fade_t < 0.0 and (_road_done or to_hut < MUSIC_STOP_DIST):
+			if _fade_t < 0.0 and (_road_done or main.waves.wave > 0 or to_hut < MUSIC_STOP_DIST):
 				_fade_t = 0.0
 			if _fade_t >= 0.0:
 				_fade_t += delta
