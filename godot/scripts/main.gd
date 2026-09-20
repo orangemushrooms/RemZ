@@ -2352,6 +2352,7 @@ func _zombie_killed(zombie: Zombie) -> void:
 	var scorer: Player = NetSession.world.actor(zombie.killer_peer) if NetSession.is_host() else player
 	if not is_instance_valid(scorer): scorer = player
 	if zombie.killer_weapon == "tower": points = maxi(1, roundi(points * 0.5))
+	points = maxi(1, roundi(points * scorer.relic_multiplier("score")))
 	scorer.add_score(points)
 	progression.rare_market.on_kill(scorer, zombie.killer_weapon)
 	progression.event("kills")

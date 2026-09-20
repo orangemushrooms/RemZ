@@ -40,12 +40,44 @@ func run() -> void:
 	game.waves.wave = 5
 	game.waves.completed = 4
 	for i in 8: market._physics_process(0.1)
-	check(market.active and market.stock.has("hawk") and market.stock.has("fire"), "Wave five spawns merchant with first legendary and fire ammo")
+	var relics := 0
+	for id in market.stock:
+		if market.Items.DEFS[id].kind == "relic": relics += 1
+	check(market.active and relics >= 3 and market.stock.has("fire"), "Wave five spawns merchant with three legendaries and fire ammo (%d relics)" % relics)
+	game.day_night.clock_seconds = 2 * 3600
+	market.stock_key = ""
+	market.here_region = "N"
+	market.restock(5)
+	var night_ok := true
+	for id in market.stock:
+		var spec: Dictionary = market.Items.DEFS[id]
+		if spec.has("time") and "night" not in spec.time: night_ok = false
+		if spec.has("region") and "N" not in spec.region: night_ok = false
+	check(night_ok and market.stock.size() >= 4, "Night stock in the north forest only carries goods offered there at night")
+	game.day_night.clock_seconds = 12 * 3600
+	market.here_region = "S"
+	market.restock(5)
+	var day_ok := true
+	for id in market.stock:
+		var spec: Dictionary = market.Items.DEFS[id]
+		if spec.has("time") and "day" not in spec.time: day_ok = false
+		if spec.has("region") and "S" not in spec.region: day_ok = false
+	check(day_ok and market.stock_key.ends_with("day|S"), "Daylight and a new forest quarter reroll the assortment")
+	market.stock["hawk"] = 1
 	var origin: Vector3 = market.npc.global_position
 	for i in 200:
 		market._physics_process(0.1)
 		if i % 10 == 0: await physics_frame
 	check(origin.distance_to(market.npc.global_position) > 4, "Merchant actually walks through the forest along navigation paths")
+	var off_road := 0
+	var samples := 0
+	for i in 40:
+		var goal: Vector3 = market.choose_destination()
+		if goal == Vector3.INF: continue
+		samples += 1
+		if Map.in_forest(goal.x, goal.z) and not Map.on_road(goal.x, goal.z, market.ROAD_CLEARANCE - 0.5): off_road += 1
+	check(samples >= 30 and off_road == samples, "Merchant destinations are random forest spots clear of every road (%d/%d)" % [off_road, samples])
+	check(Progression.VOCALS.get("wanderer", "") == "secret_vendor_vocal" and Sfx.get_stream("secret_vendor_vocal") != null, "Merchant greets with the secret vendor voice line")
 	check(market.npc.anim.has_animation("walk") and market.npc.anim.get_animation("walk").get_track_count() > 10, "Merchant has a retargeted skeletal walk animation")
 	p.global_position = market.npc.global_position + Vector3(0, 0, 2)
 	await physics_frame

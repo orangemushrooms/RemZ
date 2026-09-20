@@ -15,6 +15,7 @@ var moving := false
 var target_position := Vector3.ZERO
 var target_rotation := 0.0
 var statuses: Dictionary = {}
+const ROAD_CLEARANCE := 6.0  # metres beyond the road edge the merchant keeps to (he roams the forest, not the tracks)
 
 func setup(main: Node, merchant: WorldNpc) -> void:
 	game = main
@@ -28,18 +29,54 @@ func data(peer: int) -> Dictionary:
 	if not people.has(peer): people[peer] = {"owned": {}, "active": "", "ammo": {"fire": 0, "frost": 0}, "mode": "", "phoenix_wave": -1}
 	return people[peer]
 
+const REGION_NAMES := {"N": "Nordwald", "E": "Ostwald", "S": "Südwald", "W": "Westwald"}
+var stock_key := ""   # wave | phase | region the current assortment was rolled for
+var here_region := ""  # forest quarter of the merchant's last stop
+
+# Compass quarter of the merchant's position around the campsite (real north, not the plan's frame).
+func region_at(pos: Vector3) -> String:
+	var d := Vector2(pos.x - Map.FIRE.x, pos.z - Map.FIRE.y)
+	if d.length() < 1: return "N"
+	if absf(d.x) >= absf(d.y): return "E" if d.x > 0 else "W"
+	return "S" if d.y > 0 else "N"
+
+func phase() -> String:
+	if not game or not game.day_night: return "night"
+	return "day" if DayNightCycle.daylight_at(game.day_night.clock_seconds / 3600.0) >= 0.5 else "night"
+
+func region_name() -> String:
+	return REGION_NAMES.get(here_region, "Wald")
+
+func offered(spec: Dictionary, wave: int, at_phase: String, in_region: String) -> bool:
+	if spec.kind != "relic" or int(spec.level) > wave + 2: return false
+	if spec.has("time") and at_phase not in spec.time: return false
+	if spec.has("region") and in_region not in spec.region: return false
+	return true
+
 func restock(wave: int) -> void:
-	if wave < 5 or wave == stock_wave: return
+	if wave < 5: return
+	if here_region.is_empty(): here_region = region_at(npc.global_position)
+	var at_phase := phase()
+	var key := "%d|%s|%s" % [wave, at_phase, here_region]
+	if key == stock_key: return
+	stock_key = key
 	stock_wave = wave
 	stock = {"fire": 3}
 	if wave >= 7: stock.frost = 2
+	# Weighted draw: goods bound to this time of day or this part of the forest turn up more often.
 	var choices: Array = []
+	var weights := PackedFloat32Array()
 	for id in Items.DEFS:
-		if Items.DEFS[id].kind == "relic" and int(Items.DEFS[id].level) <= wave + 2: choices.append(id)
-	for i in mini(2, choices.size()):
-		var index := random.randi_range(0, choices.size() - 1)
+		var spec: Dictionary = Items.DEFS[id]
+		if not offered(spec, wave, at_phase, here_region): continue
+		choices.append(id)
+		weights.append(1.0 + (2.0 if spec.has("time") else 0.0) + (2.0 if spec.has("region") else 0.0))
+	var count := mini(choices.size(), 3 + (1 if wave >= 8 else 0) + (1 if wave >= 12 else 0))
+	for i in count:
+		var index := random.rand_weighted(weights)
 		stock[choices[index]] = 1
 		choices.remove_at(index)
+		weights.remove_at(index)
 
 func buy(p: Player, id: String) -> String:
 	if not active or not stock.has(id) or not Items.DEFS.has(id): return "Diese Rarität ist gerade nicht im Sortiment."
@@ -161,6 +198,7 @@ func _physics_process(delta: float) -> void:
 		var spawn := choose_destination()
 		if spawn == Vector3.INF: return
 		npc.global_position = spawn
+		here_region = region_at(spawn)
 		active = true
 		npc.show()
 		npc.body.collision_layer = 1
@@ -178,6 +216,7 @@ func _physics_process(delta: float) -> void:
 	if path_index >= path.size():
 		if retry > 0: return
 		retry = 2.0
+		here_region = region_at(npc.global_position)
 		var destination := choose_destination()
 		if destination == Vector3.INF: return
 		path = NavigationServer3D.map_get_path(game.nav_region.get_navigation_map(), npc.global_position, destination, true)
@@ -205,18 +244,19 @@ func _physics_process(delta: float) -> void:
 	animate()
 
 func choose_destination() -> Vector3:
+	# A random spot somewhere in the forest, well clear of every road and building,
+	# reachable over the navmesh from the current position.
 	var nav: RID = game.nav_region.get_navigation_map()
 	if NavigationServer3D.map_get_iteration_id(nav) == 0: return Vector3.INF
-	for attempt in 32:
-		var road: Dictionary = Map.ROADS[random.randi_range(0, Map.ROADS.size() - 1)]
-		var segment := random.randi_range(0, road.pts.size() - 2)
-		var candidate: Vector2 = road.pts[segment].lerp(road.pts[segment + 1], random.randf())
-		candidate += Vector2(random.randf_range(-5, 5), random.randf_range(-5, 5))
-		if not Map.in_forest(candidate.x, candidate.y) or Map.in_building(candidate.x, candidate.y, 5): continue
+	var area := Map.extent()
+	for attempt in 48:
+		var candidate := Vector2(random.randf_range(area.position.x, area.end.x), random.randf_range(area.position.y, area.end.y))
+		if not Map.in_forest(candidate.x, candidate.y): continue
+		if Map.on_road(candidate.x, candidate.y, ROAD_CLEARANCE) or Map.in_building(candidate.x, candidate.y, 6): continue
 		var ground := Map.ground_pos(candidate.x, candidate.y)
 		var point := NavigationServer3D.map_get_closest_point(nav, ground)
 		if point.distance_to(ground) > 1.5: continue
-		if active and point.distance_to(npc.global_position) < 15: continue
+		if active and point.distance_to(npc.global_position) < 20: continue
 		var origin: Vector3 = npc.global_position if active else Map.ground_pos(Map.FIRE.x, Map.FIRE.y)
 		var route := NavigationServer3D.map_get_path(nav, origin, point, true)
 		if route.is_empty() or route[route.size() - 1].distance_to(point) > 1: continue
@@ -234,7 +274,7 @@ func animate() -> void:
 			break
 
 func snapshot() -> Dictionary:
-	return {"active": active, "pos": npc.global_position, "yaw": npc.figure.rotation.y, "moving": moving, "wave": stock_wave, "stock": stock.duplicate(), "people": people.duplicate(true)}
+	return {"active": active, "pos": npc.global_position, "yaw": npc.figure.rotation.y, "moving": moving, "wave": stock_wave, "key": stock_key, "region": here_region, "stock": stock.duplicate(), "people": people.duplicate(true)}
 
 func apply_snapshot(s: Dictionary) -> void:
 	var previous := data(game.player.peer_id).duplicate(true)
@@ -247,6 +287,8 @@ func apply_snapshot(s: Dictionary) -> void:
 	moving = s.get("moving", false)
 	if fresh: npc.global_position = target_position
 	stock_wave = int(s.get("wave", 0))
+	stock_key = str(s.get("key", ""))
+	here_region = str(s.get("region", ""))
 	stock = s.get("stock", {}).duplicate()
 	people = s.get("people", {}).duplicate(true)
 	var current := data(NetSession.local_id() if NetSession.enabled else game.player.peer_id)

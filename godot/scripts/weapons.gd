@@ -189,7 +189,7 @@ func cur() -> Dictionary:
 	return state[current]
 
 func effective_damage_mul() -> float:
-	return damage_mul * player.mushroom_multiplier("damage")
+	return damage_mul * player.mushroom_multiplier("damage") * player.relic_multiplier("damage")
 
 func effective_reload_mul() -> float:
 	return reload_mul * player.mushroom_multiplier("reload") * player.relic_multiplier("reload")

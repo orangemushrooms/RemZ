@@ -634,7 +634,7 @@ func interact(id: String) -> void:
 	_render()
 
 # NPC greeting when the dialogue opens (random variant per NPC, plays through the pause)
-const VOCALS := {"camp": "vendor_vocal", "secret": "secret_vendor_vocal", "mechanic": "mechanic_vocal"}
+const VOCALS := {"camp": "vendor_vocal", "secret": "secret_vendor_vocal", "wanderer": "secret_vendor_vocal", "mechanic": "mechanic_vocal"}
 var _greeting: AudioStreamPlayer
 
 func _greet(id: String) -> void:
@@ -836,14 +836,14 @@ func _render() -> void:
 				var detail: String = spec.desc + "\n%d / %d im Inventar · Feuerwerktasche %d / %d" % [game.fireworks.stock(p.peer_id)[id], spec.limit, game.fireworks.count(p.peer_id), Fireworks.CAPACITY]
 				_row(spec.name, detail, "%s · %d P" % ["5er-Pack" if spec.pack == 5 else "1 Rakete", spec.price], request.bind("firework", id), not blocked.is_empty(), blocked)
 		"Raritäten":
-			_info("Wechselndes Sortiment pro Welle · Bestand mit allen Spielern geteilt.\nEin Talisman aktiv. Auswahl und Spezialmunition im Inventar [I]. Käufe gelten für diese Runde.", 14)
+			_info("Sortiment wechselt mit Welle, Tageszeit und Standort · Bestand mit allen Spielern geteilt.\nGerade: %s · %s. Ein Talisman aktiv. Auswahl und Spezialmunition im Inventar [I]. Käufe gelten für diese Runde." % ["Tag" if rare_market.phase() == "day" else "Nacht", rare_market.region_name()], 14)
 			for id in rare_market.stock:
 				var spec: Dictionary = rare_market.Items.DEFS[id]
 				var owned: bool = rare_market.data(p.peer_id).owned.get(id, false)
 				var blocked := ""
 				if not owned:
 					if mission_level() < int(spec.level): blocked = "Einsatzlevel %d benötigt (aktuell %d)." % [spec.level, mission_level()]
-					elif int(rare_market.stock[id]) <= 0: blocked = "Ausverkauft · Neue Ware ab nächster Welle."
+					elif int(rare_market.stock[id]) <= 0: blocked = "Ausverkauft · Neue Ware beim nächsten Halt oder ab nächster Welle."
 					elif p.score < int(spec.price): blocked = "Zu wenig Punkte: %d P benötigt." % spec.price
 				_row(spec.name, spec.desc + "\nLevel %d · Bestand %d" % [spec.level, rare_market.stock[id]], "Aktivieren" if owned else "Kaufen · %d P" % spec.price, request.bind("rare", id), not blocked.is_empty(), blocked)
 		"Mods": _render_mods(p)
