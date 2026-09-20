@@ -1,0 +1,20 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Developement/RemZ/builds/windows/RemZ.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 671, "batches": 9, "removed_render_nodes": 24 }
+COOP_LOAD MAP_READY
+COOP_LOAD HOST_CREATE port=24735
+COOP_HOST_READY port=24735
+COOP_LOAD HOST_READY
+COOP_LOAD PEER_CONNECTED id=293841040
+COOP_PEER_ACCEPTED count=2
+COOP_LOAD INITIAL_SEND peer=293841040 raw=14916 bytes=2728 parts=4
+COOP_LOAD CLIENT_READY peer=293841040
+COOP_LOAD ROUND_START_SEND players=2
+COOP_LOAD STATE_SEND peer=293841040 raw=14920 bytes=2717 parts=4
+COOP_LOAD ROUND_BEGIN intro=true
+COOP_LOAD ROUND_RUNNING players=2
+COOP_RUNNING players=2

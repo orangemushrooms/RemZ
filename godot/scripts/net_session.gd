@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 2
-const BUILD := "remz-autorefill-20260920"
+const BUILD := "remz-coop-startfix-20260920"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -288,23 +288,29 @@ func _level_ready(session_epoch: int) -> void:
 	if ready_peers.get(id, false) or _loading_peers.has(id): return
 	_loading_peers[id] = true
 	_rates[id].deadline = _elapsed + 120.0
+	_sequence += 1
+	send_reliable_state(id, true, true)
+
+func send_reliable_state(id: int, initial: bool, acknowledge := false) -> void:
+	# Advance _sequence once at the caller, so a broadcast has one shared version.
+	if not is_host() or not world: return
 	var raw := var_to_bytes(world.snapshot())
 	var packed := raw.compress(FileAccess.COMPRESSION_DEFLATE)
 	var count := ceili(float(packed.size()) / SNAPSHOT_CHUNK)
-	trace_load("INITIAL_SEND peer=%d bytes=%d parts=%d" % [id, packed.size(), count])
+	trace_load("%s peer=%d raw=%d bytes=%d parts=%d" % ["INITIAL_SEND" if acknowledge else "STATE_SEND", id, raw.size(), packed.size(), count])
 	# Also keep the initial reliable transfer below the tunnel MTU. Sending one
 	# large RPC here used ENet fragmentation, unlike our small in-game snapshots.
 	for part in count:
-		_initial_part.rpc_id(id, epoch, _sequence, part, count, raw.size(), packed.slice(part * SNAPSHOT_CHUNK, (part + 1) * SNAPSHOT_CHUNK))
+		_initial_part.rpc_id(id, epoch, _sequence, part, count, raw.size(), packed.slice(part * SNAPSHOT_CHUNK, (part + 1) * SNAPSHOT_CHUNK), initial, acknowledge)
 
 @rpc("authority", "call_remote", "reliable", 0)
-func _initial_part(session_epoch: int, sequence: int, part: int, count: int, raw_size: int, bytes: PackedByteArray) -> void:
+func _initial_part(session_epoch: int, sequence: int, part: int, count: int, raw_size: int, bytes: PackedByteArray, initial := true, acknowledge := true) -> void:
 	if epoch != session_epoch or sequence <= _initial_received or not world: return
 	if count < 1 or count > 600 or part < 0 or part >= count or raw_size < 1 or raw_size > 524288 or bytes.size() > SNAPSHOT_CHUNK: return
 	if _initial_parts.is_empty():
-		_initial_parts = {"sequence": sequence, "count": count, "size": raw_size, "parts": {}}
-		trace_load("INITIAL_RECEIVE parts=%d" % count)
-	if _initial_parts.sequence != sequence or _initial_parts.count != count or _initial_parts.size != raw_size: return
+		_initial_parts = {"sequence": sequence, "count": count, "size": raw_size, "parts": {}, "initial": initial, "acknowledge": acknowledge}
+		trace_load("%s parts=%d" % ["INITIAL_RECEIVE" if acknowledge else "STATE_RECEIVE", count])
+	if _initial_parts.sequence != sequence or _initial_parts.count != count or _initial_parts.size != raw_size or _initial_parts.initial != initial or _initial_parts.acknowledge != acknowledge: return
 	_initial_parts.parts[part] = bytes
 	if _initial_parts.parts.size() != count: return
 	var packed := PackedByteArray()
@@ -315,7 +321,11 @@ func _initial_part(session_epoch: int, sequence: int, part: int, count: int, raw
 	var data = bytes_to_var(unpacked)
 	if not data is Dictionary: return
 	_initial_received = sequence
-	_initial_state(session_epoch, sequence, data)
+	if acknowledge:
+		_initial_state(session_epoch, sequence, data)
+	else:
+		_world_state(session_epoch, sequence, data, initial)
+		trace_load("STATE_APPLY_DONE sequence=%d" % sequence)
 
 func _initial_state(session_epoch: int, sequence: int, data: Dictionary) -> void:
 	if epoch != session_epoch or not world: return
@@ -366,13 +376,15 @@ func start_game() -> void:
 			status = "Ein Spieler lädt noch."
 			changed.emit()
 			return
+	trace_load("ROUND_START_SEND players=%d" % roster.size())
 	phase = "running"
 	var play_intro: bool = not _round_restart and game.should_play_intro()
 	if play_intro: world.prepare_intro()
+	_sequence += 1
 	for id in roster:
 		world.actor(id).active = true
 		world.actor(id).regen_mul = float(game.difficulty.regen)
-		if id != 1: _world_state.rpc_id(id, epoch, _sequence, world.snapshot(), true)
+		if id != 1: send_reliable_state(id, true)
 	_begin.rpc(epoch, play_intro)
 	_begin(epoch, play_intro)
 	_send_lobby()
@@ -380,12 +392,14 @@ func start_game() -> void:
 @rpc("authority", "call_remote", "reliable", 0)
 func _begin(session_epoch: int, play_intro: bool = false) -> void:
 	if epoch != session_epoch: return
+	trace_load("ROUND_BEGIN intro=%s" % play_intro)
 	phase = "running"
 	_applying = true
 	game._on_start(play_intro)
 	_applying = false
 	status = "Koop · %d/4 Spieler" % roster.size()
 	changed.emit()
+	trace_load("ROUND_RUNNING players=%d" % roster.size())
 	print("COOP_RUNNING players=", roster.size())
 
 func _peer_disconnected(id: int) -> void:

@@ -1,0 +1,84 @@
+2026-09-20T21:14:07 remz-coop-startfix-20260920 BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-20T21:14:07 remz-coop-startfix-20260920 NETWORK_INITIALIZED
+2026-09-20T21:14:26 remz-coop-startfix-20260920 MAP_READY
+2026-09-20T21:14:26 remz-coop-startfix-20260920 JOIN_BEGIN address=127.0.0.1 port=24733
+2026-09-20T21:14:26 remz-coop-startfix-20260920 JOIN_SOCKET result=0
+2026-09-20T21:14:26 remz-coop-startfix-20260920 TRANSPORT_CONNECTED sending_hello
+2026-09-20T21:14:26 remz-coop-startfix-20260920 PEER_CONNECTED id=1
+2026-09-20T21:14:26 remz-coop-startfix-20260920 PEER_CONNECTED id=1692996184
+2026-09-20T21:14:26 remz-coop-startfix-20260920 PEER_CONNECTED id=773277689
+2026-09-20T21:14:26 remz-coop-startfix-20260920 WELCOME
+2026-09-20T21:14:26 remz-coop-startfix-20260920 INITIAL_RECEIVE parts=4
+2026-09-20T21:14:26 remz-coop-startfix-20260920 INITIAL_APPLY_BEGIN
+2026-09-20T21:14:26 remz-coop-startfix-20260920 STATE_STAGE structures
+2026-09-20T21:14:26 remz-coop-startfix-20260920 STATE_STAGE players
+2026-09-20T21:14:26 remz-coop-startfix-20260920 STATE_STAGE enemies
+2026-09-20T21:14:26 remz-coop-startfix-20260920 STATE_STAGE items
+2026-09-20T21:14:26 remz-coop-startfix-20260920 STATE_STAGE barricades
+2026-09-20T21:14:26 remz-coop-startfix-20260920 INITIAL_APPLY_DONE
+2026-09-20T21:14:26 remz-coop-startfix-20260920 STATE_RECEIVE parts=4
+2026-09-20T21:14:26 remz-coop-startfix-20260920 STATE_STAGE structures
+2026-09-20T21:14:26 remz-coop-startfix-20260920 STATE_STAGE players
+2026-09-20T21:14:27 remz-coop-startfix-20260920 STATE_STAGE enemies
+2026-09-20T21:14:27 remz-coop-startfix-20260920 STATE_STAGE items
+2026-09-20T21:14:27 remz-coop-startfix-20260920 STATE_STAGE barricades
+2026-09-20T21:14:27 remz-coop-startfix-20260920 STATE_APPLY_DONE sequence=4
+2026-09-20T21:14:27 remz-coop-startfix-20260920 ROUND_BEGIN intro=true
+2026-09-20T21:14:27 remz-coop-startfix-20260920 ROUND_RUNNING players=4
+2026-09-20T21:14:42 remz-coop-startfix-20260920 STATE_STAGE structures
+2026-09-20T21:14:42 remz-coop-startfix-20260920 STATE_STAGE players
+2026-09-20T21:14:42 remz-coop-startfix-20260920 STATE_STAGE enemies
+2026-09-20T21:14:42 remz-coop-startfix-20260920 STATE_STAGE items
+2026-09-20T21:14:42 remz-coop-startfix-20260920 STATE_STAGE barricades
+2026-09-20T21:15:06 remz-coop-startfix-20260920 STATE_STAGE structures
+2026-09-20T21:15:06 remz-coop-startfix-20260920 STATE_STAGE players
+2026-09-20T21:15:06 remz-coop-startfix-20260920 STATE_STAGE enemies
+2026-09-20T21:15:06 remz-coop-startfix-20260920 STATE_STAGE items
+2026-09-20T21:15:06 remz-coop-startfix-20260920 STATE_STAGE barricades
+2026-09-20T21:15:25 remz-coop-startfix-20260920 LEAVE_BEGIN phase=running reason=Sitzung verlassen.
+2026-09-20T21:15:25 remz-coop-startfix-20260920 LEAVE_PEER_DETACHED
+2026-09-20T21:15:25 remz-coop-startfix-20260920 LEAVE_PEER_CLOSED
+2026-09-20T21:15:25 remz-coop-startfix-20260920 LEAVE_RELOAD
+2026-09-20T21:15:40 remz-coop-startfix-20260920 MAP_READY
+2026-09-20T21:15:40 remz-coop-startfix-20260920 JOIN_BEGIN address=127.0.0.1 port=24733
+2026-09-20T21:15:40 remz-coop-startfix-20260920 JOIN_SOCKET result=0
+2026-09-20T21:15:40 remz-coop-startfix-20260920 TRANSPORT_CONNECTED sending_hello
+2026-09-20T21:15:40 remz-coop-startfix-20260920 PEER_CONNECTED id=1
+2026-09-20T21:15:40 remz-coop-startfix-20260920 PEER_CONNECTED id=1692996184
+2026-09-20T21:15:40 remz-coop-startfix-20260920 PEER_CONNECTED id=773277689
+2026-09-20T21:15:40 remz-coop-startfix-20260920 WELCOME
+2026-09-20T21:15:40 remz-coop-startfix-20260920 INITIAL_RECEIVE parts=4
+2026-09-20T21:15:40 remz-coop-startfix-20260920 INITIAL_APPLY_BEGIN
+2026-09-20T21:15:40 remz-coop-startfix-20260920 STATE_STAGE structures
+2026-09-20T21:15:40 remz-coop-startfix-20260920 STATE_STAGE players
+2026-09-20T21:15:40 remz-coop-startfix-20260920 STATE_STAGE enemies
+2026-09-20T21:15:40 remz-coop-startfix-20260920 STATE_STAGE items
+2026-09-20T21:15:40 remz-coop-startfix-20260920 STATE_STAGE barricades
+2026-09-20T21:15:40 remz-coop-startfix-20260920 INITIAL_APPLY_DONE
+2026-09-20T21:15:40 remz-coop-startfix-20260920 ROUND_BEGIN intro=false
+2026-09-20T21:15:40 remz-coop-startfix-20260920 ROUND_RUNNING players=4
+2026-09-20T21:15:42 remz-coop-startfix-20260920 STATE_STAGE structures
+2026-09-20T21:15:42 remz-coop-startfix-20260920 STATE_STAGE players
+2026-09-20T21:15:42 remz-coop-startfix-20260920 STATE_STAGE enemies
+2026-09-20T21:15:42 remz-coop-startfix-20260920 STATE_STAGE items
+2026-09-20T21:15:42 remz-coop-startfix-20260920 STATE_STAGE barricades
+2026-09-20T21:15:58 remz-coop-startfix-20260920 STATE_RECEIVE parts=6
+2026-09-20T21:15:58 remz-coop-startfix-20260920 STATE_APPLY_DONE sequence=886
+2026-09-20T21:16:18 remz-coop-startfix-20260920 MAP_READY
+2026-09-20T21:16:18 remz-coop-startfix-20260920 INITIAL_RECEIVE parts=4
+2026-09-20T21:16:18 remz-coop-startfix-20260920 INITIAL_APPLY_BEGIN
+2026-09-20T21:16:18 remz-coop-startfix-20260920 STATE_STAGE structures
+2026-09-20T21:16:18 remz-coop-startfix-20260920 STATE_STAGE players
+2026-09-20T21:16:18 remz-coop-startfix-20260920 STATE_STAGE enemies
+2026-09-20T21:16:18 remz-coop-startfix-20260920 STATE_STAGE items
+2026-09-20T21:16:18 remz-coop-startfix-20260920 STATE_STAGE barricades
+2026-09-20T21:16:18 remz-coop-startfix-20260920 INITIAL_APPLY_DONE
+2026-09-20T21:16:19 remz-coop-startfix-20260920 STATE_RECEIVE parts=4
+2026-09-20T21:16:19 remz-coop-startfix-20260920 STATE_STAGE structures
+2026-09-20T21:16:19 remz-coop-startfix-20260920 STATE_STAGE players
+2026-09-20T21:16:19 remz-coop-startfix-20260920 STATE_STAGE enemies
+2026-09-20T21:16:19 remz-coop-startfix-20260920 STATE_STAGE items
+2026-09-20T21:16:19 remz-coop-startfix-20260920 STATE_STAGE barricades
+2026-09-20T21:16:19 remz-coop-startfix-20260920 STATE_APPLY_DONE sequence=890
+2026-09-20T21:16:19 remz-coop-startfix-20260920 ROUND_BEGIN intro=false
+2026-09-20T21:16:19 remz-coop-startfix-20260920 ROUND_RUNNING players=4

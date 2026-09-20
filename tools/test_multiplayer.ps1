@@ -15,7 +15,7 @@ $runs = @()
 try {
     foreach ($role in @('host', 'c1', 'c2', 'c3')) {
         $logPath = Join-Path $artifacts "$role.log"
-        $arguments = @('--headless', '--path', 'godot', '--log-file', ('"' + $logPath + '"'),
+        $arguments = @('--headless', '--max-fps', '120', '--path', 'godot', '--log-file', ('"' + $logPath + '"'),
             '--script', 'res://tests/run.gd', '--', '--suite=multiplayer', '--smoke-test', '--no-foliage',
             "--coop-role=$role", "--coop-port=$Port")
         if ($Intro) { $arguments += '--test-coop-intro' }

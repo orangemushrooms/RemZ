@@ -1,0 +1,12 @@
+2026-09-20T21:19:26 remz-coop-startfix-20260920 BOOT exe=C:/Users/miche/Desktop/Developement/RemZ/builds/windows/RemZ.exe
+2026-09-20T21:19:26 remz-coop-startfix-20260920 NETWORK_INITIALIZED
+2026-09-20T21:20:24 remz-coop-startfix-20260920 MAP_READY
+2026-09-20T21:20:24 remz-coop-startfix-20260920 HOST_CREATE port=24737
+2026-09-20T21:20:24 remz-coop-startfix-20260920 HOST_READY
+2026-09-20T21:20:24 remz-coop-startfix-20260920 PEER_CONNECTED id=1301681455
+2026-09-20T21:20:24 remz-coop-startfix-20260920 INITIAL_SEND peer=1301681455 raw=14852 bytes=2690 parts=3
+2026-09-20T21:20:24 remz-coop-startfix-20260920 CLIENT_READY peer=1301681455
+2026-09-20T21:20:24 remz-coop-startfix-20260920 ROUND_START_SEND players=2
+2026-09-20T21:20:24 remz-coop-startfix-20260920 STATE_SEND peer=1301681455 raw=14856 bytes=2680 parts=3
+2026-09-20T21:20:24 remz-coop-startfix-20260920 ROUND_BEGIN intro=true
+2026-09-20T21:20:24 remz-coop-startfix-20260920 ROUND_RUNNING players=2

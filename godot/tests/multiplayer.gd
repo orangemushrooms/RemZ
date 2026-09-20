@@ -54,9 +54,9 @@ func run() -> void:
 	if role == "host": await host_run()
 	else: await client_run()
 
-func command_clients(action: String, targets: Array, args: Array = []) -> void:
+func command_clients(action: String, targets: Array, args: Array = [], next_snapshot := true) -> void:
 	test_step += 1
-	var minimum_sequence: int = NetSession._sequence + (1 if NetSession.phase == "running" else 0)
+	var minimum_sequence: int = NetSession._sequence + (1 if next_snapshot and NetSession.phase == "running" else 0)
 	write_json("step", {"number": test_step, "action": action, "targets": targets, "args": args, "minimum_sequence": minimum_sequence})
 	var deadline := Time.get_ticks_msec() + (90000 if action == "rejoin" else 12000)
 	while Time.get_ticks_msec() < deadline:
@@ -164,7 +164,7 @@ func host_run() -> void:
 	await wait_seconds(0.3)
 	check(not NetSession.world.weapons[c1].unlocked.ak47, "Remote NPC purchase cannot bypass proximity")
 	game.waves.completed = 4
-	game.progression.data(c1).claimed = {"arrival": true, "line": true}
+	game.progression.data(c1).claimed = {"arrival": true, "line": true, "night_shift": true}
 	await teleport(c1, game.progression.npcs.camp.global_position + Vector3(0, 0.1, 2.3))
 	await command_clients("shop", ["c1"], ["camp", "weapon", "ak47", ""])
 	await wait_seconds(0.4)
@@ -283,7 +283,8 @@ func host_run() -> void:
 	tower_target.hp = 10000
 	await wait_seconds(2.5)
 	await command_clients("inspect", ["c1"])
-	check(tower.shots > 0 and tower_target.hp < 10000 and read_json("done-c1").tower_shots > 0, "Host turret fire and target damage replicate")
+	var replica_shots: int = int(read_json("done-c1").tower_shots)
+	check(tower.shots > 0 and tower_target.hp < 10000 and replica_shots > 0, "Host turret fire and target damage replicate (host=%d client=%d target_hp=%.1f)" % [tower.shots, replica_shots, tower_target.hp])
 	game.waves.wave = 8
 	game.spawn_zombie("titan", Vector2(20, 125), 1, "east")
 	var titan: Titan = game.zombies_root.get_children().back()
@@ -428,7 +429,10 @@ func verify_intro() -> void:
 	game._pause()
 	game._on_start()
 	check(not game.player.active, "Resume cannot bypass intro card")
-	await command_clients("inspect", ["c1", "c2", "c3"])
+	# Inspect the reliable start state while the logo is visible. Waiting for a
+	# subsequent unreliable update can outlast the logo when packets are dropped.
+	# The walk-phase inspection below separately requires a fresh live snapshot.
+	await command_clients("inspect", ["c1", "c2", "c3"], [], false)
 	for label in ["c1", "c2", "c3"]:
 		var report: Dictionary = read_json("done-" + label)
 		check(report.intro_active and report.intro_phase == "logo", label + " plays the intro")
@@ -533,7 +537,7 @@ func client_run() -> void:
 				var deadline := Time.get_ticks_msec() + 5000
 				while NetSession._received_sequence < int(request.get("minimum_sequence", -1)) and Time.get_ticks_msec() < deadline:
 					await wait_seconds(0.1)
-				check(NetSession._received_sequence >= int(request.get("minimum_sequence", -1)), role + " received fresh world state for inspection")
+				check(NetSession._received_sequence >= int(request.get("minimum_sequence", -1)), role + " received world state for inspection (received=%d required=%d)" % [NetSession._received_sequence, int(request.get("minimum_sequence", -1))])
 			_: NetSession.command(request.action, args)
 		await wait_seconds(0.2)
 		var open_doors := 0

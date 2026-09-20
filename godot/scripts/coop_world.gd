@@ -326,8 +326,9 @@ func check_team() -> void:
 		NetSession.phase = "over"
 		game.over = true
 		NetSession._send_lobby()
+		NetSession._sequence += 1
 		for id in NetSession.ready_peers:
-			if id != 1 and NetSession.ready_peers[id]: NetSession._world_state.rpc_id(id, NetSession.epoch, NetSession._sequence, snapshot(), false)
+			if id != 1 and NetSession.ready_peers[id]: NetSession.send_reliable_state(id, false)
 		_show_game_over()
 
 # the Waldhütte fell (host only): the whole team loses the round
@@ -336,8 +337,9 @@ func hut_lost() -> void:
 	NetSession.phase = "over"
 	game.over = true
 	NetSession._send_lobby()
+	NetSession._sequence += 1
 	for id in NetSession.ready_peers:
-		if id != 1 and NetSession.ready_peers[id]: NetSession._world_state.rpc_id(id, NetSession.epoch, NetSession._sequence, snapshot(), false)
+		if id != 1 and NetSession.ready_peers[id]: NetSession.send_reliable_state(id, false)
 	_show_game_over()
 
 func _show_game_over() -> void:
