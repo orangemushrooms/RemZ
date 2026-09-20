@@ -108,10 +108,13 @@ func sync_muzzle(muzzle: Transform3D) -> void:
 	flash_root.transform = muzzle
 	world_light.transform = muzzle
 
-func fire(weapon_id: String, muzzle: Transform3D, player_velocity: Vector3) -> void:
+func fire(weapon_id: String, muzzle: Transform3D, player_velocity: Vector3, flash_scale := 1.0) -> void:
 	sync_muzzle(muzzle)
 	_profile = PROFILES.get(weapon_id, PROFILES["ak47"])
 	flash_age = 0.0
+	_profile.x *= sqrt(flash_scale)
+	_profile.y *= sqrt(flash_scale)
+	_profile.w *= flash_scale
 	flash_duration = _profile.z
 	var variation := _rng.randf_range(0.85, 1.15)
 	(front.mesh as QuadMesh).size = Vector2.ONE * _profile.x * variation

@@ -4,12 +4,36 @@ class_name Pickup
 extends Area3D
 
 const LIFETIME := 45.0
+const CASH_BUNDLE := 100
+const MAX_CASH_DROPS := 128
 
 var kind := "ammo"      # "ammo" | "grenade" | "medkit"
 var _t := 0.0
 var _mesh: Node3D
 var _light: OmniLight3D
 var _taken := false
+var _retry_t := 0.0
+var amount := 0
+var owner_peer := 0
+var toss_velocity := Vector3.ZERO
+
+static func throw_cash(player: Player) -> String:
+	if NetSession.is_client(): return ""
+	var game := player.get_tree().current_scene
+	if not game.started or game.over or not player.alive or not player.active or player.get_tree().paused: return ""
+	if player.cash_cooldown > 0.0: return ""
+	if player.score <= 0: return "Keine Punkte zum Abwerfen."
+	if player.get_tree().get_nodes_in_group("cash_drops").size() >= MAX_CASH_DROPS: return "Sammelt zuerst die Geldbündel am Boden auf."
+	var drop := Pickup.new()
+	drop.amount = mini(CASH_BUNDLE, player.score)
+	drop.owner_peer = player.peer_id
+	drop.setup("cash")
+	game.add_child(drop)
+	drop.global_position = player.global_position + Vector3.UP * 0.9
+	drop.toss_velocity = -player.global_basis.z * 5.0 + Vector3.UP * 3.0
+	player.add_score(-drop.amount)
+	player.cash_cooldown = 0.35
+	return "%d P abgeworfen" % drop.amount
 
 func setup(k: String) -> void:
 	kind = k
@@ -26,6 +50,18 @@ func setup(k: String) -> void:
 	add_child(_mesh)
 	var color := Color(0.9, 0.75, 0.3)
 	match kind:
+		"cash":
+			add_to_group("cash_drops")
+			_box(Vector3(0.30, 0.09, 0.16), Vector3(0, 0.05, 0), Color(0.35, 0.55, 0.24))
+			_box(Vector3(0.06, 0.10, 0.17), Vector3(0, 0.05, 0), Color(0.85, 0.79, 0.55))
+			var label := Label3D.new()
+			label.text = "%d P" % amount
+			label.position.y = 0.48
+			label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+			label.font_size = 40
+			label.pixel_size = 0.004
+			_mesh.add_child(label)
+			color = Color(0.6, 1.0, 0.3)
 		"ammo":
 			if not _model("ammo_pack", 0.24):
 				_box(Vector3(0.36, 0.2, 0.24), Vector3(0, 0.1, 0), Color(0.3, 0.34, 0.22))
@@ -97,10 +133,39 @@ func _process(delta: float) -> void:
 	_mesh.position.y = 0.06 + sin(_t * 2.4) * 0.04
 	_mesh.rotation.y += delta * 1.2
 	_light.light_energy = 0.9 + 0.35 * sin(_t * 3.1)
-	if _t > LIFETIME - 5.0:
+	if kind != "cash" and _t > LIFETIME - 5.0:
 		_mesh.visible = fmod(_t, 0.4) < 0.25
-	if _t > LIFETIME:
+	if kind != "cash" and _t > LIFETIME:
 		queue_free()
+
+func _physics_process(delta: float) -> void:
+	if _taken or NetSession.is_client(): return
+	if kind == "cash" and not toss_velocity.is_zero_approx():
+		toss_velocity.y -= 9.8 * delta
+		var target := global_position + toss_velocity * delta
+		var query := PhysicsRayQueryParameters3D.create(global_position, target, 1 | 8)
+		var hit := get_world_3d().direct_space_state.intersect_ray(query)
+		if hit.is_empty(): global_position = target
+		else:
+			global_position = hit.position + hit.normal * 0.06
+			toss_velocity = Vector3.ZERO if hit.normal.y > 0.5 else Vector3.DOWN * 0.1
+	_retry_t -= delta
+	if _retry_t > 0.0: return
+	_retry_t = 0.25
+	for body in get_overlapping_bodies():
+		_on_body(body)
+		if _taken: break
+
+func can_collect(player: Player, weapons: Weapons) -> bool:
+	if _taken or not player.alive: return false
+	match kind:
+		"cash":
+			if amount <= 0 or _t < (2.0 if player.peer_id == owner_peer else 0.35): return false
+			var query := PhysicsRayQueryParameters3D.create(player.global_position + Vector3.UP * 0.8, global_position + Vector3.UP * 0.1, 1 | 8, [player.get_rid()])
+			return get_world_3d().direct_space_state.intersect_ray(query).is_empty()
+		"ammo": return weapons.has_ammo_space(weapons.ammo_weapon())
+		"grenade": return weapons.grenades < weapons.grenades_max
+		_: return player.hp < player.max_hp
 
 func _on_body(body: Node3D) -> void:
 	if NetSession.enabled:
@@ -112,11 +177,15 @@ func _on_body(body: Node3D) -> void:
 	if not ("weapons" in scene) or scene.weapons == null:
 		return
 	var weapons: Weapons = scene.weapons
+	if not can_collect(body, weapons): return
 	var hud: Hud = scene.hud
 	_taken = true
 	match kind:
+		"cash":
+			body.add_score(amount)
+			hud.message("+%d P aufgenommen" % amount, 1.4)
 		"ammo":
-			var id: String = weapons.current
+			var id: String = weapons.ammo_weapon()
 			var mag := int(weapons.DEFS[id]["mag"])
 			weapons.add_ammo(id, mag)
 			hud.message("Munition: +%d %s" % [mag, weapons.DEFS[id]["name"]], 1.4)
@@ -131,6 +200,6 @@ func _on_body(body: Node3D) -> void:
 			hud.set_health(p.hp)
 			hud.message("Verbandspäckli: +%d Leben" % int(heal), 1.4)
 	Sfx.play(scene, "pickup", -8.0)
-	if "achievements" in scene and scene.achievements:
+	if kind != "cash" and "achievements" in scene and scene.achievements:
 		scene.achievements.event("drops")
 	queue_free()

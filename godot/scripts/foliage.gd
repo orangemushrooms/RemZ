@@ -286,6 +286,7 @@ static func meadow_grass() -> Node3D:
 			var point := Vector2(x, z)
 			if not area.has_point(point):
 				continue
+			if Rect2(-120,62,234,76).has_point(point): continue
 			var cover := Map.meadow_weight(x, z)
 			if cover < 0.5 or (cover < 0.85 and rng.randf() > cover):
 				continue

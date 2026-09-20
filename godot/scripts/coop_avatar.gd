@@ -14,8 +14,10 @@ var flash: OmniLight3D
 var weapon := ""
 var flash_t := 0.0
 var recoil := 0.0
+var knife_stab := false
 var tint := Color.WHITE
 var step_distance := 0.0
+var crouch_blend := 0.0
 var right_grip := Vector3.ZERO
 var left_grip := Vector3.ZERO
 var _skin := "__unset"
@@ -58,16 +60,24 @@ func set_weapon(id: String) -> void:
 		gun.queue_free()
 	gun = Node3D.new()
 	aim.add_child(gun)
-	var packed: PackedScene = load("res://assets/models/%s.glb" % Weapons.DEFS[id].model)
-	var model: Node3D = packed.instantiate()
+	var model: Node3D
+	if Weapons.is_melee(id):
+		model = Weapons.MeleeModels.build(id)
+	else:
+		var packed: PackedScene = load("res://assets/models/%s.glb" % Weapons.DEFS[id].model)
+		model = packed.instantiate()
 	gun.add_child(model)
-	model.rotation.y = -PI / 2.0
-	Weapons._fit_height(model, float(Weapons.DEFS[id].height) * 1.35)
-	model.position -= ViewmodelHands.weapon_bounds(gun).get_center()
+	if not Weapons.is_melee(id):
+		model.rotation.y = -PI / 2.0
+		Weapons._fit_height(model, float(Weapons.DEFS[id].height) * 1.35)
+		model.position -= ViewmodelHands.weapon_bounds(gun).get_center()
 	var bounds := ViewmodelHands.weapon_bounds(gun)
 	var landmarks: Vector4 = ViewmodelHands.GRIPS.get(id, Vector4(0.32, 0.72, 0.48, 0.3))
 	right_grip = Vector3(bounds.end.x + 0.024, bounds.position.y + bounds.size.y * landmarks.x - 0.008, bounds.position.z + bounds.size.z * landmarks.y + 0.059)
 	left_grip = Vector3(bounds.position.x + 0.001, bounds.position.y + bounds.size.y * landmarks.z - 0.03, bounds.position.z + bounds.size.z * landmarks.w + 0.060)
+	if Weapons.is_melee(id):
+		right_grip = Vector3(0.02, -0.03, 0.074)
+		left_grip = Vector3(-0.22, -0.12, 0.15)
 	if id in ["pistol", "revolver"]:
 		left_grip = right_grip + Vector3(-0.065, -0.025, -0.015)
 	else:
@@ -90,16 +100,25 @@ func set_weapon(id: String) -> void:
 	left_hand.rotation = Vector3(0, PI, -0.25 if id in ["pistol", "revolver"] else PI * 0.5)
 	flash.position = gun.position + Vector3(bounds.get_center().x, bounds.end.y - 0.025, bounds.position.z - 0.025)
 
-func shot(id: String) -> void:
+func shot(id: String, mod_effects: Array = []) -> void:
+	var field = get_tree().current_scene.get("cornfield")
+	if field: field.scare(global_position)
 	set_weapon(id)
+	if Weapons.is_melee(id):
+		knife_stab = id == "knife" and mod_effects.size() == 1 and mod_effects[0] == true
+		recoil = 0.75
+		Sfx.play_at(self, "melee", global_position + Vector3.UP * 1.3, -8.0)
+		return
 	flash_t = 0.065
-	recoil = minf(recoil + deg_to_rad(float(Weapons.DEFS[id].kick_pitch)) * 0.5, 0.14)
+	recoil = minf(recoil + deg_to_rad(float(mod_effects[2] if mod_effects.size() == 3 else Weapons.DEFS[id].kick_pitch)) * 0.5, 0.14)
 	flash.visible = true
-	flash.light_energy = 2.5
-	Sfx.play_at(self, Weapons.DEFS[id].sfx, global_position + Vector3.UP * 1.3, float(Weapons.DEFS[id].get("sfx_db", -8.0)), float(Weapons.DEFS[id].get("sfx_pitch", 1.0)))
+	flash.light_energy = 2.5 * (float(mod_effects[1]) if mod_effects.size() == 3 else 1.0)
+	Sfx.play_at(self, Weapons.DEFS[id].sfx, global_position + Vector3.UP * 1.3, float(mod_effects[0] if mod_effects.size() == 3 else Weapons.DEFS[id].get("sfx_db", -8.0)), float(Weapons.DEFS[id].get("sfx_pitch", 1.0)))
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(actor): return
+	crouch_blend = move_toward(crouch_blend, 1.0 if actor.crouching and actor.alive else 0.0, delta * 6.0)
+	label.position.y = 2.12 - crouch_blend * 0.6
 	var speed := Vector2(actor.velocity.x, actor.velocity.z).length()
 	if actor.alive and speed > 0.5:
 		step_distance += speed * delta
@@ -113,9 +132,12 @@ func _process(delta: float) -> void:
 	recoil = move_toward(recoil, 0.0, delta * 0.8)
 	var pitch := clampf(actor.pitch, -0.85, 0.85) if actor.alive else 0.0
 	var sprinting := actor.alive and speed > 5.0
-	aim.position.y = lerpf(aim.position.y, 1.23 if sprinting else 1.40, minf(1.0, delta * 10.0))
+	aim.position.y = lerpf(aim.position.y, 0.85 if actor.crouching else 1.23 if sprinting else 1.40, minf(1.0, delta * 10.0))
+	var swing := sin(clampf(recoil/0.75,0,1)*PI) if Weapons.is_melee(weapon) else 0.0
+	aim.position.z = -0.04 - swing*(0.3 if knife_stab else 0.08)
+	aim.rotation.z = swing*0.65 if not knife_stab else 0.0
 	aim.rotation.x = pitch + recoil - (0.12 if sprinting else 0.0)
-	visual.pose(delta, speed, pitch, gun.to_global(right_grip), gun.to_global(left_grip), actor.alive)
+	visual.pose(delta, speed, pitch, gun.to_global(right_grip), gun.to_global(left_grip), actor.alive, crouch_blend)
 	label.text = "%s\n%d / %d" % [NetSession.roster.get(actor.peer_id, "Spieler"), maxi(0, ceili(actor.hp)), int(actor.max_hp)] if actor.alive else "%s\nWiederbeleben [E]" % NetSession.roster.get(actor.peer_id, "Spieler")
 
 func set_skin(finish: String) -> void:

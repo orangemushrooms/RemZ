@@ -57,6 +57,17 @@ func run() -> void:
 	for i in count:
 		net._snapshot_part(42, 24, i, count, raw.size(), packed.slice(i*net.SNAPSHOT_CHUNK, (i+1)*net.SNAPSHOT_CHUNK))
 	check(receiver.received.size() == 3 and net._snapshot_parts.is_empty(), "Reliable world state cannot be overwritten by older movement packets")
+	for i in range(count - 1, 0, -1):
+		net._initial_part(42, 26, i, count, raw.size(), packed.slice(i * net.SNAPSHOT_CHUNK, (i + 1) * net.SNAPSHOT_CHUNK))
+	check(receiver.received.size() == 3, "Partial initial state never starts loading")
+	net._initial_part(42, 26, 0, count, raw.size(), packed.slice(0, net.SNAPSHOT_CHUNK))
+	check(receiver.received.size() == 4 and receiver.received.back() == data, "Chunked reliable initial state reconstructs the complete world")
+	net._initial_part(42, 26, 0, count, raw.size(), packed.slice(0, net.SNAPSHOT_CHUNK))
+	check(receiver.received.size() == 4 and net._initial_parts.is_empty(), "Duplicate initial transfer cannot reload the world")
+	net._initial_part(42, 27, 0, 9999, raw.size(), packed.slice(0, net.SNAPSHOT_CHUNK))
+	check(net._initial_parts.is_empty(), "Oversized initial transfer is rejected")
+	await process_frame
+	await process_frame
 	net.world = null
 	print("NETWORK_PACKETS_DONE checks=%d failures=%d" % [checks, failures])
 	quit(0 if failures == 0 else 1)

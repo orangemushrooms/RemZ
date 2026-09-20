@@ -14,7 +14,7 @@ const UPGRADES := [
 	{ "id": "regen", "name": "Erholung", "desc": "Schnellere Regeneration", "cost": 80, "max": 3 },
 	{ "id": "damage", "name": "Schusskraft", "desc": "+12 % Schaden", "cost": 120, "max": 5 },
 	{ "id": "reload", "name": "Schnelle Hände", "desc": "-15 % Nachladezeit", "cost": 80, "max": 3 },
-	{ "id": "steady", "name": "Ruhige Hand", "desc": "-15 % Streuung", "cost": 90, "max": 3 },
+	{ "id": "steady", "name": "Ruhige Hand", "desc": "-15 % Streuung und ruhigere Feuerstöße", "cost": 180, "max": 3 },
 	{ "id": "grenades", "name": "Granatentasche", "desc": "+1 Platz in der Granatentasche", "cost": 70, "max": 4 },
 ]
 
@@ -46,7 +46,7 @@ func purchase(p: Player, w: Weapons, id: String) -> String:
 			p.hud.set_health(p.hp)
 		"speed": p.speed_mul += 0.08
 		"regen": p.regen_mul += 0.6
-		"damage": w.damage_mul += 0.12 * (2.0 if NetSession.is_host() and NetSession.world.rage.get(p.peer_id, 0) > 0 else 1.0)
+		"damage": w.damage_mul += 0.12
 		"reload": w.reload_mul *= 0.85
 		"steady": w.spread_mul *= 0.85
 		"grenades":

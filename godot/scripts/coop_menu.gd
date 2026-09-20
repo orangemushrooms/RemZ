@@ -67,6 +67,18 @@ func setup(owner_hud: Hud) -> void:
 	leave_button = hud._menu_button("Sitzung verlassen", false)
 	leave_button.pressed.connect(func(): NetSession.leave())
 	add_child(leave_button)
+	var diagnostics := HBoxContainer.new()
+	add_child(diagnostics)
+	var version := hud._label("Version: Koop 2026.09.20-C", 12)
+	version.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	diagnostics.add_child(version)
+	var logs := Button.new()
+	logs.text = "Logs öffnen"
+	logs.pressed.connect(func():
+		NetSession.trace_load("LOG_FOLDER_OPENED")
+		if not NetSession.diagnostic_path.is_empty(): OS.shell_open(NetSession.diagnostic_path.get_base_dir())
+	)
+	diagnostics.add_child(logs)
 	var ips: Array[String] = []
 	for ip in IP.get_local_addresses():
 		if ":" not in ip and not ip.begins_with("127.") and not ip.begins_with("169.254."): ips.append(ip)
@@ -87,7 +99,7 @@ func _save() -> void:
 func refresh() -> void:
 	var loaded: bool = hud.game and hud.game.navigation_ready
 	var playing: bool = hud.game and hud.game.started
-	host_button.disabled = NetSession.enabled or not loaded or playing
+	host_button.disabled = NetSession._closing or NetSession.enabled or not loaded or playing
 	join_button.disabled = host_button.disabled
 	name_edit.editable = not NetSession.enabled
 	ip_edit.editable = not NetSession.enabled

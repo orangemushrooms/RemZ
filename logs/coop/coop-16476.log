@@ -1,0 +1,31 @@
+2026-09-20T14:46:25 remz-coop-connect-cancel-20260920 BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-20T14:46:25 remz-coop-connect-cancel-20260920 NETWORK_INITIALIZED
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 MAP_READY
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 HOST_CREATE port=24687
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 HOST_READY
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=1363670726
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 INITIAL_SEND peer=1363670726 bytes=1562 parts=2
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=1341865776
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 CLIENT_READY peer=1363670726
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=471671176
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 INITIAL_SEND peer=1341865776 bytes=1660 parts=2
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 INITIAL_SEND peer=471671176 bytes=1660 parts=2
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 CLIENT_READY peer=1341865776
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 CLIENT_READY peer=471671176
+2026-09-20T14:47:33 remz-coop-connect-cancel-20260920 PEER_DISCONNECTED id=1341865776
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=1918588463
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 INITIAL_SEND peer=1918588463 bytes=2111 parts=3
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 CLIENT_READY peer=1918588463
+2026-09-20T14:48:17 remz-coop-connect-cancel-20260920 MAP_READY
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 INITIAL_SEND peer=1363670726 bytes=1597 parts=2
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 CLIENT_READY peer=1363670726
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 INITIAL_SEND peer=471671176 bytes=1597 parts=2
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 CLIENT_READY peer=471671176
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 INITIAL_SEND peer=1918588463 bytes=1597 parts=2
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 CLIENT_READY peer=1918588463
+2026-09-20T14:48:20 remz-coop-connect-cancel-20260920 PEER_DISCONNECTED id=1918588463
+2026-09-20T14:48:21 remz-coop-connect-cancel-20260920 LEAVE_BEGIN phase=running reason=Integration test finished
+2026-09-20T14:48:21 remz-coop-connect-cancel-20260920 LEAVE_PEER_DETACHED
+2026-09-20T14:48:21 remz-coop-connect-cancel-20260920 LEAVE_PEER_CLOSED
+2026-09-20T14:48:21 remz-coop-connect-cancel-20260920 LEAVE_RELOAD
+2026-09-20T14:48:36 remz-coop-connect-cancel-20260920 MAP_READY

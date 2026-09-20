@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Missing key can appear in phase spawning
+PASS: Repeated frames do not reroll phase spawning
+PASS: Missing key can appear in phase idle
+PASS: Repeated frames do not reroll phase idle
+PASS: Same phase in a later wave gives another chance
+PASS: Available uncollected key persists without another roll
+PASS: Owned key never respawns
+PASS: Pause does not consume a new phase's chance
+PASS: Game over does not spawn keys
+KEY_PHASES_DONE checks=9 failures=0

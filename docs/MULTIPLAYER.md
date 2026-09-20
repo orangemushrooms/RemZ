@@ -57,7 +57,7 @@ Kurzer manueller Durchlauf:
 
 1. Beide Figuren bewegen und schiessen lassen; die andere Figur muss jeweils sichtbar reagieren.
 2. Beim Host **Esc** öffnen, zum Client wechseln und weiterlaufen/schiessen. Gegner und Uhr müssen weiterlaufen. Anschliessend die Rollen tauschen.
-3. Dasselbe mit **B** (Inventar), einem Händlergespräch (**E** beim NPC) und dem Barrikaden-Baumenü wiederholen. Der Menübenutzer bleibt angreifbar.
+3. Dasselbe mit **I** (Inventar), einem Händlergespräch (**E** beim NPC) und dem Barrikaden-Baumenü wiederholen. Der Menübenutzer bleibt angreifbar.
 4. Einen Gegenstand aufnehmen, eine Barrikade bauen und einen Gegner töten: der Weltzustand muss in beiden Fenstern übereinstimmen.
 5. Einen Spieler sterben lassen und mit dem anderen wiederbeleben; erst beim Tod des ganzen Teams endet die Runde. Danach als Host neu starten.
 6. Client verlassen und erneut beitreten. Abschliessend den Host verlassen: der Client muss ins Hauptmenü zurückkehren.
@@ -65,6 +65,12 @@ Kurzer manueller Durchlauf:
 Zwei gerenderte Fenster benötigen deutlich mehr Grafikleistung als eines. Bei Bedarf die Grafikqualität reduzieren. Die getrennten Protokolle liegen in `artifacts/local-coop`.
 
 ## Entwicklung und Prüfung
+
+Die Lobby meldet einen Mitspieler erst als bereit, nachdem dessen Client die Startdaten angewendet und dies bestätigt hat. Diese Daten gehören zur neuen laufenden Runde; es wird kein gespeicherter Spielstand geladen. Der erste Transfer wird komprimiert und in kleine zuverlässige Pakete geteilt. Wiederholte Bereitschaftsanfragen erzeugen keine mehrfachen vollständigen Übertragungen.
+
+**Logs öffnen** im Mehrspieler-Menü öffnet den aktuellen Diagnoseordner. Die Windows-Ausgabe schreibt ab Programmstart sofort in `logs/coop-*.log` neben der EXE. Ist dieser Ordner nicht beschreibbar, wird ein Benutzerordner verwendet. Auch Verbindungsversuche, Zeitüberschreitungen und Abbrüche vor dem Beitritt werden protokolliert. Die Versionszeile im Menü muss bei beiden Spielern übereinstimmen.
+
+Ein abgebrochener Verbindungsversuch behält die bereits geladene Karte. ENet wird ausserhalb seines Netzwerk-Callbacks getrennt. Wurde die Runde bereits gestartet oder der gemeinsame Weltzustand übernommen, wird die Karte für das Hauptmenü neu aufgebaut; währenddessen erscheint eine Ladeanzeige. `godot/tests/connection_cancel.gd` prüft wiederholte Abbrüche, Timeout, Verbindungsfehler, erneutes Hosten und sofort lesbare Diagnoseausgaben.
 
 Bewegungspakete tragen eine fortlaufende Nummer, die der Host im Weltzustand bestätigt. Der Client vergleicht die Hostposition mit seiner damaligen Position zu dieser Nummer. Spätere lokale Bewegung bleibt erhalten; eine verzögerte Rückmeldung allein löst kein Zurücksetzen aus. Echte Abweichungen durch Kollisionen oder abgewiesene Bewegung werden weiterhin korrigiert. Der Host prüft die Spielerkapsel auch beim Gleiten entlang von Boden und Wänden.
 

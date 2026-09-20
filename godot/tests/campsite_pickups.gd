@@ -86,7 +86,7 @@ func run() -> void:
 			if not selected.has(loot.id):
 				selected[loot.id] = loot
 	check(mushrooms > 0 and owned_visuals == mushrooms, "Every mushroom still owns its visible model after map optimization")
-	check(selected.size() == 2, "Both mushroom varieties are available for collection")
+	check(selected.size() == Inventory.MUSHROOMS.size(), "All mushroom varieties are available for collection")
 	check(game.render_stats.removed_render_nodes > 0, "Static scenery continues to use render batches")
 	for kind: String in selected:
 		var mushroom: Loot = selected[kind]

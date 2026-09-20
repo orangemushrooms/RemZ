@@ -1,0 +1,34 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 42 }
+COOP_LOAD MAP_READY
+PASS: Low level blocks installation
+PASS: Rejected mod never charges or grants ownership
+PASS: Quest lock names the missing quest
+PASS: Purchase charges once and expands the actual magazine
+PASS: Larger magazine gives no free ammunition
+PASS: Mods never mutate base definitions or other weapons
+PASS: Repeated purchase is idempotent
+PASS: Extended magazine reload penalty reaches the reload system
+PASS: Reload transfers eighteen rounds from reserve
+PASS: Removing magazine preserves excess ammunition
+PASS: Owned mod can be reinstalled for free
+PASS: Full reserve prevents lossy magazine removal
+PASS: Suppressor changes audio, flash and range
+PASS: Different slots combine multiplicatively
+PASS: Wrong merchant, melee, unknown mod and unowned weapon are rejected
+PASS: Legendary muzzle replaces rather than stacks with suppressor
+PASS: Legendary barrel improves damage and piercing
+PASS: Autorefill prices extended capacity at the normal per-round rate
+PASS: Autorefill fills modified magazine
+PASS: Remote installation rejected
+PASS: Insufficient money cannot grant a mod
+PASS: Mechanic mod menu renders and refreshes every slot
+PASS: Host validates and equips remote player mods
+PASS: Snapshot preserves individual ownership
+PASS: Snapshot rebuilds effective stats without leaking another player's mods
+WEAPON_MODS_DONE checks=25 failures=0

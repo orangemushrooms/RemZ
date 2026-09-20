@@ -1,0 +1,28 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 674, "batches": 18, "removed_render_nodes": 44 }
+COOP_LOAD MAP_READY
+PASS: Hut starts with full health
+PASS: Hut wall bodies are tagged for zombie hits
+PASS: Attack point lies just outside the west wall
+PASS: Damage lowers health and raises the alert
+PASS: First hit shows the attack warning
+PASS: Repeated hits do not spam the warning
+PASS: Alert expires after the attacks stop
+PASS: HUD shows the hut health
+PASS: Player at the wall may repair
+PASS: Repair needs points
+PASS: Repair costs points
+PASS: Repair restores health up to the maximum
+PASS: Full hut refuses repair
+PASS: Repair needs the player at the hut
+PASS: Test zombie spawned beside the hut
+PASS: Zombie beside the hut targets it
+PASS: Zombie attack damages the hut (3800 -> 3788 after 1.7 s)
+PASS: Hut is destroyed at zero health
+PASS: Destroyed hut ends the round with its own title
+HUT_HEALTH_DONE checks=19 failures=0

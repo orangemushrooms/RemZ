@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 2
-const BUILD := "remz-coop-movement-ack-20260920"
+const BUILD := "remz-autorefill-20260920"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -15,6 +15,34 @@ var address := ""
 var port := PORT
 var roster: Dictionary = {}
 var ready_peers: Dictionary = {}
+var _loading_peers: Dictionary = {}
+var _initial_parts: Dictionary = {}
+var _initial_received := -1
+var diagnostic_path := ""
+var _closing := false
+
+func trace_load(message: String) -> void:
+	print("COOP_LOAD ", message)
+	if diagnostic_path.is_empty():
+		var local_folder := ProjectSettings.globalize_path("res://../logs/coop") if OS.has_feature("editor") else OS.get_executable_path().get_base_dir().path_join("logs")
+		for folder in [local_folder, ProjectSettings.globalize_path("user://logs"), OS.get_cache_dir().path_join("RemZ-logs")]:
+			if DirAccess.make_dir_recursive_absolute(folder) != OK: continue
+			var candidate: String = folder.path_join("coop-%d.log" % OS.get_process_id())
+			var probe := FileAccess.open(candidate, FileAccess.WRITE)
+			if probe:
+				probe.close()
+				diagnostic_path = candidate
+				break
+	if diagnostic_path.is_empty():
+		push_warning("Koop-Diagnose konnte in keinem Logordner angelegt werden.")
+		return
+	var file := FileAccess.open(diagnostic_path, FileAccess.READ_WRITE)
+	if file:
+		file.seek_end()
+		file.store_line("%s %s %s" % [Time.get_datetime_string_from_system(), BUILD, message])
+		file.flush()
+		file.close()
+
 var game: Node3D
 var world
 var epoch := 0
@@ -39,6 +67,7 @@ var restart_pending := false
 var _round_restart := false
 
 func _ready() -> void:
+	trace_load("BOOT exe=" + OS.get_executable_path())
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	multiplayer.peer_connected.connect(_peer_connected)
 	multiplayer.peer_disconnected.connect(_peer_disconnected)
@@ -52,8 +81,16 @@ func _ready() -> void:
 	# partially updated install just as we reject a different terrain version.
 	context.update(var_to_bytes(Zombie.TYPES))
 	context.update(var_to_bytes(Weapons.DEFS))
+	context.update(var_to_bytes(Weapons.Mods.DEFS))
+	context.update("aim-ballistics-v6-knife-stab".to_utf8_buffer())
+	context.update(var_to_bytes([Waves.ARMY_START, Waves.ARMY_STEP, Waves.ARMY_MAX, Waves.MAX_ACTIVE, Waves.MAX_CORPSES, Waves.MAX_TITANS]))
+	context.update(var_to_bytes(Player.RareItems.DEFS))
 	context.update(var_to_bytes(Progression.NPCS))
 	context.update(var_to_bytes(Progression.GOODS))
+	context.update(var_to_bytes(Progression.QUESTS))
+	context.update(var_to_bytes(Progression.QUEST_CHAINS))
+	context.update(var_to_bytes(Inventory.MUSHROOMS))
+	context.update(var_to_bytes(ForestKeys.SPAWN_CHANCE))
 	for spec: Dictionary in Progression.NPCS.values():
 		context.update((str(spec.model) + str(ResourceLoader.exists("res://assets/models/%s.glb" % spec.model))).to_utf8_buffer())
 	for spec: Dictionary in Weapons.DEFS.values():
@@ -64,6 +101,7 @@ func _ready() -> void:
 	for file in ["map.json", "heightmap.f32"]:
 		context.update(FileAccess.get_file_as_bytes("res://assets/map/" + file))
 	_fingerprint = context.finish().hex_encode()
+	trace_load("NETWORK_INITIALIZED")
 
 func is_host() -> bool:
 	return enabled and multiplayer.is_server()
@@ -75,6 +113,7 @@ func local_id() -> int:
 	return multiplayer.get_unique_id() if enabled else 1
 
 func attach(node: Node3D) -> void:
+	trace_load("MAP_READY")
 	game = node
 	world = preload("res://scripts/coop_world.gd").new()
 	world.setup(game)
@@ -116,12 +155,13 @@ func _command_line() -> void:
 	if requested_host or not requested_ip.is_empty(): game.hud.show_tab("multiplayer")
 
 func host(display_name: String, requested_port: int = PORT) -> Error:
-	if enabled or not is_instance_valid(game) or not game.navigation_ready or game.started:
+	if _closing or enabled or not is_instance_valid(game) or not game.navigation_ready or game.started:
 		return ERR_BUSY
 	if requested_port < 1024 or requested_port > 65535:
 		status = "Port muss zwischen 1024 und 65535 liegen."
 		changed.emit()
 		return ERR_INVALID_PARAMETER
+	trace_load("HOST_CREATE port=%d" % requested_port)
 	var peer := ENetMultiplayerPeer.new()
 	var error := peer.create_server(requested_port, MAX_PLAYERS - 1, 3)
 	if error != OK:
@@ -140,19 +180,22 @@ func host(display_name: String, requested_port: int = PORT) -> Error:
 	world.add_player(1)
 	status = "Host bereit · Hamachi-IP an die Mitspieler weitergeben · UDP %d" % port
 	print("COOP_HOST_READY port=", port)
+	trace_load("HOST_READY")
 	changed.emit()
 	return OK
 
 func join(ip: String, display_name: String, requested_port: int = PORT) -> Error:
-	if enabled or not is_instance_valid(game) or not game.navigation_ready or game.started:
+	if _closing or enabled or not is_instance_valid(game) or not game.navigation_ready or game.started:
 		return ERR_BUSY
 	ip = ip.strip_edges()
 	if not ip.is_valid_ip_address() or requested_port < 1024 or requested_port > 65535:
 		status = "Gültige Hamachi-/LAN-IP und einen Port zwischen 1024 und 65535 eingeben."
 		changed.emit()
 		return ERR_INVALID_PARAMETER
+	trace_load("JOIN_BEGIN address=%s port=%d" % [ip, requested_port])
 	var peer := ENetMultiplayerPeer.new()
 	var error := peer.create_client(ip, requested_port, 3)
+	trace_load("JOIN_SOCKET result=%d" % error)
 	if error != OK:
 		status = "Verbindung konnte nicht geöffnet werden."
 		changed.emit()
@@ -163,6 +206,8 @@ func join(ip: String, display_name: String, requested_port: int = PORT) -> Error
 	_command_seq = 0
 	_received_sequence = -1
 	_snapshot_parts.clear()
+	_initial_parts.clear()
+	_initial_received = -1
 	address = ip
 	port = requested_port
 	player_name = clean_name(display_name)
@@ -176,11 +221,14 @@ static func clean_name(value: String) -> String:
 	return "Spieler" if value.is_empty() else value
 
 func _connected() -> void:
+	if not enabled or phase != "connecting": return
+	trace_load("TRANSPORT_CONNECTED sending_hello")
 	_hello_t = 0.0
 	_connect_t = 12.0
 	_hello.rpc_id(1, PROTOCOL, _fingerprint, player_name)
 
 func _peer_connected(id: int) -> void:
+	trace_load("PEER_CONNECTED id=%d" % id)
 	if is_host():
 		_rates[id] = {"deadline": _elapsed + 12.0, "tokens": 80.0, "time": _elapsed}
 
@@ -201,7 +249,7 @@ func _hello(version: int, fingerprint: String, display_name: String) -> void:
 	roster[id] = clean_name(display_name)
 	print("COOP_PEER_ACCEPTED count=", roster.size())
 	ready_peers[id] = false
-	_rates[id].deadline = _elapsed + 30.0
+	_rates[id].deadline = _elapsed + 120.0
 	world.add_player(id)
 	_welcome.rpc_id(id, epoch, roster, phase, game.settings.difficulty)
 	_send_lobby()
@@ -212,12 +260,16 @@ func _rejected(reason: String) -> void:
 
 @rpc("authority", "call_remote", "reliable", 0)
 func _welcome(session_epoch: int, players: Dictionary, session_phase: String, difficulty_index: int) -> void:
+	if not is_client(): return
+	trace_load("WELCOME")
 	epoch = session_epoch
 	roster = players
 	phase = session_phase
 	_connect_t = 0.0
 	_received_sequence = -1
 	_snapshot_parts.clear()
+	_initial_parts.clear()
+	_initial_received = -1
 	game.player.peer_id = local_id()
 	game.difficulty = GameSettings.DIFFICULTIES[clampi(difficulty_index, 0, GameSettings.DIFFICULTIES.size()-1)]
 	world.make_client()
@@ -233,8 +285,59 @@ func _level_ready(session_epoch: int) -> void:
 	var id := multiplayer.get_remote_sender_id()
 	if not is_host() or epoch != session_epoch or not roster.has(id) or not is_instance_valid(game) or not game.navigation_ready:
 		return
+	if ready_peers.get(id, false) or _loading_peers.has(id): return
+	_loading_peers[id] = true
+	_rates[id].deadline = _elapsed + 120.0
+	var raw := var_to_bytes(world.snapshot())
+	var packed := raw.compress(FileAccess.COMPRESSION_DEFLATE)
+	var count := ceili(float(packed.size()) / SNAPSHOT_CHUNK)
+	trace_load("INITIAL_SEND peer=%d bytes=%d parts=%d" % [id, packed.size(), count])
+	# Also keep the initial reliable transfer below the tunnel MTU. Sending one
+	# large RPC here used ENet fragmentation, unlike our small in-game snapshots.
+	for part in count:
+		_initial_part.rpc_id(id, epoch, _sequence, part, count, raw.size(), packed.slice(part * SNAPSHOT_CHUNK, (part + 1) * SNAPSHOT_CHUNK))
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _initial_part(session_epoch: int, sequence: int, part: int, count: int, raw_size: int, bytes: PackedByteArray) -> void:
+	if epoch != session_epoch or sequence <= _initial_received or not world: return
+	if count < 1 or count > 600 or part < 0 or part >= count or raw_size < 1 or raw_size > 524288 or bytes.size() > SNAPSHOT_CHUNK: return
+	if _initial_parts.is_empty():
+		_initial_parts = {"sequence": sequence, "count": count, "size": raw_size, "parts": {}}
+		trace_load("INITIAL_RECEIVE parts=%d" % count)
+	if _initial_parts.sequence != sequence or _initial_parts.count != count or _initial_parts.size != raw_size: return
+	_initial_parts.parts[part] = bytes
+	if _initial_parts.parts.size() != count: return
+	var packed := PackedByteArray()
+	for index in count: packed.append_array(_initial_parts.parts[index])
+	_initial_parts.clear()
+	var unpacked := packed.decompress(raw_size, FileAccess.COMPRESSION_DEFLATE)
+	if unpacked.size() != raw_size: return
+	var data = bytes_to_var(unpacked)
+	if not data is Dictionary: return
+	_initial_received = sequence
+	_initial_state(session_epoch, sequence, data)
+
+func _initial_state(session_epoch: int, sequence: int, data: Dictionary) -> void:
+	if epoch != session_epoch or not world: return
+	status = "Spielstand und Mitspieler werden vorbereitet …"
+	changed.emit()
+	trace_load("INITIAL_APPLY_BEGIN")
+	var loading_world = world
+	_world_state(session_epoch, sequence, data, true)
+	# Give the renderer a frame before acknowledging a usable client.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not enabled or epoch != session_epoch or world != loading_world or not world.state_loaded: return
+	trace_load("INITIAL_APPLY_DONE")
+	_state_ready.rpc_id(1, epoch)
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _state_ready(session_epoch: int) -> void:
+	var id := multiplayer.get_remote_sender_id()
+	if not is_host() or epoch != session_epoch or not _loading_peers.has(id) or not roster.has(id): return
+	_loading_peers.erase(id)
 	ready_peers[id] = true
-	_world_state.rpc_id(id, epoch, _sequence, world.snapshot(), true)
+	trace_load("CLIENT_READY peer=%d" % id)
 	if phase == "running":
 		_begin.rpc_id(id, epoch, false) # Late joins keep the replicated team position.
 	_send_lobby()
@@ -250,6 +353,8 @@ func _lobby(session_epoch: int, players: Dictionary, ready: Dictionary, session_
 	roster = players
 	ready_peers = ready
 	phase = session_phase
+	if is_client() and phase == "lobby" and ready_peers.get(local_id(), false):
+		status = "Bereit · warte auf den Host"
 	if world:
 		world.sync_roster()
 	changed.emit()
@@ -284,9 +389,11 @@ func _begin(session_epoch: int, play_intro: bool = false) -> void:
 	print("COOP_RUNNING players=", roster.size())
 
 func _peer_disconnected(id: int) -> void:
+	trace_load("PEER_DISCONNECTED id=%d" % id)
 	if not enabled: return
 	roster.erase(id)
 	ready_peers.erase(id)
+	_loading_peers.erase(id)
 	_commands.erase(id)
 	_rates.erase(id)
 	if world: world.remove_player(id)
@@ -296,29 +403,77 @@ func _peer_disconnected(id: int) -> void:
 	changed.emit()
 
 func leave(reason := "Sitzung verlassen.") -> void:
+	if _closing: return
 	if not enabled:
 		status = reason
 		changed.emit()
 		return
+	trace_load("LEAVE_BEGIN phase=%s reason=%s" % [phase, reason])
+	var reuse_map: bool = is_instance_valid(game) and not game.started and world != null and not world.state_loaded and _initial_received < 0
+	_closing = true
 	enabled = false
 	phase = "offline"
+	epoch += 1 # Invalidate an initial-state callback waiting for rendering.
+	status = "Verbindung wird beendet …"
+	var leaving_game := game
+	game = null
+	changed.emit()
+	_finish_leave.call_deferred(reason, reuse_map, leaving_game)
+
+func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> void:
+	# Never close ENet or reload a scene inside its poll/signal callback.
+	var old_peer := multiplayer.multiplayer_peer
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	trace_load("LEAVE_PEER_DETACHED")
+	if old_peer: old_peer.close()
+	trace_load("LEAVE_PEER_CLOSED")
+	game = leaving_game
 	_auto_start = 0
 	restart_pending = false
 	_round_restart = false
 	_command_seq = 0
 	_connect_t = 0.0
-	if multiplayer.multiplayer_peer:
-		multiplayer.multiplayer_peer.close()
-	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	roster.clear()
 	ready_peers.clear()
+	_loading_peers.clear()
+	_initial_parts.clear()
+	_initial_received = -1
 	_commands.clear()
 	_rates.clear()
 	_snapshot_parts.clear()
+	if reuse_map and is_instance_valid(game):
+		for id in world.actors.keys(): world.remove_player(id)
+		game.player.peer_id = 1
+		game.player.regen_timer = 0.0
+		game.player.active = false
+		game.player.camera.make_current()
+		game.waves.set_process(true)
+		game.day_night.set_process(true)
+		game.achievements.set_process(true)
+		for animal in world.deer: animal.set_physics_process(true)
+		world = preload("res://scripts/coop_world.gd").new()
+		world.setup(game)
+		get_tree().paused = true
+		game.hud.show_tab("multiplayer")
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		status = reason
+		_closing = false
+		trace_load("LEAVE_DONE reused_loaded_map")
+		changed.emit()
+		return
+	if is_instance_valid(game):
+		game.player.active = false
+		game.hud.set_loading(true)
+	status = "Rückkehr zum Hauptmenü …"
+	changed.emit()
 	world = null
 	game = null
 	_message_after_load = reason
 	get_tree().paused = false
+	await get_tree().process_frame
+	await get_tree().process_frame
+	trace_load("LEAVE_RELOAD")
+	_closing = false
 	get_tree().call_deferred("reload_current_scene")
 
 func restart() -> void:
@@ -334,6 +489,9 @@ func _reload(session_epoch: int) -> void:
 	_round_restart = true
 	phase = "lobby"
 	ready_peers.clear()
+	_loading_peers.clear()
+	_initial_parts.clear()
+	_initial_received = -1
 	_command_seq = 0
 	for id in _rates: _rates[id].deadline = _elapsed + 120.0
 	_commands.clear()
@@ -371,12 +529,12 @@ func _accept(id: int, session_epoch: int) -> bool:
 	return true
 
 @rpc("any_peer", "call_remote", "unreliable_ordered", 1)
-func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, sequence: int = 0) -> void:
+func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, sequence: int = 0, crouching: bool = false) -> void:
 	var id := multiplayer.get_remote_sender_id()
 	if not _accept(id, session_epoch) or phase != "running": return
 	if not position.is_finite() or not motion.is_finite() or not is_finite(yaw) or not is_finite(pitch): return
 	if sequence <= 0: return
-	world.move_player(id, position, yaw, pitch, light, motion, _elapsed, sequence)
+	world.move_player(id, position, yaw, pitch, light, motion, _elapsed, sequence, crouching)
 
 @rpc("authority", "call_remote", "unreliable", 2)
 func _snapshot_part(session_epoch: int, sequence: int, part: int, count: int, raw_size: int, bytes: PackedByteArray) -> void:
@@ -432,15 +590,18 @@ func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 		"score": game.hud.score_popup(args[0], args[1])
 		"streak": game.hud.streak(args[0], args[1])
 
-func weapon_fired(id: int, weapon: String) -> void:
+func weapon_fired(id: int, weapon: String, stab: bool = false) -> void:
 	if not is_host(): return
-	_shot.rpc(epoch, id, weapon)
-	_shot(epoch, id, weapon)
+	var definition: Dictionary = world.weapons[id].state[weapon].def
+	var mod_effects := [definition.get("sfx_db", -8.0), definition.get("flash_scale", 1.0), definition.kick_pitch]
+	if Weapons.is_melee(weapon): mod_effects = [stab and weapon == "knife"]
+	_shot.rpc(epoch, id, weapon, mod_effects)
+	_shot(epoch, id, weapon, mod_effects)
 
 @rpc("authority", "call_remote", "unreliable", 1)
-func _shot(session_epoch: int, id: int, weapon: String) -> void:
+func _shot(session_epoch: int, id: int, weapon: String, mod_effects: Array = []) -> void:
 	if epoch == session_epoch and id != local_id() and world:
-		world.show_shot(id, weapon)
+		world.show_shot(id, weapon, mod_effects)
 
 func track_grenade(grenade: Node3D) -> void:
 	if is_host() and world: world.track_grenade(grenade)
@@ -512,4 +673,4 @@ func _process(delta: float) -> void:
 		if _pose_t >= 0.05 and game.player.alive:
 			_pose_t = 0.0
 			var pose_sequence: int = world.movement_sync.record(game.player.global_position)
-			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity, pose_sequence)
+			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity, pose_sequence, game.player.crouching)

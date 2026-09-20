@@ -1,0 +1,192 @@
+extends SceneTree
+
+var checks := 0
+var failures := 0
+var started := Time.get_ticks_msec()
+
+func _initialize() -> void: call_deferred("run")
+func _process(_dt: float) -> bool:
+	if Time.get_ticks_msec() - started > 120000: quit(1)
+	return false
+func check(ok: bool, label: String) -> void:
+	checks += 1
+	if ok: print("PASS: ", label)
+	else:
+		failures += 1
+		push_error("FAIL: " + label)
+
+func run() -> void:
+	var game = load("res://scenes/main.tscn").instantiate()
+	root.add_child(game)
+	current_scene = game
+	while not game.navigation_ready: await process_frame
+	game._on_start()
+	game.waves.set_process(false)
+	game.weapons.set_process(false)
+	var p: Player = game.player
+	var w: Weapons = game.weapons
+	var shop: Progression = game.progression
+	var market = shop.rare_market
+	market.set_physics_process(false)
+	market.random.seed = 7041
+	p.set_physics_process(false)
+	p.score = 30000
+	game.waves.wave = 4
+	market._physics_process(0.1)
+	check(not market.active and not shop.npcs.wanderer.visible and shop.npcs.wanderer.body.collision_layer == 0, "Merchant hidden and nonblocking before wave five")
+	p.global_position = shop.npcs.wanderer.global_position
+	check(not shop.close_enough(p, "wanderer"), "Hidden merchant cannot be traded with")
+	p.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y)
+	game.waves.wave = 5
+	game.waves.completed = 4
+	for i in 8: market._physics_process(0.1)
+	check(market.active and market.stock.has("hawk") and market.stock.has("fire"), "Wave five spawns merchant with first legendary and fire ammo")
+	var origin: Vector3 = market.npc.global_position
+	for i in 200:
+		market._physics_process(0.1)
+		if i % 10 == 0: await physics_frame
+	check(origin.distance_to(market.npc.global_position) > 4, "Merchant actually walks through the forest along navigation paths")
+	check(market.npc.anim.has_animation("walk") and market.npc.anim.get_animation("walk").get_track_count() > 10, "Merchant has a retargeted skeletal walk animation")
+	p.global_position = market.npc.global_position + Vector3(0, 0, 2)
+	await physics_frame
+	await physics_frame
+	origin = market.npc.global_position
+	market._physics_process(0.5)
+	check(origin == market.npc.global_position, "Nearby customer stops merchant for trading")
+	check(shop.close_enough(p, "wanderer"), "Moving merchant is reachable through the real interaction check")
+	var start_balance := p.score
+	shop.transact(p, "wanderer", "rare", "hawk")
+	check(p.relic == "hawk" and p.score == start_balance - 1800 and market.stock.hawk == 0, "Legendary purchase charges once, consumes shared stock and equips")
+	check(is_equal_approx(p.relic_multiplier("spread"), 0.65), "Precision talisman supplies its actual combat modifier")
+	shop.transact(p, "wanderer", "rare", "hawk")
+	check(p.score == start_balance - 1800, "Owned talisman equips without another payment")
+	shop.transact(p, "wanderer", "rare", "fire")
+	check(market.data(p.peer_id).ammo.fire == 24 and market.data(p.peer_id).mode == "fire", "Fire pack enables twenty-four special shots")
+	market.restock(5)
+	check(market.stock.fire == 2 and market.stock.hawk == 0, "Same wave never replenishes depleted stock")
+	market.stock.frost = 1
+	var balance := p.score
+	shop.transact(p, "wanderer", "rare", "frost")
+	check(p.score == balance, "Higher level rare ammunition remains gated")
+	p.global_position += Vector3(20, 0, 0)
+	shop.transact(p, "wanderer", "rare", "fire")
+	check(p.score == balance, "Remote purchase cannot debit or grant rare items")
+	p.global_position = market.npc.global_position + Vector3(0, 0, 2)
+	market.data(p.peer_id).ammo.fire = 96
+	shop.transact(p, "wanderer", "rare", "fire")
+	check(p.score == balance and market.stock.fire == 2, "Full special-ammo inventory preserves money and stock")
+	market.data(p.peer_id).ammo.fire = 24
+	market.equip(p, "normal")
+	check(market.consume_round(p).is_empty() and market.data(p.peer_id).ammo.fire == 24, "Normal mode saves special ammunition")
+	market.equip(p, "fire")
+	w.set_weapon("pistol")
+	p.camera.rotation.x = PI * 0.4
+	w.try_fire()
+	check(market.data(p.peer_id).ammo.fire == 23, "Real missed firearm shot consumes one special round")
+	var z := Zombie.new()
+	z.setup("shambler", p, game.barricades, 1, Callable())
+	game.zombies_root.add_child(z)
+	z.global_position = p.global_position + Vector3(5, 0, 0)
+	z.set_physics_process(false)
+	var customer_position := p.global_position
+	p.global_position = Map.ground_pos(20, 105)
+	z.global_position = Map.ground_pos(20, 111)
+	z.hp = 200
+	await physics_frame
+	await physics_frame
+	p.camera.look_at(z.global_position + Vector3.UP)
+	w.cur().cooldown = 0
+	w.cur().ammo = 12
+	var rounds_before: int = market.data(p.peer_id).ammo.fire
+	w.try_fire()
+	check(z.hp < 200 and z.rare_status == "fire" and market.data(p.peer_id).ammo.fire == rounds_before - 1, "Real bullet hit applies burn and consumes exactly one charge")
+	z.update_rare_visual()
+	check(z._rare_particles.emitting, "Burn shows particles on the actual zombie")
+	market.tick_statuses(3)
+	p.global_position = customer_position
+	z.hp = 200
+	for i in 9: market.hit(z, "fire", p.peer_id, "shotgun")
+	market.tick_statuses(3)
+	check(z.hp == 164, "Repeated pellets refresh burn without multiplying its thirty-six damage")
+	market.hit(z, "frost", p.peer_id, "pistol")
+	check(z.frost_mul == 0.55 and z.rare_status == "frost", "Frost slows a normal zombie")
+	market.tick_statuses(3.1)
+	check(z.frost_mul == 1 and z.rare_status.is_empty(), "Frost expires and restores movement")
+	z.net_kind = "titan"
+	market.hit(z, "frost", p.peer_id, "pistol")
+	check(z.frost_mul == 0.8, "Titans resist most of the frost slowdown")
+	z.net_kind = "shambler"
+	z.hp = 10
+	market.hit(z, "fire", 77, "marksman")
+	market.tick_statuses(1)
+	check(not z.alive and z.killer_peer == 77 and z.killer_weapon == "marksman" and not z.last_headshot, "Burn kill preserves the shooter and never grants a phantom headshot")
+	market.data(p.peer_id).owned = {"hawk": true, "blood": true, "bark": true, "wind": true, "phoenix": true}
+	market.equip(p, "bark")
+	p.hp = 100
+	p.damage(50)
+	check(p.hp == 60 and p.relic_multiplier("spread") == 1, "Only active talisman applies; bark reduces actual incoming damage")
+	market.equip(p, "blood")
+	market.on_kill(p, "tower")
+	check(p.hp == 60, "Tower kills cannot farm lifesteal")
+	market.on_kill(p, "pistol")
+	check(p.hp == 63, "Bloodstone heals real weapon kills")
+	market.equip(p, "wind")
+	check(is_equal_approx(w.effective_reload_mul(), 0.8) and is_equal_approx(p.effective_speed_mul(), 1.1), "Wind relic affects reload and movement")
+	market.equip(p, "phoenix")
+	p.damage(1000)
+	check(p.alive and p.hp == p.max_hp * 0.4, "Phoenix prevents one lethal hit")
+	market.equip(p, "hawk")
+	market.equip(p, "phoenix")
+	check(not market.prevent_death(p), "Changing talismans cannot reset Phoenix cooldown")
+	game.waves.wave = 6
+	check(market.prevent_death(p), "Next wave restores Phoenix charge")
+	market.restock(6)
+	check(market.stock.fire == 3, "Next wave replenishes market")
+	shop.interact("wanderer")
+	check(not market.can_process(), "Solo shop pause also freezes trader and damage-over-time")
+	check(shop.page == "Raritäten" and shop._tabs.Raritäten.visible and not shop._tabs.Handel.visible, "Wanderer opens his dedicated rare-item menu")
+	shop.close()
+	NetSession.enabled = true
+	NetSession.world.add_player(1)
+	NetSession.world.add_player(2)
+	var peer: Player = NetSession.world.actor(2)
+	peer.set_physics_process(false)
+	peer.score = 1000
+	peer.global_position = market.npc.global_position + Vector3(0, 0, 2)
+	market.stock.fire = 1
+	shop.transact(peer, "wanderer", "rare", "fire")
+	check(peer.score == 520 and market.data(2).ammo.fire == 24 and market.stock.fire == 0, "Remote purchase consumes shared stock but grants only buyer's ammunition")
+	balance = p.score
+	shop.transact(p, "wanderer", "rare", "fire")
+	check(p.score == balance, "Second buyer cannot purchase the sold-out pack")
+	var snap: Dictionary = shop.snapshot()
+	check(snap.rare_market.people[2].ammo.fire == 24 and snap.rare_market.pos == market.npc.global_position, "Snapshot includes roaming position, stock and separate inventories")
+	NetSession.enabled = false
+	market.apply_snapshot(snap.rare_market)
+	check(market.stock.fire == 0 and market.data(2).ammo.fire == 24, "Late-join state restores sold-out stock and ammunition")
+	if "--render-rare" in OS.get_cmdline_user_args():
+		peer.global_position += Vector3(15, 0, 0)
+		p.hp = p.max_hp
+		game.hud.set_health(p.hp)
+		game.achievements.set_process(false)
+		game.achievements._toast.hide()
+		market.stock = {"hawk": 1, "fire": 3, "frost": 2, "phoenix": 1}
+		p.global_position = market.npc.global_position + Vector3(0, 0, 2)
+		p.camera.rotation = Vector3.ZERO
+		p.camera.look_at(market.npc.global_position + Vector3.UP * 1.1)
+		shop.interact("wanderer")
+		await process_frame
+		await process_frame
+		await RenderingServer.frame_post_draw
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://../artifacts/rare-market"))
+		root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../artifacts/rare-market/shop.png"))
+		shop.close()
+		p.global_position = market.npc.global_position + Vector3(0, 0, 4)
+		p.camera.look_at(market.npc.global_position + Vector3.UP)
+		game.hud.message("", 0)
+		await create_timer(0.5).timeout
+		await process_frame
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../artifacts/rare-market/merchant.png"))
+	print("RARE_MARKET_DONE checks=%d failures=%d" % [checks, failures])
+	quit(1 if failures else 0)

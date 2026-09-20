@@ -11,11 +11,13 @@ instance uniform float shot_age = 10.0;
 instance uniform float shot_strength = 0.0;
 instance uniform float movement = 0.0;
 instance uniform float side = 1.0;
+instance uniform vec3 elbow_offset = vec3(0.0);
 
 void vertex() {
 	// COLOR.r records distance from the cuff, independent of the texture UVs.
 	// The first rings never move, so the glove/sleeve seam stays closed.
 	float t = COLOR.r;
+	VERTEX += elbow_offset * smoothstep(0.0, 1.0, t);
 	float free_cloth = smoothstep(0.035, 0.30, t);
 	float shot_wave = sin(shot_age * 29.0 - t * 7.0 + side * 0.35) * exp(-shot_age * 7.5) * shot_strength;
 	float stride = sin(cloth_clock * 10.0 - t * 5.0 + side) * movement;

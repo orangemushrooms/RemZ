@@ -15,7 +15,7 @@ func check(ok: bool, description: String) -> void:
 		push_error("FAIL: " + description)
 
 func shoot(point: Vector3, direction := Vector3.FORWARD) -> Dictionary:
-	var ray := PhysicsRayQueryParameters3D.create(point - direction * 10, point + direction * 10, 1 | 2 | 8 | Zombie.HITBOX_LAYER)
+	var ray := PhysicsRayQueryParameters3D.create(point - direction * 10, point + direction * 10, Zombie.SHOT_MASK)
 	ray.collide_with_areas = true
 	ray.hit_from_inside = true
 	return scene.get_world_3d().direct_space_state.intersect_ray(ray)
@@ -90,11 +90,18 @@ func run() -> void:
 	await physics_frame
 	await physics_frame
 	check(shoot(head_point).is_empty(), "Dead zombies no longer block shots")
-	for skin in ["zombie_titan", "zombie_colossus"]:
+	var variants := {}
+	for kind in Zombie.TYPES:
+		variants[Zombie.TYPES[kind]["model"]] = kind
+	for kind in Zombie.TYPES:
+		for skin in Zombie.skin_names(Zombie.TYPES[kind]):
+			if not variants.has(skin): variants[skin] = kind
+	for skin in variants:
 		Zombie.force_skin = skin
 		var giant := Zombie.new()
-		giant.setup("titan", null, [], 1.0, Callable())
+		giant.setup(variants[skin], null, [], 1.0, Callable())
 		giant.replica = true
+		giant.appearance_seed = 123
 		scene.add_child(giant)
 		giant.set_physics_process(false)
 		giant.anim.pause()
@@ -110,7 +117,41 @@ func run() -> void:
 			for point in points: center += point
 			center /= points.size()
 			if Zombie.from_hit(shoot(area.to_global(center))) == giant: hits += 1
-		check(hits == giant._hitboxes.size(), skin + " hitboxes scale with the giant model")
+		check(hits == giant._hitboxes.size(), skin + " hitboxes scale with the model")
+		check(giant.collision_layer == 2, skin + " keeps movement collision separate from bullet hitboxes")
+		for clip in ["walk", "attack"]:
+			giant.anim.play(clip)
+			giant.anim.seek(0.4, true)
+			giant.anim.pause()
+			await process_frame
+			await physics_frame
+			await physics_frame
+			for area in giant._hitboxes:
+				if not area.get_meta("headshot"): continue
+				var points: PackedVector3Array = area.get_child(0).shape.points
+				var center := Vector3.ZERO
+				for point in points: center += point
+				# Raised arms can cover the face during attacks. Verify the head
+				# from multiple directions without bypassing intervening limbs.
+				var head_hits := 0
+				for direction in [Vector3.FORWARD, Vector3.BACK, Vector3.LEFT, Vector3.RIGHT, Vector3.UP, Vector3.DOWN]:
+					var hit := shoot(area.to_global(center / points.size()), direction)
+					if Zombie.from_hit(hit) == giant and hit.collider.get_meta("headshot", false):
+						head_hits += 1
+				check(head_hits > 0, skin + " animated headshot during " + clip)
+		# Move the visual away from the navigation capsule: shooting the old
+		# capsule must miss, while the translated/rotated model stays hittable.
+		giant.model.position.x += 50.0
+		giant.rotation.y = 0.7
+		await process_frame
+		await physics_frame
+		await physics_frame
+		check(shoot(Vector3.UP * giant.height * 0.5).is_empty(), skin + " empty navigation capsule does not catch bullets")
+		var area := giant._hitboxes[0]
+		var points: PackedVector3Array = area.get_child(0).shape.points
+		var center := Vector3.ZERO
+		for point in points: center += point
+		check(Zombie.from_hit(shoot(area.to_global(center / points.size()))) == giant, skin + " hitboxes follow model offsets and rotation")
 		giant.queue_free()
 		await process_frame
 	Zombie.force_skin = ""

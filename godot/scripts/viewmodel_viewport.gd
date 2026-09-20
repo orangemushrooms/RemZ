@@ -7,6 +7,8 @@ var camera: Camera3D
 var viewport: SubViewport
 var _environment: Environment
 var _key_light: DirectionalLight3D
+var image: TextureRect
+var scope: Control
 
 func _ready() -> void:
 	layer = 0
@@ -52,7 +54,7 @@ func _ready() -> void:
 	key.light_energy = 1.25
 	key.shadow_enabled = false
 	viewport.add_child(key)
-	var image := TextureRect.new()
+	image = TextureRect.new()
 	image.name = "FirstPerson"
 	image.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	image.texture = viewport.get_texture()
@@ -60,8 +62,18 @@ func _ready() -> void:
 	image.stretch_mode = TextureRect.STRETCH_SCALE
 	add_child(image)
 	image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	scope = preload("res://scripts/scope_overlay.gd").new()
+	add_child(scope)
+	scope.hide()
 	get_viewport().size_changed.connect(_resize)
 	_resize()
+
+func set_scoped(enabled: bool, magnification := 4.0) -> void:
+	image.visible = not enabled
+	scope.visible = enabled
+	if enabled and scope.magnification != magnification:
+		scope.magnification = magnification
+		scope.queue_redraw()
 
 func set_daylight(daylight: float, twilight: float) -> void:
 	# Hands remain legible while sharing the world's night/sunset palette.

@@ -9,6 +9,8 @@ var rustle: AudioStreamPlayer
 var fire: AudioStreamPlayer3D
 var stream: AudioStreamPlayer3D
 var _bird_t := 2.0
+var _call_t := 6.0                 # recorded owl / raven calls (assets/audio/sfx/owl*, raven*)
+var day_night: DayNightCycle       # set by main; owls at night, ravens by day
 var _rng := RandomNumberGenerator.new()
 var _wind_target := -12.0
 var _rustle_target := -14.0
@@ -192,5 +194,33 @@ func _process(delta: float) -> void:
 		var a := _rng.randf() * TAU
 		var r := _rng.randf_range(15.0, 45.0)
 		var bp := Vector3(p.x + cos(a) * r, 6.0 + _rng.randf() * 6.0, p.z + sin(a) * r)
-		if Map.leaf_weight(bp.x, bp.z) > 0.3:
+		if Map.leaf_weight(bp.x, bp.z) > 0.3 and _daylight() > 0.15:
 			_bird_chirp(bp)
+	_call_t -= delta
+	if _call_t <= 0.0:
+		_call_t = _rng.randf_range(9.0, 24.0)
+		var a := _rng.randf() * TAU
+		var r := _rng.randf_range(20.0, 50.0)
+		var cp := Vector3(p.x + cos(a) * r, 7.0 + _rng.randf() * 6.0, p.z + sin(a) * r)
+		if Map.leaf_weight(cp.x, cp.z) > 0.3:
+			var night := _daylight() < 0.35
+			_bird_call("owl" if night and _rng.randf() < 0.85 else "raven", cp)
+
+func _daylight() -> float:
+	if day_night == null: return 0.0
+	return DayNightCycle.daylight_at(day_night.clock_seconds / 3600.0)
+
+# a recorded owl or raven call from a spot in the trees around the player
+func _bird_call(name: String, pos: Vector3) -> void:
+	var stream_res := Sfx.get_stream(name)
+	if stream_res == null: return
+	var pl := AudioStreamPlayer3D.new()
+	pl.stream = stream_res
+	pl.unit_size = 8.0
+	pl.max_distance = 90.0
+	pl.volume_db = -5.0
+	pl.pitch_scale = 1.0 + _rng.randf_range(-0.04, 0.04)
+	add_child(pl)
+	pl.global_position = pos
+	pl.play()
+	pl.finished.connect(pl.queue_free)

@@ -128,16 +128,10 @@ func _ready() -> void:
 	hit_dir.draw.connect(_draw_hit_dirs)
 	root.add_child(hit_dir)
 
-	# crosshair
-	for size in [Vector2(2, 18), Vector2(18, 2)]:
-		var c := ColorRect.new()
-		c.color = Color(1, 1, 1, 0.85)
-		c.custom_minimum_size = size
-		c.set_anchors_preset(Control.PRESET_CENTER)
-		c.position = -size / 2.0
-		c.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		root.add_child(c)
-		crosshair_parts.append(c)
+	# One transparent, ballistic reticle; menus can hide it through the common list.
+	var reticle := preload("res://scripts/aim_reticle.gd").new()
+	root.add_child(reticle)
+	crosshair_parts.append(reticle)
 	# hitmarker: four short diagonal ticks around the crosshair
 	for k in 4:
 		var m := ColorRect.new()
@@ -427,7 +421,7 @@ func _build_briefing(box: VBoxContainer) -> void:
 		"Kopfschüsse machen den 2,2-fachen Schaden. Abschüsse in schneller Folge bauen eine Serie auf und geben bis zu 100 % Bonuspunkte.",
 		"Gefallene Zombies lassen Munition, Granaten und Verbandspäckli fallen. Einfach hindurchlaufen.",
 		"Vendor verkauft Waffen am Lagerfeuer. Erfülle Aufträge und überstehe Wellen, um sein Angebot freizuschalten. Ein geheimer Händler wartet im Wald.",
-		"Steinpilze heilen, Fliegenpilze verdoppeln kurz den Schaden. Beides im Inventar (B) essen.",
+		"Steinpilze heilen, Fliegenpilze verdoppeln kurz den Schaden. Beides im Inventar (I) essen.",
 		"T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm richtet E neu aus, F repariert. Ausbau bei Mechanic. Tab zeigt deine Aufträge.",
 	]:
 		var row := HBoxContainer.new()
@@ -446,10 +440,10 @@ func _build_controls(box: VBoxContainer) -> void:
 	grid.add_theme_constant_override("h_separation", 22)
 	grid.add_theme_constant_override("v_separation", 6)
 	box.add_child(grid)
-	for pair in [["WASD", "Bewegen"], ["Maus", "Umsehen"], ["Shift", "Sprinten"], ["Leertaste", "Springen"],
-			["Linksklick", "Schiessen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–9 / Mausrad", "Waffe wählen"],
-			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten / Hütte reparieren"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["B", "Inventar"],
-			["Tab", "Auftragsanzeige ein/aus"], ["M", "Minimap gross / klein"], ["Strg+Shift+D", "Cheatmenü"], ["F", "Taschenlampe"], ["Q", "Nahkampf (Kolbenschlag)"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
+	for pair in [["WASD", "Bewegen"], ["Maus", "Umsehen"], ["Shift", "Sprinten"], ["Strg halten", "Ducken / genauer zielen"], ["Leertaste", "Springen"],
+			["Linksklick", "Schiessen / Zuschlagen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–9 / 0 / Mausrad", "Schusswaffe / Messer / Wechsel"],
+			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten / Hütte reparieren"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["I", "Inventar"], ["B", "100 Punkte abwerfen"],
+			["Tab", "Auftragsanzeige ein/aus"], ["M", "Minimap gross / klein"], ["Strg+Shift+D", "Cheatmenü"], ["F", "Taschenlampe"], ["Q", "Nahkampf / Kolbenschlag"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110
 		grid.add_child(k)

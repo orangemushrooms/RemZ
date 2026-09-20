@@ -1,0 +1,480 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Early wave 1 keeps original size
+PASS: Early wave 2 keeps original size
+PASS: Early wave 3 keeps original size
+PASS: Early wave 4 keeps original size
+PASS: Early wave 5 keeps original size
+PASS: Early wave 6 keeps original size
+PASS: Early wave 7 keeps original size
+PASS: Army wave 8 contains 60 regular enemies
+PASS: Army wave 12 contains 140 regular enemies
+PASS: Army wave 17 contains 285 regular enemies
+PASS: Army wave 22 contains 480 regular enemies
+PASS: Army wave 30 contains 640 regular enemies
+PASS: Wave 8 grows and preview matches actual plan
+PASS: Wave 9 grows and preview matches actual plan
+PASS: Wave 10 grows and preview matches actual plan
+PASS: Wave 11 grows and preview matches actual plan
+PASS: Wave 12 grows and preview matches actual plan
+PASS: Wave 13 grows and preview matches actual plan
+PASS: Wave 14 grows and preview matches actual plan
+PASS: Wave 15 grows and preview matches actual plan
+PASS: Wave 16 grows and preview matches actual plan
+PASS: Wave 17 grows and preview matches actual plan
+PASS: Wave 18 grows and preview matches actual plan
+PASS: Wave 19 grows and preview matches actual plan
+PASS: Wave 20 grows and preview matches actual plan
+PASS: Wave 21 grows and preview matches actual plan
+PASS: Wave 22 grows and preview matches actual plan
+PASS: Wave 23 grows and preview matches actual plan
+PASS: Wave 24 grows and preview matches actual plan
+PASS: Wave 25 grows and preview matches actual plan
+PASS: Wave 26 grows and preview matches actual plan
+PASS: Wave 27 grows and preview matches actual plan
+PASS: Wave 28 grows and preview matches actual plan
+PASS: Wave 29 grows and preview matches actual plan
+PASS: Wave 30 grows and preview matches actual plan
+PASS: Wave 31 grows and preview matches actual plan
+PASS: Wave 32 grows and preview matches actual plan
+PASS: Wave 33 grows and preview matches actual plan
+PASS: Wave 34 grows and preview matches actual plan
+PASS: Wave 35 grows and preview matches actual plan
+PASS: Wave 36 grows and preview matches actual plan
+PASS: Wave 37 grows and preview matches actual plan
+PASS: Wave 38 grows and preview matches actual plan
+PASS: Wave 39 grows and preview matches actual plan
+PASS: Wave 40 grows and preview matches actual plan
+PASS: Wave 41 grows and preview matches actual plan
+PASS: Wave 42 grows and preview matches actual plan
+PASS: Wave 43 grows and preview matches actual plan
+PASS: Wave 44 grows and preview matches actual plan
+PASS: Wave 45 grows and preview matches actual plan
+PASS: Wave 46 grows and preview matches actual plan
+PASS: Wave 47 grows and preview matches actual plan
+PASS: Wave 48 grows and preview matches actual plan
+PASS: Wave 49 grows and preview matches actual plan
+PASS: Wave 50 grows and preview matches actual plan
+PASS: Multiplier stays bounded in very late waves
+PASS: Army reinforcements accelerate with a bounded live population
+PASS: Moderate frame pressure lowers reinforcement ceiling
+PASS: Heavy frame pressure also slows spawning
+RENDER_OPTIMIZER { "source_meshes": 674, "batches": 13, "removed_render_nodes": 32 }
+COOP_LOAD MAP_READY
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12327:<CharacterBody3D#624196346765>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12330:<CharacterBody3D#624347344117>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12333:<CharacterBody3D#624498339068>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12336:<CharacterBody3D#624649334019>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12339:<CharacterBody3D#624800328970>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12342:<CharacterBody3D#624951323921>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12345:<CharacterBody3D#625102318872>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12348:<CharacterBody3D#625253313823>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12351:<CharacterBody3D#625404308774>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12354:<CharacterBody3D#625555303725>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12357:<CharacterBody3D#625706298676>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12360:<CharacterBody3D#625857293627>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12363:<CharacterBody3D#626008288578>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12366:<CharacterBody3D#626159283529>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12369:<CharacterBody3D#626310278480>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12372:<CharacterBody3D#626461273431>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12375:<CharacterBody3D#626612268382>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12378:<CharacterBody3D#626763263333>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12381:<CharacterBody3D#626914258284>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12384:<CharacterBody3D#627065253235>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12387:<CharacterBody3D#627216248186>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12390:<CharacterBody3D#627367243137>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12393:<CharacterBody3D#627518238088>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12396:<CharacterBody3D#627669233039>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12399:<CharacterBody3D#627820227990>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12402:<CharacterBody3D#627971222941>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12405:<CharacterBody3D#628122217892>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12408:<CharacterBody3D#628273212843>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12411:<CharacterBody3D#628424207794>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12414:<CharacterBody3D#628575202745>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12417:<CharacterBody3D#628726197696>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12420:<CharacterBody3D#628877192647>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12423:<CharacterBody3D#629028187598>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12426:<CharacterBody3D#629179182549>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12429:<CharacterBody3D#629330177500>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12432:<CharacterBody3D#629481172451>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12435:<CharacterBody3D#629632167402>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12438:<CharacterBody3D#629783162353>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12441:<CharacterBody3D#629934157304>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12444:<CharacterBody3D#630085152255>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:45)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:45)
+ERROR: Failed to build Jolt Physics capsule shape with {height=0.000000 radius=0.000000}. Its radius must be greater than 0. This shape belongs to '@CharacterBody3D@12447:<CharacterBody3D#630236147206>' and 0 other object(s).
+   at: _build (modules/jolt_physics/shapes/jolt_capsule_shape_3d.cpp:38)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:135)
+       [1] run (res://tests/army_waves.gd:51)
+SCRIPT ERROR: Invalid access to property or key 'speed' on a base object of type 'Dictionary'.
+   at: Zombie._ready (res://scripts/zombie.gd:144)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/zombie.gd:144)
+       [1] run (res://tests/army_waves.gd:51)
+PASS: Corpse cleanup bounds dead actors without removing living enemies
+PASS: Corpse cleanup also removes external blood decals
+ARMY_WAVES_DONE checks=61 failures=0

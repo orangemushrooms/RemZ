@@ -6,7 +6,6 @@ var weapons: Dictionary = {}
 var avatars: Dictionary = {}
 var levels: Dictionary = {}
 var mushrooms: Dictionary = {}
-var rage: Dictionary = {}
 var pose_times: Dictionary = {}
 var pose_acks: Dictionary = {}
 var movement_sync = preload("res://scripts/movement_sync.gd").new()
@@ -88,7 +87,7 @@ func add_player(id: int) -> void:
 		if NetSession.is_client(): w.set_process(false)
 		levels[id] = {}
 		for entry in Skills.UPGRADES: levels[id][entry.id] = 0
-		mushrooms[id] = {"steinpilz": 0, "fliegenpilz": 0}
+		mushrooms[id] = Inventory.Mushrooms.empty_stock()
 		var avatar = preload("res://scripts/coop_avatar.gd").new()
 		p.add_child(avatar)
 		avatar.setup(p, NetSession.roster.get(id, "Spieler"), actors.size())
@@ -97,7 +96,6 @@ func add_player(id: int) -> void:
 	actors[id] = p
 	weapons[id] = w
 	pose_times[id] = NetSession._elapsed
-	rage[id] = 0.0
 	game.progression.data(id)
 
 func spawn_position(index: int) -> Vector3:
@@ -115,7 +113,7 @@ func remove_player(id: int) -> void:
 	if actors.has(id) and is_instance_valid(actors[id]) and actors[id] != game.player:
 		actors[id].hud.queue_free()
 		actors[id].queue_free()
-	for dict in [actors, weapons, avatars, levels, mushrooms, rage, pose_times, pose_acks, move_targets, revive]: dict.erase(id)
+	for dict in [actors, weapons, avatars, levels, mushrooms, pose_times, pose_acks, move_targets, revive]: dict.erase(id)
 
 func sync_roster() -> void:
 	for id in actors.keys():
@@ -140,7 +138,7 @@ func nearest_player(position: Vector3) -> Player:
 			nearest = p
 	return nearest
 
-func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, now: float, sequence: int = 0) -> void:
+func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, now: float, sequence: int = 0, crouching: bool = false) -> void:
 	if sequence > 0:
 		if sequence <= int(pose_acks.get(id, 0)): return
 		pose_acks[id] = sequence
@@ -149,8 +147,9 @@ func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bo
 	if not p or not p.alive: return
 	var dt := clampf(now - float(pose_times.get(id, now)), 0.01, 0.5)
 	pose_times[id] = now
+	p.set_crouching(crouching)
 	var move := position - p.global_position
-	var max_distance := Player.SPRINT_SPEED * p.speed_mul * dt + 0.7
+	var max_distance := (Player.CROUCH_SPEED if p.crouching else Player.SPRINT_SPEED) * p.effective_speed_mul() * dt + 0.7
 	if Vector2(move.x, move.z).length() > max_distance or absf(move.y) > 16.0 * dt + 1.2: return
 	if not Map.BOUNDS.has_point(Vector2(position.x, position.z)): return
 	# Sweep the same capsule against terrain, buildings and barricades.
@@ -181,6 +180,13 @@ func action(id: int, operation: String, args: Array) -> void:
 	if not p or not p.alive: return
 	var w: Weapons = weapons[id]
 	match operation:
+		"drop_cash":
+			if not args.is_empty(): return
+			var message := Pickup.throw_cash(p)
+			if not message.is_empty(): NetSession.feedback(id, "message", [message, 1.4])
+		"rare_equip":
+			if args.size() != 1 or not args[0] is String or args[0].length() > 40: return
+			NetSession.feedback(id, "message", [game.progression.rare_market.equip(p, args[0]), 2.0])
 		"shop":
 			if args.size() != 4: return
 			for argument in args:
@@ -214,7 +220,7 @@ func action(id: int, operation: String, args: Array) -> void:
 			if args.size() == 1 and args[0] is String: w.set_weapon(args[0])
 		"reload": w.reload()
 		"melee":
-			if _aim(p, args, 0): w.melee()
+			if _aim(p, args, 0): w.melee(args.size() == 3 and args[2] is bool and args[2])
 		"grenade":
 			if _aim(p, args, 0): w.throw_grenade()
 		"interact":
@@ -254,16 +260,21 @@ func collect_loot(id: int, key: String) -> void:
 		game.forest_keys.owned[item.key_id] = true
 		if game.inventory.is_open: game.inventory._refresh()
 		for peer in actors: NetSession.feedback(peer, "message", ["Teamschlüssel gefunden: " + ForestKeys.KEYS[item.key_id], 3.0])
+	elif item.kind == "maze_cache":
+		if not item.grant_cache(p,w): return
 	elif item.kind == "mushroom":
-		mushrooms[id][item.id] += 1
+		mushrooms[id][item.id] = int(mushrooms[id].get(item.id, 0)) + 1
 		if item.id == "steinpilz": game.progression.event("edible_mushrooms")
 		NetSession.feedback(id, "message", [item.label + " gesammelt", 1.5])
 		game.achievements.event("mushrooms")
 	else:
-		w.add_ammo(w.current, int(Weapons.DEFS[w.current].mag))
+		if not w.has_ammo_space(w.ammo_weapon()):
+			NetSession.feedback(id, "message", ["Munitionsreserve voll", 1.4])
+			return
+		w.add_ammo(w.ammo_weapon(), int(Weapons.DEFS[w.ammo_weapon()].mag))
 		NetSession.feedback(id, "message", ["Vorräte: ein Magazin", 2.0])
 	item.taken = true
-	Sfx.event(game, id, "key_pickup" if item is ForestKey else "pickup")
+	Sfx.event(game, id, "key_pickup" if item is ForestKey else "mushroom_pickup" if item.kind == "mushroom" else "pickup")
 	if item is ForestKey:
 		item.pickup_visual.hide()
 	else:
@@ -276,16 +287,18 @@ func collect_drop(drop: Pickup, id: int) -> void:
 	var p: Player = actor(id)
 	if not p.alive or p.global_position.distance_to(drop.global_position) > 2.3: return
 	var w: Weapons = weapons[id]
+	if not drop.can_collect(p, w): return
 	drop._taken = true
 	match drop.kind:
-		"ammo": w.add_ammo(w.current, int(Weapons.DEFS[w.current].mag))
+		"cash": p.add_score(drop.amount)
+		"ammo": w.add_ammo(w.ammo_weapon(), int(Weapons.DEFS[w.ammo_weapon()].mag))
 		"grenade": w.grenades = mini(w.grenades_max, w.grenades + 1)
 		_: p.hp = minf(p.max_hp, p.hp + 30.0)
 	w.update_hud()
 	p.hud.set_health(p.hp)
-	NetSession.feedback(id, "message", ["Vorrat aufgenommen", 1.4])
+	NetSession.feedback(id, "message", ["+%d P aufgenommen" % drop.amount if drop.kind == "cash" else "Vorrat aufgenommen", 1.4])
 	Sfx.event(game, id, "pickup")
-	game.achievements.event("drops")
+	if drop.kind != "cash": game.achievements.event("drops")
 	drop.queue_free()
 
 func buy_upgrade(id: int, key: String) -> void:
@@ -294,17 +307,17 @@ func buy_upgrade(id: int, key: String) -> void:
 	NetSession.feedback(id, "trade", [result])
 
 func eat(id: int, kind: String) -> void:
-	if not Inventory.MUSHROOMS.has(kind) or mushrooms[id].get(kind, 0) <= 0: return
-	mushrooms[id][kind] -= 1
+	if not NetSession.is_host() or not actors.has(id) or not mushrooms.has(id): return
 	var p: Player = actor(id)
-	p.hp = clampf(p.hp + float(Inventory.MUSHROOMS[kind].heal), 1.0, p.max_hp)
-	if kind == "fliegenpilz":
-		rage[id] = 20.0
-		weapons[id].damage_mul = (1.0 + 0.12 * levels[id].get("damage", 0)) * 2.0
-		game.achievements.event("rausch")
+	var error := Inventory.Mushrooms.consume(p, mushrooms[id], kind)
+	if not error.is_empty():
+		NetSession.feedback(id, "message", [error, 2.0])
+		return
+	if kind == "fliegenpilz": game.achievements.event("rausch")
 	game.stats.mushrooms_eaten += 1
 	p.hud.set_health(p.hp)
-	NetSession.feedback(id, "message", [Inventory.MUSHROOMS[kind].name + " gegessen", 2.0])
+	Sfx.event(game, id, "consume")
+	NetSession.feedback(id, "message", ["%s: %s" % [Inventory.MUSHROOMS[kind].name, Inventory.MUSHROOMS[kind].text], 3.0])
 	if id == 1: game.inventory._refresh()
 
 func check_team() -> void:
@@ -352,10 +365,6 @@ func tick(delta: float) -> void:
 					game.waves.start(1)
 					break
 		for id in avatars: avatars[id].set_weapon(weapons[id].current)
-		for id in rage:
-			if rage[id] > 0:
-				rage[id] = maxf(0, rage[id] - delta)
-				if rage[id] == 0: weapons[id].damage_mul = 1.0 + 0.12 * levels[id].get("damage", 0)
 		for id in revive.keys():
 			var target: Player = actor(revive[id].target)
 			var p: Player = actor(id)
@@ -404,8 +413,8 @@ func _update_local_life() -> void:
 		game.hud.message("Wiederbelebt!", 2.0)
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-func show_shot(id: int, weapon: String) -> void:
-	if avatars.has(id): avatars[id].shot(weapon)
+func show_shot(id: int, weapon: String, mod_effects: Array = []) -> void:
+	if avatars.has(id): avatars[id].shot(weapon, mod_effects)
 
 func track_grenade(grenade: Node3D) -> void:
 	grenade.set_meta("coop_id", next_id)
@@ -435,15 +444,15 @@ func snapshot() -> Dictionary:
 		for wid in w.state:
 			var s: Dictionary = w.state[wid]
 			ammo[wid] = [s.ammo, s.reserve, s.reloading]
-		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity,
-			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul,
-			"light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(),
+		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity, "crouch": p.crouching,
+			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul, "effects": p.mushroom_effects.duplicate(),
+			"relic": p.relic, "light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(), "mod_owned": w.mod_owned.duplicate(true), "mod_loadout": w.mod_loadout.duplicate(true),
 			"grenades": w.grenades, "grenades_max": w.grenades_max, "mods": [w.damage_mul, w.reload_mul, w.spread_mul],
 			"levels": levels[id].duplicate(), "mushrooms": mushrooms[id].duplicate(), "ack": NetSession._commands.get(id, 0), "pose_ack": pose_acks.get(id, 0)}
 	var zs := {}
 	for z in game.zombies_root.get_children():
 		if not z is Zombie: continue
-		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul, z.max_hp, z.boss_state() if z is Titan else [], z.model_path, z.appearance_seed, z.height]
+		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul, z.max_hp, z.boss_state() if z is Titan else [], z.model_path, z.appearance_seed, z.height, z.rare_status]
 	var gs := {}
 	for id in grenades.keys():
 		var g = grenades[id]
@@ -454,7 +463,7 @@ func snapshot() -> Dictionary:
 	var ds := {}
 	for child in game.get_children():
 		if child is Pickup and not child._taken:
-			ds[_entity_id(child)] = [child.kind, child.global_position, child._t]
+			ds[_entity_id(child)] = [child.kind, child.global_position, child._t, child.amount, child.owner_peer]
 	var available: Array = []
 	var door_states := {}
 	var key_positions := {}
@@ -473,7 +482,9 @@ func snapshot() -> Dictionary:
 		if is_instance_valid(broken_nodes[id]): intact.append(id)
 	var animals: Array = []
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
-	return {"progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	var pumpkin_states: Array = []
+	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
+	return {"pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
@@ -482,12 +493,33 @@ func snapshot() -> Dictionary:
 		"stats": [game.stats.kills, game.stats.headshots, game.stats.shots, game.stats.hits, game.stats.seconds, game.stats.best_streak, game.stats.grenades_thrown, game.stats.melee_hits, game.stats.barricades_built, game.stats.mushrooms_eaten, game.stats.damage_taken, game.stats.points_earned],
 		"achievements": [game.achievements.counters.duplicate(), game.achievements.session_unlocked.duplicate()]}
 
+func _apply_drops(states: Dictionary) -> void:
+	for id in drops.keys():
+		if not states.has(id):
+			if is_instance_valid(drops[id]): drops[id].queue_free()
+			drops.erase(id)
+	for id in states:
+		if not drops.has(id) or not is_instance_valid(drops[id]):
+			var drop := Pickup.new()
+			drop.amount = int(states[id][3])
+			drop.owner_peer = int(states[id][4])
+			drop.setup(states[id][0])
+			game.add_child(drop)
+			drops[id] = drop
+		drops[id].global_position = states[id][1]
+		drops[id]._t = states[id][2]
+
 func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	if not NetSession.is_client(): return
+	var pumpkin_states: Array = data.get("pumpkins", [])
+	for i in mini(pumpkin_states.size(), game.pumpkins.size()):
+		if pumpkin_states[i]: game.pumpkins[i].shatter(not initial)
+	if initial: NetSession.trace_load("STATE_STAGE structures")
 	game.defences.apply_snapshot(data.get("towers", {}), initial)
 	game.progression.apply_snapshot(data.get("progression", {}))
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
 	if initial: game.hud._mark_difficulty(int(data.difficulty))
+	if initial: NetSession.trace_load("STATE_STAGE players")
 	for id in data.players:
 		add_player(id)
 		var p: Player = actor(id)
@@ -498,7 +530,9 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		p.score = s.score
 		p.speed_mul = s.speed
 		p.regen_mul = s.regen
+		p.mushroom_effects = s.get("effects", {}).duplicate()
 		if id != NetSession.local_id():
+			p.set_crouching(bool(s.get("crouch", false)), false)
 			p.velocity = s.v
 			p.pitch = s.pitch
 			p.flashlight.visible = s.light
@@ -517,9 +551,12 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			game.hud.hp_bar.max_value = p.max_hp
 			game.hud.set_health(p.hp)
 			game.hud.set_score(p.score)
+			p.relic = s.get("relic", "")
 			if initial or int(s.ack) >= NetSession._command_seq:
 				var w: Weapons = game.weapons
 				var inventory_changed: bool = w.unlocked != s.unlocked or game.inventory.mushrooms != s.mushrooms or w.grenades != s.grenades
+				inventory_changed = inventory_changed or w.mod_loadout != s.get("mod_loadout", {})
+				w.apply_mod_snapshot(s.get("mod_owned", {}), s.get("mod_loadout", {}))
 				w.unlocked = s.unlocked.duplicate()
 				for wid in s.get("skins", {}): w.apply_skin(wid, s.skins[wid])
 				w.network_apply = true
@@ -540,6 +577,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 				game.inventory.mushrooms = s.mushrooms.duplicate()
 				if game.skills.is_open: game.skills._refresh()
 				if game.inventory.is_open and inventory_changed: game.inventory._refresh()
+	if initial: NetSession.trace_load("STATE_STAGE enemies")
 	for id in zombies.keys():
 		if not data.zombies.has(id):
 			if is_instance_valid(zombies[id]):
@@ -551,7 +589,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		var s: Array = data.zombies[id]
 		var fresh := not zombies.has(id)
 		if not zombies.has(id):
-			var z: Zombie = Titan.new() if s[0] == "titan" else Zombie.new()
+			var z: Zombie = Titan.new() if Zombie.is_titan_kind(s[0]) else Zombie.new()
 			z.replica = true
 			z.setup(s[0], game.player, game.barricades, s[6], Callable())
 			z.model_path = s[9]
@@ -562,6 +600,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			zombies[id] = z
 		var z: Zombie = zombies[id]
 		z.max_hp = s[7]
+		z.rare_status = s[12] if s.size() > 12 else ""
 		if z is Titan: z.apply_boss_state(s[8], initial or fresh)
 		z.net_position = s[1]
 		z.net_yaw = s[2]
@@ -584,18 +623,8 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			grenades[id] = g
 		grenades[id].global_position = data.grenades[id][0]
 		grenades[id].rotation = data.grenades[id][1]
-	for id in drops.keys():
-		if not data.drops.has(id):
-			if is_instance_valid(drops[id]): drops[id].queue_free()
-			drops.erase(id)
-	for id in data.drops:
-		if not drops.has(id) or not is_instance_valid(drops[id]):
-			var drop := Pickup.new()
-			drop.setup(data.drops[id][0])
-			game.add_child(drop)
-			drops[id] = drop
-		drops[id].global_position = data.drops[id][1]
-		drops[id]._t = data.drops[id][2]
+	_apply_drops(data.drops)
+	if initial: NetSession.trace_load("STATE_STAGE items")
 	var keys_changed: bool = game.forest_keys.owned != data["keys"]
 	game.forest_keys.owned = data["keys"].duplicate()
 	if keys_changed and game.inventory.is_open: game.inventory._refresh()
@@ -616,6 +645,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			node.global_position = data.key_positions[key]
 			node.taken = false
 			node.pickup_visual.show()
+	if initial: NetSession.trace_load("STATE_STAGE barricades")
 	for i in game.barricades.size():
 		var b: Barricade = game.barricades[i]
 		var changed: bool = b.level != data.bars[i][0] or b.hp != data.bars[i][1]

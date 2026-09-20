@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 42 }
+COOP_LOAD MAP_READY
+PASS: Eating heals and immediately updates health HUD
+PASS: Pure healing mushroom is retained at full health
+PASS: Fly agaric doubles upgraded weapon damage and costs 15 HP
+PASS: Damage training during a buff remains permanent
+PASS: Overlapping damage mushrooms use strongest bonus
+PASS: Eating again refreshes duration without stacking strength
+PASS: Weaker damage bonus remains when stronger one expires
+PASS: Expired mushrooms preserve all purchased damage upgrades
+PASS: Movement bonus combines with speed training
+PASS: Morel reduces actual reload timer
+PASS: Parasol reduces received damage by 25 percent
+PASS: Reizker doubles actual regeneration with training
+PASS: Ink mushroom reduces weapon spread
+PASS: maronenroehrling applies its healing amount
+PASS: krause_glucke applies its healing amount
+PASS: Unknown mushroom cannot change inventory
+PASS: Solo inventory pauses effect timers
+PASS: steinpilz sells one item at the catalogue price
+PASS: fliegenpilz sells one item at the catalogue price
+PASS: pfifferling sells one item at the catalogue price
+PASS: morchel sells one item at the catalogue price
+PASS: maronenroehrling sells one item at the catalogue price
+PASS: parasol sells one item at the catalogue price
+PASS: reizker sells one item at the catalogue price
+PASS: tintenpilz sells one item at the catalogue price
+PASS: violetter_roetelritterling sells one item at the catalogue price
+PASS: krause_glucke sells one item at the catalogue price
+PASS: Empty or invalid sales never award points
+PASS: Grenade can be sold exactly once
+PASS: Only complete reserve magazines can be sold
+PASS: Selling equipped weapon safely switches to pistol and cancels reload
+PASS: Repeated sales and starter equipment sales are rejected
+PASS: Remote sale is rejected by proximity check
+PASS: Non-vendor NPC rejects item sales
+PASS: Host applies remote player's mushroom consumption
+PASS: Secret Vendor sells only the requesting peer's stock
+PASS: Co-op snapshot contains effects and updated stock
+PASS: Death clears temporary mushroom effects
+PASS: Vendor renders sale rows for all mushrooms and supplies
+MUSHROOM_TRADE_DONE checks=39 failures=0

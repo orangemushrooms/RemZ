@@ -12,7 +12,13 @@ const RAID_RANGE := 9.0             # zombies closer than this to a wall turn on
 const WARNING := "ACHTUNG: DIE WALDHÜTTE WIRD ANGEGRIFFEN!\nVerteidigen!"
 
 var game: Node
-var hp := MAX_HP
+var hp := MAX_HP:
+	set(value):
+		hp = clampf(value, 0.0, MAX_HP)
+		if health_display: _update_health_display()
+var health_display: Node3D
+var health_fill: Sprite3D
+var health_label: Label3D
 var attack_alert_remaining := 0.0
 var destroyed := false
 var body: StaticBody3D              # one wall body; Zombie._can_hit accepts every body in the "hut_body" group
@@ -33,6 +39,52 @@ func setup(main: Node, root: Node3D, size: Vector2) -> void:
 		if body == null: body = b
 	add_to_group("hut_health")
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+	_create_health_display(root)
+	_update_health_display()
+
+func _create_health_display(root: Node3D) -> void:
+	health_display = Node3D.new()
+	health_display.name = "HealthDisplay"
+	add_child(health_display)
+	# Measure before map batching removes the individual building meshes.
+	var bounds := Barricade._bounds(root, root.transform.affine_inverse())
+	health_display.global_position = root.to_global(Vector3(0, bounds.end.y + 0.8, 0))
+	var image := Image.create(256, 18, false, Image.FORMAT_RGBA8)
+	image.fill(Color.WHITE)
+	var texture := ImageTexture.create_from_image(image)
+	for background in [true, false]:
+		var sprite := Sprite3D.new()
+		sprite.texture = texture
+		sprite.pixel_size = 0.016
+		sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		sprite.no_depth_test = true
+		sprite.render_priority = 10 if background else 11
+		sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		health_display.add_child(sprite)
+		if background:
+			sprite.modulate = Color(0.025, 0.035, 0.04, 0.9)
+			sprite.scale = Vector3(1.04, 1.6, 1)
+		else:
+			health_fill = sprite
+			health_fill.region_enabled = true
+	health_label = Label3D.new()
+	health_label.position.y = 0.55
+	health_label.font_size = 32
+	health_label.outline_size = 8
+	health_label.pixel_size = 0.012
+	health_label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	health_label.no_depth_test = true
+	health_label.render_priority = 12
+	health_display.add_child(health_label)
+
+func _update_health_display() -> void:
+	var ratio := hp / MAX_HP
+	var width := 256.0 * ratio
+	health_fill.visible = hp > 0.0
+	health_fill.region_rect = Rect2(0, 0, width, 18)
+	health_fill.offset.x = (width - 256.0) * 0.5
+	health_fill.modulate = Color(0.3, 0.9, 0.5) if ratio > 0.5 else (Color(1.0, 0.72, 0.2) if ratio > 0.25 else Color(1.0, 0.25, 0.2))
+	health_label.text = "WALDHÜTTE  %d / %d" % [ceili(hp), int(MAX_HP)]
 
 func max_hp() -> float:
 	return MAX_HP

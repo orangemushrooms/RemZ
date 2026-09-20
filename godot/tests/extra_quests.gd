@@ -49,18 +49,20 @@ func run() -> void:
 						tower.level = 3
 						tower.hp = 600
 				_: shop.team[goal] = target
-		check(shop.complete(id), id + " completes at its targets")
+		check(shop._objectives_complete(id), id + " satisfies objectives at its targets")
 		check(not shop.quest_progress(id).is_empty(), id + " has progress text")
 		shop.people.clear()
 		var personal := shop.local_data()
 		personal.discovered = true
 		personal.accepted[id] = true
+		world.waves.completed = maxi(world.waves.completed, int(q.min_level) - 1 + int(q.waves_after_accept))
+		personal.accepted_wave[id] = world.waves.completed - int(q.waves_after_accept)
 		check(not shop.has_ready_quest(q.npc), id + " respects prerequisite")
 		personal.claimed[q.requires] = true
 		check(shop.has_ready_quest(q.npc), id + " marks the right giver")
 		personal.claimed[id] = true
 		check(not shop.has_ready_quest(q.npc), id + " clears marker after reward")
-	check(added == 12, "Twelve additional quests including the ranger's chain")
+	check(added == 13, "Thirteen goal-based quests including Marksman training")
 	shop.team = {}
 	shop.event("headshot_kills")
 	shop.event("tower_kills")

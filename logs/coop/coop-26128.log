@@ -1,0 +1,72 @@
+2026-09-20T14:46:25 remz-coop-connect-cancel-20260920 BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-20T14:46:25 remz-coop-connect-cancel-20260920 NETWORK_INITIALIZED
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 MAP_READY
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 JOIN_BEGIN address=127.0.0.1 port=24687
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 JOIN_SOCKET result=0
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 TRANSPORT_CONNECTED sending_hello
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=1
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=1363670726
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 WELCOME
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=471671176
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 INITIAL_RECEIVE parts=2
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 INITIAL_APPLY_BEGIN
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE structures
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE players
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE enemies
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE items
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE barricades
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 INITIAL_APPLY_DONE
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE structures
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE players
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE enemies
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE items
+2026-09-20T14:46:39 remz-coop-connect-cancel-20260920 STATE_STAGE barricades
+2026-09-20T14:46:50 remz-coop-connect-cancel-20260920 STATE_STAGE structures
+2026-09-20T14:46:50 remz-coop-connect-cancel-20260920 STATE_STAGE players
+2026-09-20T14:46:50 remz-coop-connect-cancel-20260920 STATE_STAGE enemies
+2026-09-20T14:46:50 remz-coop-connect-cancel-20260920 STATE_STAGE items
+2026-09-20T14:46:50 remz-coop-connect-cancel-20260920 STATE_STAGE barricades
+2026-09-20T14:47:14 remz-coop-connect-cancel-20260920 STATE_STAGE structures
+2026-09-20T14:47:14 remz-coop-connect-cancel-20260920 STATE_STAGE players
+2026-09-20T14:47:14 remz-coop-connect-cancel-20260920 STATE_STAGE enemies
+2026-09-20T14:47:14 remz-coop-connect-cancel-20260920 STATE_STAGE items
+2026-09-20T14:47:14 remz-coop-connect-cancel-20260920 STATE_STAGE barricades
+2026-09-20T14:47:33 remz-coop-connect-cancel-20260920 LEAVE_BEGIN phase=running reason=Sitzung verlassen.
+2026-09-20T14:47:33 remz-coop-connect-cancel-20260920 LEAVE_PEER_DETACHED
+2026-09-20T14:47:33 remz-coop-connect-cancel-20260920 LEAVE_PEER_CLOSED
+2026-09-20T14:47:33 remz-coop-connect-cancel-20260920 LEAVE_RELOAD
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 MAP_READY
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 JOIN_BEGIN address=127.0.0.1 port=24687
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 JOIN_SOCKET result=0
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 TRANSPORT_CONNECTED sending_hello
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=1
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=1363670726
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 PEER_CONNECTED id=471671176
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 WELCOME
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 INITIAL_RECEIVE parts=3
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 INITIAL_APPLY_BEGIN
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 STATE_STAGE structures
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 STATE_STAGE players
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 STATE_STAGE enemies
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 STATE_STAGE items
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 STATE_STAGE barricades
+2026-09-20T14:47:44 remz-coop-connect-cancel-20260920 INITIAL_APPLY_DONE
+2026-09-20T14:47:46 remz-coop-connect-cancel-20260920 STATE_STAGE structures
+2026-09-20T14:47:46 remz-coop-connect-cancel-20260920 STATE_STAGE players
+2026-09-20T14:47:46 remz-coop-connect-cancel-20260920 STATE_STAGE enemies
+2026-09-20T14:47:46 remz-coop-connect-cancel-20260920 STATE_STAGE items
+2026-09-20T14:47:46 remz-coop-connect-cancel-20260920 STATE_STAGE barricades
+2026-09-20T14:48:17 remz-coop-connect-cancel-20260920 MAP_READY
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 INITIAL_RECEIVE parts=2
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 INITIAL_APPLY_BEGIN
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE structures
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE players
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE enemies
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE items
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE barricades
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 INITIAL_APPLY_DONE
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE structures
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE players
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE enemies
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE items
+2026-09-20T14:48:18 remz-coop-connect-cancel-20260920 STATE_STAGE barricades

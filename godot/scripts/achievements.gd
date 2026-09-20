@@ -6,6 +6,7 @@ extends CanvasLayer
 const SAVE := "user://achievements.json"
 # id: title, text, counter, target, reward {score, grenades, ammo, hp}
 const DEFS := [
+	{ "id": "pumpkin", "title": "Kürbisknacker", "text": "Einen Kürbis zerschossen", "counter": "pumpkins", "target": 1, "reward": { "score": 25 } },
 	{ "id": "first_blood", "title": "Erstes Blut", "text": "Ersten Zombie erledigt", "counter": "kills", "target": 1, "reward": { "score": 10 } },
 	{ "id": "kills_5", "title": "Warmgeschossen", "text": "5 Zombies erledigt", "counter": "kills", "target": 5, "reward": { "score": 20 } },
 	{ "id": "kills_25", "title": "Waldpolizei", "text": "25 Zombies erledigt", "counter": "kills", "target": 25, "reward": { "score": 40, "grenades": 1 } },

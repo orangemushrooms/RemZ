@@ -20,6 +20,8 @@ Der erste rund **27 m grosse Titan erscheint in Welle 6**, danach alle drei Well
 
 Vor dem Flächenangriff erscheint eine orange Markierung, die dem Gelände folgt. Sie bleibt am angekündigten Einschlagort; innerhalb der 2,4 Sekunden Vorwarnzeit kann man herauslaufen. Der Einschlag beschädigt Spieler und Verteidigungen im Radius von 8,5 m, gefolgt von einer Erholungsphase. Wände begrenzen den Einschlag und schützen vor der Druckwelle. Unter 40 % Leben wird der Titan schneller. Kugeln und Nahkampfstösse können ihn nicht dauerhaft betäuben. Schwierigkeit, spätere Wellen und Spielerzahl beeinflussen seine Stärke.
 
+Ein Titaneneinschlag verursacht auf **Normal 120 Schaden gegen Spieler**, vor Schutz durch Pilze. Ohne Lebens-Upgrades ist ein direkter Treffer tödlich. Gegen Barrikaden und Türen sind es **230**, gegen Geschütztürme **240** und gegen die Hütte **440 Basisschaden**; Verstärkungen reduzieren den erlittenen Schaden weiterhin. Die Schwierigkeit skaliert diese Werte: Spieler erhalten auf Leicht 84, auf Schwer 156 und auf Albtraum 204 Schaden vor Schutz.
+
 ## Schreie und Bodenbeben
 
 Titanen haben acht eigene Sounddateien: drei tiefe, raue Schreie, ein kurzes Angriffsbrüllen, einen Todesschrei, zwei schwere Schritte und einen Bodeneinschlag. Die Schreie schichten die vorhandenen Zombieaufnahmen mit tiefen Kehlkopfresonanzen und Atemgeräuschen. Beim Auftauchen und beim Übergang unter 40 % Leben brüllen sie besonders deutlich. Im Anmarsch folgen weitere Schreie in Abständen von 20–30 Sekunden mit langen Ruhephasen dazwischen.

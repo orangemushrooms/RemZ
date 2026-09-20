@@ -21,7 +21,7 @@ func setup(id: String, main: Node) -> void:
 	if ResourceLoader.exists(path):
 		var model: Node3D = load(path).instantiate()
 		figure.add_child(model)
-		if id == "ranger":
+		if id in ["ranger", "wanderer"]:
 			# Keep the working rig and textures; use private materials for Mara's woodland palette.
 			for mesh: MeshInstance3D in model.find_children("*", "MeshInstance3D", true, false):
 				for surface in mesh.mesh.get_surface_count():
@@ -75,6 +75,20 @@ func setup(id: String, main: Node) -> void:
 	quest_marker.visibility_range_end = 35.0
 	quest_marker.visible = false
 	add_child(quest_marker)
+	if id == "wanderer":
+		_install_walk()
+		var lantern := OmniLight3D.new()
+		lantern.position = Vector3(0.4, 1.0, 0.15)
+		lantern.light_color = Color(0.65, 0.3, 1.0)
+		lantern.light_energy = 1.5
+		lantern.omni_range = 5
+		figure.add_child(lantern)
+		var glow := DefenceTower.material(Color(0.6, 0.2, 0.9))
+		glow.emission_enabled = true
+		glow.emission = Color(0.65, 0.2, 1.0)
+		DefenceTower.cylinder(figure, 0.09, 0.23, lantern.position, glow)
+		_prop(figure, "ammo_crate", Vector3(0, 0.85, -0.26), 0.48)
+		return
 	if id == "ranger":
 		# The existing campfire and benches are her meeting place, without a merchant counter.
 		figure.rotation.y = PI * 0.5
@@ -106,6 +120,38 @@ func setup(id: String, main: Node) -> void:
 		var canopy := DefenceTower.box(props, Vector3(3.0, 0.035, 2.5), Vector3(0, 2.65, 0.1), cloth)
 		canopy.rotation.x = -0.12
 
+func _install_walk() -> void:
+	# Retarget the existing survivor's walk onto this merchant's own bind pose.
+	# Rotation-only tracks keep the navigation actor in charge of translation.
+	if not anim: return
+	var skeleton: Skeleton3D = figure.find_children("*", "Skeleton3D", true, false)[0]
+	var donor := (load("res://assets/models/player_survivor_v2.glb") as PackedScene).instantiate()
+	var source: AnimationPlayer = donor.find_children("*", "AnimationPlayer", true, false)[0]
+	var source_skeleton: Skeleton3D = donor.find_children("*", "Skeleton3D", true, false)[0]
+	var original := source.get_animation("walk")
+	var walk := Animation.new()
+	walk.length = original.length
+	walk.loop_mode = Animation.LOOP_LINEAR
+	var root_node := anim.get_node(anim.root_node)
+	for track in original.get_track_count():
+		if original.track_get_type(track) != Animation.TYPE_ROTATION_3D: continue
+		var track_path := original.track_get_path(track)
+		if track_path.get_subname_count() == 0: continue
+		var bone := str(track_path.get_subname(0))
+		var target_index := skeleton.find_bone(bone)
+		var source_index := source_skeleton.find_bone(bone)
+		if target_index < 0 or source_index < 0: continue
+		var correction := skeleton.get_bone_rest(target_index).basis.get_rotation_quaternion() * source_skeleton.get_bone_rest(source_index).basis.get_rotation_quaternion().inverse()
+		var target := walk.add_track(Animation.TYPE_ROTATION_3D)
+		walk.track_set_path(target, NodePath(str(root_node.get_path_to(skeleton)) + ":" + bone))
+		for key in original.track_get_key_count(track):
+			walk.rotation_track_insert_key(target, original.track_get_key_time(track, key), correction * Quaternion(original.track_get_key_value(track, key)))
+	var library: AnimationLibrary = anim.get_animation_library("").duplicate()
+	anim.remove_animation_library("")
+	anim.add_animation_library("", library)
+	library.add_animation("walk", walk)
+	donor.free()
+
 func _prop(parent: Node3D, asset: String, point: Vector3, height: float) -> void:
 	var model: Node3D = load("res://assets/models/%s.glb" % asset).instantiate()
 	var holder := Node3D.new()
@@ -117,6 +163,7 @@ func _prop(parent: Node3D, asset: String, point: Vector3, height: float) -> void
 	holder.position = point
 
 func _process(delta: float) -> void:
+	if npc_id == "wanderer": return
 	if not game or not is_instance_valid(game.player): return
 	var offset: Vector3 = game.player.global_position - global_position
 	if offset.length_squared() < 100 and offset.length_squared() > 0.05:

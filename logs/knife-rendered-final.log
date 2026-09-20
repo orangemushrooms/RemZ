@@ -1,0 +1,531 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+SCRIPT ERROR: Parse Error: Identifier "s" not declared in the current scope.
+   at: GDScript::reload (res://scripts/weapons.gd:244)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/progression.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/minimap.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/hud.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/player.gd:0)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/net_session.gd:0)
+ERROR: Failed to load script "res://scripts/net_session.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _build_buildings (res://scripts/main.gd:1445)
+       [2] _ready (res://scripts/main.gd:88)
+       [3] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _build_buildings (res://scripts/main.gd:1445)
+       [2] _ready (res://scripts/main.gd:88)
+       [3] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _build_buildings (res://scripts/main.gd:1445)
+       [2] _ready (res://scripts/main.gd:88)
+       [3] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _place_at (res://scripts/main.gd:730)
+       [2] _campsite_seating (res://scripts/main.gd:1945)
+       [3] _build_campsite (res://scripts/main.gd:1917)
+       [4] _ready (res://scripts/main.gd:89)
+       [5] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _place_at (res://scripts/main.gd:730)
+       [2] _campsite_seating (res://scripts/main.gd:1948)
+       [3] _build_campsite (res://scripts/main.gd:1917)
+       [4] _ready (res://scripts/main.gd:89)
+       [5] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _campsite_lanterns (res://scripts/main.gd:2015)
+       [2] _campsite_seating (res://scripts/main.gd:1969)
+       [3] _build_campsite (res://scripts/main.gd:1917)
+       [4] _ready (res://scripts/main.gd:89)
+       [5] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _campsite_lanterns (res://scripts/main.gd:2015)
+       [2] _campsite_seating (res://scripts/main.gd:1969)
+       [3] _build_campsite (res://scripts/main.gd:1917)
+       [4] _ready (res://scripts/main.gd:89)
+       [5] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _campsite_lanterns (res://scripts/main.gd:2015)
+       [2] _campsite_seating (res://scripts/main.gd:1969)
+       [3] _build_campsite (res://scripts/main.gd:1917)
+       [4] _ready (res://scripts/main.gd:89)
+       [5] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _campsite_lanterns (res://scripts/main.gd:2038)
+       [3] _campsite_seating (res://scripts/main.gd:1969)
+       [4] _build_campsite (res://scripts/main.gd:1917)
+       [5] _ready (res://scripts/main.gd:89)
+       [6] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _campsite_lanterns (res://scripts/main.gd:2038)
+       [3] _campsite_seating (res://scripts/main.gd:1969)
+       [4] _build_campsite (res://scripts/main.gd:1917)
+       [5] _ready (res://scripts/main.gd:89)
+       [6] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _campsite_lanterns (res://scripts/main.gd:2038)
+       [3] _campsite_seating (res://scripts/main.gd:1969)
+       [4] _build_campsite (res://scripts/main.gd:1917)
+       [5] _ready (res://scripts/main.gd:89)
+       [6] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _campsite_lanterns (res://scripts/main.gd:2038)
+       [3] _campsite_seating (res://scripts/main.gd:1969)
+       [4] _build_campsite (res://scripts/main.gd:1917)
+       [5] _ready (res://scripts/main.gd:89)
+       [6] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _campsite_lanterns (res://scripts/main.gd:2038)
+       [3] _campsite_seating (res://scripts/main.gd:1969)
+       [4] _build_campsite (res://scripts/main.gd:1917)
+       [5] _ready (res://scripts/main.gd:89)
+       [6] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function '_fit_height' in base 'GDScript'.
+   at: _place (res://scripts/main.gd:659)
+   GDScript backtrace (most recent call first):
+       [0] _place (res://scripts/main.gd:659)
+       [1] _mushroom (res://scripts/main.gd:2132)
+       [2] _build_clutter (res://scripts/main.gd:2127)
+       [3] _ready (res://scripts/main.gd:93)
+       [4] run (res://tests/melee_weapons.gd:29)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] build (res://scripts/cornfield.gd:62)
+       [1] _ready (res://scripts/main.gd:96)
+       [2] run (res://tests/melee_weapons.gd:29)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] optimize (res://scripts/render_optimizer.gd:84)
+       [1] _ready (res://scripts/main.gd:98)
+       [2] run (res://tests/melee_weapons.gd:29)
+RENDER_OPTIMIZER { "source_meshes": 739, "batches": 14, "removed_render_nodes": 79 }
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+   at: _ready (res://scripts/main.gd:120)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/main.gd:120)
+       [1] run (res://tests/melee_weapons.gd:29)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)

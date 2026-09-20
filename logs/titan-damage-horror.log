@@ -1,0 +1,54 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 42 }
+COOP_LOAD MAP_READY
+PASS: roar_1 is a dedicated, imported, non-looping sound
+PASS: roar_1 cannot loop indefinitely
+PASS: roar_2 is a dedicated, imported, non-looping sound
+PASS: roar_2 cannot loop indefinitely
+PASS: roar_3 is a dedicated, imported, non-looping sound
+PASS: roar_3 cannot loop indefinitely
+PASS: windup is a dedicated, imported, non-looping sound
+PASS: windup cannot loop indefinitely
+PASS: death is a dedicated, imported, non-looping sound
+PASS: death cannot loop indefinitely
+PASS: step_1 is a dedicated, imported, non-looping sound
+PASS: step_1 cannot loop indefinitely
+PASS: step_2 is a dedicated, imported, non-looping sound
+PASS: step_2 cannot loop indefinitely
+PASS: slam is a dedicated, imported, non-looping sound
+PASS: slam cannot loop indefinitely
+PASS: Titan emits one arrival cry after spawn
+PASS: Arrival uses actual field position instead of map origin
+PASS: Spawn displacement cannot cause a phantom footstep
+PASS: Dedicated spatial roar uses a controlled titan mix
+PASS: Roar travels across the field from the giant's head
+PASS: Nearby roar briefly makes room in the music mix
+PASS: Repeated event serial never replays the same roar
+PASS: Replicas do not generate duplicate boss events
+PASS: Stationary walk animation creates no phantom ground impacts
+PASS: Moving giant produces bounded heavy footsteps
+PASS: Attack warning emits its own vocal cue
+PASS: Short attack grunt cannot stack over the arrival roar
+PASS: Impact emits exactly one distinct slam
+PASS: Ground vibration respects travel delay
+PASS: Nearby step gives a subtle, finite tremor
+PASS: Distant footsteps are much gentler
+PASS: Distant audible slam does not shake the entire map
+PASS: Shake moves the view only a few centimetres
+PASS: Camera settles exactly without persistent drift
+PASS: Tremor does not displace player, mouse aim or FOV
+PASS: Multiple giants cannot stack unbounded shaking
+PASS: Menu interaction suppresses new camera tremors
+PASS: Dead player receives no new camera tremors
+PASS: Settings slider can disable the vibration
+PASS: Crossing the rage threshold produces exactly one rage cry
+PASS: Approach cries have long quiet intervals
+PASS: Boss death cry plays once
+PASS: Falling body lands with a delayed ground impact
+PASS: Music recovers after the cry ends
+TITAN_HORROR_DONE checks=45 failures=0

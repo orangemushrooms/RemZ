@@ -38,8 +38,11 @@ func run() -> void:
 	var shop: Progression = game.progression
 	p.score = 5000
 	for id in Weapons.ORDER:
-		check(w.unlocked[id] == (id == "pistol"), id + " starts with the correct ownership")
-		check(ResourceLoader.exists("res://assets/models/%s.glb" % Weapons.DEFS[id].model), id + " has a production mesh")
+		check(w.unlocked[id] == (id in ["pistol", "knife"]), id + " starts with the correct ownership")
+		if Weapons.is_melee(id):
+			check(not w.state[id].node.find_children("*", "MeshInstance3D", true, false).is_empty(), id + " has weapon geometry")
+		else:
+			check(ResourceLoader.exists("res://assets/models/%s.glb" % Weapons.DEFS[id].model), id + " has a production mesh")
 	for id in Progression.NPCS:
 		check(shop.npcs[id].anim != null and shop.npcs[id].anim.is_playing(), id + " has a rigged animated NPC")
 	var weapon_pickups := 0
@@ -51,12 +54,37 @@ func run() -> void:
 	check(p.score == before and not w.unlocked.revolver, "Remote merchant purchase rejected atomically")
 	await visit("camp")
 	check(shop.close_enough(p, "camp"), "Camp merchant reachable in actual world")
+	var missing := shop.transact(p, "camp", "quest", "marksman_training")
+	check(missing.contains("Eine ruhige Hand") and missing.contains("Am Feuer") and missing.contains("Vendor"), "Blocked quest names its prerequisite, NPC and earliest actionable step")
+	check(not shop.local_data().accepted.get("marksman_training", false), "Blocked quest cannot be accepted")
+	var covered := {}
+	for chain in Progression.QUEST_CHAINS:
+		for quest in Progression.QUEST_CHAINS[chain].quests:
+			check(Progression.QUESTS.has(quest) and not covered.has(quest), "Quest belongs to exactly one valid chain: " + quest)
+			covered[quest] = true
+	check(covered.size() == Progression.QUESTS.size(), "All quests have a named chain")
 	shop.interact("camp")
 	check(shop.is_open and paused and not p.active, "NPC interaction opens shop and pauses solo")
 	for page in ["Handel", "Aufträge", "Training", "Türme", "Skins"]:
 		shop.page = page
 		shop._render()
 		check(shop.rows.get_child_count() > 0, "Shop page renders: " + page)
+		if page == "Aufträge":
+			var clear_requirement := false
+			for widgets in shop._row_nodes:
+				if widgets[0].text.contains("Präzision unter Druck"):
+					clear_requirement = widgets[0].text.contains("Marksman") and widgets[4].text.contains("Eine ruhige Hand") and widgets[4].text.contains("Vendor") and widgets[1].text.contains("Kaufberechtigung")
+			check(clear_requirement, "Quest UI shows chain, named prerequisite, giver and weapon permission")
+			if "--render-quests" in OS.get_cmdline_user_args():
+				await process_frame
+				for widgets in shop._row_nodes:
+					if widgets[0].text.contains("Präzision unter Druck"):
+						(shop.rows.get_parent() as ScrollContainer).scroll_vertical = int(widgets[0].get_parent().get_parent().position.y)
+				await process_frame
+				await RenderingServer.frame_post_draw
+				var folder := ProjectSettings.globalize_path("res://../artifacts/quest-chains/")
+				DirAccess.make_dir_recursive_absolute(folder)
+				root.get_texture().get_image().save_png(folder + "marksman-requirements.png")
 		for widgets in shop._row_nodes:
 			check(widgets[3] is TextureRect and widgets[3].texture != null and widgets[3].mouse_filter == Control.MOUSE_FILTER_IGNORE, "Shop icon loads without intercepting clicks: " + widgets[0].text)
 	shop.page = "Handel"
@@ -90,6 +118,8 @@ func run() -> void:
 	check(Sfx._voices["quest_complete"] == completion_voices, "Rejected duplicate reward stays silent")
 	shop.transact(p, "camp", "weapon", "revolver")
 	check(not w.unlocked.revolver, "Quest completion still requires surviving wave one")
+	var level_result := shop.transact(p, "camp", "quest", "steady_aim")
+	check(level_result.contains("Einsatzlevel 2") and not shop.local_data().accepted.get("steady_aim", false), "Quest transaction rejects acceptance below level gate")
 	game.waves.completed = 1
 	p.score = 219
 	shop.transact(p, "camp", "weapon", "revolver")
@@ -137,6 +167,7 @@ func run() -> void:
 	check(game.defences.rotate_tower(p, tower.tower_id, PI / 2).is_empty() and is_equal_approx(tower.rotation.y, PI / 2), "Existing tower rotates authoritatively")
 	check(shop.team.built == 1 and shop.team.turned == 1, "Defence tutorial observes real placement and rotation")
 	game.barricades[0].build()
+	game.waves.completed += 1
 	check(shop.complete("watch"), "Defence quest completes with a built line and rotated tower")
 	before = p.score
 	game.defences.maintain(p, tower.tower_id, "upgrade")
@@ -145,14 +176,50 @@ func run() -> void:
 	shop.transact(p, "mechanic", "tower_upgrade", str(tower.tower_id))
 	check(tower.level == 2 and p.score == before - 100, "Mechanic upgrades deployed tower transactionally")
 	shop.transact(p, "mechanic", "quest", "watch")
+	game.waves.completed = 3
 	shop.transact(p, "mechanic", "quest", "supplies")
 	await visit("cache")
 	check(shop.close_enough(p, "cache"), "Supply objective reachable")
 	shop.transact(p, "cache", "cache", "")
 	check(shop.team.cache, "World interaction collects shared delivery")
+	game.waves.completed += 1
 	await visit("mechanic")
 	shop.transact(p, "mechanic", "quest", "supplies")
 	check(shop.has_claim(p.peer_id, "supplies"), "Delivery must be returned to claim its reward")
+	# Precision rifles require the complete Marksman chain, not a delivery alone.
+	check(shop.lock_reason(p, "marksman").contains("Marksman") and shop.lock_reason(p, "marksman").contains("Eine ruhige Hand"), "Sniper shop names the missing Marksman chain and next quest")
+	await visit("camp")
+	before = p.score
+	shop.transact(p, "camp", "weapon", "marksman")
+	check(p.score == before and not w.unlocked.marksman, "Delivery and points cannot bypass the sniper permission")
+	game.waves.completed = maxi(game.waves.completed, 3)
+	shop.team.headshot_kills = 40
+	for quest in ["steady_aim", "marksman_training"]:
+		game.waves.completed = maxi(game.waves.completed, int(Progression.QUESTS[quest].min_level) - 1)
+		shop.transact(p, "camp", "quest", quest)
+		var quest_balance := p.score
+		shop.transact(p, "camp", "quest", quest)
+		check(p.score == quest_balance and not shop.has_claim(p.peer_id, quest), quest + " cannot be claimed by clicking again with old counters")
+		game.waves.completed += 1
+		shop.transact(p, "camp", "quest", quest)
+	check(not shop.chain_complete(p.peer_id, "marksman") and shop.lock_reason(p, "marksman").contains("Secret Vendor"), "Intermediate quests direct the player to the final giver")
+	await visit("secret")
+	game.waves.completed = 7
+	shop.transact(p, "secret", "quest", "silent_deal")
+	game.waves.completed += 1
+	check(shop.next_quest_step(p.peer_id, "silent_deal").contains("Belohnung abholen") and not shop.chain_complete(p.peer_id, "marksman"), "Completed objective requires turn-in before granting permission")
+	var chain_reward := shop.transact(p, "secret", "quest", "silent_deal")
+	check(shop.chain_complete(p.peer_id, "marksman") and chain_reward.contains("Kaufberechtigung"), "Final turn-in announces the earned Marksman permission")
+	check(not shop.chain_complete(2, "marksman"), "Shared team goals do not grant another player's unclaimed permission")
+	var quest_snapshot := shop.snapshot()
+	shop.apply_snapshot(quest_snapshot)
+	check(shop.chain_complete(p.peer_id, "marksman") and not shop.chain_complete(2, "marksman"), "Snapshots preserve individual chain permissions")
+	check(shop.lock_reason(p, "marksman").is_empty(), "Marksman chain permits the precision rifle")
+	check(shop.lock_reason(p, "titanbreaker").contains("Was auf dem Feld lauert"), "Heavy sniper still requires its separate titan quest")
+	await visit("camp")
+	before = p.score
+	shop.transact(p, "camp", "weapon", "marksman")
+	check(w.unlocked.marksman and p.score == before - int(Progression.GOODS.marksman.price), "Earned sniper permission still requires paying the weapon price")
 	await visit("secret")
 	shop.transact(p, "secret", "visit", "")
 	check(shop.local_data().discovered, "Secret merchant discovered by reaching the actual NPC")
@@ -161,6 +228,7 @@ func run() -> void:
 	check(not w.unlocked.titanbreaker, "Top weapon additionally requires a defeated titan")
 	shop.transact(p, "secret", "quest", "titan")
 	shop.event("titans")
+	game.waves.completed += 1
 	shop.transact(p, "secret", "quest", "titan")
 	shop.transact(p, "secret", "weapon", "titanbreaker")
 	check(w.unlocked.titanbreaker, "Earned late-game titan weapon can be purchased")
@@ -222,7 +290,8 @@ func run() -> void:
 		mushroom.setup("mushroom", "steinpilz", "Steinpilz")
 		game.add_child(mushroom)
 		mushroom.take(w, game.hud)
-	check(shop.team.edible_mushrooms == gathered + 5 and shop.has_ready_quest("ranger"), "Real mushroom pickups complete Mara's first quest")
+	game.waves.completed += 1
+	check(shop.team.edible_mushrooms == gathered + 5 and shop.has_ready_quest("ranger"), "Mushroom pickups and surviving a wave complete Mara's first quest")
 	before = p.score
 	shop.transact(p, "ranger", "quest", "forest_basket")
 	shop.transact(p, "ranger", "quest", "forest_basket")

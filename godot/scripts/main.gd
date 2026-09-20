@@ -7,6 +7,7 @@ var hud: Hud
 var weapons: Weapons
 var waves: Waves
 var day_night: DayNightCycle
+var cornfield: Node3D
 var fill_light: DirectionalLight3D
 var skills: Skills
 var inventory: Inventory
@@ -90,6 +91,9 @@ func _ready() -> void:
 	_build_pond()
 	_build_fence()
 	_build_clutter()
+	cornfield = preload("res://scripts/cornfield.gd").new()
+	add_child(cornfield)
+	cornfield.build(self)
 	_build_foliage()
 	render_stats = RenderOptimizer.optimize(self)
 	print("RENDER_OPTIMIZER ", render_stats)
@@ -157,6 +161,7 @@ func _ready() -> void:
 	ambience = Ambience.new()
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
+	ambience.day_night = day_night
 	intro = Intro.new()
 	add_child(intro)
 	intro.setup(self, player, settings.env)
@@ -1999,17 +2004,26 @@ func _seat_log(seat: Node3D) -> void:
 	seat.add_child(lg)
 	_box_collider(seat, Vector3(3.2, 0.6, 0.6), Vector3(0, -0.3, 0))
 
+var pumpkins: Array = []
+const ShootablePumpkin = preload("res://scripts/shootable_pumpkin.gd")
+
 func _campsite_lanterns() -> void:
 	# pumpkin lanterns: game flavour at the stair, the table and the fountain
 	var wh: Dictionary = Map.BUILDINGS["waldhuette"]
 	var whp: Vector2 = wh["pos"]
 	var lanterns := [[whp.x - 4.6, whp.y - 4.2, "pumpkin_lantern", 0.55], [Map.TABLE.x + 1.6, Map.TABLE.y - 0.9, "pumpkin_lantern", 0.5], [Map.FOUNTAIN.x + 1.8, Map.FOUNTAIN.y + 0.6, "pumpkin", 0.42]]
 	for p in lanterns:
-		_place(p[2], p[0], p[1], p[3], -1.0, 1.0, 0.0)
+		var prop := _place(p[2], p[0], p[1], p[3], -1.0, 1.0, 0.0)
+		if not prop: continue
+		var pumpkin := ShootablePumpkin.new()
+		prop.add_child(pumpkin)
+		pumpkin.setup(prop)
+		pumpkins.append(pumpkin)
 		if p[2] == "pumpkin_lantern":
 			var pl := OmniLight3D.new()
 			pl.light_color = Color(1.0, 0.55, 0.15)
 			pl.light_energy = 1.2
+			pumpkin.lamp = pl
 			pl.add_to_group("day_night_lamps")
 			pl.omni_range = 4.0
 			add_child(pl)
@@ -2022,7 +2036,7 @@ func _campsite_lanterns() -> void:
 		var z := Map.FIRE.y + sin(a) * r
 		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0) or Map.in_clearing(x, z):
 			continue
-		_mushroom(x, z, rng.randf() < 0.65, 0.22 + rng.randf() * 0.18)
+		_mushroom(x, z, Inventory.Mushrooms.choose(rng), 0.22 + rng.randf() * 0.18)
 
 # pasture fence between the tracks and the meadow (photos 4, 9): posts, two wires, collision
 func _build_fence() -> void:
@@ -2111,14 +2125,21 @@ func _build_clutter() -> void:
 		var z: float = rng.randf_range(-90.0, 60.0)
 		if Map.leaf_weight(x, z) < 0.6 or Map.on_road(x, z, 1.0) or Map.in_building(x, z, 1.0) or Map.in_clearing(x, z):
 			continue
-		_mushroom(x, z, rng.randf() < 0.7, 0.18 + rng.randf() * 0.2)
+		_mushroom(x, z, Inventory.Mushrooms.choose(rng), 0.18 + rng.randf() * 0.2)
 
-func _mushroom(x: float, z: float, edible: bool, height: float) -> void:
-	var n := _place("mushroom_cluster" if edible else "mushroom_fly", x, z, height, -1.0, 1.0, 0.0)
+func _mushroom(x: float, z: float, kind: String, height: float) -> void:
+	var n: Node3D
+	if kind in ["steinpilz", "fliegenpilz"]:
+		n = _place("mushroom_cluster" if kind == "steinpilz" else "mushroom_fly", x, z, height, -1.0, 1.0, 0.0)
+	else:
+		n = Inventory.Mushrooms.model(kind)
+		add_child(n)
+		n.position = Map.ground_pos(x, z)
+		n.scale = Vector3.ONE * height / 0.4
 	if not n:
 		return
 	var l := Loot.new()
-	l.setup("mushroom", "steinpilz" if edible else "fliegenpilz", "Steinpilz" if edible else "Fliegenpilz")
+	l.setup("mushroom", kind, Inventory.MUSHROOMS[kind].name)
 	add_child(l)
 	l.global_transform = n.global_transform
 	n.reparent(l)
@@ -2259,12 +2280,12 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 			var offset: Vector3 = spawn - actor.global_position
 			if Vector2(offset.x, offset.z).length_squared() < minimum_distance * minimum_distance:
 				return false
-	var z: Zombie = Titan.new() if type == "titan" else Zombie.new()
+	var z: Zombie = Titan.new() if Zombie.is_titan_kind(type) else Zombie.new()
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	z.hp *= float(difficulty["hp"])
-	if type == "titan":
+	if Zombie.is_titan_kind(type):
 		z.hp *= (1.0 + maxf(0, waves.wave - 8) * 0.12) * (1.0 + 0.65 * (NetSession.roster.size() - 1) if NetSession.enabled else 1.0)
-		var message := "DER FELDTITAN\nEin Gigant nähert sich über die Wiese!"
+		var message := "%s\nEin %d Meter großer Titan nähert sich über die Wiese!" % [z.type.get("name", "DER FELDTITAN"), int(z.height)]
 		hud.message(message, 5)
 		if NetSession.is_host():
 			for peer in NetSession.ready_peers:
@@ -2296,11 +2317,12 @@ func _zombie_killed(zombie: Zombie) -> void:
 	if not is_instance_valid(scorer): scorer = player
 	if zombie.killer_weapon == "tower": points = maxi(1, roundi(points * 0.5))
 	scorer.add_score(points)
+	progression.rare_market.on_kill(scorer, zombie.killer_weapon)
 	progression.event("kills")
 	if zombie.net_kind == "runner": progression.event("runner_kills")
 	if zombie.last_headshot: progression.event("headshot_kills")
 	if zombie.killer_weapon == "tower": progression.event("tower_kills")
-	if zombie.net_kind == "titan": progression.event("titans")
+	if Zombie.is_titan_kind(zombie.net_kind): progression.event("titans")
 	# Support players earn a modest shared contribution without multiplying the full bounty.
 	if NetSession.is_host():
 		for peer in NetSession.world.actors:

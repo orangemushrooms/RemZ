@@ -30,6 +30,8 @@ func run() -> void:
 	game.waves.set_process(false)
 	game.weapons.set_process(false)
 	var p: Player = game.player
+	p.max_hp = 200
+	p.hp = 200
 	p.set_physics_process(false)
 	p.global_position = Map.ground_pos(20, 105)
 	var original_position := p.global_position

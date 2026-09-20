@@ -1,0 +1,39 @@
+2026-09-20T14:42:54 remz-coop-connect-cancel-20260920 BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-20T14:42:54 remz-coop-connect-cancel-20260920 NETWORK_INITIALIZED
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 MAP_READY
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 JOIN_SOCKET result=0
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 LEAVE_PEER_DETACHED
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 LEAVE_PEER_CLOSED
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 LEAVE_DONE reused_loaded_map
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 JOIN_SOCKET result=0
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 LEAVE_PEER_DETACHED
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 LEAVE_PEER_CLOSED
+2026-09-20T14:43:05 remz-coop-connect-cancel-20260920 LEAVE_DONE reused_loaded_map
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 JOIN_SOCKET result=0
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_PEER_DETACHED
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_PEER_CLOSED
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_DONE reused_loaded_map
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 JOIN_SOCKET result=0
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_BEGIN phase=connecting reason=Keine Antwort vom Host. Hamachi-Verbindung und Freigabe von UDP 24699 in der Windows-Firewall prüfen.
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_PEER_DETACHED
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_PEER_CLOSED
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_DONE reused_loaded_map
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 JOIN_SOCKET result=0
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_BEGIN phase=connecting reason=Verbindung fehlgeschlagen. Hamachi-IP, Netzwerk und UDP-Port prüfen.
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_PEER_DETACHED
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_PEER_CLOSED
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_DONE reused_loaded_map
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 HOST_CREATE port=24699
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 HOST_READY
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_BEGIN phase=lobby reason=Sitzung verlassen.
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_PEER_DETACHED
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_PEER_CLOSED
+2026-09-20T14:43:06 remz-coop-connect-cancel-20260920 LEAVE_DONE reused_loaded_map

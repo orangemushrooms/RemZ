@@ -3,12 +3,14 @@ extends Node
 
 const KEYS := {"waldhuette": "Waldhütte", "holzlager": "Holzlager"}
 const HINT_RADIUS := 16.0
-const SPAWN_CHANCE := 0.20
+const SPAWN_CHANCE := 0.30
 var main: Node3D
 var owned: Dictionary = {}
 var spawned: Array[ForestKey] = []
 var hint: KeyHint
 var _hint_time := 0.0
+var _spawn_random := RandomNumberGenerator.new()
+var _last_spawn_phase := ""
 
 func setup(game: Node3D) -> void:
 	main = game
@@ -22,7 +24,7 @@ func has_key(id: String) -> bool:
 
 func populate() -> bool:
 	if not spawned.is_empty(): return true
-	var random := RandomNumberGenerator.new()
+	var random := _spawn_random
 	random.randomize()
 	for flag in main._flags:
 		if flag.begins_with("--key-seed="):
@@ -46,7 +48,20 @@ func populate() -> bool:
 			key.pickup_visual.hide()
 		spawned.append(key)
 		main.loots.append(key)
+	_last_spawn_phase = "%d:%s" % [main.waves.wave, main.waves.phase]
 	return true
+
+func refresh_availability() -> void:
+	if not main or not main.started or main.over or get_tree().paused or NetSession.is_client(): return
+	if main.waves.phase not in ["idle", "spawning"] or spawned.is_empty(): return
+	var phase_id := "%d:%s" % [main.waves.wave, main.waves.phase]
+	if phase_id == _last_spawn_phase: return
+	_last_spawn_phase = phase_id
+	for key in spawned:
+		if not is_instance_valid(key) or not key.taken or has_key(key.key_id): continue
+		if roll_spawn(_spawn_random):
+			key.taken = false
+			key.pickup_visual.show()
 
 static func roll_spawn(random: RandomNumberGenerator) -> bool:
 	return random.randf() < SPAWN_CHANCE
@@ -110,10 +125,11 @@ func collect(key: ForestKey) -> void:
 	owned[key.key_id] = true
 	key.pickup_visual.hide()
 	hint.update_target(null, main.player)
-	main.hud.message("Schlüssel gefunden: %s\nAlle Türen dieser Hütte sind jetzt bedienbar. [B] Inventar" % KEYS[key.key_id], 4.0)
+	main.hud.message("Schlüssel gefunden: %s\nAlle Türen dieser Hütte sind jetzt bedienbar. [I] Inventar" % KEYS[key.key_id], 4.0)
 	Sfx.play(self, "key_pickup", -6.0)
 
 func _process(delta: float) -> void:
+	refresh_availability()
 	_hint_time -= delta
 	if _hint_time > 0 or not main:
 		return

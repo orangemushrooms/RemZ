@@ -37,7 +37,7 @@ func setup() -> void:
 			if material:
 				material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 
-func pose(delta: float, speed: float, pitch: float, right_wrist: Vector3, left_wrist: Vector3, alive: bool) -> void:
+func pose(delta: float, speed: float, pitch: float, right_wrist: Vector3, left_wrist: Vector3, alive: bool, crouch: float = 0.0) -> void:
 	clock += delta
 	walk_weight = move_toward(walk_weight, clampf(speed / 1.2, 0.0, 1.0) if alive else 0.0, delta * 6.0)
 	skeleton.reset_bone_poses()
@@ -61,6 +61,12 @@ func pose(delta: float, speed: float, pitch: float, right_wrist: Vector3, left_w
 		skeleton.set_bone_pose_position(bones.Hips, hip)
 	_rotate_in_body("Spine", Vector3.RIGHT, pitch * 0.22 + sin(clock * 1.7) * 0.008)
 	_rotate_in_body("Head", Vector3.RIGHT, pitch * 0.35)
+	if crouch > 0.0:
+		for side in ["Left", "Right"]:
+			_rotate_in_body(side + "UpLeg", Vector3.RIGHT, 1.05 * crouch)
+			_rotate_in_body(side + "Leg", Vector3.RIGHT, -1.85 * crouch)
+			_rotate_in_body(side + "Foot", Vector3.RIGHT, 0.8 * crouch)
+		_rotate_in_body("Spine", Vector3.RIGHT, -0.25 * crouch)
 	# Keep the lower boot on the ground as the imported hips bob.
 	model.position.y += resting_foot_height - _lowest_foot()
 	_solve_arm("Right", right_wrist, Vector3(0.40, 1.05, -0.04))

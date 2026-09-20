@@ -83,9 +83,15 @@ static func build(weapon_id: String, bounds: AABB) -> ViewmodelHands:
 		# The charging handle widens the bounds; both wooden grips sit nearer the bore.
 		rig.trigger_grip.x = bounds.get_center().x - 0.002
 		rig.support_grip.x = bounds.get_center().x - 0.012
+	if weapon_id in ["knife", "hatchet"]:
+		rig.trigger_grip = Vector3(0.02, -0.03, 0.015)
+		rig.support_grip = Vector3(-0.32, -0.12, 0.12)
 	var right_basis := Basis(Vector3.UP, PI)
 	var right_wrist := rig.trigger_grip + Vector3(0.012, -0.008, 0.059)
-	var right := rig._arm(true, false, Transform3D(right_basis, right_wrist), Vector3(0.18, -0.27, 0.40))
+	var melee := weapon_id in ["knife", "hatchet"]
+	# Keep the sleeve ends behind the camera throughout the melee swing.
+	var elbow_z := 0.95 if melee else 0.40
+	var right := rig._arm(true, false, Transform3D(right_basis, right_wrist), Vector3(0.18, -0.27, elbow_z))
 	right.name = "TriggerHand"
 	rig.add_child(right)
 	var left_basis := Basis(Vector3.UP, PI)
@@ -97,7 +103,7 @@ static func build(weapon_id: String, bounds: AABB) -> ViewmodelHands:
 	else:
 		left_basis = Basis(Vector3.BACK, PI * 0.5) * left_basis
 		left_wrist = rig.support_grip + Vector3(0.012, -0.03, 0.060)
-	rig.support = rig._arm(false, not pistol, Transform3D(left_basis, left_wrist), Vector3(-0.30, -0.27, 0.40))
+	rig.support = rig._arm(false, not pistol, Transform3D(left_basis, left_wrist), Vector3(-0.30, -0.27, elbow_z))
 	rig.support.name = "SupportHand"
 	rig.add_child(rig.support)
 	return rig
@@ -138,6 +144,8 @@ func _arm(right: bool, foregrip: bool, wrist: Transform3D, elbow: Vector3) -> No
 	var cuff := wrist * Vector3(0.0, 0.0, -0.012)
 	var sleeve := MeshInstance3D.new()
 	sleeve.name = "Sleeve"
+	sleeve.set_meta("elbow", elbow)
+	sleeve.set_meta("right", right)
 	sleeve.mesh = _sleeve(cuff, elbow, wrist.basis)
 	sleeve.material_override = _cloth
 	sleeve.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -202,3 +210,16 @@ func reset_motion() -> void:
 	_stride = 0.0
 	animate_reload(0.0, false)
 	animate_cloth(0.0, 0.0, 0.0)
+
+# The wrist follows the knife, while the sleeve ends stay behind the camera.
+func anchor_melee_elbows(view_camera: Camera3D) -> void:
+	# The free hand stays in a low guard instead of rotating with the blade.
+	support.global_basis = view_camera.global_basis
+	var glove: Node3D = support.get_node("Glove")
+	support.position = to_local(view_camera.to_global(Vector3(-0.25, -0.34, -0.42))) - support.basis * glove.position
+	for sleeve in _sleeves:
+		var side := 1.0 if sleeve.get_meta("right",false) else -1.0
+		var endpoint := view_camera.to_global(Vector3(side*0.4,-0.55,0.2))
+		var offset: Vector3 = sleeve.to_local(endpoint)-Vector3(sleeve.get_meta("elbow"))
+		sleeve.set_instance_shader_parameter("elbow_offset",offset)
+		sleeve.extra_cull_margin = 1.0

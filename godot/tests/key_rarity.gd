@@ -16,7 +16,7 @@ func run() -> void:
 		if second: counts[1] += 1
 		if not first and not second: empty_runs += 1
 		if first and second: both_runs += 1
-	var ok: bool = counts[0] > 1800 and counts[0] < 2200 and counts[1] > 1800 and counts[1] < 2200 and empty_runs > 6000 and both_runs < 600
+	var ok: bool = counts[0] > 2800 and counts[0] < 3200 and counts[1] > 2800 and counts[1] < 3200 and empty_runs > 4600 and empty_runs < 5200 and both_runs > 700 and both_runs < 1100
 	print("KEY_RARITY counts=%s empty=%d both=%d" % [counts, empty_runs, both_runs])
 	print("KEY_RARITY_DONE failures=%d" % (0 if ok else 1))
 	quit(0 if ok else 1)

@@ -1,13 +1,21 @@
-# Weapons: five guns with COD-style recoil (camera kick + view-model kick), aim down sights,
-# muzzle flash, hitscan against zombies, plus hand grenades.
+# Firearms with recoil and sights, selectable melee weapons, and hand grenades.
 class_name Weapons
 extends Node3D
+
+const Aim = preload("res://scripts/aim_model.gd")
+
+const Mods = preload("res://scripts/weapon_mods.gd")
 
 const Hands = preload("res://scripts/viewmodel_hands.gd")
 const Viewmodel = preload("res://scripts/viewmodel_viewport.gd")
 const Effects = preload("res://scripts/weapon_effects.gd")
+const MeleeModels = preload("res://scripts/melee_models.gd")
 
 const DEFS := {
+	"knife": {"name": "Feldmesser", "model": "knife", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 2.2, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "melee", "shove": 3.5,
+		"pos": Vector3(0.29, -0.23, -0.57), "ads": Vector3(0.29, -0.23, -0.57), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 8.0},
+	"hatchet": {"name": "Waldaxt", "model": "hatchet", "melee": true, "height": 0.61, "mag": 0, "reserve": 0, "damage": 125.0, "rate": 0.95, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 2.35, "auto": false, "sfx": "melee", "shove": 7.0,
+		"pos": Vector3(0.28, -0.30, -0.65), "ads": Vector3(0.28, -0.30, -0.65), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 5.0},
 	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 2.6, "kick_yaw": 0.75, "kick_back": 0.08, "recover": 7.0 },
 	"revolver": { "name": "Revolver", "model": "revolver", "height": 0.13, "mag": 6, "reserve": 30, "damage": 95.0, "rate": 0.45, "reload": 2.2, "pellets": 1, "spread": 0.008, "range": 80.0, "auto": false, "sfx": "revolver", "sfx_db": -11.0,
@@ -18,17 +26,22 @@ const DEFS := {
 				  "pos": Vector3(0.24, -0.23, -0.58), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 2.2, "kick_yaw": 1.05, "kick_back": 0.085, "recover": 7.5 },
 	"shotgun":  { "name": "Schrotflinte", "model": "rifle", "height": 0.16, "mag": 6, "reserve": 24, "damage": 22.0, "rate": 0.85, "reload": 2.0, "pellets": 8, "spread": 0.07, "range": 28.0, "auto": false, "sfx": "shotgun", "sfx_db": -7.0,
 				  "pos": Vector3(0.22, -0.24, -0.6), "ads": Vector3(0.0, -0.15, -0.45), "kick_pitch": 8.0, "kick_yaw": 2.0, "kick_back": 0.19, "recover": 4.5 },
-	"marksman": {"name": "Waldläufer .308", "model": "marksman", "height": 0.20, "mag": 5, "reserve": 10, "damage": 165.0, "rate": 1.15, "reload": 2.8, "pellets": 1, "spread": 0.0025, "range": 150.0, "auto": false, "sfx": "revolver", "sfx_db": -10.0,
+	"marksman": {"name": "Waldläufer .308", "scope_zoom": 4.0, "model": "marksman", "pierce_targets": 3, "pierce_retention": 0.75, "height": 0.20, "mag": 5, "reserve": 10, "damage": 165.0, "rate": 1.15, "reload": 2.8, "pellets": 1, "spread": 0.0025, "range": 150.0, "auto": false, "sfx": "revolver", "sfx_db": -10.0,
 		"pos": Vector3(0.24, -0.23, -0.62), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 7.0, "kick_yaw": 1.0, "kick_back": 0.16, "recover": 4.0},
-	"lmg": {"name": "MG-60", "model": "lmg", "height": 0.23, "mag": 60, "reserve": 120, "damage": 40.0, "rate": 0.085, "reload": 4.2, "pellets": 1, "spread": 0.034, "range": 85.0, "auto": true, "sfx": "ak47", "sfx_db": -16.0, "sfx_pitch": 0.88,
+	"lmg": {"name": "MG-60", "model": "lmg", "pierce_targets": 2, "pierce_retention": 0.65, "height": 0.23, "mag": 60, "reserve": 120, "damage": 40.0, "rate": 0.085, "reload": 4.2, "pellets": 1, "spread": 0.034, "range": 85.0, "auto": true, "sfx": "ak47", "sfx_db": -16.0, "sfx_pitch": 0.88,
 		"pos": Vector3(0.25, -0.27, -0.64), "ads": Vector3(0, -0.16, -0.46), "kick_pitch": 2.0, "kick_yaw": 1.4, "kick_back": 0.085, "recover": 7.0},
 	"breacher": {"name": "Nachtbrecher 12", "model": "breacher", "height": 0.20, "mag": 8, "reserve": 16, "damage": 25.0, "rate": 0.5, "reload": 3.3, "pellets": 9, "spread": 0.075, "range": 25.0, "auto": false, "sfx": "shotgun", "sfx_db": -6.0,
 		"pos": Vector3(0.24, -0.24, -0.6), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 8.5, "kick_yaw": 2.2, "kick_back": 0.19, "recover": 4.8},
-	"titanbreaker": {"name": "Titanenbrecher .50", "model": "titanbreaker", "height": 0.23, "mag": 4, "reserve": 8, "damage": 420.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
+	"titanbreaker": {"name": "Titanenbrecher .50", "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 8, "damage": 420.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
 		"pos": Vector3(0.24, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.48), "kick_pitch": 12.0, "kick_yaw": 1.6, "kick_back": 0.23, "recover": 3.2},
 }
-const ORDER := ["pistol", "revolver", "smg", "ak47", "shotgun", "marksman", "lmg", "breacher", "titanbreaker"]
+const ORDER := ["pistol", "revolver", "smg", "ak47", "shotgun", "marksman", "lmg", "breacher", "titanbreaker", "knife", "hatchet"]
 const HIT_RAY_LENGTH := 600.0   # longer than the map diagonal
+
+static func piercing_description(id: String, effective: Dictionary = {}) -> String:
+	var spec: Dictionary = DEFS[id] if effective.is_empty() else effective
+	if not spec.has("pierce_targets"): return ""
+	return "Durchschuss: bis zu %d Zombies; je weiterem Ziel %d %% des vorherigen Schadens. Wände stoppen das Geschoss." % [spec.pierce_targets, roundi(float(spec.pierce_retention) * 100.0)]
 
 var player: Player
 var hud: Hud
@@ -36,8 +49,11 @@ var camera: Camera3D
 var viewmodel: ViewmodelViewport
 var state := {}
 var current := "pistol"
+var _last_firearm := "pistol"
 var unlocked := { "pistol": true, "revolver": false, "smg": false, "ak47": false, "shotgun": false }
 var skins: Dictionary = {}
+var mod_owned: Dictionary = {}
+var mod_loadout: Dictionary = {}
 var recoil := 0.0
 var sway_t := 0.0
 var flash: OmniLight3D
@@ -58,11 +74,15 @@ var kick_yaw := 0.0
 var ads := 0.0
 var _shots_in_burst := 0
 var _burst_t := 0.0
+var _aim_kick := Vector2.ZERO
+var _bloom := 0.0
 var _grenade_scene: PackedScene
 var _blood_pool: Array[GPUParticles3D] = []
 var _blood_next := 0
 var _melee_t := 0.0
 var _melee_anim := 0.0
+var _melee_stab := false
+var _melee_duration := 0.42
 var server_proxy := false
 var network_apply := false
 
@@ -73,7 +93,7 @@ func setup_proxy(p: Player, h: Hud, zr: Node3D) -> void:
 	camera = p.camera
 	zombies_root = zr
 	for id in DEFS:
-		unlocked[id] = id == "pistol"
+		unlocked[id] = id in ["pistol", "knife"]
 		state[id] = {"def": DEFS[id], "ammo": DEFS[id].mag, "reserve": DEFS[id].reserve, "cooldown": 0.0, "reloading": 0.0}
 	_grenade_scene = load("res://assets/models/grenade.glb")
 
@@ -82,23 +102,25 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	hud = h
 	camera = p.camera
 	zombies_root = zr
-	for i in range(6, 10):
+	for i in range(6, 11):
 		var action := "weapon_%d" % i
 		if not InputMap.has_action(action):
 			InputMap.add_action(action)
 			var key := InputEventKey.new()
-			key.physical_keycode = KEY_0 + i
+			key.physical_keycode = KEY_0 if i == 10 else KEY_0 + i
 			InputMap.action_add_event(action, key)
 	viewmodel = Viewmodel.new()
 	add_child(viewmodel)
 	for id in DEFS:
-		unlocked[id] = id == "pistol"
+		unlocked[id] = id in ["pistol", "knife"]
 		var d: Dictionary = DEFS[id]
 		var holder := Node3D.new()
 		holder.position = d["pos"]
 		var path := "res://assets/models/%s.glb" % d["model"]
 		var scene = load(path) if ResourceLoader.exists(path) else null
-		if scene:
+		if is_melee(id):
+			holder.add_child(MeleeModels.build(id))
+		elif scene:
 			var model: Node3D = scene.instantiate()
 			# The Meshy barrels point along -X; rotate them towards camera forward (-Z).
 			model.rotation.y = -PI / 2.0
@@ -166,12 +188,32 @@ static func _fit_height(node: Node3D, height: float) -> void:
 func cur() -> Dictionary:
 	return state[current]
 
+func effective_damage_mul() -> float:
+	return damage_mul * player.mushroom_multiplier("damage")
+
+func effective_reload_mul() -> float:
+	return reload_mul * player.mushroom_multiplier("reload") * player.relic_multiplier("reload")
+
+static func is_melee(id: String) -> bool:
+	return DEFS.get(id, {}).get("melee", false)
+
+func ammo_weapon() -> String:
+	return (_last_firearm if unlocked.get(_last_firearm, false) else "pistol") if is_melee(current) else current
+
 func set_weapon(id: String) -> void:
 	if not DEFS.has(id):
 		return
 	if not unlocked.get(id, false):
 		hud.message("%s beim Waffenhändler kaufen" % DEFS[id]["name"], 1.4)
 		return
+	if current != id:
+		_aim_kick = Vector2.ZERO
+		_bloom = 0.0
+		_shots_in_burst = 0
+		kick_pitch = 0.0
+		kick_yaw = 0.0
+		player.recoil_offset = Vector2.ZERO
+	if not is_melee(id): _last_firearm = id
 	if server_proxy:
 		cur().reloading = 0.0
 		current = id
@@ -185,9 +227,11 @@ func set_weapon(id: String) -> void:
 	for s in state.values():
 		s["node"].visible = false
 	current = id
+	_melee_anim = 0.0
 	cur()["node"].visible = true
 	cur()["reloading"] = 0.0
 	ads = 0.0
+	_reset_scope()
 	_shots_in_burst = 0
 	_model_kick = Vector3.ZERO
 	_model_velocity = Vector3.ZERO
@@ -197,12 +241,16 @@ func set_weapon(id: String) -> void:
 	var holder: Node3D = cur()["node"]
 	holder.position = cur()["def"]["pos"]
 	holder.rotation = Vector3.ZERO
+	if current == "knife": (cur()["hands"] as ViewmodelHands).anchor_melee_elbows(viewmodel.camera)
 	effects.sync_muzzle(muzzle_transform())
 	hud.set_reload(0.0, 1.0)
 	update_hud()
 
 func unlock(id: String) -> void:
 	unlocked[id] = true
+
+func has_ammo_space(id: String) -> bool:
+	return not is_melee(id) and state.has(id) and int(state[id]["reserve"]) < reserve_limit(id)
 
 func add_ammo(id: String, n: int) -> void:
 	state[id]["reserve"] = mini(reserve_limit(id), int(state[id]["reserve"]) + n)
@@ -216,6 +264,31 @@ func refill_all() -> void:
 	state["pistol"].reserve = maxi(int(state["pistol"].reserve), 36)
 	update_hud()
 
+func mod_definition(id: String, slot: String, mod_id: String) -> Dictionary:
+	var loadout: Dictionary = mod_loadout.get(id, {}).duplicate()
+	if mod_id.is_empty(): loadout.erase(slot)
+	else: loadout[slot] = mod_id
+	return Mods.definition(DEFS[id], loadout)
+
+func equip_mod(id: String, slot: String, mod_id: String) -> void:
+	var definition := mod_definition(id, slot, mod_id)
+	if not mod_loadout.has(id): mod_loadout[id] = {}
+	if mod_id.is_empty(): mod_loadout[id].erase(slot)
+	else: mod_loadout[id][slot] = mod_id
+	var overflow := maxi(0, int(state[id].ammo) - int(definition.mag))
+	state[id].ammo -= overflow
+	state[id].reserve += overflow
+	state[id].reloading = 0.0
+	state[id].def = definition
+	update_hud()
+
+func apply_mod_snapshot(owned: Dictionary, loadout: Dictionary) -> void:
+	if mod_owned == owned and mod_loadout == loadout: return
+	mod_owned = owned.duplicate(true)
+	mod_loadout = loadout.duplicate(true)
+	for wid in state:
+		state[wid].def = Mods.definition(DEFS[wid], mod_loadout.get(wid, {}))
+
 func apply_skin(id: String, finish: String) -> void:
 	if not state.has(id) or skins.get(id, "__unset") == finish: return
 	skins[id] = finish
@@ -225,19 +298,50 @@ func apply_skin(id: String, finish: String) -> void:
 func update_hud() -> void:
 	var s := cur()
 	hud.set_ammo(s["ammo"], s["reserve"], "%s   ·   Granaten %d" % [s["def"]["name"], grenades])
+	var scene := get_tree().current_scene
+	if not server_proxy and scene and "progression" in scene and scene.progression and scene.progression.rare_market:
+		hud.ammo_label.text += scene.progression.rare_market.ammo_label(player.peer_id)
+	if is_melee(current) and not server_proxy:
+		hud.ammo_label.text = "Nahkampf · LMB Schnitt / RMB Stich" if current == "knife" else "Nahkampf · LMB / Q"
 
 func reload() -> void:
+	if is_melee(current): return
 	var s := cur()
 	if s["reloading"] > 0.0 or s["ammo"] == s["def"]["mag"] or s["reserve"] <= 0:
 		return
-	s["reloading"] = float(s["def"]["reload"]) * reload_mul
+	s["reloading"] = float(s["def"]["reload"]) * effective_reload_mul()
 	if NetSession.is_client() and not network_apply:
 		NetSession.command("reload")
 	if not server_proxy:
 		Sfx.play(self, "reload", -8.0)
 
+func effective_spread() -> float:
+	var d: Dictionary = cur().def
+	if is_melee(current): return 0.0
+	return Aim.spread(float(d.spread), ads, Vector2(player.velocity.x, player.velocity.z).length(), player.velocity.y, _bloom, spread_mul * player.mushroom_multiplier("spread") * player.relic_multiplier("spread") * player.stance_precision())
+
+func aim_direction() -> Vector3:
+	# Scoped fire follows the optic centre; hip/iron sights also show free recoil.
+	var free_aim := 1.0 - ads if cur().def.has("scope_zoom") or current == "titanbreaker" else 1.0 - ads * 0.65
+	var offset := _aim_kick * free_aim
+	return (camera.global_basis * Vector3(tan(offset.y), tan(offset.x), -1)).normalized()
+
+func update_reticle() -> void:
+	if server_proxy or hud.crosshair_parts.is_empty(): return
+	var centre := camera.global_position + aim_direction() * 10.0
+	var point := camera.unproject_position(centre)
+	var edge := camera.unproject_position(centre + camera.global_basis.x * effective_spread() * 10.0)
+	hud.crosshair_parts[0].update_aim(point, point.distance_to(edge), ads, _bloom)
+	var displacement := point - camera.get_viewport().get_visible_rect().size * 0.5
+	for i in hud.hit_marks.size():
+		var angle := float(i) * PI * 0.5 + PI * 0.25
+		hud.hit_marks[i].position = displacement + Vector2(-5, -1) + Vector2.from_angle(angle) * 14.0
+
 func try_fire() -> void:
 	if not player.active or not player.alive:
+		return
+	if is_melee(current):
+		melee()
 		return
 	var s := cur()
 	if s["cooldown"] > 0.0 or s["reloading"] > 0.0:
@@ -248,17 +352,21 @@ func try_fire() -> void:
 		reload()
 		return
 	var d: Dictionary = s["def"]
+	var shot_direction := aim_direction()
+	var shot_spread := effective_spread()
+	var field = get_tree().current_scene.get("cornfield")
+	if field: field.scare(player.global_position)
 	s["ammo"] -= 1
 	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"])
 	recoil = 1.0
 	if not server_proxy:
 		Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)), float(d.get("sfx_pitch", 1.0)))
-		effects.fire(current, muzzle_transform(), player.velocity)
+		effects.fire(current, muzzle_transform(), player.velocity, float(d.get("flash_scale", 1.0)))
 	# recoil climbs while holding the trigger, drifts sideways, less when aiming
 	_shots_in_burst += 1
-	_burst_t = 0.25
+	_burst_t = 0.32
 	var climb := minf(1.0 + _shots_in_burst * 0.16, 2.4)
-	var aim_f := 1.0 - ads * 0.25
+	var aim_f := (1.0 - ads * 0.25) * player.relic_multiplier("recoil")
 	var impulse := Vector3(deg_to_rad(float(d["kick_pitch"]) * 2.2 + 1.0), deg_to_rad(1.0 if _shots_in_burst % 2 == 0 else -1.0), float(d["kick_back"]) * 0.90) * aim_f
 	_model_kick += impulse * 0.25
 	_model_velocity += impulse * (22.0 + float(d["recover"])) * 1.7
@@ -266,6 +374,11 @@ func try_fire() -> void:
 		(s["hands"] as ViewmodelHands).shot_impulse(0.6 + float(d["kick_pitch"]) * 0.16)
 	kick_pitch += float(d["kick_pitch"]) * climb * aim_f * randf_range(0.85, 1.15)
 	kick_yaw += float(d["kick_yaw"]) * aim_f * randf_range(-1.0, 1.0) * (1.0 if _shots_in_burst % 2 == 0 else -0.6)
+	var precision_control := sqrt(maxf(0.25, spread_mul))
+	var lateral := sin(float(_shots_in_burst) * 1.7) * 0.6 + sin(float(_shots_in_burst) * 0.43) * 0.4
+	_aim_kick += Vector2(deg_to_rad(float(d.kick_pitch)) * 0.28, deg_to_rad(float(d.kick_yaw)) * lateral * 0.45) * climb * aim_f * precision_control
+	_aim_kick = _aim_kick.clamp(Vector2(-0.05, -0.10), Vector2(0.16, 0.10))
+	_bloom = minf(1.0, _bloom + (0.14 if d.auto else 0.22))
 	player.wobble = maxf(player.wobble, 0.35)
 	if NetSession.is_client():
 		NetSession.command("fire", [current, ads, camera.global_rotation.y, camera.global_rotation.x])
@@ -274,13 +387,15 @@ func try_fire() -> void:
 	if NetSession.enabled:
 		NetSession.weapon_fired(player.peer_id, current)
 	var origin := camera.global_position
-	var base := -camera.global_transform.basis.z
+	var base := shot_direction
 	var space := get_world_3d().direct_space_state
-	var spread: float = float(d["spread"]) * spread_mul * (1.0 - ads * 0.6) * (1.0 + minf(_shots_in_burst, 8) * 0.06)
+	var spread := shot_spread
 	var scene := get_tree().current_scene
 	var stats: RunStats = scene.stats if "stats" in scene else null
 	if stats:
 		stats.shots += 1
+	var rare = scene.progression.rare_market
+	var special_round: String = rare.consume_round(player)
 	var any_hit := false
 	# Barricade boxes block movement across the entire line, including visible gaps.
 	# Exclude only those boxes from bullets; towers, walls and terrain still stop shots.
@@ -288,55 +403,77 @@ func try_fire() -> void:
 	for barrier_body: StaticBody3D in get_tree().get_nodes_in_group("barricade"):
 		bullet_exclude.append(barrier_body.get_rid())
 	for i in int(d["pellets"]):
-		var dir: Vector3 = (base + Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * spread).normalized()
+		var dir: Vector3 = Aim.sample_direction(base, camera.global_basis.x, camera.global_basis.y, spread, randf(), randf() * TAU)
 		# the ray crosses the whole map: enemies are hit at any distance, "range" only starts a gentle damage
 		# falloff (full damage inside it, 55 % at three times the range)
-		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * HIT_RAY_LENGTH, 1 | 2 | 8 | Zombie.HITBOX_LAYER)
+		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * HIT_RAY_LENGTH, Zombie.SHOT_MASK)
 		q.collide_with_areas = true
 		q.hit_from_inside = true
-		q.exclude = bullet_exclude
-		var hit := space.intersect_ray(q)
-		if hit and hit.collider is Breakable:
-			(hit.collider as Breakable).shatter()
-			get_tree().current_scene.achievements.event("window")
-		var z := Zombie.from_hit(hit)
-		if z and z.alive:
-			var headshot: bool = hit.collider.get_meta("headshot", hit.position.y > z.global_position.y + z.height * 0.78)
-			z.last_headshot = headshot
-			z.killer_weapon = current
-			z.killer_peer = player.peer_id
-			var dist := origin.distance_to(hit.position)
-			var falloff := 1.0 - 0.45 * clampf((dist - float(d["range"])) / (2.0 * float(d["range"])), 0.0, 1.0)
-			var titan_bonus := float(d.get("titan_multiplier", 1.0)) if z.net_kind == "titan" else 1.0
-			z.damage(float(d["damage"]) * damage_mul * titan_bonus * falloff * (2.2 if headshot else 1.0), dir)
-			_blood(hit.position, dir)
-			hud.hitmarker(headshot)
-			any_hit = true
-			if headshot:
-				get_tree().current_scene.achievements.event("headshots")
+		var excluded: Array[RID] = bullet_exclude.duplicate()
+		var victims := 0
+		# One ray continues through complete actors, never through world geometry.
+		for _step in 32:
+			q.exclude = excluded
+			var hit := space.intersect_ray(q)
+			if hit.is_empty(): break
+			if hit.collider.get_meta("shootable_pumpkin", false):
+				if hit.collider.shoot(): hud.hitmarker(false)
+				break
+			if hit.collider is Breakable:
+				(hit.collider as Breakable).shatter()
+				scene.achievements.event("window")
+				break
+			var z := Zombie.from_hit(hit)
+			if not z: break
+			excluded.append(z.get_rid())
+			excluded.append(hit.collider.get_rid())
+			for hitbox in z._hitboxes: excluded.append(hitbox.get_rid())
+			if z.alive:
+				var headshot: bool = hit.collider.get_meta("headshot", hit.position.y > z.global_position.y + z.height * 0.78)
+				z.last_headshot = headshot
+				z.killer_weapon = current
+				z.killer_peer = player.peer_id
+				var dist := origin.distance_to(hit.position)
+				var falloff := 1.0 - 0.45 * clampf((dist - float(d["range"])) / (2.0 * float(d["range"])), 0.0, 1.0)
+				var titan_bonus := float(d.get("titan_multiplier", 1.0)) if Zombie.is_titan_kind(z.net_kind) else 1.0
+				z.damage(float(d["damage"]) * effective_damage_mul() * titan_bonus * falloff * pow(float(d.get("pierce_retention", 1.0)), victims) * (2.2 if headshot else 1.0), dir)
+				rare.hit(z, special_round, player.peer_id, current)
+				_blood(hit.position, dir)
+				hud.hitmarker(headshot)
+				any_hit = true
+				if headshot:
+					get_tree().current_scene.achievements.event("headshots")
+				victims += 1
+				if victims >= int(d.get("pierce_targets", 1)): break
 	if any_hit and stats:
 		stats.hits += 1
 	update_hud()
 
-# Gun-butt strike (Q): short reach, heavy knockback, works while reloading or with an empty magazine.
-func melee() -> void:
+# Q uses the equipped blade/axe, or a gun-butt strike while holding a firearm.
+func melee(stab: bool = false) -> void:
 	if not player.active or not player.alive or _melee_t > 0.0:
 		return
-	_melee_t = 0.65
+	var armed := is_melee(current)
+	var spec: Dictionary = cur()["def"]
+	_melee_stab = stab and current == "knife"
+	_melee_t = float(spec.stab_rate) if _melee_stab else float(spec.rate) if armed else 0.65
+	_melee_duration = _melee_t
 	_melee_anim = 1.0
 	player.wobble = maxf(player.wobble, 0.3)
-	Sfx.play(self, "melee", -8.0, randf_range(0.9, 1.1))
+	Sfx.play(self, "melee", -6.0 if _melee_stab else -8.0, 0.75 if _melee_stab else 1.1)
 	if NetSession.is_client():
-		NetSession.command("melee", [camera.global_rotation.y, camera.global_rotation.x])
+		NetSession.command("melee", [camera.global_rotation.y, camera.global_rotation.x, _melee_stab])
 		return
+	if armed and NetSession.is_host(): NetSession.weapon_fired(player.peer_id, current, _melee_stab)
 	var origin := camera.global_position
 	var forward := -camera.global_transform.basis.z
 	var space := get_world_3d().direct_space_state
 	var hit_any := false
 	# a short fan of rays so a zombie slightly off-centre is still hit
-	for off: float in [0.0, -0.18, 0.18]:
+	for off: float in ([0.0, -0.025, 0.025] if _melee_stab else [0.0, -0.18, 0.18]):
 		var dir: Vector3 = (forward + camera.global_transform.basis.x * off).normalized()
-		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * 2.1, 2 | 8 | Zombie.HITBOX_LAYER)
+		var reach := float(spec.stab_range) if _melee_stab else float(spec.range) if armed else 2.1
+		var q := PhysicsRayQueryParameters3D.create(origin, origin + dir * reach, Zombie.SHOT_MASK)
 		q.collide_with_areas = true
 		q.hit_from_inside = true
 		q.exclude = [player.get_rid()]
@@ -344,10 +481,10 @@ func melee() -> void:
 		var z := Zombie.from_hit(hit)
 		if z and z.alive:
 			z.last_headshot = false
-			z.killer_weapon = "melee"
+			z.killer_weapon = current if armed else "melee"
 			z.killer_peer = player.peer_id
-			z.damage(45.0 * damage_mul, forward)
-			z.shove(forward * 4.5)
+			z.damage((float(spec.stab_damage) if _melee_stab else float(spec.damage) if armed else 45.0) * effective_damage_mul(), forward)
+			z.shove(forward * (float(spec.shove) if armed else 4.5))
 			_blood(hit.position, forward)
 			hit_any = true
 			break
@@ -527,12 +664,25 @@ func _prepare_blood_pool() -> void:
 		_decal_pool.append(d)
 
 
+func aimed_fov() -> float:
+	if DEFS[current].has("scope_zoom"):
+		return rad_to_deg(2.0 * atan(tan(deg_to_rad(75.0) * 0.5) / float(DEFS[current].scope_zoom)))
+	return 26.0 if current == "titanbreaker" else 52.0
+
+func _reset_scope() -> void:
+	ads = 0.0
+	camera.fov = 75.0
+	if viewmodel:
+		viewmodel.set_scoped(false)
+		for part in hud.crosshair_parts: part.visible = player.active and player.alive
+
 func _process(delta: float) -> void:
 	if server_proxy:
 		if player.active and player.alive:
 			_tick_ammo(delta)
 		return
 	if not player or not player.active:
+		if player: _reset_scope()
 		if player and NetSession.enabled and player.alive:
 			_tick_ammo(delta)
 		return
@@ -541,10 +691,12 @@ func _process(delta: float) -> void:
 	_tick_ammo(delta)
 	var s := cur()
 	var d: Dictionary = s["def"]
-	hud.set_reload(s["reloading"], float(d["reload"]) * reload_mul)
+	hud.set_reload(s["reloading"], float(d["reload"]) * effective_reload_mul())
 	_handle_weapon_input(delta)
 
 func _tick_ammo(delta: float) -> void:
+	_aim_kick *= exp(-delta * Aim.KICK_RECOVERY)
+	if _burst_t <= 0.0: _bloom = maxf(0.0, _bloom - delta * Aim.BLOOM_RECOVERY)
 	_burst_t -= delta
 	if _burst_t <= 0.0: _shots_in_burst = 0
 	_melee_t = maxf(0.0, _melee_t - delta)
@@ -564,6 +716,7 @@ func _tick_ammo(delta: float) -> void:
 func _handle_weapon_input(delta: float) -> void:
 	var scene := get_tree().current_scene
 	if "defences" in scene and scene.defences and (scene.defences.placing or scene.defences.input_grace > 0):
+		_reset_scope()
 		return
 	var s := cur()
 	var d: Dictionary = s["def"]
@@ -572,13 +725,15 @@ func _handle_weapon_input(delta: float) -> void:
 			try_fire()
 	elif Input.is_action_just_pressed("fire"):
 		try_fire()
+	if current == "knife" and Input.is_action_just_pressed("aim"):
+		melee(true)
 	if Input.is_action_just_pressed("reload"):
 		reload()
 	if Input.is_action_just_pressed("grenade"):
 		throw_grenade()
 	if Input.is_action_just_pressed("melee"):
 		melee()
-	_melee_anim = maxf(0.0, _melee_anim - delta * 3.2)
+	_melee_anim = maxf(0.0, _melee_anim - delta / _melee_duration)
 	for i in ORDER.size():
 		if InputMap.has_action("weapon_%d" % (i + 1)) and Input.is_action_just_pressed("weapon_%d" % (i + 1)):
 			set_weapon(ORDER[i])
@@ -597,10 +752,13 @@ func _handle_weapon_input(delta: float) -> void:
 	s = cur()
 	d = s["def"]
 	# aim down sights
-	var want_ads := 1.0 if Input.is_action_pressed("aim") and s["reloading"] <= 0.0 else 0.0
+	var want_ads := 1.0 if not is_melee(current) and Input.is_action_pressed("aim") and s["reloading"] <= 0.0 else 0.0
 	ads = lerpf(ads, want_ads, minf(1.0, delta * 10.0))
-	var aimed_fov := 32.0 if current == "marksman" else (26.0 if current == "titanbreaker" else 52.0)
-	camera.fov = lerpf(75.0, aimed_fov, ads)
+	camera.fov = lerpf(75.0, aimed_fov(), ads)
+	var scoped: bool = d.has("scope_zoom") and ads >= 0.85 and want_ads > 0.0
+	viewmodel.set_scoped(scoped, float(d.get("scope_zoom", 1.0)))
+	for part in hud.crosshair_parts: part.visible = not scoped and not is_melee(current) and s.reloading <= 0
+	update_reticle()
 	# camera recoil recovery: part of the kick stays (the camera really moved), the rest settles back
 	var rec: float = float(d["recover"])
 	var applied_pitch := kick_pitch * (1.0 - exp(-delta * rec))
@@ -623,8 +781,20 @@ func _handle_weapon_input(delta: float) -> void:
 	n.position += Vector3(-0.06, -0.02, -0.16) * lunge
 	n.rotation.x = _model_kick.x + (-0.4 if s["reloading"] > 0.0 else 0.0) - 0.35 * lunge
 	n.rotation.z = _model_kick.y + 0.5 * lunge
-	(s["hands"] as ViewmodelHands).animate_reload(1.0 - float(s["reloading"]) / (float(d["reload"]) * reload_mul), s["reloading"] > 0.0)
+	if is_melee(current):
+		n.position += Vector3(-0.10, 0.02, -0.04) * lunge
+		n.rotation = Vector3(-0.55 if current == "hatchet" else -0.25, -0.25, 0.4) * lunge
+	if current == "knife":
+		n.position = base_pos + Vector3(0, sin(sway_t*5)*0.002, 0)
+		if _melee_stab:
+			n.position += Vector3(-0.06,0.045,-0.3)*lunge
+			n.rotation = Vector3(-0.5,-0.4,-0.12).lerp(Vector3(-1.5,0,-0.05),lunge)
+		else:
+			n.position += Vector3(-0.19,0.015,-0.08)*lunge
+			n.rotation = Vector3(-0.5,-0.4,-0.12)+Vector3(-0.18,0.4,1.0)*lunge
+	(s["hands"] as ViewmodelHands).animate_reload(1.0 - float(s["reloading"]) / (float(d["reload"]) * effective_reload_mul()), s["reloading"] > 0.0)
 	(s["hands"] as ViewmodelHands).animate_cloth(delta, Vector2(player.velocity.x, player.velocity.z).length(), ads)
+	if current == "knife": (cur()["hands"] as ViewmodelHands).anchor_melee_elbows(viewmodel.camera)
 	effects.sync_muzzle(muzzle_transform())
 
 func muzzle_transform() -> Transform3D:

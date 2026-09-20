@@ -6,7 +6,10 @@ extends CharacterBody3D
 # are skipped, "model" / "fallback" remain the default). The field titan is taller than the beeches (22-29 m)
 # and handled by titan.gd (ground strike, no stagger, always casts shadows).
 const TYPES := {
-	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 7500.0, "speed": 4.2, "damage": 65.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
+	"titan_hunter": {"name": "JAGDTITAN", "model": "zombie_colossus", "hp": 2400.0, "speed": 6.0, "damage": 85.0, "reach": 8.0, "attack_time": 3.0, "score": 230, "height": 8.0, "tint": Color(0.58, 0.83, 0.65), "giant": true, "blast_radius": 4.0, "windup": 1.7, "recovery": 1.1, "structure_mul": 0.65, "warning_color": Color(0.45, 1.0, 0.3)},
+	"titan_siege": {"name": "BELAGERUNGSTITAN", "model": "zombie_bloater", "hp": 6000.0, "speed": 2.6, "damage": 130.0, "reach": 10.0, "attack_time": 4.5, "score": 350, "height": 14.0, "tint": Color(0.7, 0.66, 0.51), "giant": true, "blast_radius": 6.0, "windup": 2.8, "recovery": 2.0, "structure_mul": 1.6, "warning_color": Color(1.0, 0.68, 0.1)},
+	"titan_ash": {"name": "ASCHETITAN", "model": "zombie_titan", "hp": 4500.0, "speed": 3.6, "damage": 100.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
+	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 7500.0, "speed": 4.2, "damage": 120.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
 	"shambler": { "model": "zombie_shambler", "skins": ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma"], "hp": 100.0, "speed": 1.6, "damage": 12.0, "reach": 1.6, "attack_time": 1.1, "score": 10, "height": 1.8 },
 	"runner": { "model": "zombie_runner", "skins": ["zombie_runner", "zombie_jogger"], "hp": 60.0, "speed": 4.2, "damage": 8.0, "reach": 1.4, "attack_time": 0.7, "score": 15, "height": 1.7 },
 	"brute":    { "model": "zombie_bloater", "fallback": "zombie_shambler", "hp": 320.0, "speed": 1.2, "damage": 25.0, "reach": 2.0, "attack_time": 1.6, "score": 40, "height": 2.3, "tint": Color(0.9, 0.85, 0.6) },
@@ -35,6 +38,10 @@ var hit_reach := 1.6
 var growl_t := 0.0
 var dead_t := 0.0
 var speed_mul := 1.0
+var frost_mul := 1.0
+var rare_status := ""
+var _rare_marker: Label3D
+var _rare_particles: CPUParticles3D
 var _repath := 0.0
 var _shadow_t := 0.0
 var _on_kill: Callable
@@ -62,6 +69,7 @@ var _materials: Array[BaseMaterial3D] = []
 static var _scenes := {}
 static var force_skin := ""          # tests: every new zombie uses this model while it is set (and exists)
 const HITBOX_LAYER := 32
+const SHOT_MASK := 1 | 8 | HITBOX_LAYER
 static var _hitbox_shapes := {}
 var _hitboxes: Array[Area3D] = []
 
@@ -96,6 +104,9 @@ static func pick_model_path(spec: Dictionary) -> String:
 		path = "res://assets/models/%s.glb" % spec["fallback"]
 	return path
 
+static func is_titan_kind(kind: String) -> bool:
+	return bool(TYPES.get(kind, {}).get("giant", false))
+
 func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: Callable) -> void:
 	net_kind = type_name
 	type = TYPES[type_name]
@@ -118,7 +129,8 @@ func _ready() -> void:
 	if not huts.is_empty():
 		hut = huts[0]
 		perimeter = hut.game.perimeter
-	collision_layer = 2
+	# The movement capsule is only a bullet fallback for models without a rig.
+	collision_layer = 2 | HITBOX_LAYER
 	collision_mask = 1 | 2 | 8 | 16
 	var shape := CollisionShape3D.new()
 	var cap := CapsuleShape3D.new()
@@ -171,8 +183,9 @@ func _ready() -> void:
 	var scale_var := appearance.randf_range(0.94, 1.08)
 	if model:
 		model.scale *= scale_var
-		if net_kind == "brute" or type.get("giant", false):
-			_build_hitboxes()
+		_build_hitboxes()
+		if not _hitboxes.is_empty():
+			collision_layer = 2
 
 # Keep navigation capsules small; bullets use convex volumes fitted to the rig's
 # weighted vertices. Bone attachments follow walking, attacks and model scaling.
@@ -312,7 +325,46 @@ func die(dir: Vector3) -> void:
 		_pool.global_position = global_position + Vector3(dir.x, 0.0, dir.z).normalized() * 0.4 + Vector3(0, 0.05, 0)
 		_pool.rotation.y = randf() * TAU
 
+func update_rare_visual() -> void:
+	if not _rare_marker and not rare_status.is_empty():
+		_rare_marker = Label3D.new()
+		_rare_marker.position.y = minf(height, 3.0) + 0.2
+		_rare_marker.font_size = 32
+		_rare_marker.pixel_size = 0.006
+		_rare_marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		_rare_marker.visibility_range_end = 35
+		add_child(_rare_marker)
+		_rare_particles = CPUParticles3D.new()
+		_rare_particles.amount = 14
+		_rare_particles.lifetime = 0.7
+		_rare_particles.position.y = minf(height * 0.5, 2.0)
+		_rare_particles.direction = Vector3.UP
+		_rare_particles.spread = 35
+		_rare_particles.initial_velocity_min = 0.4
+		_rare_particles.initial_velocity_max = 1.5
+		_rare_particles.gravity = Vector3(0, 0.4, 0)
+		_rare_particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+		_rare_particles.emission_sphere_radius = 0.28
+		var spark := SphereMesh.new()
+		spark.radius = 0.035
+		spark.height = 0.07
+		spark.radial_segments = 6
+		spark.rings = 3
+		var glow := StandardMaterial3D.new()
+		glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		glow.vertex_color_use_as_albedo = true
+		spark.material = glow
+		_rare_particles.mesh = spark
+		add_child(_rare_particles)
+	if _rare_marker:
+		_rare_marker.visible = alive and not rare_status.is_empty()
+		_rare_marker.text = "BRAND" if rare_status == "fire" else "FROST"
+		_rare_marker.modulate = Color(1, 0.4, 0.1) if rare_status == "fire" else Color(0.3, 0.8, 1)
+		_rare_particles.emitting = _rare_marker.visible
+		_rare_particles.color = _rare_marker.modulate
+
 func _physics_process(delta: float) -> void:
+	update_rare_visual()
 	if _flash_t > 0.0:
 		_flash_t -= delta
 		if _flash_t <= 0.0: _set_emission(false)
@@ -452,7 +504,7 @@ func _physics_process(delta: float) -> void:
 			if hunting and bar == null and _can_hit(null):
 				# An open approach must not stall at an obsolete or finished path.
 				mv = to_player
-			var sp: float = type["speed"] * speed_mul
+			var sp: float = type["speed"] * speed_mul * frost_mul
 			var want: Vector3 = mv.normalized() * sp if mv.length() > 0.05 else Vector3.ZERO
 			if agent.avoidance_enabled:
 				agent.set_velocity(want)

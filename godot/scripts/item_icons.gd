@@ -24,10 +24,12 @@ static func action_id(action: Callable) -> String:
 	var args := action.get_bound_arguments()
 	if args.is_empty(): return "item"
 	match str(args[0]):
-		"weapon": return str(args[1])
-		"ammo": return "ammo"
+		"rare": return "ammo" if args[1] in ["fire", "frost"] else "relic"
+		"mod", "remove_mod": return str(args[2])
+		"weapon", "sell_weapon", "sell_mushroom": return str(args[1])
+		"ammo", "sell_ammo", "autorefill": return "ammo"
 		"medicine": return "medicine"
-		"grenade": return "grenade"
+		"grenade", "sell_grenade": return "grenade"
 		"quest": return "quest"
 		"training": return "skill_" + str(args[1])
 		"tower_upgrade", "tower_sell": return "tower"

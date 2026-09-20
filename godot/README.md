@@ -10,28 +10,36 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 
 ## Steuerung
 
+**Feldmesser:** Linksklick (oder Q) schneidet schnell: 55 Schaden, 0,42 s Erholung. Rechtsklick sticht gezielt: 110 Schaden, 2,2 m Reichweite, 0,85 s Erholung und schmalerer Trefferbereich. Beide teilen dieselbe Angriffssperre; Stich und Schnitt besitzen eigene Animationen und werden im Koop unterschieden.
+
+**Südliches Maisfeld:** Eigene Mais-, Vogelscheuchen-, Raben- und Eulenmeshes liegen unter `assets/cornfield/`; `tests/build_corn_meshes.gd` erzeugt sie reproduzierbar. Der Mais wiegt sich im Wind und wird in räumlichen MultiMesh-Gruppen gerendert. Das Labyrinth besitzt zwei verbundene Ausgänge und fünf einmalig plünderbare Verstecke: Feuerpatronen, Frostpatronen, 250 Punkte, eine Granate und Munition. Mit **E** aufnehmen; bei vollem Vorrat bleibt die Kiste liegen. Im Koop sind die Kisten gemeinsam und werden vom Host verwaltet. Straßen und Titanen-Zugänge bleiben frei. Raben fliegen bei Annäherung oder Schüssen auf und landen später wieder; Eulen kreisen zwischen 20 und 5 Uhr. Beide haben eigene räumliche Rufe. Die Vögel sind lokale, rein dekorative Tiere und benötigen keine laufenden Netzwerkpakete.
+
 **Mehrspieler:** Im Hauptmenü unter **Mehrspieler / Hamachi** ein Spiel erstellen oder mit der Hamachi-IP des Hosts beitreten. Bis zu vier Spieler, Standardport UDP 24567. Der Host startet die gemeinsame Runde. Mit **E** einen Mitspieler wiederbeleben; Menüs pausieren den Koop nicht. Einrichtung und Spielregeln: [Multiplayer-Anleitung](../docs/MULTIPLAYER.md).
 
 | Eingabe | Aktion |
 | --- | --- |
 | WASD / Maus | Bewegen / umsehen |
 | Shift | Sprinten |
+| Strg halten | Ducken: halbes Gehtempo, 30 % weniger Streuung, niedrigere Kamera und Kollision. Kein Sprint/Sprung; Aufstehen nur bei freier Kopffreiheit. |
 | Linke / rechte Maustaste | Schießen / zielen |
 | R | Nachladen |
-| 1–9 / Mausrad | Gekaufte Waffe wählen |
+| 1–9 / 0 / Mausrad | Schusswaffe / Feldmesser / nächste verfügbare Waffe wählen |
 | G | Granate |
-| Q | Nahkampf: Kolbenschlag mit Rückstoss, auch beim Nachladen |
+| Q | Mit Messer/Axt zuschlagen; mit Schusswaffen Kolbenschlag, auch beim Nachladen |
 | Enter | Wartezeit überspringen, nächste Welle sofort starten |
 | E | NPC ansprechen / Barrikade bauen oder reparieren / Turm ausrichten / Gegenstand oder Tür |
 | V | Verteidigungsberatung bei Mechanic |
 | T | Turmvorschau; R/Mausrad dreht, E bestätigt, T/Escape bricht ab |
-| B | Inventar |
+| I | Inventar |
+| B | Bis zu 100 Punkte abwerfen |
 | F | Am Turm reparieren, sonst Taschenlampe |
 | Tab | Auftragsanzeige ein-/ausblenden |
 | Escape | Pause / fortsetzen |
 | F11 | Vollbild umschalten |
 
-**Spielablauf.** Vor dem Start wählt man im Hauptmenü einen von vier Schwierigkeitsgraden (Leicht, Normal, Schwer, Albtraum: Lebenspunkte, Schaden, Wellengrösse, Tempo, Vorräte, Regeneration und Punktefaktor der Zombies). Die Wellen sind gross: 10 + 5 n Zombies mal Schwierigkeitsfaktor (Welle 1 auf Normal 15, Welle 10 60, auf Albtraum das Anderthalbfache), bis zu 72 gleichzeitig, Läufer schon ab Welle 1, Brocken ab Welle 3. Jede fünfte Welle ist eine Bosswelle mit zusätzlichen Brocken. Jeder Zombie erhält zufällig eine von mehreren Meshy-Hüllen: Schlurfer als Bauer, Wanderer, Grossmutter oder klassischer Zombie, Läufer auch als Jogger, Soldaten auch als Forstwart in Warnweste, Titanen als Henker oder ausgemergelter Koloss. Gefallene Zombies lassen Munition für die aktuelle Waffe, Granaten oder Verbandspäckli fallen, die man durch Hindurchlaufen aufnimmt. Abschüsse in schneller Folge (4 s) bauen eine Serie auf, ab dem dritten gibt jeder weitere 10 % mehr Punkte (maximal +100 %); Kopfschüsse zählen das 1,5-Fache. Punkte erscheinen als Einblendung neben dem Fadenkreuz, Treffer auf den Spieler zeigen einen roten Richtungsbogen. Unter 35 % Leben pulsiert eine rote Vignette und der Herzschlag wird hörbar. Schritte klingen je nach Untergrund: Auf Asphalt und Beton laufen die drei Aufnahmen footstep1.mp3 bis footstep3 roh, auf Kies leicht gedämpft mit feinem Knirschen, auf der Wiese dumpfer mit Gras-Rascheln, auf Waldboden am dumpfsten mit Laub-Knistern, im Obergeschoss der Hütte mit hohlem Holzklang (je ein Tiefpass-Bus plus eine prozedurale Texturschicht, `Sfx.footstep`). Gegner werden auf jede Distanz getroffen; ab der Nennreichweite der Waffe fällt der Schaden sanft bis auf 55 % ab.mp3 mit zufälligem Wechsel ohne direkte Wiederholung. Beim Sprinten folgen sie schneller und lauter; Landungen klingen tiefer. Nach dem Tod zeigt die Bilanz Abschüsse, Kopfschüsse, Treffgenauigkeit, beste Serie, Granaten, Barrikaden und Spielzeit; die zehn besten Runden landen dauerhaft in der Bestenliste (`user://highscores.json`). Das Menü (Start, Pause, Spielende) hat Reiter für Briefing, Schwierigkeit, Steuerung, Einstellungen, Bestenliste und Erfolge; aus der Pause führt ein Knopf zurück ins Hauptmenü.
+Die drei Kürbisse am Lager lassen sich mit Schusswaffen zerstören. Der erste zerschossene Kürbis schaltet den Erfolg **Kürbisknacker** frei (+25 Punkte, einmal pro Runde). Kürbislaternen erlöschen dabei; zerstörte Kürbisse bleiben auch für später beitretende Mitspieler zerstört.
+
+**Spielablauf.** Vor dem Start wählt man im Hauptmenü einen von vier Schwierigkeitsgraden (Leicht, Normal, Schwer, Albtraum: Lebenspunkte, Schaden, Wellengrösse, Tempo, Vorräte, Regeneration und Punktefaktor der Zombies). Die Wellen sind gross: Grundmenge 10 + 5 n Zombies mal Schwierigkeitsfaktor (Welle 1 auf Normal 15, ab Welle 8 mit Armeefaktor bis 4, auf Albtraum das Anderthalbfache), bis zu 72 gleichzeitig, Läufer schon ab Welle 1, Brocken ab Welle 3. Jede fünfte Welle ist eine Bosswelle mit zusätzlichen Brocken. Jeder Zombie erhält zufällig eine von mehreren Meshy-Hüllen: Schlurfer als Bauer, Wanderer, Grossmutter oder klassischer Zombie, Läufer auch als Jogger, Soldaten auch als Forstwart in Warnweste, Titanen als Henker oder ausgemergelter Koloss. Gefallene Zombies lassen Munition für die aktuelle Waffe, Granaten oder Verbandspäckli fallen, die man durch Hindurchlaufen aufnimmt. Abschüsse in schneller Folge (4 s) bauen eine Serie auf, ab dem dritten gibt jeder weitere 10 % mehr Punkte (maximal +100 %); Kopfschüsse zählen das 1,5-Fache. Punkte erscheinen als Einblendung neben dem Fadenkreuz, Treffer auf den Spieler zeigen einen roten Richtungsbogen. Unter 35 % Leben pulsiert eine rote Vignette und der Herzschlag wird hörbar. Schritte klingen je nach Untergrund: Auf Asphalt und Beton laufen die drei Aufnahmen footstep1.mp3 bis footstep3 roh, auf Kies leicht gedämpft mit feinem Knirschen, auf der Wiese dumpfer mit Gras-Rascheln, auf Waldboden am dumpfsten mit Laub-Knistern, im Obergeschoss der Hütte mit hohlem Holzklang (je ein Tiefpass-Bus plus eine prozedurale Texturschicht, `Sfx.footstep`). Gegner werden auf jede Distanz getroffen; ab der Nennreichweite der Waffe fällt der Schaden sanft bis auf 55 % ab.mp3 mit zufälligem Wechsel ohne direkte Wiederholung. Beim Sprinten folgen sie schneller und lauter; Landungen klingen tiefer. Nach dem Tod zeigt die Bilanz Abschüsse, Kopfschüsse, Treffgenauigkeit, beste Serie, Granaten, Barrikaden und Spielzeit; die zehn besten Runden landen dauerhaft in der Bestenliste (`user://highscores.json`). Das Menü (Start, Pause, Spielende) hat Reiter für Briefing, Schwierigkeit, Steuerung, Einstellungen, Bestenliste und Erfolge; aus der Pause führt ein Knopf zurück ins Hauptmenü.
 
 Beide Hände folgen der jeweiligen Waffe beim Zielen, Rückstoß und Nachladen. Die Minimap unten rechts bildet die tatsächlichen Kartendaten ab. Norden bleibt auf der Karte oben; der Spielerpfeil und die Windrose reagieren auf die Blickrichtung. Rote Punkte zeigen Gegner. Sperrlinien sind rot (ungebaut), grün (gebaut) oder gelb (stark beschädigt).
 
@@ -47,6 +55,49 @@ Die Rückstoßabstimmung wurde nach dem Spieltest verstärkt: 60–100 % mehr Gr
 
 ## Verteidigung und Titanen
 
+**Titanen-Varianten:** Neben dem 27-m-Feldtitanen gibt es drei kleinere Typen mit vorhandenen Modellen in neuen Größen/Farben, eigenen Bossnamen, Hitboxen und Warnkreisen:
+
+| Typ | Größe | Basis-Leben | Schaden | Warnzeit / Radius | Erste Welle |
+| --- | --- | --- | --- | --- | --- |
+| Jagdtitan | 8 m | 2400 | 85 | 1,7 s / 4 m | 8 |
+| Belagerungstitan | 14 m | 6000 | 130 | 2,8 s / 6 m | 10 |
+| Aschetitan | 19 m | 4500 | 100 | 3,2 s / 10 m | 12 |
+
+Der Jagdtitan bewegt sich schnell und schlägt häufiger zu. Der Belagerungstitan ist langsam und zäh; er verursacht 60 % mehr Gebäudeschaden als der Feldtitan. Der Aschetitan deckt eine besonders große Fläche ab, warnt dafür länger. Schwierigkeit, spätere Wellen und Koop skalieren Leben/Schaden wie beim Feldtitanen. Ab Welle 8 kommt pro Welle ein kleinerer Titan hinzu, ab 16 zwei, ab 24 drei; die Varianten wechseln. Die bisherigen Feldtitan-Wellen bleiben bestehen. **Höchstens vier lebende Titanen gleichzeitig**, innerhalb des allgemeinen Gegnerlimits; weitere warten in der Spawnliste. Alle kommen über offene Felder. Varianten zählen für Titanenquests, den Titanenbrecher-Bonus und Frostresistenz und werden mit ihrem eigenen Angriff im Koop synchronisiert. Prüfungen: `titan_variants`, `defence` und `titan_horror`.
+
+**Armeewellen ab Welle 8:** Die reguläre Grundmenge steigt zusätzlich pro Welle um 20 Prozentpunkte: Welle 8 ×1,2, Welle 12 ×2, Welle 17 ×3, ab Welle 22 ×4. Auf Normal solo sind das beispielsweise 60 / 140 / 285 / 480 reguläre Zombies; Brocken-Bossgruppen und Titanen kommen wie bisher dazu. Schwierigkeit und Koop skalieren die Menge zusätzlich. Nach Erreichen von ×4 wächst die Grundmenge weiter mit der Wellennummer. Nachschub kommt bei guter Performance bis alle 0,12 s, höchstens ein neuer Gegner pro Frame. Maximal 72 lebende Gegner sind gleichzeitig aktiv; bei länger erhöhten Frame-Zeiten wird neuer Nachschub auf 56 beziehungsweise 40 aktive Gegner begrenzt und bei starker Last zusätzlich verlangsamt. Lebende Gegner verschwinden dadurch nicht. Alle 0,5 s werden alte Leichen samt Blut-Decals auf maximal 24 begrenzt; Titanen-Leichen haben Vorrang. Die Suche nach sicheren Wald-Spawns ist auf zwölf Kandidaten pro Versuch begrenzt und fällt bei Bedarf auf einen sicheren Zugang zurück. Prüfungen: `army_waves`, `spawn_safety`; optionaler gerenderter Lasttest mit `--army-benchmark`.
+
+**Zielen und Präzision:** Das halbtransparente Fadenkreuz besitzt ein offenes Zentrum und vier feine, gerade Striche. Sein Mittelpunkt folgt der tatsächlichen Schussrichtung, der Abstand der Striche zur Mitte dem berechneten Streubereich. Hüftfeuer ist ungenauer als ruhiges Zielen; Laufen, Sprinten und vertikale Sprungbewegung verschlechtern die Präzision. Schnelle Schussfolgen bauen zusätzliche Streuung und Rückstoß nach oben sowie zu den Seiten auf. Nach einer Feuerpause klingt beides ab. Treffermarkierungen folgen dem verschobenen Fadenkreuz. Beim Nachladen, im Nahkampf und durch das 4×-Zielfernrohr wird das normale Fadenkreuz ausgeblendet; das Zielfernrohr bleibt zur Schussrichtung ausgerichtet, während der Kamerarückstoß das Ziel verzieht. **Mechanic → Training → Ruhige Hand** kostet 180 / 270 / 360 P, reduziert je Stufe die tatsächliche Streuung um 15 % und verbessert die Kontrolle bei Feuerstößen. Präzisionslauf, Kompensator, Schalldämpfer, Falkenauge und Pilze kombinieren sich mit diesen Werten. Der Host berechnet Bewegungseinfluss und Feuerstoß-Streuung selbst. Die Suite `aiming` prüft Käufe, Schussverteilung, Rückstoß, HUD-Projektion, Erholung und identische Berechnung beim Host.
+
+**Nebelkrämer:** Ab dem Beginn von **Welle 5** wandert ein neuer Händler auf zufälligen, begehbaren Routen durch den Wald, auch in den Wellenpausen. Eine violette Laterne und sein Gepäck kennzeichnen ihn. Bei nahen lebenden Spielern bleibt er stehen; **E** öffnet seinen Raritätenhandel. Er erscheint erst nach Sichtkontakt auf der Minikarte. Im Koop bestimmt der Host Position, Käufe und Bestand. Pro neuer Welle gibt es bis zu zwei zufällig gewählte Talismane (je ein Exemplar für das ganze Team), drei Feuerpakete und ab Welle 7 zwei Frostpakete. Höherstufige Talismane können bis zu zwei Level vor ihrer Freischaltung angeboten werden. Ausverkaufte Ware bleibt bis zur nächsten Lieferung gesperrt.
+
+| Rarität | Einsatzlevel | Preis | Wirkung |
+| --- | --- | --- | --- |
+| Falkenauge | 5 | 1800 P | −35 % Streuung, −20 % Rückstoß |
+| Herz der Uralteiche | 8 | 2200 P | −20 % erlittener Schaden |
+| Sturmfeder | 9 | 2500 P | −20 % Nachladezeit, +10 % Tempo |
+| Blutstein | 10 | 2600 P | Eigene Waffen- und Brandkills heilen 3 Leben; keine Turmkills |
+| Phönixasche | 15 | 3800 P | Einmal pro Welle tödlichen Treffer abfangen und 40 % Leben erhalten |
+| Drachenatem | 5 | 480 P / 24 Schüsse | 36 Brandschaden über 3 s; Dauer erneuerbar, nicht stapelbar |
+| Winterbiss | 7 | 520 P / 18 Schüsse | 3 s Verlangsamung: Zombies −45 %, Titanen −20 % |
+
+Im Inventar **I** lassen sich gekaufte Talismane und Patronensorten kostenlos aktivieren oder ablegen. Es wirkt genau ein Talisman; seine Boni kombinieren sich mit Mods, Training und Pilzen. Wechseln setzt die Phönix-Ladung nicht zurück. Spezialpatronen ergänzen normale Waffenmunition und verbrauchen eine Ladung **pro Schuss**, auch bei Fehlschüssen; Schrot verbraucht eine Ladung für alle Pellets. Maximal 96 Ladungen je Sorte, kein Teilkauf bei voller Tasche. „Normale Patronen“ spart die seltene Munition. Bei Verbrauch der letzten Ladung wird automatisch normale Munition verwendet. Brand- und Frostmarkierungen sowie Partikel zeigen betroffene Gegner; alle Schäden und Verlangsamungen werden vom Host berechnet. Besitz gilt für die laufende Runde. Die Suite `rare_market` prüft Spawn, tatsächliche Wanderung, Handel, Boni, Schüsse, Brandkills und Koop-Zustand.
+
+**Waffen-Mods:** Mechanic und Secret Vendor haben einen eigenen Reiter **Mods**, mit Waffenauswahl und aktuellen Kampfwerten. Pro Waffe gibt es je einen Platz für Mündung, Magazin, Verschluss und Lauf. Käufe gelten für diese Runde und diese Waffe; erneutes Montieren und Entfernen ist kostenlos. Ein anderer Mod im selben Platz ersetzt den bisherigen, der im Besitz bleibt. Auch beim Waffenverkauf bleiben gekaufte Mods für einen späteren Rückkauf erhalten. Munition wird separat bezahlt; größere Magazine vergrößern nicht die Reserve oder die günstigen Munitionspakete. Autorefill füllt die neue Kapazität zum normalen Preis pro Patrone. Beim Verkleinern geht überschüssige Munition in die Reserve; fehlt dort Platz, wird der Wechsel abgelehnt.
+
+| Mod | Händler | Einsatzlevel | Auftrag | Preis |
+| --- | --- | --- | --- | --- |
+| Schalldämpfer | Mechanic | 3 | Am Feuer | 220 P |
+| Erweitertes Magazin (+50 %) | Mechanic | 3 | Am Feuer | 250 P |
+| Kompensator (−35 % Rückstoß) | Mechanic | 4 | Die Linie halten | 320 P |
+| Schnellverschluss (−20 % Nachladezeit) | Mechanic | 5 | Die verlorene Lieferung | 350 P |
+| Präzisionslauf (−30 % Streuung, +20 % Reichweite) | Mechanic | 6 | Eine ruhige Hand | 450 P |
+| Phantom · Legendär (−24 dB, −30 % Rückstoß) | Secret Vendor | 10 | Ein diskreter Auftrag | 1200 P |
+| Belagerungsmagazin · Legendär (+100 %) | Secret Vendor | 12 | Wie ein Uhrwerk | 1400 P |
+| Titanenkern · Legendär (+20 % Schaden, +1 Durchschussziel) | Secret Vendor | 16 | Die Schuld der Riesen | 1800 P |
+
+Einsatzlevel = überstandene Wellen + 1. Level **und** abgeholter Questabschluss sind erforderlich; fehlende Voraussetzungen und Inkompatibilitäten stehen rot im Menü. Schalldämpfer passen auf Pistole, MP5, AK-47 und beide Sniper; Titanenkern auf beide Sniper und MG-60. Nahkampfwaffen unterstützen keine Mods. Schalldämpfer machen Schüsse und Mündungsblitze leiser beziehungsweise schwächer; sie ändern keine Zombie-Zielwahl. Der normale Dämpfer senkt die Reichweite um 10 %, größere Magazine verlängern Nachladen um 10 % beziehungsweise 15 %. Der Host prüft Kauf und Montage und synchronisiert Mods, Kampfwerte und Schusseffekte. Die Suite `weapon_mods` prüft Transaktionen, Level-/Questgrenzen, Nachladen, Munitionsschutz und Koop-Zustand.
+
 **Palisadenring.** Der Ring entsteht abschnittsweise: Eine Barrikade zu bauen errichtet auch den zugehörigen Palisadenabschnitt. Ungebaute Abschnitte sind unsichtbar und frei begehbar. Wird die Barrikade zerstört, fällt auch ihr Abschnitt weg. Die Minimap zeigt nur gebaute Wände; die Gegnerwege werden nach Bau und Zerstörung neu berechnet. Der Spieler kann gebaute Torsperren mit der Leertaste überklettern. Prüfung: `--script res://tests/run.gd -- --suite=perimeter --smoke-test --no-intro --no-music`.
 
 Barrikaden binden anrückende Zombies bis zum Durchbruch. Ein sichtbarer Spieler innerhalb von 10 Metern hat jedoch Vorrang: Zombies lösen sich von der Sperre und greifen ihn an. Die Verfolgung bleibt bis 14 Meter bestehen; versperren Wände oder geschlossene Tore die Sicht, nehmen sie die Belagerung wieder auf. Das gilt auch im Koop und für Titanen. Mit **T** lassen sich automatische Geschütztürme für 120 Punkte setzen, maximal sechs pro Team. **R/Mausrad** dreht die Vorschau, **E** bestätigt. Am Turm richtet **E** ihn neu aus, **F** repariert. Ausbau und Abbau verwaltet Mechanic. Türme decken einen 160°-Sektor ab, brauchen freie Sicht, überhitzen bei Dauerfeuer und können zerstört werden.
@@ -55,9 +106,9 @@ Ab **Welle 6**, danach alle drei Wellen, kommen rund 27 m grosse Feldtitanen. Ih
 
 ## Hüttenschlüssel und Türen
 
-Waldhütte und Holzlager haben je einen eigenen Schlüssel. Beide liegen bei jedem neuen Spiel an anderen, geprüften Waldstellen in Wegnähe. Im Umkreis von 16 m erscheinen ein Hinweis, die Entfernung und ein Richtungspfeil; der Schlüssel liegt auf einem niedrigen Baumstumpf. Nahe herangehen und **E** drücken. Wände verhindern die Aufnahme durch Hindernisse.
+Waldhütte und Holzlager haben je einen eigenen Schlüssel mit **30 % Fundchance pro Auslosung**. Beim Spielstart, bei jeder neuen Welle und zu Beginn jeder Wellenpause wird für noch fehlende Schlüssel gewürfelt. Ihre geprüften Fundstellen liegen in Wegnähe und werden bei jedem neuen Spiel zufällig gewählt. Bereits erschienene Schlüssel bleiben während aller Phasen liegen; eingesammelte Schlüssel erscheinen nicht erneut. Im Umkreis von 16 m erscheinen ein Hinweis, die Entfernung und ein Richtungspfeil; der Schlüssel liegt auf einem niedrigen Baumstumpf. Nahe herangehen und **E** drücken. Wände verhindern die Aufnahme durch Hindernisse.
 
-Gefundene Schlüssel bleiben für das gesamte Spiel im Inventar (**B**), auch über Wellenwechsel hinweg. Der Waldhüttenschlüssel passt zum Garagentor und zur oberen Hüttentür, der zweite zum Holzlagertor. **E** öffnet und schliesst die Türen wiederholt. Beim Öffnen schwingen die Flügel vom Spieler weg, auch wenn er direkt vor der Tür steht. Andere Personen im Schwenkbereich blockieren die Bewegung; beim Schliessen bleibt der Einklemmschutz aktiv. Bereits aufgeschlossene Türen halten Gegner kurz auf, können unter anhaltenden Angriffen aber aufgedrückt werden. Das vergitterte Holzlagerfenster verhindert den Zugang ohne Schlüssel.
+Gefundene Schlüssel bleiben für das gesamte Spiel im Inventar (**I**), auch über Wellenwechsel hinweg. Der Waldhüttenschlüssel passt zum Garagentor und zur oberen Hüttentür, der zweite zum Holzlagertor. **E** öffnet und schliesst die Türen wiederholt. Beim Öffnen schwingen die Flügel vom Spieler weg, auch wenn er direkt vor der Tür steht. Andere Personen im Schwenkbereich blockieren die Bewegung; beim Schliessen bleibt der Einklemmschutz aktiv. Bereits aufgeschlossene Türen halten Gegner kurz auf, können unter anhaltenden Angriffen aber aufgedrückt werden. Das vergitterte Holzlagerfenster verhindert den Zugang ohne Schlüssel.
 
 ## Grafik und Leistung
 
@@ -93,6 +144,32 @@ Die 72 separaten Oberflächentexturen verwenden jetzt GPU-Kompression und Mipmap
 
 Bleiben nach dem letzten Spawn höchstens drei Zombies für 20 Sekunden übrig, suchen sie aktiv den Spieler. Sie geben alte Belagerungsziele auf und aktualisieren ihren Weg jede Sekunde. Sperren auf dem Weg werden weiterhin angegriffen. Im Koop suchen sie einen lebenden Spieler; die Entscheidung trifft der Host.
 
+Das **Feldmesser** gehört zur Startausrüstung (Taste **0**): 55 Schaden, 0,42 Sekunden Schlagabstand und 1,85 Meter Reichweite. Die **Waldaxt** verkauft Vendor für **180 Punkte**, sobald Welle 1 und der Ankunftsauftrag abgeschlossen sind: 125 Schaden, 0,95 Sekunden Schlagabstand und 2,35 Meter Reichweite. Auswahl über Mausrad oder Inventar (**I**), Angriff mit **Linksklick oder Q**. Beide brauchen keine Munition; Wände blockieren Schläge. Bei gezogener Nahkampfwaffe versorgen Munitionsfunde die zuletzt ausgewählte Schusswaffe. Das gilt auch im Koop.
+
+Der **Waldläufer .308** besitzt ein **4×-Zielfernrohr**: rechte Maustaste halten, um durch eine runde Optik mit Fadenkreuz zu zielen. Die Spielwelt wird tatsächlich vierfach vergrößert; das Waffenmodell verdeckt die Linse nicht. Loslassen, Nachladen und Waffenwechsel verlassen die Scope-Ansicht. Die Suite `sniper_scope` prüft die projizierte Vergrößerung und diese Übergänge; `--render-scope` speichert Vergleichsbilder in `../artifacts/sniper-scope/`.
+
+Quests zeigen ihre benannte Reihe, die Schrittfolge, den zuständigen NPC und bei Sperren den konkret fehlenden Auftrag samt nächstem Schritt. Waffenberechtigungen werden erst nach Abgabe aller Aufträge einer Reihe freigeschaltet:
+
+- **Marksman:** „Eine ruhige Hand“ (15 Kopfschuss-Kills) → „Präzision unter Druck“ (25 Kopfschuss-Kills und Welle 3) bei Vendor → „Ein diskreter Auftrag“ (40 Kopfschuss-Kills) beim Secret Vendor. Erlaubt den Kauf von Waldläufer .308 und Titanenbrecher .50; letzterer benötigt zusätzlich den Titanenauftrag und Welle 9.
+- **Sturm:** „Die Linie halten“ → „Die lange Schicht“. Kaufberechtigung für die AK-47.
+- **Verteidigungstechnik:** „Der erste Wächter“ → „Kreuzfeuer“ → „Doppelt hält besser“ → „Wie ein Uhrwerk“. Kaufberechtigung für das MG-60; Lieferung und Welle 5 bleiben zusätzliche Voraussetzungen.
+
+Die Berechtigung ersetzt keinen Kauf. Ziele zählen im Koop gemeinsam, jeder Spieler nimmt seine Aufträge selbst an und holt seine Belohnungen ab. Kopfschüsse mit Pistole oder Revolver zählen für die Marksman-Reihe; eine noch gesperrte Waffe ist dafür nicht nötig.
+
+**Quest-Balancing:** Das Einsatzlevel dieser Runde entspricht **1 + überstandene Wellen**. Es ist kein dauerhaftes XP-Level. Mindestlevel werden im Händlerkopf, in jeder Quest und in Sperrhinweisen angezeigt. Außer „Am Feuer“ verlangt jeder Auftrag nach seiner Annahme mindestens eine zusätzliche überstandene Welle. „Wie ein Uhrwerk“, „Das letzte Licht“ und „Ein Name, den keiner kennt“ verlangen zwei. Bereits erreichte Teamziele bleiben anrechenbar, ermöglichen aber keine sofortige Abgabe aufeinanderfolgender Quests. Die Annahmewelle wird pro Spieler gespeichert und im Koop synchronisiert.
+
+| Reihe | Mindestlevel je Schritt | Frühester Reihenabschluss |
+|---|---|---|
+| Sturm | 2 → 5 | nach Welle 5 |
+| Marksman | 2 → 5 → 8 | nach Welle 8 |
+| Verteidigungstechnik | 2 → 4 → 7 → 10 | nach Welle 11 |
+| Waldwache | 2 → 5 → 8 | nach Welle 8 |
+| Versorgung | 4 | nach Welle 4 |
+| Titanenjagd | 7 → 11 → 16 | nach Welle 17 und erfüllten Titanenzielen |
+| Das Lager bewahren | 11 | nach Welle 12 |
+
+Die Mindesttermine setzen rechtzeitige Annahme und erfüllte Ziele voraus. Wer einen Auftrag später annimmt, muss die zusätzlichen Wellen ab diesem Zeitpunkt überstehen. So wird etwa der Waldläufer trotz seiner niedrigeren allgemeinen Waffen-Wellenanforderung erst nach Abschluss der Marksman-Reihe ab Welle 8 kaufbar. `quest_balance`, `extra_quests` und `progression` prüfen Stufen, persönliche Wartebedingungen, Ziele und die Kaufberechtigungen.
+
 ## Prüfen und exportieren
 
 Aus dem übergeordneten Projektordner in PowerShell:
@@ -124,7 +201,36 @@ Die 56 automatisierten Smoke-Prüfungen decken Start, Navigation, Grafikprofile,
 
 `DoorsKeys` prüft zufällige erreichbare Fundorte, Entfernung und Sichtlinie bei der Aufnahme, Schlüsselbesitz, Türdurchgänge, Öffnen/Schliessen, Pause, Einklemmschutz, Gegnerdruck und Inventar. Zusätzlich werden alle drei Türen aus 0,5 m Entfernung von beiden Seiten über die tatsächliche E-Interaktion geöffnet und geschlossen; ein anderer Akteur hinter dem Tor muss die Öffnung weiterhin blockieren. Bilder: `../artifacts/doors-keys/`. Reproduzierbare Fundorte sind mit `--key-seed=17` möglich; ohne Parameter werden sie bei jedem Spielstart neu ausgewählt.
 
-`CampsitePickups` prüft beide Pilzarten nach der Kartenoptimierung: sofortiges Ausblenden, vollständiges Entfernen des Modells, einmalige Inventarbuchung und unveränderte übrige Pilze. Ansichten von Feuerstelle, Brunnen und Pilzen vor/nach dem Sammeln: `../artifacts/campsite-pickups/`.
+`CampsitePickups` prüft alle zehn Pilzarten nach der Kartenoptimierung: sofortiges Ausblenden, vollständiges Entfernen des Modells, einmalige Inventarbuchung und unveränderte übrige Pilze. Ansichten von Feuerstelle, Brunnen und Pilzen vor/nach dem Sammeln: `../artifacts/campsite-pickups/`.
+
+### Pilze und Verkauf
+
+**Autorefill** steht bei Vendor und Secret Vendor oben im Reiter **Handel**. Es füllt Magazine und Reserven aller eigenen Schusswaffen bis zum jeweiligen Limit oder soweit das Guthaben reicht. Die aktuelle bzw. zuletzt geführte Schusswaffe hat Vorrang; pro Waffe wird zuerst das Magazin gefüllt. Berechnet wird die tatsächlich gelieferte Schusszahl anteilig zum Preis der bisherigen Zwei-Magazin-Pakete, auf volle Punkte pro Waffe aufgerundet. Die Anzeige nennt den Komplettpreis und die mit dem aktuellen Guthaben mögliche Auffüllung. Granaten werden separat gekauft. Bereits volle Vorräte kosten nichts; im Koop bestätigt der Host die Buchung.
+
+Schwere Waffen besitzen **Durchschuss**: Waldläufer .308 trifft bis zu **3 Zombies** mit jeweils **75 % Restschaden**, Titanenbrecher .50 bis zu **5** mit **80 %**, MG-60 bis zu **2** mit **65 %**. Der erste Treffer verursacht vollen Schaden; die Abschwächung wird für jedes weitere Ziel erneut angewendet. Jeder Zombie wird pro Geschoss nur einmal getroffen, auch bei überlappenden Körper-Hitboxen. Kopfschüsse, Entfernung und Titanenbonus werden pro Ziel ausgewertet. Wände, Gelände und Türme stoppen das Geschoss. Die Werte stehen auch beim Händler und in den Inventardetails. Die Suite `piercing` prüft echte Trefferketten, Schaden, Munition, Trefferstatistik und Koop-Zuordnung.
+
+**Geld teilen:** Mit **B** wirfst du 100 Punkte als sichtbares Geldbündel nach vorne; bei weniger Guthaben den Restbetrag. Mitspieler sammeln es durch Darüberlaufen ein. Der Werfer kann es nach zwei Sekunden wieder aufnehmen. Geld bleibt bis zur Aufnahme oder zum Rundenende liegen. Im Koop bestätigt der Host Abzug und einmalige Gutschrift; der Betrag wird nicht als neu verdienter Abschusslohn gezählt. Das Inventar liegt jetzt auf **I**. `cash_drops` prüft Geldtransfer, Bestandsgrenzen, Wurfphysik und die Synchronisierung der Bündel.
+
+Zehn Pilzsorten wachsen mit unterschiedlicher Häufigkeit im Wald. Mit **E** sammeln, im Inventar (**I**) zum Essen anklicken. Aktive Effekte und Restlaufzeit stehen im HUD und Inventar. Heilung aktualisiert sofort den Lebensbalken; reine Heilpilze bleiben bei voller Gesundheit erhalten.
+
+| Pilz | Spieleffekt | Verkauf |
+|---|---|---|
+| Steinpilz | +25 Leben | 8 P |
+| Fliegenpilz | −15 Leben, 20 s doppelter Waffen-/Nahkampfschaden | 14 P |
+| Pfifferling | +10 Leben, 30 s +20 % Lauftempo | 10 P |
+| Morchel | +15 Leben, 30 s −25 % Nachladezeit | 14 P |
+| Maronenröhrling | +40 Leben | 12 P |
+| Parasol | +15 Leben, 30 s −25 % erlittener Schaden | 12 P |
+| Reizker | +10 Leben, 40 s doppelte Regeneration | 10 P |
+| Tintenpilz | 35 s −35 % Waffenstreuung | 16 P |
+| Violetter Rötelritterling | +5 Leben, 40 s +35 % Waffen-/Nahkampfschaden | 18 P |
+| Krause Glucke | +60 Leben | 22 P |
+
+Pilze verändern permanente Trainingswerte nicht. Gleichartige Boni verwenden den stärksten aktiven Effekt; erneutes Essen derselben Sorte erneuert ihre Laufzeit. Solo pausiert das Inventar auch die Effekte, im Koop laufen sie weiter. Tod entfernt die zeitlichen Boni. Der Host verwaltet Wirkung, Verbrauch und Verkauf für jeden Spieler getrennt.
+
+Bei **Vendor und Secret Vendor → Verkaufen** lassen sich einzelne Pilze, Granaten (15 P), volle Reservemagazine und gekaufte Waffen (35 % des Kaufpreises) verkaufen. Restmunition einer verkauften Waffe bringt keinen zusätzlichen Erlös; Reserve vorher separat verkaufen. Pistole und Feldmesser bleiben als Startausrüstung erhalten, ebenso bereits erworbene Questberechtigungen. Mara vergibt Waldaufträge; Mechanic betreut Training und Türme.
+
+`mushroom_trade` prüft Heilung, Boni, Ablauf, Training während eines Effekts, Verkaufspreise, Bestandsgrenzen, Entfernung und Koop-Zustand. Mit `--render-mushrooms` entstehen Inventar- und Händleransichten in `../artifacts/mushrooms/`.
 
 ## Stand der Freigabe
 

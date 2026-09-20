@@ -1,0 +1,147 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 42 }
+COOP_LOAD MAP_READY
+PASS: pistol starts with the correct ownership
+PASS: pistol has a production mesh
+PASS: revolver starts with the correct ownership
+PASS: revolver has a production mesh
+PASS: smg starts with the correct ownership
+PASS: smg has a production mesh
+PASS: ak47 starts with the correct ownership
+PASS: ak47 has a production mesh
+PASS: shotgun starts with the correct ownership
+PASS: shotgun has a production mesh
+PASS: marksman starts with the correct ownership
+PASS: marksman has a production mesh
+PASS: lmg starts with the correct ownership
+PASS: lmg has a production mesh
+PASS: breacher starts with the correct ownership
+PASS: breacher has a production mesh
+PASS: titanbreaker starts with the correct ownership
+PASS: titanbreaker has a production mesh
+PASS: knife starts with the correct ownership
+PASS: knife has weapon geometry
+PASS: hatchet starts with the correct ownership
+PASS: hatchet has weapon geometry
+PASS: ranger has a rigged animated NPC
+PASS: camp has a rigged animated NPC
+PASS: mechanic has a rigged animated NPC
+PASS: secret has a rigged animated NPC
+PASS: World loot cannot bypass merchant unlocks
+PASS: Remote merchant purchase rejected atomically
+PASS: Camp merchant reachable in actual world
+PASS: Blocked quest names its prerequisite, NPC and earliest actionable step
+PASS: Blocked quest cannot be accepted
+PASS: Quest belongs to exactly one valid chain: arrival
+PASS: Quest belongs to exactly one valid chain: line
+PASS: Quest belongs to exactly one valid chain: night_shift
+PASS: Quest belongs to exactly one valid chain: steady_aim
+PASS: Quest belongs to exactly one valid chain: marksman_training
+PASS: Quest belongs to exactly one valid chain: silent_deal
+PASS: Quest belongs to exactly one valid chain: watch
+PASS: Quest belongs to exactly one valid chain: crossfire
+PASS: Quest belongs to exactly one valid chain: reinforced
+PASS: Quest belongs to exactly one valid chain: clockwork
+PASS: Quest belongs to exactly one valid chain: forest_basket
+PASS: Quest belongs to exactly one valid chain: restless_paths
+PASS: Quest belongs to exactly one valid chain: forest_watch
+PASS: Quest belongs to exactly one valid chain: supplies
+PASS: Quest belongs to exactly one valid chain: titan
+PASS: Quest belongs to exactly one valid chain: giant_debt
+PASS: Quest belongs to exactly one valid chain: nameless
+PASS: Quest belongs to exactly one valid chain: last_light
+PASS: All quests have a named chain
+PASS: NPC interaction opens shop and pauses solo
+PASS: Shop page renders: Handel
+PASS: Shop icon loads without intercepting clicks: Autorefill · gesamte Munition
+PASS: Shop icon loads without intercepting clicks: Waldaxt
+PASS: Shop icon loads without intercepting clicks: Revolver
+PASS: Shop icon loads without intercepting clicks: MP5
+PASS: Shop icon loads without intercepting clicks: Schrotflinte
+PASS: Shop icon loads without intercepting clicks: AK-47
+PASS: Shop icon loads without intercepting clicks: Waldläufer .308
+PASS: Shop icon loads without intercepting clicks: Munition · Pistole
+PASS: Shop icon loads without intercepting clicks: Verband
+PASS: Shop icon loads without intercepting clicks: Handgranate
+PASS: Shop page renders: Aufträge
+PASS: Quest UI shows chain, named prerequisite, giver and weapon permission
+PASS: Shop icon loads without intercepting clicks: Ankunft · 1/1 · Am Feuer · Level 1 · 20 P
+PASS: Shop icon loads without intercepting clicks: Sturm · 1/2 · Die Linie halten · Level 2 · 140 P
+PASS: Shop icon loads without intercepting clicks: Sturm · 2/2 · Die lange Schicht · Level 5 · 160 P
+PASS: Shop icon loads without intercepting clicks: Marksman · 1/3 · Eine ruhige Hand · Level 2 · 90 P
+PASS: Shop icon loads without intercepting clicks: Marksman · 2/3 · Präzision unter Druck · Level 5 · 140 P
+PASS: Shop icon loads without intercepting clicks: Das Lager bewahren · 1/1 · Das letzte Licht · Level 11 · 240 P
+PASS: Shop page renders: Training
+PASS: Shop page renders: Türme
+PASS: Shop page renders: Skins
+PASS: Shop icon loads without intercepting clicks: Waldtarn
+PASS: Shop icon loads without intercepting clicks: Originalfinish
+PASS: Live shop refresh preserves the button under the pointer
+PASS: Leaving merchant restores controls
+PASS: Points alone cannot bypass quest and wave gates
+PASS: Unaccepted quest has no turn-in marker
+PASS: Accepting a quest does not claim its reward
+PASS: Accepted quest plays its dedicated sound
+PASS: Completed accepted quest marks its giver in world and minimap state
+PASS: Other givers and undiscovered secret shop remain unmarked
+PASS: Completed quest pays exactly once
+PASS: Quest reward plays completion sound
+PASS: Claimed reward removes the turn-in marker
+PASS: Repeated quest claim cannot duplicate points
+PASS: Rejected duplicate reward stays silent
+PASS: Quest completion still requires surviving wave one
+PASS: Quest transaction rejects acceptance below level gate
+PASS: Insufficient funds preserve ownership and balance
+PASS: Eligible weapon purchase charges once with bounded starting ammunition
+PASS: Purchased weapon plays gun pickup sound
+PASS: Shop adds ammunition for every owned weapon after purchase
+PASS: Duplicate purchase never charges again
+PASS: Wave safety net does not refill premium ammunition
+PASS: Full ammunition cannot consume purchase points
+PASS: Training cannot be bought at another NPC
+PASS: Legacy weapon upgrade ID cannot bypass progression
+PASS: Training applies and charges at the mechanic
+PASS: Tower quest requires actual defence work
+PASS: Valid oriented tower placement: 
+PASS: Non-finite tower rotation rejected
+PASS: Existing tower rotates authoritatively
+PASS: Defence tutorial observes real placement and rotation
+PASS: Defence quest completes with a built line and rotated tower
+PASS: Turret upgrades require the mechanic
+PASS: Mechanic upgrades deployed tower transactionally
+PASS: Supply objective reachable
+PASS: World interaction collects shared delivery
+PASS: Delivery must be returned to claim its reward
+PASS: Sniper shop names the missing Marksman chain and next quest
+PASS: Delivery and points cannot bypass the sniper permission
+PASS: steady_aim cannot be claimed by clicking again with old counters
+PASS: marksman_training cannot be claimed by clicking again with old counters
+PASS: Intermediate quests direct the player to the final giver
+PASS: Completed objective requires turn-in before granting permission
+PASS: Final turn-in announces the earned Marksman permission
+PASS: Shared team goals do not grant another player's unclaimed permission
+PASS: Snapshots preserve individual chain permissions
+PASS: Marksman chain permits the precision rifle
+PASS: Heavy sniper still requires its separate titan quest
+PASS: Earned sniper permission still requires paying the weapon price
+PASS: Secret merchant discovered by reaching the actual NPC
+PASS: Top weapon additionally requires a defeated titan
+PASS: Earned late-game titan weapon can be purchased
+PASS: Purchased skin is cosmetic and equips its material
+PASS: Owned skin can be equipped again without repurchasing
+PASS: Progression snapshot preserves shared goals and individual skin ownership
+PASS: Titan rifle applies its specialist damage through a real bullet hit
+PASS: Heavy optic has its own aiming magnification
+PASS: Rotated turret acquires an enemy inside its new firing arc
+PASS: Rotated turret does not fire behind its covered sector
+PASS: Mara can be reached beside the small campfire
+PASS: Quest-only ranger cannot be used as a hidden shop
+PASS: Mara opens her own quest-only conversation
+PASS: Mushroom pickups and surviving a wave complete Mara's first quest
+PASS: Mara pays her reward exactly once
+PROGRESSION_DONE checks=138 failures=0

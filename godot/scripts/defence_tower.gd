@@ -185,7 +185,7 @@ func can_see(z: Zombie) -> bool:
 		if absf(angle_difference(rotation.y, yaw)) > HALF_ARC: return false
 	var aim := z.global_position + Vector3.UP * z.height * 0.55
 	if muzzle.global_position.distance_squared_to(aim) > pow(RANGE[level - 1], 2): return false
-	var q := PhysicsRayQueryParameters3D.create(muzzle.global_position, aim, 1 | 2 | 8 | Zombie.HITBOX_LAYER, [body.get_rid()])
+	var q := PhysicsRayQueryParameters3D.create(muzzle.global_position, aim, Zombie.SHOT_MASK, [body.get_rid()])
 	q.collide_with_areas = true
 	var hit := get_world_3d().direct_space_state.intersect_ray(q)
 	return Zombie.from_hit(hit) == z
@@ -228,7 +228,7 @@ func shoot() -> void:
 	aim += Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1)) * distance * 0.009
 	var direction := (aim - muzzle.global_position).normalized()
 	var end: Vector3 = muzzle.global_position + direction * RANGE[level - 1]
-	var q := PhysicsRayQueryParameters3D.create(muzzle.global_position, end, 1 | 2 | 8 | Zombie.HITBOX_LAYER, [body.get_rid()])
+	var q := PhysicsRayQueryParameters3D.create(muzzle.global_position, end, Zombie.SHOT_MASK, [body.get_rid()])
 	q.collide_with_areas = true
 	var hit := get_world_3d().direct_space_state.intersect_ray(q)
 	last_impact = hit.position if not hit.is_empty() else end

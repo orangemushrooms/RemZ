@@ -149,7 +149,8 @@ func _set_open(open: bool) -> void:
 		_motion.tween_property(leaf[0], "rotation:y", -leaf[1] * _open_side * 1.65 if open else 0.0, 0.75)
 	_motion.chain().tween_callback(_finish_motion)
 	set_physics_process(true)
-	Sfx.play_at(get_parent(), "wood", global_position + Vector3.UP, -9.0, 0.8 if open else 0.68)
+	if open: Sfx.play_at(get_parent(), "door_open", global_position + Vector3.UP, -6.0)
+	else: Sfx.play_at(get_parent(), "wood", global_position + Vector3.UP, -9.0, 0.68)
 
 func _finish_motion() -> void:
 	if not NetSession.is_client() and not is_open and _swing_blocked():

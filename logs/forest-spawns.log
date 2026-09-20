@@ -1,0 +1,52 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 674, "batches": 18, "removed_render_nodes": 44 }
+COOP_LOAD MAP_READY
+PASS: Height cannot bypass horizontal player clearance
+PASS: Rejected spawn does not create or count an enemy
+PASS: Occupied entrance falls back to a safe spawn
+PASS: Final navigation-projected spawn respects clearance
+PASS: Fully blocked entrances retain the queued enemy
+PASS: Blocked wave retries with a delay
+PASS: Waiting enemy spawns once the entrance clears
+PASS: Titan uses another field when its planned entrance is occupied
+PASS: Titan keeps its larger safety distance
+PASS: Remote living player blocks spawning even when the host is far away
+PASS: Dead players do not permanently block an entrance
+PASS: Wave 1 mixes forest and entrance spawns without extra enemies
+PASS: Wave 1 keeps titans out of the forest
+PASS: Wave 3 mixes forest and entrance spawns without extra enemies
+PASS: Wave 3 keeps titans out of the forest
+PASS: Wave 5 mixes forest and entrance spawns without extra enemies
+PASS: Wave 5 keeps titans out of the forest
+PASS: Wave 6 mixes forest and entrance spawns without extra enemies
+PASS: Wave 6 keeps titans out of the forest
+PASS: Wave 12 mixes forest and entrance spawns without extra enemies
+PASS: Wave 12 keeps titans out of the forest
+PASS: Random forest spawn 0 finds a reachable location
+PASS: Actual spawn is in the forest off the road
+PASS: Forest spawn respects player clearance
+PASS: Random forest spawn 1 finds a reachable location
+PASS: Actual spawn is in the forest off the road
+PASS: Forest spawn respects player clearance
+PASS: Random forest spawn 2 finds a reachable location
+PASS: Actual spawn is in the forest off the road
+PASS: Forest spawn respects player clearance
+PASS: Random forest spawn 3 finds a reachable location
+PASS: Actual spawn is in the forest off the road
+PASS: Forest spawn respects player clearance
+PASS: Random forest spawn 4 finds a reachable location
+PASS: Actual spawn is in the forest off the road
+PASS: Forest spawn respects player clearance
+PASS: Random forest spawn 5 finds a reachable location
+PASS: Actual spawn is in the forest off the road
+PASS: Forest spawn respects player clearance
+PASS: Forest spawns vary their position
+PASS: Forest spawning refuses titans
+PASS: Unavailable forest falls back to an entrance
+PASS: Intermission does not spawn forest zombies
+SPAWN_SAFETY_DONE checks=43 failures=0

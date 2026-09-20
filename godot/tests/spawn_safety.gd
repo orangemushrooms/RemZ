@@ -73,5 +73,41 @@ func run() -> void:
 	NetSession.enabled = false
 	NetSession.world.actors.erase(2)
 	remote.queue_free()
+	# Forest spawns share the wave budget, leaving intermissions quiet.
+	seed(7391)
+	for number in [1, 3, 5, 6, 12]:
+		var plan: Array = game.waves.plan(number)
+		var forest_count := 0
+		var forest_titans := 0
+		for entry in plan:
+			if entry.get("forest", false):
+				forest_count += 1
+				if entry.type == "titan": forest_titans += 1
+		check(plan.size() == game.waves.preview_count(number) and forest_count > 0 and forest_count < plan.size(), "Wave %d mixes forest and entrance spawns without extra enemies" % number)
+		check(forest_titans == 0, "Wave %d keeps titans out of the forest" % number)
+	var forest_positions: Array[Vector3] = []
+	for attempt in 6:
+		var spawned: bool = game.waves._try_forest_spawn("shambler")
+		check(spawned, "Random forest spawn %d finds a reachable location" % attempt)
+		if not spawned: continue
+		zombie = game.zombies_root.get_children().back()
+		zombie.set_physics_process(false)
+		zombie.agent.avoidance_enabled = false
+		var location := Vector2(zombie.global_position.x, zombie.global_position.z)
+		check(Map.in_forest(location.x, location.y) and not Map.on_road(location.x, location.y, 2.0), "Actual spawn is in the forest off the road")
+		offset = zombie.global_position - game.player.global_position
+		check(Vector2(offset.x, offset.z).length() >= Waves.SPAWN_DISTANCE, "Forest spawn respects player clearance")
+		forest_positions.append(zombie.global_position)
+	check(forest_positions.size() > 1 and forest_positions[0].distance_to(forest_positions.back()) > 1.0, "Forest spawns vary their position")
+	check(not game.waves._try_forest_spawn("titan"), "Forest spawning refuses titans")
+	var roads: Array = Map.ROADS
+	Map.ROADS = []
+	check(game.waves._try_spawn({"type": "shambler", "lane": "north", "forest": true}), "Unavailable forest falls back to an entrance")
+	Map.ROADS = roads
+	game.waves.phase = "idle"
+	game.waves.timer = 60.0
+	count = game.alive_zombies()
+	game.waves._process(1.0)
+	check(game.alive_zombies() == count, "Intermission does not spawn forest zombies")
 	print("SPAWN_SAFETY_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

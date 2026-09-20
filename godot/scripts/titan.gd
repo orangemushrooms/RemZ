@@ -25,6 +25,15 @@ var foot_bones: Array[int] = []
 var _last_position := Vector3.ZERO
 var _warning_center := Vector3.INF
 
+func blast_radius() -> float:
+	return float(type.get("blast_radius", BLAST_RADIUS))
+
+func windup() -> float:
+	return float(type.get("windup", WINDUP))
+
+func recovery(rage: bool) -> float:
+	return float(type.get("recovery", RECOVERY)) * (RAGE_RECOVERY / RECOVERY if rage else 1.0)
+
 func _ready() -> void:
 	super._ready()
 	if model:
@@ -37,21 +46,21 @@ func _ready() -> void:
 			break
 	for child in get_children():
 		if child is CollisionShape3D and child.shape is CapsuleShape3D:
-			child.shape.radius = 1.6
-	agent.radius = 1.7
+			child.shape.radius = clampf(height * 0.06, 0.65, 1.6)
+	agent.radius = clampf(height * 0.065, 0.75, 1.7)
 	agent.neighbor_distance = 16
 	agent.avoidance_priority = 0.9
-	agent.target_desired_distance = 6.0
+	agent.target_desired_distance = float(type.reach) * 0.4
 	agent.path_desired_distance = 2.5
 	# a 27 m body moves in slow motion: the walk cycle is stretched, the stride is what makes it look colossal
-	if anim: anim.speed_scale = 0.3
-	warning_material = Barricade._marker_material(Color(1, 0.22, 0.045), 0.8)
+	if anim: anim.speed_scale = clampf(8.1 / height, 0.3, 0.85)
+	warning_material = Barricade._marker_material(type.get("warning_color", Color(1, 0.22, 0.045)), 0.8)
 	# Tactical warning stays legible through dense meadow grass.
 	warning_material.no_depth_test = true
 	warning_material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	var ring := TorusMesh.new()
-	ring.inner_radius = BLAST_RADIUS - 0.12
-	ring.outer_radius = BLAST_RADIUS + 0.12
+	ring.inner_radius = blast_radius() - 0.12
+	ring.outer_radius = blast_radius() + 0.12
 	ring.rings = 64
 	ring.ring_segments = 8
 	warning = DefenceTower.piece(self, ring, Vector3.ZERO, warning_material)
@@ -60,7 +69,7 @@ func _ready() -> void:
 	warning.hide()
 	# a dull red glow under the hood, visible across the whole meadow at night
 	var glow := OmniLight3D.new()
-	glow.light_color = Color(1.0, 0.24, 0.1)
+	glow.light_color = type.get("warning_color", Color(1.0, 0.24, 0.1))
 	glow.light_energy = 5.0
 	glow.omni_range = height * 0.55
 	glow.omni_attenuation = 1.5
@@ -141,6 +150,7 @@ func die(direction: Vector3) -> void:
 			if is_inside_tree(): emit_cue("collapse"))
 
 func _physics_process(delta: float) -> void:
+	update_rare_visual()
 	if replica or not alive:
 		super._physics_process(delta)
 		update_warning()
@@ -175,7 +185,7 @@ func _physics_process(delta: float) -> void:
 			if strike_phase == "windup":
 				resolve_strike()
 				strike_phase = "recovery"
-				strike_time = RAGE_RECOVERY if rage else RECOVERY
+				strike_time = recovery(rage)
 			else:
 				strike_phase = "walk"
 				play("walk")
@@ -217,7 +227,7 @@ func _physics_process(delta: float) -> void:
 		agent.target_position = destination
 	var next := agent.get_next_path_position() - global_position
 	next.y = 0
-	var speed: float = type.speed * minf(speed_mul, 1.35) * (1.25 if rage else 1.0)
+	var speed: float = type.speed * minf(speed_mul, 1.35) * frost_mul * (1.25 if rage else 1.0)
 	agent.max_speed = speed
 	agent.velocity = next.normalized() * speed
 	if not is_on_floor(): velocity.y -= 20 * delta
@@ -236,7 +246,7 @@ func begin_strike(destination: Vector3) -> void:
 		var contact: Vector3 = obstruction.position - offset.normalized() * 0.15
 		strike_point = Map.ground_pos(contact.x, contact.z)
 	strike_phase = "windup"
-	strike_time = WINDUP
+	strike_time = windup()
 	play("attack")
 	velocity = Vector3.ZERO
 	agent.velocity = Vector3.ZERO
@@ -255,19 +265,19 @@ func resolve_strike() -> void:
 	impact_effect()
 	var actors: Array = NetSession.world.actors.values() if NetSession.is_host() else [player]
 	for actor: Player in actors:
-		if actor.alive and actor.global_position.distance_to(strike_point) < BLAST_RADIUS and clear_strike_line(actor.global_position):
+		if actor.alive and actor.global_position.distance_to(strike_point) < blast_radius() and clear_strike_line(actor.global_position):
 			actor.damage(float(type.damage) * damage_mul, strike_point)
 	for b in barricades:
-		if b.hp > 0 and b.attack_point(strike_point).distance_to(strike_point) < BLAST_RADIUS and clear_strike_line(b.attack_point(strike_point), b.body):
-			b.damage(115.0 * damage_mul)
+		if b.hp > 0 and b.attack_point(strike_point).distance_to(strike_point) < blast_radius() and clear_strike_line(b.attack_point(strike_point), b.body):
+			b.damage(230.0 * damage_mul * float(type.get("structure_mul", 1.0)))
 	for tower in get_tree().get_nodes_in_group("defence_towers"):
-		if tower.hp > 0 and tower.attack_point(strike_point).distance_to(strike_point) < BLAST_RADIUS and clear_strike_line(tower.attack_point(strike_point), tower.body):
-			tower.damage(120.0 * damage_mul)
+		if tower.hp > 0 and tower.attack_point(strike_point).distance_to(strike_point) < blast_radius() and clear_strike_line(tower.attack_point(strike_point), tower.body):
+			tower.damage(240.0 * damage_mul * float(type.get("structure_mul", 1.0)))
 	for door: Door in hut_doors:
-		if door.hp > 0 and door.attack_point(strike_point).distance_to(strike_point) < BLAST_RADIUS and clear_strike_line(door.attack_point(strike_point), door.body):
-			door.damage(115.0 * damage_mul)
-	if is_instance_valid(hut) and hut.hp > 0 and hut.attack_point(strike_point).distance_to(strike_point) < BLAST_RADIUS:
-		hut.damage(220.0 * damage_mul)
+		if door.hp > 0 and door.attack_point(strike_point).distance_to(strike_point) < blast_radius() and clear_strike_line(door.attack_point(strike_point), door.body):
+			door.damage(230.0 * damage_mul * float(type.get("structure_mul", 1.0)))
+	if is_instance_valid(hut) and hut.hp > 0 and hut.attack_point(strike_point).distance_to(strike_point) < blast_radius():
+		hut.damage(440.0 * damage_mul * float(type.get("structure_mul", 1.0)))
 
 func update_warning() -> void:
 	if not warning: return
@@ -281,7 +291,7 @@ func update_warning() -> void:
 				var corners: Array[Vector3] = []
 				for sample in [[i, -0.13], [i + 1, -0.13], [i + 1, 0.13], [i, 0.13]]:
 					var angle := float(sample[0]) / 72.0 * TAU
-					var radius := BLAST_RADIUS + float(sample[1])
+					var radius := blast_radius() + float(sample[1])
 					var x := strike_point.x + cos(angle) * radius
 					var z := strike_point.z + sin(angle) * radius
 					corners.append(Map.ground_pos(x, z) - strike_point + Vector3.UP * 0.15)
@@ -290,7 +300,7 @@ func update_warning() -> void:
 					surface.add_vertex(corners[index])
 			warning.mesh = surface.commit()
 		warning.global_position = strike_point
-		warning_material.albedo_color.a = 0.5 + 0.45 * (1 - clampf(strike_time / WINDUP, 0, 1))
+		warning_material.albedo_color.a = 0.5 + 0.45 * (1 - clampf(strike_time / windup(), 0, 1))
 
 func impact_effect() -> void:
 	var dust := CPUParticles3D.new()

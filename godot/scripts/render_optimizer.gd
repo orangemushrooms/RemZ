@@ -14,6 +14,7 @@ static func _has_dynamic_owner(node: Node, root: Node) -> bool:
 
 static func optimize(root: Node3D) -> Dictionary:
 	for instance in root.find_children("*", "MultiMeshInstance3D", true, false):
+		if _has_dynamic_owner(instance, root): continue
 		if not instance.is_in_group("render_grass") and not instance.is_in_group("render_leaves"):
 			instance.add_to_group("render_trees")
 	var batches := {}

@@ -1,0 +1,44 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 671, "batches": 13, "removed_render_nodes": 32 }
+COOP_LOAD MAP_READY
+PASS: Messer starts unlocked; axe is earned
+PASS: Locked axe cannot be equipped
+PASS: Vendor sells the axe for 180 points
+PASS: Vendor refuses melee ammunition without charging
+PASS: knife equips its own visible model
+PASS: knife has a melee HUD
+PASS: knife never reloads or uses ammunition
+PASS: knife has a visible swing
+PASS: hatchet equips its own visible model
+PASS: hatchet has a melee HUD
+PASS: hatchet never reloads or uses ammunition
+PASS: hatchet has a visible swing
+PASS: Ammunition pickups while holding melee supply the last firearm
+PASS: Melee does not bypass full ammunition capacity
+PASS: Melee allows ammunition when the firearm has room
+PASS: knife left-click deals its melee damage
+PASS: knife records melee attribution without gunshot statistics
+PASS: knife Q and left-click share a cooldown
+PASS: knife weapon switching cannot bypass cooldown
+PASS: hatchet left-click deals its melee damage
+PASS: hatchet records melee attribution without gunshot statistics
+PASS: hatchet Q and left-click share a cooldown
+PASS: hatchet weapon switching cannot bypass cooldown
+PASS: Knife stab deals its stronger damage
+PASS: Stab has its own longer recovery
+PASS: Switching mouse buttons cannot bypass stab recovery
+PASS: Right mouse action triggers knife stab instead of aiming
+PASS: Stab points the blade forward
+PASS: Melee cannot hit a distant enemy
+PASS: Walls block melee strikes
+PASS: Walls also block knife stabs
+PASS: Host applies remote melee damage with the correct owner
+PASS: Host validates and applies the remote right-click stab
+PASS: Remote animation receives the stabbing attack mode
+PASS: Remote melee swings have no muzzle flash
+MELEE_WEAPONS_DONE checks=35 failures=0

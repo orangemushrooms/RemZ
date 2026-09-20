@@ -26,6 +26,9 @@ const FILES := {
 	"vendor_vocal": ["vendor_vocal_1", "vendor_vocal_2", "vendor_vocal_3"],
 	"secret_vendor_vocal": ["secret_vendor_vocal"],
 	"mechanic_vocal": ["mechanic_vocal", "mechanic_vocal_2", "mechanic_vocal_3"],
+	"door_open": ["door_open"],
+	"owl": ["owl1", "owl2", "owl3", "owl4"],
+	"raven": ["raven_1", "raven2", "raven3"],
 	"hit": ["impact"],
 	"hurt": ["impact"],
 	"growl": ["zombie_1", "zombie_2", "zombie_3", "zombie_4"],
@@ -54,7 +57,7 @@ static var _cache: Dictionary = {}
 static var _rng := RandomNumberGenerator.new()
 static var _last_footstep := -1
 static var _last_event_variant: Dictionary = {}
-const EVENTS := {"pickup": -8.0, "key_pickup": -6.0, "weapon_pickup": -8.0, "quest_accept": -10.0, "quest_complete": -8.0, "purchase": -12.0,
+const EVENTS := {"consume": -8.0, "pickup": -8.0, "mushroom_pickup": -10.0, "key_pickup": -6.0, "weapon_pickup": -8.0, "quest_accept": -10.0, "quest_complete": -8.0, "purchase": -12.0,
 	"vendor_vocal": -3.0, "secret_vendor_vocal": -3.0, "mechanic_vocal": -3.0}
 static var _voices: Dictionary = {}        # name -> Array of live players; automatic fire never stacks more than MAX_VOICES
 const MAX_VOICES := 3
@@ -105,6 +108,7 @@ static func _procedural(name: String) -> AudioStreamWAV:
 		"wave": return _burst(1.4, 0.6, 0.02, 0.4, 110.0, 30.0)
 		"wood": return _burst(0.3, 0.1, 0.3, 0.8)
 		"rustle": return _burst(0.5, 0.18, 0.75, 0.35)   # leaves, a deer bolting
+		"mushroom_pickup": return _burst(0.28, 0.08, 0.12, 0.45) # soft plucking/rustle, no weapon clicks or metallic tone
 		"boom": return _burst(1.6, 0.45, 0.05, 1.4, 45.0, -30.0)
 		"pickup", "consume": return _burst(0.2, 0.08, 0.9, 0.3, 660.0, 800.0)
 		"step_gravel": return _burst(0.14, 0.035, 0.55, 0.42)

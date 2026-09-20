@@ -165,8 +165,10 @@ func run() -> void:
 	titan.resolve_strike()
 	check(player.hp == 100, "Leaving the marked impact area avoids boss damage")
 	player.global_position = titan.strike_point
+	player.max_hp = 200
+	player.hp = 200
 	titan.resolve_strike()
-	check(player.hp < 100 and player.hp > 0, "Remaining in impact area takes a survivable heavy hit")
+	check(is_equal_approx(player.hp, 80), "Normal titan slam removes 120 HP from a fully trained player")
 	var wall := StaticBody3D.new()
 	wall.collision_layer = 1
 	var wall_shape := CollisionShape3D.new()
