@@ -4,8 +4,8 @@ signal changed
 
 const PORT := 24567
 const MAX_PLAYERS := 4
-const PROTOCOL := 1
-const BUILD := "remz-coop-intro-survivor-20260920-2"
+const PROTOCOL := 2
+const BUILD := "remz-coop-movement-ack-20260920"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -371,11 +371,12 @@ func _accept(id: int, session_epoch: int) -> bool:
 	return true
 
 @rpc("any_peer", "call_remote", "unreliable_ordered", 1)
-func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3) -> void:
+func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, sequence: int = 0) -> void:
 	var id := multiplayer.get_remote_sender_id()
 	if not _accept(id, session_epoch) or phase != "running": return
 	if not position.is_finite() or not motion.is_finite() or not is_finite(yaw) or not is_finite(pitch): return
-	world.move_player(id, position, yaw, pitch, light, motion, _elapsed)
+	if sequence <= 0: return
+	world.move_player(id, position, yaw, pitch, light, motion, _elapsed, sequence)
 
 @rpc("authority", "call_remote", "unreliable", 2)
 func _snapshot_part(session_epoch: int, sequence: int, part: int, count: int, raw_size: int, bytes: PackedByteArray) -> void:
@@ -510,4 +511,5 @@ func _process(delta: float) -> void:
 		_pose_t += delta
 		if _pose_t >= 0.05 and game.player.alive:
 			_pose_t = 0.0
-			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity)
+			var pose_sequence: int = world.movement_sync.record(game.player.global_position)
+			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity, pose_sequence)

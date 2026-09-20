@@ -1,7 +1,10 @@
-param([string]$GodotBinary = 'C:/Users/miche/Desktop/Godot.exe')
+param(
+    [string]$GodotBinary = 'C:/Users/miche/Desktop/Godot.exe',
+    [string]$GameBinary = ''
+)
 $ErrorActionPreference = 'Stop'
 $workspace = Split-Path -Parent $PSScriptRoot
-$binary = Join-Path $workspace 'builds/windows/RemZ.exe'
+$binary = if ($GameBinary) { (Resolve-Path -LiteralPath $GameBinary).Path } else { Join-Path $workspace 'builds/windows/RemZ.exe' }
 $folder = Join-Path $workspace 'artifacts/defence'
 New-Item -ItemType Directory -Force -Path $folder | Out-Null
 $runs = @()

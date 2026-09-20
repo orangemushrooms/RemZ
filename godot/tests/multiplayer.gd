@@ -520,7 +520,7 @@ func client_run() -> void:
 			"grenade": game.weapons.throw_grenade()
 			"invalid":
 				NetSession.command("fire", ["ak47", 0.0, 0.0, 0.0])
-				NetSession._pose.rpc_id(1, NetSession.epoch, Vector3(99999, 5000, 99999), 0.0, 0.0, false, Vector3.ZERO)
+				NetSession._pose.rpc_id(1, NetSession.epoch, Vector3(99999, 5000, 99999), 0.0, 0.0, false, Vector3.ZERO, NetSession.world.movement_sync.record(game.player.global_position))
 			"exit", "finish":
 				write_json("done-"+role, {"step": step_seen})
 				print("COOP_CLIENT_DONE ", role)

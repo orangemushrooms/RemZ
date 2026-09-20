@@ -8,6 +8,8 @@ var levels: Dictionary = {}
 var mushrooms: Dictionary = {}
 var rage: Dictionary = {}
 var pose_times: Dictionary = {}
+var pose_acks: Dictionary = {}
+var movement_sync = preload("res://scripts/movement_sync.gd").new()
 var move_targets: Dictionary = {}
 var loot_nodes: Dictionary = {}
 var broken_nodes: Dictionary = {}
@@ -113,7 +115,7 @@ func remove_player(id: int) -> void:
 	if actors.has(id) and is_instance_valid(actors[id]) and actors[id] != game.player:
 		actors[id].hud.queue_free()
 		actors[id].queue_free()
-	for dict in [actors, weapons, avatars, levels, mushrooms, rage, pose_times, move_targets, revive]: dict.erase(id)
+	for dict in [actors, weapons, avatars, levels, mushrooms, rage, pose_times, pose_acks, move_targets, revive]: dict.erase(id)
 
 func sync_roster() -> void:
 	for id in actors.keys():
@@ -138,7 +140,10 @@ func nearest_player(position: Vector3) -> Player:
 			nearest = p
 	return nearest
 
-func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, now: float) -> void:
+func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, now: float, sequence: int = 0) -> void:
+	if sequence > 0:
+		if sequence <= int(pose_acks.get(id, 0)): return
+		pose_acks[id] = sequence
 	if intro_lock > 0.0: return
 	var p: Player = actor(id)
 	if not p or not p.alive: return
@@ -149,7 +154,13 @@ func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bo
 	if Vector2(move.x, move.z).length() > max_distance or absf(move.y) > 16.0 * dt + 1.2: return
 	if not Map.BOUNDS.has_point(Vector2(position.x, position.z)): return
 	# Sweep the same capsule against terrain, buildings and barricades.
-	p.move_and_collide(move)
+	# A floor contact must not discard the horizontal remainder of a step.
+	# In particular, down-slope movement often touches terrain before its end.
+	for slide in 4:
+		if move.length_squared() < 0.000001: break
+		var collision := p.move_and_collide(move)
+		if not collision: break
+		move = collision.get_remainder().slide(collision.get_normal())
 	p.rotation.y = wrapf(yaw, -PI, PI)
 	p.pitch = clampf(pitch, -1.45, 1.45)
 	p.head.rotation.x = p.pitch
@@ -428,7 +439,7 @@ func snapshot() -> Dictionary:
 			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul,
 			"light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(),
 			"grenades": w.grenades, "grenades_max": w.grenades_max, "mods": [w.damage_mul, w.reload_mul, w.spread_mul],
-			"levels": levels[id].duplicate(), "mushrooms": mushrooms[id].duplicate(), "ack": NetSession._commands.get(id, 0)}
+			"levels": levels[id].duplicate(), "mushrooms": mushrooms[id].duplicate(), "ack": NetSession._commands.get(id, 0), "pose_ack": pose_acks.get(id, 0)}
 	var zs := {}
 	for z in game.zombies_root.get_children():
 		if not z is Zombie: continue
@@ -496,8 +507,9 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			avatars[id].set_weapon(s.weapon)
 			avatars[id].set_skin(str(s.get("skins", {}).get(s.weapon, "")))
 		else:
-			if initial or p.global_position.distance_to(s.p) > 1.8:
-				p.global_position = s.p
+			var previous_position := p.global_position
+			p.global_position = movement_sync.reconcile(s.p, int(s.get("pose_ack", 0)), previous_position, initial)
+			if initial or p.global_position.distance_to(previous_position) > 4.0:
 				p.velocity = Vector3.ZERO
 			if initial:
 				p.rotation.y = s.yaw

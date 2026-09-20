@@ -66,6 +66,10 @@ Zwei gerenderte Fenster benötigen deutlich mehr Grafikleistung als eines. Bei B
 
 ## Entwicklung und Prüfung
 
+Bewegungspakete tragen eine fortlaufende Nummer, die der Host im Weltzustand bestätigt. Der Client vergleicht die Hostposition mit seiner damaligen Position zu dieser Nummer. Spätere lokale Bewegung bleibt erhalten; eine verzögerte Rückmeldung allein löst kein Zurücksetzen aus. Echte Abweichungen durch Kollisionen oder abgewiesene Bewegung werden weiterhin korrigiert. Der Host prüft die Spielerkapsel auch beim Gleiten entlang von Boden und Wänden.
+
+Diese Änderung verwendet Netzwerkprotokoll 2. Host und Mitspieler müssen gemeinsam auf die neue Ausgabe wechseln. `godot/tests/movement_sync.gd` prüft verzögerte Bestätigungen (100–1.000 ms), fehlende und veraltete Updates, echte Positionskorrekturen sowie Boden- und Wandkollisionen.
+
 Die ENet-Verbindung läuft über UDP; siehe [Godots ENet-Dokumentation](https://docs.godotengine.org/en/stable/classes/class_enetmultiplayerpeer.html). Der Host entscheidet über Treffer, Schaden, Nachladen, Käufe, Gegenstände und den gemeinsamen Spielzustand. Bewegung wird lokal dargestellt und vom Host gegen Reichweite und Kollision geprüft. Momentaufnahmen werden komprimiert und in kleine Pakete aufgeteilt; alte, unvollständige und doppelte Momentaufnahmen werden verworfen. Befehle benutzen einen zuverlässigen Kanal mit Sitzungs- und Sequenzprüfung.
 
 ```powershell
