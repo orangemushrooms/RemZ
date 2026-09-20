@@ -14,7 +14,7 @@ var _scale := 1.0
 var _elapsed := 0.0
 var _font: Font
 var reveal_secret := false  # Cheat menu: show the secret vendor before discovery.
-var reveal_wanderer := false  # Track the roaming merchant once he enters the forest.
+var reveal_wanderer := false  # Explicit cheat only; discovery never reveals his position.
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_M and not event.ctrl_pressed and not event.alt_pressed and not event.meta_pressed and is_visible_in_tree():
@@ -161,8 +161,7 @@ func _draw_compass(c: Control) -> void:
 
 func _npc_visible(id: String) -> bool:
 	if id == "wanderer":
-		if not world.progression.rare_market.active: return false
-		if reveal_wanderer: return true
+		return reveal_wanderer and world.progression.rare_market.active
 	return world.progression.has_seen_npc(id) or (id == "secret" and reveal_secret)
 
 func _draw_symbols(c: Control) -> void:

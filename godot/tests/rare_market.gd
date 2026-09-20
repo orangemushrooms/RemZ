@@ -69,14 +69,25 @@ func run() -> void:
 		market._physics_process(0.1)
 		if i % 10 == 0: await physics_frame
 	check(origin.distance_to(market.npc.global_position) > 4, "Merchant actually walks through the forest along navigation paths")
-	var off_road := 0
+	var sampled_cells := {}
+	var open_land := 0
 	var samples := 0
+	var saved_roam_position: Vector3 = market.npc.global_position
+	market.visited_cells.clear()
+	market.mark_visited()
 	for i in 40:
 		var goal: Vector3 = market.choose_destination()
 		if goal == Vector3.INF: continue
 		samples += 1
-		if Map.in_forest(goal.x, goal.z) and not Map.on_road(goal.x, goal.z, market.ROAD_CLEARANCE - 0.5): off_road += 1
-	check(samples >= 30 and off_road == samples, "Merchant destinations are random forest spots clear of every road (%d/%d)" % [off_road, samples])
+		sampled_cells[market.roam_cell(goal)] = true
+		if not Map.in_forest(goal.x, goal.z): open_land += 1
+		market.npc.global_position = goal
+		market.mark_visited()
+	check(samples >= 30 and sampled_cells.size() == 9, "Merchant tour reaches all nine map sectors (%d sectors, %d goals)" % [sampled_cells.size(), samples])
+	check(open_land > 0, "Merchant also visits open terrain outside the forest (%d goals)" % open_land)
+	market.npc.global_position = saved_roam_position
+	market.path.clear()
+	market.trail.clear()
 	check(Progression.VOCALS.get("wanderer", "") == "secret_vendor_vocal" and Sfx.get_stream("secret_vendor_vocal") != null, "Merchant greets with the secret vendor voice line")
 	check(market.npc.anim.has_animation("walk") and market.npc.anim.get_animation("walk").get_track_count() > 10, "Merchant has a retargeted skeletal walk animation")
 	p.global_position = market.npc.global_position + Vector3(0, 0, 2)
@@ -114,6 +125,8 @@ func run() -> void:
 	w.set_weapon("pistol")
 	p.camera.rotation.x = PI * 0.4
 	w.try_fire()
+	check(w.effects.ammo_mode == "fire" and w.effects.flash_duration > 0.08, "Fire ammunition creates a longer flame muzzle flash")
+	check(not get_nodes_in_group("elemental_tracer").is_empty(), "Missed special shots still draw a visible trail")
 	check(market.data(p.peer_id).ammo.fire == 23, "Real missed firearm shot consumes one special round")
 	var z := Zombie.new()
 	z.setup("shambler", p, game.barricades, 1, Callable())
@@ -134,6 +147,11 @@ func run() -> void:
 	check(z.hp < 200 and z.rare_status == "fire" and market.data(p.peer_id).ammo.fire == rounds_before - 1, "Real bullet hit applies burn and consumes exactly one charge")
 	z.update_rare_visual()
 	check(z._rare_particles.emitting, "Burn shows particles on the actual zombie")
+	market.hit(z, "frost", p.peer_id, "pistol")
+	z.update_rare_visual()
+	check(z._rare_particles.emitting and z._frost_particles.emitting and z.rare_status == "fire+frost", "Concurrent burn and frost retain both visible effects")
+	check(z._frost_visible and not z._frost_meshes.is_empty() and z._frost_meshes[0].material_overlay == z._frost_surface, "Frost coats the actual enemy model in ice")
+	check(z._rare_particles.mesh is QuadMesh and z._frost_particles.mesh.material.get_shader_parameter("frost") == true, "Flames and ice crystals use distinct particle visuals")
 	market.tick_statuses(3)
 	p.global_position = customer_position
 	z.hp = 200
@@ -144,6 +162,12 @@ func run() -> void:
 	check(z.frost_mul == 0.55 and z.rare_status == "frost", "Frost slows a normal zombie")
 	market.tick_statuses(3.1)
 	check(z.frost_mul == 1 and z.rare_status.is_empty(), "Frost expires and restores movement")
+	z.update_rare_visual()
+	check(not z._rare_particles.emitting and not z._frost_particles.emitting and not z._rare_light.visible and not z._frost_visible, "Expired statuses stop both emitters and their lighting")
+	w.effects.fire("pistol", w.muzzle_transform(), Vector3.ZERO, 1.0, "frost")
+	check(w.effects.world_light.light_color.b > w.effects.world_light.light_color.r, "Frost muzzle flash casts cold blue light")
+	w.effects.fire("pistol", w.muzzle_transform(), Vector3.ZERO)
+	check(w.effects.ammo_mode.is_empty() and w.effects.world_light.light_color.r > w.effects.world_light.light_color.b, "Normal ammunition restores the ordinary muzzle flash")
 	z.net_kind = "titan"
 	market.hit(z, "frost", p.peer_id, "pistol")
 	check(z.frost_mul == 0.8, "Titans resist most of the frost slowdown")
@@ -267,6 +291,9 @@ func run() -> void:
 	NetSession.world.add_player(2)
 	var peer: Player = NetSession.world.actor(2)
 	peer.set_physics_process(false)
+	var avatar = NetSession.world.avatars[2]
+	avatar.shot("pistol", [-8.0, 1.0, 2.0, "frost"])
+	check(avatar.flash.light_color.b > avatar.flash.light_color.r, "Remote shot payload renders frost lighting")
 	peer.score = 1000
 	peer.global_position = market.npc.global_position + Vector3(0, 0, 2)
 	market.stock.fire = 1
@@ -280,6 +307,40 @@ func run() -> void:
 	NetSession.enabled = false
 	market.apply_snapshot(snap.rare_market)
 	check(market.stock.fire == 0 and market.data(2).ammo.fire == 24, "Late-join state restores sold-out stock and ammunition")
+	# The navmesh leaves gates traversable for enemies; the merchant must check
+	# the real swept capsule before accepting a route through that opening.
+	var gate: Barricade = game.barricades[0]
+	var normal := Vector3(gate.normal2.x, 0, gate.normal2.y)
+	var outside := gate.center + normal * 3.0
+	var inside := gate.center - normal * 3.0
+	var route := PackedVector3Array([outside, inside])
+	check(market.route_clear(route), "Unbuilt gate permits merchant routes")
+	gate.build()
+	await physics_frame
+	await physics_frame
+	check(not market.route_clear(route), "Built gate is rejected even when the navmesh offers that path")
+	check(not market.movement_clear(outside, inside), "Swept movement cannot tunnel through a gate")
+	var saved_position: Vector3 = market.npc.global_position
+	market.npc.global_position = gate.center + normal * 1.2
+	market.trail = PackedVector3Array([outside])
+	market.path = PackedVector3Array([inside])
+	market.path_index = 0
+	p.global_position = outside + normal * 20.0
+	market._physics_process(0.5)
+	check(market.path.size() == 1 and market.path[0].is_equal_approx(outside), "Newly blocked merchant route backs out along the travelled path")
+	var before_retreat: Vector3 = market.npc.global_position
+	market._physics_process(0.5)
+	check(market.npc.global_position.distance_to(outside) < before_retreat.distance_to(outside), "Merchant actually walks away from the blocked gate")
+	market.npc.global_position = saved_position
+	market.trail.clear()
+	market.path.clear()
+	for other_gate: Barricade in game.barricades:
+		if other_gate.level == 0: other_gate.build()
+	await physics_frame
+	await physics_frame
+	market.active = false
+	check(market.choose_destination() != Vector3.INF, "Merchant can spawn in the forest even when every camp gate is built")
+	market.active = true
 	if "--render-rare" in OS.get_cmdline_user_args():
 		peer.global_position += Vector3(15, 0, 0)
 		p.hp = p.max_hp

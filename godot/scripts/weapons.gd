@@ -362,7 +362,7 @@ func try_fire() -> void:
 	recoil = 1.0
 	if not server_proxy:
 		Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)), float(d.get("sfx_pitch", 1.0)))
-		effects.fire(current, muzzle_transform(), player.velocity, float(d.get("flash_scale", 1.0)))
+		effects.fire(current, muzzle_transform(), player.velocity, float(d.get("flash_scale", 1.0)), get_tree().current_scene.progression.rare_market.round_mode(player))
 	# recoil climbs while holding the trigger, drifts sideways, less when aiming
 	_shots_in_burst += 1
 	_burst_t = 0.32
@@ -416,6 +416,9 @@ func try_fire() -> void:
 		for _step in 32:
 			q.exclude = excluded
 			var hit := space.intersect_ray(q)
+			if _step == 0 and i < 3 and not special_round.is_empty():
+				var muzzle_world: Vector3 = (camera.global_transform * muzzle_transform()).origin
+				NetSession.elemental_shot(muzzle_world, hit.get("position", origin + dir * 80.0), special_round, not hit.is_empty())
 			if hit.is_empty(): break
 			if hit.collider.get_meta("shootable_pumpkin", false):
 				if hit.collider.shoot(): hud.hitmarker(false)
@@ -740,9 +743,6 @@ func _handle_weapon_input(delta: float) -> void:
 	if Input.is_action_just_pressed("melee"):
 		melee()
 	_melee_anim = maxf(0.0, _melee_anim - delta / _melee_duration)
-	for i in ORDER.size():
-		if InputMap.has_action("weapon_%d" % (i + 1)) and Input.is_action_just_pressed("weapon_%d" % (i + 1)):
-			set_weapon(ORDER[i])
 	var step := 0
 	if Input.is_action_just_pressed("weapon_next"):
 		step = 1

@@ -441,7 +441,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	grid.add_theme_constant_override("v_separation", 6)
 	box.add_child(grid)
 	for pair in [["WASD", "Bewegen"], ["Maus", "Umsehen"], ["Shift", "Sprinten"], ["Strg halten", "Ducken / genauer zielen"], ["Leertaste", "Springen"],
-			["Linksklick", "Schiessen / Zuschlagen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–9 / 0 / Mausrad", "Schusswaffe / Messer / Wechsel"],
+			["Linksklick", "Schiessen / Zuschlagen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–9 / 0", "Schnellzugriff: Plätze 1–10"], ["Mausrad", "Waffe wechseln"],
 			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten / Hütte reparieren"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["I", "Inventar"], ["B", "100 Punkte abwerfen"],
 			["Tab", "Auftragsanzeige ein/aus"], ["M", "Minimap gross / klein"], ["Strg+Shift+D", "Cheatmenü"], ["F", "Taschenlampe"], ["Q", "Nahkampf / Kolbenschlag"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
 		var k := _label(pair[0], 14, GOLD)

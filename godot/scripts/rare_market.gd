@@ -15,7 +15,10 @@ var moving := false
 var target_position := Vector3.ZERO
 var target_rotation := 0.0
 var statuses: Dictionary = {}
-const ROAD_CLEARANCE := 6.0  # metres beyond the road edge the merchant keeps to (he roams the forest, not the tracks)
+var trail := PackedVector3Array()
+const ROAM_GRID := 3
+var visited_cells: Dictionary = {}
+var visit_clock := 0
 
 func setup(main: Node, merchant: WorldNpc) -> void:
 	game = main
@@ -122,6 +125,10 @@ func request_equip(id: String) -> void:
 		game.hud.message(equip(game.player, id), 2)
 		game.inventory._refresh()
 
+func round_mode(p: Player) -> String:
+	var d := data(p.peer_id)
+	return str(d.mode) if int(d.ammo.get(d.mode, 0)) > 0 else ""
+
 func consume_round(p: Player) -> String:
 	var d := data(p.peer_id)
 	var mode: String = d.mode
@@ -161,7 +168,7 @@ func hit(z: Zombie, mode: String, peer: int, weapon: String) -> void:
 	update_status(z, s)
 
 func update_status(z: Zombie, s: Dictionary) -> void:
-	z.rare_status = "fire" if float(s.burn) > 0 else ("frost" if float(s.frost) > 0 else "")
+	z.rare_status = ("fire+frost" if float(s.frost) > 0 else "fire") if float(s.burn) > 0 else ("frost" if float(s.frost) > 0 else "")
 	z.frost_mul = (0.8 if Zombie.is_titan_kind(z.net_kind) else 0.55) if float(s.frost) > 0 else 1.0
 
 func tick_statuses(delta: float) -> void:
@@ -200,9 +207,10 @@ func _physics_process(delta: float) -> void:
 		npc.global_position = spawn
 		here_region = region_at(spawn)
 		active = true
+		mark_visited()
 		npc.show()
 		npc.body.collision_layer = 1
-		game.hud.message("Der Nebelkrämer zieht durch den Wald. Halte nach seiner violetten Laterne Ausschau.", 5)
+		game.hud.message("Der Nebelkrämer zieht durch die Gegend. Halte nach seiner violetten Laterne Ausschau.", 5)
 	restock(game.waves.wave)
 	var customers: Array = NetSession.world.actors.values() if NetSession.is_host() else [game.player]
 	moving = false
@@ -223,44 +231,89 @@ func _physics_process(delta: float) -> void:
 		path_index = 0
 	if path_index >= path.size(): return
 	var next := npc.global_position.move_toward(path[path_index], delta * 1.65)
-	var query := PhysicsShapeQueryParameters3D.new()
-	var capsule := CapsuleShape3D.new()
-	capsule.radius = 0.32
-	capsule.height = 1.7
-	query.shape = capsule
-	query.transform.origin = next + Vector3.UP
-	query.collision_mask = 1 | 8
-	query.exclude = [npc.body.get_rid()]
-	if not game.get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty():
-		path.clear()
+	if not movement_clear(npc.global_position, next):
+		# A newly built gate can invalidate an already accepted route. Back away
+		# along the actual travelled route before selecting another destination.
+		path = PackedVector3Array()
+		for i in range(trail.size() - 1, -1, -1):
+			if npc.global_position.distance_to(trail[i]) > 0.4 and movement_clear(npc.global_position, trail[i]):
+				path.append(trail[i])
+				break
+		trail.clear()
+		path_index = 0
+		retry = 0.5
 		animate()
 		return
 	var direction := next - npc.global_position
 	if direction.length() > 0.001:
 		npc.figure.rotation.y = lerp_angle(npc.figure.rotation.y, atan2(direction.x, direction.z), minf(1, delta * 5))
 		moving = true
+	if trail.is_empty() or trail[trail.size() - 1].distance_to(npc.global_position) > 0.5:
+		trail.append(npc.global_position)
+		if trail.size() > 20: trail.remove_at(0)
 	npc.global_position = next
-	if next.distance_to(path[path_index]) < 0.2: path_index += 1
+	if next.distance_to(path[path_index]) < 0.2:
+		path_index += 1
+		if path_index >= path.size(): mark_visited()
 	animate()
 
+func movement_clear(origin: Vector3, destination: Vector3, mask := 9) -> bool:
+	var query := PhysicsShapeQueryParameters3D.new()
+	var capsule := CapsuleShape3D.new()
+	capsule.radius = 0.45
+	capsule.height = 1.7
+	query.shape = capsule
+	query.collision_mask = mask
+	query.exclude = [npc.body.get_rid()]
+	query.transform.origin = destination + Vector3.UP
+	var space: PhysicsDirectSpaceState3D = game.get_world_3d().direct_space_state
+	if not space.intersect_shape(query, 1).is_empty(): return false
+	query.transform.origin = origin + Vector3.UP
+	query.motion = destination - origin
+	var sweep: PackedFloat32Array = space.cast_motion(query)
+	return sweep.is_empty() or sweep[0] >= 0.999
+
+func route_clear(route: PackedVector3Array) -> bool:
+	# Gate barricades deliberately do not enter the navmesh: zombies must be
+	# able to approach them. The trader instead chooses a reachable route.
+	for i in range(1, route.size()):
+		if not movement_clear(route[i - 1], route[i], 8): return false
+	return true
+
+func roam_cell(point: Vector3) -> int:
+	var area := Map.extent()
+	var relative := (Vector2(point.x, point.z) - area.position) / area.size
+	return clampi(int(relative.y * ROAM_GRID), 0, ROAM_GRID - 1) * ROAM_GRID + clampi(int(relative.x * ROAM_GRID), 0, ROAM_GRID - 1)
+
+func mark_visited() -> void:
+	visit_clock += 1
+	visited_cells[roam_cell(npc.global_position)] = visit_clock
+
 func choose_destination() -> Vector3:
-	# A random spot somewhere in the forest, well clear of every road and building,
-	# reachable over the navmesh from the current position.
+	# Tour the entire playable map, prioritising sectors not visited recently.
+	# Terrain type does not restrict the trader: paths, fields and clearings count.
 	var nav: RID = game.nav_region.get_navigation_map()
 	if NavigationServer3D.map_get_iteration_id(nav) == 0: return Vector3.INF
 	var area := Map.extent()
-	for attempt in 48:
-		var candidate := Vector2(random.randf_range(area.position.x, area.end.x), random.randf_range(area.position.y, area.end.y))
-		if not Map.in_forest(candidate.x, candidate.y): continue
-		if Map.on_road(candidate.x, candidate.y, ROAD_CLEARANCE) or Map.in_building(candidate.x, candidate.y, 6): continue
-		var ground := Map.ground_pos(candidate.x, candidate.y)
-		var point := NavigationServer3D.map_get_closest_point(nav, ground)
-		if point.distance_to(ground) > 1.5: continue
-		if active and point.distance_to(npc.global_position) < 20: continue
-		var origin: Vector3 = npc.global_position if active else Map.ground_pos(Map.FIRE.x, Map.FIRE.y)
-		var route := NavigationServer3D.map_get_path(nav, origin, point, true)
-		if route.is_empty() or route[route.size() - 1].distance_to(point) > 1: continue
-		return point
+	var cell_size := area.size / float(ROAM_GRID)
+	var cells: Array = []
+	for id in ROAM_GRID * ROAM_GRID:
+		cells.append({"id": id, "visit": int(visited_cells.get(id, 0)), "tie": random.randf()})
+	cells.sort_custom(func(a: Dictionary, b: Dictionary): return a.visit < b.visit if a.visit != b.visit else a.tie < b.tie)
+	for cell in cells:
+		var start := area.position + Vector2(int(cell.id) % ROAM_GRID, int(cell.id) / ROAM_GRID) * cell_size
+		for attempt in 24:
+			var candidate := start + Vector2(random.randf(), random.randf()) * cell_size
+			var ground := Map.ground_pos(candidate.x, candidate.y)
+			var point := NavigationServer3D.map_get_closest_point(nav, ground)
+			if point.distance_to(ground) > 1.5 or roam_cell(point) != int(cell.id): continue
+			if active and point.distance_to(npc.global_position) < 20: continue
+			var origin: Vector3 = npc.global_position if active else Map.ground_pos(Map.FIRE.x, Map.FIRE.y)
+			var route := NavigationServer3D.map_get_path(nav, origin, point, true)
+			if route.is_empty() or route[route.size() - 1].distance_to(point) > 1: continue
+			if active and not route_clear(route): continue
+			if not movement_clear(point, point): continue
+			return point
 	return Vector3.INF
 
 func animate() -> void:

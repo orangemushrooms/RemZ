@@ -110,8 +110,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("aim") or event.is_action_pressed("weapon_next") or event.is_action_pressed("weapon_prev"):
 		cancel()
 		get_viewport().set_input_as_handled()
-	elif event is InputEventKey and event.pressed and event.keycode >= KEY_0 and event.keycode <= KEY_9:
-		cancel()
 
 func _process(delta: float) -> void:
 	_clock += delta

@@ -34,6 +34,7 @@ var flash_root: Node3D
 var flash_age := 1.0
 var flash_duration := 0.04
 var heat := 0.0
+var ammo_mode := ""
 var emitted_puffs := 0
 var _camera: Camera3D
 var _flash_material: ShaderMaterial
@@ -108,9 +109,24 @@ func sync_muzzle(muzzle: Transform3D) -> void:
 	flash_root.transform = muzzle
 	world_light.transform = muzzle
 
-func fire(weapon_id: String, muzzle: Transform3D, player_velocity: Vector3, flash_scale := 1.0) -> void:
+func fire(weapon_id: String, muzzle: Transform3D, player_velocity: Vector3, flash_scale := 1.0, mode := "") -> void:
 	sync_muzzle(muzzle)
+	ammo_mode = mode
 	_profile = PROFILES.get(weapon_id, PROFILES["ak47"])
+	if mode == "fire":
+		_profile.y *= 2.8
+		_profile.x *= 1.4
+		_profile.z = 0.11
+	elif mode == "frost":
+		_profile.y *= 1.5
+		_profile.z = 0.075
+	var edge := Color(0.08, 0.45, 1.0) if mode == "frost" else Color(1, 0.1 if mode == "fire" else 0.18, 0.015)
+	var core := Color(0.75, 0.95, 1) if mode == "frost" else Color(1, 0.91, 0.57)
+	for material in [_flash_material, _axial_material]:
+		material.set_shader_parameter("edge_color", edge)
+		material.set_shader_parameter("core_color", core)
+	hand_light.light_color = edge.lerp(core, 0.35)
+	world_light.light_color = hand_light.light_color
 	flash_age = 0.0
 	_profile.x *= sqrt(flash_scale)
 	_profile.y *= sqrt(flash_scale)

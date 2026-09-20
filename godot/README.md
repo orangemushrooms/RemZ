@@ -28,7 +28,8 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | Strg halten | Ducken: halbes Gehtempo, 30 % weniger Streuung, niedrigere Kamera und Kollision. Kein Sprint/Sprung; Aufstehen nur bei freier Kopffreiheit. |
 | Linke / rechte Maustaste | Schießen / zielen |
 | R | Nachladen |
-| 1–9 / 0 / Mausrad | Schusswaffe / Feldmesser / nächste verfügbare Waffe wählen |
+| 1–9 / 0 | Schnellzugriff: Plätze 1–10 verwenden (0 = Platz 10) |
+| Mausrad | Nächste verfügbare Waffe wählen |
 | G | Granate |
 | Q | Mit Messer/Axt zuschlagen; mit Schusswaffen Kolbenschlag, auch beim Nachladen |
 | Enter | Wartezeit überspringen, nächste Welle sofort starten |
@@ -74,7 +75,7 @@ Der Jagdtitan bewegt sich schnell und schlägt häufiger zu. Der Belagerungstita
 
 **Zielen und Präzision:** Das halbtransparente Fadenkreuz besitzt ein offenes Zentrum und vier feine, gerade Striche. Sein Mittelpunkt folgt der tatsächlichen Schussrichtung, der Abstand der Striche zur Mitte dem berechneten Streubereich. Hüftfeuer ist ungenauer als ruhiges Zielen; Laufen, Sprinten und vertikale Sprungbewegung verschlechtern die Präzision. Schnelle Schussfolgen bauen zusätzliche Streuung und Rückstoß nach oben sowie zu den Seiten auf. Nach einer Feuerpause klingt beides ab. Treffermarkierungen folgen dem verschobenen Fadenkreuz. Beim Nachladen, im Nahkampf und durch das 4×-Zielfernrohr wird das normale Fadenkreuz ausgeblendet; das Zielfernrohr bleibt zur Schussrichtung ausgerichtet, während der Kamerarückstoß das Ziel verzieht. **Mechanic → Training → Ruhige Hand** kostet 180 / 270 / 360 P, reduziert je Stufe die tatsächliche Streuung um 15 % und verbessert die Kontrolle bei Feuerstößen. Präzisionslauf, Kompensator, Schalldämpfer, Falkenauge und Pilze kombinieren sich mit diesen Werten. Der Host berechnet Bewegungseinfluss und Feuerstoß-Streuung selbst. Die Suite `aiming` prüft Käufe, Schussverteilung, Rückstoß, HUD-Projektion, Erholung und identische Berechnung beim Host.
 
-**Nebelkrämer:** Ab dem Beginn von **Welle 5** wandert ein neuer Händler auf zufälligen, begehbaren Routen durch den Wald, auch in den Wellenpausen. Eine violette Laterne und sein Gepäck kennzeichnen ihn. Bei nahen lebenden Spielern bleibt er stehen; **E** öffnet seinen Raritätenhandel. Er erscheint erst nach Sichtkontakt auf der Minikarte. Im Koop bestimmt der Host Position, Käufe und Bestand. Pro neuer Welle gibt es bis zu zwei zufällig gewählte Talismane (je ein Exemplar für das ganze Team), drei Feuerpakete und ab Welle 7 zwei Frostpakete. Höherstufige Talismane können bis zu zwei Level vor ihrer Freischaltung angeboten werden. Ausverkaufte Ware bleibt bis zur nächsten Lieferung gesperrt.
+**Nebelkrämer:** Ab dem Beginn von **Welle 5** wandert ein neuer Händler auf begehbaren Routen über die gesamte Karte, einschliesslich Wald, Feldern, Wegen und Lichtungen. Er bevorzugt länger nicht besuchte Kartenteile, auch in den Wellenpausen. Eine violette Laterne und sein Gepäck kennzeichnen ihn. Bei nahen lebenden Spielern bleibt er stehen; **E** öffnet seinen Raritätenhandel. Er bleibt auch nach Sichtkontakt auf Mini- und grosser Karte verborgen; nur der ausdrückliche Karten-Cheat zeigt ihn an. Im Koop bestimmt der Host Position, Käufe und Bestand. Pro neuer Welle gibt es bis zu zwei zufällig gewählte Talismane (je ein Exemplar für das ganze Team), drei Feuerpakete und ab Welle 7 zwei Frostpakete. Höherstufige Talismane können bis zu zwei Level vor ihrer Freischaltung angeboten werden. Ausverkaufte Ware bleibt bis zur nächsten Lieferung gesperrt.
 
 | Rarität | Einsatzlevel | Preis | Wirkung |
 | --- | --- | --- | --- |
@@ -258,3 +259,7 @@ Die echten Meshy-PBR-Modelle liegen unter `assets/models/firework_rocket.glb` un
 
 
 **Maisboden:** Das 140 × 52 m grosse Feld folgt der Nordwest-Südost-Richtung des Waldrands. Ein gemeinsames Bodenmesh folgt exakt den Dreiecken des Geländes. Das vorhandene PBR-Erde/Kies-Texturset liefert kleine Steine, Blattreste, Normalen, Rauheit und Umgebungsverdeckung. Sanfte Farbvariation und feine Furchen brechen Wiederholungen; Laufwege sind geglättet, der Aussenrand blendet weich in die Wiese. Suite `cornfield` prüft Ausrichtung, freie Wege, Navigation und Bodenmaterial; `--render-corn` erzeugt Ansichten unter `artifacts/cornfield/`.
+
+**Schnellzugriff:** Zehn Plätze unten mittig. Im Inventar (I) einen Gegenstand rechts anklicken und einen Platz auswählen, oder direkt auf einen Platz klicken. Rechtsklick auf einen Platz entfernt die Belegung. Waffen, Pilze, Feuerwerk, Granaten, Talismane und Spezialmunition sind belegbar. Verbrauchte Items behalten ihren Platz und werden mit Bestand 0 gedimmt; Nachschub ist wieder direkt nutzbar. Die Belegung gilt für die aktuelle Runde.
+
+**Spezialmunition und Laufhändler:** Drachenatem zeigt einen verlängerten Flammenausstoss, glühende Schussspuren und Flammen am getroffenen Gegner. Winterbiss zeigt blaue Schussspuren, Eiskristalle und eine eisige Oberfläche am verlangsamten Gegner. Beide Zustände bleiben bei gleichzeitiger Wirkung sichtbar, auch im Koop. Der Nebelkrämer prüft geplante Wege gegen gebaute Tore und geht bei neu blockierten Wegen zurück.

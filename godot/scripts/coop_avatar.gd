@@ -111,11 +111,13 @@ func shot(id: String, mod_effects: Array = []) -> void:
 		recoil = 0.75
 		Sfx.play_at(self, "melee", global_position + Vector3.UP * 1.3, -8.0)
 		return
-	flash_t = 0.065
-	recoil = minf(recoil + deg_to_rad(float(mod_effects[2] if mod_effects.size() == 3 else Weapons.DEFS[id].kick_pitch)) * 0.5, 0.14)
+	var mode: String = str(mod_effects[3]) if mod_effects.size() > 3 else ""
+	flash.light_color = Color(0.3, 0.8, 1) if mode == "frost" else Color(1, 0.3 if mode == "fire" else 0.65, 0.1)
+	flash_t = 0.11 if mode == "fire" else 0.065
+	recoil = minf(recoil + deg_to_rad(float(mod_effects[2] if mod_effects.size() >= 3 else Weapons.DEFS[id].kick_pitch)) * 0.5, 0.14)
 	flash.visible = true
-	flash.light_energy = 2.5 * (float(mod_effects[1]) if mod_effects.size() == 3 else 1.0)
-	Sfx.play_at(self, Weapons.DEFS[id].sfx, global_position + Vector3.UP * 1.3, float(mod_effects[0] if mod_effects.size() == 3 else Weapons.DEFS[id].get("sfx_db", -8.0)), float(Weapons.DEFS[id].get("sfx_pitch", 1.0)))
+	flash.light_energy = 2.5 * (float(mod_effects[1]) if mod_effects.size() >= 3 else 1.0)
+	Sfx.play_at(self, Weapons.DEFS[id].sfx, global_position + Vector3.UP * 1.3, float(mod_effects[0] if mod_effects.size() >= 3 else Weapons.DEFS[id].get("sfx_db", -8.0)), float(Weapons.DEFS[id].get("sfx_pitch", 1.0)))
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(actor): return

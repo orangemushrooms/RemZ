@@ -593,7 +593,7 @@ func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 func weapon_fired(id: int, weapon: String, stab: bool = false) -> void:
 	if not is_host(): return
 	var definition: Dictionary = world.weapons[id].state[weapon].def
-	var mod_effects := [definition.get("sfx_db", -8.0), definition.get("flash_scale", 1.0), definition.kick_pitch]
+	var mod_effects := [definition.get("sfx_db", -8.0), definition.get("flash_scale", 1.0), definition.kick_pitch, world.game.progression.rare_market.round_mode(world.actors[id])]
 	if Weapons.is_melee(weapon): mod_effects = [stab and Weapons.is_melee(weapon)]
 	_shot.rpc(epoch, id, weapon, mod_effects)
 	_shot(epoch, id, weapon, mod_effects)
@@ -602,6 +602,16 @@ func weapon_fired(id: int, weapon: String, stab: bool = false) -> void:
 func _shot(session_epoch: int, id: int, weapon: String, mod_effects: Array = []) -> void:
 	if epoch == session_epoch and id != local_id() and world:
 		world.show_shot(id, weapon, mod_effects)
+
+func elemental_shot(origin: Vector3, end: Vector3, mode: String, impact: bool) -> void:
+	if is_host(): _elemental_shot.rpc(epoch, origin, end, mode, impact)
+	_elemental_shot(epoch, origin, end, mode, impact)
+
+@rpc("authority", "call_remote", "unreliable", 1)
+func _elemental_shot(session_epoch: int, origin: Vector3, end: Vector3, mode: String, impact: bool) -> void:
+	if session_epoch != epoch: return
+	var scene := get_tree().current_scene
+	if scene: preload("res://scripts/elemental_effects.gd").shot(scene, origin, end, mode, impact)
 
 func track_grenade(grenade: Node3D) -> void:
 	if is_host() and world: world.track_grenade(grenade)

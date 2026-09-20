@@ -812,7 +812,7 @@ func _render() -> void:
 		_tabs[tab].visible = tab in (["Aufträge"] if NPCS[shop].get("quests_only", false) else (["Aufträge", "Training", "Türme", "Mods"] if shop == "mechanic" else (["Handel", "Verkaufen", "Aufträge", "Mods", "Skins"] if shop == "secret" else ["Handel", "Feuerwerk", "Verkaufen", "Aufträge", "Skins"])))
 	var owners := []
 	for tower: DefenceTower in game.defences.towers.values(): owners.append([tower.tower_id, tower.owner_peer])
-	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners, _mod_weapon, rare_market.stock.keys()])
+	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners, _mod_weapon, rare_market.stock.keys(), local_data().claimed if page == "Aufträge" else {}])
 	_building_layout = layout != _layout_key
 	_layout_key = layout
 	_row_index = 0
@@ -863,22 +863,29 @@ func _render() -> void:
 				if GOODS.has(wid):
 					_row(Weapons.DEFS[wid].name, "Waffe verkaufen. Restmunition bringt keinen Aufpreis; Reserve vorher separat verkaufen. Kaufberechtigungen bleiben erhalten.", "+%d P" % int(int(GOODS[wid].price) * 0.35), request.bind("sell_weapon", wid))
 		"Aufträge":
-			for id in ordered_quests():
-				var q: Dictionary = QUESTS[id]
-				if q.npc != shop: continue
-				var claimed: bool = d.claimed.get(id, false)
-				var accepted: bool = d.accepted.get(id, false)
-				var blocked := quest_lock_reason(p.peer_id, id)
-				var locked := not blocked.is_empty()
-				var text := "Erledigt" if claimed else ("Gesperrt" if locked else ("Belohnung abholen" if accepted and complete(id) else ("In Arbeit" if accepted else "Auftrag annehmen")))
-				var details: String = q.desc
-				var chain := quest_chain(id)
-				var heading: String = q.name + " · Level %d · %d P" % [q.min_level, q.reward]
-				if not chain.is_empty():
-					heading = "%s · %d/%d · %s" % [QUEST_CHAINS[chain].name, QUEST_CHAINS[chain].quests.find(id) + 1, QUEST_CHAINS[chain].quests.size(), heading]
-					details += "\n" + chain_description(p.peer_id, chain, false)
-				if int(q.waves_after_accept) > 0: details += "\nAb Annahme %d weitere Welle(n) überstehen. Teamziele zählen rückwirkend; Belohnung persönlich abholen." % q.waves_after_accept
-				_row(heading, details + "\n" + quest_progress(id, -1, true), text, request.bind("quest", id), claimed or locked or (accepted and not complete(id)), blocked if locked and not claimed else "", true)
+			for completed in [false, true]:
+				var quest_ids: Array = []
+				for id in ordered_quests():
+					if QUESTS[id].npc == shop and bool(d.claimed.get(id, false)) == completed:
+						quest_ids.append(id)
+				if quest_ids.is_empty(): continue
+				_info("Abgeschlossene" if completed else "Offene Aufträge", 22)
+				for id in quest_ids:
+					var q: Dictionary = QUESTS[id]
+					if q.npc != shop: continue
+					var claimed: bool = d.claimed.get(id, false)
+					var accepted: bool = d.accepted.get(id, false)
+					var blocked := quest_lock_reason(p.peer_id, id)
+					var locked := not blocked.is_empty()
+					var text := "Erledigt" if claimed else ("Gesperrt" if locked else ("Belohnung abholen" if accepted and complete(id) else ("In Arbeit" if accepted else "Auftrag annehmen")))
+					var details: String = q.desc
+					var chain := quest_chain(id)
+					var heading: String = q.name + " · Level %d · %d P" % [q.min_level, q.reward]
+					if not chain.is_empty():
+						heading = "%s · %d/%d · %s" % [QUEST_CHAINS[chain].name, QUEST_CHAINS[chain].quests.find(id) + 1, QUEST_CHAINS[chain].quests.size(), heading]
+						details += "\n" + chain_description(p.peer_id, chain, false)
+					if int(q.waves_after_accept) > 0: details += "\nAb Annahme %d weitere Welle(n) überstehen. Teamziele zählen rückwirkend; Belohnung persönlich abholen." % q.waves_after_accept
+					_row(heading, details + "\n" + quest_progress(id, -1, true), text, request.bind("quest", id), claimed or locked or (accepted and not complete(id)), blocked if locked and not claimed else "", true)
 		"Handel":
 			if shop in ["camp", "secret"]:
 				var refill := refill_quote(p)

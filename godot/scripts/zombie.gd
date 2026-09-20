@@ -42,6 +42,11 @@ var frost_mul := 1.0
 var rare_status := ""
 var _rare_marker: Label3D
 var _rare_particles: CPUParticles3D
+var _frost_particles: CPUParticles3D
+var _rare_light: OmniLight3D
+var _frost_visible := false
+var _frost_meshes: Array[MeshInstance3D] = []
+var _frost_surface: ShaderMaterial
 var _repath := 0.0
 var _shadow_t := 0.0
 var _on_kill: Callable
@@ -334,34 +339,37 @@ func update_rare_visual() -> void:
 		_rare_marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 		_rare_marker.visibility_range_end = 35
 		add_child(_rare_marker)
-		_rare_particles = CPUParticles3D.new()
-		_rare_particles.amount = 14
-		_rare_particles.lifetime = 0.7
-		_rare_particles.position.y = minf(height * 0.5, 2.0)
-		_rare_particles.direction = Vector3.UP
-		_rare_particles.spread = 35
-		_rare_particles.initial_velocity_min = 0.4
-		_rare_particles.initial_velocity_max = 1.5
-		_rare_particles.gravity = Vector3(0, 0.4, 0)
-		_rare_particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
-		_rare_particles.emission_sphere_radius = 0.28
-		var spark := SphereMesh.new()
-		spark.radius = 0.035
-		spark.height = 0.07
-		spark.radial_segments = 6
-		spark.rings = 3
-		var glow := StandardMaterial3D.new()
-		glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		glow.vertex_color_use_as_albedo = true
-		spark.material = glow
-		_rare_particles.mesh = spark
+		var effect = preload("res://scripts/elemental_effects.gd")
+		_rare_particles = effect.particles("fire", minf(height * 0.22, 1.0), height)
+		_rare_particles.position.y = height * 0.45
 		add_child(_rare_particles)
+		_frost_particles = effect.particles("frost", minf(height * 0.26, 1.2), height)
+		_frost_particles.position.y = height * 0.5
+		add_child(_frost_particles)
+		_rare_light = OmniLight3D.new()
+		_rare_light.position.y = height * 0.6
+		_rare_light.omni_range = minf(height * 1.5, 6.0)
+		_rare_light.shadow_enabled = false
+		add_child(_rare_light)
+		_frost_surface = ShaderMaterial.new()
+		_frost_surface.shader = preload("res://shaders/frost_surface.gdshader")
+		for mesh in find_children("*", "MeshInstance3D", true, false):
+			_frost_meshes.append(mesh)
 	if _rare_marker:
-		_rare_marker.visible = alive and not rare_status.is_empty()
-		_rare_marker.text = "BRAND" if rare_status == "fire" else "FROST"
-		_rare_marker.modulate = Color(1, 0.4, 0.1) if rare_status == "fire" else Color(0.3, 0.8, 1)
-		_rare_particles.emitting = _rare_marker.visible
-		_rare_particles.color = _rare_marker.modulate
+		var burning := alive and rare_status.contains("fire")
+		var frozen := alive and rare_status.contains("frost")
+		_rare_marker.visible = burning or frozen
+		_rare_marker.text = "BRAND + FROST" if burning and frozen else ("BRAND" if burning else "FROST")
+		_rare_marker.modulate = Color(1, 0.4, 0.1) if burning else Color(0.3, 0.8, 1)
+		_rare_particles.emitting = burning
+		_frost_particles.emitting = frozen
+		if frozen != _frost_visible:
+			_frost_visible = frozen
+			for mesh in _frost_meshes:
+				if is_instance_valid(mesh): mesh.material_overlay = _frost_surface if frozen else null
+		_rare_light.visible = burning or frozen
+		_rare_light.light_color = _rare_marker.modulate
+		_rare_light.light_energy = (0.7 + sin(Time.get_ticks_msec() * 0.017 + appearance_seed) * 0.2) if burning else 0.45
 
 func _physics_process(delta: float) -> void:
 	update_rare_visual()

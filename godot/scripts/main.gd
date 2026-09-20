@@ -11,6 +11,7 @@ var cornfield: Node3D
 var fill_light: DirectionalLight3D
 var skills: Skills
 var fireworks: Fireworks
+var quickbar: CanvasLayer
 var inventory: Inventory
 var cheat_menu: CanvasLayer
 var forest_keys: ForestKeys
@@ -163,6 +164,9 @@ func _ready() -> void:
 	progression = Progression.new()
 	add_child(progression)
 	progression.setup(self)
+	quickbar = preload("res://scripts/quickbar.gd").new()
+	add_child(quickbar)
+	quickbar.setup(self)
 	ambience = Ambience.new()
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
