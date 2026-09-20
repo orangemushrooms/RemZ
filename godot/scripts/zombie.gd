@@ -230,7 +230,7 @@ static func from_hit(hit: Dictionary) -> Zombie:
 	if hit.is_empty(): return null
 	var collider: Object = hit.collider
 	if collider is Zombie: return collider
-	return collider.get_meta("zombie", null) as Zombie
+	return collider.get_meta("zombie") as Zombie if collider.has_meta("zombie") else null
 
 func _fit_model() -> void:
 	# Meshy rigs are exported in metres at the height passed to the rigging step (1.7 m).

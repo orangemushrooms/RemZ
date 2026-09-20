@@ -33,9 +33,10 @@ PASS: Point-blank shots hit even when the camera is inside the hitbox
 PASS: Hand remains hittable during attack animation
 PASS: Hand remains hittable during attack animation
 PASS: World geometry still blocks bullets before a hitbox
+PASS: World geometry is safely resolved as a non-zombie hit
 PASS: Dead zombies no longer block shots
 PASS: zombie_titan has model-fitted hitboxes
 PASS: zombie_titan hitboxes scale with the giant model
 PASS: zombie_colossus has model-fitted hitboxes
 PASS: zombie_colossus hitboxes scale with the giant model
-ZOMBIE_HITBOXES_DONE checks=36 failures=0
+ZOMBIE_HITBOXES_DONE checks=37 failures=0

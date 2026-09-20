@@ -84,6 +84,7 @@ func run() -> void:
 	await physics_frame
 	await physics_frame
 	check(shoot(head_point).get("collider") == wall, "World geometry still blocks bullets before a hitbox")
+	check(Zombie.from_hit(shoot(head_point)) == null, "World geometry is safely resolved as a non-zombie hit")
 	wall.queue_free()
 	zombie.die(Vector3.ZERO)
 	await physics_frame
