@@ -12,9 +12,9 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 
 **Pilze im ganzen Wald:** Alle zehn Sorten wachsen über die gesamte spielbare Waldfläche verteilt, auch weit abseits der Hütte und im tiefen Wald. Pro 18-Meter-Bereich werden bis zu zwei geeignete Fundstellen gewählt; Wege, Lichtungen, Gebäude, Wasser, Baumstämme und steile Hänge bleiben frei. Die Verteilung ist im Koop identisch und die Pilze bleiben einzeln einsammelbar.
 
-**Waldaxt:** Linksklick oder Q: leichter Schlag (125 Schaden, 0,95 s). Rechtsklick: schwerer Hieb (225 Schaden, 1,45 s, 2,5 m Reichweite, engerer Trefferbereich). Gemeinsame Angriffssperre, getrennte Animationen und Koop-Synchronisierung. Das neue Modell besitzt einen ovalen, geschwungenen Holzstiel mit Maserung, einen verjüngten geschmiedeten Kopf und eine geschliffene Schneide.
+**Waldaxt:** Linksklick oder H: leichter Schlag (125 Schaden, 0,95 s). Rechtsklick: schwerer Hieb (225 Schaden, 1,45 s, 5,0 m Reichweite, engerer Trefferbereich). Gemeinsame Angriffssperre, getrennte Animationen und Koop-Synchronisierung. Das neue Modell besitzt einen ovalen, geschwungenen Holzstiel mit Maserung, einen verjüngten geschmiedeten Kopf und eine geschliffene Schneide.
 
-**Feldmesser:** Linksklick (oder Q) schneidet schnell: 55 Schaden, 0,42 s Erholung. Rechtsklick sticht gezielt: 110 Schaden, 2,2 m Reichweite, 0,85 s Erholung und schmalerer Trefferbereich. Beide teilen dieselbe Angriffssperre; Stich und Schnitt besitzen eigene Animationen und werden im Koop unterschieden.
+**Feldmesser:** Linksklick (oder H) schneidet schnell: 55 Schaden, 0,42 s Erholung. Rechtsklick sticht gezielt: 110 Schaden, 4,4 m Reichweite, 0,85 s Erholung und schmalerer Trefferbereich. Beide teilen dieselbe Angriffssperre; Stich und Schnitt besitzen eigene Animationen und werden im Koop unterschieden.
 
 **Maisfeld am westlichen Waldrand:** Auf dem Feldhang Richtung Dorf, mit der langen Seite parallel zum schrägen oberen Waldrand. Feld, Labyrinthwände, Verstecke und Vogelscheuchen verwenden dieselbe gedrehte Ausrichtung; die Ostseite Richtung Sennhof bleibt Wiese. Der Dorfweg bleibt ausserhalb des Feldes. Mais wird nur auf Wiesengrund mit mindestens sechs Metern Abstand zu Bäumen gepflanzt. Die Pflanzen besitzen gebogene Blätter mit Mittelrippen, umhüllte Kolben und feine Rispen. Eigene Mais-, Vogelscheuchen-, Raben- und Eulenmeshes liegen unter `assets/cornfield/`; `tests/build_corn_meshes.gd` erzeugt sie reproduzierbar. Der Mais wiegt sich im Wind und wird in räumlichen MultiMesh-Gruppen gerendert. Das Labyrinth besitzt zwei verbundene Ausgänge und fünf einmalig plünderbare Verstecke: Feuerpatronen, Frostpatronen, 250 Punkte, eine Granate und Munition. Mit **E** aufnehmen; bei vollem Vorrat bleibt die Kiste liegen. Im Koop sind die Kisten gemeinsam und werden vom Host verwaltet. Straßen und Titanen-Zugänge bleiben frei. Raben fliegen bei Annäherung oder Schüssen auf und landen später wieder; Eulen kreisen zwischen 20 und 5 Uhr. Beide haben eigene räumliche Rufe. Die Vögel sind lokale, rein dekorative Tiere und benötigen keine laufenden Netzwerkpakete.
 
@@ -31,15 +31,16 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | 1–9 / 0 | Schnellzugriff: Plätze 1–10 verwenden (0 = Platz 10) |
 | Mausrad | Nächste verfügbare Waffe wählen |
 | G | Granate |
-| Q | Mit Messer/Axt zuschlagen; mit Schusswaffen Kolbenschlag, auch beim Nachladen |
+| H | Mit Messer/Axt zuschlagen; mit Schusswaffen Kolbenschlag, auch beim Nachladen |
 | Enter | Wartezeit überspringen, nächste Welle sofort starten |
-| E | NPC ansprechen / Barrikade bauen oder reparieren / Turm ausrichten / Gegenstand oder Tür |
+| E | NPC ansprechen / Barrikade bauen oder reparieren / Turm besteigen oder verlassen / Gegenstand oder Tür |
 | V | Verteidigungsberatung bei Mechanic |
-| T | Turmvorschau; R/Mausrad dreht, E bestätigt, T/Escape bricht ab |
+| T | Turmbaumenü mit fünf Typen; R/Mausrad dreht die Vorschau, E baut, T/Escape bricht ab |
 | I | Inventar |
 | B | Bis zu 100 Punkte abwerfen |
 | F | Am Turm reparieren, sonst Taschenlampe |
-| Tab | Auftragsanzeige ein-/ausblenden |
+| Q | Auftragsanzeige ein-/ausblenden |
+| Tab halten | Leaderboard: Kills, Headshots, Deaths, Titan Kills, Assists, Punkte, Ping |
 | Escape | Pause / fortsetzen |
 | F11 | Vollbild umschalten |
 
@@ -106,9 +107,31 @@ Einsatzlevel = überstandene Wellen + 1. Level **und** abgeholter Questabschluss
 
 **Palisadenring.** Der Ring entsteht abschnittsweise: Eine Barrikade zu bauen errichtet auch den zugehörigen Palisadenabschnitt. Ungebaute Abschnitte sind unsichtbar und frei begehbar. Wird die Barrikade zerstört, fällt auch ihr Abschnitt weg. Die Minimap zeigt nur gebaute Wände; die Gegnerwege werden nach Bau und Zerstörung neu berechnet. Der Spieler kann gebaute Torsperren mit der Leertaste überklettern. Prüfung: `--script res://tests/run.gd -- --suite=perimeter --smoke-test --no-intro --no-music`.
 
-Barrikaden binden anrückende Zombies bis zum Durchbruch. Ein sichtbarer Spieler innerhalb von 10 Metern hat jedoch Vorrang: Zombies lösen sich von der Sperre und greifen ihn an. Die Verfolgung bleibt bis 14 Meter bestehen; versperren Wände oder geschlossene Tore die Sicht, nehmen sie die Belagerung wieder auf. Das gilt auch im Koop und für Titanen. Mit **T** lassen sich automatische Geschütztürme für 120 Punkte setzen, maximal sechs pro Team. **R/Mausrad** dreht die Vorschau, **E** bestätigt. Am Turm richtet **E** ihn neu aus, **F** repariert. Ausbau und Abbau verwaltet Mechanic. Türme decken einen 160°-Sektor ab, brauchen freie Sicht, überhitzen bei Dauerfeuer und können zerstört werden.
+Barrikaden binden anrückende Zombies bis zum Durchbruch. Ein sichtbarer Spieler innerhalb von 10 Metern hat jedoch Vorrang: Zombies lösen sich von der Sperre und greifen ihn an. Die Verfolgung bleibt bis 14 Meter bestehen; versperren Wände oder geschlossene Tore die Sicht, nehmen sie die Belagerung wieder auf. Das gilt auch im Koop und für Titanen.
+
+**T** öffnet das Turmbaumenü, maximal sechs Türme pro Team. **R/Mausrad** dreht die Vorschau, **E** bestätigt. Am Turm steigt **E** auf die Plattform und übernimmt die Waffe: Maus zum Zielen, Linksklick zum Feuern, **E** zum Absteigen. Jeder Turm hat einen Bedienplatz, den auch Teammitglieder nutzen können. Unbesetzte Türme feuern automatisch in einem 160°-Sektor; manuell ist Rundumfeuer möglich. **R** richtet einen unbesetzten Turm neu aus, **F** repariert ihn. Ausbau auf Stufe 2/3 und Abbau verwaltet Mechanic; die Kosten skalieren mit dem Turmtyp. Dauerfeuer erzeugt Hitze. Zerstörung oder Tod des Bedieners gibt den Platz frei.
+
+Turm-Zielmodus: Beim Bedienen Rechtsklick halten für sanften Zoom (75° auf 55°), feinere Maussteuerung und 75 % weniger manuelle Winkelstreuung. Linksklick feuert weiterhin. Gilt für alle fünf Turmtypen, auch im Multiplayer; Reichweite, Schaden und Feuerrate bleiben gleich. Loslassen, Menüs, Absteigen oder Tod beenden den Zielmodus.
+
+| Turm | Baupreis | Grundreichweite | Wirkung |
+|---|---:|---:|---|
+| Wächter | 120 P | 26 m | Standardgeschütz mit Feuerstößen |
+| Flammenwerfer | 260 P | 14 m | Feuerkegel gegen mehrere Gegner, durch Wände blockiert |
+| Mörser | 380 P | 60 m | Bogenförmige Granatenflugbahn mit Kollision und 6 m Explosionsradius |
+| Schweres MG | 450 P | 44 m | Schnelles Dauerfeuer, Überhitzung beachten |
+| Teslaspule | 600 P | 22 m | Kettenblitz auf nahe Gegner mit freier Verbindung |
+
+**Reichweite und Schusseffekte:** Beim Platzieren, Ausrichten und neben einem Turm markiert ein goldener, dem Gelände folgender Bogen den 160°-Automatiksektor; die gestrichelte Fortsetzung zeigt die manuelle Rundumabdeckung. Beim Bedienen erscheint der volle Reichweitenkreis. Die Anzeige am Fadenkreuz nennt Zielentfernung, aktuelle Reichweite inklusive Ausbau sowie „in Reichweite“, „ausser Reichweite“ oder eine blockierte Schusslinie. Die Bodenmarkierung zeigt die maximale horizontale Reichweite; Höhe und Hindernisse beeinflussen tatsächliche Treffer. Der Mörser hält seine maximale Zielentfernung auch bei manueller Bedienung ein.
+
+Flammenwerfer verwenden einen durchgehenden, verwirbelten Feuerstrahl mit auslaufenden Flammen. Wächter und MG haben gedämpften Rückstoss, kurze fliegende Leuchtspuren, Mündungsfeuer, Rauch und Hülsenauswurf. Mörser verschiessen sichtbare Granaten mit Feuer-/Staubausbruch; Teslaentladungen glühen und verblassen. Rückstoss bewegt nur das Waffenmodell, nicht Sitz oder Trefferberechnung. Sichtprüfung und Effekttests: `--suite=tower_effects --smoke-test --no-intro --no-music --render-towers` → `artifacts/tower-effects/`.
+
+Der Host prüft Baupreis, Platzierung, Belegung und manuelle Schüsse. Turmtyp, Bediener, Feuer und Kettenblitze werden synchronisiert. Automatisierte Prüfungen: `towers`, `defence` und `multiplayer`; gerenderte Ansichten: `tower_visuals`.
+
+Die vier Spezialtürme verwenden die bereitgestellten Aufnahmen `flamethrower_tower.mp3`, `Machinegun_Tower.mp3`, `Mortar_Tower.mp3` und `Teslacoil_Tower.mp3`. `tools/prepare_tower_audio.py` erzeugt daraus Mono-Spielclips in `assets/audio/sfx/towers/`, mit Quellenprüfsummen in `sources.json`. Das MG spielt pro Schuss einen einzelnen Report samt Ausklang, der Flammenwerfer einen überblendeten Loop mit kurzem Ausblenden, Mörser und Tesla jeweils einen Abschuss-/Entladungsclip. Jeder Turm hat einen eigenen räumlichen Soundgeber mit Entfernungsdämpfung und begrenzter Stimmenzahl. Neue replizierte Schüsse spielen auch auf Clients; alte Schüsse beim Beitritt bleiben stumm. Prüfung: `--suite=tower_effects`.
 
 Ab **Welle 6**, danach alle drei Wellen, kommen rund 27 m grosse Feldtitanen. Ihre orange markierten Flächenangriffe kündigen sich 2,4 Sekunden vorher an. Ab Welle 12 kommen zwei, ab Welle 24 höchstens drei Titanen in diesen Wellen. Alle Systeme unterstützen den Koop. Einzelheiten: [Verteidigungsanleitung](../docs/VERTEIDIGUNG.md).
+
+Beim Titan-Spawn wird eine der vier bereitgestellten Aufnahmen `Titan_spawn_1.mp3` bis `titan_spawn_4.mp3` zufällig ausgewählt. Alle Spieler hören dieselbe Variante sofort auf der ganzen Karte: räumliche Richtung bleibt erhalten, Entfernungsdämpfung und Reichweitenbegrenzung entfallen für diesen Ruf. Der Titan-Mix begrenzt Spitzen und senkt kurz die Musik ab. Andere Titan-Geräusche und Kamerawackeln bleiben entfernungsabhängig; Beitritte spielen alte Spawn-Rufe nicht erneut ab. Prüfungen: `titan_horror` und `titan_mix` (Audioaufnahmen in `artifacts/titan-horror/`).
 
 ## Hüttenschlüssel und Türen
 
@@ -150,7 +173,7 @@ Die 72 separaten Oberflächentexturen verwenden jetzt GPU-Kompression und Mipmap
 
 Bleiben nach dem letzten Spawn höchstens drei Zombies für 20 Sekunden übrig, suchen sie aktiv den Spieler. Sie geben alte Belagerungsziele auf und aktualisieren ihren Weg jede Sekunde. Sperren auf dem Weg werden weiterhin angegriffen. Im Koop suchen sie einen lebenden Spieler; die Entscheidung trifft der Host.
 
-Das **Feldmesser** gehört zur Startausrüstung (Taste **0**): 55 Schaden, 0,42 Sekunden Schlagabstand und 1,85 Meter Reichweite. Die **Waldaxt** verkauft Vendor für **180 Punkte**, sobald Welle 1 und der Ankunftsauftrag abgeschlossen sind: 125 Schaden, 0,95 Sekunden Schlagabstand und 2,35 Meter Reichweite. Auswahl über Mausrad oder Inventar (**I**), Angriff mit **Linksklick oder Q**. Beide brauchen keine Munition; Wände blockieren Schläge. Bei gezogener Nahkampfwaffe versorgen Munitionsfunde die zuletzt ausgewählte Schusswaffe. Das gilt auch im Koop.
+Das **Feldmesser** gehört zur Startausrüstung (Taste **0**): 55 Schaden, 0,42 Sekunden Schlagabstand und 1,85 Meter Reichweite. Die **Waldaxt** verkauft Vendor für **180 Punkte**, sobald Welle 1 und der Ankunftsauftrag abgeschlossen sind: 125 Schaden, 0,95 Sekunden Schlagabstand und 2,35 Meter Reichweite. Auswahl über Mausrad oder Inventar (**I**), Angriff mit **Linksklick oder H**. Beide brauchen keine Munition; Wände blockieren Schläge. Bei gezogener Nahkampfwaffe versorgen Munitionsfunde die zuletzt ausgewählte Schusswaffe. Das gilt auch im Koop.
 
 Der **Waldläufer .308** besitzt ein **4×-Zielfernrohr**: rechte Maustaste halten, um durch eine runde Optik mit Fadenkreuz zu zielen. Die Spielwelt wird tatsächlich vierfach vergrößert; das Waffenmodell verdeckt die Linse nicht. Loslassen, Nachladen und Waffenwechsel verlassen die Scope-Ansicht. Die Suite `sniper_scope` prüft die projizierte Vergrößerung und diese Übergänge; `--render-scope` speichert Vergleichsbilder in `../artifacts/sniper-scope/`.
 
@@ -234,7 +257,7 @@ Zehn Pilzsorten wachsen mit unterschiedlicher Häufigkeit im Wald. Mit **E** sam
 
 Pilze verändern permanente Trainingswerte nicht. Gleichartige Boni verwenden den stärksten aktiven Effekt; erneutes Essen derselben Sorte erneuert ihre Laufzeit. Solo pausiert das Inventar auch die Effekte, im Koop laufen sie weiter. Tod entfernt die zeitlichen Boni. Der Host verwaltet Wirkung, Verbrauch und Verkauf für jeden Spieler getrennt.
 
-Bei **Vendor und Secret Vendor → Verkaufen** lassen sich einzelne Pilze, Granaten (15 P), volle Reservemagazine und gekaufte Waffen (35 % des Kaufpreises) verkaufen. Restmunition einer verkauften Waffe bringt keinen zusätzlichen Erlös; Reserve vorher separat verkaufen. Pistole und Feldmesser bleiben als Startausrüstung erhalten, ebenso bereits erworbene Questberechtigungen. Mara vergibt Waldaufträge; Mechanic betreut Training und Türme.
+Bei **Vendor und Secret Vendor → Verkaufen** lassen sich einzelne Pilze, Granaten (15 P), volle Reservemagazine und gekaufte Waffen (35 % des Kaufpreises) verkaufen. Restmunition einer verkauften Waffe bringt keinen zusätzlichen Erlös; Reserve vorher separat verkaufen. Pistole und Feldmesser bleiben als Startausrüstung erhalten, ebenso bereits erworbene Questberechtigungen. Mara vergibt Waldaufträge; Mechanic betreut Training und Türme. Beim Öffnen von Maras Gespräch ertönt ihre Begrüssung passend zur Spieluhr: Morgen 05–09 Uhr, Hello 09–17 Uhr, Abend 17–20 Uhr, Nacht 20–05 Uhr. Die Stimme spielt lokal für den Gesprächspartner und auch während der Solo-Pause.
 
 `mushroom_trade` prüft Heilung, Boni, Ablauf, Training während eines Effekts, Verkaufspreise, Bestandsgrenzen, Entfernung und Koop-Zustand. Mit `--render-mushrooms` entstehen Inventar- und Händleransichten in `../artifacts/mushrooms/`.
 

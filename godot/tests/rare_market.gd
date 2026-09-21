@@ -147,11 +147,47 @@ func run() -> void:
 	check(z.hp < 200 and z.rare_status == "fire" and market.data(p.peer_id).ammo.fire == rounds_before - 1, "Real bullet hit applies burn and consumes exactly one charge")
 	z.update_rare_visual()
 	check(z._rare_particles.emitting, "Burn shows particles on the actual zombie")
+	# Frost rounds go through the same live-fire chain as fire rounds: flash, tracer, hit, status.
+	market.data(p.peer_id).ammo.frost = 12
+	market.equip(p, "frost")
+	w.cur().cooldown = 0
+	w.cur().ammo = 12
+	z.hp = 200
+	p.camera.look_at(z.global_position + Vector3.UP)
+	w.try_fire()
+	check(z.hp < 200 and z.rare_status.contains("frost") and market.data(p.peer_id).ammo.frost == 11, "Real frost shot hits, chills the target and consumes one charge")
+	# A teammate's shots are simulated on the host by a server proxy, which owns no viewmodel:
+	# the elemental tracer must not ask that proxy for a muzzle transform.
+	var proxy := Weapons.new()
+	game.add_child(proxy)
+	proxy.setup_proxy(p, game.hud, game.zombies_root)
+	proxy.set_weapon("pistol")
+	proxy.cur().ammo = 12
+	proxy.cur().cooldown = 0.0
+	market.data(p.peer_id).ammo.frost = 6
+	market.equip(p, "frost")
+	p.active = true
+	p.camera.look_at(z.global_position + Vector3.UP)
+	proxy.try_fire()
+	check(market.data(p.peer_id).ammo.frost == 5, "Coop: a teammate's special round fires through the viewmodel-less server proxy")
+	proxy.queue_free()
+	market.equip(p, "fire")
+	w.cur().cooldown = 0
 	market.hit(z, "frost", p.peer_id, "pistol")
 	z.update_rare_visual()
 	check(z._rare_particles.emitting and z._frost_particles.emitting and z.rare_status == "fire+frost", "Concurrent burn and frost retain both visible effects")
 	check(z._frost_visible and not z._frost_meshes.is_empty() and z._frost_meshes[0].material_overlay == z._frost_surface, "Frost coats the actual enemy model in ice")
 	check(z._rare_particles.mesh is QuadMesh and z._frost_particles.mesh.material.get_shader_parameter("frost") == true, "Flames and ice crystals use distinct particle visuals")
+	# The muzzle burst sits half a metre from the eye. At impact size it covered the whole screen
+	# on every special shot, so it has to stay a small forward puff.
+	var fx = preload("res://scripts/elemental_effects.gd")
+	var puff: CPUParticles3D = fx.particles("fire", 0.06, 0.1, true, 0.22)
+	var splash: CPUParticles3D = fx.particles("fire", 0.06, 0.1, true)
+	check(puff.scale_amount_max < splash.scale_amount_max * 0.35 and puff.spread < 40.0
+		and puff.gravity == Vector3.ZERO and puff.lifetime < splash.lifetime,
+		"Muzzle puff stays small, tight and forward instead of covering the view (%.2f m vs %.2f m)" % [puff.scale_amount_max, splash.scale_amount_max])
+	puff.free()
+	splash.free()
 	market.tick_statuses(3)
 	p.global_position = customer_position
 	z.hp = 200

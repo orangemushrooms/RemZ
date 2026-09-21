@@ -1,0 +1,98 @@
+{
+  "owl_real": {
+    "prompt": "An anatomically accurate European tawny owl in symmetrical gliding flight, both broad feathered wings fully spread horizontally left and right, wingspan three times body length, rounded facial disk looking forward along positive Z, short hooked beak, small tucked talons, short fan tail. Individual overlapping primary and secondary feathers, mottled brown and cream plumage. No perch.",
+    "axis": "x",
+    "size": 1.1,
+    "yaw": 180
+  },
+  "tower_standard": {
+    "prompt": "A compact defensive sentry weapon assembly, two parallel long machine gun barrels pointing horizontally to the LEFT along negative X, finned cooling jackets, compact rectangular receiver, ammunition belt and small side ammo box, rear operating handles, small optical sight. Weathered blued steel, olive paint, brass cartridges. Weapon assembly only, no pedestal, no tower, no tripod.",
+    "axis": "z",
+    "size": 2.0,
+    "yaw": -90,
+    "muzzle": true
+  },
+  "sandbag": {
+    "prompt": "One heavy filled military sandbag lying horizontally, compact rectangular oblong shape with rounded sagging corners, tied shut short end, coarse tightly woven khaki burlap, stitched seam, natural cloth wrinkles and weight deformation. Single sandbag.",
+    "axis": "x",
+    "size": 0.65,
+    "yaw": 0
+  },
+  "forest_key": {
+    "prompt": "A single old brass mortice door key lying flat horizontally with a round bow, long shaft and two rectangular teeth, small flat dark red leather identification tag attached by a metal split ring. Scratched tarnished brass, creased leather. Entire key and tag flat on one plane, no upright pieces.",
+    "axis": "x",
+    "size": 0.25,
+    "yaw": 90
+  },
+  "cash_bundle": {
+    "prompt": "One compact rectangular bundle of fictional olive green and beige paper banknotes lying flat, wrapped with a narrow off-white paper currency strap around the middle. Many thin visible paper edges, lightly creased used paper, intricate abstract engraving and guilloche patterns without readable text or real currency branding.",
+    "axis": "x",
+    "size": 0.3,
+    "yaw": 0
+  },
+  "hut_door_leaf": {
+    "prompt": "A single closed rectangular Swiss woodland shed door leaf standing upright, vertical dark weathered oak planks, two black forged iron horizontal strap hinges, a small simple iron latch near the right edge. Straight rectangular silhouette, flat back, wood grain and end grain, subtle rust on iron. Door leaf only, no frame, no threshold, no wall, no windows.",
+    "axis": "y",
+    "size": 2.1,
+    "yaw": 0
+  },
+  "pond_trough": {
+    "prompt": "A long hollowed out split oak log water trough, open top with deep concave channel running its entire length and open outlet at the right end, horizontal long axis X. Rough bark exterior and smoothly worn dark inner wood, moss near the bottom, natural cracks. Log trough only, no support legs, no tap, no water, no ground.",
+    "axis": "x",
+    "size": 4.6,
+    "yaw": 0,
+    "dimensions": [
+      4.6,
+      0.6,
+      0.65
+    ]
+  },
+  "mushroom_pfifferling": {
+    "prompt": "Three botanically accurate golden chanterelle mushrooms, Cantharellus cibarius, growing upright as a small cluster. Golden yellow funnel shaped caps with wavy irregular edges, shallow forked decurrent ridges underneath extending down solid curved stems. Natural irregular size variation, fine moist matte organic surface.",
+    "axis": "y",
+    "size": 0.36,
+    "yaw": 0
+  },
+  "mushroom_morchel": {
+    "prompt": "Three botanically accurate morel mushrooms, Morchella esculenta, growing upright as a small cluster. Elongated conical ochre brown caps covered in deep irregular honeycomb pits and raised ridges, cream hollow stems, anatomically accurate open pitted cap surface. Different heights.",
+    "axis": "y",
+    "size": 0.45,
+    "yaw": 0
+  },
+  "mushroom_maronenroehrling": {
+    "prompt": "Three botanically accurate bay bolete mushrooms, Imleria badia, growing upright as a small cluster. Smooth domed dark chestnut brown caps, pale yellow finely porous undersides, stout ochre brown stems with fine longitudinal fibers. Natural uneven growth and different sizes.",
+    "axis": "y",
+    "size": 0.4,
+    "yaw": 0
+  },
+  "mushroom_parasol": {
+    "prompt": "Three botanically accurate parasol mushrooms, Macrolepiota procera, growing upright as a small cluster. Wide flat cream umbrella caps with concentric shaggy brown scales and raised brown central umbo, slender tall snakeskin patterned stems, distinct hanging ring on each stalk, fine radial gills underneath.",
+    "axis": "y",
+    "size": 0.52,
+    "yaw": 0
+  },
+  "mushroom_reizker": {
+    "prompt": "Three botanically accurate saffron milk cap mushrooms, Lactarius deliciosus, growing upright as a small cluster. Orange funnel caps with depressed centers and concentric darker orange rings, curled rim, orange closely spaced decurrent gills and short orange stems with small darker pits, subtle green bruising.",
+    "axis": "y",
+    "size": 0.35,
+    "yaw": 0
+  },
+  "mushroom_tintenpilz": {
+    "prompt": "Three botanically accurate shaggy ink cap mushrooms, Coprinus comatus, growing upright as a small cluster. Tall cylindrical white caps with shaggy overlapping beige scales, one mature bell shaped cap with dark black inky lower edge, slender pale stems. Clearly distinct shaggy cylindrical silhouette.",
+    "axis": "y",
+    "size": 0.46,
+    "yaw": 0
+  },
+  "mushroom_violetter_roetelritterling": {
+    "prompt": "Three botanically accurate wood blewit mushrooms, Lepista nuda, growing upright as a small cluster. Broad gently domed dusky lilac caps with curled edges, dense pale violet gills underneath and thick lavender stems, subtle tan fading at cap centers, realistic subdued violet rather than neon.",
+    "axis": "y",
+    "size": 0.38,
+    "yaw": 0
+  },
+  "mushroom_krause_glucke": {
+    "prompt": "One botanically accurate cauliflower fungus, Sparassis crispa, compact rounded mass of densely interwoven thin curled cream ivory ribbons with frilly wavy edges, many irregular folds and cavities, short hidden base. Resembles a natural ruffled cauliflower fungus, no umbrella cap, no visible tall stems.",
+    "axis": "y",
+    "size": 0.32,
+    "yaw": 0
+  }
+}

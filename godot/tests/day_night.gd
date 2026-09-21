@@ -100,6 +100,21 @@ func run() -> void:
 	cycle.set_time_hours(6.0)
 	cycle._process(60.0 / speed)
 	check(game.hud.clock_label.text == "06:01", "Active gameplay advances visible clock")
+	# The daylight song belongs to the pause after a wave; the round itself still opens on the night loop.
+	var clock_before: float = cycle.clock_seconds
+	var phase_before: String = game.waves.phase
+	var cleared_before: int = game.waves.completed
+	game.music.play("combat")
+	game.waves._complete_wave()
+	check(game.music.current == "morning" and game.music._players.morning.stream.resource_path.ends_with("survived_the_night.mp3"),
+		"A wave cleared in the morning switches to the daylight song")
+	cycle.set_time_hours(22.0)
+	game.music.play("combat")
+	game.waves._complete_wave()
+	check(game.music.current == "night", "A wave cleared at night keeps the night loop")
+	game.waves.phase = phase_before
+	game.waves.completed = cleared_before
+	cycle.clock_seconds = clock_before
 	var before := cycle.clock_seconds
 	game._pause()
 	cycle._process(60.0)

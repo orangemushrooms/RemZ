@@ -33,9 +33,16 @@ func run() -> void:
 	camera.current = true
 	var catalogue := {"ammo": "ammo_pack", "medicine": "medkit", "grenade": "grenade", "steinpilz": "mushroom_cluster", "fliegenpilz": "mushroom_fly", "barricade": "barricade", "tower": ""}
 	for id in Weapons.ORDER: catalogue[id] = Weapons.DEFS[id].model
+	for id in Inventory.Mushrooms.DEFS:
+		if not catalogue.has(id): catalogue[id] = "mushroom_" + id
+	if "--missing-only" in OS.get_cmdline_user_args():
+		catalogue = {"tower": "", "cash": "cash_bundle", "key": "forest_key"}
+		for id in Inventory.Mushrooms.DEFS:
+			if id not in ["steinpilz", "fliegenpilz"]: catalogue[id] = "mushroom_" + id
 	if "--fireworks-only" in OS.get_cmdline_user_args(): catalogue = {}
-	catalogue.firework_rocket = "firework_rocket"
-	catalogue.firework_cracker = "firework_cracker"
+	if "--missing-only" not in OS.get_cmdline_user_args():
+		catalogue.firework_rocket = "firework_rocket"
+		catalogue.firework_cracker = "firework_cracker"
 	for id in catalogue:
 		var holder := Node3D.new()
 		world.add_child(holder)

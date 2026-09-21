@@ -40,6 +40,37 @@ func run() -> void:
 	await physics_frame
 	await physics_frame
 	check(not paused and game.player.active, "Start enables gameplay after navigation is ready")
+	var intro_crows: Array = []
+	var meadow_crows := 0
+	var forest_owls: Array = []
+	for bird in game.cornfield.birds:
+		var at := Vector2(bird.home.x,bird.home.z)
+		if bird.owl:
+			if Map.in_forest(at.x,at.y): forest_owls.append(bird)
+		elif not game.cornfield.FIELD.has_point(game.cornfield.world_to_field(at)):
+			meadow_crows += 1
+			if at.distance_to(Intro.START)<32: intro_crows.append(bird)
+	check(intro_crows.size()>=5, "Intro starts with a nearby flock on the normal field")
+	check(meadow_crows>intro_crows.size(), "Crows also populate other normal fields")
+	check(not forest_owls.is_empty(), "Owls populate the forest outside the cornfield")
+	if not intro_crows.is_empty():
+		var crow = intro_crows[0]
+		crow.flight_wait = 0.0
+		crow._process(0.1)
+		crow._process(1.0)
+		check(crow.flying>0 and crow.position.y>crow.home.y, "Field crows fly without being scared")
+	if not forest_owls.is_empty():
+		var owl = forest_owls[0]
+		var saved_clock: float = game.day_night.clock_seconds
+		game.day_night.clock_seconds = 23*3600.0
+		owl._process(0.1)
+		var before: Vector3 = owl.position
+		owl._process(1.0)
+		check(owl.visible and owl.position.distance_to(before)>0.1, "Forest owls fly at night")
+		game.day_night.clock_seconds = 12*3600.0
+		owl._process(0.1)
+		check(not owl.visible and not owl.voice.playing, "Forest owls are hidden and silent during daytime")
+		game.day_night.clock_seconds = saved_clock
 	check(game.render_stats.removed_render_nodes > 0, "Static map meshes are batched")
 	check(get_nodes_in_group("render_grass").size() > 1, "Grass has independently culled cells")
 	for quality in 3:

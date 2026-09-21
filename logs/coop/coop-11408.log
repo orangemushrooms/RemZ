@@ -1,0 +1,45 @@
+2026-09-21T18:47:19 remz-coop-leaderboard-20260921 BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-21T18:47:19 remz-coop-leaderboard-20260921 NETWORK_INITIALIZED
+2026-09-21T18:47:46 remz-coop-leaderboard-20260921 MAP_READY
+2026-09-21T18:47:46 remz-coop-leaderboard-20260921 HOST_CREATE port=24687
+2026-09-21T18:47:46 remz-coop-leaderboard-20260921 HOST_READY
+2026-09-21T18:47:46 remz-coop-leaderboard-20260921 PEER_CONNECTED id=2126503778
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 PEER_CONNECTED id=1298007685
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 PEER_CONNECTED id=1056655085
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 INITIAL_SEND peer=2126503778 raw=20128 bytes=2996 parts=4
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 INITIAL_SEND peer=1298007685 raw=20128 bytes=2996 parts=4
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 INITIAL_SEND peer=1056655085 raw=20128 bytes=2996 parts=4
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 CLIENT_READY peer=2126503778
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 CLIENT_READY peer=1298007685
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 CLIENT_READY peer=1056655085
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 ROUND_START_SEND players=4
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 STATE_SEND peer=2126503778 raw=20128 bytes=2998 parts=4
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 STATE_SEND peer=1298007685 raw=20128 bytes=2998 parts=4
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 STATE_SEND peer=1056655085 raw=20128 bytes=2998 parts=4
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 ROUND_BEGIN intro=false
+2026-09-21T18:47:47 remz-coop-leaderboard-20260921 ROUND_RUNNING players=4
+2026-09-21T18:48:41 remz-coop-leaderboard-20260921 PEER_DISCONNECTED id=2126503778
+2026-09-21T18:49:00 remz-coop-leaderboard-20260921 PEER_CONNECTED id=2143254351
+2026-09-21T18:49:00 remz-coop-leaderboard-20260921 INITIAL_SEND peer=2143254351 raw=21928 bytes=3738 parts=5
+2026-09-21T18:49:01 remz-coop-leaderboard-20260921 CLIENT_READY peer=2143254351
+2026-09-21T18:49:30 remz-coop-leaderboard-20260921 STATE_SEND peer=1298007685 raw=35176 bytes=5478 parts=7
+2026-09-21T18:49:30 remz-coop-leaderboard-20260921 STATE_SEND peer=1056655085 raw=35176 bytes=5478 parts=7
+2026-09-21T18:49:30 remz-coop-leaderboard-20260921 STATE_SEND peer=2143254351 raw=35176 bytes=5478 parts=7
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 MAP_READY
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 INITIAL_SEND peer=1298007685 raw=20128 bytes=2996 parts=4
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 INITIAL_SEND peer=2143254351 raw=20128 bytes=2996 parts=4
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 INITIAL_SEND peer=1056655085 raw=20128 bytes=2996 parts=4
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 CLIENT_READY peer=2143254351
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 CLIENT_READY peer=1056655085
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 CLIENT_READY peer=1298007685
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 ROUND_START_SEND players=4
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 STATE_SEND peer=1298007685 raw=20128 bytes=2997 parts=4
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 STATE_SEND peer=1056655085 raw=20128 bytes=2997 parts=4
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 STATE_SEND peer=2143254351 raw=20128 bytes=2997 parts=4
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 ROUND_BEGIN intro=false
+2026-09-21T18:49:51 remz-coop-leaderboard-20260921 ROUND_RUNNING players=4
+2026-09-21T18:49:53 remz-coop-leaderboard-20260921 PEER_DISCONNECTED id=2143254351
+2026-09-21T18:49:54 remz-coop-leaderboard-20260921 LEAVE_BEGIN phase=running reason=Integration test finished
+2026-09-21T18:49:54 remz-coop-leaderboard-20260921 LEAVE_PEER_DETACHED
+2026-09-21T18:49:54 remz-coop-leaderboard-20260921 LEAVE_PEER_CLOSED
+2026-09-21T18:49:54 remz-coop-leaderboard-20260921 LEAVE_RELOAD

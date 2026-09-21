@@ -65,6 +65,9 @@ static func consume(player, stock: Dictionary, kind: String) -> String:
 	return ""
 
 static func model(kind: String) -> Node3D:
+	var id := "mushroom_cluster" if kind == "steinpilz" else "mushroom_fly" if kind == "fliegenpilz" else "mushroom_" + kind
+	var imported := WorldModels.create(id, 0.4)
+	if imported: return imported
 	var root := Node3D.new()
 	var spec: Dictionary = DEFS[kind]
 	var stem_material := StandardMaterial3D.new()

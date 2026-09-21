@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 673, "batches": 13, "removed_render_nodes": 33 }
+COOP_LOAD MAP_READY
+PASS: Solo round has one empty leaderboard row
+COOP_LOAD HOST_CREATE port=24689
+ERROR: Couldn't create an ENet host.
+   at: _create (modules/enet/enet_connection.cpp:319)
+   GDScript backtrace (most recent call first):
+       [0] host (res://scripts/net_session.gd:166)
+       [1] run (res://tests/leaderboard.gd:46)
+ERROR: FAIL: Host starts leaderboard fixture
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/leaderboard.gd:21)
+       [1] run (res://tests/leaderboard.gd:46)
+ERROR: FAIL: Roster has four named players without a duplicate solo row
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/leaderboard.gd:21)
+       [1] run (res://tests/leaderboard.gd:56)
+SCRIPT ERROR: Invalid access to property or key '2' on a base object of type 'Dictionary'.
+   at: run (res://tests/leaderboard.gd:62)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/leaderboard.gd:62)

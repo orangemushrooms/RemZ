@@ -120,6 +120,7 @@ func run() -> void:
 	crow._process(0.4)
 	check(crow.flying>0 and crow.position.y>crow.home.y,"Nearby player or gunshot makes ravens take flight")
 	var owl = field.birds[7]
+	check(owl.skeleton != null and owl.wing_bones.size()==4 and not owl.wing_bones.has(-1), "Meshy owl loads a complete articulated wing rig")
 	owl.set_process(false)
 	game.day_night.set_time_hours(12)
 	owl._process(0.1)
@@ -163,11 +164,20 @@ func run() -> void:
 		crow.position += Vector3.UP*4.0
 		crow.flying = 5.0
 		crow.clock = 0.0
+		crow.flap_power = 1.0
+		crow.flap_phase = 0.25  # top of the library wingbeat
+		crow._advance_flap(0.0)
 		crow._pose_raven()
 		camera.position = crow.position+Vector3(1.1,0.65,-1.3)
 		camera.look_at(crow.position+Vector3.UP*0.22)
 		await capture("raven-flight")
+		crow.flap_phase = 0.81  # bottom of the power stroke
+		crow._advance_flap(0.0)
+		crow._pose_raven()
+		await capture("raven-downstroke")
 		crow.flying = 0.0
+		crow.flap_power = 0.0
+		crow._advance_flap(0.0)
 		crow._pose_raven()
 		await capture("raven-perched")
 		crow.position = raven_position

@@ -72,7 +72,15 @@ var rows: VBoxContainer
 var title: Label
 var subtitle: Label
 var balance: Label
+const GAIN_GOLD := Color(1.0, 0.79, 0.33)
+const GAIN_RED := Color(1.0, 0.47, 0.36)
+const GAIN_SECONDS := 1.25
+
 var status: Label
+var _gain_popup: Label
+var _gain_t := 0.0
+var _gain_at := Vector2.ZERO
+var _balance_pulse := 0.0
 var tracker: RichTextLabel
 var tutorial: Label
 var _tabs: Dictionary = {}
@@ -607,7 +615,9 @@ func request(action: String, id := "", extra := "") -> void:
 		NetSession.command("shop", [shop, action, id, extra])
 		status.text = "Anfrage an den Host …"
 	else:
+		var before: int = game.player.score
 		status.text = transact(game.player, shop, action, id, extra)
+		show_gain(game.player.score - before)
 	_last_signature = ""
 
 func interact(id: String) -> void:
@@ -633,16 +643,20 @@ func interact(id: String) -> void:
 	status.text = "Koop läuft weiter. Bleibe in Deckung." if NetSession.enabled else ""
 	_render()
 
-# NPC greeting when the dialogue opens (random variant per NPC, plays through the pause)
+# Local dialogue greeting, also audible during the solo pause. Mara follows the HUD's world-time phases.
 const VOCALS := {"camp": "vendor_vocal", "secret": "secret_vendor_vocal", "wanderer": "secret_vendor_vocal", "mechanic": "mechanic_vocal"}
+const MARA_VOCALS := {"Morgen": "mara_morning", "Tag": "mara_day", "Abend": "mara_evening", "Nacht": "mara_night"}
 var _greeting: AudioStreamPlayer
 
 func _greet(id: String) -> void:
-	if not VOCALS.has(id): return
-	if is_instance_valid(_greeting): _greeting.queue_free()
+	var vocal: String = MARA_VOCALS[DayNightCycle.phase_at(game.day_night.clock_seconds / 3600.0)] if id == "ranger" else VOCALS.get(id, "")
+	if vocal.is_empty(): return
+	if is_instance_valid(_greeting):
+		_greeting.stop()
+		_greeting.queue_free()
 	_greeting = AudioStreamPlayer.new()
-	_greeting.stream = Sfx.get_stream(VOCALS[id])
-	_greeting.volume_db = Sfx.EVENTS[VOCALS[id]]
+	_greeting.stream = Sfx.get_stream(vocal)
+	_greeting.volume_db = Sfx.EVENTS[vocal]
 	_greeting.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(_greeting)
 	_greeting.play()
@@ -658,6 +672,45 @@ func close() -> void:
 	for part in game.hud.crosshair_parts: part.show()
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if game.player.active else Input.MOUSE_MODE_VISIBLE
 	game.defences.input_grace = 0.25
+
+# A sale between two dozen rows barely registered before: the amount now flies up in gold
+# right where the click landed and the balance line flashes with it.
+func _update_balance() -> void:
+	if balance: balance.text = "%d PUNKTE  ·  EINSATZLEVEL %d  ·  %d WELLEN ÜBERSTANDEN" % [game.player.score, mission_level(), game.waves.completed]
+
+func show_gain(amount: int) -> void:
+	if amount == 0: return
+	# The flash is worthless if the balance behind it still shows the old total for a quarter second.
+	_update_balance()
+	_balance_pulse = 1.0
+	if not _gain_popup: return
+	_gain_popup.text = ("+%d P" if amount > 0 else "%d P") % amount
+	_gain_popup.add_theme_color_override("font_color", GAIN_GOLD if amount > 0 else GAIN_RED)
+	_gain_at = panel.get_local_mouse_position()
+	_gain_t = GAIN_SECONDS
+	_gain_popup.modulate.a = 1.0
+	_gain_popup.visible = true
+
+func _animate_gain(delta: float) -> void:
+	if _balance_pulse > 0.0 and balance:
+		_balance_pulse = maxf(0.0, _balance_pulse - delta * 1.7)
+		var glow := _balance_pulse * _balance_pulse
+		balance.add_theme_color_override("font_color", Color(0.9, 0.9, 0.86).lerp(GAIN_GOLD, glow))
+		balance.pivot_offset = Vector2(0.0, balance.size.y * 0.5)
+		balance.scale = Vector2.ONE * (1.0 + glow * 0.11)
+	if _gain_t <= 0.0:
+		if _gain_popup and _gain_popup.visible: _gain_popup.visible = false
+		return
+	_gain_t = maxf(0.0, _gain_t - delta)
+	var travelled := 1.0 - _gain_t / GAIN_SECONDS
+	_gain_popup.pivot_offset = _gain_popup.size * 0.5
+	# a quick punch on appearance, then a steady drift upwards while it fades
+	_gain_popup.scale = Vector2.ONE * (1.45 - 0.45 * minf(1.0, travelled * 5.0))
+	# A click near an edge must not push the number off screen.
+	var target := _gain_at + Vector2(-_gain_popup.size.x * 0.5, -30.0 - travelled * 95.0)
+	_gain_popup.position = target.clamp(Vector2(12.0, 12.0), (panel.size - _gain_popup.size - Vector2(12.0, 12.0)).max(Vector2(12.0, 12.0)))
+	_gain_popup.modulate.a = clampf(_gain_t * 2.4, 0.0, 1.0)
+	if _gain_t <= 0.0: _gain_popup.visible = false
 
 func _label(text: String, size := 18) -> Label:
 	var label := Label.new()
@@ -749,15 +802,24 @@ func _build_ui() -> void:
 	rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rows.add_theme_constant_override("separation", 12)
 	scroll.add_child(rows)
-	status = _label("", 15)
+	status = _label("", 17)
 	status.custom_minimum_size.y = 38
-	status.add_theme_color_override("font_color", Color(0.94, 0.78, 0.5))
+	status.add_theme_color_override("font_color", Color(1.0, 0.82, 0.45))
 	column.add_child(status)
 	var done := Button.new()
 	done.text = "Zurück in den Wald · Esc"
 	done.custom_minimum_size.y = 40
 	done.pressed.connect(close)
 	column.add_child(done)
+	# Earned points are easy to miss between two dozen rows, so they fly up in gold over the card.
+	_gain_popup = _label("", 40)
+	_gain_popup.add_theme_color_override("font_color", GAIN_GOLD)
+	_gain_popup.add_theme_constant_override("outline_size", 8)
+	_gain_popup.add_theme_color_override("font_outline_color", Color(0.09, 0.05, 0.0, 0.95))
+	_gain_popup.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_gain_popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_gain_popup.visible = false
+	panel.add_child(_gain_popup)
 	panel.hide()
 
 func _row(heading: String, details: String, button_text: String, action: Callable, disabled := false, blocked_reason := "", rich := false) -> void:
@@ -823,7 +885,7 @@ func _render() -> void:
 		_row_nodes.clear()
 	title.text = str(NPCS[shop].name).to_upper() + " · " + page
 	subtitle.text = NPCS[shop].line
-	balance.text = "%d PUNKTE  ·  EINSATZLEVEL %d  ·  %d WELLEN ÜBERSTANDEN" % [game.player.score, mission_level(), game.waves.completed]
+	_update_balance()
 	var p: Player = game.player
 	var d := local_data()
 	match page:
@@ -932,14 +994,14 @@ func _render() -> void:
 					_row(spec.name + " · %d/%d" % [level, spec.max], spec.desc, "%d P" % cost, request.bind("training", spec.id), level >= int(spec.max) or p.score < cost)
 		"Türme":
 			if _building_layout: rows.add_child(ItemIcons.view("tower", Vector2(140, 90)))
-			_info("T: Bauvorschau · R/Mausrad: drehen · E: platzieren\nAm Turm: E zum Ausrichten, F zum Reparieren. 160° Feuersektor, freie Sicht nötig. Dauerfeuer führt zum Abkühlen.", 16)
+			_info("T: Turmtyp wählen · R/Mausrad: drehen · E: platzieren\nAm Turm: E aufsteigen, R ausrichten, F reparieren. Oben: Maus zielt, Linksklick feuert, E steigt ab. Ohne Bediener feuert der Turm automatisch. Dauerfeuer erzeugt Hitze.", 16)
 			if shop != "mechanic": _info("Ausbauten und Abbau verwaltet Mechanic. Nur eigene Türme können verkauft werden.")
 			else:
 				for id in game.defences.towers:
 					var tower: DefenceTower = game.defences.towers[id]
-					var cost: int = DefenceTower.UPGRADES[mini(tower.level - 1, 1)]
-					_row("Wächter #%d · Stufe %d" % [id, tower.level], "%d/%d TP · %d m Reichweite · %d m entfernt" % [ceili(tower.hp), tower.max_hp(), DefenceTower.RANGE[tower.level - 1], p.global_position.distance_to(tower.global_position)], "Maximum" if tower.level == 3 else "Ausbauen · %d P" % cost, request.bind("tower_upgrade", str(id)), tower.level == 3 or p.score < cost)
-					if tower.owner_peer == p.peer_id: _row("Wächter #%d abbauen" % id, "Der Turm wird entfernt. 40 Punkte zurück.", "Abbauen", request.bind("tower_sell", str(id)))
+					var cost: int = tower.upgrade_cost()
+					_row("%s #%d · Stufe %d" % [tower.spec().name,id,tower.level], "%d/%d TP · %d m Reichweite · %d m entfernt" % [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)], "Maximum" if tower.level == 3 else "Ausbauen · %d P" % cost, request.bind("tower_upgrade", str(id)), tower.level == 3 or p.score < cost or tower.operator_peer!=0)
+					if tower.owner_peer == p.peer_id: _row("%s #%d abbauen" % [tower.spec().name,id], "Der Turm wird entfernt. %d Punkte zurück." % tower.refund(), "Abbauen", request.bind("tower_sell", str(id)),tower.operator_peer!=0)
 		"Skins":
 			var wid: String = game.weapons.current
 			_info("Lackierungen für: " + str(Weapons.DEFS[wid].name) + "\nWähle deine Waffe vor dem Gespräch. Skins ändern keine Kampfwerte.", 16)
@@ -988,19 +1050,20 @@ func _input(event: InputEvent) -> void:
 	if is_open and event.is_action_pressed("pause"):
 		close()
 		get_viewport().set_input_as_handled()
-	elif game.started and not game.over and game.player.active and event.is_action_pressed("skills"):
+	elif game.started and not game.over and game.player.active and event.is_action_pressed("skills") and not event.is_echo():
 		_journal = not _journal
 		get_viewport().set_input_as_handled()
 
 func _process(delta: float) -> void:
 	if not game: return
+	_animate_gain(delta)
 	for id in npcs:
 		npcs[id].quest_marker.visible = game.started and not game.over and has_ready_quest(id)
 	if is_open and not close_enough(game.player, shop): close()
 	var playing: bool = game.started and not game.over and game.player.active and not game.hud.overlay.visible
 	var guiding: bool = game.intro != null and game.intro.showing_guidance()
 	tracker.visible = playing and _journal and not game.defences.placing and not guiding
-	tutorial.visible = playing and not game.defences.placing and not guiding
+	tutorial.visible = playing and not game.defences.placing and not game.defences.is_open and not game.player.mounted_tower and not guiding
 	if tutorial.visible and local_data().claimed.get("arrival", false) and team.built == 0:
 		_tower_tutorial_remaining = maxf(0.0, _tower_tutorial_remaining - delta)
 	_refresh_time -= delta
@@ -1024,7 +1087,7 @@ func _process(delta: float) -> void:
 		if d.accepted.get(id, false) and not d.claimed.get(id, false):
 			tracked.append(id)
 	if tracked.is_empty():
-		tracker.text = "ALLE AUFTRÄGE ERLEDIGT\nHalte die Hütte und überstehe die nächste Welle." if d.claimed.size() == QUESTS.size() else "AUFTRÄGE · TAB ein/aus\nSprich mit Vendor am Lagerfeuer und Mechanic nördlich davon."
+		tracker.text = "ALLE AUFTRÄGE ERLEDIGT\nHalte die Hütte und überstehe die nächste Welle." if d.claimed.size() == QUESTS.size() else "AUFTRÄGE · Q ein/aus\nSprich mit Vendor am Lagerfeuer und Mechanic nördlich davon."
 		for chain in QUEST_CHAINS:
 			if chain_complete(game.player.peer_id, chain): continue
 			for id in QUEST_CHAINS[chain].quests:
@@ -1040,7 +1103,7 @@ func _process(delta: float) -> void:
 				ready.append("[color=#ffd479][b]BEREIT ZUR ABGABE[/b]\n[b]%s[/b]\nBei %s abgeben · %d P Belohnung[/color]" % [QUESTS[id].name, NPCS[QUESTS[id].npc].name, QUESTS[id].reward])
 			else:
 				ongoing.append("%s\n%s" % [QUESTS[id].name, quest_progress(id, -1, true)])
-		var entries := PackedStringArray(["AUFTRÄGE (%d) · TAB ein/aus" % tracked.size()])
+		var entries := PackedStringArray(["AUFTRÄGE (%d) · Q ein/aus" % tracked.size()])
 		if not ready.is_empty():
 			entries.append("[color=#ffd479][b]%d zur Abgabe bereit[/b][/color]" % ready.size())
 		entries.append_array(ready)
@@ -1050,7 +1113,7 @@ func _process(delta: float) -> void:
 	if not d.claimed.get("arrival", false):
 		tutorial.text = "WAFFEN & AUFTRÄGE\n[E] Sprich mit Vendor am Lagerfeuer."
 	elif team.built == 0:
-		tutorial.text = "VERTEIDIGUNG · [T] GESCHÜTZTURM\n120 P · R/Mausrad dreht die Vorschau · E baut · Mechanic erklärt den Ausbau." if _tower_tutorial_remaining > 0.0 else ""
+		tutorial.text = "VERTEIDIGUNG · [T] TURMBAUMENÜ\n5 Typen ab 120 P · E baut / steigt auf · Mechanic baut aus." if _tower_tutorial_remaining > 0.0 else ""
 	elif team.turned == 0:
 		tutorial.text = "RICHTE DEINEN WÄCHTER AUS\nAm Turm E drücken, mit R/Mausrad drehen und mit E bestätigen."
 	else: tutorial.text = ""

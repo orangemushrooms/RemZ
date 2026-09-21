@@ -87,6 +87,24 @@ func run() -> void:
 				root.get_texture().get_image().save_png(folder + "marksman-requirements.png")
 		for widgets in shop._row_nodes:
 			check(widgets[3] is TextureRect and widgets[3].texture != null and widgets[3].mouse_filter == Control.MOUSE_FILTER_IGNORE, "Shop icon loads without intercepting clicks: " + widgets[0].text)
+	# A sale used to be a small grey line nobody noticed: it has to flash the earned points in gold
+	# and show the new total straight away, not a quarter second later.
+	shop.page = "Verkaufen"
+	shop._render()
+	game.weapons.grenades = 2
+	var purse: int = p.score
+	shop.request("sell_grenade")
+	check(p.score == purse + 15, "Selling a grenade pays its price")
+	check(shop._gain_popup.visible and shop._gain_popup.text == "+15 P" and shop._gain_popup.get_theme_color("font_color") == shop.GAIN_GOLD,
+		"The earned points pop up in gold")
+	check(shop._balance_pulse > 0.9 and shop.balance.text.begins_with("%d PUNKTE" % p.score),
+		"The balance flashes and already shows the new total")
+	# Leave the purse and the pouch exactly as they were; the checks below count on them.
+	p.score = purse
+	game.weapons.grenades = 2
+	shop._balance_pulse = 0.0
+	shop._gain_t = 0.0
+	shop._gain_popup.visible = false
 	shop.page = "Handel"
 	shop._render()
 	var first_button: Button = shop._row_nodes[0][2]
@@ -284,6 +302,14 @@ func run() -> void:
 	check(shop.is_open and shop.page == "Aufträge" and not shop._tabs.Handel.visible, "Mara opens her own quest-only conversation")
 	shop.close()
 	shop.transact(p, "ranger", "quest", "forest_basket")
+	var saved_clock: float = game.day_night.clock_seconds
+	for greeting_case in [[5.0, "morning"], [9.0, "hello"], [17.0, "evening"], [20.0, "night"], [0.0, "night"]]:
+		game.day_night.set_time_hours(greeting_case[0])
+		shop.interact("ranger")
+		var stem: String = "mara_sfx_hello" if greeting_case[1] == "hello" else "mara_sfx_good_" + greeting_case[1]
+		check(shop.is_open and shop._greeting.playing and shop._greeting.stream == Sfx._file(stem) and shop._greeting.can_process(), "Mara opens with the correct audible greeting at %02d:00" % int(greeting_case[0]))
+		shop.close()
+	game.day_night.set_time_hours(saved_clock / 3600.0)
 	var gathered := int(shop.team.get("edible_mushrooms", 0))
 	for i in 5:
 		var mushroom := Loot.new()

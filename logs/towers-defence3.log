@@ -1,0 +1,115 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 671, "batches": 9, "removed_render_nodes": 24 }
+COOP_LOAD MAP_READY
+PASS: Wave 1 preview includes all bosses
+PASS: Wave 1 respects titan progression
+PASS: Wave 2 preview includes all bosses
+PASS: Wave 2 respects titan progression
+PASS: Wave 3 preview includes all bosses
+PASS: Wave 3 respects titan progression
+PASS: Wave 4 preview includes all bosses
+PASS: Wave 4 respects titan progression
+PASS: Wave 5 preview includes all bosses
+PASS: Wave 5 respects titan progression
+PASS: Titan wave 6 enters from open field
+PASS: Wave 6 preview includes all bosses
+PASS: Wave 6 respects titan progression
+PASS: Wave 7 preview includes all bosses
+PASS: Wave 7 respects titan progression
+PASS: Wave 8 preview includes all bosses
+PASS: Wave 8 respects titan progression
+PASS: Titan wave 9 enters from open field
+PASS: Wave 9 preview includes all bosses
+PASS: Wave 9 respects titan progression
+PASS: Wave 10 preview includes all bosses
+PASS: Wave 10 respects titan progression
+PASS: Wave 11 preview includes all bosses
+PASS: Wave 11 respects titan progression
+PASS: Titan wave 12 enters from open field
+PASS: Titan wave 12 enters from open field
+PASS: Wave 12 preview includes all bosses
+PASS: Wave 12 respects titan progression
+PASS: Wave 13 preview includes all bosses
+PASS: Wave 13 respects titan progression
+PASS: Wave 14 preview includes all bosses
+PASS: Wave 14 respects titan progression
+PASS: Titan wave 15 enters from open field
+PASS: Titan wave 15 enters from open field
+PASS: Wave 15 preview includes all bosses
+PASS: Wave 15 respects titan progression
+PASS: Wave 16 preview includes all bosses
+PASS: Wave 16 respects titan progression
+PASS: Wave 17 preview includes all bosses
+PASS: Wave 17 respects titan progression
+PASS: Titan wave 18 enters from open field
+PASS: Titan wave 18 enters from open field
+PASS: Wave 18 preview includes all bosses
+PASS: Wave 18 respects titan progression
+PASS: Wave 19 preview includes all bosses
+PASS: Wave 19 respects titan progression
+PASS: Wave 20 preview includes all bosses
+PASS: Wave 20 respects titan progression
+PASS: Titan wave 21 enters from open field
+PASS: Titan wave 21 enters from open field
+PASS: Wave 21 preview includes all bosses
+PASS: Wave 21 respects titan progression
+PASS: Wave 22 preview includes all bosses
+PASS: Wave 22 respects titan progression
+PASS: Wave 23 preview includes all bosses
+PASS: Wave 23 respects titan progression
+PASS: Titan wave 24 enters from open field
+PASS: Titan wave 24 enters from open field
+PASS: Titan wave 24 enters from open field
+PASS: Wave 24 preview includes all bosses
+PASS: Wave 24 respects titan progression
+PASS: Very late waves keep a bounded number of giant bosses
+PASS: Simultaneous bosses have separate field spawns
+PASS: Incoming zombie commits to defended entrance
+PASS: Zombie actually damages the barricade
+PASS: Continuous collision keeps zombie on attacking side
+PASS: Moving behind the flank does not cancel a committed breach
+PASS: Destroyed defence releases the route
+PASS: Zombie resumes pursuit after the breach
+PASS: Clear, flat field accepts a tower: 
+PASS: Remote placement rejected without charging
+PASS: Nonfinite placement rejected
+PASS: Valid placement builds a tower
+PASS: Build charges exactly 120 points once
+PASS: Duplicate placement cannot overlap or charge
+PASS: Tower has blocking, destructible structure
+PASS: Upgrade improves tower and restores health
+PASS: Tower repair is transactional
+PASS: No charge for unnecessary repair
+PASS: Upgrade cap enforced
+PASS: Tower sees an exposed enemy
+PASS: Turret acquires, turns and actually damages enemies
+PASS: Sustained fire overheats the weapon
+PASS: Solid cover prevents targeting through walls
+PASS: Covered enemy does not consume firing bursts
+PASS: Tower kill credits its builder
+PASS: Tower interaction starts in-world rotation without a remote shop
+PASS: Cancelling rotation restores weapon input
+PASS: Team member cannot sell someone else's tower
+PASS: Owner can dismantle tower
+PASS: Titan has boss scale and health
+PASS: Dedicated titan asset is installed
+PASS: Titan has all three rigged animations
+PASS: Boss attack is visibly telegraphed before damage
+PASS: Leaving the marked impact area avoids boss damage
+PASS: Normal titan slam removes 120 HP from a fully trained player
+PASS: Solid wall anchors the slam outside the defended building
+PASS: Closed wall blocks boss area damage
+PASS: Boss warning follows terrain instead of clipping into slopes
+PASS: Titan resists bullet stun-lock and melee knockback
+PASS: Boss snapshot carries exact telegraph and impact event
+PASS: Boss death releases collision and removes warning
+PASS: Giant can physically walk off its field spawn
+PASS: Giant navigates the actual field to the entrance
+PASS: Giant engages the defended gateway
+PASS: Field approach ends in actual boss damage to the gate
+DEFENCE_DONE checks=106 failures=0

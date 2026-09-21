@@ -1,0 +1,78 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+[   0% ] first_scan_filesystem | Started Projektinitialisierung (5 steps)
+[   0% ] first_scan_filesystem | Lese Dateistrucktur …
+[  16% ] first_scan_filesystem | Globale Klassennamen laden …
+[  33% ] first_scan_filesystem | Verifiziere GDExtensions…
+[  50% ] first_scan_filesystem | Autoload-Skripte erzeugen …
+[  66% ] first_scan_filesystem | Plugins initialisieren…
+[  83% ] first_scan_filesystem | Dateiscan starten …
+[ DONE ] first_scan_filesystem
+
+[   0% ] update_scripts_classes | Started Globale Klassen registrieren … (17 steps)
+[   0% ] update_scripts_classes | 
+[   5% ] update_scripts_classes | DefenceSystem
+[  11% ] update_scripts_classes | DefenceTower
+[  16% ] update_scripts_classes | Inventory
+[  22% ] update_scripts_classes | 
+[  27% ] update_scripts_classes | 
+[  33% ] update_scripts_classes | 
+[  38% ] update_scripts_classes | Progression
+[  44% ] update_scripts_classes | RunStats
+[  50% ] update_scripts_classes | 
+[  55% ] update_scripts_classes | 
+[  61% ] update_scripts_classes | 
+[  66% ] update_scripts_classes | 
+[  72% ] update_scripts_classes | 
+[  77% ] update_scripts_classes | 
+[  83% ] update_scripts_classes | 
+[  88% ] update_scripts_classes | 
+[ DONE ] update_scripts_classes
+
+[   0% ] _update_scan_actions | Started Aktionen scannen … (4 steps)
+[   0% ] _update_scan_actions | flamethrower_tower.mp3
+[  20% ] _update_scan_actions | Machinegun_Tower.mp3
+[  40% ] _update_scan_actions | Mortar_Tower.mp3
+[  60% ] _update_scan_actions | Teslacoil_Tower.mp3
+[ DONE ] _update_scan_actions
+
+[   0% ] reimport | Started Assets (erneut) importieren (4 steps)
+[   0% ] reimport | Dateien zum Neuimport vorbereiten …
+[  20% ] reimport | Dateien zum Neuimport vorbereiten …
+[  40% ] reimport | Dateien zum Neuimport vorbereiten …
+[  60% ] reimport | Dateien zum Neuimport vorbereiten …
+[   0% ] reimport | Vor-Neuimport-Operationen ausführen …
+[   0% ] reimport | flamethrower_tower.mp3
+[  20% ] reimport | Machinegun_Tower.mp3
+[  40% ] reimport | Mortar_Tower.mp3
+[  60% ] reimport | Teslacoil_Tower.mp3
+[  80% ] reimport | Asset-Import fertigstellen …
+[ DONE ] reimport
+
+[   0% ] reimport | Started Assets (erneut) importieren (4 steps)
+[   0% ] reimport | Nach-Neuimport-Operationen ausführen …
+[ DONE ] reimport
+
+[   0% ] loading_editor_layout | Started Editor laden (5 steps)
+[   0% ] loading_editor_layout | Editor-Layout laden …
+[  16% ] loading_editor_layout | Docks laden …
+[  33% ] loading_editor_layout | Öffne Szenen neu…
+SCRIPT ERROR: Parse Error: Cannot infer the type of "hit" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://scripts/defence_system.gd:396)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "bore_hit" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://scripts/defence_system.gd:404)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/main.gd:0)
+ERROR: Failed to load script "res://scripts/main.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+[  50% ] loading_editor_layout | Zentrales Editor-Layout laden …
+[  66% ] loading_editor_layout | Pluginfensterlayout laden …
+[  83% ] loading_editor_layout | Editorlayout bereit.
+[ DONE ] loading_editor_layout
+
+ERROR: Cannot save file 'C:/Users/miche/AppData/Roaming/Godot/editor_settings-4.7.tres'.
+   at: save (scene/resources/resource_format_text.cpp:1768)
+ERROR: Error saving editor settings to C:/Users/miche/AppData/Roaming/Godot/editor_settings-4.7.tres
+   at: save (editor/settings/editor_settings.cpp:1525)

@@ -20,6 +20,7 @@ const LOD_HYSTERESIS := 2.0
 var _plant_batches: Array[MultiMeshInstance3D] = []
 var _plant_meshes: Array[ArrayMesh] = []
 var _lod_elapsed := 0.0
+var rustle: AudioStreamPlayer
 
 static var _tree_cells: Dictionary = {}
 static func field_to_world(p: Vector2) -> Vector2:
@@ -45,6 +46,12 @@ static func field_ground(p: Vector2) -> bool:
 
 static func inside_maze(p: Vector2) -> bool:
 	return Rect2(ORIGIN,Vector2.ONE*SIZE*CELL).has_point(world_to_field(p))
+
+# Standing maize right here, i.e. the plants actually brush past whoever walks through.
+# Same rule build() uses to place them, so the sound never fires on a cleared maze passage.
+func in_corn(p: Vector2) -> bool:
+	if not field_ground(p): return false
+	return not (inside_maze(p) and passages.has(Vector2i((world_to_field(p)-ORIGIN)/CELL)))
 func cell_position(cell: Vector2i) -> Vector2:
 	return field_to_world(ORIGIN+(Vector2(cell)+Vector2.ONE*0.5)*CELL)
 func build(main: Node) -> void:
@@ -190,13 +197,78 @@ func build(main: Node) -> void:
 		bird.home = Map.ground_pos(home.x,home.y)+Vector3.UP*(3.7 if bird.owl else 0.2)
 		bird.position = bird.home
 		birds.append(bird)
+	_make_wild_birds()
+	# Leaf brush of the standing maize, faded in by _update_rustle while somebody walks through.
+	rustle = AudioStreamPlayer.new()
+	rustle.stream = Sfx.corn_bed()
+	rustle.volume_db = -60.0
+	rustle.pitch_scale = 0.93
+	add_child(rustle)
+	rustle.play()
+
+func _add_wild_bird(at: Vector2, is_owl: bool) -> void:
+	var bird := Bird.new()
+	bird.owl = is_owl
+	bird.index = birds.size()
+	bird.game = game
+	bird.home = Map.ground_pos(at.x,at.y)+Vector3.UP*(3.7 if is_owl else 0.2)
+	bird.position = bird.home
+	add_child(bird)
+	birds.append(bird)
+
+func _open_meadow(at: Vector2) -> bool:
+	if not Map.BOUNDS.grow(-14).has_point(at) or FIELD.has_point(world_to_field(at)): return false
+	if Map.meadow_weight(at.x,at.y)<0.75 or Map.on_road(at.x,at.y,2.5): return false
+	for tree in Map.TREES:
+		if at.distance_squared_to(Vector2(tree[0],tree[1]))<25: return false
+	return true
+
+func _make_wild_birds() -> void:
+	# A small flock ahead of the waking player stays visible through the intro fog.
+	var intro_spots: Array[Vector2] = []
+	for z in range(-24,-7,2):
+		for x in range(-20,21,2):
+			var at := Intro.START+Vector2(x,z)
+			if _open_meadow(at): intro_spots.append(at)
+	intro_spots.sort_custom(func(a: Vector2,b: Vector2): return a.distance_squared_to(Intro.START)<b.distance_squared_to(Intro.START))
+	var flock: Array[Vector2] = []
+	for at in intro_spots:
+		var spaced := true
+		for other in flock:
+			if at.distance_to(other)<3: spaced = false
+		if not spaced: continue
+		_add_wild_bird(at,false)
+		flock.append(at)
+		if flock.size()==5: break
+	# Sample ground cover across the map, independently of the corn maze.
+	for z in range(int(Map.BOUNDS.position.y)+24,int(Map.BOUNDS.end.y)-24,48):
+		for x in range(int(Map.BOUNDS.position.x)+24,int(Map.BOUNDS.end.x)-24,48):
+			var at := Vector2(x,z)
+			if _open_meadow(at) and at.distance_to(Intro.START)>32:
+				_add_wild_bird(at,false)
+			elif Map.in_forest(at.x,at.y) and not Map.on_road(at.x,at.y,3):
+				_add_wild_bird(at,true)
 
 func _process(delta: float) -> void:
+	_update_rustle(delta)
 	_lod_elapsed += delta
 	if _lod_elapsed < 0.1: return
 	_lod_elapsed = 0.0
 	var camera := get_viewport().get_camera_3d()
 	if camera: _update_plant_lods(camera.global_position)
+
+# The leaves only rustle while somebody actually pushes through them: standing still in the
+# middle of the field is silent, sprinting drags the whole row along.
+func _update_rustle(delta: float) -> void:
+	if not rustle or not game or not game.player: return
+	var p: Player = game.player
+	var target := -60.0
+	if p.alive:
+		var speed := Vector2(p.velocity.x,p.velocity.z).length()
+		if speed > 0.5 and in_corn(Vector2(p.global_position.x,p.global_position.z)):
+			target = lerpf(-31.0,-15.0,clampf((speed-0.5)/5.0,0.0,1.0))
+	rustle.volume_db = lerpf(rustle.volume_db,target,clampf(delta*7.0,0.0,1.0))
+	rustle.pitch_scale = lerpf(rustle.pitch_scale,0.92+randf()*0.02,clampf(delta*1.5,0.0,1.0))
 
 func _update_plant_lods(camera_position: Vector3) -> void:
 	# Swap one mesh instead of independently hiding three overlapping copies.
@@ -229,24 +301,7 @@ func _make_caches() -> void:
 		add_child(item)
 		var p := cell_position(ends[i])
 		item.global_position = Map.ground_pos(p.x,p.y)+Vector3.UP*0.12
-		var mesh := MeshInstance3D.new()
-		var box := BoxMesh.new()
-		box.size = Vector3(0.65,0.35,0.42)
-		mesh.mesh = box
-		var material := StandardMaterial3D.new()
-		material.albedo_color = Color(0.29,0.19,0.075)
-		mesh.material_override = material
-		mesh.position.y = 0.175
-		item.add_child(mesh)
-		var band := MeshInstance3D.new()
-		var strip := BoxMesh.new()
-		strip.size = Vector3(0.12,0.37,0.44)
-		band.mesh = strip
-		var gold := StandardMaterial3D.new()
-		gold.albedo_color = Color(0.8,0.57,0.18)
-		band.material_override = gold
-		band.position.y = 0.175
-		item.add_child(band)
+		WorldModels.attach(item, "ammo_crate", Vector3.ZERO, 0.65, 0)
 		game.loots.append(item)
 
 func scare(origin: Vector3) -> void:

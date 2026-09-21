@@ -1,13 +1,16 @@
-# Music: title screen, calm night loop between waves, combat track during a wave, game over.
+# Music: title screen, calm loop between waves, combat track during a wave, game over. Between waves
+# the track follows the clock, so a round that runs into the day does not repeat the night loop.
 # Tracks crossfade; an extra "horde" layer (distant zombie choir) is mixed in with the number of
 # zombies alive. Files live in assets/audio/music (from the user's sound library).
 class_name Music
 extends Node
 
 const DIR := "res://assets/audio/music/"
+# "file" names the mp3 when it differs from the logical track name.
 const TRACKS := {
 	"title": { "loop": true, "db": -10.0 },
 	"night": { "loop": true, "db": -14.0 },
+	"morning": { "loop": true, "db": -13.0, "file": "survived_the_night" },
 	"combat": { "loop": true, "db": -11.0 },
 	"gameover": { "loop": false, "db": -8.0 },
 	"horde": { "loop": true, "db": -16.0 },
@@ -28,7 +31,7 @@ func titan_duck(amount: float, duration: float) -> void:
 
 func _ready() -> void:
 	for name in TRACKS:
-		var path: String = DIR + name + ".mp3"
+		var path: String = DIR + str(TRACKS[name].get("file", name)) + ".mp3"
 		if not ResourceLoader.exists(path):
 			continue
 		var st: AudioStream = load(path)
@@ -52,6 +55,12 @@ func play(name: String) -> void:
 		_target[n] = db_to_linear(TRACKS[n]["db"]) if n == name else 0.0
 	if _players.has(name) and not _players[name].playing:
 		_players[name].play()
+
+# The calm track between two waves: daylight gets its own song, the night keeps the old loop.
+# Never used before the first wave is over - the round still opens on the night track.
+func intermission_track(hour: float) -> String:
+	var h := fposmod(hour, 24.0)
+	return "morning" if _players.has("morning") and h >= 5.0 and h < 17.0 else "night"
 
 func stop_all() -> void:
 	current = ""

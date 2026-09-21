@@ -1,0 +1,77 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS owl_real imports as a scene
+PASS owl_real has finite metre-scale geometry
+PASS owl_real retains textured PBR surfaces and normal maps
+PASS tower_standard imports as a scene
+PASS tower_standard has finite metre-scale geometry
+PASS tower_standard retains textured PBR surfaces and normal maps
+PASS sandbag imports as a scene
+PASS sandbag has finite metre-scale geometry
+PASS sandbag retains textured PBR surfaces and normal maps
+PASS forest_key imports as a scene
+PASS forest_key has finite metre-scale geometry
+PASS forest_key retains textured PBR surfaces and normal maps
+PASS cash_bundle imports as a scene
+PASS cash_bundle has finite metre-scale geometry
+PASS cash_bundle retains textured PBR surfaces and normal maps
+PASS hut_door_leaf imports as a scene
+PASS hut_door_leaf has finite metre-scale geometry
+PASS hut_door_leaf retains textured PBR surfaces and normal maps
+PASS pond_trough imports as a scene
+PASS pond_trough has finite metre-scale geometry
+PASS pond_trough retains textured PBR surfaces and normal maps
+PASS mushroom_pfifferling imports as a scene
+PASS mushroom_pfifferling has finite metre-scale geometry
+PASS mushroom_pfifferling retains textured PBR surfaces and normal maps
+PASS mushroom_morchel imports as a scene
+PASS mushroom_morchel has finite metre-scale geometry
+PASS mushroom_morchel retains textured PBR surfaces and normal maps
+PASS mushroom_maronenroehrling imports as a scene
+PASS mushroom_maronenroehrling has finite metre-scale geometry
+PASS mushroom_maronenroehrling retains textured PBR surfaces and normal maps
+PASS mushroom_parasol imports as a scene
+PASS mushroom_parasol has finite metre-scale geometry
+PASS mushroom_parasol retains textured PBR surfaces and normal maps
+PASS mushroom_reizker imports as a scene
+PASS mushroom_reizker has finite metre-scale geometry
+PASS mushroom_reizker retains textured PBR surfaces and normal maps
+PASS mushroom_tintenpilz imports as a scene
+PASS mushroom_tintenpilz has finite metre-scale geometry
+PASS mushroom_tintenpilz retains textured PBR surfaces and normal maps
+PASS mushroom_violetter_roetelritterling imports as a scene
+PASS mushroom_violetter_roetelritterling has finite metre-scale geometry
+PASS mushroom_violetter_roetelritterling retains textured PBR surfaces and normal maps
+PASS mushroom_krause_glucke imports as a scene
+PASS mushroom_krause_glucke has finite metre-scale geometry
+PASS mushroom_krause_glucke retains textured PBR surfaces and normal maps
+PASS steinpilz uses its imported species model
+PASS fliegenpilz uses its imported species model
+PASS pfifferling uses its imported species model
+PASS morchel uses its imported species model
+PASS maronenroehrling uses its imported species model
+PASS parasol uses its imported species model
+PASS reizker uses its imported species model
+PASS tintenpilz uses its imported species model
+PASS violetter_roetelritterling uses its imported species model
+PASS krause_glucke uses its imported species model
+PASS Key remains inside its removable pickup visual
+PASS cash drop has imported geometry
+PASS grenade drop has imported geometry
+PASS Imported door fits its moving collision slab
+PASS Opening door keeps its model attached to its hinge
+PASS Imported door fits its moving collision slab
+PASS Opening door keeps its model attached to its hinge
+PASS Imported door fits its moving collision slab
+PASS Opening door keeps its model attached to its hinge
+PASS Standard tower uses the generated twin-barrel model
+FAIL Tower has six cloth sandbags
+PASS Owl imports four valid wing joints
+PASS Owl actually animates its imported mesh during flight
+PASS Batching preserves removable key geometry
+PASS Batching preserves rotating turret geometry
+MISSING_MODELS_DONE checks=70 failures=1

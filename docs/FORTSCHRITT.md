@@ -1,6 +1,6 @@
 # Händler, Aufträge und Geschütztürme
 
-Waffen werden bei Figuren in der Spielwelt gekauft. Es gibt kein frei zugängliches Waffen- oder Trainingsmenü mehr. Inventar, Pause und Einstellungen bleiben jederzeit erreichbar; **Tab** blendet die Auftragsanzeige ein oder aus. Im Koop laufen Kämpfe während eines Gesprächs weiter. Solo pausiert das Gespräch.
+Waffen werden bei Figuren in der Spielwelt gekauft. Es gibt kein frei zugängliches Waffen- oder Trainingsmenü mehr. Inventar, Pause und Einstellungen bleiben jederzeit erreichbar; **Q** blendet die Auftragsanzeige ein oder aus. Im Koop laufen Kämpfe während eines Gesprächs weiter. Solo pausiert das Gespräch.
 
 ## Am Lagerfeuer anfangen
 

@@ -1,0 +1,50 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 673, "batches": 13, "removed_render_nodes": 33 }
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] _install_walk (res://scripts/world_npc.gd:153)
+       [1] setup (res://scripts/world_npc.gd:79)
+       [2] setup (res://scripts/progression.gd:142)
+       [3] _ready (res://scripts/main.gd:171)
+       [4] run (res://tests/tower_effects.gd:31)
+COOP_LOAD MAP_READY
+PASS: standard recoil leaves aiming and operator seat stable
+PASS: standard has mechanical recoil
+PASS: Bullet streak travels instead of drawing a full-range laser
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+PASS: standard returns smoothly to its rest position
+PASS: flame recoil leaves aiming and operator seat stable
+PASS: Flame uses soft world-space sprites, not polygon spheres
+PASS: Upgraded flame travel reaches its actual advertised range
+PASS: Flame emission stops after trigger updates cease
+PASS: Rotating an upgraded tower previews the upgraded range
+PASS: Build hint agrees with upgraded range marker
+PASS: Aim readout distinguishes a reachable target from one beyond range
+PASS: Aim readout distinguishes a reachable target from one beyond range
+PASS: flame returns smoothly to its rest position
+ERROR: FAIL: mortar recoil leaves aiming and operator seat stable
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/tower_effects.gd:20)
+       [1] run (res://tests/tower_effects.gd:59)
+PASS: mortar has mechanical recoil
+PASS: Mortar aim cannot exceed its advertised maximum range
+PASS: mortar returns smoothly to its rest position
+PASS: mg42 recoil leaves aiming and operator seat stable
+PASS: mg42 has mechanical recoil
+PASS: mg42 returns smoothly to its rest position
+PASS: tesla recoil leaves aiming and operator seat stable
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+PASS: tesla returns smoothly to its rest position
+TOWER_EFFECTS_DONE checks=22 failures=1

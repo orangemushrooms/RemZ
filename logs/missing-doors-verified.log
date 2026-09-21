@@ -1,0 +1,132 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 673, "batches": 13, "removed_render_nodes": 33 }
+COOP_LOAD MAP_READY
+PASS: New game has two uncollected forest keys
+PASS: Garage, upstairs cabin and wood store have real doors
+PASS: Reachable pair of keys for seed 1
+PASS: Forest location and separation for seed 1
+PASS: Reachable pair of keys for seed 2
+PASS: Forest location and separation for seed 2
+PASS: Reachable pair of keys for seed 3
+PASS: Forest location and separation for seed 3
+PASS: Reachable pair of keys for seed 17
+PASS: Forest location and separation for seed 17
+PASS: Reachable pair of keys for seed 999
+PASS: Forest location and separation for seed 999
+PASS: Reachable pair of keys for seed 4242
+PASS: Forest location and separation for seed 4242
+PASS: Reachable pair of keys for seed 123456
+PASS: Forest location and separation for seed 123456
+PASS: Reachable pair of keys for seed 876543
+PASS: Forest location and separation for seed 876543
+PASS: Different seeds produce genuinely different search locations
+PASS: Garagentor cannot open without its key
+PASS: Garagentor physically blocks its aperture
+PASS: Hüttentür cannot open without its key
+PASS: Hüttentür physically blocks its aperture
+PASS: Holzlagertor cannot open without its key
+PASS: Holzlagertor physically blocks its aperture
+PASS: No long-distance key beacon
+PASS: Cannot collect a key remotely
+PASS: Proximity reveals the nearest key and arrow
+PASS: Arrow remains valid for a key behind the player
+PASS: Pickup respects walls
+PASS: E collects the key while leaving its stump in the world
+PASS: Each door requires the key for its own building
+PASS: Each door requires the key for its own building
+PASS: Each door requires the key for its own building
+PASS: Collected key removes proximity hint immediately
+PASS: A key cannot be collected twice
+PASS: No long-distance key beacon
+PASS: Cannot collect a key remotely
+PASS: Proximity reveals the nearest key and arrow
+PASS: Arrow remains valid for a key behind the player
+PASS: Pickup respects walls
+PASS: E collects the key while leaving its stump in the world
+PASS: Each door requires the key for its own building
+PASS: Each door requires the key for its own building
+PASS: Each door requires the key for its own building
+PASS: Collected key removes proximity hint immediately
+PASS: A key cannot be collected twice
+PASS: Garagentor from local -x at 0.5 m has an interaction prompt
+PASS: Garagentor from local -x at 0.5 m opens using the gameplay E handler
+PASS: Garagentor from local -x at 0.5 m swings away and clears the doorway
+PASS: Garagentor from local -x at 0.5 m also closes without stepping back
+PASS: Garagentor from local -x at 0.5 m restores closed collision
+PASS: Garagentor from local +x at 0.5 m has an interaction prompt
+PASS: Garagentor from local +x at 0.5 m opens using the gameplay E handler
+PASS: Garagentor from local +x at 0.5 m swings away and clears the doorway
+PASS: Garagentor from local +x at 0.5 m also closes without stepping back
+PASS: Garagentor from local +x at 0.5 m restores closed collision
+PASS: Hüttentür from local -x at 0.5 m has an interaction prompt
+PASS: Hüttentür from local -x at 0.5 m opens using the gameplay E handler
+PASS: Hüttentür from local -x at 0.5 m swings away and clears the doorway
+PASS: Hüttentür from local -x at 0.5 m also closes without stepping back
+PASS: Hüttentür from local -x at 0.5 m restores closed collision
+PASS: Hüttentür from local +x at 0.5 m has an interaction prompt
+PASS: Hüttentür from local +x at 0.5 m opens using the gameplay E handler
+PASS: Hüttentür from local +x at 0.5 m swings away and clears the doorway
+PASS: Hüttentür from local +x at 0.5 m also closes without stepping back
+PASS: Hüttentür from local +x at 0.5 m restores closed collision
+PASS: Holzlagertor from local -x at 0.5 m has an interaction prompt
+PASS: Holzlagertor from local -x at 0.5 m opens using the gameplay E handler
+PASS: Holzlagertor from local -x at 0.5 m swings away and clears the doorway
+PASS: Holzlagertor from local -x at 0.5 m also closes without stepping back
+PASS: Holzlagertor from local -x at 0.5 m restores closed collision
+PASS: Holzlagertor from local +x at 0.5 m has an interaction prompt
+PASS: Holzlagertor from local +x at 0.5 m opens using the gameplay E handler
+PASS: Holzlagertor from local +x at 0.5 m swings away and clears the doorway
+PASS: Holzlagertor from local +x at 0.5 m also closes without stepping back
+PASS: Holzlagertor from local +x at 0.5 m restores closed collision
+PASS: An actor on the opening side still blocks the wood-store gate
+PASS: Garagentor can be reached from outside
+PASS: Garagentor opens with its matching key
+PASS: Garagentor opens a real traversable gap
+PASS: Garagentor fits the full player capsule
+PASS: Garagentor closes again using E
+PASS: Garagentor restores collision after closing
+PASS: Garagentor animation respects pause
+PASS: Garagentor reverses when an actor enters the closing door
+PASS: Garagentor is recognized as a defence by enemies
+ERROR: FAIL: Actual enemy AI attacks the closed door before the protected player
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/doors_keys.gd:24)
+       [1] run (res://tests/doors_keys.gd:232)
+       [2] frames (res://tests/doors_keys.gd:29)
+PASS: Garagentor yields to sustained attacks and prevents immediate reclosing
+PASS: Hüttentür can be reached from outside
+PASS: Hüttentür opens with its matching key
+PASS: Hüttentür opens a real traversable gap
+PASS: Hüttentür fits the full player capsule
+PASS: Hüttentür closes again using E
+PASS: Hüttentür restores collision after closing
+PASS: Hüttentür animation respects pause
+PASS: Hüttentür reverses when an actor enters the closing door
+PASS: Hüttentür is recognized as a defence by enemies
+PASS: Hüttentür yields to sustained attacks and prevents immediate reclosing
+PASS: Holzlagertor can be reached from outside
+PASS: Holzlagertor opens with its matching key
+PASS: Holzlagertor opens a real traversable gap
+PASS: Holzlagertor fits the full player capsule
+PASS: Holzlagertor closes again using E
+PASS: Holzlagertor restores collision after closing
+PASS: Holzlagertor animation respects pause
+PASS: Holzlagertor reverses when an actor enters the closing door
+PASS: Holzlagertor is recognized as a defence by enemies
+PASS: Holzlagertor yields to sustained attacks and prevents immediate reclosing
+PASS: Wave changes retain keys without respawning them
+ERROR: FAIL: Full inventory displays both permanent keys alongside equipment
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/doors_keys.gd:24)
+       [1] run (res://tests/doors_keys.gd:243)
+       [2] frames (res://tests/doors_keys.gd:29)
+PASS: Full inventory fits the viewport
+DOORS_KEYS_DONE checks=112 failures=2

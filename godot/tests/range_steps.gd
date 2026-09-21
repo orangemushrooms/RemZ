@@ -69,7 +69,8 @@ func run() -> void:
 	Sfx.footstep(player, "gravel", -14.0, 1.0)
 	Sfx.footstep(player, "wood", -14.0, 1.0)
 	Sfx.footstep(player, "hard", -14.0, 1.0)
-	for bus in ["StepGrass", "StepSoft", "StepGravel", "StepWood"]:
+	Sfx.footstep(player, "corn", -14.0, 1.0)
+	for bus in ["StepGrass", "StepSoft", "StepGravel", "StepWood", "StepCorn"]:
 		var idx := AudioServer.get_bus_index(bus)
 		check(idx >= 0 and AudioServer.get_bus_effect(idx, 0) is AudioEffectLowPassFilter, "%s bus exists with a low-pass filter" % bus)
 	var cut_soft: float = (AudioServer.get_bus_effect(AudioServer.get_bus_index("StepSoft"), 0) as AudioEffectLowPassFilter).cutoff_hz
@@ -83,12 +84,35 @@ func run() -> void:
 	check(player._surface_step() == "hard", "Garage floor is hard")
 	player.global_position = Map.ground_pos(hut.pos.x, hut.pos.y) + Vector3.UP * 2.9
 	check(player._surface_step() == "wood", "Upper hut room is wood")
+	# ---- maize: steps and the brush loop only inside standing corn
+	var field = game.cornfield
+	var stalk := Vector2.ZERO
+	for sample in 6000:
+		var probe: Vector2 = field.field_to_world(Vector2(6.0 + (sample % 130), 2.0 + float((sample / 130) % 48)))
+		if field.in_corn(probe):
+			stalk = probe
+			break
+	check(stalk != Vector2.ZERO, "Found standing maize to walk into")
+	player.global_position = Map.ground_pos(stalk.x, stalk.y) + Vector3.UP * 0.2
+	check(player._surface_step() == "corn", "Standing maize sounds like corn, not meadow")
+	var passage: Vector2 = field.field_to_world(field.ORIGIN + (Vector2(field.passages.keys()[0]) + Vector2.ONE * 0.5) * field.CELL)
+	check(not field.in_corn(passage), "A cleared maze passage stays silent")
+	check(field.rustle != null and field.rustle.playing and field.rustle.stream.loop_mode == AudioStreamWAV.LOOP_FORWARD, "Leaf brush loop runs and loops seamlessly")
+	field.rustle.volume_db = -60.0
+	player.velocity = Vector3(3.5, 0, 0)
+	for i in 30: field._update_rustle(0.05)
+	var moving_db: float = field.rustle.volume_db
+	check(moving_db > -35.0, "Walking through the maize raises the leaf brush (%.1f dB)" % moving_db)
+	player.velocity = Vector3.ZERO
+	for i in 40: field._update_rustle(0.05)
+	check(field.rustle.volume_db < moving_db - 10.0, "Standing still in the field goes quiet again (%.1f dB)" % field.rustle.volume_db)
 	# ---- dump textures
 	var dir := ProjectSettings.globalize_path("res://") + "../artifacts/footsteps/"
 	DirAccess.make_dir_recursive_absolute(dir)
-	for surface in ["grass", "leaves", "gravel", "wood"]:
+	for surface in ["grass", "leaves", "gravel", "wood", "corn"]:
 		var st: AudioStreamWAV = Sfx._step_texture(surface, 0)
 		if st:
 			st.save_to_wav(dir + "texture_%s.wav" % surface)
+	Sfx.corn_bed().save_to_wav(dir + "corn_bed.wav")
 	print("RANGE_STEPS_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

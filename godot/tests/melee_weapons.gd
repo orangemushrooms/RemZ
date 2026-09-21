@@ -100,7 +100,7 @@ func run() -> void:
 		check(z.killer_weapon == id and game.stats.shots == shots_before, id + " records melee attribution without gunshot statistics")
 		var after := z.hp
 		w.melee()
-		check(z.hp == after, id + " Q and left-click share a cooldown")
+		check(z.hp == after, id + " H and left-click share a cooldown")
 		w.set_weapon("pistol")
 		w.set_weapon(id)
 		w.try_fire()

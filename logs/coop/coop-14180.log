@@ -1,0 +1,116 @@
+2026-09-21T18:54:01 remz-coop-leaderboard-ping-20260921 BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-21T18:54:01 remz-coop-leaderboard-ping-20260921 NETWORK_INITIALIZED
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 MAP_READY
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 JOIN_BEGIN address=127.0.0.1 port=24687
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 JOIN_SOCKET result=0
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 TRANSPORT_CONNECTED sending_hello
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 PEER_CONNECTED id=1
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 WELCOME
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 PEER_CONNECTED id=456196148
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 PEER_CONNECTED id=1351955518
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 INITIAL_RECEIVE parts=4
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 INITIAL_APPLY_BEGIN
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 INITIAL_APPLY_DONE
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_RECEIVE parts=4
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 STATE_APPLY_DONE sequence=4
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 ROUND_BEGIN intro=false
+2026-09-21T18:54:22 remz-coop-leaderboard-ping-20260921 ROUND_RUNNING players=4
+2026-09-21T18:54:36 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:54:36 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:54:36 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:54:36 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:54:36 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:54:45 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:54:45 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:54:45 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:54:45 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:54:45 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:54:52 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:54:52 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:54:52 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:54:52 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:54:52 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:54:54 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:54:54 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:54:54 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:54:54 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:54:54 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:54:59 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:54:59 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:54:59 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:54:59 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:54:59 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:55:00 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:55:00 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:55:00 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:55:00 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:55:00 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:55:04 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:55:04 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:55:04 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:55:04 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:55:04 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:55:12 remz-coop-leaderboard-ping-20260921 PEER_DISCONNECTED id=456196148
+2026-09-21T18:55:24 remz-coop-leaderboard-ping-20260921 PEER_CONNECTED id=621273564
+2026-09-21T18:55:26 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:55:26 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:55:26 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:55:26 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:55:26 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:55:29 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:55:29 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:55:29 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:55:29 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:55:29 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:55:31 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:55:31 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:55:31 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:55:31 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:55:31 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:55:34 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:55:34 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:55:34 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:55:34 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:55:34 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:55:37 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:55:37 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:55:37 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:55:37 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:55:37 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:55:52 remz-coop-leaderboard-ping-20260921 STATE_RECEIVE parts=7
+2026-09-21T18:55:52 remz-coop-leaderboard-ping-20260921 STATE_APPLY_DONE sequence=873
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 MAP_READY
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 INITIAL_RECEIVE parts=4
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 INITIAL_APPLY_BEGIN
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 INITIAL_APPLY_DONE
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_RECEIVE parts=4
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE structures
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE players
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE enemies
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE items
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_STAGE barricades
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 STATE_APPLY_DONE sequence=877
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 ROUND_BEGIN intro=false
+2026-09-21T18:56:09 remz-coop-leaderboard-ping-20260921 ROUND_RUNNING players=4
+2026-09-21T18:56:11 remz-coop-leaderboard-ping-20260921 PEER_DISCONNECTED id=621273564
+2026-09-21T18:56:11 remz-coop-leaderboard-ping-20260921 PEER_DISCONNECTED id=1
+2026-09-21T18:56:11 remz-coop-leaderboard-ping-20260921 LEAVE_BEGIN phase=running reason=Der Host hat die Verbindung beendet.
+2026-09-21T18:56:11 remz-coop-leaderboard-ping-20260921 LEAVE_PEER_DETACHED
+2026-09-21T18:56:11 remz-coop-leaderboard-ping-20260921 LEAVE_PEER_CLOSED
+2026-09-21T18:56:11 remz-coop-leaderboard-ping-20260921 LEAVE_RELOAD
+2026-09-21T18:56:28 remz-coop-leaderboard-ping-20260921 MAP_READY

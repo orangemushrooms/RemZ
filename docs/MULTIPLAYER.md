@@ -28,7 +28,7 @@ Bei Verbindungsproblemen zuerst Hamachis Online-Status, die Host-IP, den Port un
 - Kein Schaden durch Beschuss von Mitspielern. Eigene Granaten können den Werfer weiterhin verletzen.
 - Bei 0 Lebenspunkten bleibt der Spieler am Boden. Ein lebender Mitspieler drückt in der Nähe **E** und bleibt drei Sekunden innerhalb von 2,5 Metern mit freier Sicht. Entfernen oder Sterben bricht die Wiederbelebung ab. Sie stellt 50 Lebenspunkte her.
 - Nach einer überstandenen Welle kehren auch ausgeschiedene Spieler zurück. Erst wenn das ganze Team ausgeschieden ist, endet die Runde. Der Host kann eine neue Runde starten; die Gruppe bleibt verbunden.
-- **Händlergespräche, Esc und B halten im Koop die Welt nicht an.** Der Spieler bleibt während der Menübedienung angreifbar. Tab schaltet die Auftragsanzeige um, V verweist auf Verteidigungsberatung bei Mechanic.
+- **Händlergespräche, Esc und B halten im Koop die Welt nicht an.** Der Spieler bleibt während der Menübedienung angreifbar. Q schaltet die Auftragsanzeige um, V verweist auf Verteidigungsberatung bei Mechanic.
 - Freie Plätze können während der Runde belegt werden. Nach einer getrennten Verbindung ist erneutes Beitreten möglich; der persönliche Vorrat beginnt dabei neu, der gemeinsame Weltzustand bleibt erhalten.
 - Verlässt der Host die Sitzung, kehren die Mitspieler mit einer Meldung ins Hauptmenü zurück. Es gibt keine automatische Hostübernahme oder Speicherung einer laufenden Koop-Runde.
 
@@ -95,3 +95,15 @@ Weitere Tests starten nach Initialisierung der Autoloads, zum Beispiel:
 ```
 
 Lokale Mehrprozess-Tests prüfen die Spielintegration. Eine Verbindung zwischen mehreren physischen PCs über Hamachi muss zusätzlich im tatsächlichen Netzwerk geprüft werden.
+
+## Leaderboard
+
+**Tab halten** zeigt die Rangliste der aktuellen Runde: Kills, Headshots, Deaths, Titan Kills, Assists, Punkte und Live-Ping. **Q** schaltet die Auftragsanzeige; der schnelle Nahkampf/Kolbenschlag liegt auf **H**. Die Rangliste pausiert das Spiel nicht und ist auch nach dem Ausscheiden oder am Rundenende verfügbar.
+
+Der Host zählt für jeden Spieler separat. Der letzte Treffer erhält den Kill; Headshots zählen tödliche Kopfschüsse. Titan-Kills zählen zusätzlich als normale Kills. Jeder andere Spieler, der dem Gegner während dessen Lebenszeit Schaden zugefügt hat, erhält genau einen Assist. Automatische Türme zählen für den Besitzer, bediente Türme für den Schützen. Brand- und Explosionsschaden behalten ihre Urheber. Ein Tod zählt beim Ausscheiden, erneut erst nach einer Wiederbelebung; ein rettender Phönix-Talisman zählt nicht als Tod.
+
+Sortierung: Kills, Titan-Kills, Headshots, Assists absteigend, dann weniger Tode. Später beitretende Spieler erhalten die bisherigen Werte; ausgeschiedene Verbindungen bleiben mit OFFLINE markiert. Eine neue Runde setzt alle fünf Zähler zurück. Es handelt sich um eine Rundenrangliste, unabhängig von der gespeicherten Solo-Highscore-Tabelle.
+
+Tests: `--suite=leaderboard --smoke-test --no-intro --no-music --no-foliage`; optional `--render-leaderboard` für ein Bild unter `artifacts/leaderboard/`. `tools/test_multiplayer.ps1` prüft die Synchronisation mit drei echten Clients, späterem Beitritt, Wiederbelebung, Rundenende und Neustart.
+
+Die Spalte **Punkte** zeigt das aktuelle verfügbare Guthaben (auch nach Käufen), keine kumulierte Verdienstsumme. **Ping** zeigt die vom Host gemessene ENet-Round-Trip-Zeit in Millisekunden; der Host und Solo-Spieler haben 0 ms, getrennte oder noch nicht messbare Verbindungen einen Strich. Der Host fordert sekündlich eine Messung an und verteilt die Werte über die Spielzustände; am Rundenende bleibt der Ping über separate Aktualisierungen live. Technische Grundlage: [ENetPacketPeer-Statistiken](https://docs.godotengine.org/en/stable/classes/class_enetpacketpeer.html#enum-enetpacketpeer-peerstatistic).

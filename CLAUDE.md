@@ -21,7 +21,7 @@ editors; Claude generates assets and code. Reply in German (Swiss spelling, "ss"
   inside the ring, every zombie within 9 m of a wall hits it, titan strikes hurt it, HUD line under the wave bar,
   minimap pulse and "ACHTUNG: DIE WALDHÜTTE WIRD ANGEGRIFFEN!"; E at a wall repairs 500 HP for 30 P; at zero the
   round is lost, `main._hut_lost` / `CoopWorld.hut_lost`; `--suite=hut_health` has 19 checks), 5 weapons with
-  COD-style recoil + ADS, melee gun butt (Q), grenades (G), skill menu (Tab), inventory (B), 6 zombie types with
+  COD-style recoil + ADS, melee gun butt (H), grenades (G), quest tracker (Q), live round leaderboard (hold Tab), inventory (B), 6 zombie types with
   several Meshy skins each (`Zombie.TYPES[..].skins`, picked at random per zombie, missing GLBs skipped), supply drops
   from kills (ammo / grenade / medkit, walk through), kill streaks (+10 % per kill from the 3rd within 4 s, score
   popups), 4 difficulties (`GameSettings.DIFFICULTIES`, chosen in the start menu, saved), run statistics and a
@@ -130,8 +130,24 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
 - Audio: the user's sound library lives in `C:\Users\miche\Desktop\Developement\music` (not all of it fits the
   game). Selected clips are copied to `godot/assets/audio/{music,sfx}` with clean names; `sfx.gd` maps logical
   names to file variants (random pick) and falls back to procedural bursts, `music.gd` crossfades
-  title / night / combat / gameover plus a "horde" layer scaled by zombies alive. `--no-music` silences it.
+  title / night / morning / combat / gameover plus a "horde" layer scaled by zombies alive. The pause after a
+  cleared wave picks its track from the clock (`Music.intermission_track`): 05:00-17:00 plays "morning"
+  (`survived_the_night.mp3`, user's song), otherwise the night loop. The round itself still opens on "night",
+  so the daylight song is only ever heard once a wave is over; the intro keeps its own track.
+  `TRACKS[..].file` names the mp3 when it differs from the logical track name. `--no-music` silences it.
   After adding files run `Godot.exe --headless --path godot --import`.
+- Walking through the maize is its own surface: `Sfx.STEP_SURFACES["corn"]` (bus `StepCorn`) plus the
+  `_step_texture` case gives the per-step leaf swish, `Sfx.corn_bed()` the looping brush that
+  `cornfield._update_rustle` fades with the player's speed while `cornfield.in_corn()` holds (silent on the
+  cleared maze passages). `player._surface_step()` returns "corn" there. Checked in `--suite=range_steps`,
+  which also dumps `artifacts/footsteps/corn_bed.wav` and `texture_corn.wav`.
+- Bird wingbeats are not a sine: `tools/fetch_flap_library.py` downloads the animated birds of the three.js
+  library (`examples/models/gltf/{Parrot,Stork}.glb`, morph flight cycles from ro.me, CC-BY), measures the
+  shoulder / wrist / tip angles of every pose and bakes them into `godot/scripts/flap_cycle.gd` (32 samples per
+  loop, radians, centred on the extended rest pose). `field_bird.gd` samples that - parrot for the raven, stork
+  for the owl - and drives take-off burst, cruise, glide and landing from it; the curves are negated because the
+  rig's roll axis points the other way. `--suite=cornfield --render-corn` renders `raven-flight` (top of the
+  stroke) and `raven-downstroke`.
 - Intro (`intro.gd`): after "Spiel starten" a KONM Games card with `assets/audio/music/intro.mp3`, then the
   player wakes in dense fog at the south end of the Sennhofstrasse (136, 108) and is guided by a typewriter
   briefing and a HUD arrow along waypoints to the hut. Fog and intro music fade with the distance to the hut;

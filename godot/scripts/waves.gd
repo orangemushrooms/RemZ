@@ -227,7 +227,7 @@ Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELL
 func _complete_wave() -> void:
 	if main.music:
 		main.music.horde = 0.0
-		main.music.play("night")
+		main.music.play(main.music.intermission_track(main.day_night.clock_seconds / 3600.0) if main.day_night else "night")
 	completed = wave
 	phase = "idle"
 	timer = 120.0

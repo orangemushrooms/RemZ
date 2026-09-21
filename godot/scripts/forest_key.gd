@@ -24,13 +24,14 @@ func _ready() -> void:
 	stump.bottom_radius = 0.34
 	stump.height = 0.78
 	stump.radial_segments = 12
-	_mesh(stump, bark, Vector3(0, 0.13, 0))
+	var imported_stump := WorldModels.attach(self, "stump", Vector3.ZERO, 0.53)
+	if not imported_stump: _mesh(stump, bark, Vector3(0, 0.13, 0))
 	var top := CylinderMesh.new()
 	top.top_radius = 0.255
 	top.bottom_radius = 0.255
 	top.height = 0.012
 	top.radial_segments = 16
-	_mesh(top, cut, Vector3(0, 0.526, 0))
+	if not imported_stump: _mesh(top, cut, Vector3(0, 0.526, 0))
 	var body := StaticBody3D.new()
 	body.collision_layer = 1
 	body.collision_mask = 0
@@ -44,6 +45,7 @@ func _ready() -> void:
 	add_child(body)
 	pickup_visual = Node3D.new()
 	add_child(pickup_visual)
+	if WorldModels.attach(pickup_visual, "forest_key", Vector3(0, 0.54, 0), 0.25, 0): return
 	var ring := TorusMesh.new()
 	ring.inner_radius = 0.040
 	ring.outer_radius = 0.058

@@ -49,6 +49,7 @@ var _fps_time := 0.0
 var _fps_done := false
 var settings: GameSettings
 var stats: RunStats
+var leaderboard: CanvasLayer
 var difficulty: Dictionary = GameSettings.DIFFICULTIES[1]
 var navigation_ready := false
 var _perimeter_navigation_dirty := false
@@ -116,6 +117,10 @@ func _ready() -> void:
 	player.global_position = Map.ground_pos(Map.PLAYER_START.x, Map.PLAYER_START.y) + Vector3(0, 0.3, 0)
 	player.flashlight.visible = false
 	player.died.connect(_game_over)
+	stats.register_player(1, NetSession.player_name)
+	leaderboard = preload("res://scripts/leaderboard.gd").new()
+	add_child(leaderboard)
+	leaderboard.setup(self)
 	zombies_root = Node3D.new()
 	add_child(zombies_root)
 	hud.minimap.setup(player, self)
@@ -1443,7 +1448,10 @@ func _holzlager() -> Node3D:
 	_loot(root, "weapon", "shotgun", "Schrotflinte", Vector3(-1.0, base_h + 0.55, hz - 0.5), "rifle", 0.3, 0.0, 3)
 	_loot(root, "weapon", "marksman", "Waldläufer .308", Vector3(1.0, base_h + 0.55, hz - 0.5), "marksman", 0.3, 0.0, 8)
 	for k in 3:
-		_box(root, Vector3(0.9, 1.1, 2.2), Vector3(-hx + 0.6, base_h + 0.55, -hz + 2.0 + k * 2.5), _mat("ph_bark_beech2", 0.5, Color(0.7, 0.6, 0.5), true))
+		var pile := _prop(root, "woodpile", 2.2, "x", Vector3(-hx + 0.6, base_h, -hz + 2.0 + k * 2.5), PI / 2.0)
+		if pile:
+			var extent := Barricade._bounds(pile).size
+			pile.scale = Vector3(2.2 / extent.z, 1.1 / extent.y, 0.9 / extent.x)
 	var inner := OmniLight3D.new()
 	inner.light_color = Color(0.9, 0.85, 0.7)
 	inner.light_energy = 1.0
@@ -1851,19 +1859,12 @@ func _build_pond() -> void:
 	water.position = Vector3(c.x, water_y, c.y)
 	add_child(water)
 	# a few stones and reeds on the bank
-	var stone := _plain(Color(0.42, 0.4, 0.37), 0.9)
 	for i in 9:
 		var a := TAU * i / 9.0 + rng.randf_range(-0.2, 0.2)
 		var rr := r + rng.randf_range(0.2, 1.4)
 		var p := Map.ground_pos(c.x + cos(a) * rr, c.y + sin(a) * rr)
-		var sm := MeshInstance3D.new()
-		var sph := SphereMesh.new()
-		sph.radius = rng.randf_range(0.18, 0.42); sph.height = sph.radius * 1.4
-		sm.mesh = sph
-		sm.material_override = stone
-		sm.position = p + Vector3(0, sph.radius * 0.25, 0)
-		sm.rotation = Vector3(rng.randf(), rng.randf(), rng.randf())
-		add_child(sm)
+		var rock := WorldModels.attach(self, "rock", p, rng.randf_range(0.25, 0.58), 1, false)
+		if rock: rock.rotation.y = rng.randf_range(0, TAU)
 	# long hollowed-log trough on stumps, sloping down towards the pond, mouth over the water (feeds the pond)
 	var tp: Vector2 = pd["trough"]
 	var to_pond := (c - tp).normalized()
@@ -1875,33 +1876,18 @@ func _build_pond() -> void:
 	var bark := _mat("ph_bark_oak", 0.6, Color(0.7, 0.62, 0.55), false)
 	var len := 4.6
 	for sx in [-1.6, 0.4]:
-		var stump := MeshInstance3D.new()
-		var cm := CylinderMesh.new()
-		cm.top_radius = 0.22; cm.bottom_radius = 0.25; cm.height = 0.5 if sx < 0 else 0.35
-		stump.mesh = cm
-		stump.material_override = bark
-		stump.position = Vector3(sx, cm.height * 0.5, 0)
-		root.add_child(stump)
-	var trough := MeshInstance3D.new()
-	var tm := CylinderMesh.new()
-	tm.top_radius = 0.3; tm.bottom_radius = 0.3; tm.height = len
-	trough.mesh = tm
-	trough.material_override = bark
-	trough.rotation.z = PI / 2.0
-	trough.rotation.x = 0.0
-	trough.position = Vector3(0.3, 0.68, 0)
-	trough.rotation.y = 0.0
-	# tilt: near end high, mouth low
-	trough.rotation = Vector3(0, 0, PI / 2.0 - 0.06)
-	root.add_child(trough)
+		WorldModels.attach(root, "stump", Vector3(sx, 0, 0), 0.57 if sx < 0 else 0.46, 1, false)
+	var trough := WorldModels.attach(root, "pond_trough", Vector3(0.3, 0.46, 0), 4.6, 0, false)
+	if trough: trough.rotation.z = -0.06
 	var wsurf := MeshInstance3D.new()
-	var wq := BoxMesh.new()
-	wq.size = Vector3(len - 0.3, 0.02, 0.4)
+	var wq := PlaneMesh.new()
+	wq.size = Vector2(len - 0.7, 0.24)
 	wsurf.mesh = wq
-	var wmat := _plain(Color(0.2, 0.28, 0.3, 0.85), 0.05, 0.4)
-	wmat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	var wmat := ShaderMaterial.new()
+	wmat.shader = sh
+	wmat.set_shader_parameter("radius", 5.0)
 	wsurf.material_override = wmat
-	wsurf.position = Vector3(0.3, 0.9, 0)
+	wsurf.position = Vector3(0.3, 0.80, 0)
 	wsurf.rotation = Vector3(0, 0, -0.06)
 	root.add_child(wsurf)
 	# feed post with iron spout at the high end
@@ -2347,6 +2333,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 const KILL_VALUE := 0.6
 
 func _zombie_killed(zombie: Zombie) -> void:
+	stats.record_kill(zombie)
 	_alive_count = maxi(0, _alive_count - 1)
 	# points: base value x difficulty x KILL_VALUE, plus up to +100 % for a kill streak (from the third kill within 4 s)
 	var base := float(zombie.type["score"]) * float(difficulty["score"]) * KILL_VALUE
@@ -2398,7 +2385,7 @@ func _process(delta: float) -> void:
 	if fire_light:
 		var daylight_multiplier := day_night.fire_energy_multiplier if day_night else 1.0
 		fire_light.light_energy = 5.0 * daylight_multiplier * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
-	if player and player.active and not defences.placing and defences.input_grace <= 0:
+	if player and player.active and not player.mounted_tower and not defences.placing and defences.input_grace <= 0:
 		if not intro.showing_guidance():
 			_tower_hint_remaining = maxf(0.0, _tower_hint_remaining - delta)
 		var near = null
@@ -2436,10 +2423,10 @@ func _process(delta: float) -> void:
 		var tower := defences.nearest(player)
 		var npc := progression.nearest(player)
 		var reading_notice := _looking_at_notice() and not downed
-		var idle_prompt := "[T] Geschützturm setzen · 120 P" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
+		var idle_prompt := "[T] Turmbaumenü · ab 120 P" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
 		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
 		if hut_fix: idle_prompt = hut.prompt_text()
-		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("[E] Turm ausrichten · [F] Reparieren · Ausbau bei Mechanic" if tower else (near.prompt_text() if near else idle_prompt))))
+		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("Turm besetzt" if tower and tower.operator_peer else "[E] Aufsteigen / Bedienen · [R] Ausrichten · [F] Reparieren\nReichweite %d m · heller Sektor: Automatik" % roundi(tower.attack_range()) if tower else (near.prompt_text() if near else idle_prompt))))
 		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
 		if reading_notice: hud.set_prompt("[E] Schild lesen · Eine seltsame Notiz")
 		if _notice_open: hud.set_prompt("[E] Hinweis schließen")
@@ -2462,7 +2449,7 @@ func _process(delta: float) -> void:
 					achievements.event("weapons")
 			hud.set_prompt("")
 		elif tower and Input.is_action_just_pressed("interact"):
-			defences.begin_rotation(tower)
+			defences.request_mount(tower)
 		elif near and Input.is_action_just_pressed("interact"):
 			if NetSession.enabled: NetSession.command("repair" if near.level > 0 and near.hp < near.max_hp() else "build", [barricades.find(near)])
 			else: near.purchase(player, "repair" if near.level > 0 and near.hp < near.max_hp() else "build")

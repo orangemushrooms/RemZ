@@ -89,6 +89,16 @@ func run() -> void:
 	game.player.active = true
 	await process_frame
 	check(bar.bar.get_global_rect().end.y <= root.get_visible_rect().size.y, "Quickbar fits within viewport")
+	# The ammunition readout is right-aligned and grows leftwards; with a melee weapon it used to
+	# run under the quick bar, which draws on top of it.
+	for weapon in ["knife", "hatchet", "titanbreaker"]:
+		game.weapons.unlocked[weapon] = true
+		game.weapons.set_weapon(weapon)
+		game.weapons.update_hud()
+		await process_frame
+		var readout: Control = game.hud.ammo_label.get_parent().get_parent()
+		check(not readout.get_global_rect().intersects(bar.bar.get_global_rect()),
+			"Weapon readout stays clear of the quick bar with %s equipped" % weapon)
 	if "--render-quickbar" in OS.get_cmdline_user_args():
 		game.inventory.open()
 		for i in 5: await process_frame

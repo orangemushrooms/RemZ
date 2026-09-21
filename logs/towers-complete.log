@@ -1,0 +1,111 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 671, "batches": 9, "removed_render_nodes": 24 }
+COOP_LOAD MAP_READY
+PASS: standard builds on a valid site
+PASS: standard charges its advertised price
+PASS: standard starts with correct type and health
+PASS: standard can be mounted
+PASS: standard places operator on platform
+PASS: standard does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating standard
+PASS: Nonfinite aim is rejected for standard
+PASS: standard fires using manual controls
+PASS: standard stops firing when control packets stop
+PASS: standard operator follows the rotating weapon
+PASS: standard cannot be rotated while occupied
+PASS: standard replicates type and operator
+PASS: standard restores the right turret for late joiners
+PASS: standard dismounts safely
+PASS: standard can be mounted again
+PASS: standard destruction releases its operator
+PASS: flame builds on a valid site
+PASS: flame charges its advertised price
+PASS: flame starts with correct type and health
+PASS: flame can be mounted
+PASS: flame places operator on platform
+PASS: flame does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating flame
+PASS: Nonfinite aim is rejected for flame
+PASS: flame fires using manual controls
+PASS: flame stops firing when control packets stop
+PASS: flame operator follows the rotating weapon
+PASS: flame cannot be rotated while occupied
+PASS: flame replicates type and operator
+PASS: flame restores the right turret for late joiners
+PASS: flame dismounts safely
+PASS: flame can be mounted again
+PASS: flame destruction releases its operator
+PASS: mortar builds on a valid site
+PASS: mortar charges its advertised price
+PASS: mortar starts with correct type and health
+PASS: mortar can be mounted
+PASS: mortar places operator on platform
+PASS: mortar does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating mortar
+PASS: Nonfinite aim is rejected for mortar
+PASS: mortar fires using manual controls
+PASS: mortar stops firing when control packets stop
+PASS: mortar operator follows the rotating weapon
+PASS: mortar cannot be rotated while occupied
+PASS: mortar replicates type and operator
+PASS: mortar restores the right turret for late joiners
+PASS: mortar dismounts safely
+PASS: mortar can be mounted again
+PASS: mortar destruction releases its operator
+PASS: mg42 builds on a valid site
+PASS: mg42 charges its advertised price
+PASS: mg42 starts with correct type and health
+PASS: mg42 can be mounted
+PASS: mg42 places operator on platform
+PASS: mg42 does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating mg42
+PASS: Nonfinite aim is rejected for mg42
+PASS: mg42 fires using manual controls
+PASS: mg42 stops firing when control packets stop
+PASS: mg42 operator follows the rotating weapon
+PASS: mg42 cannot be rotated while occupied
+PASS: mg42 replicates type and operator
+PASS: mg42 restores the right turret for late joiners
+PASS: mg42 dismounts safely
+PASS: mg42 can be mounted again
+PASS: mg42 destruction releases its operator
+PASS: tesla builds on a valid site
+PASS: tesla charges its advertised price
+PASS: tesla starts with correct type and health
+PASS: tesla can be mounted
+PASS: tesla places operator on platform
+PASS: tesla does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating tesla
+PASS: Nonfinite aim is rejected for tesla
+PASS: tesla fires using manual controls
+PASS: tesla stops firing when control packets stop
+PASS: tesla operator follows the rotating weapon
+PASS: tesla cannot be rotated while occupied
+PASS: tesla replicates type and operator
+PASS: tesla restores the right turret for late joiners
+PASS: tesla dismounts safely
+PASS: tesla can be mounted again
+PASS: tesla destruction releases its operator
+PASS: standard acquires an animated body hitbox
+PASS: standard deals actual damage
+PASS: flame acquires an animated body hitbox
+PASS: flame deals actual damage
+PASS: flame hits multiple enemies
+PASS: flame cannot damage enemies through a solid wall
+PASS: mortar acquires an animated body hitbox
+PASS: mortar deals actual damage
+PASS: mortar hits multiple enemies
+PASS: mg42 acquires an animated body hitbox
+PASS: mg42 deals actual damage
+PASS: tesla acquires an animated body hitbox
+PASS: tesla deals actual damage
+PASS: tesla hits multiple enemies
+PASS: tesla cannot damage enemies through a solid wall
+PASS: Insufficient funds reject expensive tower without charging
+PASS: Unknown tower type rejected without charging
+TOWERS_DONE checks=102 failures=0

@@ -97,6 +97,7 @@ func add_player(id: int) -> void:
 	weapons[id] = w
 	pose_times[id] = NetSession._elapsed
 	game.progression.data(id)
+	if NetSession.is_host(): game.stats.register_player(id, NetSession.roster.get(id, "Spieler"))
 
 func spawn_position(index: int) -> Vector3:
 	var point: Vector3 = Map.ground_pos(Map.PLAYER_START.x + index * 1.3, Map.PLAYER_START.y + 1.0)
@@ -107,8 +108,13 @@ func spawn_position(index: int) -> Vector3:
 	return NavigationServer3D.map_get_closest_point(nav, point) + Vector3.UP * 0.3
 
 func remove_player(id: int) -> void:
+	if NetSession.is_host() and game.stats.players.has(id):
+		if is_instance_valid(actor(id)): game.stats.update_live(id, actor(id).score, -1)
+		game.stats.players[id].connected = false
+		game.stats.players[id].ping_ms = -1
 	if NetSession.is_host():
 		for tower: DefenceTower in game.defences.towers.values():
+			if tower.operator_peer == id: game.defences.release_tower(tower)
 			if tower.owner_peer == id: tower.owner_peer = 1
 	if actors.has(id) and is_instance_valid(actors[id]) and actors[id] != game.player:
 		actors[id].hud.queue_free()
@@ -145,6 +151,7 @@ func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bo
 	if intro_lock > 0.0: return
 	var p: Player = actor(id)
 	if not p or not p.alive: return
+	if p.mounted_tower: return
 	var dt := clampf(now - float(pose_times.get(id, now)), 0.01, 0.5)
 	pose_times[id] = now
 	p.set_crouching(crouching)
@@ -195,17 +202,28 @@ func action(id: int, operation: String, args: Array) -> void:
 			if args.size() != 4: return
 			for argument in args:
 				if not argument is String or argument.length() > 80: return
+			var before: int = p.score
 			var result: String = game.progression.transact(p, args[0], args[1], args[2], args[3])
-			NetSession.feedback(id, "trade", [result])
+			NetSession.feedback(id, "trade", [result, p.score - before])
 		"tower_rotate":
 			if args.size() != 2 or not args[0] is int or not args[1] is float or not is_finite(args[1]): return
 			var error: String = game.defences.rotate_tower(p, args[0], args[1])
 			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"tower_place":
-			if args.size() not in [1, 2] or not args[0] is Vector3 or not args[0].is_finite(): return
-			if args.size() == 2 and (not args[1] is float or not is_finite(args[1])): return
-			var error: String = game.defences.purchase(p, args[0], float(args[1]) if args.size() == 2 else 0.0)
+			if args.size() not in [1, 2, 3] or not args[0] is Vector3 or not args[0].is_finite(): return
+			if args.size() >= 2 and (not args[1] is float or not is_finite(args[1])): return
+			if args.size() == 3 and not args[2] is String: return
+			var error: String = game.defences.purchase(p, args[0], float(args[1]) if args.size() >= 2 else 0.0, str(args[2]) if args.size()==3 else "standard")
 			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
+		"tower_mount":
+			if args.size()!=1 or not args[0] is int: return
+			var error: String = game.defences.mount(p,args[0])
+			if not error.is_empty(): NetSession.feedback(id,"message",[error,2.0])
+		"tower_exit":
+			if args.is_empty() and game.defences.towers.has(p.mounted_tower): game.defences.release_tower(game.defences.towers[p.mounted_tower])
+		"tower_control":
+			if args.size()!=5 or not args[0] is int or not args[1] is float or not args[2] is float or not args[3] is bool or not args[4] is bool: return
+			game.defences.control(p,args[0],args[1],args[2],args[3],args[4])
 		"tower_upgrade", "tower_repair", "tower_sell":
 			if args.size() != 1 or not args[0] is int: return
 			var error: String = game.defences.maintain(p, args[0], operation.trim_prefix("tower_"))
@@ -303,8 +321,10 @@ func collect_drop(drop: Pickup, id: int) -> void:
 
 func buy_upgrade(id: int, key: String) -> void:
 	# Legacy command still validates merchant proximity and never unlocks a weapon.
-	var result: String = game.progression.transact(actor(id), "mechanic", "training", key)
-	NetSession.feedback(id, "trade", [result])
+	var trainee: Player = actor(id)
+	var before: int = trainee.score
+	var result: String = game.progression.transact(trainee, "mechanic", "training", key)
+	NetSession.feedback(id, "trade", [result, trainee.score - before])
 
 func eat(id: int, kind: String) -> void:
 	if not NetSession.is_host() or not actors.has(id) or not mushrooms.has(id): return
@@ -437,7 +457,13 @@ func _entity_id(node: Node) -> int:
 		next_id += 1
 	return int(node.get_meta("coop_id"))
 
+func refresh_leaderboard() -> void:
+	if not NetSession.is_host(): return
+	for id in actors:
+		game.stats.update_live(id, actor(id).score, NetSession.peer_ping(id))
+
 func snapshot() -> Dictionary:
+	refresh_leaderboard()
 	var players := {}
 	for id in actors:
 		var p: Player = actor(id)
@@ -446,7 +472,7 @@ func snapshot() -> Dictionary:
 		for wid in w.state:
 			var s: Dictionary = w.state[wid]
 			ammo[wid] = [s.ammo, s.reserve, s.reloading]
-		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity, "crouch": p.crouching,
+		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity, "crouch": p.crouching, "tower": p.mounted_tower,
 			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul, "effects": p.mushroom_effects.duplicate(),
 			"relic": p.relic, "light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(), "mod_owned": w.mod_owned.duplicate(true), "mod_loadout": w.mod_loadout.duplicate(true),
 			"grenades": w.grenades, "grenades_max": w.grenades_max, "mods": [w.damage_mul, w.reload_mul, w.spread_mul],
@@ -486,7 +512,7 @@ func snapshot() -> Dictionary:
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
-	return {"fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
@@ -530,6 +556,11 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		p.hp = s.hp
 		p.max_hp = s.max_hp
 		p.alive = s.alive
+		var previous_tower := p.mounted_tower
+		p.mounted_tower = int(s.get("tower",0))
+		if previous_tower!=p.mounted_tower:
+			p.set_crouching(p.mounted_tower!=0,false)
+			p.head.position.y = Player.CROUCH_EYE if p.mounted_tower else Player.EYE
 		p.score = s.score
 		p.speed_mul = s.speed
 		p.regen_mul = s.regen
@@ -545,7 +576,12 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			avatars[id].set_skin(str(s.get("skins", {}).get(s.weapon, "")))
 		else:
 			var previous_position := p.global_position
-			p.global_position = movement_sync.reconcile(s.p, int(s.get("pose_ack", 0)), previous_position, initial)
+			p.global_position = movement_sync.reconcile(s.p, int(s.get("pose_ack", 0)), previous_position, initial or previous_tower!=p.mounted_tower)
+			if p.mounted_tower and previous_tower!=p.mounted_tower:
+				p.recoil_offset = Vector2.ZERO
+				p.rotation.y = s.yaw
+				p.pitch = s.pitch
+				game.defences.input_grace = 0.25
 			if initial or p.global_position.distance_to(previous_position) > 4.0:
 				p.velocity = Vector3.ZERO
 			if initial:
@@ -693,7 +729,11 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		current_wave = data.wave[0]
 		game.hud.message("Welle %d" % current_wave, 2.0)
 		if game.music: game.music.play("combat")
+	elif game.music and game.music.current == "combat" and data.wave[2] == "idle":
+		# Clients follow the host into the pause and get the same daylight / night choice.
+		game.music.play(game.music.intermission_track(game.day_night.clock_seconds / 3600.0) if game.day_night else "night")
 	game.stats.kills = data.stats[0]
+	game.stats.players = data.get("leaderboard", {}).duplicate(true)
 	game.stats.headshots = data.stats[1]
 	game.stats.shots = data.stats[2]
 	game.stats.hits = data.stats[3]

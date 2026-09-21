@@ -81,6 +81,9 @@ func run() -> void:
 	DirAccess.make_dir_recursive_absolute(folder)
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
+	# Main reads command-line flags in _ready; navigation populates keys afterwards.
+	# This suite tests collection, not the separate per-phase rarity roll.
+	game._flags.append("--all-forest-keys")
 	current_scene = game
 	if game.achievements:
 		game.achievements.process_mode = Node.PROCESS_MODE_DISABLED
@@ -222,6 +225,8 @@ func run() -> void:
 			var enemy := Zombie.new()
 			enemy.setup("shambler", game.player, [], 1.0, Callable())
 			game.zombies_root.add_child(enemy)
+			# Isolate door-versus-player targeting from the separate hut raid logic.
+			enemy.hut = null
 			enemy.set_physics_process(false)
 			enemy.agent.avoidance_enabled = false
 			enemy.global_position = door.to_global(Vector3(-1.1, 0.1, 0))
@@ -240,7 +245,10 @@ func run() -> void:
 		game.weapons.unlock(id)
 	game.inventory.open()
 	await frames()
-	check(game.inventory.grid.get_child_count() == 10, "Full inventory displays both permanent keys alongside equipment")
+	var key_labels := 0
+	for label: Label in game.inventory.grid.find_children("*", "Label", true, false):
+		if label.text.begins_with("Schlüssel: "): key_labels += 1
+	check(key_labels == 2, "Full inventory displays both permanent keys alongside equipment")
 	check(game.inventory.panel.get_viewport_rect().encloses(game.inventory.panel.get_global_rect()), "Full inventory fits the viewport")
 	await shot("06-inventory")
 	game.inventory.close()

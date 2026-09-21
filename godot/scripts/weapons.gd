@@ -12,9 +12,9 @@ const Effects = preload("res://scripts/weapon_effects.gd")
 const MeleeModels = preload("res://scripts/melee_models.gd")
 
 const DEFS := {
-	"knife": {"name": "Feldmesser", "model": "knife", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 2.2, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "knife_swing", "shove": 3.5,
+	"knife": {"name": "Feldmesser", "model": "knife_real", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 4.4, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "knife_swing", "shove": 3.5,
 		"pos": Vector3(0.29, -0.23, -0.57), "ads": Vector3(0.29, -0.23, -0.57), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 8.0},
-	"hatchet": {"name": "Waldaxt", "model": "hatchet", "melee": true, "height": 0.57, "stab_damage": 225.0, "stab_rate": 1.45, "stab_range": 2.5, "mag": 0, "reserve": 0, "damage": 125.0, "rate": 0.95, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 2.35, "auto": false, "sfx": "melee", "shove": 7.0,
+	"hatchet": {"name": "Waldaxt", "model": "hatchet_real", "melee": true, "height": 0.57, "stab_damage": 225.0, "stab_rate": 1.45, "stab_range": 5.0, "mag": 0, "reserve": 0, "damage": 125.0, "rate": 0.95, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 2.35, "auto": false, "sfx": "melee", "shove": 7.0,
 		"pos": Vector3(0.28, -0.30, -0.65), "ads": Vector3(0.28, -0.30, -0.65), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 5.0},
 	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 2.6, "kick_yaw": 0.75, "kick_back": 0.08, "recover": 7.0 },
@@ -303,7 +303,10 @@ func update_hud() -> void:
 	if not server_proxy and scene and "progression" in scene and scene.progression and scene.progression.rare_market:
 		hud.ammo_label.text += scene.progression.rare_market.ammo_label(player.peer_id)
 	if is_melee(current) and not server_proxy:
-		hud.ammo_label.text = "Nahkampf · LMB Schnitt / RMB Stich" if current == "knife" else "Nahkampf · LMB leicht / RMB schwer"
+		# The big readout is right-aligned and grows leftwards into the quick bar, so it keeps the
+		# short word and the controls go on the quiet line underneath.
+		hud.ammo_label.text = "Nahkampf"
+		hud.weapon_label.text += "   ·   " + ("LMB Schnitt / RMB Stich" if current == "knife" else "LMB leicht / RMB schwer")
 
 func reload() -> void:
 	if is_melee(current): return
@@ -339,7 +342,7 @@ func update_reticle() -> void:
 		hud.hit_marks[i].position = displacement + Vector2(-5, -1) + Vector2.from_angle(angle) * 14.0
 
 func try_fire() -> void:
-	if not player.active or not player.alive:
+	if not player.active or not player.alive or player.mounted_tower:
 		return
 	if is_melee(current):
 		melee()
@@ -453,9 +456,9 @@ func try_fire() -> void:
 		stats.hits += 1
 	update_hud()
 
-# Q uses the equipped blade/axe, or a gun-butt strike while holding a firearm.
+# H uses the equipped blade/axe, or a gun-butt strike while holding a firearm.
 func melee(stab: bool = false) -> void:
-	if not player.active or not player.alive or _melee_t > 0.0:
+	if not player.active or not player.alive or player.mounted_tower or _melee_t > 0.0:
 		return
 	var armed := is_melee(current)
 	var spec: Dictionary = cur()["def"]
@@ -500,7 +503,7 @@ func melee(stab: bool = false) -> void:
 			get_tree().current_scene.stats.melee_hits += 1
 
 func throw_grenade() -> void:
-	if not player.active or not player.alive or grenades <= 0:
+	if not player.active or not player.alive or player.mounted_tower or grenades <= 0:
 		return
 	grenades -= 1
 	update_hud()
@@ -675,9 +678,9 @@ func aimed_fov() -> float:
 		return rad_to_deg(2.0 * atan(tan(deg_to_rad(75.0) * 0.5) / float(DEFS[current].scope_zoom)))
 	return 26.0 if current == "titanbreaker" else 52.0
 
-func _reset_scope() -> void:
+func _reset_scope(reset_fov := true) -> void:
 	ads = 0.0
-	camera.fov = 75.0
+	if reset_fov: camera.fov = 75.0
 	if viewmodel:
 		viewmodel.set_scoped(false)
 		for part in hud.crosshair_parts: part.visible = player.active and player.alive
@@ -721,6 +724,9 @@ func _tick_ammo(delta: float) -> void:
 			update_hud()
 func _handle_weapon_input(delta: float) -> void:
 	var scene := get_tree().current_scene
+	if player.mounted_tower:
+		_reset_scope(false) # DefenceSystem owns the mounted camera's zoom.
+		return
 	if "fireworks" in scene and scene.fireworks and (scene.fireworks.armed or scene.fireworks.input_grace > 0):
 		_reset_scope()
 		return
@@ -809,6 +815,11 @@ func _handle_weapon_input(delta: float) -> void:
 
 func muzzle_transform() -> Transform3D:
 	var s := cur()
+	# A server proxy simulates a teammate's shots and never builds a view model, so there is no
+	# gun node to measure. Special rounds ask for the muzzle to start their tracer: hand them the
+	# spot in front of the camera where the barrel would sit instead of a missing mesh.
+	if server_proxy or not s.has("bounds"):
+		return Transform3D(Basis.IDENTITY, Vector3(0.1, -0.11, -0.42))
 	var bounds: AABB = s["bounds"]
 	var tip := Vector3(bounds.get_center().x, bounds.end.y - 0.015, bounds.position.z - 0.006)
 	if current == "ak47":

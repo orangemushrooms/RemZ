@@ -38,8 +38,11 @@ func run() -> void:
 	inv._eat("steinpilz")
 	check(p.hp == 55.0 and game.hud.hp_bar.value == 55.0 and inv.mushrooms.steinpilz == 4, "Eating heals and immediately updates health HUD")
 	p.hp = p.max_hp
+	game.hud.msg_label.text = ""
 	inv._eat("steinpilz")
 	check(inv.mushrooms.steinpilz == 4, "Pure healing mushroom is retained at full health")
+	# The quick bar eats with the inventory closed, so the refusal has to reach the HUD.
+	check(game.hud.msg_label.text.contains("voll"), "A refused mushroom says why on the HUD, not only in the hidden inventory panel")
 	w.damage_mul = 1.24
 	inv._eat("fliegenpilz")
 	check(p.hp == 85.0 and is_equal_approx(w.effective_damage_mul(), 2.48), "Fly agaric doubles upgraded weapon damage and costs 15 HP")

@@ -47,10 +47,22 @@ func setup(w: float, h: float, text: String, mat: Material) -> void:
 		hinge.position.z = side * width / 2.0
 		add_child(hinge)
 		var offset := Vector3(0, height / 2.0, -side * leaf_width / 2.0)
-		_piece(hinge, Vector3(0.10, height - 0.02, leaf_width - 0.015), offset, mat)
-		for y: float in [height * 0.22, height * 0.77]:
-			_piece(hinge, Vector3(0.13, 0.055, leaf_width - 0.10), Vector3(-0.025, y, offset.z), iron)
-		_piece(hinge, Vector3(0.17, 0.14, 0.04), Vector3(-0.06, height * 0.48, -side * (leaf_width - 0.13)), iron)
+		var model := WorldModels.create("hut_door_leaf")
+		if model:
+			# Preserve the precise moving collision slab and hinge location.
+			model.rotation.y = side * PI / 2.0
+			var bounds := Barricade._bounds(model)
+			var fit := Node3D.new()
+			fit.add_to_group("render_dynamic")
+			hinge.add_child(fit)
+			fit.add_child(model)
+			fit.scale = Vector3(0.10, height - 0.02, leaf_width - 0.015) / bounds.size
+			fit.position = offset - bounds.get_center() * fit.scale
+		else:
+			_piece(hinge, Vector3(0.10, height - 0.02, leaf_width - 0.015), offset, mat)
+			for y: float in [height * 0.22, height * 0.77]:
+				_piece(hinge, Vector3(0.13, 0.055, leaf_width - 0.10), Vector3(-0.025, y, offset.z), iron)
+			_piece(hinge, Vector3(0.17, 0.14, 0.04), Vector3(-0.06, height * 0.48, -side * (leaf_width - 0.13)), iron)
 		var cs := CollisionShape3D.new()
 		var shape := BoxShape3D.new()
 		shape.size = Vector3(0.12, height, leaf_width)

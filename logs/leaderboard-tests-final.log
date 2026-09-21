@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 673, "batches": 13, "removed_render_nodes": 33 }
+COOP_LOAD MAP_READY
+PASS: Solo round has one empty leaderboard row
+COOP_LOAD HOST_CREATE port=24691
+COOP_HOST_READY port=24691
+COOP_LOAD HOST_READY
+PASS: Host starts leaderboard fixture
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=4
+COOP_RUNNING players=4
+PASS: Roster has four named players without a duplicate solo row
+PASS: Nonlethal head hits do not count as headshot kills
+PASS: Lethal headshot belongs to the final shooter
+PASS: Each contributing teammate gets exactly one assist
+PASS: Killer and noncontributors get no assist
+PASS: Corpse hits and repeated death callbacks cannot duplicate kills
+PASS: Titan counts once as both kill and titan kill
+PASS: Titan support earns an assist, not a titan kill
+PASS: Automatic turret kill belongs to builder
+PASS: Operated turret kill belongs to operator
+PASS: Burn finish belongs to original shooter without a headshot
+PASS: Another shooter's damage assists a burn kill
+PASS: Phoenix protection does not count a death
+PASS: Death counts once before team checks and corpse damage is ignored
+PASS: Death after revival counts as a new death
+PASS: Ranking breaks equal kills by titan kills
+PASS: Full world snapshot carries every leaderboard column
+PASS: Snapshot data cannot mutate host counters
+PASS: Departed player remains marked offline for this round
+PASS: Q toggles quests without attacking
+PASS: Held Q does not repeatedly toggle quests
+PASS: Tab shows all player rows
+PASS: Leaderboard keeps gameplay and cursor state unchanged
+PASS: Tab does not toggle quests
+PASS: Releasing Tab hides the leaderboard
+PASS: Inventory retains its own keyboard focus
+PASS: Standings remain available in pause menu
+PASS: Focus loss clears held leaderboard
+PASS: H triggers the existing quick melee attack
+PASS: Final standings remain accessible after team defeat
+LEADERBOARD_TEST_DONE checks=32 failures=0

@@ -44,5 +44,30 @@ func run() -> void:
 	await create_timer(1.5).timeout
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://../logs/elemental-visual.png")
+	# The shot itself: tracer, muzzle burst and impact burst. It only lives 0.12 s, so the
+	# capture has to happen within the next few frames.
+	for child in scene.get_children():
+		if child is Label3D or child is MeshInstance3D or child is CPUParticles3D:
+			child.queue_free()
+	await process_frame
+	# First-person geometry: the muzzle sits just in front of the camera, the target 25 m out.
+	camera.position = Vector3.ZERO
+	camera.rotation = Vector3.ZERO
+	var wall := MeshInstance3D.new()
+	var slab := BoxMesh.new()
+	slab.size = Vector3(14, 8, 0.4)
+	wall.mesh = slab
+	var grey := StandardMaterial3D.new()
+	grey.albedo_color = Color(0.16, 0.17, 0.18)
+	wall.material_override = grey
+	scene.add_child(wall)
+	wall.position = Vector3(0, 0, -25)
+	var muzzle := Vector3(0.1, -0.11, -0.42)
+	Effects.shot(scene, muzzle, Vector3(-1.1, 0.35, -24.8), "fire", true)
+	Effects.shot(scene, muzzle, Vector3(1.1, -0.35, -24.8), "frost", true)
+	# Straight down at your own feet is the awkward case for the tracer's orientation.
+	Effects.shot(scene, Vector3(-2.2, 0.9, -4.0), Vector3(-2.2, -1.2, -4.0), "frost", true)
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png("res://../logs/elemental-shot.png")
 	print("ELEMENTAL_VISUAL_DONE")
 	quit()

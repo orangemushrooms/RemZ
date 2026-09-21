@@ -4,8 +4,9 @@ extends Node
 ## Reliable events are independent of snapshots: joining never replays an old slam.
 
 const DIR := "res://assets/audio/sfx/titan/"
+const SPAWN_CLIPS := ["Titan_spawn_1.mp3", "titan_spawn_2.mp3", "titan_spawn_3.mp3", "titan_spawn_4.mp3"]
 const CUES := {
-	"arrival": {"clips": ["roar_1", "roar_2", "roar_3"], "range": 260.0, "unit": 48.0, "db": -2.0, "voice": true, "shake": 0.14, "radius": 55.0, "duration": 2.1, "duck": 0.55},
+	"arrival": {"clips": SPAWN_CLIPS, "mapwide": true, "range": 0.0, "unit": 48.0, "db": -6.0, "voice": true, "shake": 0.14, "radius": 55.0, "duration": 2.1, "duck": 0.55},
 	"roar": {"clips": ["roar_1", "roar_2", "roar_3"], "range": 230.0, "unit": 42.0, "db": -4.0, "voice": true, "shake": 0.10, "radius": 50.0, "duration": 1.8, "duck": 0.45},
 	"rage": {"clips": ["roar_2"], "range": 250.0, "unit": 48.0, "db": -1.0, "voice": true, "shake": 0.25, "radius": 65.0, "duration": 2.5, "duck": 0.65},
 	"windup": {"clips": ["windup"], "range": 135.0, "unit": 30.0, "db": -3.0, "voice": true, "shake": 0.07, "radius": 35.0, "duration": 1.2, "duck": 0.30},
@@ -58,12 +59,14 @@ func receive(kind: String, origin: Vector3, body_height: float, emitter: int, se
 	received[kind] = int(received.get(kind, 0)) + 1
 	var spec: Dictionary = CUES[kind]
 	var distance := _player.global_position.distance_to(origin)
-	if distance >= float(spec.range): return
+	var mapwide: bool = spec.get("mapwide", false)
+	if not mapwide and distance >= float(spec.range): return
 	var source := origin + Vector3.UP * (clampf(body_height, 1, 40) * 0.75 if spec.voice else 0.15)
 	# Sound and soil vibration arrive slightly later in the distance.
 	_pending.append({"kind": kind, "origin": origin, "source": source, "emitter": emitter,
-		"variant": (emitter + serial) % spec.clips.size(), "age": 0.0,
-		"sound_at": _player.camera.global_position.distance_to(source) / 343.0,
+		# The host's random appearance seed selects the same recording on every peer.
+		"variant": posmod(emitter + serial, spec.clips.size()), "age": 0.0,
+		"sound_at": 0.0 if mapwide else _player.camera.global_position.distance_to(source) / 343.0,
 		"shake_at": distance / 180.0 + (0.35 if spec.voice else 0.03),
 		"sounded": false, "shaken": false})
 
@@ -83,7 +86,8 @@ func _process(delta: float) -> void:
 		if event.sounded and event.shaken: _pending.remove_at(i)
 
 func _play_sound(event: Dictionary, spec: Dictionary) -> void:
-	var path := DIR + str(spec.clips[event.variant]) + ".wav"
+	var mapwide: bool = spec.get("mapwide", false)
+	var path := Sfx.DIR + str(spec.clips[event.variant]) if event.kind == "arrival" else DIR + str(spec.clips[event.variant]) + ".wav"
 	if not _streams.has(path): _streams[path] = load(path)
 	var audio := AudioStreamPlayer3D.new()
 	audio.stream = _streams[path]
@@ -92,9 +96,10 @@ func _play_sound(event: Dictionary, spec: Dictionary) -> void:
 	audio.max_db = -1.0
 	audio.unit_size = spec.unit
 	audio.max_distance = spec.range
+	if mapwide: audio.attenuation_model = AudioStreamPlayer3D.ATTENUATION_DISABLED
 	audio.attenuation_filter_cutoff_hz = 3500.0
-	audio.attenuation_filter_db = -18.0
-	audio.pitch_scale = 0.97 + float(posmod(int(event.emitter), 7)) * 0.01
+	audio.attenuation_filter_db = 0.0 if mapwide else -18.0
+	audio.pitch_scale = 1.0 if mapwide else 0.97 + float(posmod(int(event.emitter), 7)) * 0.01
 	audio.set_meta("emitter", event.emitter)
 	audio.set_meta("voice", spec.voice)
 	# A boss has one throat. Crossfade an interrupted roar into its attack/death cry.
@@ -120,7 +125,7 @@ func _play_sound(event: Dictionary, spec: Dictionary) -> void:
 	audio.play()
 	if float(spec.duck) > 0 and "music" in _scene and _scene.music:
 		var distance := _player.global_position.distance_to(event.origin)
-		var weight := clampf(1.0 - distance / float(spec.range), 0, 1)
+		var weight := 1.0 if mapwide else clampf(1.0 - distance / float(spec.range), 0, 1)
 		_scene.music.titan_duck(float(spec.duck) * weight, minf(audio.stream.get_length(), 4.5))
 
 func _priority(kind: String) -> int:

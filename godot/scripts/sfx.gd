@@ -26,6 +26,10 @@ const FILES := {
 	"vendor_vocal": ["vendor_vocal_1", "vendor_vocal_2", "vendor_vocal_3"],
 	"secret_vendor_vocal": ["secret_vendor_vocal"],
 	"mechanic_vocal": ["mechanic_vocal", "mechanic_vocal_2", "mechanic_vocal_3"],
+	"mara_morning": ["mara_sfx_good_morning"],
+	"mara_day": ["mara_sfx_hello"],
+	"mara_evening": ["mara_sfx_good_evening"],
+	"mara_night": ["mara_sfx_good_night"],
 	"door_open": ["door_open"],
 	"owl": ["owl1", "owl2", "owl3", "owl4"],
 	"raven": ["raven_1", "raven2", "raven3"],
@@ -75,6 +79,8 @@ const STEP_SURFACES := {
 	"grass":  ["StepGrass", 1400.0, -5.0, -1.0],
 	"leaves": ["StepSoft", 800.0, -6.0, -2.0],
 	"wood":   ["StepWood", 1800.0, -1.0, -4.0],
+	# Soft field soil under the boot, but the dry maize blades brushing past are what you hear.
+	"corn":   ["StepCorn", 1000.0, -8.0, 1.5],
 }
 static var _buses_ready := false
 
@@ -83,7 +89,8 @@ static var _rng := RandomNumberGenerator.new()
 static var _last_footstep := -1
 static var _last_event_variant: Dictionary = {}
 const EVENTS := {"consume": -8.0, "pickup": -8.0, "mushroom_pickup": -10.0, "key_pickup": -6.0, "weapon_pickup": -8.0, "quest_accept": -10.0, "quest_complete": -8.0, "purchase": -12.0,
-	"vendor_vocal": -3.0, "secret_vendor_vocal": -3.0, "mechanic_vocal": -3.0, "achievement": -5.0}
+	"vendor_vocal": -3.0, "secret_vendor_vocal": -3.0, "mechanic_vocal": -3.0, "achievement": -5.0,
+	"mara_morning": -3.0, "mara_day": -3.0, "mara_evening": -3.0, "mara_night": -3.0}
 static var _voices: Dictionary = {}        # name -> Array of live players; automatic fire never stacks more than MAX_VOICES
 const MAX_VOICES := 3
 
@@ -121,6 +128,8 @@ static func _burst(dur: float, decay: float, lowpass: float, gain: float, tone: 
 
 static func _procedural(name: String) -> AudioStreamWAV:
 	match name:
+		"tower_flame": return _burst(0.18,0.1,0.9,0.4,65.0,20.0)
+		"tower_tesla": return _burst(0.3,0.08,0.4,0.45,800.0,-1200.0)
 		"pistol": return _burst(0.25, 0.05, 0.6, 1.0, 160.0, -400.0)
 		"shotgun": return _burst(0.45, 0.12, 0.35, 1.2, 80.0, -120.0)
 		"reload": return _burst(0.12, 0.03, 0.9, 0.3, 900.0, 0.0)
@@ -282,6 +291,55 @@ static func _texture(dur: float, attack: float, decay: float, lp: float, hp: flo
 		s[i] = out
 	return _wav(s, rate)
 
+# Looping bed for walking through standing maize: a papery brush of leaves along the body with
+# irregular slaps of stiff blades snapping back. The caller fades it with the walking speed.
+static func corn_bed(seed_v: int = 17) -> AudioStreamWAV:
+	var key := "cornbed:%d" % seed_v
+	if _cache.has(key):
+		return _cache[key]
+	var rate := 22050
+	var n := int(6.0 * rate)
+	var blend := mini(int(0.25 * rate), n / 2)
+	var s := PackedFloat32Array()
+	s.resize(n + blend)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_v
+	var l := 0.0
+	var l2 := 0.0
+	var h := 0.0
+	var wobble := 0.0
+	var slap := 1.0
+	var slap_gain := 0.0
+	var slap_decay := 1.0
+	var next_slap := 0
+	for i in s.size():
+		var w := rng.randf_range(-1.0, 1.0)
+		l += (w - l) * 0.5
+		l2 += (l - l2) * 0.5
+		var v := l2 - h
+		h += (l2 - h) * 0.12
+		wobble += (rng.randf_range(-1.0, 1.0) - wobble) * 0.004
+		var out := v * (0.5 + clampf(wobble * 3.0, -0.35, 0.45)) * 0.5
+		if i >= next_slap:
+			next_slap = i + int(rng.randf_range(0.03, 0.17) * rate)
+			slap_gain = rng.randf_range(0.4, 1.0)
+			slap_decay = rng.randf_range(0.004, 0.02) * rate
+			slap = 0.0
+		slap += 1.0
+		out += v * slap_gain * exp(-slap / slap_decay) * 1.6
+		s[i] = out / (1.0 + absf(out) / 0.7)
+	# Blend the tail into the head so the loop itself cannot click.
+	for i in blend:
+		var t := smoothstep(0.0, 1.0, float(i) / maxf(blend - 1, 1))
+		s[i] = lerpf(s[n + i], s[i], t)
+	s.resize(n)
+	var wav := _wav(s, rate)
+	wav.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	wav.loop_begin = 0
+	wav.loop_end = n
+	_cache[key] = wav
+	return wav
+
 static func _step_texture(surface: String, variant: int) -> AudioStream:
 	var key := "steptex:%s:%d" % [surface, variant]
 	if _cache.has(key):
@@ -293,6 +351,7 @@ static func _step_texture(surface: String, variant: int) -> AudioStream:
 		"leaves": st = _texture(0.24, 0.010, 0.085, 0.4, 0.08, 0.72, 8, 0.0, seed_v)     # dry crackle, duller body
 		"gravel": st = _texture(0.15, 0.005, 0.045, 0.55, 0.18, 0.36, 14, 0.0, seed_v)   # fine grit, brighter
 		"wood": st = _texture(0.2, 0.004, 0.05, 0.25, 0.04, 0.5, 0, 150.0, seed_v)      # hollow knock
+		"corn": st = _texture(0.40, 0.014, 0.14, 0.46, 0.11, 0.85, 5, 0.0, seed_v)      # long papery swish of leaves
 	_cache[key] = st
 	return st
 

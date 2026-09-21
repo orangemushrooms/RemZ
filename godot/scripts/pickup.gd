@@ -52,8 +52,9 @@ func setup(k: String) -> void:
 	match kind:
 		"cash":
 			add_to_group("cash_drops")
-			_box(Vector3(0.30, 0.09, 0.16), Vector3(0, 0.05, 0), Color(0.35, 0.55, 0.24))
-			_box(Vector3(0.06, 0.10, 0.17), Vector3(0, 0.05, 0), Color(0.85, 0.79, 0.55))
+			if not WorldModels.attach(_mesh, "cash_bundle", Vector3.ZERO, 0.30, 0):
+				_box(Vector3(0.30, 0.09, 0.16), Vector3(0, 0.05, 0), Color(0.35, 0.55, 0.24))
+				_box(Vector3(0.06, 0.10, 0.17), Vector3(0, 0.05, 0), Color(0.85, 0.79, 0.55))
 			var label := Label3D.new()
 			label.text = "%d P" % amount
 			label.position.y = 0.48
@@ -69,18 +70,7 @@ func setup(k: String) -> void:
 				_box(Vector3(0.1, 0.02, 0.27), Vector3(0, 0.225, 0), Color(0.85, 0.7, 0.3))
 			color = Color(1.0, 0.8, 0.35)
 		"grenade":
-			var m := MeshInstance3D.new()
-			var s := SphereMesh.new()
-			s.radius = 0.09
-			s.height = 0.2
-			m.mesh = s
-			var mat := StandardMaterial3D.new()
-			mat.albedo_color = Color(0.25, 0.32, 0.18)
-			mat.roughness = 0.6
-			m.material_override = mat
-			m.position.y = 0.12
-			_mesh.add_child(m)
-			_box(Vector3(0.05, 0.06, 0.05), Vector3(0, 0.24, 0), Color(0.5, 0.5, 0.52))
+			_model("grenade", 0.25)
 			color = Color(0.5, 1.0, 0.5)
 		_:
 			if not _model("medkit", 0.22):

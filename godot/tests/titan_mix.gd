@@ -66,5 +66,15 @@ func run() -> void:
 	var crowd := await sample(8.0, "three-titans")
 	check(crowd.rms > 0.01 and crowd.peak < 0.9, "Three simultaneous titans and slams remain below clipping")
 	check(presence._pending.is_empty() and presence.get_child_count() == 0, "Completed sounds release all audio players")
+	# Opposite corners are roughly a kilometre apart: the spawn announcement must survive that distance.
+	room.player._clear_tremor() # Player physics is disabled in this listening fixture.
+	for variant in 4:
+		presence.receive("arrival", Vector3(780, 0, -730), 27, 1003 + variant, 1)
+		await process_frame
+		var expected: String = Sfx.DIR + TitanPresence.SPAWN_CLIPS[variant]
+		check(presence._voices.back().stream.resource_path == expected, "Shared seed selects spawn recording %d" % (variant + 1))
+		var announcement := await sample(7.0, "mapwide-spawn-%d" % (variant + 1))
+		check(announcement.rms > 0.005 and announcement.peak < 0.9, "Spawn recording %d stays clearly audible across the entire map without clipping" % (variant + 1))
+	check(room.player._tremor == 0, "Mapwide sound does not cause distant camera shaking")
 	print("TITAN_MIX_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

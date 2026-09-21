@@ -249,7 +249,7 @@ func _refresh() -> void:
 		var s: Dictionary = weapons.state[id]
 		var eq: bool = id == weapons.current
 		if Weapons.is_melee(id):
-			var detail := "%s · %d Schaden pro Schlag · %.2f s Schlagabstand · %.2f m Reichweite. Keine Munition. Angriff: Linksklick oder Q." % [d.name, roundi(float(d.damage) * weapons.effective_damage_mul()), d.rate, d.range]
+			var detail := "%s · %d Schaden pro Schlag · %.2f s Schlagabstand · %.2f m Reichweite. Keine Munition. Angriff: Linksklick oder H." % [d.name, roundi(float(d.damage) * weapons.effective_damage_mul()), d.rate, d.range]
 			detail += "\nRechtsklick: %d Schaden, %.2f s Erholung, %.2f m Reichweite." % [roundi(float(d.stab_damage) * weapons.effective_damage_mul()), d.stab_rate, d.stab_range]
 			_slot(d.name + ("  ●" if eq else ""), "Nahkampf · Ausrüsten", Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45), detail, func(): main.fireworks.cancel(); weapons.set_weapon(id); _refresh(), 1.0, id, id)
 			continue
@@ -283,7 +283,10 @@ func _eat(kind: String) -> void:
 		return
 	var error := Mushrooms.consume(player, mushrooms, kind)
 	if not error.is_empty():
+		# The quick bar triggers this with the inventory closed, where the detail panel cannot be
+		# seen at all: say it on the HUD as well, like the coop host already does.
 		info.text = error
+		hud.message(error, 2.0)
 		return
 	if kind == "fliegenpilz" and main.achievements: main.achievements.event("rausch")
 	main.stats.mushrooms_eaten += 1

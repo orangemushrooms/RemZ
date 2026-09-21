@@ -1,0 +1,28 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+MIX near-roar frames=323584 peak=0.43087062239647 rms=0.10607257146055
+PASS: Engine renders an audible spatial titan voice
+PASS: Near roar retains peak headroom
+MIX distant-roar frames=319488 peak=0.03076812624931 rms=0.00622221825468
+PASS: Far-field cry remains audible and attenuates substantially
+MIX three-titans frames=352256 peak=0.46088859438896 rms=0.10583868520503
+PASS: Three simultaneous titans and slams remain below clipping
+PASS: Completed sounds release all audio players
+PASS: Shared seed selects spawn recording 1
+MIX mapwide-spawn-1 frames=311296 peak=0.26888009905815 rms=0.03860671739025
+PASS: Spawn recording 1 stays clearly audible across the entire map without clipping
+PASS: Shared seed selects spawn recording 2
+MIX mapwide-spawn-2 frames=307200 peak=0.34699749946594 rms=0.05117825938365
+PASS: Spawn recording 2 stays clearly audible across the entire map without clipping
+PASS: Shared seed selects spawn recording 3
+MIX mapwide-spawn-3 frames=307200 peak=0.23597010970116 rms=0.0447990192402
+PASS: Spawn recording 3 stays clearly audible across the entire map without clipping
+PASS: Shared seed selects spawn recording 4
+MIX mapwide-spawn-4 frames=307200 peak=0.24635258316994 rms=0.04871576512648
+PASS: Spawn recording 4 stays clearly audible across the entire map without clipping
+PASS: Mapwide sound does not cause distant camera shaking
+TITAN_MIX_DONE checks=14 failures=0

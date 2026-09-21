@@ -183,6 +183,7 @@ func tick_statuses(delta: float) -> void:
 		while float(s.tick) + 0.00001 >= 1.0 and z.alive:
 			s.tick = maxf(0.0, float(s.tick) - 1.0)
 			z.hp -= 12.0
+			z.damage_peers[int(s.peer)] = true
 			if z.hp <= 0:
 				z.killer_peer = int(s.peer)
 				z.killer_weapon = s.weapon

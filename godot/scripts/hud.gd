@@ -187,8 +187,8 @@ func _ready() -> void:
 	hp_bar.add_theme_stylebox_override("background", _flat(Color(1, 1, 1, 0.12), 4))
 	stats.add_child(hp_bar)
 
-	# ammunition beside the minimap
-	var ammo := _panel(root, Control.PRESET_BOTTOM_RIGHT, Vector2(-332, -16))
+	# ammunition beside the minimap, lifted clear of the quick bar's band along the bottom edge
+	var ammo := _panel(root, Control.PRESET_BOTTOM_RIGHT, Vector2(-332, -100))
 	ammo_label = _label("12 / 72", 22)
 	ammo_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	ammo.add_child(ammo_label)
@@ -448,7 +448,7 @@ func _build_briefing(box: VBoxContainer) -> void:
 		"Gefallene Zombies lassen Munition, Granaten und Verbandspäckli fallen. Einfach hindurchlaufen.",
 		"Vendor verkauft Waffen am Lagerfeuer. Erfülle Aufträge und überstehe Wellen, um sein Angebot freizuschalten. Ein geheimer Händler wartet im Wald.",
 		"Steinpilze heilen, Fliegenpilze verdoppeln kurz den Schaden. Beides im Inventar (I) essen.",
-		"T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm richtet E neu aus, F repariert. Ausbau bei Mechanic. Tab zeigt deine Aufträge.",
+		"T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm richtet E neu aus, F repariert. Ausbau bei Mechanic. Q zeigt deine Aufträge. Halte Tab für das Leaderboard.",
 	]:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 10)
@@ -469,7 +469,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	for pair in [["WASD", "Bewegen"], ["Maus", "Umsehen"], ["Shift", "Sprinten"], ["Strg halten", "Ducken / genauer zielen"], ["Leertaste", "Springen"],
 			["Linksklick", "Schiessen / Zuschlagen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–9 / 0", "Schnellzugriff: Plätze 1–10"], ["Mausrad", "Waffe wechseln"],
 			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten / Hütte reparieren"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["I", "Inventar"], ["B", "100 Punkte abwerfen"],
-			["Tab", "Auftragsanzeige ein/aus"], ["M", "Minimap gross / klein"], ["Strg+Shift+D", "Cheatmenü"], ["F", "Taschenlampe"], ["Q", "Nahkampf / Kolbenschlag"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
+			["Tab halten", "Leaderboard dieser Runde"], ["Q", "Auftragsanzeige ein/aus"], ["M", "Minimap gross / klein"], ["Strg+Shift+D", "Cheatmenü"], ["F", "Taschenlampe"], ["H", "Nahkampf / Kolbenschlag"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110
 		grid.add_child(k)

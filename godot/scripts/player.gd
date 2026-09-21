@@ -61,6 +61,7 @@ var _was_on_floor := true
 var peer_id := 1
 var remote_actor := false
 var cash_cooldown := 0.0
+var mounted_tower := 0
 
 func _ready() -> void:
 	collision_layer = 4
@@ -124,8 +125,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if remote_actor or not active or not alive:
 		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(-event.screen_relative.x * SENS * mouse_sensitivity)
-		pitch = clampf(pitch - event.screen_relative.y * SENS * mouse_sensitivity, -1.45, 1.45)
+		var zoom_scale := tan(deg_to_rad(camera.fov) * 0.5) / tan(deg_to_rad(75.0) * 0.5) if mounted_tower else 1.0
+		rotate_y(-event.screen_relative.x * SENS * mouse_sensitivity * zoom_scale)
+		pitch = clampf(pitch - event.screen_relative.y * SENS * mouse_sensitivity * zoom_scale, -1.45, 1.45)
 		head.rotation.x = clampf(pitch + recoil_offset.x, -1.48, 1.48)
 	if event.is_action_pressed("flashlight"):
 		flashlight.visible = not flashlight.visible
@@ -148,6 +150,13 @@ func _physics_process(delta: float) -> void:
 		return
 	if not active or not alive:
 		_clear_tremor()
+		return
+	if mounted_tower:
+		velocity = Vector3.ZERO
+		pitch = clampf(pitch,-1.1,0.85)
+		head.rotation.x = pitch
+		head.position.y = CROUCH_EYE
+		if not NetSession.is_client(): _regenerate(delta)
 		return
 	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	set_crouching(Input.is_action_pressed("crouch"))
@@ -254,6 +263,9 @@ func damage(n: float, from: Vector3 = Vector3.INF) -> void:
 		if "progression" in scene and scene.progression and scene.progression.rare_market.prevent_death(self): return
 		hp = 0.0
 		alive = false
+		if "stats" in scene and scene.stats: scene.stats.record_death(peer_id)
+		if mounted_tower and "defences" in scene and scene.defences.towers.has(mounted_tower):
+			scene.defences.release_tower(scene.defences.towers[mounted_tower])
 		mushroom_effects.clear()
 		if not remote_actor: Sfx.play(self, "player_death", -2.0)
 		died.emit()
@@ -285,11 +297,14 @@ func _footsteps(delta: float, moving: bool, sprint: bool) -> void:
 			_heart_t = lerpf(0.9, 1.5, urgency)
 			Sfx.play(self, "heartbeat", -6.0, lerpf(1.25, 1.0, urgency))
 
-# "hard" (asphalt, concrete), "gravel" (tracks and the fire plaza), "grass" (meadow), "leaves" (forest floor)
-# or "wood" (the hut's upper floor). Asphalt has no cover weight at all in ground.png.
+# "hard" (asphalt, concrete), "gravel" (tracks and the fire plaza), "grass" (meadow), "leaves" (forest floor),
+# "corn" (standing maize) or "wood" (the hut's upper floor). Asphalt has no cover weight at all in ground.png.
 func _surface_step() -> String:
 	var x := global_position.x
 	var z := global_position.z
+	var field = get_tree().current_scene.get("cornfield") if get_tree().current_scene else null
+	if field and field.in_corn(Vector2(x, z)):
+		return "corn"
 	if Map.in_building(x, z):
 		# the Waldhuette's upper room has a plank floor 2.65 m above the garage slab; everything else is concrete
 		var hut: Dictionary = Map.BUILDINGS["waldhuette"]

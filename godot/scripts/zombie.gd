@@ -54,6 +54,7 @@ var damage_mul := 1.0           # difficulty
 var last_headshot := false      # set by weapons before damage(), read by the kill statistics
 var killer_weapon := ""          # weapon id of the fatal shot ("" = grenade / other)
 var killer_peer := 1
+var damage_peers: Dictionary = {} # Contributors for this enemy's lifetime, host only.
 var net_kind := "shambler"
 var model_path := ""
 var appearance_seed := 0
@@ -268,6 +269,7 @@ func damage(n: float, dir: Vector3) -> void:
 	if replica or NetSession.is_client(): return
 	if not alive:
 		return
+	if n > 0.0: damage_peers[killer_peer] = true
 	hp -= n
 	Sfx.play_at(get_parent(), "hit", global_position, -6.0)
 	_flash()
@@ -303,6 +305,7 @@ func _set_emission(on: bool) -> void:
 		material.emission = Color(0.5, 0.1, 0.1) if on else Color.BLACK
 
 func die(dir: Vector3) -> void:
+	if not alive: return
 	alive = false
 	for hitbox in _hitboxes:
 		hitbox.collision_layer = 0

@@ -24,6 +24,45 @@ var _finished := false
 var table: Array = []          # [{score, wave, kills, headshots, seconds, difficulty, date}], best first
 var persist := true            # test runs never write the table
 
+# Current round only. The host owns these counters; clients receive complete snapshots.
+var players: Dictionary = {}
+
+func register_player(id: int, display_name: String) -> void:
+	if not players.has(id):
+		players[id] = {"id": id, "name": display_name, "connected": true,
+			"kills": 0, "headshots": 0, "deaths": 0, "titan_kills": 0, "assists": 0,
+			"score": 0, "ping_ms": -1}
+	players[id].name = display_name
+	players[id].connected = true
+
+func update_live(id: int, score: int, ping_ms: int) -> void:
+	if NetSession.is_client() or not players.has(id): return
+	players[id].score = score
+	players[id].ping_ms = ping_ms if players[id].connected else -1
+
+func record_kill(zombie: Zombie) -> void:
+	if NetSession.is_client() or zombie.replica: return
+	var killer := zombie.killer_peer
+	if players.has(killer):
+		players[killer].kills += 1
+		if zombie.last_headshot: players[killer].headshots += 1
+		if Zombie.is_titan_kind(zombie.net_kind): players[killer].titan_kills += 1
+	# Any positive damage during this enemy's life earns one assist, never for the killer.
+	for id in zombie.damage_peers:
+		if id != killer and players.has(id): players[id].assists += 1
+
+func record_death(id: int) -> void:
+	if not NetSession.is_client() and players.has(id): players[id].deaths += 1
+
+func leaderboard_rows() -> Array:
+	var rows := players.values().duplicate(true)
+	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		for key in ["kills", "titan_kills", "headshots", "assists"]:
+			if a[key] != b[key]: return a[key] > b[key]
+		if a.deaths != b.deaths: return a.deaths < b.deaths
+		return a.id < b.id)
+	return rows
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	for a in OS.get_cmdline_user_args():

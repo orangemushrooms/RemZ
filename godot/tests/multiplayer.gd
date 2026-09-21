@@ -73,6 +73,18 @@ func find_peer(label: String) -> int:
 		if NetSession.roster[id] == label: return id
 	return 0
 
+func check_leaderboard(report: Dictionary, label: String) -> void:
+	var expected = JSON.parse_string(JSON.stringify(game.stats.leaderboard_rows()))
+	var received: Array = report.get("leaderboard", []).duplicate(true)
+	var valid_pings := not received.is_empty()
+	for row: Dictionary in received:
+		var ping := int(row.get("ping_ms", -2))
+		valid_pings = valid_pings and (ping == -1 if not row.connected else ping == 0 if int(row.id) == 1 else ping >= 0)
+		row.erase("ping_ms") # Live RTT can change while the disk-based test handshake completes.
+	for row: Dictionary in expected: row.erase("ping_ms")
+	check(valid_pings, label + " receives measured peer pings, zero host ping and no stale disconnected ping")
+	check(received == expected, label + " receives all authoritative leaderboard rows, points and counters")
+
 func teleport(id: int, point: Vector3) -> void:
 	var p: Player = NetSession.world.actor(id)
 	p.global_position = point
@@ -177,6 +189,7 @@ func host_run() -> void:
 	await wait_seconds(0.4)
 	await command_clients("inspect", ["c1", "c2"])
 	check(NetSession.world.weapons[c1].skins.get("ak47") == "forest" and read_json("done-c1").skins.get("ak47") == "forest", "Purchased weapon skin replicates to owner")
+	check_leaderboard(read_json("done-c1"), "After purchase")
 	check(read_json("done-c2").progress_people > 1, "Individual quest state reaches the other peers")
 	await teleport(c2, game.progression.npcs.camp.global_position + Vector3(0, 0.1, 2.3))
 	await command_clients("menus", ["c2"])
@@ -259,6 +272,19 @@ func host_run() -> void:
 	await wait_seconds(0.3)
 	check(game.defences.towers.size() == 1 and NetSession.world.actor(c2).score == tower_score - 120, "Duplicate remote tower placement rejected")
 	var tower: DefenceTower = game.defences.towers.values()[0]
+	await teleport(c2,Map.ground_pos(60,115)+Vector3.UP*0.1)
+	await command_clients("tower_mount",["c2"],[tower.tower_id])
+	await wait_seconds(0.4)
+	check(tower.operator_peer==c2 and NetSession.world.actor(c2).mounted_tower==tower.tower_id,"Client mounts turret on host")
+	await command_clients("inspect",["c2"])
+	check(int(read_json("done-c2").mounted_tower)==tower.tower_id,"Mounted seat replicates to controlling client")
+	await teleport(c1,Map.ground_pos(62,114)+Vector3.UP*0.1)
+	await command_clients("tower_mount",["c1"],[tower.tower_id])
+	await wait_seconds(0.3)
+	check(tower.operator_peer==c2 and NetSession.world.actor(c1).mounted_tower==0,"Second player cannot steal an occupied turret")
+	await command_clients("tower_exit",["c2"])
+	await wait_seconds(0.4)
+	check(tower.operator_peer==0 and NetSession.world.actor(c2).mounted_tower==0,"Remote dismount frees turret")
 	await command_clients("tower_upgrade", ["c2"], [tower.tower_id])
 	await wait_seconds(0.4)
 	check(tower.level == 1, "Remote turret upgrade requires the mechanic")
@@ -285,6 +311,26 @@ func host_run() -> void:
 	await command_clients("inspect", ["c1"])
 	var replica_shots: int = int(read_json("done-c1").tower_shots)
 	check(tower.shots > 0 and tower_target.hp < 10000 and replica_shots > 0, "Host turret fire and target damage replicate (host=%d client=%d target_hp=%.1f)" % [tower.shots, replica_shots, tower_target.hp])
+	await teleport(c2,Map.ground_pos(60,115)+Vector3.UP*0.1)
+	await command_clients("tower_mount",["c2"],[tower.tower_id])
+	await wait_seconds(0.4)
+	tower.heat = 0
+	tower.overheated = false
+	tower.cooldown = 0
+	var manual_hp := tower_target.hp
+	var aim := tower.target_point(tower_target)
+	await command_clients("tower_fire",["c2"],[[aim.x,aim.y,aim.z]])
+	await wait_seconds(0.3)
+	check(tower_target.hp<manual_hp,"Client mouse aim and trigger deal authoritative turret damage")
+	check(tower.aiming,"Client right mouse reaches the host's turret precision state")
+	check(float(read_json("done-c2").tower_fov)<56,"Client turret zoom survives weapon processing and snapshots")
+	await command_clients("inspect",["c1"])
+	check(bool(read_json("done-c1").tower_aiming),"Other clients receive the turret aiming state")
+	await command_clients("tower_aim_release",["c2"])
+	await wait_seconds(0.3)
+	check(not tower.aiming and float(read_json("done-c2").tower_fov)>74.9,"Releasing right mouse restores host precision and client view")
+	await command_clients("tower_exit",["c2"])
+	await wait_seconds(0.3)
 	game.waves.wave = 8
 	game.spawn_zombie("titan", Vector2(20, 125), 1, "east")
 	var titan: Titan = game.zombies_root.get_children().back()
@@ -308,12 +354,18 @@ func host_run() -> void:
 	for label in ["c1", "c2", "c3"]:
 		var cues: Dictionary = read_json("done-" + label).titan_cues
 		check(int(cues.get("step", 0)) == 1 and int(cues.get("rage", 0)) == 1 and int(cues.get("slam", 0)) == 1, label + " receives exactly one synchronized footstep, rage cry and slam")
-	titan.die(Vector3.ZERO)
+	titan.killer_peer = c2
+	titan.damage(1, Vector3.ZERO)
+	titan.killer_peer = c1
+	titan.last_headshot = true
+	titan.damage(titan.hp + 1, Vector3.ZERO)
+	check(game.stats.players[c1].titan_kills == 1 and game.stats.players[c1].headshots == 1 and game.stats.players[c2].assists == 1, "Titan headshot and contributor assist belong to their respective players")
 	await wait_seconds(2.0)
 	await command_clients("inspect", ["c1", "c2", "c3"])
 	for label in ["c1", "c2", "c3"]:
 		var cues: Dictionary = read_json("done-" + label).titan_cues
 		check(int(cues.get("death", 0)) == 1 and int(cues.get("collapse", 0)) == 1, label + " hears death and delayed body impact without replica duplicates")
+		check_leaderboard(read_json("done-" + label), label)
 	titan.queue_free()
 	tower_target.queue_free()
 	await wait_seconds(0.4)
@@ -324,10 +376,28 @@ func host_run() -> void:
 	check(joined.started and joined.bar == 1 and joined.keys > 0 and joined.open_doors > 0 and joined.zombies == 1, "Late join restores doors, keys, barricades and enemies")
 	check(joined.towers == 1 and joined.tower_hp == 400, "Late join restores upgraded tower and exact structure health")
 	check(joined.titan_cues.is_empty(), "Late join does not replay earlier titan roars or impacts")
+	check_leaderboard(joined, "Late join")
 	tower.damage(10000)
 	await wait_seconds(0.5)
 	await command_clients("wait_tower_removed", ["c3"])
 	check(read_json("done-c3").towers == 0, "Destroyed tower disappears on other peers")
+	NetSession.world.actor(c2).add_score(10000)
+	for tower_kind in ["flame","mortar","mg42","tesla"]:
+		await teleport(c2,Map.ground_pos(60,115)+Vector3.UP*0.1)
+		var score_before: int = NetSession.world.actor(c2).score
+		await command_clients("tower_place",["c2"],[[60,Map.ground_height(60,112),112],tower_kind])
+		await wait_seconds(0.4)
+		check(game.defences.towers.size()==1,tower_kind+" can be built by a remote client")
+		var variant: DefenceTower = game.defences.towers.values()[0]
+		check(variant.kind==tower_kind and NetSession.world.actor(c2).score==score_before-int(DefenceTower.SPECS[tower_kind].cost),tower_kind+" uses host-validated type and price")
+		await command_clients("tower_mount",["c2"],[variant.tower_id])
+		await wait_seconds(0.3)
+		await command_clients("inspect",["c3"])
+		check(read_json("done-c3").tower_kind==tower_kind and int(read_json("done-c3").operator_peer)==c2,tower_kind+" type and occupation reach other peers")
+		variant.damage(100000)
+		await wait_seconds(0.3)
+		await command_clients("wait_tower_removed",["c2"])
+		check(int(read_json("done-c2").mounted_tower)==0,tower_kind+" destruction releases remote operator")
 	# A downed player leaves the team fighting; another player revives them.
 	await teleport(c2, Map.ground_pos(-5, -12) + Vector3.UP * 0.1)
 	await teleport(c3, Map.ground_pos(-6.5, -12) + Vector3.UP * 0.1)
@@ -339,6 +409,8 @@ func host_run() -> void:
 	check(NetSession.world.actor(c2).alive and NetSession.world.actor(c2).hp >= 50.0, "Host completes the three-second revive")
 	await command_clients("inspect", ["c2"])
 	check(read_json("done-c2").alive, "Revived client regains life state")
+	check(game.stats.players[c2].deaths == 1, "Revival preserves one recorded death")
+	check_leaderboard(read_json("done-c2"), "Revived client")
 	await command_clients("grenade", ["c1"])
 	await wait_seconds(0.5)
 	check(NetSession.world.grenades.size() > 0, "Remote grenade exists on host")
@@ -375,6 +447,7 @@ func host_run() -> void:
 	check(game.over and NetSession.phase == "over", "Only team wipe ends the match")
 	await command_clients("inspect", ["c1"])
 	check(read_json("done-c1").over, "Team game over propagated")
+	check_leaderboard(read_json("done-c1"), "Final reliable game-over snapshot")
 	NetSession.restart()
 	deadline = Time.get_ticks_msec() + 100000
 	while Time.get_ticks_msec() < deadline:
@@ -390,6 +463,10 @@ func host_run() -> void:
 	await command_clients("inspect", ["c1", "c2", "c3"])
 	for label in ["c1", "c2", "c3"]: check(read_json("done-"+label).started, label + " starts the second round")
 	check(game.defences.towers.is_empty(), "Session restart removes towers from previous round")
+	check(game.stats.players.size() == 4, "Round restart removes disconnected leaderboard history")
+	for row: Dictionary in game.stats.players.values():
+		check(row.kills == 0 and row.headshots == 0 and row.deaths == 0 and row.titan_kills == 0 and row.assists == 0, "New round clears all five player counters")
+	for label in ["c1", "c2", "c3"]: check_leaderboard(read_json("done-"+label), "Restarted " + label)
 	var orphan: DefenceTower = game.defences.create_tower(Map.ground_pos(60, 112), c3)
 	await command_clients("exit", ["c3"])
 	await wait_seconds(0.7)
@@ -482,17 +559,30 @@ func client_run() -> void:
 		if not request is Dictionary or int(request.number) <= step_seen or not role in request.targets: continue
 		step_seen = int(request.number)
 		var args: Array = request.args
-		if request.action in ["build", "repair", "revive", "tower_upgrade", "tower_repair", "tower_sell"]: args[0] = int(args[0])
+		if request.action in ["build", "repair", "revive", "tower_upgrade", "tower_repair", "tower_sell", "tower_mount"]: args[0] = int(args[0])
 		if request.action == "tower_rotate":
 			args[0] = int(args[0])
 			args[1] = float(args[1])
 		match request.action:
+			"tower_fire":
+				var aim := Vector3(args[0][0],args[0][1],args[0][2])
+				var direction: Vector3 = aim-game.player.camera.global_position
+				game.player.rotation.y = atan2(-direction.x,-direction.z)
+				game.player.pitch = atan2(direction.y,Vector2(direction.x,direction.z).length())
+				game.player.head.rotation.x = game.player.pitch
+				Input.action_press("aim")
+				Input.action_press("fire")
+				await wait_seconds(0.7)
+				Input.action_release("fire")
+			"tower_aim_release":
+				Input.action_release("aim")
+				await wait_seconds(0.7)
 			"finish_intro": game.intro._end()
 			"wait_tower_removed":
 				var deadline := Time.get_ticks_msec() + 5000
 				while not game.defences.towers.is_empty() and Time.get_ticks_msec() < deadline:
 					await wait_seconds(0.1)
-			"tower_place": NetSession.command("tower_place", [Vector3(args[0][0], args[0][1], args[0][2])])
+			"tower_place": NetSession.command("tower_place", [Vector3(args[0][0], args[0][1], args[0][2]),0.0,str(args[1]) if args.size()>1 else "standard"])
 			"menus":
 				for menu in ["pause", "inventory", "shop", "barricades"]:
 					await verify_menu(menu, false)
@@ -569,10 +659,16 @@ func client_run() -> void:
 			tower_shots += tower.shots
 			tower_hp += tower.hp
 		write_json("done-"+role, {"step": step_seen, "players": NetSession.roster.size(), "avatars": NetSession.world.avatars.size(),
+			"leaderboard": game.stats.leaderboard_rows(),
+			"mounted_tower": game.player.mounted_tower,
+			"tower_fov": game.player.camera.fov,
+			"tower_aiming": game.defences.towers.values()[0].aiming if game.defences.towers.size() else false,
 			"intro_active": game.intro.active, "intro_phase": game.intro.phase, "player_active": game.player.active,
 			"intro_distance": Vector2(game.player.global_position.x, game.player.global_position.z).distance_to(Intro.START), "wave": game.waves.wave,
 			"towers": game.defences.towers.size(), "tower_shots": tower_shots, "tower_hp": tower_hp,
 			"tower_yaw": game.defences.towers.values()[0].rotation.y if game.defences.towers.size() else 0.0,
+			"tower_kind": game.defences.towers.values()[0].kind if game.defences.towers.size() else "",
+			"operator_peer": game.defences.towers.values()[0].operator_peer if game.defences.towers.size() else 0,
 			"skins": game.weapons.skins, "progress_people": game.progression.people.size(),
 			"titans": titan_count, "boss_phase": boss_phase, "boss_max_hp": boss_max_hp, "boss_impact": boss_impact,
 			"boss_model": boss_model, "boss_seed": boss_seed, "boss_height": boss_height,

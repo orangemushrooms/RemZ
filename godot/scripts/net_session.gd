@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 2
-const BUILD := "remz-coop-startfix-20260920"
+const BUILD := "remz-coop-tower-aim-20260921"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -14,6 +14,7 @@ var player_name := "Spieler"
 var address := ""
 var port := PORT
 var roster: Dictionary = {}
+var _leaderboard_t := 0.0
 var ready_peers: Dictionary = {}
 var _loading_peers: Dictionary = {}
 var _initial_parts: Dictionary = {}
@@ -175,6 +176,7 @@ func host(display_name: String, requested_port: int = PORT) -> Error:
 	port = requested_port
 	player_name = clean_name(display_name)
 	roster = {1: player_name}
+	game.stats.players.clear()
 	ready_peers = {1: true}
 	game.player.peer_id = 1
 	world.add_player(1)
@@ -203,6 +205,7 @@ func join(ip: String, display_name: String, requested_port: int = PORT) -> Error
 	multiplayer.multiplayer_peer = peer
 	enabled = true
 	phase = "connecting"
+	game.stats.players.clear()
 	_command_seq = 0
 	_received_sequence = -1
 	_snapshot_parts.clear()
@@ -458,6 +461,8 @@ func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> voi
 	if reuse_map and is_instance_valid(game):
 		for id in world.actors.keys(): world.remove_player(id)
 		game.player.peer_id = 1
+		game.stats.players.clear()
+		game.stats.register_player(1, player_name)
 		game.player.regen_timer = 0.0
 		game.player.active = false
 		game.player.camera.make_current()
@@ -595,6 +600,7 @@ func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 				Sfx.play(game, args[0], Sfx.EVENTS[args[0]])
 		"trade":
 			game.progression.status.text = str(args[0])
+			if args.size() > 1: game.progression.show_gain(int(args[1]))
 			if not game.progression.is_open and not str(args[0]).is_empty(): game.hud.message(str(args[0]), 3)
 		"message": game.hud.message(args[0], args[1])
 		"hit": game.hud.hitmarker(args[0])
@@ -658,6 +664,21 @@ func blood(position: Vector3, direction: Vector3) -> void:
 func _blood(session_epoch: int, position: Vector3, direction: Vector3) -> void:
 	if epoch == session_epoch and is_instance_valid(game): game.weapons._blood(position, direction)
 
+# Host-measured ENet round-trip time, in milliseconds. Never ask for a missing peer.
+func peer_ping(id: int) -> int:
+	if not is_host(): return -1
+	if id == 1: return 0
+	var transport := multiplayer.multiplayer_peer as ENetMultiplayerPeer
+	if not transport or not id in multiplayer.get_peers(): return -1
+	var peer := transport.get_peer(id)
+	if not peer or peer.get_state() != ENetPacketPeer.STATE_CONNECTED: return -1
+	return maxi(0, roundi(peer.get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME)))
+
+@rpc("authority", "call_remote", "unreliable", 1)
+func _leaderboard_live(session_epoch: int, rows: Dictionary) -> void:
+	if is_client() and epoch == session_epoch and phase == "over" and is_instance_valid(game):
+		game.stats.players = rows.duplicate(true)
+
 func _process(delta: float) -> void:
 	_elapsed += delta
 	if not enabled: return
@@ -667,6 +688,18 @@ func _process(delta: float) -> void:
 			leave("Keine Antwort vom Host. Hamachi-Verbindung und Freigabe von UDP %d in der Windows-Firewall prüfen." % port)
 			return
 	if is_host():
+		_leaderboard_t += delta
+		if _leaderboard_t >= 1.0:
+			_leaderboard_t = 0.0
+			var transport := multiplayer.multiplayer_peer as ENetMultiplayerPeer
+			if transport:
+				for id in multiplayer.get_peers():
+					var peer := transport.get_peer(id)
+					if peer and peer.get_state() == ENetPacketPeer.STATE_CONNECTED: peer.ping()
+			# Running rounds use world snapshots. Keep ping live after the round ends too.
+			if phase == "over" and world and is_instance_valid(game):
+				world.refresh_leaderboard()
+				_leaderboard_live.rpc(epoch, game.stats.players)
 		for id in _rates.keys():
 			if not ready_peers.get(id, false) and _elapsed > float(_rates[id].deadline):
 				multiplayer.multiplayer_peer.disconnect_peer(id)
