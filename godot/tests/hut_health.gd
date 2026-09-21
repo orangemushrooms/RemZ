@@ -29,11 +29,19 @@ func run() -> void:
 	hut.damage(40)
 	check(hut.hp == HutHealth.MAX_HP - 40 and hut.under_attack(), "Damage lowers health and raises the alert")
 	check(game.hud.msg_label.text == HutHealth.WARNING and game.hud.hut_alarm.visible, "First hit immediately shows the large attack alarm")
+	check(hut._attack_sound != null and hut._attack_sound.playing and hut._attack_sound.stream.resource_path.ends_with("hut_under_attack.mp3") and hut._attack_sound.pitch_scale == 1.0, "First hit plays the supplied warning with its original voice pitch")
 	game.hud.message("keep", 3.0)
 	hut.damage(40)
 	check(game.hud.msg_label.text == "keep" and game.hud.hut_alarm.visible, "Attack alarm stays visible independently of ordinary messages")
 	hut._process(HutHealth.ATTACK_ALERT_SECONDS + 0.1)
 	check(not hut.under_attack() and not game.hud.hut_alarm.visible, "Alert disappears after the attacks stop")
+	check(not hut._attack_sound.playing, "Warning audio stops with the visual alarm")
+	hut.update_attack_alert(HutHealth.ATTACK_ALERT_SECONDS, false)
+	check(game.hud.hut_alarm.visible and not hut._attack_sound.playing, "Initial multiplayer state shows an active alarm without replaying old audio")
+	hut.update_attack_alert(0.0, false)
+	hut.update_attack_alert(HutHealth.ATTACK_ALERT_SECONDS, true)
+	check(hut._attack_sound.playing, "A new authoritative attack phase replays the warning")
+	hut.update_attack_alert(0.0, false)
 	check(game.hud.hut_label.text.begins_with("HÜTTE %d" % ceili(hut.hp)), "HUD shows the hut health")
 	# repair: reach, cost, step
 	var player: Player = game.player
@@ -68,6 +76,7 @@ func run() -> void:
 	# destruction loses the round
 	hut.damage(100000)
 	check(hut.destroyed and hut.hp == 0.0 and not game.hud.hut_alarm.visible, "Destroyed hut clears the attack alarm")
+	check(not hut._attack_sound.playing, "Hut destruction stops the attack warning")
 	check(game.over and game.hud.overlay_title.text == "HÜTTE VERLOREN", "Destroyed hut ends the round with its own title")
 	print("HUT_HEALTH_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

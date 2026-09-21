@@ -20,6 +20,7 @@ var health_display: Node3D
 var health_fill: Sprite3D
 var health_label: Label3D
 var attack_alert_remaining := 0.0
+var _attack_sound: AudioStreamPlayer
 var destroyed := false
 var body: StaticBody3D              # one wall body; Zombie._can_hit accepts every body in the "hut_body" group
 var center := Vector3.ZERO
@@ -133,9 +134,17 @@ func update_attack_alert(seconds: float, notify := true) -> void:
 	attack_alert_remaining = maxf(0.0, seconds) if hp > 0.0 else 0.0
 	var hud := _hud()
 	if hud: hud.set_hut(hp, MAX_HP, under_attack())
+	if not under_attack() and is_instance_valid(_attack_sound): _attack_sound.stop()
 	if notify and under_attack() and not was and hud:
 		hud.message(WARNING, 3.5)
-		Sfx.play(self, "wave", -14.0, 0.7)
+		if not is_instance_valid(_attack_sound):
+			_attack_sound = AudioStreamPlayer.new()
+			_attack_sound.name = "HutAttackWarning"
+			_attack_sound.stream = Sfx.get_stream("hut_under_attack")
+			_attack_sound.volume_db = -6.0
+			add_child(_attack_sound)
+		# One local warning per attack phase, paired with the visible alarm on host and clients.
+		if not _attack_sound.playing: _attack_sound.play()
 
 func damage(n: float) -> void:
 	if destroyed or n <= 0.0 or NetSession.is_client(): return
@@ -169,5 +178,6 @@ func prompt_text() -> String:
 
 func _process(delta: float) -> void:
 	attack_alert_remaining = maxf(0.0, attack_alert_remaining - delta)
+	if is_instance_valid(_attack_sound) and (not under_attack() or game.over): _attack_sound.stop()
 	var hud := _hud()
 	if hud: hud.set_hut(hp, MAX_HP, under_attack())
