@@ -159,7 +159,7 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 		var mods: WeaponAttachments = null
 		if weapon_model and Attachments.supported(d["model"]):
 			mods = Attachments.new()
-			mods.setup(d["model"], weapon_model)
+			mods.setup(d["model"], weapon_model, holder)
 			holder.add_child(mods)
 			mods.refresh(mod_loadout.get(id, {}))
 		state[id] = { "def": d, "ammo": d["mag"], "reserve": d["reserve"], "node": holder, "hands": hands, "bounds": bounds, "aim_position": aim_position, "mods": mods, "cooldown": 0.0, "reloading": 0.0 }
@@ -862,10 +862,13 @@ func muzzle_transform() -> Transform3D:
 	var bounds: AABB = s["bounds"]
 	var tip := Vector3(bounds.get_center().x, bounds.end.y - 0.015, bounds.position.z - 0.006)
 	if current == "ak47":
-		# Bore centre measured on ak47.glb, below the raised front sight.
+		# Bore centre measured on ak47.glb, below the raised front sight. Only reached when the
+		# weapon has no measured mount data; weapon_mount_data.gd reproduces this to about a
+		# millimetre and covers the other eight guns as well.
 		tip.x = bounds.position.x + bounds.size.x * 0.31
 		tip.y = bounds.position.y + bounds.size.y * 0.805
-	# A mounted suppressor or barrel moves the muzzle: flash, smoke and tracers start at its front.
+	# The measured bore, or the front of a mounted suppressor or barrel: flash, smoke and tracers
+	# all start where the bullet actually leaves the weapon.
 	var mods: WeaponAttachments = s.get("mods")
 	if mods: tip = mods.muzzle_tip(tip)
 	return (s["node"] as Node3D).transform * Transform3D(Basis.IDENTITY, tip)

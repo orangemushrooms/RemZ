@@ -21,7 +21,9 @@ var step_distance := 0.0
 var crouch_blend := 0.0
 var right_grip := Vector3.ZERO
 var left_grip := Vector3.ZERO
+var mods: WeaponAttachments
 var _skin := "__unset"
+var _loadout := {}
 
 func setup(p: Player, display_name: String, index: int) -> void:
 	actor = p
@@ -100,6 +102,23 @@ func set_weapon(id: String) -> void:
 	right_hand.rotation.y = PI
 	left_hand.rotation = Vector3(0, PI, -0.25 if id in ["pistol", "revolver"] else PI * 0.5)
 	flash.position = gun.position + Vector3(bounds.get_center().x, bounds.end.y - 0.025, bounds.position.z - 0.025)
+	# Same rule as the view model: mods go on only once the grips and the flash are anchored to the
+	# bare weapon, so a teammate's suppressor cannot shift where their hands sit.
+	mods = null
+	if not Weapons.is_melee(id) and WeaponAttachments.supported(Weapons.DEFS[id].model):
+		mods = WeaponAttachments.new()
+		mods.layer = 1
+		mods.shadows = true
+		mods.setup(Weapons.DEFS[id].model, model, gun)
+		gun.add_child(mods)
+		mods.refresh(_loadout)
+
+# The host's snapshot already carries every player's loadout, so a teammate's gun shows the same
+# mods in the world that its owner sees in their own hands.
+func set_mods(loadout: Dictionary) -> void:
+	if _loadout == loadout: return
+	_loadout = loadout.duplicate(true)
+	if mods: mods.refresh(_loadout)
 
 func shot(id: String, mod_effects: Array = []) -> void:
 	var field = get_tree().current_scene.get("cornfield")

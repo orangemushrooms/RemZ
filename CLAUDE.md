@@ -42,7 +42,8 @@ ground leaves / grass multimeshes, falling leaves, campfire. `player.gd`, `weapo
 `pickup.gd` (drops), `run_stats.gd` (statistics + high scores), `game_settings.gd` (profiles, difficulty, config),
 `perimeter.gd` (palisade ring: `CORNERS` between the gate endpoints, log/rail MultiMeshes, collision boxes in the
 `navsource` group so the navmesh only connects outside and inside through the gates; `contains()`, `points`,
-`gate_edge`; `tools/plot_perimeter.py` overlays the ring on roads and terrain before touching a corner).
+`gate_edge`; `tools/plot_perimeter.py` overlays the ring on roads and terrain before touching a corner),
+`weapon_attachments.gd` (hangs the mod models on a weapon; see Weapon mods).
 Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scored in `main._zombie_killed`
 (difficulty multiplier, streak bonus, headshot x1.5); zombies only report through the `_on_kill` callback.
 
@@ -118,6 +119,22 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   log_bench_beam, log_picnic_table, fallen_log, workbench, ammo_crate (loot), ammo_pack / medkit (drops,
   `pickup.gd`). `tests/prop_info.gd` prints AABB and triangle counts of the GLBs; `--spawn-drops` with
   `--views=` puts the three drops on the plaza for a look.
+- Weapon mods (Sep 2026): every mod in `weapon_mods.gd` carries a Meshy part - `mod_suppressor`,
+  `mod_compensator`, `mod_ghost` (Mündung), `mod_extended_mag`, `mod_endless` (Magazin), `mod_quick_action`
+  (Verschluss), `mod_match_barrel`, `mod_titan_core` (Lauf) plus `mod_mag_tube` for the tube fed guns.
+  `weapon_attachments.gd` mounts them: `MOUNTS` holds only intent per mod (which anchor, calibre as a multiple
+  of the bore, longest allowed share of the weapon, how deep it sinks in), every offset comes from
+  `weapon_mount_data.gd`, which `node tools/weapon_geometry.mjs --all-weapons --bake godot/scripts/weapon_mount_data.gd`
+  (and a second run with `--parts <mod...>`) measures out of the GLBs: bore centre and radius from the frontmost
+  vertex slab, magwell from the lowest vertices ahead of the stock, part axes by PCA (mod_ghost sits 15 deg
+  askew in its own file, mod_endless is a disc). Rules that matter: the mount node is added to the holder only
+  after `Hands.weapon_bounds` / `aim_position` are taken, so a suppressor never moves a grip or the sights; a
+  barrel mod extends the bore first and the muzzle device then threads onto its tip; `muzzle_transform()` asks
+  the mount for the muzzle, so flash, smoke and tracers leave the can, and with nothing mounted they leave the
+  measured bore instead of the old bounding-box guess (that one put the titanbreaker's flash in its scope).
+  `MAGAZINE` says what a weapon feeds from - box, tube, or nothing for the revolver. `equip_mod` and
+  `apply_mod_snapshot` both funnel through `refresh_attachments`, and co-op avatars mount the same parts from
+  the host snapshot (`coop_avatar.set_mods`, layer 1 and shadows on).
 - Meshy rigged characters are 1.7 m tall; scale by height/1.7, never by mesh AABB. Zombie skins: shambler =
   shambler/farmer/hiker/grandma, runner = runner/jogger, soldier = soldier/forester, titan = titan/colossus; a new
   skin only needs the GLB in `godot/assets/models/` plus its name in the `skins` list. `gen_asset.py` reuses the
@@ -161,6 +178,12 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   through gates, navmesh paths from every lane enter through a gate, sealed gates keep zombies outside and get
   attacked, a broken gate lets them in, Space vaults a built gate) and `--suite=perimeter_visual --no-intro` ->
   `shots/perimeter_*.png`. `--no-perimeter` builds the world without the ring (isolation).
+- Weapon mods: `--suite=weapon_attachments --no-intro --no-music` (headless, 620 checks over every weapon x
+  every compatible mod: bore axis, flush fit, calibre, no receiver or hand clipping, muzzle moved, grips and
+  sight line unchanged, stacked loadout, co-op snapshot). Add `--render-mods` in a windowed run for
+  `artifacts/weapon-mods/<weapon>-<mod>.png` (the joint, broadside, hands hidden) and `-ganz.png` (whole gun).
+  `tests/weapon_mods.gd` stays the economy side. `weapon_effects.gd` fails 14 checks on knife and hatchet
+  (the suite asks melee for muzzle flash) - that predates the mods.
 - Horde checks: `Godot.exe --path godot --script res://tests/run.gd -- --suite=horde_visual --no-intro` (titan on the
   field, second skin, skin line, short titan walk -> `shots/horde_*.png`, prints HORDE_TITAN / HORDE_SKINS /
   HORDE_WALK) and `--suite=horde_bench --no-intro` (60 zombies: frozen / no shadows / anims paused / simulated FPS;

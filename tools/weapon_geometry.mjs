@@ -147,11 +147,19 @@ function measure(name) {
 		// Bore: the frontmost 3 % of the barrel, median centred, radius from the tight span.
 		const tip = points.filter(p => Math.abs(p[long] - front) <= size[long] * 0.03);
 		const bore = crossSection(tip, up, side);
-		const boreRadius = Math.max(bore.span[0], bore.span[1]) * 0.5;
+		// A bore is round, a front sight or a barrel rib is not: the revolver's muzzle slab is
+		// 1.8x taller than wide, the shotgun's 2.3x. The narrower span is the barrel itself.
+		const boreRadius = Math.min(bore.span[0], bore.span[1]) * 0.5;
 
 		// Magazine: the lowest vertices of the gun; their long-axis median is the magwell centre.
-		const floor = min[up] + size[up] * 0.06;
-		const low = points.filter(p => p[up] <= floor);
+		// On a long gun the deepest point is the butt plate (the marksman and the titanbreaker both
+		// measured their stock), so everything behind two thirds of the barrel is excluded first.
+		// A pistol carries its magazine in the grip, which is exactly there - hence the shape test.
+		const stocked = size[up] / size[long] < 0.45;
+		const reach = muzzleAtMin ? min[long] + size[long] * 0.66 : max[long] - size[long] * 0.66;
+		const ahead = stocked ? points.filter(p => (muzzleAtMin ? p[long] <= reach : p[long] >= reach)) : points;
+		const floor = Math.min(...ahead.map(p => p[up])) + size[up] * 0.06;
+		const low = ahead.filter(p => p[up] <= floor);
 		const lowLong = low.map(p => p[long]).sort((x, y) => x - y);
 		const magSection = crossSection(low, long, side);
 
@@ -211,22 +219,41 @@ function measurePart(name) {
 		const area = s => s.span[0] * s.span[1];
 		// The muzzle end of a suppressor or barrel is the slimmer end; for a magazine the slim
 		// end is its floor plate, so the mount code flips it per slot anyway.
-		const frontAtHigh = area(highEnd) <= area(lowEnd);
+		// Which end is the muzzle end. On a symmetric tube (the compensator's two faces differ by
+		// 1 %) the area test is a coin toss and flipped the part between bakes, so anything under
+		// the confidence threshold falls back to the convention every Meshy part follows: -X.
+		const ratio = Math.min(area(lowEnd), area(highEnd)) / Math.max(area(lowEnd), area(highEnd));
+		// Measured: every asymmetric part lands at 0.79 or below. Ambiguous: the suppressor 0.99,
+		// the compensator 0.92 - both near symmetric tubes whose faces carry no usable difference.
+		const confident = ratio < 0.88;
+		const frontAtHigh = confident ? area(highEnd) <= area(lowEnd) : main[0] < 0;
 		const body = section(local.filter(p => Math.abs(p[0] - (lo + hi) / 2) <= length * 0.25));
 		const forward = frontAtHigh ? main : main.map(v => -v);
 		const front = frontAtHigh ? highEnd : lowEnd;
 		const rear = frontAtHigh ? lowEnd : highEnd;
+		// An eigenvector's sign is arbitrary. For a drum that decides whether the feed tower points
+		// up or down, so the thicker half of the disc is turned upwards.
+		let upward = second;
+		if (disc) {
+			const thickness = half => {
+				const picked = local.filter(p => (half > 0 ? p[1] >= 0 : p[1] <= 0)).map(p => Math.abs(p[0])).sort((a, b) => a - b);
+				return percentile(picked, 0.97);
+			};
+			if (thickness(-1) > thickness(1)) upward = second.map(v => -v);
+		}
 		return {
 			name,
 			shape: disc ? 'disc' : length / Math.max(0.0001, Math.max(body.span[0], body.span[1])) > 4 ? 'tube' : 'block',
 			centre: mean,
 			forward,
-			up: second,
+			up: upward,
+			confident,
 			side: third,
 			length,
 			radius: Math.max(body.span[0], body.span[1]) * 0.5,
 			upSpan: body.span[0],
 			sideSpan: body.span[1],
+			ratio,
 			front: { offset: frontAtHigh ? hi : -lo, radius: Math.max(front.span[0], front.span[1]) * 0.5, centre: front.centre },
 			rear: { offset: frontAtHigh ? -lo : hi, radius: Math.max(rear.span[0], rear.span[1]) * 0.5, centre: rear.centre },
 			spread,
@@ -244,7 +271,7 @@ for (const r of results) {
 	if (r.missing) { console.log(`${r.name}: MISSING`); continue; }
 	if (partMode) {
 		console.log(`\n=== ${r.name} (${r.shape}) ===`);
-		console.log(`forward ${vec(r.forward)}  up ${vec(r.up)}`);
+		console.log(`forward ${vec(r.forward)}  up ${vec(r.up)}   ends ${r.confident ? 'measured' : 'by convention'} (ratio ${f(r.ratio)})`);
 		console.log(`centre  ${vec(r.centre)}  length ${f(r.length)}  radius ${f(r.radius)}  slenderness ${f(r.length / (r.radius * 2))}`);
 		console.log(`front   +${f(r.front.offset)} r=${f(r.front.radius)}   rear -${f(r.rear.offset)} r=${f(r.rear.radius)}  offcentre ${vec(r.rear.centre)}`);
 		continue;
@@ -287,6 +314,7 @@ if (bakeAt >= 0) {
 			};
 			lines.push(`\t"${r.name}": {`);
 			lines.push(`\t\t"bore": ${v(toRaw(r.bore.at, r.bore.up, r.bore.side))}, "bore_radius": ${n(r.bore.radius)},`);
+			lines.push(`\t\t"length": ${n(r.size['XYZ'.indexOf(axis.long)])}, "height": ${n(r.size['XYZ'.indexOf(axis.up)])}, "width": ${n(r.size['XYZ'.indexOf(axis.side)])},`);
 			lines.push(`\t\t"mag": ${v(toRaw(r.magazine.along, r.magazine.bottom, r.magazine.side))}, "mag_width": ${n(r.magazine.width)},`);
 			lines.push(`\t\t"receiver": ${v(toRaw(r.receiver.at, r.receiver.up, r.receiver.side))}, "receiver_top": ${n(r.top.up)}, "receiver_width": ${n(r.receiver.width)},`);
 			lines.push(`\t},`);

@@ -389,7 +389,9 @@ func tick(delta: float) -> void:
 				if p.alive and game.intro.distance_to_road(p.global_position) < 5.0:
 					game.waves.start(1)
 					break
-		for id in avatars: avatars[id].set_weapon(weapons[id].current)
+		for id in avatars:
+			avatars[id].set_weapon(weapons[id].current)
+			avatars[id].set_mods(weapons[id].mod_loadout.get(weapons[id].current, {}))
 		for id in revive.keys():
 			var target: Player = actor(revive[id].target)
 			var p: Player = actor(id)
@@ -582,6 +584,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			if initial: p.global_position = s.p
 			move_targets[id] = [s.p, s.yaw]
 			avatars[id].set_weapon(s.weapon)
+			avatars[id].set_mods(s.get("mod_loadout", {}).get(s.weapon, {}))
 			avatars[id].set_skin(str(s.get("skins", {}).get(s.weapon, "")))
 		else:
 			var previous_position := p.global_position

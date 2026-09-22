@@ -12,21 +12,23 @@ const Data = preload("res://scripts/weapon_mount_data.gd")
 
 # mount: which anchor on the gun carries the part.
 # radius: [multiple of the weapon's own bore radius, minimum m, maximum m] - a 9 mm barrel still
-#         has to carry a believable can, a .50 gets a fat one. The part is scaled uniformly from
-#         that radius, so every part keeps its authored proportions.
+#         has to carry a believable can, a .50 gets a fat one. That radius sets the part's
+#         thickness; only its length is trimmed to fit the gun.
+# max:    longest the part may become, as a fraction of the weapon's own length. A wide shotgun
+#         muzzle would otherwise scale a slender barrel into a lance.
 # sink:   how far the part slides back over the weapon, as a fraction of its own length. That
 #         overlap is what removes the seam between gun and mod.
 const MOUNTS := {
-	"suppressor": {"model": "mod_suppressor", "mount": "muzzle", "radius": [1.6, 0.0135, 0.030], "sink": 0.16},
-	"ghost": {"model": "mod_ghost", "mount": "muzzle", "radius": [1.5, 0.0125, 0.027], "sink": 0.14,
-		"glow": Color(0.16, 0.72, 0.95), "glow_energy": 0.55},
-	"compensator": {"model": "mod_compensator", "mount": "muzzle", "radius": [1.45, 0.011, 0.023], "sink": 0.2},
-	"match_barrel": {"model": "mod_match_barrel", "mount": "barrel", "radius": [1.2, 0.0075, 0.020], "sink": 0.58},
-	"titan_core": {"model": "mod_titan_core", "mount": "barrel", "radius": [1.4, 0.009, 0.026], "sink": 0.5,
-		"glow": Color(1.0, 0.42, 0.1), "glow_energy": 0.7},
+	"suppressor": {"model": "mod_suppressor", "mount": "muzzle", "radius": [1.6, 0.0135, 0.030], "max": 0.82, "sink": 0.16},
+	"ghost": {"model": "mod_ghost", "mount": "muzzle", "radius": [1.5, 0.0125, 0.027], "max": 0.78, "sink": 0.14,
+		"glow": Color(0.16, 0.72, 0.95), "glow_energy": 0.4},
+	"compensator": {"model": "mod_compensator", "mount": "muzzle", "radius": [1.45, 0.011, 0.023], "max": 0.3, "sink": 0.2},
+	"match_barrel": {"model": "mod_match_barrel", "mount": "barrel", "radius": [1.2, 0.0075, 0.020], "max": 0.4, "sink": 0.58},
+	"titan_core": {"model": "mod_titan_core", "mount": "barrel", "radius": [1.4, 0.009, 0.026], "max": 0.45, "sink": 0.5,
+		"glow": Color(1.0, 0.42, 0.1), "glow_energy": 0.3},
 	"extended": {"model": "mod_extended_mag", "mount": "magazine", "tube": "mod_mag_tube", "width": 1.04, "sink": 0.42, "reach": 0.42},
-	"endless": {"model": "mod_endless", "mount": "magazine", "tube": "mod_mag_tube", "width": 2.4, "sink": 0.3, "reach": 0.62},
-	"quick_action": {"model": "mod_quick_action", "mount": "bolt", "radius": [0.9, 0.006, 0.012], "sink": 0.35},
+	"endless": {"model": "mod_endless", "mount": "magazine", "tube": "mod_mag_tube", "drum": 0.085, "width": 2.4, "sink": 0.3, "reach": 0.62},
+	"quick_action": {"model": "mod_quick_action", "mount": "bolt", "radius": [0.9, 0.006, 0.012], "max": 0.3, "sink": 0.35},
 }
 # Mounted in this order: the barrel extends the bore first, a muzzle device then rides on its tip.
 const AXIAL := ["match_barrel", "titan_core", "suppressor", "ghost", "compensator"]
@@ -40,6 +42,7 @@ const MAGAZINE := {
 
 var weapon := ""
 var layer := 2  # 2 = the view model render layer; a co-op avatar sets 1 for the world
+var shadows := false  # the view model never casts, a weapon out in the world does
 var _to_holder := Transform3D.IDENTITY
 var _scale := 1.0
 var _forward := Vector3.FORWARD
@@ -52,13 +55,19 @@ var _tip_valid := false
 static func supported(weapon_id: String) -> bool:
 	return Data.WEAPONS.has(weapon_id)
 
-# model is the instantiated weapon GLB inside the holder; its own transform carries the -90 degree
-# turn and the _fit_height scale, which is exactly what maps raw model coordinates into the holder.
-func setup(weapon_id: String, model: Node3D) -> void:
+# model is the instantiated weapon GLB; its own transform carries the -90 degree turn and the
+# _fit_height scale, which is exactly what maps raw model coordinates onto the gun. The chain is
+# walked up to the node this mount hangs from, so the same code serves the view model (holder ->
+# inner -> model) and a co-op avatar (gun -> model).
+func setup(weapon_id: String, model: Node3D, parent: Node3D = null) -> void:
 	name = "Mods"
 	weapon = weapon_id
-	var inner := model.get_parent() as Node3D
-	_to_holder = (inner.transform if inner else Transform3D.IDENTITY) * model.transform
+	var stop: Node3D = parent if parent else (model.get_parent().get_parent() as Node3D)
+	_to_holder = Transform3D.IDENTITY
+	var node: Node3D = model
+	while node != null and node != stop:
+		_to_holder = node.transform * _to_holder
+		node = node.get_parent() as Node3D
 	_scale = _to_holder.basis.get_scale().x
 	_forward = (_to_holder.basis * Vector3.LEFT).normalized()  # the barrel runs along raw -X
 	_up = (_to_holder.basis * Vector3.UP).normalized()
@@ -68,9 +77,37 @@ func weapon_data() -> Dictionary:
 	return Data.WEAPONS.get(weapon, {})
 
 # Holder-local muzzle: the front of the mounted barrel or muzzle device, so the flash, the smoke
-# and the tracers leave the suppressor instead of the bare barrel underneath it.
+# and the tracers leave the suppressor instead of the bare barrel underneath it. With nothing
+# mounted it is the measured bore, which beats the bounding box estimate the caller falls back to:
+# that one puts the titanbreaker's flash 8 cm high, inside its scope.
 func muzzle_tip(fallback: Vector3) -> Vector3:
 	return _tip if _tip_valid else fallback
+
+# The bare muzzle of this weapon, 6 mm clear of the barrel face like the old estimate.
+func bore_tip() -> Vector3:
+	var w := weapon_data()
+	if w.is_empty(): return Vector3.ZERO
+	return _to_holder * (w.bore as Vector3) + _forward * 0.006
+
+# Holder-local geometry of a mounted part, so tests can measure the fit instead of eyeballing it.
+func part_node(id: String) -> Node3D:
+	return _parts.get(id)
+
+func part_point(id: String, end: String) -> Vector3:
+	var node := part_node(id)
+	if node == null: return Vector3.ZERO
+	return node.transform * _anchor(Data.PARTS[_model_for(id)], end)
+
+func part_axis(id: String) -> Vector3:
+	var node := part_node(id)
+	if node == null: return Vector3.ZERO
+	return (node.transform.basis * (Data.PARTS[_model_for(id)].forward as Vector3)).normalized()
+
+func part_radius(id: String) -> float:
+	var node := part_node(id)
+	if node == null: return 0.0
+	var part: Dictionary = Data.PARTS[_model_for(id)]
+	return float(part.radius) * node.transform.basis.get_scale().y
 
 func mounted() -> Array:
 	var ids := []
@@ -108,7 +145,7 @@ func _build(id: String) -> void:
 	node.add_child(scene.instantiate())
 	add_child(node)
 	for mesh: MeshInstance3D in node.find_children("*", "MeshInstance3D", true, false):
-		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if shadows else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		mesh.layers = layer
 	var spec: Dictionary = MOUNTS[id]
 	if spec.has("glow"): _glow(node, spec.glow, float(spec.glow_energy))
@@ -137,12 +174,13 @@ func _place() -> void:
 	var w := weapon_data()
 	var bore: Vector3 = _to_holder * (w.bore as Vector3)
 	var bore_radius: float = float(w.bore_radius) * _scale
-	_tip = bore
-	_tip_valid = false
+	_tip = bore + _forward * 0.006
+	_tip_valid = true
+	var tip := bore
 	for id in AXIAL:
 		if not _visible(id): continue
-		_tip = _mount_axial(id, _tip, bore_radius)
-		_tip_valid = true
+		tip = _mount_axial(id, tip, bore_radius)
+		_tip = tip
 	for id in _parts:
 		if not _visible(id) or id in AXIAL: continue
 		match MOUNTS[id].mount:
@@ -153,15 +191,23 @@ func _place() -> void:
 func _mount_axial(id: String, tip: Vector3, bore_radius: float) -> Vector3:
 	var spec: Dictionary = MOUNTS[id]
 	var part: Dictionary = Data.PARTS[spec.model]
-	var factors: Array = spec.radius
-	var target := clampf(float(factors[0]) * bore_radius, float(factors[1]), float(factors[2]))
-	var k := target / float(part.radius)
-	var length := float(part.length) * k
+	var k := _axial_scale(spec, part, bore_radius)
+	var length := float(part.length) * k.x
 	var sink := float(spec.sink) * length
-	var basis := _basis(part, _forward, _up, k, k)
+	var basis := _basis(part, _forward, _up, k.x, k.y)
 	var node: Node3D = _parts[id]
 	node.transform = Transform3D(basis, tip - _forward * sink - basis * _anchor(part, "rear"))
 	return tip + _forward * (length - sink)
+
+# The calibre comes from the bore, the length from what the gun can carry: a slender rifle barrel
+# scaled uniformly onto a pistol would be either a lance or a wire, so the part keeps its measured
+# diameter and is only shortened along its axis. On a plain cylinder that is invisible.
+func _axial_scale(spec: Dictionary, part: Dictionary, bore_radius: float) -> Vector2:
+	var factors: Array = spec.radius
+	var target := clampf(float(factors[0]) * bore_radius, float(factors[1]), float(factors[2]))
+	var across := target / float(part.radius)
+	var longest := float(spec.max) * float(weapon_data().length) * _scale
+	return Vector2(minf(across, longest / float(part.length)), across)
 
 func _mount_magazine(id: String, bore: Vector3, bore_radius: float) -> void:
 	var spec: Dictionary = MOUNTS[id]
@@ -178,12 +224,12 @@ func _mount_magazine(id: String, bore: Vector3, bore_radius: float) -> void:
 		var tube := _basis(part, _forward, _up, along, across)
 		node.transform = Transform3D(tube, bore - _up * (bore_radius + radius * 1.05) - tube * _anchor(part, "front"))
 		return
-	var mount: Vector3 = _to_holder * (w.mag as Vector3)
-	var width := float(w.mag_width) * _scale * float(spec.width)
+	var mount := _magwell()
+	var width := _magazine_width(float(spec.width))
 	if part.shape == "disc":
 		# A drum hangs on the well with its face across the gun; only the top disappears inside.
-		var drum := width / float(part.radius)
-		var radius := float(part.radius) * drum
+		var radius := clampf(float(spec.drum) * float(w.length) * _scale, 0.012, 0.045)
+		var drum := radius / float(part.radius)
 		var basis := _basis(part, _right, _up, drum, drum)
 		node.transform = Transform3D(basis, mount - _up * (radius * (1.0 - float(spec.sink))) - basis * (part.centre as Vector3))
 		return
@@ -193,15 +239,28 @@ func _mount_magazine(id: String, bore: Vector3, bore_radius: float) -> void:
 	var basis := _basis(part, _up, _forward, k, k)
 	node.transform = Transform3D(basis, mount + _up * (float(spec.sink) * length) - basis * _anchor(part, "front"))
 
+# The magazine well: the lowest point of the weapon's own magazine. On the MG the lowest point is
+# the belt box hanging off one side, so an anchor that far out of line is pulled back to centre.
+func _magwell() -> Vector3:
+	var w := weapon_data()
+	var mag: Vector3 = w.mag
+	if absf(mag.z) > float(w.width) * 0.25: mag.z = 0.0
+	return _to_holder * mag
+
+# Measured on the weapon, but held to what a magazine can look like next to that gun.
+func _magazine_width(factor: float) -> float:
+	var w := weapon_data()
+	var ceiling := minf(0.035, float(w.width) * _scale * 0.55)
+	return clampf(float(w.mag_width) * _scale * factor, 0.010, ceiling)
+
 func _mount_bolt(id: String, bore_radius: float) -> void:
 	var spec: Dictionary = MOUNTS[id]
 	var w := weapon_data()
 	var part: Dictionary = Data.PARTS[spec.model]
-	var factors: Array = spec.radius
-	var target := clampf(float(factors[0]) * bore_radius, float(factors[1]), float(factors[2]))
-	var k := target / float(part.radius)
-	var length := float(part.length) * k
-	var basis := _basis(part, _forward, _up, k, k)
+	var k := _axial_scale(spec, part, bore_radius)
+	var target := float(part.radius) * k.y
+	var length := float(part.length) * k.x
+	var basis := _basis(part, _forward, _up, k.x, k.y)
 	# On the shooter's side of the receiver, level with its upper half: the one place on every one
 	# of these guns that neither hand and no sight line occupies.
 	var seat: Vector3 = _to_holder * (w.receiver as Vector3)
