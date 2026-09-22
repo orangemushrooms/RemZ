@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+HORDE_CPU complete frame_ms=46.7018 per_physics_tick_ms=(4.431892, 10.41574, 0.309954) calls=19500 physics_ms=32.018 process_ms=28.793
+HORDE_CPU no_body_contacts frame_ms=44.1502205882353 per_physics_tick_ms=(4.221103, 9.946692, 0.284368) calls=20400 physics_ms=30.387 process_ms=27.216
+HORDE_CPU animation_only frame_ms=16.9508258426966 per_physics_tick_ms=(0.0, 0.0, 0.0) calls=0 physics_ms=2.021 process_ms=20.988
+HORDE_CPU animation_without_attachments frame_ms=6.88940137614679 per_physics_tick_ms=(0.0, 0.0, 0.0) calls=0 physics_ms=0.802 process_ms=9.479
+HORDE_CPU_DONE

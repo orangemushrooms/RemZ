@@ -82,6 +82,7 @@ func run() -> void:
 	var forest_only := true
 	for loot in game.loots:
 		if loot is Loot and loot.kind == "mushroom":
+			if loot.taken: continue
 			mushrooms += 1
 			var point := Vector2(loot.global_position.x, loot.global_position.z)
 			if point.distance_to(Map.FIRE) > 100.0: distant += 1
@@ -93,7 +94,10 @@ func run() -> void:
 			if not selected.has(loot.id):
 				selected[loot.id] = loot
 	check(mushrooms > 0 and owned_visuals == mushrooms, "Every mushroom still owns its visible model after map optimization")
-	check(selected.size() == Inventory.MUSHROOMS.size(), "All mushroom varieties are available for collection")
+	var common_present := true
+	for kind in Inventory.MUSHROOMS:
+		if not Inventory.MUSHROOMS[kind].get("collectible", false) and not selected.has(kind): common_present = false
+	check(common_present, "Common mushroom varieties are available; rare collectibles are optional")
 	check(distant > mushrooms / 2, "Most mushrooms are available more than 100 metres from the hut")
 	check(regions.size() >= 20, "Mushrooms cover at least twenty distinct forest regions")
 	check(forest_only, "Mushrooms stay on playable forest floor outside roads, clearings and buildings")

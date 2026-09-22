@@ -4,15 +4,15 @@
 
 Zombies greifen eine gebaute Linie an, wenn sie ihren Weg zur Hütte versperrt. Sie behalten das Durchbruchsziel beim seitlichen Ausweichen. Gegner aus den vier Anmarschrichtungen berücksichtigen den zugehörigen befestigten Zugang. Nach dessen Zerstörung setzen sie die Verfolgung fort. Eine Linie schützt ihren Zugang; bereits dahinter befindliche Gegner bleiben gefährlich.
 
-## Automatische Geschütztürme
+## Geschütztürme
 
-- **T** aktiviert die Bauvorschau. **R / Mausrad** dreht in 15°-Schritten, **Shift+R** dreht zurück. Auf einen freien Bodenplatz schauen, mit **E** bauen; **T / Esc** bricht ab. Grün bedeutet gültig, Rot nennt den Grund für eine Ablehnung.
-- Baukosten: **120 Punkte**. Höchstens **6 Türme insgesamt**, auch im Koop. Bauplatz höchstens 8 m entfernt, mit freier Sicht, genug Platz und ausreichend ebenem Boden.
-- Beim Turm beginnt **E** das kostenlose Neuausrichten, **F** repariert. Ausbauen und Abbauen verwaltet **Mechanic → Türme**.
-- Ausbaustufen: 240 / 400 / 600 Struktur, 26 / 32 / 38 m Reichweite. Ausbauten kosten 100 und 175 Punkte. Reparatur kostet 35 Punkte und stellt die volle Struktur wieder her. Nur der Erbauer kann abbauen und erhält 40 Punkte zurück.
-- Türme schwenken zu sichtbaren Gegnern innerhalb ihres **160°-Feuersektors**, feuern mit Streuung und legen bei Überhitzung eine Kühlpause ein. Munition wird automatisch versorgt. Wände und Gelände stoppen Schüsse; Teammitglieder nehmen keinen Turmschaden.
-- Zombies und Titanen können die Türme zerstören. Hinter einer Barrikade sind sie deutlich besser geschützt. Turmabschüsse geben dem Erbauer 50 % der normalen Abschusspunkte. Verlässt dieser die Sitzung, übernimmt der Host seine Türme.
-- Auf der Minikarte erscheinen Türme als blaue Quadrate.
+- **T** öffnet die Turmauswahl. **R / Mausrad** dreht die Bauvorschau, **Shift+R** dreht zurück, **E** bestätigt, **T / Esc** bricht ab.
+- Typen und Baupreise: **Wächter 120 P**, **Flammenwerfer 260 P**, **Mörser 380 P**, **Schweres MG 450 P**, **Teslaspule 600 P**. Höchstens sechs Türme pro Team.
+- **E am Turm:** aufsteigen, Maus zum Zielen, **Linksklick** feuert, **Rechtsklick halten** zoomt und verringert die Winkelstreuung um 75 %, **E** steigt ab.
+- **R am unbesetzten Turm:** neu ausrichten. **F:** für 35 P reparieren. Ausbau und Abbau bei **Mechanic → Türme**; Preise skalieren mit dem Typ.
+- Grundreichweiten: Wächter 26 m, Flammenwerfer 14 m, Mörser 60 m, MG 44 m, Tesla 22 m; jede Ausbaustufe ergänzt 6 m. Bodenmarkierung und Zielanzeige helfen beim Einschätzen von Reichweite und Hindernissen.
+- Unbesetzt feuern Türme automatisch im 160°-Sektor, manuell rundum. Dauerfeuer führt zur Überhitzung. Wände und Gelände stoppen Schüsse; Teammitglieder nehmen keinen Turmschaden.
+- Zombies und Titanen können Türme zerstören. Hinter einer Barrikade sind sie besser geschützt. Auf der Minikarte erscheinen sie als blaue Quadrate.
 
 ## Feldtitanen
 

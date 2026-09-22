@@ -1,0 +1,74 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] optimize (res://scripts/render_optimizer.gd:84)
+       [1] _ready (res://scripts/main.gd:104)
+       [2] run (res://tests/firework_batteries.gd:12)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] optimize (res://scripts/render_optimizer.gd:84)
+       [1] _ready (res://scripts/main.gd:104)
+       [2] run (res://tests/firework_batteries.gd:12)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] optimize (res://scripts/render_optimizer.gd:84)
+       [1] _ready (res://scripts/main.gd:104)
+       [2] run (res://tests/firework_batteries.gd:12)
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+COOP_LOAD MAP_READY
+PASS: fw_battery_40 purchase charges price and grants one box
+PASS: fw_battery_40 has Meshy model
+PASS: fw_battery_40 can be equipped with visible box
+PASS: fw_battery_90 purchase charges price and grants one box
+PASS: fw_battery_90 has Meshy model
+PASS: fw_battery_90 can be equipped with visible box
+PASS: Flat open placement consumes one battery: 
+PASS: Ignition instantiates battery timeline
+PASS: Overlapping placement rejected without spending stock
+PASS: Second battery can be placed with clearance: 
+PASS: Concurrent battery limit preserves stock
+PASS: fw_battery_40 launch sequence lasts exact advertised duration
+PASS: fw_battery_40 late join resumes in middle of sequence
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Live shell count stays bounded
+PASS: Repeated timeline update does not duplicate salvos
+PASS: Snapshot replica resumes identical salvo index
+PASS: Final salvo ends firing at advertised duration
+PASS: Finished battery cleans up
+PASS: fw_battery_90 launch sequence lasts exact advertised duration
+PASS: fw_battery_90 late join resumes in middle of sequence
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Late join restores only live shells without stick models
+PASS: Live shell count stays bounded
+PASS: Repeated timeline update does not duplicate salvos
+PASS: Snapshot replica resumes identical salvo index
+PASS: Final salvo ends firing at advertised duration
+PASS: Finished battery cleans up
+BATTERIES_DONE checks=40 failures=0

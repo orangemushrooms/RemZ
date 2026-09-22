@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Ten quick slots are built
+PASS: Items not owned cannot be assigned
+PASS: 0 activates slot ten
+PASS: Number key consumes a bound mushroom once
+PASS: Old number-key weapon polling does not override a binding
+PASS: Empty stacks retain the binding without consuming again
+PASS: Replenished stacks become usable again
+PASS: Inventory blocks quick-use actions
+PASS: Inventory item picker assigns the chosen slot
+PASS: Slot picker can clear a binding
+PASS: Number key selects bound fireworks
+PASS: Empty quick slot does not cancel fireworks
+PASS: Bound weapon restores gun after fireworks
+PASS: Bound grenade uses the existing throw action
+PASS: Bound talisman equips through the existing action
+PASS: Bound special ammo activates
+PASS: Selected gun shows fire rounds alongside normal ammunition
+PASS: Melee selection clears the gun badge without labelling the knife
+PASS: Fire badge follows remaining special rounds
+PASS: Empty special ammunition clears the badge
+PASS: Frost selection uses the same weapon badge
+PASS: Switching to normal ammunition clears the badge
+PASS: Modal state blocks quick-use actions
+PASS: Quickbar fits within viewport
+PASS: Weapon readout stays clear of the quick bar with knife equipped
+PASS: Weapon readout stays clear of the quick bar with hatchet equipped
+PASS: Weapon readout stays clear of the quick bar with titanbreaker equipped
+QUICKBAR_DONE checks=27 failures=0

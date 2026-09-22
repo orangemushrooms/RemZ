@@ -1,0 +1,27 @@
+2026-09-21T20:11:22 remz-windows-20260921-frost-origin BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-21T20:11:22 remz-windows-20260921-frost-origin NETWORK_INITIALIZED
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin MAP_READY
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin JOIN_BEGIN address=127.0.0.1 port=24692
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin JOIN_SOCKET result=0
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin TRANSPORT_CONNECTED sending_hello
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin PEER_CONNECTED id=1
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin PEER_CONNECTED id=590717820
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin PEER_CONNECTED id=659061784
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin WELCOME
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin INITIAL_RECEIVE parts=4
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin INITIAL_APPLY_BEGIN
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin STATE_STAGE structures
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin STATE_STAGE players
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin STATE_STAGE enemies
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin STATE_STAGE items
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin STATE_STAGE barricades
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin INITIAL_APPLY_DONE
+2026-09-21T20:11:41 remz-windows-20260921-frost-origin STATE_RECEIVE parts=4
+2026-09-21T20:11:42 remz-windows-20260921-frost-origin STATE_STAGE structures
+2026-09-21T20:11:42 remz-windows-20260921-frost-origin STATE_STAGE players
+2026-09-21T20:11:42 remz-windows-20260921-frost-origin STATE_STAGE enemies
+2026-09-21T20:11:42 remz-windows-20260921-frost-origin STATE_STAGE items
+2026-09-21T20:11:42 remz-windows-20260921-frost-origin STATE_STAGE barricades
+2026-09-21T20:11:42 remz-windows-20260921-frost-origin STATE_APPLY_DONE sequence=4
+2026-09-21T20:11:42 remz-windows-20260921-frost-origin ROUND_BEGIN intro=false
+2026-09-21T20:11:42 remz-windows-20260921-frost-origin ROUND_RUNNING players=4

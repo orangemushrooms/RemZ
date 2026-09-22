@@ -1,0 +1,121 @@
+2026-09-21T20:41:27 remz-dev-20260921-goldroehrling BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-21T20:41:27 remz-dev-20260921-goldroehrling NETWORK_INITIALIZED
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling MAP_READY
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling JOIN_BEGIN address=127.0.0.1 port=24687
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling JOIN_SOCKET result=0
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling TRANSPORT_CONNECTED sending_hello
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling PEER_CONNECTED id=1
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling PEER_CONNECTED id=1839871623
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling PEER_CONNECTED id=361921188
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling WELCOME
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling INITIAL_RECEIVE parts=5
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling INITIAL_APPLY_BEGIN
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling INITIAL_APPLY_DONE
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_RECEIVE parts=5
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_APPLY_DONE sequence=4
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling ROUND_BEGIN intro=false
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling ROUND_RUNNING players=4
+2026-09-21T20:42:10 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:42:10 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:42:10 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:42:10 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:42:10 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:42:19 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:42:19 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:42:19 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:42:19 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:42:19 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:42:22 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:42:22 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:42:22 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:42:22 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:42:22 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:42:37 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:42:37 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:42:37 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:42:37 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:42:37 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:42:39 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:42:39 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:42:39 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:42:39 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:42:39 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:42:44 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:42:44 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:42:44 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:42:44 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:42:44 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:42:45 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:42:45 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:42:45 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:42:45 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:42:45 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:42:49 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:42:49 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:42:49 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:42:49 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:42:49 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:42:58 remz-dev-20260921-goldroehrling PEER_DISCONNECTED id=361921188
+2026-09-21T20:43:15 remz-dev-20260921-goldroehrling PEER_CONNECTED id=663335872
+2026-09-21T20:43:16 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:43:16 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:43:16 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:43:16 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:43:16 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:43:19 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:43:19 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:43:19 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:43:19 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:43:19 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:43:22 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:43:22 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:43:22 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:43:22 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:43:22 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:43:24 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:43:24 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:43:24 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:43:24 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:43:24 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:43:27 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:43:27 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:43:27 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:43:27 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:43:27 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:43:42 remz-dev-20260921-goldroehrling STATE_RECEIVE parts=8
+2026-09-21T20:43:42 remz-dev-20260921-goldroehrling STATE_APPLY_DONE sequence=1062
+2026-09-21T20:44:01 remz-dev-20260921-goldroehrling MAP_READY
+2026-09-21T20:44:02 remz-dev-20260921-goldroehrling INITIAL_RECEIVE parts=5
+2026-09-21T20:44:02 remz-dev-20260921-goldroehrling INITIAL_APPLY_BEGIN
+2026-09-21T20:44:02 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:44:02 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:44:02 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling INITIAL_APPLY_DONE
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_RECEIVE parts=5
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_STAGE structures
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_STAGE players
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_STAGE enemies
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_STAGE items
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_STAGE barricades
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_APPLY_DONE sequence=1066
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling ROUND_BEGIN intro=false
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling ROUND_RUNNING players=4
+2026-09-21T20:44:05 remz-dev-20260921-goldroehrling PEER_DISCONNECTED id=663335872
+2026-09-21T20:44:06 remz-dev-20260921-goldroehrling PEER_DISCONNECTED id=1
+2026-09-21T20:44:06 remz-dev-20260921-goldroehrling LEAVE_BEGIN phase=running reason=Der Host hat die Verbindung beendet.
+2026-09-21T20:44:06 remz-dev-20260921-goldroehrling LEAVE_PEER_DETACHED
+2026-09-21T20:44:06 remz-dev-20260921-goldroehrling LEAVE_PEER_CLOSED
+2026-09-21T20:44:06 remz-dev-20260921-goldroehrling LEAVE_RELOAD
+2026-09-21T20:44:22 remz-dev-20260921-goldroehrling MAP_READY

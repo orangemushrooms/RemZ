@@ -1,0 +1,28 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 676, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+ROAM 0 position=(-53.66826, 0.774821, -130.5292) cells=1 stops=1
+ROAM 1000 position=(-197.7513, -23.85673, 55.55718) cells=4 stops=2
+ROAM 2000 position=(19.67001, 2.959235, -28.07274) cells=7 stops=5
+ROAM 3000 position=(-162.1712, -12.56931, -2.781384) cells=7 stops=7
+ROAM 4000 position=(-124.7178, -8.291122, -7.155995) cells=8 stops=8
+ROAM 5000 position=(-141.4155, -19.25567, 129.3737) cells=8 stops=10
+ROAM 6000 position=(100.1408, 10.24543, -74.12564) cells=8 stops=10
+ROAM 7000 position=(71.32269, 4.235137, 44.72151) cells=9 stops=13
+ROAM 8000 position=(-124.9849, -14.41624, 90.90323) cells=9 stops=15
+ROAM 9000 position=(-224.0445, -15.84675, -81.49249) cells=9 stops=17
+ROAM 10000 position=(24.55238, -2.663255, 119.1254) cells=9 stops=18
+ROAM 11000 position=(92.98253, 10.16164, -99.87279) cells=9 stops=19
+ROAM 12000 position=(128.2591, 8.53954, 41.94175) cells=9 stops=22
+ROAM 13000 position=(-24.11549, -0.401472, -25.33365) cells=9 stops=24
+ROAM 14000 position=(-213.8324, -16.09528, -60.68151) cells=9 stops=26
+ROAM 15000 position=(-171.4999, -18.1903, 46.52398) cells=9 stops=27
+ROAM 16000 position=(112.8053, 8.560468, 12.20645) cells=9 stops=28
+ROAM 17000 position=(111.9683, 9.816451, -20.35354) cells=9 stops=30
+PASS: Merchant physically visits all nine sectors without teleporting
+ROAM_DONE cells=9 tiles=146 stops=32 max_step=0.41251057386398 failures=0

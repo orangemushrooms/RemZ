@@ -1,0 +1,50 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Dense field uses a bounded number of batched corn stalks
+CORN_PLANTS 38925
+PASS: Each corn stalk has exactly one render instance, without overlapping LOD copies
+PASS: Approaching corn selects its detailed mesh
+PASS: Camera bob across the near boundary does not flicker between corn meshes
+PASS: Moving beyond hysteresis switches once to medium detail
+PASS: Distant corn remains stable around its LOD boundary
+PASS: Returning to close detail retains the same wind-safe culling bounds
+PASS: Long field edge follows the NW-SE forest boundary
+PASS: Previous crosswise field footprint returns to meadow
+PASS: Soil uses textured PBR relief instead of flat triangle colors
+PASS: Five distinct rewards are hidden in maze dead ends
+PASS: Every passage and the second exit connect to the entrance
+PASS: Navigation reaches cache: fire
+PASS: Navigation reaches cache: frost
+PASS: Navigation reaches cache: cache_cash
+PASS: Navigation reaches cache: cache_grenade
+PASS: Navigation reaches cache: ammo
+PASS: Full special-ammo inventory leaves its cache intact
+PASS: Fire cache grants twelve rounds exactly once
+PASS: Cash cache grants its reward exactly once
+PASS: Maze cache schedules a random two-to-four-wave cooldown
+PASS: Collected maze cache survives but stays hidden before its cooldown
+PASS: Maze cache returns at its scheduled wave
+PASS: Late-game cash cache upgrades its reward and prompt
+PASS: Upgraded cash reward is granted only once
+PASS: Repeated same-wave refill cannot duplicate an upgraded reward
+PASS: Upgraded special ammunition respects inventory capacity
+PASS: Late-game grenade cache grants three grenades within capacity
+PASS: Late-game ammunition cache supplies six magazines within capacity
+PASS: Host awards maze special ammunition to the collecting teammate
+PASS: Duplicate coop requests cannot duplicate rewards
+PASS: Host keeps collected coop caches for later respawn
+PASS: Snapshot preserves hidden cache identity and cooldown for late joiners
+PASS: Respawn snapshot advertises the same cache with upgraded reward state
+PASS: Meshy raven loads a complete articulated wing rig
+PASS: Raven uses supplied recordings without immediate repetition
+PASS: Nearby player or gunshot makes ravens take flight
+PASS: Meshy owl loads a complete articulated wing rig
+PASS: Owls remain hidden during daylight
+PASS: Owls become airborne at night
+CORNFIELD_DONE checks=40 failures=0

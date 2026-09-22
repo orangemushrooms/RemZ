@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+HORDE_CPU complete frame_ms=8.88645562130177 per_physics_tick_ms=(2.154061, 2.776928, 0.326839) calls=54000 physics_ms=10.452 process_ms=8.718
+HORDE_CPU no_body_contacts frame_ms=7.73406701030928 per_physics_tick_ms=(2.0042, 2.400983, 0.295128) calls=54000 physics_ms=8.402 process_ms=7.831
+HORDE_CPU world_only_contacts frame_ms=8.80698240469208 per_physics_tick_ms=(2.182961, 2.6315, 0.315233) calls=54000 physics_ms=10.583 process_ms=12.21
+HORDE_CPU no_contacts frame_ms=8.59530857142857 per_physics_tick_ms=(2.187206, 2.50855, 0.300139) calls=54000 physics_ms=8.526 process_ms=6.848
+HORDE_CPU animation_only frame_ms=6.89024082568807 per_physics_tick_ms=(0.0, 0.0, 0.0) calls=0 physics_ms=0.87 process_ms=6.84
+HORDE_CPU animation_without_attachments frame_ms=6.89009633027523 per_physics_tick_ms=(0.0, 0.0, 0.0) calls=0 physics_ms=0.804 process_ms=6.16
+HORDE_CPU_DONE

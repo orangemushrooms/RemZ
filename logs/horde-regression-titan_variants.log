@@ -1,0 +1,111 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Smaller titan groups scale from wave eight to three per wave
+PASS: Wave 1 includes variants in exact preview
+PASS: Wave 2 includes variants in exact preview
+PASS: Wave 3 includes variants in exact preview
+PASS: Wave 4 includes variants in exact preview
+PASS: Wave 5 includes variants in exact preview
+PASS: Wave 6 includes variants in exact preview
+PASS: Wave 7 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Wave 8 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Wave 9 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Wave 10 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Wave 11 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Wave 12 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Wave 13 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Wave 14 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Wave 15 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 16 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 17 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 18 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 19 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 20 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 21 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 22 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 23 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 24 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 25 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 26 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 27 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 28 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 29 includes variants in exact preview
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Variant enters through an open field
+PASS: Wave 30 includes variants in exact preview
+PASS: Wave schedule uses all three new variants
+PASS: titan_hunter has complete animations
+PASS: titan_hunter retains animated hitboxes at its own scale
+PASS: titan_hunter applies its actual strike damage
+PASS: titan_hunter respects its individual blast radius
+PASS: titan_hunter advertises its own windup and warning
+PASS: titan_siege has complete animations
+PASS: titan_siege retains animated hitboxes at its own scale
+PASS: titan_siege applies its actual strike damage
+PASS: titan_siege respects its individual blast radius
+PASS: titan_siege advertises its own windup and warning
+PASS: titan_ash has complete animations
+PASS: titan_ash retains animated hitboxes at its own scale
+PASS: titan_ash applies its actual strike damage
+PASS: titan_ash respects its individual blast radius
+PASS: titan_ash advertises its own windup and warning
+PASS: titan has complete animations
+PASS: titan retains animated hitboxes at its own scale
+PASS: titan applies its actual strike damage
+PASS: titan respects its individual blast radius
+PASS: titan advertises its own windup and warning
+PASS: Four active titans prevent additional titan spawns
+PASS: Variants have genuinely different attack footprints
+PASS: Faster attacks retain shorter but visible warnings
+PASS: New variants count toward titan quests
+PASS: Replica reconstructs variant telegraph and scale
+TITAN_VARIANTS_DONE checks=102 failures=0

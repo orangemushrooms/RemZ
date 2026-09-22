@@ -9,6 +9,7 @@ var pending_item := ""
 var buttons: Array[Button] = []
 var icons: Array[TextureRect] = []
 var counts: Array[Label] = []
+var ammo_badges: Array[Label] = []
 var _refresh_time := 0.0
 
 func setup(scene: Node) -> void:
@@ -44,6 +45,18 @@ func setup(scene: Node) -> void:
 		content.add_child(key)
 		var icon := ItemIcons.view("item", Vector2(44, 32))
 		content.add_child(icon)
+		var ammo_badge := Label.new()
+		ammo_badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		ammo_badge.add_theme_font_size_override("font_size", 9)
+		ammo_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var badge_style := StyleBoxFlat.new()
+		badge_style.bg_color = Color(0.035, 0.025, 0.02, 0.94)
+		badge_style.set_corner_radius_all(2)
+		ammo_badge.add_theme_stylebox_override("normal", badge_style)
+		icon.add_child(ammo_badge)
+		ammo_badge.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
+		ammo_badge.offset_top = -12
+		ammo_badges.append(ammo_badge)
 		var count := Label.new()
 		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		count.add_theme_font_size_override("font_size", 11)
@@ -69,12 +82,17 @@ func item_data(id: String) -> Dictionary:
 	if Weapons.DEFS.has(id):
 		var state: Dictionary = game.weapons.state[id]
 		return {"name": Weapons.DEFS[id].name, "icon": id, "owned": game.weapons.unlocked.get(id, false), "count": "" if Weapons.is_melee(id) else "%d/%d" % [state.ammo, state.reserve]}
+	if id == "cooked_meat":
+		var amount := int(game.hunting.stock(game.player.peer_id).cooked_meat)
+		# Health food can be bound like mushrooms.
+		return {"name": "Gegrilltes Wildfleisch", "icon": id, "owned": amount > 0, "count": str(amount)}
 	if Inventory.MUSHROOMS.has(id):
+		if Inventory.MUSHROOMS[id].get("collectible", false): return {}
 		var amount := int(game.inventory.mushrooms.get(id, 0))
 		return {"name": Inventory.MUSHROOMS[id].name, "icon": id, "owned": amount > 0, "count": str(amount)}
 	if Fireworks.DEFS.has(id):
 		var amount := int(game.fireworks.stock(game.player.peer_id).get(id, 0))
-		return {"name": Fireworks.DEFS[id].name, "icon": "firework_rocket" if Fireworks.DEFS[id].rocket else "firework_cracker", "owned": amount > 0, "count": str(amount)}
+		return {"name": Fireworks.DEFS[id].name, "icon": Fireworks.icon_id(id), "owned": amount > 0, "count": str(amount)}
 	if id == "grenade":
 		return {"name": "Granaten", "icon": id, "owned": game.weapons.grenades > 0, "count": str(game.weapons.grenades)}
 	if Player.RareItems.DEFS.has(id):
@@ -89,6 +107,7 @@ func owned_items() -> Array[String]:
 	candidates.append_array(Inventory.MUSHROOMS.keys())
 	candidates.append_array(Fireworks.DEFS.keys())
 	candidates.append("grenade")
+	candidates.append("cooked_meat")
 	candidates.append_array(Player.RareItems.DEFS.keys())
 	for id in candidates:
 		if item_data(id).get("owned", false): result.append(id)
@@ -142,6 +161,7 @@ func activate(index: int) -> void:
 	if Weapons.DEFS.has(id):
 		game.fireworks.cancel()
 		game.weapons.set_weapon(id)
+	elif id == "cooked_meat": game.hunting.request("eat")
 	elif Inventory.MUSHROOMS.has(id): game.inventory._eat(id)
 	elif Fireworks.DEFS.has(id): game.fireworks.select(id)
 	elif id == "grenade": game.weapons.throw_grenade()
@@ -149,6 +169,8 @@ func activate(index: int) -> void:
 	refresh()
 
 func refresh() -> void:
+	var market = game.progression.rare_market
+	var ammo_mode: String = market.round_mode(game.player)
 	for index in SLOT_COUNT:
 		var id := bindings[index]
 		var data := item_data(id)
@@ -156,8 +178,18 @@ func refresh() -> void:
 		if not data.is_empty(): icons[index].texture = ItemIcons.texture(data.icon)
 		counts[index].text = str(data.get("count", ""))
 		var active: bool = (game.fireworks.armed and game.fireworks.selected == id) or (not game.fireworks.armed and game.weapons.current == id)
-		buttons[index].modulate = Color(1, 0.8, 0.4) if active else (Color.WHITE if data.get("owned", false) else Color(0.55, 0.55, 0.55))
+		buttons[index].modulate = Color.WHITE if data.get("owned", false) else Color(0.55, 0.55, 0.55)
+		buttons[index].self_modulate = Color(1, 0.8, 0.4) if active else Color.WHITE
 		buttons[index].tooltip_text = "%s\nInventar: Klick zum Belegen, Rechtsklick zum Leeren" % data.get("name", "Leer")
+		ammo_badges[index].text = ""
+		ammo_badges[index].hide()
+		if active and Weapons.DEFS.has(id) and not Weapons.is_melee(id) and not ammo_mode.is_empty():
+			var remaining := int(market.data(game.player.peer_id).ammo[ammo_mode])
+			var label := "FEUER" if ammo_mode == "fire" else "FROST"
+			ammo_badges[index].text = "%s %d" % [label, remaining]
+			ammo_badges[index].show()
+			ammo_badges[index].add_theme_color_override("font_color", Color(1, 0.48, 0.16) if ammo_mode == "fire" else Color(0.4, 0.85, 1))
+			buttons[index].tooltip_text += "\n%s: %d Spezialpatronen" % ["Feuerpatronen" if ammo_mode == "fire" else "Frostpatronen", remaining]
 
 func _process(delta: float) -> void:
 	if not game: return

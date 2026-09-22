@@ -1,0 +1,52 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 673, "batches": 13, "removed_render_nodes": 33 }
+COOP_LOAD MAP_READY
+PASS: pistol hip trail and visible muzzle share the same screen pixel
+PASS: pistol hip real frost shot stays attached during recoil
+PASS: pistol hip attachment never moves the authoritative impact
+WARNING: The path :res://.. is a reserved Windows system pipe, so it can't be used for creating directories.
+   at: make_dir (drivers/windows/dir_access_windows.cpp:230)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/muzzle_alignment.gd:57)
+ERROR: Could not create directory: 'res://..'.
+   at: make_dir_recursive (core/io/dir_access.cpp:179)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/muzzle_alignment.gd:57)
+ERROR: Can't save PNG at path: 'res://../artifacts/muzzle-alignment/pistol-hip.png'.
+   at: save_image (drivers/png/resource_saver_png.cpp:56)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/muzzle_alignment.gd:58)
+PASS: pistol ads trail and visible muzzle share the same screen pixel
+PASS: pistol ads real frost shot stays attached during recoil
+PASS: pistol ads attachment never moves the authoritative impact
+WARNING: The path :res://.. is a reserved Windows system pipe, so it can't be used for creating directories.
+   at: make_dir (drivers/windows/dir_access_windows.cpp:230)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/muzzle_alignment.gd:57)
+ERROR: Could not create directory: 'res://..'.
+   at: make_dir_recursive (core/io/dir_access.cpp:179)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/muzzle_alignment.gd:57)
+ERROR: Can't save PNG at path: 'res://../artifacts/muzzle-alignment/pistol-ads.png'.
+   at: save_image (drivers/png/resource_saver_png.cpp:56)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/muzzle_alignment.gd:58)
+PASS: smg hip trail and visible muzzle share the same screen pixel
+PASS: smg hip real frost shot stays attached during recoil
+PASS: smg hip attachment never moves the authoritative impact
+PASS: smg ads trail and visible muzzle share the same screen pixel
+PASS: smg ads real frost shot stays attached during recoil
+PASS: smg ads attachment never moves the authoritative impact
+PASS: ak47 hip trail and visible muzzle share the same screen pixel
+PASS: ak47 hip real frost shot stays attached during recoil
+PASS: ak47 hip attachment never moves the authoritative impact
+PASS: ak47 ads trail and visible muzzle share the same screen pixel
+PASS: ak47 ads real frost shot stays attached during recoil
+PASS: ak47 ads attachment never moves the authoritative impact
+MUZZLE_ALIGNMENT_DONE checks=18 failures=0

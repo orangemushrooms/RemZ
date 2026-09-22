@@ -11,7 +11,6 @@ const NPCS := {
 	"mechanic": {"name": "Mechanic", "role": "Verteidigung & Training", "model": "npc_mechanic", "height": 1.7, "pos": Vector2(-5, -24), "line": "Eine Sperre hält sie auf. Ein richtig ausgerichteter Wächter erledigt den Rest."},
 	"secret": {"name": "Secret Vendor", "role": "Seltene Ausrüstung", "model": "npc_secret_trader", "height": 1.9, "pos": Vector2(-100, -140), "line": "Du hast mich gefunden. Jetzt zeig mir, dass du diese Waffen führen kannst."},
 }
-const CACHE := Vector2(-64, -147)
 const GOODS := {
 	"hatchet": {"npc": "camp", "price": 180, "wave": 1, "quest": "arrival", "ammo": 0, "desc": "Kräftige Waldaxt. Langsamer Schlag, hohe Wucht, keine Munition."},
 	"revolver": {"npc": "camp", "price": 220, "wave": 1, "quest": "arrival", "ammo": 24, "desc": "Präzise und sparsam. Sechs schwere Schüsse."},
@@ -30,7 +29,7 @@ const QUESTS := {
 	"arrival": {"min_level": 1, "waves_after_accept": 0,"npc": "camp", "name": "Am Feuer", "requires": "", "reward": 20, "desc": "Sprich mit Vendor am Lagerfeuer. Er erklärt dir Handel und Versorgung."},
 	"watch": {"min_level": 2, "waves_after_accept": 1,"npc": "mechanic", "name": "Der erste Wächter", "requires": "arrival", "reward": 110, "desc": "Baue eine Barrikade und einen Turm. Richte den Turm anschliessend neu aus. T: Vorschau · R/Mausrad: drehen · E: bestätigen. Am Turm E: ausrichten, F: reparieren."},
 	"line": {"min_level": 2, "waves_after_accept": 1,"npc": "camp", "name": "Die Linie halten", "requires": "arrival", "reward": 140, "desc": "Übersteht als Team zwei Wellen und besiegt 30 Zombies. Kehre zu Vendor zurück."},
-	"supplies": {"min_level": 4, "waves_after_accept": 1,"npc": "mechanic", "name": "Die verlorene Lieferung", "requires": "watch", "reward": 180, "desc": "Folge dem nördlichen Waldweg bis kurz vor den Abzweig zum Teich. Rechts des Weges liegt eine markierte Werkzeugkiste. Bringe die Lieferung zu Mechanic. Ein Händler soll weiter südöstlich im Wald lagern."},
+	"supplies": {"min_level": 4, "waves_after_accept": 1,"npc": "mechanic", "name": "Die verlorene Lieferung", "requires": "watch", "reward": 180, "desc": "Die Werkzeugkiste ist irgendwo im Gebiet verloren gegangen. Ihr Fundort wechselt mit jeder Runde und ist nach Annahme auf der Karte markiert. Berge die Lieferung und kehre zu Mechanic zurück."},
 	"titan": {"min_level": 7, "waves_after_accept": 1,"npc": "secret", "name": "Was auf dem Feld lauert", "requires": "supplies", "reward": 300, "desc": "Besiegt gemeinsam einen Feldtitanen. Sie erscheinen ab Welle 6. Hole danach deine Belohnung beim Secret Vendor ab."},
 	"steady_aim": {"min_level": 2, "waves_after_accept": 1,"npc": "camp", "name": "Eine ruhige Hand", "requires": "arrival", "reward": 90, "desc": "Besiegt als Team 15 Zombies mit Kopfschüssen. Jeder gezielte Treffer spart Vorräte.", "goals": {"headshot_kills": 15}},
 	"marksman_training": {"min_level": 5, "waves_after_accept": 1,"npc": "camp", "name": "Präzision unter Druck", "requires": "steady_aim", "reward": 140, "desc": "Erreicht als Team 25 Kopfschuss-Kills und übersteht Welle 3. Pistole und Revolver genügen. Danach schickt dich Vendor zur Abschlussprüfung beim Secret Vendor.", "goals": {"headshot_kills": 25, "waves": 3}},
@@ -64,6 +63,7 @@ var npcs: Dictionary = {}
 var people: Dictionary = {}
 var team := {"kills": 0, "titans": 0, "built": 0, "turned": 0, "cache": false}
 var cache_node: Node3D
+var cache_ready := false
 var is_open := false
 var shop := ""
 var page := "Handel"
@@ -122,7 +122,7 @@ var _tower_tutorial_remaining := 12.0
 
 static func clear_space() -> void:
 	# Deterministic clearings, before forests and navmesh are constructed on every peer.
-	var centers: Array = [CACHE]
+	var centers: Array = []
 	for spec in NPCS.values(): centers.append(spec.pos)
 	for items: Array in [Map.TREES, Map.SHRUBS, Map.FERNS, Map.LOGS]:
 		for i in range(items.size() - 1, -1, -1):
@@ -146,7 +146,7 @@ func setup(main: Node) -> void:
 	add_child(rare_market)
 	rare_market.setup(game, npcs.wanderer)
 	cache_node = Node3D.new()
-	cache_node.position = Map.ground_pos(CACHE.x, CACHE.y)
+	cache_node.hide() # Position is chosen once the navigation map is ready.
 	cache_node.add_to_group("render_dynamic")
 	game.add_child(cache_node)
 	var wood := DefenceTower.material(Color(0.23, 0.17, 0.08))
@@ -170,6 +170,16 @@ func data(peer: int) -> Dictionary:
 
 func local_data() -> Dictionary:
 	return data(NetSession.local_id() if NetSession.enabled else game.player.peer_id)
+
+func has_available_quest(npc_id: String) -> bool:
+	var d := local_data()
+	if npc_id == "secret" and not d.discovered: return false
+	var peer: int = NetSession.local_id() if NetSession.enabled else game.player.peer_id
+	for id in QUESTS:
+		var quest: Dictionary = QUESTS[id]
+		if quest.npc != npc_id or d.accepted.get(id, false) or d.claimed.get(id, false): continue
+		if quest_lock_reason(peer, id).is_empty(): return true
+	return false
 
 func has_ready_quest(npc_id: String) -> bool:
 	var d := local_data()
@@ -242,11 +252,53 @@ func chain_description(peer: int, chain: String, show_steps := true) -> String:
 func weapon_for(p: Player) -> Weapons:
 	return NetSession.world.weapons[p.peer_id] if NetSession.is_host() else game.weapons
 
+func choose_cache_position(random: RandomNumberGenerator) -> Vector3:
+	var nav: RID = game.nav_region.get_navigation_map()
+	if NavigationServer3D.map_get_iteration_id(nav) == 0: return Vector3.INF
+	var start := NavigationServer3D.map_get_closest_point(nav, Map.ground_pos(Map.PLAYER_START.x, Map.PLAYER_START.y))
+	var area := Map.BOUNDS.grow(-8.0)
+	var clearance := CapsuleShape3D.new()
+	clearance.radius = 0.85
+	clearance.height = 1.8
+	for attempt in 600:
+		var candidate := Vector2(random.randf_range(area.position.x, area.end.x), random.randf_range(area.position.y, area.end.y))
+		var projected := NavigationServer3D.map_get_closest_point(nav, Map.ground_pos(candidate.x, candidate.y))
+		var point := Vector2(projected.x, projected.z)
+		if point.distance_to(candidate) > 2.0 or not area.has_point(point): continue
+		if point.distance_to(Map.FIRE) < 35.0 or Map.in_building(point.x, point.y, 3.0): continue
+		if game.perimeter and game.perimeter.excludes_spawn(point): continue
+		if not Map.POND.is_empty() and point.distance_to(Map.POND.pos) < float(Map.POND.r) + 4.0: continue
+		if Map.ground_normal(point.x, point.y).y < 0.9: continue
+		var ground := Map.ground_pos(point.x, point.y)
+		if absf(projected.y - ground.y) > 1.2: continue
+		var query := PhysicsShapeQueryParameters3D.new()
+		query.shape = clearance
+		query.transform.origin = ground + Vector3.UP * 1.1
+		query.collision_mask = 1 | 8
+		if not game.get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty(): continue
+		var route := NavigationServer3D.map_get_path(nav, start, projected, true)
+		if route.is_empty() or route[route.size()-1].distance_to(projected) > 0.8: continue
+		return ground
+	return Vector3.INF
+
+func place_cache() -> bool:
+	if cache_ready or NetSession.is_client(): return true
+	var random := RandomNumberGenerator.new()
+	random.randomize()
+	var point := choose_cache_position(random)
+	if not point.is_finite(): return false
+	cache_node.global_position = point
+	cache_ready = true
+	cache_node.visible = not team.cache
+	return true
+
 func close_enough(p: Player, id: String) -> bool:
 	if not p.alive or not game.started or game.over: return false
 	var target: Vector3
 	var body: Object = null
-	if id == "cache": target = cache_node.global_position + Vector3.UP * 0.6
+	if id == "cache":
+		if not cache_ready or team.cache: return false
+		target = cache_node.global_position + Vector3.UP * 0.6
 	elif npcs.has(id):
 		if not npcs[id].is_visible_in_tree(): return false
 		target = npcs[id].global_position + Vector3.UP * 1.3
@@ -357,7 +409,7 @@ func _objective_progress(id: String, rich := false, claimed := false) -> String:
 			"line":
 				parts.append(_goal_text("Wellen %d/2" % (2 if claimed else mini(game.waves.completed, 2)), claimed or game.waves.completed >= 2, rich))
 				parts.append(_goal_text("Zombies %d/30" % (30 if claimed else mini(team.kills, 30)), claimed or team.kills >= 30, rich))
-			"supplies": parts.append(_goal_text("Lieferung geborgen" if claimed or team.cache else "Lieferung am nördlichen Waldweg suchen", claimed or team.cache, rich))
+			"supplies": parts.append(_goal_text("Lieferung geborgen" if claimed or team.cache else "Lieferung an der Kartenmarkierung suchen", claimed or team.cache, rich))
 			"titan": parts.append(_goal_text("Titanen %d/1" % (1 if claimed else mini(team.titans, 1)), claimed or team.titans > 0, rich))
 			_: parts.append(_goal_text("Vendor am Lagerfeuer kennenlernen", true, rich))
 	return ("\n" if rich else " · ").join(parts)
@@ -412,6 +464,12 @@ func sell(p: Player, npc: String, action: String, id: String) -> String:
 	var price := 0
 	var label := ""
 	match action:
+		"sell_meat":
+			var stock: Dictionary = game.hunting.stock(p.peer_id)
+			if not game.hunting.FOOD.has(id) or int(stock.get(id, 0)) <= 0: return "Dieses Fleisch besitzt du nicht."
+			price = int(game.hunting.FOOD[id].sell)
+			label = game.hunting.FOOD[id].name
+			stock[id] -= 1
 		"sell_mushroom":
 			var stock := mushroom_stock(p)
 			if not Inventory.MUSHROOMS.has(id) or int(stock.get(id, 0)) <= 0: return "Diesen Pilz besitzt du nicht."
@@ -896,7 +954,7 @@ func _render() -> void:
 				var spec: Dictionary = Fireworks.DEFS[id]
 				var blocked: String = game.fireworks.buy_error(p, id)
 				var detail: String = spec.desc + "\n%d / %d im Inventar · Feuerwerktasche %d / %d" % [game.fireworks.stock(p.peer_id)[id], spec.limit, game.fireworks.count(p.peer_id), Fireworks.CAPACITY]
-				_row(spec.name, detail, "%s · %d P" % ["5er-Pack" if spec.pack == 5 else "1 Rakete", spec.price], request.bind("firework", id), not blocked.is_empty(), blocked)
+				_row(spec.name, detail, "%s · %d P" % ["1 Batterie" if Fireworks.is_battery(id) else "5er-Pack" if spec.pack == 5 else "1 Rakete", spec.price], request.bind("firework", id), not blocked.is_empty(), blocked)
 		"Raritäten":
 			_info("Sortiment wechselt mit Welle, Tageszeit und Standort · Bestand mit allen Spielern geteilt.\nGerade: %s · %s. Ein Talisman aktiv. Auswahl und Spezialmunition im Inventar [I]. Käufe gelten für diese Runde." % ["Tag" if rare_market.phase() == "day" else "Nacht", rare_market.region_name()], 14)
 			for id in rare_market.stock:
@@ -912,6 +970,10 @@ func _render() -> void:
 		"Verkaufen":
 			var w: Weapons = game.weapons
 			var stock := mushroom_stock(p)
+			for kind in game.hunting.FOOD:
+				var spec: Dictionary = game.hunting.FOOD[kind]
+				var count := int(game.hunting.stock(p.peer_id).get(kind, 0))
+				_row(spec.name + " · %d im Inventar" % count, spec.text, "1 verkaufen · %d P" % spec.sell, request.bind("sell_meat", kind), count <= 0)
 			for kind in Inventory.MUSHROOMS:
 				var spec: Dictionary = Inventory.MUSHROOMS[kind]
 				var count := int(stock.get(kind, 0))
@@ -995,13 +1057,12 @@ func _render() -> void:
 		"Türme":
 			if _building_layout: rows.add_child(ItemIcons.view("tower", Vector2(140, 90)))
 			_info("T: Turmtyp wählen · R/Mausrad: drehen · E: platzieren\nAm Turm: E aufsteigen, R ausrichten, F reparieren. Oben: Maus zielt, Linksklick feuert, E steigt ab. Ohne Bediener feuert der Turm automatisch. Dauerfeuer erzeugt Hitze.", 16)
-			if shop != "mechanic": _info("Ausbauten und Abbau verwaltet Mechanic. Nur eigene Türme können verkauft werden.")
+			if shop != "mechanic": _info("Turmausbauten gibt es bei Mechanic.")
 			else:
 				for id in game.defences.towers:
 					var tower: DefenceTower = game.defences.towers[id]
 					var cost: int = tower.upgrade_cost()
 					_row("%s #%d · Stufe %d" % [tower.spec().name,id,tower.level], "%d/%d TP · %d m Reichweite · %d m entfernt" % [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)], "Maximum" if tower.level == 3 else "Ausbauen · %d P" % cost, request.bind("tower_upgrade", str(id)), tower.level == 3 or p.score < cost or tower.operator_peer!=0)
-					if tower.owner_peer == p.peer_id: _row("%s #%d abbauen" % [tower.spec().name,id], "Der Turm wird entfernt. %d Punkte zurück." % tower.refund(), "Abbauen", request.bind("tower_sell", str(id)),tower.operator_peer!=0)
 		"Skins":
 			var wid: String = game.weapons.current
 			_info("Lackierungen für: " + str(Weapons.DEFS[wid].name) + "\nWähle deine Waffe vor dem Gespräch. Skins ändern keine Kampfwerte.", 16)
@@ -1070,14 +1131,14 @@ func _process(delta: float) -> void:
 	if _refresh_time > 0: return
 	_refresh_time = 0.25
 	_discover_visible_npcs()
-	cache_node.visible = not team.cache
+	cache_node.visible = cache_ready and not team.cache
 	if is_open:
 		var structures := []
 		for tower: DefenceTower in game.defences.towers.values(): structures.append([tower.tower_id, tower.level, ceili(tower.hp)])
 		for barrier: Barricade in game.barricades: structures.append([barrier.level, barrier.hp > 0])
 		var reserves := {}
 		for wid in game.weapons.state: reserves[wid] = [game.weapons.state[wid].ammo, game.weapons.state[wid].reserve]
-		var signature := str([game.player.score, ceili(game.player.hp), game.weapons.grenades, reserves, mushroom_stock(game.player), game.weapons.unlocked, people, team, game.waves.completed, game.skills.levels, game.weapons.current, structures, game.weapons.mod_owned, game.weapons.mod_loadout, rare_market.stock, rare_market.people, game.fireworks.stock(game.player.peer_id)])
+		var signature := str([game.player.score, ceili(game.player.hp), game.weapons.grenades, reserves, mushroom_stock(game.player), game.hunting.stock(game.player.peer_id), game.weapons.unlocked, people, team, game.waves.completed, game.skills.levels, game.weapons.current, structures, game.weapons.mod_owned, game.weapons.mod_loadout, rare_market.stock, rare_market.people, game.fireworks.stock(game.player.peer_id)])
 		if signature != _last_signature:
 			_last_signature = signature
 			_render()
@@ -1119,9 +1180,13 @@ func _process(delta: float) -> void:
 	else: tutorial.text = ""
 
 func snapshot() -> Dictionary:
-	return {"people": people.duplicate(true), "team": team.duplicate(true), "rare_market": rare_market.snapshot() if rare_market else {}}
+	return {"people": people.duplicate(true), "team": team.duplicate(true), "cache_position": cache_node.global_position, "cache_ready": cache_ready, "rare_market": rare_market.snapshot() if rare_market else {}}
 
 func apply_snapshot(s: Dictionary) -> void:
 	if rare_market: rare_market.apply_snapshot(s.get("rare_market", {}))
 	people = s.get("people", {}).duplicate(true)
 	team = s.get("team", team).duplicate(true)
+	cache_ready = bool(s.get("cache_ready", false))
+	if cache_ready:
+		cache_node.global_position = s["cache_position"]
+	cache_node.visible = cache_ready and not team.cache

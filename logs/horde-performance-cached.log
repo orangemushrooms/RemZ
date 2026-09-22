@@ -1,0 +1,40 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] optimize (res://scripts/render_optimizer.gd:84)
+       [1] _ready (res://scripts/main.gd:104)
+       [2] run (res://tests/horde_performance.gd:37)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] optimize (res://scripts/render_optimizer.gd:84)
+       [1] _ready (res://scripts/main.gd:104)
+       [2] run (res://tests/horde_performance.gd:37)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+   GDScript backtrace (most recent call first):
+       [0] optimize (res://scripts/render_optimizer.gd:84)
+       [1] _ready (res://scripts/main.gd:104)
+       [2] run (res://tests/horde_performance.gd:37)
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+ERROR: Condition "f.is_null()" is true.
+   at: _save_to_cache (servers/rendering/renderer_rd/shader_rd.cpp:696)
+COOP_LOAD MAP_READY
+HORDE_PERFORMANCE_STAGE {"alive":0,"average_fps":341.208309171908,"draw_calls":323.0,"frames":1707,"gpu_ms":2.12700009346008,"max_ms":6.622,"nodes":15623,"p95_ms":3.85,"p99_ms":4.552,"physics_p95_ms":1.008,"process_p95_ms":5.691,"render_cpu_ms":0.510999977588654,"spawn_max_ms":0.0,"spawn_p95_ms":0.0,"stage":"live_0"}
+HORDE_PERFORMANCE_STAGE {"alive":72,"average_fps":79.1955016955037,"draw_calls":558.0,"frames":396,"gpu_ms":4.65799999237061,"max_ms":19.519,"nodes":20989,"p95_ms":15.751,"p99_ms":18.009,"physics_p95_ms":9.747,"process_p95_ms":12.252,"render_cpu_ms":0.85699999332428,"spawn_max_ms":49.324,"spawn_p95_ms":45.782,"stage":"live_72"}
+HORDE_PERFORMANCE_STAGE {"alive":150,"average_fps":9.10706550807085,"draw_calls":782.0,"frames":48,"gpu_ms":23.8889999389648,"max_ms":164.749,"nodes":26791,"p95_ms":151.502,"p99_ms":164.749,"physics_p95_ms":20.254,"process_p95_ms":21.599,"render_cpu_ms":1.33000004291534,"spawn_max_ms":2.032,"spawn_p95_ms":1.93,"stage":"live_150"}
+HORDE_PERFORMANCE_STAGE {"alive":300,"average_fps":3.79862072081627,"draw_calls":1107.0,"frames":38,"gpu_ms":6.27699995040894,"max_ms":299.968,"nodes":37952,"p95_ms":287.994,"p99_ms":299.968,"physics_p95_ms":36.801,"process_p95_ms":39.712,"render_cpu_ms":1.74300003051758,"spawn_max_ms":2.423,"spawn_p95_ms":2.11,"stage":"live_300"}
+HORDE_PERFORMANCE_STAGE {"alive":300,"average_fps":44.6191318869829,"draw_calls":1078.0,"frames":224,"gpu_ms":7.75,"max_ms":27.237,"nodes":37942,"p95_ms":26.364,"p99_ms":27.053,"physics_p95_ms":2.303,"process_p95_ms":25.583,"render_cpu_ms":1.49100005626678,"spawn_max_ms":2.423,"spawn_p95_ms":2.11,"stage":"diagnostic_no_ai"}
+HORDE_PERFORMANCE_STAGE {"alive":300,"average_fps":186.852044123433,"draw_calls":1078.0,"frames":936,"gpu_ms":4.37200021743774,"max_ms":10.641,"nodes":37942,"p95_ms":8.778,"p99_ms":9.952,"physics_p95_ms":0.827,"process_p95_ms":9.886,"render_cpu_ms":1.57200002670288,"spawn_max_ms":2.423,"spawn_p95_ms":2.11,"stage":"diagnostic_no_animation"}
+HORDE_PERFORMANCE_DONE {"cpu":"11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz","gpu":"NVIDIA GeForce RTX 3060 Ti","profile":0,"rendered":true,"resolution":"(1600, 900)","scale":0.850000023841858,"scenes":[{"alive":0,"average_fps":341.208309171908,"draw_calls":323.0,"frames":1707,"gpu_ms":2.12700009346008,"max_ms":6.622,"nodes":15623,"p95_ms":3.85,"p99_ms":4.552,"physics_p95_ms":1.008,"process_p95_ms":5.691,"render_cpu_ms":0.510999977588654,"spawn_max_ms":0.0,"spawn_p95_ms":0.0,"stage":"live_0"},{"alive":72,"average_fps":79.1955016955037,"draw_calls":558.0,"frames":396,"gpu_ms":4.65799999237061,"max_ms":19.519,"nodes":20989,"p95_ms":15.751,"p99_ms":18.009,"physics_p95_ms":9.747,"process_p95_ms":12.252,"render_cpu_ms":0.85699999332428,"spawn_max_ms":49.324,"spawn_p95_ms":45.782,"stage":"live_72"},{"alive":150,"average_fps":9.10706550807085,"draw_calls":782.0,"frames":48,"gpu_ms":23.8889999389648,"max_ms":164.749,"nodes":26791,"p95_ms":151.502,"p99_ms":164.749,"physics_p95_ms":20.254,"process_p95_ms":21.599,"render_cpu_ms":1.33000004291534,"spawn_max_ms":2.032,"spawn_p95_ms":1.93,"stage":"live_150"},{"alive":300,"average_fps":3.79862072081627,"draw_calls":1107.0,"frames":38,"gpu_ms":6.27699995040894,"max_ms":299.968,"nodes":37952,"p95_ms":287.994,"p99_ms":299.968,"physics_p95_ms":36.801,"process_p95_ms":39.712,"render_cpu_ms":1.74300003051758,"spawn_max_ms":2.423,"spawn_p95_ms":2.11,"stage":"live_300"},{"alive":300,"average_fps":44.6191318869829,"draw_calls":1078.0,"frames":224,"gpu_ms":7.75,"max_ms":27.237,"nodes":37942,"p95_ms":26.364,"p99_ms":27.053,"physics_p95_ms":2.303,"process_p95_ms":25.583,"render_cpu_ms":1.49100005626678,"spawn_max_ms":2.423,"spawn_p95_ms":2.11,"stage":"diagnostic_no_ai"},{"alive":300,"average_fps":186.852044123433,"draw_calls":1078.0,"frames":936,"gpu_ms":4.37200021743774,"max_ms":10.641,"nodes":37942,"p95_ms":8.778,"p99_ms":9.952,"physics_p95_ms":0.827,"process_p95_ms":9.886,"render_cpu_ms":1.57200002670288,"spawn_max_ms":2.423,"spawn_p95_ms":2.11,"stage":"diagnostic_no_animation"}]}

@@ -18,7 +18,7 @@ func shoot(point: Vector3, direction := Vector3.FORWARD) -> Dictionary:
 	var ray := PhysicsRayQueryParameters3D.create(point - direction * 10, point + direction * 10, Zombie.SHOT_MASK)
 	ray.collide_with_areas = true
 	ray.hit_from_inside = true
-	return scene.get_world_3d().direct_space_state.intersect_ray(ray)
+	return Zombie.cast_ray(scene, ray)
 
 func run() -> void:
 	scene = Node3D.new()
@@ -38,18 +38,18 @@ func run() -> void:
 	await process_frame
 	await physics_frame
 	await physics_frame
-	check(zombie._hitboxes.size() >= 10, "Brute has separate animated body and limb hitboxes")
+	check(zombie._shot_volumes.size() >= 10, "Brute has separate animated body and limb hitboxes")
 	var tested_limbs := 0
 	var outside_capsule := 0
 	var head_point := Vector3.ZERO
-	for area in zombie._hitboxes:
-		var shape: ConvexPolygonShape3D = area.get_child(0).shape
+	for area in zombie._shot_volumes:
+		var shape: ConvexPolygonShape3D = area.shape
 		var center := Vector3.ZERO
 		for point in shape.points: center += point
 		center /= shape.points.size()
 		var aim := area.to_global(center)
 		if Vector2(aim.x, aim.z).length() > 0.4: outside_capsule += 1
-		check(Zombie.from_hit(shoot(aim)) == zombie, "Ray hits animated " + str(area.get_parent().bone_name))
+		check(Zombie.from_hit(shoot(aim)) == zombie, "Ray hits animated " + str(area.bone_name))
 		if area.get_meta("headshot"): head_point = aim
 		tested_limbs += 1
 	check(tested_limbs > 0 and outside_capsule >= 4, "Visible limbs outside the old capsule are hittable")
@@ -59,16 +59,16 @@ func run() -> void:
 	var close_ray := PhysicsRayQueryParameters3D.create(head_point, head_point + Vector3.FORWARD, Zombie.HITBOX_LAYER)
 	close_ray.collide_with_areas = true
 	close_ray.hit_from_inside = true
-	check(Zombie.from_hit(scene.get_world_3d().direct_space_state.intersect_ray(close_ray)) == zombie, "Point-blank shots hit even when the camera is inside the hitbox")
+	check(Zombie.from_hit(Zombie.cast_ray(scene, close_ray)) == zombie, "Point-blank shots hit even when the camera is inside the hitbox")
 	zombie.anim.play("attack")
 	zombie.anim.seek(0.4, true)
 	zombie.anim.pause()
 	await process_frame
 	await physics_frame
 	await physics_frame
-	for area in zombie._hitboxes:
-		if "Hand" not in str(area.get_parent().bone_name): continue
-		var points: PackedVector3Array = area.get_child(0).shape.points
+	for area in zombie._shot_volumes:
+		if "Hand" not in str(area.bone_name): continue
+		var points: PackedVector3Array = area.shape.points
 		var center := Vector3.ZERO
 		for point in points: center += point
 		center /= points.size()
@@ -109,15 +109,15 @@ func run() -> void:
 		await process_frame
 		await physics_frame
 		await physics_frame
-		check(giant._hitboxes.size() >= 10, skin + " has model-fitted hitboxes")
+		check(giant._shot_volumes.size() >= 10, skin + " has model-fitted hitboxes")
 		var hits := 0
-		for area in giant._hitboxes:
-			var points: PackedVector3Array = area.get_child(0).shape.points
+		for area in giant._shot_volumes:
+			var points: PackedVector3Array = area.shape.points
 			var center := Vector3.ZERO
 			for point in points: center += point
 			center /= points.size()
 			if Zombie.from_hit(shoot(area.to_global(center))) == giant: hits += 1
-		check(hits == giant._hitboxes.size(), skin + " hitboxes scale with the model")
+		check(hits == giant._shot_volumes.size(), skin + " hitboxes scale with the model")
 		check(giant.collision_layer == 2, skin + " keeps movement collision separate from bullet hitboxes")
 		for clip in ["walk", "attack"]:
 			giant.anim.play(clip)
@@ -126,9 +126,9 @@ func run() -> void:
 			await process_frame
 			await physics_frame
 			await physics_frame
-			for area in giant._hitboxes:
+			for area in giant._shot_volumes:
 				if not area.get_meta("headshot"): continue
-				var points: PackedVector3Array = area.get_child(0).shape.points
+				var points: PackedVector3Array = area.shape.points
 				var center := Vector3.ZERO
 				for point in points: center += point
 				# Raised arms can cover the face during attacks. Verify the head
@@ -147,8 +147,8 @@ func run() -> void:
 		await physics_frame
 		await physics_frame
 		check(shoot(Vector3.UP * giant.height * 0.5).is_empty(), skin + " empty navigation capsule does not catch bullets")
-		var area := giant._hitboxes[0]
-		var points: PackedVector3Array = area.get_child(0).shape.points
+		var area := giant._shot_volumes[0]
+		var points: PackedVector3Array = area.shape.points
 		var center := Vector3.ZERO
 		for point in points: center += point
 		check(Zombie.from_hit(shoot(area.to_global(center / points.size()))) == giant, skin + " hitboxes follow model offsets and rotation")

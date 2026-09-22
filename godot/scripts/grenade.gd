@@ -72,6 +72,7 @@ func _explode() -> void:
 	var pos := global_position
 	# damage
 	if not replica:
+		get_tree().current_scene.hunting.blast(pos, RADIUS, DAMAGE, owner_peer)
 		for z in zombies_root.get_children():
 			if z is Zombie and z.alive:
 				var d: float = z.global_position.distance_to(pos)

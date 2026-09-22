@@ -275,10 +275,11 @@ func movement_clear(origin: Vector3, destination: Vector3, mask := 9) -> bool:
 	return sweep.is_empty() or sweep[0] >= 0.999
 
 func route_clear(route: PackedVector3Array) -> bool:
-	# Gate barricades deliberately do not enter the navmesh: zombies must be
-	# able to approach them. The trader instead chooses a reachable route.
+	# Validate the same capsule and collision layers used during walking.
+	# Checking gates alone accepted routes through other scenery, causing the
+	# trader to repeatedly backtrack and pick the same blocked passage.
 	for i in range(1, route.size()):
-		if not movement_clear(route[i - 1], route[i], 8): return false
+		if not movement_clear(route[i - 1], route[i]): return false
 	return true
 
 func roam_cell(point: Vector3) -> int:

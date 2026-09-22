@@ -41,7 +41,7 @@ func run() -> void:
 		titan.agent.avoidance_enabled = false
 		variants.append(titan)
 		check(titan.anim.has_animation("walk") and titan.anim.has_animation("attack") and titan.anim.has_animation("death"), kind + " has complete animations")
-		check(not titan._hitboxes.is_empty() and titan.height == Zombie.TYPES[kind].height, kind + " retains animated hitboxes at its own scale")
+		check(not titan._shot_volumes.is_empty() and titan.height == Zombie.TYPES[kind].height, kind + " retains animated hitboxes at its own scale")
 		game.player.global_position = Map.ground_pos(20, 105)
 		titan.strike_point = game.player.global_position
 		game.player.hp = 1000

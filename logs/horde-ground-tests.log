@@ -1,0 +1,29 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Heightfield acceleration is used: { "slope": 0.0, "crest": false }
+PASS: Zombie remains grounded: { "slope": 0.0, "crest": false }
+PASS: Heightfield follows native capsule within 6 cm: { "slope": 0.0, "crest": false } difference=(0.0, 0.000017, 0.0)
+PASS: Heightfield acceleration is used: { "slope": 0.2, "crest": false }
+PASS: Zombie remains grounded: { "slope": 0.2, "crest": false }
+PASS: Heightfield follows native capsule within 6 cm: { "slope": 0.2, "crest": false } difference=(0.000003, -0.000005, -0.000005)
+PASS: Heightfield acceleration is used: { "slope": -0.3, "crest": false }
+PASS: Zombie remains grounded: { "slope": -0.3, "crest": false }
+PASS: Heightfield follows native capsule within 6 cm: { "slope": -0.3, "crest": false } difference=(-0.005367, 0.001934, 0.0)
+PASS: Heightfield acceleration is used: { "slope": 0.2, "crest": true }
+PASS: Zombie remains grounded: { "slope": 0.2, "crest": true }
+PASS: Heightfield follows native capsule within 6 cm: { "slope": 0.2, "crest": true } difference=(-0.003156, 0.000756, -0.0)
+PASS: Swept capsule stops before obstacle layer 1
+PASS: Destroyed obstacle releases movement, layer 1
+PASS: Swept capsule stops before obstacle layer 2
+PASS: Destroyed obstacle releases movement, layer 2
+PASS: Swept capsule stops before obstacle layer 8
+PASS: Destroyed obstacle releases movement, layer 8
+PASS: Swept capsule stops before obstacle layer 16
+PASS: Destroyed obstacle releases movement, layer 16
+PASS: Newly overlapping obstacle triggers native penetration recovery
+PASS: Removed ground releases cached floor and restores gravity
+HORDE_GROUND_DONE checks=22 failures=0

@@ -18,6 +18,8 @@ var trail: GPUParticles3D
 var fuse_sound: AudioStreamPlayer3D
 var light: OmniLight3D
 var star_material: ShaderMaterial
+var shell_mode := false
+var shell_drift := Vector3.ZERO
 var launched := false
 var burst := false
 
@@ -39,17 +41,17 @@ func state() -> Array:
 
 func _ready() -> void:
 	global_position = origin
-	body = model(rocket)
+	body = Node3D.new() if shell_mode else model(rocket)
 	add_child(body)
 	sparks = particles(Color(1, 0.6, 0.12), 24, 0.28, 0.04, 1.6, Vector3(0, -2, 0), false)
 	add_child(sparks)
 	sparks.position.y = 0.3 if rocket else 0.15
-	sparks.emitting = age < (1.2 if rocket else burst_at)
+	sparks.emitting = not shell_mode and age < (1.2 if rocket else burst_at)
 	trail = particles(Color(1, 0.55, 0.12), 100, 0.65, 0.12, 1.4, Vector3(0, -3, 0), false)
 	add_child(trail)
 	trail.position.y = 0.27 if rocket else 0.0
 	trail.emitting = false
-	if age < (1.2 if rocket else burst_at):
+	if not shell_mode and age < (1.2 if rocket else burst_at):
 		fuse_sound = sound("fuse", -15, 22)
 		if fuse_sound.stream is AudioStreamWAV: (fuse_sound.stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
 	_tick()
@@ -61,14 +63,14 @@ func _process(delta: float) -> void:
 
 func _tick() -> void:
 	if rocket:
-		var ascent := clampf((age - 1.2) / 2.4, 0, 1)
-		global_position = origin + Vector3.UP * 34.0 * pow(ascent, 1.45)
-		if age >= 1.2 and not launched:
+		var ascent := clampf((age - (0.0 if shell_mode else 1.2)) / (burst_at if shell_mode else 2.4), 0, 1)
+		global_position = origin + Vector3.UP * (34.0 + float(random_seed % 12) if shell_mode else 34.0) * pow(ascent, 1.45) + shell_drift * ascent
+		if age >= (0.0 if shell_mode else 1.2) and not launched:
 			launched = true
 			sparks.emitting = false
 			if is_instance_valid(fuse_sound): fuse_sound.stop()
 			trail.emitting = age < burst_at
-			if age < 1.55: sound("launch", -6, 100)
+			if age < (0.35 if shell_mode else 1.55): sound("launch", -6, 100)
 	else:
 		if flight_path.size() > 1:
 			var index := minf(age / 0.05, flight_path.size() - 1)

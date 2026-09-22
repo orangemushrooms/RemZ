@@ -308,7 +308,8 @@ func _try_forest_spawn(kind: String) -> bool:
 		if main.spawn_zombie(kind, projected, speed_mul, "", SPAWN_DISTANCE): return true
 	return false
 
-static func _forest_point_valid(point: Vector2) -> bool:
+func _forest_point_valid(point: Vector2) -> bool:
+	if main.perimeter and main.perimeter.excludes_spawn(point): return false
 	return Map.BOUNDS.grow(-5).has_point(point) and Map.in_forest(point.x, point.y) and not Map.on_road(point.x, point.y, 2.0) and not Map.in_building(point.x, point.y, 8.0) and not Map.in_clearing(point.x, point.y) and Map.ground_normal(point.x, point.y).y > 0.86
 
 func _update_stragglers(delta: float, alive: int) -> void:

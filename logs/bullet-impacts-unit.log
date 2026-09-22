@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Physics impact creates decal manager
+PASS: Mark attaches to struck surface
+PASS: Projection aligned with wall normal
+PASS: Crater texture assigned
+PASS: Mark follows moving surface
+PASS: Automatic fire has bounded decal count
+PASS: Replaced decals removed from scene
+PASS: Ground impacts point outward
+PASS: No bullet holes on characters
+BULLET_IMPACTS_DONE failures=0

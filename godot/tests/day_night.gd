@@ -35,16 +35,16 @@ func run() -> void:
 	var continuous := not clock.reset_each_wave
 	var speed := clock.time_scale
 	check(is_equal_approx(clock.time_scale, DayNightCycle.DAY_SECONDS / (DayNightCycle.CONTINUOUS_DAY_MINUTES * 60.0)) or is_equal_approx(clock.time_scale, 10.0), "Selected mode has the expected time scale")
-	clock.advance(3600.0 / speed)
+	clock.advance(3600.0 / clock.current_time_scale())
 	check(absf(clock.clock_seconds - 7.0 * 3600.0) < 0.001, "Selected mode advances exactly one game hour")
 	for fps in [30, 60, 144]:
 		clock.clock_seconds = DayNightCycle.MORNING_SECONDS
 		for frame in fps * 6:
 			clock.advance(1.0 / fps)
-		check(absf(clock.clock_seconds - (6.0 * 3600.0 + 6.0 * clock.time_scale)) < 0.001, "Clock is frame-rate independent at %d FPS" % fps)
+		check(absf(clock.clock_seconds - (6.0 * 3600.0 + 6.0 * clock.current_time_scale())) < 0.001, "Clock is frame-rate independent at %d FPS" % fps)
 	clock.clock_seconds = 86395.0
 	clock.advance(1.0)
-	var wrapped := 86395.0 + clock.time_scale - 86400.0
+	var wrapped := 86395.0 + clock.current_time_scale() - 86400.0
 	check(is_equal_approx(clock.clock_seconds, wrapped), "Midnight wraps without losing elapsed seconds")
 	check(DayNightCycle.clock_text(0.0) == "00:00" and DayNightCycle.clock_text(86399.0) == "23:59", "Clock displays valid hours and minutes at midnight")
 	clock.advance(3.0 * DayNightCycle.DAY_SECONDS / speed)
@@ -54,10 +54,24 @@ func run() -> void:
 	clock.time_scale = DayNightCycle.DAY_SECONDS / (DayNightCycle.CONTINUOUS_DAY_MINUTES * 60.0)
 	clock.reset_each_wave = false
 	clock.set_time_hours(6.0)
-	clock.advance(450.0)
-	check(is_equal_approx(clock.clock_seconds, 18.0 * 3600.0), "Optional continuous 15-minute mode reaches evening after 7.5 minutes")
+	clock.advance(504.0)
+	check(is_equal_approx(clock.clock_seconds, 18.0 * 3600.0), "Optional continuous 15-minute mode reaches 18:00 after 8.4 minutes")
 	clock.start_wave(2)
 	check(is_equal_approx(clock.clock_seconds, 18.0 * 3600.0), "Optional continuous mode keeps its time across waves")
+	clock.set_time_hours(20.0)
+	clock.advance(270.0)
+	check(is_equal_approx(clock.clock_seconds, 5.0 * 3600.0), "Night lasts exactly 4.5 real minutes including midnight")
+	clock.advance(630.0)
+	check(is_equal_approx(clock.clock_seconds, 20.0 * 3600.0), "Morning through evening lasts exactly 10.5 real minutes")
+	for boundary in [5.0, 20.0]:
+		clock.set_time_hours(boundary - 30.0 / 3600.0)
+		clock.advance(1.0)
+		var expected := 18000.0 + 0.75 * 96.0 / 1.12 if boundary == 5.0 else 72000.0 + 0.65 * 96.0 / 0.8
+		check(absf(clock.clock_seconds - expected) < 0.0001, "Frame crossing %.0f:00 splits elapsed time between both speeds" % boundary)
+		for fps in [30, 60, 144]:
+			clock.set_time_hours(boundary - 30.0 / 3600.0)
+			for frame in fps: clock.advance(1.0 / fps)
+			check(absf(clock.clock_seconds - expected) < 0.0001, "Transition at %.0f:00 agrees at %d FPS" % [boundary, fps])
 	clock.reset_each_wave = true
 	clock.start_wave(3)
 	check(is_equal_approx(clock.clock_seconds, DayNightCycle.MORNING_SECONDS), "Default wave-reset behaviour can be restored")
@@ -82,7 +96,7 @@ func run() -> void:
 	while not game.navigation_ready:
 		await process_frame
 	cycle = game.day_night
-	check(cycle.clock_seconds == DayNightCycle.MORNING_SECONDS and game.hud.clock_label.text == "06:00" and game.hud.clock_rate.text == "%d× · Spielzeit" % int(speed), "Start screen is held at 06:00 and displays the selected speed")
+	check(cycle.clock_seconds == DayNightCycle.MORNING_SECONDS and game.hud.clock_label.text == "06:00" and game.hud.clock_rate.text == "%d× · Spielzeit" % roundi(cycle.current_time_scale()), "Start screen is held at 06:00 and displays the selected speed")
 	# The independently developed opening sequence has its own fog/overlays.
 	# These checks exercise the wave gameplay after that sequence.
 	game._flags.append("--no-intro")
@@ -98,7 +112,7 @@ func run() -> void:
 	game.waves.start(2)
 	check(absf(cycle.clock_seconds - (18.75 if continuous else 6.0) * 3600.0) < 0.001 and game.hud.clock_phase.text == ("Abend" if continuous else "Morgen"), "Later waves follow the selected reset policy and phase")
 	cycle.set_time_hours(6.0)
-	cycle._process(60.0 / speed)
+	cycle._process(60.0 / cycle.current_time_scale())
 	check(game.hud.clock_label.text == "06:01", "Active gameplay advances visible clock")
 	# The daylight song belongs to the pause after a wave; the round itself still opens on the night loop.
 	var clock_before: float = cycle.clock_seconds
@@ -124,10 +138,14 @@ func run() -> void:
 	cycle._process(60.0)
 	check(cycle.clock_seconds == before, "Inventory freezes world time")
 	game.inventory.close()
+	# Training now lives at Mechanic; opening it remotely only shows a hint.
+	var original_position: Vector3 = game.player.global_position
+	game.player.global_position = game.progression.npcs.mechanic.global_position + Vector3(0, 0, 1)
 	game.skills.open()
 	cycle._process(60.0)
 	check(cycle.clock_seconds == before, "Skills menu freezes world time")
 	game.skills.close()
+	game.player.global_position = original_position
 	game.barricade_menu.open()
 	cycle._process(60.0)
 	check(cycle.clock_seconds == before, "Barricade planner freezes world time")

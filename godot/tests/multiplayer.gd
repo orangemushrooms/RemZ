@@ -222,11 +222,13 @@ func host_run() -> void:
 	check(not NetSession.world.weapons[c2].unlocked.ak47, "Locked weapon request rejected")
 	check(NetSession.world.actor(c2).global_position.distance_to(before) < 1.0, "Impossible movement request rejected")
 	# The same world pickup is contended by two clients.
-	var item: Node3D
-	for node in NetSession.world.loot_nodes.values():
-		if node is Loot and node.kind == "mushroom":
-			item = node
-			break
+	var item: Node3D = game.gold_mushroom
+	item.global_position = Map.ground_pos(42, 102)
+	item.taken = false
+	item.show()
+	await command_clients("inspect", ["c1"])
+	var rare_report: Dictionary = read_json("done-c1")
+	check(rare_report.gold_available and Vector3(rare_report.gold_position[0], rare_report.gold_position[1], rare_report.gold_position[2]).distance_to(item.global_position) < 0.01, "Host rare mushroom availability and exact location reach the client")
 	var item_id := str(item.get_meta("coop_id"))
 	var kind: String = item.id
 	await teleport(c1, item.global_position + Vector3(0.7, 0.1, 0))
@@ -234,6 +236,38 @@ func host_run() -> void:
 	await command_clients("interact", ["c1", "c2"], [item_id])
 	await wait_seconds(0.6)
 	check(NetSession.world.mushrooms[c1][kind] + NetSession.world.mushrooms[c2][kind] == 1, "Contended pickup granted exactly once")
+	# Shoot wildlife through a remote weapon command, then race for the same meat.
+	var hunt = game.hunting
+	var animal: Deer = hunt.animals[0]
+	animal.set_physics_process(false)
+	animal.global_position = Map.ground_pos(42, 105)
+	hunt.health[0] = 1.0
+	await teleport(c1, animal.global_position + Vector3(0, 0.1, 4))
+	var animal_target := animal.global_position + Vector3.UP * 0.7
+	await command_clients("shoot", ["c1"], [[animal_target.x, animal_target.y, animal_target.z]])
+	await wait_seconds(0.4)
+	check(hunt.health[0] == 0 and hunt.drops.has(0), "Remote shot kills wildlife and creates host meat")
+	await teleport(c1, animal.global_position + Vector3(1.2, 0.1, 0))
+	await teleport(c2, animal.global_position + Vector3(-1.2, 0.1, 0))
+	await command_clients("hunting", ["c1", "c2"], ["collect", 0])
+	await wait_seconds(0.4)
+	check(int(hunt.stock(c1).raw_meat) + int(hunt.stock(c2).raw_meat) == 4 and not hunt.drops.has(0), "Competing clients receive meat exactly once")
+	var cook_peer: int = c1 if int(hunt.stock(c1).raw_meat) > 0 else c2
+	var cook_label := "c1" if cook_peer == c1 else "c2"
+	await teleport(cook_peer, Map.ground_pos(Map.FIRE.x, Map.FIRE.y + 2.5))
+	await command_clients("hunting", [cook_label], ["cook", -1])
+	check(hunt.jobs.has(cook_peer) and int(hunt.stock(cook_peer).raw_meat) == 3, "Client starts host cooking at camp")
+	await wait_seconds(6.2)
+	await command_clients("inspect", [cook_label])
+	check(int(read_json("done-" + cook_label).food.cooked_meat) == 1, "Cooked meat reaches the client inventory")
+	var diner: Player = NetSession.world.actor(cook_peer)
+	diner.hp = 40
+	diner.regen_timer = 99999
+	await command_clients("hunting", [cook_label], ["eat", -1])
+	await wait_seconds(0.4)
+	check(is_equal_approx(diner.hp, 75) and int(hunt.stock(cook_peer).cooked_meat) == 0, "Client eating applies healing on the host")
+	# Leave a second animal's meat for the reconnect/late-join assertions below.
+	hunt.hit(hunt.animals[1], 999, c1)
 	var key: ForestKey = game.forest_keys.spawned[0]
 	var key_id := key.key_id
 	await teleport(c3, key.global_position + Vector3(0.7, 0.1, 0))
@@ -376,6 +410,8 @@ func host_run() -> void:
 	check(joined.started and joined.bar == 1 and joined.keys > 0 and joined.open_doors > 0 and joined.zombies == 1, "Late join restores doors, keys, barricades and enemies")
 	check(joined.towers == 1 and joined.tower_hp == 400, "Late join restores upgraded tower and exact structure health")
 	check(joined.titan_cues.is_empty(), "Late join does not replay earlier titan roars or impacts")
+	check(not joined.gold_available, "Collected gold bolete remains absent for late joiners")
+	check(joined.hunted_dead >= 2 and joined.meat_drops >= 1, "Late join restores hunted animals and remaining meat")
 	check_leaderboard(joined, "Late join")
 	tower.damage(10000)
 	await wait_seconds(0.5)
@@ -463,6 +499,7 @@ func host_run() -> void:
 	await command_clients("inspect", ["c1", "c2", "c3"])
 	for label in ["c1", "c2", "c3"]: check(read_json("done-"+label).started, label + " starts the second round")
 	check(game.defences.towers.is_empty(), "Session restart removes towers from previous round")
+	check(game.hunting.drops.is_empty() and not 0.0 in game.hunting.health and int(game.hunting.stock(1).raw_meat) == 0, "New round restores wildlife and clears food")
 	check(game.stats.players.size() == 4, "Round restart removes disconnected leaderboard history")
 	for row: Dictionary in game.stats.players.values():
 		check(row.kills == 0 and row.headshots == 0 and row.deaths == 0 and row.titan_kills == 0 and row.assists == 0, "New round clears all five player counters")
@@ -559,6 +596,7 @@ func client_run() -> void:
 		if not request is Dictionary or int(request.number) <= step_seen or not role in request.targets: continue
 		step_seen = int(request.number)
 		var args: Array = request.args
+		if request.action == "hunting": args[1] = int(args[1])
 		if request.action in ["build", "repair", "revive", "tower_upgrade", "tower_repair", "tower_sell", "tower_mount"]: args[0] = int(args[0])
 		if request.action == "tower_rotate":
 			args[0] = int(args[0])
@@ -659,6 +697,9 @@ func client_run() -> void:
 			tower_shots += tower.shots
 			tower_hp += tower.hp
 		write_json("done-"+role, {"step": step_seen, "players": NetSession.roster.size(), "avatars": NetSession.world.avatars.size(),
+			"gold_available": is_instance_valid(game.gold_mushroom) and not game.gold_mushroom.taken,
+			"gold_position": [game.gold_mushroom.global_position.x, game.gold_mushroom.global_position.y, game.gold_mushroom.global_position.z] if is_instance_valid(game.gold_mushroom) else [],
+			"food": game.hunting.stock(game.player.peer_id), "hunted_dead": game.hunting.health.count(0.0), "meat_drops": game.hunting.drops.size(),
 			"leaderboard": game.stats.leaderboard_rows(),
 			"mounted_tower": game.player.mounted_tower,
 			"tower_fov": game.player.camera.fov,

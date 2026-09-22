@@ -46,6 +46,7 @@ var overlay_logo: TextureRect
 var overlay_mode := "start"
 var loading_bar: ProgressBar
 var fps_label: Label
+var playtime_label: Label
 var team_label: Label
 var reload_bar: ProgressBar
 var reload_label: Label
@@ -92,8 +93,13 @@ func _ready() -> void:
 	fps_label = _label("", 13)
 	fps_label.position = Vector2(16, 16)
 	root.add_child(fps_label)
+	playtime_label = _label("Spielzeit 00:00", 14)
+	playtime_label.position = Vector2(16, 38)
+	playtime_label.add_theme_constant_override("outline_size", 4)
+	playtime_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
+	root.add_child(playtime_label)
 	team_label = _label("", 15)
-	team_label.position = Vector2(16, 42)
+	team_label.position = Vector2(16, 66)
 	team_label.add_theme_constant_override("outline_size", 4)
 	team_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
 	root.add_child(team_label)
@@ -578,7 +584,9 @@ func _fill_achievements() -> void:
 		_achievements_box.add_child(_label("Keine Erfolge verfügbar.", 14, MUTED))
 		return
 	var a = game.achievements
-	_achievements_box.add_child(_label("%s freigeschaltet. Erfolge bleiben über alle Runden erhalten, ihre Belohnung gibt es in jeder Runde neu." % a.progress_text(), 13, MUTED))
+	var info := _label("%s freigeschaltet. Erfolge bleiben gespeichert; Fortschritt und Belohnungen zählen pro Runde. Im Mehrspieler erreicht ihr die Ziele gemeinsam als Team." % a.progress_text(), 13, MUTED)
+	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_achievements_box.add_child(info)
 	var grid := GridContainer.new()
 	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 14)
@@ -588,8 +596,10 @@ func _fill_achievements() -> void:
 		var done: bool = a.unlocked.has(d["id"])
 		grid.add_child(_label("★" if done else "○", 15, GOLD if done else MUTED))
 		grid.add_child(_label(d["title"], 14, PAPER if done else MUTED))
-		var t := _label(d["text"], 13, MUTED)
+		var progress := mini(int(a.counters.get(d["counter"], 0)), int(d["target"]))
+		var t := _label("%s · Runde: %d/%d" % [d["text"], progress, d["target"]], 13, MUTED)
 		t.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		t.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		grid.add_child(t)
 
 func _fill_pause_stats() -> void:
@@ -751,6 +761,12 @@ func _process(delta: float) -> void:
 	_stats_time += delta
 	_stats_frames += 1
 	if _stats_time >= 0.5:
+		# The existing round clock pauses in solo menus and is host-synchronised
+		# in multiplayer. A new scene starts with a fresh RunStats instance.
+		playtime_label.visible = game != null and game.started
+		var elapsed := maxi(0, floori(game.stats.seconds)) if game and game.stats else 0
+		var time := "%02d:%02d" % [elapsed / 60, elapsed % 60] if elapsed < 3600 else "%d:%02d:%02d" % [elapsed / 3600, (elapsed / 60) % 60, elapsed % 60]
+		playtime_label.text = "Spielzeit " + time
 		team_label.visible = NetSession.enabled and NetSession.phase == "running"
 		if team_label.visible and NetSession.world:
 			var teammates: Array[String] = []

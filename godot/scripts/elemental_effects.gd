@@ -2,6 +2,24 @@ extends RefCounted
 
 const SHADER = preload("res://shaders/elemental_particle.gdshader")
 
+class Tracer extends MeshInstance3D:
+	var start: Vector3
+	var endpoint: Vector3
+	var follow_muzzle: Callable
+
+	func align() -> void:
+		if follow_muzzle.is_valid(): start = follow_muzzle.call()
+		var offset := endpoint - start
+		if offset.length_squared() < 0.0001:
+			hide()
+			return
+		(mesh as CylinderMesh).height = offset.length()
+		global_position = (start + endpoint) * 0.5
+		quaternion = Quaternion(Vector3.UP, offset.normalized())
+
+	func _process(_delta: float) -> void:
+		align()
+
 static func particles(mode: String, radius: float, height: float, burst := false, size := 1.0) -> CPUParticles3D:
 	var effect := CPUParticles3D.new()
 	var frost := mode == "frost"
@@ -58,12 +76,16 @@ static func burst(parent: Node, position: Vector3, mode: String, direction := Ve
 	effect.emitting = true
 	parent.get_tree().create_timer(0.8, false).timeout.connect(effect.queue_free)
 
-static func shot(parent: Node, origin: Vector3, end: Vector3, mode: String, impact: bool) -> void:
+static func shot(parent: Node, origin: Vector3, end: Vector3, mode: String, impact: bool, follow_muzzle := Callable()) -> void:
 	if mode not in ["fire", "frost"]: return
 	if parent.get_tree().get_nodes_in_group("elemental_tracer").size() >= 48: return
 	var distance := origin.distance_to(end)
 	if distance < 0.01: return
-	var tracer := MeshInstance3D.new()
+	var tracer := Tracer.new()
+	tracer.start = origin
+	tracer.endpoint = end
+	tracer.follow_muzzle = follow_muzzle
+	tracer.process_priority = 10 # Align after the player's and weapon's current-frame animation.
 	tracer.add_to_group("elemental_tracer")
 	var mesh := CylinderMesh.new()
 	mesh.top_radius = 0.012
@@ -81,9 +103,9 @@ static func shot(parent: Node, origin: Vector3, end: Vector3, mode: String, impa
 	material.emission_energy_multiplier = 2.0
 	tracer.material_override = material
 	parent.add_child(tracer)
-	tracer.global_position = (origin + end) * 0.5
 	var direction := (end - origin).normalized()
-	tracer.quaternion = Quaternion(Vector3.UP, direction)
+	tracer.align()
+	tracer.set_process(follow_muzzle.is_valid())
 	var tween := tracer.create_tween()
 	tween.tween_property(material, "albedo_color:a", 0.0, 0.12)
 	tween.tween_callback(tracer.queue_free)

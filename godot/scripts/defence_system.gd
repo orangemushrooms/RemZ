@@ -402,7 +402,7 @@ func aim_readout(tower: DefenceTower) -> Dictionary:
 	var origin := camera.global_position
 	var query := PhysicsRayQueryParameters3D.create(origin, origin - camera.global_basis.z * 250, Zombie.SHOT_MASK, [game.player.get_rid(), tower.body.get_rid()])
 	query.collide_with_areas = true
-	var hit: Dictionary = game.get_world_3d().direct_space_state.intersect_ray(query)
+	var hit: Dictionary = Zombie.cast_ray(game, query)
 	if hit.is_empty(): return {"distance": -1.0, "within": false, "blocked": false}
 	var distance: float = tower.muzzle.global_position.distance_to(hit.position)
 	var within := distance <= tower.attack_range()
@@ -410,7 +410,7 @@ func aim_readout(tower: DefenceTower) -> Dictionary:
 	if within and tower.kind != "mortar":
 		query.from = tower.muzzle.global_position
 		query.to = hit.position
-		var bore_hit: Dictionary = game.get_world_3d().direct_space_state.intersect_ray(query)
+		var bore_hit: Dictionary = Zombie.cast_ray(game, query)
 		var enemy := Zombie.from_hit(hit)
 		var same_enemy := enemy != null and Zombie.from_hit(bore_hit) == enemy
 		blocked = not bore_hit.is_empty() and bore_hit.position.distance_to(hit.position) > 0.7 and not same_enemy

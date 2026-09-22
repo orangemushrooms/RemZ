@@ -45,10 +45,11 @@ func run() -> void:
 			check(ResourceLoader.exists("res://assets/models/%s.glb" % Weapons.DEFS[id].model), id + " has a production mesh")
 	for id in Progression.NPCS:
 		check(shop.npcs[id].anim != null and shop.npcs[id].anim.is_playing(), id + " has a rigged animated NPC")
-	var weapon_pickups := 0
+	var locked_pickups_safe := true
 	for item in game.loots:
-		if item is Loot and item.kind == "weapon": weapon_pickups += 1
-	check(weapon_pickups == 0, "World loot cannot bypass merchant unlocks")
+		if item is Loot and item.kind == "weapon" and not w.unlocked.get(item.id, false) and not shop.lock_reason(p, item.id).is_empty():
+			locked_pickups_safe = locked_pickups_safe and not item.grant_supplies(w, game.hud) and not w.unlocked.get(item.id, false)
+	check(locked_pickups_safe, "World loot cannot bypass merchant unlocks")
 	var before := p.score
 	shop.transact(p, "camp", "weapon", "revolver")
 	check(p.score == before and not w.unlocked.revolver, "Remote merchant purchase rejected atomically")
@@ -116,8 +117,12 @@ func run() -> void:
 	shop.transact(p, "camp", "weapon", "revolver")
 	check(not w.unlocked.revolver and p.score == before, "Points alone cannot bypass quest and wave gates")
 	check(not shop.has_ready_quest("camp"), "Unaccepted quest has no turn-in marker")
+	shop._seen_npcs["camp"] = true
+	check(shop.has_available_quest("camp") and game.hud.minimap._quest_symbol("camp") == "!", "Available unaccepted quest shows exclamation mark on minimap")
+	check(not shop.has_available_quest("mechanic") and not shop.has_available_quest("secret"), "Locked quests and undiscovered secret trader do not advertise available quests")
 	shop.transact(p, "camp", "quest", "arrival")
 	check(not shop.has_claim(p.peer_id, "arrival"), "Accepting a quest does not claim its reward")
+	check(game.hud.minimap._quest_symbol("camp") == "?", "Ready quest replaces acceptance marker with question mark")
 	check(Sfx._voices.has("quest_accept"), "Accepted quest plays its dedicated sound")
 	await process_frame
 	await process_frame
@@ -279,7 +284,7 @@ func run() -> void:
 	Input.action_press("aim")
 	w._handle_weapon_input(1.0)
 	Input.action_release("aim")
-	check(is_equal_approx(p.camera.fov, 26.0), "Heavy optic has its own aiming magnification")
+	check(is_equal_approx(p.camera.fov, w.aimed_fov()) and w.viewmodel.scope.visible, "Heavy optic uses its configured scope magnification")
 	var front: Zombie = Zombie.new()
 	front.setup("shambler", p, game.barricades, 1, Callable())
 	game.zombies_root.add_child(front)

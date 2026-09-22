@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 2
-const BUILD := "remz-coop-tower-aim-20260921"
+const BUILD := "remz-dev-20260921-horde-performance"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -623,15 +623,20 @@ func _shot(session_epoch: int, id: int, weapon: String, mod_effects: Array = [])
 	if epoch == session_epoch and id != local_id() and world:
 		world.show_shot(id, weapon, mod_effects)
 
-func elemental_shot(origin: Vector3, end: Vector3, mode: String, impact: bool) -> void:
-	if is_host(): _elemental_shot.rpc(epoch, origin, end, mode, impact)
-	_elemental_shot(epoch, origin, end, mode, impact)
+func elemental_shot(origin: Vector3, end: Vector3, mode: String, impact: bool, shooter: int = 0) -> void:
+	if is_host(): _elemental_shot.rpc(epoch, origin, end, mode, impact, shooter)
+	_elemental_shot(epoch, origin, end, mode, impact, shooter)
 
 @rpc("authority", "call_remote", "unreliable", 1)
-func _elemental_shot(session_epoch: int, origin: Vector3, end: Vector3, mode: String, impact: bool) -> void:
+func _elemental_shot(session_epoch: int, origin: Vector3, end: Vector3, mode: String, impact: bool, shooter: int = 0) -> void:
 	if session_epoch != epoch: return
 	var scene := get_tree().current_scene
-	if scene: preload("res://scripts/elemental_effects.gd").shot(scene, origin, end, mode, impact)
+	if not scene: return
+	var follow_muzzle := Callable()
+	if shooter == local_id() and "weapons" in scene and scene.weapons:
+		follow_muzzle = scene.weapons.visual_muzzle_world
+		origin = follow_muzzle.call()
+	preload("res://scripts/elemental_effects.gd").shot(scene, origin, end, mode, impact, follow_muzzle)
 
 func track_grenade(grenade: Node3D) -> void:
 	if is_host() and world: world.track_grenade(grenade)
@@ -656,6 +661,15 @@ func titan_cue(kind: String, origin: Vector3, body_height: float, emitter: int, 
 func _titan_cue(session_epoch: int, kind: String, origin: Vector3, body_height: float, emitter: int, serial: int) -> void:
 	if epoch != session_epoch or not world or not is_instance_valid(game): return
 	TitanPresence.for_scene(game).receive(kind, origin, body_height, emitter, serial)
+
+func bullet_impact(position: Vector3, normal: Vector3) -> void:
+	if is_host(): _bullet_impact.rpc(epoch, position, normal)
+	_bullet_impact(epoch, position, normal)
+
+@rpc("authority", "call_remote", "unreliable", 1)
+func _bullet_impact(session_epoch: int, position: Vector3, normal: Vector3) -> void:
+	if epoch != session_epoch: return
+	preload("res://scripts/bullet_impacts.gd").show(get_tree().current_scene, position, normal)
 
 func blood(position: Vector3, direction: Vector3) -> void:
 	if is_host(): _blood.rpc(epoch, position, direction)

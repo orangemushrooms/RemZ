@@ -28,7 +28,7 @@ Bei Verbindungsproblemen zuerst Hamachis Online-Status, die Host-IP, den Port un
 - Kein Schaden durch Beschuss von Mitspielern. Eigene Granaten können den Werfer weiterhin verletzen.
 - Bei 0 Lebenspunkten bleibt der Spieler am Boden. Ein lebender Mitspieler drückt in der Nähe **E** und bleibt drei Sekunden innerhalb von 2,5 Metern mit freier Sicht. Entfernen oder Sterben bricht die Wiederbelebung ab. Sie stellt 50 Lebenspunkte her.
 - Nach einer überstandenen Welle kehren auch ausgeschiedene Spieler zurück. Erst wenn das ganze Team ausgeschieden ist, endet die Runde. Der Host kann eine neue Runde starten; die Gruppe bleibt verbunden.
-- **Händlergespräche, Esc und B halten im Koop die Welt nicht an.** Der Spieler bleibt während der Menübedienung angreifbar. Q schaltet die Auftragsanzeige um, V verweist auf Verteidigungsberatung bei Mechanic.
+- **Händlergespräche, Esc und I halten im Koop die Welt nicht an.** Der Spieler bleibt während der Menübedienung angreifbar. Q schaltet die Auftragsanzeige um, V verweist auf Verteidigungsberatung bei Mechanic.
 - Freie Plätze können während der Runde belegt werden. Nach einer getrennten Verbindung ist erneutes Beitreten möglich; der persönliche Vorrat beginnt dabei neu, der gemeinsame Weltzustand bleibt erhalten.
 - Verlässt der Host die Sitzung, kehren die Mitspieler mit einer Meldung ins Hauptmenü zurück. Es gibt keine automatische Hostübernahme oder Speicherung einer laufenden Koop-Runde.
 

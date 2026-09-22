@@ -164,6 +164,12 @@ func _npc_visible(id: String) -> bool:
 		return reveal_wanderer and world.progression.rare_market.active
 	return world.progression.has_seen_npc(id) or (id == "secret" and reveal_secret)
 
+func _quest_symbol(id: String) -> String:
+	if not _npc_visible(id): return ""
+	# Completed quests take priority when the giver also offers a new quest.
+	if world.progression.has_ready_quest(id): return "?"
+	return "!" if world.progression.has_available_quest(id) else ""
+
 func _draw_symbols(c: Control) -> void:
 	_draw_compass(c)
 	if not is_instance_valid(player) or not is_instance_valid(world):
@@ -183,8 +189,8 @@ func _draw_symbols(c: Control) -> void:
 				label_offset.x = -_font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x - 5 if npc_point.x > MAP_RECT.get_center().x else 5
 				c.draw_string_outline(_font, npc_point + label_offset, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color(0.04, 0.02, 0.06))
 			c.draw_string(_font, npc_point + label_offset, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, marker_color if wandering else Color(1, 0.88, 0.65))
-		if world.progression.local_data().accepted.get("supplies", false) and not world.progression.team.cache:
-			var cache_point := map_position(Vector3(Progression.CACHE.x, 0, Progression.CACHE.y))
+		if world.progression.cache_ready and world.progression.local_data().accepted.get("supplies", false) and not world.progression.team.cache:
+			var cache_point := map_position(world.progression.cache_node.global_position)
 			c.draw_circle(cache_point, 4, Color(0.9, 0.67, 0.16), false, 1.5)
 	if NetSession.enabled and NetSession.world:
 		for id in NetSession.world.actors:
@@ -248,15 +254,15 @@ func _draw_symbols(c: Control) -> void:
 		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.009)
 		c.draw_circle(hut_point, 11.0 + pulse * 5.0, Color(1, 0.06, 0.02, 0.15 + pulse * 0.2))
 		c.draw_circle(hut_point, 7.0, Color(1, 0.12 + pulse * 0.18, 0.06), false, 2.5, true)
-	# Draw ready-to-turn-in quests last so nearby enemies and players cannot cover them.
+	# Draw quest markers last so nearby enemies and players cannot cover them.
 	if "progression" in world and world.progression:
 		for id in world.progression.npcs:
-			if not _npc_visible(id): continue
-			if not world.progression.has_ready_quest(id): continue
+			var symbol := _quest_symbol(id)
+			if symbol.is_empty(): continue
 			var marker := map_position(world.progression.npcs[id].global_position) + Vector2(-5, -7)
 			marker = marker.clamp(MAP_RECT.position + Vector2(2, 20), MAP_RECT.end - Vector2(12, 2))
-			c.draw_string_outline(_font, marker, "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 4, Color(0.06, 0.045, 0.015))
-			c.draw_string(_font, marker, "?", HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Progression.QUEST_MARKER_COLOR)
+			c.draw_string_outline(_font, marker, symbol, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 4, Color(0.06, 0.045, 0.015))
+			c.draw_string(_font, marker, symbol, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Progression.QUEST_MARKER_COLOR)
 
 func _process(delta: float) -> void:
 	_elapsed += delta

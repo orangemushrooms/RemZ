@@ -32,7 +32,7 @@ const DEFS := {
 		"pos": Vector3(0.25, -0.27, -0.64), "ads": Vector3(0, -0.16, -0.46), "kick_pitch": 2.0, "kick_yaw": 1.4, "kick_back": 0.085, "recover": 7.0},
 	"breacher": {"name": "Nachtbrecher 12", "model": "breacher", "height": 0.20, "mag": 8, "reserve": 16, "damage": 25.0, "rate": 0.5, "reload": 3.3, "pellets": 9, "spread": 0.075, "range": 25.0, "auto": false, "sfx": "shotgun", "sfx_db": -6.0,
 		"pos": Vector3(0.24, -0.24, -0.6), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 8.5, "kick_yaw": 2.2, "kick_back": 0.19, "recover": 4.8},
-	"titanbreaker": {"name": "Titanenbrecher .50", "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 8, "damage": 420.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
+	"titanbreaker": {"name": "Titanenbrecher .50", "scope_zoom": 4.0, "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 8, "damage": 420.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
 		"pos": Vector3(0.24, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.48), "kick_pitch": 12.0, "kick_yaw": 1.6, "kick_back": 0.23, "recover": 3.2},
 }
 const ORDER := ["pistol", "revolver", "smg", "ak47", "shotgun", "marksman", "lmg", "breacher", "titanbreaker", "knife", "hatchet"]
@@ -326,7 +326,7 @@ func effective_spread() -> float:
 
 func aim_direction() -> Vector3:
 	# Scoped fire follows the optic centre; hip/iron sights also show free recoil.
-	var free_aim := 1.0 - ads if cur().def.has("scope_zoom") or current == "titanbreaker" else 1.0 - ads * 0.65
+	var free_aim := 1.0 - ads if cur().def.has("scope_zoom") else 1.0 - ads * 0.65
 	var offset := _aim_kick * free_aim
 	return (camera.global_basis * Vector3(tan(offset.y), tan(offset.x), -1)).normalized()
 
@@ -392,7 +392,6 @@ func try_fire() -> void:
 		NetSession.weapon_fired(player.peer_id, current)
 	var origin := camera.global_position
 	var base := shot_direction
-	var space := get_world_3d().direct_space_state
 	var spread := shot_spread
 	var scene := get_tree().current_scene
 	var stats: RunStats = scene.stats if "stats" in scene else null
@@ -418,10 +417,10 @@ func try_fire() -> void:
 		# One ray continues through complete actors, never through world geometry.
 		for _step in 32:
 			q.exclude = excluded
-			var hit := space.intersect_ray(q)
+			var hit := Zombie.cast_ray(self, q)
 			if _step == 0 and i < 3 and not special_round.is_empty():
 				var muzzle_world: Vector3 = (camera.global_transform * muzzle_transform()).origin
-				NetSession.elemental_shot(muzzle_world, hit.get("position", origin + dir * 80.0), special_round, not hit.is_empty())
+				NetSession.elemental_shot(muzzle_world, hit.get("position", origin + dir * 80.0), special_round, not hit.is_empty(), player.peer_id)
 			if hit.is_empty(): break
 			if hit.collider.get_meta("shootable_pumpkin", false):
 				if hit.collider.shoot(): hud.hitmarker(false)
@@ -430,8 +429,15 @@ func try_fire() -> void:
 				(hit.collider as Breakable).shatter()
 				scene.achievements.event("window")
 				break
+			if scene.hunting.hit(hit.collider, float(d.damage) * effective_damage_mul(), player.peer_id):
+				_blood(hit.position, dir)
+				hud.hitmarker(false)
+				any_hit = true
+				break
 			var z := Zombie.from_hit(hit)
-			if not z: break
+			if not z:
+				preload("res://scripts/bullet_impacts.gd").hit(scene, hit)
+				break
 			excluded.append(z.get_rid())
 			excluded.append(hit.collider.get_rid())
 			for hitbox in z._hitboxes: excluded.append(hitbox.get_rid())
@@ -475,7 +481,6 @@ func melee(stab: bool = false) -> void:
 	if armed and NetSession.is_host(): NetSession.weapon_fired(player.peer_id, current, _melee_stab)
 	var origin := camera.global_position
 	var forward := -camera.global_transform.basis.z
-	var space := get_world_3d().direct_space_state
 	var hit_any := false
 	# a short fan of rays so a zombie slightly off-centre is still hit
 	for off: float in ([0.0, -0.025, 0.025] if _melee_stab else [0.0, -0.18, 0.18]):
@@ -485,7 +490,11 @@ func melee(stab: bool = false) -> void:
 		q.collide_with_areas = true
 		q.hit_from_inside = true
 		q.exclude = [player.get_rid()]
-		var hit := space.intersect_ray(q)
+		var hit := Zombie.cast_ray(self, q)
+		if not hit.is_empty() and get_tree().current_scene.hunting.hit(hit.collider, (float(spec.stab_damage) if _melee_stab else float(spec.damage) if armed else 45.0) * effective_damage_mul(), player.peer_id):
+			_blood(hit.position, forward)
+			hit_any = true
+			break
 		var z := Zombie.from_hit(hit)
 		if z and z.alive:
 			z.last_headshot = false
@@ -676,7 +685,7 @@ func _prepare_blood_pool() -> void:
 func aimed_fov() -> float:
 	if DEFS[current].has("scope_zoom"):
 		return rad_to_deg(2.0 * atan(tan(deg_to_rad(75.0) * 0.5) / float(DEFS[current].scope_zoom)))
-	return 26.0 if current == "titanbreaker" else 52.0
+	return 52.0
 
 func _reset_scope(reset_fov := true) -> void:
 	ads = 0.0
@@ -812,6 +821,17 @@ func _handle_weapon_input(delta: float) -> void:
 	(s["hands"] as ViewmodelHands).animate_cloth(delta, Vector2(player.velocity.x, player.velocity.z).length(), ads)
 	if is_melee(current): (cur()["hands"] as ViewmodelHands).anchor_melee_elbows(viewmodel.camera)
 	effects.sync_muzzle(muzzle_transform())
+
+func visual_muzzle_world() -> Vector3:
+	var tip := muzzle_transform().origin
+	if server_proxy or not viewmodel:
+		return camera.to_global(tip)
+	# Viewmodel FOV stays at 75 degrees while the world camera zooms. Match the visible pixel,
+	# not the unprojected viewmodel coordinates, including current sway and model recoil.
+	var pixels := viewmodel.camera.unproject_position(viewmodel.camera.to_global(tip))
+	var screen := pixels / Vector2(viewmodel.viewport.size) * camera.get_viewport().get_visible_rect().size
+	if not viewmodel.image.visible: screen = camera.get_viewport().get_visible_rect().size * 0.5
+	return camera.project_position(screen, maxf(camera.near + 0.01, -tip.z))
 
 func muzzle_transform() -> Transform3D:
 	var s := cur()

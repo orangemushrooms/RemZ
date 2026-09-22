@@ -350,7 +350,9 @@ func run() -> void:
 	var outside := gate.center + normal * 3.0
 	var inside := gate.center - normal * 3.0
 	var route := PackedVector3Array([outside, inside])
-	check(market.route_clear(route), "Unbuilt gate permits merchant routes")
+	# This synthetic straight line is not a navmesh route and can intersect
+	# nearby scenery. Isolate the gate layer for the unbuilt-gate assertion.
+	check(market.movement_clear(outside, inside, 8), "Unbuilt gate does not block merchant movement")
 	gate.build()
 	await physics_frame
 	await physics_frame

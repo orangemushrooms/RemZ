@@ -11,6 +11,7 @@ var cornfield: Node3D
 var fill_light: DirectionalLight3D
 var skills: Skills
 var fireworks: Fireworks
+var hunting: Node3D
 var quickbar: CanvasLayer
 var inventory: Inventory
 var cheat_menu: CanvasLayer
@@ -27,8 +28,10 @@ var barricades: Array = []
 var perimeter: Perimeter                  # palisade ring, its gates are the barricade slots
 var hut: HutHealth                        # Waldhütte health: attacked by zombies, repaired with E, lost at zero
 var loots: Array = []
+var gold_mushroom: Loot
 var nav_region: NavigationRegion3D
 var fire_light: OmniLight3D
+var grill_position := Vector3.ZERO
 var started := false
 var over := false
 var near_bar = null
@@ -190,6 +193,9 @@ func _ready() -> void:
 	if not "--no-music" in _flags:
 		music.play("title")
 	_spawn_deer()
+	hunting = preload("res://scripts/hunting.gd").new()
+	add_child(hunting)
+	hunting.setup(self)
 	settings.add_controls(hud.settings_box, false)
 	player.regen_mul = float(difficulty["regen"])
 	settings.apply()
@@ -243,8 +249,14 @@ func _navigation_baked() -> void:
 		get_tree().paused = true
 		hud.overlay_status.text = "Schlüsselplätze konnten nicht vorbereitet werden. Bitte neu starten."
 		return
+	if not progression.place_cache():
+		get_tree().paused = true
+		hud.overlay_status.text = "Kein erreichbarer Ort für die Lieferung gefunden. Bitte neu starten."
+		return
+	await Zombie.prewarm_visuals(self)
 	get_tree().paused = true
 	navigation_ready = true
+	_place_gold_mushroom()
 	hud.overlay_button.disabled = false
 	hud.overlay_status.text = "Bereit."
 	hud.set_loading(false)
@@ -473,6 +485,7 @@ func _build_terrain() -> void:
 	body.add_to_group("navsource")
 	var cs := CollisionShape3D.new()
 	var shape := HeightMapShape3D.new()
+	body.add_to_group("terrain_ground")
 	shape.map_width = w
 	shape.map_depth = d
 	shape.map_data = heights
@@ -569,7 +582,8 @@ func _road_mesh(pts: Array, width: float, lift: float, mat: Material, fade: bool
 			var side := float(column) / across * 2.0 - 1.0
 			var q: Vector2 = p + nrm * side * width / 2.0
 			st.set_uv(Vector2((0.5 + side * 0.5) * width / 5.0, dist / 5.0))
-			st.set_color(Color(1, 1, 1, opacity))
+			var shoulder := 1.0 if not fade else smoothstep(0.0, minf(0.85, width * 0.3), (1.0 - absf(side)) * width * 0.5)
+			st.set_color(Color(1, 1, 1, opacity * shoulder))
 			st.set_normal(Map.ground_normal(q.x, q.y))
 			st.add_vertex(Vector3(q.x, Map.surface_height(q.x, q.y) + lift, q.y))
 		if vi > 0:
@@ -590,20 +604,18 @@ func _build_roads() -> void:
 	asphalt.roughness_texture = null
 	asphalt.roughness = 0.97
 	asphalt.metallic_specular = 0.2
-	var gravel := Foliage.pbr("ph_gravel", 1.0, Color(0.6, 0.57, 0.52))   # same tint as the terrain gravel
-	var dirt := Foliage.pbr("ph_gravel", 1.0, Color(0.5, 0.45, 0.38))
-	for m in [asphalt, gravel, dirt]:
-		m.normal_scale = 0.35
-		m.cull_mode = BaseMaterial3D.CULL_DISABLED
-		m.disable_receive_shadows = true
-		m.uv1_scale = Vector3(1.0, 1.0, 1.0)
-		m.vertex_color_use_as_albedo = true
-		m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		m.render_priority = 1
-	for r in Map.ROADS:
-		var mat: Material = { "asphalt": asphalt, "gravel": gravel, "dirt": dirt }[r["surface"]]
-		# Dirt tracks cross steeper cell creases and need a little more clearance.
-		_road_mesh(r["pts"], r["width"], 0.04 if r["surface"] != "dirt" else 0.05, mat, r["surface"] != "asphalt")
+	asphalt.normal_scale = 0.35
+	asphalt.cull_mode = BaseMaterial3D.CULL_DISABLED
+	asphalt.vertex_color_use_as_albedo = true
+	asphalt.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	asphalt.render_priority = 1
+	# Gravel and dirt belong to the terrain's blended PBR surface. An overlaid
+	# ribbon creates straight slab edges and intersects the terrain on slopes.
+	for road in Map.ROADS:
+		if road.surface == "asphalt":
+			_road_mesh(road.pts, road.width, 0.04, asphalt, false)
+
+	preload("res://scripts/forest_road_details.gd").build(self)
 
 # ---------------------------------------------------------------- models
 var _scenes := {}
@@ -1911,12 +1923,15 @@ func _build_pond() -> void:
 func _build_campsite() -> void:
 	# square stone fireplace with the swivel grill (photo 20)
 	var fire := Foliage.campfire(Map.ground_pos(Map.FIRE.x, Map.FIRE.y))
+	grill_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y) + Vector3.UP * 0.79
 	add_child(fire)
 	for c in fire.get_children():
 		if c is MeshInstance3D and (c as MeshInstance3D).mesh is SphereMesh:
 			c.queue_free()
 	fire_light = fire.get_node("Light")
 	if _prop(fire, "fire_pit", 2.0, "x", Vector3(0, -0.05, 0), 0.0):
+		# Suspend the cooking grate below the imported arm, clear of the central pole.
+		grill_position = fire.global_position + Vector3(0, 1.04, 0.4)
 		_collider(fire, 1.1, 0.5)
 		# the Meshy pit has the swivel arm in it; keep only the flames, embers, smoke and light of the campfire
 		for c in fire.get_children():
@@ -2139,6 +2154,14 @@ func _build_mushrooms() -> void:
 				_mushroom(point.x, point.y, Inventory.Mushrooms.choose(random), random.randf_range(0.22, 0.4))
 				placed.append(point)
 				if placed.size() == 2: break
+	# Reserve the same pickup ID on every peer, even in rounds without a rare find.
+	for item in loots:
+		if item is Loot and item.kind == "mushroom":
+			_mushroom(item.global_position.x, item.global_position.z, "goldroehrling", 0.34)
+			gold_mushroom = loots.back()
+			gold_mushroom.taken = true
+			gold_mushroom.hide()
+			break
 
 func _mushroom_ground_clear(point: Vector2) -> bool:
 	if not Map.in_forest(point.x, point.y) or Map.is_clear_zone(point.x, point.y): return false
@@ -2152,6 +2175,21 @@ func _mushroom_ground_clear(point: Vector2) -> bool:
 	for npc: Dictionary in Progression.NPCS.values():
 		if point.distance_to(npc.pos) < 3.0: return false
 	return true
+
+func _place_gold_mushroom() -> void:
+	if NetSession.is_client(): return
+	var candidates: Array[Vector2] = []
+	for item in loots:
+		if not item is Loot or item.kind != "mushroom" or item == gold_mushroom: continue
+		var at := Vector2(item.global_position.x + 0.85, item.global_position.z)
+		if _mushroom_ground_clear(at): candidates.append(at)
+	var random := RandomNumberGenerator.new()
+	random.randomize()
+	var index := Inventory.Mushrooms.rare_slot(random, candidates.size())
+	if index < 0: return
+	gold_mushroom.global_position = Map.ground_pos(candidates[index].x, candidates[index].y)
+	gold_mushroom.taken = false
+	gold_mushroom.show()
 
 func _mushroom(x: float, z: float, kind: String, height: float) -> void:
 	var n: Node3D
@@ -2298,6 +2336,9 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 		spawn = NavigationServer3D.map_get_closest_point(nav_map, spawn)
 	# Check the final navigable position, since projection can move a spawn toward a player.
 	if minimum_distance > 0.0:
+		# All wave entrances (forest, roads and titans) use validated spawning. Zero distance
+		# remains reserved for explicit diagnostic placements, such as melee/repair fixtures.
+		if perimeter and perimeter.excludes_spawn(Vector2(spawn.x, spawn.z)): return false
 		var actors: Array = [player]
 		if NetSession.is_host() and NetSession.world:
 			actors.append_array(NetSession.world.actors.values())
@@ -2364,6 +2405,11 @@ func _zombie_killed(zombie: Zombie) -> void:
 			Sfx.play(self, "streak", -12.0, 1.0 + minf(streak, 10) * 0.03)
 	if achievements:
 		achievements.event("kills")
+		if Zombie.is_titan_kind(zombie.net_kind): achievements.event("titans")
+		if zombie.killer_weapon == "tower": achievements.event("tower_kills")
+		if zombie.killer_weapon == "melee" or Weapons.is_melee(zombie.killer_weapon):
+			achievements.event("melee_kills")
+		achievements.event("best_streak", stats.best_streak, true)
 		if streak >= 10:
 			achievements.event("streak_10")
 
@@ -2422,12 +2468,17 @@ func _process(delta: float) -> void:
 		var downed: int = NetSession.world.nearby_downed_player() if NetSession.enabled and NetSession.world else 0
 		var tower := defences.nearest(player)
 		var npc := progression.nearest(player)
+		var meat_drop: int = hunting.nearby_drop(player)
+		var grill: bool = hunting.at_grill(player)
+		var hunt_interact: bool = not downed and loot == null and tower == null and near == null and (meat_drop >= 0 or grill)
+		if hunt_interact: npc = ""
 		var reading_notice := _looking_at_notice() and not downed
 		var idle_prompt := "[T] Turmbaumenü · ab 120 P" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
 		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
 		if hut_fix: idle_prompt = hut.prompt_text()
 		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("Turm besetzt" if tower and tower.operator_peer else "[E] Aufsteigen / Bedienen · [R] Ausrichten · [F] Reparieren\nReichweite %d m · heller Sektor: Automatik" % roundi(tower.attack_range()) if tower else (near.prompt_text() if near else idle_prompt))))
 		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
+		if hunt_interact: hud.set_prompt(hunting.prompt(player, meat_drop))
 		if reading_notice: hud.set_prompt("[E] Schild lesen · Eine seltsame Notiz")
 		if _notice_open: hud.set_prompt("[E] Hinweis schließen")
 		if _notice_open and Input.is_action_just_pressed("interact"):
@@ -2453,6 +2504,8 @@ func _process(delta: float) -> void:
 		elif near and Input.is_action_just_pressed("interact"):
 			if NetSession.enabled: NetSession.command("repair" if near.level > 0 and near.hp < near.max_hp() else "build", [barricades.find(near)])
 			else: near.purchase(player, "repair" if near.level > 0 and near.hp < near.max_hp() else "build")
+		elif hunt_interact and Input.is_action_just_pressed("interact"):
+			hunting.request("collect" if meat_drop >= 0 else "cook", meat_drop)
 		elif hut_fix and Input.is_action_just_pressed("interact"):
 			if NetSession.enabled: NetSession.command("hut_repair")
 			else:

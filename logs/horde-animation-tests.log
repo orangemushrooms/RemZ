@@ -1,0 +1,79 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+FAIL: zombie_colossus.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_colossus.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_bloater.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_bloater.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_titan.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_titan.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_shambler.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_shambler.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_farmer.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_farmer.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_hiker.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_hiker.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_grandma.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_grandma.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_runner.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_runner.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_jogger.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_jogger.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_nurse.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_nurse.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_soldier.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_soldier.glb retains sampled animation poses (position=%g basis=%g)
+FAIL: zombie_forester.glb removes redundant exporter scale tracks (0)
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:770)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/zombie_animation_cost.gd:41)
+PASS: zombie_forester.glb retains sampled animation poses (position=%g basis=%g)
+ZOMBIE_ANIMATION_DONE checks=24 failures=12 removed_tracks=0

@@ -1,0 +1,61 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Selected mode has the expected time scale
+PASS: Selected mode advances exactly one game hour
+PASS: Clock is frame-rate independent at 30 FPS
+PASS: Clock is frame-rate independent at 60 FPS
+PASS: Clock is frame-rate independent at 144 FPS
+PASS: Midnight wraps without losing elapsed seconds
+PASS: Clock displays valid hours and minutes at midnight
+PASS: Long sessions support multiple complete days
+PASS: Negative deltas cannot rewind the clock
+PASS: Optional continuous 15-minute mode reaches 18:00 after 8.4 minutes
+PASS: Optional continuous mode keeps its time across waves
+PASS: Night lasts exactly 4.5 real minutes including midnight
+PASS: Morning through evening lasts exactly 10.5 real minutes
+PASS: Frame crossing 5:00 splits elapsed time between both speeds
+PASS: Transition at 5:00 agrees at 30 FPS
+PASS: Transition at 5:00 agrees at 60 FPS
+PASS: Transition at 5:00 agrees at 144 FPS
+PASS: Frame crossing 20:00 splits elapsed time between both speeds
+PASS: Transition at 20:00 agrees at 30 FPS
+PASS: Transition at 20:00 agrees at 60 FPS
+PASS: Transition at 20:00 agrees at 144 FPS
+PASS: Default wave-reset behaviour can be restored
+PASS: Sun rises east and sets west, matching minimap compass
+PASS: Evening darkens progressively from daylight to night
+PASS: Lighting has no jump at midnight
+RENDER_OPTIMIZER { "source_meshes": 676, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Start screen is held at 06:00 and displays the selected speed
+PASS: First wave follows the selected reset policy
+PASS: Later waves follow the selected reset policy and phase
+PASS: Active gameplay advances visible clock
+PASS: A wave cleared in the morning switches to the daylight song
+PASS: A wave cleared at night keeps the night loop
+PASS: Escape pause freezes world time
+PASS: Inventory freezes world time
+PASS: Skills menu freezes world time
+PASS: Barricade planner freezes world time
+PASS: Game over freezes world time
+PASS: Inactive player cannot advance world time
+PASS: Clock advances through the actual scene process loop
+PASS: Scene-tree pause freezes the actual process loop
+PASS: Night substantially dims sunlight and fill
+PASS: Fire and fixture lights brighten at night
+PASS: Hands and weapons share the darker night lighting
+PASS: Weapon reflection sky stays static while its light changes
+PASS: Time of day preserves manual flashlight control
+PASS: Night adds no extra lights or shadows
+PASS: Sky reflections use a bounded incremental bake
+PASS: Quality 0 preserves the current night
+PASS: Quality 0 retains its volumetric-fog budget
+PASS: Quality 1 preserves the current night
+PASS: Quality 1 retains its volumetric-fog budget
+PASS: Quality 2 preserves the current night
+PASS: Quality 2 retains its volumetric-fog budget
+DAY_NIGHT_DONE checks=52 failures=0 rendered=false

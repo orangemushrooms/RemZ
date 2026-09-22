@@ -34,6 +34,23 @@ func run() -> void:
 	p.set_physics_process(false)
 	w.set_process(false)
 	for kind in Mushrooms.DEFS: inv.mushrooms[kind] = 5
+	var rare_random := RandomNumberGenerator.new()
+	rare_random.seed = 972431
+	var rare_rounds := 0
+	var rare_locations := {}
+	for i in 10000:
+		var slot := Mushrooms.rare_slot(rare_random, 100)
+		if slot >= 0:
+			rare_rounds += 1
+			rare_locations[slot] = true
+	check(rare_rounds > 400 and rare_rounds < 600, "Gold bolete occurs in roughly five percent of rounds")
+	check(rare_locations.size() > 90 and Mushrooms.rare_slot(rare_random, 0) == -1, "Rare find varies its location and needs a valid forest position")
+	var normal_pool := true
+	for i in 10000: normal_pool = normal_pool and Mushrooms.choose(rare_random) != "goldroehrling"
+	check(normal_pool, "Ordinary mushroom rolls never bypass the one-per-round rare cap")
+	inv._eat("goldroehrling")
+	check(inv.mushrooms.goldroehrling == 5 and game.hud.msg_label.text.contains("1000"), "Gold bolete cannot be eaten accidentally")
+	check(game.quickbar.item_data("goldroehrling").is_empty(), "Collectible cannot occupy a food quick-use slot")
 	p.hp = 30.0
 	inv._eat("steinpilz")
 	check(p.hp == 55.0 and game.hud.hp_bar.value == 55.0 and inv.mushrooms.steinpilz == 4, "Eating heals and immediately updates health HUD")
@@ -101,6 +118,10 @@ func run() -> void:
 		var result := vendor.transact(p, "camp", "sell_mushroom", kind)
 		check(result.begins_with("Verkauft") and p.score == before + int(Mushrooms.DEFS[kind].sell) and inv.mushrooms[kind] == count - 1, kind + " sells one item at the catalogue price")
 	inv.mushrooms.steinpilz = 0
+	inv.mushrooms.goldroehrling = 0
+	var rare_balance := p.score
+	vendor.transact(p, "camp", "sell_mushroom", "goldroehrling")
+	check(p.score == rare_balance, "Gold sale cannot award 1000 points without an item")
 	var balance := p.score
 	vendor.transact(p, "camp", "sell_mushroom", "steinpilz")
 	vendor.transact(p, "camp", "sell_mushroom", "invalid")

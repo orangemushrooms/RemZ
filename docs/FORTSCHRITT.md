@@ -19,7 +19,7 @@ Aufträge werden beim jeweiligen NPC angenommen und abgegeben. Erledigte Ziele g
 | Am Feuer | Vendor | Vendor kennenlernen | 20 P |
 | Der erste Wächter | Mechanic | Eine Barrikade bauen, einen Turm setzen und anschliessend neu ausrichten | 110 P |
 | Die Linie halten | Vendor | Zwei Wellen überstehen und 30 Zombies als Team besiegen | 140 P |
-| Die verlorene Lieferung | Mechanic | Nach dem Wächter-Auftrag die Werkzeugkiste am nördlichen Waldweg bergen und zurückkehren | 180 P |
+| Die verlorene Lieferung | Mechanic | Nach dem Wächter-Auftrag die zufällig platzierte Werkzeugkiste an der Kartenmarkierung bergen und zurückkehren | 180 P |
 | Was auf dem Feld lauert | Secret Vendor | Nach der Lieferung einen Feldtitanen besiegen | 300 P |
 | Eine ruhige Hand | Vendor | Nach „Am Feuer“: 15 tödliche Kopfschüsse | 90 P |
 | Die lange Schicht | Vendor | Nach „Die Linie halten“: Welle 4 überstehen | 160 P |
@@ -40,11 +40,11 @@ Die Hinweise zur Lieferung führen in den nördlichen Wald. Dort gibt es auch ei
 - **T:** Bauvorschau öffnen. Grün zeigt einen gültigen Platz, Rot nennt das Hindernis.
 - **R / Mausrad:** in Schritten von 15° drehen. **Shift+R** dreht zurück.
 - **E:** bauen beziehungsweise die neue Ausrichtung bestätigen. **T / Escape:** abbrechen.
-- **E an einem bestehenden Turm:** kostenlos neu ausrichten. Der Pfeil zeigt die Mitte des **160°-Feuersektors**. Gegner hinter dem Turm werden nicht beschossen.
+- **E an einem bestehenden Turm:** aufsteigen und die Waffe bedienen; nochmals E steigt ab. Linksklick feuert, Rechtsklick hält den Zielmodus. **R** richtet einen unbesetzten Turm neu aus. Automatisch gilt der **160°-Feuersektor**, manuell ist Rundumfeuer möglich.
 - **F am Turm:** für 35 P reparieren. Abseits von Türmen schaltet F weiterhin die Taschenlampe.
-- **Bei Mechanic → Türme:** ausbauen oder eigene Türme abbauen. Stufen kosten 100 / 175 P, erhöhen Struktur und Reichweite und reparieren gleichzeitig. Abbau erstattet 40 P.
+- **Bei Mechanic → Türme:** ausbauen oder eigene Türme abbauen. Beim Wächter kosten Stufen 100 / 175 P; andere Typen skalieren mit dem Baupreis. Ausbauten erhöhen Struktur und Reichweite und reparieren gleichzeitig. Abbau erstattet ein Drittel des Baupreises.
 
-Ein Turm kostet 120 P, das Team kann höchstens sechs bauen. Reichweiten: 26 / 32 / 38 m; Struktur: 240 / 400 / 600. Freie Schussbahn, Streuung, Schwenkzeit und Überhitzung bleiben relevant. Turmabschüsse bringen dem Erbauer die Hälfte des normalen Abschusswertes. Lebende Mitspieler erhalten zusätzlich einen Unterstützungsanteil von 25 % des vergebenen Abschusswertes.
+Der Wächter kostet 120 P, Flammenwerfer 260 P, Mörser 380 P, schweres MG 450 P und Teslaspule 600 P. Das Team kann höchstens sechs Türme bauen. Beim Wächter gelten Reichweiten 26 / 32 / 38 m und Struktur 240 / 400 / 600. Freie Schussbahn, Streuung, Schwenkzeit und Überhitzung bleiben relevant. Turmabschüsse bringen dem Erbauer die Hälfte des normalen Abschusswertes. Lebende Mitspieler erhalten zusätzlich einen Unterstützungsanteil von 25 % des vergebenen Abschusswertes.
 
 Eine Barrikade wird direkt an der Linie mit **E** gebaut, verstärkt oder bei Schäden repariert. **V** verweist auf Verteidigungsberatung bei Mechanic. Die bestehende Palisade und ihre vier Zugänge bleiben Teil der Verteidigung.
 
@@ -82,3 +82,16 @@ Alle Spieler brauchen denselben aktuellen Build. Händleraktionen werden vom Hos
 ## Modelle
 
 Drei neue NPCs und vier neue Waffen wurden mit Meshy 6 erzeugt. Die Figuren besitzen ein Skelett und eine Ruheanimation. Ihre ursprünglichen Normal- und Metall-/Rauheitsmaps wurden nach Prüfung identischer UV-Koordinaten in die geriggten Dateien übernommen. Prompts und der fortsetzbare Herstellungsablauf stehen in `tools/progression_assets.json` und `tools/progression_assets.py`; Originale und Task-Belege bleiben unter `meshy_output`. Das Spiel nutzt die komprimierten GLBs unter `godot/assets/models`. Die drei Waffenlackierungen werden mit einem eigenen Materialshader erzeugt.
+
+### Jagd und Wildfleisch
+
+- Wildtiere können erlegt werden; erster Abschuss: Erfolg **Jäger** (+25 Punkte als Teamerfolg).
+- **E** bei der Beute: Fleisch aufnehmen (Hirsch 4, Reh 3, Vogel 1).
+- **E** am Lagergrill der Waldhütte: eine Portion 6 Sekunden grillen. Fertiges Fleisch kommt automatisch ins Inventar.
+- Gegrilltes Fleisch im Inventar anklicken oder auf den Schnellzugriff legen: +35 Leben. Volle Gesundheit verbraucht kein Fleisch.
+- Vendor und Secret Vendor kaufen rohes Fleisch für 12 P und gegrilltes für 20 P pro Portion.
+- Im Koop gilt Beute einmalig; Fleischvorräte und Grillaufträge gehören dem jeweiligen Spieler.
+
+### Goldröhrling
+
+Extrem seltener Waldfund: 5 % Chance pro Runde, höchstens ein Exemplar an einer zufälligen freien Fundstelle. Mit **E** sammeln und bei **Vendor** oder **Secret Vendor** unter **Verkaufen** für **1000 Punkte** abgeben. Reiner Verkaufsgegenstand, nicht essbar. Im Koop teilen alle Spieler denselben einmalig einsammelbaren Fund.

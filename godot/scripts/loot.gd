@@ -11,9 +11,28 @@ var renewable := false
 var first_wave := 0
 var stocked_wave := -1
 var magazines := 1
+var cache_tier := 0
+var cache_respawn_wave := -1
+
+func update_cache_tier(wave: int) -> void:
+	cache_tier = clampi(wave / 4, 0, 4)
+	match id:
+		"fire": label = "Feuerpatronen (%d)" % (12 + cache_tier * 6)
+		"frost": label = "Frostpatronen (%d)" % (12 + cache_tier * 6)
+		"cache_cash": label = "Versteckter Geldbeutel (%d P)" % (250 + cache_tier * 125)
+		"cache_grenade": label = "Granatenversteck (%d)" % (1 + cache_tier / 2)
+		_: label = "Munitionskiste (%d Magazine)" % (2 + cache_tier)
 
 func restock(wave: int) -> void:
 	if not renewable or wave <= stocked_wave: return
+	if kind == "maze_cache":
+		if NetSession.is_client(): return
+		if taken and (cache_respawn_wave < 0 or wave < cache_respawn_wave): return
+		stocked_wave = wave
+		update_cache_tier(wave)
+		taken = false
+		show()
+		return
 	stocked_wave = wave
 	magazines = mini(4, 1 + maxi(0, wave - 1) / 4)
 	taken = wave < first_wave
@@ -56,7 +75,7 @@ func take(weapons: Weapons, hud: Hud) -> void:
 		if not grant_cache(weapons.player, weapons): return
 		taken = true
 		hide()
-		queue_free()
+		if not renewable: queue_free()
 		return
 	if kind == "mushroom":
 		get_tree().current_scene.inventory.add_mushroom(id)
@@ -74,21 +93,22 @@ func grant_cache(p: Player, w: Weapons) -> bool:
 	var game := get_tree().current_scene
 	if id in ["fire","frost"]:
 		var data: Dictionary = game.progression.rare_market.data(p.peer_id)
-		if int(data.ammo[id])+12>96:
+		if int(data.ammo[id]) >= 96:
 			p.hud.message("Spezialmunition voll",1.5)
 			return false
-		data.ammo[id] += 12
-	elif id == "cache_cash": p.add_score(250)
+		data.ammo[id] = mini(96, int(data.ammo[id]) + 12 + cache_tier * 6)
+	elif id == "cache_cash": p.add_score(250 + cache_tier * 125)
 	elif id == "cache_grenade":
 		if w.grenades>=w.grenades_max:
 			p.hud.message("Granaten voll",1.5)
 			return false
-		w.grenades += 1
+		w.grenades = mini(w.grenades_max, w.grenades + 1 + cache_tier / 2)
 	else:
 		if not w.has_ammo_space(w.ammo_weapon()):
 			p.hud.message("Munitionsreserve voll",1.5)
 			return false
-		w.add_ammo(w.ammo_weapon(),int(Weapons.DEFS[w.ammo_weapon()].mag)*2)
+		w.add_ammo(w.ammo_weapon(),int(Weapons.DEFS[w.ammo_weapon()].mag) * (2 + cache_tier))
+	cache_respawn_wave = maxi(0, game.waves.wave) + randi_range(2, 4)
 	p.hud.message(label+" gefunden",2.5)
 	w.update_hud()
 	Sfx.play(game,"pickup",-6)

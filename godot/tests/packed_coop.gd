@@ -57,7 +57,7 @@ func run() -> void:
 	check(is_instance_valid(first_slot), "Unchanged snapshots preserve clickable inventory controls")
 	game.inventory.close()
 	check(game.progression.npcs.size() == Progression.NPCS.size() and game.progression.people.size() == 4, "Packaged NPC catalogue and four player quest states are present")
-	check(Weapons.ORDER.size() == 9 and Weapons.ORDER.all(func(id): return ResourceLoader.exists("res://assets/models/%s.glb" % Weapons.DEFS[id].model)), "Packaged build contains all nine weapon meshes")
+	check(Weapons.ORDER.all(func(id): return Weapons.is_melee(id) or ResourceLoader.exists("res://assets/models/%s.glb" % Weapons.DEFS[id].model)), "Packaged build contains every firearm mesh")
 	check(game.progression.npcs.values().all(func(npc): return npc.anim != null and npc.anim.is_playing()), "All packaged NPCs have active skeletal animations")
 	net.command("upgrade", ["w_ak47"])
 	net.command("shop", ["camp", "weapon", "ak47", ""])

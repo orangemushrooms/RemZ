@@ -67,6 +67,21 @@ func run() -> void:
 			check(tower._weapon_model.position.z > tower._model_rest.z, kind + " has mechanical recoil")
 		if kind == "standard":
 			check(tower.tracer.global_position.distance_to(start) > 1 and tower.tracer.scale.z < 3, "Bullet streak travels instead of drawing a full-range laser")
+		if kind == "tesla":
+			var bolt = tower._lightning
+			check(bolt.visible and bolt.used_vertices > 0 and bolt.global_transform == Transform3D.IDENTITY, "Tesla lightning buffer draws world-space links")
+			var mesh_id: int = bolt.mesh.get_instance_id()
+			var material_id: int = bolt.material.get_instance_id()
+			var links := PackedVector3Array([start, start + Vector3.FORWARD * 34])
+			for link in 5:
+				var last: Vector3 = links[links.size() - 1]
+				links.append(last)
+				links.append(last + Vector3.RIGHT * 7)
+			for repeat in 3: bolt.fire(links)
+			check(bolt.used_vertices == (51 + 5 * 11) * 6 and bolt.used_vertices < bolt.VERTEX_CAPACITY, "Lightning buffer preserves full level-three range and all five jumps")
+			check(bolt.mesh.get_instance_id() == mesh_id and bolt.material.get_instance_id() == material_id, "Repeated lightning reuses GPU mesh and material")
+			bolt._process(0.19)
+			check(not bolt.visible and not bolt.is_processing(), "Tesla lightning fades and stops processing after its original duration")
 		if kind == "flame":
 			check(tower.flame.mesh is QuadMesh and not tower.flame.local_coords, "Flame uses soft world-space sprites, not polygon spheres")
 			for i in 10:

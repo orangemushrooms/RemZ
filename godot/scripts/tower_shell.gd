@@ -27,7 +27,7 @@ func _physics_process(delta: float) -> void:
 	var point := start.lerp(destination,t)+Vector3.UP*(4*arc_height*t*(1-t))
 	var ray := PhysicsRayQueryParameters3D.create(global_position,point,Zombie.SHOT_MASK,excluded)
 	ray.collide_with_areas = true
-	var hit := get_world_3d().direct_space_state.intersect_ray(ray)
+	var hit := Zombie.cast_ray(self, ray)
 	var travel := point - global_position
 	if travel.length_squared() > 0.0001: quaternion = Quaternion(Vector3.UP, travel.normalized())
 	global_position = hit.position if not hit.is_empty() else point
@@ -36,6 +36,7 @@ func _physics_process(delta: float) -> void:
 func explode() -> void:
 	set_physics_process(false)
 	if authoritative and not NetSession.is_client():
+		game.hunting.blast(global_position, 6.0, damage_amount, owner_peer)
 		for enemy in game.zombies_root.get_children():
 			if not enemy is Zombie or not enemy.alive: continue
 			var center: Vector3 = enemy.global_position+Vector3.UP*enemy.height*0.5

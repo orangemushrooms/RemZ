@@ -20,6 +20,7 @@ const POST_RADIUS := 0.24
 const POST_HEIGHT := 3.1
 const WALL_HEIGHT := 2.6          # collision box height
 const PIECE := 4.0                # collision box length along the wall
+const SPAWN_CLEARANCE := 2.0      # keep an entire enemy outside walls and gate openings
 
 var points: PackedVector2Array     # ring polygon in the xz plane, gate endpoints included
 var gate_edge: Array[bool] = []    # edge i (points[i] -> points[i + 1]) is a gate opening
@@ -102,6 +103,15 @@ func _sync_sections() -> void:
 
 func contains(p: Vector2) -> bool:
 	return Geometry2D.is_point_in_polygon(p, points)
+
+func excludes_spawn(p: Vector2) -> bool:
+	# The camp stays free of surprise spawns even before construction or after a breach.
+	# Enemies may enter through gaps, but must originate outside the complete ring.
+	if contains(p): return true
+	for i in points.size():
+		var closest := Geometry2D.get_closest_point_to_segment(p, points[i], points[(i + 1) % points.size()])
+		if p.distance_squared_to(closest) <= SPAWN_CLEARANCE * SPAWN_CLEARANCE: return true
+	return false
 
 func centroid() -> Vector2:
 	var c := Vector2.ZERO

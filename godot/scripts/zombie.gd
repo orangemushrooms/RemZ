@@ -49,6 +49,14 @@ var _frost_meshes: Array[MeshInstance3D] = []
 var _frost_surface: ShaderMaterial
 var _repath := 0.0
 var _shadow_t := 0.0
+var _shadow_near := -1
+var _visual_meshes: Array[MeshInstance3D] = []
+var _decision_time := 0.0
+var _decision_target: Node3D
+var _rest_contact_time := 0.0
+var _terrain_floor := RID()
+var _ground_ray: PhysicsRayQueryParameters3D
+var _ground_motion: PhysicsTestMotionParameters3D
 var _on_kill: Callable
 var damage_mul := 1.0           # difficulty
 var last_headshot := false      # set by weapons before damage(), read by the kill statistics
@@ -78,13 +86,71 @@ const HITBOX_LAYER := 32
 const SHOT_MASK := 1 | 8 | HITBOX_LAYER
 static var _hitbox_shapes := {}
 var _hitboxes: Array[Area3D] = []
+var _shot_volumes: Array[HitVolume] = []
+var _shot_model_transform := Transform3D()
+var _shot_world_bounds: AABB
+var _shot_has_bounds := false
+static var _volume_library: Resource
+const HitVolume = preload("res://scripts/zombie_hit_volume.gd")
 
 static func preload_models() -> void:
+	if not _volume_library: _volume_library = load("res://assets/data/zombie_hit_volumes.tres")
 	for spec: Dictionary in TYPES.values():
 		for name in skin_names(spec):
 			var path := "res://assets/models/%s.glb" % name
 			if not _scenes.has(path):
 				_scenes[path] = load(path) if ResourceLoader.exists(path) else null
+				if _scenes[path]:
+					_scenes[path] = preload("res://scripts/zombie_animation.gd").prepare(_scenes[path])
+					var source: Node3D = _scenes[path].instantiate()
+					_prepare_hitbox_shapes(source, path)
+					source.free()
+
+# Submit the real skinned/material variants while the loading screen is still
+# up. Loading a GLB alone does not prepare its first visible GPU draw/pipeline.
+static func prewarm_visuals(game: Node3D) -> void:
+	if DisplayServer.get_name() == "headless": return
+	var viewport := SubViewport.new()
+	viewport.name = "ZombieRenderWarmup"
+	viewport.process_mode = Node.PROCESS_MODE_ALWAYS
+	viewport.size = Vector2i(96, 96)
+	viewport.own_world_3d = true
+	viewport.msaa_3d = game.get_viewport().msaa_3d
+	viewport.use_taa = game.get_viewport().use_taa
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	game.add_child(viewport)
+	var environment := WorldEnvironment.new()
+	environment.environment = game.settings.env
+	viewport.add_child(environment)
+	var light := DirectionalLight3D.new()
+	light.rotation_degrees = Vector3(-50, -25, 0)
+	light.shadow_enabled = true
+	viewport.add_child(light)
+	var camera := Camera3D.new()
+	viewport.add_child(camera)
+	camera.position = Vector3(0, 5, 13)
+	camera.look_at(Vector3(0, 0.8, -2.5))
+	camera.current = true
+	var index := 0
+	for packed in _scenes.values():
+		if not packed: continue
+		var visual: Node3D = packed.instantiate()
+		viewport.add_child(visual)
+		visual.position = Vector3((index % 4 - 1.5) * 2.5, 0, -(index / 4) * 2.5)
+		for mesh: MeshInstance3D in visual.find_children("*", "MeshInstance3D", true, false):
+			for surface in mesh.mesh.get_surface_count():
+				var source := mesh.mesh.surface_get_material(surface) as BaseMaterial3D
+				if not source: continue
+				var material := source.duplicate() as BaseMaterial3D
+				material.emission_enabled = true
+				material.emission = Color.BLACK
+				mesh.set_surface_override_material(surface, material)
+		index += 1
+	for frame in 8:
+		await RenderingServer.frame_post_draw
+		if not is_instance_valid(game) or not is_instance_valid(viewport): return
+	viewport.queue_free()
+	await game.get_tree().process_frame
 
 # all model names a type may use: its skins, the default model and the fallback
 static func skin_names(spec: Dictionary) -> Array:
@@ -125,6 +191,7 @@ func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: C
 	height = type["height"]
 	model_path = pick_model_path(type)
 	appearance_seed = randi()
+	_shadow_t = float(appearance_seed % 31) / 62.0
 	growl_t = randf_range(2.0, 8.0)
 	_repath = randf_range(0.05, 0.4)
 	raider = randf() < 0.35
@@ -177,6 +244,7 @@ func _ready() -> void:
 		var tint: Color = type.get("tint", Color.from_hsv(appearance.randf_range(0.02, 0.09), appearance.randf_range(0.08, 0.18), appearance.randf_range(0.7, 0.95)))
 		for m in model.find_children("*", "MeshInstance3D", true, false):
 			var mi := m as MeshInstance3D
+			_visual_meshes.append(mi)
 			for i in mi.mesh.get_surface_count():
 				var mat: Material = mi.mesh.surface_get_material(i)
 				if mat is BaseMaterial3D:
@@ -190,45 +258,74 @@ func _ready() -> void:
 	if model:
 		model.scale *= scale_var
 		_build_hitboxes()
-		if not _hitboxes.is_empty():
+		if not _hitboxes.is_empty() or not _shot_volumes.is_empty():
 			collision_layer = 2
+		add_to_group("shot_targets")
 
 # Keep navigation capsules small; bullets use convex volumes fitted to the rig's
-# weighted vertices. Bone attachments follow walking, attacks and model scaling.
+# weighted vertices. Bone-space volumes follow walking, attacks and model scaling.
+# Prepare the exact same weighted convex volumes during loading, never on a
+# model's first combat spawn. Shared immutable shapes preserve hit precision.
+static func _prepare_hitbox_shapes(source: Node3D, path: String) -> void:
+	for mesh: MeshInstance3D in source.find_children("*", "MeshInstance3D", true, false):
+		if not mesh.skin or mesh.skeleton.is_empty(): continue
+		var rig := mesh.get_node_or_null(mesh.skeleton) as Skeleton3D
+		if not rig: continue
+		var cache_key := path + ":" + str(source.get_path_to(mesh))
+		if _hitbox_shapes.has(cache_key): continue
+		var points := {}
+		for surface in mesh.mesh.get_surface_count():
+			var arrays := mesh.mesh.surface_get_arrays(surface)
+			var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+			var bones: PackedInt32Array = arrays[Mesh.ARRAY_BONES]
+			var weights: PackedFloat32Array = arrays[Mesh.ARRAY_WEIGHTS]
+			if vertices.is_empty() or bones.is_empty(): continue
+			var influences := bones.size() / vertices.size()
+			for vertex in vertices.size():
+				for influence in influences:
+					var index := vertex * influences + influence
+					if weights[index] < 0.25: continue
+					var bind := bones[index]
+					var bone := mesh.skin.get_bind_bone(bind)
+					if bone < 0: bone = rig.find_bone(mesh.skin.get_bind_name(bind))
+					if bone < 0: continue
+					if not points.has(bone): points[bone] = PackedVector3Array()
+					points[bone].append(mesh.skin.get_bind_pose(bind) * vertices[vertex])
+		var shapes := {}
+		for bone in points:
+			if points[bone].size() < 4: continue
+			var hull := ConvexPolygonShape3D.new()
+			hull.points = points[bone]
+			var bounds := AABB(hull.points[0], Vector3.ZERO)
+			var center := Vector3.ZERO
+			for point in hull.points:
+				bounds = bounds.expand(point)
+				center += point
+			hull.set_meta("shot_bounds", bounds.grow(0.00001))
+			hull.set_meta("shot_center", center / hull.points.size())
+			hull.set_meta("shot_hash", var_to_bytes(hull.points).hex_encode().sha256_text())
+			shapes[bone] = hull
+		_hitbox_shapes[cache_key] = shapes
+
 func _build_hitboxes() -> void:
+	_prepare_hitbox_shapes(model, model_path)
+	if not _volume_library: _volume_library = load("res://assets/data/zombie_hit_volumes.tres")
+	var library: Dictionary = _volume_library.get_meta("volumes", {}) if _volume_library else {}
 	for mesh_node in model.find_children("*", "MeshInstance3D", true, false):
 		var mesh := mesh_node as MeshInstance3D
 		if not mesh.skin or mesh.skeleton.is_empty(): continue
 		var rig := mesh.get_node_or_null(mesh.skeleton) as Skeleton3D
 		if not rig: continue
 		var cache_key := model_path + ":" + str(model.get_path_to(mesh))
-		if not _hitbox_shapes.has(cache_key):
-			var points := {}
-			for surface in mesh.mesh.get_surface_count():
-				var arrays := mesh.mesh.surface_get_arrays(surface)
-				var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
-				var bones: PackedInt32Array = arrays[Mesh.ARRAY_BONES]
-				var weights: PackedFloat32Array = arrays[Mesh.ARRAY_WEIGHTS]
-				if vertices.is_empty() or bones.is_empty(): continue
-				var influences := bones.size() / vertices.size()
-				for vertex in vertices.size():
-					for influence in influences:
-						var index := vertex * influences + influence
-						if weights[index] < 0.25: continue
-						var bind := bones[index]
-						var bone := mesh.skin.get_bind_bone(bind)
-						if bone < 0: bone = rig.find_bone(mesh.skin.get_bind_name(bind))
-						if bone < 0: continue
-						if not points.has(bone): points[bone] = PackedVector3Array()
-						points[bone].append(mesh.skin.get_bind_pose(bind) * vertices[vertex])
-			var shapes := {}
-			for bone in points:
-				if points[bone].size() < 4: continue
-				var hull := ConvexPolygonShape3D.new()
-				hull.points = points[bone]
-				shapes[bone] = hull
-			_hitbox_shapes[cache_key] = shapes
 		for bone in _hitbox_shapes[cache_key]:
+			var hull: ConvexPolygonShape3D = _hitbox_shapes[cache_key][bone]
+			var baked: Dictionary = library.get(cache_key, {}).get(bone, {})
+			if baked.get("hash", "") == hull.get_meta("shot_hash"):
+				var volume := HitVolume.new()
+				volume.configure(rig, bone, hull, baked.planes, self)
+				_shot_volumes.append(volume)
+				continue
+			# New or changed meshes retain native precision until their hulls are rebaked.
 			var attachment := BoneAttachment3D.new()
 			attachment.bone_name = rig.get_bone_name(bone)
 			rig.add_child(attachment)
@@ -244,6 +341,34 @@ func _build_hitboxes() -> void:
 			shape.shape = _hitbox_shapes[cache_key][bone]
 			area.add_child(shape)
 			_hitboxes.append(area)
+
+# All ballistic consumers use the same query. World geometry/animals and any
+# unbaked hitboxes still use native physics. Baked bones are tested only for
+# actors close to the ray, using their current (unthrottled) animation pose.
+static func cast_ray(context: Node3D, query: PhysicsRayQueryParameters3D) -> Dictionary:
+	var hit := context.get_world_3d().direct_space_state.intersect_ray(query)
+	if not query.collide_with_areas or not (query.collision_mask & HITBOX_LAYER): return hit
+	var endpoint: Vector3 = hit.position if not hit.is_empty() else query.to
+	var best_distance := query.from.distance_squared_to(endpoint)
+	for zombie: Zombie in context.get_tree().get_nodes_in_group("shot_targets"):
+		if not zombie.alive or zombie.is_queued_for_deletion() or zombie._shot_volumes.is_empty() or query.exclude.has(zombie.get_rid()): continue
+		# A conservative model-space envelope includes arms, leaning poses and
+		# all rig animations; it follows model offsets, not the movement capsule.
+		var transform := zombie.model.global_transform
+		if not zombie._shot_has_bounds or transform != zombie._shot_model_transform:
+			zombie._shot_model_transform = transform
+			zombie._shot_world_bounds = transform * AABB(Vector3(-3, -2, -3), Vector3(6, 7, 6))
+			zombie._shot_has_bounds = true
+		if not zombie._shot_world_bounds.intersects_segment(query.from, endpoint) and not zombie._shot_world_bounds.has_point(query.from): continue
+		for volume in zombie._shot_volumes:
+			var candidate: Dictionary = volume.intersect(query.from, endpoint, query.hit_from_inside)
+			if candidate.is_empty(): continue
+			var distance := query.from.distance_squared_to(candidate.position)
+			if distance > best_distance: continue
+			best_distance = distance
+			hit = candidate
+			endpoint = candidate.position
+	return hit
 
 static func from_hit(hit: Dictionary) -> Zombie:
 	if hit.is_empty(): return null
@@ -415,8 +540,10 @@ func _physics_process(delta: float) -> void:
 	if _shadow_t <= 0.0 and model:
 		_shadow_t = 0.5
 		var near_player: bool = bool(type.get("giant", false)) or global_position.distance_squared_to(player.global_position) < 35.0 * 35.0
-		for m in model.find_children("*", "MeshInstance3D", true, false):
-			(m as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if near_player else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		if int(near_player) != _shadow_near:
+			_shadow_near = int(near_player)
+			for mesh in _visual_meshes:
+				mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if near_player else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	if _stagger > 0.0:
 		_stagger -= delta
 		var t := _stagger / _stagger_len
@@ -440,43 +567,15 @@ func _physics_process(delta: float) -> void:
 	var to_player := player.global_position - p
 	to_player.y = 0.0
 	var dist := to_player.length()
-	# Commit to a breach: steering sideways must not cancel a defence target.
-	var bar = null
-	var bd := 1e9
-	if not hunting and is_instance_valid(siege_target) and siege_target.hp > 0.0:
-		bar = siege_target
-		bd = bar.attack_point(p).distance_squared_to(p)
-	var path := _hunt_path if hunting else agent.get_current_navigation_path().slice(agent.get_current_navigation_path_index())
-	for b in barricades:
-		var blocking: bool = _blocks_hunt(b, path) if hunting else (b.intercepts(p, player.global_position, path) or (b == lane_bar and b.hp > 0.0 and b._local(p).y * b._local(player.global_position).y < 0.0))
-		if blocking:
-			var dd: float = b.attack_point(p).distance_squared_to(p)
-			if bar == null or dd + 16.0 < bd:
-				bd = dd
-				bar = b
-	# Nearby exposed towers can be attacked; a blocking fence still takes priority.
-	if bar == null and not hunting:
-		for tower in get_tree().get_nodes_in_group("defence_towers"):
-			if tower.hp > 0.0 and tower.global_position.distance_squared_to(p) < 12.0 * 12.0:
-				var dd: float = tower.attack_point(p).distance_squared_to(p)
-				if dd < bd and dd < to_player.length_squared():
-					bar = tower
-					bd = dd
-	# The Waldhütte itself: raiders inside the ring head for its walls, every zombie close to a wall hits it.
-	if bar == null and not player_priority and is_instance_valid(hut) and hut.hp > 0.0:
-		var hut_point := hut.attack_point(p)
-		var hd := hut_point.distance_squared_to(p)
-		var inside: bool = not is_instance_valid(perimeter) or perimeter.contains(Vector2(p.x, p.z))
-		if (raider and inside and not hunting) or (hd < HutHealth.RAID_RANGE * HutHealth.RAID_RANGE and hd < to_player.length_squared()):
-			bar = hut
-			bd = hd
-	siege_target = bar
-	for door: Door in hut_doors:
-		if door.crosses(p, player.global_position):
-			var dd := door.center.distance_squared_to(p)
-			if dd < bd:
-				bd = dd
-				bar = door
+	_decision_time -= delta
+	if _decision_time <= 0.0 or (not is_instance_valid(_decision_target) and _decision_target != null):
+		_decision_time = 0.16 + float(appearance_seed % 7) * 0.01
+		_decision_target = _choose_defence(p, player_priority)
+	var bar: Node3D = _decision_target if is_instance_valid(_decision_target) else null
+	if bar and ((bar is Door and bar.is_open) or (not bar is Door and bar.hp <= 0.0)):
+		_decision_target = _choose_defence(p, player_priority)
+		_decision_time = 0.16 + float(appearance_seed % 7) * 0.01
+		bar = _decision_target
 	if player_priority: bar = null
 	var target: Vector3 = bar.attack_point(p) if bar else player.global_position
 	agent.target_desired_distance = 0.25 if bar else 1.0
@@ -543,8 +642,59 @@ func _physics_process(delta: float) -> void:
 		growl_t = randf_range(4.0, 12.0)
 		Sfx.play_at(get_parent(), "growl", global_position, -5.0)
 
+# Reconsider strategic targets at staggered intervals. Movement, animation,
+# hit timing, range checks and damage still run every physics tick.
+func _choose_defence(p: Vector3, player_priority: bool) -> Node3D:
+	var to_player := player.global_position - p
+	to_player.y = 0.0
+	# Commit to a breach: steering sideways must not cancel a defence target.
+	var bar = null
+	var bd := 1e9
+	if not hunting and is_instance_valid(siege_target) and siege_target.hp > 0.0:
+		bar = siege_target
+		bd = bar.attack_point(p).distance_squared_to(p)
+	var path := PackedVector3Array()
+	for b in barricades:
+		if b.hp <= 0.0: continue
+		path = _hunt_path if hunting else agent.get_current_navigation_path().slice(agent.get_current_navigation_path_index())
+		break
+	for b in barricades:
+		var blocking: bool = _blocks_hunt(b, path) if hunting else (b.intercepts(p, player.global_position, path) or (b == lane_bar and b.hp > 0.0 and b._local(p).y * b._local(player.global_position).y < 0.0))
+		if blocking:
+			var dd: float = b.attack_point(p).distance_squared_to(p)
+			if bar == null or dd + 16.0 < bd:
+				bd = dd
+				bar = b
+	# Nearby exposed towers can be attacked; a blocking fence still takes priority.
+	if bar == null and not hunting:
+		for tower in get_tree().get_nodes_in_group("defence_towers"):
+			if tower.hp > 0.0 and tower.global_position.distance_squared_to(p) < 12.0 * 12.0:
+				var dd: float = tower.attack_point(p).distance_squared_to(p)
+				if dd < bd and dd < to_player.length_squared():
+					bar = tower
+					bd = dd
+	# The Waldhütte itself: raiders inside the ring head for its walls, every zombie close to a wall hits it.
+	if bar == null and not player_priority and is_instance_valid(hut) and hut.hp > 0.0:
+		var hut_point := hut.attack_point(p)
+		var hd := hut_point.distance_squared_to(p)
+		var inside: bool = not is_instance_valid(perimeter) or perimeter.contains(Vector2(p.x, p.z))
+		if (raider and inside and not hunting) or (hd < HutHealth.RAID_RANGE * HutHealth.RAID_RANGE and hd < to_player.length_squared()):
+			bar = hut
+			bd = hd
+	siege_target = bar
+	for door: Door in hut_doors:
+		if door.crosses(p, player.global_position):
+			var dd := door.center.distance_squared_to(p)
+			if dd < bd:
+				bd = dd
+				bar = door
+	if player_priority: bar = null
+	return bar
+
 func begin_hunt() -> void:
 	hunting = true
+	_decision_time = 0.0
+	_decision_target = null
 	siege_target = null
 	lane_bar = null
 	hit_pending = 0.0
@@ -592,6 +742,7 @@ func _nearby_player_priority(delta: float) -> bool:
 			_aggro_target = candidate
 		if previous != _aggro_target:
 			_repath = 0.0
+			_decision_time = 0.0
 			# Cancel a pending swing at the old target when changing priorities.
 			hit_pending = 0.0
 	if is_instance_valid(_aggro_target) and _aggro_target.alive:
@@ -604,7 +755,63 @@ func _on_velocity_computed(safe: Vector3) -> void:
 		return
 	velocity.x = safe.x
 	velocity.z = safe.z
+	# Resting attackers need no repeated capsule sweep over unchanged ground.
+	# Refresh contact periodically so a removed platform still makes them fall.
+	if is_on_floor() and velocity.length_squared() < 0.000001:
+		_rest_contact_time -= get_physics_process_delta_time()
+		if _rest_contact_time > 0.0: return
+		_rest_contact_time = 0.16 + float(appearance_seed % 7) * 0.01
+	else:
+		_rest_contact_time = 0.0
+	if _move_on_terrain(): return
 	move_and_slide()
+	_terrain_floor = RID()
+	if is_on_floor():
+		for i in get_slide_collision_count():
+			var collision := get_slide_collision(i)
+			var collider := collision.get_collider() as Node
+			if collider and collider.is_in_group("terrain_ground") and collision.get_normal().y > 0.9:
+				_terrain_floor = collision.get_collider_rid()
+				break
+
+# On the open heightfield, ground rays plus a swept capsule against every
+# other obstacle avoids repeated floor-recovery sweeps. Walls, actors, gates,
+# steep slopes, steps, platforms, falling and knockback keep the native solver.
+# This changes no simulation rate, rendering setting or obstacle collision.
+func _move_on_terrain() -> bool:
+	if not _terrain_floor.is_valid() or not is_on_floor() or not (collision_mask & 1) or height > 5.0 or velocity.y > 0.01: return false
+	var delta := get_physics_process_delta_time()
+	var travel := Vector3(velocity.x, 0, velocity.z) * delta
+	var destination := global_position + travel
+	if not _ground_ray:
+		_ground_ray = PhysicsRayQueryParameters3D.new()
+		_ground_ray.collision_mask = 1 | 8
+		_ground_ray.exclude = [get_rid()]
+		_ground_motion = PhysicsTestMotionParameters3D.new()
+		_ground_motion.margin = safe_margin
+		_ground_motion.recovery_as_collision = true
+	_ground_ray.from = destination + Vector3.UP * 0.4
+	_ground_ray.to = destination - Vector3.UP * 0.5
+	var ground := get_world_3d().direct_space_state.intersect_ray(_ground_ray)
+	if ground.is_empty() or ground.rid != _terrain_floor or ground.normal.y < 0.9: return false
+	# Match CharacterBody's default uphill projection; downhill uses floor snap.
+	# Re-sample after projection, including a possible triangle/crest transition.
+	if travel.dot(ground.normal) < 0.0:
+		destination = global_position + travel.slide(ground.normal)
+		_ground_ray.from = destination + Vector3.UP * 0.4
+		_ground_ray.to = destination - Vector3.UP * 0.5
+		ground = get_world_3d().direct_space_state.intersect_ray(_ground_ray)
+		if ground.is_empty() or ground.rid != _terrain_floor or ground.normal.y < 0.9: return false
+	# Analytic support height of the capsule's lower hemisphere on this plane.
+	destination.y = ground.position.y + 0.35 * (1.0 / ground.normal.y - 1.0) + safe_margin
+	if absf(destination.y - global_position.y) > 0.15: return false
+	_ground_motion.from = global_transform
+	_ground_motion.motion = destination - global_position
+	_ground_motion.exclude_bodies = [_terrain_floor]
+	if PhysicsServer3D.body_test_motion(get_rid(), _ground_motion): return false
+	global_position = destination
+	velocity.y = 0.0
+	return true
 
 func _can_hit(bar: Variant) -> bool:
 	var origin := global_position + Vector3.UP * height * 0.65

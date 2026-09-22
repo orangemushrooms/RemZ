@@ -2,9 +2,12 @@ class_name Fireworks
 extends Node3D
 
 const Effect = preload("res://scripts/firework_effect.gd")
+const Battery = preload("res://scripts/firework_battery.gd")
 const CAPACITY := 32
 const MAX_ACTIVE := 12
 const DEFS := {
+	"fw_battery_40": {"name": "Sternenfest · Batterie", "price": 650, "pack": 1, "limit": 2, "rocket": true, "duration": 40.0, "shots": 36, "model": "firework_battery_40", "width": 0.8, "color": Color(0.7, 0.3, 1), "desc": "Grosse Feuerwerksbatterie: 40 Sekunden rote, grüne und goldene Höhensterne mit schnellerem Finale. Auf ebenem Boden unter freiem Himmel aufstellen. Kein Kampfschaden."},
+	"fw_battery_90": {"name": "Himmelsfestival · XL-Batterie", "price": 1400, "pack": 1, "limit": 1, "rocket": true, "duration": 90.0, "shots": 84, "model": "firework_battery_90", "width": 1.25, "color": Color(1, 0.65, 0.15), "desc": "Riesige Verbundbatterie: 90 Sekunden farbige Fächersalven und goldene Kronen mit dichtem Schlussfinale. Benötigt viel freien Platz und offenen Himmel. Kein Kampfschaden."},
 	"fw_ruby": {"name": "Rubinstern", "price": 45, "pack": 1, "limit": 8, "rocket": true, "color": Color(1, 0.08, 0.16), "desc": "Rote Sternenkugel mit silbernem Kern und funkelnden Schweifen."},
 	"fw_aurora": {"name": "Polarlicht", "price": 60, "pack": 1, "limit": 8, "rocket": true, "color": Color(0.18, 1, 0.65), "desc": "Smaragdgrüne Sterne mit violetten Spitzen und einem leuchtenden Ring."},
 	"fw_gold": {"name": "Goldweide", "price": 85, "pack": 1, "limit": 8, "rocket": true, "color": Color(1, 0.65, 0.16), "desc": "Eine grosse goldene Krone mit langen, langsam fallenden Glutspuren und Knistern."},
@@ -22,6 +25,15 @@ var held: Node3D
 var hands: ViewmodelHands
 var hint: Label
 var _clock := 0.0
+
+static func is_battery(id: String) -> bool:
+	return DEFS.has(id) and DEFS[id].has("duration")
+
+static func icon_id(id: String) -> String:
+	return str(DEFS[id].model) if is_battery(id) else ("firework_rocket" if DEFS[id].rocket else "firework_cracker")
+
+static func make_effect(id: String):
+	return Battery.new() if is_battery(id) else Effect.new()
 
 func setup(scene: Node3D) -> void:
 	game = scene
@@ -83,7 +95,7 @@ func select(id: String) -> void:
 	if is_instance_valid(held): held.queue_free()
 	held = Node3D.new()
 	game.weapons.viewmodel.camera.add_child(held)
-	var prop := Effect.model(bool(DEFS[id].rocket))
+	var prop: Node3D = Battery.model(id, true) if is_battery(id) else Effect.model(bool(DEFS[id].rocket))
 	held.add_child(prop)
 	prop.position.y = -0.13 if DEFS[id].rocket else -0.07
 	hands = ViewmodelHands.build("knife", ViewmodelHands.weapon_bounds(prop))
@@ -130,7 +142,7 @@ func _process(delta: float) -> void:
 		hands.animate_cloth(delta, game.player.velocity.length(), 0.0)
 		hands.anchor_melee_elbows(game.weapons.viewmodel.camera)
 	hint.visible = playing
-	hint.text = "Linksklick: %s\nRechtsklick: zurück zur Waffe" % ("Rakete aufstellen & zünden" if DEFS[selected].rocket else "Böller anzünden & werfen")
+	hint.text = "Linksklick: %s\nRechtsklick: zurück zur Waffe" % ("Batterie aufstellen & zünden · %d s" % DEFS[selected].duration if is_battery(selected) else "Rakete aufstellen & zünden" if DEFS[selected].rocket else "Böller anzünden & werfen")
 	game.hud.ammo_label.text = "%d Stück" % stock(game.player.peer_id)[selected]
 	game.hud.weapon_label.text = str(DEFS[selected].name) + " · Feuerwerk"
 	if playing and input_grace <= 0 and Input.is_action_just_pressed("fire"):
@@ -152,6 +164,11 @@ func ignite(p: Player, id: String) -> String:
 	for effect in active.values():
 		if is_instance_valid(effect): alive_effects += 1
 	if alive_effects >= MAX_ACTIVE: return "Warte kurz, bis das Feuerwerk abgeklungen ist."
+	if is_battery(id):
+		var batteries := 0
+		for effect in active.values():
+			if is_instance_valid(effect) and is_battery(effect.kind): batteries += 1
+		if batteries >= 2: return "Es können höchstens zwei Feuerwerksbatterien gleichzeitig brennen."
 	var forward := -p.global_basis.z
 	var eye := p.camera.global_position
 	var origin := eye + forward * 0.5
@@ -164,10 +181,28 @@ func ignite(p: Player, id: String) -> String:
 		var sight := space.intersect_ray(PhysicsRayQueryParameters3D.create(eye, target + Vector3.UP * 0.7, 1 | 8, exclude))
 		if not sight.is_empty(): return "Vor dir ist kein Platz zum Aufstellen."
 		var ground := space.intersect_ray(PhysicsRayQueryParameters3D.create(target + Vector3.UP * 1.8, target - Vector3.UP * 2.5, 1 | 8, exclude))
-		if ground.is_empty() or ground.normal.y < 0.8: return "Stelle die Rakete auf einen ebenen Untergrund."
+		if ground.is_empty() or ground.normal.y < 0.8: return "Stelle das Feuerwerk auf einen ebenen Untergrund."
 		origin = ground.position + Vector3.UP * 0.03
 		var ceiling := space.intersect_ray(PhysicsRayQueryParameters3D.create(origin + Vector3.UP * 0.8, origin + Vector3.UP * 40, 1 | 8, exclude))
-		if not ceiling.is_empty(): return "Die Rakete braucht freien Himmel über sich."
+		if not ceiling.is_empty(): return "Das Feuerwerk braucht freien Himmel über sich."
+		if is_battery(id):
+			var width := float(DEFS[id].width)
+			var query := PhysicsShapeQueryParameters3D.new()
+			var box := BoxShape3D.new()
+			box.size = Vector3(width + 0.15, 0.4, width + 0.15)
+			query.shape = box
+			query.transform.origin = origin + Vector3.UP * 0.45
+			query.collision_mask = 1 | 8
+			query.exclude = exclude
+			if not space.intersect_shape(query, 1).is_empty(): return "Hier ist zu wenig Platz für die Batterie."
+			for offset in [Vector3.LEFT, Vector3.RIGHT, Vector3.FORWARD, Vector3.BACK]:
+				var edge: Vector3 = origin + offset * width * 0.5
+				var support := space.intersect_ray(PhysicsRayQueryParameters3D.create(edge + Vector3.UP, edge - Vector3.UP, 1 | 8, exclude))
+				if support.is_empty() or absf(support.position.y - origin.y) > 0.18: return "Die ganze Batterie muss auf ebenem Boden stehen."
+				var sky := space.intersect_ray(PhysicsRayQueryParameters3D.create(origin + Vector3.UP * 0.8, origin + Vector3.UP * 45 + offset * 9, 1 | 8, exclude))
+				if not sky.is_empty(): return "Die Fächersalven brauchen freien Himmel."
+			for effect in active.values():
+				if is_instance_valid(effect) and effect.origin.distance_to(origin) < width + 0.8: return "Mehr Abstand zum bereits gezündeten Feuerwerk halten."
 		landing = origin
 	else:
 		# Trace the complete short arc so a thrown cracker cannot cross a wall.
@@ -188,7 +223,7 @@ func ignite(p: Player, id: String) -> String:
 			previous = at
 	stock(p.peer_id)[id] -= 1
 	cooldowns[p.peer_id] = 0.9
-	var effect = Effect.new()
+	var effect = make_effect(id)
 	effect.configure(id, origin, landing, randi() & 0x7fffffff, 0.0, path)
 	add_child(effect)
 	active[next_id] = effect
@@ -213,7 +248,7 @@ func apply_snapshot(data: Dictionary) -> void:
 	for id in live:
 		var s: Array = live[id]
 		if not active.has(id) or not is_instance_valid(active[id]):
-			var effect = Effect.new()
+			var effect = make_effect(str(s[0]))
 			effect.configure(s[0], s[1], s[2], s[3], s[4], s[5])
 			add_child(effect)
 			active[id] = effect

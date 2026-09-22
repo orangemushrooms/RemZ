@@ -187,6 +187,9 @@ func action(id: int, operation: String, args: Array) -> void:
 	if not p or not p.alive: return
 	var w: Weapons = weapons[id]
 	match operation:
+		"hunting":
+			if args.size() != 2 or not args[0] is String or not args[1] is int: return
+			NetSession.feedback(id, "message", [game.hunting.transact(p, args[0], args[1]), 2.5])
 		"firework":
 			if args.size() != 3 or not args[0] is String or not _aim(p, args, 1): return
 			var error: String = game.fireworks.ignite(p, args[0])
@@ -495,14 +498,19 @@ func snapshot() -> Dictionary:
 	var available: Array = []
 	var door_states := {}
 	var key_positions := {}
+	var mushroom_positions := {}
+	var maze_caches := {}
 	for key in loot_nodes:
 		var node = loot_nodes[key]
 		if not is_instance_valid(node): continue
+		if node is Loot and node.kind == "maze_cache":
+			maze_caches[key] = [node.stocked_wave, node.cache_respawn_wave]
 		if node is Door:
 			door_states[key] = [node.is_open, node._open_side]
 		elif not node.taken:
 			available.append(key)
 			if node is ForestKey: key_positions[key] = node.global_position
+			if node is Loot and node.id == "goldroehrling": mushroom_positions[key] = node.global_position
 	var bars: Array = []
 	for b in game.barricades: bars.append([b.level, b.hp, b.attack_alert_remaining])
 	var intact: Array = []
@@ -512,9 +520,9 @@ func snapshot() -> Dictionary:
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
-	return {"leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
-		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "bars": bars, "intact": intact, "deer": animals,
+		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "mushroom_positions": mushroom_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
 		"difficulty": game.settings.difficulty,
 		"wave": [game.waves.wave, game.waves.completed, game.waves.phase, game.waves.timer, game.waves.total, game.alive_zombies()+game.waves.queue.size()],
@@ -546,6 +554,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.defences.apply_snapshot(data.get("towers", {}), initial)
 	game.progression.apply_snapshot(data.get("progression", {}))
 	game.fireworks.apply_snapshot(data.get("fireworks", {}))
+	game.hunting.apply_snapshot(data.get("hunting", {}))
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
 	if initial: game.hud._mark_difficulty(int(data.difficulty))
 	if initial: NetSession.trace_load("STATE_STAGE players")
@@ -674,6 +683,18 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			if data.doors.has(key) and node.is_open != data.doors[key][0]:
 				node._open_side = data.doors[key][1]
 				node._set_open(data.doors[key][0])
+		elif node is Loot and node.id == "goldroehrling":
+			node.taken = not key in data.loots
+			node.visible = not node.taken
+			if not node.taken and data.get("mushroom_positions", {}).has(key):
+				node.global_position = data.mushroom_positions[key]
+		elif node is Loot and node.kind == "maze_cache":
+			var cache_state: Array = data.get("maze_caches", {}).get(key, [0, -1])
+			node.stocked_wave = int(cache_state[0])
+			node.cache_respawn_wave = int(cache_state[1])
+			node.update_cache_tier(node.stocked_wave)
+			node.taken = not key in data.loots
+			node.visible = not node.taken
 		elif node is Loot and node.renewable:
 			node.stocked_wave = int(data.wave[0])
 			node.magazines = mini(4, 1 + maxi(0, node.stocked_wave - 1) / 4)
@@ -711,6 +732,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	for id in broken_nodes:
 		if not id in data.intact and is_instance_valid(broken_nodes[id]): broken_nodes[id].shatter()
 	for i in mini(deer.size(), data.deer.size()):
+		if deer[i].get_meta("hunted_dead", false): continue
 		deer[i].global_position = data.deer[i][0]
 		deer[i].rotation = data.deer[i][1]
 		deer[i].state = data.deer[i][2]

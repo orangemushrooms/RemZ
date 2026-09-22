@@ -6,6 +6,12 @@ const MORNING_SECONDS := 6.0 * 3600.0
 const LIGHT_UPDATE_SECONDS := 0.1
 const SKY_UPDATE_GAME_SECONDS := 30.0
 const SKY_MIN_UPDATE_SECONDS := 1.0
+const DAY_START := 5.0 * 3600.0
+const NIGHT_START := 20.0 * 3600.0
+# Keep the full cycle at 15 real minutes: 10.5 minutes from morning to evening,
+# 4.5 minutes of night. Clock hours still drive lighting, wildlife and NPCs.
+const DAY_DURATION_FACTOR := 1.12
+const NIGHT_DURATION_FACTOR := 0.8
 
 # Requested gameplay (user, 17.9.2026): one full day lasts 15 real minutes, the game starts at 06:00 and the
 # clock runs on through the waves so the night actually arrives. reset_each_wave = true restores the old
@@ -66,8 +72,10 @@ func _process(delta: float) -> void:
 	advance(delta)
 
 func advance(real_seconds: float) -> void:
-	var game_seconds := maxf(real_seconds, 0.0) * maxf(time_scale, 0.0)
-	clock_seconds = fposmod(clock_seconds + game_seconds, DAY_SECONDS)
+	var before := fposmod(clock_seconds, DAY_SECONDS)
+	var elapsed := _cycle_time(before) + maxf(real_seconds, 0.0) * maxf(time_scale, 0.0)
+	clock_seconds = _clock_time(fposmod(elapsed, DAY_SECONDS))
+	var game_seconds := floorf(elapsed / DAY_SECONDS) * DAY_SECONDS + clock_seconds - before
 	_light_elapsed += maxf(real_seconds, 0.0)
 	_sky_elapsed += game_seconds
 	_sky_real_elapsed += maxf(real_seconds, 0.0)
@@ -79,6 +87,25 @@ func advance(real_seconds: float) -> void:
 			_sky_real_elapsed = 0.0
 		_apply_lighting(update_sky)
 	_update_clock()
+
+func current_time_scale() -> float:
+	var daytime := clock_seconds >= DAY_START and clock_seconds < NIGHT_START
+	return maxf(time_scale, 0.0) / (DAY_DURATION_FACTOR if daytime else NIGHT_DURATION_FACTOR)
+
+# Mapping through a uniformly advancing cycle handles dawn, dusk and any number
+# of midnights within one frame without changing the result with frame rate.
+static func _cycle_time(seconds: float) -> float:
+	if seconds < DAY_START: return seconds * NIGHT_DURATION_FACTOR
+	var morning := DAY_START * NIGHT_DURATION_FACTOR
+	if seconds < NIGHT_START: return morning + (seconds - DAY_START) * DAY_DURATION_FACTOR
+	return morning + (NIGHT_START - DAY_START) * DAY_DURATION_FACTOR + (seconds - NIGHT_START) * NIGHT_DURATION_FACTOR
+
+static func _clock_time(seconds: float) -> float:
+	var morning := DAY_START * NIGHT_DURATION_FACTOR
+	var evening := morning + (NIGHT_START - DAY_START) * DAY_DURATION_FACTOR
+	if seconds < morning: return seconds / NIGHT_DURATION_FACTOR
+	if seconds < evening: return DAY_START + (seconds - morning) / DAY_DURATION_FACTOR
+	return NIGHT_START + (seconds - evening) / NIGHT_DURATION_FACTOR
 
 static func daylight_at(hour: float) -> float:
 	var h := fposmod(hour, 24.0)
@@ -111,7 +138,7 @@ func _update_clock() -> void:
 	if minute == _displayed_minute:
 		return
 	_displayed_minute = minute
-	main.hud.set_world_time(clock_seconds, phase_at(clock_seconds / 3600.0), time_scale)
+	main.hud.set_world_time(clock_seconds, phase_at(clock_seconds / 3600.0), current_time_scale())
 
 func _apply_lighting(update_sky: bool) -> void:
 	if not environment:

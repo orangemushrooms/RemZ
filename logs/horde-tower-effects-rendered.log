@@ -1,0 +1,76 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: standard recoil leaves aiming and operator seat stable
+PASS: standard has mechanical recoil
+PASS: Bullet streak travels instead of drawing a full-range laser
+PASS: standard returns smoothly to its rest position
+PASS: standard late join does not replay an old shot
+PASS: standard replicated shot starts the same new effects
+PASS: flame plays the prepared user recording on a real shot
+PASS: flame sound comes from the muzzle with distance attenuation
+PASS: flame playback is bounded for its firing rate
+PASS: flame recoil leaves aiming and operator seat stable
+PASS: Flame uses soft world-space sprites, not polygon spheres
+PASS: Flame sustains one looping voice across repeated shots
+PASS: Upgraded flame travel reaches its actual advertised range
+PASS: Flame emission stops after trigger updates cease
+PASS: Flame sound fades out after firing stops
+PASS: Rotating an upgraded tower previews the upgraded range
+PASS: Build hint agrees with upgraded range marker
+PASS: Aim readout distinguishes a reachable target from one beyond range
+PASS: Aim readout distinguishes a reachable target from one beyond range
+PASS: flame returns smoothly to its rest position
+PASS: flame late join does not replay an old shot
+PASS: flame late join stays silent for historical shots
+PASS: flame replicated shot starts the same new effects
+PASS: flame replicated new shot plays its user recording
+PASS: flame repeated snapshot does not replay the sound
+PASS: flame destruction removes its sound emitter
+PASS: mortar plays the prepared user recording on a real shot
+PASS: mortar sound comes from the muzzle with distance attenuation
+PASS: mortar playback is bounded for its firing rate
+PASS: mortar recoil leaves aiming and operator seat stable
+PASS: mortar has mechanical recoil
+PASS: Mortar aim cannot exceed its advertised maximum range
+PASS: mortar returns smoothly to its rest position
+PASS: mortar late join does not replay an old shot
+PASS: mortar late join stays silent for historical shots
+PASS: mortar replicated shot starts the same new effects
+PASS: mortar replicated new shot plays its user recording
+PASS: mortar repeated snapshot does not replay the sound
+PASS: mortar destruction removes its sound emitter
+PASS: mg42 plays the prepared user recording on a real shot
+PASS: mg42 sound comes from the muzzle with distance attenuation
+PASS: mg42 playback is bounded for its firing rate
+PASS: mg42 recoil leaves aiming and operator seat stable
+PASS: mg42 has mechanical recoil
+PASS: mg42 returns smoothly to its rest position
+PASS: mg42 late join does not replay an old shot
+PASS: mg42 late join stays silent for historical shots
+PASS: mg42 replicated shot starts the same new effects
+PASS: mg42 replicated new shot plays its user recording
+PASS: mg42 repeated snapshot does not replay the sound
+PASS: mg42 destruction removes its sound emitter
+PASS: tesla plays the prepared user recording on a real shot
+PASS: tesla sound comes from the muzzle with distance attenuation
+PASS: tesla playback is bounded for its firing rate
+PASS: tesla recoil leaves aiming and operator seat stable
+PASS: Tesla lightning buffer draws world-space links
+PASS: Lightning buffer preserves full level-three range and all five jumps
+PASS: Repeated lightning reuses GPU mesh and material
+PASS: Tesla lightning fades and stops processing after its original duration
+PASS: tesla returns smoothly to its rest position
+PASS: tesla late join does not replay an old shot
+PASS: tesla late join stays silent for historical shots
+PASS: tesla replicated shot starts the same new effects
+PASS: tesla replicated new shot plays its user recording
+PASS: tesla repeated snapshot does not replay the sound
+PASS: tesla destruction removes its sound emitter
+TOWER_EFFECTS_DONE checks=66 failures=0

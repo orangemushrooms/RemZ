@@ -94,6 +94,34 @@ func run() -> void:
 	cash.take(w,game.hud)
 	cash.take(w,game.hud)
 	check(p.score==before+250,"Cash cache grants its reward exactly once")
+	var due: int = cash.cache_respawn_wave
+	check(due >= game.waves.wave + 2 and due <= game.waves.wave + 4, "Maze cache schedules a random two-to-four-wave cooldown")
+	cash.restock(due - 1)
+	check(cash.taken and not cash.visible and not cash.is_queued_for_deletion(), "Collected maze cache survives but stays hidden before its cooldown")
+	cash.restock(due)
+	check(not cash.taken and cash.visible, "Maze cache returns at its scheduled wave")
+	game.waves.wave = 16
+	cash.restock(16)
+	check(cash.cache_tier == 4 and cash.label.contains("750"), "Late-game cash cache upgrades its reward and prompt")
+	before = p.score
+	cash.take(w, game.hud)
+	cash.take(w, game.hud)
+	check(p.score == before + 750, "Upgraded cash reward is granted only once")
+	cash.restock(16)
+	check(cash.taken, "Repeated same-wave refill cannot duplicate an upgraded reward")
+	fire.restock(16)
+	data.ammo.fire = 90
+	fire.take(w, game.hud)
+	check(data.ammo.fire == 96 and fire.taken, "Upgraded special ammunition respects inventory capacity")
+	caches[3].restock(16)
+	w.grenades = 0
+	caches[3].take(w, game.hud)
+	check(w.grenades == mini(3, w.grenades_max), "Late-game grenade cache grants three grenades within capacity")
+	caches[4].restock(16)
+	var ammo_id: String = w.ammo_weapon()
+	w.state[ammo_id].reserve = 0
+	caches[4].take(w, game.hud)
+	check(w.state[ammo_id].reserve == mini(int(Weapons.DEFS[ammo_id].mag) * 6, w.reserve_limit(ammo_id)), "Late-game ammunition cache supplies six magazines within capacity")
 	NetSession.enabled = true
 	NetSession.world.add_player(1)
 	NetSession.world.add_player(2)
@@ -105,6 +133,13 @@ func run() -> void:
 	check(frost.taken and game.progression.rare_market.data(2).ammo.frost==12,"Host awards maze special ammunition to the collecting teammate")
 	NetSession.world.collect_loot(2,str(frost.get_meta("coop_id")))
 	check(game.progression.rare_market.data(2).ammo.frost==12,"Duplicate coop requests cannot duplicate rewards")
+	check(not frost.is_queued_for_deletion() and frost.cache_respawn_wave >= 18, "Host keeps collected coop caches for later respawn")
+	var cache_snapshot: Dictionary = NetSession.world.snapshot()
+	var frost_key: String = str(frost.get_meta("coop_id"))
+	check(cache_snapshot.maze_caches.has(frost_key) and frost_key not in cache_snapshot.loots, "Snapshot preserves hidden cache identity and cooldown for late joiners")
+	frost.restock(frost.cache_respawn_wave)
+	cache_snapshot = NetSession.world.snapshot()
+	check(frost_key in cache_snapshot.loots and int(cache_snapshot.maze_caches[frost_key][0]) >= 18, "Respawn snapshot advertises the same cache with upgraded reward state")
 	remote.global_position = Vector3(120,20,-100)
 	NetSession.enabled = false
 	var crow = field.birds[0]

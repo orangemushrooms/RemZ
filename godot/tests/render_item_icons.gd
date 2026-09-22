@@ -43,6 +43,8 @@ func run() -> void:
 	if "--missing-only" not in OS.get_cmdline_user_args():
 		catalogue.firework_rocket = "firework_rocket"
 		catalogue.firework_cracker = "firework_cracker"
+	if "--batteries-only" in OS.get_cmdline_user_args(): catalogue = {"firework_battery_40": "firework_battery_40", "firework_battery_90": "firework_battery_90"}
+	if "--gold-mushroom-only" in OS.get_cmdline_user_args(): catalogue = {"goldroehrling": ""}
 	for id in catalogue:
 		var holder := Node3D.new()
 		world.add_child(holder)
@@ -54,6 +56,9 @@ func run() -> void:
 			holder.add_child(tower)
 			tower.label.hide()
 			object = tower
+		elif id == "goldroehrling":
+			object = Inventory.Mushrooms.model(id)
+			holder.add_child(object)
 		else:
 			object = load("res://assets/models/%s.glb" % catalogue[id]).instantiate()
 			holder.add_child(object)
@@ -61,7 +66,7 @@ func run() -> void:
 		var scale_factor := 2.0 / maxf(maxf(bounds.size.x, bounds.size.y), bounds.size.z)
 		object.scale *= scale_factor
 		object.position = -bounds.get_center() * scale_factor
-		if id.begins_with("firework_"): holder.rotation.z = -0.6
+		if id in ["firework_rocket", "firework_cracker"]: holder.rotation.z = -0.6
 		camera.position = Vector3(0.4, 0.3, 5) if id in Weapons.ORDER else Vector3(3, 2, 5)
 		camera.look_at(Vector3.ZERO)
 		camera.size = 2.5

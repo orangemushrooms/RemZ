@@ -298,6 +298,8 @@ func _make_caches() -> void:
 	for i in mini(ends.size(),rewards.size()):
 		var item := Loot.new()
 		item.setup("maze_cache",rewards[i],["Feuerpatronen (12)","Frostpatronen (12)","Versteckter Geldbeutel (250 P)","Granatenversteck","Munitionskiste"][i])
+		item.renewable = true
+		item.restock(0)
 		add_child(item)
 		var p := cell_position(ends[i])
 		item.global_position = Map.ground_pos(p.x,p.y)+Vector3.UP*0.12

@@ -5,7 +5,8 @@ extends Node3D
 
 const MAX_HP := 5000.0
 const REPAIR_STEP := 500.0          # health per repair action
-const REPAIR_COST := 30             # points per repair action
+const REPAIR_COST := 30             # base price for 500 HP in wave one
+const REPAIR_COST_PER_WAVE := 5
 const REPAIR_REACH := 5.0           # metres from the walls
 const ATTACK_ALERT_SECONDS := 5.0
 const RAID_RANGE := 9.0             # zombies closer than this to a wall turn on the hut
@@ -160,21 +161,34 @@ func damage(n: float) -> void:
 func can_repair(player: Player) -> bool:
 	return not destroyed and hp < MAX_HP and player.alive and distance(player.global_position) <= REPAIR_REACH
 
+func repair_quote() -> Dictionary:
+	# Wave-based pricing is shared by the prompt and the host transaction.
+	# No extra charge for team size or repeated repairs; partial repairs pay
+	# only for restored HP, rounded up so splitting cannot make them cheaper.
+	var wave := 1
+	if game and game.waves:
+		wave = maxi(1, maxi(game.waves.wave, game.waves.completed))
+	var amount := minf(REPAIR_STEP, maxf(0.0, MAX_HP - hp)) if not destroyed else 0.0
+	var full_cost := REPAIR_COST + (wave - 1) * REPAIR_COST_PER_WAVE
+	return {"amount": amount, "cost": ceili(full_cost * amount / REPAIR_STEP), "full_cost": full_cost, "wave": wave}
+
 # returns an error text, empty on success (same contract as DefenceSystem.maintain)
 func repair(player: Player) -> String:
 	if destroyed: return "Die Waldhütte ist zerstört."
 	if hp >= MAX_HP: return "Keine Reparatur nötig."
 	if not player.alive: return "Reparieren ist momentan nicht möglich."
 	if distance(player.global_position) > REPAIR_REACH: return "Zu weit von der Hütte entfernt."
-	if player.score < REPAIR_COST: return "Es fehlen %d Punkte." % (REPAIR_COST - player.score)
-	player.add_score(-REPAIR_COST)
-	hp = minf(MAX_HP, hp + REPAIR_STEP)
+	var quote := repair_quote()
+	if player.score < int(quote.cost): return "Es fehlen %d Punkte." % (int(quote.cost) - player.score)
+	player.add_score(-int(quote.cost))
+	hp = minf(MAX_HP, hp + float(quote.amount))
 	Sfx.event(self, player.peer_id, "purchase")
 	Sfx.play_at(get_parent(), "build", center, -6.0)
 	return ""
 
 func prompt_text() -> String:
-	return "[E] Waldhütte reparieren · +%d · %d P\nHütte %d / %d" % [int(REPAIR_STEP), REPAIR_COST, ceili(hp), int(MAX_HP)]
+	var quote := repair_quote()
+	return "[E] Waldhütte reparieren · +%d HP · %d P\nHütte %d / %d · Preisstufe: Welle %d" % [ceili(quote.amount), int(quote.cost), ceili(hp), int(MAX_HP), int(quote.wave)]
 
 func _process(delta: float) -> void:
 	attack_alert_remaining = maxf(0.0, attack_alert_remaining - delta)

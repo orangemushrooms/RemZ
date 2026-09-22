@@ -19,6 +19,14 @@ var active_label: Label
 var _effects_ui_t := 0.0
 var ach_label: Label
 var stats_label: Label
+const CATEGORIES := ["Alle", "Waffen", "Feuerwerk", "Vorräte", "Schlüssel"]
+var category_filter := 0
+var sort_order := 0
+var category_buttons: Array[Button] = []
+var sort_select: OptionButton
+var item_scroll: ScrollContainer
+var empty_label: Label
+var _slot_category := 1
 
 func setup(p: Player, w: Weapons, h: Hud, m: Node) -> void:
 	player = p
@@ -68,11 +76,31 @@ func _ready() -> void:
 	stats_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	stats_label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	head.add_child(stats_label)
-	var legend := Label.new()
-	legend.text = "WAFFEN  ·  FEUERWERK  ·  VORRÄTE  ·  SCHLÜSSEL"
-	legend.add_theme_font_size_override("font_size", 12)
-	legend.add_theme_color_override("font_color", Color(1.0, 0.7, 0.28))
-	v.add_child(legend)
+	var filters := HBoxContainer.new()
+	filters.add_theme_constant_override("separation", 8)
+	v.add_child(filters)
+	var group := ButtonGroup.new()
+	for i in CATEGORIES.size():
+		var button := Button.new()
+		button.text = CATEGORIES[i]
+		button.toggle_mode = true
+		button.button_group = group
+		button.button_pressed = i == category_filter
+		button.add_theme_font_size_override("font_size", 14)
+		button.add_theme_color_override("font_pressed_color", Color(1.0, 0.7, 0.28))
+		button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		button.pressed.connect(_select_category.bind(i))
+		category_buttons.append(button)
+		filters.add_child(button)
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	filters.add_child(spacer)
+	sort_select = OptionButton.new()
+	sort_select.add_theme_font_size_override("font_size", 14)
+	for caption in ["Sortierung: Kategorie", "Name: A–Z", "Name: Z–A"]:
+		sort_select.add_item(caption)
+	sort_select.item_selected.connect(_select_sort)
+	filters.add_child(sort_select)
 	active_label = Label.new()
 	active_label.add_theme_font_size_override("font_size", 15)
 	active_label.add_theme_constant_override("line_spacing", 3)
@@ -88,11 +116,19 @@ func _ready() -> void:
 	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 10)
 	grid.add_theme_constant_override("v_separation", 10)
-	var scroll := ScrollContainer.new()
-	scroll.custom_minimum_size = Vector2(795, 310)
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	v.add_child(scroll)
-	scroll.add_child(grid)
+	item_scroll = ScrollContainer.new()
+	item_scroll.custom_minimum_size = Vector2(795, 310)
+	item_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	v.add_child(item_scroll)
+	var items := VBoxContainer.new()
+	items.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	item_scroll.add_child(items)
+	items.add_child(grid)
+	empty_label = Label.new()
+	empty_label.add_theme_font_size_override("font_size", 17)
+	empty_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	empty_label.custom_minimum_size.y = 100
+	items.add_child(empty_label)
 	var info_panel := PanelContainer.new()
 	var ist := StyleBoxFlat.new()
 	ist.bg_color = Color(0.03, 0.042, 0.055)
@@ -137,7 +173,12 @@ func add_mushroom(kind: String) -> void:
 		main.achievements.event("mushrooms")
 
 func _slot(title: String, sub: String, color: Color, detail: String, on_click: Callable, fill: float = -1.0, icon_id := "item", quick_id := "") -> void:
+	if category_filter != 0 and category_filter != _slot_category:
+		return
 	var b := preload("res://scripts/item_slot_button.gd").new()
+	b.set_meta("category", _slot_category)
+	b.set_meta("item_title", title)
+	b.set_meta("item_order", grid.get_child_count())
 	b.custom_minimum_size = Vector2(186, 190)
 	detail = detail.replace("  ·  ", "\n").replace(" · ", "\n")
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -211,6 +252,7 @@ func _refresh() -> void:
 	active_label.text = Mushrooms.summary(player.mushroom_effects)
 	active_label.visible = not active_label.text.is_empty()
 	for c in grid.get_children():
+		grid.remove_child(c)
 		c.queue_free()
 	if main.achievements:
 		var names: Array = []
@@ -224,11 +266,13 @@ func _refresh() -> void:
 	if "stats" in main and main.stats:
 		var st = main.stats
 		stats_label.text = "Diese Runde: %d Abschüsse · %d Kopfschüsse · Treffer %d %% · Serie %d" % [st.kills, st.headshots, int(round(st.accuracy() * 100.0)), st.best_streak]
+	_slot_category = 2
 	for id in Fireworks.DEFS:
 		var spec: Dictionary = Fireworks.DEFS[id]
 		var amount: int = main.fireworks.stock(player.peer_id)[id]
 		if amount <= 0: continue
-		_slot(spec.name, "%d Stück · Auswählen" % amount, spec.color, spec.desc + "\n\nANWENDUNG\nAuswählen schliesst das Inventar. Linksklick: " + ("aufstellen und zünden. Raketen benötigen freien Himmel." if spec.rocket else "anzünden und werfen. Knall nach 2,4 Sekunden.") + "\nRechtsklick: zur Waffe. Kein Kampfschaden.", main.fireworks.select.bind(id), float(amount) / spec.limit, "firework_rocket" if spec.rocket else "firework_cracker", id)
+		_slot(spec.name, "%d Stück · Auswählen" % amount, spec.color, spec.desc + "\n\nANWENDUNG\nAuswählen schliesst das Inventar. Linksklick: " + ("aufstellen und zünden. Raketen und Batterien benötigen freien Himmel." if spec.rocket else "anzünden und werfen. Knall nach 2,4 Sekunden.") + "\nRechtsklick: zur Waffe. Kein Kampfschaden.", main.fireworks.select.bind(id), float(amount) / spec.limit, Fireworks.icon_id(id), id)
+	_slot_category = 3
 	var market = main.progression.rare_market
 	var rare: Dictionary = market.data(player.peer_id)
 	for id in rare.owned:
@@ -242,6 +286,7 @@ func _refresh() -> void:
 		_slot(spec.name, "%d Schüsse · %s" % [rare.ammo[id], "Aktiv" if rare.mode == id else "Aktivieren"], Color(1, 0.6, 0.2) if id == "fire" else Color(0.35, 0.8, 1), spec.desc + " Verbraucht zusätzlich zur normalen Munition eine Ladung pro Schuss, auch bei Fehlschüssen. Schrot: eine Ladung für alle Pellets.", market.request_equip.bind(id), -1, "ammo", id)
 	if int(rare.ammo.fire) + int(rare.ammo.frost) > 0:
 		_slot("Normale Patronen", "Spezialmunition sparen", Color(0.6, 0.6, 0.5), "Deaktiviert Spezialmunition, ohne Vorräte zu verlieren.", market.request_equip.bind("normal"), -1, "ammo")
+	_slot_category = 1
 	for id in weapons.ORDER:
 		if not weapons.unlocked.get(id, false):
 			continue
@@ -264,18 +309,61 @@ func _refresh() -> void:
 			detail, func(): main.fireworks.cancel(); weapons.set_weapon(id); _refresh(), fill, id, id)
 	if weapons.grenades > 0:
 		_slot("Granaten", "%d Stück  ·  Taste G" % weapons.grenades, Color(0.4, 0.5, 0.35), "Handgranaten: 2,6 s Zünder, 7 m Radius, 260 Schaden im Zentrum. Werfen mit G. Taschenlimit: %d. Nachschub bei Vendor oder von gefallenen Zombies." % weapons.grenades_max, func(): pass, float(weapons.grenades) / maxf(1.0, weapons.grenades_max), "grenade", "grenade")
+	_slot_category = 3
+	for kind in main.hunting.FOOD:
+		var count := int(main.hunting.stock(player.peer_id).get(kind, 0))
+		if count <= 0: continue
+		var spec: Dictionary = main.hunting.FOOD[kind]
+		_slot(spec.name, "%d Stück · %s" % [count, "Essen" if kind == "cooked_meat" else "Am Lager grillen"], Color(0.72, 0.34, 0.2), spec.text + "\nVerkauf: %d P pro Stück beim Vendor." % spec.sell, func():
+			if kind == "cooked_meat": main.hunting.request("eat")
+			else: info.text = spec.text, -1, kind, kind if kind == "cooked_meat" else "")
 	for k in MUSHROOMS:
 		var n: int = mushrooms.get(k, 0)
 		if n <= 0: continue
 		var md: Dictionary = MUSHROOMS[k]
+		if md.get("collectible", false):
+			_slot(md.name, "%d Stück · 1000 P Verkauf" % n, md.color, md.text, func(): info.text = md.text, -1, k)
+			continue
 		_slot(md["name"], "%d Stück  ·  Klick: essen" % n, md["color"] if n > 0 else Color(0.3, 0.3, 0.3), "WIRKUNG\n" + str(md["text"]).replace("; ", "\n") + "\n\nVERKAUF\n%d P pro Stück beim Vendor\n\nANWENDUNG\nKlick: essen · E: im Wald sammeln\nGleiche Effekte stapeln nicht. Erneutes Essen erneuert die Dauer." % md.sell, func(): _eat(k), -1, k, k)
 
+	_slot_category = 4
 	if main.forest_keys:
 		for key_id: String in ForestKeys.KEYS:
 			var found: bool = main.forest_keys.has_key(key_id)
 			if not found: continue
 			var detail := "Schlüssel für %s. %s" % [ForestKeys.KEYS[key_id], "Bleibt bei dir und öffnet alle Türen dieser Hütte." if found else "Ein seltener Fund im Wald – nicht in jedem Durchlauf vorhanden. In der Nähe helfen Hinweis und Richtungspfeil."]
 			_slot("Schlüssel: %s" % ForestKeys.KEYS[key_id], "Gefunden" if found else "Noch nicht gefunden", Color(0.95, 0.73, 0.32) if found else Color(0.3, 0.3, 0.3), detail, func(): info.text = detail, -1, "key")
+
+	_sort_slots()
+	empty_label.visible = grid.get_child_count() == 0
+	empty_label.text = "Keine Gegenstände vorhanden." if category_filter == 0 else "Keine Gegenstände in der Kategorie %s." % CATEGORIES[category_filter]
+
+func _select_category(index: int) -> void:
+	category_filter = index
+	category_buttons[index].set_pressed_no_signal(true)
+	_refresh()
+	_reset_item_view()
+
+func _select_sort(index: int) -> void:
+	sort_order = index
+	_sort_slots()
+	_reset_item_view()
+
+func _reset_item_view() -> void:
+	item_scroll.scroll_vertical = 0
+	info.text = "Fahre über einen Gegenstand für Details."
+
+func _sort_slots() -> void:
+	var slots := grid.get_children()
+	slots.sort_custom(func(a: Node, b: Node) -> bool:
+		if sort_order == 0:
+			var ac := int(a.get_meta("category"))
+			var bc := int(b.get_meta("category"))
+			return ac < bc if ac != bc else int(a.get_meta("item_order")) < int(b.get_meta("item_order"))
+		var comparison := str(a.get_meta("item_title")).naturalnocasecmp_to(str(b.get_meta("item_title")))
+		return comparison < 0 if sort_order == 1 else comparison > 0)
+	for i in slots.size():
+		grid.move_child(slots[i], i)
 
 func _eat(kind: String) -> void:
 	if NetSession.enabled:

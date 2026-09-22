@@ -1,0 +1,46 @@
+2026-09-21T20:41:27 remz-dev-20260921-goldroehrling BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-21T20:41:27 remz-dev-20260921-goldroehrling NETWORK_INITIALIZED
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling MAP_READY
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling HOST_CREATE port=24687
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling HOST_READY
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling PEER_CONNECTED id=1839871623
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling PEER_CONNECTED id=361921188
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling PEER_CONNECTED id=1953155674
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling INITIAL_SEND peer=1839871623 raw=25212 bytes=3858 parts=5
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling INITIAL_SEND peer=361921188 raw=25212 bytes=3858 parts=5
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling INITIAL_SEND peer=1953155674 raw=25212 bytes=3858 parts=5
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling CLIENT_READY peer=1839871623
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling CLIENT_READY peer=361921188
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling CLIENT_READY peer=1953155674
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling ROUND_START_SEND players=4
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_SEND peer=1839871623 raw=25212 bytes=3857 parts=5
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_SEND peer=361921188 raw=25212 bytes=3857 parts=5
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling STATE_SEND peer=1953155674 raw=25212 bytes=3857 parts=5
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling ROUND_BEGIN intro=false
+2026-09-21T20:41:51 remz-dev-20260921-goldroehrling ROUND_RUNNING players=4
+2026-09-21T20:42:58 remz-dev-20260921-goldroehrling PEER_DISCONNECTED id=361921188
+2026-09-21T20:43:15 remz-dev-20260921-goldroehrling PEER_CONNECTED id=663335872
+2026-09-21T20:43:15 remz-dev-20260921-goldroehrling INITIAL_SEND peer=663335872 raw=27380 bytes=4937 parts=6
+2026-09-21T20:43:15 remz-dev-20260921-goldroehrling CLIENT_READY peer=663335872
+2026-09-21T20:43:42 remz-dev-20260921-goldroehrling STATE_SEND peer=1839871623 raw=40644 bytes=6671 parts=8
+2026-09-21T20:43:42 remz-dev-20260921-goldroehrling STATE_SEND peer=1953155674 raw=40644 bytes=6671 parts=8
+2026-09-21T20:43:42 remz-dev-20260921-goldroehrling STATE_SEND peer=663335872 raw=40644 bytes=6671 parts=8
+2026-09-21T20:44:02 remz-dev-20260921-goldroehrling MAP_READY
+2026-09-21T20:44:02 remz-dev-20260921-goldroehrling INITIAL_SEND peer=663335872 raw=25148 bytes=3820 parts=5
+2026-09-21T20:44:02 remz-dev-20260921-goldroehrling INITIAL_SEND peer=1839871623 raw=25148 bytes=3820 parts=5
+2026-09-21T20:44:02 remz-dev-20260921-goldroehrling INITIAL_SEND peer=1953155674 raw=25148 bytes=3820 parts=5
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling CLIENT_READY peer=1839871623
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling CLIENT_READY peer=663335872
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling CLIENT_READY peer=1953155674
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling ROUND_START_SEND players=4
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_SEND peer=1839871623 raw=25148 bytes=3832 parts=5
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_SEND peer=1953155674 raw=25148 bytes=3832 parts=5
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling STATE_SEND peer=663335872 raw=25148 bytes=3832 parts=5
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling ROUND_BEGIN intro=false
+2026-09-21T20:44:03 remz-dev-20260921-goldroehrling ROUND_RUNNING players=4
+2026-09-21T20:44:05 remz-dev-20260921-goldroehrling PEER_DISCONNECTED id=663335872
+2026-09-21T20:44:06 remz-dev-20260921-goldroehrling LEAVE_BEGIN phase=running reason=Integration test finished
+2026-09-21T20:44:06 remz-dev-20260921-goldroehrling LEAVE_PEER_DETACHED
+2026-09-21T20:44:06 remz-dev-20260921-goldroehrling LEAVE_PEER_CLOSED
+2026-09-21T20:44:06 remz-dev-20260921-goldroehrling LEAVE_RELOAD
+2026-09-21T20:44:22 remz-dev-20260921-goldroehrling MAP_READY

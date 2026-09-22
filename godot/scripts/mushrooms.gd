@@ -2,6 +2,7 @@ extends RefCounted
 
 # Game items: a single catalogue drives effects, world variants and sale prices.
 const DEFS := {
+	"goldroehrling": {"name": "Goldröhrling", "text": "Extrem seltener Verkaufsfund · 1000 Punkte beim Vendor. Nicht zum Essen.", "heal": 0.0, "sell": 1000, "weight": 0, "collectible": true, "color": Color("efbb32")},
 	"steinpilz": {"name": "Steinpilz", "text": "+25 Leben", "heal": 25.0, "sell": 8, "weight": 30, "color": Color("8c6138")},
 	"fliegenpilz": {"name": "Fliegenpilz", "text": "-15 Leben; 20 s doppelter Waffen- und Nahkampfschaden", "heal": -15.0, "duration": 20.0, "damage": 2.0, "effect": "Schaden ×2", "sell": 14, "weight": 12, "color": Color("cf302b")},
 	"pfifferling": {"name": "Pfifferling", "text": "+10 Leben; 30 s +20 % Lauftempo", "heal": 10.0, "duration": 30.0, "speed": 1.2, "effect": "Tempo +20 %", "sell": 10, "weight": 18, "color": Color("edb83d"), "cap": 0.20, "flat": 0.32},
@@ -13,6 +14,14 @@ const DEFS := {
 	"violetter_roetelritterling": {"name": "Violetter Rötelritterling", "text": "+5 Leben; 40 s +35 % Waffen- und Nahkampfschaden", "heal": 5.0, "duration": 40.0, "damage": 1.35, "effect": "Schaden +35 %", "sell": 18, "weight": 7, "color": Color("9267a5"), "cap": 0.22, "flat": 0.55},
 	"krause_glucke": {"name": "Krause Glucke", "text": "+60 Leben", "heal": 60.0, "sell": 22, "weight": 5, "color": Color("d2bf85"), "cap": 0.13, "flat": 0.8},
 }
+
+const GOLD_ROUND_CHANCE := 0.05
+
+# Ordinary locations remain deterministic for co-op. Only the host rolls this
+# separate, optional collectible once per round, then replicates its position.
+static func rare_slot(random: RandomNumberGenerator, candidates: int) -> int:
+	if candidates <= 0 or random.randf() >= GOLD_ROUND_CHANCE: return -1
+	return random.randi_range(0, candidates - 1)
 
 static func empty_stock() -> Dictionary:
 	var stock := {}
@@ -54,6 +63,7 @@ static func consume(player, stock: Dictionary, kind: String) -> String:
 	if not player.alive: return "Essen ist momentan nicht möglich."
 	if int(stock.get(kind, 0)) <= 0: return "Keine %s im Inventar." % DEFS[kind].name
 	var spec: Dictionary = DEFS[kind]
+	if spec.get("collectible", false): return "Goldröhrling aufbewahren: beim Vendor für 1000 Punkte verkaufen."
 	if float(spec.heal) > 0.0 and not spec.has("duration") and player.hp >= player.max_hp:
 		return "Gesundheit voll – der Pilz bleibt im Inventar."
 	stock[kind] -= 1
@@ -65,6 +75,21 @@ static func consume(player, stock: Dictionary, kind: String) -> String:
 	return ""
 
 static func model(kind: String) -> Node3D:
+	if kind == "goldroehrling":
+		# Reuse the detailed Meshy bolete geometry and PBR maps with private materials.
+		var gold := WorldModels.create("mushroom_maronenroehrling", 0.4)
+		if gold:
+			gold.set_meta("model_id", "mushroom_goldroehrling")
+			for mesh: MeshInstance3D in gold.find_children("*", "MeshInstance3D", true, false):
+				for surface in mesh.mesh.get_surface_count():
+					var original := mesh.mesh.surface_get_material(surface) as BaseMaterial3D
+					if not original: continue
+					var material := original.duplicate() as BaseMaterial3D
+					material.albedo_color = Color(1.0, 0.82, 0.24)
+					material.metallic = 0.3
+					material.roughness = 0.38
+					mesh.set_surface_override_material(surface, material)
+			return gold
 	var id := "mushroom_cluster" if kind == "steinpilz" else "mushroom_fly" if kind == "fliegenpilz" else "mushroom_" + kind
 	var imported := WorldModels.create(id, 0.4)
 	if imported: return imported

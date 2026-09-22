@@ -45,14 +45,38 @@ func run() -> void:
 	check(game.hud.hut_label.text.begins_with("HÜTTE %d" % ceili(hut.hp)), "HUD shows the hut health")
 	# repair: reach, cost, step
 	var player: Player = game.player
-	player.score = 10
+	player.score = 0
 	player.global_position = west
 	check(hut.can_repair(player), "Player at the wall may repair")
 	check(hut.repair(player).begins_with("Es fehlen"), "Repair needs points")
 	player.score = 100
-	check(hut.repair(player) == "" and player.score == 100 - HutHealth.REPAIR_COST, "Repair costs points")
+	var partial_cost: int = hut.repair_quote().cost
+	check(partial_cost == 5 and hut.repair_quote().amount == 80, "Small repairs charge proportionally for actual missing HP")
+	check(hut.repair(player) == "" and player.score == 100 - partial_cost, "Repair charges the displayed quote")
 	check(hut.hp == HutHealth.MAX_HP, "Repair restores health up to the maximum")
 	check(hut.repair(player) == "Keine Reparatur nötig.", "Full hut refuses repair")
+	var saved_wave: int = game.waves.wave
+	var saved_completed: int = game.waves.completed
+	for entry in [[1, 30], [5, 50], [10, 75], [20, 125]]:
+		game.waves.wave = entry[0]
+		game.waves.completed = maxi(0, int(entry[0]) - 1)
+		hut.hp = HutHealth.MAX_HP - 1000
+		var quote: Dictionary = hut.repair_quote()
+		check(quote.cost == entry[1] and quote.amount == 500, "Repair price scales at wave %d without reducing restored HP" % entry[0])
+		player.score = int(quote.cost) - 1
+		check(hut.repair(player).begins_with("Es fehlen") and hut.hp == HutHealth.MAX_HP - 1000, "Insufficient points cannot buy late-wave repairs")
+		player.score = int(quote.cost)
+		check(hut.prompt_text().contains("%d P" % quote.cost) and hut.repair(player).is_empty() and player.score == 0 and hut.hp == HutHealth.MAX_HP - 500, "Prompt and actual repair charge agree")
+	game.waves.wave = 10
+	game.waves.completed = 10
+	hut.hp = HutHealth.MAX_HP - 100
+	check(hut.repair_quote().cost == 15, "Late-wave partial repair remains proportional")
+	game.waves.wave = 0
+	check(hut.repair_quote().cost == 15, "Completed wave prevents cheaper intermission repairs")
+	hut.hp = HutHealth.MAX_HP
+	check(hut.repair_quote().cost == 0 and hut.repair_quote().amount == 0, "Full health produces a zero repair quote")
+	game.waves.wave = saved_wave
+	game.waves.completed = saved_completed
 	hut.damage(1200)
 	hut.hp = HutHealth.MAX_HP - 1200
 	player.global_position = hut.center + Vector3(-30, 0, 0)

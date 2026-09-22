@@ -1,0 +1,31 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: zombie_colossus removes constant position tracks
+PASS: zombie_colossus preserves all sampled clips below 0.01 mm: position=0.00000070650992 rotation=0.0
+PASS: zombie_bloater removes constant position tracks
+PASS: zombie_bloater preserves all sampled clips below 0.01 mm: position=0.00000131400873 rotation=0.0
+PASS: zombie_titan removes constant position tracks
+PASS: zombie_titan preserves all sampled clips below 0.01 mm: position=0.00000113962221 rotation=0.0
+PASS: zombie_shambler removes constant position tracks
+PASS: zombie_shambler preserves all sampled clips below 0.01 mm: position=0.00000062584877 rotation=0.0
+PASS: zombie_farmer removes constant position tracks
+PASS: zombie_farmer preserves all sampled clips below 0.01 mm: position=0.00000058571231 rotation=0.0
+PASS: zombie_hiker removes constant position tracks
+PASS: zombie_hiker preserves all sampled clips below 0.01 mm: position=0.00000088664308 rotation=0.0
+PASS: zombie_grandma removes constant position tracks
+PASS: zombie_grandma preserves all sampled clips below 0.01 mm: position=0.00000087410268 rotation=0.0
+PASS: zombie_runner removes constant position tracks
+PASS: zombie_runner preserves all sampled clips below 0.01 mm: position=0.00000070098838 rotation=0.0
+PASS: zombie_jogger removes constant position tracks
+PASS: zombie_jogger preserves all sampled clips below 0.01 mm: position=0.00000083977 rotation=0.0
+PASS: zombie_nurse removes constant position tracks
+PASS: zombie_nurse preserves all sampled clips below 0.01 mm: position=0.00000102979857 rotation=0.0
+PASS: zombie_soldier removes constant position tracks
+PASS: zombie_soldier preserves all sampled clips below 0.01 mm: position=0.00000071746484 rotation=0.0
+PASS: zombie_forester removes constant position tracks
+PASS: zombie_forester preserves all sampled clips below 0.01 mm: position=0.00000062414176 rotation=0.0
+HORDE_ANIMATION_DONE checks=24 failures=0

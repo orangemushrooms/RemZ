@@ -26,6 +26,21 @@ func run() -> void:
 	game.waves.set_process(false)
 	game.player.set_physics_process(false)
 	game.weapons.set_process(false)
+	var ring: Perimeter = game.perimeter
+	game.player.global_position = Map.ground_pos(120, 120)
+	var before_ring_check: int = game.alive_zombies()
+	for inside in [Vector2(7,-7), Vector2(7,61), Vector2(-20,20), Vector2(20,20)]:
+		check(ring.excludes_spawn(inside) and not game.waves._forest_point_valid(inside), "Camp interior is excluded from forest selection: " + str(inside))
+		check(not game.spawn_zombie("shambler",inside,1.0,"",Waves.SPAWN_DISTANCE), "Central wave spawn guard rejects the projected camp point: " + str(inside))
+	check(game.alive_zombies() == before_ring_check, "Rejected interior spawns never create or count zombies")
+	var edge_a := ring.points[1]
+	var edge_b := ring.points[2]
+	var middle := (edge_a + edge_b) * 0.5
+	var outside := -ring.inside_normal(edge_a, edge_b)
+	check(ring.excludes_spawn(middle + outside * 1.0) and not ring.excludes_spawn(middle + outside * 4.0), "Spawn buffer rejects positions against the wall while preserving outside forest")
+	for i in ring.points.size():
+		if ring.gate_edge[i]:
+			check(ring.excludes_spawn((ring.points[i] + ring.points[(i+1)%ring.points.size()])*0.5), "Unbuilt gate opening is also excluded from spawning")
 	var point: Vector2 = Map.SPAWNS["north"][0]
 	var nav: RID = game.nav_region.get_navigation_map()
 	var projected := NavigationServer3D.map_get_closest_point(nav, Map.ground_pos(point.x, point.y))
@@ -95,6 +110,7 @@ func run() -> void:
 		zombie.agent.avoidance_enabled = false
 		var location := Vector2(zombie.global_position.x, zombie.global_position.z)
 		check(Map.in_forest(location.x, location.y) and not Map.on_road(location.x, location.y, 2.0), "Actual spawn is in the forest off the road")
+		check(not ring.excludes_spawn(location), "Actual forest spawn stays outside the complete barricade ring and its buffer")
 		offset = zombie.global_position - game.player.global_position
 		check(Vector2(offset.x, offset.z).length() >= Waves.SPAWN_DISTANCE, "Forest spawn respects player clearance")
 		forest_positions.append(zombie.global_position)

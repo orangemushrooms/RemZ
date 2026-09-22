@@ -26,6 +26,8 @@ var flap_power := 0.0
 var flap_inner := 0.0
 var flap_outer := 0.0
 var flap_row := 0.0
+var remote_position := Vector3.INF
+var remote_yaw := 0.0
 func _ready() -> void:
 	add_to_group("render_dynamic")
 	visible = not owl
@@ -125,12 +127,28 @@ func call_voice() -> void:
 	voice.play()
 
 func scare(origin: Vector3) -> void:
+	if get_meta("hunted_dead", false) or NetSession.is_client(): return
 	if not visible or global_position.distance_to(origin)>24 or flying>0: return
 	flying = 10.0
 	call_voice()
 func _process(delta: float) -> void:
 	if not game.started or game.over or not game.day_night: return
 	if game.intro and game.intro.active and game.intro.phase == "logo": return
+	if NetSession.is_client():
+		if remote_position.is_finite():
+			global_position = global_position.lerp(remote_position, 1.0 - exp(-18.0 * delta))
+			rotation.y = lerp_angle(rotation.y, remote_yaw, 1.0 - exp(-18.0 * delta))
+		if visible:
+			_advance_flap(delta)
+			_pose_raven()
+			call_time -= delta
+			if call_time <= 0:
+				call_time = 15.0 + (index % 10) * 1.7
+				if game.player.global_position.distance_to(global_position) < 45: call_voice()
+			for i in wings.size():
+				wings[i].rotation.z = (1 if i == 0 else -1) * (flap_inner if owl or flying > 0 else 1.1)
+		else: voice.stop()
+		return
 	clock += delta
 	var hour: float = game.day_night.clock_seconds/3600.0
 	visible = not owl or hour>=20 or hour<5

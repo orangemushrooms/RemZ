@@ -58,6 +58,7 @@ var _trace_origin := Vector3.ZERO
 var _trace_direction := Vector3.FORWARD
 var _trace_distance := 0.0
 var _trace_travel := 0.0
+var _lightning: MeshInstance3D
 
 func spec() -> Dictionary:
 	return SPECS.get(kind, SPECS.standard)
@@ -112,6 +113,10 @@ static func cylinder(parent: Node3D, radius: float, length: float, pos: Vector3,
 func _ready() -> void:
 	add_to_group("defence_towers")
 	add_to_group("render_dynamic")
+	_scan = float(tower_id % 8) * 0.03
+	if kind == "tesla":
+		_lightning = preload("res://scripts/tower_lightning.gd").new()
+		add_child(_lightning)
 	var steel := material(Color(0.12, 0.15, 0.14), 0.8)
 	var wood := material(Color(0.75, 0.69, 0.57))
 	wood.albedo_texture = load("res://assets/textures/planks_albedo.jpg")
@@ -241,6 +246,9 @@ func refresh() -> void:
 
 func target_point(enemy: Zombie) -> Vector3:
 	# Aim inside an animated torso hitbox, including hunched/leaning variants.
+	for volume in enemy._shot_volumes:
+		var bone: String = volume.bone_name.to_lower()
+		if "spine" in bone or "chest" in bone: return volume.to_global(volume.center)
 	for area in enemy._hitboxes:
 		var bone: String = str(area.get_parent().bone_name).to_lower()
 		if not ("spine" in bone or "chest" in bone): continue
@@ -263,7 +271,20 @@ func can_see(z: Zombie) -> bool:
 	if muzzle.global_position.distance_squared_to(aim) > pow(attack_range(), 2): return false
 	var q := PhysicsRayQueryParameters3D.create(muzzle.global_position, aim, Zombie.SHOT_MASK, [body.get_rid()])
 	q.collide_with_areas = true
-	var hit := get_world_3d().direct_space_state.intersect_ray(q)
+	if not z._shot_volumes.is_empty() and z._hitboxes.is_empty():
+		# Reject a covered target before searching every other enemy for an
+		# occluder. Limbs protruding in front of cover remain valid targets.
+		q.collision_mask = 1 | 8
+		var world_hit := get_world_3d().direct_space_state.intersect_ray(q)
+		var endpoint: Vector3 = world_hit.position if not world_hit.is_empty() else aim
+		var exposed := false
+		for volume in z._shot_volumes:
+			if not volume.intersect(q.from, endpoint, false).is_empty():
+				exposed = true
+				break
+		if not exposed: return false
+		q.collision_mask = Zombie.SHOT_MASK
+	var hit := Zombie.cast_ray(self, q)
 	return Zombie.from_hit(hit) == z
 
 func _physics_process(delta: float) -> void:
@@ -307,20 +328,26 @@ func _physics_process(delta: float) -> void:
 			var aim := p.camera.global_position + direction*attack_range()
 			var ray := PhysicsRayQueryParameters3D.create(p.camera.global_position,aim,Zombie.SHOT_MASK,[body.get_rid(),p.get_rid()])
 			ray.collide_with_areas = true
-			var hit := get_world_3d().direct_space_state.intersect_ray(ray)
+			var hit := Zombie.cast_ray(self, ray)
 			fire_at(hit.position if not hit.is_empty() else aim)
 		return
 	_scan -= delta
 	if _scan <= 0:
 		_scan = 0.25
 		target = null
-		var best := INF
+		var candidates: Array[Zombie] = []
+		var reach_squared := pow(attack_range(), 2)
 		for z in game.zombies_root.get_children():
 			if not z is Zombie or not z.alive: continue
-			var d: float = global_position.distance_squared_to(z.global_position)
-			if d < best and can_see(z):
-				best = d
+			if muzzle.global_position.distance_squared_to(target_point(z)) > reach_squared: continue
+			candidates.append(z)
+		# Preserve nearest-visible targeting, but stop after the first visible
+		# candidate instead of casting through the horde in spawn order.
+		candidates.sort_custom(func(a: Zombie, b: Zombie): return global_position.distance_squared_to(a.global_position) < global_position.distance_squared_to(b.global_position))
+		for z in candidates:
+			if can_see(z):
 				target = z
+				break
 	if not is_instance_valid(target) or not target.alive: return
 	var direction := target_point(target) - gun.global_position
 	aim_yaw = wrapf(atan2(-direction.x, -direction.z) - rotation.y, -PI, PI)
@@ -345,9 +372,13 @@ func fire_at(aim: Vector3) -> void:
 	var end: Vector3 = muzzle.global_position + direction * attack_range()
 	var q := PhysicsRayQueryParameters3D.create(muzzle.global_position, end, Zombie.SHOT_MASK, [body.get_rid()])
 	q.collide_with_areas = true
-	var hit := get_world_3d().direct_space_state.intersect_ray(q)
+	var hit := Zombie.cast_ray(self, q)
 	last_impact = hit.position if not hit.is_empty() else end
 	var z := Zombie.from_hit(hit)
+	if not z and kind in ["standard", "mg42"]:
+		preload("res://scripts/bullet_impacts.gd").hit(game, hit)
+	if kind != "mortar" and not hit.is_empty():
+		game.hunting.hit(hit.collider, float(spec().damage) + (level - 1) * 7.0, operator_peer if operator_peer else owner_peer)
 	match kind:
 		"mortar":
 			last_impact = muzzle.global_position + (aim - muzzle.global_position).limit_length(attack_range())
@@ -404,32 +435,6 @@ func launch_shell(authoritative: bool) -> void:
 	shell.game = game
 	game.add_child(shell)
 
-func arc_effect(from: Vector3, to: Vector3) -> void:
-	var mesh := ImmediateMesh.new()
-	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
-	var previous := from
-	var viewer := get_viewport().get_camera_3d()
-	var segments := maxi(6, ceili(from.distance_to(to) * 1.5))
-	for i in range(1, segments + 1):
-		var point := from.lerp(to, float(i) / segments)
-		if i < segments: point += Vector3(randf_range(-0.16, 0.16), randf_range(-0.22, 0.22), randf_range(-0.16, 0.16))
-		var side := (point - previous).cross(viewer.global_position - previous).normalized() * 0.035
-		for vertex in [previous-side, previous+side, point+side, previous-side, point+side, point-side]: mesh.surface_add_vertex(vertex)
-		previous = point
-	mesh.surface_end()
-	var mat := material(Color(0.48, 0.76, 1, 0.95))
-	mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
-	mat.emission_enabled = true
-	mat.emission = Color(0.25, 0.58, 1)
-	mat.emission_energy_multiplier = 4.5
-	var arc := piece(game,mesh,Vector3.ZERO,mat)
-	arc.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	var fade := arc.create_tween()
-	fade.tween_property(mat, "albedo_color:a", 0.0, 0.18)
-	fade.tween_callback(arc.queue_free)
-
 func _build_variant(steel: Material, copper: Material) -> void:
 	var path := "res://assets/models/tower_%s.glb" % kind
 	if kind == "standard" and not ResourceLoader.exists(path): return
@@ -474,8 +479,9 @@ func show_shot() -> void:
 		if replica or NetSession.is_client(): launch_shell(false)
 		return
 	if kind == "tesla":
-		arc_effect(start,last_impact)
-		for i in range(0,chain_points.size()-1,2): arc_effect(chain_points[i],chain_points[i+1])
+		var links := PackedVector3Array([start, last_impact])
+		links.append_array(chain_points)
+		_lightning.fire(links)
 	_trace_origin = start
 	_trace_direction = direction.normalized()
 	_trace_distance = minf(direction.length(), attack_range()) if kind != "mg42" or shots % 3 == 0 else 0.0
