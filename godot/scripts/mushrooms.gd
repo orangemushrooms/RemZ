@@ -16,6 +16,13 @@ const DEFS := {
 }
 
 const GOLD_ROUND_CHANCE := 0.05
+static var _gold_shimmer: ShaderMaterial
+
+static func gold_shimmer() -> ShaderMaterial:
+	if _gold_shimmer == null:
+		_gold_shimmer = ShaderMaterial.new()
+		_gold_shimmer.shader = preload("res://shaders/gold_mushroom_shimmer.gdshader")
+	return _gold_shimmer
 
 # Ordinary locations remain deterministic for co-op. Only the host rolls this
 # separate, optional collectible once per round, then replicates its position.
@@ -88,6 +95,7 @@ static func model(kind: String) -> Node3D:
 					material.albedo_color = Color(1.0, 0.82, 0.24)
 					material.metallic = 0.3
 					material.roughness = 0.38
+					material.next_pass = gold_shimmer()
 					mesh.set_surface_override_material(surface, material)
 			return gold
 	var id := "mushroom_cluster" if kind == "steinpilz" else "mushroom_fly" if kind == "fliegenpilz" else "mushroom_" + kind
@@ -101,6 +109,9 @@ static func model(kind: String) -> Node3D:
 	var cap_material := StandardMaterial3D.new()
 	cap_material.albedo_color = spec.color
 	cap_material.roughness = 0.82
+	if kind == "goldroehrling":
+		stem_material.next_pass = gold_shimmer()
+		cap_material.next_pass = gold_shimmer()
 	var count := 7 if kind == "krause_glucke" else 3
 	for i in count:
 		var cluster := Node3D.new()

@@ -31,7 +31,19 @@ func run() -> void:
 	scene = Node3D.new()
 	root.add_child(scene)
 	current_scene = scene
+	# Reproduce export's loss of nested typed-array metadata even in the editor.
+	var hull_library: Resource = load("res://assets/data/zombie_hit_volumes.tres")
+	for shapes: Dictionary in hull_library.get_meta("volumes").values():
+		for baked: Dictionary in shapes.values():
+			var untyped: Array = []
+			untyped.append_array(baked.planes)
+			baked.planes = untyped
 	Zombie.preload_models()
+	var typed := true
+	for shapes: Dictionary in hull_library.get_meta("volumes").values():
+		for baked: Dictionary in shapes.values():
+			typed = typed and baked.planes.is_typed() and baked.planes.get_typed_builtin() == TYPE_PLANE
+	check(typed, "Exported hull arrays recover Plane element type before actor setup")
 	var variants := {}
 	for kind in Zombie.TYPES:
 		for skin in Zombie.skin_names(Zombie.TYPES[kind]):
@@ -42,6 +54,13 @@ func run() -> void:
 		zombie.position = Vector3(130, 7, -112)
 		zombie.rotation.y = 0.7
 		var native: Array[Area3D] = []
+		var configured := not zombie._shot_volumes.is_empty()
+		for volume in zombie._shot_volumes:
+			configured = configured and is_instance_valid(volume.rig) and volume.owner == zombie and volume.has_meta("headshot") and not volume.planes.is_empty()
+		check(configured, skin + " every shot volume is fully initialized")
+		if not configured:
+			quit(1)
+			return
 		for volume in zombie._shot_volumes:
 			var area := Area3D.new()
 			area.collision_layer = 64

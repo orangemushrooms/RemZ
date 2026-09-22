@@ -1,0 +1,112 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+COOP_LOAD JOIN_BEGIN address=127.0.0.1 port=24695
+COOP_LOAD JOIN_SOCKET result=0
+LOBBY
+COOP_LOAD TRANSPORT_CONNECTED sending_hello
+COOP_LOAD PEER_CONNECTED id=1
+COOP_LOAD WELCOME
+COOP_CONNECTED players=2
+COOP_LOAD PEER_CONNECTED id=1661541050
+COOP_LOAD INITIAL_RECEIVE parts=5
+COOP_LOAD INITIAL_APPLY_BEGIN
+COOP_LOAD STATE_STAGE structures
+COOP_LOAD STATE_STAGE players
+COOP_LOAD STATE_STAGE enemies
+COOP_LOAD STATE_STAGE items
+COOP_LOAD STATE_STAGE barricades
+COOP_LOAD INITIAL_APPLY_DONE
+COOP_LOAD STATE_RECEIVE parts=5
+COOP_LOAD STATE_STAGE structures
+COOP_LOAD STATE_STAGE players
+COOP_LOAD STATE_STAGE enemies
+COOP_LOAD STATE_STAGE items
+COOP_LOAD STATE_STAGE barricades
+COOP_LOAD STATE_APPLY_DONE sequence=3
+COOP_LOAD ROUND_BEGIN intro=true
+COOP_LOAD ROUND_RUNNING players=3
+COOP_RUNNING players=3
+RUNNING intro=true
+t=0 point=1 wave=0 zombies=0 pos=(137.3, 7.098076, 108.0)
+t=1 point=1 wave=0 zombies=0 pos=(137.3, 7.098076, 108.0)
+t=2 point=1 wave=0 zombies=0 pos=(137.3, 7.098076, 108.0)
+t=3 point=1 wave=0 zombies=0 pos=(137.3, 7.098076, 108.0)
+t=4 point=1 wave=0 zombies=0 pos=(137.3, 7.098076, 108.0)
+t=5 point=1 wave=0 zombies=0 pos=(137.3, 7.098076, 108.0)
+t=6 point=1 wave=0 zombies=0 pos=(137.3, 7.098076, 108.0)
+t=7 point=1 wave=0 zombies=0 pos=(137.3, 7.098076, 108.0)
+t=8 point=1 wave=0 zombies=0 pos=(137.2937, 6.898139, 107.9591)
+t=9 point=1 wave=0 zombies=0 pos=(136.3866, 6.992091, 102.0284)
+t=10 point=1 wave=0 zombies=0 pos=(135.4795, 7.105567, 96.09776)
+t=11 point=1 wave=0 zombies=0 pos=(134.5723, 7.252496, 90.16708)
+t=12 point=1 wave=0 zombies=0 pos=(133.6652, 7.441439, 84.23641)
+t=13 point=1 wave=0 zombies=0 pos=(132.7581, 7.633722, 78.30574)
+t=14 point=1 wave=0 zombies=0 pos=(131.8509, 7.7974, 72.37507)
+t=15 point=1 wave=0 zombies=0 pos=(130.9404, 7.934381, 66.41714)
+t=16 point=1 wave=0 zombies=0 pos=(130.0377, 8.063976, 60.51336)
+t=17 point=1 wave=0 zombies=0 pos=(129.1306, 8.184549, 54.58269)
+t=18 point=1 wave=0 zombies=0 pos=(128.2244, 8.293111, 48.65202)
+t=19 point=1 wave=0 zombies=0 pos=(127.3183, 8.376305, 42.72134)
+t=20 point=1 wave=0 zombies=0 pos=(126.411, 8.467314, 36.78214)
+t=21 point=1 wave=0 zombies=0 pos=(125.5062, 8.579398, 30.85991)
+t=22 point=1 wave=1 zombies=1 pos=(124.6002, 8.707968, 24.92924)
+t=23 point=2 wave=1 zombies=1 pos=(121.8673, 8.612127, 22.08296)
+t=24 point=2 wave=1 zombies=2 pos=(116.2309, 8.05529, 24.13867)
+t=25 point=2 wave=1 zombies=3 pos=(110.5945, 7.526358, 26.19439)
+t=26 point=2 wave=1 zombies=3 pos=(104.9581, 7.005728, 28.2501)
+t=27 point=2 wave=1 zombies=4 pos=(99.32169, 6.545596, 30.30581)
+t=28 point=2 wave=1 zombies=5 pos=(93.68528, 6.084954, 32.36147)
+t=29 point=2 wave=1 zombies=6 pos=(88.04887, 5.619683, 34.41713)
+t=30 point=2 wave=1 zombies=6 pos=(82.41247, 5.130137, 36.47287)
+t=31 point=2 wave=1 zombies=7 pos=(76.77606, 4.61207, 38.5286)
+t=32 point=2 wave=1 zombies=8 pos=(71.13966, 4.108269, 40.58434)
+t=33 point=3 wave=1 zombies=8 pos=(65.46323, 3.594044, 42.52534)
+t=34 point=3 wave=1 zombies=9 pos=(59.77925, 3.069862, 44.4447)
+t=35 point=3 wave=1 zombies=10 pos=(54.09528, 2.589325, 46.36407)
+t=36 point=3 wave=1 zombies=11 pos=(48.4113, 2.112206, 48.28343)
+t=37 point=3 wave=1 zombies=11 pos=(42.72709, 1.643474, 50.2028)
+t=38 point=3 wave=1 zombies=12 pos=(37.04256, 1.120809, 52.12216)
+t=39 point=3 wave=1 zombies=13 pos=(31.35806, 0.677262, 54.0415)
+t=40 point=4 wave=1 zombies=13 pos=(25.56281, 0.179279, 55.74268)
+t=41 point=4 wave=1 zombies=14 pos=(19.79034, -0.344416, 57.37773)
+t=42 point=4 wave=1 zombies=15 pos=(14.01786, -0.974568, 59.01253)
+t=43 point=4 wave=1 zombies=16 pos=(8.245418, -1.551548, 60.64727)
+t=44 point=5 wave=1 zombies=16 pos=(7.001941, -1.328011, 55.9702)
+t=45 point=5 wave=1 zombies=17 pos=(6.702005, -1.015661, 49.97813)
+t=46 point=5 wave=1 zombies=18 pos=(6.40207, -0.643036, 43.98606)
+t=47 point=5 wave=1 zombies=18 pos=(6.102135, -0.411268, 37.99399)
+t=48 point=5 wave=1 zombies=19 pos=(5.802199, -0.342568, 32.00192)
+t=49 point=5 wave=1 zombies=20 pos=(5.502264, -0.308233, 26.00985)
+t=50 point=5 wave=1 zombies=21 pos=(5.202329, -0.187095, 20.01778)
+t=51 point=5 wave=1 zombies=21 pos=(4.902393, 0.04907, 14.02571)
+t=52 point=5 wave=1 zombies=22 pos=(4.602424, 0.211294, 8.033646)
+t=53 point=5 wave=1 zombies=23 pos=(4.302265, 0.327327, 2.03787)
+t=54 point=6 wave=1 zombies=23 pos=(4.014897, 0.387674, -3.702424)
+t=55 point=6 wave=1 zombies=24 pos=(4.014897, 0.387674, -3.702424)
+t=56 point=6 wave=1 zombies=25 pos=(4.014897, 0.387674, -3.702424)
+t=57 point=6 wave=1 zombies=25 pos=(4.014897, 0.387674, -3.702424)
+t=58 point=6 wave=1 zombies=26 pos=(4.014897, 0.387674, -3.702424)
+t=59 point=6 wave=1 zombies=27 pos=(4.014897, 0.387674, -3.702424)
+t=60 point=6 wave=1 zombies=28 pos=(4.014897, 0.387674, -3.702424)
+t=61 point=6 wave=1 zombies=28 pos=(4.014897, 0.387674, -3.702424)
+t=62 point=6 wave=1 zombies=29 pos=(4.014897, 0.387674, -3.702424)
+t=63 point=6 wave=1 zombies=30 pos=(4.014897, 0.387674, -3.702424)
+t=64 point=6 wave=1 zombies=30 pos=(4.014897, 0.387674, -3.702424)
+t=65 point=6 wave=1 zombies=31 pos=(4.014897, 0.387674, -3.702424)
+t=66 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+t=67 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+t=68 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+t=69 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+t=70 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+t=71 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+t=72 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+t=73 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+t=74 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+t=75 point=6 wave=1 zombies=32 pos=(4.014897, 0.387674, -3.702424)
+INTRO_ROUTE_DONE passed=true role=two

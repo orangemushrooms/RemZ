@@ -1,0 +1,31 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Developement/RemZ/builds/windows/RemZ.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+FPS_SAMPLE 157.3 flags=["--autotest", "--smoke-test", "--no-intro", "--no-music"]
+VIEW 0 fps=160
+VIEW 1 fps=138
+VIEW 2 fps=58
+VIEW 3 fps=112
+VIEW 4 fps=47
+VIEW 5 fps=84
+VIEW 6 fps=81
+VIEW 7 fps=93
+VIEW 8 fps=75
+ZOMBIE at (20.57016, -0.071214, 48.09451)
+ZOMBIE at (20.90203, -0.03665, 49.35112)
+ZOMBIE at (21.78902, 0.08653, 49.18973)
+ZOMBIE at (101.5068, 6.593265, 30.60042)
+ZOMBIE at (23.3889, 0.045691, 50.91936)
+ZOMBIE at (91.19558, 10.80979, -147.0158)
+ZOMBIE at (108.6757, 7.225665, 27.62883)
+ZOMBIE at (106.1675, 10.69722, -123.684)
+ZOMBIE at (-93.49909, -10.89509, 84.2349)
+ZOMBIE at (101.47, 6.543998, 32.21665)
+ZOMBIE at (57.75227, 0.922019, 95.56503)
+AUTOTEST_DONE zombies=9 fps=75

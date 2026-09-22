@@ -1,0 +1,169 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Developement/RemZ/builds/crash-debug/RemZ.exe
+COOP_LOAD NETWORK_INITIALIZED
+PACKED_TEST_BEGIN horde_hit_precision
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_colossus uses validated baked volumes
+PASS: zombie_colossus broad bounds enclose all sampled animated vertices
+PASS: zombie_colossus native/baked rays agree on hits: 0
+PASS: zombie_colossus native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_colossus native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_bloater uses validated baked volumes
+PASS: zombie_bloater broad bounds enclose all sampled animated vertices
+PASS: zombie_bloater native/baked rays agree on hits: 0
+PASS: zombie_bloater native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_bloater native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_titan uses validated baked volumes
+PASS: zombie_titan broad bounds enclose all sampled animated vertices
+PASS: zombie_titan native/baked rays agree on hits: 0
+PASS: zombie_titan native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_titan native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_shambler uses validated baked volumes
+PASS: zombie_shambler broad bounds enclose all sampled animated vertices
+PASS: zombie_shambler native/baked rays agree on hits: 0
+PASS: zombie_shambler native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_shambler native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_farmer uses validated baked volumes
+PASS: zombie_farmer broad bounds enclose all sampled animated vertices
+PASS: zombie_farmer native/baked rays agree on hits: 0
+PASS: zombie_farmer native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_farmer native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_hiker uses validated baked volumes
+PASS: zombie_hiker broad bounds enclose all sampled animated vertices
+PASS: zombie_hiker native/baked rays agree on hits: 0
+PASS: zombie_hiker native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_hiker native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_grandma uses validated baked volumes
+PASS: zombie_grandma broad bounds enclose all sampled animated vertices
+PASS: zombie_grandma native/baked rays agree on hits: 0
+PASS: zombie_grandma native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_grandma native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_runner uses validated baked volumes
+PASS: zombie_runner broad bounds enclose all sampled animated vertices
+PASS: zombie_runner native/baked rays agree on hits: 0
+PASS: zombie_runner native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_runner native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_jogger uses validated baked volumes
+PASS: zombie_jogger broad bounds enclose all sampled animated vertices
+PASS: zombie_jogger native/baked rays agree on hits: 0
+PASS: zombie_jogger native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_jogger native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_nurse uses validated baked volumes
+PASS: zombie_nurse broad bounds enclose all sampled animated vertices
+PASS: zombie_nurse native/baked rays agree on hits: 0
+PASS: zombie_nurse native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_nurse native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_soldier uses validated baked volumes
+PASS: zombie_soldier broad bounds enclose all sampled animated vertices
+PASS: zombie_soldier native/baked rays agree on hits: 0
+PASS: zombie_soldier native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_soldier native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:41)
+FAIL: zombie_forester uses validated baked volumes
+PASS: zombie_forester broad bounds enclose all sampled animated vertices
+PASS: zombie_forester native/baked rays agree on hits: 0
+PASS: zombie_forester native/baked surface distance below 3 mm in model space: 0.0
+PASS: zombie_forester native/baked rays agree on headshots: 0
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:93)
+SCRIPT ERROR: Invalid type in function 'configure' in base 'RefCounted (zombie_hit_volume.gd)'. The array of argument 4 (Array) does not have the same element type as the expected typed array argument.
+   at: Zombie._build_hitboxes (res://scripts/zombie.gd:340)
+   GDScript backtrace (most recent call first):
+       [0] _build_hitboxes (res://scripts/zombie.gd:340)
+       [1] _ready (res://scripts/zombie.gd:275)
+       [2] actor (res://tests/horde_hit_precision.gd:25)
+       [3] run (res://tests/horde_hit_precision.gd:94)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array[zombie_hit_volume.gd]')
+   at: run (res://tests/horde_hit_precision.gd:99)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/horde_hit_precision.gd:99)

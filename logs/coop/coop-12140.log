@@ -1,0 +1,16 @@
+2026-09-22T22:07:31 remz-dev-20260921-horde-performance BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-22T22:07:31 remz-dev-20260921-horde-performance NETWORK_INITIALIZED
+2026-09-22T22:07:47 remz-dev-20260921-horde-performance MAP_READY
+2026-09-22T22:07:47 remz-dev-20260921-horde-performance HOST_CREATE port=24695
+2026-09-22T22:07:47 remz-dev-20260921-horde-performance HOST_READY
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance PEER_CONNECTED id=354945214
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance PEER_CONNECTED id=1661541050
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance INITIAL_SEND peer=354945214 raw=23032 bytes=3820 parts=5
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance INITIAL_SEND peer=1661541050 raw=23032 bytes=3821 parts=5
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance CLIENT_READY peer=354945214
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance CLIENT_READY peer=1661541050
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance ROUND_START_SEND players=3
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance STATE_SEND peer=354945214 raw=23036 bytes=3802 parts=5
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance STATE_SEND peer=1661541050 raw=23036 bytes=3802 parts=5
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance ROUND_BEGIN intro=true
+2026-09-22T22:07:49 remz-dev-20260921-horde-performance ROUND_RUNNING players=3

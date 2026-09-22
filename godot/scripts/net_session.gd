@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 2
-const BUILD := "remz-dev-20260921-horde-performance"
+const BUILD := "remz-dev-20260922-export-hitbox-fix"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"

@@ -2,6 +2,7 @@ class_name Progression
 extends CanvasLayer
 
 const QUEST_MARKER_COLOR := Color(1.0, 0.78, 0.2)
+const VendorGuide = preload("res://scripts/vendor_tutorial.gd")
 
 # One authoritative catalogue is shared by the UI, solo game and host validation.
 const NPCS := {
@@ -26,8 +27,8 @@ const QUESTS := {
 	"forest_basket": {"min_level": 2, "waves_after_accept": 1,"npc": "ranger", "name": "Was der Wald uns gibt", "requires": "arrival", "reward": 90, "desc": "Sammelt als Team fünf Steinpilze. Mara zeigt euch, worauf man im Wald achten muss. Bereits gesammelte Pilze zählen; ihr dürft sie behalten.", "goals": {"edible_mushrooms": 5}},
 	"restless_paths": {"min_level": 5, "waves_after_accept": 1,"npc": "ranger", "name": "Unruhe auf den Wegen", "requires": "forest_basket", "reward": 140, "desc": "Besiegt als Team zwölf Läufer. Ihre schnellen Schritte lassen selbst hier am kleinen Feuer niemanden zur Ruhe kommen.", "goals": {"runner_kills": 12}},
 	"forest_watch": {"min_level": 8, "waves_after_accept": 1,"npc": "ranger", "name": "Solange das Feuer brennt", "requires": "restless_paths", "reward": 220, "desc": "Übersteht Welle 6 und besiegt insgesamt 80 Zombies. Kehre danach zu Mara an die kleine Feuerstelle zurück.", "goals": {"waves": 6, "kills": 80}},
-	"arrival": {"min_level": 1, "waves_after_accept": 0,"npc": "camp", "name": "Am Feuer", "requires": "", "reward": 20, "desc": "Sprich mit Vendor am Lagerfeuer. Er erklärt dir Handel und Versorgung."},
-	"watch": {"min_level": 2, "waves_after_accept": 1,"npc": "mechanic", "name": "Der erste Wächter", "requires": "arrival", "reward": 110, "desc": "Baue eine Barrikade und einen Turm. Richte den Turm anschliessend neu aus. T: Vorschau · R/Mausrad: drehen · E: bestätigen. Am Turm E: ausrichten, F: reparieren."},
+	"arrival": {"min_level": 1, "waves_after_accept": 0,"npc": "camp", "name": "Am Feuer", "requires": "", "reward": 20, "desc": "Vendor führt dich in Inventar, Handel, Turmbau und Barrikaden ein. Lerne die Grundlagen und hole danach deine Belohnung ab."},
+	"watch": {"min_level": 2, "waves_after_accept": 1,"npc": "mechanic", "name": "Der erste Wächter", "requires": "arrival", "reward": 110, "desc": "Baue eine Barrikade und einen Turm. Richte den Turm anschliessend neu aus. T: Vorschau · R/Mausrad: drehen · E: bestätigen. Am Turm R: ausrichten, E: einsteigen, F: reparieren."},
 	"line": {"min_level": 2, "waves_after_accept": 1,"npc": "camp", "name": "Die Linie halten", "requires": "arrival", "reward": 140, "desc": "Übersteht als Team zwei Wellen und besiegt 30 Zombies. Kehre zu Vendor zurück."},
 	"supplies": {"min_level": 4, "waves_after_accept": 1,"npc": "mechanic", "name": "Die verlorene Lieferung", "requires": "watch", "reward": 180, "desc": "Die Werkzeugkiste ist irgendwo im Gebiet verloren gegangen. Ihr Fundort wechselt mit jeder Runde und ist nach Annahme auf der Karte markiert. Berge die Lieferung und kehre zu Mechanic zurück."},
 	"titan": {"min_level": 7, "waves_after_accept": 1,"npc": "secret", "name": "Was auf dem Feld lauert", "requires": "supplies", "reward": 300, "desc": "Besiegt gemeinsam einen Feldtitanen. Sie erscheinen ab Welle 6. Hole danach deine Belohnung beim Secret Vendor ab."},
@@ -83,6 +84,11 @@ var _gain_at := Vector2.ZERO
 var _balance_pulse := 0.0
 var tracker: RichTextLabel
 var tutorial: Label
+var vendor_guide: VendorGuide
+var _arrival_guide_read := false
+var _arrival_guide_pending := false
+var _arrival_inventory_seen := false
+var _arrival_build_menu_seen := false
 var _tabs: Dictionary = {}
 var _row_nodes: Array = []
 var _row_index := 0
@@ -701,6 +707,10 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 	return "Unbekannte Aktion."
 
 func request(action: String, id := "", extra := "") -> void:
+	if action == "quest" and id == "arrival" and shop == "camp" and not _arrival_guide_read and not local_data().claimed.get(id, false):
+		_arrival_guide_pending = true
+		vendor_guide.open()
+		return
 	if NetSession.enabled:
 		NetSession.command("shop", [shop, action, id, extra])
 		status.text = "Anfrage an den Host …"
@@ -709,6 +719,18 @@ func request(action: String, id := "", extra := "") -> void:
 		status.text = transact(game.player, shop, action, id, extra)
 		show_gain(game.player.score - before)
 	_last_signature = ""
+
+func _finish_vendor_guide() -> void:
+	_arrival_guide_read = true
+	var pending := _arrival_guide_pending
+	_arrival_guide_pending = false
+	if pending and is_open and shop == "camp": request("quest", "arrival")
+	_last_signature = ""
+
+func _replay_vendor_guide() -> void:
+	_arrival_guide_pending = false
+	vendor_guide.step = 0
+	vendor_guide.open()
 
 func interact(id: String) -> void:
 	if id == "cache":
@@ -754,6 +776,8 @@ func _greet(id: String) -> void:
 
 func close() -> void:
 	if not is_open: return
+	vendor_guide.hide()
+	_arrival_guide_pending = false
 	is_open = false
 	panel.hide()
 	get_tree().paused = false
@@ -916,6 +940,9 @@ func _build_ui() -> void:
 	_gain_popup.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_gain_popup.visible = false
 	panel.add_child(_gain_popup)
+	vendor_guide = VendorGuide.new()
+	panel.add_child(vendor_guide)
+	vendor_guide.finished.connect(_finish_vendor_guide)
 	panel.hide()
 
 func _row(heading: String, details: String, button_text: String, action: Callable, disabled := false, blocked_reason := "", rich := false) -> void:
@@ -1025,6 +1052,8 @@ func _render() -> void:
 				if GOODS.has(wid):
 					_row(Weapons.DEFS[wid].name, "Waffe verkaufen. Restmunition bringt keinen Aufpreis; Reserve vorher separat verkaufen. Kaufberechtigungen bleiben erhalten.", "+%d R" % int(int(GOODS[wid].price) * 0.35), request.bind("sell_weapon", wid))
 		"Aufträge":
+			if shop == "camp":
+				_row("Grundlagen bei Vendor", "Inventar, Rem Dollars, Türme und Barrikaden · kostenlos nachlesen.", "Einführung ansehen", _replay_vendor_guide)
 			for completed in [false, true]:
 				var quest_ids: Array = []
 				for id in ordered_quests():
@@ -1040,6 +1069,7 @@ func _render() -> void:
 					var blocked := quest_lock_reason(p.peer_id, id)
 					var locked := not blocked.is_empty()
 					var text := "Erledigt" if claimed else ("Gesperrt" if locked else ("Belohnung abholen" if accepted and complete(id) else ("In Arbeit" if accepted else "Auftrag annehmen")))
+					if id == "arrival" and not claimed and not locked and not _arrival_guide_read: text = "Tutorial starten"
 					var details: String = q.desc
 					var chain := quest_chain(id)
 					var heading: String = q.name + " · Level %d · %d R" % [q.min_level, q.reward]
@@ -1155,6 +1185,9 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	if not game: return
+	if _arrival_guide_read:
+		_arrival_inventory_seen = _arrival_inventory_seen or game.inventory.is_open
+		_arrival_build_menu_seen = _arrival_build_menu_seen or game.defences.is_open or game.defences.placing
 	_animate_gain(delta)
 	for id in npcs:
 		npcs[id].quest_marker.visible = game.started and not game.over and has_ready_quest(id)
@@ -1214,10 +1247,14 @@ func _process(delta: float) -> void:
 	tracker.size.y = 0
 	if not d.claimed.get("arrival", false):
 		tutorial.text = "WAFFEN & AUFTRÄGE\n[E] Sprich mit Vendor am Lagerfeuer."
+	elif _arrival_guide_read and not _arrival_inventory_seen:
+		tutorial.text = "DEINE AUSRÜSTUNG · [I] INVENTAR\nÖffne dein Inventar und sieh dir Waffen und Gegenstände an."
+	elif _arrival_guide_read and not _arrival_build_menu_seen:
+		tutorial.text = "DEINE VERTEIDIGUNG · [T] TURMBAUMENÜ\nSieh dir die Türme an. Erst E in der Vorschau bestätigt einen Kauf."
 	elif team.built == 0:
 		tutorial.text = "VERTEIDIGUNG · [T] TURMBAUMENÜ\n5 Typen ab 120 R · E baut / steigt auf · Mechanic baut aus." if _tower_tutorial_remaining > 0.0 else ""
 	elif team.turned == 0:
-		tutorial.text = "RICHTE DEINEN WÄCHTER AUS\nAm Turm E drücken, mit R/Mausrad drehen und mit E bestätigen."
+		tutorial.text = "RICHTE DEINEN WÄCHTER AUS\nAm Turm R drücken, mit R/Mausrad drehen und mit E bestätigen."
 	else: tutorial.text = ""
 
 func snapshot() -> Dictionary:

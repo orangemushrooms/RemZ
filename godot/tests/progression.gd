@@ -309,7 +309,7 @@ func run() -> void:
 	shop.close()
 	shop.transact(p, "ranger", "quest", "forest_basket")
 	var saved_clock: float = game.day_night.clock_seconds
-	for greeting_case in [[5.0, "morning"], [9.0, "hello"], [17.0, "evening"], [20.0, "night"], [0.0, "night"]]:
+	for greeting_case in [[5.0, "morning"], [9.0, "hello"], [17.0, "evening"], [20.0, "evening"], [21.0, "night"], [0.0, "night"]]:
 		game.day_night.set_time_hours(greeting_case[0])
 		shop.interact("ranger")
 		var stem: String = "mara_sfx_hello" if greeting_case[1] == "hello" else "mara_sfx_good_" + greeting_case[1]

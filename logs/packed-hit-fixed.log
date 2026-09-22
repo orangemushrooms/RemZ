@@ -1,0 +1,85 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Developement/RemZ/builds/crash-test/RemZ.exe
+COOP_LOAD NETWORK_INITIALIZED
+PACKED_TEST_BEGIN horde_hit_precision
+PASS: Exported hull arrays recover Plane element type before actor setup
+PASS: zombie_colossus every shot volume is fully initialized
+PASS: zombie_colossus uses validated baked volumes
+PASS: zombie_colossus broad bounds enclose all sampled animated vertices
+PASS: zombie_colossus native/baked rays agree on hits: 0
+PASS: zombie_colossus native/baked surface distance below 3 mm in model space: 0.00016758909624
+PASS: zombie_colossus native/baked rays agree on headshots: 0
+PASS: zombie_bloater every shot volume is fully initialized
+PASS: zombie_bloater uses validated baked volumes
+PASS: zombie_bloater broad bounds enclose all sampled animated vertices
+PASS: zombie_bloater native/baked rays agree on hits: 0
+PASS: zombie_bloater native/baked surface distance below 3 mm in model space: 0.01857758127153
+PASS: zombie_bloater native/baked rays agree on headshots: 0
+PASS: zombie_titan every shot volume is fully initialized
+PASS: zombie_titan uses validated baked volumes
+PASS: zombie_titan broad bounds enclose all sampled animated vertices
+PASS: zombie_titan native/baked rays agree on hits: 0
+PASS: zombie_titan native/baked surface distance below 3 mm in model space: 0.00014134985395
+PASS: zombie_titan native/baked rays agree on headshots: 0
+PASS: zombie_shambler every shot volume is fully initialized
+PASS: zombie_shambler uses validated baked volumes
+PASS: zombie_shambler broad bounds enclose all sampled animated vertices
+PASS: zombie_shambler native/baked rays agree on hits: 0
+PASS: zombie_shambler native/baked surface distance below 3 mm in model space: 0.00018797063967
+PASS: zombie_shambler native/baked rays agree on headshots: 0
+PASS: zombie_farmer every shot volume is fully initialized
+PASS: zombie_farmer uses validated baked volumes
+PASS: zombie_farmer broad bounds enclose all sampled animated vertices
+PASS: zombie_farmer native/baked rays agree on hits: 0
+PASS: zombie_farmer native/baked surface distance below 3 mm in model space: 0.00051886896836
+PASS: zombie_farmer native/baked rays agree on headshots: 0
+PASS: zombie_hiker every shot volume is fully initialized
+PASS: zombie_hiker uses validated baked volumes
+PASS: zombie_hiker broad bounds enclose all sampled animated vertices
+PASS: zombie_hiker native/baked rays agree on hits: 0
+PASS: zombie_hiker native/baked surface distance below 3 mm in model space: 0.00032044734689
+PASS: zombie_hiker native/baked rays agree on headshots: 0
+PASS: zombie_grandma every shot volume is fully initialized
+PASS: zombie_grandma uses validated baked volumes
+PASS: zombie_grandma broad bounds enclose all sampled animated vertices
+PASS: zombie_grandma native/baked rays agree on hits: 0
+PASS: zombie_grandma native/baked surface distance below 3 mm in model space: 0.00075439497596
+PASS: zombie_grandma native/baked rays agree on headshots: 0
+PASS: zombie_runner every shot volume is fully initialized
+PASS: zombie_runner uses validated baked volumes
+PASS: zombie_runner broad bounds enclose all sampled animated vertices
+PASS: zombie_runner native/baked rays agree on hits: 0
+PASS: zombie_runner native/baked surface distance below 3 mm in model space: 0.00017920514802
+PASS: zombie_runner native/baked rays agree on headshots: 0
+PASS: zombie_jogger every shot volume is fully initialized
+PASS: zombie_jogger uses validated baked volumes
+PASS: zombie_jogger broad bounds enclose all sampled animated vertices
+PASS: zombie_jogger native/baked rays agree on hits: 0
+PASS: zombie_jogger native/baked surface distance below 3 mm in model space: 0.00055408477783
+PASS: zombie_jogger native/baked rays agree on headshots: 0
+PASS: zombie_nurse every shot volume is fully initialized
+PASS: zombie_nurse uses validated baked volumes
+PASS: zombie_nurse broad bounds enclose all sampled animated vertices
+PASS: zombie_nurse native/baked rays agree on hits: 0
+PASS: zombie_nurse native/baked surface distance below 3 mm in model space: 0.0002185813355
+PASS: zombie_nurse native/baked rays agree on headshots: 0
+PASS: zombie_soldier every shot volume is fully initialized
+PASS: zombie_soldier uses validated baked volumes
+PASS: zombie_soldier broad bounds enclose all sampled animated vertices
+PASS: zombie_soldier native/baked rays agree on hits: 0
+PASS: zombie_soldier native/baked surface distance below 3 mm in model space: 0.00045776367188
+PASS: zombie_soldier native/baked rays agree on headshots: 0
+PASS: zombie_forester every shot volume is fully initialized
+PASS: zombie_forester uses validated baked volumes
+PASS: zombie_forester broad bounds enclose all sampled animated vertices
+PASS: zombie_forester native/baked rays agree on hits: 0
+PASS: zombie_forester native/baked surface distance below 3 mm in model space: 0.00027465986204
+PASS: zombie_forester native/baked rays agree on headshots: 0
+PASS: Nearest animated actor stops ray first
+PASS: Piercing exclusion skips all front actor bones
+PASS: Excluded animated actors cannot block ray
+PASS: Changed model automatically falls back to native convex collider
+HORDE_HIT_PRECISION_DONE checks=77 failures=0

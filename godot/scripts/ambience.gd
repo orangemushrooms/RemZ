@@ -100,7 +100,8 @@ func setup(p: Player, fire_pos: Vector3, stream_pos: Vector3) -> void:
 	add_child(wind)
 	wind.play()
 	rustle = AudioStreamPlayer.new()
-	rustle.stream = _noise_bed(9.0, 0.35, 0.02, 0.11, 0.9, 0.35, 2)
+	# Reduce leaf/tree rustling by one third at every distance/biome blend.
+	rustle.stream = _noise_bed(9.0, 0.35, 0.02, 0.11, 0.9, 0.35 * (2.0 / 3.0), 2)
 	rustle.volume_db = -24.0
 	add_child(rustle)
 	rustle.play()

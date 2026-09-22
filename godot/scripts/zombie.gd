@@ -93,8 +93,21 @@ var _shot_has_bounds := false
 static var _volume_library: Resource
 const HitVolume = preload("res://scripts/zombie_hit_volume.gd")
 
+static func _load_volume_library() -> void:
+	if _volume_library: return
+	_volume_library = load("res://assets/data/zombie_hit_volumes.tres")
+	# Binary export can erase nested Array[Plane] metadata. Restore it once per
+	# shared hull: a rejected configure() call otherwise leaves a null rig in
+	# release builds, which crashes the host on the first intersecting shot.
+	var library: Dictionary = _volume_library.get_meta("volumes", {})
+	for shapes: Dictionary in library.values():
+		for baked: Dictionary in shapes.values():
+			var planes: Array[Plane] = []
+			planes.assign(baked.planes)
+			baked.planes = planes
+
 static func preload_models() -> void:
-	if not _volume_library: _volume_library = load("res://assets/data/zombie_hit_volumes.tres")
+	_load_volume_library()
 	for spec: Dictionary in TYPES.values():
 		for name in skin_names(spec):
 			var path := "res://assets/models/%s.glb" % name
@@ -324,7 +337,7 @@ static func _prepare_hitbox_shapes(source: Node3D, path: String) -> void:
 
 func _build_hitboxes() -> void:
 	_prepare_hitbox_shapes(model, model_path)
-	if not _volume_library: _volume_library = load("res://assets/data/zombie_hit_volumes.tres")
+	_load_volume_library()
 	var library: Dictionary = _volume_library.get_meta("volumes", {}) if _volume_library else {}
 	for mesh_node in model.find_children("*", "MeshInstance3D", true, false):
 		var mesh := mesh_node as MeshInstance3D
