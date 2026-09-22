@@ -1,0 +1,98 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Test round cannot overwrite saved achievements
+PASS: Catalog contains 30 existing and 24 additional achievements
+PASS: Every achievement has a unique persistent ID
+PASS: Ordinary zombie kill does not count as a titan
+PASS: titan must die before it counts
+PASS: titan advances titan achievements through actual death
+PASS: titan cannot count twice from corpse hits
+PASS: titan_hunter must die before it counts
+PASS: titan_hunter advances titan achievements through actual death
+PASS: titan_hunter cannot count twice from corpse hits
+PASS: titan_siege must die before it counts
+PASS: titan_siege advances titan achievements through actual death
+PASS: titan_siege cannot count twice from corpse hits
+PASS: titan_ash must die before it counts
+PASS: titan_ash advances titan achievements through actual death
+PASS: titan_ash cannot count twice from corpse hits
+PASS: Four titan variants unlock Titankiller but not the five-titan tier
+PASS: Fatal titan damage unlocks tier 5
+PASS: Fatal titan damage unlocks tier 15
+PASS: Fatal titan damage unlocks tier 30
+PASS: Knife, axe and gun-butt kills all count as melee
+PASS: Firearm kill does not count as melee
+PASS: Automatic and manually operated tower kills both count
+PASS: Actual 25th consecutive kill awards the streak achievement
+PASS: Expired streak preserves the best streak's progress
+PASS: Actual 50th consecutive kill awards the late-game streak tier
+PASS: hunter_10 stays locked below its threshold
+PASS: hunter_10 unlocks at its threshold and rewards only once per round
+PASS: kills_500 stays locked below its threshold
+PASS: kills_500 unlocks at its threshold and rewards only once per round
+PASS: kills_1000 stays locked below its threshold
+PASS: kills_1000 unlocks at its threshold and rewards only once per round
+PASS: kills_2500 stays locked below its threshold
+PASS: kills_2500 unlocks at its threshold and rewards only once per round
+PASS: head_100 stays locked below its threshold
+PASS: head_100 unlocks at its threshold and rewards only once per round
+PASS: head_250 stays locked below its threshold
+PASS: head_250 unlocks at its threshold and rewards only once per round
+PASS: head_500 stays locked below its threshold
+PASS: head_500 unlocks at its threshold and rewards only once per round
+PASS: titan_1 stays locked below its threshold
+PASS: titan_1 unlocks at its threshold and rewards only once per round
+PASS: titan_5 stays locked below its threshold
+PASS: titan_5 unlocks at its threshold and rewards only once per round
+PASS: titan_15 stays locked below its threshold
+PASS: titan_15 unlocks at its threshold and rewards only once per round
+PASS: titan_30 stays locked below its threshold
+PASS: titan_30 unlocks at its threshold and rewards only once per round
+PASS: tower_100 stays locked below its threshold
+PASS: tower_100 unlocks at its threshold and rewards only once per round
+PASS: tower_500 stays locked below its threshold
+PASS: tower_500 unlocks at its threshold and rewards only once per round
+PASS: melee_25 stays locked below its threshold
+PASS: melee_25 unlocks at its threshold and rewards only once per round
+PASS: melee_100 stays locked below its threshold
+PASS: melee_100 unlocks at its threshold and rewards only once per round
+PASS: wave_15 stays locked below its threshold
+PASS: wave_15 unlocks at its threshold and rewards only once per round
+PASS: wave_20 stays locked below its threshold
+PASS: wave_20 unlocks at its threshold and rewards only once per round
+PASS: wave_30 stays locked below its threshold
+PASS: wave_30 unlocks at its threshold and rewards only once per round
+PASS: wave_40 stays locked below its threshold
+PASS: wave_40 unlocks at its threshold and rewards only once per round
+PASS: flawless_5 stays locked below its threshold
+PASS: flawless_5 unlocks at its threshold and rewards only once per round
+PASS: shroom_50 stays locked below its threshold
+PASS: shroom_50 unlocks at its threshold and rewards only once per round
+PASS: streak_25 stays locked below its threshold
+PASS: streak_25 unlocks at its threshold and rewards only once per round
+PASS: streak_50 stays locked below its threshold
+PASS: streak_50 unlocks at its threshold and rewards only once per round
+PASS: drops_50 stays locked below its threshold
+PASS: drops_50 unlocks at its threshold and rewards only once per round
+PASS: Clearing wave 15 awards its late-game achievement
+PASS: Clearing wave 20 awards its late-game achievement
+PASS: Clearing wave 30 awards its late-game achievement
+PASS: Clearing wave 40 awards its late-game achievement
+PASS: Waves with player damage do not count as flawless
+PASS: Five undamaged waves award Unberuehrbar
+PASS: Permanent unlocks survive a round reset while round rewards reset
+PASS: Previously unlocked Titankiller can be earned again in the next round
+PASS: Host grants the five-titan reward exactly once to each teammate
+PASS: Remote player's lethal hit advances team achievements and their own leaderboard
+PASS: Snapshot includes titan progress and round unlocks for late joiners
+PASS: Snapshot is independent of authoritative counters
+PASS: Achievements menu includes new tiers and current-round progress
+PASS: Client authority fixture initializes
+PASS: Client-side events cannot forge a titan achievement
+ACHIEVEMENTS_DONE checks=89 failures=0

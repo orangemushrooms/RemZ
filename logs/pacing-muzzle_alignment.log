@@ -1,0 +1,27 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: pistol hip trail and visible muzzle share the same screen pixel
+PASS: pistol hip real frost shot stays attached during recoil
+PASS: pistol hip attachment never moves the authoritative impact
+PASS: pistol ads trail and visible muzzle share the same screen pixel
+PASS: pistol ads real frost shot stays attached during recoil
+PASS: pistol ads attachment never moves the authoritative impact
+PASS: smg hip trail and visible muzzle share the same screen pixel
+PASS: smg hip real frost shot stays attached during recoil
+PASS: smg hip attachment never moves the authoritative impact
+PASS: smg ads trail and visible muzzle share the same screen pixel
+PASS: smg ads real frost shot stays attached during recoil
+PASS: smg ads attachment never moves the authoritative impact
+PASS: ak47 hip trail and visible muzzle share the same screen pixel
+PASS: ak47 hip real frost shot stays attached during recoil
+PASS: ak47 hip attachment never moves the authoritative impact
+PASS: ak47 ads trail and visible muzzle share the same screen pixel
+PASS: ak47 ads real frost shot stays attached during recoil
+PASS: ak47 ads attachment never moves the authoritative impact
+MUZZLE_ALIGNMENT_DONE checks=18 failures=0

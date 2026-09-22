@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, Thompson style round drum magazine for a submachine gun, one flat circular steel disc canister like a film reel seen from the side, thin depth, a raised round hub with a winding key in the centre of the disc face, a short narrow feed tower with feed lips sticking out at the top edge of the disc, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "folder": "mod_drum_mag",
+  "root_task_id": "01a0ca4e-7723-728f-9d32-d832f99cf5fe",
+  "created_at": "2026-09-22T20:12:19.908385",
+  "updated_at": "2026-09-22T20:12:19.908403",
+  "tasks": [
+    {
+      "task_id": "01a0ca4e-7723-728f-9d32-d832f99cf5fe",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-22T20:12:19.908401"
+    }
+  ]
+}

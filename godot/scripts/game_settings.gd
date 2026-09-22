@@ -9,8 +9,8 @@ const LIMITS := [0, 60, 100, 120, 144, 165, 240]
 const DIFFICULTIES := [
 	{ "name": "Leicht", "desc": "Zum Kennenlernen der Hütte: schwächere Zombies, kleinere Wellen, viele Vorräte.", "hp": 0.8, "dmg": 0.7, "count": 0.8, "speed": 1.0, "drop": 1.4, "score": 0.8, "regen": 1.3 },
 	{ "name": "Normal", "desc": "Die ausgewogene Nacht am Heitersberg.", "hp": 1.0, "dmg": 1.0, "count": 1.0, "speed": 1.0, "drop": 1.0, "score": 1.0, "regen": 1.0 },
-	{ "name": "Schwer", "desc": "Zähere und schnellere Horden, weniger Vorräte, 30 % mehr Punkte.", "hp": 1.25, "dmg": 1.3, "count": 1.25, "speed": 1.05, "drop": 0.8, "score": 1.3, "regen": 0.8 },
-	{ "name": "Albtraum", "desc": "Riesige Wellen, brutale Treffer, kaum Regeneration. 70 % mehr Punkte für die Bestenliste.", "hp": 1.5, "dmg": 1.7, "count": 1.5, "speed": 1.12, "drop": 0.6, "score": 1.7, "regen": 0.5 },
+	{ "name": "Schwer", "desc": "Zähere und schnellere Horden, weniger Vorräte, 30 % mehr Rem Dollars.", "hp": 1.25, "dmg": 1.3, "count": 1.25, "speed": 1.05, "drop": 0.8, "score": 1.3, "regen": 0.8 },
+	{ "name": "Albtraum", "desc": "Riesige Wellen, brutale Treffer, kaum Regeneration. 70 % mehr Rem Dollars für die Bestenliste.", "hp": 1.5, "dmg": 1.7, "count": 1.5, "speed": 1.12, "drop": 0.6, "score": 1.7, "regen": 0.5 },
 ]
 const RANGES := [
 	{"trees": 190.0, "props": 100.0, "detail": 45.0, "leaves": 32.0, "grass": 55.0},

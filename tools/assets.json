@@ -298,5 +298,49 @@
   "zombie_colossus": {
     "prompt": "realistic game character, colossal grotesque zombie titan, emaciated giant humanoid with overlong arms and huge clawed hands, exposed ribcage and spine, torn grey rotting skin hanging in strips, several milky eyes, gaping jaw with broken teeth, remnants of clothing, standing upright in T-pose, arms straight out to the sides, humanoid, symmetric, horror game character",
     "texture_prompt": "grey-green rotting flesh, black veins, exposed yellowed bone, dried dark blood, torn cloth, dark realistic PBR"
+  },
+  "mod_suppressor": {
+    "prompt": "game asset, tactical firearm sound suppressor silencer, single straight cylindrical tube with knurled grip rings along the body, flat front end cap with a round bore hole, threaded mounting collar at the rear end, lying horizontally, isolated single object, no gun, no weapon, no stand, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, matte black anodized aluminium, fine machining marks, slight heat discolouration near the front, worn edges on the knurling, no text, no letters, no logo"
+  },
+  "mod_compensator": {
+    "prompt": "game asset, firearm muzzle brake compensator, short stubby steel cylinder with three wide rectangular side vent slots cut through the top and sides, crowned front face with a bore hole, threaded collar at the rear, lying horizontally, isolated single object, no gun, no weapon, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, blued gunmetal steel, carbon soot inside the vent slots, polished wear on the edges, no text, no letters"
+  },
+  "mod_extended_mag": {
+    "prompt": "game asset, extended straight box magazine for a rifle, tall slightly curved sheet metal magazine body with stamped reinforcement ribs, feed lips and a visible brass cartridge at the top, extended polymer floor plate at the bottom, standing upright, isolated single object, no gun, no weapon, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, dark grey parkerised steel with scuffs, matte black polymer base plate, one brass cartridge, no text, no letters"
+  },
+  "mod_quick_action": {
+    "prompt": "game asset, oversized tactical charging handle bolt assembly for a rifle, machined cylindrical bolt body with a flat extended side latch paddle and a serrated grip, small locking lugs at the front, lying horizontally, isolated single object, no gun, no weapon, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, machined raw aluminium with anodised black paddle, bright polished wear on the sliding surfaces, faint oil film, no text, no letters"
+  },
+  "mod_match_barrel": {
+    "prompt": "game asset, heavy match grade rifle barrel, thick straight steel tube with six long shallow flutes milled along its length, a stepped chamber shoulder at the rear end and fine threads at the muzzle end, lying horizontally, isolated single object, no gun, no weapon, no stock, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, dark stainless gunmetal, satin bead blasted finish, sharp bright edges along the flutes, faint bluing near the chamber, no text, no letters"
+  },
+  "mod_ghost": {
+    "prompt": "game asset, futuristic stealth firearm suppressor, slender cylindrical tube wrapped in a carbon fibre sleeve with narrow engraved grooves running along the body, thin glowing energy lines inside the grooves, smooth front end cap with a bore hole, threaded collar at the rear, lying horizontally, isolated single object, no gun, no weapon, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, black carbon fibre weave with matte black metal caps, cold pale cyan emissive glow lines in the engraved grooves, no text, no letters"
+  },
+  "mod_endless": {
+    "prompt": "game asset, large drum magazine for a rifle, round steel drum canister with a riveted rim and a straight feed tower on top with feed lips, small winding knob on the flat side, standing upright on the drum, isolated single object, no gun, no weapon, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, battered dark steel drum with rivets, rust speckles and scratches, brass glint at the feed lips, no text, no letters"
+  },
+  "mod_titan_core": {
+    "prompt": "game asset, heavy armour piercing rifle barrel with a power core, thick steel barrel tube with an armoured shroud of overlapping plates around the middle, glowing molten seams and vent slits between the plates, stepped mounting collar at the rear, lying horizontally, isolated single object, no gun, no weapon, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, scorched dark steel plating, glowing orange hot molten seams and vents, heat blued metal around the vents, soot streaks, no text, no letters"
+  },
+  "mod_drum_mag": {
+    "prompt": "game asset, Thompson style round drum magazine for a submachine gun, one flat circular steel disc canister like a film reel seen from the side, thin depth, a raised round hub with a winding key in the centre of the disc face, a short narrow feed tower with feed lips sticking out at the top edge of the disc, isolated single object, no gun, no weapon, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, battered dark blued steel, rivets around the rim, rust speckles and scratches, brass glint at the feed lips, no text, no letters, no logo"
+  },
+  "mod_titan_barrel": {
+    "prompt": "game asset, very long thin heavy machine gun barrel, a straight narrow steel tube ten times longer than it is thick, a short armoured collar with cooling slits around the middle of the tube, a stepped mounting shoulder at one end and a plain muzzle opening at the other end, lying horizontally, isolated single object, no gun, no weapon, no stock, no receiver, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, scorched dark gunmetal steel, heat blued rainbow tint near the collar, glowing orange hot slits in the collar, soot streaks along the tube, no text, no letters"
+  },
+  "mod_mag_tube": {
+    "prompt": "game asset, shotgun magazine tube extension, one plain straight steel tube closed by a rounded end cap with a small stud, a knurled clamp ring near the open end, lying horizontally, isolated single object, no gun, no weapon, no barrel, no ground, no text, no letters",
+    "texture_prompt": "photorealistic 4k PBR, matte black parkerised steel, fine machining rings, light scratches and holster wear on the edges, no text, no letters"
   }
 }

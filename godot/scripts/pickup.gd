@@ -22,7 +22,7 @@ static func throw_cash(player: Player) -> String:
 	var game := player.get_tree().current_scene
 	if not game.started or game.over or not player.alive or not player.active or player.get_tree().paused: return ""
 	if player.cash_cooldown > 0.0: return ""
-	if player.score <= 0: return "Keine Punkte zum Abwerfen."
+	if player.score <= 0: return "Keine Rem Dollars zum Abwerfen."
 	if player.get_tree().get_nodes_in_group("cash_drops").size() >= MAX_CASH_DROPS: return "Sammelt zuerst die Geldbündel am Boden auf."
 	var drop := Pickup.new()
 	drop.amount = mini(CASH_BUNDLE, player.score)
@@ -33,7 +33,7 @@ static func throw_cash(player: Player) -> String:
 	drop.toss_velocity = -player.global_basis.z * 5.0 + Vector3.UP * 3.0
 	player.add_score(-drop.amount)
 	player.cash_cooldown = 0.35
-	return "%d P abgeworfen" % drop.amount
+	return "%d R abgeworfen" % drop.amount
 
 func setup(k: String) -> void:
 	kind = k
@@ -56,7 +56,7 @@ func setup(k: String) -> void:
 				_box(Vector3(0.30, 0.09, 0.16), Vector3(0, 0.05, 0), Color(0.35, 0.55, 0.24))
 				_box(Vector3(0.06, 0.10, 0.17), Vector3(0, 0.05, 0), Color(0.85, 0.79, 0.55))
 			var label := Label3D.new()
-			label.text = "%d P" % amount
+			label.text = "%d R" % amount
 			label.position.y = 0.48
 			label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 			label.font_size = 40
@@ -173,7 +173,7 @@ func _on_body(body: Node3D) -> void:
 	match kind:
 		"cash":
 			body.add_score(amount)
-			hud.message("+%d P aufgenommen" % amount, 1.4)
+			hud.message("+%d R aufgenommen" % amount, 1.4)
 		"ammo":
 			var id: String = weapons.ammo_weapon()
 			var mag := int(weapons.DEFS[id]["mag"])

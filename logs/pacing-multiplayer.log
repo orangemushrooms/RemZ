@@ -1,0 +1,231 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Invalid IP rejected without entering a session
+COOP_LOAD HOST_CREATE port=24687
+COOP_HOST_READY port=24687
+COOP_LOAD HOST_READY
+PASS: Host binds an ENet UDP socket
+ERROR: Couldn't create an ENet host.
+   at: _create (modules/enet/enet_connection.cpp:319)
+   GDScript backtrace (most recent call first):
+       [0] host_run (res://tests/multiplayer.gd:128)
+       [1] run (res://tests/multiplayer.gd:54)
+PASS: A second host cannot bind the same port
+COOP_LOAD PEER_CONNECTED id=1308617942
+COOP_PEER_ACCEPTED count=2
+COOP_LOAD PEER_CONNECTED id=387863896
+COOP_PEER_ACCEPTED count=3
+COOP_LOAD INITIAL_SEND peer=1308617942 raw=23216 bytes=3896 parts=5
+COOP_LOAD INITIAL_SEND peer=387863896 raw=23216 bytes=3895 parts=5
+COOP_LOAD CLIENT_READY peer=1308617942
+COOP_LOAD CLIENT_READY peer=387863896
+COOP_LOAD PEER_CONNECTED id=1481386578
+COOP_PEER_ACCEPTED count=4
+COOP_LOAD INITIAL_SEND peer=1481386578 raw=25616 bytes=3961 parts=5
+COOP_LOAD CLIENT_READY peer=1481386578
+PASS: Host plus three clients share the lobby
+PASS: All four maps are ready
+COOP_LOAD ROUND_START_SEND players=4
+COOP_LOAD STATE_SEND peer=1308617942 raw=25616 bytes=3964 parts=5
+COOP_LOAD STATE_SEND peer=387863896 raw=25616 bytes=3964 parts=5
+COOP_LOAD STATE_SEND peer=1481386578 raw=25616 bytes=3964 parts=5
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=4
+COOP_RUNNING players=4
+PASS: c1 sees four players and three avatars
+PASS: c2 sees four players and three avatars
+PASS: c3 sees four players and three avatars
+PASS: Host pause menu leaves world clock running
+PASS: host opens pause without pausing the world
+PASS: host focus loss does not stack menus during pause
+PASS: Other player moves while host opens pause
+PASS: host world advances during pause
+PASS: host resumes after pause
+PASS: host opens inventory without pausing the world
+PASS: host focus loss does not stack menus during inventory
+PASS: Other player moves while host opens inventory
+PASS: host world advances during inventory
+PASS: host resumes after inventory
+PASS: host opens shop without pausing the world
+PASS: host focus loss does not stack menus during shop
+PASS: Other player moves while host opens shop
+PASS: host world advances during shop
+PASS: host resumes after shop
+PASS: host opens barricades without pausing the world
+PASS: host focus loss does not stack menus during barricades
+PASS: Other player moves while host opens barricades
+PASS: host world advances during barricades
+PASS: host resumes after barricades
+PASS: Client walking replicates through host collision
+PASS: Legacy remote weapon unlock rejected
+PASS: Remote NPC purchase cannot bypass proximity
+PASS: Eligible NPC weapon purchase is charged once by host
+PASS: Duplicate purchase cannot spend twice
+PASS: Purchased weapon skin replicates to owner
+PASS: After purchase receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: After purchase receives all authoritative leaderboard rows, points and counters
+PASS: Individual quest state reaches the other peers
+PASS: Client menus do not pause the common world
+PASS: Remote AK shot damages the host zombie
+PASS: Exactly one round consumed on host
+PASS: c2 receives the same zombie
+PASS: c3 receives the same zombie
+PASS: Remote reload completes on the host
+PASS: Locked weapon request rejected
+PASS: Impossible movement request rejected
+PASS: Host rare mushroom availability and exact location reach the client
+PASS: Contended pickup granted exactly once
+PASS: Remote shot kills wildlife and creates host meat
+PASS: Competing clients receive meat exactly once
+PASS: Client starts host cooking at camp
+PASS: Cooked meat reaches the client inventory
+PASS: Client eating applies healing on the host
+PASS: Client collects a team key on host
+PASS: Team key propagated to another client
+PASS: Different client opens door with the shared key
+PASS: Remote barricade purchase builds real collision
+PASS: Remote repair restores host barricade
+PASS: Door and barricade states reach other peers
+PASS: Remote tower placement creates one host tower and charges builder
+PASS: Duplicate remote tower placement rejected
+PASS: Client mounts turret on host
+PASS: Mounted seat replicates to controlling client
+PASS: Second player cannot steal an occupied turret
+PASS: Remote dismount frees turret
+PASS: Remote turret upgrade requires the mechanic
+PASS: Remote tower rotation is authoritative
+PASS: Tower heading replicates to other players
+PASS: NPC turret upgrade applies on host
+PASS: Remote tower repair restores shared health
+PASS: Host turret fire and target damage replicate (host=9 client=9 target_hp=9775.0)
+PASS: Client mouse aim and trigger deal authoritative turret damage
+PASS: Client right mouse reaches the host's turret precision state
+PASS: Client turret zoom survives weapon processing and snapshots
+PASS: Other clients receive the turret aiming state
+PASS: Releasing right mouse restores host precision and client view
+PASS: c1 receives full titan health and exact attack phase
+PASS: c1 sees the same boss model, size and appearance
+PASS: c1 hears one arrival and one attack cry from the host
+PASS: c2 receives full titan health and exact attack phase
+PASS: c2 sees the same boss model, size and appearance
+PASS: c2 hears one arrival and one attack cry from the host
+PASS: c3 receives full titan health and exact attack phase
+PASS: c3 sees the same boss model, size and appearance
+PASS: c3 hears one arrival and one attack cry from the host
+PASS: Boss impact event reaches client
+PASS: c1 receives exactly one synchronized footstep, rage cry and slam
+PASS: c2 receives exactly one synchronized footstep, rage cry and slam
+PASS: c3 receives exactly one synchronized footstep, rage cry and slam
+PASS: Titan headshot and contributor assist belong to their respective players
+PASS: c1 hears death and delayed body impact without replica duplicates
+PASS: c1 receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: c1 receives all authoritative leaderboard rows, points and counters
+PASS: c2 hears death and delayed body impact without replica duplicates
+PASS: c2 receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: c2 receives all authoritative leaderboard rows, points and counters
+PASS: c3 hears death and delayed body impact without replica duplicates
+PASS: c3 receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: c3 receives all authoritative leaderboard rows, points and counters
+COOP_LOAD PEER_DISCONNECTED id=1481386578
+COOP_LOAD PEER_CONNECTED id=1850681030
+COOP_PEER_ACCEPTED count=4
+COOP_LOAD INITIAL_SEND peer=1850681030 raw=27752 bytes=4988 parts=6
+COOP_LOAD CLIENT_READY peer=1850681030
+PASS: A player can reconnect to an ongoing round
+PASS: Late join restores doors, keys, barricades and enemies
+PASS: Late join restores upgraded tower and exact structure health
+PASS: Late join does not replay earlier titan roars or impacts
+PASS: Collected gold bolete remains absent for late joiners
+PASS: Late join restores hunted animals and remaining meat
+PASS: Late join receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: Late join receives all authoritative leaderboard rows, points and counters
+PASS: Destroyed tower disappears on other peers
+PASS: flame can be built by a remote client
+PASS: flame uses host-validated type and price
+PASS: flame type and occupation reach other peers
+PASS: flame destruction releases remote operator
+PASS: mortar can be built by a remote client
+PASS: mortar uses host-validated type and price
+PASS: mortar type and occupation reach other peers
+PASS: mortar destruction releases remote operator
+PASS: mg42 can be built by a remote client
+PASS: mg42 uses host-validated type and price
+PASS: mg42 type and occupation reach other peers
+PASS: mg42 destruction releases remote operator
+PASS: tesla can be built by a remote client
+PASS: tesla uses host-validated type and price
+PASS: tesla type and occupation reach other peers
+PASS: tesla destruction releases remote operator
+PASS: One death does not end coop
+PASS: Host completes the three-second revive
+PASS: Revived client regains life state
+PASS: Revival preserves one recorded death
+PASS: Revived client receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: Revived client receives all authoritative leaderboard rows, points and counters
+PASS: Remote grenade exists on host
+PASS: Host grenade explodes and despawns
+PASS: Grenade removal reaches clients
+PASS: Fifth player is refused by ENet capacity
+PASS: c1 assembles full-capacity horde snapshots
+PASS: c2 assembles full-capacity horde snapshots
+PASS: c3 assembles full-capacity horde snapshots
+PASS: Remote killer receives authoritative kill rewards
+PASS: Zombie death reaches another client
+COOP_LOAD STATE_SEND peer=1308617942 raw=40984 bytes=6740 parts=8
+COOP_LOAD STATE_SEND peer=387863896 raw=40984 bytes=6740 parts=8
+COOP_LOAD STATE_SEND peer=1850681030 raw=40984 bytes=6740 parts=8
+PASS: Only team wipe ends the match
+PASS: Team game over propagated
+PASS: Final reliable game-over snapshot receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: Final reliable game-over snapshot receives all authoritative leaderboard rows, points and counters
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+COOP_LOAD INITIAL_SEND peer=1850681030 raw=25552 bytes=3932 parts=5
+COOP_LOAD INITIAL_SEND peer=1308617942 raw=25552 bytes=3932 parts=5
+COOP_LOAD INITIAL_SEND peer=387863896 raw=25552 bytes=3932 parts=5
+COOP_LOAD CLIENT_READY peer=387863896
+COOP_LOAD CLIENT_READY peer=1850681030
+COOP_LOAD CLIENT_READY peer=1308617942
+COOP_LOAD ROUND_START_SEND players=4
+COOP_LOAD STATE_SEND peer=1308617942 raw=25552 bytes=3935 parts=5
+COOP_LOAD STATE_SEND peer=387863896 raw=25552 bytes=3935 parts=5
+COOP_LOAD STATE_SEND peer=1850681030 raw=25552 bytes=3935 parts=5
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=4
+COOP_RUNNING players=4
+PASS: Session survives host restart with four peers
+PASS: Restart resets the run and starts the next round once every peer is ready
+PASS: c1 starts the second round
+PASS: c2 starts the second round
+PASS: c3 starts the second round
+PASS: Session restart removes towers from previous round
+PASS: New round restores wildlife and clears food
+PASS: Round restart removes disconnected leaderboard history
+PASS: New round clears all five player counters
+PASS: New round clears all five player counters
+PASS: New round clears all five player counters
+PASS: New round clears all five player counters
+PASS: Restarted c1 receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: Restarted c1 receives all authoritative leaderboard rows, points and counters
+PASS: Restarted c2 receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: Restarted c2 receives all authoritative leaderboard rows, points and counters
+PASS: Restarted c3 receives measured peer pings, zero host ping and no stale disconnected ping
+PASS: Restarted c3 receives all authoritative leaderboard rows, points and counters
+COOP_LOAD PEER_DISCONNECTED id=1850681030
+PASS: Disconnected player is removed
+PASS: Host inherits towers when their builder disconnects
+COOP_LOAD LEAVE_BEGIN phase=running reason=Integration test finished
+COOP_LOAD LEAVE_PEER_DETACHED
+COOP_LOAD LEAVE_PEER_CLOSED
+COOP_LOAD LEAVE_RELOAD
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: c1 returns to menu when host leaves
+PASS: c2 returns to menu when host leaves
+COOP_TEST_DONE checks=165 failures=0

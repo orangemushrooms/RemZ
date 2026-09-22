@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca46-87b6-7283-8dbc-50df74025d32",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1178911879,
+  "prompt": "game asset, tactical firearm sound suppressor silencer, single straight cylindrical tube with knurled grip rings along the body, flat front end cap with a round bore hole, threaded mounting collar at the rear end, lying horizontally, isolated single object, no gun, no weapon, no stand, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790100016786,
+  "progress": 100,
+  "started_at": 1790100016795,
+  "finished_at": 1790100093914,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-87b6-7283-8dbc-50df74025d32/output/model.glb?Expires=4943635200&Signature=OmT~u-om2CeNX8FykpoCfjtdUfgMzsktCGAGMX9JyViBSnje~Sfo2oKzIAJaIx1kFP8aLEN1xpKfhgPAjX-4HH4A3Wc7JNjRWVZZpqNbdgH7NBC~UHbPkv3Ai3XTSQSbH6vQZtXghpPOCgHZ9C-mYpoD6Rws0q~BBbtRiFxoSDCuCT-UoW70QIFf1XZCxSdhLUjiW5idZehnvkhWKNEvrQ6sdGYGRLt1oOOUkwIek8s0rQ0-uLFTKQ1U7jYjKX-64xIH9NgTCPe1WeahxrhBv5AQlxu0p~U633IE88D601Y4v4z6e3jjuEmoo1sOi2vW1~lMw~gxBdPQJtadttKs9g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-87b6-7283-8dbc-50df74025d32/output/model.fbx?Expires=4943635200&Signature=UCKEIEEhUnTWn2n-ztehufZlTGqYDjKXQCkftjtjvvJ6jnHOB67VHXphaDaFhBxIvSip4DyrilyjKT-hE~zFgmSqFxl4Fzd3URWbfjzkmhlwGBrDwJDgnr-HDoWlgmrm6Fsu8V-TtoEuvy84oKWhnylD-Qhsnf4ZLNxpBj7AFYp7esJVJtWfhRGIRGGYMKenuV~M8I5MHBQH06u2t9Oc6HyRhaDD6ehXhbUpASdamaXl-F8t~N7Lu6f2DaPH6DAjYktmZ4GL25m-s0G5FniFtWvfYHo2QokN5-UVRqqP7ffaabKH55oXiG260kjRGKRdVHTsOVqMepTNTBSKG0FhEA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-87b6-7283-8dbc-50df74025d32/output/model.usdz?Expires=4943635200&Signature=L5bL1T--Egfohsds6GM2DTXMj66iDeRsC9xOQ6JnObYxvqeeSBsp9RcTBHR9aI~wBsCB3orCM4Yo6aEjqQ5zIg~CfsO0JUGFKZRu1F9CdoGe1bm3-YigEsouxxKr3hdQX6es4y0Mbn2l5sruR2ookI6ajlYCU4ck49g0zNjND0gEqCPQkKD5Od9YaUiBglfOxxqNHrFfqhNW9ZTlB0NDYU1mWsW8aqk6ZNU84M8iy5i4Eve~EpG~9UBA49NeG3EaMw3cv5KD38FiP-Kc0VfQDuJ5H6mSkhM7evqLtSJ4YpG-YxGNuzEklb0jHrcmLJUssv-zb0Iae2K~Ju4aU-XYRw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-87b6-7283-8dbc-50df74025d32/output/model.obj?Expires=4943635200&Signature=gvOGOYhyBw2hLne1Sa1QyIH2i0ie-pgtwvrIT20yQRH9W66tcgy98P~t5zBIC1X-skqeKg10cMIYkpPb95xlhw1ugw8bwhRlKHjRIMho5Ku9EyG4D9O26Ewm6OGBsDI78xHtFLlLgGfQCjYTuaVTz2z5odxaVSdNO4bFIU~ffF~w6fXP9slCBOfMi~vhU8svYnAq8Pj8nZFQJbbdJh8wOj5Uqgyhwwl4z0JUy3TyUNwe6~DNX7QkAsoWPBmoRCS2ZITn~j-F-WQd9uQyugulYPyGslGaOeG~oYQeeMIg21jehLNsYxxIynBBYDxBfkCPh1KLf5tNkDypk3rEgWqCmA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-87b6-7283-8dbc-50df74025d32/output/model.stl?Expires=4943635200&Signature=YwTokCGisrPm2deP66yrfMvtDOVTWzqz5bPG65wrt3IoTAUJrtlNfPk1phS9LT2OtcinrJ8-83KF7KnMZYJ7uLXdBdINFLvKbUMgY-vK-JdrRvvYvmFKSEZB4kHj2lqVbcVhrGO7JMLVmYusXmFOfj8ze8G0gXU28SLD7AhvH2TdV-4XuGn9v6K1ZKrKaM3U6ZDDkaNUqNd9Z91DRY1Tpl5t6oW0yQxLAMsvUAMuc-~ChHuY6AElnphzrQYrlLmwg8N459NNijVLd~Y8FsLOWBCH32PgBDK5uZ0ccF4hjRkY4P15bAtRuAZu-j-OcbS3h~-dcstu61P8YR6DVt20QA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-87b6-7283-8dbc-50df74025d32/output/preview.png?Expires=4943635200&Signature=FNyB2kkgRiXTGuCl872-YaqTtjJMWk76dIMIeVHL6bemcIgWBN2juYFnC~jHI8Fej0Qw~H5XbBbPSBSXm72946o0V8LN-1A829~yzeL3c1yn4ofZputX~PRzpjd4oj~J7bwZrkahi7-5ZYgOSa1S~eyqQ-NF13psCGes~HWC6Dk~riXv~L2v2nZbSdMNJ646LCzvGbYWzjAH6Rd285LcXiJ3-23DZ7qJFcY5Tbeb8S34o7pWdC-1icJ5oYdQoxbTAJY8KPIeE6yuZguCsrV~8GaRX13-HOnyJou9xE97ooyhNXHXrBaVpo0fKHXslp0w2wSRecXEJnF-INtQk2vz~Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

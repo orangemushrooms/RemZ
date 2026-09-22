@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca46-96f8-7345-883a-33358f97aec8",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1005932150,
+  "prompt": "game asset, firearm muzzle brake compensator, short stubby steel cylinder with three wide rectangular side vent slots cut through the top and sides, crowned front face with a bore hole, threaded collar at the rear, lying horizontally, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790100021559,
+  "progress": 100,
+  "started_at": 1790100021566,
+  "finished_at": 1790100100000,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-96f8-7345-883a-33358f97aec8/output/model.glb?Expires=4943635200&Signature=H-7AQAuUbepyi911ukvrcP~VQSzrci3fVklgIiQS2k~esMhC-qqd9kqeDSW57QI~O48-1vr1tvivscN5ZoX6rIhfLgZpnJVeU1Rgryji9Nb5aIfZqrwgT4u-KPkz582WklawIAWOTilYHoRTFX2QLZmAJGzXk0uC18jLkfFYL11a-BbMaEtg67sUtQFXdEVDrc-zY9UDaqLyDQK9AC1J8R8wR07kLr0kWF2YyJpW9u1AlDPIVD5xzqdnB7pHje-oaPcUJEwTfdBECkJhyQNf43rKQesm1XhPw~aZbFPqNE~jssC2BupwmySyp8S9kzhpcKvmkFjpt84UQrJI78Dk3A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-96f8-7345-883a-33358f97aec8/output/model.fbx?Expires=4943635200&Signature=JiI9tbq3IzvPaY1dX1DbkI8gkRKblef2jxYz94hgAHlfc~a~Jy7A79UUk9KKkoqnhoAJNFkIBg3i8JyBTmH-0NH838881wbWRHThpx-sIUy0FOmqeNzKbXlQ6jH21VeRi2x6d6EpCCVIJssjVuDUPVXi6BIDUGkxUxFRvCP2k7JWrvr8au47bzjRaHQOTdE3uZA3RmJPS1oie63rSDRqOBZ~A8v2rww12-PZBAthcRS81z7O5oQBe-nSMQG5Uk~DiDSGi3eAP8XcLrvpK~ys77635s77LzLmRggIzD47ZiiY5w9yukepkkeHt6C8NQCSvT9u-pM3UpfHPhCaY26iSA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-96f8-7345-883a-33358f97aec8/output/model.usdz?Expires=4943635200&Signature=Qgf-C039Mka9Nzp7nhnf1jKLlKo04oLLoEXY3tAhQTGTgvGMAQhmF4qOC5YsGOmJFKON5cDf7SUQgK1WFa-YrZDHwn8vEyg9HXLXXGc52unOF5ePPWWIU4IDqGwFByONB1quHFIjMKsZraYUepSW8laLShW2XWSgMatdQ0jbCKwQ9Sgn5OdG6bkV3G4U5WKPV2VE0KQiFU1QwDEati7GuxF0RqEyuM5xYXsmT1p~WLd-MBrGaCshtZxhBipy1UlYhpVpEe5uePGMemmX8Bn2vmUTQ7gmQOv1AaJI2l7QBL4mx5R~3X5paTC1rC9~WWUJNCQxAkqMs7O7OQbUbIJjnA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-96f8-7345-883a-33358f97aec8/output/model.obj?Expires=4943635200&Signature=IC93lLTv4gJLLALSQU9Wf1uATTu56rCMcv2k3MtpGNsa1TiqyrYp5fflRN0~dv1XkpRTkwJ~b6rMn855lHg0eji5X2M-Hm~P33~3eXKq~8kJeAlwRI8m7fZqn9zHF0KjQxFh~CBC6cn8UAsbwQXkYGQ2EzC88yr7y7pI9-0s3G3N4S4JEhEf7cJHswfz9jl~jHNlaOhacYJTrbf6dKLPufpLaWZgy-ZGRtWPcFzoIp6dyOtkorDFX2-qcFaL06T~EVXD8CzbrZYxlKTGN8yU4ACskVXckqUSvVKOjfCTApImpUJmnuIKkReJmihk8jxfUJ4rbqcWmgFGj1OBUTQUxA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-96f8-7345-883a-33358f97aec8/output/model.stl?Expires=4943635200&Signature=Iq1toE0DWpIYUh0Nr7rxMYMWpdKstLSPfZdHfMM2VD-3382-bohcnZwo9Zv-LIuoEvEP7tdArF7se6ihL5Tbp7qtKUnn1h4OHBymTLnAQVwkv1I1kNjyei0tV4f2hjiPW2LgS3BkcgcXDa69xIKasYPIcwVWtvpndMXC~R15-fytABg8rze-4iIAx4GP-b7xAvTUy-HsYr25F1-29jm1sbFujAdtegWzj7EqeZpKcRmAeqIJgM~tPjsJvUfKZgJQKmNot0nwfKDIdb1QK~P6BwwaYJUTfFcGXSDlmsaXYOo5jUyq5KvsaXEhaVOqi4oLkwLhZp-~9Yu8KYjwcqFBWw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-96f8-7345-883a-33358f97aec8/output/preview.png?Expires=4943635200&Signature=CVYTOihsrPgPuyBBh8QZwvE4oAgePaprG9kWe3Gbb~YMG6KAAG3syTIadkkvJKg0aKCj6io537eBpgVa7D-XMDvszPRz-E7BCWbU~EJOdI0xwVTuUe~1fWkYZZbd05J7LHlOPMkc2~PfWqEDBz3g-8YFE~7Z57nEAoV1Y5yHbm6iv28ve~ZpmduDdfDofuxy3g~S7VOw6iHtpuaWLj3JmTHfK8RMaBTRsdKpr2AGSRDnAbifcW99hGDKrvnQSqt9E~vVIqUgCQ6eJT02O4ikha7MFogxik~dLNy4S~uTQVrkktRrAbq2Rw-bGdCRHYHDw~Vvb~7oQGV~UeqdpvB3gA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

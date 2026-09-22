@@ -83,6 +83,7 @@ func run() -> void:
 						(shop.rows.get_parent() as ScrollContainer).scroll_vertical = int(widgets[0].get_parent().get_parent().position.y)
 				await process_frame
 				await RenderingServer.frame_post_draw
+				check(shop.balance.get_line_count() == 1 and shop.balance.size.x > 300, "Currency icon leaves enough width for the merchant balance")
 				var folder := ProjectSettings.globalize_path("res://../artifacts/quest-chains/")
 				DirAccess.make_dir_recursive_absolute(folder)
 				root.get_texture().get_image().save_png(folder + "marksman-requirements.png")
@@ -96,9 +97,9 @@ func run() -> void:
 	var purse: int = p.score
 	shop.request("sell_grenade")
 	check(p.score == purse + 15, "Selling a grenade pays its price")
-	check(shop._gain_popup.visible and shop._gain_popup.text == "+15 P" and shop._gain_popup.get_theme_color("font_color") == shop.GAIN_GOLD,
+	check(shop._gain_popup.visible and shop._gain_popup.text == "+15 R" and shop._gain_popup.get_theme_color("font_color") == shop.GAIN_GOLD,
 		"The earned points pop up in gold")
-	check(shop._balance_pulse > 0.9 and shop.balance.text.begins_with("%d PUNKTE" % p.score),
+	check(shop._balance_pulse > 0.9 and shop.balance.text.begins_with("%d REM DOLLARS" % p.score),
 		"The balance flashes and already shows the new total")
 	# Leave the purse and the pouch exactly as they were; the checks below count on them.
 	p.score = purse

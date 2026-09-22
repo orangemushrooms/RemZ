@@ -78,6 +78,9 @@ var _badge: Label
 var _showing := false
 var _wave_damage := false
 var persist := true
+var _save_task := -1
+var _save_pending := false
+var _save_path := SAVE
 
 func setup(p: Player, w: Weapons, h: Hud, m: Node) -> void:
 	player = p
@@ -141,9 +144,30 @@ func _load() -> void:
 
 func _save() -> void:
 	if not persist: return
-	var f := FileAccess.open(SAVE, FileAccess.WRITE)
+	_save_pending = true
+	_poll_save()
+
+func _poll_save() -> void:
+	if _save_task != -1:
+		if not WorkerThreadPool.is_task_completed(_save_task): return
+		WorkerThreadPool.wait_for_task_completion(_save_task)
+		_save_task = -1
+	if not _save_pending: return
+	_save_pending = false
+	# Serialize a value snapshot on the main thread. Only one worker may write
+	# the file, so an older completion can never overwrite a newer unlock.
+	var text := JSON.stringify({"unlocked": unlocked.keys()})
+	_save_task = WorkerThreadPool.add_task(_write_save.bind(ProjectSettings.globalize_path(_save_path), text))
+
+static func _write_save(path: String, text: String) -> void:
+	var f := FileAccess.open(path, FileAccess.WRITE)
 	if f:
-		f.store_string(JSON.stringify({ "unlocked": unlocked.keys() }))
+		f.store_string(text)
+
+func _exit_tree() -> void:
+	# Scene teardown waits for outstanding writes; combat never waits for disk.
+	if _save_task != -1: WorkerThreadPool.wait_for_task_completion(_save_task)
+	if _save_pending: _write_save(ProjectSettings.globalize_path(_save_path), JSON.stringify({"unlocked": unlocked.keys()}))
 
 # report progress: event("kills"), event("waves", 3), ...
 func event(name: String, amount: int = 1, absolute: bool = false) -> void:
@@ -160,12 +184,12 @@ func _unlock(d: Dictionary) -> void:
 	session_unlocked[d["id"]] = true
 	var fresh: bool = not unlocked.has(d["id"])
 	unlocked[d["id"]] = true
-	_save()
+	if fresh: _save()
 	var r: Dictionary = d["reward"]
 	var parts: Array = []
 	if r.has("score"):
 		player.add_score(int(r["score"]))
-		parts.append("+%d Punkte" % int(r["score"]))
+		parts.append("+%d Rem Dollars" % int(r["score"]))
 	if r.has("grenades"):
 		weapons.grenades = mini(weapons.grenades_max, weapons.grenades + int(r["grenades"]))
 		parts.append("+%d Granaten" % int(r["grenades"]))
@@ -221,6 +245,7 @@ func _next() -> void:
 	hold.tween_callback(func(): _toast.visible = false; _next())
 
 func _process(_delta: float) -> void:
+	_poll_save()
 	if NetSession.is_host() and NetSession.world:
 		for teammate: Player in NetSession.world.actors.values():
 			if teammate.alive: _explore(teammate.global_position)

@@ -146,10 +146,25 @@ static func prewarm_visuals(game: Node3D) -> void:
 				material.emission = Color.BLACK
 				mesh.set_surface_override_material(surface, material)
 		index += 1
+	var effects: Node3D = load("res://scripts/combat_warmup.gd").populate(viewport, game)
 	for frame in 8:
 		await RenderingServer.frame_post_draw
 		if not is_instance_valid(game) or not is_instance_valid(viewport): return
-	viewport.queue_free()
+	# Frost uses a separate skinned shader variant, including each model's vertex
+	# layout. Compile it here as well, before special ammunition can hit a horde.
+	var frost := ShaderMaterial.new()
+	frost.shader = preload("res://shaders/frost_surface.gdshader")
+	for child in viewport.get_children():
+		if child == effects: continue
+		for mesh: MeshInstance3D in child.find_children("*", "MeshInstance3D", true, false):
+			mesh.material_overlay = frost
+	for frame in 8:
+		await RenderingServer.frame_post_draw
+		if not is_instance_valid(game) or not is_instance_valid(viewport): return
+	# Retain warm resources: freeing the last material can discard its generated
+	# shader/pipeline and turn the first real tower/effect into a cold load again.
+	viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+	viewport.process_mode = Node.PROCESS_MODE_DISABLED
 	await game.get_tree().process_frame
 
 # all model names a type may use: its skins, the default model and the fallback
@@ -350,6 +365,7 @@ static func cast_ray(context: Node3D, query: PhysicsRayQueryParameters3D) -> Dic
 	if not query.collide_with_areas or not (query.collision_mask & HITBOX_LAYER): return hit
 	var endpoint: Vector3 = hit.position if not hit.is_empty() else query.to
 	var best_distance := query.from.distance_squared_to(endpoint)
+	var candidates: Array = []
 	for zombie: Zombie in context.get_tree().get_nodes_in_group("shot_targets"):
 		if not zombie.alive or zombie.is_queued_for_deletion() or zombie._shot_volumes.is_empty() or query.exclude.has(zombie.get_rid()): continue
 		# A conservative model-space envelope includes arms, leaning poses and
@@ -359,7 +375,16 @@ static func cast_ray(context: Node3D, query: PhysicsRayQueryParameters3D) -> Dic
 			zombie._shot_model_transform = transform
 			zombie._shot_world_bounds = transform * AABB(Vector3(-3, -2, -3), Vector3(6, 7, 6))
 			zombie._shot_has_bounds = true
-		if not zombie._shot_world_bounds.intersects_segment(query.from, endpoint) and not zombie._shot_world_bounds.has_point(query.from): continue
+		var bounds := zombie._shot_world_bounds
+		var entry: Variant = bounds.intersects_segment(query.from, endpoint)
+		if bounds.has_point(query.from): candidates.append([0.0, zombie])
+		elif entry != null: candidates.append([query.from.distance_squared_to(entry), zombie])
+	# Process the nearest possible hit first. Once it is confirmed, envelopes
+	# behind it cannot occlude it and need no per-bone pose/convex tests.
+	candidates.sort_custom(func(a: Array, b: Array): return a[0] < b[0])
+	for candidate_entry: Array in candidates:
+		if float(candidate_entry[0]) > best_distance: break
+		var zombie: Zombie = candidate_entry[1]
 		for volume in zombie._shot_volumes:
 			var candidate: Dictionary = volume.intersect(query.from, endpoint, query.hit_from_inside)
 			if candidate.is_empty(): continue
@@ -410,6 +435,8 @@ func damage(n: float, dir: Vector3) -> void:
 
 var _stagger := 0.0
 var _pool: Decal
+var _pool_complete := false
+var _rare_visual_state := -1
 var _fade_t := 0.0
 
 # called by the wave system: bodies of the previous round sink away
@@ -486,18 +513,22 @@ func update_rare_visual() -> void:
 	if _rare_marker:
 		var burning := alive and rare_status.contains("fire")
 		var frozen := alive and rare_status.contains("frost")
-		_rare_marker.visible = burning or frozen
-		_rare_marker.text = "BRAND + FROST" if burning and frozen else ("BRAND" if burning else "FROST")
-		_rare_marker.modulate = Color(1, 0.4, 0.1) if burning else Color(0.3, 0.8, 1)
-		_rare_particles.emitting = burning
-		_frost_particles.emitting = frozen
+		var visual_state := int(burning) + int(frozen) * 2
+		if visual_state != _rare_visual_state:
+			_rare_visual_state = visual_state
+			_rare_marker.visible = burning or frozen
+			_rare_marker.text = "BRAND + FROST" if burning and frozen else ("BRAND" if burning else "FROST")
+			_rare_marker.modulate = Color(1, 0.4, 0.1) if burning else Color(0.3, 0.8, 1)
+			_rare_particles.emitting = burning
+			_frost_particles.emitting = frozen
+			_rare_light.visible = burning or frozen
+			_rare_light.light_color = _rare_marker.modulate
+			_rare_light.light_energy = 0.45
 		if frozen != _frost_visible:
 			_frost_visible = frozen
 			for mesh in _frost_meshes:
 				if is_instance_valid(mesh): mesh.material_overlay = _frost_surface if frozen else null
-		_rare_light.visible = burning or frozen
-		_rare_light.light_color = _rare_marker.modulate
-		_rare_light.light_energy = (0.7 + sin(Time.get_ticks_msec() * 0.017 + appearance_seed) * 0.2) if burning else 0.45
+		if burning: _rare_light.light_energy = 0.7 + sin(Time.get_ticks_msec() * 0.017 + appearance_seed) * 0.2
 
 func _physics_process(delta: float) -> void:
 	update_rare_visual()
@@ -507,23 +538,25 @@ func _physics_process(delta: float) -> void:
 	if replica:
 		global_position = global_position.lerp(net_position, 1.0-exp(-delta*16.0))
 		rotation.y = lerp_angle(rotation.y, net_yaw, 1.0-exp(-delta*16.0))
-		if not alive and is_instance_valid(_pool):
+		if not alive and is_instance_valid(_pool) and not _pool_complete:
 			dead_t += delta
 			var growth := clampf(dead_t / 9.0, 0.0, 1.0)
 			var size := 0.4 + 1.5 * (1.0 - pow(1.0 - growth, 2.0))
 			_pool.size = Vector3(size, 0.5, size * 0.85)
 			_pool.modulate.a = minf(1.0, 0.3 + growth)
+			_pool_complete = growth >= 1.0
 		return
 	if NetSession.enabled:
 		var target_player := NetSession.nearest_player(global_position)
 		if target_player: player = target_player
 	if not alive:
 		dead_t += delta
-		if _pool:
+		if _pool and not _pool_complete:
 			var g := clampf(dead_t / 9.0, 0.0, 1.0)
 			var sz := 0.4 + 1.5 * (1.0 - pow(1.0 - g, 2.0))
 			_pool.size = Vector3(sz, 0.5, sz * 0.85)
 			_pool.modulate.a = minf(1.0, 0.3 + g)
+			_pool_complete = g >= 1.0
 		if _fade_t > 0.0:
 			_fade_t -= delta
 			if _fade_t < 2.0:

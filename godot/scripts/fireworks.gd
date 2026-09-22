@@ -36,6 +36,7 @@ static func make_effect(id: String):
 	return Battery.new() if is_battery(id) else Effect.new()
 
 func setup(scene: Node3D) -> void:
+	Effect.prewarm_audio()
 	game = scene
 	var ui := CanvasLayer.new()
 	ui.layer = 6
@@ -69,7 +70,7 @@ func buy_error(p: Player, id: String) -> String:
 	if not p.alive: return "Du bist ausser Gefecht."
 	if int(stock(p.peer_id)[id]) + int(d.pack) > int(d.limit) or count(p.peer_id) + int(d.pack) > CAPACITY:
 		return "Feuerwerktasche voll für dieses Paket."
-	if p.score < int(d.price): return "Zu wenig Punkte: %d P benötigt." % d.price
+	if p.score < int(d.price): return "Zu wenig Rem Dollars: %d R benötigt." % d.price
 	return ""
 
 func buy(p: Player, id: String) -> String:

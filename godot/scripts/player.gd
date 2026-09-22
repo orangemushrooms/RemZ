@@ -62,8 +62,14 @@ var peer_id := 1
 var remote_actor := false
 var cash_cooldown := 0.0
 var mounted_tower := 0
+var _motion_from := Vector3.ZERO
+var _motion_to := Vector3.ZERO
+var _motion_ready := false
+var _camera_motion_offset := Vector3.ZERO
 
 func _ready() -> void:
+	# Update the view before weapon alignment and HUD projection each render frame.
+	process_priority = -20
 	collision_layer = 4
 	collision_mask = 1 | 8
 	var shape := CollisionShape3D.new()
@@ -139,7 +145,31 @@ func _unhandled_input(event: InputEvent) -> void:
 			if not message.is_empty(): hud.message(message, 1.4)
 		get_viewport().set_input_as_handled()
 
+func _restore_camera_motion() -> void:
+	if camera and _camera_motion_offset != Vector3.ZERO:
+		camera.position -= _camera_motion_offset
+	_camera_motion_offset = Vector3.ZERO
+
+func _process(_delta: float) -> void:
+	_update_camera_motion(Engine.get_physics_interpolation_fraction())
+
+func _update_camera_motion(fraction: float) -> void:
+	_restore_camera_motion()
+	if remote_actor or not active or not alive or mounted_tower or not is_physics_processing() or not _motion_ready: return
+	# Teleports/network corrections must snap, never sweep through the map.
+	if not global_position.is_equal_approx(_motion_to):
+		_motion_ready = false
+		return
+	# Blend translation between physics ticks. Mouse look remains immediate and
+	# collision, movement speed, hit timing and recoil retain their original tick.
+	var position_on_frame := _motion_from.lerp(_motion_to, fraction)
+	_camera_motion_offset = head.global_basis.inverse() * (position_on_frame - global_position)
+	camera.position += _camera_motion_offset
+
 func _physics_process(delta: float) -> void:
+	_restore_camera_motion()
+	_motion_ready = false
+	_motion_from = global_position
 	cash_cooldown = maxf(0.0, cash_cooldown - delta)
 	if not NetSession.is_client() and alive and not get_tree().paused:
 		Mushrooms.tick(mushroom_effects, delta)
@@ -177,6 +207,8 @@ func _physics_process(delta: float) -> void:
 	# keep inside the map
 	global_position.x = clampf(global_position.x, Map.BOUNDS.position.x, Map.BOUNDS.end.x)
 	global_position.z = clampf(global_position.z, Map.BOUNDS.position.y, Map.BOUNDS.end.y)
+	_motion_to = global_position
+	_motion_ready = true
 	var moving := Vector2(velocity.x, velocity.z).length() > 0.5
 	_footsteps(delta, moving, sprint)
 	bob += delta * ((13.0 if sprint else 9.0) if moving else 0.0)

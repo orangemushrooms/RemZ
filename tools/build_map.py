@@ -1,14 +1,14 @@
 """Builds the Waldhütte Remetschwil map data for the game from input/geo (see geo_fetch.py).
 Outputs (committed, loaded by godot/scripts/map.gd):
   godot/assets/map/heightmap.f32   float32 LE, rows = z (south), cols = x (east), 1 m grid, metres above origin
-  godot/assets/map/ground.png      R = forest floor, G = meadow, B = gravel (0..255), same grid
+  godot/assets/map/ground.png      R = forest floor, G = meadow, B = gravel (0..255), 0.25 m grid
   godot/assets/map/map.json        extent, roads, buildings, campsite objects, fence, spawns, barricades, trees
   tools/out/map_preview.png        aerial + overlays for checking
   tools/out/terrain_viewer.html    standalone 3D viewer of the terrain (three.js)
 Coordinates: x east, z south, origin = Feuerstelle (OSM node 427671292), heights relative to the origin.
-Usage: python tools/build_map.py
+Usage: python tools/build_map.py [--surface-only]
 """
-import os, json, math, base64, io, struct
+import os, json, math, base64, io, struct, sys
 import numpy as np, tifffile
 from PIL import Image, ImageDraw
 from scipy import ndimage
@@ -29,7 +29,7 @@ ROADS = [
     {"name": "Weg zur Hütte", "surface": "gravel", "width": 3.4,
      "pts": [[124, 21], [100, 32], [70, 41], [53, 47.5], [30, 54.5], [7, 61]]},
     {"name": "Waldweg zwischen Hütten", "surface": "gravel", "width": 4.5,
-     "pts": [[7, 61], [6, 44], [6.5, 30], [5, 18], [3, 12]]},
+     "pts": [[7, 61], [6, 44], [6.5, 30], [5, 18], [3, 12], [0, 6], [-2, 0], [-4, -11]]},
     {"name": "Waldweg nach Hütte (Oberer Sorchen)", "surface": "gravel", "width": 3.6,
      "pts": [[-4, -11], [-9, -21], [-18, -34], [-29, -49], [-33, -56], [-57, -112], [-69, -141], [-73, -152], [-80, -173], [-97, -207], [-115, -247], [-125, -275]]},
     {"name": "Weg Richtung Dorf", "surface": "gravel", "width": 3.2,
@@ -60,14 +60,11 @@ def smooth(pts, step=3.0):
     return out
 for _r in ROADS:
     _r["pts"] = smooth(_r["pts"])
-# gravel clearing around the fire, the aprons of both huts
-# Kiesplatz: fire plaza north-west of the Waldhütte (photos 13, 14, 15, 20), the track between the huts, both aprons
+# Open, walkable clearing around the fire and both huts. Its ground is forest
+# soil and leaf litter; only the mapped paths receive gravel.
 CLEARING = [[-11, -16], [-4, -17], [3, -17], [9, -15], [13, -12], [13.5, -0.8], [6.2, 0.2], [5.6, 8.5], [7, 18], [12, 40], [11, 58], [3, 63], [0, 44], [-1, 20], [-5, 10], [-9, 2], [-11, -12]]
 # the level fire plaza (terrain), see the height section
 PLAZA = [[-10, -18], [-3, -20], [6, -19], [12, -16], [14.5, -10], [14, -1], [6, 1.5], [-3, 0], [-9, -3], [-12, -9]]
-# Photos 15, 18, 20: the benches and the fire stand on fine grey gravel; only the north-west part of the plaza
-# (picnic table, fountain, under the big beeches) is earth with leaf litter.
-CAMP_FOREST_FLOOR = [[-13, -21], [-6, -23], [-1, -19.5], [-3.5, -14.5], [-6.5, -11], [-13, -9]]
 # The dark crop south-west of Feldweg West is farmland, not tree crowns. Keep the
 # whole downhill field open across Weg Richtung Dorf and out towards the village.
 MEADOW_FORCE = [[-400, -120], [-190, -120], [-166, -100], [-138, -59], [-118, -16], [-92, 27], [-80, 47], [-70, 64], [-70, 78], [-8, 68], [12, 64], [30, 58], [55, 51], [90, 36], [125, 29], [150, 29], [150, 260], [-400, 260]]
@@ -141,11 +138,64 @@ def poly_mask(pts, grow=0.0):
     return m
 
 def line_dist(pts):
-    """distance field (m) to a polyline on the 1 m grid"""
+    """Coarse distance for terrain grading, not for visible road edges."""
     im = Image.new("L", (W, H), 0)
     d = ImageDraw.Draw(im)
     d.line([(x - X0, z - Z0) for x, z in pts], fill=255, width=1)
     return ndimage.distance_transform_edt(np.array(im) == 0)
+
+def surface_road_distance(pts, scale=4, reach=5.0):
+    """Exact segment distances in a narrow band, without snapping the centreline.
+
+    Work only in each segment's bounding box; all this runs offline, never in
+    the game. Clipped distances outside the band are sufficient for blending.
+    """
+    result = np.full((H * scale, W * scale), reach, np.float32)
+    for a, b in zip(pts, pts[1:]):
+        lo = np.floor((np.minimum(a, b) - reach - [X0, Z0]) * scale).astype(int)
+        hi = np.ceil((np.maximum(a, b) + reach - [X0, Z0]) * scale).astype(int) + 1
+        x0, z0 = np.maximum(lo, 0)
+        x1, z1 = np.minimum(hi, [W * scale, H * scale])
+        if x0 >= x1 or z0 >= z1:
+            continue
+        x = X0 + np.arange(x0, x1, dtype=np.float32)[None, :] / scale
+        z = Z0 + np.arange(z0, z1, dtype=np.float32)[:, None] / scale
+        dx, dz = np.subtract(b, a)
+        t = np.clip(((x - a[0]) * dx + (z - a[1]) * dz) / max(dx * dx + dz * dz, 1e-12), 0, 1)
+        distance = np.hypot(x - a[0] - t * dx, z - a[1] - t * dz)
+        view = result[z0:z1, x0:x1]
+        np.minimum(view, distance, out=view)
+    return result
+
+def save_surface_cover():
+    """Bake continuous road shoulders over the existing forest/meadow layout."""
+    scale = 4
+    zz, xx = np.mgrid[:H * scale, :W * scale].astype(np.float32) / scale
+
+    def resample(plane):
+        return ndimage.map_coordinates(plane, [zz, xx], order=1, mode="nearest")
+
+    soil = resample(terrain_leaf)
+    soil[in_west_field(xx + X0, zz + Z0)] = 0
+    stone = np.zeros_like(soil)
+    paved = np.zeros_like(soil)
+    for road in ROADS:
+        distance = surface_road_distance(road["pts"], scale)
+        # A narrow, smooth shoulder centred on the authored road width.
+        t = np.clip((road["width"] * 0.5 + 0.4 - distance) / 0.8, 0, 1)
+        weight = t * t * (3 - 2 * t)
+        if road["surface"] == "asphalt":
+            paved = np.maximum(paved, weight)
+        else:
+            stone = np.maximum(stone, weight * (0.6 if road["surface"] == "dirt" else 1.0))
+    stone = np.maximum(stone, resample(pond_bed))
+    soil *= (1 - stone) * (1 - paved) * (1 - resample(pond_grass))
+    grass = np.clip(1 - soil - stone - paved, 0, 1)
+    cover = np.stack([soil, grass, stone], axis=2)
+    campsite_distance = np.hypot(xx + X0 - SMALL_CAMPSITE["pos"][0], zz + Z0 - SMALL_CAMPSITE["pos"][1])
+    campsite = np.clip((SMALL_CAMPSITE["radius"] - campsite_distance) / 0.9, 0, 1)[..., None]
+    cover = cover * (1 - campsite) + np.array([0.45, 0.0, 0.55]) * campsite
+    Image.fromarray(np.rint(cover * 255).astype(np.uint8)).save(os.path.join(OUT, "ground.png"))
 
 def rect_pts(b, grow=0.0):
     cx, cz = b["pos"]; sx, sz = b["size"]; a = math.radians(b["yaw_deg"])
@@ -295,8 +345,6 @@ for r in ROADS:
     else:
         gravel = np.maximum(gravel, wgt * 0.6)
 forest &= road_d > 2.0
-road_gravel = gravel.copy()
-gravel = np.maximum(gravel, np.clip(1.0 - cd / 1.5, 0, 1))
 forest_f = ndimage.gaussian_filter(forest.astype(np.float32), 1.5)
 leaf = np.clip(forest_f * 1.3, 0, 1)
 # leaf litter also under the clearing's trees and around the huts (photos 14, 19)
@@ -305,11 +353,11 @@ leaf = np.maximum(leaf, np.clip(1.0 - np.hypot(jj + Z0 - 8, ii + X0 - 12) / 14.0
 pond_bed = np.clip(1.0 - (pd - POND["r"] + 1.0) / 1.5, 0, 1)      # sandy bed under the water
 pond_grass = np.clip(1.0 - (pd - POND["r"] - 1.0) / 3.0, 0, 1)      # grassy bank around it
 gravel = np.maximum(gravel, pond_bed)
-# Blend the campsite into the surrounding forest floor without planting trees on the plaza.
-camp_leaf = ndimage.gaussian_filter(poly_mask(CAMP_FOREST_FLOOR).astype(np.float32), 1.2)
-camp_leaf *= 1.0 - road_gravel
-gravel *= 1.0 - camp_leaf
+# Soil throughout the clearing, fading into the existing forest floor at its
+# perimeter. Keep vegetation exclusions separate: the camp remains accessible.
+camp_leaf = np.clip(1.0 - cd / 3.0, 0, 1)
 leaf = np.maximum(leaf, camp_leaf)
+terrain_leaf = leaf.copy()  # Unmasked biome cover for the fine road-edge bake.
 leaf *= 1.0 - gravel
 leaf *= 1.0 - asphalt
 leaf *= 1.0 - pond_grass
@@ -318,6 +366,21 @@ ground = np.stack([leaf, meadow, gravel], axis=2)
 small_soil = np.clip((SMALL_CAMPSITE["radius"] - small_d) / 0.9, 0, 1)[:, :, None]
 ground = ground * (1.0 - small_soil) + np.array([0.45, 0.0, 0.55]) * small_soil
 # Written after the precise field exclusions below, together with vegetation.
+if "--surface-only" in sys.argv:
+    # Rebuild only terrain materials and their road definitions. Preserve the
+    # existing height assets, vegetation, buildings and other gameplay layout.
+    west_field = in_west_field(ii + X0, jj + Z0)
+    ground[west_field, 1] = np.clip(ground[west_field, 1] + ground[west_field, 0], 0, 1)
+    ground[west_field, 0] = 0
+    save_surface_cover()
+    layout_path = os.path.join(OUT, "map.json")
+    with open(layout_path, encoding="utf-8") as source:
+        layout = json.load(source)
+    layout["roads"] = ROADS
+    with open(layout_path, "w", encoding="utf-8") as destination:
+        json.dump(layout, destination, ensure_ascii=False, separators=(",", ":"))
+    print("Updated forest-floor cover and connected gravel paths; other map data preserved.")
+    sys.exit(0)
 Image.fromarray((asphalt * 255).astype(np.uint8), "L").save(os.path.join(TOUT, "asphalt_mask.png"))
 
 # ------------------------------------------------------------------ 3. trees from the forest mask + aerial colour
@@ -545,7 +608,7 @@ forest &= ~west_field
 # also clears the minimap forest shading and the runtime deep-forest blockers.
 ground[west_field, 1] = np.clip(ground[west_field, 1] + ground[west_field, 0], 0, 1)
 ground[west_field, 0] = 0
-Image.fromarray((ground * 255).astype(np.uint8), "RGB").save(os.path.join(OUT, "ground.png"))
+save_surface_cover()
 print("trees", len(trees), "shrubs", len(shrubs), "ferns", len(ferns), "logs", len(logs), "border", len(border), "village", len(village), "forest cells", int(forest.sum()))
 
 # ------------------------------------------------------------------ 4. write

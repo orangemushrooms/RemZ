@@ -56,6 +56,9 @@ var leaderboard: CanvasLayer
 var difficulty: Dictionary = GameSettings.DIFFICULTIES[1]
 var navigation_ready := false
 var _perimeter_navigation_dirty := false
+var _navigation_baking := false
+var _navigation_task := -1
+var _navigation_geometry = preload("res://scripts/navigation_geometry.gd").new()
 var _alive_count := 0
 var render_stats := {}
 
@@ -199,15 +202,15 @@ func _ready() -> void:
 	settings.add_controls(hud.settings_box, false)
 	player.regen_mul = float(difficulty["regen"])
 	settings.apply()
-	for sound in ["pistol", "revolver", "smg", "ak47", "shotgun", "reload", "empty", "hit", "hurt", "growl", "build", "wave", "wood", "wood_hit", "boom", "pickup",
-			"zombie_death", "melee", "melee_stab", "grenade_throw", "grenade_bounce", "heartbeat", "land", "weapon_switch", "door_close", "crash"]:
-		Sfx.get_stream(sound)
+	Sfx.prewarm()
+	TitanPresence.for_scene(self).prewarm()
+	preload("res://scripts/bullet_impacts.gd").prewarm()
 	Zombie.preload_models()
 	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein. Die Zombies gehen auch auf die Waldhütte selbst los: fällt sie, ist die Runde verloren. Repariere sie mit E an ihrer Wand.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
 	hud.overlay_button.disabled = true
 	hud.set_loading(true)
-	nav_region.bake_finished.connect(_navigation_baked)
-	nav_region.bake_navigation_mesh(true)
+	_navigation_geometry.prepare(self, nav_region.navigation_mesh, perimeter)
+	_bake_navigation()
 	if "--shot-menu" in _flags:
 		_shot_menu()
 	get_tree().paused = true
@@ -227,9 +230,32 @@ func _perimeter_changed() -> void:
 	call_deferred("_refresh_perimeter_navigation")
 
 func _refresh_perimeter_navigation() -> void:
-	if not navigation_ready or nav_region.is_baking() or not _perimeter_navigation_dirty: return
+	if not navigation_ready or _navigation_baking or not _perimeter_navigation_dirty: return
 	_perimeter_navigation_dirty = false
-	nav_region.bake_navigation_mesh(true)
+	_bake_navigation()
+
+func _bake_navigation() -> void:
+	_navigation_baking = true
+	# Keep the published mesh intact until the replacement is complete. Several
+	# builds/destructions during a bake coalesce into one follow-up update.
+	var next_mesh := nav_region.navigation_mesh.duplicate() as NavigationMesh
+	var mask: int = _navigation_geometry.layout_mask(perimeter)
+	var completed := func(mesh: NavigationMesh, worker_ms: float):
+		if not is_inside_tree(): return
+		if _navigation_task != -1:
+			WorkerThreadPool.wait_for_task_completion(_navigation_task)
+			_navigation_task = -1
+		var start := Time.get_ticks_usec()
+		nav_region.navigation_mesh = mesh
+		_navigation_baking = false
+		if "--profile-navigation" in _flags: print("NAVIGATION_BAKE worker_ms=", worker_ms, " publish_ms=", (Time.get_ticks_usec() - start) / 1000.0)
+		_navigation_baked()
+	_navigation_task = WorkerThreadPool.add_task(_navigation_geometry.bake.bind(next_mesh, mask, completed), false, "Palisade navigation")
+
+func _exit_tree() -> void:
+	if _navigation_task != -1:
+		WorkerThreadPool.wait_for_task_completion(_navigation_task)
+		_navigation_task = -1
 
 func _navigation_baked() -> void:
 	if navigation_ready:
@@ -615,7 +641,8 @@ func _build_roads() -> void:
 		if road.surface == "asphalt":
 			_road_mesh(road.pts, road.width, 0.04, asphalt, false)
 
-	preload("res://scripts/forest_road_details.gd").build(self)
+	# The terrain material supplies fine gravel. Do not scatter the oversized
+	# gravel-cluster model along the paths: it reads as repeated piles of rubble.
 
 # ---------------------------------------------------------------- models
 var _scenes := {}
@@ -2304,7 +2331,7 @@ func _game_over() -> void:
 	if NetSession.enabled:
 		if NetSession.world: NetSession.world.check_team()
 		return
-	_end_round("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score])
+	_end_round("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Rem Dollars." % [waves.completed, "" if waves.completed == 1 else "n", player.score])
 
 # the Waldhütte fell: the round is lost even with everyone alive
 func _hut_lost() -> void:
@@ -2312,7 +2339,7 @@ func _hut_lost() -> void:
 	if NetSession.enabled:
 		if NetSession.world: NetSession.world.hut_lost()
 		return
-	_end_round("HÜTTE VERLOREN", "Die Waldhütte ist zerstört. Du hast %d Welle%s überstanden mit %d Punkten." % [waves.completed, "" if waves.completed == 1 else "n", player.score])
+	_end_round("HÜTTE VERLOREN", "Die Waldhütte ist zerstört. Du hast %d Welle%s überstanden mit %d Rem Dollars." % [waves.completed, "" if waves.completed == 1 else "n", player.score])
 
 func _end_round(title: String, text: String) -> void:
 	if over: return
@@ -2328,6 +2355,8 @@ func _end_round(title: String, text: String) -> void:
 
 func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimum_distance := 0.0) -> bool:
 	if NetSession.is_client(): return false
+	var profile := Zombie.is_titan_kind(type) and "--profile-spawn" in _flags
+	var timings: Array = [Time.get_ticks_usec()] if profile else []
 	var spawn := Map.ground_pos(p.x, p.y)
 	var nav_map := nav_region.get_navigation_map()
 	if minimum_distance > 0.0 and NavigationServer3D.map_get_iteration_id(nav_map) == 0:
@@ -2347,6 +2376,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 			var offset: Vector3 = spawn - actor.global_position
 			if Vector2(offset.x, offset.z).length_squared() < minimum_distance * minimum_distance:
 				return false
+	if profile: timings.append(Time.get_ticks_usec())
 	var z: Zombie = Titan.new() if Zombie.is_titan_kind(type) else Zombie.new()
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	z.hp *= float(difficulty["hp"])
@@ -2358,18 +2388,21 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 			for peer in NetSession.ready_peers:
 				if peer != 1: NetSession.feedback(peer, "message", [message, 5.0])
 	z.max_hp = z.hp
+	if profile: timings.append(Time.get_ticks_usec())
 	var lane_slots := {"north": 0, "east": 1, "south": 2, "west": 3}
 	if lane_slots.has(lane): z.lane_bar = barricades[lane_slots[lane]]
 	z.damage_mul = float(difficulty["dmg"])
 	zombies_root.add_child(z)
+	if profile: timings.append(Time.get_ticks_usec())
 	z.global_position = spawn + Vector3(0, 0.2, 0)
 	_alive_count += 1
 	z.tree_exiting.connect(func():
 		if z.alive:
 			_alive_count = maxi(0, _alive_count - 1))
+	if profile: print("TITAN_SPAWN_MS navigation=", (timings[1] - timings[0]) / 1000.0, " setup=", (timings[2] - timings[1]) / 1000.0, " ready=", (timings[3] - timings[2]) / 1000.0)
 	return true
 
-# Points are the only currency (barricades, towers, vendors). Kills pay 60 % of the type value so the
+# Rem Dollars are the only currency (barricades, towers, vendors). Kills pay 60 % of the type value so the
 # first barricade takes most of wave 1 and gates, towers and guns have to be earned wave by wave.
 const KILL_VALUE := 0.6
 
@@ -2473,7 +2506,7 @@ func _process(delta: float) -> void:
 		var hunt_interact: bool = not downed and loot == null and tower == null and near == null and (meat_drop >= 0 or grill)
 		if hunt_interact: npc = ""
 		var reading_notice := _looking_at_notice() and not downed
-		var idle_prompt := "[T] Turmbaumenü · ab 120 P" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
+		var idle_prompt := "[T] Turmbaumenü · ab 120 R" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
 		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
 		if hut_fix: idle_prompt = hut.prompt_text()
 		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("Turm besetzt" if tower and tower.operator_peer else "[E] Aufsteigen / Bedienen · [R] Ausrichten · [F] Reparieren\nReichweite %d m · heller Sektor: Automatik" % roundi(tower.attack_range()) if tower else (near.prompt_text() if near else idle_prompt))))

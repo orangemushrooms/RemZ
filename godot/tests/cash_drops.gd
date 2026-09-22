@@ -91,7 +91,7 @@ func run() -> void:
 	NetSession.world._apply_drops(snapshot.drops)
 	var replica: Pickup = NetSession.world.drops.values()[0]
 	replica.set_physics_process(false)
-	check(replica.amount == 100 and replica.owner_peer == 2 and replica._mesh.find_children("*", "Label3D", true, false)[0].text == "100 P", "Receiving snapshot creates visible cash with correct value")
+	check(replica.amount == 100 and replica.owner_peer == 2 and replica._mesh.find_children("*", "Label3D", true, false)[0].text == "100 R", "Receiving snapshot creates visible cash with correct value")
 	NetSession.world._apply_drops({})
 	check(replica.is_queued_for_deletion() and NetSession.world.drops.is_empty(), "Later snapshot removes collected cash from receiving world")
 	NetSession.world.collect_drop(drop, 2)

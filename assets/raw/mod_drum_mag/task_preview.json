@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca4c-6917-70c4-9f1c-7bb03fa9d999",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 797143006,
+  "prompt": "game asset, Thompson style round drum magazine for a submachine gun, one flat circular steel disc canister like a film reel seen from the side, thin depth, a raised round hub with a winding key in the centre of the disc face, a short narrow feed tower with feed lips sticking out at the top edge of the disc, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790100402428,
+  "progress": 100,
+  "started_at": 1790100402439,
+  "finished_at": 1790100530073,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-6917-70c4-9f1c-7bb03fa9d999/output/model.glb?Expires=4943635200&Signature=OP6GQ9oWIU1C18Dnv5BGudc0RbyDmoP2w7PLPfgKhIcDYxDetivIqN9pYPaiO~H5rDblctFt3xAWAWSntZ0WiCu~T65CnlzSmxvf6KcAs5RFElQoJZESUN-qvaKFNXFmGE8PZt41S3SaMZPdQGFhj0tGWrBzeZcVuVKLpvjtGPGD~NZwLDgBnsxMRZVkaCPblw8soQpvKTWZFymk~ayrQbMyZc8hTzfhMoiBzR9Ww6TBockgaG5-2sA0wGnB9WSEQKL7zPstiF~vVnrXfUCLCAtWt-5F6MYf743fDd9ZBxO8BOXwjHSqS01WWGvKcRLtImF-aNBHmt5LbVdXfCmTIA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-6917-70c4-9f1c-7bb03fa9d999/output/model.fbx?Expires=4943635200&Signature=guEDUVfi9L1CRoTZRPtbDbw45kdGutGVW8Tl6P85BpBegJv-EWM6WvmcXI55ZM1GAof33NhI5~JQjzEptx7EuZZYKJsZ95p9eET6arD7wtJOjCV9EMnIeq8yTNvvvbAbzI-7h0teyvSvriSzasT7THchR1U57Qa3O9rFixQvFBQHC7KOg85Ca14BUxEovze2-9y1aYfo~xjktnOqCrzA~68uUQ1Dk7HxdcNwQwcLcUb0u~MVLTx4CQ16sfAOR88GncuBhtJFyx8ujBy3BNUsNHjNOe1PT1Ejp-QGI-e0uAh2UunG5npUjEUOYmDdvhGIfreI3Jbg4L7tpWmyb5a6~A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-6917-70c4-9f1c-7bb03fa9d999/output/model.usdz?Expires=4943635200&Signature=HfiDx1FwvHCnDX27eT10P1UGxpP-a~4EUqF1OBLE-1UgCwGpUchBuSO49Sm3337TKFGapCIrlgFREyk~PcZuGgO89enaFIBjZri1Eqw-zQ926mCwnYSDctHPAjPMZxQAWYwjWoRj96XSXs5uNaqoY6BoubMin-G4MnF8EAR0idIRGK4Saac8ba-IomdEYhzjsnYqlkOVW2zo9Tll0etlmtBUAXF~bRDTOeccMW9QPO4t7w0PAIYWFx7QHYWYkuXVcVjNA6toco5EGbAYeD2s-LBf-HY7th0ryEqhxCWJE2026F8iXaSWNd~8x5h1LfubH53gPp5NOc9NGU~BePgOSA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-6917-70c4-9f1c-7bb03fa9d999/output/model.obj?Expires=4943635200&Signature=MwgiDfSUSj3T6-~kyJricb-A0OLgHg604WH~EO4FCe4RJDGICUgsWCwqxiLXa-VRBZoyNBzYkuVvELcJH4-~1K1w~hdlDWgcaPJu8IlhamdxoBtTHWXRnyej-33caLzQ-gzQ7yNyqMMqJMyDKrb-Ip6BLlyzJZILT5vCSTsSfPdy6ObCK6unyavFLrlcd-ngeGk9HvKPy4QfTYHPgU7TtsuzrtKuFbAriJ9gVqr-ayH5-Wcd0ALQx8vMAiPsgO1qIE9muqXhvFHJPDU9PdSTSbbHexiNQz2cVzLyLDK5mP6HKQz0ZLKiGH1EXqn2DVFwMNV-Q9tOw~SaGul~3h0pug__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-6917-70c4-9f1c-7bb03fa9d999/output/model.stl?Expires=4943635200&Signature=ipXwiSJrwV2lNX-Y0vzPllRas1oUUgEiHi~GVMAk80IHDPjhECekfemIsraxd4bqyxpg2qNeI6aRGZYIUKoXUeR5v8AX5V0Ulog~dfaNJFwD7C~taaxR-Vt38wuQi0XaDiaAADOxpKcWiVjNe85YflMzuwC~xS8w5nmIS0L5-IOAKVAhn-8VE2muQx3FZIlkv7r9C43SUgSOUyZzfvoLg6CFm10bl5m10Dcj4cUxhxfUQrdA-MHTlRCAnySbD~VGJ~uB8DiGr3Bt9xM1iZUGvbgMyibf6gVqkf6Dm5HmjlA9ostY~u4H-xiCpDVWOwc4LkGL5H9yc1uCOp6WHWnPWw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-6917-70c4-9f1c-7bb03fa9d999/output/preview.png?Expires=4943635200&Signature=EufbBMvcQmXEKVbc6f8VCYpFkHYOhC8rAT1kwkpHQLa~B6I57-ZU~TZWlPEMDYtKWtTOoriedS1lw3S4snKvww5qcpW-Dg7FC1p03KYMP0TdDLaIQ3fTdnFUT6weGyqPx4~9wqs3EcPulhZFtznkAgEQZdhEhnibmIqKm3Mnk6c7y5d4HSVH52dVD2~bdQwznWIVSIMUjXPMgpptmBN1B-vqqyNaG1nsdEZTn50V1PblSjgTgwOvVDEDJfVCvtrtylYcbtTkhbD-p8bnUw9g1GMHJ3dteXJzAFw3EmiOxtfGgVXLenW4f82QEjr0oiO9I36fRDblMjX3A90FgyL5zg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

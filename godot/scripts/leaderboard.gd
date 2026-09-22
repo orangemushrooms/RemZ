@@ -40,7 +40,7 @@ func setup(node: Node) -> void:
 	box.add_child(_label("LEADERBOARD", 28, Hud.PAPER))
 	subtitle = _label("", 16, Hud.GOLD)
 	box.add_child(subtitle)
-	box.add_child(_row(["#", "SPIELER", "KILLS", "HEADSHOTS", "DEATHS", "TITAN KILLS", "ASSISTS", "PUNKTE", "PING"], true))
+	box.add_child(_row(["#", "SPIELER", "KILLS", "HEADSHOTS", "DEATHS", "TITAN KILLS", "ASSISTS", "REM DOLLARS", "PING"], true))
 	scroll = ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.focus_mode = Control.FOCUS_NONE
@@ -50,7 +50,7 @@ func setup(node: Node) -> void:
 	rows_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rows_box.add_theme_constant_override("separation", 4)
 	scroll.add_child(rows_box)
-	var help := _label("TAB halten · Q Aufträge · Punkte = Guthaben · Ping zum Host\nHeadshots = Kills durch Kopfschuss. Assists = Schaden beigetragen, Mitspieler erzielt den Kill.", 14, Hud.MUTED)
+	var help := _label("TAB halten · Q Aufträge · Rem Dollars = Guthaben · Ping zum Host\nHeadshots = Kills durch Kopfschuss. Assists = Schaden beigetragen, Mitspieler erzielt den Kill.", 14, Hud.MUTED)
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(help)
 	panel.hide()

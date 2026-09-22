@@ -2,7 +2,7 @@ extends RefCounted
 
 # Game items: a single catalogue drives effects, world variants and sale prices.
 const DEFS := {
-	"goldroehrling": {"name": "Goldröhrling", "text": "Extrem seltener Verkaufsfund · 1000 Punkte beim Vendor. Nicht zum Essen.", "heal": 0.0, "sell": 1000, "weight": 0, "collectible": true, "color": Color("efbb32")},
+	"goldroehrling": {"name": "Goldröhrling", "text": "Extrem seltener Verkaufsfund · 1000 Rem Dollars beim Vendor. Nicht zum Essen.", "heal": 0.0, "sell": 1000, "weight": 0, "collectible": true, "color": Color("efbb32")},
 	"steinpilz": {"name": "Steinpilz", "text": "+25 Leben", "heal": 25.0, "sell": 8, "weight": 30, "color": Color("8c6138")},
 	"fliegenpilz": {"name": "Fliegenpilz", "text": "-15 Leben; 20 s doppelter Waffen- und Nahkampfschaden", "heal": -15.0, "duration": 20.0, "damage": 2.0, "effect": "Schaden ×2", "sell": 14, "weight": 12, "color": Color("cf302b")},
 	"pfifferling": {"name": "Pfifferling", "text": "+10 Leben; 30 s +20 % Lauftempo", "heal": 10.0, "duration": 30.0, "speed": 1.2, "effect": "Tempo +20 %", "sell": 10, "weight": 18, "color": Color("edb83d"), "cap": 0.20, "flat": 0.32},
@@ -63,7 +63,7 @@ static func consume(player, stock: Dictionary, kind: String) -> String:
 	if not player.alive: return "Essen ist momentan nicht möglich."
 	if int(stock.get(kind, 0)) <= 0: return "Keine %s im Inventar." % DEFS[kind].name
 	var spec: Dictionary = DEFS[kind]
-	if spec.get("collectible", false): return "Goldröhrling aufbewahren: beim Vendor für 1000 Punkte verkaufen."
+	if spec.get("collectible", false): return "Goldröhrling aufbewahren: beim Vendor für 1000 Rem Dollars verkaufen."
 	if float(spec.heal) > 0.0 and not spec.has("duration") and player.hp >= player.max_hp:
 		return "Gesundheit voll – der Pilz bleibt im Inventar."
 	stock[kind] -= 1

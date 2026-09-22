@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, oversized tactical charging handle bolt assembly for a rifle, machined cylindrical bolt body with a flat extended side latch paddle and a serrated grip, small locking lugs at the front, lying horizontally, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "folder": "mod_quick_action",
+  "root_task_id": "01a0ca48-4c82-7150-b03a-3ebe3119ecba",
+  "created_at": "2026-09-22T20:04:21.458561",
+  "updated_at": "2026-09-22T20:04:21.458580",
+  "tasks": [
+    {
+      "task_id": "01a0ca48-4c82-7150-b03a-3ebe3119ecba",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-22T20:04:21.458578"
+    }
+  ]
+}

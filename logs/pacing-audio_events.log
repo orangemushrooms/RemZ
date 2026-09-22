@@ -1,0 +1,62 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Recorded clip loads: consume_1
+AUDIO_LENGTH consume_1 0.58167803287506
+PASS: Recorded clip loads: consume_2
+AUDIO_LENGTH consume_2 0.3809070289135
+PASS: Recorded clip loads: consume_3
+AUDIO_LENGTH consume_3 0.25181406736374
+PASS: Recorded clip loads: gun_pick_up
+AUDIO_LENGTH gun_pick_up 2.81213140487671
+PASS: Recorded clip loads: mushroom_pickup
+AUDIO_LENGTH mushroom_pickup 1.05793654918671
+PASS: Recorded clip loads: key_Pickup
+AUDIO_LENGTH key_Pickup 4.11507940292358
+PASS: Recorded clip loads: gun_pick_up
+AUDIO_LENGTH gun_pick_up 2.81213140487671
+PASS: Recorded clip loads: acceppt_1
+AUDIO_LENGTH acceppt_1 2.22362804412842
+PASS: Recorded clip loads: acceppt_2
+AUDIO_LENGTH acceppt_2 1.7329478263855
+PASS: Recorded clip loads: quest_aaccept_Finish
+AUDIO_LENGTH quest_aaccept_Finish 4.06160974502563
+PASS: Recorded clip loads: gun_pick_up
+AUDIO_LENGTH gun_pick_up 2.81213140487671
+PASS: Recorded clip loads: vendor_vocal_1
+AUDIO_LENGTH vendor_vocal_1 4.89442157745361
+PASS: Recorded clip loads: vendor_vocal_2
+AUDIO_LENGTH vendor_vocal_2 3.57977318763733
+PASS: Recorded clip loads: vendor_vocal_3
+AUDIO_LENGTH vendor_vocal_3 5.64126968383789
+PASS: Recorded clip loads: secret_vendor_vocal
+AUDIO_LENGTH secret_vendor_vocal 5.70047616958618
+PASS: Recorded clip loads: mechanic_vocal
+AUDIO_LENGTH mechanic_vocal 2.78639459609985
+PASS: Recorded clip loads: mechanic_vocal_2
+AUDIO_LENGTH mechanic_vocal_2 1.39319729804993
+PASS: Recorded clip loads: mechanic_vocal_3
+AUDIO_LENGTH mechanic_vocal_3 1.4164172410965
+PASS: Recorded clip loads: achievement
+AUDIO_LENGTH achievement 1.1946485042572
+PASS: Recorded clip loads: mara_sfx_good_morning
+AUDIO_LENGTH mara_sfx_good_morning 1.60215413570404
+PASS: Recorded clip loads: mara_sfx_hello
+AUDIO_LENGTH mara_sfx_hello 2.00598645210266
+PASS: Recorded clip loads: mara_sfx_good_evening
+AUDIO_LENGTH mara_sfx_good_evening 2.22664403915405
+PASS: Recorded clip loads: mara_sfx_good_night
+AUDIO_LENGTH mara_sfx_good_night 1.65947842597961
+PASS: Accept variants do not repeat immediately
+PASS: Quest feedback plays while solo shop is paused
+PASS: Feedback preserves the recorded pitch
+PASS: Remote player feedback does not play on host
+PASS: Old session sound feedback is ignored
+PASS: Authoritative feedback plays the recipient sound
+PASS: Daylight track loads under its own file name
+PASS: Morning and daytime pauses use the daylight track
+PASS: Evening and night pauses keep the night loop
+AUDIO_EVENTS_DONE checks=32 failures=0

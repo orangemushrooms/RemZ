@@ -1,0 +1,80 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Merchant hidden and nonblocking before wave five
+PASS: Hidden merchant cannot be traded with
+PASS: Wave five spawns merchant with three legendaries and fire ammo (3 relics)
+PASS: Night stock in the north forest only carries goods offered there at night
+PASS: Daylight and a new forest quarter reroll the assortment
+PASS: Merchant actually walks through the forest along navigation paths
+PASS: Merchant tour reaches all nine map sectors (9 sectors, 40 goals)
+PASS: Merchant also visits open terrain outside the forest (30 goals)
+PASS: Merchant greets with the secret vendor voice line
+PASS: Merchant has a retargeted skeletal walk animation
+PASS: Nearby customer stops merchant for trading
+PASS: Moving merchant is reachable through the real interaction check
+PASS: Legendary purchase charges once, consumes shared stock and equips
+PASS: Precision talisman supplies its actual combat modifier
+PASS: Owned talisman equips without another payment
+PASS: Fire pack enables twenty-four special shots
+PASS: Same wave never replenishes depleted stock
+PASS: Higher level rare ammunition remains gated
+PASS: Remote purchase cannot debit or grant rare items
+PASS: Full special-ammo inventory preserves money and stock
+PASS: Normal mode saves special ammunition
+PASS: Fire ammunition creates a longer flame muzzle flash
+PASS: Missed special shots still draw a visible trail
+PASS: Real missed firearm shot consumes one special round
+PASS: Real bullet hit applies burn and consumes exactly one charge
+PASS: Burn shows particles on the actual zombie
+PASS: Real frost shot hits, chills the target and consumes one charge
+PASS: Coop: a teammate's special round fires through the viewmodel-less server proxy
+PASS: Concurrent burn and frost retain both visible effects
+PASS: Frost coats the actual enemy model in ice
+PASS: Flames and ice crystals use distinct particle visuals
+PASS: Muzzle puff stays small, tight and forward instead of covering the view (0.12 m vs 0.55 m)
+PASS: Repeated pellets refresh burn without multiplying its thirty-six damage
+PASS: Frost slows a normal zombie
+PASS: Frost expires and restores movement
+PASS: Expired statuses stop both emitters and their lighting
+PASS: Frost muzzle flash casts cold blue light
+PASS: Normal ammunition restores the ordinary muzzle flash
+PASS: Titans resist most of the frost slowdown
+PASS: Burn kill preserves the shooter and never grants a phantom headshot
+PASS: Only active talisman applies; bark reduces actual incoming damage
+PASS: Tower kills cannot farm lifesteal
+PASS: Bloodstone heals real weapon kills
+PASS: Wind relic affects reload and movement
+PASS: Phoenix prevents one lethal hit
+PASS: All 14 legendaries can be bought, charge their price and equip (14 ok)
+PASS: Glutkern raises the damage multiplier used by real bullet hits
+PASS: Hirschkrone raises the movement speed multiplier
+PASS: Rabenfeder shortens the actual reload timer
+PASS: Wurzelband cuts real incoming damage by a quarter
+PASS: Moosmantel reduces damage and adds tempo
+PASS: Nebellaterne guards and adds damage
+PASS: Eulenauge tightens spread and recoil
+PASS: Stahlherz cuts the real recoil kick (3.159 -> 1.442)
+PASS: Wegzoll pays 20 % more for a real kill (6 -> 7)
+PASS: Changing talismans cannot reset Phoenix cooldown
+PASS: Next wave restores Phoenix charge
+PASS: Next wave replenishes market
+PASS: Solo shop pause also freezes trader and damage-over-time
+PASS: Wanderer opens his dedicated rare-item menu
+PASS: Remote shot payload renders frost lighting
+PASS: Remote purchase consumes shared stock but grants only buyer's ammunition
+PASS: Second buyer cannot purchase the sold-out pack
+PASS: Snapshot includes roaming position, stock and separate inventories
+PASS: Late-join state restores sold-out stock and ammunition
+PASS: Unbuilt gate does not block merchant movement
+PASS: Built gate is rejected even when the navmesh offers that path
+PASS: Swept movement cannot tunnel through a gate
+PASS: Newly blocked merchant route backs out along the travelled path
+PASS: Merchant actually walks away from the blocked gate
+PASS: Merchant can spawn in the forest even when every camp gate is built
+RARE_MARKET_DONE checks=71 failures=0

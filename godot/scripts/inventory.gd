@@ -314,7 +314,7 @@ func _refresh() -> void:
 		var count := int(main.hunting.stock(player.peer_id).get(kind, 0))
 		if count <= 0: continue
 		var spec: Dictionary = main.hunting.FOOD[kind]
-		_slot(spec.name, "%d Stück · %s" % [count, "Essen" if kind == "cooked_meat" else "Am Lager grillen"], Color(0.72, 0.34, 0.2), spec.text + "\nVerkauf: %d P pro Stück beim Vendor." % spec.sell, func():
+		_slot(spec.name, "%d Stück · %s" % [count, "Essen" if kind == "cooked_meat" else "Am Lager grillen"], Color(0.72, 0.34, 0.2), spec.text + "\nVerkauf: %d R pro Stück beim Vendor." % spec.sell, func():
 			if kind == "cooked_meat": main.hunting.request("eat")
 			else: info.text = spec.text, -1, kind, kind if kind == "cooked_meat" else "")
 	for k in MUSHROOMS:
@@ -322,9 +322,9 @@ func _refresh() -> void:
 		if n <= 0: continue
 		var md: Dictionary = MUSHROOMS[k]
 		if md.get("collectible", false):
-			_slot(md.name, "%d Stück · 1000 P Verkauf" % n, md.color, md.text, func(): info.text = md.text, -1, k)
+			_slot(md.name, "%d Stück · 1000 R Verkauf" % n, md.color, md.text, func(): info.text = md.text, -1, k)
 			continue
-		_slot(md["name"], "%d Stück  ·  Klick: essen" % n, md["color"] if n > 0 else Color(0.3, 0.3, 0.3), "WIRKUNG\n" + str(md["text"]).replace("; ", "\n") + "\n\nVERKAUF\n%d P pro Stück beim Vendor\n\nANWENDUNG\nKlick: essen · E: im Wald sammeln\nGleiche Effekte stapeln nicht. Erneutes Essen erneuert die Dauer." % md.sell, func(): _eat(k), -1, k, k)
+		_slot(md["name"], "%d Stück  ·  Klick: essen" % n, md["color"] if n > 0 else Color(0.3, 0.3, 0.3), "WIRKUNG\n" + str(md["text"]).replace("; ", "\n") + "\n\nVERKAUF\n%d R pro Stück beim Vendor\n\nANWENDUNG\nKlick: essen · E: im Wald sammeln\nGleiche Effekte stapeln nicht. Erneutes Essen erneuert die Dauer." % md.sell, func(): _eat(k), -1, k, k)
 
 	_slot_category = 4
 	if main.forest_keys:

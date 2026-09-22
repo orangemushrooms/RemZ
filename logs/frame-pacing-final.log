@@ -1,0 +1,50 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+NAVIGATION_BAKE worker_ms=808.542 publish_ms=0.171
+COOP_LOAD MAP_READY
+FRAME_PACING_STAGE {"action_ms":0.534,"alive":0,"average_fps":327.529530002602,"frames":657,"max_ms":5.723,"nodes":16242,"over_33ms":0,"over_50ms":0,"p95_ms":3.916,"p99_ms":4.287,"stage":"first_surface_steps"}
+FRAME_PACING_STAGE {"action_ms":0.135,"alive":0,"average_fps":312.397030970569,"frames":621,"max_ms":6.244,"nodes":16244,"over_33ms":0,"over_50ms":0,"p95_ms":4.186,"p99_ms":5.02,"stage":"first_bullet_mark"}
+FRAME_PACING_STAGE {"action_ms":0.0,"alive":72,"average_fps":165.590130347098,"frames":826,"max_ms":17.172,"nodes":16893,"over_33ms":0,"over_50ms":0,"p95_ms":9.107,"p99_ms":11.484,"stage":"moving_horde_72"}
+FRAME_PACING_STAGE {"action_ms":1.447,"alive":72,"average_fps":163.186858018368,"frames":324,"max_ms":12.614,"nodes":17000,"over_33ms":0,"over_50ms":0,"p95_ms":8.737,"p99_ms":9.693,"stage":"first_tower_standard"}
+FRAME_PACING_STAGE {"action_ms":1.459,"alive":72,"average_fps":150.884241410803,"frames":303,"max_ms":12.651,"nodes":17100,"over_33ms":0,"over_50ms":0,"p95_ms":9.624,"p99_ms":10.882,"stage":"first_tower_flame"}
+FRAME_PACING_STAGE {"action_ms":1.066,"alive":72,"average_fps":142.912823177862,"frames":286,"max_ms":14.155,"nodes":17202,"over_33ms":0,"over_50ms":0,"p95_ms":10.302,"p99_ms":11.738,"stage":"first_tower_mortar"}
+FRAME_PACING_STAGE {"action_ms":1.215,"alive":72,"average_fps":140.814015254017,"frames":281,"max_ms":14.025,"nodes":17298,"over_33ms":0,"over_50ms":0,"p95_ms":10.027,"p99_ms":12.296,"stage":"first_tower_mg42"}
+FRAME_PACING_STAGE {"action_ms":1.223,"alive":72,"average_fps":130.291663629856,"frames":261,"max_ms":15.2,"nodes":17399,"over_33ms":0,"over_50ms":0,"p95_ms":11.082,"p99_ms":13.263,"stage":"first_tower_tesla"}
+FRAME_PACING_STAGE {"action_ms":0.001,"alive":72,"average_fps":125.492881013462,"frames":1503,"max_ms":19.535,"nodes":17464,"over_33ms":0,"over_50ms":0,"p95_ms":11.583,"p99_ms":12.95,"stage":"combat_72_five_towers"}
+FRAME_PACING_STAGE {"action_ms":0.059,"alive":72,"average_fps":117.444110078069,"frames":706,"max_ms":17.187,"nodes":17565,"over_33ms":0,"over_50ms":0,"p95_ms":11.841,"p99_ms":13.975,"stage":"first_fire"}
+FRAME_PACING_STAGE {"action_ms":0.069,"alive":72,"average_fps":116.527487548838,"frames":698,"max_ms":18.477,"nodes":17599,"over_33ms":0,"over_50ms":0,"p95_ms":11.946,"p99_ms":14.356,"stage":"first_frost"}
+NAVIGATION_BAKE worker_ms=732.848 publish_ms=0.133
+FRAME_PACING_STAGE {"action_ms":0.39,"alive":72,"average_fps":127.239455030164,"frames":1018,"max_ms":27.889,"nodes":17615,"over_33ms":0,"over_50ms":0,"p95_ms":11.429,"p99_ms":13.769,"stage":"build_perimeter_in_combat"}
+NAVIGATION_BAKE worker_ms=702.786 publish_ms=0.12
+FRAME_PACING_STAGE {"action_ms":0.464,"alive":72,"average_fps":127.299782601512,"frames":1017,"max_ms":26.468,"nodes":17584,"over_33ms":0,"over_50ms":0,"p95_ms":11.479,"p99_ms":13.183,"stage":"destroy_perimeter_in_combat"}
+FRAME_PACING_STAGE {"action_ms":9.752,"alive":0,"average_fps":191.387367023554,"frames":570,"max_ms":22.913,"nodes":17808,"over_33ms":0,"over_50ms":0,"p95_ms":6.987,"p99_ms":8.887,"score_cpu_ms":5.257,"stage":"mass_deaths"}
+FRAME_PACING_STAGE {"action_ms":0.195,"alive":0,"average_fps":269.348625241291,"frames":810,"max_ms":9.705,"nodes":17284,"over_33ms":0,"over_50ms":0,"p95_ms":4.679,"p99_ms":5.093,"stage":"corpse_cleanup"}
+FRAME_PACING_STAGE {"action_ms":0.828,"alive":0,"average_fps":263.853126224255,"frames":394,"max_ms":7.407,"nodes":17285,"over_33ms":0,"over_50ms":0,"p95_ms":4.806,"p99_ms":5.337,"stage":"weapon_knife"}
+FRAME_PACING_STAGE {"action_ms":1.198,"alive":0,"average_fps":274.776818683227,"frames":413,"max_ms":5.773,"nodes":17286,"over_33ms":0,"over_50ms":0,"p95_ms":4.608,"p99_ms":4.985,"stage":"weapon_hatchet"}
+FRAME_PACING_STAGE {"action_ms":1.42,"alive":0,"average_fps":264.876387674686,"frames":396,"max_ms":6.408,"nodes":17288,"over_33ms":0,"over_50ms":0,"p95_ms":4.98,"p99_ms":5.939,"stage":"weapon_pistol"}
+FRAME_PACING_STAGE {"action_ms":1.294,"alive":0,"average_fps":260.709357321275,"frames":389,"max_ms":7.985,"nodes":17290,"over_33ms":0,"over_50ms":0,"p95_ms":5.07,"p99_ms":5.966,"stage":"weapon_revolver"}
+FRAME_PACING_STAGE {"action_ms":1.207,"alive":0,"average_fps":269.510774412125,"frames":403,"max_ms":6.745,"nodes":17291,"over_33ms":0,"over_50ms":0,"p95_ms":4.729,"p99_ms":5.451,"stage":"weapon_smg"}
+FRAME_PACING_STAGE {"action_ms":1.851,"alive":0,"average_fps":267.201870013287,"frames":401,"max_ms":7.727,"nodes":17292,"over_33ms":0,"over_50ms":0,"p95_ms":4.535,"p99_ms":5.017,"stage":"weapon_ak47"}
+FRAME_PACING_STAGE {"action_ms":1.703,"alive":0,"average_fps":256.930466362078,"frames":386,"max_ms":6.143,"nodes":17297,"over_33ms":0,"over_50ms":0,"p95_ms":4.816,"p99_ms":5.708,"stage":"weapon_shotgun"}
+FRAME_PACING_STAGE {"action_ms":1.437,"alive":0,"average_fps":224.140765769544,"frames":334,"max_ms":8.376,"nodes":17298,"over_33ms":0,"over_50ms":0,"p95_ms":5.628,"p99_ms":6.79,"stage":"weapon_marksman"}
+FRAME_PACING_STAGE {"action_ms":2.247,"alive":0,"average_fps":215.783087580372,"frames":321,"max_ms":7.268,"nodes":17300,"over_33ms":0,"over_50ms":0,"p95_ms":5.981,"p99_ms":6.61,"stage":"weapon_lmg"}
+FRAME_PACING_STAGE {"action_ms":1.865,"alive":0,"average_fps":206.06193121772,"frames":311,"max_ms":9.964,"nodes":17303,"over_33ms":0,"over_50ms":0,"p95_ms":6.641,"p99_ms":7.817,"stage":"weapon_breacher"}
+FRAME_PACING_STAGE {"action_ms":2.16,"alive":0,"average_fps":251.545495524503,"frames":375,"max_ms":7.337,"nodes":17304,"over_33ms":0,"over_50ms":0,"p95_ms":5.188,"p99_ms":5.926,"stage":"weapon_titanbreaker"}
+FRAME_PACING_STAGE {"action_ms":0.671,"alive":0,"average_fps":271.305524983184,"frames":1358,"max_ms":7.244,"nodes":17309,"over_33ms":0,"over_50ms":0,"p95_ms":4.729,"p99_ms":5.316,"stage":"first_grenade"}
+FRAME_PACING_STAGE {"action_ms":98.45,"alive":1,"average_fps":226.141847097524,"frames":902,"max_ms":111.712,"nodes":17323,"over_33ms":1,"over_50ms":1,"p95_ms":6.026,"p99_ms":7.29,"stage":"first_titan"}
+FRAME_PACING_STAGE {"action_ms":1.262,"alive":1,"average_fps":260.807883706715,"frames":1042,"max_ms":7.637,"nodes":17324,"over_33ms":0,"over_50ms":0,"p95_ms":4.726,"p99_ms":5.308,"stage":"titan_strike"}
+FRAME_PACING_STAGE {"action_ms":0.384,"alive":0,"average_fps":266.227401470321,"frames":1329,"max_ms":7.738,"nodes":17335,"over_33ms":0,"over_50ms":0,"p95_ms":4.473,"p99_ms":5.137,"stage":"first_fw_ruby"}
+FRAME_PACING_STAGE {"action_ms":0.416,"alive":0,"average_fps":268.280162112439,"frames":1341,"max_ms":7.272,"nodes":17206,"over_33ms":0,"over_50ms":0,"p95_ms":4.59,"p99_ms":5.155,"stage":"first_fw_gold"}
+FRAME_PACING_STAGE {"action_ms":0.383,"alive":0,"average_fps":276.789490084912,"frames":1383,"max_ms":7.466,"nodes":17203,"over_33ms":0,"over_50ms":0,"p95_ms":4.572,"p99_ms":5.848,"stage":"first_fw_cracker"}
+FRAME_PACING_STAGE {"action_ms":0.025,"alive":0,"average_fps":124.683837412276,"frames":623,"max_ms":10.515,"nodes":17187,"over_33ms":0,"over_50ms":0,"p95_ms":9.119,"p99_ms":9.626,"stage":"view_clearing"}
+FRAME_PACING_STAGE {"action_ms":0.032,"alive":0,"average_fps":132.124926616696,"frames":661,"max_ms":14.277,"nodes":17187,"over_33ms":0,"over_50ms":0,"p95_ms":8.821,"p99_ms":11.768,"stage":"view_hut"}
+FRAME_PACING_STAGE {"action_ms":0.079,"alive":0,"average_fps":172.131042420784,"frames":859,"max_ms":10.674,"nodes":17188,"over_33ms":0,"over_50ms":0,"p95_ms":6.992,"p99_ms":7.661,"stage":"view_junction"}
+FRAME_PACING_STAGE {"action_ms":0.021,"alive":0,"average_fps":179.872380645972,"frames":899,"max_ms":11.752,"nodes":17187,"over_33ms":0,"over_50ms":0,"p95_ms":7.097,"p99_ms":8.999,"stage":"view_forest_road"}
+FRAME_PACING_STAGE {"action_ms":0.018,"alive":0,"average_fps":220.575004208339,"frames":1102,"max_ms":6.532,"nodes":17187,"over_33ms":0,"over_50ms":0,"p95_ms":5.512,"p99_ms":5.967,"stage":"view_sennhof"}
+FRAME_PACING_DONE stages=37

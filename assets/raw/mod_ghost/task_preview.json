@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca46-d623-769f-b541-2d99dd9de309",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 184152742,
+  "prompt": "game asset, futuristic stealth firearm suppressor, slender cylindrical tube wrapped in a carbon fibre sleeve with narrow engraved grooves running along the body, thin glowing energy lines inside the grooves, smooth front end cap with a bore hole, threaded collar at the rear, lying horizontally, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790100038080,
+  "progress": 100,
+  "started_at": 1790100038086,
+  "finished_at": 1790100107392,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-d623-769f-b541-2d99dd9de309/output/model.glb?Expires=4943635200&Signature=ka7P4I6ic0BSg7EqAg3ywd5lLJyg0GZ2okHUSEmwkdB-slRgiDN6fMeTvcv~n50vGwJELbahEvD~DmDBc4HovsggTCtue-vUQv5HVHvOD~2VNnjaRr2b4UsedaUR10ZV91yJKwyPFFQ~DUiUFwIOEkk6rAPfAiaNQnC~tEupT6exxVwXciFu6MY-R~3gXJaXkpxPZJ~aw6ckyNEgVgl-dfT9dQBWwKnKmaHG8sGfmvxuIF2z3Ddnsb2aXZHzVpAZr-aafCv4ZOlBlHkbmyoIA-cR0voBZNonNnCwkiVZh7A88NwbI97Ntu1cRjOl~QEy0CElCjLT-xa2orAigAUPsw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-d623-769f-b541-2d99dd9de309/output/model.fbx?Expires=4943635200&Signature=SV5sZy2hoTfOWr4dLbAs55fp936wM5-Q65Ok7hYaY0P3g7hppNHRY42HTWJhGj9ZjkbzeJQP-EIFfN3VL-odKyRBSqB-tY2uWwW9L-gEz~2kQ4oDt7kH~B~-egq5zI0DWFnIG0vXrjaBn3AJjM8NDBL-kQWCBfhgHB4MnTh3Glx8s1JULyf2tGTkjHBQOs0hpmCbytPMSfLeMoJOoQ3iNy3g~q0-5JJwnANqI4E5ha8lHtuj9RZAcjC6TMu0yjPPNeFyvtfSWCkkI4EJ8eE48cdMrNGwX1ljV2qm-nPkXestsCW2fPN6tWTjnHjTOnl~m61vrzLPHimV1sxV3S7xYA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-d623-769f-b541-2d99dd9de309/output/model.usdz?Expires=4943635200&Signature=p3Oed~s3wEgHBc~7XyGzpmt4WYQHP33gix8-BIU8ygS9GycgcmTwZCWHiPeL6sTL6wzudBH5BxQflWjPGkhCgal1FaJ4G16fypKjTHUNa4nylmLuVbtTpRZoV3E4XNVU2aI6h3JW8~hwsMeUUIY7C~vddjx-ayRLV31lziGMBvyWtO-vnP05QQCSGdZZK~9-W2evzbfMTeN2GBVxaonsJtWgxrFoSymzBo0TUWelaKAzVMc62k~dfSH0GzrmQkwsiqTKuP7c3hqtKKw4VigvwLedHWB6GZ60H~LIA~TGT27xkGTW501pQm~1hIOKQNrpHtpeEdNuDItekIoAc9QKgA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-d623-769f-b541-2d99dd9de309/output/model.obj?Expires=4943635200&Signature=i~bvl~~FHvVl~W9ub1ZCcat~lFCKAyu6zHyDcSm-NQeHcDAyQRvvTDm1MWOC2RBn7J9kicPqNPjc3XHQPwcD9tUvdapxUmxybAUhk2AUJTuaGI~iG~FZURa0B3TxbxZ4JVbZpzRYTJC6F-BK4Kpe7KyHlpt8SuILMcUTFj3YH6gaUQnlgg36Y1JpW9xeC4YTPNVUFwZ6phLo8VXvmki7EGPyV3lBazjD2-4BE8ZWRmsmVf19A4K6lai-P8HLpuRuFiu83vBkaiNzs6~E-tqE1qsco6hgl1-H~P9euCrcl4F6a3vFjmf3zmAEKozs-8z7cnKUKl2G9uY0T689FrmfRQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-d623-769f-b541-2d99dd9de309/output/model.stl?Expires=4943635200&Signature=mmdLgKnxRp1fN8fqPDIiK62YKSOe1kAmFq~JItAVRU8QgGlQ~wfYP8TRGQKwaetJMilns9RsfxvGct6qHs~vEowJE2wH1ivrp2yRGhTvRQmVobc4dEkvB5f2iu0sUBz7m1Yu5dUgGOeA~s6k1RpRR0v6KvrhvOZKn9R3dpGT98sIFaCRvAm8WDKIasFErbcWb8HT~fWg8-txwF6w85q0pzrJbWMb1w8W28ZLS39T~bSjNyY1-7Io62eZ11NNNixY9aylTYMEPBqnfbrn8J3xG0j85nn7w53ZNduJ-d8e0HsSMYXnex8aDNzN66Dbti9ZPyhSbZWcZJPEaOJaVR28WQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-d623-769f-b541-2d99dd9de309/output/preview.png?Expires=4943635200&Signature=oFLstkNY6vKYx-jQyFkzhG23n5MKmhnuKD9zcJmZ7qR7rxkEeAWhAxoLnQGEhCUhhxHE3~7Pnv5ztYM6T6H1t9TTC9AbCgd2I3TdvYZV5-uOI5AGOxgA1ctTgyI9XR6AnEjG2eHGYcS~omZ~ILb3jO8Wm-Pja5Iu1YDsIEEawzU8~rWoUewbHAYqr7OVCI0o1Jl4YOznxXShk3zOMXi-UY4~bdSsSGpN-mfiklbaOX4BF-5ROwDwLGvl1u0G8bgIP6kOV4KlyJBbCx4S4BCZ5hfZflgD5Arhjt6uq24BQITS4H~M5OL8-lwGfymbekVR2oxXRP30wlsGQFh-GU-RhA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca4c-77ef-7486-b808-441f41154efe",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2178039239,
+  "prompt": "game asset, very long thin heavy machine gun barrel, a straight narrow steel tube ten times longer than it is thick, a short armoured collar with cooling slits around the middle of the tube, a stepped mounting shoulder at one end and a plain muzzle opening at the other end, lying horizontally, isolated single object, no gun, no weapon, no stock, no receiver, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790100406750,
+  "progress": 100,
+  "started_at": 1790100406762,
+  "finished_at": 1790100496369,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-77ef-7486-b808-441f41154efe/output/model.glb?Expires=4943635200&Signature=ZcZEnKjrNUUrq8e6FB3R53N4PjS~sHU32BMPYiXLtChMiTRTVjnUuRmO21Snnvj~RdCZZDmDny-KIOpqGo3pLlFrYUYaoLuJLKc-RUK78cMtygJ-A8fr2XtY2PEiQ4iRK2q9qPvCsLKZpRaQ~ZqZOQJvcPmcifF-8JqpbCtzd8PoTKwdzYOvA4oiLauvuajybs6Bs-LNz1rN~3ggzmS9MM-dvvuMbZ6v~V7MM1E~b5SC4R7VNxY9LmNa5bvWdY-W9Nkm8mwQcWg-LbBlswl8CaMfsIgZH7TS7z8b4wMkzVWtG1-w9SXPGTY4gc7Iimaq82enX0qHI~zjX8kk4TM8IA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-77ef-7486-b808-441f41154efe/output/model.fbx?Expires=4943635200&Signature=o7myxrJNGRTcgbmtYr0EJNd4-9qv6ila5B2Tmij7rqcIrU6rW~ENkJPjrahbqoNS856gzJmNaqEueKQFgHrudFzpR9sEUCh97LwSQe~hhp8dT5Oh4IkubAeelZaziV5bWnaqPDP5Hm5se3BiJ8tu58gakTDhUIiQa-SQCJSM0eXBAh31csVq439PA4FFy3P1hoKqmuTaqE20V3gRlXKGCSHeaVhYftWXOjL6sQYBgu8Yn5Whnfl7VOTLdLW6BHq7ecMXsWX2xivJlI~Ap13dETRFYQPNDYBBqjPYzC-FeSHkGSWBBJcIufUtO2paUIuemEUdO-leMk2RaAa2tT58Lg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-77ef-7486-b808-441f41154efe/output/model.usdz?Expires=4943635200&Signature=kPjODmnCU-fq-ywFER8qncnsTCCOcwr~34~LraZiLDIj8Q4itqcvj1ypgAJli1vi~MFglpSVJ6rGHVUd~gx1PWKS6861-nOzRZ4lyfHgynyK1c4FxMUU6H3fyT-I5~3E-rIg~mswLx~eMurKs7xjeKSBZW0nIOYx4yQpypm1INnLDa28qP5ZUljikhQBgPmx8HgGJdKyDEBlRK0-YfVAqwJh4CdJ00ZIxfcUKjECnXGrfxUnMeFZw3K3IDmlaJz1S8ok12ATZWtfgzRVqUFuZq08JBYvwWWFmwkLFNw9Z7HiGfaH0V9u2xB1x8bazc6Ec0Q9Pp~Yd2Xrx78mPsld-w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-77ef-7486-b808-441f41154efe/output/model.obj?Expires=4943635200&Signature=I1bkKqTmqcYgtLV3NGNE76b3DdRFnrJXw-JtA8x~6URKSlI731aIQ5Ac4nzsm~q1UxKE-I5Wm5voPvbASRoLFp~aQIsNn7asPRbcrwjRCoUZufCGlRXBTRVQ2F88TCgi4DklbNUM0RO3RE19ZNvEOO22GPaLPoIX9fuoXR4HZ-h1YBct6qoUSWcjEjJiqeeAVyszWRmEX0krDuv0Wjrhb2G8Hrg99J3FqqBUP9yYqAm~Boy0MDfQd40Hg9neR-Xx62US3PYKeWBp4nIS7ZRCkWiuMjQ1kejUV0DVZyEYG3DFBwwG5Pye5mglQY~V-6YCt9YK5S2fORtEaWq7AstKxA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-77ef-7486-b808-441f41154efe/output/model.stl?Expires=4943635200&Signature=STi4pIfkBXi~1PfQoV5HiAQJJb9rAw6ny0Qa4zNusQVDfm~Ex5M-ZV4tzAompo~8KaqJnovwl-8~57RF1cWixydBFt6umg4rj~cJaQrW3ybDQnC10OJqeHavaIjq7Rq3ZRWnsUFbWhsEJWVh6AbeZCsR5fHIZJoJSziWQifHWAuMHV1BiieBydgPJTCy1hxa9MpvGZ9MdgJvVxmc~mHLqBRHMcqVS9TNeJePQoxHjZLyWQGfTHG8vXdZzDq8jAucOMymfQw2fJiFw1dbOfzC47nlo5acFnCJeVyvpKfUszeuGfNTt3HmPas4wrdTWIfkfcmcxwY34eJzkpguVcD73w__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca4c-77ef-7486-b808-441f41154efe/output/preview.png?Expires=4943635200&Signature=Mi0PHHX~xfw8F2m~lwz6YrO1bnXf~UTjV356Y4V4VZiaZklDSd7Seo0HTiPNonXgrDTtjvxhnKjdLDnYupdRjF9BX5BwAXyjBQeVM0bjs3fTUkojTWk0VS8pIUzpLNJm-ap5gFDpggvq5n4rY-rRB3k3lAzjil9d29sGGxKREahD8xcM32YpTHxtzCqNT6ck~G0NUgXx~YCBNSCPtNLDyPAlNU40fayxoqa-Cx8vzm~Y8dN6YuWP3dHMLLQza-RUrpnuVyKgeNU~ZUYibkWqdeiUN-CdJBEO~OESHtzTcuiww5Gf4grxxmkUj-KB79WCQvQiQaNH40~kJDP8FRnx2w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

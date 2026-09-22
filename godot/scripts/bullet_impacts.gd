@@ -4,6 +4,10 @@ const LIMIT := 192
 var marks: Array[Decal] = []
 var next := 0
 var texture: ImageTexture
+static var _shared_texture: ImageTexture
+
+static func prewarm() -> void:
+	if not _shared_texture: _shared_texture = make_texture()
 
 static func hit(scene: Node, result: Dictionary) -> void:
 	if result.is_empty(): return
@@ -29,15 +33,20 @@ static func show(scene: Node, position: Vector3, normal: Vector3) -> void:
 	manager.place(surface, position, normal.normalized())
 
 func place(surface: Node3D, position: Vector3, normal: Vector3) -> void:
-	if not texture: texture = make_texture()
-	var mark := Decal.new()
+	prewarm()
+	texture = _shared_texture
+	var mark: Decal
 	if marks.size() < LIMIT:
+		mark = Decal.new()
 		marks.append(mark)
 	else:
-		if is_instance_valid(marks[next]): marks[next].queue_free()
+		mark = marks[next] if is_instance_valid(marks[next]) and not marks[next].is_queued_for_deletion() else Decal.new()
 		marks[next] = mark
 		next = (next + 1) % LIMIT
-	surface.add_child(mark)
+	if mark.get_parent():
+		if mark.get_parent() != surface: mark.reparent(surface, false)
+	else:
+		surface.add_child(mark)
 	mark.texture_albedo = texture
 	mark.cull_mask = 1
 	mark.albedo_mix = 1.0

@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, extended straight box magazine for a rifle, tall slightly curved sheet metal magazine body with stamped reinforcement ribs, feed lips and a visible brass cartridge at the top, extended polymer floor plate at the bottom, standing upright, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "folder": "mod_extended_mag",
+  "root_task_id": "01a0ca47-cee6-73fe-bfc1-6c746eeeb675",
+  "created_at": "2026-09-22T20:03:34.134043",
+  "updated_at": "2026-09-22T20:03:34.134071",
+  "tasks": [
+    {
+      "task_id": "01a0ca47-cee6-73fe-bfc1-6c746eeeb675",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-22T20:03:34.134069"
+    }
+  ]
+}

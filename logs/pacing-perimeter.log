@@ -1,0 +1,35 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: ring exists with more than 250 m of wall
+PASS: ring has four gate openings
+PASS: fire, both huts and the fork are inside
+PASS: every lane spawn point is outside
+PASS: the intro start is outside
+PASS: no wall crosses a road (roads pass only through gates)
+PASS: logs were placed (more than 600)
+PASS: all palisade sections start hidden
+PASS: unbuilt sections have no collision or navigation obstacles
+PASS: building one gate reveals only its section
+PASS: built section blocks movement
+PASS: destroyed section disappears and becomes passable
+PASS: replicated build restores its section
+PASS: replicated reset hides its section
+PASS: lane north: navmesh path reaches the plaza without crossing a wall
+PASS: lane east: navmesh path reaches the plaza without crossing a wall
+PASS: lane south: navmesh path reaches the plaza without crossing a wall
+PASS: lane west: navmesh path reaches the plaza without crossing a wall
+PASS: after 30 s no zombie is inside the sealed ring
+PASS: the zombies attack the gates (at least three gates damaged)
+PASS: no gate broke yet at level 3
+PASS: a destroyed gate is level 0 again
+PASS: after the breach zombies are inside the ring
+PASS: the player survived behind the walls
+PASS: vault test starts outside the ring in front of a built gate
+PASS: holding forward and Space carries the player over the gate barricade
+PERIMETER_DONE checks=26 failures=0

@@ -4,6 +4,21 @@ const STAR_SHADER = preload("res://scripts/firework_stars.gdshader")
 const ROCKET_MODEL = preload("res://assets/models/firework_rocket.glb")
 const CRACKER_MODEL = preload("res://assets/models/firework_cracker.glb")
 const AUDIO := "res://assets/audio/fireworks/"
+static var _audio_variants: Dictionary = {}
+
+static func audio_variants(stem: String) -> Array:
+	if not _audio_variants.has(stem):
+		var clips: Array = []
+		for ext: String in [".wav", ".mp3", ".ogg"]:
+			for i in range(1, 6):
+				var path := AUDIO + "%s_%d%s" % [stem, i, ext]
+				if ResourceLoader.exists(path): clips.append(load(path))
+			if clips.is_empty() and ResourceLoader.exists(AUDIO + stem + ext): clips.append(load(AUDIO + stem + ext))
+		_audio_variants[stem] = clips
+	return _audio_variants[stem]
+
+static func prewarm_audio() -> void:
+	for stem in ["fuse", "launch", "burst", "cracker", "crackle"]: audio_variants(stem)
 var kind := "fw_ruby"
 var origin := Vector3.ZERO
 var landing := Vector3.ZERO
@@ -101,16 +116,16 @@ func _burst(with_sound: bool) -> void:
 	light.shadow_enabled = false
 	add_child(light)
 	var scene := get_tree().current_scene
-	if scene and "cornfield" in scene and scene.cornfield: scene.cornfield.scare(global_position)
+	if scene and "cornfield" in scene and scene.cornfield and get_world_3d() == scene.get_world_3d(): scene.cornfield.scare(global_position)
 	if with_sound:
 		var camera := get_viewport().get_camera_3d()
 		var distance := global_position.distance_to(camera.global_position) if camera else 0.0
 		var delay := clampf(distance / 343.0, 0, 1.5)
 		get_tree().create_timer(delay, false).timeout.connect(func():
-			if is_instance_valid(self): sound("burst" if rocket else "cracker", 0 if rocket else -3, 220 if rocket else 100))
+			if is_instance_valid(self): sound("burst" if rocket else "cracker", 3 if rocket else 0, 450 if rocket else 220))
 		if kind == "fw_gold":
 			get_tree().create_timer(delay + 0.65, false).timeout.connect(func():
-				if is_instance_valid(self): sound("crackle", -9, 160))
+				if is_instance_valid(self): sound("crackle", -5, 350))
 
 func _stars() -> void:
 	var rng := RandomNumberGenerator.new()
@@ -204,16 +219,19 @@ static func particles(color: Color, amount: int, life: float, size: float, speed
 func sound(stem: String, volume: float, distance: float) -> AudioStreamPlayer3D:
 	var voice := AudioStreamPlayer3D.new()
 	# numbered variants (burst_1..4, cracker_1..4) are picked at random; single files keep their plain stem
-	var variants: Array = []
-	for ext: String in [".wav", ".mp3", ".ogg"]:
-		for i in range(1, 6):
-			if ResourceLoader.exists(AUDIO + "%s_%d%s" % [stem, i, ext]): variants.append(AUDIO + "%s_%d%s" % [stem, i, ext])
-		if variants.is_empty() and ResourceLoader.exists(AUDIO + stem + ext): variants.append(AUDIO + stem + ext)
-	voice.stream = load(variants[randi() % variants.size()]) if not variants.is_empty() else null
+	var variants := audio_variants(stem)
+	voice.stream = variants[randi() % variants.size()] if not variants.is_empty() else null
 	voice.volume_db = volume
 	voice.unit_size = 12
 	voice.max_distance = distance
 	voice.attenuation_filter_cutoff_hz = 9500
+	# Airbursts are 34–45 m above the player. Give their report a much larger
+	# reference distance so height alone does not swallow the explosion.
+	# Preserve spatial direction and distance fade, and cap close-range gain.
+	if stem in ["burst", "cracker", "crackle"]:
+		voice.unit_size = 64 if stem == "burst" else (28 if stem == "cracker" else 45)
+		voice.max_db = 0
+		voice.attenuation_filter_db = -6
 	add_child(voice)
 	voice.play()
 	voice.finished.connect(voice.queue_free)

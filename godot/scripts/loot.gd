@@ -19,7 +19,7 @@ func update_cache_tier(wave: int) -> void:
 	match id:
 		"fire": label = "Feuerpatronen (%d)" % (12 + cache_tier * 6)
 		"frost": label = "Frostpatronen (%d)" % (12 + cache_tier * 6)
-		"cache_cash": label = "Versteckter Geldbeutel (%d P)" % (250 + cache_tier * 125)
+		"cache_cash": label = "Versteckter Geldbeutel (%d R)" % (250 + cache_tier * 125)
 		"cache_grenade": label = "Granatenversteck (%d)" % (1 + cache_tier / 2)
 		_: label = "Munitionskiste (%d Magazine)" % (2 + cache_tier)
 

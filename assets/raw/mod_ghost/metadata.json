@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, futuristic stealth firearm suppressor, slender cylindrical tube wrapped in a carbon fibre sleeve with narrow engraved grooves running along the body, thin glowing energy lines inside the grooves, smooth front end cap with a bore hole, threaded collar at the rear, lying horizontally, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "folder": "mod_ghost",
+  "root_task_id": "01a0ca47-facd-74e8-b899-5dc34d1cc1ba",
+  "created_at": "2026-09-22T20:03:59.772277",
+  "updated_at": "2026-09-22T20:03:59.772302",
+  "tasks": [
+    {
+      "task_id": "01a0ca47-facd-74e8-b899-5dc34d1cc1ba",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-22T20:03:59.772300"
+    }
+  ]
+}

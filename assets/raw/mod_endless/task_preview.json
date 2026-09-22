@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca46-e5fc-773b-90ca-06fcb5870daa",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1530123707,
+  "prompt": "game asset, large drum magazine for a rifle, round steel drum canister with a riveted rim and a straight feed tower on top with feed lips, small winding knob on the flat side, standing upright on the drum, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790100041018,
+  "progress": 100,
+  "started_at": 1790100041025,
+  "finished_at": 1790100123724,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-e5fc-773b-90ca-06fcb5870daa/output/model.glb?Expires=4943635200&Signature=aWZu3qLem9lLZqQP83jN7IEHzlGkNCeyHU9Bm19fuIMotrCtBWLP3vLFHOQvvX-oOSdfdHpfcdVHfnrg25kZQZ-ekp1MdEF4CAFH8CFyuAYggQJOv4tUbl9VZcZ2lx~nXECTtW1aCfcOxJg-5ibUP5CEGXjmJEeXF~a1Zl9OV9vs2MM6CDSoWm-aTaqUQMtL64KCGkpKXxbYCRBMS1rqoJ3fje4xAcLWITkvUsVz5jj-L5YQXDIAhwxo~tizVPOHd8CmVNiOih3CpvXJ~daw~dSpoR-FnL-Hg27KZuU8sM0FeoQwMHFQd5j8-t4JIV0JtbY9jPgZ8r8o1OoQEf~OOQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-e5fc-773b-90ca-06fcb5870daa/output/model.fbx?Expires=4943635200&Signature=QDu6dBxmOwZLCcuB5yXP8h9mxMi9EyXM82R5AKDU74ICYUXsl9GfTLhnu6dNZZ2TTmYo~fUyfX0ay7Rcu7isrgoQGe-28SYp9V3w1Z0NifntiwxfpHfGRRMfIXEcn1WgR49NQ-pF-CJW3~JDCRLdcPNjpUHsfDaUiDbxBMFlPlvGi3WODejWm0KGA7OTWNhHhrloY4vE79doce566GvIaffBupZHwYoeRHrIZ8~RnfMOUKowtb0Vit-esJJup1e7fvLUKHu7UcHC6hFErhV0PYr8km9FdvzcXZOHxsBsvCnwCsrh13Ye6Xk9y3meRxSwau0IR8Cr4vAOYUcVRai3Xg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-e5fc-773b-90ca-06fcb5870daa/output/model.usdz?Expires=4943635200&Signature=Um0w6F7FedkhltERSfqa-sz4v3pTMq2vnJqWaUJkJcJOKJNtr3qi~YIw1BnGT7DXRB6c1WhEYtS53KAL~UoMdmaou2zJ6C6kCMYtwLVm4Oa0hyfOkYWSttr-lDb7868EAnoi-AsaB01DUkBX759CMassN~79L5A901NFP3iqw~iYjfU2FzCY8gZSDK3GOpq89dMVkyKVGX9IVbEq22NFuApGVZXDaKBtp6p1tDFfVarRedruwUYggHswwlT05vaE4jik~j9GS199itAQqgttBFNpjIbcJwAxB5mnho4oM6rAQxC6IDKWvtdq52GCCux6SGOgyGFQjCE14KXGWxYqyg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-e5fc-773b-90ca-06fcb5870daa/output/model.obj?Expires=4943635200&Signature=ifYPFAcST6hom7Ez0F6Gena-icRN6uLkcJWus34e4~7hs2wFYtUDc2d00ZTXll43AEGLR~FPIISqjaGwet9~Je0xMDlfEIyBMMC2pMZWFsmL7yiQNYErNfr8Ba6owII03AlMHOqjObD6RhqAaXjxV7KnYi8IKNVpf~CMj0yorWmu6sOMLJuRm0z6OjYVpNyGplptS74Un0VlYtKeYNYZ3bXSp5GX6QMLbecbLm2T0NxzrGF7z3KdlyrHnXj9dQ5gYjbSPDwWLxwycZGYkcV5URCzH2zddcjK8koiW4mqwIDqjUQ-DvOCjwOLjuplhpfjVtwRoZEqveAtdh6M51caTg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-e5fc-773b-90ca-06fcb5870daa/output/model.stl?Expires=4943635200&Signature=LmCgNBvNWTJ3DG6RxiB5hwGyR8sjizw1yXUFtKUghcMhEOVW5BTIvZk1Bam4hDO2y8fFXkKRIwqwj8SG82-DdbDAdS1UpsjAqRoBCeSiSea9IFott7Sg0r2OpENRc3xHTLHtaDtyZn0ywARpOaimmv~72yvHl04Q-KrAWoSbv~s6DH~KYpPTJVbTLJuViGfT5IwO9uDjkfbfJwMP8jKwxigTcMtqn11rn6iHdVCYGlzGS4NoxMFeqvVVfH4uHLvWD1hEq74RykzmHti8SHZTrqz5fValclHlJuv-zZu5~~Hmj9MVXZfFPsl49XFwbynrW0JnKtdf92nYD4rwTayf0A__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-e5fc-773b-90ca-06fcb5870daa/output/preview.png?Expires=4943635200&Signature=anDoceUxn-0lwnEK-w~Ss2fIN9hwWyxd5ekr30-4zWRTErTPeRE9HWXn~xwV38DpP-ZL2oSJkyoA1JTD7T0SQZ7GE-4JVb7gaUCoyamsorRCVFilhWfssv5Xgb4793RAmxddE9Rs4mHyOqWZQlL4llgPCcljeOhpHE~bvNE4cqY8W7LoJndyvW5TH8AxohPUPZazYpfeK0C0~CiWG606uCG8Fhvpf0q7JaBfLV4WdIUY2yw6GaGh2pqXtRY4k2Qoj0~fmQcKW8BQlQxUDzhr8qLOARDrUcNm6-2s9aFCULiOon925FHJBoPtG85T6~GBzLOkjdUqSws6ulZTmv8Kzg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

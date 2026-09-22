@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Camera advances evenly between physics ticks: 0
+PASS: Camera advances evenly between physics ticks: 1
+PASS: Camera advances evenly between physics ticks: 2
+PASS: Camera advances evenly between physics ticks: 3
+PASS: Camera advances evenly between physics ticks: 4
+PASS: Mouse look does not orbit a stale camera offset
+PASS: Mouse rotation remains immediate
+PASS: Teleport snaps instead of interpolating through geometry
+PASS: Inactive player restores the exact camera transform
+PASS: Simultaneous hits allocate only the bounded voice pool
+PASS: Further hits reuse the same audio nodes
+PASS: A reused voice follows its new owner and world position
+PASS: Every footstep texture is prepared before play
+PASS: Shared tracer geometry starts at the muzzle
+PASS: Shared tracer geometry ends at the impact
+PASS: Moving tracers never rebuild their mesh
+FRAME_PACING_GUARDS_DONE checks=16 failures=0

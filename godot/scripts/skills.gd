@@ -35,7 +35,7 @@ func purchase(p: Player, w: Weapons, id: String) -> String:
 	var level: int = progress.get(id, 0)
 	var cost := int(spec.cost) + int(spec.cost) * level / 2
 	if level >= int(spec.max): return "Training bereits vollständig."
-	if p.score < cost: return "Zu wenig Punkte."
+	if p.score < cost: return "Zu wenig Rem Dollars."
 	p.add_score(-cost)
 	progress[id] = level + 1
 	match id:

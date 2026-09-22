@@ -51,6 +51,12 @@ func _ready() -> void:
 		limiter.threshold_db = -4.0
 		AudioServer.add_bus_effect(index, limiter)
 
+func prewarm() -> void:
+	for kind: String in CUES:
+		for clip: String in CUES[kind].clips:
+			var path := Sfx.DIR + clip if kind == "arrival" else DIR + clip + ".wav"
+			if not _streams.has(path): _streams[path] = load(path)
+
 func receive(kind: String, origin: Vector3, body_height: float, emitter: int, serial: int) -> void:
 	if not CUES.has(kind) or not origin.is_finite() or not is_finite(body_height): return
 	if serial <= int(_serials.get(emitter, 0)): return

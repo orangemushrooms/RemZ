@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, tactical firearm sound suppressor silencer, single straight cylindrical tube with knurled grip rings along the body, flat front end cap with a round bore hole, threaded mounting collar at the rear end, lying horizontally, isolated single object, no gun, no weapon, no stand, no ground, no text, no letters",
+  "folder": "mod_suppressor",
+  "root_task_id": "01a0ca47-e2eb-766f-97bf-f6e8f3fa8141",
+  "created_at": "2026-09-22T20:03:53.524871",
+  "updated_at": "2026-09-22T20:03:53.524898",
+  "tasks": [
+    {
+      "task_id": "01a0ca47-e2eb-766f-97bf-f6e8f3fa8141",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-22T20:03:53.524895"
+    }
+  ]
+}

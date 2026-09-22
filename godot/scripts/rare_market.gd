@@ -88,7 +88,7 @@ func buy(p: Player, id: String) -> String:
 	if spec.kind == "relic" and d.owned.get(id, false): return equip(p, id)
 	if game.progression.mission_level() < int(spec.level): return "Einsatzlevel %d benötigt." % spec.level
 	if int(stock[id]) <= 0: return "Ausverkauft. Neue Lieferung in der nächsten Welle."
-	if p.score < int(spec.price): return "Zu wenig Punkte: %d P benötigt." % spec.price
+	if p.score < int(spec.price): return "Zu wenig Rem Dollars: %d R benötigt." % spec.price
 	if spec.kind == "ammo" and int(d.ammo[id]) + int(spec.amount) > Items.AMMO_CAP: return "Spezialmunition voll (maximal 96 je Sorte). Erst verbrauchen."
 	p.add_score(-int(spec.price))
 	stock[id] -= 1

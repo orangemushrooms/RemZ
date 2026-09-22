@@ -595,6 +595,9 @@ func feedback(id: int, kind: String, args: Array) -> void:
 func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 	if epoch != session_epoch or not is_instance_valid(game): return
 	match kind:
+		"quest_complete":
+			if args.size() == 1 and args[0] is String and Progression.QUESTS.has(args[0]):
+				game.progression.notifications.rewarded(args[0])
 		"sfx":
 			if args.size() == 1 and args[0] is String and Sfx.EVENTS.has(args[0]):
 				Sfx.play(game, args[0], Sfx.EVENTS[args[0]])

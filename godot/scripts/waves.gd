@@ -230,7 +230,7 @@ func _complete_wave() -> void:
 		main.music.play(main.music.intermission_track(main.day_night.clock_seconds / 3600.0) if main.day_night else "night")
 	completed = wave
 	phase = "idle"
-	timer = 120.0
+	timer = 180.0
 	hud.set_wave_progress(0, total)
 	if "achievements" in main and main.achievements:
 		main.achievements.wave_cleared(wave)
@@ -238,7 +238,7 @@ func _complete_wave() -> void:
 	player.add_score(bonus)
 	weapons.refill_all()
 	if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
-	hud.message("Welle %d überstanden\n+%d Punkte, Pistolenreserve gesichert\nHändler und Aufträge: Vendor & Mechanic · T: Turm" % [wave, bonus], 4.0)
+	hud.message("Welle %d überstanden\n+%d Rem Dollars, Pistolenreserve gesichert\nHändler und Aufträge: Vendor & Mechanic · T: Turm" % [wave, bonus], 4.0)
 	Sfx.play(self, "menu", -6.0)
 
 func _try_spawn(entry: Dictionary) -> bool:

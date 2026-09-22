@@ -5,6 +5,7 @@ var is_open := false
 var panel: Control
 var status: Label
 var skip_button: Button
+var points_button: Button
 var secret_toggle: CheckButton
 var wanderer_toggle: CheckButton
 
@@ -41,6 +42,13 @@ func _ready() -> void:
 	items.add_child(title)
 	status = Label.new()
 	items.add_child(status)
+	points_button = Button.new()
+	points_button.text = "+1000 R"
+	points_button.icon = preload("res://scripts/currency.gd").ICON
+	points_button.add_theme_constant_override("icon_max_width", 32)
+	points_button.custom_minimum_size.y = 44
+	points_button.pressed.connect(_add_points)
+	items.add_child(points_button)
 	var explanation := Label.new()
 	explanation.text = "Alle Zombies sterben. Die nächste Welle startet sofort."
 	items.add_child(explanation)
@@ -66,9 +74,9 @@ func open() -> void:
 	if not main.started or main.over or not main.player.alive or not main.player.active or main.get_tree().paused:
 		return
 	is_open = true
-	status.text = "Aktuelle Welle: %d" % main.waves.wave
-	if NetSession.is_client(): status.text += " · Nur der Host kann Wellen überspringen."
+	_update_status()
 	skip_button.disabled = NetSession.is_client()
+	points_button.disabled = NetSession.is_client()
 	secret_toggle.set_pressed_no_signal(main.hud.minimap.reveal_secret)
 	wanderer_toggle.set_pressed_no_signal(main.hud.minimap.reveal_wanderer)
 	panel.show()
@@ -88,6 +96,15 @@ func _skip_wave() -> void:
 	if not is_open or NetSession.is_client(): return
 	close()
 	main.waves.skip_current_wave()
+
+func _update_status() -> void:
+	status.text = "Aktuelle Welle: %d · Rem Dollars: %d" % [main.waves.wave, main.player.score]
+	if NetSession.is_client(): status.text += "\nRem Dollars und Wellen-Cheats sind nur für den Host verfügbar."
+
+func _add_points() -> void:
+	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return
+	main.player.add_score(1000)
+	_update_status()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_D and event.ctrl_pressed and event.shift_pressed:

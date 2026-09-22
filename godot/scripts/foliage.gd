@@ -29,7 +29,7 @@ static func pbr(short: String, uv_scale: float, tint: Color = Color.WHITE) -> St
 	m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	return m
 
-# Terrain: forest floor / meadow / gravel blended by the vertex colour (r, g, b) from the map's cover mask
+# Terrain: forest floor / meadow / gravel blended by the fine map cover mask.
 const TERRAIN_SHADER := """
 shader_type spatial;
 render_mode cull_disabled;
@@ -74,9 +74,9 @@ vec3 tex2(sampler2D t, vec2 uv) {
 	return mix(a, texture(t, uv2).rgb, 0.5);
 }
 void fragment() {
-	// Sample the land-cover mask per pixel instead of interpolating the metre
-	// grid's vertex colours: removes triangular/sawtooth path shoulders.
-	vec3 cover = texture(cover_map, (wuv - cover_origin + vec2(0.5)) / cover_size).rgb;
+	// Exact world alignment, independent of the cover mask's resolution.
+	vec2 cover_uv = (wuv - cover_origin) / cover_size + 0.5 / vec2(textureSize(cover_map, 0));
+	vec3 cover = texture(cover_map, cover_uv).rgb;
 	cover.b += max(1.0 - cover.r - cover.g - cover.b, 0.0);
 	vec2 ug = wuv * scale_grass;
 	vec2 ul = wuv * scale_leaf;
@@ -105,10 +105,10 @@ void fragment() {
 	if (has_k) {
 		// Compacted small gravel with irregular earthy wear, directly on the
 		// terrain: no raised road slab or intersections between two surfaces.
-		float wear = sin(wuv.x * 0.43 + sin(wuv.y * 0.31)) * sin(wuv.y * 0.37 + 1.9) * 0.5 + 0.5;
-		float fine = sin(wuv.x * 2.7 + wuv.y) * sin(wuv.y * 3.3) * 0.5 + 0.5;
-		float dirt = smoothstep(0.4, 0.88, wear * 0.75 + fine * 0.25);
-		ka = mix(tex2(gravel_albedo, uk) * vec3(0.44,0.40,0.33), tex2(leaf_albedo, wuv * 0.32) * vec3(0.37,0.29,0.20), dirt * 0.55);
+		// Photographic soil variation avoids periodic waves in the road colour.
+		vec3 soil = tex2(leaf_albedo, wuv * 0.32);
+		float dirt = smoothstep(0.12, 0.48, dot(soil, vec3(0.333)));
+		ka = mix(tex2(gravel_albedo, uk) * vec3(0.44,0.40,0.33), soil * vec3(0.37,0.29,0.20), 0.12 + dirt * 0.25);
 		kn = tex2(gravel_normal, uk);
 		kr = texture(gravel_rough, uk).r;
 	}

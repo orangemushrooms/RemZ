@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Unaccepted quests stay silent
+PASS: A completed subgoal names the quest and objective
+PASS: Subgoal popup has its own sound
+PASS: Repeated refreshes never restart or duplicate milestones
+PASS: Further counter increments are silent after the target
+PASS: Rapid subgoals combine into one readable popup
+PASS: Completing build goals still waits for the required wave
+PASS: All goals show a turn-in reminder without claiming the reward
+PASS: The final subgoal produces one completion sound and popup
+PASS: Rebuilding a lost objective does not repeat its milestone
+PASS: Turn-in replaces the pending reminder with the reward
+PASS: Reward audio plays in a paused shop
+PASS: Duplicate reward feedback is silent
+PASS: Popup animates while the shop pauses gameplay
+PASS: A later reward snapshot does not duplicate the reliable popup
+PASS: Joining or resynchronizing never replays completed quests
+PASS: Only reached thresholds count as subgoals
+PASS: Crossing a kill threshold produces a milestone
+PASS: Required waves after accepting are included in full completion
+PASS: Repeated network snapshots remain silent
+PASS: Menus suspend popup lifetime so it is not missed
+PASS: Notifications fade out and release the card
+PASS: An existing teammate's ready quests form a silent baseline
+PASS: Remote quest turn-ins do not notify the host
+PASS: Old-session reward feedback is ignored
+PASS: Malformed reward feedback is ignored
+PASS: The recipient displays authoritative reward feedback
+PASS: Concurrent completions queue once per quest
+PASS: Burst notifications reuse the existing UI
+QUEST_NOTIFICATIONS_DONE checks=29 failures=0

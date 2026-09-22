@@ -1,0 +1,101 @@
+2026-09-22T19:39:02 remz-dev-20260921-horde-performance BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-22T19:39:02 remz-dev-20260921-horde-performance NETWORK_INITIALIZED
+2026-09-22T19:39:23 remz-dev-20260921-horde-performance MAP_READY
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance JOIN_BEGIN address=127.0.0.1 port=24703
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance JOIN_SOCKET result=0
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance TRANSPORT_CONNECTED sending_hello
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance PEER_CONNECTED id=1
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance PEER_CONNECTED id=626219448
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance PEER_CONNECTED id=656874451
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance WELCOME
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance INITIAL_RECEIVE parts=5
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance INITIAL_APPLY_BEGIN
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance INITIAL_APPLY_DONE
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_RECEIVE parts=5
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_APPLY_DONE sequence=4
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance ROUND_BEGIN intro=false
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance ROUND_RUNNING players=4
+2026-09-22T19:39:40 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:39:40 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:39:40 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:39:40 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:39:40 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:39:47 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:39:47 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:39:47 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:39:47 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:39:47 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:39:54 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:39:54 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:39:54 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:39:54 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:39:54 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:39:55 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:39:55 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:39:55 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:39:55 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:39:55 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:39:57 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:39:57 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:39:57 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:39:57 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:39:57 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:39:58 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:39:58 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:39:58 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:39:58 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:39:58 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:40:08 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:40:08 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:40:08 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:40:08 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:40:08 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:40:10 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:40:10 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:40:10 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:40:10 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:40:10 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:40:15 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:40:15 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:40:15 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:40:15 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:40:15 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:40:33 remz-dev-20260921-horde-performance PEER_DISCONNECTED id=656874451
+2026-09-22T19:40:47 remz-dev-20260921-horde-performance PEER_CONNECTED id=248849903
+2026-09-22T19:41:18 remz-dev-20260921-horde-performance STATE_RECEIVE parts=8
+2026-09-22T19:41:18 remz-dev-20260921-horde-performance STATE_APPLY_DONE sequence=1102
+2026-09-22T19:41:37 remz-dev-20260921-horde-performance MAP_READY
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance INITIAL_RECEIVE parts=5
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance INITIAL_APPLY_BEGIN
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance INITIAL_APPLY_DONE
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_RECEIVE parts=5
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE structures
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE players
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE enemies
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE items
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_STAGE barricades
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_APPLY_DONE sequence=1106
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance ROUND_BEGIN intro=false
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance ROUND_RUNNING players=4
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance PEER_DISCONNECTED id=248849903
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance PEER_DISCONNECTED id=1
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance LEAVE_BEGIN phase=running reason=Der Host hat die Verbindung beendet.
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance LEAVE_PEER_DETACHED
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance LEAVE_PEER_CLOSED
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance LEAVE_RELOAD
+2026-09-22T19:41:57 remz-dev-20260921-horde-performance MAP_READY

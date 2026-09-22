@@ -1,0 +1,46 @@
+2026-09-22T19:39:02 remz-dev-20260921-horde-performance BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-22T19:39:02 remz-dev-20260921-horde-performance NETWORK_INITIALIZED
+2026-09-22T19:39:23 remz-dev-20260921-horde-performance MAP_READY
+2026-09-22T19:39:23 remz-dev-20260921-horde-performance HOST_CREATE port=24703
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance HOST_READY
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance PEER_CONNECTED id=626219448
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance PEER_CONNECTED id=431973737
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance PEER_CONNECTED id=656874451
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance INITIAL_SEND peer=626219448 raw=25616 bytes=3956 parts=5
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance INITIAL_SEND peer=656874451 raw=25616 bytes=3956 parts=5
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance INITIAL_SEND peer=431973737 raw=25616 bytes=3956 parts=5
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance CLIENT_READY peer=656874451
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance CLIENT_READY peer=626219448
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance CLIENT_READY peer=431973737
+2026-09-22T19:39:24 remz-dev-20260921-horde-performance ROUND_START_SEND players=4
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_SEND peer=626219448 raw=25616 bytes=3958 parts=5
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_SEND peer=431973737 raw=25616 bytes=3958 parts=5
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance STATE_SEND peer=656874451 raw=25616 bytes=3958 parts=5
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance ROUND_BEGIN intro=false
+2026-09-22T19:39:25 remz-dev-20260921-horde-performance ROUND_RUNNING players=4
+2026-09-22T19:40:33 remz-dev-20260921-horde-performance PEER_DISCONNECTED id=656874451
+2026-09-22T19:40:47 remz-dev-20260921-horde-performance PEER_CONNECTED id=248849903
+2026-09-22T19:40:47 remz-dev-20260921-horde-performance INITIAL_SEND peer=248849903 raw=27824 bytes=5019 parts=6
+2026-09-22T19:40:47 remz-dev-20260921-horde-performance CLIENT_READY peer=248849903
+2026-09-22T19:41:18 remz-dev-20260921-horde-performance STATE_SEND peer=626219448 raw=41104 bytes=6778 parts=8
+2026-09-22T19:41:18 remz-dev-20260921-horde-performance STATE_SEND peer=431973737 raw=41104 bytes=6778 parts=8
+2026-09-22T19:41:18 remz-dev-20260921-horde-performance STATE_SEND peer=248849903 raw=41104 bytes=6778 parts=8
+2026-09-22T19:41:37 remz-dev-20260921-horde-performance MAP_READY
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance INITIAL_SEND peer=626219448 raw=25552 bytes=3924 parts=5
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance INITIAL_SEND peer=431973737 raw=25552 bytes=3924 parts=5
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance INITIAL_SEND peer=248849903 raw=25552 bytes=3924 parts=5
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance CLIENT_READY peer=248849903
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance CLIENT_READY peer=626219448
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance CLIENT_READY peer=431973737
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance ROUND_START_SEND players=4
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_SEND peer=626219448 raw=25552 bytes=3928 parts=5
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_SEND peer=431973737 raw=25552 bytes=3928 parts=5
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance STATE_SEND peer=248849903 raw=25552 bytes=3928 parts=5
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance ROUND_BEGIN intro=false
+2026-09-22T19:41:38 remz-dev-20260921-horde-performance ROUND_RUNNING players=4
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance PEER_DISCONNECTED id=248849903
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance LEAVE_BEGIN phase=running reason=Integration test finished
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance LEAVE_PEER_DETACHED
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance LEAVE_PEER_CLOSED
+2026-09-22T19:41:40 remz-dev-20260921-horde-performance LEAVE_RELOAD
+2026-09-22T19:41:57 remz-dev-20260921-horde-performance MAP_READY

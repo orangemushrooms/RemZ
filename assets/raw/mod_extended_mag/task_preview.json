@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca46-a6a7-704f-acd4-66de6249c564",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1712106014,
+  "prompt": "game asset, extended straight box magazine for a rifle, tall slightly curved sheet metal magazine body with stamped reinforcement ribs, feed lips and a visible brass cartridge at the top, extended polymer floor plate at the bottom, standing upright, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790100026831,
+  "progress": 100,
+  "started_at": 1790100026837,
+  "finished_at": 1790100095561,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-a6a7-704f-acd4-66de6249c564/output/model.glb?Expires=4943635200&Signature=JK5A9Tb9hF9reeIwo2U6-t1qNCBUpLLoMe2z5k9XE3Lhb6eKsPDqvHVoz0ojsXIMruecES4xEx6TtdDyhhjlRrDBKvX2W0qo3-U7XcTPPxlbfNg1paD1texjXMAONWtA3h5OpXWE1SE43jI9jmpEF5g86wk-FQTiYmoAr4fkrRPiIRpGzCEFOQ0NCCCEbgxarN2nZf~wvDfyRTHokBKuT4molrphTxm4mXwWjKmUIf~wigyqlamXdXpGARg6qrtfzr9X~2YHolvS656EofbYPyqIb29n~3-HJI5~VhLu5xZRxLrQ38AX3rdwEMs1PChECyZL55ZhDJOjANoor9NfVQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-a6a7-704f-acd4-66de6249c564/output/model.fbx?Expires=4943635200&Signature=DttDyVzuSa5kuIWG6gCRK8jj~kbZNDPl7QZAn0dCWZ3cWrC9Ch3NCPBIHz5QBmc4svGzHp25LVt8i3Ewjz-0ypj9hXsJkm4VDI5rNhliTUKWXjOWtbAQQ-nbd5cMBR5b~88S5gD7gLGHMnF9RuIhtjGe~RPJsmjd0DFSqUVCRq~6-PHFtHp11YRocCvFsnu0QloP4~5VPF7LOsR7FyZ9lPaeOkk56I70DbhT9HSeh3PfUciU3T7a0E4eXL6goElyVMjxWkvU0k9~J87~HVlVGOwfeq-pJ91qvUtq-9fQ4OhwHlEFLfsuVYxXuQvL8HBEH54kGcyKWM2ddowP~LZm2w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-a6a7-704f-acd4-66de6249c564/output/model.usdz?Expires=4943635200&Signature=MjL4el0Ia~t94-XUCot4Ps4PBZ15YIJGwdNsZI6QLfnuqGrjgLGbfBZNdCm-cPffcY88PouEo1~ZmNEYLk6TbnQGjW9v00ogbLjCjdRBcYfZUzuPEd1ByzNqAGltzP1J33eOpJ1ICq5F1xfs2d9UxANB0tLa8IR652dh4qvoxN3P12kO0oN3vLxOEK4xxfeRlMdk9Z4UHQQBjj6wowGo3ErxXoMZUmFgj5GPQG3I8GWDWm4eBjI~hKJMlBN7uhVbOlENwP-AE5Enh26Aang4SVsx~1Ze29djX0o3qpGJD7cpac5Wb8UVvtROxdf4qqE0CwrrfQJwch1m94C80AkPvw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-a6a7-704f-acd4-66de6249c564/output/model.obj?Expires=4943635200&Signature=jhNZuwgZWQJB8GQaLAjffusE0Bq39e8V9tsKTkJR-60DmOjngINLNwO9ljvMB4MStZqw6wV9CHIuZUGJZROR~J~fyVj4MWn1fY93lvFC5HrCe70xlPI31svzZ8fNqjnf-RaJZ-kgrqhnD4DxUCfgRw6y3iRbjq6nHeoqyJM~AfRkNQXjxGgIra8PZJPxsllACW0svwoTcSxTGEIiaYmUdx~JaD7io0255~6ZJbz8btd33gHnK7hFYnBxvbbvw9a3G0l~chMK2JFvELSJa6vrb8D5VhokzvlX~MoTvX2RLpRI0-JruN5Gne87Vr6LwEew-BImW~e2WaTYC1Sc2I9JCg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-a6a7-704f-acd4-66de6249c564/output/model.stl?Expires=4943635200&Signature=p4df4AmgH6A5TXSiOAWr7Mbz0LCbKgpqO0TnbIgUb49bzX54sy8F-8G9YEwWJL7zbb-XTHQZJrdVMhQandhsKidCDpaYQkIPGSu8p4WkHl9ekiQ5Wx1caTWXmkfugsJcjoKUUUKr0UlOAACLmtlmj8OtJS7MYR7qJmZUs2JAXdKZoE39xIzlMvIcE2FXDF~QPzy6TfW7Vma~QQ3n-8ToXJU9CEV7MRVsLUtmBgEsnrdb56KT6gE83Y1uR~Phq3X0iBwEuBPy492eUmqr6ecEpSVLQYmtx80Gd6QulalLjRAPMoDqB~6lCQ7ijHfw9nqSyX-Ie0XaZhqRL5ThTgRZKA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-a6a7-704f-acd4-66de6249c564/output/preview.png?Expires=4943635200&Signature=ncxHpbqH~CZvgwos~JQ-sQQXH7xH3f7CId3AALpEcaL1DlhuzuyEKq1ych44T0MwCBlNLAD7qLh8gu~kQl-Tkpzus3BBX-SYM8nrrHDJAHnSPthgq~0X4b9p~VlHz6C07vz8-s-BwivHoWInfc16oEhNT39ND1goltJ7PABuw-gF0wpsQmRBvOLbxbbjhjU9yJq28nW-X0TIi-yBgRO-A5ZWVqvlE4MtB3HcLglwDwqcxW0hBzHoKlhXAI25Wa9l0j6FDGUXwSFrIs0lnljt-xbljQaVPldSVxW9xoWsUp18owm0M28JMvdpdNCArOxrek1xYcmMdRN8wXYnFIfmEw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

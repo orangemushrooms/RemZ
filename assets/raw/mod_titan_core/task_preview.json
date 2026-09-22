@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca46-f5a0-71e8-ab65-19760241f92a",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 877297252,
+  "prompt": "game asset, heavy armour piercing rifle barrel with a power core, thick steel barrel tube with an armoured shroud of overlapping plates around the middle, glowing molten seams and vent slits between the plates, stepped mounting collar at the rear, lying horizontally, isolated single object, no gun, no weapon, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790100044870,
+  "progress": 100,
+  "started_at": 1790100044877,
+  "finished_at": 1790100160378,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-f5a0-71e8-ab65-19760241f92a/output/model.glb?Expires=4943635200&Signature=pYHH~3dZhrtzY59q8GadUYiaSZEG0yClHQq1cMLrhKwPHaRx9~La-3sWU3JSWTLxFEKnBPgtTMPkz-817brZRHd2MnFHcuiRoHWNWXDPNkxI-dG1-s~FWL4oY4dYDhnme0GEArpPKlp23kE3Q~P8r3347dzTrOtFi7LZOGczmOXMtDMwa-70I2LZeuug~ilU36rUvl5s9bhI9AZjgV3sCa4Ddj~YOLV7fxyfXC2kPQuIGJaR1eGZC9X6yTMRxOTxomUZIHRxBOX6ZeJeyskooTwyAOntG1GJ2GWFjbCFXW7NUk9hHy7PaztH5rCWmXUKvYwTOZx99O6OD3hWUN7HQQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-f5a0-71e8-ab65-19760241f92a/output/model.fbx?Expires=4943635200&Signature=YRLROL7NGxRr6o6chyICmGECoGdf2cK4O9iM2zmOyuC2BmqE0H4QmUj1Qybyev98V8SjkT0Hd0sNZZyycks7S6-T7OotN275ymKOH-kaorCO3K8Cl43enGi8q6fjFbdqioJCpixoVsNGYlPPPmVoBHeNCqRvp0t2uJ5Lx5xq9N6xcZmqPFROTbLtn-bcaqgcC4BLkIW5cmWYe9XYdLLmmwmfkH62FHWPQ-nq6Pd7HyYWkiGrCWNEuovWfWfimSBWZ6fKQi~JmgBgom8PeGampuS4ITNVCGKFgDOlH0-8sr3xgoPTWZmaIW095yTd5OYVaTKGbjbcinVj97DIroNkcA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-f5a0-71e8-ab65-19760241f92a/output/model.usdz?Expires=4943635200&Signature=BcILohnTQO1JKSuc6u7BQSoQ10fIdvLQ8AncztXnr2hhdVGtCAZMBhq2nXC50nYKfkXhkc226pT2kZS4ZXvX~N-HiHc5ySS6tfIRjcm4sZhCKgvCyoqa2UVHi8D~YEaUKw0SAF5D9T7lZwK0t1ZETCX~cUDpft3IOW6ENixMMu8LlGkOxkhPgHp-W9l-iulhwUo4uyoa83aHqVhz7KX8YT7Jl719r5OmqLH3AintCm8e0Jg7vfm1qH6RjgXHLtuJ8ezkLMUrPG6UYJuxd5nkM02lntfUcKhcg7IQU8NhcMaXm-p9BQU0rGXqV4iXa49isKCrdWhzNF3oA8Y-jNKHXw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-f5a0-71e8-ab65-19760241f92a/output/model.obj?Expires=4943635200&Signature=QX4922~mIkX77~MGuNfHVrMx5mfI8bZMQmna33WC9r8fvDzHjQkWmNNc0gSEPL16xxNOZ5H~SN-IjNC0kNwfc20zXkv6tPDdHCGQ1cSZXOBXzq57H9V434lNFehul2G4TqfBZgSbiEjNlc0C8SnE8aDhQgdQrWFW1dOAL2f2vocbOuKKo~E51Bxq8xRuVjgR2Dcd7k7B4R4msvTGPvqfmkZgQ9C1kLqVn4rPsxdb7HnaG6TAsRRvy~5ed-Caxf1w8VB~vOMEAxKVbb~S2KQaK5FNiBSxx-lij3uj5C0-4TaV6SZJ4NI8EZ1PmoYXbH3Fy93ZzV-a6WrjQ0yLPrIdhg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-f5a0-71e8-ab65-19760241f92a/output/model.stl?Expires=4943635200&Signature=BsA-j3sqWv4J34mr5RxzzwBPO3FWQn5nKDlhRAkKheDxv4o13cVPYzne5QjXcyFmRZAA9QSMDAMeqYIio3VK5a3~oEU5I8FR0p8f6Jz6IyN7DLAumiqvEb0WeJCipxtoF6zrku1ag8IqBWGqBYpfewyTPiL8anrDerlZ~ii~1v6UvTI1EdYr0v1-72fvMD-6~61Muq5hqSUJWRdsq57sB3qBQsWoZXHtFlqgNCKfNgGoh9I6H6VZm3PRNEsy66Ze5SHEnFyXuouj1CyTwKltO5Jwmq4pTKrOXMt7cY3S4F85we2z3pIt6nmos8PmgbkyqXSWrDIOjwLWrKCuP8bxXA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-f5a0-71e8-ab65-19760241f92a/output/preview.png?Expires=4943635200&Signature=N65I4LPBIFRBRnD~skYvyRIczG4OlLe-h~ISmVIB5hhj-pfDvkM2-31hDLLcVu2uV~vtZcP9SLW5Opk~oak9IgUBTbP0l812a~qng4VUpgemIcUKS9w7QA7Us4OC1NT5C1MWaWkSwKHDDEaWhBrmFf0-DVnbnfGQt3Y3hUfBUCzkgiv-StbGLSuxP4C1ng0spHRpT~ANNregtuFTb1~FrG3EiNqUeDEq4mwxG20YNJTJ5iRXaR-Cpjd5-dSAdouaiIG7S6liivI6qyF3xJVqua-ZFvhGjREXX9cBAZCe686IvvK4Yl97ptyfh8sUIn3NWVqzAzN1RIi~ItZtWkpVPw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

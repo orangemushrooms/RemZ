@@ -6,7 +6,7 @@ const DEFS := {
 	"blood": {"name": "Blutstein · Legendär", "price": 2600, "level": 10, "kind": "relic", "desc": "Eigene Waffen- und Brandkills heilen 3 Leben; keine Heilung durch Türme.", "bonuses": {}},
 	"wind": {"name": "Sturmfeder · Legendär", "price": 2500, "level": 9, "kind": "relic", "desc": "20 % kürzeres Nachladen und 10 % mehr Bewegungstempo.", "bonuses": {"reload": 0.8, "speed": 1.1}},
 	"phoenix": {"name": "Phönixasche · Legendär", "price": 3800, "level": 15, "kind": "relic", "desc": "Verhindert einmal pro Welle einen tödlichen Treffer und stellt 40 % Leben her. Wechseln setzt die Ladung nicht zurück.", "bonuses": {}},
-	"coin": {"name": "Wegzoll des Krämers · Legendär", "price": 1900, "level": 6, "kind": "relic", "desc": "20 % mehr Punkte für eigene Kills.", "bonuses": {"score": 1.2}},
+	"coin": {"name": "Wegzoll des Krämers · Legendär", "price": 1900, "level": 6, "kind": "relic", "desc": "20 % mehr Rem Dollars für eigene Kills.", "bonuses": {"score": 1.2}},
 	"owl": {"name": "Eulenauge · Legendär", "price": 2000, "level": 6, "kind": "relic", "time": ["night"], "desc": "30 % weniger Streuung und 15 % weniger Rückstoß. Nur nachts im Angebot.", "bonuses": {"spread": 0.7, "recoil": 0.85}},
 	"moss": {"name": "Moosmantel · Legendär", "price": 2100, "level": 7, "kind": "relic", "region": ["N", "W"], "desc": "15 % weniger erlittener Schaden und 5 % mehr Tempo. Führt der Krämer im Nord- und Westwald.", "bonuses": {"guard": 0.85, "speed": 1.05}},
 	"raven": {"name": "Rabenfeder · Legendär", "price": 2200, "level": 8, "kind": "relic", "time": ["night"], "desc": "30 % kürzeres Nachladen. Nur nachts im Angebot.", "bonuses": {"reload": 0.7}},

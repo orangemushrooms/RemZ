@@ -66,7 +66,7 @@ func run() -> void:
 		player.score = int(quote.cost) - 1
 		check(hut.repair(player).begins_with("Es fehlen") and hut.hp == HutHealth.MAX_HP - 1000, "Insufficient points cannot buy late-wave repairs")
 		player.score = int(quote.cost)
-		check(hut.prompt_text().contains("%d P" % quote.cost) and hut.repair(player).is_empty() and player.score == 0 and hut.hp == HutHealth.MAX_HP - 500, "Prompt and actual repair charge agree")
+		check(hut.prompt_text().contains("%d R" % quote.cost) and hut.repair(player).is_empty() and player.score == 0 and hut.hp == HutHealth.MAX_HP - 500, "Prompt and actual repair charge agree")
 	game.waves.wave = 10
 	game.waves.completed = 10
 	hut.hp = HutHealth.MAX_HP - 100

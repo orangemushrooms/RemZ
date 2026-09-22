@@ -1,5 +1,8 @@
 # Horden-Performance
 
+Aktueller Nachtrag vom 22.09.2026: [Bildzeiten und Lagspikes](FRAME_PACING.md).
+Die folgenden Messwerte dokumentieren den vorherigen Stand vom 21.09.2026.
+
 Die Optimierung vom 21.09.2026 senkt CPU- und Spawnkosten. Grafikprofile,
 Texturen, Mesh-Details, Schattenreichweiten und Physiktakt bleiben unveraendert.
 Die bestehenden Grenzen gleichzeitig aktiver Wellengegner bleiben ebenfalls

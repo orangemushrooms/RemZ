@@ -21,6 +21,8 @@ const FILES := {
 	"key_pickup": ["key_Pickup"],
 	"weapon_pickup": ["gun_pick_up"],
 	"quest_accept": ["acceppt_1", "acceppt_2"],
+	"quest_progress": ["confirm"],
+	"quest_ready": ["quest_aaccept_Finish"],
 	"quest_complete": ["quest_aaccept_Finish"],
 	"purchase": ["gun_pick_up"],
 	"vendor_vocal": ["vendor_vocal_1", "vendor_vocal_2", "vendor_vocal_3"],
@@ -90,10 +92,35 @@ static var _rng := RandomNumberGenerator.new()
 static var _last_footstep := -1
 static var _last_event_variant: Dictionary = {}
 const EVENTS := {"consume": -8.0, "pickup": -8.0, "mushroom_pickup": -10.0, "key_pickup": -6.0, "weapon_pickup": -8.0, "quest_accept": -10.0, "quest_complete": -8.0, "purchase": -12.0,
+	"quest_progress": -14.0, "quest_ready": -10.0,
 	"vendor_vocal": -3.0, "secret_vendor_vocal": -3.0, "mechanic_vocal": -3.0, "achievement": -5.0,
 	"mara_morning": -3.0, "mara_day": -3.0, "mara_evening": -3.0, "mara_night": -3.0}
 static var _voices: Dictionary = {}        # name -> Array of live players; automatic fire never stacks more than MAX_VOICES
 const MAX_VOICES := 3
+static var _voice_frame := -1
+static var _voice_counts: Dictionary = {}
+
+static func _allow_voice(name: String) -> bool:
+	var frame := Engine.get_process_frames()
+	if frame != _voice_frame:
+		_voice_frame = frame
+		_voice_counts.clear()
+	var count: int = _voice_counts.get(name, 0)
+	if count >= MAX_VOICES: return false
+	_voice_counts[name] = count + 1
+	return true
+
+# Prepare every variant, including procedural footsteps, while loading. Picking
+# one random clip here used to leave the remaining variants cold during combat.
+static func prewarm() -> void:
+	for name: String in FILES:
+		for stem: String in FILES[name]:
+			if not _file(stem) and not _cache.has(name): _cache[name] = _procedural(name)
+	for name in ["hurt_thud", "tower_flame", "tower_tesla", "wood"]:
+		if not _cache.has(name): _cache[name] = _procedural(name)
+	_ensure_step_buses()
+	for surface: String in STEP_SURFACES:
+		for variant in 3: _step_texture(surface, variant)
 
 static func _wav(samples: PackedFloat32Array, rate: int = 22050) -> AudioStreamWAV:
 	var wav := AudioStreamWAV.new()
@@ -202,41 +229,42 @@ static func event(node: Node, peer_id: int, name: String) -> void:
 		play(node, name, EVENTS[name])
 
 static func play(node: Node, name: String, volume_db: float = 0.0, pitch: float = 1.0) -> void:
-	var p := AudioStreamPlayer.new()
+	if not _allow_voice(name): return
+	var p := _voice(node, name, false) as AudioStreamPlayer
 	p.stream = get_stream(name)
 	p.volume_db = volume_db
 	p.pitch_scale = pitch if EVENTS.has(name) else pitch * _pitch(0.04)
-	if EVENTS.has(name): p.process_mode = Node.PROCESS_MODE_ALWAYS
-	node.add_child(p)
+	p.process_mode = Node.PROCESS_MODE_ALWAYS if EVENTS.has(name) else Node.PROCESS_MODE_INHERIT
 	p.play()
-	p.finished.connect(p.queue_free)
-	_limit_voices(name, p)
 
-static func _limit_voices(name: String, p: Node) -> void:
+static func _voice(parent: Node, name: String, spatial: bool) -> Node:
 	var list: Array = _voices.get(name, [])
 	var live: Array = []
+	var available: Node
 	for v in list:
-		if is_instance_valid(v) and v.is_inside_tree() and v.playing:
+		if is_instance_valid(v) and v.is_inside_tree() and not v.is_queued_for_deletion():
 			live.append(v)
-	live.append(p)
-	while live.size() > MAX_VOICES:
-		var old: Node = live.pop_front()
-		if is_instance_valid(old):
-			old.queue_free()
+			if not v.playing and not available: available = v
+	if not available:
+		available = live[0] if live.size() >= MAX_VOICES else (AudioStreamPlayer3D.new() if spatial else AudioStreamPlayer.new())
+	available.stop()
+	live.erase(available)
+	live.append(available)
+	if not available.get_parent(): parent.add_child(available)
+	elif available.get_parent() != parent: available.reparent(parent, false)
 	_voices[name] = live
+	return available
 
 static func play_at(node: Node, name: String, pos: Vector3, volume_db: float = 0.0, pitch: float = 1.0, unit_size: float = 10.0, max_distance: float = 60.0) -> void:
-	var p := AudioStreamPlayer3D.new()
+	if not _allow_voice("3d:" + name): return
+	var p := _voice(node, "3d:" + name, true) as AudioStreamPlayer3D
 	p.stream = get_stream(name)
 	p.volume_db = volume_db
 	p.pitch_scale = pitch * _pitch(0.08)
 	p.unit_size = unit_size
 	p.max_distance = max_distance
-	node.add_child(p)
 	p.global_position = pos
 	p.play()
-	p.finished.connect(p.queue_free)
-	_limit_voices("3d:" + name, p)
 
 # ---------------------------------------------------------------- footsteps
 static func _ensure_step_buses() -> void:

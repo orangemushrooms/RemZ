@@ -59,6 +59,9 @@ var _trace_direction := Vector3.FORWARD
 var _trace_distance := 0.0
 var _trace_travel := 0.0
 var _lightning: MeshInstance3D
+static var _boxes: Dictionary = {}
+static var _cylinders: Dictionary = {}
+static var _model_scenes: Dictionary = {}
 
 func spec() -> Dictionary:
 	return SPECS.get(kind, SPECS.standard)
@@ -98,17 +101,22 @@ static func piece(parent: Node3D, mesh: Mesh, pos: Vector3, mat: Material) -> Me
 	return instance
 
 static func box(parent: Node3D, size: Vector3, pos: Vector3, mat: Material) -> MeshInstance3D:
-	var mesh := BoxMesh.new()
-	mesh.size = size
-	return piece(parent, mesh, pos, mat)
+	if not _boxes.has(size):
+		var mesh := BoxMesh.new()
+		mesh.size = size
+		_boxes[size] = mesh
+	return piece(parent, _boxes[size], pos, mat)
 
 static func cylinder(parent: Node3D, radius: float, length: float, pos: Vector3, mat: Material) -> MeshInstance3D:
-	var mesh := CylinderMesh.new()
-	mesh.top_radius = radius
-	mesh.bottom_radius = radius
-	mesh.height = length
-	mesh.radial_segments = 16
-	return piece(parent, mesh, pos, mat)
+	var key := Vector2(radius, length)
+	if not _cylinders.has(key):
+		var mesh := CylinderMesh.new()
+		mesh.top_radius = radius
+		mesh.bottom_radius = radius
+		mesh.height = length
+		mesh.radial_segments = 16
+		_cylinders[key] = mesh
+	return piece(parent, _cylinders[key], pos, mat)
 
 func _ready() -> void:
 	add_to_group("defence_towers")
@@ -441,7 +449,8 @@ func _build_variant(steel: Material, copper: Material) -> void:
 	for child in gun.get_children():
 		if child is MeshInstance3D: child.hide()
 	if ResourceLoader.exists(path):
-		var model: Node3D = load(path).instantiate()
+		if not _model_scenes.has(path): _model_scenes[path] = load(path)
+		var model: Node3D = _model_scenes[path].instantiate()
 		model.name = "WeaponModel"
 		gun.add_child(model)
 		if kind=="flame": gun.position.y = 3.4

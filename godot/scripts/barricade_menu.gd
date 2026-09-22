@@ -125,7 +125,10 @@ func _build_ui() -> void:
 	wallet.add_theme_stylebox_override("panel", _style(INK, Color(0.3, 0.36, 0.29), 14))
 	header.add_child(wallet)
 	points = _label("", 20, GOLD)
-	wallet.add_child(points)
+	var wallet_row := HBoxContainer.new()
+	wallet.add_child(wallet_row)
+	wallet_row.add_child(preload("res://scripts/currency.gd").icon(32.0, GOLD))
+	wallet_row.add_child(points)
 	var back := _button("Zurück ins Spiel  [Esc]")
 	back.pressed.connect(close)
 	header.add_child(back)
@@ -197,7 +200,7 @@ func _build_ui() -> void:
 	primary.add_theme_constant_override("icon_max_width", 42)
 	primary.pressed.connect(_purchase.bind("build"))
 	card_content.add_child(primary)
-	repair_button = _button("Ganze Linie reparieren  ·  25 P")
+	repair_button = _button("Ganze Linie reparieren  ·  25 R")
 	repair_button.icon = ItemIcons.texture("skill_regen")
 	repair_button.expand_icon = true
 	repair_button.add_theme_constant_override("icon_max_width", 32)
@@ -310,7 +313,7 @@ func _position_camera() -> void:
 func _refresh() -> void:
 	if not is_open or not selected:
 		return
-	points.text = "%d  PUNKTE" % player.score
+	points.text = "%d  REM DOLLARS" % player.score
 	for i in site_buttons.size():
 		var bar: Barricade = main.barricades[i]
 		var distance := bar.distance_to_line(player.global_position)
@@ -326,13 +329,13 @@ func _refresh() -> void:
 		level_labels[i].modulate = GREEN if i < selected.level else MUTED
 	var build_error := selected.action_error(player, "build")
 	var repair_error := selected.action_error(player, "repair")
-	primary.text = "Ganze Linie bauen  ·  50 P" if selected.level == 0 else ("Auf Stufe %d verstärken  ·  50 P" % (selected.level + 1) if selected.level < Barricade.MAX_LEVEL else "Maximal verstärkt")
+	primary.text = "Ganze Linie bauen  ·  50 R" if selected.level == 0 else ("Auf Stufe %d verstärken  ·  50 R" % (selected.level + 1) if selected.level < Barricade.MAX_LEVEL else "Maximal verstärkt")
 	primary.disabled = not build_error.is_empty()
 	primary.tooltip_text = build_error
 	repair_button.disabled = not repair_error.is_empty()
 	repair_button.tooltip_text = repair_error
 	repair_button.visible = selected.level > 0
-	explanation.text = "50 Punkte für die Sperrlinie und ihren Palisadenabschnitt. Beide entstehen erst beim Bauen." if selected.level == 0 else "Verstärken erhöht die Haltbarkeit um 150 TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
+	explanation.text = "50 Rem Dollars für die Sperrlinie und ihren Palisadenabschnitt. Beide entstehen erst beim Bauen." if selected.level == 0 else "Verstärken erhöht die Haltbarkeit um 150 TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
 	preview_title.text = "%02d   /   %s" % [main.barricades.find(selected) + 1, selected.slot["name"]]
 	preview_status.text = "ROTE BAUVORSCHAU   ·   %.1f M GESAMTLÄNGE" % (selected.half_len * 2.0) if selected.level == 0 else "LINIE GESICHERT   ·   STUFE %d / 3" % selected.level
 	preview_status.add_theme_color_override("font_color", RED if selected.level == 0 else GREEN)

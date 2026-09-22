@@ -1,0 +1,31 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: B throws 100 points without opening inventory
+PASS: Cash has exact value and initial throwing velocity
+PASS: Rapid duplicate commands cannot create extra bundles
+PASS: Thrower cannot immediately reclaim cash
+PASS: Solo pickup returns exact points only once
+PASS: Last partial bundle never overdraws the balance
+PASS: Empty balance cannot create money
+PASS: Cash does not expire like zombie supplies
+PASS: Menu or inactive player cannot throw
+PASS: I opens inventory after rebinding
+PASS: Client cannot specify its own bundle amount
+PASS: Host debits remote sender and owns cash value
+PASS: Snapshot sends bundle value and owner to clients
+PASS: Receiving snapshot creates visible cash with correct value
+PASS: Later snapshot removes collected cash from receiving world
+PASS: Owner grace also applies to host pickup validation
+PASS: Distant collection cannot transfer money
+PASS: Another player receives exact money once, with total conserved
+PASS: Dead sender cannot drop points
+PASS: Thrown cash follows an arc and lands on collision geometry
+PASS: Cash cannot be collected through a wall
+PASS: World cash limit rejects throw without losing money
+CASH_DROPS_DONE checks=22 failures=0

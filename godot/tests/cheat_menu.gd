@@ -32,6 +32,11 @@ func run() -> void:
 	Input.parse_input_event(shortcut.duplicate())
 	check(menu.is_open and menu.panel.visible and paused and not game.player.active, "Shortcut opens the cheat menu and pauses solo gameplay")
 	check(not game.hud.minimap.reveal_secret, "Opening the menu does not toggle the secret vendor")
+	var starting_points: int = game.player.score
+	menu.points_button.pressed.emit()
+	check(game.player.score == starting_points + 1000 and menu.status.text.contains(str(game.player.score)), "Points button credits 1000 points and updates the displayed balance while paused")
+	menu.points_button.pressed.emit()
+	check(game.player.score == starting_points + 2000 and menu.is_open and paused, "Points button can be used repeatedly without closing or resuming the game")
 	shortcut.echo = true
 	Input.parse_input_event(shortcut.duplicate())
 	check(menu.is_open, "Holding the shortcut does not repeatedly toggle the menu")

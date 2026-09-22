@@ -370,7 +370,7 @@ func action_error(player: Player, action: String, require_reach := true) -> Stri
 		return "Keine Reparatur nötig."
 	var cost := COST_REPAIR if action == "repair" else COST_BUILD
 	if player.score < cost:
-		return "Es fehlen %d Punkte." % (cost - player.score)
+		return "Es fehlen %d Rem Dollars." % (cost - player.score)
 	if action == "build" and level == 0 and placement_blocked(player):
 		return "Baufläche belegt. Du oder ein Gegner stehen in der Linie."
 	return ""

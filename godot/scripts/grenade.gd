@@ -92,6 +92,10 @@ func _explode() -> void:
 		var distance := viewer.global_position.distance_to(pos)
 		viewer.wobble = maxf(viewer.wobble, clampf(1.6 - distance / 20.0, 0.0, 1.5))
 	Sfx.play_at(get_tree().current_scene, "boom", pos, 2.0)
+	explosion_visuals(get_tree().current_scene, pos)
+	queue_free()
+
+static func explosion_visuals(parent: Node3D, pos: Vector3) -> void:
 	# fireball
 	var fire := GPUParticles3D.new()
 	var fm := ParticleProcessMaterial.new()
@@ -129,7 +133,7 @@ func _explode() -> void:
 	fire.lifetime = 0.9
 	fire.one_shot = true
 	fire.explosiveness = 0.95
-	get_tree().current_scene.add_child(fire)
+	parent.add_child(fire)
 	fire.global_position = pos
 	fire.emitting = true
 	# smoke
@@ -167,7 +171,7 @@ func _explode() -> void:
 	smoke.lifetime = 4.0
 	smoke.one_shot = true
 	smoke.explosiveness = 0.9
-	get_tree().current_scene.add_child(smoke)
+	parent.add_child(smoke)
 	smoke.global_position = pos
 	smoke.emitting = true
 	# flash light
@@ -175,14 +179,13 @@ func _explode() -> void:
 	light.light_color = Color(1.0, 0.7, 0.4)
 	light.light_energy = 40.0
 	light.omni_range = 25.0
-	get_tree().current_scene.add_child(light)
+	parent.add_child(light)
 	light.global_position = pos + Vector3(0, 0.8, 0)
 	var tw := light.create_tween()
 	tw.tween_property(light, "light_energy", 0.0, 0.5)
 	tw.tween_callback(light.queue_free)
-	get_tree().create_timer(5.0, false).timeout.connect(fire.queue_free)
-	get_tree().create_timer(6.0, false).timeout.connect(smoke.queue_free)
-	queue_free()
+	parent.get_tree().create_timer(5.0, false).timeout.connect(fire.queue_free)
+	parent.get_tree().create_timer(6.0, false).timeout.connect(smoke.queue_free)
 
 func _visible_from(origin: Vector3, target: Vector3) -> bool:
 	var query := PhysicsRayQueryParameters3D.create(origin + Vector3.UP * 0.08, target, 1 | 8)

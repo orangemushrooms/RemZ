@@ -317,7 +317,7 @@ func collect_drop(drop: Pickup, id: int) -> void:
 		_: p.hp = minf(p.max_hp, p.hp + 30.0)
 	w.update_hud()
 	p.hud.set_health(p.hp)
-	NetSession.feedback(id, "message", ["+%d P aufgenommen" % drop.amount if drop.kind == "cash" else "Vorrat aufgenommen", 1.4])
+	NetSession.feedback(id, "message", ["+%d R aufgenommen" % drop.amount if drop.kind == "cash" else "Vorrat aufgenommen", 1.4])
 	Sfx.event(game, id, "pickup")
 	if drop.kind != "cash": game.achievements.event("drops")
 	drop.queue_free()
@@ -552,7 +552,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		if pumpkin_states[i]: game.pumpkins[i].shatter(not initial)
 	if initial: NetSession.trace_load("STATE_STAGE structures")
 	game.defences.apply_snapshot(data.get("towers", {}), initial)
-	game.progression.apply_snapshot(data.get("progression", {}))
+	game.progression.apply_snapshot(data.get("progression", {}), initial)
 	game.fireworks.apply_snapshot(data.get("fireworks", {}))
 	game.hunting.apply_snapshot(data.get("hunting", {}))
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
@@ -790,4 +790,4 @@ func wave_cleared(bonus: int) -> void:
 			p.alive = true
 			p.hp = p.max_hp
 			p.active = true
-		NetSession.feedback(id, "message", ["Welle überstanden · Pistolenreserve gesichert · +%d Punkte" % bonus, 3.0])
+		NetSession.feedback(id, "message", ["Welle überstanden · Pistolenreserve gesichert · +%d Rem Dollars" % bonus, 3.0])

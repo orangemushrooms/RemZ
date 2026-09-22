@@ -134,7 +134,7 @@ func _build_menu() -> void:
 	for kind in DefenceTower.TYPES:
 		var spec: Dictionary = DefenceTower.SPECS[kind]
 		var button := Button.new()
-		button.text = "%s · %d P\n%s · %d m" % [spec.name,spec.cost,spec.info,spec.range]
+		button.text = "%s · %d R\n%s · %d m" % [spec.name,spec.cost,spec.info,spec.range]
 		button.custom_minimum_size.y = 70
 		button.pressed.connect(select_kind.bind(kind))
 		list.add_child(button)
@@ -165,7 +165,7 @@ func placement_error(p: Player, point: Vector3, kind := "standard") -> String:
 	if p.mounted_tower: return "Zum Bauen zuerst absteigen."
 	if not p.alive or not point.is_finite(): return "Bauen momentan nicht möglich."
 	if towers.size() >= DefenceTower.LIMIT: return "Maximal 6 Türme im Team."
-	if p.score < int(DefenceTower.SPECS[kind].cost): return "%s: %d Punkte benötigt." % [DefenceTower.SPECS[kind].name,DefenceTower.SPECS[kind].cost]
+	if p.score < int(DefenceTower.SPECS[kind].cost): return "%s: %d Rem Dollars benötigt." % [DefenceTower.SPECS[kind].name,DefenceTower.SPECS[kind].cost]
 	if p.global_position.distance_to(point) > 8.0: return "Bauplatz höchstens 8 m entfernt wählen."
 	if not Map.BOUNDS.grow(-3).has_point(Vector2(point.x, point.z)): return "Ausserhalb des Baugebiets."
 	var ground := Map.ground_pos(point.x, point.z)
@@ -247,7 +247,7 @@ func maintain(p: Player, id: int, action: String, at_merchant := false) -> Strin
 			Sfx.event(self, p.peer_id, "purchase")
 			return ""
 		_: return "Unbekannte Aktion."
-	if p.score < cost: return "Zu wenig Punkte."
+	if p.score < cost: return "Zu wenig Rem Dollars."
 	p.add_score(-cost)
 	if action == "upgrade": tower.level += 1
 	tower.hp = tower.max_hp()
@@ -537,7 +537,7 @@ func _process(delta: float) -> void:
 			ghost.show()
 			ghost_material.albedo_color = Color(0.2, 0.95, 0.5, 0.28) if build_error.is_empty() else Color(1, 0.16, 0.08, 0.3)
 			var spec: Dictionary = DefenceTower.SPECS[selected_kind]
-			hint.text = ("%s AUSRICHTEN · kostenlos" % spec.name if rotating_id else "%s · %d P" % [spec.name,spec.cost]) + " · %d / 6 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen" % [towers.size(), "Max. %d m · heller Sektor: Automatik (160°)\nManuell: ganzer Kreis · Hindernisse blockieren" % roundi(preview_range()) if build_error.is_empty() else build_error]
+			hint.text = ("%s AUSRICHTEN · kostenlos" % spec.name if rotating_id else "%s · %d R" % [spec.name,spec.cost]) + " · %d / 6 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen" % [towers.size(), "Max. %d m · heller Sektor: Automatik (160°)\nManuell: ganzer Kreis · Hindernisse blockieren" % roundi(preview_range()) if build_error.is_empty() else build_error]
 			hint.show()
 	var titan: Zombie
 	for z in game.zombies_root.get_children():

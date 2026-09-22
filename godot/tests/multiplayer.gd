@@ -192,6 +192,14 @@ func host_run() -> void:
 	check_leaderboard(read_json("done-c1"), "After purchase")
 	check(read_json("done-c2").progress_people > 1, "Individual quest state reaches the other peers")
 	await teleport(c2, game.progression.npcs.camp.global_position + Vector3(0, 0.1, 2.3))
+	await command_clients("shop", ["c2"], ["camp", "quest", "arrival", ""])
+	await wait_seconds(0.4)
+	await command_clients("inspect", ["c2"])
+	check(read_json("done-c2").quest_notice.get("kind") == "ready", "A client sees its completed quest after the host snapshot")
+	await command_clients("shop", ["c2"], ["camp", "quest", "arrival", ""])
+	await command_clients("inspect", ["c1", "c2"])
+	check(read_json("done-c2").quest_notice.get("kind") == "complete" and read_json("done-c2").quest_notice.get("id") == "arrival", "Reliable turn-in feedback displays the client's reward popup")
+	check(read_json("done-c1").quest_notice.is_empty() and game.progression.notifications._current.is_empty(), "Other players do not receive the client's quest popup")
 	await command_clients("menus", ["c2"])
 	var menu_report: Dictionary = read_json("done-c2")
 	check(not menu_report.paused and not paused, "Client menus do not pause the common world")
@@ -424,6 +432,11 @@ func host_run() -> void:
 		await command_clients("tower_place",["c2"],[[60,Map.ground_height(60,112),112],tower_kind])
 		await wait_seconds(0.4)
 		check(game.defences.towers.size()==1,tower_kind+" can be built by a remote client")
+		if game.defences.towers.is_empty():
+			var builder: Player = NetSession.world.actor(c2)
+			push_error("TOWER_PLACE_DIAGNOSTIC kind=%s position=%s mounted=%d reason=%s" % [tower_kind, builder.global_position, builder.mounted_tower, game.defences.placement_error(builder, Map.ground_pos(60, 112), tower_kind)])
+			quit(1)
+			return
 		var variant: DefenceTower = game.defences.towers.values()[0]
 		check(variant.kind==tower_kind and NetSession.world.actor(c2).score==score_before-int(DefenceTower.SPECS[tower_kind].cost),tower_kind+" uses host-validated type and price")
 		await command_clients("tower_mount",["c2"],[variant.tower_id])
@@ -697,6 +710,7 @@ func client_run() -> void:
 			tower_shots += tower.shots
 			tower_hp += tower.hp
 		write_json("done-"+role, {"step": step_seen, "players": NetSession.roster.size(), "avatars": NetSession.world.avatars.size(),
+			"quest_notice": game.progression.notifications._current,
 			"gold_available": is_instance_valid(game.gold_mushroom) and not game.gold_mushroom.taken,
 			"gold_position": [game.gold_mushroom.global_position.x, game.gold_mushroom.global_position.y, game.gold_mushroom.global_position.z] if is_instance_valid(game.gold_mushroom) else [],
 			"food": game.hunting.stock(game.player.peer_id), "hunted_dead": game.hunting.health.count(0.0), "meat_drops": game.hunting.drops.size(),

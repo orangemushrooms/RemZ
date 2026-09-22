@@ -8,11 +8,17 @@ var tower: DefenceTower
 var voice: AudioStreamPlayer3D
 var hold := 0.0
 var gain := 0.0
+static var _streams: Dictionary = {}
+
+static func prewarm() -> void:
+	for kind: String in CLIPS:
+		if not _streams.has(kind): _streams[kind] = load(DIR + CLIPS[kind] + ".wav")
 
 func _ready() -> void:
 	voice = AudioStreamPlayer3D.new()
 	voice.name = "TowerShotSound"
-	var stream: AudioStreamWAV = load(DIR + CLIPS[tower.kind] + ".wav")
+	prewarm()
+	var stream: AudioStreamWAV = _streams[tower.kind]
 	if tower.kind == "flame":
 		stream = stream.duplicate()
 		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD

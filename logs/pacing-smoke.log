@@ -1,0 +1,77 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+PASS: Start screen pauses the simulation
+COOP_LOAD MAP_READY
+PASS: Navigation bake produces walkable polygons
+PASS: Start enables gameplay after navigation is ready
+PASS: Intro starts with a nearby flock on the normal field
+PASS: Crows also populate other normal fields
+PASS: Owls populate the forest outside the cornfield
+PASS: Field crows fly without being scared
+PASS: Forest owls fly at night
+PASS: Forest owls are hidden and silent during daytime
+PASS: Static map meshes are batched
+PASS: Grass has independently culled cells
+PASS: Graphics profile 0 applies
+PASS: Graphics profile 1 applies
+PASS: Graphics profile 2 applies
+PASS: Nearby world geometry cannot occlude first-person hands
+PASS: Viewmodel retains full resolution with the performance graphics profile
+PASS: Minimap has the requested title
+PASS: Minimap keeps north up and distances undistorted
+PASS: pistol has both fitted hands
+PASS: pistol stays ahead of the camera when aiming
+PASS: revolver has both fitted hands
+PASS: revolver stays ahead of the camera when aiming
+PASS: smg has both fitted hands
+PASS: smg stays ahead of the camera when aiming
+PASS: ak47 has both fitted hands
+PASS: ak47 stays ahead of the camera when aiming
+PASS: shotgun has both fitted hands
+PASS: shotgun stays ahead of the camera when aiming
+PASS: marksman has both fitted hands
+PASS: marksman stays ahead of the camera when aiming
+PASS: lmg has both fitted hands
+PASS: lmg stays ahead of the camera when aiming
+PASS: breacher has both fitted hands
+PASS: breacher stays ahead of the camera when aiming
+PASS: titanbreaker has both fitted hands
+PASS: titanbreaker stays ahead of the camera when aiming
+PASS: knife has both fitted hands
+PASS: knife stays ahead of the camera when aiming
+PASS: hatchet has both fitted hands
+PASS: hatchet stays ahead of the camera when aiming
+PASS: A shot consumes exactly one round
+PASS: Muzzle flash is visible to the first-person camera when firing
+PASS: Cooldown prevents an immediate second shot
+PASS: Selecting the current gun does not cancel reload
+PASS: Reload conserves ammunition
+PASS: No reload without reserve ammunition
+PASS: Automatic fire cadence is stable at 30 FPS (27 shots)
+PASS: Automatic fire cadence is stable at 60 FPS (27 shots)
+PASS: Automatic fire cadence is stable at 144 FPS (27 shots)
+PASS: Built barricade has active collision
+PASS: Barricade damage reuses existing models
+PASS: Repair restores health without rebuilding models
+PASS: Destroyed barricade releases collision
+PASS: Spawn updates enemy count
+PASS: Enemy can hit a nearby unobstructed player
+PASS: Walls block enemy melee damage
+PASS: A kill is counted exactly once
+PASS: Cleared wave awards completion and enters intermission
+PASS: Grenade throw creates a live grenade
+PASS: Pause freezes grenade fuse and physics
+PASS: Resume continues grenade simulation
+PASS: Remote skill menu no longer grants purchases
+PASS: Closing skills resumes combat
+PASS: Death freezes gameplay and shows restart
+RENDER_OPTIMIZER { "source_meshes": 672, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Restart resets health, waves and enemies
+PASS: Restart goes straight into the next round
+SMOKE_DONE checks=66 failures=0

@@ -1,6 +1,16 @@
 extends RefCounted
 
 const SHADER = preload("res://shaders/elemental_particle.gdshader")
+static var _tracer_mesh: CylinderMesh
+
+static func tracer_mesh() -> CylinderMesh:
+	if not _tracer_mesh:
+		_tracer_mesh = CylinderMesh.new()
+		_tracer_mesh.top_radius = 0.012
+		_tracer_mesh.bottom_radius = 0.025
+		_tracer_mesh.height = 1.0
+		_tracer_mesh.radial_segments = 6
+	return _tracer_mesh
 
 class Tracer extends MeshInstance3D:
 	var start: Vector3
@@ -13,9 +23,11 @@ class Tracer extends MeshInstance3D:
 		if offset.length_squared() < 0.0001:
 			hide()
 			return
-		(mesh as CylinderMesh).height = offset.length()
 		global_position = (start + endpoint) * 0.5
 		quaternion = Quaternion(Vector3.UP, offset.normalized())
+		# Transform a shared unit mesh; changing CylinderMesh.height rebuilds
+		# geometry on the rendering thread on every frame of a moving tracer.
+		scale = Vector3(1, offset.length(), 1)
 
 	func _process(_delta: float) -> void:
 		align()
@@ -87,12 +99,7 @@ static func shot(parent: Node, origin: Vector3, end: Vector3, mode: String, impa
 	tracer.follow_muzzle = follow_muzzle
 	tracer.process_priority = 10 # Align after the player's and weapon's current-frame animation.
 	tracer.add_to_group("elemental_tracer")
-	var mesh := CylinderMesh.new()
-	mesh.top_radius = 0.012
-	mesh.bottom_radius = 0.025
-	mesh.height = distance
-	mesh.radial_segments = 6
-	tracer.mesh = mesh
+	tracer.mesh = tracer_mesh()
 	tracer.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	var material := StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED

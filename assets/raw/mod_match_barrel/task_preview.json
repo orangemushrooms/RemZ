@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca46-c645-71c4-a0be-f2a4fab981a2",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1587962949,
+  "prompt": "game asset, heavy match grade rifle barrel, thick straight steel tube with six long shallow flutes milled along its length, a stepped chamber shoulder at the rear end and fine threads at the muzzle end, lying horizontally, isolated single object, no gun, no weapon, no stock, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790100032590,
+  "progress": 100,
+  "started_at": 1790100032596,
+  "finished_at": 1790100093724,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-c645-71c4-a0be-f2a4fab981a2/output/model.glb?Expires=4943635200&Signature=aw4jXz3UXnahSdkUkIHkoXn9CaL8d12WET4QQHIxcp7HPpCceyQ3AkGxXvDmLhpWKQJYK7WqY3mX0bZPTh17OfDyKl8sDJfY6PsMGgVVD4q4SVGb13ApD-DlmzP5jyJMOIun9jEBEu~QuRVVidjLu0NFt6-N0wqnWOxzUspoqousliNQ~bYHxUllFWdSBhYAYy-k0YyPJODYkz1uqGqzI7Dn40ba2QCooa~4HB~EsbasQRW3hkKzuRD6bm4mQtFpOxv8eBadmL9M3N3avyVs7Ka~5lfl6mokK1G4SRm60ihEVJVMX966KHlw3VLVujodftT6f2p-VkKeP3YGMLxEhw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-c645-71c4-a0be-f2a4fab981a2/output/model.fbx?Expires=4943635200&Signature=lIBXVyP3sc86lu6zjUIruwjzHXFB4~EUSTzedjI7EZe9V8hd9wzso-qBcm-mT75joUnoeS5X8z3ZB1ZoEf3IqhcSyvBRzsd547vQH49cMepPAS7J4~DbI7YxXvNGsolTF23AxCGKiCpGNNOuHI4xtC9yhT~Fhr8ISNcz8Z-bakyA-pW2rUVz3orzTROXK9quY9AF5p-NCAZ4NgtFCEmeFIlaIqJAUdSBqT9BAzMEmoKLIqhEb6CDhk4lj7RD~tQuZ5ATUEZYbeF~wD8h6WFtQys8v9NaqxxmBnYrHLPB60zgwlOdn7JU8x2uoOD3zikeSJBVyAuZxP2dOVaqZpV5Gg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-c645-71c4-a0be-f2a4fab981a2/output/model.usdz?Expires=4943635200&Signature=M4EBxp-EiLIMUpKKHESHPUZgZl3Hx64WNs5HlzKxmbL1v7RG3zXUqBMH-4DjIOQuvh9cg8bZPnt6QzrMjMX8pOq~JTgmajlQrGUV1WrlTDGorZjOpYw5CEW4otSdotHqQJGEApw1v4FmDhyt3rgnLekyz1D1NoTzc7Q6f7itAbvdPTGzBOZuxYAcqdfA0OB41aCSx5lujAH3c~8-z6ieO-cKyJ9gO~GavzpVqVMxrO-11ZQ4FWHK3SSNERK~i9Nft61gNLEtwho4zzdoNvSUI7-iApGpMQRifmId5EkasidAxbtzx44a573o5GqQMeXV-qBZK-SQs7NdvkzTO6DY8w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-c645-71c4-a0be-f2a4fab981a2/output/model.obj?Expires=4943635200&Signature=QrILo3WFk3baDQeu7NKIQ-tHFRgOai7SqB7seWXBMcHN3cubo7aX7okV89lM76qXr-YIIWavxk7~~8i1IHM~ENkSlwsHn0sUm9cWrZRCQeRCKDzcThYw4eCXODKs3qr73UCQiqEce3mCBqXZpxX95iSzBwpBayvw~i6NzqlV~Rv6iHy80K7YLPh2YXmU9LZrCXnUjrc-MEz85EpNB0iceHfa7kiMpaIH70YBPi4ir1d7ay9wZ7r9aN0MabwAjXYAphLPtINfu3ECNcPd-gQmLA8rFFVLRqtbG6AQblXe5jjxEw6giAF9TsYuCjfYCH6CGMsCxNX4QZaNgncQMMGLlw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-c645-71c4-a0be-f2a4fab981a2/output/model.stl?Expires=4943635200&Signature=BZl9eigpI~eyEgdsLEP3tJ631yHuH-cQbiB5ce~qcXJ2v5D5vMsn2~cvjtjJ9ioXLX4~~oC47xwginqgtKUPVHhwO414YGsiiBDemdyF9Jsu03P5DKiPyKB2rzfQEyoQVE8ynR42XjEfsM1~A9AAwn77g-6x7eQTp9DuiF3f8Zbrr6NVyY6vW~BGH0f1acg7wuoXj8FqPEkoXYqxMWpNEn3Rn2lD0Fc3pCnfNMuetWj1~3Q577q8I-oSUiHprZ6X2TnZoNl~8gcRAi1a7E85mQGenxHIcNjtWwvjnxXgR2j4a1jh97HeZMNL~DkEQOEFwJgDWNjEsGf7uQTRtfh2Vw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca46-c645-71c4-a0be-f2a4fab981a2/output/preview.png?Expires=4943635200&Signature=LDERLDhcoSXYmUU0zXtdKfe6mRhqVFSDsVr09ajZ4UP30KH3p4gieCG2BEAdsGEPlbjKxiqh42max2ZCpn03AdDV2SvQNKu3LHBybbAj7X8cp3gaXBEirMRhwMPOPiJs23XChBlv3O1M2r2Xi6Q7Y~POwsNMr1oiA1uSmBIkuaNH1NtSJb9TWuKfnJiydqdvJsf~QAk58yhlLCVtQ22CkWAaAHZXkYcdwy0FLtFBTxVCEWjVqDxUp-2aPUGtOc-eVIkxv5iyGbhTi8QeuHNc5Rtz0msyWXh8sCQLLRAYd9b054BZNl-P-D8jDUhPYUcZ9VhFn5brnY2VbpLWwn0FJA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

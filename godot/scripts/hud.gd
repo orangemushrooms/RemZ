@@ -65,6 +65,10 @@ var _message_tween: Tween
 var _streak_t := 0.0
 var _hit_dirs: Array = []           # [angle, time left]
 var _popups: Array = []             # [Label, time left]
+var _popup_pool: Array[Label] = []
+var _pending_popups: Array = []
+var _pending_score := -1
+var _pending_streak := Vector2i(-1, 0)
 var _low_hp := false
 var _pulse := 0.0
 var _tabs := {}                     # id -> Control (content)
@@ -171,7 +175,8 @@ func _ready() -> void:
 	money_row.add_theme_constant_override("separation", 10)
 	money_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stats.add_child(money_row)
-	score_label = _label("0 P", 26, GOLD)
+	money_row.add_child(preload("res://scripts/currency.gd").icon(44.0, GOLD))
+	score_label = _label("0 R", 26, GOLD)
 	score_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
 	score_label.add_theme_constant_override("shadow_offset_y", 1)
 	score_label.pivot_offset = Vector2(0, 16)
@@ -180,7 +185,7 @@ func _ready() -> void:
 	money_delta.modulate.a = 0.0
 	money_delta.size_flags_vertical = Control.SIZE_SHRINK_END
 	money_row.add_child(money_delta)
-	var money_caption := _label("PUNKTE · Bauen, Kaufen, Ausbilden", 10, MUTED)
+	var money_caption := _label("REM DOLLARS · Bauen, Kaufen, Ausbilden", 10, MUTED)
 	stats.add_child(money_caption)
 	stats.add_child(_spacer(4))
 	stats.add_child(_label("Leben", 14))
@@ -449,7 +454,7 @@ func _build_briefing(box: VBoxContainer) -> void:
 	box.add_child(_pause_stats)
 	box.add_child(_heading("SO ÜBERLEBST DU"))
 	for tip in [
-		"Vier Zugänge führen zur Hütte: Weg zur Hütte (Nordost), Wiesentor (Ost), Weg Richtung Dorf (Süd) und Waldweg Nord. E baut oder repariert direkt an der Linie; Bauen kostet 50 Punkte. Mechanic berät dich zur Verteidigung.",
+		"Vier Zugänge führen zur Hütte: Weg zur Hütte (Nordost), Wiesentor (Ost), Weg Richtung Dorf (Süd) und Waldweg Nord. E baut oder repariert direkt an der Linie; Bauen kostet 50 Rem Dollars. Mechanic berät dich zur Verteidigung.",
 		"Kopfschüsse machen den 2,2-fachen Schaden. Abschüsse in schneller Folge bauen eine Serie auf und geben bis zu 100 % Bonuspunkte.",
 		"Gefallene Zombies lassen Munition, Granaten und Verbandspäckli fallen. Einfach hindurchlaufen.",
 		"Vendor verkauft Waffen am Lagerfeuer. Erfülle Aufträge und überstehe Wellen, um sein Angebot freizuschalten. Ein geheimer Händler wartet im Wald.",
@@ -474,7 +479,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	box.add_child(grid)
 	for pair in [["WASD", "Bewegen"], ["Maus", "Umsehen"], ["Shift", "Sprinten"], ["Strg halten", "Ducken / genauer zielen"], ["Leertaste", "Springen"],
 			["Linksklick", "Schiessen / Zuschlagen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–9 / 0", "Schnellzugriff: Plätze 1–10"], ["Mausrad", "Waffe wechseln"],
-			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten / Hütte reparieren"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["I", "Inventar"], ["B", "100 Punkte abwerfen"],
+			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten / Hütte reparieren"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["I", "Inventar"], ["B", "100 Rem Dollars abwerfen"],
 			["Tab halten", "Leaderboard dieser Runde"], ["Q", "Auftragsanzeige ein/aus"], ["M", "Minimap gross / klein"], ["Strg+Shift+D", "Cheatmenü"], ["F", "Taschenlampe"], ["H", "Nahkampf / Kolbenschlag"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110
@@ -568,7 +573,7 @@ func _fill_records(highlight_rank: int = 0) -> void:
 	grid.add_theme_constant_override("h_separation", 16)
 	grid.add_theme_constant_override("v_separation", 5)
 	_records_box.add_child(grid)
-	for h in ["#", "Punkte", "Welle", "Kills", "Kopf", "Treffer", "Zeit", "Modus · Datum"]:
+	for h in ["#", "Rem Dollars", "Welle", "Kills", "Kopf", "Treffer", "Zeit", "Modus · Datum"]:
 		grid.add_child(_label(h, 12, GOLD))
 	for i in table.size():
 		var r: Dictionary = table[i]
@@ -608,14 +613,14 @@ func _fill_pause_stats() -> void:
 		return
 	var s = game.stats
 	_pause_stats.visible = true
-	_pause_stats.text = "Bisher: Welle %d · %d Punkte · %d Abschüsse (%d Kopfschüsse) · Treffer %d %% · Beste Serie %d · %s" % [
+	_pause_stats.text = "Bisher: Welle %d · %d Rem Dollars · %d Abschüsse (%d Kopfschüsse) · Treffer %d %% · Beste Serie %d · %s" % [
 		game.waves.completed, game.player.score, s.kills, s.headshots, int(round(s.accuracy() * 100.0)), s.best_streak, RunStats.time_text(s.seconds)]
 
 # game over: run summary and the updated high-score table
 func show_run_summary(s: RunStats, score: int, wave: int, rank: int, difficulty_name: String) -> void:
 	for c in _summary_box.get_children():
 		c.queue_free()
-	var head := _label("Welle %d erreicht · %d Punkte · %s" % [wave, score, difficulty_name], 20)
+	var head := _label("Welle %d erreicht · %d Rem Dollars · %s" % [wave, score, difficulty_name], 20)
 	_summary_box.add_child(head)
 	if rank > 0:
 		var r := _label("Platz %d in der Bestenliste%s" % [rank, "  ·  NEUER REKORD" if rank == 1 else ""], 15, GOLD)
@@ -756,6 +761,14 @@ func _menu_button(text: String, primary: bool) -> Button:
 
 # ---------------------------------------------------------------- per frame
 func _process(delta: float) -> void:
+	if _pending_score >= 0:
+		_show_score(_pending_score)
+		_pending_score = -1
+	if _pending_streak.x >= 0:
+		_show_streak(_pending_streak.x, _pending_streak.y)
+		_pending_streak.x = -1
+	for popup: Array in _pending_popups: _show_score_popup(popup[0], popup[1])
+	_pending_popups.clear()
 	if _loading:
 		loading_bar.value = fmod(loading_bar.value + delta * 0.45, 1.0)
 	_stats_time += delta
@@ -815,7 +828,8 @@ func _process(delta: float) -> void:
 			p[1] -= delta
 			var l: Label = p[0]
 			if p[1] <= 0.0:
-				l.queue_free()
+				l.hide()
+				_popup_pool.append(l)
 				continue
 			l.position.y -= delta * 28.0
 			l.modulate.a = clampf(p[1] * 2.0, 0.0, 1.0)
@@ -851,11 +865,14 @@ func set_health(v: float) -> void:
 	_low_hp = frac < 0.35 and v > 0.0
 
 func set_score(v: int) -> void:
+	_pending_score = v
+
+func _show_score(v: int) -> void:
 	var diff := v - _money_shown
 	_money_shown = v
-	score_label.text = "%s P" % _thousands(v)
+	score_label.text = "%s R" % _thousands(v)
 	if diff != 0:
-		money_delta.text = ("+%s" if diff > 0 else "−%s") % _thousands(absi(diff))
+		money_delta.text = ("+%s R" if diff > 0 else "−%s R") % _thousands(absi(diff))
 		money_delta.add_theme_color_override("font_color", GOLD if diff > 0 else Color(1.0, 0.45, 0.35))
 		money_delta.modulate.a = 1.0
 		_money_delta_t = 1.6
@@ -912,18 +929,31 @@ func hitmarker(head: bool) -> void:
 
 # floating "+N" beside the crosshair that drifts up and fades
 func score_popup(points: int, head: bool) -> void:
-	var l := _label(("+%d  KOPFSCHUSS" if head else "+%d") % points, 17 if head else 15, Color(1.0, 0.45, 0.35) if head else GOLD)
+	_pending_popups.append([points, head])
+	if _pending_popups.size() > 6: _pending_popups.pop_front()
+
+func _show_score_popup(points: int, head: bool) -> void:
+	var l: Label
+	if not _popup_pool.is_empty(): l = _popup_pool.pop_back()
+	elif _popups.size() >= 6: l = _popups.pop_front()[0]
+	else:
+		l = _label("", 15, GOLD)
+		_root.add_child(l)
+	l.text = ("+%d R  KOPFSCHUSS" if head else "+%d R") % points
+	l.add_theme_font_size_override("font_size", 17 if head else 15)
+	l.add_theme_color_override("font_color", Color(1.0, 0.45, 0.35) if head else GOLD)
+	l.modulate.a = 1.0
+	l.show()
 	l.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
 	l.add_theme_constant_override("shadow_offset_y", 1)
 	l.set_anchors_preset(Control.PRESET_CENTER)
 	l.position = Vector2(30 + randf_range(-6.0, 6.0), -8 + randf_range(-4.0, 4.0))
-	_root.add_child(l)
 	_popups.append([l, 1.1])
-	if _popups.size() > 6:
-		var old: Array = _popups.pop_front()
-		(old[0] as Label).queue_free()
 
 func streak(n: int, bonus_percent: int) -> void:
+	_pending_streak = Vector2i(n, bonus_percent)
+
+func _show_streak(n: int, bonus_percent: int) -> void:
 	streak_label.text = "%d× SERIE  +%d %%" % [n, bonus_percent] if bonus_percent > 0 else "%d× SERIE" % n
 	streak_label.add_theme_font_size_override("font_size", mini(20 + n, 30))
 	_streak_t = 1.6

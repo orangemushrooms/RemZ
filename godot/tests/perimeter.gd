@@ -87,7 +87,7 @@ func run() -> void:
 	for bar in game.barricades:
 		for k in 3: bar.build()
 	await process_frame
-	while game.nav_region.is_baking() or game._perimeter_navigation_dirty: await process_frame
+	while game._navigation_baking or game._perimeter_navigation_dirty: await process_frame
 	await physics_frame
 	await physics_frame
 	NavigationServer3D.map_force_update(game.nav_region.get_navigation_map())

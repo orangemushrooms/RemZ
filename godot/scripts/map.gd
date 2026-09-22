@@ -177,8 +177,9 @@ static func ground_normal(x: float, z: float) -> Vector3:
 # cover weights from ground.png: r = forest floor / leaf litter, g = meadow grass, b = gravel
 static func cover(x: float, z: float) -> Color:
 	_ensure()
-	var i := clampi(int(x - _x0), 0, _w - 1)
-	var j := clampi(int(z - _z0), 0, _hh - 1)
+	# Cover has a finer grid than heights; match the shader's texel centres.
+	var i := clampi(roundi((x - _x0) * _ground.get_width() / _w), 0, _ground.get_width() - 1)
+	var j := clampi(roundi((z - _z0) * _ground.get_height() / _hh), 0, _ground.get_height() - 1)
 	return _ground.get_pixel(i, j)
 
 static func leaf_weight(x: float, z: float) -> float:

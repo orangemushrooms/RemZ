@@ -95,6 +95,20 @@ const NPC_SIGHT_RANGE := 30.0
 # Exploration belongs to this local player, never to the host's shared quest snapshot.
 var _seen_npcs: Dictionary = {}
 var rare_market: Node
+var notifications: Control
+var _notification_baseline_pending := false
+
+# The original quests predate the data-driven goal lists. Keep their completion
+# rules in one place so notifications and reward eligibility use the same goals.
+const LEGACY_GOALS := {
+	"arrival": {"arrival": 1},
+	"watch": {"built": 1, "turned": 1, "built_barricades": 1},
+	"line": {"waves": 2, "kills": 30},
+	"supplies": {"cache": 1},
+	"titan": {"titans": 1},
+}
+const LEGACY_GOAL_LABELS := {"arrival": "Vendor kennenlernen", "built": "Turm bauen",
+	"turned": "Turm ausrichten", "built_barricades": "Barrikade bauen", "cache": "Lieferung bergen"}
 
 func has_seen_npc(id: String) -> bool:
 	return _seen_npcs.get(id, false)
@@ -163,6 +177,9 @@ func setup(main: Node) -> void:
 	marker.visibility_range_end = 15
 	cache_node.add_child(marker)
 	_build_ui()
+	notifications = preload("res://scripts/quest_notifications.gd").new()
+	add_child(notifications)
+	notifications.hide()
 
 func data(peer: int) -> Dictionary:
 	if not people.has(peer): people[peer] = {"accepted": {}, "accepted_wave": {}, "claimed": {}, "skins": {}, "discovered": false}
@@ -329,6 +346,12 @@ func event(kind: String) -> void:
 		team[kind] = int(team.get(kind, 0)) + 1
 
 func goal_value(kind: String) -> int:
+	if kind == "arrival": return 1
+	if kind == "cache": return int(team.cache)
+	if kind == "built_barricades":
+		for barricade: Barricade in game.barricades:
+			if barricade.level > 0: return 1
+		return 0
 	if kind == "waves": return game.waves.completed
 	if kind == "reinforced_barricades":
 		var count := 0
@@ -363,21 +386,27 @@ func complete(quest: String, peer := -1) -> bool:
 	return _objectives_complete(quest)
 
 func _objectives_complete(quest: String) -> bool:
-	if QUESTS.has(quest) and QUESTS[quest].has("goals"):
-		for kind in QUESTS[quest].goals:
-			if goal_value(kind) < int(QUESTS[quest].goals[kind]): return false
-		return true
-	match quest:
-		"arrival": return true
-		"watch":
-			var wall := false
-			for b: Barricade in game.barricades:
-				if b.level > 0: wall = true
-			return team.built > 0 and team.turned > 0 and wall
-		"line": return game.waves.completed >= 2 and team.kills >= 30
-		"supplies": return team.cache
-		"titan": return team.titans > 0
-	return false
+	if not QUESTS.has(quest): return false
+	var goals := objective_goals(quest)
+	for kind in goals:
+		if goal_value(kind) < int(goals[kind]): return false
+	return not goals.is_empty()
+
+func objective_goals(id: String) -> Dictionary:
+	return QUESTS[id].get("goals", LEGACY_GOALS.get(id, {}))
+
+func completed_milestones(id: String, peer: int) -> Dictionary:
+	var achieved := {}
+	var goals := objective_goals(id)
+	for kind in goals:
+		var target := int(goals[kind])
+		if goal_value(kind) >= target:
+			var label: String = GOAL_LABELS.get(kind, LEGACY_GOAL_LABELS.get(kind, kind))
+			achieved[kind] = "%s %d/%d" % [label, target, target]
+	var waves := int(QUESTS[id].waves_after_accept)
+	if waves > 0 and game.waves.completed >= required_completion_wave(peer, id):
+		achieved["accepted_waves"] = "%d %s nach Annahme überstanden" % [waves, "Welle" if waves == 1 else "Wellen"]
+	return achieved
 
 static func _goal_text(text: String, done: bool, rich: bool) -> String:
 	return "[color=#79df96]" + text + "[/color]" if rich and done else text
@@ -503,7 +532,7 @@ func sell(p: Player, npc: String, action: String, id: String) -> String:
 	p.add_score(price)
 	w.update_hud()
 	Sfx.event(self, p.peer_id, "purchase")
-	return "Verkauft: %s · +%d P" % [label, price]
+	return "Verkauft: %s · +%d R" % [label, price]
 
 func mod_lock_reason(p: Player, id: String, wid: String) -> String:
 	var w := weapon_for(p)
@@ -535,7 +564,7 @@ func trade_mod(p: Player, npc: String, id: String, wid: String, remove := false)
 		mod_id = id
 		if w.mod_loadout.get(wid, {}).get(slot, "") == id: return "Bereits montiert."
 		if not w.mod_owned.get(wid + ":" + id, false): cost = int(spec.price)
-	if p.score < cost: return "Zu wenig Punkte: %d P benötigt." % cost
+	if p.score < cost: return "Zu wenig Rem Dollars: %d R benötigt." % cost
 	var updated := w.mod_definition(wid, slot, mod_id)
 	var overflow := maxi(0, int(w.state[wid].ammo) - int(updated.mag))
 	if int(w.state[wid].reserve) + overflow > w.reserve_limit(wid): return "Reserve voll. Erst Munition verbrauchen, bevor das Magazin verkleinert wird."
@@ -568,7 +597,7 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			if npc not in ["camp", "secret"]: return "Autorefill gibt es bei Vendor und Secret Vendor."
 			var refill := refill_quote(p)
 			if refill.missing == 0: return "Alle Magazine und Munitionsreserven sind voll."
-			if refill.rounds == 0: return "Zu wenig Punkte für Munition."
+			if refill.rounds == 0: return "Zu wenig Rem Dollars für Munition."
 			p.add_score(-int(refill.cost))
 			for wid in refill.items:
 				w.state[wid].ammo += int(refill.items[wid][0])
@@ -576,7 +605,7 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 				w.state[wid].reloading = 0.0
 			w.update_hud()
 			Sfx.event(self, p.peer_id, "pickup")
-			return "Autorefill: +%d Schuss · −%d P · %s" % [refill.rounds, refill.cost, "alles voll" if refill.rounds == refill.missing else "Teilauffüllung nach Guthaben"]
+			return "Autorefill: +%d Schuss · −%d R · %s" % [refill.rounds, refill.cost, "alles voll" if refill.rounds == refill.missing else "Teilauffüllung nach Guthaben"]
 		"cache":
 			if npc != "cache" or team.cache: return "Die Lieferung wurde bereits geborgen."
 			if not d.accepted.get("supplies", false): return "Mechanic weiss, wem diese Lieferung gehört. Sprich mit ihr."
@@ -599,17 +628,20 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			if not complete(id, p.peer_id): return "Auftrag noch nicht erfüllt. " + quest_progress(id, p.peer_id)
 			d.claimed[id] = true
 			p.add_score(int(q.reward))
-			Sfx.event(self, p.peer_id, "quest_complete")
+			if NetSession.enabled:
+				NetSession.feedback(p.peer_id, "quest_complete", [id])
+			else:
+				notifications.rewarded(id)
 			var chain := quest_chain(id)
 			if not chain.is_empty() and chain_complete(p.peer_id, chain) and not chain_unlocks(chain).is_empty():
-				return "Questreihe %s abgeschlossen · +%d P · Kaufberechtigung: %s" % [QUEST_CHAINS[chain].name, q.reward, chain_unlocks(chain)]
-			return "Auftrag abgeschlossen · +%d P · %s" % [q.reward, q.name]
+				return "Questreihe %s abgeschlossen · +%d R · Kaufberechtigung: %s" % [QUEST_CHAINS[chain].name, q.reward, chain_unlocks(chain)]
+			return "Auftrag abgeschlossen · +%d R · %s" % [q.reward, q.name]
 		"weapon":
 			if not GOODS.has(id) or GOODS[id].npc != npc: return "Diese Waffe wird hier nicht angeboten."
 			if w.unlocked.get(id, false): return "Diese Waffe besitzt du bereits."
 			var reason := lock_reason(p, id)
 			if not reason.is_empty(): return reason
-			if p.score < int(GOODS[id].price): return "Zu wenig Punkte."
+			if p.score < int(GOODS[id].price): return "Zu wenig Rem Dollars."
 			p.add_score(-int(GOODS[id].price))
 			w.unlock(id)
 			w.state[id].ammo = w.state[id].def.mag
@@ -623,7 +655,7 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			if npc == "mechanic" or not Weapons.DEFS.has(id) or not w.unlocked.get(id, false): return "Waffe nicht verfügbar."
 			var cost := int(GOODS[id].ammo) if GOODS.has(id) else 12
 			if int(w.state[id].reserve) >= w.reserve_limit(id): return "Munitionsvorrat voll."
-			if p.score < cost: return "Zu wenig Punkte."
+			if p.score < cost: return "Zu wenig Rem Dollars."
 			p.add_score(-cost)
 			w.add_ammo(id, int(Weapons.DEFS[id].mag) * 2)
 			Sfx.event(self, p.peer_id, "pickup")
@@ -633,7 +665,7 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			var cost := 35 if action == "medicine" else 45
 			if action == "medicine" and p.hp >= p.max_hp: return "Gesundheit bereits voll."
 			if action == "grenade" and w.grenades >= w.grenades_max: return "Granatentasche voll."
-			if p.score < cost: return "Zu wenig Punkte."
+			if p.score < cost: return "Zu wenig Rem Dollars."
 			p.add_score(-cost)
 			if action == "medicine":
 				p.hp = minf(p.max_hp, p.hp + 60)
@@ -649,7 +681,7 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			if not missing.is_empty(): return missing
 			var key := extra + ":" + id
 			if not d.skins.get(key, false):
-				if p.score < int(s.price): return "Zu wenig Punkte."
+				if p.score < int(s.price): return "Zu wenig Rem Dollars."
 				p.add_score(-int(s.price))
 				d.skins[key] = true
 			w.apply_skin(extra, id)
@@ -734,7 +766,7 @@ func close() -> void:
 # A sale between two dozen rows barely registered before: the amount now flies up in gold
 # right where the click landed and the balance line flashes with it.
 func _update_balance() -> void:
-	if balance: balance.text = "%d PUNKTE  ·  EINSATZLEVEL %d  ·  %d WELLEN ÜBERSTANDEN" % [game.player.score, mission_level(), game.waves.completed]
+	if balance: balance.text = "%d REM DOLLARS  ·  EINSATZLEVEL %d  ·  %d WELLEN ÜBERSTANDEN" % [game.player.score, mission_level(), game.waves.completed]
 
 func show_gain(amount: int) -> void:
 	if amount == 0: return
@@ -742,7 +774,7 @@ func show_gain(amount: int) -> void:
 	_update_balance()
 	_balance_pulse = 1.0
 	if not _gain_popup: return
-	_gain_popup.text = ("+%d P" if amount > 0 else "%d P") % amount
+	_gain_popup.text = ("+%d R" if amount > 0 else "%d R") % amount
 	_gain_popup.add_theme_color_override("font_color", GAIN_GOLD if amount > 0 else GAIN_RED)
 	_gain_at = panel.get_local_mouse_position()
 	_gain_t = GAIN_SECONDS
@@ -841,7 +873,13 @@ func _build_ui() -> void:
 	subtitle = _label("", 16)
 	column.add_child(subtitle)
 	balance = _label("", 18)
-	column.add_child(balance)
+	balance.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	balance.autowrap_mode = TextServer.AUTOWRAP_OFF
+	var wallet := HBoxContainer.new()
+	wallet.add_theme_constant_override("separation", 8)
+	wallet.add_child(preload("res://scripts/currency.gd").icon(32.0, GAIN_GOLD))
+	wallet.add_child(balance)
+	column.add_child(wallet)
 	var tabs := HBoxContainer.new()
 	column.add_child(tabs)
 	for tab in ["Handel", "Feuerwerk", "Verkaufen", "Aufträge", "Training", "Türme", "Mods", "Skins", "Raritäten"]:
@@ -954,7 +992,7 @@ func _render() -> void:
 				var spec: Dictionary = Fireworks.DEFS[id]
 				var blocked: String = game.fireworks.buy_error(p, id)
 				var detail: String = spec.desc + "\n%d / %d im Inventar · Feuerwerktasche %d / %d" % [game.fireworks.stock(p.peer_id)[id], spec.limit, game.fireworks.count(p.peer_id), Fireworks.CAPACITY]
-				_row(spec.name, detail, "%s · %d P" % ["1 Batterie" if Fireworks.is_battery(id) else "5er-Pack" if spec.pack == 5 else "1 Rakete", spec.price], request.bind("firework", id), not blocked.is_empty(), blocked)
+				_row(spec.name, detail, "%s · %d R" % ["1 Batterie" if Fireworks.is_battery(id) else "5er-Pack" if spec.pack == 5 else "1 Rakete", spec.price], request.bind("firework", id), not blocked.is_empty(), blocked)
 		"Raritäten":
 			_info("Sortiment wechselt mit Welle, Tageszeit und Standort · Bestand mit allen Spielern geteilt.\nGerade: %s · %s. Ein Talisman aktiv. Auswahl und Spezialmunition im Inventar [I]. Käufe gelten für diese Runde." % ["Tag" if rare_market.phase() == "day" else "Nacht", rare_market.region_name()], 14)
 			for id in rare_market.stock:
@@ -964,8 +1002,8 @@ func _render() -> void:
 				if not owned:
 					if mission_level() < int(spec.level): blocked = "Einsatzlevel %d benötigt (aktuell %d)." % [spec.level, mission_level()]
 					elif int(rare_market.stock[id]) <= 0: blocked = "Ausverkauft · Neue Ware beim nächsten Halt oder ab nächster Welle."
-					elif p.score < int(spec.price): blocked = "Zu wenig Punkte: %d P benötigt." % spec.price
-				_row(spec.name, spec.desc + "\nLevel %d · Bestand %d" % [spec.level, rare_market.stock[id]], "Aktivieren" if owned else "Kaufen · %d P" % spec.price, request.bind("rare", id), not blocked.is_empty(), blocked)
+					elif p.score < int(spec.price): blocked = "Zu wenig Rem Dollars: %d R benötigt." % spec.price
+				_row(spec.name, spec.desc + "\nLevel %d · Bestand %d" % [spec.level, rare_market.stock[id]], "Aktivieren" if owned else "Kaufen · %d R" % spec.price, request.bind("rare", id), not blocked.is_empty(), blocked)
 		"Mods": _render_mods(p)
 		"Verkaufen":
 			var w: Weapons = game.weapons
@@ -973,19 +1011,19 @@ func _render() -> void:
 			for kind in game.hunting.FOOD:
 				var spec: Dictionary = game.hunting.FOOD[kind]
 				var count := int(game.hunting.stock(p.peer_id).get(kind, 0))
-				_row(spec.name + " · %d im Inventar" % count, spec.text, "1 verkaufen · %d P" % spec.sell, request.bind("sell_meat", kind), count <= 0)
+				_row(spec.name + " · %d im Inventar" % count, spec.text, "1 verkaufen · %d R" % spec.sell, request.bind("sell_meat", kind), count <= 0)
 			for kind in Inventory.MUSHROOMS:
 				var spec: Dictionary = Inventory.MUSHROOMS[kind]
 				var count := int(stock.get(kind, 0))
-				_row(spec.name + " · %d im Inventar" % count, spec.text, "1 verkaufen · %d P" % spec.sell, request.bind("sell_mushroom", kind), count <= 0)
-			_row("Handgranaten · %d im Inventar" % w.grenades, "Verkaufe eine Granate.", "1 verkaufen · 15 P", request.bind("sell_grenade"), w.grenades <= 0)
+				_row(spec.name + " · %d im Inventar" % count, spec.text, "1 verkaufen · %d R" % spec.sell, request.bind("sell_mushroom", kind), count <= 0)
+			_row("Handgranaten · %d im Inventar" % w.grenades, "Verkaufe eine Granate.", "1 verkaufen · 15 R", request.bind("sell_grenade"), w.grenades <= 0)
 			for wid in Weapons.ORDER:
 				if not w.unlocked.get(wid, false): continue
 				if not Weapons.is_melee(wid):
 					var amount := int(Weapons.DEFS[wid].mag)
-					_row("Munition · " + Weapons.DEFS[wid].name, "%d Schuss verkaufen. Reserve: %d." % [amount, w.state[wid].reserve], "+%d P" % ammo_sale_price(wid), request.bind("sell_ammo", wid), int(w.state[wid].reserve) < amount)
+					_row("Munition · " + Weapons.DEFS[wid].name, "%d Schuss verkaufen. Reserve: %d." % [amount, w.state[wid].reserve], "+%d R" % ammo_sale_price(wid), request.bind("sell_ammo", wid), int(w.state[wid].reserve) < amount)
 				if GOODS.has(wid):
-					_row(Weapons.DEFS[wid].name, "Waffe verkaufen. Restmunition bringt keinen Aufpreis; Reserve vorher separat verkaufen. Kaufberechtigungen bleiben erhalten.", "+%d P" % int(int(GOODS[wid].price) * 0.35), request.bind("sell_weapon", wid))
+					_row(Weapons.DEFS[wid].name, "Waffe verkaufen. Restmunition bringt keinen Aufpreis; Reserve vorher separat verkaufen. Kaufberechtigungen bleiben erhalten.", "+%d R" % int(int(GOODS[wid].price) * 0.35), request.bind("sell_weapon", wid))
 		"Aufträge":
 			for completed in [false, true]:
 				var quest_ids: Array = []
@@ -1004,7 +1042,7 @@ func _render() -> void:
 					var text := "Erledigt" if claimed else ("Gesperrt" if locked else ("Belohnung abholen" if accepted and complete(id) else ("In Arbeit" if accepted else "Auftrag annehmen")))
 					var details: String = q.desc
 					var chain := quest_chain(id)
-					var heading: String = q.name + " · Level %d · %d P" % [q.min_level, q.reward]
+					var heading: String = q.name + " · Level %d · %d R" % [q.min_level, q.reward]
 					if not chain.is_empty():
 						heading = "%s · %d/%d · %s" % [QUEST_CHAINS[chain].name, QUEST_CHAINS[chain].quests.find(id) + 1, QUEST_CHAINS[chain].quests.size(), heading]
 						details += "\n" + chain_description(p.peer_id, chain, false)
@@ -1013,8 +1051,8 @@ func _render() -> void:
 		"Handel":
 			if shop in ["camp", "secret"]:
 				var refill := refill_quote(p)
-				var details := "Magazine und Reserve aller eigenen Schusswaffen. Zuerst %s, dann die übrigen Waffen. Granaten separat.\nKomplett: %d P · Mit deinem Guthaben: +%d Schuss für %d P." % [Weapons.DEFS[game.weapons.ammo_weapon()].name, refill.full_cost, refill.rounds, refill.cost]
-				_row("Autorefill · gesamte Munition", details, "Alles voll" if refill.missing == 0 else ("Zu wenig Punkte" if refill.rounds == 0 else "Auffüllen · %d P" % refill.cost), request.bind("autorefill"), refill.rounds == 0)
+				var details := "Magazine und Reserve aller eigenen Schusswaffen. Zuerst %s, dann die übrigen Waffen. Granaten separat.\nKomplett: %d R · Mit deinem Guthaben: +%d Schuss für %d R." % [Weapons.DEFS[game.weapons.ammo_weapon()].name, refill.full_cost, refill.rounds, refill.cost]
+				_row("Autorefill · gesamte Munition", details, "Alles voll" if refill.missing == 0 else ("Zu wenig Rem Dollars" if refill.rounds == 0 else "Auffüllen · %d R" % refill.cost), request.bind("autorefill"), refill.rounds == 0)
 			if shop == "mechanic": _info("Mechanic bietet Training, Turmausbauten und Aufträge an. Waffen und Vorräte gibt es bei Vendor am Lagerfeuer.")
 			for id in GOODS:
 				var spec: Dictionary = GOODS[id]
@@ -1031,8 +1069,8 @@ func _render() -> void:
 				if not owned:
 					if not reason.is_empty(): blocked = "GESPERRT · " + reason
 					if p.score < int(spec.price):
-						blocked += ("\n" if not blocked.is_empty() else "") + "Es fehlen %d Punkte für den Kauf." % (int(spec.price) - p.score)
-				var buy_text := "Im Besitz" if owned else ("Gesperrt · %d P" % spec.price if not reason.is_empty() else "Kaufen · %d P" % spec.price)
+						blocked += ("\n" if not blocked.is_empty() else "") + "Es fehlen %d Rem Dollars für den Kauf." % (int(spec.price) - p.score)
+				var buy_text := "Im Besitz" if owned else ("Gesperrt · %d R" % spec.price if not reason.is_empty() else "Kaufen · %d R" % spec.price)
 				_row(gun.name, details, buy_text, request.bind("weapon", id), owned or not blocked.is_empty(), blocked)
 			if shop != "mechanic":
 				for wid in Weapons.ORDER:
@@ -1043,17 +1081,17 @@ func _render() -> void:
 					var limit: int = game.weapons.reserve_limit(wid)
 					var full := reserve >= limit
 					var amount := int(Weapons.DEFS[wid].mag) * 2
-					_row("Munition · " + str(Weapons.DEFS[wid].name), "Zwei Magazine (+%d Schuss, bis zum Vorratslimit). Vorrat: %d / %d." % [amount, reserve, limit], "Vorrat voll" if full else "%d P" % cost, request.bind("ammo", wid), full or p.score < cost)
+					_row("Munition · " + str(Weapons.DEFS[wid].name), "Zwei Magazine (+%d Schuss, bis zum Vorratslimit). Vorrat: %d / %d." % [amount, reserve, limit], "Vorrat voll" if full else "%d R" % cost, request.bind("ammo", wid), full or p.score < cost)
 			if shop == "camp":
-				_row("Verband", "+60 Gesundheit, bis zum Maximum", "35 P", request.bind("medicine"), p.score < 35 or p.hp >= p.max_hp)
-				_row("Handgranate", "Eine Granate, bis die Tasche voll ist", "45 P", request.bind("grenade"), p.score < 45 or game.weapons.grenades >= game.weapons.grenades_max)
+				_row("Verband", "+60 Gesundheit, bis zum Maximum", "35 R", request.bind("medicine"), p.score < 35 or p.hp >= p.max_hp)
+				_row("Handgranate", "Eine Granate, bis die Tasche voll ist", "45 R", request.bind("grenade"), p.score < 45 or game.weapons.grenades >= game.weapons.grenades_max)
 		"Training":
 			if shop != "mechanic": _info("Training gibt es bei Mechanic nördlich des Lagerfeuers.")
 			else:
 				for spec in Skills.UPGRADES:
 					var level: int = game.skills.levels.get(spec.id, 0)
 					var cost := int(spec.cost) + int(spec.cost) * level / 2
-					_row(spec.name + " · %d/%d" % [level, spec.max], spec.desc, "%d P" % cost, request.bind("training", spec.id), level >= int(spec.max) or p.score < cost)
+					_row(spec.name + " · %d/%d" % [level, spec.max], spec.desc, "%d R" % cost, request.bind("training", spec.id), level >= int(spec.max) or p.score < cost)
 		"Türme":
 			if _building_layout: rows.add_child(ItemIcons.view("tower", Vector2(140, 90)))
 			_info("T: Turmtyp wählen · R/Mausrad: drehen · E: platzieren\nAm Turm: E aufsteigen, R ausrichten, F reparieren. Oben: Maus zielt, Linksklick feuert, E steigt ab. Ohne Bediener feuert der Turm automatisch. Dauerfeuer erzeugt Hitze.", 16)
@@ -1062,7 +1100,7 @@ func _render() -> void:
 				for id in game.defences.towers:
 					var tower: DefenceTower = game.defences.towers[id]
 					var cost: int = tower.upgrade_cost()
-					_row("%s #%d · Stufe %d" % [tower.spec().name,id,tower.level], "%d/%d TP · %d m Reichweite · %d m entfernt" % [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)], "Maximum" if tower.level == 3 else "Ausbauen · %d P" % cost, request.bind("tower_upgrade", str(id)), tower.level == 3 or p.score < cost or tower.operator_peer!=0)
+					_row("%s #%d · Stufe %d" % [tower.spec().name,id,tower.level], "%d/%d TP · %d m Reichweite · %d m entfernt" % [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)], "Maximum" if tower.level == 3 else "Ausbauen · %d R" % cost, request.bind("tower_upgrade", str(id)), tower.level == 3 or p.score < cost or tower.operator_peer!=0)
 		"Skins":
 			var wid: String = game.weapons.current
 			_info("Lackierungen für: " + str(Weapons.DEFS[wid].name) + "\nWähle deine Waffe vor dem Gespräch. Skins ändern keine Kampfwerte.", 16)
@@ -1071,7 +1109,7 @@ func _render() -> void:
 				if spec.npc != shop: continue
 				var owned: bool = d.skins.get(wid + ":" + id, false)
 				var allowed := has_claim(p.peer_id, spec.quest)
-				_row(spec.name, spec.desc + ("" if allowed else "\n" + prerequisite_reason(p.peer_id, spec.quest)), "Anlegen" if owned else "Kaufen · %d P" % spec.price, request.bind("skin", id, wid), not allowed or (not owned and p.score < int(spec.price)))
+				_row(spec.name, spec.desc + ("" if allowed else "\n" + prerequisite_reason(p.peer_id, spec.quest)), "Anlegen" if owned else "Kaufen · %d R" % spec.price, request.bind("skin", id, wid), not allowed or (not owned and p.score < int(spec.price)))
 			_row("Originalfinish", "Kostenlos zum ursprünglichen Material wechseln.", "Anlegen", request.bind("stock_skin", wid))
 
 var _mod_weapon := "pistol"
@@ -1101,8 +1139,8 @@ func _render_mods(p: Player) -> void:
 		var owned: bool = w.mod_owned.get(wid + ":" + id, false)
 		var equipped: bool = w.mod_loadout.get(wid, {}).get(spec.slot, "") == id
 		var reason := mod_lock_reason(p, id, wid)
-		if reason.is_empty() and not owned and p.score < int(spec.price): reason = "Zu wenig Punkte: %d P benötigt." % spec.price
-		_row(spec.name + " · Level %d" % spec.level, spec.slot + " · " + spec.desc, "Montiert" if equipped else ("Montieren" if owned else "Kaufen · %d P" % spec.price), request.bind("mod", id, wid), equipped or not reason.is_empty(), reason)
+		if reason.is_empty() and not owned and p.score < int(spec.price): reason = "Zu wenig Rem Dollars: %d R benötigt." % spec.price
+		_row(spec.name + " · Level %d" % spec.level, spec.slot + " · " + spec.desc, "Montiert" if equipped else ("Montieren" if owned else "Kaufen · %d R" % spec.price), request.bind("mod", id, wid), equipped or not reason.is_empty(), reason)
 	for slot in Weapons.Mods.SLOTS:
 		var installed: String = w.mod_loadout.get(wid, {}).get(slot, "")
 		_row(slot, Weapons.Mods.DEFS[installed].name if not installed.is_empty() else "Originalausstattung", "Entfernen", request.bind("remove_mod", slot, wid), installed.is_empty())
@@ -1123,6 +1161,7 @@ func _process(delta: float) -> void:
 	if is_open and not close_enough(game.player, shop): close()
 	var playing: bool = game.started and not game.over and game.player.active and not game.hud.overlay.visible
 	var guiding: bool = game.intro != null and game.intro.showing_guidance()
+	notifications.visible = game.started and not game.over and not game.hud.overlay.visible and not guiding
 	tracker.visible = playing and _journal and not game.defences.placing and not guiding
 	tutorial.visible = playing and not game.defences.placing and not game.defences.is_open and not game.player.mounted_tower and not guiding
 	if tutorial.visible and local_data().claimed.get("arrival", false) and team.built == 0:
@@ -1130,6 +1169,8 @@ func _process(delta: float) -> void:
 	_refresh_time -= delta
 	if _refresh_time > 0: return
 	_refresh_time = 0.25
+	if game.started:
+		refresh_notifications()
 	_discover_visible_npcs()
 	cache_node.visible = cache_ready and not team.cache
 	if is_open:
@@ -1161,7 +1202,7 @@ func _process(delta: float) -> void:
 		var ongoing := PackedStringArray()
 		for id in tracked:
 			if complete(id):
-				ready.append("[color=#ffd479][b]BEREIT ZUR ABGABE[/b]\n[b]%s[/b]\nBei %s abgeben · %d P Belohnung[/color]" % [QUESTS[id].name, NPCS[QUESTS[id].npc].name, QUESTS[id].reward])
+				ready.append("[color=#ffd479][b]BEREIT ZUR ABGABE[/b]\n[b]%s[/b]\nBei %s abgeben · %d R Belohnung[/color]" % [QUESTS[id].name, NPCS[QUESTS[id].npc].name, QUESTS[id].reward])
 			else:
 				ongoing.append("%s\n%s" % [QUESTS[id].name, quest_progress(id, -1, true)])
 		var entries := PackedStringArray(["AUFTRÄGE (%d) · Q ein/aus" % tracked.size()])
@@ -1174,7 +1215,7 @@ func _process(delta: float) -> void:
 	if not d.claimed.get("arrival", false):
 		tutorial.text = "WAFFEN & AUFTRÄGE\n[E] Sprich mit Vendor am Lagerfeuer."
 	elif team.built == 0:
-		tutorial.text = "VERTEIDIGUNG · [T] TURMBAUMENÜ\n5 Typen ab 120 P · E baut / steigt auf · Mechanic baut aus." if _tower_tutorial_remaining > 0.0 else ""
+		tutorial.text = "VERTEIDIGUNG · [T] TURMBAUMENÜ\n5 Typen ab 120 R · E baut / steigt auf · Mechanic baut aus." if _tower_tutorial_remaining > 0.0 else ""
 	elif team.turned == 0:
 		tutorial.text = "RICHTE DEINEN WÄCHTER AUS\nAm Turm E drücken, mit R/Mausrad drehen und mit E bestätigen."
 	else: tutorial.text = ""
@@ -1182,7 +1223,15 @@ func _process(delta: float) -> void:
 func snapshot() -> Dictionary:
 	return {"people": people.duplicate(true), "team": team.duplicate(true), "cache_position": cache_node.global_position, "cache_ready": cache_ready, "rare_market": rare_market.snapshot() if rare_market else {}}
 
-func apply_snapshot(s: Dictionary) -> void:
+func refresh_notifications() -> void:
+	var peer: int = NetSession.local_id() if NetSession.enabled else game.player.peer_id
+	notifications.observe(self, peer, _notification_baseline_pending)
+	_notification_baseline_pending = false
+
+func apply_snapshot(s: Dictionary, initial := false) -> void:
+	# Wave state is applied later in the same network snapshot. Observe it on the
+	# next UI refresh, after the whole snapshot is in place, and suppress history.
+	if initial: _notification_baseline_pending = true
 	if rare_market: rare_market.apply_snapshot(s.get("rare_market", {}))
 	people = s.get("people", {}).duplicate(true)
 	team = s.get("team", team).duplicate(true)

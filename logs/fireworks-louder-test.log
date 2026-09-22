@@ -1,0 +1,40 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Vendor purchase grants exactly one rocket and deducts its price
+PASS: Purchase explains inventory selection
+PASS: Cracker pack grants five individual uses
+PASS: Unknown item never spends points
+PASS: Insufficient funds cannot create stock
+PASS: Pack that exceeds capacity is rejected atomically
+PASS: Shared firework bag capacity is enforced
+PASS: Remote shopping is rejected
+PASS: Inventory selection equips firework, closes menu and resumes play
+PASS: Cancel restores the weapon without consuming an item
+PASS: Selection and cancellation do not consume stock
+PASS: Choosing a weapon in the inventory restores its first-person model
+PASS: Outdoor rocket consumes exactly one unit and creates one effect
+PASS: Duplicate ignition during cooldown cannot consume twice
+PASS: Downed players cannot ignite fireworks
+PASS: Menus prevent accidental ignition
+PASS: Ceiling blocks rocket placement without consuming it
+PASS: Cracker ignition consumes one piece from its pack
+PASS: Cracker trajectory lands on actual terrain
+PASS: Snapshot carries all players' stocks and active fireworks
+PASS: Repeated snapshots do not duplicate effects
+PASS: Late-join timeline reconstructs already expanded bursts
+PASS: Expired effects disappear from clients
+PASS: Coop command consumes only the sender's stock
+PASS: Non-finite aim is rejected
+PASS: World snapshot includes fireworks
+PASS: Meshy model imported: firework_rocket
+PASS: Meshy model imported: firework_cracker
+PASS: Left click ignites selected firework without firing the weapon
+PASS: Thrown cracker cannot cross a nearby wall
+PASS: Effect limit refuses extra fireworks without consuming stock
+FIREWORKS_DONE checks=31 failures=0

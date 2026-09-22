@@ -1,0 +1,27 @@
+{
+  "id": "01a0ca55-daf5-77e4-b0f6-773d6fbae46c",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 156199352,
+  "prompt": "game asset, shotgun magazine tube extension, one plain straight steel tube closed by a rounded end cap with a small stud, a knurled clamp ring near the open end, lying horizontally, isolated single object, no gun, no weapon, no barrel, no ground, no text, no letters",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790101022191,
+  "progress": 100,
+  "started_at": 1790101022198,
+  "finished_at": 1790101075033,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca55-daf5-77e4-b0f6-773d6fbae46c/output/model.glb?Expires=4943635200&Signature=iV31QxwUoaqDEIRVyhX8b-n3NSu8Zm0VB~RenrgtEGB6rzD~J0c6um5FUsXXvkc7NW3uZVuom2U-oZ5HjTW7geClYMKRO0TuHys8I6MqtiIZOtUb6bL0GuhdT9nSolBtDsA-eejSpgMnIaRPBaFy5A-XJC948nWl4zYTbRwmyAEWPdtK9c2hekLSxYiVpSGhvgNRu7AdghhVWUeL8~2sIEa~x13t9fXnGITUT9oXfsTk38OINYGeKqgfBkKlKF7UK4jMg3nefAgsEgD0Ixy63BObBtMPDhUKI-d~aTZQM5QnzUXBSg-pCuwDXdU0XHCnWT08KywyEzZdMLxJ6kdjzg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca55-daf5-77e4-b0f6-773d6fbae46c/output/model.fbx?Expires=4943635200&Signature=l-X7BvaFa2k4Tusbqews6bfXsM8NUSKzu4cHr7e4gQ051i-nIiXS-3LGa6S2pDI0SYARPmokkKptnKy9mQZBTgvsoi0CEOhKED2q6NqFVDkNUIlEMB35V-nGF1DPBkKBSHCg6CxAdLo7KuK0QXud0sPtJBsIrgS9rRNFxM2gnIyOUz5bOkcLN9ZT9Q36eTx6GPyRKB6t4sYQuaoEk0Kf6IK1RZkHPL1OudSQQox0g0Iy2okawwIraWnd3bY1zIWIKZKO6qxEibFBX3bN3-OLQsXNn1YWNWjV0nooX8AaaTC~2YgmUdFPdCE82v1Ox9lOZ3-H1TR4M7hBQoYo39ilDA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca55-daf5-77e4-b0f6-773d6fbae46c/output/model.usdz?Expires=4943635200&Signature=k03Qmh4Che6Ouzk1rCN72amYtr9pfp1vdFInY4b-dNrVOuFugTxHrQnVGafEQZWON2OPcFBcMvL1mpd6tPOtK-Op07KBLaLiLWQAaxg6VPyqt7g-Y1azYfxl~jIs9QGKt5bzp2Xn2Z0KJa~tzxB7Izk3rfLMLEA4wCHlvvEXYuJ-zSftsgM36appSXtPZvFmcXttUEEKp2c6cp55JtEab3n3jtA8UQc9BU-nL~rnRCQMY1I9zQOslGToma30m621AvCN0UFS-f2hF4W871gqik2F6AvmXLMBTZjWVFUn8X-DkNafXyDMue4Mn8VhCwPi9XUFVWyTpOrjqxqb7MXzBA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca55-daf5-77e4-b0f6-773d6fbae46c/output/model.obj?Expires=4943635200&Signature=LeBnQE9D~xXfCOw4h6RUUFQ829S5nusFonYyWE46zbHnUKjRUQr~vSrqAs6VoZTW5peuVw0v52OqCZgPDhF-IqKCY66C3DlXEQa0J5fMO4QE9fbxQl7vnYWhCveHQNDYejNk0qmEUFzjIDEnf0A4RBdSvtYGpLaunw7MDNa6Xm~UW8MTRsOwVcSxm63kmR6Fuv076znxuXhhi8lregUNc6aSvtsSPv5vZuDqh~aiEefXdIzJmesB9UZFZBYupxqhUmoUN7GomCfboAkoAqw4NDppCBU1MU8QcO5Bbj9RCBxjmAHEaflFn0YDjhGtFX3K76SvkNOppZjDnknR688N5A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca55-daf5-77e4-b0f6-773d6fbae46c/output/model.stl?Expires=4943635200&Signature=CmzYn7NZ-SFg1tjOjWv9tTmg7LBaCeBe7SlaiBFr59ztEhmFa0RCY1ld2MFwIzSJE6HnSNu7dN-z4CiEMoS3iL-PLa0tLp2LHDJFMPTzuzqwPde33AN7t46PO~mWPQuI0TrHVQg4M-fjl9tnhYCcjouEnCNPfZtFh4j79FLfS-Cye9KEoYFa8yw3c8cwGNDxHLHr330WbzN57s0axf-iIHhSMK-YHBhoT89GK1gIhUsPjIlY~gfzcHDtaOpOlXFPEnA1glMaO6i0yoqGx~F5zad8gdFz5PeWH~0ZD13sFuZ9ueqXmJs-KwzRvu6TNJE2d2Blgwj9rIxRXfreUvIB1w__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0ca55-daf5-77e4-b0f6-773d6fbae46c/output/preview.png?Expires=4943635200&Signature=TQDSHBxUyRO4j2wTbIw7EnbTIJRdu3EZdUvdZwOpAUs8YLebmm-UsKLSErOuvu3Rw-uG4wUDqWLpv3TtLw9m7zoD76XqTI9K4D8bqDwgU32ALHKnDLuC~LFiVpiwHK-idD4v~g00IK7TYpXB4~HEWBGd79gdkJQXCpFcM-uQNgBf3iZZLuOduJS6AAX7o1a595MDsxb~GlfqtNL58a5TWoqUpA~bsABp2rz74-VzBiOxIPr0OYXxsqYfedZyDFZfrzf~~6wBIKcPrvokueefVjeGsGklz9HW7f0DQ8s0GFHcwwmRkMR8ZOdW8YNJaIRefDU6Wd9o9Hp3iCIPhPRlJA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

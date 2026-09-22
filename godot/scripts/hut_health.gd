@@ -179,7 +179,7 @@ func repair(player: Player) -> String:
 	if not player.alive: return "Reparieren ist momentan nicht möglich."
 	if distance(player.global_position) > REPAIR_REACH: return "Zu weit von der Hütte entfernt."
 	var quote := repair_quote()
-	if player.score < int(quote.cost): return "Es fehlen %d Punkte." % (int(quote.cost) - player.score)
+	if player.score < int(quote.cost): return "Es fehlen %d Rem Dollars." % (int(quote.cost) - player.score)
 	player.add_score(-int(quote.cost))
 	hp = minf(MAX_HP, hp + float(quote.amount))
 	Sfx.event(self, player.peer_id, "purchase")
@@ -188,7 +188,7 @@ func repair(player: Player) -> String:
 
 func prompt_text() -> String:
 	var quote := repair_quote()
-	return "[E] Waldhütte reparieren · +%d HP · %d P\nHütte %d / %d · Preisstufe: Welle %d" % [ceili(quote.amount), int(quote.cost), ceili(hp), int(MAX_HP), int(quote.wave)]
+	return "[E] Waldhütte reparieren · +%d HP · %d R\nHütte %d / %d · Preisstufe: Welle %d" % [ceili(quote.amount), int(quote.cost), ceili(hp), int(MAX_HP), int(quote.wave)]
 
 func _process(delta: float) -> void:
 	attack_alert_remaining = maxf(0.0, attack_alert_remaining - delta)
