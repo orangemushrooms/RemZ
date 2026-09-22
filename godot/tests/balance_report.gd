@@ -16,17 +16,19 @@ func run() -> void:
 	for n in range(1, 13):
 		var bounty := 0.0
 		for trial in 100:
-			for entry in waves.plan(n): bounty += float(Zombie.TYPES[entry.type].score)
+			# What a kill actually pays: score x KILL_VALUE (main.gd), before streaks and headshots.
+			for entry in waves.plan(n): bounty += float(Zombie.TYPES[entry.type].score) * 0.6
 		bounty /= 100.0
-		cumulative += bounty + 40 + n * 10
-		report.waves.append({"wave": n, "enemies": waves.preview_count(n), "expected_bounty": snappedf(bounty, 0.1), "completion_bonus": 40 + n * 10, "cumulative_gross": snappedf(cumulative, 0.1)})
+		var completion := 20 + n * 6   # waves.gd pays this, not 40 + n * 10
+		cumulative += bounty + completion
+		report.waves.append({"wave": n, "enemies": waves.preview_count(n), "expected_bounty": snappedf(bounty, 0.1), "completion_bonus": completion, "cumulative_gross": snappedf(cumulative, 0.1)})
 	for id in Weapons.ORDER:
 		var d: Dictionary = Weapons.DEFS[id]
 		var shop: Dictionary = Progression.GOODS.get(id, {"price": 0, "wave": 0, "ammo": 12})
 		var cycle := (int(d.mag) - 1) * float(d.rate) + float(d.reload)
 		report.weapons[id] = {"price": shop.price, "completed_wave_required": shop.wave, "body_damage": d.damage, "pellets": d.pellets,
 			"magazine": d.mag, "sustained_dps": snappedf(int(d.mag) * float(d.damage) * int(d.pellets) / cycle, 0.1),
-			"ammo_price_per_round": snappedf(float(shop.ammo) / (int(d.mag) * 2), 0.01), "titan_bonus": d.get("titan_multiplier", 1.0)}
+			"ammo_price_per_round": snappedf(float(shop.ammo) / maxf(1.0, float(int(d.mag) * 2)), 0.01), "titan_bonus": d.get("titan_multiplier", 1.0)}
 	var file := FileAccess.open("res://../artifacts/progression/balance.json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "\t"))
 	waves.free()

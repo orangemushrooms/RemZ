@@ -38,6 +38,11 @@ const AXIAL := ["match_barrel", "titan_core", "suppressor", "ghost", "compensato
 const MAGAZINE := {
 	"pistol": "box", "revolver": "", "smg": "box", "ak47": "box", "rifle": "tube",
 	"marksman": "box", "lmg": "box", "breacher": "tube", "titanbreaker": "box",
+	# The expansion. The break action flare launcher, the plasma rifle, the belt fed rotary gun and
+	# the graviton cannon feed from nothing a magazine mod could replace; the lever rifle carries a
+	# tube under its barrel like the shotguns do.
+	"deagle": "box", "flare_pistol": "", "mac10": "box", "cryo_smg": "box",
+	"plasma_sniper": "", "lever_rifle": "tube", "minigun": "", "graviton_cannon": "",
 }
 
 var weapon := ""

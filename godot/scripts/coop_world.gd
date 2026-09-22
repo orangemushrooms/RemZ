@@ -237,7 +237,7 @@ func action(id: int, operation: String, args: Array) -> void:
 			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"fire":
 			if args.size() != 4 or not args[0] is String or not args[1] is float or not is_finite(args[1]) or not _aim(p, args, 2): return
-			w.set_weapon(args[0])
+			if w.current != args[0]: w.set_weapon(args[0])
 			if w.current != args[0]: return
 			w.ads = clampf(args[1], 0, 1)
 			w.try_fire()
@@ -448,6 +448,13 @@ func track_grenade(grenade: Node3D) -> void:
 	grenades[next_id] = grenade
 	next_id += 1
 
+func show_flare(position: Vector3) -> void:
+	if game.weapons.specials: game.weapons.specials.plant_flare(position)
+
+# The graviton cannon, drawn the same way for everyone who can see it.
+func show_blast(position: Vector3) -> void:
+	WeaponSpecials.blast_visuals(game, position)
+
 func show_explosion(position: Vector3) -> void:
 	var grenade := Grenade.new()
 	grenade.replica = true
@@ -474,14 +481,18 @@ func snapshot() -> Dictionary:
 		var p: Player = actor(id)
 		var w: Weapons = weapons[id]
 		var ammo := {}
+		var specials := {}
 		for wid in w.state:
 			var s: Dictionary = w.state[wid]
 			ammo[wid] = [s.ammo, s.reserve, s.reloading]
+			var extra := WeaponSpecials.net_state(w, wid)
+			if not extra.is_empty(): specials[wid] = extra
 		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity, "crouch": p.crouching, "tower": p.mounted_tower,
 			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul, "effects": p.mushroom_effects.duplicate(),
 			"relic": p.relic, "light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(), "mod_owned": w.mod_owned.duplicate(true), "mod_loadout": w.mod_loadout.duplicate(true),
 			"grenades": w.grenades, "grenades_max": w.grenades_max, "mods": [w.damage_mul, w.reload_mul, w.spread_mul],
-			"levels": levels[id].duplicate(), "mushrooms": mushrooms[id].duplicate(), "ack": NetSession._commands.get(id, 0), "pose_ack": pose_acks.get(id, 0)}
+			"levels": levels[id].duplicate(), "mushrooms": mushrooms[id].duplicate(), "ack": NetSession._commands.get(id, 0), "pose_ack": pose_acks.get(id, 0),
+			"specials": specials}
 	var zs := {}
 	for z in game.zombies_root.get_children():
 		if not z is Zombie: continue
@@ -603,6 +614,12 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			game.hud.set_health(p.hp)
 			game.hud.set_score(p.score)
 			p.relic = s.get("relic", "")
+			# Barrel heat and spin-up are host truth and must not wait for the acknowledged block
+			# below: while the trigger is held there is always an unacknowledged command in flight,
+			# so that block never runs and an overheating weapon would look cold on the client.
+			if game.weapons.specials:
+				for wid in s.get("specials", {}):
+					game.weapons.specials.apply_net_state(game.weapons, str(wid), s.specials[wid])
 			if initial or int(s.ack) >= NetSession._command_seq:
 				var w: Weapons = game.weapons
 				var inventory_changed: bool = w.unlocked != s.unlocked or game.inventory.mushrooms != s.mushrooms or w.grenades != s.grenades

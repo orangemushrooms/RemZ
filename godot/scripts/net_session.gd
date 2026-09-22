@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 2
-const BUILD := "remz-dev-20260922-export-hitbox-fix"
+const BUILD := "remz-dev-20260922-weapon-expansion"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -616,7 +616,10 @@ func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 func weapon_fired(id: int, weapon: String, stab: bool = false) -> void:
 	if not is_host(): return
 	var definition: Dictionary = world.weapons[id].state[weapon].def
-	var mod_effects := [definition.get("sfx_db", -8.0), definition.get("flash_scale", 1.0), definition.kick_pitch, world.game.progression.rare_market.round_mode(world.actors[id])]
+	# Same colour the shooter sees in their own hands: an energy weapon carries its own element, a
+	# bought round only shows when the weapon has none of its own (weapon_specials.flash_mode).
+	var shot_mode: String = WeaponSpecials.flash_mode(weapon, str(world.game.progression.rare_market.round_mode(world.actors[id])))
+	var mod_effects := [definition.get("sfx_db", -8.0), definition.get("flash_scale", 1.0), definition.kick_pitch, shot_mode]
 	if Weapons.is_melee(weapon): mod_effects = [stab and Weapons.is_melee(weapon)]
 	_shot.rpc(epoch, id, weapon, mod_effects)
 	_shot(epoch, id, weapon, mod_effects)
@@ -646,6 +649,24 @@ func track_grenade(grenade: Node3D) -> void:
 
 func explosion(position: Vector3) -> void:
 	if is_host(): _explosion.rpc(epoch, position)
+
+# A burning flare on the ground lights the forest for the whole team, not only for the shooter.
+func flare(position: Vector3, shooter: int = 0) -> void:
+	if is_host(): _flare.rpc(epoch, position, shooter)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _flare(session_epoch: int, position: Vector3, shooter: int = 0) -> void:
+	# The shooter placed this light already when they predicted their own shot.
+	if epoch == session_epoch and shooter != local_id() and world: world.show_flare(position)
+
+# The graviton cannon's gravity well: drawn on every peer, including the one that fired.
+func blast(position: Vector3) -> void:
+	if is_host(): _blast.rpc(epoch, position)
+	_blast(epoch, position)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _blast(session_epoch: int, position: Vector3) -> void:
+	if epoch == session_epoch and world: world.show_blast(position)
 
 @rpc("authority", "call_remote", "reliable", 0)
 func _explosion(session_epoch: int, position: Vector3) -> void:

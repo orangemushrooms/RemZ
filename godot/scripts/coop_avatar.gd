@@ -67,8 +67,19 @@ func set_weapon(id: String) -> void:
 	if Weapons.is_melee(id):
 		model = Weapons.MeleeModels.build(id)
 	else:
-		var packed: PackedScene = load("res://assets/models/%s.glb" % Weapons.DEFS[id].model)
-		model = packed.instantiate()
+		# A missing GLB must not take the teammate's avatar down with it: the view model falls back
+		# to a grey box (weapons.gd), so the world avatar does the same instead of crashing.
+		var path := "res://assets/models/%s.glb" % Weapons.DEFS[id].model
+		if ResourceLoader.exists(path):
+			model = (load(path) as PackedScene).instantiate()
+		else:
+			push_warning("coop avatar: missing weapon model " + path)
+			model = Node3D.new()
+			var placeholder := MeshInstance3D.new()
+			var box := BoxMesh.new()
+			box.size = Vector3(0.3, 0.06, 0.04)
+			placeholder.mesh = box
+			model.add_child(placeholder)
 	gun.add_child(model)
 	if not Weapons.is_melee(id):
 		model.rotation.y = -PI / 2.0
@@ -81,7 +92,7 @@ func set_weapon(id: String) -> void:
 	if Weapons.is_melee(id):
 		right_grip = Vector3(0.02, -0.03, 0.074)
 		left_grip = Vector3(-0.22, -0.12, 0.15)
-	if id in ["pistol", "revolver"]:
+	if id in ViewmodelHands.HANDGUNS:
 		left_grip = right_grip + Vector3(-0.065, -0.025, -0.015)
 	else:
 		# Support near the rear of the fore-end, within a human arm's reach.
@@ -94,13 +105,13 @@ func set_weapon(id: String) -> void:
 	hands = Node3D.new()
 	aim.add_child(hands)
 	var right_hand := SurvivorHands.glove(true, false)
-	var left_hand := SurvivorHands.glove(false, id not in ["pistol", "revolver"])
+	var left_hand := SurvivorHands.glove(false, id not in ViewmodelHands.HANDGUNS)
 	hands.add_child(right_hand)
 	hands.add_child(left_hand)
 	right_hand.position = gun.position + right_grip
 	left_hand.position = gun.position + left_grip
 	right_hand.rotation.y = PI
-	left_hand.rotation = Vector3(0, PI, -0.25 if id in ["pistol", "revolver"] else PI * 0.5)
+	left_hand.rotation = Vector3(0, PI, -0.25 if id in ViewmodelHands.HANDGUNS else PI * 0.5)
 	flash.position = gun.position + Vector3(bounds.get_center().x, bounds.end.y - 0.025, bounds.position.z - 0.025)
 	# Same rule as the view model: mods go on only once the grips and the flash are anchored to the
 	# bare weapon, so a teammate's suppressor cannot shift where their hands sit.
@@ -131,7 +142,13 @@ func shot(id: String, mod_effects: Array = []) -> void:
 		Sfx.play_at(self, "melee", global_position + Vector3.UP * 1.3, -8.0)
 		return
 	var mode: String = str(mod_effects[3]) if mod_effects.size() > 3 else ""
-	flash.light_color = Color(0.3, 0.8, 1) if mode == "frost" else Color(1, 0.3 if mode == "fire" else 0.65, 0.1)
+	# Same colours a player sees in their own hands (WeaponEffects.MODES).
+	match mode:
+		"frost": flash.light_color = Color(0.3, 0.8, 1)
+		"plasma": flash.light_color = Color(0.4, 0.9, 1)
+		"graviton": flash.light_color = Color(0.7, 0.35, 1)
+		"fire": flash.light_color = Color(1, 0.3, 0.1)
+		_: flash.light_color = Color(1, 0.65, 0.1)
 	flash_t = 0.11 if mode == "fire" else 0.065
 	recoil = minf(recoil + deg_to_rad(float(mod_effects[2] if mod_effects.size() >= 3 else Weapons.DEFS[id].kick_pitch)) * 0.5, 0.14)
 	flash.visible = true

@@ -13,7 +13,8 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const MODELS = path.join(ROOT, 'godot', 'assets', 'models');
-const WEAPONS = ['pistol', 'revolver', 'smg', 'ak47', 'rifle', 'marksman', 'lmg', 'breacher', 'titanbreaker'];
+const WEAPONS = ['pistol', 'revolver', 'smg', 'ak47', 'rifle', 'marksman', 'lmg', 'breacher', 'titanbreaker',
+	'deagle', 'flare_pistol', 'mac10', 'cryo_smg', 'plasma_sniper', 'lever_rifle', 'minigun', 'graviton_cannon'];
 
 const argv = process.argv.slice(2);
 const jsonAt = argv.indexOf('--json');
@@ -147,6 +148,16 @@ function measure(name) {
 		// Bore: the frontmost 3 % of the barrel, median centred, radius from the tight span.
 		const tip = points.filter(p => Math.abs(p[long] - front) <= size[long] * 0.03);
 		const bore = crossSection(tip, up, side);
+		// A rotary gun has no single bore. Six barrel faces on a ring pull the median onto one of
+		// them (the minigun measured 4 cm off centre, which put its muzzle flash beside the gun),
+		// while their mean is exactly the axis they turn around. Only when the two disagree by more
+		// than half the measured span is the muzzle a cluster rather than one barrel with a rib.
+		const mean = [up, side].map(a => tip.reduce((sum, p) => sum + p[a], 0) / tip.length);
+		const clustered = [0, 1].some(i => Math.abs(mean[i] - bore.centre[i]) > bore.span[i] * 0.5);
+		if (clustered) {
+			bore.centre = mean;
+			bore.clustered = true;
+		}
 		// A bore is round, a front sight or a barrel rib is not: the revolver's muzzle slab is
 		// 1.8x taller than wide, the shotgun's 2.3x. The narrower span is the barrel itself.
 		const boreRadius = Math.min(bore.span[0], bore.span[1]) * 0.5;

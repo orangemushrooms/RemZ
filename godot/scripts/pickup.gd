@@ -176,7 +176,8 @@ func _on_body(body: Node3D) -> void:
 			hud.message("+%d R aufgenommen" % amount, 1.4)
 		"ammo":
 			var id: String = weapons.ammo_weapon()
-			var mag := int(weapons.DEFS[id]["mag"])
+			# One drop is one magazine, but never a 150 round belt: that alone was worth 65 R.
+			var mag := mini(int(weapons.DEFS[id]["mag"]), 45)
 			weapons.add_ammo(id, mag)
 			hud.message("Munition: +%d %s" % [mag, weapons.DEFS[id]["name"]], 1.4)
 		"grenade":

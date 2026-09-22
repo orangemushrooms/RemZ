@@ -51,7 +51,21 @@ func mushroom_multiplier(attribute: String) -> float:
 	return Mushrooms.multiplier(mushroom_effects, attribute)
 
 func effective_speed_mul() -> float:
-	return speed_mul * mushroom_multiplier("speed") * relic_multiplier("speed")
+	# A minigun weighs what a minigun weighs: carrying it is slow, firing it roots you in place.
+	var burden := 1.0
+	# A teammate the host simulates carries their weapon as a child of themselves; the local player's
+	# weapon hangs on the scene. Both have to feel the same weight.
+	var weapons_node: Weapons = null
+	for child in get_children():
+		if child is Weapons:
+			weapons_node = child
+			break
+	if weapons_node == null:
+		var scene := get_tree().current_scene
+		if scene and "weapons" in scene and scene.weapons and scene.weapons.player == self: weapons_node = scene.weapons
+	if weapons_node and weapons_node.specials:
+		burden = weapons_node.specials.movement_multiplier(weapons_node)
+	return speed_mul * mushroom_multiplier("speed") * relic_multiplier("speed") * burden
 var recoil_offset := Vector2.ZERO   # (pitch, yaw) radians of visual recoil still settling
 var mouse_sensitivity := 1.0
 var _step_t := 0.0

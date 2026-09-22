@@ -13,6 +13,7 @@ func set_health(_v: float) -> void: pass
 func set_score(_v: int) -> void: pass
 func set_ammo(_now: int, _reserve: int, _weapon: String) -> void: pass
 func set_reload(_remaining: float, _duration: float) -> void: pass
+func set_charge(_text: String, _value: float, _colour: Color = Color.WHITE) -> void: pass
 func message(text: String, seconds: float = 2.5) -> void:
 	NetSession.feedback(peer_id, "message", [text, seconds])
 func hitmarker(head: bool) -> void:

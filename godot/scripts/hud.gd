@@ -50,6 +50,11 @@ var playtime_label: Label
 var team_label: Label
 var reload_bar: ProgressBar
 var reload_label: Label
+# Second gauge under the reload bar: barrel heat, energy cells, minigun spin-up. Weapons that feed
+# from a plain magazine never show it.
+var charge_bar: ProgressBar
+var charge_label: Label
+var _charge_colour := Color(0, 0, 0, 0)
 var minimap: Minimap
 var settings_box: VBoxContainer
 var difficulty_button: Button
@@ -215,6 +220,17 @@ func _ready() -> void:
 	reload_bar.show_percentage = false
 	reload_bar.visible = false
 	ammo.add_child(reload_bar)
+	charge_label = _label("", 12)
+	charge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	charge_label.visible = false
+	ammo.add_child(charge_label)
+	charge_bar = ProgressBar.new()
+	charge_bar.custom_minimum_size = Vector2(180, 5)
+	charge_bar.max_value = 1.0
+	charge_bar.show_percentage = false
+	charge_bar.visible = false
+	charge_bar.add_theme_stylebox_override("background", _flat(Color(1, 1, 1, 0.12), 3))
+	ammo.add_child(charge_bar)
 	minimap = Minimap.new()
 	root.add_child(minimap)
 
@@ -970,6 +986,21 @@ func set_reload(remaining: float, duration: float) -> void:
 	reload_label.text = "Nachladen ..." if remaining > 0.0 else ""
 	if remaining > 0.0:
 		reload_bar.value = 1.0 - remaining / maxf(0.01, duration)
+
+# The weapon's own gauge: text plus a 0..1 bar in the weapon's colour. An empty text hides it.
+func set_charge(text: String, value: float, colour: Color = Color(1.0, 0.7, 0.28)) -> void:
+	if not charge_bar: return
+	var shown := not text.is_empty()
+	charge_label.visible = shown
+	charge_bar.visible = shown
+	if not shown: return
+	charge_label.text = text
+	charge_label.modulate = colour
+	charge_bar.value = clampf(value, 0.0, 1.0)
+	# The colour changes on a weapon switch or when heat turns red, not sixty times a second.
+	if colour != _charge_colour:
+		_charge_colour = colour
+		charge_bar.add_theme_stylebox_override("fill", _flat(colour, 3))
 
 func set_world_time(seconds: float, phase: String, speed: float) -> void:
 	clock_label.text = DayNightCycle.clock_text(seconds)

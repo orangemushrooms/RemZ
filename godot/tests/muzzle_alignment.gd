@@ -28,7 +28,9 @@ func run() -> void:
 	game.player.pitch = 0
 	game.player.head.rotation.x = 0
 	var w: Weapons = game.weapons
-	for weapon in ["pistol", "smg", "ak47"]:
+	# The two heavies are in here because their muzzles are the hardest to measure: a six barrel
+	# cluster and a wide emitter mouth.
+	for weapon in ["pistol", "smg", "ak47", "minigun", "graviton_cannon"]:
 		w.unlock(weapon)
 		w.set_weapon(weapon)
 		for aimed in [false, true]:

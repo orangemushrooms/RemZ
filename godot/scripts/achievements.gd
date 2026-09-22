@@ -45,6 +45,7 @@ const DEFS := [
 	{ "id": "bar_6", "title": "Festung Waldhütte", "text": "6 Barrikadenstufen gebaut", "counter": "barricades", "target": 6, "reward": { "score": 50, "hp": 2 } },
 	{ "id": "loot_1", "title": "Fundstück", "text": "Erste Waffe gekauft", "counter": "weapons", "target": 1, "reward": {} },
 	{ "id": "loot_4", "title": "Arsenal", "text": "Vier Waffen gekauft", "counter": "weapons", "target": 4, "reward": {} },
+	{ "id": "loot_10", "title": "Waffenkammer", "text": "Zehn Waffen gekauft", "counter": "weapons", "target": 10, "reward": {} },
 	{ "id": "door", "title": "Aufgemacht", "text": "Garagentor der Waldhütte geöffnet", "counter": "door", "target": 1, "reward": { "score": 10 } },
 	{ "id": "window", "title": "Einbrecher", "text": "Hinterfenster des Holzlagers zerschossen", "counter": "window", "target": 1, "reward": { "score": 15 } },
 	{ "id": "shroom_1", "title": "Pilzsammler", "text": "Ersten Pilz gesammelt", "counter": "mushrooms", "target": 1, "reward": { "score": 5 } },

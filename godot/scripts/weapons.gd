@@ -11,6 +11,7 @@ const Viewmodel = preload("res://scripts/viewmodel_viewport.gd")
 const Effects = preload("res://scripts/weapon_effects.gd")
 const MeleeModels = preload("res://scripts/melee_models.gd")
 const Attachments = preload("res://scripts/weapon_attachments.gd")
+const Specials = preload("res://scripts/weapon_specials.gd")
 
 const DEFS := {
 	"knife": {"name": "Feldmesser", "model": "knife_real", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 4.4, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "knife_swing", "shove": 3.5,
@@ -35,8 +36,45 @@ const DEFS := {
 		"pos": Vector3(0.24, -0.24, -0.6), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 8.5, "kick_yaw": 2.2, "kick_back": 0.19, "recover": 4.8},
 	"titanbreaker": {"name": "Titanenbrecher .50", "scope_zoom": 4.0, "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 8, "damage": 420.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
 		"pos": Vector3(0.24, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.48), "kick_pitch": 12.0, "kick_yaw": 1.6, "kick_back": 0.23, "recover": 3.2},
+	# --- Erweiterung September 2026: zwei Pistolen, zwei MPs, zwei Praezisionswaffen, zwei schwere ---
+	# Optionale Felder neben den 19 Pflichtfeldern: "special" (Mechanik, siehe weapon_specials.gd),
+	# "element" (Brand/Frost ueber rare_market), "flash_mode" (Muendungsfarbe aus WeaponEffects.MODES),
+	# "reserve_factor" (Reservelimit statt der pauschalen x4), "mod_block" (Mods, die diese Waffe nicht
+	# traegt), "bloom_gain", "move_mul(_spun)", "no_reload", "scope_style", "kick_cap"/"kick_model_cap".
+	"deagle": {"name": "Desert Eagle .50", "model": "deagle", "height": 0.15, "mag": 7, "reserve": 42, "reserve_factor": 6, "damage": 118.0, "rate": 0.34, "reload": 2.0, "pellets": 1, "spread": 0.013, "range": 65.0, "auto": false, "sfx": "deagle", "sfx_db": -4.0, "sfx_pitch": 0.94, "flash_scale": 1.35,
+		"mod_block": ["extended", "endless"],
+		"pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 9.5, "kick_yaw": 2.1, "kick_back": 0.20, "recover": 4.2},
+	"flare_pistol": {"name": "Leuchtpistole", "model": "flare_pistol", "height": 0.14, "mag": 1, "reserve": 12, "reserve_factor": 14, "damage": 45.0, "rate": 0.9, "reload": 1.9, "pellets": 1, "spread": 0.020, "range": 40.0, "auto": false, "sfx": "flare", "sfx_db": -10.0, "sfx_pitch": 1.06, "flash_scale": 1.6, "flash_mode": "fire", "element": "fire",
+		"special": {"kind": "flare", "speed": 44.0, "impact": 0.0, "splash": 20.0, "radius": 3.5, "burn_time": 4.0, "splash_ignites": false, "light_range": 12.0, "flare_life": 8.0},
+		"mod_block": ["extended", "endless", "match_barrel", "compensator"],
+		"pos": Vector3(0.26, -0.20, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 4.4, "kick_yaw": 1.2, "kick_back": 0.11, "recover": 6.0},
+	"mac10": {"name": "MAC-10 SD", "model": "mac10", "height": 0.17, "mag": 40, "reserve": 160, "damage": 20.0, "rate": 0.055, "reload": 1.9, "pellets": 1, "spread": 0.040, "range": 30.0, "auto": true, "sfx": "mac10", "sfx_db": -18.0, "sfx_pitch": 1.04, "flash_scale": 0.18, "bloom_gain": 0.10,
+		"mod_block": ["suppressor", "ghost", "compensator", "endless"],
+		"pos": Vector3(0.24, -0.22, -0.56), "ads": Vector3(0.0, -0.135, -0.41), "kick_pitch": 1.15, "kick_yaw": 0.5, "kick_back": 0.045, "recover": 10.0},
+	"cryo_smg": {"name": "Kryo-MP C7", "model": "cryo_smg", "height": 0.18, "mag": 35, "reserve": 140, "damage": 22.0, "rate": 0.07, "reload": 2.3, "pellets": 1, "spread": 0.032, "range": 40.0, "auto": true, "sfx": "cryo", "sfx_db": -11.0, "flash_scale": 0.7, "flash_mode": "frost", "element": "frost",
+		"special": {"kind": "chill", "per_hit": 0.15, "titan_scale": 0.4, "chill_slow": 0.78, "freeze_time": 3.0, "after_freeze": 0.45, "brittle_mul": 1.4},
+		"mod_block": ["compensator", "match_barrel"],
+		"pos": Vector3(0.24, -0.23, -0.57), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 1.5, "kick_yaw": 0.7, "kick_back": 0.05, "recover": 9.5},
+	"lever_rifle": {"name": "Unterhebler .45-70", "scope_zoom": 3.0, "scope_style": "vintage", "model": "lever_rifle", "pierce_targets": 2, "pierce_retention": 0.7, "height": 0.21, "mag": 6, "reserve": 30, "damage": 125.0, "rate": 0.60, "reload": 3.4, "pellets": 1, "spread": 0.005, "range": 130.0, "auto": false, "sfx": "lever", "sfx_db": -9.0, "sfx_pitch": 0.92,
+		"special": {"kind": "cycle", "at": 0.45, "sfx": "lever_cycle", "roll": 0.9},
+		"mod_block": ["extended", "endless"],
+		"pos": Vector3(0.24, -0.23, -0.63), "ads": Vector3(0, -0.15, -0.47), "kick_pitch": 5.6, "kick_yaw": 1.1, "kick_back": 0.14, "recover": 5.0},
+	"plasma_sniper": {"name": "Plasmabuechse", "scope_zoom": 5.0, "scope_style": "digital", "model": "plasma_sniper", "pierce_targets": 2, "pierce_retention": 0.8, "height": 0.25, "mag": 6, "reserve": 30, "reserve_factor": 5, "damage": 210.0, "rate": 0.85, "reload": 3.6, "pellets": 1, "spread": 0.0035, "range": 170.0, "auto": false, "sfx": "plasma", "sfx_db": -8.0, "sfx_pitch": 0.9, "flash_scale": 1.2, "flash_mode": "plasma",
+		"special": {"kind": "heat", "per_shot": 0.17, "cool": 0.22, "idle": 0.6, "regen": 0.55, "cold": 0.15, "vent_floor": 0.6, "vent_sfx": "plasma_vent"},
+		"mod_block": ["suppressor", "ghost", "compensator", "extended", "endless", "quick_action"],
+		"pos": Vector3(0.25, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.50), "kick_pitch": 2.8, "kick_yaw": 0.6, "kick_back": 0.09, "recover": 6.5},
+	"minigun": {"name": "Minigun M134", "model": "minigun", "height": 0.26, "mag": 150, "reserve": 300, "reserve_factor": 2, "damage": 32.0, "rate": 0.055, "reload": 6.5, "pellets": 1, "spread": 0.040, "range": 70.0, "auto": true, "sfx": "minigun", "sfx_db": -9.0, "flash_scale": 1.5, "bloom_gain": 0.05, "move_mul": 0.55, "move_mul_spun": 0.42,
+		"special": {"kind": "spin", "up": 0.85, "down": 0.9, "hold": 0.25, "penalty": 3.2, "loop_sfx": "minigun_loop", "start_sfx": "minigun_spinup", "stop_sfx": "minigun_spindown"},
+		"mod_block": ["suppressor", "ghost", "compensator", "match_barrel", "extended", "endless"],
+		"pos": Vector3(0.23, -0.26, -0.60), "ads": Vector3(0.16, -0.24, -0.56), "kick_pitch": 0.9, "kick_yaw": 1.6, "kick_back": 0.03, "recover": 11.0},
+	"graviton_cannon": {"name": "Graviton-Kanone", "model": "graviton_cannon", "pierce_targets": 3, "pierce_retention": 0.9, "titan_multiplier": 2.4, "height": 0.26, "mag": 2, "reserve": 10, "reserve_factor": 5, "damage": 240.0, "rate": 2.4, "reload": 4.6, "pellets": 1, "spread": 0.014, "range": 60.0, "auto": false, "sfx": "graviton", "sfx_db": -2.0, "sfx_pitch": 0.88, "flash_scale": 2.2, "flash_mode": "graviton",
+		"special": {"kind": "blast", "radius": 6.0, "damage": 400.0, "edge": 0.25, "self_damage": 60.0, "self_share": 0.7, "charge_sfx": "graviton_charge"},
+		"mod_block": ["suppressor", "ghost", "compensator", "match_barrel", "extended", "endless"],
+		"kick_cap": Vector2(0.30, 0.10), "kick_model_cap": Vector3(0.52, 0.07, 0.22),
+		"pos": Vector3(0.22, -0.25, -0.62), "ads": Vector3(0.05, -0.18, -0.52), "kick_pitch": 14.0, "kick_yaw": 1.2, "kick_back": 0.30, "recover": 2.4},
 }
-const ORDER := ["pistol", "revolver", "smg", "ak47", "shotgun", "marksman", "lmg", "breacher", "titanbreaker", "knife", "hatchet"]
+const ORDER := ["pistol", "deagle", "revolver", "flare_pistol", "smg", "mac10", "cryo_smg", "ak47", "shotgun",
+	"breacher", "lever_rifle", "marksman", "plasma_sniper", "lmg", "minigun", "titanbreaker", "graviton_cannon", "knife", "hatchet"]
 const HIT_RAY_LENGTH := 600.0   # longer than the map diagonal
 
 static func piercing_description(id: String, effective: Dictionary = {}) -> String:
@@ -60,6 +98,7 @@ var sway_t := 0.0
 var flash: OmniLight3D
 var flash_mesh: MeshInstance3D
 var effects: WeaponEffects
+var specials: WeaponSpecials   # heat, spin-up, freeze build-up, flares, graviton blast
 var _model_kick := Vector3.ZERO # pitch (radians), roll (radians), rearward distance
 var _model_velocity := Vector3.ZERO
 var zombies_root: Node3D
@@ -93,6 +132,7 @@ func setup_proxy(p: Player, h: Hud, zr: Node3D) -> void:
 	hud = h
 	camera = p.camera
 	zombies_root = zr
+	specials = Specials.for_scene(_scene_root(), DEFS)
 	for id in DEFS:
 		unlocked[id] = id in ["pistol", "knife"]
 		state[id] = {"def": DEFS[id], "ammo": DEFS[id].mag, "reserve": DEFS[id].reserve, "cooldown": 0.0, "reloading": 0.0}
@@ -103,6 +143,7 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	hud = h
 	camera = p.camera
 	zombies_root = zr
+	specials = Specials.for_scene(_scene_root(), DEFS)
 	for i in range(6, 11):
 		var action := "weapon_%d" % i
 		if not InputMap.has_action(action):
@@ -182,6 +223,16 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 	set_weapon("pistol")
 	_prepare_blood_pool()
 
+# setup() runs from main._ready, where the tree has no current_scene yet, and a co-op proxy hangs
+# under its Player rather than under the scene. Walking up to the node that owns the progression
+# finds the real game root in both cases.
+func _scene_root() -> Node:
+	var node: Node = self
+	while node != null:
+		if "progression" in node: return node
+		node = node.get_parent()
+	return get_tree().current_scene
+
 static func _fit_height(node: Node3D, height: float) -> void:
 	var aabb := AABB()
 	var first := true
@@ -225,10 +276,12 @@ func set_weapon(id: String) -> void:
 		kick_pitch = 0.0
 		kick_yaw = 0.0
 		player.recoil_offset = Vector2.ZERO
+	if specials and current != id: specials.on_switch(self, current, id)
 	if not is_melee(id): _last_firearm = id
 	if server_proxy:
-		cur().reloading = 0.0
-		current = id
+		if current != id:
+			cur().reloading = 0.0
+			current = id
 		return
 	if NetSession.is_client() and not network_apply and id != current:
 		NetSession.command("weapon", [id])
@@ -269,7 +322,9 @@ func add_ammo(id: String, n: int) -> void:
 	update_hud()
 
 func reserve_limit(id: String) -> int:
-	return int(DEFS[id].mag) * (8 if id == "pistol" else 4)
+	# The pistol is the safety net and carries eight magazines; everything else states its own depth
+	# of pockets. A belt fed minigun under the old blanket factor would haul 600 spare rounds.
+	return int(DEFS[id].mag) * int(DEFS[id].get("reserve_factor", 8 if id == "pistol" else 4))
 
 func refill_all() -> void:
 	# A survival safety net, not unlimited free ammunition for the strongest gun.
@@ -329,6 +384,10 @@ func update_hud() -> void:
 
 func reload() -> void:
 	if is_melee(current): return
+	# An energy rifle has no magazine: R dumps the heat early instead of changing one.
+	if specials and specials.manual_vent(self, current):
+		if NetSession.is_client() and not network_apply: NetSession.command("reload")
+		return
 	var s := cur()
 	if s["reloading"] > 0.0 or s["ammo"] == s["def"]["mag"] or s["reserve"] <= 0:
 		return
@@ -369,6 +428,8 @@ func try_fire() -> void:
 	var s := cur()
 	if s["cooldown"] > 0.0 or s["reloading"] > 0.0:
 		return
+	if specials and specials.blocks_fire(self, current):
+		return
 	if s["ammo"] <= 0:
 		s["cooldown"] = 0.2
 		Sfx.play(self, "empty", -10.0)
@@ -380,11 +441,19 @@ func try_fire() -> void:
 	var field = get_tree().current_scene.get("cornfield")
 	if field: field.scare(player.global_position)
 	s["ammo"] -= 1
-	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"])
+	# The rotary gun's barrels have to come up to speed: its interval shrinks as the spin rises.
+	var rate_factor: float = specials.rate_multiplier(self, current) if specials else 1.0
+	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"]) * rate_factor
 	recoil = 1.0
+	# A weapon with its own element colours itself - it does not consume the bought rounds, so it
+	# must not wear their colour either.
+	var shot_mode: String = get_tree().current_scene.progression.rare_market.round_mode(player)
+	if specials: shot_mode = specials.flash_mode(current, shot_mode)
 	if not server_proxy:
 		Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)), float(d.get("sfx_pitch", 1.0)))
-		effects.fire(current, muzzle_transform(), player.velocity, float(d.get("flash_scale", 1.0)), get_tree().current_scene.progression.rare_market.round_mode(player))
+		effects.fire(current, muzzle_transform(), player.velocity, float(d.get("flash_scale", 1.0)), shot_mode)
+	if specials:
+		specials.on_shot(self, current, (camera.global_transform * muzzle_transform()).origin, shot_direction)
 	# recoil climbs while holding the trigger, drifts sideways, less when aiming
 	_shots_in_burst += 1
 	_burst_t = 0.32
@@ -400,8 +469,10 @@ func try_fire() -> void:
 	var precision_control := sqrt(maxf(0.25, spread_mul))
 	var lateral := sin(float(_shots_in_burst) * 1.7) * 0.6 + sin(float(_shots_in_burst) * 0.43) * 0.4
 	_aim_kick += Vector2(deg_to_rad(float(d.kick_pitch)) * 0.28, deg_to_rad(float(d.kick_yaw)) * lateral * 0.45) * climb * aim_f * precision_control
-	_aim_kick = _aim_kick.clamp(Vector2(-0.05, -0.10), Vector2(0.16, 0.10))
-	_bloom = minf(1.0, _bloom + (0.14 if d.auto else 0.22))
+	# A heavy weapon may throw the aim further than the standard ceiling allows.
+	var kick_cap: Vector2 = d.get("kick_cap", Vector2(0.16, 0.10))
+	_aim_kick = _aim_kick.clamp(Vector2(-kick_cap.x * 0.31, -kick_cap.y), kick_cap)
+	_bloom = minf(1.0, _bloom + float(d.get("bloom_gain", 0.14 if d.auto else 0.22)))
 	player.wobble = maxf(player.wobble, 0.35)
 	if NetSession.is_client():
 		NetSession.command("fire", [current, ads, camera.global_rotation.y, camera.global_rotation.x])
@@ -417,7 +488,9 @@ func try_fire() -> void:
 	if stats:
 		stats.shots += 1
 	var rare = scene.progression.rare_market
-	var special_round: String = rare.consume_round(player)
+	# A weapon with its own element leaves the bought rounds alone; bought rounds still win when
+	# both are present, because the player paid for them.
+	var special_round: String = "" if d.has("element") else rare.consume_round(player)
 	var any_hit := false
 	# Barricade boxes block movement across the entire line, including visible gaps.
 	# Exclude only those boxes from bullets; towers, walls and terrain still stop shots.
@@ -433,6 +506,8 @@ func try_fire() -> void:
 		q.hit_from_inside = true
 		var excluded: Array[RID] = bullet_exclude.duplicate()
 		var victims := 0
+		# Where this pellet ends up. An area weapon detonates there, hit or miss.
+		var impact := origin + dir * minf(HIT_RAY_LENGTH, float(d["range"]) * 2.5)
 		# One ray continues through complete actors, never through world geometry.
 		for _step in 32:
 			q.exclude = excluded
@@ -441,6 +516,7 @@ func try_fire() -> void:
 				var muzzle_world: Vector3 = (camera.global_transform * muzzle_transform()).origin
 				NetSession.elemental_shot(muzzle_world, hit.get("position", origin + dir * 80.0), special_round, not hit.is_empty(), player.peer_id)
 			if hit.is_empty(): break
+			impact = hit.position
 			if hit.collider.get_meta("shootable_pumpkin", false):
 				if hit.collider.shoot(): hud.hitmarker(false)
 				break
@@ -470,6 +546,7 @@ func try_fire() -> void:
 				var titan_bonus := float(d.get("titan_multiplier", 1.0)) if Zombie.is_titan_kind(z.net_kind) else 1.0
 				z.damage(float(d["damage"]) * effective_damage_mul() * titan_bonus * falloff * pow(float(d.get("pierce_retention", 1.0)), victims) * (2.2 if headshot else 1.0), dir)
 				rare.hit(z, special_round, player.peer_id, current)
+				if specials: specials.on_hit(self, current, z, dir, player.peer_id)
 				_blood(hit.position, dir)
 				hud.hitmarker(headshot)
 				any_hit = true
@@ -477,6 +554,7 @@ func try_fire() -> void:
 					get_tree().current_scene.achievements.event("headshots")
 				victims += 1
 				if victims >= int(d.get("pierce_targets", 1)): break
+		if specials: specials.on_impact(self, current, impact, player.peer_id)
 	if any_hit and stats:
 		stats.hits += 1
 	update_hud()
@@ -729,6 +807,10 @@ func _process(delta: float) -> void:
 	var s := cur()
 	var d: Dictionary = s["def"]
 	hud.set_reload(s["reloading"], float(d["reload"]) * effective_reload_mul())
+	# Heat, spin-up or energy cells get their own gauge: hud.ammo_label is rewritten twice by
+	# update_hud, so a second line of text there would be lost.
+	var gauge: Dictionary = specials.hud_state(self, current) if specials else {}
+	hud.set_charge(str(gauge.get("text", "")), float(gauge.get("value", 0.0)), gauge.get("colour", Color(1.0, 0.7, 0.28)))
 	_handle_weapon_input(delta)
 
 func _tick_ammo(delta: float) -> void:
@@ -739,6 +821,7 @@ func _tick_ammo(delta: float) -> void:
 	_melee_t = maxf(0.0, _melee_t - delta)
 	for weapon_state: Dictionary in state.values():
 		weapon_state["cooldown"] = maxf(-delta, weapon_state["cooldown"] - delta)
+	if specials: specials.tick(self, delta)   # heat and spin also fall while the weapon is stowed
 	var s := cur()
 	var d: Dictionary = s["def"]
 	if s["reloading"] > 0.0:
@@ -796,7 +879,9 @@ func _handle_weapon_input(delta: float) -> void:
 	ads = lerpf(ads, want_ads, minf(1.0, delta * 10.0))
 	camera.fov = lerpf(75.0, aimed_fov(), ads)
 	var scoped: bool = d.has("scope_zoom") and ads >= 0.85 and want_ads > 0.0
-	viewmodel.set_scoped(scoped, float(d.get("scope_zoom", 1.0)))
+	viewmodel.set_scoped(scoped, float(d.get("scope_zoom", 1.0)), str(d.get("scope_style", "mil")))
+	if scoped and specials and viewmodel.scope.has_method("set_heat"):
+		viewmodel.scope.set_heat(float(s.get("heat", 0.0)))
 	for part in hud.crosshair_parts: part.visible = not scoped and not is_melee(current) and s.reloading <= 0
 	update_reticle()
 	# camera recoil recovery: part of the kick stays (the camera really moved), the rest settles back
@@ -885,4 +970,5 @@ func _step_model_recoil(delta: float) -> void:
 	var velocity := _model_velocity
 	_model_kick = decay * (position * c + (velocity + damping * omega * position) * s / damped)
 	_model_velocity = decay * (velocity * c - (damping * omega * velocity + omega * omega * position) * s / damped)
-	_model_kick = _model_kick.clamp(Vector3(-0.08, -0.07, -0.02), Vector3(0.32, 0.07, 0.12))
+	var model_cap: Vector3 = cur()["def"].get("kick_model_cap", Vector3(0.32, 0.07, 0.12))
+	_model_kick = _model_kick.clamp(Vector3(-0.08, -0.07, -0.02), model_cap)

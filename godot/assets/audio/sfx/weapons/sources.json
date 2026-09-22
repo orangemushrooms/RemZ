@@ -1,0 +1,128 @@
+{
+  "built_by": "tools/build_weapon_audio.py",
+  "library": "C:\\Users\\miche\\Desktop\\Developement\\music",
+  "sources": {
+    "deagle": "Weapons/Anti_Mater_Rifle_Gunshot.mp3 + synthesised sub",
+    "flare": "Weapons/Tactical_Rifle_Gunshot.mp3 (high passed) + Water_Tower.mp3 sizzle + synthesised thump",
+    "mac10": "Silenced_Tower.mp3 + synthesised bolt",
+    "cryo": "Weapons/Tactical_Rifle_Gunshot.mp3 + Water_Tower.mp3 gas + synthesised ring",
+    "plasma": "fully synthesised",
+    "plasma_vent": "fully synthesised",
+    "lever": "Weapons/Sniper_Rifle_Gunshot.mp3",
+    "lever_cycle": "fully synthesised",
+    "minigun": "Weapons/Heavy_Machine_Gun_Gunshot.mp3 + synthesised sub",
+    "minigun_spinup": "fully synthesised",
+    "minigun_loop": "fully synthesised",
+    "minigun_spindown": "fully synthesised",
+    "graviton": "anti_tank_tower.mp3 + time_stop.mp3 + synthesised sub drop",
+    "graviton_charge": "fully synthesised",
+    "cryo_freeze": "fully synthesised"
+  },
+  "clips": {
+    "deagle": {
+      "file": "deagle.wav",
+      "seconds": 0.55,
+      "rms": 0.1726,
+      "centroid_hz": 3935,
+      "loop": false
+    },
+    "flare": {
+      "file": "flare.wav",
+      "seconds": 1.11,
+      "rms": 0.0957,
+      "centroid_hz": 3350,
+      "loop": false
+    },
+    "mac10": {
+      "file": "mac10.wav",
+      "seconds": 0.16,
+      "rms": 0.1516,
+      "centroid_hz": 4461,
+      "loop": false
+    },
+    "cryo": {
+      "file": "cryo.wav",
+      "seconds": 0.26,
+      "rms": 0.088,
+      "centroid_hz": 5002,
+      "loop": false
+    },
+    "plasma": {
+      "file": "plasma.wav",
+      "seconds": 0.4,
+      "rms": 0.1347,
+      "centroid_hz": 1122,
+      "loop": false
+    },
+    "plasma_vent": {
+      "file": "plasma_vent.wav",
+      "seconds": 0.7,
+      "rms": 0.116,
+      "centroid_hz": 4522,
+      "loop": false
+    },
+    "lever": {
+      "file": "lever.wav",
+      "seconds": 0.62,
+      "rms": 0.2356,
+      "centroid_hz": 3521,
+      "loop": false
+    },
+    "lever_cycle": {
+      "file": "lever_cycle.wav",
+      "seconds": 0.25,
+      "rms": 0.0637,
+      "centroid_hz": 3324,
+      "loop": false
+    },
+    "minigun": {
+      "file": "minigun.wav",
+      "seconds": 0.105,
+      "rms": 0.2852,
+      "centroid_hz": 3002,
+      "loop": false
+    },
+    "minigun_spinup": {
+      "file": "minigun_spinup.wav",
+      "seconds": 0.75,
+      "rms": 0.1573,
+      "centroid_hz": 3956,
+      "loop": false
+    },
+    "minigun_loop": {
+      "file": "minigun_loop.wav",
+      "seconds": 0.88,
+      "rms": 0.1487,
+      "centroid_hz": 4569,
+      "loop": true
+    },
+    "minigun_spindown": {
+      "file": "minigun_spindown.wav",
+      "seconds": 1.1,
+      "rms": 0.1929,
+      "centroid_hz": 3920,
+      "loop": false
+    },
+    "graviton": {
+      "file": "graviton.wav",
+      "seconds": 1.6,
+      "rms": 0.0988,
+      "centroid_hz": 1089,
+      "loop": false
+    },
+    "graviton_charge": {
+      "file": "graviton_charge.wav",
+      "seconds": 0.6,
+      "rms": 0.3032,
+      "centroid_hz": 1530,
+      "loop": false
+    },
+    "cryo_freeze": {
+      "file": "cryo_freeze.wav",
+      "seconds": 0.55,
+      "rms": 0.0772,
+      "centroid_hz": 7370,
+      "loop": false
+    }
+  }
+}

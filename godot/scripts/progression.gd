@@ -22,6 +22,17 @@ const GOODS := {
 	"lmg": {"npc": "secret", "price": 1350, "wave": 5, "quest": "supplies", "chain": "engineer", "ammo": 90, "desc": "60 Schuss gegen die Horde. Lange Nachladepause."},
 	"breacher": {"npc": "secret", "price": 1650, "wave": 6, "quest": "titan", "ammo": 70, "desc": "Halbautomatische Sturmschrotflinte. Nur für kurze Distanzen."},
 	"titanbreaker": {"npc": "secret", "price": 2400, "wave": 9, "quest": "titan", "chain": "marksman", "ammo": 110, "desc": "Titanenbrecher .50. 75 % Zusatzschaden gegen Titanen, teure Munition."},
+	# Erweiterung September 2026. "ammo" ist der Preis fuer zwei Magazine; die Munitionskosten pro
+	# 1000 Schaden bleiben im Korridor der bestehenden Waffen (13-33 R), die Leuchtpistole und die
+	# Graviton-Kanone bewusst darueber - sie zahlen fuer Licht und Flaeche, nicht fuer Schaden.
+	"flare_pistol": {"npc": "camp", "price": 220, "wave": 2, "quest": "arrival", "ammo": 10, "desc": "Setzt Getroffene in Brand und beleuchtet acht Sekunden lang das Gelaende. Ein Schuss pro Ladung."},
+	"deagle": {"npc": "camp", "price": 560, "wave": 4, "quest": "steady_aim", "ammo": 40, "desc": "Schwere .50-Pistole. Toetet Laeufer mit einem Treffer, dafuer brutaler Rueckstoss."},
+	"lever_rifle": {"npc": "camp", "price": 640, "wave": 5, "quest": "steady_aim", "ammo": 30, "desc": "Unterhebelrepetierer mit 3x-Zielfernrohr. Schneller als das Repetiergewehr, langes Nachladen."},
+	"mac10": {"npc": "camp", "price": 600, "wave": 5, "quest": "night_shift", "ammo": 34, "desc": "40 Schuss, kaum Rueckstoss, gedaempfter Knall. Nur auf kurze Distanz, weite Streuung."},
+	"cryo_smg": {"npc": "secret", "price": 1000, "wave": 8, "quest": "titan", "ammo": 32, "desc": "Kuehlt Getroffene herunter, friert sie ein und richtet an Gefrorenen 40 % mehr Schaden an."},
+	"plasma_sniper": {"npc": "secret", "price": 1750, "wave": 10, "quest": "silent_deal", "chain": "marksman", "ammo": 60, "desc": "Energiegewehr mit 5x-Optik. Ueberhitzt statt nachzuladen und kuehlt sich selbst."},
+	"minigun": {"npc": "secret", "price": 2100, "wave": 11, "quest": "clockwork", "ammo": 190, "desc": "150 Schuss Gurt, hoechste Feuerrate im Lager. Sehr schwer, laeuft erst an, kein Zielfernrohr."},
+	"graviton_cannon": {"npc": "secret", "price": 3000, "wave": 13, "quest": "giant_debt", "ammo": 120, "desc": "Sechs Meter Flaechenschaden und 140 % Zusatzschaden gegen Titanen. Nur zwoelf Energiezellen."},
 }
 const QUESTS := {
 	"forest_basket": {"min_level": 2, "waves_after_accept": 1,"npc": "ranger", "name": "Was der Wald uns gibt", "requires": "arrival", "reward": 90, "desc": "Sammelt als Team fünf Steinpilze. Mara zeigt euch, worauf man im Wald achten muss. Bereits gesammelte Pilze zählen; ihr dürft sie behalten.", "goals": {"edible_mushrooms": 5}},
@@ -470,8 +481,16 @@ static func ammo_sale_price(id: String) -> int:
 func refill_quote(p: Player) -> Dictionary:
 	var w := weapon_for(p)
 	var order: Array = [w.ammo_weapon()]
+	var expensive: Array = []
 	for wid in Weapons.ORDER:
-		if wid not in order: order.append(wid)
+		if wid in order or Weapons.is_melee(wid): continue
+		# Rounds dearer than ten Rem Dollars go last, so a single heavy weapon cannot eat the
+		# budget before every ordinary magazine is full again.
+		if float(GOODS[wid].ammo if GOODS.has(wid) else 12) / maxf(1.0, float(Weapons.DEFS[wid].mag) * 2.0) > 10.0:
+			expensive.append(wid)
+		else:
+			order.append(wid)
+	order.append_array(expensive)
 	var result := {"cost": 0, "full_cost": 0, "rounds": 0, "missing": 0, "items": {}}
 	var budget := maxi(0, p.score)
 	for wid in order:

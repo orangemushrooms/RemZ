@@ -13,7 +13,20 @@ const GRIPS := {
 	"smg": Vector4(0.30, 0.70, 0.53, 0.24),
 	"ak47": Vector4(0.40, 0.64, 0.73, 0.30),
 	"shotgun": Vector4(0.49, 0.56, 0.56, 0.32),
+	# The expansion. x/y place the trigger hand, z/w the support hand, both as fractions of the
+	# weapon's own bounds, so the numbers stay right if a model is re-rolled.
+	"deagle": Vector4(0.26, 0.85, 0.21, 0.77),
+	"flare_pistol": Vector4(0.30, 0.80, 0.25, 0.72),
+	"mac10": Vector4(0.32, 0.74, 0.46, 0.26),
+	"cryo_smg": Vector4(0.30, 0.71, 0.45, 0.25),
+	"plasma_sniper": Vector4(0.34, 0.66, 0.56, 0.27),
+	"lever_rifle": Vector4(0.38, 0.63, 0.52, 0.30),
+	"minigun": Vector4(0.42, 0.80, 0.58, 0.34),
+	"graviton_cannon": Vector4(0.36, 0.72, 0.44, 0.33),
 }
+# Weapons held in one fist with the support palm wrapped underneath instead of on a fore-end.
+# coop_avatar.gd poses the world avatar from the same list, so both never disagree.
+const HANDGUNS := ["pistol", "revolver", "deagle", "flare_pistol"]
 var support: Node3D
 var trigger_grip := Vector3.ZERO
 var support_grip := Vector3.ZERO
@@ -75,7 +88,7 @@ static func build(weapon_id: String, bounds: AABB) -> ViewmodelHands:
 	_materials()
 	var rig := ViewmodelHands.new()
 	rig.name = "Hands"
-	var pistol := weapon_id in ["pistol", "revolver"]
+	var pistol := weapon_id in HANDGUNS
 	var landmarks: Vector4 = GRIPS.get(weapon_id, Vector4(0.32, 0.72, 0.48, 0.3))
 	rig.trigger_grip = Vector3(bounds.end.x + 0.012, bounds.position.y + bounds.size.y * landmarks.x, bounds.position.z + bounds.size.z * landmarks.y)
 	rig.support_grip = Vector3(bounds.position.x - 0.011, bounds.position.y + bounds.size.y * landmarks.z, bounds.position.z + bounds.size.z * landmarks.w)

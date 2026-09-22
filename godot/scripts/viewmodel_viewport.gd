@@ -68,12 +68,11 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(_resize)
 	_resize()
 
-func set_scoped(enabled: bool, magnification := 4.0) -> void:
+func set_scoped(enabled: bool, magnification := 4.0, style := "mil") -> void:
 	image.visible = not enabled
 	scope.visible = enabled
-	if enabled and scope.magnification != magnification:
-		scope.magnification = magnification
-		scope.queue_redraw()
+	if enabled:
+		scope.configure(magnification, style)
 
 func set_daylight(daylight: float, twilight: float) -> void:
 	# Hands remain legible while sharing the world's night/sunset palette.

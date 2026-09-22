@@ -40,7 +40,17 @@ func run() -> void:
 		for id in Inventory.Mushrooms.DEFS:
 			if id not in ["steinpilz", "fliegenpilz"]: catalogue[id] = "mushroom_" + id
 	if "--fireworks-only" in OS.get_cmdline_user_args(): catalogue = {}
-	if "--missing-only" not in OS.get_cmdline_user_args():
+	# Only the weapons that have no icon yet. A full run would re-render every existing icon,
+	# mushrooms and fireworks included, and overwrite artwork nobody asked to change.
+	if "--weapons-only" in OS.get_cmdline_user_args():
+		catalogue = {}
+		for id in Weapons.ORDER:
+			# Constants only: run with --script there are no autoloads, so touching a Weapons
+			# function would drag NetSession into the compile and fail the whole run.
+			if Weapons.DEFS[id].get("melee", false): continue
+			if ResourceLoader.exists("res://assets/ui/items/%s.png" % id) and "--force" not in OS.get_cmdline_user_args(): continue
+			catalogue[id] = Weapons.DEFS[id].model
+	if "--missing-only" not in OS.get_cmdline_user_args() and "--weapons-only" not in OS.get_cmdline_user_args():
 		catalogue.firework_rocket = "firework_rocket"
 		catalogue.firework_cracker = "firework_cracker"
 	if "--batteries-only" in OS.get_cmdline_user_args(): catalogue = {"firework_battery_40": "firework_battery_40", "firework_battery_90": "firework_battery_90"}
@@ -60,7 +70,13 @@ func run() -> void:
 			object = Inventory.Mushrooms.model(id)
 			holder.add_child(object)
 		else:
-			object = load("res://assets/models/%s.glb" % catalogue[id]).instantiate()
+			# A missing GLB must not take the whole run down with it.
+			var model_path := "res://assets/models/%s.glb" % catalogue[id]
+			if not ResourceLoader.exists(model_path):
+				push_warning("icon: missing model " + model_path)
+				holder.queue_free()
+				continue
+			object = load(model_path).instantiate()
 			holder.add_child(object)
 		var bounds := Barricade._bounds(object)
 		var scale_factor := 2.0 / maxf(maxf(bounds.size.x, bounds.size.y), bounds.size.z)

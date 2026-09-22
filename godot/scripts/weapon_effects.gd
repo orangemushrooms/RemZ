@@ -16,6 +16,26 @@ const PROFILES := {
 	"lmg": Vector4(0.12, 0.26, 0.040, 0.9),
 	"breacher": Vector4(0.17, 0.34, 0.060, 1.2),
 	"titanbreaker": Vector4(0.22, 0.48, 0.080, 1.5),
+	# The expansion: a .50 hand cannon, a flare launcher, a suppressed MAC-10 (almost no flash), a
+	# cryo gun, two snipers, the minigun (short and hot, it fires twenty times a second) and the
+	# graviton cannon's wide emitter bloom.
+	"deagle": Vector4(0.15, 0.32, 0.055, 1.1),
+	"flare_pistol": Vector4(0.13, 0.20, 0.090, 1.3),
+	"mac10": Vector4(0.045, 0.09, 0.028, 0.30),
+	"cryo_smg": Vector4(0.070, 0.14, 0.036, 0.5),
+	"plasma_sniper": Vector4(0.16, 0.34, 0.070, 0.8),
+	"lever_rifle": Vector4(0.12, 0.28, 0.050, 0.95),
+	"minigun": Vector4(0.115, 0.26, 0.030, 0.75),
+	"graviton_cannon": Vector4(0.30, 0.30, 0.110, 1.4),
+}
+# Muzzle colouring per shot. "fire" and "frost" are the special rounds from the Nebelkraemer;
+# "plasma" and "graviton" belong to the energy weapons themselves (Weapons.DEFS.flash_mode).
+# scale = [width multiplier, length multiplier, flash seconds].
+const MODES := {
+	"fire": {"scale": Vector3(1.4, 2.8, 0.11), "edge": Color(1, 0.1, 0.015), "core": Color(1, 0.91, 0.57)},
+	"frost": {"scale": Vector3(1.0, 1.5, 0.075), "edge": Color(0.08, 0.45, 1.0), "core": Color(0.75, 0.95, 1)},
+	"plasma": {"scale": Vector3(1.15, 1.9, 0.085), "edge": Color(0.10, 0.72, 1.0), "core": Color(0.86, 1.0, 1.0)},
+	"graviton": {"scale": Vector3(1.55, 1.25, 0.13), "edge": Color(0.52, 0.12, 1.0), "core": Color(0.95, 0.82, 1.0)},
 }
 class Puff:
 	var age := 100.0
@@ -113,15 +133,16 @@ func fire(weapon_id: String, muzzle: Transform3D, player_velocity: Vector3, flas
 	sync_muzzle(muzzle)
 	ammo_mode = mode
 	_profile = PROFILES.get(weapon_id, PROFILES["ak47"])
-	if mode == "fire":
-		_profile.y *= 2.8
-		_profile.x *= 1.4
-		_profile.z = 0.11
-	elif mode == "frost":
-		_profile.y *= 1.5
-		_profile.z = 0.075
-	var edge := Color(0.08, 0.45, 1.0) if mode == "frost" else Color(1, 0.1 if mode == "fire" else 0.18, 0.015)
-	var core := Color(0.75, 0.95, 1) if mode == "frost" else Color(1, 0.91, 0.57)
+	var edge := Color(1, 0.18, 0.015)
+	var core := Color(1, 0.91, 0.57)
+	if MODES.has(mode):
+		var tuning: Dictionary = MODES[mode]
+		var scale: Vector3 = tuning.scale
+		_profile.x *= scale.x
+		_profile.y *= scale.y
+		_profile.z = scale.z
+		edge = tuning.edge
+		core = tuning.core
 	for material in [_flash_material, _axial_material]:
 		material.set_shader_parameter("edge_color", edge)
 		material.set_shader_parameter("core_color", core)

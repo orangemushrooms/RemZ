@@ -20,8 +20,9 @@ editors; Claude generates assets and code. Reply in German (Swiss spelling, "ss"
   Waldhütte's own health (`hut_health.gd`, 5000 HP: 35 % of the zombies are "raiders" that head for its walls once
   inside the ring, every zombie within 9 m of a wall hits it, titan strikes hurt it, HUD line under the wave bar,
   minimap pulse and "ACHTUNG: DIE WALDHÜTTE WIRD ANGEGRIFFEN!"; E at a wall repairs 500 HP for 30 P; at zero the
-  round is lost, `main._hut_lost` / `CoopWorld.hut_lost`; `--suite=hut_health` has 19 checks), 5 weapons with
-  COD-style recoil + ADS, melee gun butt (H), grenades (G), quest tracker (Q), live round leaderboard (hold Tab), inventory (B), 6 zombie types with
+  round is lost, `main._hut_lost` / `CoopWorld.hut_lost`; `--suite=hut_health` has 19 checks), 17 buyable weapons with
+  COD-style recoil + ADS (the eight from the September 2026 expansion carry a `special` block, see
+  `weapon_specials.gd`), melee gun butt (H), grenades (G), quest tracker (Q), live round leaderboard (hold Tab), inventory (B), 6 zombie types with
   several Meshy skins each (`Zombie.TYPES[..].skins`, picked at random per zombie, missing GLBs skipped), supply drops
   from kills (ammo / grenade / medkit, walk through), kill streaks (+10 % per kill from the 3rd within 4 s, score
   popups), 4 difficulties (`GameSettings.DIFFICULTIES`, chosen in the start menu, saved), run statistics and a
@@ -40,6 +41,9 @@ photo bark, leaf-card crowns with fake sphere normals, MultiMesh per species and
 ground leaves / grass multimeshes, falling leaves, campfire. `player.gd`, `weapons.gd`,
 `grenade.gd`, `zombie.gd`, `waves.gd`, `barricade.gd`, `skills.gd`, `deer.gd`, `ambience.gd`, `sfx.gd`, `music.gd`, `hud.gd`,
 `pickup.gd` (drops), `run_stats.gd` (statistics + high scores), `game_settings.gd` (profiles, difficulty, config),
+`weapon_specials.gd` (the expansion's mechanics: plasma heat with venting, minigun spin-up, the
+cryo freeze that builds up hit by hit, the flare projectile with its light, the graviton blast;
+runtime values live in `state[id]`, never in `state[id].def`, which every mod change replaces),
 `perimeter.gd` (palisade ring: `CORNERS` between the gate endpoints, log/rail MultiMeshes, collision boxes in the
 `navsource` group so the navmesh only connects outside and inside through the gates; `contains()`, `points`,
 `gate_edge`; `tools/plot_perimeter.py` overlays the ring on roads and terrain before touching a corner),
@@ -100,6 +104,14 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   collider; the render mesh is the full 1 m grid.
 
 ## Assets
+- The eight expansion weapons (Sep 2026) come from `tools/weapons_expansion.json` +
+  `tools/weapons_expansion.py` (resumable, four at a time; **Meshy rejects a prompt over 800
+  characters with a bare 400**): deagle, flare_pistol, mac10, cryo_smg, plasma_sniper, lever_rifle,
+  minigun, graviton_cannon. Their sounds are baked by `tools/build_weapon_audio.py` out of the
+  user's own library (the unused clips in `music/Weapons/`, `Silenced_Tower`, `anti_tank_tower`,
+  `Water_Tower`, `time_stop`) into `godot/assets/audio/sfx/weapons/*.wav`, in the same style as
+  `prepare_tower_audio.py`. The weapon id equals the model name for all eight, which is what keeps
+  the two namespaces (GRIPS/PROFILES by id, MountData/MAGAZINE by model) from drifting apart.
 - Meshy API (key in the file `Meshy Key` in the repo root, export it as `MESHY_API_KEY`, never print it).
   Prompts in `tools/assets.json`. `python tools/gen_asset.py <name> --pbr --polycount N` (preview + refine,
   ~6 min, runs fine with 6 in parallel) then `node tools/pack.mjs <name> --size 2048` and copy
@@ -178,7 +190,16 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   through gates, navmesh paths from every lane enter through a gate, sealed gates keep zombies outside and get
   attacked, a broken gate lets them in, Space vaults a built gate) and `--suite=perimeter_visual --no-intro` ->
   `shots/perimeter_*.png`. `--no-perimeter` builds the world without the ring (isolation).
-- Weapon mods: `--suite=weapon_attachments --no-intro --no-music` (headless, 620 checks over every weapon x
+- The expansion: `--suite=new_weapons --smoke-test --no-intro --no-music` (214 checks: every table
+  a weapon has to appear in - DEFS with all 19 mandatory fields, ORDER, GOODS, model, mount data,
+  muzzle profile, grips, sound, icon, equipping, firing, the muzzle inside the silhouette, and every
+  mod combination) and `--suite=weapon_specials --smoke-test --no-intro --no-music` (36 checks on
+  the mechanics themselves: overheating and venting including the weapon-switch exploit, the
+  stowed barrel cooling and recharging, spin-up and spin-down without any key being held, the
+  freeze building up and the brittle bonus, the graviton blast over a group and its independence
+  from the damage multipliers, the flare igniting and lighting). `--render-weapons` in a windowed
+  run adds `artifacts/new-weapons/<id>-{hip,ads,shot}.png` for judging grips and muzzle by eye.
+- Weapon mods: `--suite=weapon_attachments --no-intro --no-music` (headless, 881 checks over every weapon x
   every compatible mod: bore axis, flush fit, calibre, no receiver or hand clipping, muzzle moved, grips and
   sight line unchanged, stacked loadout, co-op snapshot). Add `--render-mods` in a windowed run for
   `artifacts/weapon-mods/<weapon>-<mod>.png` (the joint, broadside, hands hidden) and `-ganz.png` (whole gun).
@@ -198,6 +219,10 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   `--quality=0..2` override the saved settings. Test runs (`--autotest`, `--smoke-test`, `--views`, `--shot-ui`)
   never write the high-score table. After regenerating `ground.png` run `Godot.exe --headless --path godot
   --import`, otherwise the game keeps the old texture. Godot.exe lives on the Desktop.
+- Icons: `Godot.exe --path godot --script res://tests/render_item_icons.gd -- --weapons-only`
+  renders only the weapons that have no icon yet (a full run overwrites every existing icon), then
+  `--headless --import`. Running any suite with `--script` directly has no autoloads, so that file
+  may only touch Weapons CONSTANTS - calling a Weapons function drags NetSession in and the run dies.
 - Economy: points are the only currency. `main.KILL_VALUE` (0.6) scales the kill bounty, the wave bonus is
   20 + 6 n, quest "arrival" pays 20; the HUD shows the balance bottom-left in gold with a +/- delta popup.
   "Nochmal" / "Neue Runde" rebuild the scene and start the next round directly (`NetSession.restart_pending`

@@ -62,6 +62,54 @@ const WEAPONS := {
 		"mag": Vector3(0.17173, -0.2621, 0.01023), "mag_width": 0.06521,
 		"receiver": Vector3(0.19638, 0.06412, -0.02679), "receiver_top": 0.26028, "receiver_width": 0.08104,
 	},
+	"deagle": {
+		"bore": Vector3(-0.95046, 0.23114, 0.00645), "bore_radius": 0.04621,
+		"length": 1.89847, "height": 0.84183, "width": 0.22304,
+		"mag": Vector3(0.2558, -0.42248, -0.01665), "mag_width": 0.04986,
+		"receiver": Vector3(0.75026, 0.02191, 0.01597), "receiver_top": 0.41935, "receiver_width": 0.19318,
+	},
+	"flare_pistol": {
+		"bore": Vector3(-0.9507, 0.36244, -0.00686), "bore_radius": 0.10084,
+		"length": 1.89916, "height": 1.07347, "width": 0.36016,
+		"mag": Vector3(0.65663, -0.53756, 0.00932), "mag_width": 0.22958,
+		"receiver": Vector3(0.6715, -0.31069, 0.03543), "receiver_top": 0.53591, "receiver_width": 0.2463,
+	},
+	"mac10": {
+		"bore": Vector3(-0.95051, 0.15473, 0.0121), "bore_radius": 0.03865,
+		"length": 1.89906, "height": 0.65761, "width": 0.20469,
+		"mag": Vector3(0.08329, -0.32857, 0.02718), "mag_width": 0.07784,
+		"receiver": Vector3(0.11771, 0.05963, -0.00942), "receiver_top": 0.32904, "receiver_width": 0.11355,
+	},
+	"cryo_smg": {
+		"bore": Vector3(-0.95033, 0.14656, -0.0076), "bore_radius": 0.03454,
+		"length": 1.89795, "height": 0.83151, "width": 0.24173,
+		"mag": Vector3(-0.12059, -0.41639, -0.02034), "mag_width": 0.07663,
+		"receiver": Vector3(-0.11997, 0.15908, 0.00402), "receiver_top": 0.41511, "receiver_width": 0.15232,
+	},
+	"plasma_sniper": {
+		"bore": Vector3(-0.95034, 0.07418, -0.00498), "bore_radius": 0.03091,
+		"length": 1.89908, "height": 0.60695, "width": 0.16077,
+		"mag": Vector3(0.11883, -0.30449, 0.02497), "mag_width": 0.054,
+		"receiver": Vector3(0.11789, 0.1004, 0.00144), "receiver_top": 0.30246, "receiver_width": 0.09206,
+	},
+	"lever_rifle": {
+		"bore": Vector3(-0.95082, 0.19476, 0.00066), "bore_radius": 0.0179,
+		"length": 1.89954, "height": 0.61585, "width": 0.09472,
+		"mag": Vector3(0.24567, -0.30712, -0.03401), "mag_width": 0.06966,
+		"receiver": Vector3(0.35511, -0.28922, -0.00292), "receiver_top": 0.30873, "receiver_width": 0.06805,
+	},
+	"minigun": {
+		"bore": Vector3(-0.94984, 0.32701, -0.15374), "bore_radius": 0.02813,
+		"length": 1.89695, "height": 0.84939, "width": 0.77633,
+		"mag": Vector3(0.26833, 0.00848, -0.4264), "mag_width": 0.12849,
+		"receiver": Vector3(0.43336, 0.05737, -0.06495), "receiver_top": 0.42299, "receiver_width": 0.62027,
+	},
+	"graviton_cannon": {
+		"bore": Vector3(-0.95044, 0.12812, 0.0003), "bore_radius": 0.17367,
+		"length": 1.89886, "height": 0.77688, "width": 0.46687,
+		"mag": Vector3(0.01863, -0.38878, 0.00309), "mag_width": 0.06695,
+		"receiver": Vector3(0.2759, 0.1005, 0.00402), "receiver_top": 0.38809, "receiver_width": 0.34095,
+	},
 }
 
 # forward points away from the gun (muzzle end), rear is the face that meets the weapon.
