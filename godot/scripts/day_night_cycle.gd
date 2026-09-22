@@ -8,6 +8,7 @@ const SKY_UPDATE_GAME_SECONDS := 30.0
 const SKY_MIN_UPDATE_SECONDS := 1.0
 const DAY_START := 5.0 * 3600.0
 const NIGHT_START := 20.0 * 3600.0
+const DUSK_END_HOUR := 21.0
 # Keep the full cycle at 15 real minutes: 10.5 minutes from morning to evening,
 # 4.5 minutes of night. Clock hours still drive lighting, wildlife and NPCs.
 const DAY_DURATION_FACTOR := 1.12
@@ -109,7 +110,7 @@ static func _clock_time(seconds: float) -> float:
 
 static func daylight_at(hour: float) -> float:
 	var h := fposmod(hour, 24.0)
-	return smoothstep(5.0, 8.0, h) * (1.0 - smoothstep(16.5, 20.0, h))
+	return smoothstep(5.0, 8.0, h) * (1.0 - smoothstep(16.5, DUSK_END_HOUR, h))
 
 static func phase_at(hour: float) -> String:
 	var h := fposmod(hour, 24.0)
@@ -117,7 +118,7 @@ static func phase_at(hour: float) -> String:
 		return "Morgen"
 	if h >= 9.0 and h < 17.0:
 		return "Tag"
-	if h >= 17.0 and h < 20.0:
+	if h >= 17.0 and h < DUSK_END_HOUR:
 		return "Abend"
 	return "Nacht"
 

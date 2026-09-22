@@ -10,6 +10,7 @@ const Hands = preload("res://scripts/viewmodel_hands.gd")
 const Viewmodel = preload("res://scripts/viewmodel_viewport.gd")
 const Effects = preload("res://scripts/weapon_effects.gd")
 const MeleeModels = preload("res://scripts/melee_models.gd")
+const Attachments = preload("res://scripts/weapon_attachments.gd")
 
 const DEFS := {
 	"knife": {"name": "Feldmesser", "model": "knife_real", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 4.4, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "knife_swing", "shove": 3.5,
@@ -118,10 +119,12 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 		holder.position = d["pos"]
 		var path := "res://assets/models/%s.glb" % d["model"]
 		var scene = load(path) if ResourceLoader.exists(path) else null
+		var weapon_model: Node3D = null
 		if is_melee(id):
 			holder.add_child(MeleeModels.build(id))
 		elif scene:
 			var model: Node3D = scene.instantiate()
+			weapon_model = model
 			# The Meshy barrels point along -X; rotate them towards camera forward (-Z).
 			model.rotation.y = -PI / 2.0
 			var inner := Node3D.new()
@@ -151,7 +154,15 @@ func setup(p: Player, h: Hud, zr: Node3D) -> void:
 		var aim_position: Vector3 = d["ads"]
 		aim_position.y = -bounds.end.y - 0.008
 		aim_position.z = minf(aim_position.z, -bounds.end.z - 0.18)
-		state[id] = { "def": d, "ammo": d["mag"], "reserve": d["reserve"], "node": holder, "hands": hands, "bounds": bounds, "aim_position": aim_position, "cooldown": 0.0, "reloading": 0.0 }
+		# Mods hang on the weapon only after the grips, the sight line and the bounds are settled,
+		# so a suppressor can never shift where the hands sit or where the gun aims.
+		var mods: WeaponAttachments = null
+		if weapon_model and Attachments.supported(d["model"]):
+			mods = Attachments.new()
+			mods.setup(d["model"], weapon_model)
+			holder.add_child(mods)
+			mods.refresh(mod_loadout.get(id, {}))
+		state[id] = { "def": d, "ammo": d["mag"], "reserve": d["reserve"], "node": holder, "hands": hands, "bounds": bounds, "aim_position": aim_position, "mods": mods, "cooldown": 0.0, "reloading": 0.0 }
 	# Gentle light on the view model keeps hands readable in deep forest shade.
 	var view_light := DirectionalLight3D.new()
 	view_light.light_cull_mask = 2
@@ -281,6 +292,7 @@ func equip_mod(id: String, slot: String, mod_id: String) -> void:
 	state[id].reserve += overflow
 	state[id].reloading = 0.0
 	state[id].def = definition
+	refresh_attachments(id)
 	update_hud()
 
 func apply_mod_snapshot(owned: Dictionary, loadout: Dictionary) -> void:
@@ -289,6 +301,13 @@ func apply_mod_snapshot(owned: Dictionary, loadout: Dictionary) -> void:
 	mod_loadout = loadout.duplicate(true)
 	for wid in state:
 		state[wid].def = Mods.definition(DEFS[wid], mod_loadout.get(wid, {}))
+		refresh_attachments(wid)
+
+# Every path that changes a loadout - shop, snapshot from the host, test code - ends up here.
+func refresh_attachments(id: String) -> void:
+	if server_proxy or not state.has(id): return
+	var mods: WeaponAttachments = state[id].get("mods")
+	if mods: mods.refresh(mod_loadout.get(id, {}))
 
 func apply_skin(id: String, finish: String) -> void:
 	if not state.has(id) or skins.get(id, "__unset") == finish: return
@@ -846,6 +865,9 @@ func muzzle_transform() -> Transform3D:
 		# Bore centre measured on ak47.glb, below the raised front sight.
 		tip.x = bounds.position.x + bounds.size.x * 0.31
 		tip.y = bounds.position.y + bounds.size.y * 0.805
+	# A mounted suppressor or barrel moves the muzzle: flash, smoke and tracers start at its front.
+	var mods: WeaponAttachments = s.get("mods")
+	if mods: tip = mods.muzzle_tip(tip)
 	return (s["node"] as Node3D).transform * Transform3D(Basis.IDENTITY, tip)
 
 func _step_model_recoil(delta: float) -> void:

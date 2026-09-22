@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b4n02sea4ti7l"
-path="res://.godot/imported/mod_ghost_0.webp-163a86ffb5ee120c787dbb085ed3c982.ctex"
+path.s3tc="res://.godot/imported/mod_ghost_0.webp-163a86ffb5ee120c787dbb085ed3c982.s3tc.ctex"
+path.etc2="res://.godot/imported/mod_ghost_0.webp-163a86ffb5ee120c787dbb085ed3c982.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "8a3b61c46a2aaeabfa0f159901354477"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/mod_ghost_0.webp"
-dest_files=["res://.godot/imported/mod_ghost_0.webp-163a86ffb5ee120c787dbb085ed3c982.ctex"]
+dest_files=["res://.godot/imported/mod_ghost_0.webp-163a86ffb5ee120c787dbb085ed3c982.s3tc.ctex", "res://.godot/imported/mod_ghost_0.webp-163a86ffb5ee120c787dbb085ed3c982.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

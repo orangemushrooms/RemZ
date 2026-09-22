@@ -2,21 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7fvs20w7wy31"
-path.s3tc="res://.godot/imported/mod_endless_3.webp-08ffa3ab1c16087064a13ab426741f2b.s3tc.ctex"
-path.etc2="res://.godot/imported/mod_endless_3.webp-08ffa3ab1c16087064a13ab426741f2b.etc2.ctex"
+uid="uid://bbkro03w3vip7"
+path.s3tc="res://.godot/imported/mod_mag_tube_3.webp-c2301b4c300ee47e2113778ea42091ce.s3tc.ctex"
+path.etc2="res://.godot/imported/mod_mag_tube_3.webp-c2301b4c300ee47e2113778ea42091ce.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "e65709adbe68bb0b8f3a6f816e089c80"
+"md5": "157928179aab69c5281908bb7b4af1e8"
 }
 
 [deps]
 
-source_file="res://assets/models/mod_endless_3.webp"
-dest_files=["res://.godot/imported/mod_endless_3.webp-08ffa3ab1c16087064a13ab426741f2b.s3tc.ctex", "res://.godot/imported/mod_endless_3.webp-08ffa3ab1c16087064a13ab426741f2b.etc2.ctex"]
+source_file="res://assets/models/mod_mag_tube_3.webp"
+dest_files=["res://.godot/imported/mod_mag_tube_3.webp-c2301b4c300ee47e2113778ea42091ce.s3tc.ctex", "res://.godot/imported/mod_mag_tube_3.webp-c2301b4c300ee47e2113778ea42091ce.etc2.ctex"]
 
 [params]
 

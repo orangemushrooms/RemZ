@@ -1,11 +1,15 @@
 # Procedural ambience: wind over the meadow, rustling forest, birds, fire crackle, stream.
-# Everything is synthesised at startup (looping WAV clips), no audio files needed.
+# Synthesised ambience beds plus recorded wildlife and evening/night crickets.
 class_name Ambience
 extends Node
 
 var player: Player
 var wind: AudioStreamPlayer
 var rustle: AudioStreamPlayer
+var crickets: AudioStreamPlayer
+var _cricket_level := 0.0
+const CRICKETS = preload("res://assets/audio/sfx/night_crickets_sfx.mp3")
+const CRICKETS_VOLUME_DB := -22.0
 var fire: AudioStreamPlayer3D
 var stream: AudioStreamPlayer3D
 var _bird_t := 2.0
@@ -100,6 +104,13 @@ func setup(p: Player, fire_pos: Vector3, stream_pos: Vector3) -> void:
 	rustle.volume_db = -24.0
 	add_child(rustle)
 	rustle.play()
+	crickets = AudioStreamPlayer.new()
+	crickets.name = "NightCrickets"
+	var cricket_loop := CRICKETS.duplicate() as AudioStreamMP3
+	cricket_loop.loop = true
+	crickets.stream = cricket_loop
+	crickets.volume_linear = 0.0
+	add_child(crickets)
 	fire = AudioStreamPlayer3D.new()
 	fire.stream = _crackle(8.0, 3)
 	fire.unit_size = 3.0
@@ -179,6 +190,7 @@ func _bird_chirp(pos: Vector3) -> void:
 func _process(delta: float) -> void:
 	if not player:
 		return
+	_update_crickets(delta)
 	var p := player.global_position
 	var in_forest := Map.leaf_weight(p.x, p.z) > 0.5
 	# wind is strongest on the open meadow, rustle strongest under trees
@@ -205,6 +217,23 @@ func _process(delta: float) -> void:
 		if Map.leaf_weight(cp.x, cp.z) > 0.3:
 			var night := _daylight() < 0.35
 			_bird_call("owl" if night and _rng.randf() < 0.85 else "raven", cp)
+
+static func cricket_level_at(hour: float) -> float:
+	var h := fposmod(hour, 24.0)
+	if h < 12.0:
+		return 1.0 - smoothstep(5.0, 7.0, h)
+	return smoothstep(17.0, 19.0, h)
+
+func _update_crickets(delta: float) -> void:
+	if not crickets: return
+	var target := cricket_level_at(day_night.clock_seconds / 3600.0) if day_night else 0.0
+	# Smooth volume in linear amplitude, including clock jumps in debug/coop.
+	_cricket_level = lerpf(_cricket_level, target, 1.0 - exp(-maxf(delta, 0.0) / 2.0))
+	crickets.volume_linear = db_to_linear(CRICKETS_VOLUME_DB) * _cricket_level
+	if target > 0.0 and not crickets.playing:
+		crickets.play()
+	elif target == 0.0 and _cricket_level < 0.001 and crickets.playing:
+		crickets.stop()
 
 func _daylight() -> float:
 	if day_night == null: return 0.0

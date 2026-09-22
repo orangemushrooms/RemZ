@@ -301,7 +301,8 @@ if (bakeAt >= 0) {
 		for (const r of parts) {
 			lines.push(`\t"${r.name}": {"shape": "${r.shape}", "forward": ${v(r.forward)}, "up": ${v(r.up)}, "centre": ${v(r.centre)},`);
 			lines.push(`\t\t"length": ${n(r.length)}, "radius": ${n(r.radius)}, "up_span": ${n(r.upSpan)}, "side_span": ${n(r.sideSpan)},`);
-			lines.push(`\t\t"front": ${n(r.front.offset)}, "front_radius": ${n(r.front.radius)}, "rear": ${n(r.rear.offset)}, "rear_radius": ${n(r.rear.radius)}},`);
+			lines.push(`\t\t"front": ${n(r.front.offset)}, "front_radius": ${n(r.front.radius)}, "front_centre": Vector2(${n(r.front.centre[0])}, ${n(r.front.centre[1])}),`);
+			lines.push(`\t\t"rear": ${n(r.rear.offset)}, "rear_radius": ${n(r.rear.radius)}, "rear_centre": Vector2(${n(r.rear.centre[0])}, ${n(r.rear.centre[1])})},`);
 		}
 		lines.push('}');
 		lines.push('');

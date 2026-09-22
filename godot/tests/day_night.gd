@@ -79,11 +79,14 @@ func run() -> void:
 	check(DayNightCycle.sun_direction_at(7.0).x > 0.0 and DayNightCycle.sun_direction_at(17.0).x < 0.0, "Sun rises east and sets west, matching minimap compass")
 	var previous := 1.0
 	var monotonic := true
-	for i in 36:
+	for i in 46:
 		var day := DayNightCycle.daylight_at(16.5 + i * 0.1)
 		monotonic = monotonic and day <= previous + 0.00001
 		previous = day
 	check(monotonic and previous == 0.0, "Evening darkens progressively from daylight to night")
+	check(DayNightCycle.daylight_at(20.0) > 0.0 and DayNightCycle.phase_at(20.5) == "Abend" and DayNightCycle.phase_at(21.0) == "Nacht", "Twilight continues until 21:00 without changing clock duration")
+	check(Ambience.cricket_level_at(12.0) == 0.0 and Ambience.cricket_level_at(17.0) == 0.0 and Ambience.cricket_level_at(19.0) == 1.0, "Crickets fade in during evening and stay silent in daytime")
+	check(Ambience.cricket_level_at(23.99) == Ambience.cricket_level_at(0.0) and Ambience.cricket_level_at(5.0) == 1.0 and Ambience.cricket_level_at(7.0) == 0.0, "Crickets continue across midnight and fade out at dawn")
 	check(is_equal_approx(DayNightCycle.daylight_at(0), DayNightCycle.daylight_at(24)), "Lighting has no jump at midnight")
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
