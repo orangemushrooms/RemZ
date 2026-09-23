@@ -91,11 +91,22 @@ func run() -> void:
 	await physics_frame
 	await physics_frame
 	NavigationServer3D.map_force_update(game.nav_region.get_navigation_map())
-	# Publishing the newly baked region is asynchronous, even after bake_finished.
-	await create_timer(1.0).timeout
-	# navmesh: from each lane spawn a path leads to the plaza and only passes the ring at a gate
+	# Publishing the newly baked region is asynchronous, even after bake_finished. On a busy machine
+	# (several test runs at once) that took well over the one second this used to wait, and the paths
+	# below still came from the mesh without the new palisade sections. Give it up to 20 s.
 	var nav_map: RID = game.nav_region.get_navigation_map()
 	var plaza := Map.ground_pos(7, -3)
+	var settle_until := Time.get_ticks_msec() + 20000
+	await create_timer(1.0).timeout
+	while Time.get_ticks_msec() < settle_until:
+		var crossing := false
+		for lane in Map.SPAWNS:
+			var probe := NavigationServer3D.map_get_path(nav_map, Map.ground_pos(Map.SPAWNS[lane][0].x, Map.SPAWNS[lane][0].y), plaza, true)
+			for i in probe.size() - 1:
+				if wall_crossings(ring, xz(probe[i]), xz(probe[i + 1])) > 0: crossing = true
+		if not crossing: break
+		await create_timer(0.5).timeout
+	# navmesh: from each lane spawn a path leads to the plaza and only passes the ring at a gate
 	for lane in Map.SPAWNS:
 		var from := Map.ground_pos(Map.SPAWNS[lane][0].x, Map.SPAWNS[lane][0].y)
 		var path := NavigationServer3D.map_get_path(nav_map, from, plaza, true)
