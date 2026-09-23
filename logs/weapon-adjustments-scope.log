@@ -1,0 +1,58 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Catalogue offers scoped weapons: lever_rifle, marksman, plasma_sniper, titanbreaker
+PASS: Hip fire uses normal world view
+PASS: lever_rifle magnifies actual projected world geometry by 3.0x
+PASS: Scope lens replaces obstructing weapon model
+PASS: lever_rifle draws its own reticle style
+PASS: Normal crosshair is hidden behind scope reticle
+PASS: lever_rifle reduces both mouse axes with scope magnification
+PASS: Releasing aim restores world view and weapon
+PASS: Reload exits scope despite held aim
+PASS: Held aim returns to scope after reload
+PASS: Switching weapon immediately clears scope and zoom
+PASS: Normal pistol aiming retains its own field of view
+PASS: Inactive player clears scope
+PASS: Hip fire uses normal world view
+PASS: marksman magnifies actual projected world geometry by 4.0x
+PASS: Scope lens replaces obstructing weapon model
+PASS: marksman draws its own reticle style
+PASS: Normal crosshair is hidden behind scope reticle
+PASS: marksman reduces both mouse axes with scope magnification
+PASS: Releasing aim restores world view and weapon
+PASS: Reload exits scope despite held aim
+PASS: Held aim returns to scope after reload
+PASS: Switching weapon immediately clears scope and zoom
+PASS: Normal pistol aiming retains its own field of view
+PASS: Inactive player clears scope
+PASS: Hip fire uses normal world view
+PASS: plasma_sniper magnifies actual projected world geometry by 5.0x
+PASS: Scope lens replaces obstructing weapon model
+PASS: plasma_sniper draws its own reticle style
+PASS: Normal crosshair is hidden behind scope reticle
+PASS: plasma_sniper reduces both mouse axes with scope magnification
+PASS: Releasing aim restores world view and weapon
+PASS: Reload exits scope despite held aim
+PASS: Held aim returns to scope after reload
+PASS: Switching weapon immediately clears scope and zoom
+PASS: Normal pistol aiming retains its own field of view
+PASS: Inactive player clears scope
+PASS: Hip fire uses normal world view
+PASS: titanbreaker magnifies actual projected world geometry by 4.0x
+PASS: Scope lens replaces obstructing weapon model
+PASS: titanbreaker draws its own reticle style
+PASS: Normal crosshair is hidden behind scope reticle
+PASS: titanbreaker reduces both mouse axes with scope magnification
+PASS: Releasing aim restores world view and weapon
+PASS: Reload exits scope despite held aim
+PASS: Held aim returns to scope after reload
+PASS: Switching weapon immediately clears scope and zoom
+PASS: Normal pistol aiming retains its own field of view
+PASS: Inactive player clears scope
+SNIPER_SCOPE_DONE checks=49 failures=0

@@ -1,0 +1,86 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Die Sondermechanik-Schicht haengt an der Szene
+PASS: Plasmabuechse ueberhitzt nach hoechstens einem Magazin (6 Schuss)
+PASS: Ueberhitzung setzt Hitze auf Anschlag und startet die Entlueftung
+PASS: Waehrend der Entlueftung faellt kein Schuss (Munition 3 -> 3)
+PASS: Der Wechsel loescht die Nachladeanzeige - die Sperre haengt an der Hitze
+PASS: Waffenwechsel bricht die Ueberhitzung nicht ab (Munition 3 -> 3)
+PASS: Verstaute Plasmabuechse kuehlt vollstaendig ab (Hitze 0.00)
+PASS: Die Zellen laden sich aus der Reserve nach (6 Zellen)
+PASS: Nach dem Abkuehlen feuert sie wieder
+PASS: R entlueftet von Hand statt ins Leere zu laufen
+PASS: Das Entlueften kostet Zeit, keine Zellen (36 -> 36)
+PASS: R waehrend der Entlueftung verlaengert die Wartezeit nicht
+PASS: Waehrend der Entlueftung sagt die Anzeige das auch
+PASS: Nach der Entlueftung sind wieder Zellen geladen (6)
+PASS: Wenn der Balken leer ist, feuert die Waffe wieder
+PASS: Der ganze Vorgang kostet keine einzige Zelle (36)
+PASS: Die Hitze faehrt im Snapshot mit ([0.17, 0.0])
+PASS: Der Host korrigiert die Hitze des Clients
+PASS: Waffen ohne Sondermechanik belasten den Snapshot nicht
+PASS: Der erste Schuss kommt mit voller Anlaufbremse (0.176 s)
+PASS: Der erste Schuss faellt trotzdem, er ist nur langsam
+PASS: Dauerfeuer bringt die Laeufe auf Touren (1.00)
+PASS: Auf Drehzahl feuert sie mit voller Rate (0.055 s)
+PASS: Feuernd ist der Spieler fast festgenagelt
+PASS: Dauerfeuer weitet die Streuung (0.0720 -> 0.1080)
+PASS: Der Gurtwechsel laeuft
+PASS: Waehrend des Gurtwechsels laufen die Laeufe aus (0.17)
+PASS: Ohne Schuesse laufen die Laeufe aus
+PASS: Getragen ist sie langsam, aber nicht festgenagelt
+PASS: Mit der Minigun laeuft der Spieler wirklich langsamer (1.00 -> 0.55)
+PASS: Nach dem Wegstecken ist das Tempo wieder normal
+PASS: Der Unterhebel wird nach dem Schuss geworfen (0.270 s)
+PASS: Das Modell rollt beim Repetieren (0.90)
+PASS: Nach der Repetierzeit ist der Hebel wieder unten
+PASS: Treffer kuehlen den Koerper sichtbar herunter, bevor er einfriert
+PASS: Genug Treffer frieren ihn ein
+PASS: Eingefroren bleibt er stehen (0.00)
+PASS: Im gefrorenen Zustand richtet derselbe Schuss mehr Schaden an
+PASS: Nach drei Sekunden taut der Gegner wieder auf
+PASS: cryo_smg erzeugt Einschussloch auf Ebene 1
+PASS: cryo_smg erzeugt eigenen Strahl
+PASS: cryo_smg erzeugt Trefferpartikel
+PASS: plasma_sniper erzeugt Einschussloch auf Ebene 1
+PASS: plasma_sniper erzeugt eigenen Strahl
+PASS: plasma_sniper erzeugt Trefferpartikel
+PASS: cryo_smg erzeugt Einschussloch auf Ebene 8
+PASS: cryo_smg erzeugt eigenen Strahl
+PASS: cryo_smg erzeugt Trefferpartikel
+PASS: plasma_sniper erzeugt Einschussloch auf Ebene 8
+PASS: plasma_sniper erzeugt eigenen Strahl
+PASS: plasma_sniper erzeugt Trefferpartikel
+PASS: Beide Minigun-Muendungen blitzen
+PASS: Minigun-Blitze sitzen an getrennten Laeufen
+PASS: Zweiter Blitz erlischt nach dem Schuss
+PASS: Waffenwechsel entfernt den zweiten Blitz
+PASS: Ein Schuss trifft die ganze Gruppe (4 von 4)
+PASS: Im Zentrum trifft der volle Flaechenschaden
+PASS: Der Flaechenschaden skaliert nicht mit Schusskraft (960 Schaden)
+PASS: Ein Schuss vor die eigenen Fuesse kostet Leben (21 Schaden)
+PASS: Der Eigenschaden bleibt unter dem Maximum
+PASS: Der Schuss setzt ein brennendes Geschoss in die Welt
+PASS: Das Geschoss schlaegt ein statt endlos zu fliegen
+PASS: Der Treffer selbst tut weh (45 Schaden)
+PASS: Die Leuchtpistole setzt ihr Ziel in Brand
+PASS: Das Leuchtfeuer setzt ein neues Licht in die Szene (5 -> 6)
+PASS: Sie brennt laenger als eine gekaufte Brandkugel (3.75 s)
+PASS: Das Feuer frisst vier Sekunden weiter (48 Schaden)
+PASS: Danach ist das Feuer aus
+PASS: extended passt nicht auf plasma_sniper
+PASS: endless passt nicht auf graviton_cannon
+PASS: extended passt nicht auf minigun
+PASS: suppressor passt nicht auf mac10
+PASS: match_barrel passt nicht auf flare_pistol
+PASS: endless passt nicht auf deagle
+PASS: compensator passt auf deagle
+PASS: quick_action passt auf lever_rifle
+PASS: titan_core passt auf graviton_cannon
+WEAPON_SPECIALS_DONE checks=77 failures=0
