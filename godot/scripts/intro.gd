@@ -131,6 +131,11 @@ func setup(m: Node, p: Player, e: Environment) -> void:
 		_music.stream = st
 	_music.volume_db = MUSIC_DB
 	add_child(_music)
+	# The guidance sits above the HUD so the black wake-up screen covers it, which also put the
+	# briefing and the arrow on top of the pause menu; the menu overlay hides the whole layer.
+	if main.hud:
+		main.hud.overlay.visibility_changed.connect(func() -> void: _layer.visible = not main.hud.overlay.visible)
+		_layer.visible = not main.hud.overlay.visible
 
 func showing_guidance() -> bool:
 	return active or (_text != null and _text.visible)

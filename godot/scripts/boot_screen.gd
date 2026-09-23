@@ -5,15 +5,30 @@
 # outlives the old scene), and main.gd reports every build step through step(), which also lets the
 # window manager breathe and draws one frame of this screen. close() fades it out once the menu or the
 # next round is ready.
+#
+# The screen paints itself straight into the RenderingServer instead of using Labels and a
+# ProgressBar: Controls only record their draw commands on the next idle frame, and inside main's long
+# _ready there is none. At the very first start (no cover from an earlier scene) the Controls stayed
+# empty, so every step() put the half-built world on screen instead - with the sky's radiance not
+# baked yet that was a blown-out white picture of grass blades (23 Sep 2026, tests/start_exposure.gd).
 class_name BootScreen
 extends CanvasLayer
 
 const NODE_NAME := "BootScreen"
-var _bar: ProgressBar
-var _status: Label
+const TITLE := "WALDHÜTTE REMETSCHWIL"
+const SUBTITLE := "NACHT AM HEITERSBERG"
+const COLUMN := 420.0
+const GAP := 10.0
+const BAR_HEIGHT := 6.0
+var _item: RID                   # everything visible: backdrop, title, bar, status line
+var _track := Hud._flat(Color(1, 1, 1, 0.08), 3)
+var _fill := Hud._flat(Hud.GOLD, 3)
+var _text := ""
+var _bar := 0.0
 var _closing := false
 var _target := 0.0
 var _time := 0.0
+var _pulse := 1.0
 
 # The screen for a menu action that is about to rebuild the scene; reused when one is already up.
 static func cover(tree: SceneTree, text: String) -> BootScreen:
@@ -32,45 +47,16 @@ static func find(tree: SceneTree) -> BootScreen:
 func _init() -> void:
 	layer = 120
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	var root := Control.new()
-	root.set_anchors_preset(Control.PRESET_FULL_RECT)
-	root.mouse_filter = Control.MOUSE_FILTER_STOP   # nothing behind it may be clicked while loading
-	add_child(root)
-	var back := ColorRect.new()
-	back.set_anchors_preset(Control.PRESET_FULL_RECT)
-	back.color = Hud.INK
-	root.add_child(back)
-	var center := CenterContainer.new()
-	center.set_anchors_preset(Control.PRESET_FULL_RECT)
-	root.add_child(center)
-	var column := VBoxContainer.new()
-	column.custom_minimum_size = Vector2(420, 0)
-	column.add_theme_constant_override("separation", 10)
-	center.add_child(column)
-	var title := Label.new()
-	title.text = "WALDHÜTTE REMETSCHWIL"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	title.add_theme_font_size_override("font_size", 30)
-	title.add_theme_color_override("font_color", Hud.GOLD)
-	column.add_child(title)
-	var sub := Label.new()
-	sub.text = "NACHT AM HEITERSBERG"
-	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	sub.add_theme_font_size_override("font_size", 12)
-	sub.modulate.a = 0.6
-	column.add_child(sub)
-	_bar = ProgressBar.new()
-	_bar.custom_minimum_size = Vector2(0, 6)
-	_bar.max_value = 1.0
-	_bar.show_percentage = false
-	_bar.add_theme_stylebox_override("background", Hud._flat(Color(1, 1, 1, 0.08), 3))
-	_bar.add_theme_stylebox_override("fill", Hud._flat(Hud.GOLD, 3))
-	column.add_child(_bar)
-	_status = Label.new()
-	_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_status.add_theme_font_size_override("font_size", 13)
-	_status.add_theme_color_override("font_color", Hud.MUTED)
-	column.add_child(_status)
+	_item = RenderingServer.canvas_item_create()
+	RenderingServer.canvas_item_set_parent(_item, get_canvas())
+	var blocker := Control.new()
+	blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
+	blocker.mouse_filter = Control.MOUSE_FILTER_STOP   # nothing behind it may be clicked while loading
+	add_child(blocker)
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE and _item.is_valid():
+		RenderingServer.free_rid(_item)
 
 # One finished build step. With draw (main.gd's _ready, where no frame is drawn for seconds) it also
 # keeps the window answering and shows this frame; input arriving meanwhile is dropped, nothing in the
@@ -78,9 +64,10 @@ func _init() -> void:
 func step(fraction: float, text: String = "", draw := true) -> void:
 	if _closing: return
 	_target = maxf(_target, clampf(fraction, 0.0, 1.0))
-	if not text.is_empty(): _status.text = text
+	if not text.is_empty(): _text = text
 	if not draw or DisplayServer.get_name() == "headless": return
-	_bar.value = _target
+	_bar = _target
+	_paint()
 	DisplayServer.force_process_and_drop_events()
 	RenderingServer.force_draw(true, 0.0)
 
@@ -89,14 +76,37 @@ func _process(delta: float) -> void:
 	_time += delta
 	if _closing: return
 	_target = minf(_target + delta * 0.004, 0.99)
-	_bar.value = move_toward(_bar.value, _target, delta * 0.8)
-	_status.modulate.a = 0.75 + 0.25 * sin(_time * 3.0)
+	_bar = move_toward(_bar, _target, delta * 0.8)
+	_pulse = 0.75 + 0.25 * sin(_time * 3.0)
+	_paint()
 
 # Fade out and go; the menu or the round underneath is ready.
 func close() -> void:
 	if _closing: return
 	_closing = true
-	_bar.value = 1.0
+	_bar = 1.0
+	_paint()
 	var tween := create_tween()
-	tween.tween_property(get_child(0), "modulate:a", 0.0, 0.35)
+	tween.tween_method(func(alpha: float) -> void: RenderingServer.canvas_item_set_modulate(_item, Color(1, 1, 1, alpha)), 1.0, 0.0, 0.35)
 	tween.tween_callback(queue_free)
+
+# The same centred column the Label version had: title, subtitle, bar, status line.
+func _paint() -> void:
+	if not is_inside_tree() or DisplayServer.get_name() == "headless": return
+	var size := get_viewport().get_visible_rect().size
+	var font := ThemeDB.fallback_font
+	var left := (size.x - COLUMN) * 0.5
+	var y := (size.y - (font.get_height(30) + font.get_height(12) + font.get_height(13) + BAR_HEIGHT + 3.0 * GAP)) * 0.5
+	RenderingServer.canvas_item_clear(_item)
+	RenderingServer.canvas_item_add_rect(_item, Rect2(Vector2.ZERO, size), Hud.INK)
+	font.draw_string(_item, Vector2(left, y + font.get_ascent(30)), TITLE, HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 30, Hud.GOLD)
+	y += font.get_height(30) + GAP
+	font.draw_string(_item, Vector2(left, y + font.get_ascent(12)), SUBTITLE, HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 12, Color(0.875, 0.875, 0.875, 0.6))
+	y += font.get_height(12) + GAP
+	_track.draw(_item, Rect2(left, y, COLUMN, BAR_HEIGHT))
+	if _bar * COLUMN >= 1.0:
+		_fill.draw(_item, Rect2(left, y, COLUMN * _bar, BAR_HEIGHT))
+	y += BAR_HEIGHT + GAP
+	var status := Hud.MUTED
+	status.a = _pulse
+	font.draw_string(_item, Vector2(left, y + font.get_ascent(13)), _text, HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 13, status)

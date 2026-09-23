@@ -247,6 +247,13 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   "Nochmal" / "Neue Runde" rebuild the scene and start the next round directly (`NetSession.restart_pending`
   offline, `_auto_start` for the coop host); `--suite=menu_flow --smoke-test --no-intro --no-music --no-foliage`
   checks zombie damage, death -> Nochmal, pause -> Hauptmenü and the coop restart (11 checks, ~45 s).
+- Loading screen (`boot_screen.gd`): main builds the world in one long `_ready` and `BootScreen.step()` force-draws
+  a frame after every build step. Controls record their draw commands only on the next idle frame, which never
+  comes inside `_ready`, so the screen paints with RenderingServer calls on its own canvas item. As Labels it
+  stayed empty at the very first start and every step showed the half-built world, blown out white (sky radiance
+  not baked yet). `--suite=start_exposure --no-music` (windowed, no --smoke-test, 12 checks) reads back every
+  frame from the first loading step through menu, intro and pause -> Hauptmenü and fails on a blown-out frame or
+  a loading-screen frame that is not the dark screen. `frame_post_draw` reports the previous frame.
 - Cheat menu (Strg+Shift+D, `cheat_menu.gd`): +1000 R, skip wave, minimap reveals and every weapon of
   `Weapons.ORDER` with a full magazine (mods included) and the reserve at `reserve_limit` (`fill_weapon`, also
   cools a plasma barrel); the chosen weapon goes straight into the hands, "Alle Waffen" fills all of them.

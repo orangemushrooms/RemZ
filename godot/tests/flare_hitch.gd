@@ -84,6 +84,10 @@ func _probe(probe: String, count: int) -> Dictionary:
 	var weapon := "pistol" if probe == "shot_pistol" else "flare_pistol"
 	w.unlock(weapon)
 	w.set_weapon(weapon)
+	# Hip fire spreads a flare 0.57 m wide at 15 m, one volley in eight hit fewer than two targets.
+	# The probe measures hitches, so the shots fly at the tightest cone the game allows.
+	var spread_before := w.spread_mul
+	w.spread_mul = 0.0
 	for i in 40: await process_frame
 	var times: Array[float] = []
 	var shots := []
@@ -102,6 +106,7 @@ func _probe(probe: String, count: int) -> Dictionary:
 		await process_frame
 		var last := Time.get_ticks_usec()
 		var hp_before := z.hp
+		var fired_at := Time.get_ticks_msec()
 		var t0 := Time.get_ticks_usec()
 		match probe:
 			"damage": z.damage(45.0, aim)
@@ -123,7 +128,11 @@ func _probe(probe: String, count: int) -> Dictionary:
 			last = now
 			times.append(dt)
 			worst = maxf(worst, dt)
+		# The flare flies 44 m/s: at 250 FPS the 30 measured frames end before it reaches the target.
+		while is_instance_valid(z) and z.hp >= hp_before and z.rare_status == "" and Time.get_ticks_msec() - fired_at < 1000:
+			await process_frame
 		shots.append("hit" if not is_instance_valid(z) or z.hp < hp_before or z.rare_status != "" else "miss")
+	w.spread_mul = spread_before
 	var sorted := times.duplicate()
 	sorted.sort()
 	calls.sort()
