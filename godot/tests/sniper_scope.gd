@@ -19,6 +19,20 @@ func shot(id: String) -> void:
 	DirAccess.make_dir_recursive_absolute(folder)
 	root.get_texture().get_image().save_png(folder + id + ".png")
 
+func mouse_turn(p: Player) -> Vector2:
+	var old_yaw := p.rotation.y
+	var old_pitch := p.pitch
+	var old_head := p.head.rotation
+	var motion := InputEventMouseMotion.new()
+	motion.screen_relative = Vector2(12, 8)
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	p._unhandled_input(motion)
+	var result := Vector2(p.rotation.y - old_yaw, p.pitch - old_pitch)
+	p.rotation.y = old_yaw
+	p.pitch = old_pitch
+	p.head.rotation = old_head
+	return result
+
 func run() -> void:
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
@@ -49,6 +63,7 @@ func run() -> void:
 		var edge := centre + p.camera.global_basis.x * 3.0
 		var hip_width := p.camera.unproject_position(edge).distance_to(p.camera.unproject_position(centre))
 		check(is_equal_approx(p.camera.fov, 75.0) and not w.viewmodel.scope.visible, "Hip fire uses normal world view")
+		var hip_turn := mouse_turn(p)
 		await shot(weapon + "-hip")
 		Input.action_press("aim")
 		w._handle_weapon_input(1.0)
@@ -58,6 +73,8 @@ func run() -> void:
 		check(w.viewmodel.scope.visible and not w.viewmodel.image.visible, "Scope lens replaces obstructing weapon model")
 		check(str(w.viewmodel.scope.style) == str(Weapons.DEFS[weapon].get("scope_style", "mil")), weapon + " draws its own reticle style")
 		check(not game.hud.crosshair_parts[0].visible, "Normal crosshair is hidden behind scope reticle")
+		var scope_turn := mouse_turn(p)
+		check(scope_turn.is_equal_approx(hip_turn / zoom), weapon + " reduces both mouse axes with scope magnification")
 		await shot(weapon + "-scope")
 		Input.action_release("aim")
 		w._handle_weapon_input(1.0)

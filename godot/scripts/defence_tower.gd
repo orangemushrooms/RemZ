@@ -7,14 +7,16 @@ const LIMIT := 6
 const HEALTH := [240.0, 400.0, 600.0]
 const RANGE := [26.0, 32.0, 38.0]
 const UPGRADES := [100, 175]
+# Completed waves relative to each type: basic, reinforced, elite.
+const UPGRADE_WAVE_OFFSETS := [0, 2, 5]
 const HALF_ARC := 80.0 * PI / 180.0
 const TYPES := ["standard", "flame", "mortar", "mg42", "tesla"]
 const SPECS := {
-	"standard": {"name": "Wächter", "cost": 120, "range": 26.0, "damage": 18.0, "rate": 0.22, "heat": 0.13, "health": 1.0, "info": "Präzise Feuerstöße"},
-	"flame": {"name": "Flammenwerfer", "cost": 260, "range": 14.0, "damage": 14.0, "rate": 0.12, "heat": 0.035, "health": 1.2, "info": "Feuerkegel trifft mehrere Gegner"},
-	"mortar": {"name": "Mörser", "cost": 380, "range": 60.0, "damage": 145.0, "rate": 2.8, "heat": 0.2, "health": 1.4, "info": "Bogenschuss · 6 m Explosionsradius"},
-	"mg42": {"name": "Schweres MG", "cost": 450, "range": 44.0, "damage": 27.0, "rate": 0.085, "heat": 0.055, "health": 1.6, "info": "Hohe Feuerrate · auf Hitze achten"},
-	"tesla": {"name": "Teslaspule", "cost": 600, "range": 22.0, "damage": 75.0, "rate": 0.9, "heat": 0.16, "health": 1.8, "info": "Kettenblitz springt auf nahe Gegner über"},
+	"standard": {"unlock_waves": 0, "name": "Wächter", "cost": 120, "range": 26.0, "damage": 18.0, "rate": 0.22, "heat": 0.13, "health": 1.0, "info": "Präzise Feuerstöße"},
+	"flame": {"unlock_waves": 2, "name": "Flammenwerfer", "cost": 260, "range": 14.0, "damage": 14.0, "rate": 0.12, "heat": 0.035, "health": 1.2, "info": "Feuerkegel trifft mehrere Gegner"},
+	"mortar": {"unlock_waves": 4, "name": "Mörser", "cost": 380, "range": 60.0, "damage": 145.0, "rate": 2.8, "heat": 0.2, "health": 1.4, "info": "Bogenschuss · 6 m Explosionsradius"},
+	"mg42": {"unlock_waves": 6, "name": "Schweres MG", "cost": 450, "range": 44.0, "damage": 27.0, "rate": 0.085, "heat": 0.055, "health": 1.6, "info": "Hohe Feuerrate · auf Hitze achten"},
+	"tesla": {"unlock_waves": 8, "name": "Teslaspule", "cost": 600, "range": 22.0, "damage": 75.0, "rate": 0.9, "heat": 0.16, "health": 1.8, "info": "Kettenblitz springt auf nahe Gegner über"},
 }
 var kind := "standard"
 var operator_peer := 0

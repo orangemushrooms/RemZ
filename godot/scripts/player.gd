@@ -145,7 +145,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if remote_actor or not active or not alive:
 		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		var zoom_scale := tan(deg_to_rad(camera.fov) * 0.5) / tan(deg_to_rad(75.0) * 0.5) if mounted_tower else 1.0
+		var scene := get_tree().current_scene
+		var weapons: Weapons = scene.get("weapons") if scene else null
+		var zoom_scale := tan(deg_to_rad(camera.fov) * 0.5) / tan(deg_to_rad(75.0) * 0.5) if mounted_tower or (weapons and weapons.ads > 0.0 and Weapons.DEFS[weapons.current].has("scope_zoom")) else 1.0
 		rotate_y(-event.screen_relative.x * SENS * mouse_sensitivity * zoom_scale)
 		pitch = clampf(pitch - event.screen_relative.y * SENS * mouse_sensitivity * zoom_scale, -1.45, 1.45)
 		head.rotation.x = clampf(pitch + recoil_offset.x, -1.48, 1.48)

@@ -20,7 +20,7 @@ static func hit(scene: Node, result: Dictionary) -> void:
 
 static func show(scene: Node, position: Vector3, normal: Vector3) -> void:
 	if not is_instance_valid(scene) or not scene is Node3D: return
-	var query := PhysicsRayQueryParameters3D.create(position + normal * 0.06, position - normal * 0.08, 1)
+	var query := PhysicsRayQueryParameters3D.create(position + normal * 0.06, position - normal * 0.08, 1 | 8)
 	var surface_hit: Dictionary = scene.get_world_3d().direct_space_state.intersect_ray(query)
 	if surface_hit.is_empty(): return
 	var surface = surface_hit.collider

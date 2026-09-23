@@ -483,6 +483,7 @@ func _set_emission(on: bool) -> void:
 func die(dir: Vector3) -> void:
 	if not alive: return
 	alive = false
+	if anim: anim.active = true
 	for hitbox in _hitboxes:
 		hitbox.collision_layer = 0
 	hit_pending = 0.0
@@ -591,6 +592,14 @@ func _physics_process(delta: float) -> void:
 				queue_free()
 		return
 	if not player or not player.alive or (not player.active and not NetSession.enabled):
+		return
+	if frost_mul <= 0.0:
+		velocity.x = 0.0
+		velocity.z = 0.0
+		agent.velocity = Vector3.ZERO
+		hit_pending = 0.0
+		if not is_on_floor(): velocity.y -= 20.0 * delta
+		move_and_slide()
 		return
 	# skinned shadow casters are expensive: only the zombies within 35 m of the player throw shadows
 	_shadow_t -= delta
@@ -808,7 +817,7 @@ func _nearby_player_priority(delta: float) -> bool:
 	return false
 
 func _on_velocity_computed(safe: Vector3) -> void:
-	if replica or not alive or not player or (not player.active and not NetSession.enabled) or get_tree().paused:
+	if replica or not alive or frost_mul <= 0.0 or not player or (not player.active and not NetSession.enabled) or get_tree().paused:
 		return
 	velocity.x = safe.x
 	velocity.z = safe.z

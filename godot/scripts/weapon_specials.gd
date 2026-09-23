@@ -238,6 +238,8 @@ func chill(z: Zombie, amount: float, peer: int, weapon: String) -> void:
 		var s := spec(weapon)
 		_chill[z] = float(s.get("after_freeze", 0.45))
 		ignite(z, "frost", float(s.get("freeze_time", 3.0)), peer, weapon)
+		market.statuses[z]["freeze"] = float(s.get("freeze_time", 3.0))
+		market.update_status(z, market.statuses[z])
 		Sfx.play_at(game if game else z, "cryo_freeze", z.global_position + Vector3.UP, -8.0)
 		return
 	_chill[z] = value

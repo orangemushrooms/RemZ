@@ -51,6 +51,7 @@ var front: MeshInstance3D
 var world_light: OmniLight3D
 var hand_light: OmniLight3D
 var flash_root: Node3D
+var second_flash: Node3D
 var flash_age := 1.0
 var flash_duration := 0.04
 var heat := 0.0
@@ -89,6 +90,11 @@ func setup(world_camera: Camera3D) -> void:
 	hand_light.light_color = Color(1.0, 0.58, 0.22)
 	hand_light.shadow_enabled = false
 	flash_root.add_child(hand_light)
+	second_flash = flash_root.duplicate() as Node3D
+	add_child(second_flash)
+	second_flash.hide()
+	for child in second_flash.get_children():
+		if child is Light3D: child.queue_free()
 	world_light = OmniLight3D.new()
 	world_light.omni_range = 5.0
 	world_light.light_color = hand_light.light_color
@@ -129,6 +135,9 @@ func sync_muzzle(muzzle: Transform3D) -> void:
 	flash_root.transform = muzzle
 	world_light.transform = muzzle
 
+func sync_second_muzzle(muzzle: Transform3D) -> void:
+	second_flash.transform = muzzle
+
 func fire(weapon_id: String, muzzle: Transform3D, player_velocity: Vector3, flash_scale := 1.0, mode := "") -> void:
 	sync_muzzle(muzzle)
 	ammo_mode = mode
@@ -164,6 +173,12 @@ func fire(weapon_id: String, muzzle: Transform3D, player_velocity: Vector3, flas
 	var phase := _rng.randf() * TAU
 	_flash_material.set_shader_parameter("phase", phase)
 	_axial_material.set_shader_parameter("phase", phase)
+	second_flash.visible = weapon_id == "minigun"
+	for child in second_flash.get_children():
+		if child is MeshInstance3D:
+			child.show()
+			var source := flash_root.get_child(child.get_index()) as MeshInstance3D
+			child.transform = source.transform
 	_set_flash(1.0)
 	heat = minf(heat + 0.28 * _profile.w, 1.5)
 	_tail_time = 0.09
@@ -172,6 +187,7 @@ func fire(weapon_id: String, muzzle: Transform3D, player_velocity: Vector3, flas
 
 func cancel_flash() -> void:
 	flash_age = 1.0
+	second_flash.hide()
 	heat = 0.0
 	front.visible = false
 	for jet in _jets:
@@ -190,6 +206,7 @@ func advance(delta: float, player_velocity: Vector3) -> void:
 	var brightness := pow(maxf(0.0, 1.0 - flash_age / flash_duration), 0.65)
 	_set_flash(brightness)
 	if flash_age >= flash_duration:
+		second_flash.hide()
 		front.visible = false
 		for jet in _jets:
 			jet.visible = false

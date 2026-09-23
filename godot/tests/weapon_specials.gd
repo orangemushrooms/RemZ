@@ -230,11 +230,51 @@ func run() -> void:
 		if target.rare_status.contains("frost"): break
 	check(slow_seen, "Treffer kuehlen den Koerper sichtbar herunter, bevor er einfriert")
 	check(target.rare_status.contains("frost"), "Genug Treffer frieren ihn ein")
-	check(target.frost_mul <= 0.8, "Eingefroren laeuft er deutlich langsamer (%.2f)" % target.frost_mul)
+	check(target.frost_mul == 0.0, "Eingefroren bleibt er stehen (%.2f)" % target.frost_mul)
 	var frozen_hp := target.hp
 	fire_once(w)
 	var expected := float(w.cur().def.damage) * w.effective_damage_mul()
 	check(frozen_hp - target.hp > expected * 1.05, "Im gefrorenen Zustand richtet derselbe Schuss mehr Schaden an")
+
+	var market = game.progression.rare_market
+	market.tick_statuses(3.1)
+	check(target.frost_mul == 1.0 and not target.rare_status.contains("frozen"), "Nach drei Sekunden taut der Gegner wieder auf")
+
+	# Both energy guns must emit their own tracer without spending bought rounds, and
+	# actual world hits must leave marks on ordinary walls and defence geometry alike.
+	var wall := StaticBody3D.new()
+	var wall_shape := CollisionShape3D.new()
+	var wall_box := BoxShape3D.new()
+	wall_box.size = Vector3(8, 8, 0.5)
+	wall_shape.shape = wall_box
+	wall.add_child(wall_shape)
+	game.add_child(wall)
+	wall.global_position = Vector3(25, 60, -8)
+	await physics_frame
+	await physics_frame
+	for layer in [1, 8]:
+		wall.collision_layer = layer
+		await physics_frame
+		await physics_frame
+		for id in ["cryo_smg", "plasma_sniper"]:
+			equip(w, id)
+			p.camera.look_at(wall.global_position)
+			var marks_before := wall.get_child_count()
+			var traces_before := get_nodes_in_group("elemental_tracer").size()
+			var bursts_before := get_nodes_in_group("elemental_burst").size()
+			fire_once(w)
+			check(wall.get_child_count() > marks_before, "%s erzeugt Einschussloch auf Ebene %d" % [id, layer])
+			check(get_nodes_in_group("elemental_tracer").size() > traces_before, "%s erzeugt eigenen Strahl" % id)
+			check(get_nodes_in_group("elemental_burst").size() > bursts_before, "%s erzeugt Trefferpartikel" % id)
+	wall.queue_free()
+	equip(w, "minigun")
+	fire_once(w)
+	check(w.effects.second_flash.visible and w.effects.front.visible, "Beide Minigun-Muendungen blitzen")
+	check(w.effects.second_flash.position.distance_to(w.effects.flash_root.position) > 0.03, "Minigun-Blitze sitzen an getrennten Laeufen")
+	w.effects.advance(0.2, Vector3.ZERO)
+	check(not w.effects.second_flash.visible, "Zweiter Blitz erlischt nach dem Schuss")
+	equip(w, "pistol")
+	check(not w.effects.second_flash.visible, "Waffenwechsel entfernt den zweiten Blitz")
 
 	# ---------------------------------------------------------------- graviton: area damage
 	var pack: Array[Zombie] = []

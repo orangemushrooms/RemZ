@@ -19,6 +19,8 @@ var boss_name: Label
 var boss_bar: ProgressBar
 var selected_kind := "standard"
 var build_menu: PanelContainer
+var kind_buttons: Dictionary = {}
+var _build_menu_state: Array = []
 var _control_send := 0.0
 var _was_mounted := false
 var range_marker: Node3D
@@ -138,6 +140,7 @@ func _build_menu() -> void:
 		button.custom_minimum_size.y = 70
 		button.pressed.connect(select_kind.bind(kind))
 		list.add_child(button)
+		kind_buttons[kind] = button
 	var cancel := Button.new()
 	cancel.text = "Schließen [T / Esc]"
 	cancel.pressed.connect(close)
@@ -145,6 +148,7 @@ func _build_menu() -> void:
 	build_menu.hide()
 
 func begin_building() -> void:
+	_refresh_build_menu()
 	is_open = true
 	game.player.active = false
 	build_menu.show()
@@ -152,6 +156,10 @@ func begin_building() -> void:
 	game.hud.set_prompt("")
 
 func select_kind(kind: String) -> void:
+	var reason := build_requirement(game.player, kind)
+	if not reason.is_empty():
+		game.hud.message(reason, 3)
+		return
 	selected_kind = kind
 	close()
 	_build_preview()
@@ -160,12 +168,51 @@ func select_kind(kind: String) -> void:
 	build_yaw = game.player.rotation.y
 	game.hud.set_prompt("")
 
+func unlock_waves(kind: String, level := 1) -> int:
+	return int(DefenceTower.SPECS[kind].unlock_waves) + int(DefenceTower.UPGRADE_WAVE_OFFSETS[level - 1])
+
+func unlock_reason(kind: String, level := 1) -> String:
+	if not DefenceTower.SPECS.has(kind): return "Unbekannter Turmtyp."
+	if level < 1 or level > 3: return "Ungültige Ausbaustufe."
+	var required := unlock_waves(kind, level)
+	if game.waves.completed >= required: return ""
+	return "%s%s: zuerst Welle %d überstehen (%d/%d)." % [DefenceTower.SPECS[kind].name, " · Stufe %d" % level if level > 1 else "", required, game.waves.completed, required]
+
+func build_requirement(p: Player, kind: String) -> String:
+	var reason := unlock_reason(kind)
+	if not reason.is_empty(): return reason
+	if towers.size() >= DefenceTower.LIMIT: return "Maximal 6 Türme im Team."
+	if p.score < int(DefenceTower.SPECS[kind].cost): return "%s: %d Rem Dollars benötigt." % [DefenceTower.SPECS[kind].name, DefenceTower.SPECS[kind].cost]
+	return ""
+
+func upgrade_reason(p: Player, tower: DefenceTower) -> String:
+	if tower.level >= 3: return "Maximale Stufe erreicht."
+	if tower.operator_peer: return "Der Turm wird gerade bedient."
+	var reason := unlock_reason(tower.kind, tower.level + 1)
+	if not reason.is_empty(): return reason
+	if p.score < tower.upgrade_cost(): return "Zu wenig Rem Dollars."
+	return ""
+
+func _refresh_build_menu() -> void:
+	var state := [game.waves.completed, game.player.score, towers.size()]
+	if state == _build_menu_state: return
+	_build_menu_state = state
+	for kind in kind_buttons:
+		var spec: Dictionary = DefenceTower.SPECS[kind]
+		var button: Button = kind_buttons[kind]
+		var reason := build_requirement(game.player, kind)
+		var available := "Ab Start" if unlock_waves(kind) == 0 else "Nach Welle %d" % unlock_waves(kind)
+		button.text = "%s · %d R · %s\n%s · %d m" % [spec.name, spec.cost, available, spec.info, spec.range]
+		button.disabled = not reason.is_empty()
+		if button.disabled: button.text += "\n" + reason
+		button.tooltip_text = "Stufe 2 nach Welle %d · Stufe 3 nach Welle %d" % [unlock_waves(kind, 2), unlock_waves(kind, 3)]
+
 func placement_error(p: Player, point: Vector3, kind := "standard") -> String:
 	if not DefenceTower.SPECS.has(kind): return "Unbekannter Turmtyp."
 	if p.mounted_tower: return "Zum Bauen zuerst absteigen."
 	if not p.alive or not point.is_finite(): return "Bauen momentan nicht möglich."
-	if towers.size() >= DefenceTower.LIMIT: return "Maximal 6 Türme im Team."
-	if p.score < int(DefenceTower.SPECS[kind].cost): return "%s: %d Rem Dollars benötigt." % [DefenceTower.SPECS[kind].name,DefenceTower.SPECS[kind].cost]
+	var requirement := build_requirement(p, kind)
+	if not requirement.is_empty(): return requirement
 	if p.global_position.distance_to(point) > 8.0: return "Bauplatz höchstens 8 m entfernt wählen."
 	if not Map.BOUNDS.grow(-3).has_point(Vector2(point.x, point.z)): return "Ausserhalb des Baugebiets."
 	var ground := Map.ground_pos(point.x, point.z)
@@ -234,7 +281,8 @@ func maintain(p: Player, id: int, action: String, at_merchant := false) -> Strin
 	var cost := 0
 	match action:
 		"upgrade":
-			if tower.level >= 3: return "Maximale Stufe erreicht."
+			var reason := upgrade_reason(p, tower)
+			if not reason.is_empty(): return reason
 			cost = tower.upgrade_cost()
 		"repair":
 			if tower.hp >= tower.max_hp(): return "Keine Reparatur nötig."
@@ -513,6 +561,7 @@ func _process(delta: float) -> void:
 				else: control(game.player,mounted.tower_id,game.player.rotation.y,game.player.pitch,firing,aiming)
 			game.hud.set_prompt("%s · [Linksklick] Feuern · [Rechtsklick halten] Zielen · [E] Absteigen\n%s · Hitze %d %%" % [mounted.spec().name,"ÜBERHITZT – abkühlen lassen" if mounted.overheated or mounted.heat>=0.99 else "Präzisionsmodus" if aiming else "Manuelle Steuerung",roundi(mounted.heat*100)])
 	if is_open and (not game.player.alive or game.over): close()
+	if is_open: _refresh_build_menu()
 	if placing:
 		if not game.player.active or not game.player.alive:
 			cancel_placement()

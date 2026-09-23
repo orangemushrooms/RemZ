@@ -669,6 +669,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		var z: Zombie = zombies[id]
 		z.max_hp = s[7]
 		z.rare_status = s[12] if s.size() > 12 else ""
+		if z.anim: z.anim.active = not z.alive or not z.rare_status.contains("frozen")
 		if z is Titan: z.apply_boss_state(s[8], initial or fresh)
 		if z is Earthworm: z.apply_boss_state(s[8], initial)
 		z.net_position = s[1]

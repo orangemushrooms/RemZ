@@ -95,6 +95,12 @@ func bore_tip() -> Vector3:
 	return _to_holder * (w.bore as Vector3) + _forward * 0.006
 
 # Holder-local geometry of a mounted part, so tests can measure the fit instead of eyeballing it.
+func second_bore_tip() -> Vector3:
+	var bore: Vector3 = weapon_data().bore
+	# The M134 model has two barrel groups across its raw Y axis.
+	bore.y = -bore.y
+	return _to_holder * bore + _forward * 0.006
+
 func part_node(id: String) -> Node3D:
 	return _parts.get(id)
 

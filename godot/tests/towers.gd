@@ -38,6 +38,7 @@ func run() -> void:
 	var player: Player = game.player
 	var point := Map.ground_pos(60,112)
 	player.score = 10000
+	game.waves.completed = 8 # Combat coverage starts with every tower type unlocked.
 	for kind in DefenceTower.TYPES:
 		player.global_position = Map.ground_pos(60,115)+Vector3.UP*0.1
 		await settle()

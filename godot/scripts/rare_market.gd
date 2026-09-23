@@ -171,6 +171,11 @@ func update_status(z: Zombie, s: Dictionary) -> void:
 	z.rare_status = ("fire+frost" if float(s.frost) > 0 else "fire") if float(s.burn) > 0 else ("frost" if float(s.frost) > 0 else "")
 	z.frost_mul = (0.8 if Zombie.is_boss_kind(z.net_kind) else 0.55) if float(s.frost) > 0 else 1.0
 
+	if float(s.get("freeze", 0.0)) > 0.0:
+		z.frost_mul = 0.35 if Zombie.is_boss_kind(z.net_kind) else 0.0
+		if z.frost_mul == 0.0: z.rare_status += "+frozen"
+	if z.anim: z.anim.active = z.frost_mul > 0.0 or not z.alive
+
 func tick_statuses(delta: float) -> void:
 	for z in statuses.keys():
 		if not is_instance_valid(z) or not z.alive:
@@ -180,6 +185,7 @@ func tick_statuses(delta: float) -> void:
 		s.tick += minf(delta, float(s.burn))
 		s.burn = maxf(0, float(s.burn) - delta)
 		s.frost = maxf(0, float(s.frost) - delta)
+		s["freeze"] = maxf(0.0, float(s.get("freeze", 0.0)) - delta)
 		while float(s.tick) + 0.00001 >= 1.0 and z.alive:
 			s.tick = maxf(0.0, float(s.tick) - 1.0)
 			z.hp -= 12.0

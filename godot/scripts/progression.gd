@@ -1147,12 +1147,17 @@ func _render() -> void:
 		"Türme":
 			if _building_layout: rows.add_child(ItemIcons.view("tower", Vector2(140, 90)))
 			_info("T: Turmtyp wählen · R/Mausrad: drehen · E: platzieren\nAm Turm: E aufsteigen, R ausrichten, F reparieren. Oben: Maus zielt, Linksklick feuert, E steigt ab. Ohne Bediener feuert der Turm automatisch. Dauerfeuer erzeugt Hitze.", 16)
+			for kind in DefenceTower.TYPES:
+				var spec: Dictionary = DefenceTower.SPECS[kind]
+				var required: int = game.defences.unlock_waves(kind)
+				_info("%s · %d R · %s\nStufe 2 nach Welle %d · Stufe 3 nach Welle %d" % [spec.name, spec.cost, "Ab Start" if required == 0 else "Nach Welle %d" % required, game.defences.unlock_waves(kind, 2), game.defences.unlock_waves(kind, 3)], 16)
 			if shop != "mechanic": _info("Turmausbauten gibt es bei Mechanic.")
 			else:
 				for id in game.defences.towers:
 					var tower: DefenceTower = game.defences.towers[id]
 					var cost: int = tower.upgrade_cost()
-					_row("%s #%d · Stufe %d" % [tower.spec().name,id,tower.level], "%d/%d TP · %d m Reichweite · %d m entfernt" % [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)], "Maximum" if tower.level == 3 else "Ausbauen · %d R" % cost, request.bind("tower_upgrade", str(id)), tower.level == 3 or p.score < cost or tower.operator_peer!=0)
+					var reason: String = game.defences.upgrade_reason(p, tower)
+					_row("%s #%d · Stufe %d" % [tower.spec().name,id,tower.level], "%d/%d TP · %d m Reichweite · %d m entfernt" % [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)], "Maximum" if tower.level == 3 else "Ausbauen · %d R" % cost, request.bind("tower_upgrade", str(id)), not reason.is_empty(), reason)
 		"Skins":
 			var wid: String = game.weapons.current
 			_info("Lackierungen für: " + str(Weapons.DEFS[wid].name) + "\nWähle deine Waffe vor dem Gespräch. Skins ändern keine Kampfwerte.", 16)

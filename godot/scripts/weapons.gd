@@ -48,14 +48,14 @@ const DEFS := {
 		"special": {"kind": "flare", "speed": 44.0, "impact": 0.0, "splash": 20.0, "radius": 3.5, "burn_time": 4.0, "splash_ignites": false, "light_range": 12.0, "flare_life": 8.0},
 		"mod_block": ["extended", "endless", "match_barrel", "compensator"],
 		"pos": Vector3(0.26, -0.20, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 4.4, "kick_yaw": 1.2, "kick_back": 0.11, "recover": 6.0},
-	"mac10": {"name": "MAC-10 SD", "model": "mac10", "height": 0.17, "mag": 40, "reserve": 160, "damage": 20.0, "rate": 0.055, "reload": 1.9, "pellets": 1, "spread": 0.040, "range": 30.0, "auto": true, "sfx": "mac10", "sfx_db": -18.0, "sfx_pitch": 1.04, "flash_scale": 0.18, "bloom_gain": 0.10,
+	"mac10": {"name": "MAC-10 SD", "model": "mac10", "height": 0.17, "mag": 40, "reserve": 160, "damage": 20.0, "rate": 0.055, "reload": 1.9, "pellets": 1, "spread": 0.040, "range": 30.0, "auto": true, "sfx": "mac10", "sfx_db": -8.0, "sfx_pitch": 1.04, "flash_scale": 0.18, "bloom_gain": 0.10,
 		"mod_block": ["suppressor", "ghost", "compensator", "endless"],
 		"pos": Vector3(0.24, -0.22, -0.56), "ads": Vector3(0.0, -0.135, -0.41), "kick_pitch": 1.15, "kick_yaw": 0.5, "kick_back": 0.045, "recover": 10.0},
 	"cryo_smg": {"name": "Kryo-MP C7", "model": "cryo_smg", "height": 0.18, "mag": 35, "reserve": 140, "damage": 22.0, "rate": 0.07, "reload": 2.3, "pellets": 1, "spread": 0.032, "range": 40.0, "auto": true, "sfx": "cryo", "sfx_db": -11.0, "flash_scale": 0.7, "flash_mode": "frost", "element": "frost",
-		"special": {"kind": "chill", "per_hit": 0.15, "titan_scale": 0.4, "chill_slow": 0.78, "freeze_time": 3.0, "after_freeze": 0.45, "brittle_mul": 1.4},
+		"special": {"kind": "chill", "per_hit": 0.55, "titan_scale": 0.4, "chill_slow": 0.78, "freeze_time": 3.0, "after_freeze": 0.45, "brittle_mul": 1.4},
 		"mod_block": ["compensator", "match_barrel"],
 		"pos": Vector3(0.24, -0.23, -0.57), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 1.5, "kick_yaw": 0.7, "kick_back": 0.05, "recover": 9.5},
-	"lever_rifle": {"name": "Unterhebler .45-70", "scope_zoom": 3.0, "scope_style": "vintage", "model": "lever_rifle", "pierce_targets": 2, "pierce_retention": 0.7, "height": 0.21, "mag": 6, "reserve": 30, "damage": 125.0, "rate": 0.60, "reload": 3.4, "pellets": 1, "spread": 0.005, "range": 130.0, "auto": false, "sfx": "lever", "sfx_db": -9.0, "sfx_pitch": 0.92,
+	"lever_rifle": {"name": "Unterhebler .45-70", "scope_zoom": 3.0, "scope_style": "vintage", "model": "lever_rifle", "pierce_targets": 2, "pierce_retention": 0.7, "height": 0.21, "mag": 6, "reserve": 30, "damage": 125.0, "rate": 0.60, "reload": 3.4, "pellets": 1, "spread": 0.005, "range": 130.0, "auto": false, "sfx": "lever", "sfx_db": 1.0, "sfx_pitch": 0.92,
 		"special": {"kind": "cycle", "at": 0.45, "sfx": "lever_cycle", "roll": 0.9},
 		"mod_block": ["extended", "endless"],
 		"pos": Vector3(0.24, -0.23, -0.63), "ads": Vector3(0, -0.15, -0.47), "kick_pitch": 5.6, "kick_yaw": 1.1, "kick_back": 0.14, "recover": 5.0},
@@ -309,6 +309,9 @@ func set_weapon(id: String) -> void:
 	holder.rotation = Vector3.ZERO
 	if is_melee(current): (cur()["hands"] as ViewmodelHands).anchor_melee_elbows(viewmodel.camera)
 	effects.sync_muzzle(muzzle_transform())
+	if current == "minigun":
+		var attachments: WeaponAttachments = cur().get("mods")
+		if attachments: effects.sync_second_muzzle((cur().node as Node3D).transform * Transform3D(Basis.IDENTITY, attachments.second_bore_tip()))
 	hud.set_reload(0.0, 1.0)
 	update_hud()
 
@@ -493,6 +496,7 @@ func try_fire() -> void:
 	# A weapon with its own element leaves the bought rounds alone; bought rounds still win when
 	# both are present, because the player paid for them.
 	var special_round: String = "" if d.has("element") else rare.consume_round(player)
+	var trace_mode := "cryo" if current == "cryo_smg" else ("plasma" if current == "plasma_sniper" else special_round)
 	var any_hit := false
 	# Barricade boxes block movement across the entire line, including visible gaps.
 	# Exclude only those boxes from bullets; towers, walls and terrain still stop shots.
@@ -514,9 +518,9 @@ func try_fire() -> void:
 		for _step in 32:
 			q.exclude = excluded
 			var hit := Zombie.cast_ray(self, q)
-			if _step == 0 and i < 3 and not special_round.is_empty():
+			if _step == 0 and i < 3 and not trace_mode.is_empty():
 				var muzzle_world: Vector3 = (camera.global_transform * muzzle_transform()).origin
-				NetSession.elemental_shot(muzzle_world, hit.get("position", origin + dir * 80.0), special_round, not hit.is_empty(), player.peer_id)
+				NetSession.elemental_shot(muzzle_world, hit.get("position", origin + dir * 80.0), trace_mode, not hit.is_empty(), player.peer_id)
 			if hit.is_empty(): break
 			impact = hit.position
 			if hit.collider.get_meta("shootable_pumpkin", false):
@@ -930,6 +934,9 @@ func _handle_weapon_input(delta: float) -> void:
 	(s["hands"] as ViewmodelHands).animate_cloth(delta, Vector2(player.velocity.x, player.velocity.z).length(), ads)
 	if is_melee(current): (cur()["hands"] as ViewmodelHands).anchor_melee_elbows(viewmodel.camera)
 	effects.sync_muzzle(muzzle_transform())
+	if current == "minigun":
+		var attachments: WeaponAttachments = cur().get("mods")
+		if attachments: effects.sync_second_muzzle((cur().node as Node3D).transform * Transform3D(Basis.IDENTITY, attachments.second_bore_tip()))
 
 func visual_muzzle_world() -> Vector3:
 	var tip := muzzle_transform().origin

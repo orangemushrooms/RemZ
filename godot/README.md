@@ -127,6 +127,18 @@ Turm-Zielmodus: Beim Bedienen Rechtsklick halten für sanften Zoom (75° auf 55�
 | Schweres MG | 450 P | 44 m | Schnelles Dauerfeuer, Überhitzung beachten |
 | Teslaspule | 600 P | 22 m | Kettenblitz auf nahe Gegner mit freier Verbindung |
 
+**Turmfortschritt:** Freischaltungen gelten für das ganze Team innerhalb der aktuellen Runde. Entscheidend sind vollständig überstandene Wellen; der Start einer Welle genügt nicht. Der Wächter ist ohne Quest verfügbar, damit der Verteidigungsauftrag von Anfang an möglich bleibt. Das Baumenü und Mechanic zeigen die Voraussetzungen. Geld allein umgeht die Sperren nicht; der Host prüft Bau und Ausbau erneut.
+
+| Turm | Bau möglich | Stufe 2 | Stufe 3 |
+|---|---|---|---|
+| Wächter | Ab Start | Nach Welle 2 | Nach Welle 5 |
+| Flammenwerfer | Nach Welle 2 | Nach Welle 4 | Nach Welle 7 |
+| Mörser | Nach Welle 4 | Nach Welle 6 | Nach Welle 9 |
+| Schweres MG | Nach Welle 6 | Nach Welle 8 | Nach Welle 11 |
+| Teslaspule | Nach Welle 8 | Nach Welle 10 | Nach Welle 13 |
+
+Die Staffelung führt zuerst Einzelzielverteidigung, dann kurze Flächenverteidigung, Artillerie und schwere Spezialgeschütze ein. Ausbauten benötigen zwei beziehungsweise fünf überstandene Wellen mehr als der jeweilige Grundturm. Eine neue Runde setzt die Freischaltungen zurück; später beitretende Spieler verwenden den gemeinsamen Wellenstand. Grenzfälle, Menüstatus und kostenfreie Ablehnungen prüft `--suite=tower_progression --smoke-test --no-intro --no-music`.
+
 **Reichweite und Schusseffekte:** Beim Platzieren, Ausrichten und neben einem Turm markiert ein goldener, dem Gelände folgender Bogen den 160°-Automatiksektor; die gestrichelte Fortsetzung zeigt die manuelle Rundumabdeckung. Beim Bedienen erscheint der volle Reichweitenkreis. Die Anzeige am Fadenkreuz nennt Zielentfernung, aktuelle Reichweite inklusive Ausbau sowie „in Reichweite“, „ausser Reichweite“ oder eine blockierte Schusslinie. Die Bodenmarkierung zeigt die maximale horizontale Reichweite; Höhe und Hindernisse beeinflussen tatsächliche Treffer. Der Mörser hält seine maximale Zielentfernung auch bei manueller Bedienung ein.
 
 Flammenwerfer verwenden einen durchgehenden, verwirbelten Feuerstrahl mit auslaufenden Flammen. Wächter und MG haben gedämpften Rückstoss, kurze fliegende Leuchtspuren, Mündungsfeuer, Rauch und Hülsenauswurf. Mörser verschiessen sichtbare Granaten mit Feuer-/Staubausbruch; Teslaentladungen glühen und verblassen. Rückstoss bewegt nur das Waffenmodell, nicht Sitz oder Trefferberechnung. Sichtprüfung und Effekttests: `--suite=tower_effects --smoke-test --no-intro --no-music --render-towers` → `artifacts/tower-effects/`.

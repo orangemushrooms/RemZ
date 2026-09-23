@@ -12,10 +12,11 @@ static func tracer_material(mode: String) -> StandardMaterial3D:
 		var material := StandardMaterial3D.new()
 		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		material.albedo_color = Color(0.3, 0.8, 1, 0.8) if mode == "frost" else Color(1, 0.3, 0.025, 0.8)
+		material.albedo_color = Color(0.3, 0.8, 1, 0.8) if mode in ["frost", "cryo", "plasma"] else Color(1, 0.3, 0.025, 0.8)
 		material.emission_enabled = true
 		material.emission = material.albedo_color
-		material.emission_energy_multiplier = 2.0
+		material.emission_energy_multiplier = 0.7 if mode == "cryo" else (3.0 if mode == "plasma" else 2.0)
+		if mode == "cryo": material.albedo_color.a = 0.38
 		_tracer_materials[mode] = material
 	return _tracer_materials[mode]
 
@@ -32,6 +33,7 @@ class Tracer extends MeshInstance3D:
 	var start: Vector3
 	var endpoint: Vector3
 	var follow_muzzle: Callable
+	var width := 1.0
 
 	func align() -> void:
 		if follow_muzzle.is_valid(): start = follow_muzzle.call()
@@ -43,14 +45,14 @@ class Tracer extends MeshInstance3D:
 		quaternion = Quaternion(Vector3.UP, offset.normalized())
 		# Transform a shared unit mesh; changing CylinderMesh.height rebuilds
 		# geometry on the rendering thread on every frame of a moving tracer.
-		scale = Vector3(1, offset.length(), 1)
+		scale = Vector3(width, offset.length(), width)
 
 	func _process(_delta: float) -> void:
 		align()
 
 static func particles(mode: String, radius: float, height: float, burst := false, size := 1.0) -> CPUParticles3D:
 	var effect := CPUParticles3D.new()
-	var frost := mode == "frost"
+	var frost := mode in ["frost", "cryo", "plasma"]
 	# A scaled-down burst is the puff at the barrel, half a metre from the eye: few sparks in a
 	# tight cone along the bore, gone quickly and without the campfire updraft of an impact.
 	var muzzle := burst and size < 1.0
@@ -93,7 +95,7 @@ static func particles(mode: String, radius: float, height: float, burst := false
 	return effect
 
 static func burst(parent: Node, position: Vector3, mode: String, direction := Vector3.UP, size := 1.0) -> void:
-	if mode not in ["fire", "frost"]: return
+	if mode not in ["fire", "frost", "cryo", "plasma"]: return
 	# Bound transient emitters even under sustained automatic fire and shotgun pellets.
 	if parent.get_tree().get_nodes_in_group("elemental_burst").size() >= 48: return
 	var effect := particles(mode, 0.06, 0.1, true, size)
@@ -105,11 +107,12 @@ static func burst(parent: Node, position: Vector3, mode: String, direction := Ve
 	parent.get_tree().create_timer(0.8, false).timeout.connect(effect.queue_free)
 
 static func shot(parent: Node, origin: Vector3, end: Vector3, mode: String, impact: bool, follow_muzzle := Callable()) -> void:
-	if mode not in ["fire", "frost"]: return
+	if mode not in ["fire", "frost", "cryo", "plasma"]: return
 	if parent.get_tree().get_nodes_in_group("elemental_tracer").size() >= 48: return
 	var distance := origin.distance_to(end)
 	if distance < 0.01: return
 	var tracer := Tracer.new()
+	tracer.width = 0.22 if mode == "cryo" else (0.8 if mode == "plasma" else 1.0)
 	tracer.start = origin
 	tracer.endpoint = end
 	tracer.follow_muzzle = follow_muzzle
@@ -123,9 +126,9 @@ static func shot(parent: Node, origin: Vector3, end: Vector3, mode: String, impa
 	tracer.align()
 	tracer.set_process(follow_muzzle.is_valid())
 	var tween := tracer.create_tween()
-	tween.tween_property(tracer, "transparency", 1.0, 0.12)
+	tween.tween_property(tracer, "transparency", 1.0, 0.08 if mode == "cryo" else (0.20 if mode == "plasma" else 0.12))
 	tween.tween_callback(tracer.queue_free)
 	# The muzzle sits half a metre from the eye, so impact-sized sparks would wipe out the whole
 	# screen on every shot. The barrel gets a small puff, the target the full burst.
-	burst(parent, origin, mode, direction, 0.22)
-	if impact: burst(parent, end, mode)
+	if mode != "cryo": burst(parent, origin, mode, direction, 0.22)
+	if impact: burst(parent, end, mode, Vector3.UP, 0.3 if mode == "cryo" else (1.3 if mode == "plasma" else 1.0))

@@ -8,7 +8,8 @@ extends Node
 
 const DIR := "res://assets/audio/music/"
 # "file" names the mp3 when it differs from the logical track name.
-# The boss songs are levelled 1 dB above the combat track (measured -15.4 / -15.1 / -14.6 / -15.3 LUFS
+# The boss songs retain their relative levelling, with a +10 dB boost for roughly twice the
+# perceived loudness (measured source levels -15.4 / -15.1 / -14.6 / -15.3 LUFS
 # against -16.8 for combat.mp3). They do not loop: each one stops dead at full volume after 150 s, so
 # a longer fight hands over to another boss song instead of jumping back to the quiet intro.
 const TRACKS := {
@@ -18,10 +19,10 @@ const TRACKS := {
 	"combat": { "loop": true, "db": -11.0 },
 	"gameover": { "loop": false, "db": -8.0 },
 	"horde": { "loop": true, "db": -16.0 },
-	"boss_fight_1": { "loop": false, "db": -11.4 },
-	"boss_fight_2": { "loop": false, "db": -11.7 },
-	"boss_fight_3": { "loop": false, "db": -12.2 },
-	"boss_fight_4": { "loop": false, "db": -11.5 },
+	"boss_fight_1": { "loop": false, "db": -1.4 },
+	"boss_fight_2": { "loop": false, "db": -1.7 },
+	"boss_fight_3": { "loop": false, "db": -2.2 },
+	"boss_fight_4": { "loop": false, "db": -1.5 },
 }
 const BOSS_TRACKS := ["boss_fight_1", "boss_fight_2", "boss_fight_3", "boss_fight_4"]
 const BOSS_HANDOVER := 1.5     # seconds before a boss song ends that the next one fades in

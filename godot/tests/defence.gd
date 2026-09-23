@@ -90,6 +90,7 @@ func run() -> void:
 	var field_position := player.global_position
 	player.global_position = game.progression.npcs["mechanic"].global_position + Vector3(0, 0.1, 2.3)
 	await settle()
+	game.waves.completed = 2
 	check(defence.maintain(player, tower.tower_id, "upgrade", true).is_empty() and tower.level == 2 and tower.hp == 400, "Upgrade improves tower and restores health")
 	player.global_position = field_position
 	await settle()
@@ -100,6 +101,7 @@ func run() -> void:
 	check(not defence.maintain(player, tower.tower_id, "repair").is_empty() and player.score == before, "No charge for unnecessary repair")
 	player.global_position = game.progression.npcs["mechanic"].global_position + Vector3(0, 0.1, 2.3)
 	await settle()
+	game.waves.completed = 5
 	defence.maintain(player, tower.tower_id, "upgrade", true)
 	check(tower.level == 3 and not defence.maintain(player, tower.tower_id, "upgrade", true).is_empty(), "Upgrade cap enforced")
 	player.global_position = field_position
