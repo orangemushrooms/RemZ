@@ -1,7 +1,13 @@
-# RemZ / Birkenhof Nacht
+# RemZ
 
 First-person zombie survival, built in **Godot 4.7** (folder `godot/`). The user (Michel) does no manual work in
 editors; Claude generates assets and code. Reply in German (Swiss spelling, "ss" not "ß").
+
+The game is called **RemZ** (project name, window title, EXE). Until 23 Sep 2026 it was "Birkenhof Nacht", and
+Godot keeps user:// in `app_userdata/<project name>`, so `legacy_user_data.gd` (`LegacyUserData.import_once()`, the
+first thing in `main._ready`) brings the old saves over once: settings.cfg and network.cfg when missing,
+achievements as a union, high scores merged to the top 10, marker `legacy_imported.txt`. Caches stay behind.
+`--suite=legacy_user_data` (headless, 11 checks) works on temp folders only, never on the real saves.
 
 ## What the game is
 - Autumn forest campsite at dusk, look modelled on a reference image: warm haze, leaf-covered ground, cabin,

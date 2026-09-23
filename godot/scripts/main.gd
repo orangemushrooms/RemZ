@@ -112,6 +112,8 @@ func _ready() -> void:
 		add_child(_boot_screen)
 		_boot_screen.step(0.0, "Die Nacht bricht herein")
 	_boot_mark("enter _ready")
+	# The game was called "Birkenhof Nacht" until 23 Sep 2026; bring its saves over once, before anything reads them.
+	LegacyUserData.import_once()
 	settings = GameSettings.new()
 	add_child(settings)
 	difficulty = GameSettings.DIFFICULTIES[settings.difficulty]
