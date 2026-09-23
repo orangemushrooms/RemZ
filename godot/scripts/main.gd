@@ -347,15 +347,14 @@ func _navigation_baked() -> void:
 	var nav_map := nav_region.get_navigation_map()
 	var start := Map.ground_pos(Map.PLAYER_START.x, Map.PLAYER_START.y)
 	# Baking and publishing the asynchronous map iteration are separate steps.
-	# Movie Maker can spend more than 15 seconds compiling a single rendered
-	# startup frame. Allow the navigation iteration to publish before checking loot.
-	var deadline := Time.get_ticks_msec() + (300000 if "--trailer-run" in _flags else 15000)
+	# A long first frame (Movie Maker, a slow or busy PC, a cold disk) can leave the region's
+	# empty initial mesh active, and the keys then find no reachable spot ("Please restart").
+	# Republish every 10 s and give up only after two minutes; the loading screen stays up.
+	var deadline := Time.get_ticks_msec() + (300000 if "--trailer-run" in _flags else 120000)
 	var diagnostic_at := Time.get_ticks_msec() + 10000
 	while not NavigationServer3D.map_get_closest_point_owner(nav_map, start).is_valid() and Time.get_ticks_msec() < deadline:
-		if "--trailer-run" in _flags and Time.get_ticks_msec() >= diagnostic_at:
-			print("TRAILER_NAV_WAIT paused=", get_tree().paused, " region_enabled=", nav_region.enabled, " server_enabled=", NavigationServer3D.region_get_enabled(nav_region.get_rid()), " iteration=", NavigationServer3D.map_get_iteration_id(nav_map), " polygons=", nav_region.navigation_mesh.get_polygon_count(), " map=", nav_map, " registered_map=", NavigationServer3D.region_get_map(nav_region.get_rid()))
-			# Republish after the loading pause has ended. The offline capture's
-			# first long frame can otherwise leave the region's empty initial mesh active.
+		if Time.get_ticks_msec() >= diagnostic_at:
+			print("NAV_WAIT paused=", get_tree().paused, " region_enabled=", nav_region.enabled, " server_enabled=", NavigationServer3D.region_get_enabled(nav_region.get_rid()), " iteration=", NavigationServer3D.map_get_iteration_id(nav_map), " polygons=", nav_region.navigation_mesh.get_polygon_count(), " map=", nav_map, " registered_map=", NavigationServer3D.region_get_map(nav_region.get_rid()))
 			NavigationServer3D.region_set_map(nav_region.get_rid(), nav_map)
 			nav_region.navigation_mesh = nav_region.navigation_mesh.duplicate()
 			diagnostic_at = Time.get_ticks_msec() + 10000
