@@ -12,6 +12,9 @@ func check(ok: bool, label: String) -> void:
 	print("PASS: " if ok else "FAIL: ", label)
 
 func run() -> void:
+	# The skin comes from randi() and the walk cycle kept playing, so the hip-high ray sometimes
+	# slipped between two hit volumes of a random pose. Fix both; the barricade is what is tested.
+	seed(4242)
 	var game: Node = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
 	current_scene = game
@@ -28,6 +31,7 @@ func run() -> void:
 	game.zombies_root.add_child(zombie)
 	zombie.set_physics_process(false)
 	zombie.agent.avoidance_enabled = false
+	zombie.anim.pause()
 	zombie.global_position = bar.center + normal * 3
 	zombie.hp = 10000
 	game.weapons.spread_mul = 0
