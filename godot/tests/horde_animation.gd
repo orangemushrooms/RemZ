@@ -41,7 +41,13 @@ func run() -> void:
 					var after := new_rig.global_transform * new_rig.get_bone_global_pose(bone)
 					difference = maxf(difference, before.origin.distance_to(after.origin))
 					rotations = maxf(rotations, (before.basis.x - after.basis.x).length())
-		check(new_anim.get_animation("walk").get_track_count() < old_anim.get_animation("walk").get_track_count(), skin + " removes constant position tracks")
+		# The worm rigs animate rotations only: without position tracks there is nothing to strip.
+		var old_walk: Animation = old_anim.get_animation("walk")
+		var position_tracks := 0
+		for track in old_walk.get_track_count():
+			if old_walk.track_get_type(track) == Animation.TYPE_POSITION_3D: position_tracks += 1
+		check(position_tracks == 0 or new_anim.get_animation("walk").get_track_count() < old_walk.get_track_count(),
+			skin + (" is a rotation-only rig with no position tracks to strip" if position_tracks == 0 else " removes constant position tracks"))
 		check(difference < 0.00001 and rotations < 0.000001, skin + " preserves all sampled clips below 0.01 mm: position=" + str(difference) + " rotation=" + str(rotations))
 		source.queue_free()
 		prepared.queue_free()
