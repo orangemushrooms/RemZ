@@ -79,7 +79,9 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   braces, eaves along the north and south faces, mossy grey tiles, small ridge vent), 12 concrete block steps
   without railing along the north face from 2.5 m east of the north-west corner up to the upper door at the east
   end, two small cellar windows in the base near the south end of the west face, east side buried in the slope.
-  The fire plaza is one level gravel place (terrain flattened by the `PLAZA` polygon in `build_map.py`): four log
+  The fire plaza is one level place (terrain flattened by the `PLAZA` polygon in `build_map.py`). The real one
+  is gravelled, but the game keeps forest floor there on purpose - only the mapped tracks carry gravel, and
+  `range_steps` asserts "leaves" at the fire. Do not "fix" this back to gravel. It holds four log
   benches around the square stone fire pit with swivel grill at (7, -7), picnic table on leaf litter 3 m west of
   the west bench, hollowed grey log fountain on log blocks with a thick trunk post and iron spout at the plaza's
   west edge (-2, -13), white steel drum bin on a post (-0.5, -16), info board + sign east of the Waldweg entrance

@@ -189,7 +189,6 @@ def save_surface_cover():
         else:
             stone = np.maximum(stone, weight * (0.6 if road["surface"] == "dirt" else 1.0))
     stone = np.maximum(stone, resample(pond_bed))
-    stone = np.maximum(stone, resample(plaza_gravel))
     soil *= (1 - stone) * (1 - paved) * (1 - resample(pond_grass))
     grass = np.clip(1 - soil - stone - paved, 0, 1)
     cover = np.stack([soil, grass, stone], axis=2)
@@ -354,11 +353,6 @@ leaf = np.maximum(leaf, np.clip(1.0 - np.hypot(jj + Z0 - 8, ii + X0 - 12) / 14.0
 pond_bed = np.clip(1.0 - (pd - POND["r"] + 1.0) / 1.5, 0, 1)      # sandy bed under the water
 pond_grass = np.clip(1.0 - (pd - POND["r"] - 1.0) / 3.0, 0, 1)      # grassy bank around it
 gravel = np.maximum(gravel, pond_bed)
-# The fire plaza is a compacted gravel place (photo 20): benches, picnic table and fire pit all
-# stand on grey gravel, not on forest floor. Without this the camp centre reads as leaf litter
-# and footsteps there sound wrong.
-plaza_gravel = np.clip(1.0 - ndimage.distance_transform_edt(~poly_mask(PLAZA)) / 2.0, 0, 1)
-gravel = np.maximum(gravel, plaza_gravel)
 # Soil throughout the clearing, fading into the existing forest floor at its
 # perimeter. Keep vegetation exclusions separate: the camp remains accessible.
 camp_leaf = np.clip(1.0 - cd / 3.0, 0, 1)

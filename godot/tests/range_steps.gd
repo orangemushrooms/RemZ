@@ -85,7 +85,8 @@ func run() -> void:
 	var cut_soft: float = (AudioServer.get_bus_effect(AudioServer.get_bus_index("StepSoft"), 0) as AudioEffectLowPassFilter).cutoff_hz
 	var cut_gravel: float = (AudioServer.get_bus_effect(AudioServer.get_bus_index("StepGravel"), 0) as AudioEffectLowPassFilter).cutoff_hz
 	check(cut_soft < cut_gravel, "Forest floor is duller than gravel (%.0f Hz < %.0f Hz)" % [cut_soft, cut_gravel])
-	for pair in [[Vector2(120, 0), "hard"], [Vector2(70, 41), "gravel"], [Vector2(7, -7), "gravel"], [Vector2(60, 80), "grass"], [Vector2(-40, -40), "leaves"]]:
+	# The fire plaza keeps forest floor on purpose - only the mapped tracks carry gravel.
+	for pair in [[Vector2(120, 0), "hard"], [Vector2(70, 41), "gravel"], [Vector2(7, -7), "leaves"], [Vector2(60, 80), "grass"], [Vector2(-40, -40), "leaves"]]:
 		player.global_position = Map.ground_pos(pair[0].x, pair[0].y) + Vector3.UP * 0.2
 		var surface := player._surface_step()
 		check(surface == pair[1], "Surface at %s is %s (got %s)" % [pair[0], pair[1], surface])
