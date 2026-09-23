@@ -538,7 +538,7 @@ func snapshot() -> Dictionary:
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "mushroom_positions": mushroom_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
 		"difficulty": game.settings.difficulty,
-		"wave": [game.waves.wave, game.waves.completed, game.waves.phase, game.waves.timer, game.waves.total, game.alive_zombies()+game.waves.queue.size()],
+		"wave": [game.waves.wave, game.waves.completed, game.waves.phase, game.waves.timer, game.waves.total, game.alive_zombies()+game.waves.queue.size(), game.waves.boss_fight],
 		"stats": [game.stats.kills, game.stats.headshots, game.stats.shots, game.stats.hits, game.stats.seconds, game.stats.best_streak, game.stats.grenades_thrown, game.stats.melee_hits, game.stats.barricades_built, game.stats.mushrooms_eaten, game.stats.damage_taken, game.stats.points_earned],
 		"achievements": [game.achievements.counters.duplicate(), game.achievements.session_unlocked.duplicate()]}
 
@@ -762,18 +762,22 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.waves.phase = data.wave[2]
 	game.waves.timer = data.wave[3]
 	game.waves.total = data.wave[4]
+	game.waves.boss_fight = data.wave.size() > 6 and bool(data.wave[6])
 	if data.wave[2] == "intro":
 		game.hud.set_wave(1, "Erreiche den Weg zur Hütte")
 	else:
 		game.hud.set_wave(data.wave[0] if data.wave[2] != "idle" else data.wave[0]+1, "%d übrig" % data.wave[5] if data.wave[2] != "idle" else "Start in %d s · Host startet die nächste Welle" % ceili(data.wave[3]))
 	game.hud.set_wave_progress(data.wave[5], data.wave[4])
+	# The host decides when a boss fight starts and ends; the song itself is picked here.
 	if current_wave != data.wave[0]:
 		current_wave = data.wave[0]
 		game.hud.message("Welle %d" % current_wave, 2.0)
-		if game.music: game.music.play("combat")
-	elif game.music and game.music.current == "combat" and data.wave[2] == "idle":
+		if game.music: game.music.fight(game.waves.boss_fight)
+	elif game.music and game.music.in_fight() and data.wave[2] == "idle":
 		# Clients follow the host into the pause and get the same daylight / night choice.
 		game.music.play(game.music.intermission_track(game.day_night.clock_seconds / 3600.0) if game.day_night else "night")
+	elif game.music and game.music.in_fight():
+		game.music.fight(game.waves.boss_fight)
 	game.stats.kills = data.stats[0]
 	game.stats.players = data.get("leaderboard", {}).duplicate(true)
 	game.stats.headshots = data.stats[1]

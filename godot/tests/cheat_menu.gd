@@ -37,6 +37,34 @@ func run() -> void:
 	check(game.player.score == starting_points + 1000 and menu.status.text.contains(str(game.player.score)), "Points button credits 1000 points and updates the displayed balance while paused")
 	menu.points_button.pressed.emit()
 	check(game.player.score == starting_points + 2000 and menu.is_open and paused, "Points button can be used repeatedly without closing or resuming the game")
+	# Weapon cheat: any weapon, unlocked with a full magazine and a full reserve, straight into the hands.
+	var w: Weapons = game.weapons
+	check(menu.weapon_buttons.size() == Weapons.ORDER.size() and Weapons.ORDER.all(func(id): return menu.weapon_buttons.has(id)), "Every weapon has its own cheat button (%d)" % menu.weapon_buttons.size())
+	menu.weapon_buttons["minigun"].pressed.emit()
+	var belt: Dictionary = w.state["minigun"]
+	check(w.unlocked.get("minigun", false) and w.current == "minigun", "The weapon button unlocks the minigun and puts it in the hands")
+	check(int(belt.ammo) == int(belt.def.mag) and int(belt.reserve) == w.reserve_limit("minigun"), "The minigun comes with a full belt and a full reserve (%d + %d)" % [belt.ammo, belt.reserve])
+	check(menu.is_open and paused and menu.weapon_note.text.contains(str(Weapons.DEFS["minigun"].name)), "The menu stays open and names what was handed out")
+	belt.ammo = 3
+	belt.reserve = 0
+	menu.weapon_buttons["minigun"].pressed.emit()
+	check(int(belt.ammo) == int(belt.def.mag) and int(belt.reserve) == w.reserve_limit("minigun"), "Pressing an owned weapon fills it up again")
+	menu.weapon_buttons["plasma_sniper"].pressed.emit()
+	var plasma: Dictionary = w.state["plasma_sniper"]
+	plasma.heat = 1.0
+	plasma.vent = true
+	plasma.ammo = 0
+	plasma.reloading = 2.5
+	menu.weapon_buttons["plasma_sniper"].pressed.emit()
+	check(float(plasma.heat) == 0.0 and not plasma.vent and float(plasma.reloading) == 0.0 and int(plasma.ammo) == int(plasma.def.mag) and not w.specials.blocks_fire(w, "plasma_sniper"),
+		"An overheated plasma rifle comes back cold and loaded")
+	menu.all_weapons_button.pressed.emit()
+	var all_full := true
+	for id: String in Weapons.ORDER:
+		if not w.unlocked.get(id, false): all_full = false
+		elif not Weapons.is_melee(id) and (int(w.state[id].ammo) != int(w.state[id].def.mag) or int(w.state[id].reserve) != w.reserve_limit(id)): all_full = false
+	check(all_full, "'Alle Waffen' unlocks every weapon with a full magazine and reserve")
+	check(w.current == "plasma_sniper" and menu.is_open and paused, "'Alle Waffen' leaves the weapon in the hands and the menu open")
 	shortcut.echo = true
 	Input.parse_input_event(shortcut.duplicate())
 	check(menu.is_open, "Holding the shortcut does not repeatedly toggle the menu")

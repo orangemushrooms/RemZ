@@ -170,6 +170,13 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   so the daylight song is only ever heard once a wave is over; the intro keeps its own track.
   `TRACKS[..].file` names the mp3 when it differs from the logical track name. `--no-music` silences it.
   After adding files run `Godot.exe --headless --path godot --import`.
+- Boss fights play one of the user's four boss songs (`music/boss_fight_1..4.mp3`, `Music.BOSS_TRACKS`,
+  levelled 1 dB above combat by measured LUFS) at random, never the same one twice in a row, and nothing else
+  does. `Waves.is_boss_fight()` decides: every fifth wave from start to end, otherwise as long as a titan or
+  field worm is alive or still queued (checked four times a second, sent to co-op clients as `wave[6]`).
+  `Music.fight(bool)` swaps between the boss song and the combat loop, a cleared wave goes to the pause track
+  as before. The songs do not loop (they stop dead at full volume), so a fight that outlasts one hands over
+  to another 1.5 s before its end. `--suite=boss_music --smoke-test --no-intro --no-foliage` (29 checks).
 - Walking through the maize is its own surface: `Sfx.STEP_SURFACES["corn"]` (bus `StepCorn`) plus the
   `_step_texture` case gives the per-step leaf swish, `Sfx.corn_bed()` the looping brush that
   `cornfield._update_rustle` fades with the player's speed while `cornfield.in_corn()` holds (silent on the
@@ -238,6 +245,11 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   "Nochmal" / "Neue Runde" rebuild the scene and start the next round directly (`NetSession.restart_pending`
   offline, `_auto_start` for the coop host); `--suite=menu_flow --smoke-test --no-intro --no-music --no-foliage`
   checks zombie damage, death -> Nochmal, pause -> Hauptmenü and the coop restart (11 checks, ~45 s).
+- Cheat menu (Strg+Shift+D, `cheat_menu.gd`): +1000 R, skip wave, minimap reveals and every weapon of
+  `Weapons.ORDER` with a full magazine (mods included) and the reserve at `reserve_limit` (`fill_weapon`, also
+  cools a plasma barrel); the chosen weapon goes straight into the hands, "Alle Waffen" fills all of them.
+  Host / solo only, like the other cheats. `--suite=cheat_menu --smoke-test --no-intro --no-music --no-foliage`
+  (27 checks).
 - `tests/range_steps.gd` (headless, `-- --smoke-test --no-intro --no-music`) checks long-range hits and the
   per-surface footsteps (`Sfx.footstep`: low-pass bus per surface + procedural texture layer; asphalt has zero
   cover weight in `ground.png`, so "all channels < 0.3" means hard ground) and dumps the step textures to

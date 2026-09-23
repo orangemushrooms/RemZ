@@ -34,6 +34,8 @@ var spawn_t := 0.0
 var speed_mul := 1.0
 var total := 0
 var boss_wave := false
+var boss_fight := false   # music cue, mirrored to co-op clients through the wave snapshot
+var _boss_check := 0.0
 
 func setup(m: Node, h: Hud, p: Player, w: Weapons) -> void:
 	main = m
@@ -165,8 +167,26 @@ func start(n: int) -> void:
 	if titan_count(n) + lesser_titan_count(n) > 0:
 		hud.message("Welle %d · TITANEN\nBewegung auf dem Feld. Bereite die Verteidigung vor!" % n, 5.0)
 	Sfx.play(self, "wave", -4.0)
+	boss_fight = is_boss_fight()
+	_boss_check = 0.25
 	if main.music:
-		main.music.play("combat")
+		main.music.fight(boss_fight)
+
+# A boss fight is the whole fifth-wave brute assault and, in any other wave, the time a boss is on
+# the field or still waiting in the queue - the boss bar at the top of the screen. The music plays a
+# boss song for exactly that long and then drops back to the combat loop.
+func is_boss_fight() -> bool:
+	if boss_wave: return true
+	for entry in queue:
+		if _boss_kind(entry["type"]): return true
+	for z in main.zombies_root.get_children():
+		if z is Zombie and z.alive and _boss_kind(z.net_kind): return true
+	return false
+
+# Titans ("giant") and field worms ("worm") are the bosses.
+static func _boss_kind(kind: String) -> bool:
+	var spec: Dictionary = Zombie.TYPES.get(kind, {})
+	return bool(spec.get("giant", false)) or bool(spec.get("worm", false))
 
 func skip_current_wave() -> bool:
 	if NetSession.is_client() or not main.started or main.over:
@@ -221,10 +241,16 @@ Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELL
 		hud.set_wave_progress(alive + queue.size(), total)
 		if main.music:
 			main.music.horde = clampf(alive / 10.0, 0.15, 1.0)
+		_boss_check -= delta
+		if _boss_check <= 0.0:
+			_boss_check = 0.25
+			boss_fight = is_boss_fight()
+			if main.music: main.music.fight(boss_fight)
 		if queue.is_empty() and alive == 0:
 			_complete_wave()
 
 func _complete_wave() -> void:
+	boss_fight = false
 	if main.music:
 		main.music.horde = 0.0
 		main.music.play(main.music.intermission_track(main.day_night.clock_seconds / 3600.0) if main.day_night else "night")
