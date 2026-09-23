@@ -110,6 +110,13 @@ func extended() -> void:
 		if zombie is Titan:
 			await measure("titan_strike", 4.0, func(): zombie.begin_strike(game.player.global_position))
 			zombie.die(Vector3.ZERO)
+	# The worms carry 4K textures and a 22-bone rig but are not part of combat_warmup: measure
+	# warning ring, emergence and the first exposed seconds, where an unwarmed upload would hitch.
+	for kind in ["earthworm", "earthworm_ancient"]:
+		await measure("first_" + kind, 9.0, func(): game.spawn_zombie(kind, Vector2(0, 118), 1.0))
+		for zombie in game.zombies_root.get_children():
+			if zombie is Earthworm and zombie.alive: zombie.die(Vector3.ZERO)
+		await create_timer(1.0).timeout
 	for id in ["fw_ruby", "fw_gold", "fw_cracker"]:
 		await measure("first_" + id, 5.0, func():
 			var effect = Fireworks.make_effect(id)

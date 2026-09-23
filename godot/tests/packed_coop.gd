@@ -28,6 +28,10 @@ func wait_for(condition: Callable, seconds: float = 8.0) -> bool:
 	return bool(condition.call())
 
 func run() -> void:
+	# test_packed_coop.ps1 -Players 2..4 starts players - 2 packaged clients next to host and probe.
+	var players := 4
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--expected-players="): players = clampi(int(arg.get_slice("=", 1)), 2, 4)
 	var game: Node3D = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
 	current_scene = game
@@ -35,7 +39,7 @@ func run() -> void:
 	var net := root.get_node("NetSession")
 	check(net.join("127.0.0.1", "Verifier", 24692) == OK, "Probe connects to packaged host")
 	while net.phase != "running": await process_frame
-	check(net.roster.size() == 4 and net.world.avatars.size() == 3, "Packaged host, two packaged clients and probe share four-player round")
+	check(net.roster.size() == players and net.world.avatars.size() == players - 1, "Packaged host, %d packaged clients and probe share a %d-player round" % [players - 2, players])
 	check(await wait_for(func(): return net._received_sequence > 5 and net.world.state_loaded), "Compressed snapshots arrive from packaged host")
 	# Model loading on the first real wave may take several frames in a fresh pack.
 	check(await wait_for(func(): return game.zombies_root.get_children().any(func(node): return node is Zombie)), "Packaged host spawns the common wave")
@@ -62,7 +66,7 @@ func run() -> void:
 		"Unchanged snapshots preserve clickable inventory controls (first=%s settled=%s)" % [
 			is_instance_valid(first_slot), is_instance_valid(settled)])
 	game.inventory.close()
-	check(game.progression.npcs.size() == Progression.NPCS.size() and game.progression.people.size() == 4, "Packaged NPC catalogue and four player quest states are present")
+	check(game.progression.npcs.size() == Progression.NPCS.size() and game.progression.people.size() == players, "Packaged NPC catalogue and %d player quest states are present" % players)
 	check(Weapons.ORDER.all(func(id): return Weapons.is_melee(id) or ResourceLoader.exists("res://assets/models/%s.glb" % Weapons.DEFS[id].model)), "Packaged build contains every firearm mesh")
 	check(game.progression.npcs.values().all(func(npc): return npc.anim != null and npc.anim.is_playing()), "All packaged NPCs have active skeletal animations")
 	net.command("upgrade", ["w_ak47"])

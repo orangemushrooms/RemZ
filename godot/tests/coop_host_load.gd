@@ -64,7 +64,7 @@ func stats(label: String) -> Dictionary:
 	print("COOP_HOST_LOAD_STAGE ", JSON.stringify(report))
 	return report
 
-func collect(seconds: float) -> Dictionary:
+func collect(seconds: float, label := "four_players_full_horde") -> Dictionary:
 	await process_frame
 	samples.clear()
 	snapshot_us = 0
@@ -73,7 +73,7 @@ func collect(seconds: float) -> Dictionary:
 	collecting = true
 	await create_timer(seconds).timeout
 	collecting = false
-	return stats("four_players_full_horde")
+	return stats(label)
 
 func run() -> void:
 	seed(4242)
@@ -120,9 +120,29 @@ func run() -> void:
 	check(report.over_50ms == 0, "No frame exceeds 50 ms (measured %d)" % report.over_50ms)
 	check(report.snapshot_ms < 4.0, "Snapshot tick stays under 4 ms (measured %.2f ms)" % report.snapshot_ms)
 
+	# A late worm wave (EncounterBalance): the escort is capped at 52 and up to three heavies are
+	# out at once - here an Erdwurm and a Grabmahr surfacing in front of the host.
+	var escort := 0
+	for z in game.zombies_root.get_children():
+		if z is Zombie and z.alive:
+			escort += 1
+			if escort > 52: z.die(Vector3.ZERO)
+	game.waves.trim_corpses()
+	for kind in ["earthworm", "earthworm_ancient"]:
+		game.spawn_zombie(kind, Vector2(6 if kind == "earthworm" else -12, 112), 1.0)
+	for z in game.zombies_root.get_children():
+		if z is Zombie: z.hp = 1000000.0
+	await create_timer(5.0).timeout
+	var worms: int = game.zombies_root.get_children().filter(func(n): return n is Earthworm and n.alive).size()
+	check(worms == 2, "Two worms surface in front of the rendered host (found %d)" % worms)
+	var worm_report := await collect(12.0, "four_players_worm_wave")
+	check(worm_report.average_fps > 60.0, "Worm wave: host holds above 60 FPS (measured %.0f)" % worm_report.average_fps)
+	check(worm_report.p99_ms < 33.0, "Worm wave: 99%% of frames stay under 33 ms (measured %.1f ms)" % worm_report.p99_ms)
+	check(worm_report.over_50ms == 0, "Worm wave: no frame exceeds 50 ms (measured %d)" % worm_report.over_50ms)
+
 	var output := FileAccess.open("res://../logs/coop-host-load.json", FileAccess.WRITE)
 	output.store_string(JSON.stringify({"cpu": OS.get_processor_name(), "gpu": RenderingServer.get_video_adapter_name(),
-		"resolution": str(root.size), "stage": report}, "\t"))
+		"resolution": str(root.size), "stage": report, "worm_stage": worm_report}, "\t"))
 	output.close()
 	print("COOP_HOST_LOAD_DONE checks=%d failures=%d" % [checks, failures])
 	quit(0 if failures == 0 else 1)

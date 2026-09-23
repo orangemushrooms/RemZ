@@ -28,6 +28,12 @@ func actor(kind: String) -> Zombie:
 	return zombie
 
 func run() -> void:
+	# Every zombie rolls a random 0.94-1.08 scale from randi(). Without a fixed seed each run
+	# sampled a different one, and a few farmer scales (seeds 1001 and 1022 of a 25-seed sweep)
+	# put Jolt's own hull ~19.6 mm (model space) below the baked LeftFoot sole on the upward ray.
+	# The baked planes are the exact ones; Jolt rebuilds the hull from points with an absolute
+	# tolerance. Hits, misses and headshots agree at every sampled scale.
+	seed(4242)
 	scene = Node3D.new()
 	root.add_child(scene)
 	current_scene = scene
