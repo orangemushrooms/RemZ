@@ -94,7 +94,7 @@ func accuracy() -> float:
 
 static func time_text(s: float) -> String:
 	var m := int(s) / 60
-	return "%d:%02d min" % [m, int(s) % 60]
+	return Lang.t("%d:%02d min", [m, int(s) % 60])
 
 func _load() -> void:
 	table = []
@@ -103,8 +103,19 @@ func _load() -> void:
 		if d is Dictionary and d.get("runs") is Array:
 			for r in d["runs"]:
 				if r is Dictionary:
+					if r.has("difficulty"): r["difficulty"] = english_difficulty(str(r["difficulty"]))
 					table.append(r)
 	table.sort_custom(func(a, b): return int(a.get("score", 0)) > int(b.get("score", 0)))
+
+# Runs saved before the game spoke English hold the German difficulty ("Schwer", "Koop · Schwer").
+# The German catalogue maps them back to the English name, the co-op label to its Lang.t segment.
+static func english_difficulty(stored: String) -> String:
+	for difficulty: Dictionary in GameSettings.DIFFICULTIES:
+		var english := str(difficulty.name)
+		if stored == Lang.resolve(english, "de"): return english
+		var coop := Lang.t("Co-op · %s", [english])
+		if stored == Lang.resolve(coop, "de"): return coop
+	return stored
 
 func _save() -> void:
 	if not persist:

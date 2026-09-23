@@ -83,7 +83,7 @@ func can_interact(player: Node3D) -> bool:
 	return get_world_3d().direct_space_state.intersect_ray(ray).is_empty()
 
 func prompt_text() -> String:
-	return "[E] Schlüssel nehmen · %s" % ForestKeys.KEYS[key_id]
+	return Lang.t("[E] Take key · %s", [ForestKeys.KEYS[key_id]])
 
 func take(weapons, _hud) -> void:
 	if NetSession.enabled:

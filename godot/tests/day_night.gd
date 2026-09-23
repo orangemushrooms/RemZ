@@ -84,7 +84,7 @@ func run() -> void:
 		monotonic = monotonic and day <= previous + 0.00001
 		previous = day
 	check(monotonic and previous == 0.0, "Evening darkens progressively from daylight to night")
-	check(DayNightCycle.daylight_at(20.0) > 0.0 and DayNightCycle.phase_at(20.5) == "Abend" and DayNightCycle.phase_at(21.0) == "Nacht", "Twilight continues until 21:00 without changing clock duration")
+	check(DayNightCycle.daylight_at(20.0) > 0.0 and DayNightCycle.phase_at(20.5) == "Evening" and DayNightCycle.phase_at(21.0) == "Night", "Twilight continues until 21:00 without changing clock duration")
 	check(Ambience.cricket_level_at(12.0) == 0.0 and Ambience.cricket_level_at(17.0) == 0.0 and Ambience.cricket_level_at(19.0) == 1.0, "Crickets fade in during evening and stay silent in daytime")
 	check(Ambience.cricket_level_at(23.99) == Ambience.cricket_level_at(0.0) and Ambience.cricket_level_at(5.0) == 1.0 and Ambience.cricket_level_at(7.0) == 0.0, "Crickets continue across midnight and fade out at dawn")
 	check(is_equal_approx(DayNightCycle.daylight_at(0), DayNightCycle.daylight_at(24)), "Lighting has no jump at midnight")
@@ -99,7 +99,7 @@ func run() -> void:
 	while not game.navigation_ready:
 		await process_frame
 	cycle = game.day_night
-	check(cycle.clock_seconds == DayNightCycle.MORNING_SECONDS and game.hud.clock_label.text == "06:00" and game.hud.clock_rate.text == "%d× · Spielzeit" % roundi(cycle.current_time_scale()), "Start screen is held at 06:00 and displays the selected speed")
+	check(cycle.clock_seconds == DayNightCycle.MORNING_SECONDS and game.hud.clock_label.text == "06:00" and Lang.text(game.hud.clock_rate.text) == "%d× · game time" % roundi(cycle.current_time_scale()), "Start screen is held at 06:00 and displays the selected speed")
 	# The independently developed opening sequence has its own fog/overlays.
 	# These checks exercise the wave gameplay after that sequence.
 	game._flags.append("--no-intro")
@@ -113,7 +113,7 @@ func run() -> void:
 	check(absf(cycle.clock_seconds - (22.0 if continuous else 6.0) * 3600.0) < 0.001, "First wave follows the selected reset policy")
 	cycle.set_time_hours(18.75)
 	game.waves.start(2)
-	check(absf(cycle.clock_seconds - (18.75 if continuous else 6.0) * 3600.0) < 0.001 and game.hud.clock_phase.text == ("Abend" if continuous else "Morgen"), "Later waves follow the selected reset policy and phase")
+	check(absf(cycle.clock_seconds - (18.75 if continuous else 6.0) * 3600.0) < 0.001 and game.hud.clock_phase.text == ("Evening" if continuous else "Morning"), "Later waves follow the selected reset policy and phase")
 	cycle.set_time_hours(6.0)
 	cycle._process(60.0 / cycle.current_time_scale())
 	check(game.hud.clock_label.text == "06:01", "Active gameplay advances visible clock")

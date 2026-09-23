@@ -38,7 +38,7 @@ static func heavy_speed(speed: float) -> float:
 	return clampf(speed, 0.8, 1.25)
 
 static func title(wave: int) -> String:
-	if worm_count(wave) > 0: return "WURMWELLE"
-	if wave % 5 == 0: return "BOSSWELLE"
-	if titan_count(wave) + lesser_count(wave) > 0: return "TITANEN"
+	if worm_count(wave) > 0: return "WORM WAVE"
+	if wave % 5 == 0: return "BOSS WAVE"
+	if titan_count(wave) + lesser_count(wave) > 0: return "TITANS"
 	return "HORDE"

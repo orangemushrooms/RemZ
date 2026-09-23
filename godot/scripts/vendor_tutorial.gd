@@ -3,10 +3,10 @@ extends PanelContainer
 signal finished
 
 const PAGES := [
-	["Deine Ausrüstung", "I", "Mit [b]I[/b] öffnest du das Inventar. Wähle dort eine Waffe oder einen Gegenstand aus. Mit [b]I oder Esc[/b] gehst du zurück ins Spiel.\n\nDie belegten Plätze deiner Schnellleiste erreichst du mit [b]1–9 und 0[/b].", "Probiere nach unserem Gespräch zuerst das Inventar aus."],
-	["Vorräte und Aufträge", "E  ·  Q", "Sprich Händler mit [b]E[/b] an. Bei mir bekommst du Waffen und Munition. Bezahlt wird mit [b]Rem Dollars (R)[/b]. Gesperrte Angebote zeigen dir die fehlenden Voraussetzungen.\n\nNimm Aufträge im Reiter [b]Aufträge[/b] an und hole die Belohnung beim Auftraggeber ab. [b]Q[/b] blendet deine Auftragsübersicht ein oder aus.", "Käufe kosten Rem Dollars. Diese Einführung ist kostenlos."],
-	["Deinen ersten Turm bauen", "T  →  R  →  E", "[b]T[/b] öffnet das Turmbaumenü. Wähle einen Turm aus (ab [b]120 R[/b]) und suche einen freien Platz. Die Vorschau zeigt Reichweite und mögliche Hindernisse.\n\nMit [b]R oder dem Mausrad[/b] drehst du den Turm. [b]E[/b] bestätigt den Bau. Mit [b]T oder Esc[/b] brichst du die Vorschau ab.", "Nur ein bestätigter Bau kostet Rem Dollars. Du musst für das Tutorial keinen Turm kaufen."],
-	["Die Hütte verteidigen", "E  ·  R  ·  F", "An einer Barrikade kannst du mit [b]E[/b] bauen oder reparieren; der Hinweis zeigt den Preis.\n\nAn einem fertigen Turm: [b]E[/b] zum Einsteigen, Linksklick zum Feuern, [b]E[/b] zum Aussteigen. [b]R[/b] startet das Ausrichten; drehen und mit [b]E[/b] bestätigen. [b]F[/b] repariert.\n\n[b]Mechanic[/b] bietet Turmausbauten und Training an. Schütze die Hütte und behalte ihren Zustand im Blick.", "Du kannst diese Grundlagen jederzeit bei Vendor unter Aufträge erneut ansehen."],
+	["Your gear", "I", "Press [b]I[/b] to open the inventory. Pick a weapon or an item there. [b]I or Esc[/b] takes you back into the game.\n\nYou reach the filled slots of your quick bar with [b]1–9 and 0[/b].", "After our talk, try out the inventory first."],
+	["Supplies and quests", "E  ·  Q", "Talk to traders with [b]E[/b]. I sell weapons and ammo. You pay with [b]Rem Dollars (R)[/b]. Locked offers show you the missing requirements.\n\nAccept quests in the [b]Quests[/b] tab and collect the reward from whoever gave you the quest. [b]Q[/b] shows or hides your quest overview.", "Purchases cost Rem Dollars. This introduction is free."],
+	["Build your first tower", "T  →  R  →  E", "[b]T[/b] opens the tower build menu. Choose a tower (from [b]120 R[/b]) and find a free spot. The preview shows the range and possible obstacles.\n\n[b]R or the mouse wheel[/b] rotates the tower. [b]E[/b] confirms the build. [b]T or Esc[/b] cancels the preview.", "Only a confirmed build costs Rem Dollars. You don't have to buy a tower for the tutorial."],
+	["Defend the hut", "E  ·  R  ·  F", "At a barricade, [b]E[/b] builds or repairs; the hint shows the price.\n\nAt a finished tower: [b]E[/b] to climb in, left click to fire, [b]E[/b] to climb out. [b]R[/b] starts aiming; rotate and confirm with [b]E[/b]. [b]F[/b] repairs.\n\n[b]Mechanic[/b] offers tower upgrades and training. Protect the hut and keep an eye on its condition.", "You can review these basics any time with Vendor under Quests."],
 ]
 
 var step := 0
@@ -52,7 +52,7 @@ func _ready() -> void:
 	buttons.add_theme_constant_override("separation", 16)
 	column.add_child(buttons)
 	back = Button.new()
-	back.text = "Zurück"
+	back.text = "Back"
 	back.custom_minimum_size = Vector2(180, 46)
 	back.pressed.connect(func(): step = maxi(0, step - 1); refresh())
 	buttons.add_child(back)
@@ -69,13 +69,13 @@ func open() -> void:
 
 func refresh() -> void:
 	var page: Array = PAGES[step]
-	heading.text = "VENDOR · %d/%d · %s" % [step + 1, PAGES.size(), page[0]]
+	heading.text = Lang.t("VENDOR · %d/%d · %s", [step + 1, PAGES.size(), page[0]])
 	keys.text = page[1]
 	body.text = page[2]
 	body.scroll_to_line(0)
 	note.text = page[3]
 	back.disabled = step == 0
-	next.text = "Verstanden · Zurück zu Vendor" if step == PAGES.size() - 1 else "Weiter"
+	next.text = "Got it · Back to Vendor" if step == PAGES.size() - 1 else "Continue"
 
 func advance() -> void:
 	if step < PAGES.size() - 1:

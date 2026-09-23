@@ -9,8 +9,8 @@ const BUILD := "remz-dev-20260923-komplett"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
-var status := "Koop über LAN oder Hamachi · bis zu 4 Spieler"
-var player_name := "Spieler"
+var status := "Co-op over LAN or Hamachi · up to 4 players"
+var player_name := "Player"
 var address := ""
 var port := PORT
 var roster: Dictionary = {}
@@ -35,7 +35,7 @@ func trace_load(message: String) -> void:
 				diagnostic_path = candidate
 				break
 	if diagnostic_path.is_empty():
-		push_warning("Koop-Diagnose konnte in keinem Logordner angelegt werden.")
+		push_warning("Co-op diagnostics: no log folder could be created.")
 		return
 	var file := FileAccess.open(diagnostic_path, FileAccess.READ_WRITE)
 	if file:
@@ -73,8 +73,8 @@ func _ready() -> void:
 	multiplayer.peer_connected.connect(_peer_connected)
 	multiplayer.peer_disconnected.connect(_peer_disconnected)
 	multiplayer.connected_to_server.connect(_connected)
-	multiplayer.connection_failed.connect(func(): leave("Verbindung fehlgeschlagen. Hamachi-IP, Netzwerk und UDP-Port prüfen."))
-	multiplayer.server_disconnected.connect(func(): leave("Der Host hat die Verbindung beendet."))
+	multiplayer.connection_failed.connect(func(): leave("Connection failed. Check the Hamachi IP, the network and the UDP port."))
+	multiplayer.server_disconnected.connect(func(): leave("The host ended the connection."))
 	var context := HashingContext.new()
 	context.start(HashingContext.HASH_SHA256)
 	context.update(BUILD.to_utf8_buffer())
@@ -146,7 +146,7 @@ func attach(node: Node3D) -> void:
 func _command_line() -> void:
 	var requested_host := false
 	var requested_ip := ""
-	var requested_name := "Spieler"
+	var requested_name := "Player"
 	var requested_port := PORT
 	for arg in OS.get_cmdline_user_args():
 		if arg == "--host": requested_host = true
@@ -162,14 +162,14 @@ func host(display_name: String, requested_port: int = PORT) -> Error:
 	if _closing or enabled or not is_instance_valid(game) or not game.navigation_ready or game.started:
 		return ERR_BUSY
 	if requested_port < 1024 or requested_port > 65535:
-		status = "Port muss zwischen 1024 und 65535 liegen."
+		status = "The port must be between 1024 and 65535."
 		changed.emit()
 		return ERR_INVALID_PARAMETER
 	trace_load("HOST_CREATE port=%d" % requested_port)
 	var peer := ENetMultiplayerPeer.new()
 	var error := peer.create_server(requested_port, MAX_PLAYERS - 1, 3)
 	if error != OK:
-		status = "Host konnte nicht gestartet werden. Ist der UDP-Port bereits belegt?"
+		status = "Could not start the host. Is the UDP port already in use?"
 		changed.emit()
 		return error
 	multiplayer.multiplayer_peer = peer
@@ -183,7 +183,7 @@ func host(display_name: String, requested_port: int = PORT) -> Error:
 	ready_peers = {1: true}
 	game.player.peer_id = 1
 	world.add_player(1)
-	status = "Host bereit · Hamachi-IP an die Mitspieler weitergeben · UDP %d" % port
+	status = Lang.t("Host ready · give your Hamachi IP to your teammates · UDP %d", [port])
 	print("COOP_HOST_READY port=", port)
 	trace_load("HOST_READY")
 	changed.emit()
@@ -194,7 +194,7 @@ func join(ip: String, display_name: String, requested_port: int = PORT) -> Error
 		return ERR_BUSY
 	ip = ip.strip_edges()
 	if not ip.is_valid_ip_address() or requested_port < 1024 or requested_port > 65535:
-		status = "Gültige Hamachi-/LAN-IP und einen Port zwischen 1024 und 65535 eingeben."
+		status = "Enter a valid Hamachi / LAN IP and a port between 1024 and 65535."
 		changed.emit()
 		return ERR_INVALID_PARAMETER
 	trace_load("JOIN_BEGIN address=%s port=%d" % [ip, requested_port])
@@ -202,7 +202,7 @@ func join(ip: String, display_name: String, requested_port: int = PORT) -> Error
 	var error := peer.create_client(ip, requested_port, 3)
 	trace_load("JOIN_SOCKET result=%d" % error)
 	if error != OK:
-		status = "Verbindung konnte nicht geöffnet werden."
+		status = "Could not open the connection."
 		changed.emit()
 		return error
 	multiplayer.multiplayer_peer = peer
@@ -218,13 +218,13 @@ func join(ip: String, display_name: String, requested_port: int = PORT) -> Error
 	port = requested_port
 	player_name = clean_name(display_name)
 	_connect_t = 15.0
-	status = "Verbinde mit %s:%d …" % [ip, port]
+	status = Lang.t("Connecting to %s:%d …", [Lang.raw(ip), port])
 	changed.emit()
 	return OK
 
 static func clean_name(value: String) -> String:
 	value = value.strip_edges().replace("\n", " ").replace("\r", " ").replace("\t", " ").left(24)
-	return "Spieler" if value.is_empty() else value
+	return "Player" if value.is_empty() else value
 
 func _connected() -> void:
 	if not enabled or phase != "connecting": return
@@ -244,13 +244,13 @@ func _hello(version: int, fingerprint: String, display_name: String) -> void:
 	var id := multiplayer.get_remote_sender_id()
 	if roster.has(id): return
 	if not world or not is_instance_valid(game) or not game.navigation_ready:
-		_rejected.rpc_id(id, "Der Host lädt gerade die Karte. Bitte gleich noch einmal beitreten.")
+		_rejected.rpc_id(id, "The host is still loading the map. Please try joining again in a moment.")
 		return
 	if version != PROTOCOL or fingerprint != _fingerprint:
-		_rejected.rpc_id(id, "Andere Spielversion/Karte. Bitte dieselbe Windows-Version verwenden.")
+		_rejected.rpc_id(id, "Different game version / map. Please use the same Windows version.")
 		return
 	if roster.size() >= MAX_PLAYERS:
-		_rejected.rpc_id(id, "Diese Sitzung ist voll (4/4 Spieler).")
+		_rejected.rpc_id(id, "This session is full (4/4 players).")
 		return
 	roster[id] = clean_name(display_name)
 	print("COOP_PEER_ACCEPTED count=", roster.size())
@@ -282,7 +282,7 @@ func _welcome(session_epoch: int, players: Dictionary, session_phase: String, di
 	for id in roster:
 		world.add_player(id)
 	_level_ready.rpc_id(1, epoch)
-	status = "Verbunden · warte auf den Host" if phase == "lobby" else "Spielstand wird geladen …"
+	status = "Connected · waiting for the host" if phase == "lobby" else "Loading the game state …"
 	print("COOP_CONNECTED players=", roster.size())
 	changed.emit()
 
@@ -335,7 +335,7 @@ func _initial_part(session_epoch: int, sequence: int, part: int, count: int, raw
 
 func _initial_state(session_epoch: int, sequence: int, data: Dictionary) -> void:
 	if epoch != session_epoch or not world: return
-	status = "Spielstand und Mitspieler werden vorbereitet …"
+	status = "Preparing the game state and teammates …"
 	changed.emit()
 	trace_load("INITIAL_APPLY_BEGIN")
 	var loading_world = world
@@ -370,7 +370,7 @@ func _lobby(session_epoch: int, players: Dictionary, ready: Dictionary, session_
 	ready_peers = ready
 	phase = session_phase
 	if is_client() and phase == "lobby" and ready_peers.get(local_id(), false):
-		status = "Bereit · warte auf den Host"
+		status = "Ready · waiting for the host"
 	if world:
 		world.sync_roster()
 	changed.emit()
@@ -379,7 +379,7 @@ func start_game() -> void:
 	if not is_host() or phase != "lobby" or not game.navigation_ready: return
 	for id in roster:
 		if not ready_peers.get(id, false):
-			status = "Ein Spieler lädt noch."
+			status = "A player is still loading."
 			changed.emit()
 			return
 	trace_load("ROUND_START_SEND players=%d" % roster.size())
@@ -403,7 +403,7 @@ func _begin(session_epoch: int, play_intro: bool = false) -> void:
 	_applying = true
 	game._on_start(play_intro)
 	_applying = false
-	status = "Koop · %d/4 Spieler" % roster.size()
+	status = Lang.t("Co-op · %d/4 players", [roster.size()])
 	changed.emit()
 	trace_load("ROUND_RUNNING players=%d" % roster.size())
 	print("COOP_RUNNING players=", roster.size())
@@ -422,19 +422,19 @@ func _peer_disconnected(id: int) -> void:
 		if world: world.check_team()
 	changed.emit()
 
-func leave(reason := "Sitzung verlassen.") -> void:
+func leave(reason := "Left the session.") -> void:
 	if _closing: return
 	if not enabled:
 		status = reason
 		changed.emit()
 		return
-	trace_load("LEAVE_BEGIN phase=%s reason=%s" % [phase, reason])
+	trace_load("LEAVE_BEGIN phase=%s reason=%s" % [phase, Lang.resolve(reason, "en")])
 	var reuse_map: bool = is_instance_valid(game) and not game.started and world != null and not world.state_loaded and _initial_received < 0
 	_closing = true
 	enabled = false
 	phase = "offline"
 	epoch += 1 # Invalidate an initial-state callback waiting for rendering.
-	status = "Verbindung wird beendet …"
+	status = "Closing the connection …"
 	var leaving_game := game
 	game = null
 	changed.emit()
@@ -486,10 +486,10 @@ func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> voi
 	if is_instance_valid(game):
 		game.player.active = false
 		game.hud.set_loading(true)
-	status = "Rückkehr zum Hauptmenü …"
+	status = "Returning to the main menu …"
 	changed.emit()
 	# The loading screen covers the rebuild and fades into the start menu (boot_screen.gd).
-	BootScreen.cover(get_tree(), "Zurück ins Hauptmenü …")
+	BootScreen.cover(get_tree(), "Back to main menu …")
 	world = null
 	game = null
 	_message_after_load = reason
@@ -523,7 +523,7 @@ func _reload(session_epoch: int) -> void:
 	_snapshot_parts.clear()
 	world = null
 	game = null
-	BootScreen.cover(get_tree(), "Neue Runde …")
+	BootScreen.cover(get_tree(), "New round …")
 	get_tree().paused = false
 	get_tree().call_deferred("reload_current_scene")
 
@@ -729,7 +729,7 @@ func _process(delta: float) -> void:
 	if _connect_t > 0.0:
 		_connect_t -= delta
 		if _connect_t <= 0.0:
-			leave("Keine Antwort vom Host. Hamachi-Verbindung und Freigabe von UDP %d in der Windows-Firewall prüfen." % port)
+			leave(Lang.t("No answer from the host. Check the Hamachi connection and that UDP %d is allowed in the Windows Firewall.", [port]))
 			return
 	if is_host():
 		_leaderboard_t += delta

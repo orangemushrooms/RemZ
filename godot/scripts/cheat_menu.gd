@@ -39,7 +39,7 @@ func _ready() -> void:
 	items.add_theme_constant_override("separation", 16)
 	box.add_child(items)
 	var title := Label.new()
-	title.text = "CHEATMENÜ"
+	title.text = "CHEAT MENU"
 	title.add_theme_font_size_override("font_size", 26)
 	title.add_theme_color_override("font_color", Hud.GOLD)
 	items.add_child(title)
@@ -60,19 +60,19 @@ func _ready() -> void:
 	points_button.pressed.connect(_add_points)
 	general.add_child(points_button)
 	var explanation := Label.new()
-	explanation.text = "Alle Zombies sterben. Die nächste Welle startet sofort."
+	explanation.text = "All zombies die. The next wave starts immediately."
 	general.add_child(explanation)
 	skip_button = Button.new()
-	skip_button.text = "Welle überspringen"
+	skip_button.text = "Skip wave"
 	skip_button.custom_minimum_size.y = 44
 	skip_button.pressed.connect(_skip_wave)
 	general.add_child(skip_button)
 	secret_toggle = CheckButton.new()
-	secret_toggle.text = "Geheimen Händler auf der Minimap anzeigen"
+	secret_toggle.text = "Show the Secret Vendor on the minimap"
 	secret_toggle.toggled.connect(func(value: bool): main.hud.minimap.reveal_secret = value)
 	general.add_child(secret_toggle)
 	wanderer_toggle = CheckButton.new()
-	wanderer_toggle.text = "Wanderhändler auf der Karte anzeigen (ab Welle 5)"
+	wanderer_toggle.text = "Show the wandering trader on the map (from wave 5)"
 	wanderer_toggle.toggled.connect(func(value: bool): main.hud.minimap.reveal_wanderer = value)
 	general.add_child(wanderer_toggle)
 	columns.add_child(VSeparator.new())
@@ -80,7 +80,7 @@ func _ready() -> void:
 	arsenal.add_theme_constant_override("separation", 10)
 	columns.add_child(arsenal)
 	var heading := Label.new()
-	heading.text = "Waffe holen · volles Magazin und volle Reserve"
+	heading.text = "Get a weapon · full magazine and full reserve"
 	arsenal.add_child(heading)
 	var grid := GridContainer.new()
 	grid.columns = 3
@@ -99,7 +99,7 @@ func _ready() -> void:
 		grid.add_child(button)
 		weapon_buttons[id] = button
 	all_weapons_button = Button.new()
-	all_weapons_button.text = "Alle Waffen mit voller Munition"
+	all_weapons_button.text = "All weapons with full ammo"
 	all_weapons_button.custom_minimum_size.y = 40
 	all_weapons_button.pressed.connect(_give_all_weapons)
 	arsenal.add_child(all_weapons_button)
@@ -107,7 +107,7 @@ func _ready() -> void:
 	weapon_note.add_theme_color_override("font_color", Hud.GOLD)
 	arsenal.add_child(weapon_note)
 	var back := Button.new()
-	back.text = "Schliessen (Esc / Strg+Shift+D)"
+	back.text = "Close (Esc / Ctrl+Shift+D)"
 	back.pressed.connect(close)
 	items.add_child(back)
 
@@ -142,8 +142,8 @@ func _skip_wave() -> void:
 	main.waves.skip_current_wave()
 
 func _update_status() -> void:
-	status.text = "Aktuelle Welle: %d · Rem Dollars: %d" % [main.waves.wave, main.player.score]
-	if NetSession.is_client(): status.text += "\nRem Dollars, Wellen- und Waffen-Cheats sind nur für den Host verfügbar."
+	status.text = Lang.t("Current wave: %d · Rem Dollars: %d", [main.waves.wave, main.player.score])
+	if NetSession.is_client(): status.text += "\n" + Lang.t("Rem Dollars, wave and weapon cheats are only available to the host.")
 
 func _add_points() -> void:
 	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return
@@ -160,7 +160,7 @@ func _give_weapon(id: String) -> void:
 	w.update_hud()
 	Sfx.event(self, main.player.peer_id, "weapon_pickup")
 	var st: Dictionary = w.state[id]
-	weapon_note.text = "Erhalten: " + str(Weapons.DEFS[id].name) + ("" if Weapons.is_melee(id) else " · %d + %d Schuss" % [st.ammo, st.reserve])
+	weapon_note.text = Lang.t("Received: %s", [Weapons.DEFS[id].name]) if Weapons.is_melee(id) else Lang.t("Received: %s · %d + %d rounds", [Weapons.DEFS[id].name, st.ammo, st.reserve])
 	_refresh_weapons()
 
 func _give_all_weapons() -> void:
@@ -169,7 +169,7 @@ func _give_all_weapons() -> void:
 	for id: String in Weapons.ORDER: fill_weapon(w, id)
 	w.update_hud()
 	Sfx.event(self, main.player.peer_id, "weapon_pickup")
-	weapon_note.text = "Alle %d Waffen freigeschaltet und voll geladen." % Weapons.ORDER.size()
+	weapon_note.text = Lang.t("All %d weapons unlocked and fully loaded.", [Weapons.ORDER.size()])
 	_refresh_weapons()
 
 # Owned, with a full magazine (mods included) and the reserve at its limit - the same "full" as the
@@ -192,9 +192,9 @@ func _refresh_weapons() -> void:
 		button.disabled = NetSession.is_client()
 		button.modulate = Color.WHITE if owned else Color(1, 1, 1, 0.62)
 		if Weapons.is_melee(id):
-			button.tooltip_text = "Im Besitz" if owned else "Freischalten"
+			button.tooltip_text = "Owned" if owned else "Unlock"
 		else:
-			button.tooltip_text = ("Im Besitz · %d + %d Schuss · auffüllen" % [w.state[id].ammo, w.state[id].reserve]) if owned else "Freischalten mit %d + %d Schuss" % [int(w.state[id].def.mag), w.reserve_limit(id)]
+			button.tooltip_text = Lang.t("Owned · %d + %d rounds · refill", [w.state[id].ammo, w.state[id].reserve]) if owned else Lang.t("Unlock with %d + %d rounds", [int(w.state[id].def.mag), w.reserve_limit(id)])
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_D and event.ctrl_pressed and event.shift_pressed:

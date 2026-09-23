@@ -73,7 +73,7 @@ func run() -> void:
 	check(not bar.preview.visible and bar.footprint.visible, "Built line replaces the ghost and retains its green outline")
 	for shape: CollisionShape3D in bar.body.get_children():
 		check(not shape.disabled, "Built segment collision is active")
-	check(menu.status.text.contains("Gesamte Linie gebaut"), "Build confirmation stays in the planner")
+	check(Lang.text(menu.status.text).contains("Whole line built"), "Build confirmation stays in the planner")
 	await screenshot("02-built-line")
 	# Raycast across the joins as well as both ends: no invisible opening on sloped ground.
 	for along in [-bar.half_len + 0.2, -0.05, 0.0, 0.05, bar.half_len - 0.2]:
@@ -106,7 +106,7 @@ func run() -> void:
 	await screenshot("04-reinforced-line")
 	menu.site_buttons[3].pressed.emit()
 	check(menu.selected == game.barricades[3], "Site buttons select their own complete line")
-	check(menu.primary.disabled and menu.status.text.contains("entfernt"), "Remote preview cannot purchase beyond build reach")
+	check(menu.primary.disabled and Lang.text(menu.status.text).contains("Too far"), "Remote preview cannot purchase beyond build reach")
 	await screenshot("05-distant-site")
 	menu.select_site(bar)
 	var original_position := player.global_position
@@ -129,7 +129,7 @@ func run() -> void:
 	await physics_frame
 	await physics_frame
 	menu.open(bar)
-	check(menu.primary.disabled and menu.status.text.contains("belegt"), "Player inside the line blocks construction")
+	check(menu.primary.disabled and Lang.text(menu.status.text).contains("occupied"), "Player inside the line blocks construction")
 	var score_before := player.score
 	menu._purchase("build")
 	check(bar.level == 0 and player.score == score_before, "Blocked build leaves points and all segments untouched")
@@ -149,7 +149,7 @@ func run() -> void:
 	enemy.global_position = bar.center + Vector3.UP * 0.9
 	await physics_frame
 	await physics_frame
-	check(bar.action_error(player, "build").contains("belegt"), "Enemy occupying any segment blocks construction")
+	check(Lang.text(bar.action_error(player, "build")).contains("occupied"), "Enemy occupying any segment blocks construction")
 	enemy.queue_free()
 	await physics_frame
 	await physics_frame

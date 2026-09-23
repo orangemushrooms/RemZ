@@ -47,14 +47,14 @@ func run() -> void:
 		var previous := ""
 		var sorted := true
 		for slot in inv.grid.get_children():
-			var title := str(slot.get_meta("item_title"))
+			var title := Lang.text(str(slot.get_meta("item_title")))
 			var comparison := previous.naturalnocasecmp_to(title)
 			if not previous.is_empty(): sorted = sorted and (comparison <= 0 if order == 1 else comparison >= 0)
 			previous = title
 		check(sorted, "Name sorting direction %d" % order)
 	inv.category_buttons[1].pressed.emit()
 	for slot in inv.grid.get_children():
-		if str(slot.get_meta("item_title")).begins_with("Feldmesser"):
+		if Lang.text(str(slot.get_meta("item_title"))).begins_with("Field Knife"):
 			slot.pressed.emit()
 			break
 	check(game.weapons.current == "knife", "Filtered sorted weapon remains usable")
@@ -62,7 +62,7 @@ func run() -> void:
 	inv.category_buttons[3].pressed.emit()
 	game.player.hp = 30
 	for slot in inv.grid.get_children():
-		if str(slot.get_meta("item_title")) == "Steinpilz":
+		if Lang.text(str(slot.get_meta("item_title"))) == "Porcini":
 			slot.pressed.emit()
 			break
 	check(inv.mushrooms.steinpilz == 1 and game.player.hp == 55, "Filtered food remains usable")

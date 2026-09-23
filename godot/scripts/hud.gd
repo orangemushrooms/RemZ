@@ -1,5 +1,6 @@
-# In-game HUD plus the start / pause / game-over menu (tabs: Briefing, Schwierigkeit, Steuerung, Einstellungen,
-# Bestenliste, Erfolge, Bilanz). main.gd sets `game` so the menu can read statistics, achievements and settings.
+# In-game HUD plus the start / pause / game-over menu (tabs: Briefing, Difficulty, Controls, Settings, High scores,
+# Achievements, Summary). main.gd sets `game` so the menu can read statistics, achievements and settings.
+# Text is English; labels translate themselves (docs/LOCALIZATION.md).
 class_name Hud
 extends CanvasLayer
 
@@ -82,6 +83,7 @@ var _tab_title: Label
 var _briefing_box: VBoxContainer
 var _pause_stats: Label
 var _diff_cards: Array = []
+var _diff_defs: Array = []
 var _diff_locked := false
 var _records_box: VBoxContainer
 var _achievements_box: VBoxContainer
@@ -102,7 +104,7 @@ func _ready() -> void:
 	fps_label = _label("", 13)
 	fps_label.position = Vector2(16, 16)
 	root.add_child(fps_label)
-	playtime_label = _label("Spielzeit 00:00", 14)
+	playtime_label = _label(Lang.t("Play time %s", ["00:00"]), 14)
 	playtime_label.position = Vector2(16, 38)
 	playtime_label.add_theme_constant_override("outline_size", 4)
 	playtime_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
@@ -190,10 +192,10 @@ func _ready() -> void:
 	money_delta.modulate.a = 0.0
 	money_delta.size_flags_vertical = Control.SIZE_SHRINK_END
 	money_row.add_child(money_delta)
-	var money_caption := _label("REM DOLLARS · Bauen, Kaufen, Ausbilden", 10, MUTED)
+	var money_caption := _label("REM DOLLARS · Build, buy, train", 10, MUTED)
 	stats.add_child(money_caption)
 	stats.add_child(_spacer(4))
-	stats.add_child(_label("Leben", 14))
+	stats.add_child(_label("Health", 14))
 	hp_bar = ProgressBar.new()
 	hp_bar.custom_minimum_size = Vector2(180, 12)
 	hp_bar.show_percentage = false
@@ -208,7 +210,7 @@ func _ready() -> void:
 	ammo_label = _label("12 / 72", 22)
 	ammo_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	ammo.add_child(ammo_label)
-	weapon_label = _label("Pistole", 12)
+	weapon_label = _label("Pistol", 12)
 	weapon_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	weapon_label.modulate.a = 0.7
 	ammo.add_child(weapon_label)
@@ -236,11 +238,11 @@ func _ready() -> void:
 
 	# wave top-center with a remaining-enemies bar
 	var wave := _panel(root, Control.PRESET_CENTER_TOP, Vector2(0, 16))
-	wave_label = _label("Welle 1", 18)
+	wave_label = _label(Lang.t("Wave %d", [1]), 18)
 	wave_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	wave_label.add_theme_color_override("font_color", GOLD)
 	wave.add_child(wave_label)
-	wave_info = _label("Bereit", 14)
+	wave_info = _label("Ready", 14)
 	wave_info.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	wave.add_child(wave_info)
 	wave_bar = ProgressBar.new()
@@ -272,7 +274,7 @@ func _ready() -> void:
 	alarm_style.set_corner_radius_all(8)
 	alarm_style.set_content_margin_all(14)
 	hut_alarm.add_theme_stylebox_override("panel", alarm_style)
-	hut_alarm_text = _label("ALARM! WALDHÜTTE WIRD ANGEGRIFFEN!", 32, Color(1, 0.12, 0.08))
+	hut_alarm_text = _label("ALARM! THE FOREST HUT IS UNDER ATTACK!", 32, Color(1, 0.12, 0.08))
 	hut_alarm_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hut_alarm_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	hut_alarm_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -285,14 +287,14 @@ func _ready() -> void:
 	# world clock
 	var clock := _panel(root, Control.PRESET_TOP_RIGHT, Vector2(-16, 16))
 	clock.custom_minimum_size.x = 156
-	clock.add_child(_label("ORTSZEIT", 10))
+	clock.add_child(_label("LOCAL TIME", 10))
 	var clock_row := HBoxContainer.new()
 	clock_row.add_theme_constant_override("separation", 16)
 	clock.add_child(clock_row)
 	clock_label = _label("06:00", 30)
 	clock_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	clock_row.add_child(clock_label)
-	clock_phase = _label("Morgen", 13)
+	clock_phase = _label("Morning", 13)
 	clock_phase.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	clock_row.add_child(clock_phase)
 	clock_progress = ProgressBar.new()
@@ -302,7 +304,7 @@ func _ready() -> void:
 	clock_progress.add_theme_stylebox_override("background", _flat(Color(1.0, 1.0, 1.0, 0.1), 0))
 	clock_progress.add_theme_stylebox_override("fill", _flat(Color(0.94, 0.67, 0.34), 0))
 	clock.add_child(clock_progress)
-	clock_rate = _label("96× · Spielzeit", 11)
+	clock_rate = _label(Lang.t("%d× · game time", [96]), 11)
 	clock_rate.modulate.a = 0.6
 	clock.add_child(clock_rate)
 
@@ -367,17 +369,17 @@ func _build_overlay() -> void:
 	overlay_logo.custom_minimum_size = Vector2(0, 130)
 	overlay_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(overlay_logo)
-	overlay_title = _label("WALDHÜTTE REMETSCHWIL", 30)
+	overlay_title = _label("REMETSCHWIL FOREST HUT", 30)
 	overlay_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	overlay_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	overlay_title.add_theme_color_override("font_color", GOLD)
 	v.add_child(overlay_title)
-	var sub := _label("NACHT AM HEITERSBERG", 12)
+	var sub := _label("NIGHT ON THE HEITERSBERG", 12)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	sub.modulate.a = 0.6
 	v.add_child(sub)
 	v.add_child(_spacer(6))
-	overlay_button = _menu_button("Spiel starten", true)
+	overlay_button = _menu_button("Start game", true)
 	overlay_button.pressed.connect(func(): Sfx.play(self, "click", -6.0); start_pressed.emit())
 	v.add_child(overlay_button)
 	overlay_status = _label("", 12)
@@ -393,7 +395,7 @@ func _build_overlay() -> void:
 	loading_bar.visible = false
 	v.add_child(loading_bar)
 	v.add_child(_spacer(4))
-	for tab in [["briefing", "Briefing"], ["multiplayer", "Mehrspieler / Hamachi"], ["difficulty", "Schwierigkeit"], ["controls", "Steuerung"], ["settings", "Einstellungen"], ["records", "Bestenliste"], ["achievements", "Erfolge"]]:
+	for tab in [["briefing", "Briefing"], ["multiplayer", "Multiplayer / Hamachi"], ["difficulty", "Difficulty"], ["controls", "Controls"], ["settings", "Settings"], ["records", "High scores"], ["achievements", "Achievements"]]:
 		var b := _menu_button(tab[1], false)
 		var id: String = tab[0]
 		b.pressed.connect(func(): Sfx.play(self, "click", -8.0); show_tab(id))
@@ -441,18 +443,18 @@ func _build_overlay() -> void:
 	_tabs["multiplayer"].add_child(coop_menu)
 	coop_menu.setup(self)
 	settings_box = _tabs["settings"]
-	settings_box.add_child(_label("Änderungen werden sofort übernommen und gespeichert.", 12, MUTED))
+	settings_box.add_child(_label("Changes apply immediately and are saved.", 12, MUTED))
 	_records_box = _tabs["records"]
 	_achievements_box = _tabs["achievements"]
 	_summary_box = _tabs["summary"]
 	show_tab("briefing")
 
 func _menu_button_row(v: VBoxContainer) -> void:
-	_home_button = _menu_button("Zurück ins Hauptmenü", false)
+	_home_button = _menu_button("Back to main menu", false)
 	_home_button.pressed.connect(func(): Sfx.play(self, "click", -6.0); main_menu_pressed.emit())
 	_home_button.visible = false
 	v.add_child(_home_button)
-	_quit_button = _menu_button("Spiel beenden", false)
+	_quit_button = _menu_button("Quit game", false)
 	_quit_button.pressed.connect(func():
 		if game and "settings" in game and game.settings:
 			game.settings.save()
@@ -468,14 +470,14 @@ func _build_briefing(box: VBoxContainer) -> void:
 	_pause_stats.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_pause_stats.visible = false
 	box.add_child(_pause_stats)
-	box.add_child(_heading("SO ÜBERLEBST DU"))
+	box.add_child(_heading("HOW TO SURVIVE"))
 	for tip in [
-		"Vier Zugänge führen zur Hütte: Weg zur Hütte (Nordost), Wiesentor (Ost), Weg Richtung Dorf (Süd) und Waldweg Nord. E baut oder repariert direkt an der Linie; Bauen kostet 50 Rem Dollars. Mechanic berät dich zur Verteidigung.",
-		"Kopfschüsse machen den 2,2-fachen Schaden. Abschüsse in schneller Folge bauen eine Serie auf und geben bis zu 100 % Bonuspunkte.",
-		"Gefallene Zombies lassen Munition, Granaten und Verbandspäckli fallen. Einfach hindurchlaufen.",
-		"Vendor verkauft Waffen am Lagerfeuer. Erfülle Aufträge und überstehe Wellen, um sein Angebot freizuschalten. Ein geheimer Händler wartet im Wald.",
-		"Steinpilze heilen, Fliegenpilze verdoppeln kurz den Schaden. Beides im Inventar (I) essen.",
-		"T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm richtet E neu aus, F repariert. Ausbau bei Mechanic. Q zeigt deine Aufträge. Halte Tab für das Leaderboard.",
+		"Four approaches lead to the hut: the Hut Path (north-east), the Meadow Gate (east), the Village Path (south) and the North Forest Path. E builds or repairs right at the line; building costs 50 Rem Dollars. Mechanic advises you on defense.",
+		"Headshots deal 2.2 times the damage. Kills in quick succession build a streak worth up to 100% bonus points.",
+		"Fallen zombies drop ammo, grenades and bandage packs. Just walk through them.",
+		"Vendor sells weapons at the campfire. Complete quests and survive waves to unlock his stock. A secret trader waits in the forest.",
+		"Porcini heal, fly agarics briefly double your damage. Eat both from the inventory (I).",
+		"T opens the tower preview. R/mouse wheel rotates, E confirms. At a tower E re-aims it, F repairs it. Upgrades at Mechanic. Q shows your quests. Hold Tab for the leaderboard.",
 	]:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 10)
@@ -493,10 +495,10 @@ func _build_controls(box: VBoxContainer) -> void:
 	grid.add_theme_constant_override("h_separation", 22)
 	grid.add_theme_constant_override("v_separation", 6)
 	box.add_child(grid)
-	for pair in [["WASD", "Bewegen"], ["Maus", "Umsehen"], ["Shift", "Sprinten"], ["Strg halten", "Ducken / genauer zielen"], ["Leertaste", "Springen"],
-			["Linksklick", "Schiessen / Zuschlagen"], ["Rechtsklick", "Zielen (ADS)"], ["R", "Nachladen"], ["1–9 / 0", "Schnellzugriff: Plätze 1–10"], ["Mausrad", "Waffe wechseln"],
-			["G", "Granate werfen"], ["E", "NPC / Barrikade / Turm ausrichten / Hütte reparieren"], ["V", "Verteidigungsberatung bei Mechanic"], ["T", "Geschützturm platzieren · E bestätigt"], ["I", "Inventar"], ["B", "100 Rem Dollars abwerfen"],
-			["Tab halten", "Leaderboard dieser Runde"], ["Q", "Auftragsanzeige ein/aus"], ["M", "Minimap gross / klein"], ["Strg+Shift+D", "Cheatmenü"], ["F", "Taschenlampe"], ["H", "Nahkampf / Kolbenschlag"], ["Enter", "Nächste Welle sofort"], ["Esc", "Pause / Menü"], ["F11", "Vollbild"]]:
+	for pair in [["WASD", "Move"], ["Mouse", "Look around"], ["Shift", "Sprint"], ["Hold Ctrl", "Crouch / aim more precisely"], ["Space", "Jump"],
+			["Left click", "Shoot / strike"], ["Right click", "Aim (ADS)"], ["R", "Reload"], ["1–9 / 0", "Quick bar: slots 1–10"], ["Mouse wheel", "Switch weapon"],
+			["G", "Throw grenade"], ["E", "NPC / barricade / aim tower / repair hut"], ["V", "Defense planning with Mechanic"], ["T", "Place gun turret · E confirms"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
+			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["Ctrl+Shift+D", "Cheat menu"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110
 		grid.add_child(k)
@@ -504,8 +506,8 @@ func _build_controls(box: VBoxContainer) -> void:
 		d.custom_minimum_size.x = 190
 		grid.add_child(d)
 	box.add_child(_spacer(6))
-	box.add_child(_heading("HINWEISE"))
-	var l := _label("Beim Zielen sinkt der Rückstoss um einen Viertel und die Streuung um 60 %. Dauerfeuer lässt den Lauf steigen: kurze Salven treffen besser. Die Minimap zeigt Gegner als rote Punkte, Sperrlinien rot (offen), grün (gebaut) oder gelb (beschädigt).", 13, MUTED)
+	box.add_child(_heading("TIPS"))
+	var l := _label("Aiming cuts recoil by a quarter and spread by 60%. Sustained fire makes the barrel climb: short bursts hit better. The minimap shows enemies as red dots and barrier lines red (open), green (built) or yellow (damaged).", 13, MUTED)
 	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(l)
 
@@ -515,7 +517,8 @@ func set_difficulties(defs: Array, current: int, on_change: Callable) -> void:
 	for c in box.get_children():
 		c.queue_free()
 	_diff_cards.clear()
-	var intro := _label("Der Schwierigkeitsgrad gilt für die ganze Runde und lässt sich nur vor dem Start ändern.", 13, MUTED)
+	_diff_defs = defs
+	var intro := _label("The difficulty applies to the whole round and can only be changed before the start.", 13, MUTED)
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(intro)
 	for i in defs.size():
@@ -523,7 +526,7 @@ func set_difficulties(defs: Array, current: int, on_change: Callable) -> void:
 		var b := Button.new()
 		b.custom_minimum_size = Vector2(0, 74)
 		b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		b.text = "%s\n%s" % [d["name"], d["desc"]]
+		b.text = Lang.t("%s\n%s", [d["name"], d["desc"]])
 		b.add_theme_font_size_override("font_size", 14)
 		b.add_theme_color_override("font_color", PAPER)
 		b.add_theme_color_override("font_disabled_color", MUTED)
@@ -551,7 +554,7 @@ func _mark_difficulty(i: int) -> void:
 		b.add_theme_stylebox_override("focus", st)
 		b.add_theme_stylebox_override("disabled", st)
 		if on and difficulty_button:
-			difficulty_button.text = "Schwierigkeit: %s" % b.text.get_slice("\n", 0)
+			difficulty_button.text = Lang.t("Difficulty: %s", [_diff_defs[k]["name"]])
 
 func set_difficulty_locked(locked: bool) -> void:
 	_diff_locked = locked
@@ -563,7 +566,7 @@ func show_tab(id: String) -> void:
 		return
 	for k in _tabs:
 		_tabs[k].visible = k == id
-	var titles := { "briefing": "BRIEFING", "multiplayer": "MEHRSPIELER / HAMACHI", "difficulty": "SCHWIERIGKEIT", "controls": "STEUERUNG", "settings": "EINSTELLUNGEN", "records": "BESTENLISTE", "achievements": "ERFOLGE", "summary": "BILANZ DER RUNDE" }
+	var titles := { "briefing": "BRIEFING", "multiplayer": "MULTIPLAYER / HAMACHI", "difficulty": "DIFFICULTY", "controls": "CONTROLS", "settings": "SETTINGS", "records": "HIGH SCORES", "achievements": "ACHIEVEMENTS", "summary": "ROUND SUMMARY" }
 	_tab_title.text = titles.get(id, id.to_upper())
 	for k in _tab_buttons:
 		var b: Button = _tab_buttons[k]
@@ -582,30 +585,30 @@ func _fill_records(highlight_rank: int = 0) -> void:
 	if game and "stats" in game and game.stats:
 		table = game.stats.table
 	if table.is_empty():
-		_records_box.add_child(_label("Noch keine Runde gespielt. Die zehn besten Runden landen hier.", 14, MUTED))
+		_records_box.add_child(_label("No round played yet. Your ten best rounds end up here.", 14, MUTED))
 		return
 	var grid := GridContainer.new()
 	grid.columns = 8
 	grid.add_theme_constant_override("h_separation", 16)
 	grid.add_theme_constant_override("v_separation", 5)
 	_records_box.add_child(grid)
-	for h in ["#", "Rem Dollars", "Welle", "Kills", "Kopf", "Treffer", "Zeit", "Modus · Datum"]:
+	for h in ["#", "Rem Dollars", "Wave", "Kills", "Heads", "Hit %", "Time", "Mode · Date"]:
 		grid.add_child(_label(h, 12, GOLD))
 	for i in table.size():
 		var r: Dictionary = table[i]
 		var col := GOLD if i + 1 == highlight_rank else (PAPER if i < 3 else MUTED)
 		for cell in ["%d" % (i + 1), "%d" % int(r.get("score", 0)), "%d" % int(r.get("wave", 0)), "%d" % int(r.get("kills", 0)), "%d" % int(r.get("headshots", 0)),
-				"%d %%" % int(round(float(r.get("accuracy", 0.0)) * 100.0)), RunStats.time_text(float(r.get("seconds", 0))), "%s · %s" % [r.get("difficulty", ""), r.get("date", "")]]:
+				"%d %%" % int(round(float(r.get("accuracy", 0.0)) * 100.0)), RunStats.time_text(float(r.get("seconds", 0))), Lang.t("%s · %s", [str(r.get("difficulty", "")), str(r.get("date", ""))])]:
 			grid.add_child(_label(cell, 13, col))
 
 func _fill_achievements() -> void:
 	for c in _achievements_box.get_children():
 		c.queue_free()
 	if not game or not ("achievements" in game) or game.achievements == null:
-		_achievements_box.add_child(_label("Keine Erfolge verfügbar.", 14, MUTED))
+		_achievements_box.add_child(_label("No achievements available.", 14, MUTED))
 		return
 	var a = game.achievements
-	var info := _label("%s freigeschaltet. Erfolge bleiben gespeichert; Fortschritt und Belohnungen zählen pro Runde. Im Mehrspieler erreicht ihr die Ziele gemeinsam als Team." % a.progress_text(), 13, MUTED)
+	var info := _label(Lang.t("%s unlocked. Achievements stay saved; progress and rewards count per round. In multiplayer you reach the goals together as a team.", [a.progress_text()]), 13, MUTED)
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_achievements_box.add_child(info)
 	var grid := GridContainer.new()
@@ -618,7 +621,7 @@ func _fill_achievements() -> void:
 		grid.add_child(_label("★" if done else "○", 15, GOLD if done else MUTED))
 		grid.add_child(_label(d["title"], 14, PAPER if done else MUTED))
 		var progress := mini(int(a.counters.get(d["counter"], 0)), int(d["target"]))
-		var t := _label("%s · Runde: %d/%d" % [d["text"], progress, d["target"]], 13, MUTED)
+		var t := _label(Lang.t("%s · Round: %d/%d", [d["text"], progress, d["target"]]), 13, MUTED)
 		t.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		t.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		grid.add_child(t)
@@ -629,29 +632,29 @@ func _fill_pause_stats() -> void:
 		return
 	var s = game.stats
 	_pause_stats.visible = true
-	_pause_stats.text = "Bisher: Welle %d · %d Rem Dollars · %d Abschüsse (%d Kopfschüsse) · Treffer %d %% · Beste Serie %d · %s" % [
-		game.waves.completed, game.player.score, s.kills, s.headshots, int(round(s.accuracy() * 100.0)), s.best_streak, RunStats.time_text(s.seconds)]
+	_pause_stats.text = Lang.t("So far: wave %d · %d Rem Dollars · %d kills (%d headshots) · hits %d%% · best streak %d · %s", [
+		game.waves.completed, game.player.score, s.kills, s.headshots, int(round(s.accuracy() * 100.0)), s.best_streak, RunStats.time_text(s.seconds)])
 
 # game over: run summary and the updated high-score table
 func show_run_summary(s: RunStats, score: int, wave: int, rank: int, difficulty_name: String) -> void:
 	for c in _summary_box.get_children():
 		c.queue_free()
-	var head := _label("Welle %d erreicht · %d Rem Dollars · %s" % [wave, score, difficulty_name], 20)
+	var head := _label(Lang.t("Reached wave %d · %d Rem Dollars · %s", [wave, score, difficulty_name]), 20)
 	_summary_box.add_child(head)
 	if rank > 0:
-		var r := _label("Platz %d in der Bestenliste%s" % [rank, "  ·  NEUER REKORD" if rank == 1 else ""], 15, GOLD)
+		var r := _label(Lang.t("Rank %d in the high scores  ·  NEW RECORD" if rank == 1 else "Rank %d in the high scores", [rank]), 15, GOLD)
 		_summary_box.add_child(r)
 	var grid := GridContainer.new()
 	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 26)
 	grid.add_theme_constant_override("v_separation", 8)
 	_summary_box.add_child(grid)
-	for pair in [["Abschüsse", "%d" % s.kills], ["Kopfschüsse", "%d" % s.headshots], ["Treffgenauigkeit", "%d %%" % int(round(s.accuracy() * 100.0))], ["Schüsse", "%d" % s.shots],
-			["Beste Serie", "%d" % s.best_streak], ["Granaten", "%d" % s.grenades_thrown], ["Barrikaden gebaut", "%d" % s.barricades_built], ["Spielzeit", RunStats.time_text(s.seconds)]]:
+	for pair in [["Kills", "%d" % s.kills], ["Headshots", "%d" % s.headshots], ["Accuracy", "%d %%" % int(round(s.accuracy() * 100.0))], ["Shots", "%d" % s.shots],
+			["Best streak", "%d" % s.best_streak], ["Grenades", "%d" % s.grenades_thrown], ["Barricades built", "%d" % s.barricades_built], ["Play time", RunStats.time_text(s.seconds)]]:
 		grid.add_child(_label(pair[0], 13, MUTED))
 		grid.add_child(_label(pair[1], 16))
 	_summary_box.add_child(_spacer(6))
-	_summary_box.add_child(_heading("BESTENLISTE"))
+	_summary_box.add_child(_heading("HIGH SCORES"))
 	var holder := VBoxContainer.new()
 	_summary_box.add_child(holder)
 	var saved := _records_box
@@ -662,7 +665,7 @@ func show_run_summary(s: RunStats, score: int, wave: int, rank: int, difficulty_
 
 func show_overlay(title: String, text: String, button: String, status: String = "", mode: String = "") -> void:
 	if mode.is_empty():
-		mode = "over" if title == "GESTORBEN" else ("pause" if title == "PAUSE" else "start")
+		mode = "over" if title == "YOU DIED" else ("pause" if title == "PAUSED" else "start")
 	overlay_mode = mode
 	overlay_title.text = title
 	overlay_text.text = text
@@ -795,13 +798,13 @@ func _process(delta: float) -> void:
 		playtime_label.visible = game != null and game.started
 		var elapsed := maxi(0, floori(game.stats.seconds)) if game and game.stats else 0
 		var time := "%02d:%02d" % [elapsed / 60, elapsed % 60] if elapsed < 3600 else "%d:%02d:%02d" % [elapsed / 3600, (elapsed / 60) % 60, elapsed % 60]
-		playtime_label.text = "Spielzeit " + time
+		playtime_label.text = Lang.t("Play time %s", [time])
 		team_label.visible = NetSession.enabled and NetSession.phase == "running"
 		if team_label.visible and NetSession.world:
 			var teammates: Array[String] = []
 			for id in NetSession.roster:
 				var p: Player = NetSession.world.actor(id)
-				if p: teammates.append("%s%s  ·  %s" % [NetSession.roster[id], " (du)" if id == NetSession.local_id() else "", "%d LP" % ceili(p.hp) if p.alive else "am Boden"])
+				if p: teammates.append(Lang.t("%s%s  ·  %s", [Lang.raw(NetSession.roster[id]), Lang.t(" (you)") if id == NetSession.local_id() else "", Lang.t("%d HP", [ceili(p.hp)]) if p.alive else Lang.t("down")]))
 			team_label.text = "\n".join(teammates)
 		fps_label.text = "%d FPS · %.1f ms" % [roundi(_stats_frames / _stats_time), _stats_time * 1000.0 / _stats_frames]
 		_stats_time = 0.0
@@ -907,7 +910,7 @@ func set_ammo(now: int, reserve: int, weapon: String) -> void:
 	weapon_label.text = weapon
 
 func set_wave(n: int, info: String) -> void:
-	wave_label.text = "Welle %d" % n
+	wave_label.text = Lang.t("Wave %d", [n])
 	wave_info.text = info
 
 # Waldhütte health under the wave bar: green when intact, orange when damaged, pulsing red under attack
@@ -916,7 +919,7 @@ func set_hut(hp: float, max_hp: float, under_attack: bool) -> void:
 	hut_alarm.visible = under_attack and hp > 0 and game != null and game.started and not game.over
 	if hut_alarm.visible:
 		hut_alarm.modulate.a = 0.85 + 0.15 * (0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.006))
-	hut_label.text = "HÜTTE %d / %d" % [ceili(hp), int(max_hp)]
+	hut_label.text = Lang.t("HUT %d / %d", [ceili(hp), int(max_hp)])
 	var ratio := clampf(hp / maxf(1.0, max_hp), 0.0, 1.0)
 	var color := Color(0.75, 0.9, 0.7) if ratio > 0.6 else (Color(1.0, 0.65, 0.3) if ratio > 0.25 else Color(1.0, 0.35, 0.25))
 	if under_attack:
@@ -955,7 +958,7 @@ func _show_score_popup(points: int, head: bool) -> void:
 	else:
 		l = _label("", 15, GOLD)
 		_root.add_child(l)
-	l.text = ("+%d R  KOPFSCHUSS" if head else "+%d R") % points
+	l.text = Lang.t("+%d R  HEADSHOT", [points]) if head else "+%d R" % points
 	l.add_theme_font_size_override("font_size", 17 if head else 15)
 	l.add_theme_color_override("font_color", Color(1.0, 0.45, 0.35) if head else GOLD)
 	l.modulate.a = 1.0
@@ -970,7 +973,7 @@ func streak(n: int, bonus_percent: int) -> void:
 	_pending_streak = Vector2i(n, bonus_percent)
 
 func _show_streak(n: int, bonus_percent: int) -> void:
-	streak_label.text = "%d× SERIE  +%d %%" % [n, bonus_percent] if bonus_percent > 0 else "%d× SERIE" % n
+	streak_label.text = Lang.t("%d× STREAK  +%d%%", [n, bonus_percent]) if bonus_percent > 0 else Lang.t("%d× STREAK", [n])
 	streak_label.add_theme_font_size_override("font_size", mini(20 + n, 30))
 	_streak_t = 1.6
 
@@ -983,7 +986,7 @@ func damage_flash(angle: float = NAN) -> void:
 
 func set_reload(remaining: float, duration: float) -> void:
 	reload_bar.visible = remaining > 0.0
-	reload_label.text = "Nachladen ..." if remaining > 0.0 else ""
+	reload_label.text = "Reloading ..." if remaining > 0.0 else ""
 	if remaining > 0.0:
 		reload_bar.value = 1.0 - remaining / maxf(0.01, duration)
 
@@ -1005,6 +1008,6 @@ func set_charge(text: String, value: float, colour: Color = Color(1.0, 0.7, 0.28
 func set_world_time(seconds: float, phase: String, speed: float) -> void:
 	clock_label.text = DayNightCycle.clock_text(seconds)
 	clock_phase.text = phase
-	clock_phase.modulate = Color(0.61, 0.75, 1.0) if phase == "Nacht" else Color(1.0, 0.76, 0.43)
+	clock_phase.modulate = Color(0.61, 0.75, 1.0) if phase == "Night" else Color(1.0, 0.76, 0.43)
 	clock_progress.value = seconds
-	clock_rate.text = "%d× · Spielzeit" % roundi(speed)
+	clock_rate.text = Lang.t("%d× · game time", [roundi(speed)])

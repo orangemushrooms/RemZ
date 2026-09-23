@@ -6,12 +6,12 @@ const Battery = preload("res://scripts/firework_battery.gd")
 const CAPACITY := 32
 const MAX_ACTIVE := 12
 const DEFS := {
-	"fw_battery_40": {"name": "Sternenfest · Batterie", "price": 650, "pack": 1, "limit": 2, "rocket": true, "duration": 40.0, "shots": 36, "model": "firework_battery_40", "width": 0.8, "color": Color(0.7, 0.3, 1), "desc": "Grosse Feuerwerksbatterie: 40 Sekunden rote, grüne und goldene Höhensterne mit schnellerem Finale. Auf ebenem Boden unter freiem Himmel aufstellen. Kein Kampfschaden."},
-	"fw_battery_90": {"name": "Himmelsfestival · XL-Batterie", "price": 1400, "pack": 1, "limit": 1, "rocket": true, "duration": 90.0, "shots": 84, "model": "firework_battery_90", "width": 1.25, "color": Color(1, 0.65, 0.15), "desc": "Riesige Verbundbatterie: 90 Sekunden farbige Fächersalven und goldene Kronen mit dichtem Schlussfinale. Benötigt viel freien Platz und offenen Himmel. Kein Kampfschaden."},
-	"fw_ruby": {"name": "Rubinstern", "price": 45, "pack": 1, "limit": 8, "rocket": true, "color": Color(1, 0.08, 0.16), "desc": "Rote Sternenkugel mit silbernem Kern und funkelnden Schweifen."},
-	"fw_aurora": {"name": "Polarlicht", "price": 60, "pack": 1, "limit": 8, "rocket": true, "color": Color(0.18, 1, 0.65), "desc": "Smaragdgrüne Sterne mit violetten Spitzen und einem leuchtenden Ring."},
-	"fw_gold": {"name": "Goldweide", "price": 85, "pack": 1, "limit": 8, "rocket": true, "color": Color(1, 0.65, 0.16), "desc": "Eine grosse goldene Krone mit langen, langsam fallenden Glutspuren und Knistern."},
-	"fw_cracker": {"name": "Walddonner", "price": 35, "pack": 5, "limit": 20, "rocket": false, "color": Color(1, 0.3, 0.1), "desc": "Fünf einzelne Böller: kurze Wurfbahn, knisternde Lunte, kräftiger Knall mit Funken und Rauch."},
+	"fw_battery_40": {"name": "Star Festival · Battery", "price": 650, "pack": 1, "limit": 2, "rocket": true, "duration": 40.0, "shots": 36, "model": "firework_battery_40", "width": 0.8, "color": Color(0.7, 0.3, 1), "desc": "Large firework battery: 40 seconds of red, green and golden aerial stars with a faster finale. Set it up on level ground under open sky. No combat damage."},
+	"fw_battery_90": {"name": "Sky Festival · XL Battery", "price": 1400, "pack": 1, "limit": 1, "rocket": true, "duration": 90.0, "shots": 84, "model": "firework_battery_90", "width": 1.25, "color": Color(1, 0.65, 0.15), "desc": "Huge compound battery: 90 seconds of colorful fan salvos and golden crowns with a dense grand finale. Needs plenty of free space and open sky. No combat damage."},
+	"fw_ruby": {"name": "Ruby Star", "price": 45, "pack": 1, "limit": 8, "rocket": true, "color": Color(1, 0.08, 0.16), "desc": "Red star shell with a silver core and sparkling tails."},
+	"fw_aurora": {"name": "Aurora", "price": 60, "pack": 1, "limit": 8, "rocket": true, "color": Color(0.18, 1, 0.65), "desc": "Emerald green stars with violet tips and a glowing ring."},
+	"fw_gold": {"name": "Golden Willow", "price": 85, "pack": 1, "limit": 8, "rocket": true, "color": Color(1, 0.65, 0.16), "desc": "A large golden crown with long, slowly falling ember trails and crackling."},
+	"fw_cracker": {"name": "Forest Thunder", "price": 35, "pack": 5, "limit": 20, "rocket": false, "color": Color(1, 0.3, 0.1), "desc": "Five single firecrackers: short throw, crackling fuse, a powerful bang with sparks and smoke."},
 }
 var game: Node3D
 var stocks: Dictionary = {}
@@ -65,23 +65,23 @@ func count(peer: int) -> int:
 	return total
 
 func buy_error(p: Player, id: String) -> String:
-	if not DEFS.has(id): return "Unbekanntes Feuerwerk."
+	if not DEFS.has(id): return "Unknown firework."
 	var d: Dictionary = DEFS[id]
-	if not p.alive: return "Du bist ausser Gefecht."
+	if not p.alive: return "You are down."
 	if int(stock(p.peer_id)[id]) + int(d.pack) > int(d.limit) or count(p.peer_id) + int(d.pack) > CAPACITY:
-		return "Feuerwerktasche voll für dieses Paket."
-	if p.score < int(d.price): return "Zu wenig Rem Dollars: %d R benötigt." % d.price
+		return "Firework bag too full for this pack."
+	if p.score < int(d.price): return Lang.t("Not enough Rem Dollars: %d R needed.", [d.price])
 	return ""
 
 func buy(p: Player, id: String) -> String:
-	if NetSession.is_client(): return "Der Host bestätigt den Kauf."
+	if NetSession.is_client(): return "The host confirms the purchase."
 	var error := buy_error(p, id)
 	if not error.is_empty(): return error
 	var d: Dictionary = DEFS[id]
 	p.add_score(-int(d.price))
 	stock(p.peer_id)[id] += int(d.pack)
 	Sfx.event(self, p.peer_id, "purchase")
-	return "%s ×%d gekauft · Im Inventar [I] auswählen." % [d.name, d.pack]
+	return Lang.t("%s ×%d bought · select it in the inventory [I].", [d.name, d.pack])
 
 func select(id: String) -> void:
 	if not DEFS.has(id) or int(stock(game.player.peer_id)[id]) <= 0: return
@@ -143,9 +143,9 @@ func _process(delta: float) -> void:
 		hands.animate_cloth(delta, game.player.velocity.length(), 0.0)
 		hands.anchor_melee_elbows(game.weapons.viewmodel.camera)
 	hint.visible = playing
-	hint.text = "Linksklick: %s\nRechtsklick: zurück zur Waffe" % ("Batterie aufstellen & zünden · %d s" % DEFS[selected].duration if is_battery(selected) else "Rakete aufstellen & zünden" if DEFS[selected].rocket else "Böller anzünden & werfen")
-	game.hud.ammo_label.text = "%d Stück" % stock(game.player.peer_id)[selected]
-	game.hud.weapon_label.text = str(DEFS[selected].name) + " · Feuerwerk"
+	hint.text = Lang.t("Left click: %s\nRight click: back to your weapon", [Lang.t("Set up & light battery · %d s", [DEFS[selected].duration]) if is_battery(selected) else "Set up & light rocket" if DEFS[selected].rocket else "Light & throw firecracker"])
+	game.hud.ammo_label.text = Lang.t("%d pcs", [stock(game.player.peer_id)[selected]])
+	game.hud.weapon_label.text = Lang.t("%s · Fireworks", [DEFS[selected].name])
 	if playing and input_grace <= 0 and Input.is_action_just_pressed("fire"):
 		input_grace = 0.65
 		if NetSession.enabled:
@@ -157,19 +157,19 @@ func _process(delta: float) -> void:
 
 # Only the host chooses launch positions and consumes stock. Peers reproduce its timeline.
 func ignite(p: Player, id: String) -> String:
-	if NetSession.is_client(): return "Der Host bestätigt das Zünden."
-	if not DEFS.has(id) or not p.alive or not p.active or game.over: return "Feuerwerk ist gerade nicht möglich."
-	if int(stock(p.peer_id)[id]) <= 0: return "Kein Feuerwerk dieser Sorte mehr."
-	if float(cooldowns.get(p.peer_id, 0)) > 0: return "Einen Moment bis zum nächsten Feuerwerk."
+	if NetSession.is_client(): return "The host confirms the ignition."
+	if not DEFS.has(id) or not p.alive or not p.active or game.over: return "Fireworks are not possible right now."
+	if int(stock(p.peer_id)[id]) <= 0: return "No fireworks of this kind left."
+	if float(cooldowns.get(p.peer_id, 0)) > 0: return "Wait a moment before the next firework."
 	var alive_effects := 0
 	for effect in active.values():
 		if is_instance_valid(effect): alive_effects += 1
-	if alive_effects >= MAX_ACTIVE: return "Warte kurz, bis das Feuerwerk abgeklungen ist."
+	if alive_effects >= MAX_ACTIVE: return "Wait until the fireworks have died down."
 	if is_battery(id):
 		var batteries := 0
 		for effect in active.values():
 			if is_instance_valid(effect) and is_battery(effect.kind): batteries += 1
-		if batteries >= 2: return "Es können höchstens zwei Feuerwerksbatterien gleichzeitig brennen."
+		if batteries >= 2: return "At most two firework batteries can burn at the same time."
 	var forward := -p.global_basis.z
 	var eye := p.camera.global_position
 	var origin := eye + forward * 0.5
@@ -180,12 +180,12 @@ func ignite(p: Player, id: String) -> String:
 	if DEFS[id].rocket:
 		var target := p.global_position + forward * 1.8
 		var sight := space.intersect_ray(PhysicsRayQueryParameters3D.create(eye, target + Vector3.UP * 0.7, 1 | 8, exclude))
-		if not sight.is_empty(): return "Vor dir ist kein Platz zum Aufstellen."
+		if not sight.is_empty(): return "There is no room in front of you to set it up."
 		var ground := space.intersect_ray(PhysicsRayQueryParameters3D.create(target + Vector3.UP * 1.8, target - Vector3.UP * 2.5, 1 | 8, exclude))
-		if ground.is_empty() or ground.normal.y < 0.8: return "Stelle das Feuerwerk auf einen ebenen Untergrund."
+		if ground.is_empty() or ground.normal.y < 0.8: return "Set the firework up on level ground."
 		origin = ground.position + Vector3.UP * 0.03
 		var ceiling := space.intersect_ray(PhysicsRayQueryParameters3D.create(origin + Vector3.UP * 0.8, origin + Vector3.UP * 40, 1 | 8, exclude))
-		if not ceiling.is_empty(): return "Das Feuerwerk braucht freien Himmel über sich."
+		if not ceiling.is_empty(): return "The firework needs open sky above it."
 		if is_battery(id):
 			var width := float(DEFS[id].width)
 			var query := PhysicsShapeQueryParameters3D.new()
@@ -195,15 +195,15 @@ func ignite(p: Player, id: String) -> String:
 			query.transform.origin = origin + Vector3.UP * 0.45
 			query.collision_mask = 1 | 8
 			query.exclude = exclude
-			if not space.intersect_shape(query, 1).is_empty(): return "Hier ist zu wenig Platz für die Batterie."
+			if not space.intersect_shape(query, 1).is_empty(): return "There is not enough room here for the battery."
 			for offset in [Vector3.LEFT, Vector3.RIGHT, Vector3.FORWARD, Vector3.BACK]:
 				var edge: Vector3 = origin + offset * width * 0.5
 				var support := space.intersect_ray(PhysicsRayQueryParameters3D.create(edge + Vector3.UP, edge - Vector3.UP, 1 | 8, exclude))
-				if support.is_empty() or absf(support.position.y - origin.y) > 0.18: return "Die ganze Batterie muss auf ebenem Boden stehen."
+				if support.is_empty() or absf(support.position.y - origin.y) > 0.18: return "The whole battery must stand on level ground."
 				var sky := space.intersect_ray(PhysicsRayQueryParameters3D.create(origin + Vector3.UP * 0.8, origin + Vector3.UP * 45 + offset * 9, 1 | 8, exclude))
-				if not sky.is_empty(): return "Die Fächersalven brauchen freien Himmel."
+				if not sky.is_empty(): return "The fan salvos need open sky."
 			for effect in active.values():
-				if is_instance_valid(effect) and effect.origin.distance_to(origin) < width + 0.8: return "Mehr Abstand zum bereits gezündeten Feuerwerk halten."
+				if is_instance_valid(effect) and effect.origin.distance_to(origin) < width + 0.8: return "Keep more distance from fireworks already lit."
 		landing = origin
 	else:
 		# Trace the complete short arc so a thrown cracker cannot cross a wall.

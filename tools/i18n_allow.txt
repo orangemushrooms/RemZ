@@ -1,0 +1,17 @@
+# Literals tools/i18n.py must not flag: names that stay as they are in every language.
+# One exact string per line (GDScript escapes allowed), comments start with #.
+
+# LegacyUserData.OLD_NAME: the game's former name and user:// folder, must match the old folder exactly
+Birkenhof Nacht
+
+# shown to the player, identical in every language
+Remetschwil Sennhof
+Oberrohrdorf
+Remetschwil
+English
+Deutsch
+%d  REM DOLLARS
+MAX. %d m
+%d FPS
+%d FPS · %.1f ms
+%d ms

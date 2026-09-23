@@ -61,7 +61,7 @@ func run() -> void:
 	Input.action_release("interact")
 	await process_frame
 	await process_frame
-	check(hunt.jobs.has(1) and int(hunt.stock(1).raw_meat) == 3, "Grill reserves exactly one raw portion via E (%s)" % game.hud.prompt_label.text)
+	check(hunt.jobs.has(1) and int(hunt.stock(1).raw_meat) == 3, "Grill reserves exactly one raw portion via E (%s)" % Lang.text(game.hud.prompt_label.text))
 	hunt.transact(game.player, "cook")
 	check(int(hunt.stock(1).raw_meat) == 3, "Repeated E cannot start overlapping cooking jobs")
 	hunt._process(5.0)
@@ -116,8 +116,8 @@ func run() -> void:
 	var cooked_button: Button
 	for button in game.inventory.grid.get_children():
 		if button.is_queued_for_deletion(): continue
-		if button.tooltip_text.begins_with("Rohes Wildfleisch"): raw_button = button
-		if button.tooltip_text.begins_with("Gegrilltes Wildfleisch"): cooked_button = button
+		if Lang.text(button.tooltip_text).begins_with("Raw Venison"): raw_button = button
+		if Lang.text(button.tooltip_text).begins_with("Grilled Venison"): cooked_button = button
 	check(raw_button != null and cooked_button != null, "Inventory presents both foods with their own slots")
 	if raw_button: raw_button.pressed.emit()
 	check(int(hunt.stock(1).raw_meat) == 2, "Clicking raw meat only explains grilling")

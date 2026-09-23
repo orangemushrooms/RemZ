@@ -1,0 +1,4592 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: RemZ\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+#: scripts/achievements.gd
+msgid "Hunter"
+msgstr "Jäger"
+
+#: scripts/achievements.gd
+msgid "First wild animal hunted"
+msgstr "Erstes Wildtier erlegt"
+
+#: scripts/achievements.gd
+msgid "Huntsman"
+msgstr "Waidmann"
+
+#: scripts/achievements.gd
+msgid "10 wild animals hunted"
+msgstr "10 Wildtiere erlegt"
+
+#: scripts/achievements.gd
+msgid "Pumpkin Smasher"
+msgstr "Kürbisknacker"
+
+#: scripts/achievements.gd
+msgid "Shot a pumpkin to pieces"
+msgstr "Einen Kürbis zerschossen"
+
+#: scripts/achievements.gd
+msgid "First Blood"
+msgstr "Erstes Blut"
+
+#: scripts/achievements.gd
+msgid "First zombie taken out"
+msgstr "Ersten Zombie erledigt"
+
+#: scripts/achievements.gd
+msgid "Warmed Up"
+msgstr "Warmgeschossen"
+
+#: scripts/achievements.gd
+msgid "5 zombies taken out"
+msgstr "5 Zombies erledigt"
+
+#: scripts/achievements.gd
+msgid "Forest Police"
+msgstr "Waldpolizei"
+
+#: scripts/achievements.gd
+msgid "25 zombies taken out"
+msgstr "25 Zombies erledigt"
+
+#: scripts/achievements.gd
+msgid "Butcher of the Heitersberg"
+msgstr "Heitersberg-Schlächter"
+
+#: scripts/achievements.gd
+msgid "100 zombies taken out"
+msgstr "100 Zombies erledigt"
+
+#: scripts/achievements.gd
+msgid "Legend of Remetschwil"
+msgstr "Legende von Remetschwil"
+
+#: scripts/achievements.gd
+msgid "250 zombies taken out"
+msgstr "250 Zombies erledigt"
+
+#: scripts/achievements.gd
+msgid "A Whole Horde"
+msgstr "Eine ganze Horde"
+
+#: scripts/achievements.gd
+msgid "500 zombies taken out"
+msgstr "500 Zombies erledigt"
+
+#: scripts/achievements.gd
+msgid "One in a Thousand"
+msgstr "Tausendsassa"
+
+#: scripts/achievements.gd
+msgid "1000 zombies taken out"
+msgstr "1000 Zombies erledigt"
+
+#: scripts/achievements.gd
+msgid "Nightmare of the Undead"
+msgstr "Albtraum der Untoten"
+
+#: scripts/achievements.gd
+msgid "2500 zombies taken out"
+msgstr "2500 Zombies erledigt"
+
+#: scripts/achievements.gd
+msgid "Bullseye"
+msgstr "Volltreffer"
+
+#: scripts/achievements.gd
+msgid "First headshot"
+msgstr "Erster Kopfschuss"
+
+#: scripts/achievements.gd
+msgid "Sharpshooter"
+msgstr "Scharfschütze"
+
+#: scripts/achievements.gd
+msgid "10 headshots"
+msgstr "10 Kopfschüsse"
+
+#: scripts/achievements.gd
+msgid "Headhunter"
+msgstr "Kopfjäger"
+
+#: scripts/achievements.gd
+msgid "50 headshots"
+msgstr "50 Kopfschüsse"
+
+#: scripts/achievements.gd scripts/skills.gd
+msgid "Steady Hand"
+msgstr "Ruhige Hand"
+
+#: scripts/achievements.gd
+msgid "100 headshots"
+msgstr "100 Kopfschüsse"
+
+#: scripts/achievements.gd
+msgid "Eagle Eye"
+msgstr "Adlerauge"
+
+#: scripts/achievements.gd
+msgid "250 headshots"
+msgstr "250 Kopfschüsse"
+
+#: scripts/achievements.gd
+msgid "Deadly Precision"
+msgstr "Tödliche Präzision"
+
+#: scripts/achievements.gd
+msgid "500 headshots"
+msgstr "500 Kopfschüsse"
+
+#: scripts/achievements.gd
+msgid "Titan Killer"
+msgstr "Titankiller"
+
+#: scripts/achievements.gd
+msgid "First titan defeated"
+msgstr "Ersten Titanen besiegt"
+
+#: scripts/achievements.gd
+msgid "Titan Hunter"
+msgstr "Titanenjäger"
+
+#: scripts/achievements.gd
+msgid "5 titans defeated"
+msgstr "5 Titanen besiegt"
+
+#: scripts/achievements.gd
+msgid "Giant Slayer"
+msgstr "Gigantenbezwinger"
+
+#: scripts/achievements.gd
+msgid "15 titans defeated"
+msgstr "15 Titanen besiegt"
+
+#: scripts/achievements.gd
+msgid "End of the Titans"
+msgstr "Ende der Titanen"
+
+#: scripts/achievements.gd
+msgid "30 titans defeated"
+msgstr "30 Titanen besiegt"
+
+#: scripts/achievements.gd
+msgid "Fire Control"
+msgstr "Feuerleitstelle"
+
+#: scripts/achievements.gd
+msgid "100 zombies taken out with towers"
+msgstr "100 Zombies mit Türmen erledigt"
+
+#: scripts/achievements.gd
+msgid "Steel Fortress"
+msgstr "Stählerne Festung"
+
+#: scripts/achievements.gd
+msgid "500 zombies taken out with towers"
+msgstr "500 Zombies mit Türmen erledigt"
+
+#: scripts/achievements.gd
+msgid "At Arm's Length"
+msgstr "Auf Armlänge"
+
+#: scripts/achievements.gd
+msgid "25 zombies taken out in melee"
+msgstr "25 Zombies im Nahkampf erledigt"
+
+#: scripts/achievements.gd
+msgid "Blade Master"
+msgstr "Klingenmeister"
+
+#: scripts/achievements.gd
+msgid "100 zombies taken out in melee"
+msgstr "100 Zombies im Nahkampf erledigt"
+
+#: scripts/achievements.gd
+msgid "First Night"
+msgstr "Erste Nacht"
+
+#: scripts/achievements.gd
+msgid "Survived wave 1"
+msgstr "Welle 1 überstanden"
+
+#: scripts/achievements.gd
+msgid "Holding Out"
+msgstr "Durchhalten"
+
+#: scripts/achievements.gd
+msgid "Survived wave 3"
+msgstr "Welle 3 überstanden"
+
+#: scripts/achievements.gd
+msgid "Hut Warden"
+msgstr "Hüttenwart"
+
+#: scripts/achievements.gd
+msgid "Survived wave 5"
+msgstr "Welle 5 überstanden"
+
+#: scripts/achievements.gd
+msgid "Immortal"
+msgstr "Unsterblich"
+
+#: scripts/achievements.gd
+msgid "Survived wave 10"
+msgstr "Welle 10 überstanden"
+
+#: scripts/achievements.gd
+msgid "Rock in the Storm"
+msgstr "Fels in der Brandung"
+
+#: scripts/achievements.gd
+msgid "Survived wave 15"
+msgstr "Welle 15 überstanden"
+
+#: scripts/achievements.gd
+msgid "The Hut Still Stands"
+msgstr "Die Hütte steht noch"
+
+#: scripts/achievements.gd
+msgid "Survived wave 20"
+msgstr "Welle 20 überstanden"
+
+#: scripts/achievements.gd
+msgid "Last Bastion"
+msgstr "Letzte Bastion"
+
+#: scripts/achievements.gd
+msgid "Survived wave 30"
+msgstr "Welle 30 überstanden"
+
+#: scripts/achievements.gd
+msgid "Legend of the Heitersberg"
+msgstr "Legende des Heitersbergs"
+
+#: scripts/achievements.gd
+msgid "Survived wave 40"
+msgstr "Welle 40 überstanden"
+
+#: scripts/achievements.gd
+msgid "Not a Scratch"
+msgstr "Kein Kratzer"
+
+#: scripts/achievements.gd
+msgid "Survived a wave without taking damage"
+msgstr "Eine Welle ohne Schaden überstanden"
+
+#: scripts/achievements.gd
+msgid "Untouchable"
+msgstr "Unberührbar"
+
+#: scripts/achievements.gd
+msgid "Survived 5 waves without player damage"
+msgstr "5 Wellen ohne Spielerschaden überstanden"
+
+#: scripts/achievements.gd
+msgid "Carpenter"
+msgstr "Zimmermann"
+
+#: scripts/achievements.gd
+msgid "First barricade built"
+msgstr "Erste Barrikade gebaut"
+
+#: scripts/achievements.gd
+msgid "Forest Hut Fortress"
+msgstr "Festung Waldhütte"
+
+#: scripts/achievements.gd
+msgid "6 barricade tiers built"
+msgstr "6 Barrikadenstufen gebaut"
+
+#: scripts/achievements.gd
+msgid "Lucky Find"
+msgstr "Fundstück"
+
+#: scripts/achievements.gd
+msgid "First weapon bought"
+msgstr "Erste Waffe gekauft"
+
+#: scripts/achievements.gd
+msgid "Arsenal"
+msgstr "Arsenal"
+
+#: scripts/achievements.gd
+msgid "Four weapons bought"
+msgstr "Vier Waffen gekauft"
+
+#: scripts/achievements.gd
+msgid "Armory"
+msgstr "Waffenkammer"
+
+#: scripts/achievements.gd
+msgid "Ten weapons bought"
+msgstr "Zehn Waffen gekauft"
+
+#: scripts/achievements.gd
+msgid "Opened Up"
+msgstr "Aufgemacht"
+
+#: scripts/achievements.gd
+msgid "Opened the forest hut's garage door"
+msgstr "Garagentor der Waldhütte geöffnet"
+
+#: scripts/achievements.gd
+msgid "Burglar"
+msgstr "Einbrecher"
+
+#: scripts/achievements.gd
+msgid "Shot out the woodshed's back window"
+msgstr "Hinterfenster des Holzlagers zerschossen"
+
+#: scripts/achievements.gd
+msgid "Mushroom Picker"
+msgstr "Pilzsammler"
+
+#: scripts/achievements.gd
+msgid "First mushroom collected"
+msgstr "Ersten Pilz gesammelt"
+
+#: scripts/achievements.gd
+msgid "Mushroom Connoisseur"
+msgstr "Pilzkenner"
+
+#: scripts/achievements.gd
+msgid "10 mushrooms collected"
+msgstr "10 Pilze gesammelt"
+
+#: scripts/achievements.gd
+msgid "Lord of the Mushrooms"
+msgstr "Herr der Pilze"
+
+#: scripts/achievements.gd
+msgid "50 mushrooms collected"
+msgstr "50 Pilze gesammelt"
+
+#: scripts/achievements.gd
+msgid "Tripping"
+msgstr "Rausch"
+
+#: scripts/achievements.gd
+msgid "Ate a fly agaric"
+msgstr "Fliegenpilz gegessen"
+
+#: scripts/achievements.gd
+msgid "The Oak"
+msgstr "Die Eiche"
+
+#: scripts/achievements.gd
+msgid "Visited the great oak on the Hut Path"
+msgstr "Die grosse Eiche am Weg zur Hütte besucht"
+
+#: scripts/achievements.gd
+msgid "All the Way to the Sennhofstrasse"
+msgstr "Bis zur Sennhofstrasse"
+
+#: scripts/achievements.gd
+msgid "Reached the Sennhofstrasse"
+msgstr "Die Sennhofstrasse erreicht"
+
+#: scripts/achievements.gd
+msgid "Oberer Sorchen"
+msgstr "Oberer Sorchen"
+
+#: scripts/achievements.gd
+msgid "Walked the forest path north to its end"
+msgstr "Den Waldweg nach Norden bis zum Ende gegangen"
+
+#: scripts/achievements.gd
+msgid "Demolition Expert"
+msgstr "Sprengmeister"
+
+#: scripts/achievements.gd
+msgid "3 zombies with one grenade"
+msgstr "3 Zombies mit einer Granate"
+
+#: scripts/achievements.gd
+msgid "On a Roll"
+msgstr "Im Rausch"
+
+#: scripts/achievements.gd
+msgid "10-kill streak"
+msgstr "10 Abschüsse in Serie"
+
+#: scripts/achievements.gd
+msgid "Unstoppable"
+msgstr "Nicht aufzuhalten"
+
+#: scripts/achievements.gd
+msgid "25-kill streak"
+msgstr "25 Abschüsse in Serie"
+
+#: scripts/achievements.gd
+msgid "One-Man Army"
+msgstr "Ein-Mann-Armee"
+
+#: scripts/achievements.gd
+msgid "50-kill streak"
+msgstr "50 Abschüsse in Serie"
+
+#: scripts/achievements.gd
+msgid "Scavenger"
+msgstr "Aufgelesen"
+
+#: scripts/achievements.gd
+msgid "Picked up 10 supplies dropped by zombies"
+msgstr "10 Vorräte von Zombies aufgesammelt"
+
+#: scripts/achievements.gd
+msgid "Quartermaster"
+msgstr "Vorratsmeister"
+
+#: scripts/achievements.gd
+msgid "Picked up 50 supplies dropped by zombies"
+msgstr "50 Vorräte von Zombies aufgesammelt"
+
+#: scripts/achievements.gd
+msgid "ACHIEVEMENT UNLOCKED"
+msgstr "ERFOLG FREIGESCHALTET"
+
+#: scripts/achievements.gd
+msgid "%d / %d achievements"
+msgstr "%d / %d Erfolge"
+
+#: scripts/achievements.gd
+msgid "+%d Rem Dollars"
+msgstr "+%d Rem Dollars"
+
+#: scripts/achievements.gd
+msgid "+%d grenades"
+msgstr "+%d Granaten"
+
+#: scripts/achievements.gd
+msgid "+%d max health"
+msgstr "+%d max. Leben"
+
+#: scripts/achievements.gd
+msgid "Pistol reserve secured"
+msgstr "Pistolenreserve gesichert"
+
+#: scripts/achievements.gd
+msgid "Team achievement: %s"
+msgstr "Teamerfolg: %s"
+
+#: scripts/achievements.gd
+msgid "(unlocked before)"
+msgstr "(schon einmal erreicht)"
+
+#: scripts/barricade.gd
+msgid "WARNING: %s is under attack!"
+msgstr "WARNUNG: %s wird angegriffen!"
+
+#: scripts/barricade.gd scripts/coop_world.gd
+msgid "Barricade %s breached!"
+msgstr "Barrikade %s durchbrochen!"
+
+#: scripts/barricade.gd
+msgid "Building is not possible right now."
+msgstr "Bauen ist momentan nicht möglich."
+
+#: scripts/barricade.gd scripts/defence_system.gd scripts/hunting.gd scripts/progression.gd
+msgid "Unknown action."
+msgstr "Unbekannte Aktion."
+
+#: scripts/barricade.gd
+msgid "Too far away. Move within 6 m of the line."
+msgstr "Zu weit entfernt. Gehe auf höchstens 6 m an die Linie heran."
+
+#: scripts/barricade.gd
+msgid "Maximum upgrade tier reached."
+msgstr "Maximale Ausbaustufe erreicht."
+
+#: scripts/barricade.gd scripts/defence_system.gd scripts/hut_health.gd
+msgid "No repair needed."
+msgstr "Keine Reparatur nötig."
+
+#: scripts/barricade.gd scripts/hut_health.gd
+msgid "You are %d Rem Dollars short."
+msgstr "Es fehlen %d Rem Dollars."
+
+#: scripts/barricade.gd
+msgid "Building area occupied. You or an enemy is standing in the line."
+msgstr "Baufläche belegt. Du oder ein Gegner stehen in der Linie."
+
+#: scripts/barricade.gd
+msgid "[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair"
+msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren"
+
+#: scripts/barricade.gd
+msgid "Building site"
+msgstr "Bauplatz"
+
+#: scripts/barricade.gd
+msgid "[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair  ·  Space: climb over"
+msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren  ·  Leertaste: drüberklettern"
+
+#: scripts/barricade.gd
+msgid "Tier %d · %d/%d"
+msgstr "Stufe %d · %d/%d"
+
+#: scripts/barricade_menu.gd
+msgid "REMETSCHWIL SENNHOF   /   DEFENSE"
+msgstr "REMETSCHWIL SENNHOF   /   VERTEIDIGUNG"
+
+#: scripts/barricade_menu.gd
+msgid "BARRICADES"
+msgstr "BARRIKADEN"
+
+#: scripts/barricade_menu.gd
+msgid "Back to the game  [Esc]"
+msgstr "Zurück ins Spiel  [Esc]"
+
+#: scripts/barricade_menu.gd
+msgid "BUILD PLAN   /   WHOLE LINE"
+msgstr "BAUPLAN   /   GESAMTE LINIE"
+
+#: scripts/barricade_menu.gd
+msgid "0%d\n%d HP"
+msgstr "0%d\n%d TP"
+
+#: scripts/barricade_menu.gd
+msgid "BUILD & MAINTAIN"
+msgstr "BAUEN & INSTAND HALTEN"
+
+#: scripts/barricade_menu.gd
+msgid "Repair whole line  ·  25 R"
+msgstr "Ganze Linie reparieren  ·  25 R"
+
+#: scripts/barricade_menu.gd
+msgid "ONE CLICK. THE WHOLE BARRIER."
+msgstr "EIN KLICK. DIE GANZE SPERRE."
+
+#: scripts/barricade_menu.gd
+msgid "Red shows the planned line. Green shows the built barrier.\nAll segments are placed, reinforced or repaired together."
+msgstr "Rot zeigt die geplante Linie. Grün zeigt die gebaute Sperre.\nAlle Segmente werden zusammen gesetzt, verstärkt oder repariert."
+
+#: scripts/barricade_menu.gd
+msgid "1–4  Choose building site     ·     R  Repair     ·     V / Esc  Back     ·     Co-op keeps running while you plan"
+msgstr "1–4  Bauplatz wählen     ·     R  Reparieren     ·     V / Esc  Zurück     ·     Koop läuft während der Planung weiter"
+
+#: scripts/barricade_menu.gd
+msgid "1–4  Choose building site     ·     R  Repair     ·     V / Esc  Back     ·     The game is paused while you plan"
+msgstr "1–4  Bauplatz wählen     ·     R  Reparieren     ·     V / Esc  Zurück     ·     Spiel pausiert während der Planung"
+
+#: scripts/barricade_menu.gd
+msgid "%02d  %s\n       OPEN  ·  %d m"
+msgstr "%02d  %s\n       OFFEN  ·  %d m"
+
+#: scripts/barricade_menu.gd
+msgid "%02d  %s\n       TIER %d  ·  %d m"
+msgstr "%02d  %s\n       STUFE %d  ·  %d m"
+
+#: scripts/barricade_menu.gd
+msgid "%.1f m  ·  %d connected segments"
+msgstr "%.1f m  ·  %d verbundene Segmente"
+
+#: scripts/barricade_menu.gd
+msgid "Open approach  ·  no barrier"
+msgstr "Offener Zugang  ·  keine Sperre"
+
+#: scripts/barricade_menu.gd
+msgid "Tier %d  ·  %d / %d hit points"
+msgstr "Stufe %d  ·  %d / %d Trefferpunkte"
+
+#: scripts/barricade_menu.gd
+msgid "Build whole line  ·  50 R"
+msgstr "Ganze Linie bauen  ·  50 R"
+
+#: scripts/barricade_menu.gd
+msgid "Reinforce to tier %d  ·  50 R"
+msgstr "Auf Stufe %d verstärken  ·  50 R"
+
+#: scripts/barricade_menu.gd
+msgid "Fully reinforced"
+msgstr "Maximal verstärkt"
+
+#: scripts/barricade_menu.gd
+msgid "50 Rem Dollars for the barrier line and its palisade section. Both only appear once you build."
+msgstr "50 Rem Dollars für die Sperrlinie und ihren Palisadenabschnitt. Beide entstehen erst beim Bauen."
+
+#: scripts/barricade_menu.gd
+msgid "Reinforcing adds 150 HP of durability and restores the whole line. Repairing refills its current HP."
+msgstr "Verstärken erhöht die Haltbarkeit um 150 TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
+
+#: scripts/barricade_menu.gd
+msgid "RED BUILD PREVIEW   ·   %.1f M TOTAL LENGTH"
+msgstr "ROTE BAUVORSCHAU   ·   %.1f M GESAMTLÄNGE"
+
+#: scripts/barricade_menu.gd
+msgid "LINE SECURED   ·   TIER %d / 3"
+msgstr "LINIE GESICHERT   ·   STUFE %d / 3"
+
+#: scripts/barricade_menu.gd
+msgid "Ready. One click places the whole line."
+msgstr "Bereit. Ein Klick setzt die gesamte Linie."
+
+#: scripts/barricade_menu.gd
+msgid "Damaged. Repair it or reinforce it right away."
+msgstr "Beschädigt. Reparieren oder direkt verstärken."
+
+#: scripts/barricade_menu.gd
+msgid "Ready to reinforce the whole line."
+msgstr "Bereit zum Verstärken der gesamten Linie."
+
+#: scripts/barricade_menu.gd
+msgid "Whole line repaired."
+msgstr "Gesamte Linie repariert."
+
+#: scripts/barricade_menu.gd
+msgid "Whole line built. Approach secured."
+msgstr "Gesamte Linie gebaut. Zugang gesichert."
+
+#: scripts/barricade_menu.gd
+msgid "Whole line reinforced to tier %d."
+msgstr "Gesamte Linie auf Stufe %d verstärkt."
+
+#: scripts/barricade_menu.gd scripts/progression.gd
+msgid "Towers"
+msgstr "Türme"
+
+#: scripts/barricade_menu.gd
+msgid "Defense advice at Mechanic. Right at a barricade, E builds or repairs the line."
+msgstr "Verteidigungsberatung bei Mechanic. Direkt an einer Barrikade baut oder repariert E die Linie."
+
+#: scripts/boot_screen.gd scripts/hud.gd scripts/main.gd
+msgid "REMETSCHWIL FOREST HUT"
+msgstr "WALDHÜTTE REMETSCHWIL"
+
+#: scripts/boot_screen.gd scripts/hud.gd
+msgid "NIGHT ON THE HEITERSBERG"
+msgstr "NACHT AM HEITERSBERG"
+
+#: scripts/cheat_menu.gd
+msgid "CHEAT MENU"
+msgstr "CHEATMENÜ"
+
+#: scripts/cheat_menu.gd
+msgid "All zombies die. The next wave starts immediately."
+msgstr "Alle Zombies sterben. Die nächste Welle startet sofort."
+
+#: scripts/cheat_menu.gd
+msgid "Skip wave"
+msgstr "Welle überspringen"
+
+#: scripts/cheat_menu.gd
+msgid "Show the Secret Vendor on the minimap"
+msgstr "Geheimen Händler auf der Minimap anzeigen"
+
+#: scripts/cheat_menu.gd
+msgid "Show the wandering trader on the map (from wave 5)"
+msgstr "Wanderhändler auf der Karte anzeigen (ab Welle 5)"
+
+#: scripts/cheat_menu.gd
+msgid "Get a weapon · full magazine and full reserve"
+msgstr "Waffe holen · volles Magazin und volle Reserve"
+
+#: scripts/cheat_menu.gd
+msgid "All weapons with full ammo"
+msgstr "Alle Waffen mit voller Munition"
+
+#: scripts/cheat_menu.gd
+msgid "Close (Esc / Ctrl+Shift+D)"
+msgstr "Schliessen (Esc / Strg+Shift+D)"
+
+#: scripts/cheat_menu.gd
+msgid "Current wave: %d · Rem Dollars: %d"
+msgstr "Aktuelle Welle: %d · Rem Dollars: %d"
+
+#: scripts/cheat_menu.gd
+msgid "Rem Dollars, wave and weapon cheats are only available to the host."
+msgstr "Rem Dollars, Wellen- und Waffen-Cheats sind nur für den Host verfügbar."
+
+#: scripts/cheat_menu.gd
+msgid "Received: %s"
+msgstr "Erhalten: %s"
+
+#: scripts/cheat_menu.gd
+msgid "Received: %s · %d + %d rounds"
+msgstr "Erhalten: %s · %d + %d Schuss"
+
+#: scripts/cheat_menu.gd
+msgid "All %d weapons unlocked and fully loaded."
+msgstr "Alle %d Waffen freigeschaltet und voll geladen."
+
+#: scripts/cheat_menu.gd scripts/progression.gd
+msgid "Owned"
+msgstr "Im Besitz"
+
+#: scripts/cheat_menu.gd
+msgid "Unlock"
+msgstr "Freischalten"
+
+#: scripts/cheat_menu.gd
+msgid "Owned · %d + %d rounds · refill"
+msgstr "Im Besitz · %d + %d Schuss · auffüllen"
+
+#: scripts/cheat_menu.gd
+msgid "Unlock with %d + %d rounds"
+msgstr "Freischalten mit %d + %d Schuss"
+
+#: scripts/coop_avatar.gd scripts/coop_menu.gd scripts/coop_world.gd scripts/net_session.gd
+msgid "Player"
+msgstr "Spieler"
+
+#: scripts/coop_avatar.gd
+msgid "%s\nRevive [E]"
+msgstr "%s\nWiederbeleben [E]"
+
+#: scripts/coop_menu.gd
+msgid "CO-OP · 1 TO 4 PLAYERS"
+msgstr "KOOP · 1 BIS 4 SPIELER"
+
+#: scripts/coop_menu.gd
+msgid "All players join the same Hamachi network. One of you hosts the game; the others enter the host's Hamachi IP. On a LAN the local IP works too."
+msgstr "Alle Spieler verbinden sich mit demselben Hamachi-Netzwerk. Einer erstellt das Spiel; die anderen geben seine Hamachi-IP ein. Im LAN funktioniert auch die lokale IP."
+
+#: scripts/coop_menu.gd
+msgid "Your name"
+msgstr "Dein Name"
+
+#: scripts/coop_menu.gd
+msgid "Host IP"
+msgstr "Host-IP"
+
+#: scripts/coop_menu.gd
+msgid "The host's Hamachi IP, e.g. 25.12.34.56"
+msgstr "Hamachi-IP des Hosts, z. B. 25.12.34.56"
+
+#: scripts/coop_menu.gd
+msgid "UDP port"
+msgstr "UDP-Port"
+
+#: scripts/coop_menu.gd
+msgid "Host game"
+msgstr "Spiel erstellen"
+
+#: scripts/coop_menu.gd
+msgid "Join"
+msgstr "Beitreten"
+
+#: scripts/coop_menu.gd
+msgid "Start co-op"
+msgstr "Koop starten"
+
+#: scripts/coop_menu.gd
+msgid "Leave session"
+msgstr "Sitzung verlassen"
+
+#: scripts/coop_menu.gd
+msgid "Version: Co-op 2026.09.20-C"
+msgstr "Version: Koop 2026.09.20-C"
+
+#: scripts/coop_menu.gd
+msgid "Open logs"
+msgstr "Logs öffnen"
+
+#: scripts/coop_menu.gd
+msgid "Your IPv4 addresses: %s\nWindows Firewall: allow RemZ on the Hamachi / private network. Host and teammates must use the same port and the same game version.\nCo-op: no friendly fire. Revive with E (3 s close by). Menus do not pause the shared world."
+msgstr "Deine IPv4-Adressen: %s\nWindows-Firewall: RemZ für das Hamachi-/private Netzwerk zulassen. Host und Mitspieler müssen denselben Port und dieselbe Spielversion nutzen.\nKoop: kein Beschuss unter Freunden. Mit E wiederbeleben (3 s in der Nähe). Menüs halten die gemeinsame Welt nicht an."
+
+#: scripts/coop_menu.gd
+msgid "Preparing the map …"
+msgstr "Die Karte wird vorbereitet …"
+
+#: scripts/coop_menu.gd
+msgid "Return to the main menu first to host or join a game."
+msgstr "Zum Erstellen oder Beitreten zuerst ins Hauptmenü zurückkehren."
+
+#: scripts/coop_menu.gd scripts/quest_notifications.gd
+msgid "ready"
+msgstr "bereit"
+
+#: scripts/coop_menu.gd
+msgid "loading …"
+msgstr "lädt …"
+
+#: scripts/coop_menu.gd
+msgid "Players: %d / 4\n%s"
+msgstr "Spieler: %d / 4\n%s"
+
+#: scripts/coop_menu.gd scripts/coop_world.gd
+msgid "Waiting for host"
+msgstr "Warte auf Host"
+
+#: scripts/coop_world.gd
+msgid "Team key found: %s"
+msgstr "Teamschlüssel gefunden: %s"
+
+#: scripts/coop_world.gd
+msgid "%s collected"
+msgstr "%s gesammelt"
+
+#: scripts/coop_world.gd scripts/pickup.gd
+msgid "+%d R picked up"
+msgstr "+%d R aufgenommen"
+
+#: scripts/coop_world.gd
+msgid "Supplies picked up"
+msgstr "Vorrat aufgenommen"
+
+#: scripts/coop_world.gd scripts/main.gd
+msgid "HUT LOST"
+msgstr "HÜTTE VERLOREN"
+
+#: scripts/coop_world.gd
+msgid "TEAM DOWN"
+msgstr "TEAM AUSGESCHIEDEN"
+
+#: scripts/coop_world.gd
+msgid "The forest hut has been destroyed. The host can start a new round."
+msgstr "Die Waldhütte ist zerstört. Der Host kann eine neue Runde starten."
+
+#: scripts/coop_world.gd
+msgid "All players are down. The host can start a new round."
+msgstr "Alle Spieler sind ausgeschieden. Der Host kann eine neue Runde starten."
+
+#: scripts/coop_world.gd
+msgid "New round"
+msgstr "Neue Runde"
+
+#: scripts/coop_world.gd scripts/run_stats.gd
+msgid "Co-op · %s"
+msgstr "Koop · %s"
+
+#: scripts/coop_world.gd
+msgid "You are down. A teammate can revive you with E."
+msgstr "Du bist ausgeschieden. Ein Mitspieler kann dich mit E wiederbeleben."
+
+#: scripts/coop_world.gd
+msgid "Revived!"
+msgstr "Wiederbelebt!"
+
+#: scripts/coop_world.gd scripts/waves.gd
+msgid "Reach the Hut Path"
+msgstr "Erreiche den Weg zur Hütte"
+
+#: scripts/coop_world.gd scripts/waves.gd
+msgid "%d left"
+msgstr "%d übrig"
+
+#: scripts/coop_world.gd
+msgid "Starts in %d s · the host starts the next wave"
+msgstr "Start in %d s · Host startet die nächste Welle"
+
+#: scripts/coop_world.gd scripts/hud.gd scripts/waves.gd
+msgid "Wave %d"
+msgstr "Welle %d"
+
+#: scripts/coop_world.gd
+msgid "Wave survived · pistol reserve secured · +%d Rem Dollars"
+msgstr "Welle überstanden · Pistolenreserve gesichert · +%d Rem Dollars"
+
+#: scripts/cornfield.gd scripts/loot.gd
+msgid "Fire rounds (%d)"
+msgstr "Feuerpatronen (%d)"
+
+#: scripts/cornfield.gd scripts/loot.gd
+msgid "Frost rounds (%d)"
+msgstr "Frostpatronen (%d)"
+
+#: scripts/cornfield.gd scripts/loot.gd
+msgid "Hidden purse (%d R)"
+msgstr "Versteckter Geldbeutel (%d R)"
+
+#: scripts/cornfield.gd
+msgid "Grenade stash"
+msgstr "Granatenversteck"
+
+#: scripts/cornfield.gd scripts/main.gd
+msgid "Ammo crate"
+msgstr "Munitionskiste"
+
+#: scripts/currency.gd
+msgid "Rem Dollars (R)"
+msgstr "Rem Dollars (R)"
+
+#: scripts/day_night_cycle.gd scripts/hud.gd scripts/progression.gd
+msgid "Morning"
+msgstr "Morgen"
+
+#: scripts/day_night_cycle.gd scripts/progression.gd
+msgid "Day"
+msgstr "Tag"
+
+#: scripts/day_night_cycle.gd scripts/progression.gd
+msgid "Evening"
+msgstr "Abend"
+
+#: scripts/day_night_cycle.gd scripts/hud.gd scripts/progression.gd
+msgid "Night"
+msgstr "Nacht"
+
+#: scripts/defence_system.gd
+msgid "TOWER BUILDING · up to 6 towers per team"
+msgstr "TURMBAU · maximal 6 Türme im Team"
+
+#: scripts/defence_system.gd
+msgid "Close [T / Esc]"
+msgstr "Schliessen [T / Esc]"
+
+#: scripts/defence_system.gd
+msgid "Unknown tower type."
+msgstr "Unbekannter Turmtyp."
+
+#: scripts/defence_system.gd
+msgid "Invalid upgrade tier."
+msgstr "Ungültige Ausbaustufe."
+
+#: scripts/defence_system.gd
+msgid "%s · Tier %d: survive wave %d first (%d/%d)."
+msgstr "%s · Stufe %d: zuerst Welle %d überstehen (%d/%d)."
+
+#: scripts/defence_system.gd
+msgid "%s: survive wave %d first (%d/%d)."
+msgstr "%s: zuerst Welle %d überstehen (%d/%d)."
+
+#: scripts/defence_system.gd
+msgid "No more than 6 towers per team."
+msgstr "Maximal 6 Türme im Team."
+
+#: scripts/defence_system.gd
+msgid "%s: %d Rem Dollars needed."
+msgstr "%s: %d Rem Dollars benötigt."
+
+#: scripts/defence_system.gd
+msgid "Maximum tier reached."
+msgstr "Maximale Stufe erreicht."
+
+#: scripts/defence_system.gd
+msgid "The tower is being operated right now."
+msgstr "Der Turm wird gerade bedient."
+
+#: scripts/defence_system.gd scripts/progression.gd scripts/skills.gd
+msgid "Not enough Rem Dollars."
+msgstr "Zu wenig Rem Dollars."
+
+#: scripts/defence_system.gd scripts/progression.gd
+msgid "From the start"
+msgstr "Ab Start"
+
+#: scripts/defence_system.gd scripts/progression.gd
+msgid "After wave %d"
+msgstr "Nach Welle %d"
+
+#: scripts/defence_system.gd
+msgid "Tier 2 after wave %d · Tier 3 after wave %d"
+msgstr "Stufe 2 nach Welle %d · Stufe 3 nach Welle %d"
+
+#: scripts/defence_system.gd
+msgid "Dismount before building."
+msgstr "Zum Bauen zuerst absteigen."
+
+#: scripts/defence_system.gd
+msgid "Building not possible right now."
+msgstr "Bauen momentan nicht möglich."
+
+#: scripts/defence_system.gd
+msgid "Choose a building site no more than 8 m away."
+msgstr "Bauplatz höchstens 8 m entfernt wählen."
+
+#: scripts/defence_system.gd
+msgid "Outside the building area."
+msgstr "Ausserhalb des Baugebiets."
+
+#: scripts/defence_system.gd
+msgid "The tower must stand on solid ground."
+msgstr "Turm muss auf festem Boden stehen."
+
+#: scripts/defence_system.gd
+msgid "Keep your distance from the building."
+msgstr "Abstand zum Gebäude halten."
+
+#: scripts/defence_system.gd
+msgid "No tower can stand at the pond."
+msgstr "Am Teich kann kein Turm stehen."
+
+#: scripts/defence_system.gd
+msgid "Ground too steep."
+msgstr "Boden zu steil."
+
+#: scripts/defence_system.gd
+msgid "Too close to another tower."
+msgstr "Zu nah an einem anderen Turm."
+
+#: scripts/defence_system.gd
+msgid "Keep the barricade line clear."
+msgstr "Barrikadenlinie freihalten."
+
+#: scripts/defence_system.gd
+msgid "Don't build where you are standing."
+msgstr "Nicht auf deinem Standort bauen."
+
+#: scripts/defence_system.gd
+msgid "Building site occupied."
+msgstr "Bauplatz belegt."
+
+#: scripts/defence_system.gd
+msgid "No clear view of the building site."
+msgstr "Keine freie Sicht zum Bauplatz."
+
+#: scripts/defence_system.gd
+msgid "Only the host confirms construction."
+msgstr "Nur der Host bestätigt Bauten."
+
+#: scripts/defence_system.gd
+msgid "Invalid orientation."
+msgstr "Ungültige Ausrichtung."
+
+#: scripts/defence_system.gd
+msgid "The tower no longer exists."
+msgstr "Turm nicht mehr vorhanden."
+
+#: scripts/defence_system.gd
+msgid "Upgrading and dismantling only at Mechanic."
+msgstr "Ausbau und Abbau nur bei Mechanic."
+
+#: scripts/defence_system.gd
+msgid "Too far from the tower."
+msgstr "Zu weit vom Turm entfernt."
+
+#: scripts/defence_system.gd
+msgid "No clear view of the tower."
+msgstr "Keine freie Sicht zum Turm."
+
+#: scripts/defence_system.gd
+msgid "Only the builder can dismantle the tower."
+msgstr "Nur der Erbauer kann den Turm abbauen."
+
+#: scripts/defence_system.gd
+msgid "Tower not found."
+msgstr "Turm nicht vorhanden."
+
+#: scripts/defence_system.gd
+msgid "Move closer to the tower."
+msgstr "Gehe näher an den Turm."
+
+#: scripts/defence_system.gd
+msgid "Rotate the tower with R or the mouse wheel."
+msgstr "Drehe den Turm mit R oder dem Mausrad."
+
+#: scripts/defence_system.gd
+msgid "Only the host confirms mounting."
+msgstr "Nur der Host bestätigt den Einstieg."
+
+#: scripts/defence_system.gd
+msgid "This tower is already occupied."
+msgstr "Dieser Turm ist bereits besetzt."
+
+#: scripts/defence_system.gd
+msgid "VIEW BLOCKED"
+msgstr "SICHT BLOCKIERT"
+
+#: scripts/defence_system.gd
+msgid "IN RANGE"
+msgstr "IN REICHWEITE"
+
+#: scripts/defence_system.gd
+msgid "OUT OF RANGE"
+msgstr "AUSSER REICHWEITE"
+
+#: scripts/defence_system.gd
+msgid "NO TARGET"
+msgstr "KEIN ZIEL"
+
+#: scripts/defence_system.gd
+msgid "%s · Range %d m\n%s"
+msgstr "%s · Reichweite %d m\n%s"
+
+#: scripts/defence_system.gd
+msgid "Target %.1f m"
+msgstr "Ziel %.1f m"
+
+#: scripts/defence_system.gd
+msgid "Clear field of fire"
+msgstr "Freies Schussfeld"
+
+#: scripts/defence_system.gd
+msgid "MANUAL · %d%%"
+msgstr "MANUELL · %d %%"
+
+#: scripts/defence_system.gd
+msgid "%s · Tier %d"
+msgstr "%s · Stufe %d"
+
+#: scripts/defence_system.gd
+msgid "%s · [Left click] Fire · [Hold right click] Aim · [E] Dismount\n%s · Heat %d%%"
+msgstr "%s · [Linksklick] Feuern · [Rechtsklick halten] Zielen · [E] Absteigen\n%s · Hitze %d %%"
+
+#: scripts/defence_system.gd
+msgid "OVERHEATED – let it cool down"
+msgstr "ÜBERHITZT – abkühlen lassen"
+
+#: scripts/defence_system.gd
+msgid "Precision mode"
+msgstr "Präzisionsmodus"
+
+#: scripts/defence_system.gd
+msgid "Manual control"
+msgstr "Manuelle Steuerung"
+
+#: scripts/defence_system.gd
+msgid "ALIGN %s · free"
+msgstr "%s AUSRICHTEN · kostenlos"
+
+#: scripts/defence_system.gd scripts/progression.gd
+msgid "%s · %d R"
+msgstr "%s · %d R"
+
+#: scripts/defence_system.gd
+msgid "Max. %d m · bright sector: automatic (160°)\nManual: full circle · obstacles block"
+msgstr "Max. %d m · heller Sektor: Automatik (160°)\nManuell: ganzer Kreis · Hindernisse blockieren"
+
+#: scripts/defence_system.gd
+msgid "%s · %d / 6 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel"
+msgstr "%s · %d / 6 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen"
+
+#: scripts/defence_system.gd
+msgid "RAGE"
+msgstr "RASEREI"
+
+#: scripts/defence_system.gd scripts/main.gd
+msgid "THE FIELD TITAN"
+msgstr "DER FELDTITAN"
+
+#: scripts/defence_tower.gd
+msgid "Sentinel"
+msgstr "Wächter"
+
+#: scripts/defence_tower.gd
+msgid "Precise bursts"
+msgstr "Präzise Feuerstösse"
+
+#: scripts/defence_tower.gd
+msgid "Flamethrower"
+msgstr "Flammenwerfer"
+
+#: scripts/defence_tower.gd
+msgid "Cone of fire hits several enemies"
+msgstr "Feuerkegel trifft mehrere Gegner"
+
+#: scripts/defence_tower.gd
+msgid "Mortar"
+msgstr "Mörser"
+
+#: scripts/defence_tower.gd
+msgid "Arcing shot · 6 m blast radius"
+msgstr "Bogenschuss · 6 m Explosionsradius"
+
+#: scripts/defence_tower.gd
+msgid "Heavy MG"
+msgstr "Schweres MG"
+
+#: scripts/defence_tower.gd
+msgid "High rate of fire · watch the heat"
+msgstr "Hohe Feuerrate · auf Hitze achten"
+
+#: scripts/defence_tower.gd
+msgid "Tesla Coil"
+msgstr "Teslaspule"
+
+#: scripts/defence_tower.gd
+msgid "Chain lightning jumps to nearby enemies"
+msgstr "Kettenblitz springt auf nahe Gegner über"
+
+#: scripts/defence_tower.gd
+msgid "Gun turret destroyed!"
+msgstr "Geschützturm zerstört!"
+
+#: scripts/defence_tower.gd
+msgid "%s %s · %d / %d · OCCUPIED"
+msgstr "%s %s · %d / %d · BESETZT"
+
+#: scripts/door.gd
+msgid "Door"
+msgstr "Tür"
+
+#: scripts/door.gd
+msgid "%s · Locked\nFind the key for %s in the forest"
+msgstr "%s · Verschlossen\nSchlüssel für %s im Wald finden"
+
+#: scripts/door.gd
+msgid "%s is opening …"
+msgstr "%s wird geöffnet …"
+
+#: scripts/door.gd
+msgid "%s is closing …"
+msgstr "%s wird geschlossen …"
+
+#: scripts/door.gd
+msgid "%s · Forced open! Wait a moment"
+msgstr "%s · Aufgedrückt! Einen Moment warten"
+
+#: scripts/door.gd
+msgid "[E] Close %s"
+msgstr "[E] %s schliessen"
+
+#: scripts/door.gd
+msgid "[E] Open %s"
+msgstr "[E] %s öffnen"
+
+#: scripts/door.gd
+msgid "Key missing: %s\nSearch the forest. A hint appears when you get close."
+msgstr "Schlüssel fehlt: %s\nSuche im Wald. In der Nähe erscheint ein Hinweis."
+
+#: scripts/door.gd
+msgid "Doorway blocked.\nKeep the swing area clear."
+msgstr "Türbereich blockiert.\nHalte den Schwenkbereich frei."
+
+#: scripts/door.gd
+msgid "%s was forced open!"
+msgstr "%s wurde aufgedrückt!"
+
+#: scripts/earthworm.gd
+msgid "UNDERGROUND"
+msgstr "UNTER DER ERDE"
+
+#: scripts/earthworm.gd
+msgid "ATTACKING"
+msgstr "ANGRIFF"
+
+#: scripts/earthworm.gd
+msgid "VULNERABLE"
+msgstr "VERWUNDBAR"
+
+#: scripts/earthworm.gd scripts/progression.gd scripts/titan_presence.gd
+msgid "Titans"
+msgstr "Titanen"
+
+#: scripts/encounter_balance.gd
+msgid "WORM WAVE"
+msgstr "WURMWELLE"
+
+#: scripts/encounter_balance.gd
+msgid "BOSS WAVE"
+msgstr "BOSSWELLE"
+
+#: scripts/encounter_balance.gd
+msgid "TITANS"
+msgstr "TITANEN"
+
+#: scripts/encounter_balance.gd scripts/waves.gd
+msgid "HORDE"
+msgstr "HORDE"
+
+#: scripts/fireworks.gd
+msgid "Star Festival · Battery"
+msgstr "Sternenfest · Batterie"
+
+#: scripts/fireworks.gd
+msgid "Large firework battery: 40 seconds of red, green and golden aerial stars with a faster finale. Set it up on level ground under open sky. No combat damage."
+msgstr "Grosse Feuerwerksbatterie: 40 Sekunden rote, grüne und goldene Höhensterne mit schnellerem Finale. Auf ebenem Boden unter freiem Himmel aufstellen. Kein Kampfschaden."
+
+#: scripts/fireworks.gd
+msgid "Sky Festival · XL Battery"
+msgstr "Himmelsfestival · XL-Batterie"
+
+#: scripts/fireworks.gd
+msgid "Huge compound battery: 90 seconds of colorful fan salvos and golden crowns with a dense grand finale. Needs plenty of free space and open sky. No combat damage."
+msgstr "Riesige Verbundbatterie: 90 Sekunden farbige Fächersalven und goldene Kronen mit dichtem Schlussfinale. Benötigt viel freien Platz und offenen Himmel. Kein Kampfschaden."
+
+#: scripts/fireworks.gd
+msgid "Ruby Star"
+msgstr "Rubinstern"
+
+#: scripts/fireworks.gd
+msgid "Red star shell with a silver core and sparkling tails."
+msgstr "Rote Sternenkugel mit silbernem Kern und funkelnden Schweifen."
+
+#: scripts/fireworks.gd
+msgid "Aurora"
+msgstr "Polarlicht"
+
+#: scripts/fireworks.gd
+msgid "Emerald green stars with violet tips and a glowing ring."
+msgstr "Smaragdgrüne Sterne mit violetten Spitzen und einem leuchtenden Ring."
+
+#: scripts/fireworks.gd
+msgid "Golden Willow"
+msgstr "Goldweide"
+
+#: scripts/fireworks.gd
+msgid "A large golden crown with long, slowly falling ember trails and crackling."
+msgstr "Eine grosse goldene Krone mit langen, langsam fallenden Glutspuren und Knistern."
+
+#: scripts/fireworks.gd
+msgid "Forest Thunder"
+msgstr "Walddonner"
+
+#: scripts/fireworks.gd
+msgid "Five single firecrackers: short throw, crackling fuse, a powerful bang with sparks and smoke."
+msgstr "Fünf einzelne Böller: kurze Wurfbahn, knisternde Lunte, kräftiger Knall mit Funken und Rauch."
+
+#: scripts/fireworks.gd
+msgid "Unknown firework."
+msgstr "Unbekanntes Feuerwerk."
+
+#: scripts/fireworks.gd
+msgid "You are down."
+msgstr "Du bist ausser Gefecht."
+
+#: scripts/fireworks.gd
+msgid "Firework bag too full for this pack."
+msgstr "Feuerwerktasche voll für dieses Paket."
+
+#: scripts/fireworks.gd scripts/progression.gd scripts/rare_market.gd
+msgid "Not enough Rem Dollars: %d R needed."
+msgstr "Zu wenig Rem Dollars: %d R benötigt."
+
+#: scripts/fireworks.gd
+msgid "The host confirms the purchase."
+msgstr "Der Host bestätigt den Kauf."
+
+#: scripts/fireworks.gd
+msgid "%s ×%d bought · select it in the inventory [I]."
+msgstr "%s ×%d gekauft · Im Inventar [I] auswählen."
+
+#: scripts/fireworks.gd
+msgid "Left click: %s\nRight click: back to your weapon"
+msgstr "Linksklick: %s\nRechtsklick: zurück zur Waffe"
+
+#: scripts/fireworks.gd
+msgid "Set up & light battery · %d s"
+msgstr "Batterie aufstellen & zünden · %d s"
+
+#: scripts/fireworks.gd
+msgid "Set up & light rocket"
+msgstr "Rakete aufstellen & zünden"
+
+#: scripts/fireworks.gd
+msgid "Light & throw firecracker"
+msgstr "Böller anzünden & werfen"
+
+#: scripts/fireworks.gd
+msgid "%d pcs"
+msgstr "%d Stück"
+
+#: scripts/fireworks.gd
+msgid "%s · Fireworks"
+msgstr "%s · Feuerwerk"
+
+#: scripts/fireworks.gd
+msgid "The host confirms the ignition."
+msgstr "Der Host bestätigt das Zünden."
+
+#: scripts/fireworks.gd
+msgid "Fireworks are not possible right now."
+msgstr "Feuerwerk ist gerade nicht möglich."
+
+#: scripts/fireworks.gd
+msgid "No fireworks of this kind left."
+msgstr "Kein Feuerwerk dieser Sorte mehr."
+
+#: scripts/fireworks.gd
+msgid "Wait a moment before the next firework."
+msgstr "Einen Moment bis zum nächsten Feuerwerk."
+
+#: scripts/fireworks.gd
+msgid "Wait until the fireworks have died down."
+msgstr "Warte kurz, bis das Feuerwerk abgeklungen ist."
+
+#: scripts/fireworks.gd
+msgid "At most two firework batteries can burn at the same time."
+msgstr "Es können höchstens zwei Feuerwerksbatterien gleichzeitig brennen."
+
+#: scripts/fireworks.gd
+msgid "There is no room in front of you to set it up."
+msgstr "Vor dir ist kein Platz zum Aufstellen."
+
+#: scripts/fireworks.gd
+msgid "Set the firework up on level ground."
+msgstr "Stelle das Feuerwerk auf einen ebenen Untergrund."
+
+#: scripts/fireworks.gd
+msgid "The firework needs open sky above it."
+msgstr "Das Feuerwerk braucht freien Himmel über sich."
+
+#: scripts/fireworks.gd
+msgid "There is not enough room here for the battery."
+msgstr "Hier ist zu wenig Platz für die Batterie."
+
+#: scripts/fireworks.gd
+msgid "The whole battery must stand on level ground."
+msgstr "Die ganze Batterie muss auf ebenem Boden stehen."
+
+#: scripts/fireworks.gd
+msgid "The fan salvos need open sky."
+msgstr "Die Fächersalven brauchen freien Himmel."
+
+#: scripts/fireworks.gd
+msgid "Keep more distance from fireworks already lit."
+msgstr "Mehr Abstand zum bereits gezündeten Feuerwerk halten."
+
+#: scripts/forest_key.gd
+msgid "[E] Take key · %s"
+msgstr "[E] Schlüssel nehmen · %s"
+
+#: scripts/forest_keys.gd scripts/main.gd
+msgid "Forest Hut"
+msgstr "Waldhütte"
+
+#: scripts/forest_keys.gd
+msgid "Woodshed"
+msgstr "Holzlager"
+
+#: scripts/forest_keys.gd
+msgid "Key found: %s\nAll doors of this building can now be used. [I] Inventory"
+msgstr "Schlüssel gefunden: %s\nAlle Türen dieser Hütte sind jetzt bedienbar. [I] Inventar"
+
+#: scripts/game_settings.gd
+msgid "Smooth"
+msgstr "Flüssig"
+
+#: scripts/game_settings.gd
+msgid "Balanced"
+msgstr "Ausgewogen"
+
+#: scripts/game_settings.gd
+msgid "High quality"
+msgstr "Hohe Qualität"
+
+#: scripts/game_settings.gd
+msgid "Easy"
+msgstr "Leicht"
+
+#: scripts/game_settings.gd
+msgid "For getting to know the hut: weaker zombies, smaller waves, plenty of supplies."
+msgstr "Zum Kennenlernen der Hütte: schwächere Zombies, kleinere Wellen, viele Vorräte."
+
+#: scripts/game_settings.gd
+msgid "Normal"
+msgstr "Normal"
+
+#: scripts/game_settings.gd
+msgid "The balanced night on the Heitersberg."
+msgstr "Die ausgewogene Nacht am Heitersberg."
+
+#: scripts/game_settings.gd
+msgid "Hard"
+msgstr "Schwer"
+
+#: scripts/game_settings.gd
+msgid "Tougher and faster hordes, fewer supplies, 30% more Rem Dollars."
+msgstr "Zähere und schnellere Horden, weniger Vorräte, 30 % mehr Rem Dollars."
+
+#: scripts/game_settings.gd
+msgid "Nightmare"
+msgstr "Albtraum"
+
+#: scripts/game_settings.gd
+msgid "Huge waves, brutal hits, barely any regeneration. 70% more Rem Dollars for the high scores."
+msgstr "Riesige Wellen, brutale Treffer, kaum Regeneration. 70 % mehr Rem Dollars für die Bestenliste."
+
+#: scripts/game_settings.gd
+msgid "Language"
+msgstr "Sprache"
+
+#: scripts/game_settings.gd
+msgid "Graphics"
+msgstr "Grafik"
+
+#: scripts/game_settings.gd
+msgid "Unlimited"
+msgstr "Unbegrenzt"
+
+#: scripts/game_settings.gd
+msgid "Frame rate limit"
+msgstr "Bildratenlimit"
+
+#: scripts/game_settings.gd
+msgid "VSync"
+msgstr "VSync"
+
+#: scripts/game_settings.gd
+msgid "Show FPS"
+msgstr "FPS anzeigen"
+
+#: scripts/game_settings.gd
+msgid "Mouse sensitivity"
+msgstr "Mausempfindlichkeit"
+
+#: scripts/game_settings.gd
+msgid "Volume"
+msgstr "Lautstärke"
+
+#: scripts/game_settings.gd
+msgid "Ground tremors from titans: off on the left, full strength on the right."
+msgstr "Bodenbeben durch Titanen: links aus, rechts volle Stärke."
+
+#: scripts/game_settings.gd
+msgid "Titan ground tremors"
+msgstr "Titanen-Bodenbeben"
+
+#: scripts/game_settings.gd
+msgid "Toggle fullscreen (F11)"
+msgstr "Vollbild umschalten (F11)"
+
+#: scripts/game_settings.gd scripts/hud.gd
+msgid "Quit game"
+msgstr "Spiel beenden"
+
+#: scripts/hud.gd
+msgid "Play time %s"
+msgstr "Spielzeit %s"
+
+#: scripts/hud.gd
+msgid "REM DOLLARS · Build, buy, train"
+msgstr "REM DOLLARS · Bauen, Kaufen, Ausbilden"
+
+#: scripts/hud.gd
+msgid "Health"
+msgstr "Leben"
+
+#: scripts/hud.gd scripts/weapons.gd
+msgid "Pistol"
+msgstr "Pistole"
+
+#: scripts/hud.gd
+msgid "Ready"
+msgstr "Bereit"
+
+#: scripts/hud.gd
+msgid "ALARM! THE FOREST HUT IS UNDER ATTACK!"
+msgstr "ALARM! WALDHÜTTE WIRD ANGEGRIFFEN!"
+
+#: scripts/hud.gd
+msgid "LOCAL TIME"
+msgstr "ORTSZEIT"
+
+#: scripts/hud.gd
+msgid "%d× · game time"
+msgstr "%d× · Spielzeit"
+
+#: scripts/hud.gd scripts/main.gd
+msgid "Start game"
+msgstr "Spiel starten"
+
+#: scripts/hud.gd
+msgid "Briefing"
+msgstr "Briefing"
+
+#: scripts/hud.gd
+msgid "Multiplayer / Hamachi"
+msgstr "Mehrspieler / Hamachi"
+
+#: scripts/hud.gd
+msgid "Difficulty"
+msgstr "Schwierigkeit"
+
+#: scripts/hud.gd
+msgid "Controls"
+msgstr "Steuerung"
+
+#: scripts/hud.gd
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: scripts/hud.gd
+msgid "High scores"
+msgstr "Bestenliste"
+
+#: scripts/hud.gd
+msgid "Achievements"
+msgstr "Erfolge"
+
+#: scripts/hud.gd
+msgid "BRIEFING"
+msgstr "BRIEFING"
+
+#: scripts/hud.gd
+msgid "Changes apply immediately and are saved."
+msgstr "Änderungen werden sofort übernommen und gespeichert."
+
+#: scripts/hud.gd
+msgid "Back to main menu"
+msgstr "Zurück ins Hauptmenü"
+
+#: scripts/hud.gd
+msgid "HOW TO SURVIVE"
+msgstr "SO ÜBERLEBST DU"
+
+#: scripts/hud.gd
+msgid "Four approaches lead to the hut: the Hut Path (north-east), the Meadow Gate (east), the Village Path (south) and the North Forest Path. E builds or repairs right at the line; building costs 50 Rem Dollars. Mechanic advises you on defense."
+msgstr "Vier Zugänge führen zur Hütte: Weg zur Hütte (Nordost), Wiesentor (Ost), Weg Richtung Dorf (Süd) und Waldweg Nord. E baut oder repariert direkt an der Linie; Bauen kostet 50 Rem Dollars. Mechanic berät dich zur Verteidigung."
+
+#: scripts/hud.gd
+msgid "Headshots deal 2.2 times the damage. Kills in quick succession build a streak worth up to 100% bonus points."
+msgstr "Kopfschüsse machen den 2,2-fachen Schaden. Abschüsse in schneller Folge bauen eine Serie auf und geben bis zu 100 % Bonuspunkte."
+
+#: scripts/hud.gd
+msgid "Fallen zombies drop ammo, grenades and bandage packs. Just walk through them."
+msgstr "Gefallene Zombies lassen Munition, Granaten und Verbandspäckli fallen. Einfach hindurchlaufen."
+
+#: scripts/hud.gd
+msgid "Vendor sells weapons at the campfire. Complete quests and survive waves to unlock his stock. A secret trader waits in the forest."
+msgstr "Vendor verkauft Waffen am Lagerfeuer. Erfülle Aufträge und überstehe Wellen, um sein Angebot freizuschalten. Ein geheimer Händler wartet im Wald."
+
+#: scripts/hud.gd
+msgid "Porcini heal, fly agarics briefly double your damage. Eat both from the inventory (I)."
+msgstr "Steinpilze heilen, Fliegenpilze verdoppeln kurz den Schaden. Beides im Inventar (I) essen."
+
+#: scripts/hud.gd
+msgid "T opens the tower preview. R/mouse wheel rotates, E confirms. At a tower E re-aims it, F repairs it. Upgrades at Mechanic. Q shows your quests. Hold Tab for the leaderboard."
+msgstr "T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm richtet E neu aus, F repariert. Ausbau bei Mechanic. Q zeigt deine Aufträge. Halte Tab für das Leaderboard."
+
+#: scripts/hud.gd
+msgid "Move"
+msgstr "Bewegen"
+
+#: scripts/hud.gd
+msgid "Mouse"
+msgstr "Maus"
+
+#: scripts/hud.gd
+msgid "Look around"
+msgstr "Umsehen"
+
+#: scripts/hud.gd
+msgid "Shift"
+msgstr "Shift"
+
+#: scripts/hud.gd
+msgid "Sprint"
+msgstr "Sprinten"
+
+#: scripts/hud.gd
+msgid "Hold Ctrl"
+msgstr "Strg halten"
+
+#: scripts/hud.gd
+msgid "Crouch / aim more precisely"
+msgstr "Ducken / genauer zielen"
+
+#: scripts/hud.gd
+msgid "Space"
+msgstr "Leertaste"
+
+#: scripts/hud.gd
+msgid "Jump"
+msgstr "Springen"
+
+#: scripts/hud.gd
+msgid "Left click"
+msgstr "Linksklick"
+
+#: scripts/hud.gd
+msgid "Shoot / strike"
+msgstr "Schiessen / Zuschlagen"
+
+#: scripts/hud.gd
+msgid "Right click"
+msgstr "Rechtsklick"
+
+#: scripts/hud.gd
+msgid "Aim (ADS)"
+msgstr "Zielen (ADS)"
+
+#: scripts/hud.gd
+msgid "Reload"
+msgstr "Nachladen"
+
+#: scripts/hud.gd
+msgid "Quick bar: slots 1–10"
+msgstr "Schnellzugriff: Plätze 1–10"
+
+#: scripts/hud.gd
+msgid "Mouse wheel"
+msgstr "Mausrad"
+
+#: scripts/hud.gd
+msgid "Switch weapon"
+msgstr "Waffe wechseln"
+
+#: scripts/hud.gd
+msgid "Throw grenade"
+msgstr "Granate werfen"
+
+#: scripts/hud.gd
+msgid "NPC / barricade / aim tower / repair hut"
+msgstr "NPC / Barrikade / Turm ausrichten / Hütte reparieren"
+
+#: scripts/hud.gd
+msgid "Defense planning with Mechanic"
+msgstr "Verteidigungsberatung bei Mechanic"
+
+#: scripts/hud.gd
+msgid "Place gun turret · E confirms"
+msgstr "Geschützturm platzieren · E bestätigt"
+
+#: scripts/hud.gd
+msgid "Inventory"
+msgstr "Inventar"
+
+#: scripts/hud.gd
+msgid "Drop 100 Rem Dollars"
+msgstr "100 Rem Dollars abwerfen"
+
+#: scripts/hud.gd
+msgid "Hold Tab"
+msgstr "Tab halten"
+
+#: scripts/hud.gd
+msgid "Leaderboard of this round"
+msgstr "Leaderboard dieser Runde"
+
+#: scripts/hud.gd
+msgid "Quest tracker on/off"
+msgstr "Auftragsanzeige ein/aus"
+
+#: scripts/hud.gd
+msgid "Minimap large / small"
+msgstr "Minimap gross / klein"
+
+#: scripts/hud.gd
+msgid "Ctrl+Shift+D"
+msgstr "Strg+Shift+D"
+
+#: scripts/hud.gd
+msgid "Cheat menu"
+msgstr "Cheatmenü"
+
+#: scripts/hud.gd
+msgid "Flashlight"
+msgstr "Taschenlampe"
+
+#: scripts/hud.gd
+msgid "Melee / rifle butt"
+msgstr "Nahkampf / Kolbenschlag"
+
+#: scripts/hud.gd
+msgid "Enter"
+msgstr "Enter"
+
+#: scripts/hud.gd
+msgid "Next wave now"
+msgstr "Nächste Welle sofort"
+
+#: scripts/hud.gd
+msgid "Esc"
+msgstr "Esc"
+
+#: scripts/hud.gd
+msgid "Pause / menu"
+msgstr "Pause / Menü"
+
+#: scripts/hud.gd
+msgid "Fullscreen"
+msgstr "Vollbild"
+
+#: scripts/hud.gd
+msgid "TIPS"
+msgstr "HINWEISE"
+
+#: scripts/hud.gd
+msgid "Aiming cuts recoil by a quarter and spread by 60%. Sustained fire makes the barrel climb: short bursts hit better. The minimap shows enemies as red dots and barrier lines red (open), green (built) or yellow (damaged)."
+msgstr "Beim Zielen sinkt der Rückstoss um einen Viertel und die Streuung um 60 %. Dauerfeuer lässt den Lauf steigen: kurze Salven treffen besser. Die Minimap zeigt Gegner als rote Punkte, Sperrlinien rot (offen), grün (gebaut) oder gelb (beschädigt)."
+
+#: scripts/hud.gd
+msgid "The difficulty applies to the whole round and can only be changed before the start."
+msgstr "Der Schwierigkeitsgrad gilt für die ganze Runde und lässt sich nur vor dem Start ändern."
+
+#: scripts/hud.gd scripts/inventory.gd scripts/world_npc.gd
+msgid "%s\n%s"
+msgstr "%s\n%s"
+
+#: scripts/hud.gd
+msgid "Difficulty: %s"
+msgstr "Schwierigkeit: %s"
+
+#: scripts/hud.gd
+msgid "MULTIPLAYER / HAMACHI"
+msgstr "MEHRSPIELER / HAMACHI"
+
+#: scripts/hud.gd
+msgid "DIFFICULTY"
+msgstr "SCHWIERIGKEIT"
+
+#: scripts/hud.gd
+msgid "CONTROLS"
+msgstr "STEUERUNG"
+
+#: scripts/hud.gd
+msgid "SETTINGS"
+msgstr "EINSTELLUNGEN"
+
+#: scripts/hud.gd
+msgid "HIGH SCORES"
+msgstr "BESTENLISTE"
+
+#: scripts/hud.gd
+msgid "ACHIEVEMENTS"
+msgstr "ERFOLGE"
+
+#: scripts/hud.gd
+msgid "ROUND SUMMARY"
+msgstr "BILANZ DER RUNDE"
+
+#: scripts/hud.gd
+msgid "No round played yet. Your ten best rounds end up here."
+msgstr "Noch keine Runde gespielt. Die zehn besten Runden landen hier."
+
+#: scripts/hud.gd
+msgid "Rem Dollars"
+msgstr "Rem Dollars"
+
+#: scripts/hud.gd
+msgid "Wave"
+msgstr "Welle"
+
+#: scripts/hud.gd
+msgid "Kills"
+msgstr "Abschüsse"
+
+#: scripts/hud.gd
+msgid "Heads"
+msgstr "Kopf"
+
+#: scripts/hud.gd
+msgid "Hit %"
+msgstr "Treffer"
+
+#: scripts/hud.gd
+msgid "Time"
+msgstr "Zeit"
+
+#: scripts/hud.gd
+msgid "Mode · Date"
+msgstr "Modus · Datum"
+
+#: scripts/hud.gd
+msgid "No achievements available."
+msgstr "Keine Erfolge verfügbar."
+
+#: scripts/hud.gd
+msgid "%s unlocked. Achievements stay saved; progress and rewards count per round. In multiplayer you reach the goals together as a team."
+msgstr "%s freigeschaltet. Erfolge bleiben gespeichert; Fortschritt und Belohnungen zählen pro Runde. Im Mehrspieler erreicht ihr die Ziele gemeinsam als Team."
+
+#: scripts/hud.gd
+msgid "%s · Round: %d/%d"
+msgstr "%s · Runde: %d/%d"
+
+#: scripts/hud.gd
+msgid "So far: wave %d · %d Rem Dollars · %d kills (%d headshots) · hits %d%% · best streak %d · %s"
+msgstr "Bisher: Welle %d · %d Rem Dollars · %d Abschüsse (%d Kopfschüsse) · Treffer %d %% · Beste Serie %d · %s"
+
+#: scripts/hud.gd
+msgid "Reached wave %d · %d Rem Dollars · %s"
+msgstr "Welle %d erreicht · %d Rem Dollars · %s"
+
+#: scripts/hud.gd
+msgid "Rank %d in the high scores  ·  NEW RECORD"
+msgstr "Platz %d in der Bestenliste  ·  NEUER REKORD"
+
+#: scripts/hud.gd
+msgid "Rank %d in the high scores"
+msgstr "Platz %d in der Bestenliste"
+
+#: scripts/hud.gd
+msgid "Headshots"
+msgstr "Kopfschüsse"
+
+#: scripts/hud.gd
+msgid "Accuracy"
+msgstr "Treffgenauigkeit"
+
+#: scripts/hud.gd
+msgid "Shots"
+msgstr "Schüsse"
+
+#: scripts/hud.gd
+msgid "Best streak"
+msgstr "Beste Serie"
+
+#: scripts/hud.gd scripts/inventory.gd scripts/quickbar.gd
+msgid "Grenades"
+msgstr "Granaten"
+
+#: scripts/hud.gd
+msgid "Barricades built"
+msgstr "Barrikaden gebaut"
+
+#: scripts/hud.gd
+msgid "Play time"
+msgstr "Spielzeit"
+
+#: scripts/hud.gd scripts/main.gd
+msgid "PAUSED"
+msgstr "PAUSE"
+
+#: scripts/hud.gd scripts/main.gd
+msgid "YOU DIED"
+msgstr "GESTORBEN"
+
+#: scripts/hud.gd
+msgid " (you)"
+msgstr " (du)"
+
+#: scripts/hud.gd
+msgid "%d HP"
+msgstr "%d LP"
+
+#: scripts/hud.gd scripts/weapon_specials.gd scripts/weapons.gd
+msgid "down"
+msgstr "am Boden"
+
+#: scripts/hud.gd
+msgid "HUT %d / %d"
+msgstr "HÜTTE %d / %d"
+
+#: scripts/hud.gd
+msgid "+%d R  HEADSHOT"
+msgstr "+%d R  KOPFSCHUSS"
+
+#: scripts/hud.gd
+msgid "%d× STREAK  +%d%%"
+msgstr "%d× SERIE  +%d %%"
+
+#: scripts/hud.gd
+msgid "%d× STREAK"
+msgstr "%d× SERIE"
+
+#: scripts/hud.gd
+msgid "Reloading ..."
+msgstr "Nachladen ..."
+
+#: scripts/hunting.gd
+msgid "Raw Venison"
+msgstr "Rohes Wildfleisch"
+
+#: scripts/hunting.gd
+msgid "Cook it on the camp grill with E (6 seconds). Or sell it to the Vendor."
+msgstr "Am Lagergrill mit E zubereiten (6 Sekunden). Oder beim Vendor verkaufen."
+
+#: scripts/hunting.gd scripts/quickbar.gd
+msgid "Grilled Venison"
+msgstr "Gegrilltes Wildfleisch"
+
+#: scripts/hunting.gd
+msgid "Eating it heals 35 health. Nothing is used up at full health."
+msgstr "Essen heilt 35 Leben. Bei voller Gesundheit wird nichts verbraucht."
+
+#: scripts/hunting.gd
+msgid "[E] Pick up venison · %d pieces"
+msgstr "[E] Wildfleisch aufnehmen · %d Stück"
+
+#: scripts/hunting.gd
+msgid "Grill · %d s left"
+msgstr "Grill · noch %d s"
+
+#: scripts/hunting.gd
+msgid "[E] Grill venison · 6 s · %d raw"
+msgstr "[E] Wildfleisch grillen · 6 s · %d roh"
+
+#: scripts/hunting.gd
+msgid "Not possible right now."
+msgstr "Gerade nicht möglich."
+
+#: scripts/hunting.gd
+msgid "Go to the kill."
+msgstr "Gehe zur Beute."
+
+#: scripts/hunting.gd
+msgid "%d pieces of venison collected"
+msgstr "%d Stück Wildfleisch gesammelt"
+
+#: scripts/hunting.gd
+msgid "Go to the camp grill."
+msgstr "Gehe zum Lagergrill."
+
+#: scripts/hunting.gd
+msgid "Your meat is already on the grill."
+msgstr "Dein Fleisch liegt bereits auf dem Grill."
+
+#: scripts/hunting.gd
+msgid "No raw meat in your inventory."
+msgstr "Kein rohes Fleisch im Inventar."
+
+#: scripts/hunting.gd
+msgid "Grilling venison · 6 seconds"
+msgstr "Wildfleisch wird gegrillt · 6 Sekunden"
+
+#: scripts/hunting.gd
+msgid "No grilled meat in your inventory."
+msgstr "Kein gegrilltes Fleisch im Inventar."
+
+#: scripts/hunting.gd
+msgid "Your health is already full."
+msgstr "Deine Gesundheit ist bereits voll."
+
+#: scripts/hunting.gd
+msgid "Venison eaten · +35 health"
+msgstr "Wildfleisch gegessen · +35 Leben"
+
+#: scripts/hunting.gd
+msgid "Venison ready · eat or sell it from the inventory"
+msgstr "Wildfleisch fertig · im Inventar essen oder verkaufen"
+
+#: scripts/hunting.gd
+msgid "Venison ×%d"
+msgstr "Wildfleisch ×%d"
+
+#: scripts/hut_health.gd
+msgid "WARNING: THE FOREST HUT IS UNDER ATTACK!\nDefend it!"
+msgstr "ACHTUNG: DIE WALDHÜTTE WIRD ANGEGRIFFEN!\nVerteidigen!"
+
+#: scripts/hut_health.gd
+msgid "FOREST HUT  %d / %d"
+msgstr "WALDHÜTTE  %d / %d"
+
+#: scripts/hut_health.gd scripts/main.gd
+msgid "The forest hut has been destroyed."
+msgstr "Die Waldhütte ist zerstört."
+
+#: scripts/hut_health.gd
+msgid "Repairing is not possible right now."
+msgstr "Reparieren ist momentan nicht möglich."
+
+#: scripts/hut_health.gd
+msgid "Too far from the hut."
+msgstr "Zu weit von der Hütte entfernt."
+
+#: scripts/hut_health.gd
+msgid "[E] Repair forest hut · +%d HP · %d R\nHut %d / %d · Price tier: wave %d"
+msgstr "[E] Waldhütte reparieren · +%d HP · %d R\nHütte %d / %d · Preisstufe: Welle %d"
+
+#: scripts/intro.gd
+msgid "Find the forest hut.\nFollow the road and the direction arrow."
+msgstr "Finde die Waldhütte.\nFolge der Strasse und dem Richtungspfeil."
+
+#: scripts/intro.gd
+msgid "They heard you.\nGet to the forest hut, hold the barricades!"
+msgstr "Sie haben dich gehört.\nZur Waldhütte, halte die Barrikaden!"
+
+#: scripts/inventory.gd
+msgid "All"
+msgstr "Alle"
+
+#: scripts/inventory.gd
+msgid "Weapons"
+msgstr "Waffen"
+
+#: scripts/inventory.gd scripts/progression.gd
+msgid "Fireworks"
+msgstr "Feuerwerk"
+
+#: scripts/inventory.gd
+msgid "Supplies"
+msgstr "Vorräte"
+
+#: scripts/inventory.gd
+msgid "Keys"
+msgstr "Schlüssel"
+
+#: scripts/inventory.gd
+msgid "INVENTORY"
+msgstr "INVENTAR"
+
+#: scripts/inventory.gd
+msgid "Sort: category"
+msgstr "Sortierung: Kategorie"
+
+#: scripts/inventory.gd
+msgid "Name: A–Z"
+msgstr "Name: A–Z"
+
+#: scripts/inventory.gd
+msgid "Name: Z–A"
+msgstr "Name: Z–A"
+
+#: scripts/inventory.gd
+msgid "Hover over an item for details."
+msgstr "Fahre über einen Gegenstand für Details."
+
+#: scripts/inventory.gd
+msgid "Right click: assign a quick bar slot (1-9 / 0)  ·  I / Esc: close  ·  Click a weapon: equip  ·  Click mushrooms: eat  ·  Buy weapons and supplies from Vendor. Choose skins for the equipped weapon at the trader."
+msgstr "Rechtsklick: Schnellzugriff (1-9 / 0) belegen  ·  I / Esc schliessen  ·  Klick auf eine Waffe: ausrüsten  ·  Klick auf Pilze: essen  ·  Waffen und Nachschub bei Vendor kaufen. Skins beim Händler für die ausgerüstete Waffe wählen."
+
+#: scripts/inventory.gd
+msgid "%s collected (%d)"
+msgstr "%s gesammelt (%d)"
+
+#: scripts/inventory.gd
+msgid "Right click: assign to the quick bar (1-9 / 0)"
+msgstr "Rechtsklick: Schnellzugriff belegen (1-9 / 0)"
+
+#: scripts/inventory.gd
+msgid "★ %s · latest: %s\nNext goals: %s"
+msgstr "★ %s · zuletzt: %s\nNächste Ziele: %s"
+
+#: scripts/inventory.gd
+msgid "none yet"
+msgstr "noch keiner"
+
+#: scripts/inventory.gd
+msgid "This round: %d kills · %d headshots · accuracy %d%% · streak %d"
+msgstr "Diese Runde: %d Abschüsse · %d Kopfschüsse · Treffer %d %% · Serie %d"
+
+#: scripts/inventory.gd
+msgid "%s\n\nUSAGE\nSelecting closes the inventory. Left click: set up and light. Rockets and batteries need open sky.\nRight click: back to your weapon. No combat damage."
+msgstr "%s\n\nANWENDUNG\nAuswählen schliesst das Inventar. Linksklick: aufstellen und zünden. Raketen und Batterien benötigen freien Himmel.\nRechtsklick: zur Waffe. Kein Kampfschaden."
+
+#: scripts/inventory.gd
+msgid "%s\n\nUSAGE\nSelecting closes the inventory. Left click: light and throw. Bang after 2.4 seconds.\nRight click: back to your weapon. No combat damage."
+msgstr "%s\n\nANWENDUNG\nAuswählen schliesst das Inventar. Linksklick: anzünden und werfen. Knall nach 2,4 Sekunden.\nRechtsklick: zur Waffe. Kein Kampfschaden."
+
+#: scripts/inventory.gd
+msgid "%d owned · Select"
+msgstr "%d Stück · Auswählen"
+
+#: scripts/inventory.gd
+msgid "Active"
+msgstr "Aktiv"
+
+#: scripts/inventory.gd
+msgid "Activate talisman"
+msgstr "Talisman aktivieren"
+
+#: scripts/inventory.gd
+msgid "%s One talisman active at a time."
+msgstr "%s Ein Talisman gleichzeitig aktiv."
+
+#: scripts/inventory.gd
+msgid "Unequip talisman"
+msgstr "Talisman ablegen"
+
+#: scripts/inventory.gd
+msgid "No talisman"
+msgstr "Kein Talisman"
+
+#: scripts/inventory.gd
+msgid "You keep all your talismans."
+msgstr "Alle Talismane bleiben im Besitz."
+
+#: scripts/inventory.gd
+msgid "%d rounds · %s"
+msgstr "%d Schüsse · %s"
+
+#: scripts/inventory.gd scripts/progression.gd
+msgid "Activate"
+msgstr "Aktivieren"
+
+#: scripts/inventory.gd
+msgid "%s Uses one charge per shot on top of normal ammo, misses included. Shotgun: one charge for all pellets."
+msgstr "%s Verbraucht zusätzlich zur normalen Munition eine Ladung pro Schuss, auch bei Fehlschüssen. Schrot: eine Ladung für alle Pellets."
+
+#: scripts/inventory.gd
+msgid "Normal rounds"
+msgstr "Normale Patronen"
+
+#: scripts/inventory.gd
+msgid "Save special ammo"
+msgstr "Spezialmunition sparen"
+
+#: scripts/inventory.gd
+msgid "Turns special ammo off without losing any of it."
+msgstr "Deaktiviert Spezialmunition, ohne Vorräte zu verlieren."
+
+#: scripts/inventory.gd
+msgid "%s · %d damage per hit · %.2f s between hits · %.2f m range. No ammo. Attack: left click or H."
+msgstr "%s · %d Schaden pro Schlag · %.2f s Schlagabstand · %.2f m Reichweite. Keine Munition. Angriff: Linksklick oder H."
+
+#: scripts/inventory.gd
+msgid "Right click: %d damage, %.2f s recovery, %.2f m range."
+msgstr "Rechtsklick: %d Schaden, %.2f s Erholung, %.2f m Reichweite."
+
+#: scripts/inventory.gd
+msgid "Melee · Equip"
+msgstr "Nahkampf · Ausrüsten"
+
+#: scripts/inventory.gd
+msgid "%s%s  ·  Magazine %d / %d, reserve %d  ·  Damage %d%s per shot (×%.1f skill), headshot ×2.2  ·  %.1f rounds/s (%d damage/s)  ·  Range %d m  ·  Reload %.1f s"
+msgstr "%s%s  ·  Magazin %d / %d, Reserve %d  ·  Schaden %d%s pro Schuss (×%.1f Skill), Kopfschuss ×2.2  ·  %.1f Schuss/s (%d Schaden/s)  ·  Reichweite %d m  ·  Nachladen %.1f s"
+
+#: scripts/inventory.gd
+msgid "  (equipped)"
+msgstr "  (ausgerüstet)"
+
+#: scripts/inventory.gd
+msgid " × %d pellets"
+msgstr " × %d Schrot"
+
+#: scripts/inventory.gd
+msgid "%d / %d  ·  Equip"
+msgstr "%d / %d  ·  Ausrüsten"
+
+#: scripts/inventory.gd
+msgid "%d owned  ·  Key G"
+msgstr "%d Stück  ·  Taste G"
+
+#: scripts/inventory.gd
+msgid "Hand grenades: 2.6 s fuse, 7 m radius, 260 damage at the center. Throw with G. Pouch limit: %d. Restock at Vendor or from fallen zombies."
+msgstr "Handgranaten: 2,6 s Zünder, 7 m Radius, 260 Schaden im Zentrum. Werfen mit G. Taschenlimit: %d. Nachschub bei Vendor oder von gefallenen Zombies."
+
+#: scripts/inventory.gd
+msgid "%d owned · %s"
+msgstr "%d Stück · %s"
+
+#: scripts/inventory.gd
+msgid "Eat"
+msgstr "Essen"
+
+#: scripts/inventory.gd
+msgid "Grill at the camp"
+msgstr "Am Lager grillen"
+
+#: scripts/inventory.gd
+msgid "%s\nSale: %d R each at Vendor."
+msgstr "%s\nVerkauf: %d R pro Stück beim Vendor."
+
+#: scripts/inventory.gd
+msgid "%d owned · sells for 1000 R"
+msgstr "%d Stück · 1000 R Verkauf"
+
+#: scripts/inventory.gd
+msgid "%d owned  ·  Click: eat"
+msgstr "%d Stück  ·  Klick: essen"
+
+#: scripts/inventory.gd
+msgid "EFFECT\n%s\n\nSALE\n%d R each at Vendor\n\nUSAGE\nClick: eat · E: gather in the forest\nIdentical effects do not stack. Eating again renews the duration."
+msgstr "WIRKUNG\n%s\n\nVERKAUF\n%d R pro Stück beim Vendor\n\nANWENDUNG\nKlick: essen · E: im Wald sammeln\nGleiche Effekte stapeln nicht. Erneutes Essen erneuert die Dauer."
+
+#: scripts/inventory.gd
+msgid "Key for the %s. Stays with you and opens every door of this hut."
+msgstr "Schlüssel für %s. Bleibt bei dir und öffnet alle Türen dieser Hütte."
+
+#: scripts/inventory.gd
+msgid "Key for the %s. A rare find in the forest – not there in every run. Nearby, a hint and a direction arrow help."
+msgstr "Schlüssel für %s. Ein seltener Fund im Wald – nicht in jedem Durchlauf vorhanden. In der Nähe helfen Hinweis und Richtungspfeil."
+
+#: scripts/inventory.gd
+msgid "Key: %s"
+msgstr "Schlüssel: %s"
+
+#: scripts/inventory.gd
+msgid "Found"
+msgstr "Gefunden"
+
+#: scripts/inventory.gd
+msgid "Not found yet"
+msgstr "Noch nicht gefunden"
+
+#: scripts/inventory.gd
+msgid "No items."
+msgstr "Keine Gegenstände vorhanden."
+
+#: scripts/inventory.gd
+msgid "No items in the %s category."
+msgstr "Keine Gegenstände in der Kategorie %s."
+
+#: scripts/key_hint.gd
+msgid "KEY NEARBY"
+msgstr "SCHLÜSSEL IN DER NÄHE"
+
+#: scripts/key_hint.gd
+msgid "%d m · Follow the direction arrow"
+msgstr "%d m · Folge dem Richtungspfeil"
+
+#: scripts/leaderboard.gd
+msgid "LEADERBOARD"
+msgstr "LEADERBOARD"
+
+#: scripts/leaderboard.gd
+msgid "PLAYER"
+msgstr "SPIELER"
+
+#: scripts/leaderboard.gd
+msgid "KILLS"
+msgstr "KILLS"
+
+#: scripts/leaderboard.gd
+msgid "HEADSHOTS"
+msgstr "HEADSHOTS"
+
+#: scripts/leaderboard.gd
+msgid "DEATHS"
+msgstr "DEATHS"
+
+#: scripts/leaderboard.gd
+msgid "TITAN KILLS"
+msgstr "TITAN KILLS"
+
+#: scripts/leaderboard.gd
+msgid "ASSISTS"
+msgstr "ASSISTS"
+
+#: scripts/leaderboard.gd
+msgid "REM DOLLARS"
+msgstr "REM DOLLARS"
+
+#: scripts/leaderboard.gd
+msgid "PING"
+msgstr "PING"
+
+#: scripts/leaderboard.gd
+msgid "Hold TAB · Q quests · Rem Dollars = balance · ping to the host\nHeadshots = kills by headshot. Assists = damage dealt, a teammate got the kill."
+msgstr "TAB halten · Q Aufträge · Rem Dollars = Guthaben · Ping zum Host\nHeadshots = Kills durch Kopfschuss. Assists = Schaden beigetragen, Mitspieler erzielt den Kill."
+
+#: scripts/leaderboard.gd
+msgid "%s · WAVE %d · %s"
+msgstr "%s · WELLE %d · %s"
+
+#: scripts/leaderboard.gd
+msgid "CO-OP"
+msgstr "KOOP"
+
+#: scripts/leaderboard.gd
+msgid "SOLO"
+msgstr "SOLO"
+
+#: scripts/leaderboard.gd
+msgid "ROUND OVER"
+msgstr "RUNDENENDE"
+
+#: scripts/leaderboard.gd
+msgid "ROUND IN PROGRESS"
+msgstr "LAUFENDE RUNDE"
+
+#: scripts/leaderboard.gd
+msgid "YOU"
+msgstr "DU"
+
+#: scripts/leaderboard.gd
+msgid "OFFLINE"
+msgstr "OFFLINE"
+
+#: scripts/loot.gd
+msgid "Grenade stash (%d)"
+msgstr "Granatenversteck (%d)"
+
+#: scripts/loot.gd
+msgid "Ammo crate (%d magazines)"
+msgstr "Munitionskiste (%d Magazine)"
+
+#: scripts/loot.gd
+msgid "%s found"
+msgstr "%s gefunden"
+
+#: scripts/loot.gd
+msgid "Ammo reserve full"
+msgstr "Munitionsreserve voll"
+
+#: scripts/loot.gd
+msgid "Supplies: %d magazine(s) for %s"
+msgstr "Vorräte: %d Magazin(e) für %s"
+
+#: scripts/loot.gd
+msgid "[E] Collect %s"
+msgstr "[E] %s sammeln"
+
+#: scripts/loot.gd
+msgid "[E] Pick up %s"
+msgstr "[E] %s aufnehmen"
+
+#: scripts/loot.gd
+msgid "Special ammo full"
+msgstr "Spezialmunition voll"
+
+#: scripts/loot.gd
+msgid "Grenades full"
+msgstr "Granaten voll"
+
+#: scripts/main.gd
+msgid "Between the lines, added by hand:\n\nThey say there is a shop that bears no name.\nIts goods are on no list. Its trader asks no questions.\nWhoever finds it understands why no one speaks of it."
+msgstr "Zwischen den Zeilen steht, von Hand ergänzt:\n\nMan sagt, es gebe einen Laden, der keinen Namen trägt.\nSeine Waren stehen auf keiner Liste. Sein Händler stellt keine Fragen.\nWer ihn findet, versteht, warum niemand von ihm spricht."
+
+#: scripts/main.gd
+msgid "Terrain on the Heitersberg"
+msgstr "Gelände am Heitersberg"
+
+#: scripts/main.gd
+msgid "Paths and roads"
+msgstr "Wege und Strassen"
+
+#: scripts/main.gd scripts/rare_market.gd
+msgid "Forest"
+msgstr "Wald"
+
+#: scripts/main.gd
+msgid "Forest hut and woodshed"
+msgstr "Waldhütte und Holzlager"
+
+#: scripts/main.gd
+msgid "Campsite"
+msgstr "Lagerplatz"
+
+#: scripts/main.gd
+msgid "Undergrowth"
+msgstr "Unterholz"
+
+#: scripts/main.gd
+msgid "Cornfield"
+msgstr "Maisfeld"
+
+#: scripts/main.gd
+msgid "Grass and leaves"
+msgstr "Gras und Laub"
+
+#: scripts/main.gd
+msgid "Equipment"
+msgstr "Ausrüstung"
+
+#: scripts/main.gd
+msgid "Gates, traders and quests"
+msgstr "Tore, Händler und Aufträge"
+
+#: scripts/main.gd
+msgid "Sounds of the forest"
+msgstr "Geräusche des Waldes"
+
+#: scripts/main.gd scripts/progression.gd
+msgid "Zombies"
+msgstr "Zombies"
+
+#: scripts/main.gd
+msgid "Zombie path network"
+msgstr "Wegnetz der Zombies"
+
+#: scripts/main.gd
+msgid "Keys and supplies"
+msgstr "Schlüssel und Vorräte"
+
+#: scripts/main.gd
+msgid "Preparing effects"
+msgstr "Effekte vorbereiten"
+
+#: scripts/main.gd
+msgid "Night is falling"
+msgstr "Die Nacht bricht herein"
+
+#: scripts/main.gd
+msgid "The forest hut on the Heitersberg is the last safe place. You wake up down on the Sennhofstrasse and first have to make your way up to the hut. Build barricades at the four approaches to raise the palisade ring piece by piece. Then they come: from the Sennhofstrasse along the Hut Path, across the meadow to the Meadow Gate, along the Village Path and down the North Forest Path. Upgrade the barriers in the gates (E), hold them, survive the waves and get yourself onto the high scores. The zombies also go for the forest hut itself: if it falls, the round is lost. Repair it with E at its wall."
+msgstr "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein. Die Zombies gehen auch auf die Waldhütte selbst los: fällt sie, ist die Runde verloren. Repariere sie mit E an ihrer Wand."
+
+#: scripts/main.gd
+msgid "Calculating the path network ..."
+msgstr "Wegnetz wird berechnet ..."
+
+#: scripts/main.gd
+msgid "The key locations could not be prepared. Please restart."
+msgstr "Schlüsselplätze konnten nicht vorbereitet werden. Bitte neu starten."
+
+#: scripts/main.gd
+msgid "No reachable spot found for the delivery. Please restart."
+msgstr "Kein erreichbarer Ort für die Lieferung gefunden. Bitte neu starten."
+
+#: scripts/main.gd
+msgid "Ready."
+msgstr "Bereit."
+
+#: scripts/main.gd
+msgid "Hut supplies"
+msgstr "Hüttenvorrat"
+
+#: scripts/main.gd scripts/weapons.gd
+msgid "MP5"
+msgstr "MP5"
+
+#: scripts/main.gd
+msgid "Recovered supplies"
+msgstr "Geborgene Vorräte"
+
+#: scripts/main.gd
+msgid "Garage door"
+msgstr "Garagentor"
+
+#: scripts/main.gd
+msgid "Hut door"
+msgstr "Hüttentür"
+
+#: scripts/main.gd scripts/weapons.gd
+msgid "Shotgun"
+msgstr "Schrotflinte"
+
+#: scripts/main.gd scripts/weapons.gd
+msgid "Ranger .308"
+msgstr "Waldläufer .308"
+
+#: scripts/main.gd
+msgid "Woodshed door"
+msgstr "Holzlagertor"
+
+#: scripts/main.gd scripts/net_session.gd
+msgid "New round …"
+msgstr "Neue Runde …"
+
+#: scripts/main.gd
+msgid "MENU"
+msgstr "MENÜ"
+
+#: scripts/main.gd
+msgid "Co-op keeps running. Your player stays in the world."
+msgstr "Koop läuft weiter. Dein Spieler bleibt in der Welt."
+
+#: scripts/main.gd
+msgid "Catch your breath. The zombies wait, the clock stands still."
+msgstr "Verschnaufpause. Die Zombies warten, die Uhr steht."
+
+#: scripts/main.gd scripts/vendor_tutorial.gd
+msgid "Continue"
+msgstr "Weiter"
+
+#: scripts/main.gd scripts/net_session.gd
+msgid "Back to main menu …"
+msgstr "Zurück ins Hauptmenü …"
+
+#: scripts/main.gd
+msgid "You survived %d wave with %d Rem Dollars."
+msgstr "Du hast %d Welle überstanden mit %d Rem Dollars."
+
+#: scripts/main.gd
+msgid "You survived %d waves with %d Rem Dollars."
+msgstr "Du hast %d Wellen überstanden mit %d Rem Dollars."
+
+#: scripts/main.gd
+msgid "Play again"
+msgstr "Nochmal"
+
+#: scripts/main.gd
+msgid "%s\nA %d-meter worm is burrowing through the field!"
+msgstr "%s\nEin %d Meter grosser Wurm gräbt sich durch das Feld!"
+
+#: scripts/main.gd
+msgid "%s\nA %d-meter titan is approaching across the meadow!"
+msgstr "%s\nEin %d Meter grosser Titan nähert sich über die Wiese!"
+
+#: scripts/main.gd
+msgid "[T] Tower build menu · from 120 R"
+msgstr "[T] Turmbaumenü · ab 120 R"
+
+#: scripts/main.gd
+msgid "[E] Revive %s · stay nearby for 3 seconds"
+msgstr "[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben"
+
+#: scripts/main.gd
+msgid "Tower occupied"
+msgstr "Turm besetzt"
+
+#: scripts/main.gd
+msgid "[E] Mount / operate · [R] Align · [F] Repair\nRange %d m · bright sector: automatic"
+msgstr "[E] Aufsteigen / Bedienen · [R] Ausrichten · [F] Reparieren\nReichweite %d m · heller Sektor: Automatik"
+
+#: scripts/main.gd
+msgid "[E] Read sign · A strange note"
+msgstr "[E] Schild lesen · Eine seltsame Notiz"
+
+#: scripts/main.gd
+msgid "[E] Close note"
+msgstr "[E] Hinweis schliessen"
+
+#: scripts/map.gd
+msgid "Hut Path"
+msgstr "Weg zur Hütte"
+
+#: scripts/map.gd
+msgid "Meadow Gate"
+msgstr "Wiesentor"
+
+#: scripts/map.gd
+msgid "Village Path"
+msgstr "Weg Richtung Dorf"
+
+#: scripts/map.gd
+msgid "North Forest Path"
+msgstr "Waldweg Nord"
+
+#: scripts/minimap.gd
+msgid "Hut"
+msgstr "Hütte"
+
+#: scripts/minimap.gd
+msgid "▲ You   • Enemies   ━ Barrier line"
+msgstr "▲ Du   • Gegner   ━ Sperrlinie"
+
+#: scripts/minimap.gd
+msgid "N E S W"
+msgstr "N O S W"
+
+#: scripts/minimap.gd
+msgid "Wandering trader"
+msgstr "Wanderhändler"
+
+#: scripts/mushrooms.gd
+msgid "Golden Bolete"
+msgstr "Goldröhrling"
+
+#: scripts/mushrooms.gd
+msgid "Extremely rare find to sell · 1000 Rem Dollars at the Vendor. Not for eating."
+msgstr "Extrem seltener Verkaufsfund · 1000 Rem Dollars beim Vendor. Nicht zum Essen."
+
+#: scripts/mushrooms.gd
+msgid "Porcini"
+msgstr "Steinpilz"
+
+#: scripts/mushrooms.gd
+msgid "+25 health"
+msgstr "+25 Leben"
+
+#: scripts/mushrooms.gd
+msgid "Fly Agaric"
+msgstr "Fliegenpilz"
+
+#: scripts/mushrooms.gd
+msgid "-15 health; 20 s double weapon and melee damage"
+msgstr "-15 Leben; 20 s doppelter Waffen- und Nahkampfschaden"
+
+#: scripts/mushrooms.gd
+msgid "Damage ×2"
+msgstr "Schaden ×2"
+
+#: scripts/mushrooms.gd
+msgid "Chanterelle"
+msgstr "Pfifferling"
+
+#: scripts/mushrooms.gd
+msgid "+10 health; 30 s +20% running speed"
+msgstr "+10 Leben; 30 s +20 % Lauftempo"
+
+#: scripts/mushrooms.gd
+msgid "Speed +20%"
+msgstr "Tempo +20 %"
+
+#: scripts/mushrooms.gd
+msgid "Morel"
+msgstr "Morchel"
+
+#: scripts/mushrooms.gd
+msgid "+15 health; 30 s 25% shorter reload time"
+msgstr "+15 Leben; 30 s 25 % kürzere Nachladezeit"
+
+#: scripts/mushrooms.gd
+msgid "Reload −25%"
+msgstr "Nachladen −25 %"
+
+#: scripts/mushrooms.gd
+msgid "Bay Bolete"
+msgstr "Maronenröhrling"
+
+#: scripts/mushrooms.gd
+msgid "+40 health"
+msgstr "+40 Leben"
+
+#: scripts/mushrooms.gd
+msgid "Parasol Mushroom"
+msgstr "Parasol"
+
+#: scripts/mushrooms.gd
+msgid "+15 health; 30 s 25% less damage taken"
+msgstr "+15 Leben; 30 s 25 % weniger erlittener Schaden"
+
+#: scripts/mushrooms.gd
+msgid "Damage taken −25%"
+msgstr "Schutz −25 %"
+
+#: scripts/mushrooms.gd
+msgid "Saffron Milk Cap"
+msgstr "Reizker"
+
+#: scripts/mushrooms.gd
+msgid "+10 health; 40 s double health regeneration"
+msgstr "+10 Leben; 40 s doppelte Gesundheitsregeneration"
+
+#: scripts/mushrooms.gd
+msgid "Regeneration ×2"
+msgstr "Regeneration ×2"
+
+#: scripts/mushrooms.gd
+msgid "Shaggy Ink Cap"
+msgstr "Tintenpilz"
+
+#: scripts/mushrooms.gd
+msgid "35 s 35% less weapon spread"
+msgstr "35 s 35 % weniger Waffenstreuung"
+
+#: scripts/mushrooms.gd
+msgid "Spread −35%"
+msgstr "Streuung −35 %"
+
+#: scripts/mushrooms.gd
+msgid "Wood Blewit"
+msgstr "Violetter Rötelritterling"
+
+#: scripts/mushrooms.gd
+msgid "+5 health; 40 s +35% weapon and melee damage"
+msgstr "+5 Leben; 40 s +35 % Waffen- und Nahkampfschaden"
+
+#: scripts/mushrooms.gd
+msgid "Damage +35%"
+msgstr "Schaden +35 %"
+
+#: scripts/mushrooms.gd
+msgid "Cauliflower Fungus"
+msgstr "Krause Glucke"
+
+#: scripts/mushrooms.gd
+msgid "+60 health"
+msgstr "+60 Leben"
+
+#: scripts/mushrooms.gd
+msgid "%s · %s · %d s"
+msgstr "%s · %s · %d s"
+
+#: scripts/mushrooms.gd
+msgid "Unknown kind of mushroom."
+msgstr "Unbekannte Pilzsorte."
+
+#: scripts/mushrooms.gd
+msgid "You cannot eat right now."
+msgstr "Essen ist momentan nicht möglich."
+
+#: scripts/mushrooms.gd
+msgid "No %s in your inventory."
+msgstr "Keine %s im Inventar."
+
+#: scripts/mushrooms.gd
+msgid "Keep the Golden Bolete: sell it to the Vendor for 1000 Rem Dollars."
+msgstr "Goldröhrling aufbewahren: beim Vendor für 1000 Rem Dollars verkaufen."
+
+#: scripts/mushrooms.gd
+msgid "Health full – the mushroom stays in your inventory."
+msgstr "Gesundheit voll – der Pilz bleibt im Inventar."
+
+#: scripts/net_session.gd
+msgid "Co-op over LAN or Hamachi · up to 4 players"
+msgstr "Koop über LAN oder Hamachi · bis zu 4 Spieler"
+
+#: scripts/net_session.gd
+msgid "Connection failed. Check the Hamachi IP, the network and the UDP port."
+msgstr "Verbindung fehlgeschlagen. Hamachi-IP, Netzwerk und UDP-Port prüfen."
+
+#: scripts/net_session.gd
+msgid "The host ended the connection."
+msgstr "Der Host hat die Verbindung beendet."
+
+#: scripts/net_session.gd
+msgid "The port must be between 1024 and 65535."
+msgstr "Port muss zwischen 1024 und 65535 liegen."
+
+#: scripts/net_session.gd
+msgid "Could not start the host. Is the UDP port already in use?"
+msgstr "Host konnte nicht gestartet werden. Ist der UDP-Port bereits belegt?"
+
+#: scripts/net_session.gd
+msgid "Host ready · give your Hamachi IP to your teammates · UDP %d"
+msgstr "Host bereit · Hamachi-IP an die Mitspieler weitergeben · UDP %d"
+
+#: scripts/net_session.gd
+msgid "Enter a valid Hamachi / LAN IP and a port between 1024 and 65535."
+msgstr "Gültige Hamachi-/LAN-IP und einen Port zwischen 1024 und 65535 eingeben."
+
+#: scripts/net_session.gd
+msgid "Could not open the connection."
+msgstr "Verbindung konnte nicht geöffnet werden."
+
+#: scripts/net_session.gd
+msgid "Connecting to %s:%d …"
+msgstr "Verbinde mit %s:%d …"
+
+#: scripts/net_session.gd
+msgid "The host is still loading the map. Please try joining again in a moment."
+msgstr "Der Host lädt gerade die Karte. Bitte gleich noch einmal beitreten."
+
+#: scripts/net_session.gd
+msgid "Different game version / map. Please use the same Windows version."
+msgstr "Andere Spielversion/Karte. Bitte dieselbe Windows-Version verwenden."
+
+#: scripts/net_session.gd
+msgid "This session is full (4/4 players)."
+msgstr "Diese Sitzung ist voll (4/4 Spieler)."
+
+#: scripts/net_session.gd
+msgid "Connected · waiting for the host"
+msgstr "Verbunden · warte auf den Host"
+
+#: scripts/net_session.gd
+msgid "Loading the game state …"
+msgstr "Spielstand wird geladen …"
+
+#: scripts/net_session.gd
+msgid "Preparing the game state and teammates …"
+msgstr "Spielstand und Mitspieler werden vorbereitet …"
+
+#: scripts/net_session.gd
+msgid "Ready · waiting for the host"
+msgstr "Bereit · warte auf den Host"
+
+#: scripts/net_session.gd
+msgid "A player is still loading."
+msgstr "Ein Spieler lädt noch."
+
+#: scripts/net_session.gd
+msgid "Co-op · %d/4 players"
+msgstr "Koop · %d/4 Spieler"
+
+#: scripts/net_session.gd
+msgid "Left the session."
+msgstr "Sitzung verlassen."
+
+#: scripts/net_session.gd
+msgid "Closing the connection …"
+msgstr "Verbindung wird beendet …"
+
+#: scripts/net_session.gd
+msgid "Returning to the main menu …"
+msgstr "Rückkehr zum Hauptmenü …"
+
+#: scripts/net_session.gd
+msgid "No answer from the host. Check the Hamachi connection and that UDP %d is allowed in the Windows Firewall."
+msgstr "Keine Antwort vom Host. Hamachi-Verbindung und Freigabe von UDP %d in der Windows-Firewall prüfen."
+
+#: scripts/pickup.gd
+msgid "No Rem Dollars to drop."
+msgstr "Keine Rem Dollars zum Abwerfen."
+
+#: scripts/pickup.gd
+msgid "Pick up the cash bundles on the ground first."
+msgstr "Sammelt zuerst die Geldbündel am Boden auf."
+
+#: scripts/pickup.gd
+msgid "%d R dropped"
+msgstr "%d R abgeworfen"
+
+#: scripts/pickup.gd
+msgid "Ammo: +%d %s"
+msgstr "Munition: +%d %s"
+
+#: scripts/pickup.gd
+msgid "+1 grenade"
+msgstr "+1 Granate"
+
+#: scripts/pickup.gd
+msgid "Bandage pack: +%d health"
+msgstr "Verbandspäckli: +%d Leben"
+
+#: scripts/progression.gd
+msgid "Mist Peddler"
+msgstr "Nebelkrämer"
+
+#: scripts/progression.gd
+msgid "Wandering trader · Legendary rarities"
+msgstr "Wanderhändler · Legendäre Raritäten"
+
+#: scripts/progression.gd
+msgid "Here today, among other trees tomorrow. What I bring rarely comes twice."
+msgstr "Heute hier, morgen zwischen anderen Bäumen. Was ich mitbringe, kommt selten zweimal."
+
+#: scripts/progression.gd
+msgid "Mara"
+msgstr "Mara"
+
+#: scripts/progression.gd
+msgid "Forester · Forest quests"
+msgstr "Försterin · Waldaufträge"
+
+#: scripts/progression.gd
+msgid "Sit by the fire for a moment. The forest shelters us, but we have to look after it."
+msgstr "Setz dich kurz ans Feuer. Der Wald gibt uns Schutz, aber wir müssen auf ihn aufpassen."
+
+#: scripts/progression.gd
+msgid "Vendor"
+msgstr "Vendor"
+
+#: scripts/progression.gd
+msgid "Weapons & supplies"
+msgstr "Waffen & Vorräte"
+
+#: scripts/progression.gd
+msgid "Stay alive. I trade with people who pull their weight."
+msgstr "Bleib am Leben. Ich handle mit Leuten, die ihren Teil beitragen."
+
+#: scripts/progression.gd
+msgid "Mechanic"
+msgstr "Mechanic"
+
+#: scripts/progression.gd
+msgid "Defense & training"
+msgstr "Verteidigung & Training"
+
+#: scripts/progression.gd
+msgid "A barrier holds them up. A properly aimed sentinel does the rest."
+msgstr "Eine Sperre hält sie auf. Ein richtig ausgerichteter Wächter erledigt den Rest."
+
+#: scripts/progression.gd
+msgid "Secret Vendor"
+msgstr "Secret Vendor"
+
+#: scripts/progression.gd
+msgid "Rare equipment"
+msgstr "Seltene Ausrüstung"
+
+#: scripts/progression.gd
+msgid "You found me. Now show me you can handle these weapons."
+msgstr "Du hast mich gefunden. Jetzt zeig mir, dass du diese Waffen führen kannst."
+
+#: scripts/progression.gd
+msgid "Sturdy forest axe. Slow swing, heavy impact, no ammo."
+msgstr "Kräftige Waldaxt. Langsamer Schlag, hohe Wucht, keine Munition."
+
+#: scripts/progression.gd
+msgid "Precise and economical. Six heavy rounds."
+msgstr "Präzise und sparsam. Sechs schwere Schüsse."
+
+#: scripts/progression.gd
+msgid "Stops fast runners. High ammo consumption."
+msgstr "Schnelle Läufer abfangen. Hoher Munitionsverbrauch."
+
+#: scripts/progression.gd
+msgid "Strong close-range defense. Weak at a distance."
+msgstr "Starke Nahverteidigung. Auf Distanz wenig wirksam."
+
+#: scripts/progression.gd
+msgid "Versatile assault rifle with heavy recoil."
+msgstr "Vielseitiges Sturmgewehr mit kräftigem Rückstoss."
+
+#: scripts/progression.gd
+msgid "Bolt-action rifle. Slow, precise and with strong penetration."
+msgstr "Repetiergewehr. Langsam, präzise und durchschlagsstark."
+
+#: scripts/progression.gd
+msgid "60 rounds against the horde. Long reload."
+msgstr "60 Schuss gegen die Horde. Lange Nachladepause."
+
+#: scripts/progression.gd
+msgid "Semi-automatic assault shotgun. Close range only."
+msgstr "Halbautomatische Sturmschrotflinte. Nur für kurze Distanzen."
+
+#: scripts/progression.gd
+msgid "Titanbreaker .50. 75% bonus damage against titans, expensive ammo."
+msgstr "Titanenbrecher .50. 75 % Zusatzschaden gegen Titanen, teure Munition."
+
+#: scripts/progression.gd
+msgid "Sets targets on fire and lights up the area for eight seconds. One shot per load."
+msgstr "Setzt Getroffene in Brand und beleuchtet acht Sekunden lang das Gelände. Ein Schuss pro Ladung."
+
+#: scripts/progression.gd
+msgid "Heavy .50 pistol. Kills runners with one hit, but brutal recoil."
+msgstr "Schwere .50-Pistole. Tötet Läufer mit einem Treffer, dafür brutaler Rückstoss."
+
+#: scripts/progression.gd
+msgid "Lever-action rifle with a 3x scope. Faster than the bolt-action rifle, long reload."
+msgstr "Unterhebelrepetierer mit 3x-Zielfernrohr. Schneller als das Repetiergewehr, langes Nachladen."
+
+#: scripts/progression.gd
+msgid "40 rounds, barely any recoil, muffled report. Close range only, wide spread."
+msgstr "40 Schuss, kaum Rückstoss, gedämpfter Knall. Nur auf kurze Distanz, weite Streuung."
+
+#: scripts/progression.gd
+msgid "Chills targets, freezes them and deals 40% more damage to frozen ones."
+msgstr "Kühlt Getroffene herunter, friert sie ein und richtet an Gefrorenen 40 % mehr Schaden an."
+
+#: scripts/progression.gd
+msgid "Energy rifle with 5x optics. Overheats instead of reloading and cools itself down."
+msgstr "Energiegewehr mit 5x-Optik. Überhitzt statt nachzuladen und kühlt sich selbst."
+
+#: scripts/progression.gd
+msgid "150-round belt, highest rate of fire in the camp. Very heavy, has to spin up, no scope."
+msgstr "150 Schuss Gurt, höchste Feuerrate im Lager. Sehr schwer, läuft erst an, kein Zielfernrohr."
+
+#: scripts/progression.gd
+msgid "Six meters of area damage and 140% bonus damage against titans. Only twelve energy cells."
+msgstr "Sechs Meter Flächenschaden und 140 % Zusatzschaden gegen Titanen. Nur zwölf Energiezellen."
+
+#: scripts/progression.gd
+msgid "What the Forest Gives Us"
+msgstr "Was der Wald uns gibt"
+
+#: scripts/progression.gd
+msgid "Collect five porcini as a team. Mara shows you what to look out for in the forest. Mushrooms you already collected count, and you may keep them."
+msgstr "Sammelt als Team fünf Steinpilze. Mara zeigt euch, worauf man im Wald achten muss. Bereits gesammelte Pilze zählen; ihr dürft sie behalten."
+
+#: scripts/progression.gd
+msgid "Unrest on the Paths"
+msgstr "Unruhe auf den Wegen"
+
+#: scripts/progression.gd
+msgid "Defeat twelve runners as a team. Their quick footsteps give nobody any rest, not even here by the small fire."
+msgstr "Besiegt als Team zwölf Läufer. Ihre schnellen Schritte lassen selbst hier am kleinen Feuer niemanden zur Ruhe kommen."
+
+#: scripts/progression.gd
+msgid "While the Fire Burns"
+msgstr "Solange das Feuer brennt"
+
+#: scripts/progression.gd
+msgid "Survive wave 6 and defeat 80 zombies in total. Then return to Mara at the small fire pit."
+msgstr "Übersteht Welle 6 und besiegt insgesamt 80 Zombies. Kehre danach zu Mara an die kleine Feuerstelle zurück."
+
+#: scripts/progression.gd
+msgid "By the Fire"
+msgstr "Am Feuer"
+
+#: scripts/progression.gd
+msgid "Vendor introduces you to the inventory, trading, tower building and barricades. Learn the basics, then collect your reward."
+msgstr "Vendor führt dich in Inventar, Handel, Turmbau und Barrikaden ein. Lerne die Grundlagen und hole danach deine Belohnung ab."
+
+#: scripts/progression.gd
+msgid "The First Sentinel"
+msgstr "Der erste Wächter"
+
+#: scripts/progression.gd
+msgid "Build a barricade and a tower. Then re-aim the tower. T: preview · R/mouse wheel: rotate · E: confirm. At the tower R: aim, E: climb in, F: repair."
+msgstr "Baue eine Barrikade und einen Turm. Richte den Turm anschliessend neu aus. T: Vorschau · R/Mausrad: drehen · E: bestätigen. Am Turm R: ausrichten, E: einsteigen, F: reparieren."
+
+#: scripts/progression.gd
+msgid "Hold the Line"
+msgstr "Die Linie halten"
+
+#: scripts/progression.gd
+msgid "Survive two waves as a team and defeat 30 zombies. Return to Vendor."
+msgstr "Übersteht als Team zwei Wellen und besiegt 30 Zombies. Kehre zu Vendor zurück."
+
+#: scripts/progression.gd
+msgid "The Lost Delivery"
+msgstr "Die verlorene Lieferung"
+
+#: scripts/progression.gd
+msgid "The toolbox got lost somewhere in the area. Where it lies changes every round and is marked on the map once you accept. Recover the delivery and return to Mechanic."
+msgstr "Die Werkzeugkiste ist irgendwo im Gebiet verloren gegangen. Ihr Fundort wechselt mit jeder Runde und ist nach Annahme auf der Karte markiert. Berge die Lieferung und kehre zu Mechanic zurück."
+
+#: scripts/progression.gd
+msgid "What Lurks in the Field"
+msgstr "Was auf dem Feld lauert"
+
+#: scripts/progression.gd
+msgid "Defeat a field titan together. They appear from wave 6. Then collect your reward from the Secret Vendor."
+msgstr "Besiegt gemeinsam einen Feldtitanen. Sie erscheinen ab Welle 6. Hole danach deine Belohnung beim Secret Vendor ab."
+
+#: scripts/progression.gd
+msgid "A Steady Hand"
+msgstr "Eine ruhige Hand"
+
+#: scripts/progression.gd
+msgid "Kill 15 zombies with headshots as a team. Every well-aimed hit saves supplies."
+msgstr "Besiegt als Team 15 Zombies mit Kopfschüssen. Jeder gezielte Treffer spart Vorräte."
+
+#: scripts/progression.gd
+msgid "Precision Under Pressure"
+msgstr "Präzision unter Druck"
+
+#: scripts/progression.gd
+msgid "Get 25 headshot kills as a team and survive wave 3. Pistol and revolver are enough. Then Vendor sends you to the final test with the Secret Vendor."
+msgstr "Erreicht als Team 25 Kopfschuss-Kills und übersteht Welle 3. Pistole und Revolver genügen. Danach schickt dich Vendor zur Abschlussprüfung beim Secret Vendor."
+
+#: scripts/progression.gd
+msgid "The Long Shift"
+msgstr "Die lange Schicht"
+
+#: scripts/progression.gd
+msgid "Survive wave 4 as a team. Vendor needs people who stay on after the first onslaught."
+msgstr "Übersteht als Team Welle 4. Vendor braucht Leute, die auch nach dem ersten Ansturm bleiben."
+
+#: scripts/progression.gd
+msgid "The Last Light"
+msgstr "Das letzte Licht"
+
+#: scripts/progression.gd
+msgid "Survive wave 8 and defeat 150 zombies in total. Keep the camp alive."
+msgstr "Übersteht Welle 8 und besiegt insgesamt 150 Zombies. Haltet das Lager am Leben."
+
+#: scripts/progression.gd
+msgid "Crossfire"
+msgstr "Kreuzfeuer"
+
+#: scripts/progression.gd
+msgid "Have two active gun turrets standing at the same time. Both must still stand when you turn in."
+msgstr "Stellt zwei aktive Geschütztürme gleichzeitig auf. Beide müssen bei der Abgabe noch stehen."
+
+#: scripts/progression.gd
+msgid "Better Safe Than Sorry"
+msgstr "Doppelt hält besser"
+
+#: scripts/progression.gd
+msgid "Reinforce two barricades to at least tier 2. Keep both standing until you turn in."
+msgstr "Verstärkt zwei Barrikaden auf mindestens Stufe 2. Erhaltet beide bis zur Abgabe."
+
+#: scripts/progression.gd
+msgid "Like Clockwork"
+msgstr "Wie ein Uhrwerk"
+
+#: scripts/progression.gd
+msgid "Upgrade a gun turret to tier 3 and let your towers defeat 40 zombies in total. The upgraded tower must still be standing."
+msgstr "Baut einen Geschützturm auf Stufe 3 aus und lasst eure Türme insgesamt 40 Zombies besiegen. Der ausgebaute Turm muss noch stehen."
+
+#: scripts/progression.gd
+msgid "A Discreet Job"
+msgstr "Ein diskreter Auftrag"
+
+#: scripts/progression.gd
+msgid "Get 40 headshot kills as a team. Collect your Marksman permit from the Secret Vendor. It allows you to buy precision rifles; waves, extra quests and the price still apply."
+msgstr "Erreicht als Team 40 Kopfschuss-Kills. Hole deine Marksman-Berechtigung beim Secret Vendor ab. Sie erlaubt den Kauf von Präzisionsgewehren; Wellen, Zusatzaufträge und Kaufpreis gelten weiterhin."
+
+#: scripts/progression.gd
+msgid "The Giants' Debt"
+msgstr "Die Schuld der Riesen"
+
+#: scripts/progression.gd
+msgid "Defeat three field titans in total. Some debts can only be paid with courage."
+msgstr "Besiegt insgesamt drei Feldtitanen. Manche Schulden lassen sich nur mit Mut begleichen."
+
+#: scripts/progression.gd
+msgid "A Name No One Knows"
+msgstr "Ein Name, den keiner kennt"
+
+#: scripts/progression.gd
+msgid "Survive wave 12 and defeat five field titans in total. After that we speak as equals."
+msgstr "Übersteht Welle 12 und besiegt insgesamt fünf Feldtitanen. Danach sprechen wir als Gleichgestellte."
+
+#: scripts/progression.gd
+msgid "Arrival"
+msgstr "Ankunft"
+
+#: scripts/progression.gd
+msgid "Assault"
+msgstr "Sturm"
+
+#: scripts/progression.gd
+msgid "Marksman"
+msgstr "Marksman"
+
+#: scripts/progression.gd
+msgid "Defense Engineering"
+msgstr "Verteidigungstechnik"
+
+#: scripts/progression.gd
+msgid "Forest Watch"
+msgstr "Waldwache"
+
+#: scripts/progression.gd
+msgid "Supply"
+msgstr "Versorgung"
+
+#: scripts/progression.gd
+msgid "Titan Hunt"
+msgstr "Titanenjagd"
+
+#: scripts/progression.gd
+msgid "Protect the Camp"
+msgstr "Das Lager bewahren"
+
+#: scripts/progression.gd
+msgid "Porcini mushrooms"
+msgstr "Steinpilze"
+
+#: scripts/progression.gd
+msgid "Runners"
+msgstr "Läufer"
+
+#: scripts/progression.gd
+msgid "Headshot kills"
+msgstr "Kopfschuss-Kills"
+
+#: scripts/progression.gd
+msgid "Waves"
+msgstr "Wellen"
+
+#: scripts/progression.gd
+msgid "Active towers"
+msgstr "Aktive Türme"
+
+#: scripts/progression.gd
+msgid "Barricades tier 2+"
+msgstr "Barrikaden Stufe 2+"
+
+#: scripts/progression.gd
+msgid "Towers tier 3"
+msgstr "Türme Stufe 3"
+
+#: scripts/progression.gd
+msgid "Tower kills"
+msgstr "Turm-Kills"
+
+#: scripts/progression.gd
+msgid "Forest Camo"
+msgstr "Waldtarn"
+
+#: scripts/progression.gd
+msgid "Moss, olive and dark earth. Purely cosmetic."
+msgstr "Moos, Oliv und dunkle Erde. Rein optisch."
+
+#: scripts/progression.gd
+msgid "Soot Bronze"
+msgstr "Russbronze"
+
+#: scripts/progression.gd
+msgid "Blackened metal with bronze panels. Purely cosmetic."
+msgstr "Geschwärztes Metall mit bronzenen Flächen. Rein optisch."
+
+#: scripts/progression.gd
+msgid "Titan Bone"
+msgstr "Titanenknochen"
+
+#: scripts/progression.gd
+msgid "Pale bone stripes on dark steel. Purely cosmetic."
+msgstr "Helle Knochenstreifen auf dunklem Stahl. Rein optisch."
+
+#: scripts/progression.gd
+msgid "Trade"
+msgstr "Handel"
+
+#: scripts/progression.gd
+msgid "Meet Vendor"
+msgstr "Vendor kennenlernen"
+
+#: scripts/progression.gd
+msgid "Build a tower"
+msgstr "Turm bauen"
+
+#: scripts/progression.gd
+msgid "Aim a tower"
+msgstr "Turm ausrichten"
+
+#: scripts/progression.gd
+msgid "Build a barricade"
+msgstr "Barrikade bauen"
+
+#: scripts/progression.gd
+msgid "Recover the delivery"
+msgstr "Lieferung bergen"
+
+#: scripts/progression.gd
+msgid "DELIVERY · MECHANIC"
+msgstr "LIEFERUNG · MECHANIC"
+
+#: scripts/progression.gd
+msgid "“%s” from %s"
+msgstr "„%s“ bei %s"
+
+#: scripts/progression.gd
+msgid "accept"
+msgstr "annehmen"
+
+#: scripts/progression.gd
+msgid "unlocks at mission level %d (currently %d)"
+msgstr "ab Einsatzlevel %d (aktuell %d)"
+
+#: scripts/progression.gd
+msgid "collect reward"
+msgstr "Belohnung abholen"
+
+#: scripts/progression.gd
+msgid "finish: %s"
+msgstr "abschliessen: %s"
+
+#: scripts/progression.gd
+msgid "Missing quest: %s."
+msgstr "Fehlender Auftrag: %s."
+
+#: scripts/progression.gd
+msgid "Missing quest: %s. Next step: %s."
+msgstr "Fehlender Auftrag: %s. Nächster Schritt: %s."
+
+#: scripts/progression.gd
+msgid "Quest line %s · %d/%d turned in"
+msgstr "Questreihe %s · %d/%d abgegeben"
+
+#: scripts/progression.gd
+msgid "%s: purchase permit for %s. The price and extra conditions still apply."
+msgstr "%s: Kaufberechtigung für %s. Kaufpreis und Zusatzbedingungen bleiben."
+
+#: scripts/progression.gd
+msgid "Unlocked"
+msgstr "Freigeschaltet"
+
+#: scripts/progression.gd
+msgid "On completion"
+msgstr "Reihenabschluss"
+
+#: scripts/progression.gd
+msgid "[E] Recover Mechanic's delivery"
+msgstr "[E] Lieferung von Mechanic bergen"
+
+#: scripts/progression.gd
+msgid "[E] %s · %s"
+msgstr "[E] %s · %s"
+
+#: scripts/progression.gd
+msgid "Mission level %d required (currently %d). Survive wave %d."
+msgstr "Einsatzlevel %d erforderlich (aktuell %d). Überstehe Welle %d."
+
+#: scripts/progression.gd
+msgid "%d wave survived since accepting"
+msgstr "%d Welle nach Annahme überstanden"
+
+#: scripts/progression.gd
+msgid "%d waves survived since accepting"
+msgstr "%d Wellen nach Annahme überstanden"
+
+#: scripts/progression.gd
+msgid "After accepting: survive %d more wave(s)"
+msgstr "Nach Annahme: noch %d Welle(n) überstehen"
+
+#: scripts/progression.gd
+msgid "Tower %d/1"
+msgstr "Turm %d/1"
+
+#: scripts/progression.gd
+msgid "Aim %d/1"
+msgstr "Ausrichten %d/1"
+
+#: scripts/progression.gd
+msgid "Build barricade %d/1"
+msgstr "Barrikade bauen %d/1"
+
+#: scripts/progression.gd
+msgid "Waves %d/2"
+msgstr "Wellen %d/2"
+
+#: scripts/progression.gd
+msgid "Zombies %d/30"
+msgstr "Zombies %d/30"
+
+#: scripts/progression.gd
+msgid "Delivery recovered"
+msgstr "Lieferung geborgen"
+
+#: scripts/progression.gd
+msgid "Search for the delivery at the map marker"
+msgstr "Lieferung an der Kartenmarkierung suchen"
+
+#: scripts/progression.gd
+msgid "Titans %d/1"
+msgstr "Titanen %d/1"
+
+#: scripts/progression.gd
+msgid "Meet Vendor at the campfire"
+msgstr "Vendor am Lagerfeuer kennenlernen"
+
+#: scripts/progression.gd
+msgid "Permit missing: quest line %s. Next step: %s."
+msgstr "Berechtigung fehlt: Questreihe %s. Nächster Schritt: %s."
+
+#: scripts/progression.gd
+msgid "Survive wave %d (%d/%d)"
+msgstr "Welle %d überstehen (%d/%d)"
+
+#: scripts/progression.gd
+msgid "You can sell to Vendor and Secret Vendor."
+msgstr "Verkaufen kannst du bei Vendor und Secret Vendor."
+
+#: scripts/progression.gd
+msgid "You don't have this meat."
+msgstr "Dieses Fleisch besitzt du nicht."
+
+#: scripts/progression.gd
+msgid "You don't have this mushroom."
+msgstr "Diesen Pilz besitzt du nicht."
+
+#: scripts/progression.gd
+msgid "No grenade in your inventory."
+msgstr "Keine Granate im Inventar."
+
+#: scripts/progression.gd
+msgid "Hand grenade"
+msgstr "Handgranate"
+
+#: scripts/progression.gd
+msgid "Ammo not available."
+msgstr "Munition nicht verfügbar."
+
+#: scripts/progression.gd
+msgid "You need a full spare magazine to sell."
+msgstr "Für den Verkauf brauchst du ein volles Reservemagazin."
+
+#: scripts/progression.gd
+msgid "%d %s rounds"
+msgstr "%d Schuss %s"
+
+#: scripts/progression.gd
+msgid "This weapon cannot be sold."
+msgstr "Diese Waffe kann nicht verkauft werden."
+
+#: scripts/progression.gd
+msgid "Unknown sale action."
+msgstr "Unbekannte Verkaufsaktion."
+
+#: scripts/progression.gd
+msgid "Sold: %s · +%d R"
+msgstr "Verkauft: %s · +%d R"
+
+#: scripts/progression.gd
+msgid "You don't own this weapon."
+msgstr "Diese Waffe besitzt du nicht."
+
+#: scripts/progression.gd
+msgid "Not compatible with this weapon."
+msgstr "Nicht mit dieser Waffe kompatibel."
+
+#: scripts/progression.gd
+msgid "Mission level %d needed (currently %d)."
+msgstr "Einsatzlevel %d benötigt (aktuell %d)."
+
+#: scripts/progression.gd
+msgid "Weapon mods are sold by Mechanic and Secret Vendor."
+msgstr "Waffen-Mods gibt es bei Mechanic und Secret Vendor."
+
+#: scripts/progression.gd
+msgid "No mod is mounted in this slot."
+msgstr "In diesem Platz ist kein Mod montiert."
+
+#: scripts/progression.gd
+msgid "Unknown weapon mod."
+msgstr "Unbekannter Waffen-Mod."
+
+#: scripts/progression.gd
+msgid "This mod is not offered here."
+msgstr "Dieser Mod wird hier nicht angeboten."
+
+#: scripts/progression.gd
+msgid "Already mounted."
+msgstr "Bereits montiert."
+
+#: scripts/progression.gd
+msgid "Reserve full. Use up some ammo before the magazine gets smaller."
+msgstr "Reserve voll. Erst Munition verbrauchen, bevor das Magazin verkleinert wird."
+
+#: scripts/progression.gd
+msgid "Mod removed; you keep it."
+msgstr "Mod entfernt; bleibt im Besitz."
+
+#: scripts/progression.gd
+msgid "Mounted: %s"
+msgstr "Montiert: %s"
+
+#: scripts/progression.gd
+msgid "Only rarities here."
+msgstr "Hier gibt es nur Raritäten."
+
+#: scripts/progression.gd
+msgid "The host confirms the trade."
+msgstr "Der Host bestätigt den Handel."
+
+#: scripts/progression.gd
+msgid "Go to the trader. You can only trade in person."
+msgstr "Gehe zum Händler. Handel ist nur vor Ort möglich."
+
+#: scripts/progression.gd
+msgid "Mara hands out forest quests. You get supplies from Vendor."
+msgstr "Mara vergibt Waldaufträge. Vorräte bekommst du bei Vendor."
+
+#: scripts/progression.gd
+msgid "Fireworks are sold by Vendor at the campfire."
+msgstr "Feuerwerk gibt es bei Vendor am Lagerfeuer."
+
+#: scripts/progression.gd
+msgid "Only the Mist Peddler carries these rarities."
+msgstr "Diese Raritäten führt nur der Nebelkrämer."
+
+#: scripts/progression.gd
+msgid "Autorefill is offered by Vendor and Secret Vendor."
+msgstr "Autorefill gibt es bei Vendor und Secret Vendor."
+
+#: scripts/progression.gd
+msgid "All magazines and ammo reserves are full."
+msgstr "Alle Magazine und Munitionsreserven sind voll."
+
+#: scripts/progression.gd
+msgid "Not enough Rem Dollars for ammo."
+msgstr "Zu wenig Rem Dollars für Munition."
+
+#: scripts/progression.gd
+msgid "Autorefill: +%d rounds · −%d R · %s"
+msgstr "Autorefill: +%d Schuss · −%d R · %s"
+
+#: scripts/progression.gd
+msgid "all full"
+msgstr "alles voll"
+
+#: scripts/progression.gd
+msgid "partial refill within your balance"
+msgstr "Teilauffüllung nach Guthaben"
+
+#: scripts/progression.gd
+msgid "The delivery has already been recovered."
+msgstr "Die Lieferung wurde bereits geborgen."
+
+#: scripts/progression.gd
+msgid "Mechanic knows who this delivery belongs to. Talk to her."
+msgstr "Mechanic weiss, wem diese Lieferung gehört. Sprich mit ihr."
+
+#: scripts/progression.gd
+msgid "Delivery recovered. Return to Mechanic."
+msgstr "Lieferung geborgen. Kehre zu Mechanic zurück."
+
+#: scripts/progression.gd
+msgid "This quest belongs to another trader."
+msgstr "Dieser Auftrag gehört zu einem anderen Händler."
+
+#: scripts/progression.gd
+msgid "Quest reward already collected."
+msgstr "Auftrag bereits belohnt."
+
+#: scripts/progression.gd
+msgid "Quest accepted: %s"
+msgstr "Auftrag angenommen: %s"
+
+#: scripts/progression.gd
+msgid "Quest not completed yet. %s"
+msgstr "Auftrag noch nicht erfüllt. %s"
+
+#: scripts/progression.gd
+msgid "Quest line %s completed · +%d R · Purchase permit: %s"
+msgstr "Questreihe %s abgeschlossen · +%d R · Kaufberechtigung: %s"
+
+#: scripts/progression.gd
+msgid "Quest completed · +%d R · %s"
+msgstr "Auftrag abgeschlossen · +%d R · %s"
+
+#: scripts/progression.gd
+msgid "This weapon is not offered here."
+msgstr "Diese Waffe wird hier nicht angeboten."
+
+#: scripts/progression.gd
+msgid "You already own this weapon."
+msgstr "Diese Waffe besitzt du bereits."
+
+#: scripts/progression.gd
+msgid "Bought: %s · select it in the inventory or with the mouse wheel"
+msgstr "Gekauft: %s · Auswahl im Inventar oder mit dem Mausrad"
+
+#: scripts/progression.gd
+msgid "Bought: %s · magazine + 2 spare magazines"
+msgstr "Gekauft: %s · Magazin + 2 Reservemagazine"
+
+#: scripts/progression.gd
+msgid "Melee weapons need no ammo."
+msgstr "Nahkampfwaffen benötigen keine Munition."
+
+#: scripts/progression.gd
+msgid "Weapon not available."
+msgstr "Waffe nicht verfügbar."
+
+#: scripts/progression.gd
+msgid "Ammo supply full."
+msgstr "Munitionsvorrat voll."
+
+#: scripts/progression.gd
+msgid "Bought two spare magazines."
+msgstr "Zwei Reservemagazine gekauft."
+
+#: scripts/progression.gd
+msgid "Vendor sells supplies."
+msgstr "Vorräte gibt es bei Vendor."
+
+#: scripts/progression.gd
+msgid "Health already full."
+msgstr "Gesundheit bereits voll."
+
+#: scripts/progression.gd
+msgid "Grenade pouch full."
+msgstr "Granatentasche voll."
+
+#: scripts/progression.gd
+msgid "Supplies bought."
+msgstr "Vorrat gekauft."
+
+#: scripts/progression.gd
+msgid "Finish not available."
+msgstr "Lackierung nicht verfügbar."
+
+#: scripts/progression.gd
+msgid "Finish applied: %s"
+msgstr "Lackierung angelegt: %s"
+
+#: scripts/progression.gd
+msgid "Original finish applied."
+msgstr "Originalfinish angelegt."
+
+#: scripts/progression.gd
+msgid "Mechanic offers training."
+msgstr "Training gibt es bei Mechanic."
+
+#: scripts/progression.gd
+msgid "Mechanic offers upgrades."
+msgstr "Ausbauten gibt es bei Mechanic."
+
+#: scripts/progression.gd
+msgid "Request sent to the host …"
+msgstr "Anfrage an den Host …"
+
+#: scripts/progression.gd
+msgid "Quests"
+msgstr "Aufträge"
+
+#: scripts/progression.gd
+msgid "Rarities"
+msgstr "Raritäten"
+
+#: scripts/progression.gd
+msgid "Co-op keeps running. Stay in cover."
+msgstr "Koop läuft weiter. Bleibe in Deckung."
+
+#: scripts/progression.gd
+msgid "%d REM DOLLARS  ·  MISSION LEVEL %d  ·  %d WAVES SURVIVED"
+msgstr "%d REM DOLLARS  ·  EINSATZLEVEL %d  ·  %d WELLEN ÜBERSTANDEN"
+
+#: scripts/progression.gd
+msgid "Sell"
+msgstr "Verkaufen"
+
+#: scripts/progression.gd
+msgid "Training"
+msgstr "Training"
+
+#: scripts/progression.gd scripts/weapon_attachments.gd
+msgid "Mods"
+msgstr "Mods"
+
+#: scripts/progression.gd
+msgid "Skins"
+msgstr "Skins"
+
+#: scripts/progression.gd
+msgid "Back to the forest · Esc"
+msgstr "Zurück in den Wald · Esc"
+
+#: scripts/progression.gd
+msgid "LIGHTS OVER THE FOREST"
+msgstr "LICHTER ÜBER DEM WALD"
+
+#: scripts/progression.gd
+msgid "Select them in the inventory [I], then left click to light. Right click: back to your weapon.\nRockets climb about 34 m. Pure fireworks without combat damage. Supplies last for this round."
+msgstr "Im Inventar [I] auswählen, dann mit Linksklick zünden. Rechtsklick: zur Waffe.\nRaketen steigen etwa 34 m hoch. Reines Feuerwerk ohne Kampfschaden. Vorräte gelten für diese Runde."
+
+#: scripts/progression.gd
+msgid "%s\n%d / %d in inventory · firework bag %d / %d"
+msgstr "%s\n%d / %d im Inventar · Feuerwerktasche %d / %d"
+
+#: scripts/progression.gd
+msgid "1 battery"
+msgstr "1 Batterie"
+
+#: scripts/progression.gd
+msgid "5-pack"
+msgstr "5er-Pack"
+
+#: scripts/progression.gd
+msgid "1 rocket"
+msgstr "1 Rakete"
+
+#: scripts/progression.gd
+msgid "Stock changes with the wave, time of day and location · shared by all players.\nRight now: %s · %s. One talisman active. Selection and special ammo in the inventory [I]. Purchases last for this round."
+msgstr "Sortiment wechselt mit Welle, Tageszeit und Standort · Bestand mit allen Spielern geteilt.\nGerade: %s · %s. Ein Talisman aktiv. Auswahl und Spezialmunition im Inventar [I]. Käufe gelten für diese Runde."
+
+#: scripts/progression.gd
+msgid "Sold out · New stock at the next stop or from the next wave."
+msgstr "Ausverkauft · Neue Ware beim nächsten Halt oder ab nächster Welle."
+
+#: scripts/progression.gd
+msgid "%s\nLevel %d · stock %d"
+msgstr "%s\nLevel %d · Bestand %d"
+
+#: scripts/progression.gd
+msgid "Buy · %d R"
+msgstr "Kaufen · %d R"
+
+#: scripts/progression.gd
+msgid "%s · %d in inventory"
+msgstr "%s · %d im Inventar"
+
+#: scripts/progression.gd
+msgid "Sell 1 · %d R"
+msgstr "1 verkaufen · %d R"
+
+#: scripts/progression.gd
+msgid "Hand grenades · %d in inventory"
+msgstr "Handgranaten · %d im Inventar"
+
+#: scripts/progression.gd
+msgid "Sell one grenade."
+msgstr "Verkaufe eine Granate."
+
+#: scripts/progression.gd
+msgid "Ammo · %s"
+msgstr "Munition · %s"
+
+#: scripts/progression.gd
+msgid "Sell %d rounds. Reserve: %d."
+msgstr "%d Schuss verkaufen. Reserve: %d."
+
+#: scripts/progression.gd
+msgid "Sell the weapon. Leftover ammo adds nothing to the price; sell the reserve separately first. Purchase permits are kept."
+msgstr "Waffe verkaufen. Restmunition bringt keinen Aufpreis; Reserve vorher separat verkaufen. Kaufberechtigungen bleiben erhalten."
+
+#: scripts/progression.gd
+msgid "Basics with Vendor"
+msgstr "Grundlagen bei Vendor"
+
+#: scripts/progression.gd
+msgid "Inventory, Rem Dollars, towers and barricades · read up for free."
+msgstr "Inventar, Rem Dollars, Türme und Barrikaden · kostenlos nachlesen."
+
+#: scripts/progression.gd
+msgid "View introduction"
+msgstr "Einführung ansehen"
+
+#: scripts/progression.gd
+msgid "Completed quests"
+msgstr "Abgeschlossene"
+
+#: scripts/progression.gd
+msgid "Open quests"
+msgstr "Offene Aufträge"
+
+#: scripts/progression.gd
+msgid "Done"
+msgstr "Erledigt"
+
+#: scripts/progression.gd
+msgid "Locked"
+msgstr "Gesperrt"
+
+#: scripts/progression.gd
+msgid "Collect reward"
+msgstr "Belohnung abholen"
+
+#: scripts/progression.gd
+msgid "In progress"
+msgstr "In Arbeit"
+
+#: scripts/progression.gd
+msgid "Accept quest"
+msgstr "Auftrag annehmen"
+
+#: scripts/progression.gd
+msgid "Start tutorial"
+msgstr "Tutorial starten"
+
+#: scripts/progression.gd
+msgid "%s · Level %d · %d R"
+msgstr "%s · Level %d · %d R"
+
+#: scripts/progression.gd
+msgid "After accepting, survive %d more wave(s). Team goals count retroactively; collect the reward yourself."
+msgstr "Ab Annahme %d weitere Welle(n) überstehen. Teamziele zählen rückwirkend; Belohnung persönlich abholen."
+
+#: scripts/progression.gd
+msgid "Magazines and reserves of all your firearms. First %s, then the other weapons. Grenades separately.\nFull: %d R · With your balance: +%d rounds for %d R."
+msgstr "Magazine und Reserve aller eigenen Schusswaffen. Zuerst %s, dann die übrigen Waffen. Granaten separat.\nKomplett: %d R · Mit deinem Guthaben: +%d Schuss für %d R."
+
+#: scripts/progression.gd
+msgid "Autorefill · all ammo"
+msgstr "Autorefill · gesamte Munition"
+
+#: scripts/progression.gd
+msgid "All full"
+msgstr "Alles voll"
+
+#: scripts/progression.gd
+msgid "Not enough Rem Dollars"
+msgstr "Zu wenig Rem Dollars"
+
+#: scripts/progression.gd
+msgid "Refill · %d R"
+msgstr "Auffüllen · %d R"
+
+#: scripts/progression.gd
+msgid "Mechanic offers training, tower upgrades and quests. Weapons and supplies are sold by Vendor at the campfire."
+msgstr "Mechanic bietet Training, Turmausbauten und Aufträge an. Waffen und Vorräte gibt es bei Vendor am Lagerfeuer."
+
+#: scripts/progression.gd
+msgid "%s\n%d damage × %d · %d rounds · %.1f s reload"
+msgstr "%s\n%d Schaden × %d · %d Schuss · %.1f s Nachladen"
+
+#: scripts/progression.gd
+msgid "%s\n%d damage · %.2f s per swing · %.2f m range"
+msgstr "%s\n%d Schaden · %.2f s pro Schlag · %.2f m Reichweite"
+
+#: scripts/progression.gd
+msgid "LOCKED · %s"
+msgstr "GESPERRT · %s"
+
+#: scripts/progression.gd
+msgid "You are %d Rem Dollars short for this purchase."
+msgstr "Es fehlen %d Rem Dollars für den Kauf."
+
+#: scripts/progression.gd
+msgid "Locked · %d R"
+msgstr "Gesperrt · %d R"
+
+#: scripts/progression.gd
+msgid "Two magazines (+%d rounds, up to the supply limit). Supply: %d / %d."
+msgstr "Zwei Magazine (+%d Schuss, bis zum Vorratslimit). Vorrat: %d / %d."
+
+#: scripts/progression.gd
+msgid "Supply full"
+msgstr "Vorrat voll"
+
+#: scripts/progression.gd
+msgid "Bandage"
+msgstr "Verband"
+
+#: scripts/progression.gd
+msgid "+60 health, up to the maximum"
+msgstr "+60 Gesundheit, bis zum Maximum"
+
+#: scripts/progression.gd
+msgid "One grenade, until the pouch is full"
+msgstr "Eine Granate, bis die Tasche voll ist"
+
+#: scripts/progression.gd scripts/skills.gd
+msgid "Mechanic, north of the campfire, offers training."
+msgstr "Training gibt es bei Mechanic nördlich des Lagerfeuers."
+
+#: scripts/progression.gd
+msgid "T: choose a tower type · R/mouse wheel: rotate · E: place\nAt the tower: E climbs up, R aims, F repairs. On top: the mouse aims, left click fires, E climbs down. Without an operator the tower fires on its own. Sustained fire builds up heat."
+msgstr "T: Turmtyp wählen · R/Mausrad: drehen · E: platzieren\nAm Turm: E aufsteigen, R ausrichten, F reparieren. Oben: Maus zielt, Linksklick feuert, E steigt ab. Ohne Bediener feuert der Turm automatisch. Dauerfeuer erzeugt Hitze."
+
+#: scripts/progression.gd
+msgid "%s · %d R · %s\nTier 2 after wave %d · Tier 3 after wave %d"
+msgstr "%s · %d R · %s\nStufe 2 nach Welle %d · Stufe 3 nach Welle %d"
+
+#: scripts/progression.gd
+msgid "Mechanic offers tower upgrades."
+msgstr "Turmausbauten gibt es bei Mechanic."
+
+#: scripts/progression.gd
+msgid "%s #%d · Tier %d"
+msgstr "%s #%d · Stufe %d"
+
+#: scripts/progression.gd
+msgid "%d/%d HP · %d m range · %d m away"
+msgstr "%d/%d TP · %d m Reichweite · %d m entfernt"
+
+#: scripts/progression.gd
+msgid "Maximum"
+msgstr "Maximum"
+
+#: scripts/progression.gd
+msgid "Upgrade · %d R"
+msgstr "Ausbauen · %d R"
+
+#: scripts/progression.gd
+msgid "Finishes for: %s\nPick your weapon before the conversation. Skins don't change combat stats."
+msgstr "Lackierungen für: %s\nWähle deine Waffe vor dem Gespräch. Skins ändern keine Kampfwerte."
+
+#: scripts/progression.gd
+msgid "Apply"
+msgstr "Anlegen"
+
+#: scripts/progression.gd
+msgid "Original finish"
+msgstr "Originalfinish"
+
+#: scripts/progression.gd
+msgid "Switch back to the original material for free."
+msgstr "Kostenlos zum ursprünglichen Material wechseln."
+
+#: scripts/progression.gd
+msgid "Mods apply per weapon for this round. One mod per slot; switch bought mods for free. Ammo sold separately.\nMission level = waves survived + 1."
+msgstr "Mods gelten pro Waffe für diese Runde. Ein Mod je Platz; gekaufte Mods kostenlos wechseln. Munition separat.\nEinsatzlevel = überstandene Wellen + 1."
+
+#: scripts/progression.gd
+msgid "%d damage × %d · %d rounds · %.2f s reload\n%s"
+msgstr "%d Schaden × %d · %d Schuss · %.2f s Nachladen\n%s"
+
+#: scripts/progression.gd
+msgid "Current stats"
+msgstr "Aktuelle Werte"
+
+#: scripts/progression.gd
+msgid "%s · Level %d"
+msgstr "%s · Level %d"
+
+#: scripts/progression.gd
+msgid "Mounted"
+msgstr "Montiert"
+
+#: scripts/progression.gd
+msgid "Mount"
+msgstr "Montieren"
+
+#: scripts/progression.gd
+msgid "Original equipment"
+msgstr "Originalausstattung"
+
+#: scripts/progression.gd
+msgid "Remove"
+msgstr "Entfernen"
+
+#: scripts/progression.gd
+msgid "ALL QUESTS DONE\nHold the hut and survive the next wave."
+msgstr "ALLE AUFTRÄGE ERLEDIGT\nHalte die Hütte und überstehe die nächste Welle."
+
+#: scripts/progression.gd
+msgid "QUESTS · Q on/off\nTalk to Vendor at the campfire and Mechanic north of it."
+msgstr "AUFTRÄGE · Q ein/aus\nSprich mit Vendor am Lagerfeuer und Mechanic nördlich davon."
+
+#: scripts/progression.gd
+msgid "%s · NEXT QUEST\n%s"
+msgstr "%s · NÄCHSTER AUFTRAG\n%s"
+
+#: scripts/progression.gd
+msgid "READY TO TURN IN"
+msgstr "BEREIT ZUR ABGABE"
+
+#: scripts/progression.gd
+msgid "Turn in to %s · %d R reward"
+msgstr "Bei %s abgeben · %d R Belohnung"
+
+#: scripts/progression.gd
+msgid "QUESTS (%d) · Q on/off"
+msgstr "AUFTRÄGE (%d) · Q ein/aus"
+
+#: scripts/progression.gd
+msgid "%d ready to turn in"
+msgstr "%d zur Abgabe bereit"
+
+#: scripts/progression.gd
+msgid "WEAPONS & QUESTS\n[E] Talk to Vendor at the campfire."
+msgstr "WAFFEN & AUFTRÄGE\n[E] Sprich mit Vendor am Lagerfeuer."
+
+#: scripts/progression.gd
+msgid "YOUR GEAR · [I] INVENTORY\nOpen your inventory and look at your weapons and items."
+msgstr "DEINE AUSRÜSTUNG · [I] INVENTAR\nÖffne dein Inventar und sieh dir Waffen und Gegenstände an."
+
+#: scripts/progression.gd
+msgid "YOUR DEFENSE · [T] TOWER BUILD MENU\nTake a look at the towers. Only E in the preview confirms a purchase."
+msgstr "DEINE VERTEIDIGUNG · [T] TURMBAUMENÜ\nSieh dir die Türme an. Erst E in der Vorschau bestätigt einen Kauf."
+
+#: scripts/progression.gd
+msgid "DEFENSE · [T] TOWER BUILD MENU\n5 types from 120 R · E builds / climbs up · Mechanic upgrades."
+msgstr "VERTEIDIGUNG · [T] TURMBAUMENÜ\n5 Typen ab 120 R · E baut / steigt auf · Mechanic baut aus."
+
+#: scripts/progression.gd
+msgid "AIM YOUR SENTINEL\nPress R at the tower, rotate with R/mouse wheel and confirm with E."
+msgstr "RICHTE DEINEN WÄCHTER AUS\nAm Turm R drücken, mit R/Mausrad drehen und mit E bestätigen."
+
+#: scripts/quest_notifications.gd
+msgid "MILESTONE REACHED"
+msgstr "TEILZIEL ERREICHT"
+
+#: scripts/quest_notifications.gd
+msgid "QUEST COMPLETED"
+msgstr "QUEST ABGESCHLOSSEN"
+
+#: scripts/quest_notifications.gd
+msgid "QUEST FULFILLED"
+msgstr "QUEST ERFÜLLT"
+
+#: scripts/quest_notifications.gd
+msgid "+%d Rem Dollars · reward received"
+msgstr "+%d Rem Dollars · Belohnung erhalten"
+
+#: scripts/quest_notifications.gd
+msgid "All goals reached!\nTurn in to %s · %d R"
+msgstr "Alle Ziele erreicht!\nBei %s abgeben · %d R"
+
+#: scripts/quickbar.gd
+msgid "Empty"
+msgstr "Leer"
+
+#: scripts/quickbar.gd
+msgid "Slot %d (key 0): %s"
+msgstr "Platz %d (Taste 0): %s"
+
+#: scripts/quickbar.gd
+msgid "Slot %d: %s"
+msgstr "Platz %d: %s"
+
+#: scripts/quickbar.gd
+msgid "Clear slot"
+msgstr "Belegung entfernen"
+
+#: scripts/quickbar.gd
+msgid "%s: not in inventory"
+msgstr "%s: nicht im Inventar"
+
+#: scripts/quickbar.gd
+msgid "%s\nInventory: click to assign, right click to clear"
+msgstr "%s\nInventar: Klick zum Belegen, Rechtsklick zum Leeren"
+
+#: scripts/quickbar.gd
+msgid "FIRE %d"
+msgstr "FEUER %d"
+
+#: scripts/quickbar.gd
+msgid "FROST %d"
+msgstr "FROST %d"
+
+#: scripts/quickbar.gd
+msgid "Fire rounds: %d special rounds"
+msgstr "Feuerpatronen: %d Spezialpatronen"
+
+#: scripts/quickbar.gd
+msgid "Frost rounds: %d special rounds"
+msgstr "Frostpatronen: %d Spezialpatronen"
+
+#: scripts/rare_items.gd
+msgid "Hawk Eye · Legendary"
+msgstr "Falkenauge · Legendär"
+
+#: scripts/rare_items.gd
+msgid "35% less spread and 20% less recoil."
+msgstr "35 % weniger Streuung und 20 % weniger Rückstoss."
+
+#: scripts/rare_items.gd
+msgid "Heart of the Ancient Oak · Legendary"
+msgstr "Herz der Uralteiche · Legendär"
+
+#: scripts/rare_items.gd
+msgid "20% less damage taken."
+msgstr "20 % weniger erlittener Schaden."
+
+#: scripts/rare_items.gd
+msgid "Bloodstone · Legendary"
+msgstr "Blutstein · Legendär"
+
+#: scripts/rare_items.gd
+msgid "Your own weapon and burn kills heal 3 health; tower kills do not heal."
+msgstr "Eigene Waffen- und Brandkills heilen 3 Leben; keine Heilung durch Türme."
+
+#: scripts/rare_items.gd
+msgid "Storm Feather · Legendary"
+msgstr "Sturmfeder · Legendär"
+
+#: scripts/rare_items.gd
+msgid "20% faster reloads and 10% more movement speed."
+msgstr "20 % kürzeres Nachladen und 10 % mehr Bewegungstempo."
+
+#: scripts/rare_items.gd
+msgid "Phoenix Ash · Legendary"
+msgstr "Phönixasche · Legendär"
+
+#: scripts/rare_items.gd
+msgid "Prevents one fatal hit per wave and restores 40% health. Switching does not reset the charge."
+msgstr "Verhindert einmal pro Welle einen tödlichen Treffer und stellt 40 % Leben her. Wechseln setzt die Ladung nicht zurück."
+
+#: scripts/rare_items.gd
+msgid "The Peddler's Toll · Legendary"
+msgstr "Wegzoll des Krämers · Legendär"
+
+#: scripts/rare_items.gd
+msgid "20% more Rem Dollars for your own kills."
+msgstr "20 % mehr Rem Dollars für eigene Kills."
+
+#: scripts/rare_items.gd
+msgid "Owl Eye · Legendary"
+msgstr "Eulenauge · Legendär"
+
+#: scripts/rare_items.gd
+msgid "30% less spread and 15% less recoil. Only on offer at night."
+msgstr "30 % weniger Streuung und 15 % weniger Rückstoss. Nur nachts im Angebot."
+
+#: scripts/rare_items.gd
+msgid "Moss Cloak · Legendary"
+msgstr "Moosmantel · Legendär"
+
+#: scripts/rare_items.gd
+msgid "15% less damage taken and 5% more speed. The peddler carries it in the North and West Forest."
+msgstr "15 % weniger erlittener Schaden und 5 % mehr Tempo. Führt der Krämer im Nord- und Westwald."
+
+#: scripts/rare_items.gd
+msgid "Raven Feather · Legendary"
+msgstr "Rabenfeder · Legendär"
+
+#: scripts/rare_items.gd
+msgid "30% faster reloads. Only on offer at night."
+msgstr "30 % kürzeres Nachladen. Nur nachts im Angebot."
+
+#: scripts/rare_items.gd
+msgid "Ember Core · Legendary"
+msgstr "Glutkern · Legendär"
+
+#: scripts/rare_items.gd
+msgid "15% more weapon damage. Only on offer in daylight."
+msgstr "15 % mehr Waffenschaden. Nur bei Tageslicht im Angebot."
+
+#: scripts/rare_items.gd
+msgid "Stag Crown · Legendary"
+msgstr "Hirschkrone · Legendär"
+
+#: scripts/rare_items.gd
+msgid "18% more movement speed. The peddler carries it in the East and South Forest."
+msgstr "18 % mehr Bewegungstempo. Führt der Krämer im Ost- und Südwald."
+
+#: scripts/rare_items.gd
+msgid "Steel Heart · Legendary"
+msgstr "Stahlherz · Legendär"
+
+#: scripts/rare_items.gd
+msgid "45% less recoil. Only on offer in daylight."
+msgstr "45 % weniger Rückstoss. Nur bei Tageslicht im Angebot."
+
+#: scripts/rare_items.gd
+msgid "Mist Lantern · Legendary"
+msgstr "Nebellaterne · Legendär"
+
+#: scripts/rare_items.gd
+msgid "15% less damage taken and 8% more weapon damage. At night in the North and East Forest."
+msgstr "15 % weniger erlittener Schaden und 8 % mehr Waffenschaden. Nachts im Nord- und Ostwald."
+
+#: scripts/rare_items.gd
+msgid "Root Band · Legendary"
+msgstr "Wurzelband · Legendär"
+
+#: scripts/rare_items.gd
+msgid "25% less damage taken. The peddler carries it in the West and South Forest."
+msgstr "25 % weniger erlittener Schaden. Führt der Krämer im West- und Südwald."
+
+#: scripts/rare_items.gd
+msgid "Dragon's Breath · Fire Rounds"
+msgstr "Drachenatem · Feuerpatronen"
+
+#: scripts/rare_items.gd
+msgid "24 rounds. Hits set zombies on fire: 36 burn damage over 3 s. Further hits refresh the duration, they do not stack."
+msgstr "24 Schüsse. Treffer entzünden Zombies: 36 Brandschaden über 3 s. Erneute Treffer erneuern die Dauer, stapeln nicht."
+
+#: scripts/rare_items.gd
+msgid "Winter's Bite · Frost Rounds"
+msgstr "Winterbiss · Frostpatronen"
+
+#: scripts/rare_items.gd
+msgid "18 rounds. Hits slow zombies by 45% for 3 s, titans by 20%."
+msgstr "18 Schüsse. Treffer verlangsamen Zombies 3 s um 45 %, Titanen um 20 %."
+
+#: scripts/rare_market.gd
+msgid "North Forest"
+msgstr "Nordwald"
+
+#: scripts/rare_market.gd
+msgid "East Forest"
+msgstr "Ostwald"
+
+#: scripts/rare_market.gd
+msgid "South Forest"
+msgstr "Südwald"
+
+#: scripts/rare_market.gd
+msgid "West Forest"
+msgstr "Westwald"
+
+#: scripts/rare_market.gd
+msgid "This rarity is not in stock right now."
+msgstr "Diese Rarität ist gerade nicht im Sortiment."
+
+#: scripts/rare_market.gd
+msgid "Mission level %d required."
+msgstr "Einsatzlevel %d benötigt."
+
+#: scripts/rare_market.gd
+msgid "Sold out. New delivery next wave."
+msgstr "Ausverkauft. Neue Lieferung in der nächsten Welle."
+
+#: scripts/rare_market.gd
+msgid "Special ammo full (96 per type at most). Use some up first."
+msgstr "Spezialmunition voll (maximal 96 je Sorte). Erst verbrauchen."
+
+#: scripts/rare_market.gd
+msgid "Bought and activated: %s"
+msgstr "Gekauft und aktiviert: %s"
+
+#: scripts/rare_market.gd
+msgid "No rounds of this type."
+msgstr "Keine Patronen dieser Sorte."
+
+#: scripts/rare_market.gd
+msgid "You do not own this talisman."
+msgstr "Diesen Talisman besitzt du nicht."
+
+#: scripts/rare_market.gd
+msgid "Equipment changed."
+msgstr "Ausrüstung gewechselt."
+
+#: scripts/rare_market.gd
+msgid "Fire %d"
+msgstr "Feuer %d"
+
+#: scripts/rare_market.gd
+msgid "Frost %d"
+msgstr "Frost %d"
+
+#: scripts/rare_market.gd
+msgid "The Mist Peddler is roaming the area. Look out for his violet lantern."
+msgstr "Der Nebelkrämer zieht durch die Gegend. Halte nach seiner violetten Laterne Ausschau."
+
+#: scripts/run_stats.gd
+msgid "%d:%02d min"
+msgstr "%d:%02d min"
+
+#: scripts/skills.gd
+msgid "Toughness"
+msgstr "Zähigkeit"
+
+#: scripts/skills.gd
+msgid "+25 max health"
+msgstr "+25 maximale Lebenspunkte"
+
+#: scripts/skills.gd
+msgid "Legs"
+msgstr "Beine"
+
+#: scripts/skills.gd
+msgid "+8% running speed"
+msgstr "+8 % Laufgeschwindigkeit"
+
+#: scripts/skills.gd
+msgid "Recovery"
+msgstr "Erholung"
+
+#: scripts/skills.gd
+msgid "Faster regeneration"
+msgstr "Schnellere Regeneration"
+
+#: scripts/skills.gd
+msgid "Firepower"
+msgstr "Schusskraft"
+
+#: scripts/skills.gd
+msgid "+12% damage"
+msgstr "+12 % Schaden"
+
+#: scripts/skills.gd
+msgid "Quick Hands"
+msgstr "Schnelle Hände"
+
+#: scripts/skills.gd
+msgid "-15% reload time"
+msgstr "-15 % Nachladezeit"
+
+#: scripts/skills.gd
+msgid "-15% spread and steadier bursts"
+msgstr "-15 % Streuung und ruhigere Feuerstösse"
+
+#: scripts/skills.gd
+msgid "Grenade Pouch"
+msgstr "Granatentasche"
+
+#: scripts/skills.gd
+msgid "+1 slot in the grenade pouch"
+msgstr "+1 Platz in der Granatentasche"
+
+#: scripts/skills.gd
+msgid "Training only at Mechanic."
+msgstr "Training nur bei Mechanic."
+
+#: scripts/skills.gd
+msgid "This training does not exist."
+msgstr "Dieses Training gibt es nicht."
+
+#: scripts/skills.gd
+msgid "Training already complete."
+msgstr "Training bereits vollständig."
+
+#: scripts/skills.gd
+msgid "Training bought: %s"
+msgstr "Training gekauft: %s"
+
+#: scripts/vendor_tutorial.gd
+msgid "Your gear"
+msgstr "Deine Ausrüstung"
+
+#: scripts/vendor_tutorial.gd
+msgid "Press [b]I[/b] to open the inventory. Pick a weapon or an item there. [b]I or Esc[/b] takes you back into the game.\n\nYou reach the filled slots of your quick bar with [b]1–9 and 0[/b]."
+msgstr "Mit [b]I[/b] öffnest du das Inventar. Wähle dort eine Waffe oder einen Gegenstand aus. Mit [b]I oder Esc[/b] gehst du zurück ins Spiel.\n\nDie belegten Plätze deiner Schnellleiste erreichst du mit [b]1–9 und 0[/b]."
+
+#: scripts/vendor_tutorial.gd
+msgid "After our talk, try out the inventory first."
+msgstr "Probiere nach unserem Gespräch zuerst das Inventar aus."
+
+#: scripts/vendor_tutorial.gd
+msgid "Supplies and quests"
+msgstr "Vorräte und Aufträge"
+
+#: scripts/vendor_tutorial.gd
+msgid "Talk to traders with [b]E[/b]. I sell weapons and ammo. You pay with [b]Rem Dollars (R)[/b]. Locked offers show you the missing requirements.\n\nAccept quests in the [b]Quests[/b] tab and collect the reward from whoever gave you the quest. [b]Q[/b] shows or hides your quest overview."
+msgstr "Sprich Händler mit [b]E[/b] an. Bei mir bekommst du Waffen und Munition. Bezahlt wird mit [b]Rem Dollars (R)[/b]. Gesperrte Angebote zeigen dir die fehlenden Voraussetzungen.\n\nNimm Aufträge im Reiter [b]Aufträge[/b] an und hole die Belohnung beim Auftraggeber ab. [b]Q[/b] blendet deine Auftragsübersicht ein oder aus."
+
+#: scripts/vendor_tutorial.gd
+msgid "Purchases cost Rem Dollars. This introduction is free."
+msgstr "Käufe kosten Rem Dollars. Diese Einführung ist kostenlos."
+
+#: scripts/vendor_tutorial.gd
+msgid "Build your first tower"
+msgstr "Deinen ersten Turm bauen"
+
+#: scripts/vendor_tutorial.gd
+msgid "[b]T[/b] opens the tower build menu. Choose a tower (from [b]120 R[/b]) and find a free spot. The preview shows the range and possible obstacles.\n\n[b]R or the mouse wheel[/b] rotates the tower. [b]E[/b] confirms the build. [b]T or Esc[/b] cancels the preview."
+msgstr "[b]T[/b] öffnet das Turmbaumenü. Wähle einen Turm aus (ab [b]120 R[/b]) und suche einen freien Platz. Die Vorschau zeigt Reichweite und mögliche Hindernisse.\n\nMit [b]R oder dem Mausrad[/b] drehst du den Turm. [b]E[/b] bestätigt den Bau. Mit [b]T oder Esc[/b] brichst du die Vorschau ab."
+
+#: scripts/vendor_tutorial.gd
+msgid "Only a confirmed build costs Rem Dollars. You don't have to buy a tower for the tutorial."
+msgstr "Nur ein bestätigter Bau kostet Rem Dollars. Du musst für das Tutorial keinen Turm kaufen."
+
+#: scripts/vendor_tutorial.gd
+msgid "Defend the hut"
+msgstr "Die Hütte verteidigen"
+
+#: scripts/vendor_tutorial.gd
+msgid "At a barricade, [b]E[/b] builds or repairs; the hint shows the price.\n\nAt a finished tower: [b]E[/b] to climb in, left click to fire, [b]E[/b] to climb out. [b]R[/b] starts aiming; rotate and confirm with [b]E[/b]. [b]F[/b] repairs.\n\n[b]Mechanic[/b] offers tower upgrades and training. Protect the hut and keep an eye on its condition."
+msgstr "An einer Barrikade kannst du mit [b]E[/b] bauen oder reparieren; der Hinweis zeigt den Preis.\n\nAn einem fertigen Turm: [b]E[/b] zum Einsteigen, Linksklick zum Feuern, [b]E[/b] zum Aussteigen. [b]R[/b] startet das Ausrichten; drehen und mit [b]E[/b] bestätigen. [b]F[/b] repariert.\n\n[b]Mechanic[/b] bietet Turmausbauten und Training an. Schütze die Hütte und behalte ihren Zustand im Blick."
+
+#: scripts/vendor_tutorial.gd
+msgid "You can review these basics any time with Vendor under Quests."
+msgstr "Du kannst diese Grundlagen jederzeit bei Vendor unter Aufträge erneut ansehen."
+
+#: scripts/vendor_tutorial.gd
+msgid "Back"
+msgstr "Zurück"
+
+#: scripts/vendor_tutorial.gd
+msgid "VENDOR · %d/%d · %s"
+msgstr "VENDOR · %d/%d · %s"
+
+#: scripts/vendor_tutorial.gd
+msgid "Got it · Back to Vendor"
+msgstr "Verstanden · Zurück zu Vendor"
+
+#: scripts/waves.gd
+msgid "Get ready ..."
+msgstr "Bereit machen ..."
+
+#: scripts/waves.gd
+msgid "%d zombies"
+msgstr "%d Zombies"
+
+#: scripts/waves.gd
+msgid "Wave %d\nBOSS WAVE: the brutes are coming"
+msgstr "Welle %d\nBOSSWELLE: die Brocken kommen"
+
+#: scripts/waves.gd
+msgid "Wave %d · TITANS\nMovement on the field. Prepare your defenses!"
+msgstr "Welle %d · TITANEN\nBewegung auf dem Feld. Bereite die Verteidigung vor!"
+
+#: scripts/waves.gd
+msgid "Wave %d · WORM WAVE\nThe field is shaking. Avoid the earth rings – shoot the exposed worms!"
+msgstr "Welle %d · WURMWELLE\nDas Feld bebt. Meide die Erdringe – beschiesse die freiliegenden Würmer!"
+
+#: scripts/waves.gd
+msgid "Wave %d is coming!"
+msgstr "Welle %d kommt!"
+
+#: scripts/waves.gd
+msgid "Start in %d s  ·  %d zombies  ·  %s\nEnter: start now"
+msgstr "Start in %d s  ·  %d Zombies  ·  %s\nEnter: sofort starten"
+
+#: scripts/waves.gd
+msgid "Start in %d s  ·  %d zombies\nEnter: start now"
+msgstr "Start in %d s  ·  %d Zombies\nEnter: sofort starten"
+
+#: scripts/waves.gd
+msgid "Wave %d survived\n+%d Rem Dollars, pistol reserve secured\nTraders and quests: Vendor & Mechanic · T: Tower"
+msgstr "Welle %d überstanden\n+%d Rem Dollars, Pistolenreserve gesichert\nHändler und Aufträge: Vendor & Mechanic · T: Turm"
+
+#: scripts/waves.gd
+msgid "The last zombies are hunting you!"
+msgstr "Die letzten Zombies suchen dich!"
+
+#: scripts/weapon_mods.gd
+msgid "Muzzle"
+msgstr "Mündung"
+
+#: scripts/weapon_mods.gd
+msgid "Magazine"
+msgstr "Magazin"
+
+#: scripts/weapon_mods.gd
+msgid "Bolt"
+msgstr "Verschluss"
+
+#: scripts/weapon_mods.gd
+msgid "Barrel"
+msgstr "Lauf"
+
+#: scripts/weapon_mods.gd
+msgid "Suppressor"
+msgstr "Schalldämpfer"
+
+#: scripts/weapon_mods.gd
+msgid "14 dB quieter, 15% less recoil; 10% less range."
+msgstr "14 dB leiser, 15 % weniger Rückstoss; 10 % weniger Reichweite."
+
+#: scripts/weapon_mods.gd
+msgid "Compensator"
+msgstr "Kompensator"
+
+#: scripts/weapon_mods.gd
+msgid "35% less recoil."
+msgstr "35 % weniger Rückstoss."
+
+#: scripts/weapon_mods.gd
+msgid "Extended Magazine"
+msgstr "Erweitertes Magazin"
+
+#: scripts/weapon_mods.gd
+msgid "50% more magazine capacity (rounded up); 10% longer reload. Ammo sold separately."
+msgstr "50 % mehr Magazinkapazität (aufgerundet); 10 % längeres Nachladen. Munition separat."
+
+#: scripts/weapon_mods.gd
+msgid "Quick Bolt"
+msgstr "Schnellverschluss"
+
+#: scripts/weapon_mods.gd
+msgid "20% shorter reload time."
+msgstr "20 % kürzere Nachladezeit."
+
+#: scripts/weapon_mods.gd
+msgid "Match Barrel"
+msgstr "Präzisionslauf"
+
+#: scripts/weapon_mods.gd
+msgid "30% less spread, 20% more range."
+msgstr "30 % weniger Streuung, 20 % mehr Reichweite."
+
+#: scripts/weapon_mods.gd
+msgid "Phantom · Legendary"
+msgstr "Phantom · Legendär"
+
+#: scripts/weapon_mods.gd
+msgid "24 dB quieter, 30% less recoil, almost no muzzle flash. Full range."
+msgstr "24 dB leiser, 30 % weniger Rückstoss, fast kein Mündungsblitz. Volle Reichweite."
+
+#: scripts/weapon_mods.gd
+msgid "Siege Magazine · Legendary"
+msgstr "Belagerungsmagazin · Legendär"
+
+#: scripts/weapon_mods.gd
+msgid "Double magazine capacity; 15% longer reload. Ammo sold separately."
+msgstr "Doppelte Magazinkapazität; 15 % längeres Nachladen. Munition separat."
+
+#: scripts/weapon_mods.gd
+msgid "Titan Core · Legendary"
+msgstr "Titanenkern · Legendär"
+
+#: scripts/weapon_mods.gd
+msgid "20% more damage and one extra penetration target."
+msgstr "20 % mehr Schaden und ein zusätzliches Durchschussziel."
+
+#: scripts/weapon_mods.gd
+msgid "No mods"
+msgstr "Keine Mods"
+
+#: scripts/weapon_specials.gd
+msgid "VENTING …"
+msgstr "ENTLÜFTET …"
+
+#: scripts/weapon_specials.gd
+msgid "Heat · %d cells"
+msgstr "Hitze · %d Zellen"
+
+#: scripts/weapon_specials.gd
+msgid "Barrels %d%%"
+msgstr "Läufe %d %%"
+
+#: scripts/weapon_specials.gd
+msgid "Energy cells %d + %d"
+msgstr "Energiezellen %d + %d"
+
+#: scripts/weapons.gd
+msgid "Field Knife"
+msgstr "Feldmesser"
+
+#: scripts/weapons.gd
+msgid "Forest Axe"
+msgstr "Waldaxt"
+
+#: scripts/weapons.gd
+msgid "Revolver"
+msgstr "Revolver"
+
+#: scripts/weapons.gd
+msgid "AK-47"
+msgstr "AK-47"
+
+#: scripts/weapons.gd
+msgid "MG-60"
+msgstr "MG-60"
+
+#: scripts/weapons.gd
+msgid "Nightbreaker 12"
+msgstr "Nachtbrecher 12"
+
+#: scripts/weapons.gd
+msgid "Titanbreaker .50"
+msgstr "Titanenbrecher .50"
+
+#: scripts/weapons.gd
+msgid "Desert Eagle .50"
+msgstr "Desert Eagle .50"
+
+#: scripts/weapons.gd
+msgid "Flare Pistol"
+msgstr "Leuchtpistole"
+
+#: scripts/weapons.gd
+msgid "MAC-10 SD"
+msgstr "MAC-10 SD"
+
+#: scripts/weapons.gd
+msgid "Cryo SMG C7"
+msgstr "Kryo-MP C7"
+
+#: scripts/weapons.gd
+msgid "Lever Action .45-70"
+msgstr "Unterhebler .45-70"
+
+#: scripts/weapons.gd
+msgid "Plasma Rifle"
+msgstr "Plasmabüchse"
+
+#: scripts/weapons.gd
+msgid "Minigun M134"
+msgstr "Minigun M134"
+
+#: scripts/weapons.gd
+msgid "Graviton Cannon"
+msgstr "Graviton-Kanone"
+
+#: scripts/weapons.gd
+msgid "Penetration: up to %d zombies; each further target takes %d%% of the previous damage. Walls stop the bullet."
+msgstr "Durchschuss: bis zu %d Zombies; je weiterem Ziel %d %% des vorherigen Schadens. Wände stoppen das Geschoss."
+
+#: scripts/weapons.gd
+msgid "Buy the %s from the weapon trader"
+msgstr "%s beim Waffenhändler kaufen"
+
+#: scripts/weapons.gd
+msgid "%s   ·   Grenades %d"
+msgstr "%s   ·   Granaten %d"
+
+#: scripts/weapons.gd
+msgid "Melee"
+msgstr "Nahkampf"
+
+#: scripts/weapons.gd
+msgid "LMB slash / RMB stab"
+msgstr "LMB Schnitt / RMB Stich"
+
+#: scripts/weapons.gd
+msgid "LMB light / RMB heavy"
+msgstr "LMB leicht / RMB schwer"
+
+#: scripts/zombie.gd
+msgid "THE EARTHWORM"
+msgstr "DER ERDWURM"
+
+#: scripts/zombie.gd
+msgid "THE GRAVE WYRM"
+msgstr "DER GRABMAHR"
+
+#: scripts/zombie.gd
+msgid "HUNTER TITAN"
+msgstr "JAGDTITAN"
+
+#: scripts/zombie.gd
+msgid "SIEGE TITAN"
+msgstr "BELAGERUNGSTITAN"
+
+#: scripts/zombie.gd
+msgid "ASH TITAN"
+msgstr "ASCHETITAN"
+
+#: scripts/zombie.gd
+msgid "FIRE + FROST"
+msgstr "BRAND + FROST"
+
+#: scripts/zombie.gd
+msgid "FIRE"
+msgstr "BRAND"
+
+#: scripts/zombie.gd
+msgid "FROST"
+msgstr "FROST"

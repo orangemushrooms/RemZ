@@ -119,8 +119,8 @@ func _build_ui() -> void:
 	var heading := VBoxContainer.new()
 	heading.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	header.add_child(heading)
-	heading.add_child(_label("REMETSCHWIL SENNHOF   /   VERTEIDIGUNG", 12, GOLD))
-	heading.add_child(_label("BARRIKADEN", 32))
+	heading.add_child(_label("REMETSCHWIL SENNHOF   /   DEFENSE", 12, GOLD))
+	heading.add_child(_label("BARRICADES", 32))
 	var wallet := PanelContainer.new()
 	wallet.add_theme_stylebox_override("panel", _style(INK, Color(0.3, 0.36, 0.29), 14))
 	header.add_child(wallet)
@@ -129,7 +129,7 @@ func _build_ui() -> void:
 	wallet.add_child(wallet_row)
 	wallet_row.add_child(preload("res://scripts/currency.gd").icon(32.0, GOLD))
 	wallet_row.add_child(points)
-	var back := _button("Zurück ins Spiel  [Esc]")
+	var back := _button("Back to the game  [Esc]")
 	back.pressed.connect(close)
 	header.add_child(back)
 	var sites := HBoxContainer.new()
@@ -162,7 +162,7 @@ func _build_ui() -> void:
 	details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	details.add_theme_constant_override("separation", 12)
 	scroll.add_child(details)
-	details.add_child(_label("BAUPLAN   /   GESAMTE LINIE", 12, GOLD))
+	details.add_child(_label("BUILD PLAN   /   WHOLE LINE", 12, GOLD))
 	title = _label("", 23)
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	details.add_child(title)
@@ -177,7 +177,7 @@ func _build_ui() -> void:
 		step.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		step.add_theme_stylebox_override("panel", _style(Color(0.08, 0.12, 0.10), Color(0.19, 0.25, 0.22), 9))
 		levels.add_child(step)
-		var label := _label("0%d\n%d TP" % [i + 1, (i + 1) * 150], 14)
+		var label := _label(Lang.t("0%d\n%d HP", [i + 1, (i + 1) * 150]), 14)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		step.add_child(label)
 		level_labels.append(label)
@@ -193,14 +193,14 @@ func _build_ui() -> void:
 	explanation.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	details.add_child(explanation)
 	card_content.add_child(HSeparator.new())
-	card_content.add_child(_label("BAUEN & INSTAND HALTEN", 12, GOLD))
+	card_content.add_child(_label("BUILD & MAINTAIN", 12, GOLD))
 	primary = _button("", true)
 	primary.icon = ItemIcons.texture("barricade")
 	primary.expand_icon = true
 	primary.add_theme_constant_override("icon_max_width", 42)
 	primary.pressed.connect(_purchase.bind("build"))
 	card_content.add_child(primary)
-	repair_button = _button("Ganze Linie reparieren  ·  25 R")
+	repair_button = _button("Repair whole line  ·  25 R")
 	repair_button.icon = ItemIcons.texture("skill_regen")
 	repair_button.expand_icon = true
 	repair_button.add_theme_constant_override("icon_max_width", 32)
@@ -229,8 +229,8 @@ func _build_ui() -> void:
 	var text := VBoxContainer.new()
 	text.add_theme_constant_override("separation", 7)
 	legend.add_child(text)
-	text.add_child(_label("EIN KLICK. DIE GANZE SPERRE.", 16, GOLD))
-	var hint := _label("Rot zeigt die geplante Linie. Grün zeigt die gebaute Sperre.\nAlle Segmente werden zusammen gesetzt, verstärkt oder repariert.", 14)
+	text.add_child(_label("ONE CLICK. THE WHOLE BARRIER.", 16, GOLD))
+	var hint := _label("Red shows the planned line. Green shows the built barrier.\nAll segments are placed, reinforced or repaired together.", 14)
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.add_child(hint)
 	_controls_hint = _label("", 13, MUTED)
@@ -262,7 +262,7 @@ func open(site: Barricade = null) -> void:
 	_saved_viewmodel_update = main.weapons.viewmodel.viewport.render_target_update_mode
 	_saved_flashlight = player.flashlight.visible
 	is_open = true
-	_controls_hint.text = "1–4  Bauplatz wählen     ·     R  Reparieren     ·     V / Esc  Zurück     ·     " + ("Koop läuft während der Planung weiter" if NetSession.enabled else "Spiel pausiert während der Planung")
+	_controls_hint.text = "1–4  Choose building site     ·     R  Repair     ·     V / Esc  Back     ·     Co-op keeps running while you plan" if NetSession.enabled else "1–4  Choose building site     ·     R  Repair     ·     V / Esc  Back     ·     The game is paused while you plan"
 	player.active = false
 	get_tree().paused = not NetSession.enabled
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -317,37 +317,37 @@ func _refresh() -> void:
 	for i in site_buttons.size():
 		var bar: Barricade = main.barricades[i]
 		var distance := bar.distance_to_line(player.global_position)
-		site_buttons[i].text = "%02d  %s\n       %s  ·  %d m" % [i + 1, bar.slot["name"], "OFFEN" if bar.level == 0 else "STUFE %d" % bar.level, ceili(distance)]
+		site_buttons[i].text = Lang.t("%02d  %s\n       OPEN  ·  %d m", [i + 1, bar.slot["name"], ceili(distance)]) if bar.level == 0 else Lang.t("%02d  %s\n       TIER %d  ·  %d m", [i + 1, bar.slot["name"], bar.level, ceili(distance)])
 		site_buttons[i].add_theme_color_override("font_color", GOLD if bar == selected else PAPER)
 		site_buttons[i].add_theme_stylebox_override("normal", _style(Color(0.13, 0.18, 0.14) if bar == selected else Color(0.08, 0.11, 0.10), GOLD if bar == selected else Color(0.23, 0.3, 0.27), 12))
 	title.text = selected.slot["name"]
-	dimensions.text = "%.1f m  ·  %d verbundene Segmente" % [selected.half_len * 2.0, selected.slot["segments"]]
-	condition.text = "Offener Zugang  ·  keine Sperre" if selected.level == 0 else "Stufe %d  ·  %d / %d Trefferpunkte" % [selected.level, ceili(selected.hp), int(selected.max_hp())]
+	dimensions.text = Lang.t("%.1f m  ·  %d connected segments", [selected.half_len * 2.0, selected.slot["segments"]])
+	condition.text = "Open approach  ·  no barrier" if selected.level == 0 else Lang.t("Tier %d  ·  %d / %d hit points", [selected.level, ceili(selected.hp), int(selected.max_hp())])
 	health.max_value = maxf(selected.max_hp(), 1)
 	health.value = selected.hp
 	for i in 3:
 		level_labels[i].modulate = GREEN if i < selected.level else MUTED
 	var build_error := selected.action_error(player, "build")
 	var repair_error := selected.action_error(player, "repair")
-	primary.text = "Ganze Linie bauen  ·  50 R" if selected.level == 0 else ("Auf Stufe %d verstärken  ·  50 R" % (selected.level + 1) if selected.level < Barricade.MAX_LEVEL else "Maximal verstärkt")
+	primary.text = "Build whole line  ·  50 R" if selected.level == 0 else (Lang.t("Reinforce to tier %d  ·  50 R", [selected.level + 1]) if selected.level < Barricade.MAX_LEVEL else "Fully reinforced")
 	primary.disabled = not build_error.is_empty()
 	primary.tooltip_text = build_error
 	repair_button.disabled = not repair_error.is_empty()
 	repair_button.tooltip_text = repair_error
 	repair_button.visible = selected.level > 0
-	explanation.text = "50 Rem Dollars für die Sperrlinie und ihren Palisadenabschnitt. Beide entstehen erst beim Bauen." if selected.level == 0 else "Verstärken erhöht die Haltbarkeit um 150 TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
-	preview_title.text = "%02d   /   %s" % [main.barricades.find(selected) + 1, selected.slot["name"]]
-	preview_status.text = "ROTE BAUVORSCHAU   ·   %.1f M GESAMTLÄNGE" % (selected.half_len * 2.0) if selected.level == 0 else "LINIE GESICHERT   ·   STUFE %d / 3" % selected.level
+	explanation.text = "50 Rem Dollars for the barrier line and its palisade section. Both only appear once you build." if selected.level == 0 else "Reinforcing adds 150 HP of durability and restores the whole line. Repairing refills its current HP."
+	preview_title.text = Lang.t("%02d   /   %s", [main.barricades.find(selected) + 1, selected.slot["name"]])
+	preview_status.text = Lang.t("RED BUILD PREVIEW   ·   %.1f M TOTAL LENGTH", [selected.half_len * 2.0]) if selected.level == 0 else Lang.t("LINE SECURED   ·   TIER %d / 3", [selected.level])
 	preview_status.add_theme_color_override("font_color", RED if selected.level == 0 else GREEN)
 	if not _last_message.is_empty():
 		status.text = _last_message
 		status.add_theme_color_override("font_color", GREEN)
 	else:
-		status.text = build_error if not build_error.is_empty() else "Bereit. Ein Klick setzt die gesamte Linie."
+		status.text = build_error if not build_error.is_empty() else "Ready. One click places the whole line."
 		if selected.level > 0 and selected.hp < selected.max_hp() and repair_error.is_empty():
-			status.text = "Beschädigt. Reparieren oder direkt verstärken."
+			status.text = "Damaged. Repair it or reinforce it right away."
 		elif selected.level > 0 and build_error.is_empty():
-			status.text = "Bereit zum Verstärken der gesamten Linie."
+			status.text = "Ready to reinforce the whole line."
 		status.add_theme_color_override("font_color", GOLD if not build_error.is_empty() else MUTED)
 
 func _purchase(action: String) -> void:
@@ -365,7 +365,7 @@ func _purchase(action: String) -> void:
 		return
 	var old_level := selected.level
 	if selected.purchase(player, action):
-		_last_message = "Gesamte Linie repariert." if action == "repair" else ("Gesamte Linie gebaut. Zugang gesichert." if old_level == 0 else "Gesamte Linie auf Stufe %d verstärkt." % selected.level)
+		_last_message = "Whole line repaired." if action == "repair" else ("Whole line built. Approach secured." if old_level == 0 else Lang.t("Whole line reinforced to tier %d.", [selected.level]))
 		_refresh()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -375,9 +375,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			if main.progression.close_enough(player, "mechanic"):
 				main.progression.interact("mechanic")
-				main.progression.page = "Türme"
+				main.progression.page = "Towers"
 				main.progression._render()
-			else: main.hud.message("Verteidigungsberatung bei Mechanic. Direkt an einer Barrikade baut oder repariert E die Linie.", 3)
+			else: main.hud.message("Defense advice at Mechanic. Right at a barricade, E builds or repairs the line.", 3)
 		get_viewport().set_input_as_handled()
 	elif is_open and event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_4:

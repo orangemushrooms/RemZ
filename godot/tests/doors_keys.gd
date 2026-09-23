@@ -221,7 +221,7 @@ func run() -> void:
 		door._set_open(false)
 		await create_timer(1.0).timeout
 		check(door.crosses(door.to_global(Vector3(-3, 0, 0)), door.to_global(Vector3(3, 0, 0))), "%s is recognized as a defence by enemies" % door.label)
-		if door.label == "Garagentor":
+		if door.label == "Garage door":
 			var enemy := Zombie.new()
 			enemy.setup("shambler", game.player, [], 1.0, Callable())
 			game.zombies_root.add_child(enemy)
@@ -247,7 +247,7 @@ func run() -> void:
 	await frames()
 	var key_labels := 0
 	for label: Label in game.inventory.grid.find_children("*", "Label", true, false):
-		if label.text.begins_with("Schlüssel: "): key_labels += 1
+		if Lang.text(label.text).begins_with("Key: "): key_labels += 1
 	check(key_labels == 2, "Full inventory displays both permanent keys alongside equipment")
 	check(game.inventory.panel.get_viewport_rect().encloses(game.inventory.panel.get_global_rect()), "Full inventory fits the viewport")
 	await shot("06-inventory")

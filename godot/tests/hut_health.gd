@@ -42,19 +42,19 @@ func run() -> void:
 	hut.update_attack_alert(HutHealth.ATTACK_ALERT_SECONDS, true)
 	check(hut._attack_sound.playing, "A new authoritative attack phase replays the warning")
 	hut.update_attack_alert(0.0, false)
-	check(game.hud.hut_label.text.begins_with("HÜTTE %d" % ceili(hut.hp)), "HUD shows the hut health")
+	check(Lang.text(game.hud.hut_label.text).begins_with("HUT %d" % ceili(hut.hp)), "HUD shows the hut health")
 	# repair: reach, cost, step
 	var player: Player = game.player
 	player.score = 0
 	player.global_position = west
 	check(hut.can_repair(player), "Player at the wall may repair")
-	check(hut.repair(player).begins_with("Es fehlen"), "Repair needs points")
+	check(Lang.text(hut.repair(player)).begins_with("You are"), "Repair needs points")
 	player.score = 100
 	var partial_cost: int = hut.repair_quote().cost
 	check(partial_cost == 5 and hut.repair_quote().amount == 80, "Small repairs charge proportionally for actual missing HP")
 	check(hut.repair(player) == "" and player.score == 100 - partial_cost, "Repair charges the displayed quote")
 	check(hut.hp == HutHealth.MAX_HP, "Repair restores health up to the maximum")
-	check(hut.repair(player) == "Keine Reparatur nötig.", "Full hut refuses repair")
+	check(hut.repair(player) == "No repair needed.", "Full hut refuses repair")
 	var saved_wave: int = game.waves.wave
 	var saved_completed: int = game.waves.completed
 	for entry in [[1, 30], [5, 50], [10, 75], [20, 125]]:
@@ -64,9 +64,9 @@ func run() -> void:
 		var quote: Dictionary = hut.repair_quote()
 		check(quote.cost == entry[1] and quote.amount == 500, "Repair price scales at wave %d without reducing restored HP" % entry[0])
 		player.score = int(quote.cost) - 1
-		check(hut.repair(player).begins_with("Es fehlen") and hut.hp == HutHealth.MAX_HP - 1000, "Insufficient points cannot buy late-wave repairs")
+		check(Lang.text(hut.repair(player)).begins_with("You are") and hut.hp == HutHealth.MAX_HP - 1000, "Insufficient points cannot buy late-wave repairs")
 		player.score = int(quote.cost)
-		check(hut.prompt_text().contains("%d R" % quote.cost) and hut.repair(player).is_empty() and player.score == 0 and hut.hp == HutHealth.MAX_HP - 500, "Prompt and actual repair charge agree")
+		check(Lang.text(hut.prompt_text()).contains("%d R" % quote.cost) and hut.repair(player).is_empty() and player.score == 0 and hut.hp == HutHealth.MAX_HP - 500, "Prompt and actual repair charge agree")
 	game.waves.wave = 10
 	game.waves.completed = 10
 	hut.hp = HutHealth.MAX_HP - 100
@@ -80,7 +80,7 @@ func run() -> void:
 	hut.damage(1200)
 	hut.hp = HutHealth.MAX_HP - 1200
 	player.global_position = hut.center + Vector3(-30, 0, 0)
-	check(not hut.can_repair(player) and hut.repair(player).begins_with("Zu weit"), "Repair needs the player at the hut")
+	check(not hut.can_repair(player) and Lang.text(hut.repair(player)).begins_with("Too far"), "Repair needs the player at the hut")
 	# a zombie inside the ring goes for the hut and damages it
 	player.global_position = Map.ground_pos(-40, -60)
 	player.set_physics_process(false)
@@ -101,6 +101,6 @@ func run() -> void:
 	hut.damage(100000)
 	check(hut.destroyed and hut.hp == 0.0 and not game.hud.hut_alarm.visible, "Destroyed hut clears the attack alarm")
 	check(not hut._attack_sound.playing, "Hut destruction stops the attack warning")
-	check(game.over and game.hud.overlay_title.text == "HÜTTE VERLOREN", "Destroyed hut ends the round with its own title")
+	check(game.over and Lang.text(game.hud.overlay_title.text) == "HUT LOST", "Destroyed hut ends the round with its own title")
 	print("HUT_HEALTH_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

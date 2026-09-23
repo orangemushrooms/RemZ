@@ -4,6 +4,9 @@
 class_name Map
 
 const DIR := "res://assets/map/"
+# What the game calls the four gates. map.json keeps the local names (Weg zur Hütte, Wiesentor, Weg Richtung
+# Dorf, Waldweg Nord) for build_map.py; these English names are translated back to them in German.
+const GATE_NAMES := {"ne": "Hut Path", "e": "Meadow Gate", "s": "Village Path", "w": "North Forest Path"}
 
 static var _loaded := false
 static var _d: Dictionary = {}
@@ -104,7 +107,7 @@ static func _ensure() -> void:
 	var b: Array = _d["bounds"]
 	BOUNDS = Rect2(b[0], b[1], b[2], b[3])
 	for s in _d["barricades"]:
-		BARRICADES.append({ "id": s["id"], "name": s["name"], "pos": Vector2(s["pos"][0], s["pos"][1]), "yaw": float(s["yaw"]), "segments": int(s["segments"]) })
+		BARRICADES.append({ "id": s["id"], "name": GATE_NAMES.get(s["id"], s["name"]), "pos": Vector2(s["pos"][0], s["pos"][1]), "yaw": float(s["yaw"]), "segments": int(s["segments"]) })
 	for k in _d["spawns"]:
 		var pts: Array = []
 		for p in _d["spawns"][k]:

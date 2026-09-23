@@ -85,7 +85,7 @@ func item_data(id: String) -> Dictionary:
 	if id == "cooked_meat":
 		var amount := int(game.hunting.stock(game.player.peer_id).cooked_meat)
 		# Health food can be bound like mushrooms.
-		return {"name": "Gegrilltes Wildfleisch", "icon": id, "owned": amount > 0, "count": str(amount)}
+		return {"name": "Grilled Venison", "icon": id, "owned": amount > 0, "count": str(amount)}
 	if Inventory.MUSHROOMS.has(id):
 		if Inventory.MUSHROOMS[id].get("collectible", false): return {}
 		var amount := int(game.inventory.mushrooms.get(id, 0))
@@ -94,7 +94,7 @@ func item_data(id: String) -> Dictionary:
 		var amount := int(game.fireworks.stock(game.player.peer_id).get(id, 0))
 		return {"name": Fireworks.DEFS[id].name, "icon": Fireworks.icon_id(id), "owned": amount > 0, "count": str(amount)}
 	if id == "grenade":
-		return {"name": "Granaten", "icon": id, "owned": game.weapons.grenades > 0, "count": str(game.weapons.grenades)}
+		return {"name": "Grenades", "icon": id, "owned": game.weapons.grenades > 0, "count": str(game.weapons.grenades)}
 	if Player.RareItems.DEFS.has(id):
 		var stock: Dictionary = game.progression.rare_market.data(game.player.peer_id)
 		var ammo := id in ["fire", "frost"]
@@ -126,7 +126,8 @@ func offer_item(id: String) -> void:
 	picker.set_meta("slot", -1)
 	for index in SLOT_COUNT:
 		var current := item_data(bindings[index])
-		picker.add_item("Platz %d%s: %s" % [index + 1, " (Taste 0)" if index == 9 else "", current.get("name", "Leer")], index)
+		var item_name: String = current.get("name", "Empty")
+		picker.add_item(Lang.t("Slot %d (key 0): %s", [index + 1, item_name]) if index == 9 else Lang.t("Slot %d: %s", [index + 1, item_name]), index)
 	picker.position = Vector2i(bar.get_global_mouse_position())
 	picker.popup()
 
@@ -135,7 +136,7 @@ func show_picker(index: int) -> void:
 	picker.set_meta("slot", index)
 	var items := owned_items()
 	picker.set_meta("items", items)
-	picker.add_item("Belegung entfernen", 0)
+	picker.add_item("Clear slot", 0)
 	for i in items.size():
 		picker.add_item(item_data(items[i]).name, i + 1)
 	picker.position = Vector2i(buttons[index].global_position - Vector2(0, 320))
@@ -156,7 +157,7 @@ func activate(index: int) -> void:
 	var data := item_data(id)
 	if data.is_empty(): return
 	if not data.owned:
-		game.hud.message("%s: nicht im Inventar" % data.name, 1.5)
+		game.hud.message(Lang.t("%s: not in inventory", [data.name]), 1.5)
 		return
 	if Weapons.DEFS.has(id):
 		game.fireworks.cancel()
@@ -180,16 +181,15 @@ func refresh() -> void:
 		var active: bool = (game.fireworks.armed and game.fireworks.selected == id) or (not game.fireworks.armed and game.weapons.current == id)
 		buttons[index].modulate = Color.WHITE if data.get("owned", false) else Color(0.55, 0.55, 0.55)
 		buttons[index].self_modulate = Color(1, 0.8, 0.4) if active else Color.WHITE
-		buttons[index].tooltip_text = "%s\nInventar: Klick zum Belegen, Rechtsklick zum Leeren" % data.get("name", "Leer")
+		buttons[index].tooltip_text = Lang.t("%s\nInventory: click to assign, right click to clear", [data.get("name", "Empty")])
 		ammo_badges[index].text = ""
 		ammo_badges[index].hide()
 		if active and Weapons.DEFS.has(id) and not Weapons.is_melee(id) and not ammo_mode.is_empty():
 			var remaining := int(market.data(game.player.peer_id).ammo[ammo_mode])
-			var label := "FEUER" if ammo_mode == "fire" else "FROST"
-			ammo_badges[index].text = "%s %d" % [label, remaining]
+			ammo_badges[index].text = Lang.t("FIRE %d", [remaining]) if ammo_mode == "fire" else Lang.t("FROST %d", [remaining])
 			ammo_badges[index].show()
 			ammo_badges[index].add_theme_color_override("font_color", Color(1, 0.48, 0.16) if ammo_mode == "fire" else Color(0.4, 0.85, 1))
-			buttons[index].tooltip_text += "\n%s: %d Spezialpatronen" % ["Feuerpatronen" if ammo_mode == "fire" else "Frostpatronen", remaining]
+			buttons[index].tooltip_text += "\n" + (Lang.t("Fire rounds: %d special rounds", [remaining]) if ammo_mode == "fire" else Lang.t("Frost rounds: %d special rounds", [remaining]))
 
 func _process(delta: float) -> void:
 	if not game: return

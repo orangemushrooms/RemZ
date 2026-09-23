@@ -43,7 +43,7 @@ func setup(m: Node, h: Hud, p: Player, w: Weapons) -> void:
 	hud = h
 	player = p
 	weapons = w
-	hud.set_wave(1, "Bereit machen ...")
+	hud.set_wave(1, "Get ready ...")
 
 func _difficulty(key: String) -> float:
 	if main and "difficulty" in main and main.difficulty is Dictionary:
@@ -163,15 +163,15 @@ func start(n: int) -> void:
 	phase = "spawning"
 	spawn_t = 0.0
 	speed_mul = minf(2.2, 1.0 + (n - 1) * 0.035) * _difficulty("speed")
-	hud.set_wave(n, "%d Zombies" % queue.size())
+	hud.set_wave(n, Lang.t("%d zombies", [queue.size()]))
 	hud.set_wave_progress(total, total)
 	if "achievements" in main and main.achievements:
 		main.achievements.wave_started()
-	hud.message("Welle %d" % n if not boss_wave else "Welle %d\nBOSSWELLE: die Brocken kommen" % n, 2.0 if not boss_wave else 3.5)
+	hud.message(Lang.t("Wave %d", [n]) if not boss_wave else Lang.t("Wave %d\nBOSS WAVE: the brutes are coming", [n]), 2.0 if not boss_wave else 3.5)
 	if titan_count(n) + lesser_titan_count(n) > 0:
-		hud.message("Welle %d · TITANEN\nBewegung auf dem Feld. Bereite die Verteidigung vor!" % n, 5.0)
+		hud.message(Lang.t("Wave %d · TITANS\nMovement on the field. Prepare your defenses!", [n]), 5.0)
 	if EncounterBalance.worm_count(n) > 0:
-		hud.message("Welle %d · WURMWELLE\nDas Feld bebt. Meide die Erdringe – beschiesse die freiliegenden Würmer!" % n, 6.0)
+		hud.message(Lang.t("Wave %d · WORM WAVE\nThe field is shaking. Avoid the earth rings – shoot the exposed worms!", [n]), 6.0)
 	Sfx.play(self, "wave", -4.0)
 	boss_fight = is_boss_fight()
 	_boss_check = 0.25
@@ -218,16 +218,15 @@ func _process(delta: float) -> void:
 		trim_corpses()
 	if phase == "intro":
 		# the opening walk: no countdown, wave 1 is released when the Weg zur Hütte is reached
-		hud.set_wave(1, "Erreiche den Weg zur Hütte")
+		hud.set_wave(1, "Reach the Hut Path")
 		return
 	if phase == "idle":
 		timer -= delta
 		if Input.is_action_just_pressed("next_wave") and wave > 0 and timer > 1.0:
 			timer = 1.0
-			hud.message("Welle %d kommt!" % (wave + 1), 1.2)
+			hud.message(Lang.t("Wave %d is coming!", [wave + 1]), 1.2)
 		var boss := EncounterBalance.title(wave + 1) != "HORDE"
-		hud.set_wave(wave + 1, "Start in %d s  ·  %d Zombies%s
-Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  " + EncounterBalance.title(wave + 1) if boss else ""])
+		hud.set_wave(wave + 1, Lang.t("Start in %d s  ·  %d zombies  ·  %s\nEnter: start now", [ceili(timer), preview_count(wave + 1), EncounterBalance.title(wave + 1)]) if boss else Lang.t("Start in %d s  ·  %d zombies\nEnter: start now", [ceili(timer), preview_count(wave + 1)]))
 		if timer <= 0.0:
 			start(wave + 1)
 	elif phase == "spawning":
@@ -244,7 +243,7 @@ Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  " + Enco
 				spawn_t = SPAWN_RETRY_DELAY
 		var alive: int = main.alive_zombies()
 		_update_stragglers(delta, alive)
-		hud.set_wave(wave, "%d übrig" % (alive + queue.size()))
+		hud.set_wave(wave, Lang.t("%d left", [alive + queue.size()]))
 		hud.set_wave_progress(alive + queue.size(), total)
 		if main.music:
 			main.music.horde = clampf(alive / 10.0, 0.15, 1.0)
@@ -271,7 +270,7 @@ func _complete_wave() -> void:
 	player.add_score(bonus)
 	weapons.refill_all()
 	if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
-	hud.message("Welle %d überstanden\n+%d Rem Dollars, Pistolenreserve gesichert\nHändler und Aufträge: Vendor & Mechanic · T: Turm" % [wave, bonus], 4.0)
+	hud.message(Lang.t("Wave %d survived\n+%d Rem Dollars, pistol reserve secured\nTraders and quests: Vendor & Mechanic · T: Tower", [wave, bonus]), 4.0)
 	Sfx.play(self, "menu", -6.0)
 
 func _try_spawn(entry: Dictionary) -> bool:
@@ -356,7 +355,7 @@ func _update_stragglers(delta: float, alive: int) -> void:
 	_stragglers_hunting = true
 	for zombie in main.zombies_root.get_children():
 		if zombie is Zombie and zombie.alive: zombie.begin_hunt()
-	hud.message("Die letzten Zombies suchen dich!", 3.0)
+	hud.message("The last zombies are hunting you!", 3.0)
 	if NetSession.is_host():
 		for peer in NetSession.ready_peers:
-			if peer != 1: NetSession.feedback(peer, "message", ["Die letzten Zombies suchen dich!", 3.0])
+			if peer != 1: NetSession.feedback(peer, "message", ["The last zombies are hunting you!", 3.0])

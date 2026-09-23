@@ -10,7 +10,7 @@ const REPAIR_COST_PER_WAVE := 5
 const REPAIR_REACH := 5.0           # metres from the walls
 const ATTACK_ALERT_SECONDS := 5.0
 const RAID_RANGE := 9.0             # zombies closer than this to a wall turn on the hut
-const WARNING := "ACHTUNG: DIE WALDHÜTTE WIRD ANGEGRIFFEN!\nVerteidigen!"
+const WARNING := "WARNING: THE FOREST HUT IS UNDER ATTACK!\nDefend it!"
 
 var game: Node
 var hp := MAX_HP:
@@ -86,7 +86,7 @@ func _update_health_display() -> void:
 	health_fill.region_rect = Rect2(0, 0, width, 18)
 	health_fill.offset.x = (width - 256.0) * 0.5
 	health_fill.modulate = Color(0.3, 0.9, 0.5) if ratio > 0.5 else (Color(1.0, 0.72, 0.2) if ratio > 0.25 else Color(1.0, 0.25, 0.2))
-	health_label.text = "WALDHÜTTE  %d / %d" % [ceili(hp), int(MAX_HP)]
+	health_label.text = Lang.t("FOREST HUT  %d / %d", [ceili(hp), int(MAX_HP)])
 
 func max_hp() -> float:
 	return MAX_HP
@@ -174,12 +174,12 @@ func repair_quote() -> Dictionary:
 
 # returns an error text, empty on success (same contract as DefenceSystem.maintain)
 func repair(player: Player) -> String:
-	if destroyed: return "Die Waldhütte ist zerstört."
-	if hp >= MAX_HP: return "Keine Reparatur nötig."
-	if not player.alive: return "Reparieren ist momentan nicht möglich."
-	if distance(player.global_position) > REPAIR_REACH: return "Zu weit von der Hütte entfernt."
+	if destroyed: return "The forest hut has been destroyed."
+	if hp >= MAX_HP: return "No repair needed."
+	if not player.alive: return "Repairing is not possible right now."
+	if distance(player.global_position) > REPAIR_REACH: return "Too far from the hut."
 	var quote := repair_quote()
-	if player.score < int(quote.cost): return "Es fehlen %d Rem Dollars." % (int(quote.cost) - player.score)
+	if player.score < int(quote.cost): return Lang.t("You are %d Rem Dollars short.", [int(quote.cost) - player.score])
 	player.add_score(-int(quote.cost))
 	hp = minf(MAX_HP, hp + float(quote.amount))
 	Sfx.event(self, player.peer_id, "purchase")
@@ -188,7 +188,7 @@ func repair(player: Player) -> String:
 
 func prompt_text() -> String:
 	var quote := repair_quote()
-	return "[E] Waldhütte reparieren · +%d HP · %d R\nHütte %d / %d · Preisstufe: Welle %d" % [ceili(quote.amount), int(quote.cost), ceili(hp), int(MAX_HP), int(quote.wave)]
+	return Lang.t("[E] Repair forest hut · +%d HP · %d R\nHut %d / %d · Price tier: wave %d", [ceili(quote.amount), int(quote.cost), ceili(hp), int(MAX_HP), int(quote.wave)])
 
 func _process(delta: float) -> void:
 	attack_alert_remaining = maxf(0.0, attack_alert_remaining - delta)

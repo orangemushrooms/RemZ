@@ -106,7 +106,7 @@ func run() -> void:
 			defence.begin_rotation(tower)
 			defence._process(0.1)
 			check(defence.preview_range() == 26 and defence.range_marker.shown_radius == 26, "Rotating an upgraded tower previews the upgraded range")
-			check(defence.hint.text.contains("26 m"), "Build hint agrees with upgraded range marker")
+			check(Lang.text(defence.hint.text).contains("26 m"), "Build hint agrees with upgraded range marker")
 			camera.global_position = origin + Vector3(18, 23, 23)
 			camera.look_at(origin + Vector3(0, 0, -6))
 			await process_frame

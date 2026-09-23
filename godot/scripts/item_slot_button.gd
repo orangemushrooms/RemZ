@@ -2,7 +2,10 @@ extends Button
 
 # Godot's default tooltip grows to one very long line. Keep item descriptions
 # within a compact, opaque card with a separate heading and wrapped body.
-func _make_custom_tooltip(text: String) -> Object:
+# The viewport strips control characters off the edges of the text it hands over, which cuts the
+# frame off a Lang segment, so the card reads tooltip_text itself.
+func _make_custom_tooltip(_for_text: String) -> Object:
+	var text := card_text(tooltip_text)
 	var card := PanelContainer.new()
 	card.custom_minimum_size.x = 390
 	var style := StyleBoxFlat.new()
@@ -19,6 +22,7 @@ func _make_custom_tooltip(text: String) -> Object:
 	card.add_child(column)
 	var split := text.find("\n")
 	var title := Label.new()
+	title.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	title.text = text.substr(0,split) if split>=0 else text
 	title.custom_minimum_size.x = 358
 	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -26,6 +30,7 @@ func _make_custom_tooltip(text: String) -> Object:
 	title.add_theme_color_override("font_color",Color(1,0.77,0.4))
 	column.add_child(title)
 	var body := Label.new()
+	body.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	body.text = text.substr(split+1) if split>=0 else ""
 	body.custom_minimum_size.x = 358
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -34,3 +39,10 @@ func _make_custom_tooltip(text: String) -> Object:
 	body.add_theme_color_override("font_color",Color(0.94,0.95,0.92))
 	column.add_child(body)
 	return card
+
+# Heading line plus body in the current language, every " · " part of the body on its own line.
+static func card_text(value: String) -> String:
+	var text := Lang.text(value)
+	var split := text.find("\n")
+	if split<0: return text
+	return text.substr(0,split+1) + text.substr(split+1).replace("  ·  ","\n").replace(" · ","\n")

@@ -130,19 +130,19 @@ func _build_menu() -> void:
 	list.add_theme_constant_override("separation",12)
 	build_menu.add_child(list)
 	var title := Label.new()
-	title.text = "TURMBAU · maximal 6 Türme im Team"
+	title.text = "TOWER BUILDING · up to 6 towers per team"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	list.add_child(title)
 	for kind in DefenceTower.TYPES:
 		var spec: Dictionary = DefenceTower.SPECS[kind]
 		var button := Button.new()
-		button.text = "%s · %d R\n%s · %d m" % [spec.name,spec.cost,spec.info,spec.range]
+		button.text = Lang.t("%s · %d R\n%s · %d m", [spec.name,spec.cost,spec.info,spec.range])
 		button.custom_minimum_size.y = 70
 		button.pressed.connect(select_kind.bind(kind))
 		list.add_child(button)
 		kind_buttons[kind] = button
 	var cancel := Button.new()
-	cancel.text = "Schließen [T / Esc]"
+	cancel.text = "Close [T / Esc]"
 	cancel.pressed.connect(close)
 	list.add_child(cancel)
 	build_menu.hide()
@@ -172,25 +172,26 @@ func unlock_waves(kind: String, level := 1) -> int:
 	return int(DefenceTower.SPECS[kind].unlock_waves) + int(DefenceTower.UPGRADE_WAVE_OFFSETS[level - 1])
 
 func unlock_reason(kind: String, level := 1) -> String:
-	if not DefenceTower.SPECS.has(kind): return "Unbekannter Turmtyp."
-	if level < 1 or level > 3: return "Ungültige Ausbaustufe."
+	if not DefenceTower.SPECS.has(kind): return "Unknown tower type."
+	if level < 1 or level > 3: return "Invalid upgrade tier."
 	var required := unlock_waves(kind, level)
 	if game.waves.completed >= required: return ""
-	return "%s%s: zuerst Welle %d überstehen (%d/%d)." % [DefenceTower.SPECS[kind].name, " · Stufe %d" % level if level > 1 else "", required, game.waves.completed, required]
+	if level > 1: return Lang.t("%s · Tier %d: survive wave %d first (%d/%d).", [DefenceTower.SPECS[kind].name, level, required, game.waves.completed, required])
+	return Lang.t("%s: survive wave %d first (%d/%d).", [DefenceTower.SPECS[kind].name, required, game.waves.completed, required])
 
 func build_requirement(p: Player, kind: String) -> String:
 	var reason := unlock_reason(kind)
 	if not reason.is_empty(): return reason
-	if towers.size() >= DefenceTower.LIMIT: return "Maximal 6 Türme im Team."
-	if p.score < int(DefenceTower.SPECS[kind].cost): return "%s: %d Rem Dollars benötigt." % [DefenceTower.SPECS[kind].name, DefenceTower.SPECS[kind].cost]
+	if towers.size() >= DefenceTower.LIMIT: return "No more than 6 towers per team."
+	if p.score < int(DefenceTower.SPECS[kind].cost): return Lang.t("%s: %d Rem Dollars needed.", [DefenceTower.SPECS[kind].name, DefenceTower.SPECS[kind].cost])
 	return ""
 
 func upgrade_reason(p: Player, tower: DefenceTower) -> String:
-	if tower.level >= 3: return "Maximale Stufe erreicht."
-	if tower.operator_peer: return "Der Turm wird gerade bedient."
+	if tower.level >= 3: return "Maximum tier reached."
+	if tower.operator_peer: return "The tower is being operated right now."
 	var reason := unlock_reason(tower.kind, tower.level + 1)
 	if not reason.is_empty(): return reason
-	if p.score < tower.upgrade_cost(): return "Zu wenig Rem Dollars."
+	if p.score < tower.upgrade_cost(): return "Not enough Rem Dollars."
 	return ""
 
 func _refresh_build_menu() -> void:
@@ -201,42 +202,43 @@ func _refresh_build_menu() -> void:
 		var spec: Dictionary = DefenceTower.SPECS[kind]
 		var button: Button = kind_buttons[kind]
 		var reason := build_requirement(game.player, kind)
-		var available := "Ab Start" if unlock_waves(kind) == 0 else "Nach Welle %d" % unlock_waves(kind)
-		button.text = "%s · %d R · %s\n%s · %d m" % [spec.name, spec.cost, available, spec.info, spec.range]
+		var available := "From the start" if unlock_waves(kind) == 0 else Lang.t("After wave %d", [unlock_waves(kind)])
+		button.text = Lang.t("%s · %d R · %s\n%s · %d m", [spec.name, spec.cost, available, spec.info, spec.range])
 		button.disabled = not reason.is_empty()
-		if button.disabled: button.text += "\n" + reason
-		button.tooltip_text = "Stufe 2 nach Welle %d · Stufe 3 nach Welle %d" % [unlock_waves(kind, 2), unlock_waves(kind, 3)]
+		# Lang.t wraps a plain literal reason, which would stay English next to a segment otherwise.
+		if button.disabled: button.text += "\n" + Lang.t(reason)
+		button.tooltip_text = Lang.t("Tier 2 after wave %d · Tier 3 after wave %d", [unlock_waves(kind, 2), unlock_waves(kind, 3)])
 
 func placement_error(p: Player, point: Vector3, kind := "standard") -> String:
-	if not DefenceTower.SPECS.has(kind): return "Unbekannter Turmtyp."
-	if p.mounted_tower: return "Zum Bauen zuerst absteigen."
-	if not p.alive or not point.is_finite(): return "Bauen momentan nicht möglich."
+	if not DefenceTower.SPECS.has(kind): return "Unknown tower type."
+	if p.mounted_tower: return "Dismount before building."
+	if not p.alive or not point.is_finite(): return "Building not possible right now."
 	var requirement := build_requirement(p, kind)
 	if not requirement.is_empty(): return requirement
-	if p.global_position.distance_to(point) > 8.0: return "Bauplatz höchstens 8 m entfernt wählen."
-	if not Map.BOUNDS.grow(-3).has_point(Vector2(point.x, point.z)): return "Ausserhalb des Baugebiets."
+	if p.global_position.distance_to(point) > 8.0: return "Choose a building site no more than 8 m away."
+	if not Map.BOUNDS.grow(-3).has_point(Vector2(point.x, point.z)): return "Outside the building area."
 	var ground := Map.ground_pos(point.x, point.z)
-	if absf(ground.y - point.y) > 0.25: return "Turm muss auf festem Boden stehen."
-	if Map.in_building(point.x, point.z, 2.0): return "Abstand zum Gebäude halten."
+	if absf(ground.y - point.y) > 0.25: return "The tower must stand on solid ground."
+	if Map.in_building(point.x, point.z, 2.0): return "Keep your distance from the building."
 	if not Map.POND.is_empty() and Vector2(point.x, point.z).distance_to(Map.POND.pos) < float(Map.POND.r) + 1.5:
-		return "Am Teich kann kein Turm stehen."
+		return "No tower can stand at the pond."
 	for offset in [Vector2(-1.2, -1.2), Vector2(1.2, -1.2), Vector2(-1.2, 1.2), Vector2(1.2, 1.2)]:
 		if absf(Map.ground_height(point.x + offset.x, point.z + offset.y) - ground.y) > 0.45:
-			return "Boden zu steil."
+			return "Ground too steep."
 	for tower: DefenceTower in towers.values():
-		if is_instance_valid(tower) and tower.global_position.distance_to(point) < 3.4: return "Zu nah an einem anderen Turm."
+		if is_instance_valid(tower) and tower.global_position.distance_to(point) < 3.4: return "Too close to another tower."
 	for bar: Barricade in game.barricades:
-		if bar.distance_to_line(point) < 2.0: return "Barrikadenlinie freihalten."
-	if Vector2(p.global_position.x - point.x, p.global_position.z - point.z).length() < 1.8: return "Nicht auf deinem Standort bauen."
+		if bar.distance_to_line(point) < 2.0: return "Keep the barricade line clear."
+	if Vector2(p.global_position.x - point.x, p.global_position.z - point.z).length() < 1.8: return "Don't build where you are standing."
 	var q := PhysicsShapeQueryParameters3D.new()
 	var shape := BoxShape3D.new()
 	shape.size = Vector3(2.6, 3.4, 2.6)
 	q.shape = shape
 	q.transform.origin = ground + Vector3.UP * 2.0
 	q.collision_mask = 1 | 2 | 4 | 8 | 16
-	if not game.get_world_3d().direct_space_state.intersect_shape(q, 1).is_empty(): return "Bauplatz belegt."
+	if not game.get_world_3d().direct_space_state.intersect_shape(q, 1).is_empty(): return "Building site occupied."
 	var ray := PhysicsRayQueryParameters3D.create(p.global_position + Vector3.UP * 1.7, ground + Vector3.UP, 1 | 8, [p.get_rid()])
-	if not game.get_world_3d().direct_space_state.intersect_ray(ray).is_empty(): return "Keine freie Sicht zum Bauplatz."
+	if not game.get_world_3d().direct_space_state.intersect_ray(ray).is_empty(): return "No clear view of the building site."
 	return ""
 
 func create_tower(point: Vector3, owner: int, id := 0, remote := false, kind := "standard") -> DefenceTower:
@@ -257,8 +259,8 @@ func create_tower(point: Vector3, owner: int, id := 0, remote := false, kind := 
 	return tower
 
 func purchase(p: Player, point: Vector3, yaw := 0.0, kind := "standard") -> String:
-	if NetSession.is_client(): return "Nur der Host bestätigt Bauten."
-	if not is_finite(yaw): return "Ungültige Ausrichtung."
+	if NetSession.is_client(): return "Only the host confirms construction."
+	if not is_finite(yaw): return "Invalid orientation."
 	var error := placement_error(p, point, kind)
 	if not error.is_empty(): return error
 	p.add_score(-int(DefenceTower.SPECS[kind].cost))
@@ -269,15 +271,15 @@ func purchase(p: Player, point: Vector3, yaw := 0.0, kind := "standard") -> Stri
 	return ""
 
 func maintain(p: Player, id: int, action: String, at_merchant := false) -> String:
-	if NetSession.is_client(): return "Nur der Host bestätigt Bauten."
-	if not towers.has(id) or not is_instance_valid(towers[id]): return "Turm nicht mehr vorhanden."
+	if NetSession.is_client(): return "Only the host confirms construction."
+	if not towers.has(id) or not is_instance_valid(towers[id]): return "The tower no longer exists."
 	var tower: DefenceTower = towers[id]
-	if tower.operator_peer: return "Der Turm wird gerade bedient."
+	if tower.operator_peer: return "The tower is being operated right now."
 	if action in ["upgrade", "sell"]:
-		if not at_merchant or not game.progression.close_enough(p, "mechanic"): return "Ausbau und Abbau nur bei Mechanic."
+		if not at_merchant or not game.progression.close_enough(p, "mechanic"): return "Upgrading and dismantling only at Mechanic."
 	else:
-		if not p.alive or p.global_position.distance_to(tower.global_position) > 6: return "Zu weit vom Turm entfernt."
-		if not reachable(p, tower): return "Keine freie Sicht zum Turm."
+		if not p.alive or p.global_position.distance_to(tower.global_position) > 6: return "Too far from the tower."
+		if not reachable(p, tower): return "No clear view of the tower."
 	var cost := 0
 	match action:
 		"upgrade":
@@ -285,17 +287,17 @@ func maintain(p: Player, id: int, action: String, at_merchant := false) -> Strin
 			if not reason.is_empty(): return reason
 			cost = tower.upgrade_cost()
 		"repair":
-			if tower.hp >= tower.max_hp(): return "Keine Reparatur nötig."
+			if tower.hp >= tower.max_hp(): return "No repair needed."
 			cost = DefenceTower.REPAIR_COST
 		"sell":
-			if p.peer_id != tower.owner_peer: return "Nur der Erbauer kann den Turm abbauen."
+			if p.peer_id != tower.owner_peer: return "Only the builder can dismantle the tower."
 			p.add_score(tower.refund())
 			towers.erase(id)
 			tower.queue_free()
 			Sfx.event(self, p.peer_id, "purchase")
 			return ""
-		_: return "Unbekannte Aktion."
-	if p.score < cost: return "Zu wenig Rem Dollars."
+		_: return "Unknown action."
+	if p.score < cost: return "Not enough Rem Dollars."
 	p.add_score(-cost)
 	if action == "upgrade": tower.level += 1
 	tower.hp = tower.max_hp()
@@ -334,12 +336,12 @@ func begin_rotation(tower: DefenceTower) -> void:
 	game.hud.set_prompt("")
 
 func rotate_tower(p: Player, id: int, yaw: float) -> String:
-	if NetSession.is_client() or not is_finite(yaw): return "Ungültige Ausrichtung."
+	if NetSession.is_client() or not is_finite(yaw): return "Invalid orientation."
 	var tower: DefenceTower = towers.get(id)
-	if not is_instance_valid(tower) or not p.alive: return "Turm nicht vorhanden."
-	if tower.operator_peer: return "Der Turm wird gerade bedient."
-	if p.global_position.distance_to(tower.global_position) > 6 or not reachable(p, tower): return "Gehe näher an den Turm."
-	if absf(angle_difference(tower.rotation.y, yaw)) < 0.05: return "Drehe den Turm mit R oder dem Mausrad."
+	if not is_instance_valid(tower) or not p.alive: return "Tower not found."
+	if tower.operator_peer: return "The tower is being operated right now."
+	if p.global_position.distance_to(tower.global_position) > 6 or not reachable(p, tower): return "Move closer to the tower."
+	if absf(angle_difference(tower.rotation.y, yaw)) < 0.05: return "Rotate the tower with R or the mouse wheel."
 	tower.rotation.y = wrapf(yaw, -PI, PI)
 	tower.target = null
 	tower.aim_yaw = 0
@@ -354,11 +356,11 @@ func close() -> void:
 	if game.player.active: Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func mount(p: Player, id: int) -> String:
-	if NetSession.is_client(): return "Nur der Host bestätigt den Einstieg."
+	if NetSession.is_client(): return "Only the host confirms mounting."
 	var tower: DefenceTower = towers.get(id)
-	if not is_instance_valid(tower) or tower.hp<=0: return "Turm nicht vorhanden."
-	if not p.alive or p.mounted_tower or p.global_position.distance_to(tower.global_position)>4 or not reachable(p,tower): return "Gehe näher an den Turm."
-	if tower.operator_peer: return "Dieser Turm ist bereits besetzt."
+	if not is_instance_valid(tower) or tower.hp<=0: return "Tower not found."
+	if not p.alive or p.mounted_tower or p.global_position.distance_to(tower.global_position)>4 or not reachable(p,tower): return "Move closer to the tower."
+	if tower.operator_peer: return "This tower is already occupied."
 	tower.operator_peer = p.peer_id
 	tower.exit_position = p.global_position
 	tower.target = null
@@ -536,14 +538,14 @@ func _process(delta: float) -> void:
 	if showing and mounted and _range_sample <= 0:
 		_range_sample = 0.1
 		var aim := aim_readout(mounted)
-		var state := "SICHT BLOCKIERT" if aim.blocked else "IN REICHWEITE" if aim.within else "AUSSER REICHWEITE" if aim.distance >= 0 else "KEIN ZIEL"
-		range_label.text = "%s · Reichweite %d m\n%s" % ["Ziel %.1f m" % aim.distance if aim.distance >= 0 else "Freies Schussfeld", roundi(mounted.attack_range()), state]
+		var state := "VIEW BLOCKED" if aim.blocked else "IN RANGE" if aim.within else "OUT OF RANGE" if aim.distance >= 0 else "NO TARGET"
+		range_label.text = Lang.t("%s · Range %d m\n%s", [Lang.t("Target %.1f m", [aim.distance]) if aim.distance >= 0 else "Clear field of fire", roundi(mounted.attack_range()), state])
 		range_label.modulate = Color(0.65, 1, 0.7) if aim.within and not aim.blocked else Color(1, 0.4, 0.25) if aim.distance >= 0 else Hud.GOLD
 	if game.weapons and game.weapons.viewmodel: game.weapons.viewmodel.visible = mounted == null
 	if mounted:
 		game.player.head.position.y = Player.CROUCH_EYE
-		game.hud.ammo_label.text = "MANUELL · %d %%" % roundi(mounted.heat*100)
-		game.hud.weapon_label.text = "%s · Stufe %d" % [mounted.spec().name,mounted.level]
+		game.hud.ammo_label.text = Lang.t("MANUAL · %d%%", [roundi(mounted.heat*100)])
+		game.hud.weapon_label.text = Lang.t("%s · Tier %d", [mounted.spec().name,mounted.level])
 	elif _was_mounted:
 		game.player.head.position.y = Player.EYE
 		game.weapons.update_hud()
@@ -559,7 +561,7 @@ func _process(delta: float) -> void:
 				_control_send = 0.05
 				if NetSession.enabled: NetSession.command("tower_control",[mounted.tower_id,game.player.rotation.y,game.player.pitch,firing,aiming])
 				else: control(game.player,mounted.tower_id,game.player.rotation.y,game.player.pitch,firing,aiming)
-			game.hud.set_prompt("%s · [Linksklick] Feuern · [Rechtsklick halten] Zielen · [E] Absteigen\n%s · Hitze %d %%" % [mounted.spec().name,"ÜBERHITZT – abkühlen lassen" if mounted.overheated or mounted.heat>=0.99 else "Präzisionsmodus" if aiming else "Manuelle Steuerung",roundi(mounted.heat*100)])
+			game.hud.set_prompt(Lang.t("%s · [Left click] Fire · [Hold right click] Aim · [E] Dismount\n%s · Heat %d%%", [mounted.spec().name,"OVERHEATED – let it cool down" if mounted.overheated or mounted.heat>=0.99 else "Precision mode" if aiming else "Manual control",roundi(mounted.heat*100)]))
 	if is_open and (not game.player.alive or game.over): close()
 	if is_open: _refresh_build_menu()
 	if placing:
@@ -577,7 +579,7 @@ func _process(delta: float) -> void:
 					cancel_placement()
 					return
 				build_position = tower.global_position
-				build_error = "" if game.player.global_position.distance_to(build_position) <= 6 and reachable(game.player, tower) else "Gehe näher an den Turm."
+				build_error = "" if game.player.global_position.distance_to(build_position) <= 6 and reachable(game.player, tower) else "Move closer to the tower."
 			else:
 				build_position = Map.ground_pos(point.x, point.z)
 				build_error = placement_error(game.player, build_position, selected_kind)
@@ -586,7 +588,9 @@ func _process(delta: float) -> void:
 			ghost.show()
 			ghost_material.albedo_color = Color(0.2, 0.95, 0.5, 0.28) if build_error.is_empty() else Color(1, 0.16, 0.08, 0.3)
 			var spec: Dictionary = DefenceTower.SPECS[selected_kind]
-			hint.text = ("%s AUSRICHTEN · kostenlos" % spec.name if rotating_id else "%s · %d R" % [spec.name,spec.cost]) + " · %d / 6 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen" % [towers.size(), "Max. %d m · heller Sektor: Automatik (160°)\nManuell: ganzer Kreis · Hindernisse blockieren" % roundi(preview_range()) if build_error.is_empty() else build_error]
+			var head := Lang.t("ALIGN %s · free", [spec.name]) if rotating_id else Lang.t("%s · %d R", [spec.name,spec.cost])
+			var detail := Lang.t("Max. %d m · bright sector: automatic (160°)\nManual: full circle · obstacles block", [roundi(preview_range())]) if build_error.is_empty() else build_error
+			hint.text = Lang.t("%s · %d / 6 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel", [head, towers.size(), detail])
 			hint.show()
 	var titan: Zombie
 	for z in game.zombies_root.get_children():
@@ -596,8 +600,10 @@ func _process(delta: float) -> void:
 	if titan:
 		boss_bar.max_value = titan.max_hp
 		boss_bar.value = titan.hp
-		var status: String = " · " + titan.status_label() if titan is Earthworm else (" · RASEREI" if titan.hp < titan.max_hp * Titan.RAGE_THRESHOLD else "")
-		boss_name.text = str(titan.type.get("name", "DER FELDTITAN")) + " · %d m%s" % [roundi(titan.global_position.distance_to(game.player.global_position)), status]
+		var status: String = titan.status_label() if titan is Earthworm else ("RAGE" if titan.hp < titan.max_hp * Titan.RAGE_THRESHOLD else "")
+		var boss: String = str(titan.type.get("name", "THE FIELD TITAN"))
+		var metres := roundi(titan.global_position.distance_to(game.player.global_position))
+		boss_name.text = Lang.t("%s · %d m · %s", [boss, metres, status]) if not status.is_empty() else Lang.t("%s · %d m", [boss, metres])
 
 func snapshot() -> Dictionary:
 	var data := {}

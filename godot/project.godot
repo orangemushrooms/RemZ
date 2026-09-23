@@ -20,6 +20,7 @@ config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
+Language="*res://scripts/lang.gd"
 NetSession="*res://scripts/net_session.gd"
 
 [display]

@@ -139,7 +139,7 @@ func run() -> void:
 	w.reload()
 	check(is_equal_approx(float(s.reloading), running), "R waehrend der Entlueftung verlaengert die Wartezeit nicht")
 	# Bar and trigger have to end together: the player may not stare at an empty bar and a dead gun.
-	check(str(w.specials.hud_state(w, "plasma_sniper").get("text", "")).contains("ENTL"), "Waehrend der Entlueftung sagt die Anzeige das auch")
+	check(Lang.text(str(w.specials.hud_state(w, "plasma_sniper").get("text", ""))).contains("VENTING"), "Waehrend der Entlueftung sagt die Anzeige das auch")
 	# The real path: _tick_ammo counts the bar down, refills the magazine and ticks the specials.
 	for i in 400:
 		w._tick_ammo(0.02)

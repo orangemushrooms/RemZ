@@ -27,6 +27,11 @@ func _process(_delta: float) -> void:
 		_update_marker()
 		queue_redraw()
 
+func _notification(what: int) -> void:
+	# The panel text is drawn, not a label: repaint it in the new language.
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		queue_redraw()
+
 func _update_marker() -> void:
 	if not player.active:
 		hide()
@@ -58,8 +63,8 @@ func _draw() -> void:
 	var font := ThemeDB.fallback_font
 	var panel := Rect2(16, 46, 302, 62)
 	draw_style_box(_panel_style(), panel)
-	draw_string(font, Vector2(30, 71), "SCHLÜSSEL IN DER NÄHE", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, GOLD)
-	draw_string(font, Vector2(30, 94), "%d m · Folge dem Richtungspfeil" % ceili(distance), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.87, 0.89, 0.84))
+	draw_string(font, Vector2(30, 71), Lang.text("KEY NEARBY"), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, GOLD)
+	draw_string(font, Vector2(30, 94), Lang.text("%d m · Follow the direction arrow") % ceili(distance), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.87, 0.89, 0.84))
 	var side := Vector2(-direction.y, direction.x)
 	var points := PackedVector2Array([marker + direction * 13, marker - direction * 9 + side * 10, marker - direction * 5, marker - direction * 9 - side * 10])
 	draw_circle(marker, 20, Color(0.02, 0.03, 0.02, 0.78))

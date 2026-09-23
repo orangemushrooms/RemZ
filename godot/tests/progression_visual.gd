@@ -43,12 +43,12 @@ func run() -> void:
 		for id in Progression.NPCS:
 			await visit(id)
 			game.progression.interact(id)
-			game.progression.page = "Training" if id == "mechanic" else "Handel"
+			game.progression.page = "Training" if id == "mechanic" else "Trade"
 			game.progression._render()
 			await capture("icons-" + id)
 			if id == "mechanic":
 				game.defences.create_tower(Map.ground_pos(60, 117), 1)
-				game.progression.page = "Türme"
+				game.progression.page = "Towers"
 				game.progression._render()
 				await capture("icons-towers")
 			game.progression.close()
@@ -88,7 +88,7 @@ func run() -> void:
 		await visit(id)
 		await capture("npc-" + id)
 		game.progression.interact(id)
-		game.progression.page = "Aufträge" if id == "mechanic" else "Handel"
+		game.progression.page = "Quests" if id == "mechanic" else "Trade"
 		game.progression._render()
 		await capture("shop-" + id)
 		game.progression.close()

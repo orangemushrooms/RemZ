@@ -12,11 +12,11 @@ const UPGRADE_WAVE_OFFSETS := [0, 2, 5]
 const HALF_ARC := 80.0 * PI / 180.0
 const TYPES := ["standard", "flame", "mortar", "mg42", "tesla"]
 const SPECS := {
-	"standard": {"unlock_waves": 0, "name": "Wächter", "cost": 120, "range": 26.0, "damage": 18.0, "rate": 0.22, "heat": 0.13, "health": 1.0, "info": "Präzise Feuerstöße"},
-	"flame": {"unlock_waves": 2, "name": "Flammenwerfer", "cost": 260, "range": 14.0, "damage": 14.0, "rate": 0.12, "heat": 0.035, "health": 1.2, "info": "Feuerkegel trifft mehrere Gegner"},
-	"mortar": {"unlock_waves": 4, "name": "Mörser", "cost": 380, "range": 60.0, "damage": 145.0, "rate": 2.8, "heat": 0.2, "health": 1.4, "info": "Bogenschuss · 6 m Explosionsradius"},
-	"mg42": {"unlock_waves": 6, "name": "Schweres MG", "cost": 450, "range": 44.0, "damage": 27.0, "rate": 0.085, "heat": 0.055, "health": 1.6, "info": "Hohe Feuerrate · auf Hitze achten"},
-	"tesla": {"unlock_waves": 8, "name": "Teslaspule", "cost": 600, "range": 22.0, "damage": 75.0, "rate": 0.9, "heat": 0.16, "health": 1.8, "info": "Kettenblitz springt auf nahe Gegner über"},
+	"standard": {"unlock_waves": 0, "name": "Sentinel", "cost": 120, "range": 26.0, "damage": 18.0, "rate": 0.22, "heat": 0.13, "health": 1.0, "info": "Precise bursts"},
+	"flame": {"unlock_waves": 2, "name": "Flamethrower", "cost": 260, "range": 14.0, "damage": 14.0, "rate": 0.12, "heat": 0.035, "health": 1.2, "info": "Cone of fire hits several enemies"},
+	"mortar": {"unlock_waves": 4, "name": "Mortar", "cost": 380, "range": 60.0, "damage": 145.0, "rate": 2.8, "heat": 0.2, "health": 1.4, "info": "Arcing shot · 6 m blast radius"},
+	"mg42": {"unlock_waves": 6, "name": "Heavy MG", "cost": 450, "range": 44.0, "damage": 27.0, "rate": 0.085, "heat": 0.055, "health": 1.6, "info": "High rate of fire · watch the heat"},
+	"tesla": {"unlock_waves": 8, "name": "Tesla Coil", "cost": 600, "range": 22.0, "damage": 75.0, "rate": 0.9, "heat": 0.16, "health": 1.8, "info": "Chain lightning jumps to nearby enemies"},
 }
 var kind := "standard"
 var operator_peer := 0
@@ -243,7 +243,7 @@ func damage(amount: float) -> void:
 	if hp <= 0:
 		game.defences.release_tower(self)
 		Sfx.play_at(game, "barricade_break", global_position, -2)
-		game.hud.message("Geschützturm zerstört!", 2)
+		game.hud.message("Gun turret destroyed!", 2)
 		queue_free()
 
 func refresh() -> void:
@@ -251,7 +251,8 @@ func refresh() -> void:
 	if armour: armour.visible = level >= 3
 	if label:
 		label.visible = operator_peer == 0 or operator_peer != (NetSession.local_id() if NetSession.enabled else game.player.peer_id)
-		label.text = "%s %s · %d / %d%s" % [spec().name, "I".repeat(level), ceili(hp), int(max_hp()), " · BESETZT" if operator_peer else ""]
+		var args := [spec().name, Lang.raw("I".repeat(level)), ceili(hp), int(max_hp())]
+		label.text = Lang.t("%s %s · %d / %d · OCCUPIED", args) if operator_peer else Lang.t("%s %s · %d / %d", args)
 		label.modulate = Color(1, 0.58, 0.32) if hp < max_hp() * 0.4 else Color(0.82, 0.9, 0.76)
 
 func target_point(enemy: Zombie) -> Vector3:

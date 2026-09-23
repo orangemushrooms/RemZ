@@ -27,7 +27,7 @@ func run() -> void:
 	p.global_position = game.progression.npcs.camp.global_position + Vector3(0, 0, 1)
 	var result: String = game.progression.transact(p, "camp", "firework", "fw_ruby")
 	check(f.stock(p.peer_id).fw_ruby == 1 and p.score == 955, "Vendor purchase grants exactly one rocket and deducts its price")
-	check(result.contains("Rubinstern"), "Purchase explains inventory selection")
+	check(Lang.text(result).contains("Ruby Star"), "Purchase explains inventory selection")
 	game.progression.transact(p, "camp", "firework", "fw_cracker")
 	check(f.stock(p.peer_id).fw_cracker == 5 and p.score == 920, "Cracker pack grants five individual uses")
 	var before := p.score
@@ -192,7 +192,7 @@ func render(f: Fireworks, p: Player) -> void:
 	p.global_position = game.progression.npcs.camp.global_position + Vector3(0, 0, 1)
 	p.active = false
 	game.progression.shop = "camp"
-	game.progression.page = "Feuerwerk"
+	game.progression.page = "Fireworks"
 	game.progression.is_open = true
 	game.progression.panel.show()
 	game.progression._render()

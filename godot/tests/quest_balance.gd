@@ -25,14 +25,14 @@ func run() -> void:
 		d.claimed[spec.requires] = true
 		world.waves.completed = maxi(0, int(spec.min_level) - 2)
 		if int(spec.min_level) > 1:
-			check(shop.quest_lock_reason(1, id).contains("Einsatzlevel"), id + " rejects acceptance below minimum level")
+			check(Lang.text(shop.quest_lock_reason(1, id)).contains("Mission level"), id + " rejects acceptance below minimum level")
 		world.waves.completed = int(spec.min_level) - 1
 		check(shop.quest_lock_reason(1, id).is_empty(), id + " becomes available at intended level")
 		d.accepted[id] = true
 		d.accepted_wave[id] = world.waves.completed
 		if int(spec.waves_after_accept) > 0:
 			check(not shop.complete(id), id + " cannot be immediately claimed after acceptance")
-			check(shop.quest_progress(id).contains("Nach Annahme"), id + " explains remaining wave requirement")
+			check(Lang.text(shop.quest_progress(id)).contains("After accepting"), id + " explains remaining wave requirement")
 			world.waves.completed += int(spec.waves_after_accept)
 			check(shop.required_completion_wave(1, id) == world.waves.completed, id + " uses a fixed completion boundary")
 	shop.people.clear()
@@ -44,7 +44,7 @@ func run() -> void:
 		d.accepted.steady_aim = true
 		d.accepted_wave.steady_aim = 19 if peer == 1 else 20
 	check(shop.complete("steady_aim", 1) and not shop.complete("steady_aim", 2), "Shared counters cannot bypass another peer's personal acceptance wave")
-	check(shop.next_quest_step(2, "steady_aim").contains("noch 1 Welle"), "Peer-specific guidance uses its own progress")
+	check(Lang.text(shop.next_quest_step(2, "steady_aim")).contains("survive 1 more wave"), "Peer-specific guidance uses its own progress")
 	var snapshot := shop.snapshot()
 	shop.people.clear()
 	shop.apply_snapshot(snapshot)

@@ -47,7 +47,7 @@ func run() -> void:
 		var delta := minf(root.get_process_delta_time(), 0.1)
 		elapsed += delta
 		if net.phase != "running":
-			note("FAIL session ended: " + net.status)
+			note("FAIL session ended: " + Lang.text(net.status))
 			quit(1)
 			return
 		if elapsed > 8.0 and waypoint < waypoints.size():

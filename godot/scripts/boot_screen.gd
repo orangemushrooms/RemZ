@@ -15,8 +15,8 @@ class_name BootScreen
 extends CanvasLayer
 
 const NODE_NAME := "BootScreen"
-const TITLE := "WALDHÜTTE REMETSCHWIL"
-const SUBTITLE := "NACHT AM HEITERSBERG"
+const TITLE := "REMETSCHWIL FOREST HUT"
+const SUBTITLE := "NIGHT ON THE HEITERSBERG"
 const COLUMN := 420.0
 const GAP := 10.0
 const BAR_HEIGHT := 6.0
@@ -65,6 +65,8 @@ func _init() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE and _item.is_valid():
 		RenderingServer.free_rid(_item)
+	elif what == NOTIFICATION_TRANSLATION_CHANGED:
+		_paint()
 
 # One finished build step. With draw (main.gd's _ready, where no frame is drawn for seconds) it also
 # keeps the window answering and shows this frame; input arriving meanwhile is dropped, nothing in the
@@ -111,9 +113,9 @@ func _paint() -> void:
 	RenderingServer.canvas_item_add_rect(_item, Rect2(Vector2.ZERO, size), Hud.INK)
 	if crest.size.y >= 1.0:
 		RenderingServer.canvas_item_add_texture_rect(_item, crest, CREST.get_rid())
-	font.draw_string(_item, Vector2(left, y + font.get_ascent(30)), TITLE, HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 30, Hud.GOLD)
+	font.draw_string(_item, Vector2(left, y + font.get_ascent(30)), Lang.text(TITLE), HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 30, Hud.GOLD)
 	y += font.get_height(30) + GAP
-	font.draw_string(_item, Vector2(left, y + font.get_ascent(12)), SUBTITLE, HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 12, Color(0.875, 0.875, 0.875, 0.6))
+	font.draw_string(_item, Vector2(left, y + font.get_ascent(12)), Lang.text(SUBTITLE), HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 12, Color(0.875, 0.875, 0.875, 0.6))
 	y += font.get_height(12) + GAP
 	_track.draw(_item, Rect2(left, y, COLUMN, BAR_HEIGHT))
 	if _bar * COLUMN >= 1.0:
@@ -121,7 +123,7 @@ func _paint() -> void:
 	y += BAR_HEIGHT + GAP
 	var status := Hud.MUTED
 	status.a = _pulse
-	font.draw_string(_item, Vector2(left, y + font.get_ascent(13)), _text, HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 13, status)
+	font.draw_string(_item, Vector2(left, y + font.get_ascent(13)), Lang.text(_text), HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 13, status)
 
 # Where the crest goes in a window of this (logical) size: as tall as the room above the text column
 # allows, never wider than the window, and never past MAX_UPSCALE times its own pixels on screen - the

@@ -5,7 +5,7 @@ const INTERACT_REACH := 2.8
 const HOLD_STRENGTH := 160.0
 const ACTOR_MARGIN := 0.02
 var taken := false # Doors remain interactable after opening.
-var label := "Tür"
+var label := "Door"
 var width := 2.6
 var height := 2.1
 var key_id := ""
@@ -107,12 +107,12 @@ func can_interact(player: Node3D) -> bool:
 
 func prompt_text() -> String:
 	if is_locked():
-		return "%s · Verschlossen\nSchlüssel für %s im Wald finden" % [label, ForestKeys.KEYS[key_id]]
+		return Lang.t("%s · Locked\nFind the key for %s in the forest", [label, ForestKeys.KEYS[key_id]])
 	if moving:
-		return "%s wird %s …" % [label, "geöffnet" if is_open else "geschlossen"]
+		return Lang.t("%s is opening …", [label]) if is_open else Lang.t("%s is closing …", [label])
 	if _forced_cooldown > 0:
-		return "%s · Aufgedrückt! Einen Moment warten" % label
-	return "[E] %s %s" % [label, "schliessen" if is_open else "öffnen"]
+		return Lang.t("%s · Forced open! Wait a moment", [label])
+	return Lang.t("[E] Close %s", [label]) if is_open else Lang.t("[E] Open %s", [label])
 
 func take(weapons, hud) -> bool:
 	if NetSession.is_client():
@@ -122,7 +122,7 @@ func take(weapons, hud) -> bool:
 	if not player.active or not player.alive or not can_interact(player) or moving:
 		return false
 	if is_locked():
-		hud.message("Schlüssel fehlt: %s\nSuche im Wald. In der Nähe erscheint ein Hinweis." % ForestKeys.KEYS[key_id])
+		hud.message(Lang.t("Key missing: %s\nSearch the forest. A hint appears when you get close.", [ForestKeys.KEYS[key_id]]))
 		Sfx.play_at(get_parent(), "door_locked", global_position + Vector3.UP, -8.0)
 		return false
 	if _forced_cooldown > 0:
@@ -134,7 +134,7 @@ func take(weapons, hud) -> bool:
 		# so that contact must not prevent opening; other actors still block the sweep.
 		excluded.append(player.get_rid())
 	if _swing_blocked(excluded):
-		hud.message("Türbereich blockiert.\nHalte den Schwenkbereich frei.")
+		hud.message("Doorway blocked.\nKeep the swing area clear.")
 		return false
 	_set_open(not is_open)
 	return true
@@ -221,4 +221,4 @@ func damage(amount: float) -> void:
 		_forced_cooldown = 4.0
 		_set_open(true)
 		if main and main.player.global_position.distance_to(global_position) < 18:
-			main.hud.message("%s wurde aufgedrückt!" % label)
+			main.hud.message(Lang.t("%s was forced open!", [label]))

@@ -35,7 +35,7 @@ static func import_once(target_dir := "", source_dir := "") -> Dictionary:
 	if not merged.is_empty(): report["highscores.json"] = merged
 	var marker := FileAccess.open(target_dir.path_join(MARKER), FileAccess.WRITE)
 	if marker:
-		marker.store_line("Spielstaende uebernommen aus %s am %s" % [source_dir, Time.get_datetime_string_from_system()])
+		marker.store_line("Saves imported from %s on %s" % [source_dir, Time.get_datetime_string_from_system()])
 		marker.store_line(JSON.stringify(report))
 	print("LEGACY_USER_DATA ", JSON.stringify(report))
 	return report

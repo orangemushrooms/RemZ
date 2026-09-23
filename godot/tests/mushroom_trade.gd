@@ -59,7 +59,7 @@ func run() -> void:
 	inv._eat("steinpilz")
 	check(inv.mushrooms.steinpilz == 4, "Pure healing mushroom is retained at full health")
 	# The quick bar eats with the inventory closed, so the refusal has to reach the HUD.
-	check(game.hud.msg_label.text.contains("voll"), "A refused mushroom says why on the HUD, not only in the hidden inventory panel")
+	check(Lang.text(game.hud.msg_label.text).contains("full"), "A refused mushroom says why on the HUD, not only in the hidden inventory panel")
 	w.damage_mul = 1.24
 	inv._eat("fliegenpilz")
 	check(p.hp == 85.0 and is_equal_approx(w.effective_damage_mul(), 2.48), "Fly agaric doubles upgraded weapon damage and costs 15 HP")
@@ -116,7 +116,7 @@ func run() -> void:
 		var before := p.score
 		var count := int(inv.mushrooms[kind])
 		var result := vendor.transact(p, "camp", "sell_mushroom", kind)
-		check(result.begins_with("Verkauft") and p.score == before + int(Mushrooms.DEFS[kind].sell) and inv.mushrooms[kind] == count - 1, kind + " sells one item at the catalogue price")
+		check(Lang.text(result).begins_with("Sold") and p.score == before + int(Mushrooms.DEFS[kind].sell) and inv.mushrooms[kind] == count - 1, kind + " sells one item at the catalogue price")
 	inv.mushrooms.steinpilz = 0
 	inv.mushrooms.goldroehrling = 0
 	var rare_balance := p.score
@@ -219,9 +219,9 @@ func run() -> void:
 	await shot("inventory")
 	inv.close()
 	vendor.interact("camp")
-	vendor.page = "Verkaufen"
+	vendor.page = "Sell"
 	vendor._render()
-	check(vendor._tabs.Verkaufen.visible and vendor.rows.get_child_count() >= 12, "Vendor renders sale rows for all mushrooms and supplies")
+	check(vendor._tabs.Sell.visible and vendor.rows.get_child_count() >= 12, "Vendor renders sale rows for all mushrooms and supplies")
 	await shot("vendor-sales")
 	vendor.close()
 	print("MUSHROOM_TRADE_DONE checks=%d failures=%d" % [checks, failures])

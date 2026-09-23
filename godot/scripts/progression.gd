@@ -6,69 +6,69 @@ const VendorGuide = preload("res://scripts/vendor_tutorial.gd")
 
 # One authoritative catalogue is shared by the UI, solo game and host validation.
 const NPCS := {
-	"wanderer": {"name": "Nebelkrämer", "role": "Wanderhändler · Legendäre Raritäten", "model": "npc_secret_trader", "height": 1.9, "pos": Vector2(-35, -55), "line": "Heute hier, morgen zwischen anderen Bäumen. Was ich mitbringe, kommt selten zweimal."},
-	"ranger": {"name": "Mara", "role": "Försterin · Waldaufträge", "model": "npc_mechanic", "height": 1.7, "pos": Vector2(-58.8, 63.0), "quests_only": true, "line": "Setz dich kurz ans Feuer. Der Wald gibt uns Schutz, aber wir müssen auf ihn aufpassen."},
-	"camp": {"name": "Vendor", "role": "Waffen & Vorräte", "model": "npc_quartermaster", "height": 1.82, "pos": Vector2(4.0, -16.0), "line": "Bleib am Leben. Ich handle mit Leuten, die ihren Teil beitragen."},
-	"mechanic": {"name": "Mechanic", "role": "Verteidigung & Training", "model": "npc_mechanic", "height": 1.7, "pos": Vector2(-5, -24), "line": "Eine Sperre hält sie auf. Ein richtig ausgerichteter Wächter erledigt den Rest."},
-	"secret": {"name": "Secret Vendor", "role": "Seltene Ausrüstung", "model": "npc_secret_trader", "height": 1.9, "pos": Vector2(-100, -140), "line": "Du hast mich gefunden. Jetzt zeig mir, dass du diese Waffen führen kannst."},
+	"wanderer": {"name": "Mist Peddler", "role": "Wandering trader · Legendary rarities", "model": "npc_secret_trader", "height": 1.9, "pos": Vector2(-35, -55), "line": "Here today, among other trees tomorrow. What I bring rarely comes twice."},
+	"ranger": {"name": "Mara", "role": "Forester · Forest quests", "model": "npc_mechanic", "height": 1.7, "pos": Vector2(-58.8, 63.0), "quests_only": true, "line": "Sit by the fire for a moment. The forest shelters us, but we have to look after it."},
+	"camp": {"name": "Vendor", "role": "Weapons & supplies", "model": "npc_quartermaster", "height": 1.82, "pos": Vector2(4.0, -16.0), "line": "Stay alive. I trade with people who pull their weight."},
+	"mechanic": {"name": "Mechanic", "role": "Defense & training", "model": "npc_mechanic", "height": 1.7, "pos": Vector2(-5, -24), "line": "A barrier holds them up. A properly aimed sentinel does the rest."},
+	"secret": {"name": "Secret Vendor", "role": "Rare equipment", "model": "npc_secret_trader", "height": 1.9, "pos": Vector2(-100, -140), "line": "You found me. Now show me you can handle these weapons."},
 }
 const GOODS := {
-	"hatchet": {"npc": "camp", "price": 180, "wave": 1, "quest": "arrival", "ammo": 0, "desc": "Kräftige Waldaxt. Langsamer Schlag, hohe Wucht, keine Munition."},
-	"revolver": {"npc": "camp", "price": 220, "wave": 1, "quest": "arrival", "ammo": 24, "desc": "Präzise und sparsam. Sechs schwere Schüsse."},
-	"smg": {"npc": "camp", "price": 400, "wave": 2, "quest": "watch", "ammo": 30, "desc": "Schnelle Läufer abfangen. Hoher Munitionsverbrauch."},
-	"shotgun": {"npc": "camp", "price": 340, "wave": 2, "quest": "arrival", "ammo": 28, "desc": "Starke Nahverteidigung. Auf Distanz wenig wirksam."},
-	"ak47": {"npc": "camp", "price": 780, "wave": 4, "quest": "line", "chain": "assault", "ammo": 44, "desc": "Vielseitiges Sturmgewehr mit kräftigem Rückstoss."},
-	"marksman": {"npc": "camp", "price": 680, "wave": 3, "quest": "silent_deal", "chain": "marksman", "ammo": 40, "desc": "Repetiergewehr. Langsam, präzise und durchschlagsstark."},
-	"lmg": {"npc": "secret", "price": 1350, "wave": 5, "quest": "supplies", "chain": "engineer", "ammo": 90, "desc": "60 Schuss gegen die Horde. Lange Nachladepause."},
-	"breacher": {"npc": "secret", "price": 1650, "wave": 6, "quest": "titan", "ammo": 70, "desc": "Halbautomatische Sturmschrotflinte. Nur für kurze Distanzen."},
-	"titanbreaker": {"npc": "secret", "price": 2400, "wave": 9, "quest": "titan", "chain": "marksman", "ammo": 110, "desc": "Titanenbrecher .50. 75 % Zusatzschaden gegen Titanen, teure Munition."},
+	"hatchet": {"npc": "camp", "price": 180, "wave": 1, "quest": "arrival", "ammo": 0, "desc": "Sturdy forest axe. Slow swing, heavy impact, no ammo."},
+	"revolver": {"npc": "camp", "price": 220, "wave": 1, "quest": "arrival", "ammo": 24, "desc": "Precise and economical. Six heavy rounds."},
+	"smg": {"npc": "camp", "price": 400, "wave": 2, "quest": "watch", "ammo": 30, "desc": "Stops fast runners. High ammo consumption."},
+	"shotgun": {"npc": "camp", "price": 340, "wave": 2, "quest": "arrival", "ammo": 28, "desc": "Strong close-range defense. Weak at a distance."},
+	"ak47": {"npc": "camp", "price": 780, "wave": 4, "quest": "line", "chain": "assault", "ammo": 44, "desc": "Versatile assault rifle with heavy recoil."},
+	"marksman": {"npc": "camp", "price": 680, "wave": 3, "quest": "silent_deal", "chain": "marksman", "ammo": 40, "desc": "Bolt-action rifle. Slow, precise and with strong penetration."},
+	"lmg": {"npc": "secret", "price": 1350, "wave": 5, "quest": "supplies", "chain": "engineer", "ammo": 90, "desc": "60 rounds against the horde. Long reload."},
+	"breacher": {"npc": "secret", "price": 1650, "wave": 6, "quest": "titan", "ammo": 70, "desc": "Semi-automatic assault shotgun. Close range only."},
+	"titanbreaker": {"npc": "secret", "price": 2400, "wave": 9, "quest": "titan", "chain": "marksman", "ammo": 110, "desc": "Titanbreaker .50. 75% bonus damage against titans, expensive ammo."},
 	# Erweiterung September 2026. "ammo" ist der Preis fuer zwei Magazine; die Munitionskosten pro
 	# 1000 Schaden bleiben im Korridor der bestehenden Waffen (13-33 R), die Leuchtpistole und die
 	# Graviton-Kanone bewusst darueber - sie zahlen fuer Licht und Flaeche, nicht fuer Schaden.
-	"flare_pistol": {"npc": "camp", "price": 220, "wave": 2, "quest": "arrival", "ammo": 10, "desc": "Setzt Getroffene in Brand und beleuchtet acht Sekunden lang das Gelaende. Ein Schuss pro Ladung."},
-	"deagle": {"npc": "camp", "price": 560, "wave": 4, "quest": "steady_aim", "ammo": 40, "desc": "Schwere .50-Pistole. Toetet Laeufer mit einem Treffer, dafuer brutaler Rueckstoss."},
-	"lever_rifle": {"npc": "camp", "price": 640, "wave": 5, "quest": "steady_aim", "ammo": 30, "desc": "Unterhebelrepetierer mit 3x-Zielfernrohr. Schneller als das Repetiergewehr, langes Nachladen."},
-	"mac10": {"npc": "camp", "price": 600, "wave": 5, "quest": "night_shift", "ammo": 34, "desc": "40 Schuss, kaum Rueckstoss, gedaempfter Knall. Nur auf kurze Distanz, weite Streuung."},
-	"cryo_smg": {"npc": "secret", "price": 1000, "wave": 8, "quest": "titan", "ammo": 32, "desc": "Kuehlt Getroffene herunter, friert sie ein und richtet an Gefrorenen 40 % mehr Schaden an."},
-	"plasma_sniper": {"npc": "secret", "price": 1750, "wave": 10, "quest": "silent_deal", "chain": "marksman", "ammo": 60, "desc": "Energiegewehr mit 5x-Optik. Ueberhitzt statt nachzuladen und kuehlt sich selbst."},
-	"minigun": {"npc": "secret", "price": 2100, "wave": 11, "quest": "clockwork", "ammo": 190, "desc": "150 Schuss Gurt, hoechste Feuerrate im Lager. Sehr schwer, laeuft erst an, kein Zielfernrohr."},
-	"graviton_cannon": {"npc": "secret", "price": 3000, "wave": 13, "quest": "giant_debt", "ammo": 120, "desc": "Sechs Meter Flaechenschaden und 140 % Zusatzschaden gegen Titanen. Nur zwoelf Energiezellen."},
+	"flare_pistol": {"npc": "camp", "price": 220, "wave": 2, "quest": "arrival", "ammo": 10, "desc": "Sets targets on fire and lights up the area for eight seconds. One shot per load."},
+	"deagle": {"npc": "camp", "price": 560, "wave": 4, "quest": "steady_aim", "ammo": 40, "desc": "Heavy .50 pistol. Kills runners with one hit, but brutal recoil."},
+	"lever_rifle": {"npc": "camp", "price": 640, "wave": 5, "quest": "steady_aim", "ammo": 30, "desc": "Lever-action rifle with a 3x scope. Faster than the bolt-action rifle, long reload."},
+	"mac10": {"npc": "camp", "price": 600, "wave": 5, "quest": "night_shift", "ammo": 34, "desc": "40 rounds, barely any recoil, muffled report. Close range only, wide spread."},
+	"cryo_smg": {"npc": "secret", "price": 1000, "wave": 8, "quest": "titan", "ammo": 32, "desc": "Chills targets, freezes them and deals 40% more damage to frozen ones."},
+	"plasma_sniper": {"npc": "secret", "price": 1750, "wave": 10, "quest": "silent_deal", "chain": "marksman", "ammo": 60, "desc": "Energy rifle with 5x optics. Overheats instead of reloading and cools itself down."},
+	"minigun": {"npc": "secret", "price": 2100, "wave": 11, "quest": "clockwork", "ammo": 190, "desc": "150-round belt, highest rate of fire in the camp. Very heavy, has to spin up, no scope."},
+	"graviton_cannon": {"npc": "secret", "price": 3000, "wave": 13, "quest": "giant_debt", "ammo": 120, "desc": "Six meters of area damage and 140% bonus damage against titans. Only twelve energy cells."},
 }
 const QUESTS := {
-	"forest_basket": {"min_level": 2, "waves_after_accept": 1,"npc": "ranger", "name": "Was der Wald uns gibt", "requires": "arrival", "reward": 90, "desc": "Sammelt als Team fünf Steinpilze. Mara zeigt euch, worauf man im Wald achten muss. Bereits gesammelte Pilze zählen; ihr dürft sie behalten.", "goals": {"edible_mushrooms": 5}},
-	"restless_paths": {"min_level": 5, "waves_after_accept": 1,"npc": "ranger", "name": "Unruhe auf den Wegen", "requires": "forest_basket", "reward": 140, "desc": "Besiegt als Team zwölf Läufer. Ihre schnellen Schritte lassen selbst hier am kleinen Feuer niemanden zur Ruhe kommen.", "goals": {"runner_kills": 12}},
-	"forest_watch": {"min_level": 8, "waves_after_accept": 1,"npc": "ranger", "name": "Solange das Feuer brennt", "requires": "restless_paths", "reward": 220, "desc": "Übersteht Welle 6 und besiegt insgesamt 80 Zombies. Kehre danach zu Mara an die kleine Feuerstelle zurück.", "goals": {"waves": 6, "kills": 80}},
-	"arrival": {"min_level": 1, "waves_after_accept": 0,"npc": "camp", "name": "Am Feuer", "requires": "", "reward": 20, "desc": "Vendor führt dich in Inventar, Handel, Turmbau und Barrikaden ein. Lerne die Grundlagen und hole danach deine Belohnung ab."},
-	"watch": {"min_level": 2, "waves_after_accept": 1,"npc": "mechanic", "name": "Der erste Wächter", "requires": "arrival", "reward": 110, "desc": "Baue eine Barrikade und einen Turm. Richte den Turm anschliessend neu aus. T: Vorschau · R/Mausrad: drehen · E: bestätigen. Am Turm R: ausrichten, E: einsteigen, F: reparieren."},
-	"line": {"min_level": 2, "waves_after_accept": 1,"npc": "camp", "name": "Die Linie halten", "requires": "arrival", "reward": 140, "desc": "Übersteht als Team zwei Wellen und besiegt 30 Zombies. Kehre zu Vendor zurück."},
-	"supplies": {"min_level": 4, "waves_after_accept": 1,"npc": "mechanic", "name": "Die verlorene Lieferung", "requires": "watch", "reward": 180, "desc": "Die Werkzeugkiste ist irgendwo im Gebiet verloren gegangen. Ihr Fundort wechselt mit jeder Runde und ist nach Annahme auf der Karte markiert. Berge die Lieferung und kehre zu Mechanic zurück."},
-	"titan": {"min_level": 7, "waves_after_accept": 1,"npc": "secret", "name": "Was auf dem Feld lauert", "requires": "supplies", "reward": 300, "desc": "Besiegt gemeinsam einen Feldtitanen. Sie erscheinen ab Welle 6. Hole danach deine Belohnung beim Secret Vendor ab."},
-	"steady_aim": {"min_level": 2, "waves_after_accept": 1,"npc": "camp", "name": "Eine ruhige Hand", "requires": "arrival", "reward": 90, "desc": "Besiegt als Team 15 Zombies mit Kopfschüssen. Jeder gezielte Treffer spart Vorräte.", "goals": {"headshot_kills": 15}},
-	"marksman_training": {"min_level": 5, "waves_after_accept": 1,"npc": "camp", "name": "Präzision unter Druck", "requires": "steady_aim", "reward": 140, "desc": "Erreicht als Team 25 Kopfschuss-Kills und übersteht Welle 3. Pistole und Revolver genügen. Danach schickt dich Vendor zur Abschlussprüfung beim Secret Vendor.", "goals": {"headshot_kills": 25, "waves": 3}},
-	"night_shift": {"min_level": 5, "waves_after_accept": 1,"npc": "camp", "name": "Die lange Schicht", "requires": "line", "reward": 160, "desc": "Übersteht als Team Welle 4. Vendor braucht Leute, die auch nach dem ersten Ansturm bleiben.", "goals": {"waves": 4}},
-	"last_light": {"min_level": 11, "waves_after_accept": 2,"npc": "camp", "name": "Das letzte Licht", "requires": "night_shift", "reward": 240, "desc": "Übersteht Welle 8 und besiegt insgesamt 150 Zombies. Haltet das Lager am Leben.", "goals": {"waves": 8, "kills": 150}},
-	"crossfire": {"min_level": 4, "waves_after_accept": 1,"npc": "mechanic", "name": "Kreuzfeuer", "requires": "watch", "reward": 100, "desc": "Stellt zwei aktive Geschütztürme gleichzeitig auf. Beide müssen bei der Abgabe noch stehen.", "goals": {"active_towers": 2}},
-	"reinforced": {"min_level": 7, "waves_after_accept": 1,"npc": "mechanic", "name": "Doppelt hält besser", "requires": "crossfire", "reward": 140, "desc": "Verstärkt zwei Barrikaden auf mindestens Stufe 2. Erhaltet beide bis zur Abgabe.", "goals": {"reinforced_barricades": 2}},
-	"clockwork": {"min_level": 10, "waves_after_accept": 2,"npc": "mechanic", "name": "Wie ein Uhrwerk", "requires": "reinforced", "reward": 220, "desc": "Baut einen Geschützturm auf Stufe 3 aus und lasst eure Türme insgesamt 40 Zombies besiegen. Der ausgebaute Turm muss noch stehen.", "goals": {"elite_towers": 1, "tower_kills": 40}},
-	"silent_deal": {"min_level": 8, "waves_after_accept": 1,"npc": "secret", "name": "Ein diskreter Auftrag", "requires": "marksman_training", "reward": 180, "desc": "Erreicht als Team 40 Kopfschuss-Kills. Hole deine Marksman-Berechtigung beim Secret Vendor ab. Sie erlaubt den Kauf von Präzisionsgewehren; Wellen, Zusatzaufträge und Kaufpreis gelten weiterhin.", "goals": {"headshot_kills": 40}},
-	"giant_debt": {"min_level": 11, "waves_after_accept": 1,"npc": "secret", "name": "Die Schuld der Riesen", "requires": "titan", "reward": 260, "desc": "Besiegt insgesamt drei Feldtitanen. Manche Schulden lassen sich nur mit Mut begleichen.", "goals": {"titans": 3}},
-	"nameless": {"min_level": 16, "waves_after_accept": 2,"npc": "secret", "name": "Ein Name, den keiner kennt", "requires": "giant_debt", "reward": 380, "desc": "Übersteht Welle 12 und besiegt insgesamt fünf Feldtitanen. Danach sprechen wir als Gleichgestellte.", "goals": {"waves": 12, "titans": 5}},
+	"forest_basket": {"min_level": 2, "waves_after_accept": 1,"npc": "ranger", "name": "What the Forest Gives Us", "requires": "arrival", "reward": 90, "desc": "Collect five porcini as a team. Mara shows you what to look out for in the forest. Mushrooms you already collected count, and you may keep them.", "goals": {"edible_mushrooms": 5}},
+	"restless_paths": {"min_level": 5, "waves_after_accept": 1,"npc": "ranger", "name": "Unrest on the Paths", "requires": "forest_basket", "reward": 140, "desc": "Defeat twelve runners as a team. Their quick footsteps give nobody any rest, not even here by the small fire.", "goals": {"runner_kills": 12}},
+	"forest_watch": {"min_level": 8, "waves_after_accept": 1,"npc": "ranger", "name": "While the Fire Burns", "requires": "restless_paths", "reward": 220, "desc": "Survive wave 6 and defeat 80 zombies in total. Then return to Mara at the small fire pit.", "goals": {"waves": 6, "kills": 80}},
+	"arrival": {"min_level": 1, "waves_after_accept": 0,"npc": "camp", "name": "By the Fire", "requires": "", "reward": 20, "desc": "Vendor introduces you to the inventory, trading, tower building and barricades. Learn the basics, then collect your reward."},
+	"watch": {"min_level": 2, "waves_after_accept": 1,"npc": "mechanic", "name": "The First Sentinel", "requires": "arrival", "reward": 110, "desc": "Build a barricade and a tower. Then re-aim the tower. T: preview · R/mouse wheel: rotate · E: confirm. At the tower R: aim, E: climb in, F: repair."},
+	"line": {"min_level": 2, "waves_after_accept": 1,"npc": "camp", "name": "Hold the Line", "requires": "arrival", "reward": 140, "desc": "Survive two waves as a team and defeat 30 zombies. Return to Vendor."},
+	"supplies": {"min_level": 4, "waves_after_accept": 1,"npc": "mechanic", "name": "The Lost Delivery", "requires": "watch", "reward": 180, "desc": "The toolbox got lost somewhere in the area. Where it lies changes every round and is marked on the map once you accept. Recover the delivery and return to Mechanic."},
+	"titan": {"min_level": 7, "waves_after_accept": 1,"npc": "secret", "name": "What Lurks in the Field", "requires": "supplies", "reward": 300, "desc": "Defeat a field titan together. They appear from wave 6. Then collect your reward from the Secret Vendor."},
+	"steady_aim": {"min_level": 2, "waves_after_accept": 1,"npc": "camp", "name": "A Steady Hand", "requires": "arrival", "reward": 90, "desc": "Kill 15 zombies with headshots as a team. Every well-aimed hit saves supplies.", "goals": {"headshot_kills": 15}},
+	"marksman_training": {"min_level": 5, "waves_after_accept": 1,"npc": "camp", "name": "Precision Under Pressure", "requires": "steady_aim", "reward": 140, "desc": "Get 25 headshot kills as a team and survive wave 3. Pistol and revolver are enough. Then Vendor sends you to the final test with the Secret Vendor.", "goals": {"headshot_kills": 25, "waves": 3}},
+	"night_shift": {"min_level": 5, "waves_after_accept": 1,"npc": "camp", "name": "The Long Shift", "requires": "line", "reward": 160, "desc": "Survive wave 4 as a team. Vendor needs people who stay on after the first onslaught.", "goals": {"waves": 4}},
+	"last_light": {"min_level": 11, "waves_after_accept": 2,"npc": "camp", "name": "The Last Light", "requires": "night_shift", "reward": 240, "desc": "Survive wave 8 and defeat 150 zombies in total. Keep the camp alive.", "goals": {"waves": 8, "kills": 150}},
+	"crossfire": {"min_level": 4, "waves_after_accept": 1,"npc": "mechanic", "name": "Crossfire", "requires": "watch", "reward": 100, "desc": "Have two active gun turrets standing at the same time. Both must still stand when you turn in.", "goals": {"active_towers": 2}},
+	"reinforced": {"min_level": 7, "waves_after_accept": 1,"npc": "mechanic", "name": "Better Safe Than Sorry", "requires": "crossfire", "reward": 140, "desc": "Reinforce two barricades to at least tier 2. Keep both standing until you turn in.", "goals": {"reinforced_barricades": 2}},
+	"clockwork": {"min_level": 10, "waves_after_accept": 2,"npc": "mechanic", "name": "Like Clockwork", "requires": "reinforced", "reward": 220, "desc": "Upgrade a gun turret to tier 3 and let your towers defeat 40 zombies in total. The upgraded tower must still be standing.", "goals": {"elite_towers": 1, "tower_kills": 40}},
+	"silent_deal": {"min_level": 8, "waves_after_accept": 1,"npc": "secret", "name": "A Discreet Job", "requires": "marksman_training", "reward": 180, "desc": "Get 40 headshot kills as a team. Collect your Marksman permit from the Secret Vendor. It allows you to buy precision rifles; waves, extra quests and the price still apply.", "goals": {"headshot_kills": 40}},
+	"giant_debt": {"min_level": 11, "waves_after_accept": 1,"npc": "secret", "name": "The Giants' Debt", "requires": "titan", "reward": 260, "desc": "Defeat three field titans in total. Some debts can only be paid with courage.", "goals": {"titans": 3}},
+	"nameless": {"min_level": 16, "waves_after_accept": 2,"npc": "secret", "name": "A Name No One Knows", "requires": "giant_debt", "reward": 380, "desc": "Survive wave 12 and defeat five field titans in total. After that we speak as equals.", "goals": {"waves": 12, "titans": 5}},
 }
 const QUEST_CHAINS := {
-	"arrival": {"name": "Ankunft", "quests": ["arrival"]},
-	"assault": {"name": "Sturm", "quests": ["line", "night_shift"]},
+	"arrival": {"name": "Arrival", "quests": ["arrival"]},
+	"assault": {"name": "Assault", "quests": ["line", "night_shift"]},
 	"marksman": {"name": "Marksman", "quests": ["steady_aim", "marksman_training", "silent_deal"]},
-	"engineer": {"name": "Verteidigungstechnik", "quests": ["watch", "crossfire", "reinforced", "clockwork"]},
-	"forest": {"name": "Waldwache", "quests": ["forest_basket", "restless_paths", "forest_watch"]},
-	"supplies": {"name": "Versorgung", "quests": ["supplies"]},
-	"titans": {"name": "Titanenjagd", "quests": ["titan", "giant_debt", "nameless"]},
-	"survival": {"name": "Das Lager bewahren", "quests": ["last_light"]},
+	"engineer": {"name": "Defense Engineering", "quests": ["watch", "crossfire", "reinforced", "clockwork"]},
+	"forest": {"name": "Forest Watch", "quests": ["forest_basket", "restless_paths", "forest_watch"]},
+	"supplies": {"name": "Supply", "quests": ["supplies"]},
+	"titans": {"name": "Titan Hunt", "quests": ["titan", "giant_debt", "nameless"]},
+	"survival": {"name": "Protect the Camp", "quests": ["last_light"]},
 }
-const GOAL_LABELS := {"edible_mushrooms": "Steinpilze", "runner_kills": "Läufer", "headshot_kills": "Kopfschuss-Kills", "waves": "Wellen", "kills": "Zombies", "active_towers": "Aktive Türme", "reinforced_barricades": "Barrikaden Stufe 2+", "elite_towers": "Türme Stufe 3", "tower_kills": "Turm-Kills", "titans": "Titanen"}
+const GOAL_LABELS := {"edible_mushrooms": "Porcini mushrooms", "runner_kills": "Runners", "headshot_kills": "Headshot kills", "waves": "Waves", "kills": "Zombies", "active_towers": "Active towers", "reinforced_barricades": "Barricades tier 2+", "elite_towers": "Towers tier 3", "tower_kills": "Tower kills", "titans": "Titans"}
 const SKINS := {
-	"forest": {"name": "Waldtarn", "price": 160, "npc": "camp", "quest": "line", "desc": "Moos, Oliv und dunkle Erde. Rein optisch."},
-	"bronze": {"name": "Rußbronze", "price": 300, "npc": "secret", "quest": "supplies", "desc": "Geschwärztes Metall mit bronzenen Flächen. Rein optisch."},
-	"bone": {"name": "Titanenknochen", "price": 480, "npc": "secret", "quest": "titan", "desc": "Helle Knochenstreifen auf dunklem Stahl. Rein optisch."},
+	"forest": {"name": "Forest Camo", "price": 160, "npc": "camp", "quest": "line", "desc": "Moss, olive and dark earth. Purely cosmetic."},
+	"bronze": {"name": "Soot Bronze", "price": 300, "npc": "secret", "quest": "supplies", "desc": "Blackened metal with bronze panels. Purely cosmetic."},
+	"bone": {"name": "Titan Bone", "price": 480, "npc": "secret", "quest": "titan", "desc": "Pale bone stripes on dark steel. Purely cosmetic."},
 }
 var game: Node
 var npcs: Dictionary = {}
@@ -78,7 +78,7 @@ var cache_node: Node3D
 var cache_ready := false
 var is_open := false
 var shop := ""
-var page := "Handel"
+var page := "Trade"
 var panel: Control
 var rows: VBoxContainer
 var title: Label
@@ -124,8 +124,8 @@ const LEGACY_GOALS := {
 	"supplies": {"cache": 1},
 	"titan": {"titans": 1},
 }
-const LEGACY_GOAL_LABELS := {"arrival": "Vendor kennenlernen", "built": "Turm bauen",
-	"turned": "Turm ausrichten", "built_barricades": "Barrikade bauen", "cache": "Lieferung bergen"}
+const LEGACY_GOAL_LABELS := {"arrival": "Meet Vendor", "built": "Build a tower",
+	"turned": "Aim a tower", "built_barricades": "Build a barricade", "cache": "Recover the delivery"}
 
 func has_seen_npc(id: String) -> bool:
 	return _seen_npcs.get(id, false)
@@ -186,7 +186,7 @@ func setup(main: Node) -> void:
 	for x in [-0.25, 0.25]:
 		DefenceTower.box(cache_node, Vector3(0.07, 0.62, 0.57), Vector3(x, 0.31, 0), band)
 	var marker := Label3D.new()
-	marker.text = "LIEFERUNG · MECHANIC"
+	marker.text = "DELIVERY · MECHANIC"
 	marker.position.y = 1.1
 	marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	marker.font_size = 30
@@ -246,27 +246,27 @@ func chain_complete(peer: int, chain: String) -> bool:
 static func chain_unlocks(chain: String) -> String:
 	var names := PackedStringArray()
 	for id in GOODS:
-		if GOODS[id].get("chain", "") == chain: names.append(Weapons.DEFS[id].name)
+		if GOODS[id].get("chain", "") == chain: names.append(Lang.t(Weapons.DEFS[id].name))
 	return ", ".join(names)
 
 static func quest_reference(id: String) -> String:
-	return "„%s“ bei %s" % [QUESTS[id].name, NPCS[QUESTS[id].npc].name]
+	return Lang.t("“%s” from %s", [QUESTS[id].name, NPCS[QUESTS[id].npc].name])
 
 func next_quest_step(peer: int, id: String) -> String:
 	var next := id
 	while not QUESTS[next].requires.is_empty() and not has_claim(peer, QUESTS[next].requires):
 		next = QUESTS[next].requires
-	var action := "annehmen"
-	if mission_level() < int(QUESTS[next].min_level): action = "ab Einsatzlevel %d (aktuell %d)" % [QUESTS[next].min_level, mission_level()]
+	var action := Lang.t("accept")
+	if mission_level() < int(QUESTS[next].min_level): action = Lang.t("unlocks at mission level %d (currently %d)", [QUESTS[next].min_level, mission_level()])
 	if data(peer).accepted.get(next, false):
-		action = "Belohnung abholen" if complete(next, peer) else "abschliessen: " + quest_progress(next, peer)
-	return "%s – %s" % [quest_reference(next), action]
+		action = Lang.t("collect reward") if complete(next, peer) else Lang.t("finish: %s", [quest_progress(next, peer)])
+	return quest_reference(next) + " – " + action
 
 func prerequisite_reason(peer: int, required: String) -> String:
 	if has_claim(peer, required): return ""
 	if has_claim(peer, QUESTS[required].requires):
-		return "Fehlender Auftrag: %s." % next_quest_step(peer, required)
-	return "Fehlender Auftrag: %s. Nächster Schritt: %s." % [quest_reference(required), next_quest_step(peer, required)]
+		return Lang.t("Missing quest: %s.", [next_quest_step(peer, required)])
+	return Lang.t("Missing quest: %s. Next step: %s.", [quest_reference(required), next_quest_step(peer, required)])
 
 func chain_description(peer: int, chain: String, show_steps := true) -> String:
 	var spec: Dictionary = QUEST_CHAINS[chain]
@@ -276,11 +276,11 @@ func chain_description(peer: int, chain: String, show_steps := true) -> String:
 		var claimed := has_claim(peer, id)
 		if claimed: count += 1
 		steps.append(("✓ " if claimed else "") + quest_reference(id))
-	var text := "Questreihe %s · %d/%d abgegeben" % [spec.name, count, spec.quests.size()]
+	var text := Lang.t("Quest line %s · %d/%d turned in", [spec.name, count, spec.quests.size()])
 	if show_steps: text += "\n" + " → ".join(steps)
 	var unlocks := chain_unlocks(chain)
 	if not unlocks.is_empty():
-		text += "\n%s: Kaufberechtigung für %s. Kaufpreis und Zusatzbedingungen bleiben." % ["Freigeschaltet" if count == spec.quests.size() else "Reihenabschluss", unlocks]
+		text += "\n" + Lang.t("%s: purchase permit for %s. The price and extra conditions still apply.", ["Unlocked" if count == spec.quests.size() else "On completion", unlocks])
 	return text
 
 func weapon_for(p: Player) -> Weapons:
@@ -355,7 +355,7 @@ func nearest(p: Player) -> String:
 	return found
 
 func prompt(id: String) -> String:
-	return "[E] Lieferung von Mechanic bergen" if id == "cache" else "[E] %s · %s" % [NPCS[id].name, NPCS[id].role]
+	return "[E] Recover Mechanic's delivery" if id == "cache" else Lang.t("[E] %s · %s", [NPCS[id].name, NPCS[id].role])
 
 func event(kind: String) -> void:
 	if NetSession.is_client(): return
@@ -389,7 +389,7 @@ func quest_lock_reason(peer: int, id: String) -> String:
 	var missing := prerequisite_reason(peer, QUESTS[id].requires)
 	if not missing.is_empty(): return missing
 	var level := int(QUESTS[id].min_level)
-	return "Einsatzlevel %d erforderlich (aktuell %d). Überstehe Welle %d." % [level, mission_level(), level - 1] if mission_level() < level else ""
+	return Lang.t("Mission level %d required (currently %d). Survive wave %d.", [level, mission_level(), level - 1]) if mission_level() < level else ""
 
 func required_completion_wave(peer: int, id: String) -> int:
 	return int(data(peer).get("accepted_wave", {}).get(id, game.waves.completed)) + int(QUESTS[id].waves_after_accept)
@@ -419,10 +419,10 @@ func completed_milestones(id: String, peer: int) -> Dictionary:
 		var target := int(goals[kind])
 		if goal_value(kind) >= target:
 			var label: String = GOAL_LABELS.get(kind, LEGACY_GOAL_LABELS.get(kind, kind))
-			achieved[kind] = "%s %d/%d" % [label, target, target]
+			achieved[kind] = Lang.t("%s %d/%d", [label, target, target])
 	var waves := int(QUESTS[id].waves_after_accept)
 	if waves > 0 and game.waves.completed >= required_completion_wave(peer, id):
-		achieved["accepted_waves"] = "%d %s nach Annahme überstanden" % [waves, "Welle" if waves == 1 else "Wellen"]
+		achieved["accepted_waves"] = Lang.t("%d wave survived since accepting", [waves]) if waves == 1 else Lang.t("%d waves survived since accepting", [waves])
 	return achieved
 
 static func _goal_text(text: String, done: bool, rich: bool) -> String:
@@ -434,7 +434,7 @@ func quest_progress(id: String, peer := -1, rich := false) -> String:
 	var text := _objective_progress(id, rich, claimed)
 	if data(peer).accepted.get(id, false) and not claimed and int(QUESTS[id].waves_after_accept) > 0:
 		var remaining := maxi(0, required_completion_wave(peer, id) - game.waves.completed)
-		text += ("\n" if rich else " · ") + _goal_text("Nach Annahme: noch %d Welle(n) überstehen" % remaining, remaining == 0, rich)
+		text += ("\n" if rich else " · ") + _goal_text(Lang.t("After accepting: survive %d more wave(s)", [remaining]), remaining == 0, rich)
 	return text
 
 func _objective_progress(id: String, rich := false, claimed := false) -> String:
@@ -442,22 +442,22 @@ func _objective_progress(id: String, rich := false, claimed := false) -> String:
 	if QUESTS.has(id) and QUESTS[id].has("goals"):
 		for kind in QUESTS[id].goals:
 			var target := int(QUESTS[id].goals[kind])
-			parts.append(_goal_text("%s %d/%d" % [GOAL_LABELS[kind], target if claimed else mini(goal_value(kind), target), target], claimed or goal_value(kind) >= target, rich))
+			parts.append(_goal_text(Lang.t("%s %d/%d", [GOAL_LABELS[kind], target if claimed else mini(goal_value(kind), target), target]), claimed or goal_value(kind) >= target, rich))
 	else:
 		match id:
 			"watch":
 				var wall := claimed
 				for barricade in game.barricades:
 					if barricade.level > 0: wall = true
-				parts.append(_goal_text("Turm %d/1" % (1 if claimed else mini(team.built, 1)), claimed or team.built > 0, rich))
-				parts.append(_goal_text("Ausrichten %d/1" % (1 if claimed else mini(team.turned, 1)), claimed or team.turned > 0, rich))
-				parts.append(_goal_text("Barrikade bauen %d/1" % int(wall), wall, rich))
+				parts.append(_goal_text(Lang.t("Tower %d/1", [1 if claimed else mini(team.built, 1)]), claimed or team.built > 0, rich))
+				parts.append(_goal_text(Lang.t("Aim %d/1", [1 if claimed else mini(team.turned, 1)]), claimed or team.turned > 0, rich))
+				parts.append(_goal_text(Lang.t("Build barricade %d/1", [int(wall)]), wall, rich))
 			"line":
-				parts.append(_goal_text("Wellen %d/2" % (2 if claimed else mini(game.waves.completed, 2)), claimed or game.waves.completed >= 2, rich))
-				parts.append(_goal_text("Zombies %d/30" % (30 if claimed else mini(team.kills, 30)), claimed or team.kills >= 30, rich))
-			"supplies": parts.append(_goal_text("Lieferung geborgen" if claimed or team.cache else "Lieferung an der Kartenmarkierung suchen", claimed or team.cache, rich))
-			"titan": parts.append(_goal_text("Titanen %d/1" % (1 if claimed else mini(team.titans, 1)), claimed or team.titans > 0, rich))
-			_: parts.append(_goal_text("Vendor am Lagerfeuer kennenlernen", true, rich))
+				parts.append(_goal_text(Lang.t("Waves %d/2", [2 if claimed else mini(game.waves.completed, 2)]), claimed or game.waves.completed >= 2, rich))
+				parts.append(_goal_text(Lang.t("Zombies %d/30", [30 if claimed else mini(team.kills, 30)]), claimed or team.kills >= 30, rich))
+			"supplies": parts.append(_goal_text(Lang.t("Delivery recovered") if claimed or team.cache else Lang.t("Search for the delivery at the map marker"), claimed or team.cache, rich))
+			"titan": parts.append(_goal_text(Lang.t("Titans %d/1", [1 if claimed else mini(team.titans, 1)]), claimed or team.titans > 0, rich))
+			_: parts.append(_goal_text(Lang.t("Meet Vendor at the campfire"), true, rich))
 	return ("\n" if rich else " · ").join(parts)
 
 func lock_reason(p: Player, id: String) -> String:
@@ -466,10 +466,10 @@ func lock_reason(p: Player, id: String) -> String:
 	if not chain.is_empty() and not chain_complete(p.peer_id, chain):
 		for quest in QUEST_CHAINS[chain].quests:
 			if not has_claim(p.peer_id, quest):
-				return "Berechtigung fehlt: Questreihe %s. Nächster Schritt: %s." % [QUEST_CHAINS[chain].name, next_quest_step(p.peer_id, quest)]
+				return Lang.t("Permit missing: quest line %s. Next step: %s.", [QUEST_CHAINS[chain].name, next_quest_step(p.peer_id, quest)])
 	var missing := prerequisite_reason(p.peer_id, spec.quest)
 	if not missing.is_empty(): return missing
-	if game.waves.completed < int(spec.wave): return "Welle %d überstehen (%d/%d)" % [spec.wave, game.waves.completed, spec.wave]
+	if game.waves.completed < int(spec.wave): return Lang.t("Survive wave %d (%d/%d)", [spec.wave, game.waves.completed, spec.wave])
 	return ""
 
 func mushroom_stock(p: Player) -> Dictionary:
@@ -513,37 +513,37 @@ func refill_quote(p: Player) -> Dictionary:
 	return result
 
 func sell(p: Player, npc: String, action: String, id: String) -> String:
-	if npc not in ["camp", "secret"]: return "Verkaufen kannst du bei Vendor und Secret Vendor."
+	if npc not in ["camp", "secret"]: return "You can sell to Vendor and Secret Vendor."
 	var w := weapon_for(p)
 	var price := 0
 	var label := ""
 	match action:
 		"sell_meat":
 			var stock: Dictionary = game.hunting.stock(p.peer_id)
-			if not game.hunting.FOOD.has(id) or int(stock.get(id, 0)) <= 0: return "Dieses Fleisch besitzt du nicht."
+			if not game.hunting.FOOD.has(id) or int(stock.get(id, 0)) <= 0: return "You don't have this meat."
 			price = int(game.hunting.FOOD[id].sell)
 			label = game.hunting.FOOD[id].name
 			stock[id] -= 1
 		"sell_mushroom":
 			var stock := mushroom_stock(p)
-			if not Inventory.MUSHROOMS.has(id) or int(stock.get(id, 0)) <= 0: return "Diesen Pilz besitzt du nicht."
+			if not Inventory.MUSHROOMS.has(id) or int(stock.get(id, 0)) <= 0: return "You don't have this mushroom."
 			price = int(Inventory.MUSHROOMS[id].sell)
 			label = Inventory.MUSHROOMS[id].name
 			stock[id] -= 1
 		"sell_grenade":
-			if w.grenades <= 0: return "Keine Granate im Inventar."
+			if w.grenades <= 0: return "No grenade in your inventory."
 			w.grenades -= 1
 			price = 15
-			label = "Handgranate"
+			label = "Hand grenade"
 		"sell_ammo":
-			if not Weapons.DEFS.has(id) or Weapons.is_melee(id) or not w.unlocked.get(id, false): return "Munition nicht verfügbar."
+			if not Weapons.DEFS.has(id) or Weapons.is_melee(id) or not w.unlocked.get(id, false): return "Ammo not available."
 			var amount := int(Weapons.DEFS[id].mag)
-			if int(w.state[id].reserve) < amount: return "Für den Verkauf brauchst du ein volles Reservemagazin."
+			if int(w.state[id].reserve) < amount: return "You need a full spare magazine to sell."
 			w.state[id].reserve -= amount
 			price = ammo_sale_price(id)
-			label = "%d Schuss %s" % [amount, Weapons.DEFS[id].name]
+			label = Lang.t("%d %s rounds", [amount, Weapons.DEFS[id].name])
 		"sell_weapon":
-			if not GOODS.has(id) or not w.unlocked.get(id, false): return "Diese Waffe kann nicht verkauft werden."
+			if not GOODS.has(id) or not w.unlocked.get(id, false): return "This weapon cannot be sold."
 			price = int(int(GOODS[id].price) * 0.35)
 			label = Weapons.DEFS[id].name
 			if w.current == id: w.set_weapon("pistol")
@@ -553,76 +553,76 @@ func sell(p: Player, npc: String, action: String, id: String) -> String:
 			w.state[id].reserve = 0
 			w.state[id].reloading = 0.0
 			w.state[id].cooldown = 0.0
-		_: return "Unbekannte Verkaufsaktion."
+		_: return "Unknown sale action."
 	p.add_score(price)
 	w.update_hud()
 	Sfx.event(self, p.peer_id, "purchase")
-	return "Verkauft: %s · +%d R" % [label, price]
+	return Lang.t("Sold: %s · +%d R", [label, price])
 
 func mod_lock_reason(p: Player, id: String, wid: String) -> String:
 	var w := weapon_for(p)
-	if not Weapons.DEFS.has(wid) or not w.unlocked.get(wid, false): return "Diese Waffe besitzt du nicht."
-	if not Weapons.Mods.compatible(id, wid, Weapons.DEFS[wid]): return "Nicht mit dieser Waffe kompatibel."
+	if not Weapons.DEFS.has(wid) or not w.unlocked.get(wid, false): return "You don't own this weapon."
+	if not Weapons.Mods.compatible(id, wid, Weapons.DEFS[wid]): return "Not compatible with this weapon."
 	var spec: Dictionary = Weapons.Mods.DEFS[id]
 	var reasons := PackedStringArray()
-	if mission_level() < int(spec.level): reasons.append("Einsatzlevel %d benötigt (aktuell %d)." % [spec.level, mission_level()])
+	if mission_level() < int(spec.level): reasons.append(Lang.t("Mission level %d needed (currently %d).", [spec.level, mission_level()]))
 	var quest := prerequisite_reason(p.peer_id, spec.quest)
 	if not quest.is_empty(): reasons.append(quest)
 	return "\n".join(reasons)
 
 func trade_mod(p: Player, npc: String, id: String, wid: String, remove := false) -> String:
-	if npc not in ["mechanic", "secret"]: return "Waffen-Mods gibt es bei Mechanic und Secret Vendor."
+	if npc not in ["mechanic", "secret"]: return "Weapon mods are sold by Mechanic and Secret Vendor."
 	var w := weapon_for(p)
-	if not Weapons.DEFS.has(wid) or not w.unlocked.get(wid, false): return "Diese Waffe besitzt du nicht."
+	if not Weapons.DEFS.has(wid) or not w.unlocked.get(wid, false): return "You don't own this weapon."
 	var slot := id
 	var mod_id := ""
 	var cost := 0
 	if remove:
-		if slot not in Weapons.Mods.SLOTS or not w.mod_loadout.get(wid, {}).has(slot): return "In diesem Platz ist kein Mod montiert."
+		if slot not in Weapons.Mods.SLOTS or not w.mod_loadout.get(wid, {}).has(slot): return "No mod is mounted in this slot."
 	else:
-		if not Weapons.Mods.DEFS.has(id): return "Unbekannter Waffen-Mod."
+		if not Weapons.Mods.DEFS.has(id): return "Unknown weapon mod."
 		var spec: Dictionary = Weapons.Mods.DEFS[id]
-		if spec.npc != npc: return "Dieser Mod wird hier nicht angeboten."
+		if spec.npc != npc: return "This mod is not offered here."
 		var reason := mod_lock_reason(p, id, wid)
 		if not reason.is_empty(): return reason
 		slot = spec.slot
 		mod_id = id
-		if w.mod_loadout.get(wid, {}).get(slot, "") == id: return "Bereits montiert."
+		if w.mod_loadout.get(wid, {}).get(slot, "") == id: return "Already mounted."
 		if not w.mod_owned.get(wid + ":" + id, false): cost = int(spec.price)
-	if p.score < cost: return "Zu wenig Rem Dollars: %d R benötigt." % cost
+	if p.score < cost: return Lang.t("Not enough Rem Dollars: %d R needed.", [cost])
 	var updated := w.mod_definition(wid, slot, mod_id)
 	var overflow := maxi(0, int(w.state[wid].ammo) - int(updated.mag))
-	if int(w.state[wid].reserve) + overflow > w.reserve_limit(wid): return "Reserve voll. Erst Munition verbrauchen, bevor das Magazin verkleinert wird."
+	if int(w.state[wid].reserve) + overflow > w.reserve_limit(wid): return "Reserve full. Use up some ammo before the magazine gets smaller."
 	p.add_score(-cost)
 	if not remove: w.mod_owned[wid + ":" + id] = true
 	w.equip_mod(wid, slot, mod_id)
 	Sfx.event(self, p.peer_id, "purchase")
-	return "Mod entfernt; bleibt im Besitz." if remove else "Montiert: " + str(Weapons.Mods.DEFS[id].name)
+	return "Mod removed; you keep it." if remove else Lang.t("Mounted: %s", [Weapons.Mods.DEFS[id].name])
 
 func transact(p: Player, npc: String, action: String, id: String, extra := "") -> String:
-	if npc == "wanderer" and action not in ["visit", "rare"]: return "Hier gibt es nur Raritaeten."
-	if NetSession.is_client(): return "Der Host bestätigt den Handel."
-	if not close_enough(p, npc): return "Gehe zum Händler. Handel ist nur vor Ort möglich."
+	if npc == "wanderer" and action not in ["visit", "rare"]: return "Only rarities here."
+	if NetSession.is_client(): return "The host confirms the trade."
+	if not close_enough(p, npc): return "Go to the trader. You can only trade in person."
 	if NPCS.get(npc, {}).get("quests_only", false) and action not in ["visit", "quest"]:
-		return "Mara vergibt Waldaufträge. Vorräte bekommst du bei Vendor."
+		return "Mara hands out forest quests. You get supplies from Vendor."
 	var d := data(p.peer_id)
 	var w := weapon_for(p)
 	if npc == "secret": d.discovered = true
 	if action.begins_with("sell_"): return sell(p, npc, action, id)
 	match action:
 		"firework":
-			if npc != "camp": return "Feuerwerk gibt es bei Vendor am Lagerfeuer."
+			if npc != "camp": return "Fireworks are sold by Vendor at the campfire."
 			return game.fireworks.buy(p, id)
 		"visit": return ""
 		"rare":
-			if npc != "wanderer": return "Diese Raritäten führt nur der Nebelkrämer."
+			if npc != "wanderer": return "Only the Mist Peddler carries these rarities."
 			return rare_market.buy(p, id)
 		"mod", "remove_mod": return trade_mod(p, npc, id, extra, action == "remove_mod")
 		"autorefill":
-			if npc not in ["camp", "secret"]: return "Autorefill gibt es bei Vendor und Secret Vendor."
+			if npc not in ["camp", "secret"]: return "Autorefill is offered by Vendor and Secret Vendor."
 			var refill := refill_quote(p)
-			if refill.missing == 0: return "Alle Magazine und Munitionsreserven sind voll."
-			if refill.rounds == 0: return "Zu wenig Rem Dollars für Munition."
+			if refill.missing == 0: return "All magazines and ammo reserves are full."
+			if refill.rounds == 0: return "Not enough Rem Dollars for ammo."
 			p.add_score(-int(refill.cost))
 			for wid in refill.items:
 				w.state[wid].ammo += int(refill.items[wid][0])
@@ -630,18 +630,18 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 				w.state[wid].reloading = 0.0
 			w.update_hud()
 			Sfx.event(self, p.peer_id, "pickup")
-			return "Autorefill: +%d Schuss · −%d R · %s" % [refill.rounds, refill.cost, "alles voll" if refill.rounds == refill.missing else "Teilauffüllung nach Guthaben"]
+			return Lang.t("Autorefill: +%d rounds · −%d R · %s", [refill.rounds, refill.cost, "all full" if refill.rounds == refill.missing else "partial refill within your balance"])
 		"cache":
-			if npc != "cache" or team.cache: return "Die Lieferung wurde bereits geborgen."
-			if not d.accepted.get("supplies", false): return "Mechanic weiss, wem diese Lieferung gehört. Sprich mit ihr."
+			if npc != "cache" or team.cache: return "The delivery has already been recovered."
+			if not d.accepted.get("supplies", false): return "Mechanic knows who this delivery belongs to. Talk to her."
 			team.cache = true
 			cache_node.hide()
 			Sfx.event(self, p.peer_id, "pickup")
-			return "Lieferung geborgen. Kehre zu Mechanic zurück."
+			return "Delivery recovered. Return to Mechanic."
 		"quest":
-			if not QUESTS.has(id) or QUESTS[id].npc != npc: return "Dieser Auftrag gehört zu einem anderen Händler."
+			if not QUESTS.has(id) or QUESTS[id].npc != npc: return "This quest belongs to another trader."
 			var q: Dictionary = QUESTS[id]
-			if d.claimed.get(id, false): return "Auftrag bereits belohnt."
+			if d.claimed.get(id, false): return "Quest reward already collected."
 			var missing := quest_lock_reason(p.peer_id, id)
 			if not missing.is_empty(): return missing
 			if not d.accepted.get(id, false):
@@ -649,8 +649,8 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 				if not d.has("accepted_wave"): d.accepted_wave = {}
 				d.accepted_wave[id] = game.waves.completed
 				Sfx.event(self, p.peer_id, "quest_accept")
-				return "Auftrag angenommen: " + str(q.name)
-			if not complete(id, p.peer_id): return "Auftrag noch nicht erfüllt. " + quest_progress(id, p.peer_id)
+				return Lang.t("Quest accepted: %s", [q.name])
+			if not complete(id, p.peer_id): return Lang.t("Quest not completed yet. %s", [quest_progress(id, p.peer_id)])
 			d.claimed[id] = true
 			p.add_score(int(q.reward))
 			if NetSession.enabled:
@@ -659,38 +659,38 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 				notifications.rewarded(id)
 			var chain := quest_chain(id)
 			if not chain.is_empty() and chain_complete(p.peer_id, chain) and not chain_unlocks(chain).is_empty():
-				return "Questreihe %s abgeschlossen · +%d R · Kaufberechtigung: %s" % [QUEST_CHAINS[chain].name, q.reward, chain_unlocks(chain)]
-			return "Auftrag abgeschlossen · +%d R · %s" % [q.reward, q.name]
+				return Lang.t("Quest line %s completed · +%d R · Purchase permit: %s", [QUEST_CHAINS[chain].name, q.reward, chain_unlocks(chain)])
+			return Lang.t("Quest completed · +%d R · %s", [q.reward, q.name])
 		"weapon":
-			if not GOODS.has(id) or GOODS[id].npc != npc: return "Diese Waffe wird hier nicht angeboten."
-			if w.unlocked.get(id, false): return "Diese Waffe besitzt du bereits."
+			if not GOODS.has(id) or GOODS[id].npc != npc: return "This weapon is not offered here."
+			if w.unlocked.get(id, false): return "You already own this weapon."
 			var reason := lock_reason(p, id)
 			if not reason.is_empty(): return reason
-			if p.score < int(GOODS[id].price): return "Zu wenig Rem Dollars."
+			if p.score < int(GOODS[id].price): return "Not enough Rem Dollars."
 			p.add_score(-int(GOODS[id].price))
 			w.unlock(id)
 			w.state[id].ammo = w.state[id].def.mag
 			w.state[id].reserve = int(Weapons.DEFS[id].mag) * 2
 			game.achievements.event("weapons")
 			Sfx.event(self, p.peer_id, "weapon_pickup")
-			if Weapons.is_melee(id): return "Gekauft: %s · Auswahl im Inventar oder mit dem Mausrad" % Weapons.DEFS[id].name
-			return "Gekauft: %s · Magazin + 2 Reservemagazine" % Weapons.DEFS[id].name
+			if Weapons.is_melee(id): return Lang.t("Bought: %s · select it in the inventory or with the mouse wheel", [Weapons.DEFS[id].name])
+			return Lang.t("Bought: %s · magazine + 2 spare magazines", [Weapons.DEFS[id].name])
 		"ammo":
-			if Weapons.is_melee(id): return "Nahkampfwaffen benötigen keine Munition."
-			if npc == "mechanic" or not Weapons.DEFS.has(id) or not w.unlocked.get(id, false): return "Waffe nicht verfügbar."
+			if Weapons.is_melee(id): return "Melee weapons need no ammo."
+			if npc == "mechanic" or not Weapons.DEFS.has(id) or not w.unlocked.get(id, false): return "Weapon not available."
 			var cost := int(GOODS[id].ammo) if GOODS.has(id) else 12
-			if int(w.state[id].reserve) >= w.reserve_limit(id): return "Munitionsvorrat voll."
-			if p.score < cost: return "Zu wenig Rem Dollars."
+			if int(w.state[id].reserve) >= w.reserve_limit(id): return "Ammo supply full."
+			if p.score < cost: return "Not enough Rem Dollars."
 			p.add_score(-cost)
 			w.add_ammo(id, int(Weapons.DEFS[id].mag) * 2)
 			Sfx.event(self, p.peer_id, "pickup")
-			return "Zwei Reservemagazine gekauft."
+			return "Bought two spare magazines."
 		"medicine", "grenade":
-			if npc != "camp": return "Vorräte gibt es bei Vendor."
+			if npc != "camp": return "Vendor sells supplies."
 			var cost := 35 if action == "medicine" else 45
-			if action == "medicine" and p.hp >= p.max_hp: return "Gesundheit bereits voll."
-			if action == "grenade" and w.grenades >= w.grenades_max: return "Granatentasche voll."
-			if p.score < cost: return "Zu wenig Rem Dollars."
+			if action == "medicine" and p.hp >= p.max_hp: return "Health already full."
+			if action == "grenade" and w.grenades >= w.grenades_max: return "Grenade pouch full."
+			if p.score < cost: return "Not enough Rem Dollars."
 			p.add_score(-cost)
 			if action == "medicine":
 				p.hp = minf(p.max_hp, p.hp + 60)
@@ -698,32 +698,32 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			else: w.grenades += 1
 			w.update_hud()
 			Sfx.event(self, p.peer_id, "pickup")
-			return "Vorrat gekauft."
+			return "Supplies bought."
 		"skin":
-			if not SKINS.has(id) or SKINS[id].npc != npc or not w.unlocked.get(extra, false): return "Lackierung nicht verfügbar."
+			if not SKINS.has(id) or SKINS[id].npc != npc or not w.unlocked.get(extra, false): return "Finish not available."
 			var s: Dictionary = SKINS[id]
 			var missing := prerequisite_reason(p.peer_id, s.quest)
 			if not missing.is_empty(): return missing
 			var key := extra + ":" + id
 			if not d.skins.get(key, false):
-				if p.score < int(s.price): return "Zu wenig Rem Dollars."
+				if p.score < int(s.price): return "Not enough Rem Dollars."
 				p.add_score(-int(s.price))
 				d.skins[key] = true
 			w.apply_skin(extra, id)
 			Sfx.event(self, p.peer_id, "purchase")
-			return "Lackierung angelegt: " + str(s.name)
+			return Lang.t("Finish applied: %s", [s.name])
 		"stock_skin":
-			if not w.unlocked.get(id, false): return "Waffe nicht verfügbar."
+			if not w.unlocked.get(id, false): return "Weapon not available."
 			w.apply_skin(id, "")
 			Sfx.event(self, p.peer_id, "purchase")
-			return "Originalfinish angelegt."
+			return "Original finish applied."
 		"training":
-			if npc != "mechanic": return "Training gibt es bei Mechanic."
+			if npc != "mechanic": return "Mechanic offers training."
 			return game.skills.purchase(p, w, id)
 		"tower_upgrade", "tower_sell":
-			if npc != "mechanic" or not id.is_valid_int(): return "Ausbauten gibt es bei Mechanic."
+			if npc != "mechanic" or not id.is_valid_int(): return "Mechanic offers upgrades."
 			return game.defences.maintain(p, int(id), action.trim_prefix("tower_"), true)
-	return "Unbekannte Aktion."
+	return "Unknown action."
 
 func request(action: String, id := "", extra := "") -> void:
 	if action == "quest" and id == "arrival" and shop == "camp" and not _arrival_guide_read and not local_data().claimed.get(id, false):
@@ -732,7 +732,7 @@ func request(action: String, id := "", extra := "") -> void:
 		return
 	if NetSession.enabled:
 		NetSession.command("shop", [shop, action, id, extra])
-		status.text = "Anfrage an den Host …"
+		status.text = "Request sent to the host …"
 	else:
 		var before: int = game.player.score
 		status.text = transact(game.player, shop, action, id, extra)
@@ -760,8 +760,8 @@ func interact(id: String) -> void:
 	shop = id
 	_mod_weapon = game.weapons.ammo_weapon()
 	_greet(id)
-	page = "Aufträge" if not local_data().claimed.get("arrival", false) or id == "mechanic" or NPCS[id].get("quests_only", false) else "Handel"
-	if id == "wanderer": page = "Raritäten"
+	page = "Quests" if not local_data().claimed.get("arrival", false) or id == "mechanic" or NPCS[id].get("quests_only", false) else "Trade"
+	if id == "wanderer": page = "Rarities"
 	is_open = true
 	game.player.active = false
 	game.weapons.viewmodel.hide()
@@ -771,12 +771,12 @@ func interact(id: String) -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	panel.show()
 	request("visit")
-	status.text = "Koop läuft weiter. Bleibe in Deckung." if NetSession.enabled else ""
+	status.text = "Co-op keeps running. Stay in cover." if NetSession.enabled else ""
 	_render()
 
 # Local dialogue greeting, also audible during the solo pause. Mara follows the HUD's world-time phases.
 const VOCALS := {"camp": "vendor_vocal", "secret": "secret_vendor_vocal", "wanderer": "secret_vendor_vocal", "mechanic": "mechanic_vocal"}
-const MARA_VOCALS := {"Morgen": "mara_morning", "Tag": "mara_day", "Abend": "mara_evening", "Nacht": "mara_night"}
+const MARA_VOCALS := {"Morning": "mara_morning", "Day": "mara_day", "Evening": "mara_evening", "Night": "mara_night"}
 var _greeting: AudioStreamPlayer
 
 func _greet(id: String) -> void:
@@ -809,7 +809,7 @@ func close() -> void:
 # A sale between two dozen rows barely registered before: the amount now flies up in gold
 # right where the click landed and the balance line flashes with it.
 func _update_balance() -> void:
-	if balance: balance.text = "%d REM DOLLARS  ·  EINSATZLEVEL %d  ·  %d WELLEN ÜBERSTANDEN" % [game.player.score, mission_level(), game.waves.completed]
+	if balance: balance.text = Lang.t("%d REM DOLLARS  ·  MISSION LEVEL %d  ·  %d WAVES SURVIVED", [game.player.score, mission_level(), game.waves.completed])
 
 func show_gain(amount: int) -> void:
 	if amount == 0: return
@@ -925,7 +925,7 @@ func _build_ui() -> void:
 	column.add_child(wallet)
 	var tabs := HBoxContainer.new()
 	column.add_child(tabs)
-	for tab in ["Handel", "Feuerwerk", "Verkaufen", "Aufträge", "Training", "Türme", "Mods", "Skins", "Raritäten"]:
+	for tab in ["Trade", "Fireworks", "Sell", "Quests", "Training", "Towers", "Mods", "Skins", "Rarities"]:
 		var button := Button.new()
 		button.text = tab
 		button.custom_minimum_size = Vector2(160, 38)
@@ -946,7 +946,7 @@ func _build_ui() -> void:
 	status.add_theme_color_override("font_color", Color(1.0, 0.82, 0.45))
 	column.add_child(status)
 	var done := Button.new()
-	done.text = "Zurück in den Wald · Esc"
+	done.text = "Back to the forest · Esc"
 	done.custom_minimum_size.y = 40
 	done.pressed.connect(close)
 	column.add_child(done)
@@ -1014,12 +1014,12 @@ func _render() -> void:
 	if not NPCS.has(shop): return
 	for tab in _tabs:
 		if shop == "wanderer":
-			_tabs[tab].visible = tab == "Raritäten"
+			_tabs[tab].visible = tab == "Rarities"
 			continue
-		_tabs[tab].visible = tab in (["Aufträge"] if NPCS[shop].get("quests_only", false) else (["Aufträge", "Training", "Türme", "Mods"] if shop == "mechanic" else (["Handel", "Verkaufen", "Aufträge", "Mods", "Skins"] if shop == "secret" else ["Handel", "Feuerwerk", "Verkaufen", "Aufträge", "Skins"])))
+		_tabs[tab].visible = tab in (["Quests"] if NPCS[shop].get("quests_only", false) else (["Quests", "Training", "Towers", "Mods"] if shop == "mechanic" else (["Trade", "Sell", "Quests", "Mods", "Skins"] if shop == "secret" else ["Trade", "Fireworks", "Sell", "Quests", "Skins"])))
 	var owners := []
 	for tower: DefenceTower in game.defences.towers.values(): owners.append([tower.tower_id, tower.owner_peer])
-	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners, _mod_weapon, rare_market.stock.keys(), local_data().claimed if page == "Aufträge" else {}])
+	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners, _mod_weapon, rare_market.stock.keys(), local_data().claimed if page == "Quests" else {}])
 	_building_layout = layout != _layout_key
 	_layout_key = layout
 	_row_index = 0
@@ -1028,61 +1028,61 @@ func _render() -> void:
 			rows.remove_child(child)
 			child.queue_free()
 		_row_nodes.clear()
-	title.text = str(NPCS[shop].name).to_upper() + " · " + page
+	title.text = Lang.t("%s · %s", [Lang.raw(Lang.text(NPCS[shop].name).to_upper()), page])
 	subtitle.text = NPCS[shop].line
 	_update_balance()
 	var p: Player = game.player
 	var d := local_data()
 	match page:
-		"Feuerwerk":
-			_info("LICHTER ÜBER DEM WALD", 21)
-			_info("Im Inventar [I] auswählen, dann mit Linksklick zünden. Rechtsklick: zur Waffe.\nRaketen steigen etwa 34 m hoch. Reines Feuerwerk ohne Kampfschaden. Vorräte gelten für diese Runde.", 14)
+		"Fireworks":
+			_info("LIGHTS OVER THE FOREST", 21)
+			_info("Select them in the inventory [I], then left click to light. Right click: back to your weapon.\nRockets climb about 34 m. Pure fireworks without combat damage. Supplies last for this round.", 14)
 			for id in Fireworks.DEFS:
 				var spec: Dictionary = Fireworks.DEFS[id]
 				var blocked: String = game.fireworks.buy_error(p, id)
-				var detail: String = spec.desc + "\n%d / %d im Inventar · Feuerwerktasche %d / %d" % [game.fireworks.stock(p.peer_id)[id], spec.limit, game.fireworks.count(p.peer_id), Fireworks.CAPACITY]
-				_row(spec.name, detail, "%s · %d R" % ["1 Batterie" if Fireworks.is_battery(id) else "5er-Pack" if spec.pack == 5 else "1 Rakete", spec.price], request.bind("firework", id), not blocked.is_empty(), blocked)
-		"Raritäten":
-			_info("Sortiment wechselt mit Welle, Tageszeit und Standort · Bestand mit allen Spielern geteilt.\nGerade: %s · %s. Ein Talisman aktiv. Auswahl und Spezialmunition im Inventar [I]. Käufe gelten für diese Runde." % ["Tag" if rare_market.phase() == "day" else "Nacht", rare_market.region_name()], 14)
+				var detail: String = Lang.t("%s\n%d / %d in inventory · firework bag %d / %d", [spec.desc, game.fireworks.stock(p.peer_id)[id], spec.limit, game.fireworks.count(p.peer_id), Fireworks.CAPACITY])
+				_row(spec.name, detail, Lang.t("%s · %d R", ["1 battery" if Fireworks.is_battery(id) else "5-pack" if spec.pack == 5 else "1 rocket", spec.price]), request.bind("firework", id), not blocked.is_empty(), blocked)
+		"Rarities":
+			_info(Lang.t("Stock changes with the wave, time of day and location · shared by all players.\nRight now: %s · %s. One talisman active. Selection and special ammo in the inventory [I]. Purchases last for this round.", ["Day" if rare_market.phase() == "day" else "Night", rare_market.region_name()]), 14)
 			for id in rare_market.stock:
 				var spec: Dictionary = rare_market.Items.DEFS[id]
 				var owned: bool = rare_market.data(p.peer_id).owned.get(id, false)
 				var blocked := ""
 				if not owned:
-					if mission_level() < int(spec.level): blocked = "Einsatzlevel %d benötigt (aktuell %d)." % [spec.level, mission_level()]
-					elif int(rare_market.stock[id]) <= 0: blocked = "Ausverkauft · Neue Ware beim nächsten Halt oder ab nächster Welle."
-					elif p.score < int(spec.price): blocked = "Zu wenig Rem Dollars: %d R benötigt." % spec.price
-				_row(spec.name, spec.desc + "\nLevel %d · Bestand %d" % [spec.level, rare_market.stock[id]], "Aktivieren" if owned else "Kaufen · %d R" % spec.price, request.bind("rare", id), not blocked.is_empty(), blocked)
+					if mission_level() < int(spec.level): blocked = Lang.t("Mission level %d needed (currently %d).", [spec.level, mission_level()])
+					elif int(rare_market.stock[id]) <= 0: blocked = "Sold out · New stock at the next stop or from the next wave."
+					elif p.score < int(spec.price): blocked = Lang.t("Not enough Rem Dollars: %d R needed.", [spec.price])
+				_row(spec.name, Lang.t("%s\nLevel %d · stock %d", [spec.desc, spec.level, rare_market.stock[id]]), "Activate" if owned else Lang.t("Buy · %d R", [spec.price]), request.bind("rare", id), not blocked.is_empty(), blocked)
 		"Mods": _render_mods(p)
-		"Verkaufen":
+		"Sell":
 			var w: Weapons = game.weapons
 			var stock := mushroom_stock(p)
 			for kind in game.hunting.FOOD:
 				var spec: Dictionary = game.hunting.FOOD[kind]
 				var count := int(game.hunting.stock(p.peer_id).get(kind, 0))
-				_row(spec.name + " · %d im Inventar" % count, spec.text, "1 verkaufen · %d R" % spec.sell, request.bind("sell_meat", kind), count <= 0)
+				_row(Lang.t("%s · %d in inventory", [spec.name, count]), spec.text, Lang.t("Sell 1 · %d R", [spec.sell]), request.bind("sell_meat", kind), count <= 0)
 			for kind in Inventory.MUSHROOMS:
 				var spec: Dictionary = Inventory.MUSHROOMS[kind]
 				var count := int(stock.get(kind, 0))
-				_row(spec.name + " · %d im Inventar" % count, spec.text, "1 verkaufen · %d R" % spec.sell, request.bind("sell_mushroom", kind), count <= 0)
-			_row("Handgranaten · %d im Inventar" % w.grenades, "Verkaufe eine Granate.", "1 verkaufen · 15 R", request.bind("sell_grenade"), w.grenades <= 0)
+				_row(Lang.t("%s · %d in inventory", [spec.name, count]), spec.text, Lang.t("Sell 1 · %d R", [spec.sell]), request.bind("sell_mushroom", kind), count <= 0)
+			_row(Lang.t("Hand grenades · %d in inventory", [w.grenades]), "Sell one grenade.", Lang.t("Sell 1 · %d R", [15]), request.bind("sell_grenade"), w.grenades <= 0)
 			for wid in Weapons.ORDER:
 				if not w.unlocked.get(wid, false): continue
 				if not Weapons.is_melee(wid):
 					var amount := int(Weapons.DEFS[wid].mag)
-					_row("Munition · " + Weapons.DEFS[wid].name, "%d Schuss verkaufen. Reserve: %d." % [amount, w.state[wid].reserve], "+%d R" % ammo_sale_price(wid), request.bind("sell_ammo", wid), int(w.state[wid].reserve) < amount)
+					_row(Lang.t("Ammo · %s", [Weapons.DEFS[wid].name]), Lang.t("Sell %d rounds. Reserve: %d.", [amount, w.state[wid].reserve]), "+%d R" % ammo_sale_price(wid), request.bind("sell_ammo", wid), int(w.state[wid].reserve) < amount)
 				if GOODS.has(wid):
-					_row(Weapons.DEFS[wid].name, "Waffe verkaufen. Restmunition bringt keinen Aufpreis; Reserve vorher separat verkaufen. Kaufberechtigungen bleiben erhalten.", "+%d R" % int(int(GOODS[wid].price) * 0.35), request.bind("sell_weapon", wid))
-		"Aufträge":
+					_row(Weapons.DEFS[wid].name, "Sell the weapon. Leftover ammo adds nothing to the price; sell the reserve separately first. Purchase permits are kept.", "+%d R" % int(int(GOODS[wid].price) * 0.35), request.bind("sell_weapon", wid))
+		"Quests":
 			if shop == "camp":
-				_row("Grundlagen bei Vendor", "Inventar, Rem Dollars, Türme und Barrikaden · kostenlos nachlesen.", "Einführung ansehen", _replay_vendor_guide)
+				_row("Basics with Vendor", "Inventory, Rem Dollars, towers and barricades · read up for free.", "View introduction", _replay_vendor_guide)
 			for completed in [false, true]:
 				var quest_ids: Array = []
 				for id in ordered_quests():
 					if QUESTS[id].npc == shop and bool(d.claimed.get(id, false)) == completed:
 						quest_ids.append(id)
 				if quest_ids.is_empty(): continue
-				_info("Abgeschlossene" if completed else "Offene Aufträge", 22)
+				_info("Completed quests" if completed else "Open quests", 22)
 				for id in quest_ids:
 					var q: Dictionary = QUESTS[id]
 					if q.npc != shop: continue
@@ -1090,39 +1090,39 @@ func _render() -> void:
 					var accepted: bool = d.accepted.get(id, false)
 					var blocked := quest_lock_reason(p.peer_id, id)
 					var locked := not blocked.is_empty()
-					var text := "Erledigt" if claimed else ("Gesperrt" if locked else ("Belohnung abholen" if accepted and complete(id) else ("In Arbeit" if accepted else "Auftrag annehmen")))
-					if id == "arrival" and not claimed and not locked and not _arrival_guide_read: text = "Tutorial starten"
-					var details: String = q.desc
+					var text := "Done" if claimed else ("Locked" if locked else ("Collect reward" if accepted and complete(id) else ("In progress" if accepted else "Accept quest")))
+					if id == "arrival" and not claimed and not locked and not _arrival_guide_read: text = "Start tutorial"
+					var details: String = Lang.t(q.desc)
 					var chain := quest_chain(id)
-					var heading: String = q.name + " · Level %d · %d R" % [q.min_level, q.reward]
+					var heading: String = Lang.t("%s · Level %d · %d R", [q.name, q.min_level, q.reward])
 					if not chain.is_empty():
-						heading = "%s · %d/%d · %s" % [QUEST_CHAINS[chain].name, QUEST_CHAINS[chain].quests.find(id) + 1, QUEST_CHAINS[chain].quests.size(), heading]
+						heading = Lang.t("%s · %d/%d · %s", [QUEST_CHAINS[chain].name, QUEST_CHAINS[chain].quests.find(id) + 1, QUEST_CHAINS[chain].quests.size(), heading])
 						details += "\n" + chain_description(p.peer_id, chain, false)
-					if int(q.waves_after_accept) > 0: details += "\nAb Annahme %d weitere Welle(n) überstehen. Teamziele zählen rückwirkend; Belohnung persönlich abholen." % q.waves_after_accept
+					if int(q.waves_after_accept) > 0: details += "\n" + Lang.t("After accepting, survive %d more wave(s). Team goals count retroactively; collect the reward yourself.", [q.waves_after_accept])
 					_row(heading, details + "\n" + quest_progress(id, -1, true), text, request.bind("quest", id), claimed or locked or (accepted and not complete(id)), blocked if locked and not claimed else "", true)
-		"Handel":
+		"Trade":
 			if shop in ["camp", "secret"]:
 				var refill := refill_quote(p)
-				var details := "Magazine und Reserve aller eigenen Schusswaffen. Zuerst %s, dann die übrigen Waffen. Granaten separat.\nKomplett: %d R · Mit deinem Guthaben: +%d Schuss für %d R." % [Weapons.DEFS[game.weapons.ammo_weapon()].name, refill.full_cost, refill.rounds, refill.cost]
-				_row("Autorefill · gesamte Munition", details, "Alles voll" if refill.missing == 0 else ("Zu wenig Rem Dollars" if refill.rounds == 0 else "Auffüllen · %d R" % refill.cost), request.bind("autorefill"), refill.rounds == 0)
-			if shop == "mechanic": _info("Mechanic bietet Training, Turmausbauten und Aufträge an. Waffen und Vorräte gibt es bei Vendor am Lagerfeuer.")
+				var details := Lang.t("Magazines and reserves of all your firearms. First %s, then the other weapons. Grenades separately.\nFull: %d R · With your balance: +%d rounds for %d R.", [Weapons.DEFS[game.weapons.ammo_weapon()].name, refill.full_cost, refill.rounds, refill.cost])
+				_row("Autorefill · all ammo", details, "All full" if refill.missing == 0 else ("Not enough Rem Dollars" if refill.rounds == 0 else Lang.t("Refill · %d R", [refill.cost])), request.bind("autorefill"), refill.rounds == 0)
+			if shop == "mechanic": _info("Mechanic offers training, tower upgrades and quests. Weapons and supplies are sold by Vendor at the campfire.")
 			for id in GOODS:
 				var spec: Dictionary = GOODS[id]
 				if spec.npc != shop: continue
 				var owned: bool = game.weapons.unlocked.get(id, false)
 				var reason := lock_reason(p, id)
 				var gun: Dictionary = Weapons.DEFS[id]
-				var details := "%s\n%d Schaden × %d · %d Schuss · %.1f s Nachladen" % [spec.desc, int(gun.damage), gun.pellets, gun.mag, gun.reload]
+				var details := Lang.t("%s\n%d damage × %d · %d rounds · %.1f s reload", [spec.desc, int(gun.damage), gun.pellets, gun.mag, gun.reload])
 				if Weapons.is_melee(id):
-					details = "%s\n%d Schaden · %.2f s pro Schlag · %.2f m Reichweite" % [spec.desc, int(gun.damage), gun.rate, gun.range]
+					details = Lang.t("%s\n%d damage · %.2f s per swing · %.2f m range", [spec.desc, int(gun.damage), gun.rate, gun.range])
 				if spec.has("chain"): details += "\n" + chain_description(p.peer_id, spec.chain)
-				if gun.has("pierce_targets"): details += "\n" + Weapons.piercing_description(id)
+				if gun.has("pierce_targets"): details += "\n" + Lang.t(Weapons.piercing_description(id))
 				var blocked := ""
 				if not owned:
-					if not reason.is_empty(): blocked = "GESPERRT · " + reason
+					if not reason.is_empty(): blocked = Lang.t("LOCKED · %s", [reason])
 					if p.score < int(spec.price):
-						blocked += ("\n" if not blocked.is_empty() else "") + "Es fehlen %d Rem Dollars für den Kauf." % (int(spec.price) - p.score)
-				var buy_text := "Im Besitz" if owned else ("Gesperrt · %d R" % spec.price if not reason.is_empty() else "Kaufen · %d R" % spec.price)
+						blocked += ("\n" if not blocked.is_empty() else "") + Lang.t("You are %d Rem Dollars short for this purchase.", [int(spec.price) - p.score])
+				var buy_text := "Owned" if owned else (Lang.t("Locked · %d R", [spec.price]) if not reason.is_empty() else Lang.t("Buy · %d R", [spec.price]))
 				_row(gun.name, details, buy_text, request.bind("weapon", id), owned or not blocked.is_empty(), blocked)
 			if shop != "mechanic":
 				for wid in Weapons.ORDER:
@@ -1133,41 +1133,41 @@ func _render() -> void:
 					var limit: int = game.weapons.reserve_limit(wid)
 					var full := reserve >= limit
 					var amount := int(Weapons.DEFS[wid].mag) * 2
-					_row("Munition · " + str(Weapons.DEFS[wid].name), "Zwei Magazine (+%d Schuss, bis zum Vorratslimit). Vorrat: %d / %d." % [amount, reserve, limit], "Vorrat voll" if full else "%d R" % cost, request.bind("ammo", wid), full or p.score < cost)
+					_row(Lang.t("Ammo · %s", [Weapons.DEFS[wid].name]), Lang.t("Two magazines (+%d rounds, up to the supply limit). Supply: %d / %d.", [amount, reserve, limit]), "Supply full" if full else "%d R" % cost, request.bind("ammo", wid), full or p.score < cost)
 			if shop == "camp":
-				_row("Verband", "+60 Gesundheit, bis zum Maximum", "35 R", request.bind("medicine"), p.score < 35 or p.hp >= p.max_hp)
-				_row("Handgranate", "Eine Granate, bis die Tasche voll ist", "45 R", request.bind("grenade"), p.score < 45 or game.weapons.grenades >= game.weapons.grenades_max)
+				_row("Bandage", "+60 health, up to the maximum", "35 R", request.bind("medicine"), p.score < 35 or p.hp >= p.max_hp)
+				_row("Hand grenade", "One grenade, until the pouch is full", "45 R", request.bind("grenade"), p.score < 45 or game.weapons.grenades >= game.weapons.grenades_max)
 		"Training":
-			if shop != "mechanic": _info("Training gibt es bei Mechanic nördlich des Lagerfeuers.")
+			if shop != "mechanic": _info("Mechanic, north of the campfire, offers training.")
 			else:
 				for spec in Skills.UPGRADES:
 					var level: int = game.skills.levels.get(spec.id, 0)
 					var cost := int(spec.cost) + int(spec.cost) * level / 2
-					_row(spec.name + " · %d/%d" % [level, spec.max], spec.desc, "%d R" % cost, request.bind("training", spec.id), level >= int(spec.max) or p.score < cost)
-		"Türme":
+					_row(Lang.t("%s · %d/%d", [spec.name, level, spec.max]), spec.desc, "%d R" % cost, request.bind("training", spec.id), level >= int(spec.max) or p.score < cost)
+		"Towers":
 			if _building_layout: rows.add_child(ItemIcons.view("tower", Vector2(140, 90)))
-			_info("T: Turmtyp wählen · R/Mausrad: drehen · E: platzieren\nAm Turm: E aufsteigen, R ausrichten, F reparieren. Oben: Maus zielt, Linksklick feuert, E steigt ab. Ohne Bediener feuert der Turm automatisch. Dauerfeuer erzeugt Hitze.", 16)
+			_info("T: choose a tower type · R/mouse wheel: rotate · E: place\nAt the tower: E climbs up, R aims, F repairs. On top: the mouse aims, left click fires, E climbs down. Without an operator the tower fires on its own. Sustained fire builds up heat.", 16)
 			for kind in DefenceTower.TYPES:
 				var spec: Dictionary = DefenceTower.SPECS[kind]
 				var required: int = game.defences.unlock_waves(kind)
-				_info("%s · %d R · %s\nStufe 2 nach Welle %d · Stufe 3 nach Welle %d" % [spec.name, spec.cost, "Ab Start" if required == 0 else "Nach Welle %d" % required, game.defences.unlock_waves(kind, 2), game.defences.unlock_waves(kind, 3)], 16)
-			if shop != "mechanic": _info("Turmausbauten gibt es bei Mechanic.")
+				_info(Lang.t("%s · %d R · %s\nTier 2 after wave %d · Tier 3 after wave %d", [spec.name, spec.cost, "From the start" if required == 0 else Lang.t("After wave %d", [required]), game.defences.unlock_waves(kind, 2), game.defences.unlock_waves(kind, 3)]), 16)
+			if shop != "mechanic": _info("Mechanic offers tower upgrades.")
 			else:
 				for id in game.defences.towers:
 					var tower: DefenceTower = game.defences.towers[id]
 					var cost: int = tower.upgrade_cost()
 					var reason: String = game.defences.upgrade_reason(p, tower)
-					_row("%s #%d · Stufe %d" % [tower.spec().name,id,tower.level], "%d/%d TP · %d m Reichweite · %d m entfernt" % [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)], "Maximum" if tower.level == 3 else "Ausbauen · %d R" % cost, request.bind("tower_upgrade", str(id)), not reason.is_empty(), reason)
+					_row(Lang.t("%s #%d · Tier %d", [tower.spec().name, id, tower.level]), Lang.t("%d/%d HP · %d m range · %d m away", [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)]), "Maximum" if tower.level == 3 else Lang.t("Upgrade · %d R", [cost]), request.bind("tower_upgrade", str(id)), not reason.is_empty(), reason)
 		"Skins":
 			var wid: String = game.weapons.current
-			_info("Lackierungen für: " + str(Weapons.DEFS[wid].name) + "\nWähle deine Waffe vor dem Gespräch. Skins ändern keine Kampfwerte.", 16)
+			_info(Lang.t("Finishes for: %s\nPick your weapon before the conversation. Skins don't change combat stats.", [Weapons.DEFS[wid].name]), 16)
 			for id in SKINS:
 				var spec: Dictionary = SKINS[id]
 				if spec.npc != shop: continue
 				var owned: bool = d.skins.get(wid + ":" + id, false)
 				var allowed := has_claim(p.peer_id, spec.quest)
-				_row(spec.name, spec.desc + ("" if allowed else "\n" + prerequisite_reason(p.peer_id, spec.quest)), "Anlegen" if owned else "Kaufen · %d R" % spec.price, request.bind("skin", id, wid), not allowed or (not owned and p.score < int(spec.price)))
-			_row("Originalfinish", "Kostenlos zum ursprünglichen Material wechseln.", "Anlegen", request.bind("stock_skin", wid))
+				_row(spec.name, Lang.t(spec.desc) + ("" if allowed else "\n" + prerequisite_reason(p.peer_id, spec.quest)), "Apply" if owned else Lang.t("Buy · %d R", [spec.price]), request.bind("skin", id, wid), not allowed or (not owned and p.score < int(spec.price)))
+			_row("Original finish", "Switch back to the original material for free.", "Apply", request.bind("stock_skin", wid))
 
 var _mod_weapon := "pistol"
 
@@ -1186,21 +1186,21 @@ func _render_mods(p: Player) -> void:
 			if wid == _mod_weapon: chooser.select(index)
 		chooser.item_selected.connect(func(index: int): _mod_weapon = chooser.get_item_metadata(index); _render())
 		rows.add_child(chooser)
-	_info("Mods gelten pro Waffe für diese Runde. Ein Mod je Platz; gekaufte Mods kostenlos wechseln. Munition separat.\nEinsatzlevel = überstandene Wellen + 1.", 14)
+	_info("Mods apply per weapon for this round. One mod per slot; switch bought mods for free. Ammo sold separately.\nMission level = waves survived + 1.", 14)
 	var wid := _mod_weapon
 	var effective: Dictionary = w.state[wid].def
-	_row(Weapons.DEFS[wid].name, "%d Schaden × %d · %d Schuss · %.2f s Nachladen\n%s" % [roundi(effective.damage * w.effective_damage_mul()), effective.pellets, effective.mag, effective.reload * w.effective_reload_mul(), Weapons.Mods.summary(w.mod_loadout.get(wid, {}))], "Aktuelle Werte", func(): pass, true)
+	_row(Weapons.DEFS[wid].name, Lang.t("%d damage × %d · %d rounds · %.2f s reload\n%s", [roundi(effective.damage * w.effective_damage_mul()), effective.pellets, effective.mag, effective.reload * w.effective_reload_mul(), Weapons.Mods.summary(w.mod_loadout.get(wid, {}))]), "Current stats", func(): pass, true)
 	for id in Weapons.Mods.DEFS:
 		var spec: Dictionary = Weapons.Mods.DEFS[id]
 		if spec.npc != shop: continue
 		var owned: bool = w.mod_owned.get(wid + ":" + id, false)
 		var equipped: bool = w.mod_loadout.get(wid, {}).get(spec.slot, "") == id
 		var reason := mod_lock_reason(p, id, wid)
-		if reason.is_empty() and not owned and p.score < int(spec.price): reason = "Zu wenig Rem Dollars: %d R benötigt." % spec.price
-		_row(spec.name + " · Level %d" % spec.level, spec.slot + " · " + spec.desc, "Montiert" if equipped else ("Montieren" if owned else "Kaufen · %d R" % spec.price), request.bind("mod", id, wid), equipped or not reason.is_empty(), reason)
+		if reason.is_empty() and not owned and p.score < int(spec.price): reason = Lang.t("Not enough Rem Dollars: %d R needed.", [spec.price])
+		_row(Lang.t("%s · Level %d", [spec.name, spec.level]), Lang.t("%s · %s", [spec.slot, spec.desc]), "Mounted" if equipped else ("Mount" if owned else Lang.t("Buy · %d R", [spec.price])), request.bind("mod", id, wid), equipped or not reason.is_empty(), reason)
 	for slot in Weapons.Mods.SLOTS:
 		var installed: String = w.mod_loadout.get(wid, {}).get(slot, "")
-		_row(slot, Weapons.Mods.DEFS[installed].name if not installed.is_empty() else "Originalausstattung", "Entfernen", request.bind("remove_mod", slot, wid), installed.is_empty())
+		_row(slot, Weapons.Mods.DEFS[installed].name if not installed.is_empty() else "Original equipment", "Remove", request.bind("remove_mod", slot, wid), installed.is_empty())
 
 func _input(event: InputEvent) -> void:
 	if is_open and event.is_action_pressed("pause"):
@@ -1249,12 +1249,13 @@ func _process(delta: float) -> void:
 		if d.accepted.get(id, false) and not d.claimed.get(id, false):
 			tracked.append(id)
 	if tracked.is_empty():
-		tracker.text = "ALLE AUFTRÄGE ERLEDIGT\nHalte die Hütte und überstehe die nächste Welle." if d.claimed.size() == QUESTS.size() else "AUFTRÄGE · Q ein/aus\nSprich mit Vendor am Lagerfeuer und Mechanic nördlich davon."
+		tracker.text = "ALL QUESTS DONE\nHold the hut and survive the next wave." if d.claimed.size() == QUESTS.size() else "QUESTS · Q on/off\nTalk to Vendor at the campfire and Mechanic north of it."
 		for chain in QUEST_CHAINS:
 			if chain_complete(game.player.peer_id, chain): continue
 			for id in QUEST_CHAINS[chain].quests:
 				if not has_claim(game.player.peer_id, id):
-					tracker.text = "%s · NÄCHSTER AUFTRAG\n%s" % [QUEST_CHAINS[chain].name.to_upper(), next_quest_step(game.player.peer_id, id)]
+					# Upper case needs the final wording; the tracker is rebuilt four times a second.
+					tracker.text = Lang.t("%s · NEXT QUEST\n%s", [Lang.raw(Lang.text(QUEST_CHAINS[chain].name).to_upper()), next_quest_step(game.player.peer_id, id)])
 					break
 			break
 	else:
@@ -1262,26 +1263,26 @@ func _process(delta: float) -> void:
 		var ongoing := PackedStringArray()
 		for id in tracked:
 			if complete(id):
-				ready.append("[color=#ffd479][b]BEREIT ZUR ABGABE[/b]\n[b]%s[/b]\nBei %s abgeben · %d R Belohnung[/color]" % [QUESTS[id].name, NPCS[QUESTS[id].npc].name, QUESTS[id].reward])
+				ready.append("[color=#ffd479][b]%s[/b]\n[b]%s[/b]\n%s[/color]" % [Lang.t("READY TO TURN IN"), Lang.t(QUESTS[id].name), Lang.t("Turn in to %s · %d R reward", [NPCS[QUESTS[id].npc].name, QUESTS[id].reward])])
 			else:
-				ongoing.append("%s\n%s" % [QUESTS[id].name, quest_progress(id, -1, true)])
-		var entries := PackedStringArray(["AUFTRÄGE (%d) · Q ein/aus" % tracked.size()])
+				ongoing.append(Lang.t(QUESTS[id].name) + "\n" + quest_progress(id, -1, true))
+		var entries := PackedStringArray([Lang.t("QUESTS (%d) · Q on/off", [tracked.size()])])
 		if not ready.is_empty():
-			entries.append("[color=#ffd479][b]%d zur Abgabe bereit[/b][/color]" % ready.size())
+			entries.append("[color=#ffd479][b]%s[/b][/color]" % Lang.t("%d ready to turn in", [ready.size()]))
 		entries.append_array(ready)
 		entries.append_array(ongoing)
 		tracker.text = "\n\n".join(entries)
 	tracker.size.y = 0
 	if not d.claimed.get("arrival", false):
-		tutorial.text = "WAFFEN & AUFTRÄGE\n[E] Sprich mit Vendor am Lagerfeuer."
+		tutorial.text = "WEAPONS & QUESTS\n[E] Talk to Vendor at the campfire."
 	elif _arrival_guide_read and not _arrival_inventory_seen:
-		tutorial.text = "DEINE AUSRÜSTUNG · [I] INVENTAR\nÖffne dein Inventar und sieh dir Waffen und Gegenstände an."
+		tutorial.text = "YOUR GEAR · [I] INVENTORY\nOpen your inventory and look at your weapons and items."
 	elif _arrival_guide_read and not _arrival_build_menu_seen:
-		tutorial.text = "DEINE VERTEIDIGUNG · [T] TURMBAUMENÜ\nSieh dir die Türme an. Erst E in der Vorschau bestätigt einen Kauf."
+		tutorial.text = "YOUR DEFENSE · [T] TOWER BUILD MENU\nTake a look at the towers. Only E in the preview confirms a purchase."
 	elif team.built == 0:
-		tutorial.text = "VERTEIDIGUNG · [T] TURMBAUMENÜ\n5 Typen ab 120 R · E baut / steigt auf · Mechanic baut aus." if _tower_tutorial_remaining > 0.0 else ""
+		tutorial.text = "DEFENSE · [T] TOWER BUILD MENU\n5 types from 120 R · E builds / climbs up · Mechanic upgrades." if _tower_tutorial_remaining > 0.0 else ""
 	elif team.turned == 0:
-		tutorial.text = "RICHTE DEINEN WÄCHTER AUS\nAm Turm R drücken, mit R/Mausrad drehen und mit E bestätigen."
+		tutorial.text = "AIM YOUR SENTINEL\nPress R at the tower, rotate with R/mouse wheel and confirm with E."
 	else: tutorial.text = ""
 
 func snapshot() -> Dictionary:

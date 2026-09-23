@@ -157,7 +157,7 @@ func run() -> void:
 	check(achievements.counters.titans == 6, "Snapshot is independent of authoritative counters")
 	game.hud._fill_achievements()
 	var text := ui_text(game.hud._achievements_box)
-	check(text.contains("Titankiller") and text.contains("Legende des Heitersbergs") and text.contains("Runde: 6/15"), "Achievements menu includes new tiers and current-round progress")
+	check(text.contains("Titan Killer") and text.contains("Legend of the Heitersberg") and text.contains("Round: 6/15"), "Achievements menu includes new tiers and current-round progress")
 	# A client must never award itself progress or rewards.
 	NetSession.set_process(false)
 	var client_peer := ENetMultiplayerPeer.new()
@@ -176,6 +176,6 @@ func run() -> void:
 	quit(1 if failures else 0)
 
 func ui_text(node: Node) -> String:
-	var result: String = node.text if node is Label else ""
+	var result: String = Lang.text(node.text) if node is Label else ""
 	for child in node.get_children(): result += "\n" + ui_text(child)
 	return result

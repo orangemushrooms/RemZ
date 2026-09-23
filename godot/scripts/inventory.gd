@@ -4,6 +4,7 @@ extends CanvasLayer
 
 const Mushrooms = preload("res://scripts/mushrooms.gd")
 const MUSHROOMS = Mushrooms.DEFS
+const SlotButton = preload("res://scripts/item_slot_button.gd")
 
 var player: Player
 var weapons: Weapons
@@ -19,7 +20,7 @@ var active_label: Label
 var _effects_ui_t := 0.0
 var ach_label: Label
 var stats_label: Label
-const CATEGORIES := ["Alle", "Waffen", "Feuerwerk", "Vorräte", "Schlüssel"]
+const CATEGORIES := ["All", "Weapons", "Fireworks", "Supplies", "Keys"]
 var category_filter := 0
 var sort_order := 0
 var category_buttons: Array[Button] = []
@@ -65,7 +66,7 @@ func _ready() -> void:
 	var head := HBoxContainer.new()
 	v.add_child(head)
 	var title := Label.new()
-	title.text = "INVENTAR"
+	title.text = "INVENTORY"
 	title.add_theme_font_size_override("font_size", 26)
 	title.add_theme_color_override("font_color", Color(1.0, 0.7, 0.28))
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -97,7 +98,7 @@ func _ready() -> void:
 	filters.add_child(spacer)
 	sort_select = OptionButton.new()
 	sort_select.add_theme_font_size_override("font_size", 14)
-	for caption in ["Sortierung: Kategorie", "Name: A–Z", "Name: Z–A"]:
+	for caption in ["Sort: category", "Name: A–Z", "Name: Z–A"]:
 		sort_select.add_item(caption)
 	sort_select.item_selected.connect(_select_sort)
 	filters.add_child(sort_select)
@@ -139,7 +140,7 @@ func _ready() -> void:
 	info_panel.add_theme_stylebox_override("panel", ist)
 	v.add_child(info_panel)
 	info = Label.new()
-	info.text = "Fahre über einen Gegenstand für Details."
+	info.text = "Hover over an item for details."
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	info.custom_minimum_size = Vector2(760, 58)
 	info.add_theme_font_size_override("font_size", 17)
@@ -159,7 +160,7 @@ func _ready() -> void:
 	ach_label.custom_minimum_size = Vector2(760, 40)
 	v.add_child(ach_label)
 	var hint := Label.new()
-	hint.text = "Rechtsklick: Schnellzugriff (1-9 / 0) belegen  ·  I / Esc schliessen  ·  Klick auf eine Waffe: ausrüsten  ·  Klick auf Pilze: essen  ·  Waffen und Nachschub bei Vendor kaufen. Skins beim Händler für die ausgerüstete Waffe wählen."
+	hint.text = "Right click: assign a quick bar slot (1-9 / 0)  ·  I / Esc: close  ·  Click a weapon: equip  ·  Click mushrooms: eat  ·  Buy weapons and supplies from Vendor. Choose skins for the equipped weapon at the trader."
 	hint.add_theme_font_size_override("font_size", 12)
 	hint.add_theme_color_override("font_color", Color(0.6, 0.6, 0.55))
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -168,21 +169,23 @@ func _ready() -> void:
 func add_mushroom(kind: String) -> void:
 	if not MUSHROOMS.has(kind): return
 	mushrooms[kind] = mushrooms.get(kind, 0) + 1
-	hud.message("%s gesammelt (%d)" % [MUSHROOMS[kind]["name"], mushrooms[kind]], 1.5)
+	hud.message(Lang.t("%s collected (%d)", [MUSHROOMS[kind]["name"], mushrooms[kind]]), 1.5)
 	if main.achievements:
 		main.achievements.event("mushrooms")
 
 func _slot(title: String, sub: String, color: Color, detail: String, on_click: Callable, fill: float = -1.0, icon_id := "item", quick_id := "") -> void:
 	if category_filter != 0 and category_filter != _slot_category:
 		return
-	var b := preload("res://scripts/item_slot_button.gd").new()
+	var b := SlotButton.new()
 	b.set_meta("category", _slot_category)
 	b.set_meta("item_title", title)
 	b.set_meta("item_order", grid.get_child_count())
 	b.custom_minimum_size = Vector2(186, 190)
-	detail = detail.replace("  ·  ", "\n").replace(" · ", "\n")
+	# Title and detail stay portable text; the card and the detail panel resolve it when shown and put
+	# every " · " part of the detail on its own line (SlotButton.card_text).
+	var card := Lang.t("%s\n%s", [title, detail])
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
-	b.tooltip_text = title + "\n" + detail
+	b.tooltip_text = card
 	var content := VBoxContainer.new()
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	b.add_child(content)
@@ -216,11 +219,11 @@ func _slot(title: String, sub: String, color: Color, detail: String, on_click: C
 	b.add_theme_stylebox_override("pressed", hv)
 	b.add_theme_stylebox_override("focus", hv)
 	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	b.mouse_entered.connect(func(): info.text = title + "\n" + detail)
-	b.focus_entered.connect(func(): info.text = title + "\n" + detail)
+	b.mouse_entered.connect(func(): info.text = SlotButton.card_text(card))
+	b.focus_entered.connect(func(): info.text = SlotButton.card_text(card))
 	b.pressed.connect(on_click)
 	if not quick_id.is_empty():
-		b.tooltip_text += "\nRechtsklick: Schnellzugriff belegen (1-9 / 0)"
+		b.tooltip_text += "\n" + Lang.t("Right click: assign to the quick bar (1-9 / 0)")
 		b.gui_input.connect(func(event: InputEvent):
 			if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 				main.quickbar.offer_item(quick_id)
@@ -261,31 +264,32 @@ func _refresh() -> void:
 			if main.achievements.unlocked.has(d["id"]):
 				names.append(d["title"])
 			elif next.size() < 3:
-				next.append("%s (%d/%d)" % [d["text"], main.achievements.counters.get(d["counter"], 0), d["target"]])
-		ach_label.text = "★ %s · zuletzt: %s\nNächste Ziele: %s" % [main.achievements.progress_text(), names.back() if names.size() > 0 else "noch keiner", ", ".join(next)]
+				next.append(Lang.t("%s (%d/%d)", [d["text"], main.achievements.counters.get(d["counter"], 0), d["target"]]))
+		ach_label.text = Lang.t("★ %s · latest: %s\nNext goals: %s", [main.achievements.progress_text(), names.back() if names.size() > 0 else "none yet", ", ".join(next)])
 	if "stats" in main and main.stats:
 		var st = main.stats
-		stats_label.text = "Diese Runde: %d Abschüsse · %d Kopfschüsse · Treffer %d %% · Serie %d" % [st.kills, st.headshots, int(round(st.accuracy() * 100.0)), st.best_streak]
+		stats_label.text = Lang.t("This round: %d kills · %d headshots · accuracy %d%% · streak %d", [st.kills, st.headshots, int(round(st.accuracy() * 100.0)), st.best_streak])
 	_slot_category = 2
 	for id in Fireworks.DEFS:
 		var spec: Dictionary = Fireworks.DEFS[id]
 		var amount: int = main.fireworks.stock(player.peer_id)[id]
 		if amount <= 0: continue
-		_slot(spec.name, "%d Stück · Auswählen" % amount, spec.color, spec.desc + "\n\nANWENDUNG\nAuswählen schliesst das Inventar. Linksklick: " + ("aufstellen und zünden. Raketen und Batterien benötigen freien Himmel." if spec.rocket else "anzünden und werfen. Knall nach 2,4 Sekunden.") + "\nRechtsklick: zur Waffe. Kein Kampfschaden.", main.fireworks.select.bind(id), float(amount) / spec.limit, Fireworks.icon_id(id), id)
+		var usage := Lang.t("%s\n\nUSAGE\nSelecting closes the inventory. Left click: set up and light. Rockets and batteries need open sky.\nRight click: back to your weapon. No combat damage.", [spec.desc]) if spec.rocket else Lang.t("%s\n\nUSAGE\nSelecting closes the inventory. Left click: light and throw. Bang after 2.4 seconds.\nRight click: back to your weapon. No combat damage.", [spec.desc])
+		_slot(spec.name, Lang.t("%d owned · Select", [amount]), spec.color, usage, main.fireworks.select.bind(id), float(amount) / spec.limit, Fireworks.icon_id(id), id)
 	_slot_category = 3
 	var market = main.progression.rare_market
 	var rare: Dictionary = market.data(player.peer_id)
 	for id in rare.owned:
 		var spec: Dictionary = Player.RareItems.DEFS[id]
-		_slot(spec.name, "Aktiv" if rare.active == id else "Talisman aktivieren", Color(0.8, 0.45, 1), spec.desc + " Ein Talisman gleichzeitig aktiv.", market.request_equip.bind(id), -1, "relic", id)
+		_slot(spec.name, "Active" if rare.active == id else "Activate talisman", Color(0.8, 0.45, 1), Lang.t("%s One talisman active at a time.", [spec.desc]), market.request_equip.bind(id), -1, "relic", id)
 	if not rare.owned.is_empty():
-		_slot("Talisman ablegen", "Kein Talisman", Color(0.55, 0.5, 0.6), "Alle Talismane bleiben im Besitz.", market.request_equip.bind("none"), -1, "relic")
+		_slot("Unequip talisman", "No talisman", Color(0.55, 0.5, 0.6), "You keep all your talismans.", market.request_equip.bind("none"), -1, "relic")
 	for id in ["fire", "frost"]:
 		if int(rare.ammo[id]) <= 0: continue
 		var spec: Dictionary = Player.RareItems.DEFS[id]
-		_slot(spec.name, "%d Schüsse · %s" % [rare.ammo[id], "Aktiv" if rare.mode == id else "Aktivieren"], Color(1, 0.6, 0.2) if id == "fire" else Color(0.35, 0.8, 1), spec.desc + " Verbraucht zusätzlich zur normalen Munition eine Ladung pro Schuss, auch bei Fehlschüssen. Schrot: eine Ladung für alle Pellets.", market.request_equip.bind(id), -1, "ammo", id)
+		_slot(spec.name, Lang.t("%d rounds · %s", [rare.ammo[id], "Active" if rare.mode == id else "Activate"]), Color(1, 0.6, 0.2) if id == "fire" else Color(0.35, 0.8, 1), Lang.t("%s Uses one charge per shot on top of normal ammo, misses included. Shotgun: one charge for all pellets.", [spec.desc]), market.request_equip.bind(id), -1, "ammo", id)
 	if int(rare.ammo.fire) + int(rare.ammo.frost) > 0:
-		_slot("Normale Patronen", "Spezialmunition sparen", Color(0.6, 0.6, 0.5), "Deaktiviert Spezialmunition, ohne Vorräte zu verlieren.", market.request_equip.bind("normal"), -1, "ammo")
+		_slot("Normal rounds", "Save special ammo", Color(0.6, 0.6, 0.5), "Turns special ammo off without losing any of it.", market.request_equip.bind("normal"), -1, "ammo")
 	_slot_category = 1
 	for id in weapons.ORDER:
 		if not weapons.unlocked.get(id, false):
@@ -294,27 +298,27 @@ func _refresh() -> void:
 		var s: Dictionary = weapons.state[id]
 		var eq: bool = id == weapons.current
 		if Weapons.is_melee(id):
-			var detail := "%s · %d Schaden pro Schlag · %.2f s Schlagabstand · %.2f m Reichweite. Keine Munition. Angriff: Linksklick oder H." % [d.name, roundi(float(d.damage) * weapons.effective_damage_mul()), d.rate, d.range]
-			detail += "\nRechtsklick: %d Schaden, %.2f s Erholung, %.2f m Reichweite." % [roundi(float(d.stab_damage) * weapons.effective_damage_mul()), d.stab_rate, d.stab_range]
-			_slot(d.name + ("  ●" if eq else ""), "Nahkampf · Ausrüsten", Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45), detail, func(): main.fireworks.cancel(); weapons.set_weapon(id); _refresh(), 1.0, id, id)
+			var detail := Lang.t("%s · %d damage per hit · %.2f s between hits · %.2f m range. No ammo. Attack: left click or H.", [d.name, roundi(float(d.damage) * weapons.effective_damage_mul()), d.rate, d.range])
+			detail += "\n" + Lang.t("Right click: %d damage, %.2f s recovery, %.2f m range.", [roundi(float(d.stab_damage) * weapons.effective_damage_mul()), d.stab_rate, d.stab_range])
+			_slot(Lang.t("%s  ●", [d.name]) if eq else d.name, "Melee · Equip", Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45), detail, func(): main.fireworks.cancel(); weapons.set_weapon(id); _refresh(), 1.0, id, id)
 			continue
 		var per_second := 1.0 / maxf(0.01, float(d["rate"]))
 		var dps := float(d["damage"]) * float(d["pellets"]) * per_second * weapons.effective_damage_mul()
-		var detail := "%s%s  ·  Magazin %d / %d, Reserve %d  ·  Schaden %d%s pro Schuss (×%.1f Skill), Kopfschuss ×2.2  ·  %.1f Schuss/s (%d Schaden/s)  ·  Reichweite %d m  ·  Nachladen %.1f s" % [
-			d["name"], "  (ausgerüstet)" if eq else "", s["ammo"], int(d["mag"]), s["reserve"], int(d["damage"]), " × %d Schrot" % int(d["pellets"]) if int(d["pellets"]) > 1 else "", weapons.effective_damage_mul(), per_second, int(dps), int(d["range"]), float(d["reload"]) * weapons.effective_reload_mul()]
+		var detail := Lang.t("%s%s  ·  Magazine %d / %d, reserve %d  ·  Damage %d%s per shot (×%.1f skill), headshot ×2.2  ·  %.1f rounds/s (%d damage/s)  ·  Range %d m  ·  Reload %.1f s", [
+			d["name"], "  (equipped)" if eq else "", s["ammo"], int(d["mag"]), s["reserve"], int(d["damage"]), Lang.t(" × %d pellets", [int(d["pellets"])]) if int(d["pellets"]) > 1 else "", weapons.effective_damage_mul(), per_second, int(dps), int(d["range"]), float(d["reload"]) * weapons.effective_reload_mul()])
 		var fill := float(s["ammo"] + s["reserve"]) / float(int(d["mag"]) + int(d["reserve"]))
 		detail += "\n" + Weapons.Mods.summary(weapons.mod_loadout.get(id, {}))
 		if d.has("pierce_targets"): detail += "\n" + Weapons.piercing_description(id, d)
-		_slot(d["name"] + ("  ●" if eq else ""), "%d / %d  ·  Ausrüsten" % [s["ammo"], s["reserve"]], Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45),
+		_slot(Lang.t("%s  ●", [d["name"]]) if eq else d["name"], Lang.t("%d / %d  ·  Equip", [s["ammo"], s["reserve"]]), Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45),
 			detail, func(): main.fireworks.cancel(); weapons.set_weapon(id); _refresh(), fill, id, id)
 	if weapons.grenades > 0:
-		_slot("Granaten", "%d Stück  ·  Taste G" % weapons.grenades, Color(0.4, 0.5, 0.35), "Handgranaten: 2,6 s Zünder, 7 m Radius, 260 Schaden im Zentrum. Werfen mit G. Taschenlimit: %d. Nachschub bei Vendor oder von gefallenen Zombies." % weapons.grenades_max, func(): pass, float(weapons.grenades) / maxf(1.0, weapons.grenades_max), "grenade", "grenade")
+		_slot("Grenades", Lang.t("%d owned  ·  Key G", [weapons.grenades]), Color(0.4, 0.5, 0.35), Lang.t("Hand grenades: 2.6 s fuse, 7 m radius, 260 damage at the center. Throw with G. Pouch limit: %d. Restock at Vendor or from fallen zombies.", [weapons.grenades_max]), func(): pass, float(weapons.grenades) / maxf(1.0, weapons.grenades_max), "grenade", "grenade")
 	_slot_category = 3
 	for kind in main.hunting.FOOD:
 		var count := int(main.hunting.stock(player.peer_id).get(kind, 0))
 		if count <= 0: continue
 		var spec: Dictionary = main.hunting.FOOD[kind]
-		_slot(spec.name, "%d Stück · %s" % [count, "Essen" if kind == "cooked_meat" else "Am Lager grillen"], Color(0.72, 0.34, 0.2), spec.text + "\nVerkauf: %d R pro Stück beim Vendor." % spec.sell, func():
+		_slot(spec.name, Lang.t("%d owned · %s", [count, "Eat" if kind == "cooked_meat" else "Grill at the camp"]), Color(0.72, 0.34, 0.2), Lang.t("%s\nSale: %d R each at Vendor.", [spec.text, spec.sell]), func():
 			if kind == "cooked_meat": main.hunting.request("eat")
 			else: info.text = spec.text, -1, kind, kind if kind == "cooked_meat" else "")
 	for k in MUSHROOMS:
@@ -322,21 +326,24 @@ func _refresh() -> void:
 		if n <= 0: continue
 		var md: Dictionary = MUSHROOMS[k]
 		if md.get("collectible", false):
-			_slot(md.name, "%d Stück · 1000 R Verkauf" % n, md.color, md.text, func(): info.text = md.text, -1, k)
+			_slot(md.name, Lang.t("%d owned · sells for 1000 R", [n]), md.color, md.text, func(): info.text = md.text, -1, k)
 			continue
-		_slot(md["name"], "%d Stück  ·  Klick: essen" % n, md["color"] if n > 0 else Color(0.3, 0.3, 0.3), "WIRKUNG\n" + str(md["text"]).replace("; ", "\n") + "\n\nVERKAUF\n%d R pro Stück beim Vendor\n\nANWENDUNG\nKlick: essen · E: im Wald sammeln\nGleiche Effekte stapeln nicht. Erneutes Essen erneuert die Dauer." % md.sell, func(): _eat(k), -1, k, k)
+		# One effect per line: the split has to run on the translated text, so it is resolved here (the
+		# inventory is rebuilt on every opening, in the language of the moment).
+		var effect := Lang.raw(Lang.text(str(md["text"])).replace("; ", "\n"))
+		_slot(md["name"], Lang.t("%d owned  ·  Click: eat", [n]), md["color"] if n > 0 else Color(0.3, 0.3, 0.3), Lang.t("EFFECT\n%s\n\nSALE\n%d R each at Vendor\n\nUSAGE\nClick: eat · E: gather in the forest\nIdentical effects do not stack. Eating again renews the duration.", [effect, md.sell]), func(): _eat(k), -1, k, k)
 
 	_slot_category = 4
 	if main.forest_keys:
 		for key_id: String in ForestKeys.KEYS:
 			var found: bool = main.forest_keys.has_key(key_id)
 			if not found: continue
-			var detail := "Schlüssel für %s. %s" % [ForestKeys.KEYS[key_id], "Bleibt bei dir und öffnet alle Türen dieser Hütte." if found else "Ein seltener Fund im Wald – nicht in jedem Durchlauf vorhanden. In der Nähe helfen Hinweis und Richtungspfeil."]
-			_slot("Schlüssel: %s" % ForestKeys.KEYS[key_id], "Gefunden" if found else "Noch nicht gefunden", Color(0.95, 0.73, 0.32) if found else Color(0.3, 0.3, 0.3), detail, func(): info.text = detail, -1, "key")
+			var detail := Lang.t("Key for the %s. Stays with you and opens every door of this hut.", [ForestKeys.KEYS[key_id]]) if found else Lang.t("Key for the %s. A rare find in the forest – not there in every run. Nearby, a hint and a direction arrow help.", [ForestKeys.KEYS[key_id]])
+			_slot(Lang.t("Key: %s", [ForestKeys.KEYS[key_id]]), "Found" if found else "Not found yet", Color(0.95, 0.73, 0.32) if found else Color(0.3, 0.3, 0.3), detail, func(): info.text = detail, -1, "key")
 
 	_sort_slots()
 	empty_label.visible = grid.get_child_count() == 0
-	empty_label.text = "Keine Gegenstände vorhanden." if category_filter == 0 else "Keine Gegenstände in der Kategorie %s." % CATEGORIES[category_filter]
+	empty_label.text = "No items." if category_filter == 0 else Lang.t("No items in the %s category.", [CATEGORIES[category_filter]])
 
 func _select_category(index: int) -> void:
 	category_filter = index
@@ -351,7 +358,12 @@ func _select_sort(index: int) -> void:
 
 func _reset_item_view() -> void:
 	item_scroll.scroll_vertical = 0
-	info.text = "Fahre über einen Gegenstand für Details."
+	info.text = "Hover over an item for details."
+
+func _notification(what: int) -> void:
+	# The detail panel may still hold the resolved card of the last hovered item.
+	if what == NOTIFICATION_TRANSLATION_CHANGED and info:
+		info.text = "Hover over an item for details."
 
 func _sort_slots() -> void:
 	var slots := grid.get_children()
@@ -360,7 +372,8 @@ func _sort_slots() -> void:
 			var ac := int(a.get_meta("category"))
 			var bc := int(b.get_meta("category"))
 			return ac < bc if ac != bc else int(a.get_meta("item_order")) < int(b.get_meta("item_order"))
-		var comparison := str(a.get_meta("item_title")).naturalnocasecmp_to(str(b.get_meta("item_title")))
+		# Titles are portable text: sort by the names the player reads.
+		var comparison := Lang.text(str(a.get_meta("item_title"))).naturalnocasecmp_to(Lang.text(str(b.get_meta("item_title"))))
 		return comparison < 0 if sort_order == 1 else comparison > 0)
 	for i in slots.size():
 		grid.move_child(slots[i], i)
@@ -378,7 +391,7 @@ func _eat(kind: String) -> void:
 		return
 	if kind == "fliegenpilz" and main.achievements: main.achievements.event("rausch")
 	main.stats.mushrooms_eaten += 1
-	hud.message("%s: %s" % [MUSHROOMS[kind].name, MUSHROOMS[kind].text], 3.0)
+	hud.message(Lang.t("%s: %s", [MUSHROOMS[kind].name, MUSHROOMS[kind].text]), 3.0)
 	Sfx.play(self, "consume", -8.0)
 	_refresh()
 

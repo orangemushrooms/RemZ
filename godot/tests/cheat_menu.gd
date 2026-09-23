@@ -34,7 +34,7 @@ func run() -> void:
 	check(not game.hud.minimap.reveal_secret, "Opening the menu does not toggle the secret vendor")
 	var starting_points: int = game.player.score
 	menu.points_button.pressed.emit()
-	check(game.player.score == starting_points + 1000 and menu.status.text.contains(str(game.player.score)), "Points button credits 1000 points and updates the displayed balance while paused")
+	check(game.player.score == starting_points + 1000 and Lang.text(menu.status.text).contains(str(game.player.score)), "Points button credits 1000 points and updates the displayed balance while paused")
 	menu.points_button.pressed.emit()
 	check(game.player.score == starting_points + 2000 and menu.is_open and paused, "Points button can be used repeatedly without closing or resuming the game")
 	# Weapon cheat: any weapon, unlocked with a full magazine and a full reserve, straight into the hands.
@@ -44,7 +44,7 @@ func run() -> void:
 	var belt: Dictionary = w.state["minigun"]
 	check(w.unlocked.get("minigun", false) and w.current == "minigun", "The weapon button unlocks the minigun and puts it in the hands")
 	check(int(belt.ammo) == int(belt.def.mag) and int(belt.reserve) == w.reserve_limit("minigun"), "The minigun comes with a full belt and a full reserve (%d + %d)" % [belt.ammo, belt.reserve])
-	check(menu.is_open and paused and menu.weapon_note.text.contains(str(Weapons.DEFS["minigun"].name)), "The menu stays open and names what was handed out")
+	check(menu.is_open and paused and Lang.text(menu.weapon_note.text).contains(str(Weapons.DEFS["minigun"].name)), "The menu stays open and names what was handed out")
 	belt.ammo = 3
 	belt.reserve = 0
 	menu.weapon_buttons["minigun"].pressed.emit()

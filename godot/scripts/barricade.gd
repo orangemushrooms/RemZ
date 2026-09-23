@@ -229,7 +229,7 @@ func update_attack_alert(seconds: float, notify := true) -> void:
 	var was_under_attack := under_attack()
 	attack_alert_remaining = maxf(0.0, seconds) if level > 0 and hp > 0.0 else 0.0
 	if notify and under_attack() and not was_under_attack and hud:
-		hud.message("WARNUNG: %s wird angegriffen!" % slot["name"], 3.0)
+		hud.message(Lang.t("WARNING: %s is under attack!", [slot["name"]]), 3.0)
 
 func _process(delta: float) -> void:
 	attack_alert_remaining = maxf(0.0, attack_alert_remaining - delta) if level > 0 else 0.0
@@ -295,7 +295,7 @@ func damage(n: float) -> void:
 	update_attack_alert(ATTACK_ALERT_SECONDS)
 	if hp <= 0.0:
 		level = 0
-		hud.message("Barrikade %s durchbrochen!" % slot["name"], 2.0)
+		hud.message(Lang.t("Barricade %s breached!", [slot["name"]]), 2.0)
 		Sfx.play_at(get_parent(), "barricade_break", center, 0.0)
 		rebuild()
 	else:
@@ -359,20 +359,20 @@ func placement_blocked(player: Player) -> bool:
 
 func action_error(player: Player, action: String, require_reach := true) -> String:
 	if not player.alive:
-		return "Bauen ist momentan nicht möglich."
+		return "Building is not possible right now."
 	if action != "build" and action != "repair":
-		return "Unbekannte Aktion."
+		return "Unknown action."
 	if require_reach and distance_to_line(player.global_position) > BUILD_REACH:
-		return "Zu weit entfernt. Gehe auf höchstens 6 m an die Linie heran."
+		return "Too far away. Move within 6 m of the line."
 	if action == "build" and level >= MAX_LEVEL:
-		return "Maximale Ausbaustufe erreicht."
+		return "Maximum upgrade tier reached."
 	if action == "repair" and (level == 0 or hp >= max_hp()):
-		return "Keine Reparatur nötig."
+		return "No repair needed."
 	var cost := COST_REPAIR if action == "repair" else COST_BUILD
 	if player.score < cost:
-		return "Es fehlen %d Rem Dollars." % (cost - player.score)
+		return Lang.t("You are %d Rem Dollars short.", [cost - player.score])
 	if action == "build" and level == 0 and placement_blocked(player):
-		return "Baufläche belegt. Du oder ein Gegner stehen in der Linie."
+		return "Building area occupied. You or an enemy is standing in the line."
 	return ""
 
 func purchase(player: Player, action: String, require_reach := true) -> bool:
@@ -389,7 +389,8 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 	return true
 
 func prompt_text() -> String:
-	return "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren%s" % [slot["name"], "Bauplatz" if level == 0 else "Stufe %d · %d/%d" % [level, ceili(hp), int(max_hp())], half_len * 2.0, "  ·  Leertaste: drüberklettern" if level > 0 else ""]
+	if level == 0: return Lang.t("[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair", [slot["name"], "Building site", half_len * 2.0])
+	return Lang.t("[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair  ·  Space: climb over", [slot["name"], Lang.t("Tier %d · %d/%d", [level, ceili(hp), int(max_hp())]), half_len * 2.0])
 
 func interact(player: Player) -> void:
 	# Scripted callers keep the original shortcut; the game opens the planner.

@@ -25,7 +25,7 @@ achievements as a union, high scores merged to the top 10, marker `legacy_import
   only openings are the 4 barricade slots = gates (E / planner V; the player vaults a built gate with Space), the
   Waldhütte's own health (`hut_health.gd`, 5000 HP: 35 % of the zombies are "raiders" that head for its walls once
   inside the ring, every zombie within 9 m of a wall hits it, titan strikes hurt it, HUD line under the wave bar,
-  minimap pulse and "ACHTUNG: DIE WALDHÜTTE WIRD ANGEGRIFFEN!"; E at a wall repairs 500 HP for 30 P; at zero the
+  minimap pulse and `HutHealth.WARNING` ("WARNING: THE FOREST HUT IS UNDER ATTACK!"); E at a wall repairs 500 HP for 30 P; at zero the
   round is lost, `main._hut_lost` / `CoopWorld.hut_lost`; `--suite=hut_health` has 19 checks), 17 buyable weapons with
   COD-style recoil + ADS (the eight from the September 2026 expansion carry a `special` block, see
   `weapon_specials.gd`), melee gun butt (H), grenades (G), quest tracker (Q), live round leaderboard (hold Tab), inventory (B), 6 zombie types with
@@ -35,7 +35,7 @@ achievements as a union, high scores merged to the top 10, marker `legacy_import
   persistent top-10 table (`run_stats.gd`, `user://highscores.json`), 28 achievements, fleeing deer, procedural
   ambience (wind, fire, birds, footsteps per surface, heartbeat when low) plus recorded music/SFX, HUD with
   low-health vignette, hit-direction arcs and a wave progress bar. The start / pause / game-over menu is one
-  tabbed card in `hud.gd` (Briefing, Schwierigkeit, Steuerung, Einstellungen, Bestenliste, Erfolge, Bilanz).
+  tabbed card in `hud.gd` (Briefing, Multiplayer, Difficulty, Controls, Settings, High scores, Achievements, Summary).
 
 ## Code map (`godot/scripts/`)
 `main.gd` builds the whole world in `_ready` (terrain from the heightmap, road ribbons, forest via `trees.gd`,
@@ -197,15 +197,35 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   for the owl - and drives take-off burst, cruise, glide and landing from it; the curves are negated because the
   rig's roll axis points the other way. `--suite=cornfield --render-corn` renders `raven-flight` (top of the
   stroke) and `raven-downstroke`.
-- Intro (`intro.gd`): after "Spiel starten" a KONM Games card with `assets/audio/music/intro.mp3`, then the
+- Intro (`intro.gd`): after "Start game" a KONM Games card with `assets/audio/music/intro.mp3`, then the
   player wakes in dense fog at the south end of the Sennhofstrasse (136, 108) and is guided by a typewriter
   briefing and a HUD arrow along waypoints to the hut. Fog and intro music fade with the distance to the hut;
   reaching the Weg zur Hütte fires `road_reached` -> wave 1 (`waves.phase == "intro"` blocks the countdown
   until then). `--no-intro` skips it (autotest, benchmark and `--view=` skip automatically), `--intro-test`
   runs it headless-ish and saves `shots/intro_wake.png` / `intro_road.png`.
 
+## Language (English default, German optional)
+- Every player-facing text in the code is **English**; German is a translation the player picks under
+  Settings > Language (`[game] language` in settings.cfg; never taken from the Windows locale). `lang.gd`
+  (`class_name Lang`, autoload `Language`) installs the catalogues, `godot/locale/de.po` maps English msgid ->
+  German msgstr (Swiss `ss`, real umlauts). Rules and glossary: `docs/LOCALIZATION.md`. In short: plain English
+  literals on labels / buttons / Label3D / tooltips (Godot auto-translates them and follows a live switch),
+  `Lang.t("... %d", [n])` for anything composed (a portable segment: the co-op client translates what the host
+  built into its own language; string args such as weapon names are translated too, `Lang.raw(name)` keeps one),
+  `Lang.text()` for draw_string and other sinks Godot does not translate, never `tr()`, never logic on displayed
+  text. Shared keys that used to be German are English now: day phases Morning/Day/Evening/Night, mod slots
+  Muzzle/Magazine/Bolt/Barrel, shop pages Trade/Quests/Rarities/..., gate names from `Map.GATE_NAMES`
+  (map.json keeps the local names).
+- New or changed text needs its German entry: a fragment `{"English": "Deutsch"}` + `python tools/i18n.py merge
+  x.json`, then `python tools/i18n.py check` must report 0 problems (`review` lists English literals without an
+  entry). `--suite=language --smoke-test --no-intro --no-music --no-foliage` sweeps every menu, shop page, the HUD,
+  world labels, pause and game over: the English run fails on German left in the game, the same run with
+  `--lang=de` on text without a German entry. Test runs are English unless `--lang=` is given (it also works for
+  `--shot-ui` / `--views=`); a label holding a `Lang.t` segment is read in tests as `Lang.text(label.text)`.
+
 ## Testing
-- `godot --headless --path godot --quit-after 150` catches script errors.
+- `godot --headless --path godot --quit-after 150` catches script errors;
+  `--script res://tests/run.gd -- --suite=compile_all` loads every script and test in ~3 s.
 - Perimeter: `--suite=perimeter --smoke-test --no-intro --no-music` (headless, 17 checks: ring closed, roads only
   through gates, navmesh paths from every lane enter through a gate, sealed gates keep zombies outside and get
   attacked, a broken gate lets them in, Space vaults a built gate) and `--suite=perimeter_visual --no-intro` ->
@@ -250,9 +270,9 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   may only touch Weapons CONSTANTS - calling a Weapons function drags NetSession in and the run dies.
 - Economy: points are the only currency. `main.KILL_VALUE` (0.6) scales the kill bounty, the wave bonus is
   20 + 6 n, quest "arrival" pays 20; the HUD shows the balance bottom-left in gold with a +/- delta popup.
-  "Nochmal" / "Neue Runde" rebuild the scene and start the next round directly (`NetSession.restart_pending`
+  "Play again" / "New round" rebuild the scene and start the next round directly (`NetSession.restart_pending`
   offline, `_auto_start` for the coop host); `--suite=menu_flow --smoke-test --no-intro --no-music --no-foliage`
-  checks zombie damage, death -> Nochmal, pause -> Hauptmenü and the coop restart (11 checks, ~45 s).
+  checks zombie damage, death -> Play again, pause -> main menu and the coop restart (11 checks, ~45 s).
 - Loading screen (`boot_screen.gd`): main builds the world in one long `_ready` and `BootScreen.step()` force-draws
   a frame after every build step. Controls record their draw commands only on the next idle frame, which never
   comes inside `_ready`, so the screen paints with RenderingServer calls on its own canvas item. As Labels it
@@ -262,9 +282,9 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   827 x 959 px, imported with mipmaps); `BootScreen.crest_rect` makes it as tall as the window allows but never
   more than 1.1x its own pixels on the physical screen. `--suite=start_exposure --no-music` (windowed, no
   --smoke-test, 14 checks) reads back every frame from the first loading step through menu, intro and pause ->
-  Hauptmenü and fails on a blown-out frame, a loading-screen frame whose outer strips are not the dark ink, or a
+  main menu and fails on a blown-out frame, a loading-screen frame whose outer strips are not the dark ink, or a
   loading screen without the crest. `frame_post_draw` reports the previous frame.
-- Cheat menu (Strg+Shift+D, `cheat_menu.gd`): +1000 R, skip wave, minimap reveals and every weapon of
+- Cheat menu (Ctrl+Shift+D, `cheat_menu.gd`): +1000 R, skip wave, minimap reveals and every weapon of
   `Weapons.ORDER` with a full magazine (mods included) and the reserve at `reserve_limit` (`fill_weapon`, also
   cools a plasma barrel); the chosen weapon goes straight into the hands, "Alle Waffen" fills all of them.
   Host / solo only, like the other cheats. `--suite=cheat_menu --smoke-test --no-intro --no-music --no-foliage`

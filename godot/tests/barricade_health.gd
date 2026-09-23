@@ -38,7 +38,7 @@ func run() -> void:
 	bar.build()
 	check(bar.health_display.visible and bar.health_label.text == "300 / 300", "Rebuilding restores the display")
 	bar.damage(10)
-	check(bar.under_attack() and game.hud.msg_label.text.contains(str(bar.slot.name)), "Damage highlights the attacked line and names it in a warning")
+	check(bar.under_attack() and Lang.text(game.hud.msg_label.text).contains(str(bar.slot.name)), "Damage highlights the attacked line and names it in a warning")
 	game.hud.message("No repeated warning", 3.0)
 	bar.damage(10)
 	check(game.hud.msg_label.text == "No repeated warning", "Repeated hits extend alert without warning spam")

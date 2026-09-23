@@ -44,8 +44,8 @@ func targetable() -> bool:
 	return alive and phase in ["emerge", "exposed", "windup", "recovery", "dive"]
 
 func status_label() -> String:
-	if not targetable(): return "UNTER DER ERDE"
-	return "ANGRIFF" if phase == "windup" else "VERWUNDBAR"
+	if not targetable(): return "UNDERGROUND"
+	return "ATTACKING" if phase == "windup" else "VULNERABLE"
 
 func aim_point() -> Vector3:
 	# The tail is buried even while attacking; towers aim at exposed mid-body.

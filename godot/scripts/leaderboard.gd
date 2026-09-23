@@ -40,7 +40,7 @@ func setup(node: Node) -> void:
 	box.add_child(_label("LEADERBOARD", 28, Hud.PAPER))
 	subtitle = _label("", 16, Hud.GOLD)
 	box.add_child(subtitle)
-	box.add_child(_row(["#", "SPIELER", "KILLS", "HEADSHOTS", "DEATHS", "TITAN KILLS", "ASSISTS", "REM DOLLARS", "PING"], true))
+	box.add_child(_row(["#", "PLAYER", "KILLS", "HEADSHOTS", "DEATHS", "TITAN KILLS", "ASSISTS", "REM DOLLARS", "PING"], true))
 	scroll = ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.focus_mode = Control.FOCUS_NONE
@@ -50,7 +50,7 @@ func setup(node: Node) -> void:
 	rows_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rows_box.add_theme_constant_override("separation", 4)
 	scroll.add_child(rows_box)
-	var help := _label("TAB halten · Q Aufträge · Rem Dollars = Guthaben · Ping zum Host\nHeadshots = Kills durch Kopfschuss. Assists = Schaden beigetragen, Mitspieler erzielt den Kill.", 14, Hud.MUTED)
+	var help := _label("Hold TAB · Q quests · Rem Dollars = balance · ping to the host\nHeadshots = kills by headshot. Assists = damage dealt, a teammate got the kill.", 14, Hud.MUTED)
 	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	box.add_child(help)
 	panel.hide()
@@ -117,7 +117,7 @@ func refresh() -> void:
 	if signature == _signature: return
 	_signature = signature
 	scroll.custom_minimum_size.y = minf(260, entries.size() * 51)
-	subtitle.text = "%s · WELLE %d · %s" % ["KOOP" if NetSession.enabled else "SOLO", maxi(1, game.waves.wave), "RUNDENENDE" if game.over else "LAUFENDE RUNDE"]
+	subtitle.text = Lang.t("%s · WAVE %d · %s", ["CO-OP" if NetSession.enabled else "SOLO", maxi(1, game.waves.wave), "ROUND OVER" if game.over else "ROUND IN PROGRESS"])
 	for child in rows_box.get_children():
 		rows_box.remove_child(child)
 		child.queue_free()
@@ -125,7 +125,8 @@ func refresh() -> void:
 	for entry: Dictionary in entries:
 		rank += 1
 		var local: bool = int(entry.id) == NetSession.local_id()
-		var display_name := str(entry.name) + (" · DU" if local else "") + (" · OFFLINE" if not entry.connected else "")
+		# A raw segment keeps a name that matches a game text (the default "Player") from being translated.
+		var display_name := Lang.t("%s", [Lang.raw(str(entry.name))]) + (" · " + Lang.t("YOU") if local else "") + (" · " + Lang.t("OFFLINE") if not entry.connected else "")
 		var ping: int = entry.get("ping_ms", -1)
 		var ping_text := "%d ms" % ping if entry.connected and ping >= 0 else "—"
 		rows_box.add_child(_row([rank, display_name, entry.kills, entry.headshots, entry.deaths, entry.titan_kills, entry.assists, entry.get("score", 0), ping_text], false, local))

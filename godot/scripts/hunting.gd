@@ -3,8 +3,8 @@ extends Node3D
 # All damage, drops and food transactions belong to the host. Animal IDs are stable
 # across peers; the snapshot also restores deaths and uncollected meat for late joins.
 const FOOD := {
-	"raw_meat": {"name": "Rohes Wildfleisch", "sell": 12, "text": "Am Lagergrill mit E zubereiten (6 Sekunden). Oder beim Vendor verkaufen."},
-	"cooked_meat": {"name": "Gegrilltes Wildfleisch", "sell": 20, "text": "Essen heilt 35 Leben. Bei voller Gesundheit wird nichts verbraucht."},
+	"raw_meat": {"name": "Raw Venison", "sell": 12, "text": "Cook it on the camp grill with E (6 seconds). Or sell it to the Vendor."},
+	"cooked_meat": {"name": "Grilled Venison", "sell": 20, "text": "Eating it heals 35 health. Nothing is used up at full health."},
 }
 const COOK_TIME := 6.0
 var game: Node3D
@@ -149,43 +149,43 @@ func at_grill(p: Player) -> bool:
 	return reachable(p, game.grill_position, 3.4)
 
 func prompt(p: Player, drop: int) -> String:
-	if drop >= 0: return "[E] Wildfleisch aufnehmen · %d Stück" % drops[drop].amount
-	if jobs.has(p.peer_id): return "Grill · noch %d s" % ceili(float(jobs[p.peer_id]))
-	return "[E] Wildfleisch grillen · 6 s · %d roh" % int(stock(p.peer_id).raw_meat)
+	if drop >= 0: return Lang.t("[E] Pick up venison · %d pieces", [drops[drop].amount])
+	if jobs.has(p.peer_id): return Lang.t("Grill · %d s left", [ceili(float(jobs[p.peer_id]))])
+	return Lang.t("[E] Grill venison · 6 s · %d raw", [int(stock(p.peer_id).raw_meat)])
 
 func request(action: String, id := -1) -> void:
 	if NetSession.enabled: NetSession.command("hunting", [action, id])
 	else: game.hud.message(transact(game.player, action, id), 2.5)
 
 func transact(p: Player, action: String, id := -1) -> String:
-	if NetSession.is_client() or not p.alive or game.over: return "Gerade nicht möglich."
+	if NetSession.is_client() or not p.alive or game.over: return "Not possible right now."
 	var food := stock(p.peer_id)
 	match action:
 		"collect":
-			if not drops.has(id) or not reachable(p, drops[id].position): return "Gehe zur Beute."
+			if not drops.has(id) or not reachable(p, drops[id].position): return "Go to the kill."
 			var amount: int = drops[id].amount
 			food.raw_meat += amount
 			drops.erase(id)
 			_sync_visuals()
 			Sfx.event(game, p.peer_id, "pickup")
-			return "%d Stück Wildfleisch gesammelt" % amount
+			return Lang.t("%d pieces of venison collected", [amount])
 		"cook":
-			if not at_grill(p): return "Gehe zum Lagergrill."
-			if jobs.has(p.peer_id): return "Dein Fleisch liegt bereits auf dem Grill."
-			if int(food.raw_meat) <= 0: return "Kein rohes Fleisch im Inventar."
+			if not at_grill(p): return "Go to the camp grill."
+			if jobs.has(p.peer_id): return "Your meat is already on the grill."
+			if int(food.raw_meat) <= 0: return "No raw meat in your inventory."
 			food.raw_meat -= 1
 			jobs[p.peer_id] = COOK_TIME
-			return "Wildfleisch wird gegrillt · 6 Sekunden"
+			return "Grilling venison · 6 seconds"
 		"eat":
-			if int(food.cooked_meat) <= 0: return "Kein gegrilltes Fleisch im Inventar."
-			if p.hp >= p.max_hp: return "Deine Gesundheit ist bereits voll."
+			if int(food.cooked_meat) <= 0: return "No grilled meat in your inventory."
+			if p.hp >= p.max_hp: return "Your health is already full."
 			food.cooked_meat -= 1
 			p.hp = minf(p.max_hp, p.hp + 35.0)
 			p.hud.set_health(p.hp)
 			Sfx.event(game, p.peer_id, "consume")
 			if p == game.player and game.inventory.is_open: game.inventory._refresh()
-			return "Wildfleisch gegessen · +35 Leben"
-	return "Unbekannte Aktion."
+			return "Venison eaten · +35 health"
+	return "Unknown action."
 
 func _process(delta: float) -> void:
 	if not game or not game.started or game.over: return
@@ -201,8 +201,8 @@ func _process(delta: float) -> void:
 		jobs.erase(peer)
 		stock(peer).cooked_meat += 1
 		if peer == game.player.peer_id and game.inventory.is_open: game.inventory._refresh()
-		if NetSession.enabled: NetSession.feedback(peer, "message", ["Wildfleisch fertig · im Inventar essen oder verkaufen", 3.0])
-		else: game.hud.message("Wildfleisch fertig · im Inventar essen oder verkaufen", 3.0)
+		if NetSession.enabled: NetSession.feedback(peer, "message", ["Venison ready · eat or sell it from the inventory", 3.0])
+		else: game.hud.message("Venison ready · eat or sell it from the inventory", 3.0)
 
 func _sync_visuals() -> void:
 	for id in visuals.keys():
@@ -213,7 +213,7 @@ func _sync_visuals() -> void:
 		if visuals.has(id): continue
 		var node := meat_model(false)
 		var caption := Label3D.new()
-		caption.text = "Wildfleisch ×%d" % drops[id].amount
+		caption.text = Lang.t("Venison ×%d", [drops[id].amount])
 		caption.position.y = 0.8
 		caption.font_size = 26
 		caption.pixel_size = 0.004

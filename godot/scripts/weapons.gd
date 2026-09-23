@@ -14,11 +14,11 @@ const Attachments = preload("res://scripts/weapon_attachments.gd")
 const Specials = preload("res://scripts/weapon_specials.gd")
 
 const DEFS := {
-	"knife": {"name": "Feldmesser", "model": "knife_real", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 4.4, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "knife_swing", "shove": 3.5,
+	"knife": {"name": "Field Knife", "model": "knife_real", "melee": true, "height": 0.37, "stab_damage": 110.0, "stab_rate": 0.85, "stab_range": 4.4, "mag": 0, "reserve": 0, "damage": 55.0, "rate": 0.42, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 1.85, "auto": false, "sfx": "knife_swing", "shove": 3.5,
 		"pos": Vector3(0.29, -0.23, -0.57), "ads": Vector3(0.29, -0.23, -0.57), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 8.0},
-	"hatchet": {"name": "Waldaxt", "model": "hatchet_real", "melee": true, "height": 0.57, "stab_damage": 225.0, "stab_rate": 1.45, "stab_range": 5.0, "mag": 0, "reserve": 0, "damage": 125.0, "rate": 0.95, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 2.35, "auto": false, "sfx": "melee", "shove": 7.0,
+	"hatchet": {"name": "Forest Axe", "model": "hatchet_real", "melee": true, "height": 0.57, "stab_damage": 225.0, "stab_rate": 1.45, "stab_range": 5.0, "mag": 0, "reserve": 0, "damage": 125.0, "rate": 0.95, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 2.35, "auto": false, "sfx": "melee", "shove": 7.0,
 		"pos": Vector3(0.28, -0.30, -0.65), "ads": Vector3(0.28, -0.30, -0.65), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 5.0},
-	"pistol":   { "name": "Pistole", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
+	"pistol":   { "name": "Pistol", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 72, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 2.6, "kick_yaw": 0.75, "kick_back": 0.08, "recover": 7.0 },
 	"revolver": { "name": "Revolver", "model": "revolver", "height": 0.13, "mag": 6, "reserve": 30, "damage": 95.0, "rate": 0.45, "reload": 2.2, "pellets": 1, "spread": 0.008, "range": 80.0, "auto": false, "sfx": "revolver", "sfx_db": -11.0,
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 6.8, "kick_yaw": 1.6, "kick_back": 0.15, "recover": 5.5 },
@@ -26,15 +26,15 @@ const DEFS := {
 				  "pos": Vector3(0.24, -0.22, -0.55), "ads": Vector3(0.0, -0.135, -0.4), "kick_pitch": 1.35, "kick_yaw": 0.65, "kick_back": 0.055, "recover": 9.0 },
 	"ak47":     { "name": "AK-47", "model": "ak47", "height": 0.18, "mag": 30, "reserve": 90, "damage": 42.0, "rate": 0.1, "reload": 2.0, "pellets": 1, "spread": 0.022, "range": 90.0, "auto": true, "sfx": "ak47", "sfx_db": -17.0,
 				  "pos": Vector3(0.24, -0.23, -0.58), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 2.2, "kick_yaw": 1.05, "kick_back": 0.085, "recover": 7.5 },
-	"shotgun":  { "name": "Schrotflinte", "model": "rifle", "height": 0.16, "mag": 6, "reserve": 24, "damage": 22.0, "rate": 0.85, "reload": 2.0, "pellets": 8, "spread": 0.07, "range": 28.0, "auto": false, "sfx": "shotgun", "sfx_db": -7.0,
+	"shotgun":  { "name": "Shotgun", "model": "rifle", "height": 0.16, "mag": 6, "reserve": 24, "damage": 22.0, "rate": 0.85, "reload": 2.0, "pellets": 8, "spread": 0.07, "range": 28.0, "auto": false, "sfx": "shotgun", "sfx_db": -7.0,
 				  "pos": Vector3(0.22, -0.24, -0.6), "ads": Vector3(0.0, -0.15, -0.45), "kick_pitch": 8.0, "kick_yaw": 2.0, "kick_back": 0.19, "recover": 4.5 },
-	"marksman": {"name": "Waldläufer .308", "scope_zoom": 4.0, "model": "marksman", "pierce_targets": 3, "pierce_retention": 0.75, "height": 0.20, "mag": 5, "reserve": 10, "damage": 165.0, "rate": 1.15, "reload": 2.8, "pellets": 1, "spread": 0.0025, "range": 150.0, "auto": false, "sfx": "revolver", "sfx_db": -10.0,
+	"marksman": {"name": "Ranger .308", "scope_zoom": 4.0, "model": "marksman", "pierce_targets": 3, "pierce_retention": 0.75, "height": 0.20, "mag": 5, "reserve": 10, "damage": 165.0, "rate": 1.15, "reload": 2.8, "pellets": 1, "spread": 0.0025, "range": 150.0, "auto": false, "sfx": "revolver", "sfx_db": -10.0,
 		"pos": Vector3(0.24, -0.23, -0.62), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 7.0, "kick_yaw": 1.0, "kick_back": 0.16, "recover": 4.0},
 	"lmg": {"name": "MG-60", "model": "lmg", "pierce_targets": 2, "pierce_retention": 0.65, "height": 0.23, "mag": 60, "reserve": 120, "damage": 40.0, "rate": 0.085, "reload": 4.2, "pellets": 1, "spread": 0.034, "range": 85.0, "auto": true, "sfx": "ak47", "sfx_db": -16.0, "sfx_pitch": 0.88,
 		"pos": Vector3(0.25, -0.27, -0.64), "ads": Vector3(0, -0.16, -0.46), "kick_pitch": 2.0, "kick_yaw": 1.4, "kick_back": 0.085, "recover": 7.0},
-	"breacher": {"name": "Nachtbrecher 12", "model": "breacher", "height": 0.20, "mag": 8, "reserve": 16, "damage": 25.0, "rate": 0.5, "reload": 3.3, "pellets": 9, "spread": 0.075, "range": 25.0, "auto": false, "sfx": "shotgun", "sfx_db": -6.0,
+	"breacher": {"name": "Nightbreaker 12", "model": "breacher", "height": 0.20, "mag": 8, "reserve": 16, "damage": 25.0, "rate": 0.5, "reload": 3.3, "pellets": 9, "spread": 0.075, "range": 25.0, "auto": false, "sfx": "shotgun", "sfx_db": -6.0,
 		"pos": Vector3(0.24, -0.24, -0.6), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 8.5, "kick_yaw": 2.2, "kick_back": 0.19, "recover": 4.8},
-	"titanbreaker": {"name": "Titanenbrecher .50", "scope_zoom": 4.0, "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 8, "damage": 420.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
+	"titanbreaker": {"name": "Titanbreaker .50", "scope_zoom": 4.0, "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 8, "damage": 420.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
 		"pos": Vector3(0.24, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.48), "kick_pitch": 12.0, "kick_yaw": 1.6, "kick_back": 0.23, "recover": 3.2},
 	# --- Erweiterung September 2026: zwei Pistolen, zwei MPs, zwei Praezisionswaffen, zwei schwere ---
 	# Optionale Felder neben den 19 Pflichtfeldern: "special" (Mechanik, siehe weapon_specials.gd),
@@ -44,22 +44,22 @@ const DEFS := {
 	"deagle": {"name": "Desert Eagle .50", "model": "deagle", "height": 0.15, "mag": 7, "reserve": 42, "reserve_factor": 6, "damage": 118.0, "rate": 0.34, "reload": 2.0, "pellets": 1, "spread": 0.013, "range": 65.0, "auto": false, "sfx": "deagle", "sfx_db": -4.0, "sfx_pitch": 0.94, "flash_scale": 1.35,
 		"mod_block": ["extended", "endless"],
 		"pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 9.5, "kick_yaw": 2.1, "kick_back": 0.20, "recover": 4.2},
-	"flare_pistol": {"name": "Leuchtpistole", "model": "flare_pistol", "height": 0.14, "mag": 1, "reserve": 12, "reserve_factor": 14, "damage": 45.0, "rate": 0.9, "reload": 1.9, "pellets": 1, "spread": 0.020, "range": 40.0, "auto": false, "sfx": "flare", "sfx_db": -9.0, "flash_scale": 1.6, "flash_mode": "fire", "element": "fire",
+	"flare_pistol": {"name": "Flare Pistol", "model": "flare_pistol", "height": 0.14, "mag": 1, "reserve": 12, "reserve_factor": 14, "damage": 45.0, "rate": 0.9, "reload": 1.9, "pellets": 1, "spread": 0.020, "range": 40.0, "auto": false, "sfx": "flare", "sfx_db": -9.0, "flash_scale": 1.6, "flash_mode": "fire", "element": "fire",
 		"special": {"kind": "flare", "speed": 44.0, "impact": 0.0, "splash": 20.0, "radius": 3.5, "burn_time": 4.0, "splash_ignites": false, "light_range": 12.0, "flare_life": 8.0},
 		"mod_block": ["extended", "endless", "match_barrel", "compensator"],
 		"pos": Vector3(0.26, -0.20, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 4.4, "kick_yaw": 1.2, "kick_back": 0.11, "recover": 6.0},
 	"mac10": {"name": "MAC-10 SD", "model": "mac10", "height": 0.17, "mag": 40, "reserve": 160, "damage": 20.0, "rate": 0.055, "reload": 1.9, "pellets": 1, "spread": 0.040, "range": 30.0, "auto": true, "sfx": "mac10", "sfx_db": -8.0, "sfx_pitch": 1.04, "flash_scale": 0.18, "bloom_gain": 0.10,
 		"mod_block": ["suppressor", "ghost", "compensator", "endless"],
 		"pos": Vector3(0.24, -0.22, -0.56), "ads": Vector3(0.0, -0.135, -0.41), "kick_pitch": 1.15, "kick_yaw": 0.5, "kick_back": 0.045, "recover": 10.0},
-	"cryo_smg": {"name": "Kryo-MP C7", "model": "cryo_smg", "height": 0.18, "mag": 35, "reserve": 140, "damage": 22.0, "rate": 0.07, "reload": 2.3, "pellets": 1, "spread": 0.032, "range": 40.0, "auto": true, "sfx": "cryo", "sfx_db": -11.0, "flash_scale": 0.7, "flash_mode": "frost", "element": "frost",
+	"cryo_smg": {"name": "Cryo SMG C7", "model": "cryo_smg", "height": 0.18, "mag": 35, "reserve": 140, "damage": 22.0, "rate": 0.07, "reload": 2.3, "pellets": 1, "spread": 0.032, "range": 40.0, "auto": true, "sfx": "cryo", "sfx_db": -11.0, "flash_scale": 0.7, "flash_mode": "frost", "element": "frost",
 		"special": {"kind": "chill", "per_hit": 0.55, "titan_scale": 0.4, "chill_slow": 0.78, "freeze_time": 3.0, "after_freeze": 0.45, "brittle_mul": 1.4},
 		"mod_block": ["compensator", "match_barrel"],
 		"pos": Vector3(0.24, -0.23, -0.57), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 1.5, "kick_yaw": 0.7, "kick_back": 0.05, "recover": 9.5},
-	"lever_rifle": {"name": "Unterhebler .45-70", "scope_zoom": 3.0, "scope_style": "vintage", "model": "lever_rifle", "pierce_targets": 2, "pierce_retention": 0.7, "height": 0.21, "mag": 6, "reserve": 30, "damage": 125.0, "rate": 0.60, "reload": 3.4, "pellets": 1, "spread": 0.005, "range": 130.0, "auto": false, "sfx": "lever", "sfx_db": 1.0, "sfx_pitch": 0.92,
+	"lever_rifle": {"name": "Lever Action .45-70", "scope_zoom": 3.0, "scope_style": "vintage", "model": "lever_rifle", "pierce_targets": 2, "pierce_retention": 0.7, "height": 0.21, "mag": 6, "reserve": 30, "damage": 125.0, "rate": 0.60, "reload": 3.4, "pellets": 1, "spread": 0.005, "range": 130.0, "auto": false, "sfx": "lever", "sfx_db": 1.0, "sfx_pitch": 0.92,
 		"special": {"kind": "cycle", "at": 0.45, "sfx": "lever_cycle", "roll": 0.9},
 		"mod_block": ["extended", "endless"],
 		"pos": Vector3(0.24, -0.23, -0.63), "ads": Vector3(0, -0.15, -0.47), "kick_pitch": 5.6, "kick_yaw": 1.1, "kick_back": 0.14, "recover": 5.0},
-	"plasma_sniper": {"name": "Plasmabuechse", "scope_zoom": 5.0, "scope_style": "digital", "model": "plasma_sniper", "pierce_targets": 2, "pierce_retention": 0.8, "height": 0.25, "mag": 6, "reserve": 30, "reserve_factor": 5, "damage": 210.0, "rate": 0.85, "reload": 3.6, "pellets": 1, "spread": 0.0035, "range": 170.0, "auto": false, "sfx": "plasma", "sfx_db": -8.0, "sfx_pitch": 0.9, "flash_scale": 1.2, "flash_mode": "plasma",
+	"plasma_sniper": {"name": "Plasma Rifle", "scope_zoom": 5.0, "scope_style": "digital", "model": "plasma_sniper", "pierce_targets": 2, "pierce_retention": 0.8, "height": 0.25, "mag": 6, "reserve": 30, "reserve_factor": 5, "damage": 210.0, "rate": 0.85, "reload": 3.6, "pellets": 1, "spread": 0.0035, "range": 170.0, "auto": false, "sfx": "plasma", "sfx_db": -8.0, "sfx_pitch": 0.9, "flash_scale": 1.2, "flash_mode": "plasma",
 		"special": {"kind": "heat", "per_shot": 0.17, "cool": 0.22, "idle": 0.6, "regen": 0.55, "cold": 0.15, "vent_floor": 0.6, "vent_sfx": "plasma_vent"},
 		"mod_block": ["suppressor", "ghost", "compensator", "extended", "endless", "quick_action"],
 		"pos": Vector3(0.25, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.50), "kick_pitch": 2.8, "kick_yaw": 0.6, "kick_back": 0.09, "recover": 6.5},
@@ -67,7 +67,7 @@ const DEFS := {
 		"special": {"kind": "spin", "up": 0.85, "down": 0.9, "hold": 0.25, "penalty": 3.2, "loop_sfx": "minigun_loop", "start_sfx": "minigun_spinup", "stop_sfx": "minigun_spindown"},
 		"mod_block": ["suppressor", "ghost", "compensator", "match_barrel", "extended", "endless"],
 		"pos": Vector3(0.23, -0.26, -0.60), "ads": Vector3(0.16, -0.24, -0.56), "kick_pitch": 0.9, "kick_yaw": 1.6, "kick_back": 0.03, "recover": 11.0},
-	"graviton_cannon": {"name": "Graviton-Kanone", "model": "graviton_cannon", "pierce_targets": 3, "pierce_retention": 0.9, "titan_multiplier": 2.4, "height": 0.26, "mag": 2, "reserve": 10, "reserve_factor": 5, "damage": 240.0, "rate": 2.4, "reload": 4.6, "pellets": 1, "spread": 0.014, "range": 60.0, "auto": false, "sfx": "graviton", "sfx_db": -2.0, "sfx_pitch": 0.88, "flash_scale": 2.2, "flash_mode": "graviton",
+	"graviton_cannon": {"name": "Graviton Cannon", "model": "graviton_cannon", "pierce_targets": 3, "pierce_retention": 0.9, "titan_multiplier": 2.4, "height": 0.26, "mag": 2, "reserve": 10, "reserve_factor": 5, "damage": 240.0, "rate": 2.4, "reload": 4.6, "pellets": 1, "spread": 0.014, "range": 60.0, "auto": false, "sfx": "graviton", "sfx_db": -2.0, "sfx_pitch": 0.88, "flash_scale": 2.2, "flash_mode": "graviton",
 		"special": {"kind": "blast", "radius": 6.0, "damage": 400.0, "edge": 0.25, "self_damage": 60.0, "self_share": 0.7, "charge_sfx": "graviton_charge"},
 		"mod_block": ["suppressor", "ghost", "compensator", "match_barrel", "extended", "endless"],
 		"kick_cap": Vector2(0.30, 0.10), "kick_model_cap": Vector3(0.52, 0.07, 0.22),
@@ -80,7 +80,7 @@ const HIT_RAY_LENGTH := 600.0   # longer than the map diagonal
 static func piercing_description(id: String, effective: Dictionary = {}) -> String:
 	var spec: Dictionary = DEFS[id] if effective.is_empty() else effective
 	if not spec.has("pierce_targets"): return ""
-	return "Durchschuss: bis zu %d Zombies; je weiterem Ziel %d %% des vorherigen Schadens. Wände stoppen das Geschoss." % [spec.pierce_targets, roundi(float(spec.pierce_retention) * 100.0)]
+	return Lang.t("Penetration: up to %d zombies; each further target takes %d%% of the previous damage. Walls stop the bullet.", [spec.pierce_targets, roundi(float(spec.pierce_retention) * 100.0)])
 
 var player: Player
 var hud: Hud
@@ -266,7 +266,7 @@ func set_weapon(id: String) -> void:
 	if not DEFS.has(id):
 		return
 	if not unlocked.get(id, false):
-		hud.message("%s beim Waffenhändler kaufen" % DEFS[id]["name"], 1.4)
+		hud.message(Lang.t("Buy the %s from the weapon trader", [DEFS[id]["name"]]), 1.4)
 		return
 	if current != id:
 		Sfx.stop_fire_loop(self)
@@ -376,15 +376,15 @@ func apply_skin(id: String, finish: String) -> void:
 
 func update_hud() -> void:
 	var s := cur()
-	hud.set_ammo(s["ammo"], s["reserve"], "%s   ·   Granaten %d" % [s["def"]["name"], grenades])
+	hud.set_ammo(s["ammo"], s["reserve"], Lang.t("%s   ·   Grenades %d", [s["def"]["name"], grenades]))
 	var scene := get_tree().current_scene
 	if not server_proxy and scene and "progression" in scene and scene.progression and scene.progression.rare_market:
 		hud.ammo_label.text += scene.progression.rare_market.ammo_label(player.peer_id)
 	if is_melee(current) and not server_proxy:
 		# The big readout is right-aligned and grows leftwards into the quick bar, so it keeps the
 		# short word and the controls go on the quiet line underneath.
-		hud.ammo_label.text = "Nahkampf"
-		hud.weapon_label.text += "   ·   " + ("LMB Schnitt / RMB Stich" if current == "knife" else "LMB leicht / RMB schwer")
+		hud.ammo_label.text = "Melee"
+		hud.weapon_label.text += "   ·   " + (Lang.t("LMB slash / RMB stab") if current == "knife" else Lang.t("LMB light / RMB heavy"))
 
 func reload() -> void:
 	if is_melee(current): return

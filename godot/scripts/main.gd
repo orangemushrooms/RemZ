@@ -38,7 +38,7 @@ var near_bar = null
 var _tower_hint_remaining := 12.0
 var notice_board: Node3D
 var _notice_open := false
-const SECRET_SHOP_NOTICE := "Zwischen den Zeilen steht, von Hand ergänzt:\n\nMan sagt, es gebe einen Laden, der keinen Namen trägt.\nSeine Waren stehen auf keiner Liste. Sein Händler stellt keine Fragen.\nWer ihn findet, versteht, warum niemand von ihm spricht."
+const SECRET_SHOP_NOTICE := "Between the lines, added by hand:\n\nThey say there is a shop that bears no name.\nIts goods are on no list. Its trader asks no questions.\nWhoever finds it understands why no one speaks of it."
 var rng := RandomNumberGenerator.new()
 var _autotest := false
 var _restarted := false      # scene rebuilt by "Nochmal": skip the start menu and the intro
@@ -67,13 +67,13 @@ var _in_ready := false
 var _reloading := false
 # Build step -> [share of the loading bar, what the loading screen says meanwhile]
 const BOOT_STEPS := {
-	"environment": [0.03, "Gelände am Heitersberg"], "terrain": [0.14, "Wege und Strassen"],
-	"roads": [0.17, "Wald"], "forests": [0.24, "Waldhütte und Holzlager"], "buildings": [0.3, "Lagerplatz"],
-	"campsite, pond, fence": [0.33, "Unterholz"], "clutter": [0.4, "Maisfeld"], "cornfield": [0.47, "Gras und Laub"],
-	"foliage": [0.5, "Ausrüstung"], "  player, weapons": [0.62, "Tore, Händler und Aufträge"],
-	"  barricades .. progression": [0.66, "Geräusche des Waldes"], "  intro, cheats, music": [0.69, "Zombies"],
-	"prewarm + zombie models": [0.74, "Wegnetz der Zombies"], "navigation bake": [0.86, "Schlüssel und Vorräte"],
-	"navigation map, keys, cache": [0.9, "Effekte vorbereiten"], "render warm-up": [0.95, "Gras und Laub"],
+	"environment": [0.03, "Terrain on the Heitersberg"], "terrain": [0.14, "Paths and roads"],
+	"roads": [0.17, "Forest"], "forests": [0.24, "Forest hut and woodshed"], "buildings": [0.3, "Campsite"],
+	"campsite, pond, fence": [0.33, "Undergrowth"], "clutter": [0.4, "Cornfield"], "cornfield": [0.47, "Grass and leaves"],
+	"foliage": [0.5, "Equipment"], "  player, weapons": [0.62, "Gates, traders and quests"],
+	"  barricades .. progression": [0.66, "Sounds of the forest"], "  intro, cheats, music": [0.69, "Zombies"],
+	"prewarm + zombie models": [0.74, "Zombie path network"], "navigation bake": [0.86, "Keys and supplies"],
+	"navigation map, keys, cache": [0.9, "Preparing effects"], "render warm-up": [0.95, "Grass and leaves"],
 }
 
 # After every build step: --profile-boot prints how long it took (BOOT_STEP lines), and the loading
@@ -110,7 +110,7 @@ func _ready() -> void:
 	if _boot_screen == null:
 		_boot_screen = BootScreen.new()
 		add_child(_boot_screen)
-		_boot_screen.step(0.0, "Die Nacht bricht herein")
+		_boot_screen.step(0.0, "Night is falling")
 	_boot_mark("enter _ready")
 	# The game was called "Birkenhof Nacht" until 23 Sep 2026; bring its saves over once, before anything reads them.
 	LegacyUserData.import_once()
@@ -271,7 +271,7 @@ func _ready() -> void:
 	preload("res://scripts/bullet_impacts.gd").prewarm()
 	Zombie.preload_models()
 	_boot_mark("prewarm + zombie models")
-	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein. Die Zombies gehen auch auf die Waldhütte selbst los: fällt sie, ist die Runde verloren. Repariere sie mit E an ihrer Wand.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
+	hud.show_overlay("REMETSCHWIL FOREST HUT", "The forest hut on the Heitersberg is the last safe place. You wake up down on the Sennhofstrasse and first have to make your way up to the hut. Build barricades at the four approaches to raise the palisade ring piece by piece. Then they come: from the Sennhofstrasse along the Hut Path, across the meadow to the Meadow Gate, along the Village Path and down the North Forest Path. Upgrade the barriers in the gates (E), hold them, survive the waves and get yourself onto the high scores. The zombies also go for the forest hut itself: if it falls, the round is lost. Repair it with E at its wall.", "Start game", "Calculating the path network ...", "start")
 	hud.overlay_button.disabled = true
 	hud.set_loading(true)
 	_navigation_geometry.prepare(self, nav_region.navigation_mesh, perimeter)
@@ -351,12 +351,12 @@ func _navigation_baked() -> void:
 		await get_tree().physics_frame
 	if not forest_keys.populate():
 		get_tree().paused = true
-		hud.overlay_status.text = "Schlüsselplätze konnten nicht vorbereitet werden. Bitte neu starten."
+		hud.overlay_status.text = "The key locations could not be prepared. Please restart."
 		_close_boot_screen()
 		return
 	if not progression.place_cache():
 		get_tree().paused = true
-		hud.overlay_status.text = "Kein erreichbarer Ort für die Lieferung gefunden. Bitte neu starten."
+		hud.overlay_status.text = "No reachable spot found for the delivery. Please restart."
 		_close_boot_screen()
 		return
 	_boot_mark("navigation map, keys, cache")
@@ -373,7 +373,7 @@ func _navigation_baked() -> void:
 	navigation_ready = true
 	_place_gold_mushroom()
 	hud.overlay_button.disabled = false
-	hud.overlay_status.text = "Bereit."
+	hud.overlay_status.text = "Ready."
 	hud.set_loading(false)
 	NetSession.attach(self)
 	if NetSession.restart_pending and not NetSession.enabled:
@@ -1415,17 +1415,17 @@ func _waldhuette() -> Node3D:
 	for x: float in [hx - 2.25, hx - 0.55]:
 		_box(root, Vector3(0.12, 0.75, 0.65), Vector3(x, upper_floor + 0.375, hz - 1.0), dark_wood)
 	_slab(root, Vector3(0.55, 0.45, 2.2), Vector3(-hx + 0.7, upper_floor + 0.225, hz - 1.8), floor_wood)
-	_loot(root, "ammo", "", "Hüttenvorrat", Vector3(hx - 1.4, upper_floor + 0.84, hz - 1.0), "", 0.3)
+	_loot(root, "ammo", "", "Hut supplies", Vector3(hx - 1.4, upper_floor + 0.84, hz - 1.0), "", 0.3)
 	_loot(root, "weapon", "smg", "MP5", Vector3(hx - 2.2, upper_floor + 0.84, hz - 1.0), "smg", 0.3, 0.0, 3)
 	# inside: workbench with an ammunition crate, shotgun and MP5 on the wall
 	if not _prop(root, "workbench", 2.2, "x", Vector3(hx - 1.2, 0.0, hz - 0.6)):
 		_box(root, Vector3(2.2, 0.08, 0.7), Vector3(hx - 1.2, 0.85, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.5, 0.42, 0.3)))
 		for lx in [hx - 2.1, hx - 0.3]:
 			_box(root, Vector3(0.1, 0.85, 0.6), Vector3(lx, 0.42, hz - 0.6), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
-	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 1.2, 0.9, hz - 0.6), "", 0.3)
-	_loot(root, "ammo", "", "Geborgene Vorräte", Vector3(hx - 0.35, 1.5, 0.5), "", 0.3)
-	_loot(root, "ammo", "", "Geborgene Vorräte", Vector3(-0.5, 1.4, -hz + 0.35), "", 0.3)
-	_loot(root, "ammo", "", "Munitionskiste", Vector3(-hx + 0.6, 0.0, hz - 0.5), "", 0.3)
+	_loot(root, "ammo", "", "Ammo crate", Vector3(hx - 1.2, 0.9, hz - 0.6), "", 0.3)
+	_loot(root, "ammo", "", "Recovered supplies", Vector3(hx - 0.35, 1.5, 0.5), "", 0.3)
+	_loot(root, "ammo", "", "Recovered supplies", Vector3(-0.5, 1.4, -hz + 0.35), "", 0.3)
+	_loot(root, "ammo", "", "Ammo crate", Vector3(-hx + 0.6, 0.0, hz - 0.5), "", 0.3)
 	var inner := OmniLight3D.new()
 	inner.light_color = Color(1.0, 0.8, 0.55)
 	inner.light_energy = 1.2
@@ -1442,7 +1442,7 @@ func _waldhuette() -> Node3D:
 	# small metal vent on the ridge near the west gable (photos 13, 14)
 	_box(root, Vector3(0.36, 0.7, 0.36), Vector3(-1.6, roof_y + b["roof_h"] + 0.2, 0.0), _plain(Color(0.5, 0.5, 0.52), 0.45, 0.6))
 	# Garage door: closed; E opens the leaves away from the interacting player.
-	_hut_door(root, Vector3(-hx + 0.1, 0.0, -hz + 1.9), 0.0, 2.6, 2.1, "Garagentor", "waldhuette", wood)
+	_hut_door(root, Vector3(-hx + 0.1, 0.0, -hz + 1.9), 0.0, 2.6, 2.1, "Garage door", "waldhuette", wood)
 	# two small cellar windows in the base near the south end of the west face (photo 14)
 	var glass := _plain(Color(0.08, 0.1, 0.11), 0.3, 0.2)
 	for wz: float in [1.85, 2.55]:
@@ -1468,7 +1468,7 @@ func _waldhuette() -> Node3D:
 	var x_top := x_start + steps * tread
 	_box(root, Vector3(hx - x_top, stair_h, 0.95), Vector3((x_top + hx) / 2.0, stair_h / 2.0, stair_z), step_mat)
 	# upper door on the north face at the east end, two small steps in front (photos 15, 17)
-	_hut_door(root, Vector3(hx - 0.9, base_h + 0.25, -hz - 0.02), PI / 2.0, 1.2, 2.0, "Hüttentür", "waldhuette", wood)
+	_hut_door(root, Vector3(hx - 0.9, base_h + 0.25, -hz - 0.02), PI / 2.0, 1.2, 2.0, "Hut door", "waldhuette", wood)
 	_slab(root, Vector3(1.3, 0.25, 0.6), Vector3(hx - 0.9, base_h + 0.125, -hz - 0.25), step_mat)
 	var run := steps * tread
 	# Walkable ramp and landing meet the upper floor without a blocking doorstep.
@@ -1582,12 +1582,12 @@ func _holzlager() -> Node3D:
 		root.add_child(strut)
 	# inside: the good weapons on a rack, ammunition, firewood
 	_box(root, Vector3(2.6, 1.6, 0.08), Vector3(0, base_h + 1.4, hz - 0.2), Foliage.pbr("planks", 0.8, Color(0.4, 0.33, 0.25)))
-	_loot(root, "ammo", "", "Geborgene Vorräte", Vector3(-0.7, base_h + 1.4, hz - 0.3), "", 0.3)
-	_loot(root, "ammo", "", "Geborgene Vorräte", Vector3(0.7, base_h + 1.4, hz - 0.3), "", 0.3)
-	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 0.9, base_h, -hz + 1.2), "", 0.3)
-	_loot(root, "ammo", "", "Munitionskiste", Vector3(hx - 0.9, base_h, -hz + 2.2), "", 0.3)
-	_loot(root, "weapon", "shotgun", "Schrotflinte", Vector3(-1.0, base_h + 0.55, hz - 0.5), "rifle", 0.3, 0.0, 3)
-	_loot(root, "weapon", "marksman", "Waldläufer .308", Vector3(1.0, base_h + 0.55, hz - 0.5), "marksman", 0.3, 0.0, 8)
+	_loot(root, "ammo", "", "Recovered supplies", Vector3(-0.7, base_h + 1.4, hz - 0.3), "", 0.3)
+	_loot(root, "ammo", "", "Recovered supplies", Vector3(0.7, base_h + 1.4, hz - 0.3), "", 0.3)
+	_loot(root, "ammo", "", "Ammo crate", Vector3(hx - 0.9, base_h, -hz + 1.2), "", 0.3)
+	_loot(root, "ammo", "", "Ammo crate", Vector3(hx - 0.9, base_h, -hz + 2.2), "", 0.3)
+	_loot(root, "weapon", "shotgun", "Shotgun", Vector3(-1.0, base_h + 0.55, hz - 0.5), "rifle", 0.3, 0.0, 3)
+	_loot(root, "weapon", "marksman", "Ranger .308", Vector3(1.0, base_h + 0.55, hz - 0.5), "marksman", 0.3, 0.0, 8)
 	for k in 3:
 		var pile := _prop(root, "woodpile", 2.2, "x", Vector3(-hx + 0.6, base_h, -hz + 2.0 + k * 2.5), PI / 2.0)
 		if pile:
@@ -1600,7 +1600,7 @@ func _holzlager() -> Node3D:
 	inner.omni_range = 8.0
 	inner.position = Vector3(0, base_h + wall_h - 0.4, 0)
 	root.add_child(inner)
-	_hut_door(root, Vector3(hx + 0.02, 0, door_z), PI, 2.4, 2.6, "Holzlagertor", "holzlager", boards)
+	_hut_door(root, Vector3(hx + 0.02, 0, door_z), PI, 2.4, 2.6, "Woodshed door", "holzlager", boards)
 	return root
 
 func _build_buildings() -> void:
@@ -1880,7 +1880,7 @@ func _junction_guidepost() -> void:
 	pm.position.y = 1.25
 	root.add_child(pm)
 	# arrows: yaw 0 = -z = north
-	_sign_arrow(root, "Waldhütte", 2.15, PI / 2.0 + 0.35)   # west-south-west along the Weg zur Hütte
+	_sign_arrow(root, "Forest Hut", 2.15, PI / 2.0 + 0.35)   # west-south-west along the Weg zur Hütte
 	_sign_arrow(root, "Oberrohrdorf", 1.9, -0.2)                        # north along the Sennhofstrasse
 	_sign_arrow(root, "Remetschwil", 1.65, PI - 0.15)                    # south along the Sennhofstrasse
 	_box_collider(root, Vector3(0.3, 2.5, 0.3))
@@ -2382,7 +2382,7 @@ func _on_start(play_intro: bool = true) -> void:
 			return
 	if over:
 		NetSession.restart_pending = true
-		_reload_scene("Neue Runde …")
+		_reload_scene("New round …")
 		return
 	get_tree().paused = false
 	hud.hide_overlay()
@@ -2408,19 +2408,19 @@ func _pause() -> void:
 	player.active = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	get_tree().paused = not NetSession.enabled
-	hud.show_overlay("MENÜ" if NetSession.enabled else "PAUSE", "Koop läuft weiter. Dein Spieler bleibt in der Welt." if NetSession.enabled else "Verschnaufpause. Die Zombies warten, die Uhr steht.", "Weiter", "", "pause")
+	hud.show_overlay("MENU" if NetSession.enabled else "PAUSED", "Co-op keeps running. Your player stays in the world." if NetSession.enabled else "Catch your breath. The zombies wait, the clock stands still.", "Continue", "", "pause")
 
 func _to_main_menu() -> void:
 	if NetSession.enabled:
 		NetSession.leave()
 		return
-	_reload_scene("Zurück ins Hauptmenü …")
+	_reload_scene("Back to main menu …")
 
 func _game_over() -> void:
 	if NetSession.enabled:
 		if NetSession.world: NetSession.world.check_team()
 		return
-	_end_round("GESTORBEN", "Du hast %d Welle%s überstanden mit %d Rem Dollars." % [waves.completed, "" if waves.completed == 1 else "n", player.score])
+	_end_round("YOU DIED", _survived_text())
 
 # the Waldhütte fell: the round is lost even with everyone alive
 func _hut_lost() -> void:
@@ -2428,7 +2428,12 @@ func _hut_lost() -> void:
 	if NetSession.enabled:
 		if NetSession.world: NetSession.world.hut_lost()
 		return
-	_end_round("HÜTTE VERLOREN", "Die Waldhütte ist zerstört. Du hast %d Welle%s überstanden mit %d Rem Dollars." % [waves.completed, "" if waves.completed == 1 else "n", player.score])
+	_end_round("HUT LOST", Lang.t("The forest hut has been destroyed.") + " " + _survived_text())
+
+# "You survived 1 wave" / "3 waves": one msgid per number so every language words its own plural
+func _survived_text() -> String:
+	if waves.completed == 1: return Lang.t("You survived %d wave with %d Rem Dollars.", [waves.completed, player.score])
+	return Lang.t("You survived %d waves with %d Rem Dollars.", [waves.completed, player.score])
 
 func _end_round(title: String, text: String) -> void:
 	if over: return
@@ -2439,7 +2444,7 @@ func _end_round(title: String, text: String) -> void:
 	music.play("gameover")
 	get_tree().paused = true
 	var rank := stats.finish(player.score, waves.completed, str(difficulty["name"]))
-	hud.show_overlay(title, text, "Nochmal", "", "over")
+	hud.show_overlay(title, text, "Play again", "", "over")
 	hud.show_run_summary(stats, player.score, waves.completed, rank, str(difficulty["name"]))
 
 func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimum_distance := 0.0) -> bool:
@@ -2473,7 +2478,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 	if Zombie.is_boss_kind(type):
 		z.speed_mul = EncounterBalance.heavy_speed(speed_mul)
 		z.hp *= EncounterBalance.heavy_hp(waves.wave, NetSession.roster.size() if NetSession.enabled else 1, Zombie.is_worm_kind(type))
-		var message := "%s\nEin %d Meter grosser Wurm gräbt sich durch das Feld!" % [z.type.name, int(z.height)] if Zombie.is_worm_kind(type) else "%s\nEin %d Meter grosser Titan nähert sich über die Wiese!" % [z.type.get("name", "DER FELDTITAN"), int(z.height)]
+		var message := Lang.t("%s\nA %d-meter worm is burrowing through the field!", [z.type.name, int(z.height)]) if Zombie.is_worm_kind(type) else Lang.t("%s\nA %d-meter titan is approaching across the meadow!", [z.type.get("name", "THE FIELD TITAN"), int(z.height)])
 		hud.message(message, 5)
 		if NetSession.is_host():
 			for peer in NetSession.ready_peers:
@@ -2598,14 +2603,14 @@ func _process(delta: float) -> void:
 		var hunt_interact: bool = not downed and loot == null and tower == null and near == null and (meat_drop >= 0 or grill)
 		if hunt_interact: npc = ""
 		var reading_notice := _looking_at_notice() and not downed
-		var idle_prompt := "[T] Turmbaumenü · ab 120 R" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
+		var idle_prompt := "[T] Tower build menu · from 120 R" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
 		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
 		if hut_fix: idle_prompt = hut.prompt_text()
-		hud.set_prompt("[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben" % NetSession.roster[downed] if downed else (loot.prompt_text() if loot else ("Turm besetzt" if tower and tower.operator_peer else "[E] Aufsteigen / Bedienen · [R] Ausrichten · [F] Reparieren\nReichweite %d m · heller Sektor: Automatik" % roundi(tower.attack_range()) if tower else (near.prompt_text() if near else idle_prompt))))
+		hud.set_prompt(Lang.t("[E] Revive %s · stay nearby for 3 seconds", [Lang.raw(NetSession.roster[downed])]) if downed else (loot.prompt_text() if loot else ("Tower occupied" if tower and tower.operator_peer else Lang.t("[E] Mount / operate · [R] Align · [F] Repair\nRange %d m · bright sector: automatic", [roundi(tower.attack_range())]) if tower else (near.prompt_text() if near else idle_prompt))))
 		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
 		if hunt_interact: hud.set_prompt(hunting.prompt(player, meat_drop))
-		if reading_notice: hud.set_prompt("[E] Schild lesen · Eine seltsame Notiz")
-		if _notice_open: hud.set_prompt("[E] Hinweis schließen")
+		if reading_notice: hud.set_prompt("[E] Read sign · A strange note")
+		if _notice_open: hud.set_prompt("[E] Close note")
 		if _notice_open and Input.is_action_just_pressed("interact"):
 			_close_notice()
 		elif reading_notice and Input.is_action_just_pressed("interact"):

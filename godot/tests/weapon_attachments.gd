@@ -140,10 +140,10 @@ func run() -> void:
 
 	# A full loadout at once: barrel plus can have to chain, not collide.
 	w.set_weapon("marksman")
-	w.equip_mod("marksman", "Lauf", "match_barrel")
-	w.equip_mod("marksman", "Mündung", "suppressor")
-	w.equip_mod("marksman", "Magazin", "extended")
-	w.equip_mod("marksman", "Verschluss", "quick_action")
+	w.equip_mod("marksman", "Barrel", "match_barrel")
+	w.equip_mod("marksman", "Muzzle", "suppressor")
+	w.equip_mod("marksman", "Magazine", "extended")
+	w.equip_mod("marksman", "Bolt", "quick_action")
 	var stack: WeaponAttachments = w.state.marksman.mods
 	var barrel_front := stack.part_point("match_barrel", "front")
 	var can_rear := stack.part_point("suppressor", "rear")
@@ -165,7 +165,7 @@ func run() -> void:
 	for node in get_nodes_in_group("elemental_tracer"): node.queue_free()
 
 	# The host drives a client's visuals through the snapshot, so that path has to mount too.
-	var snapshot_loadout := {"pistol": {"Mündung": "ghost"}}
+	var snapshot_loadout := {"pistol": {"Muzzle": "ghost"}}
 	w.apply_mod_snapshot({"pistol:ghost": true}, snapshot_loadout)
 	check(w.state.pistol.mods.part_node("ghost") != null and w.state.pistol.mods.part_node("ghost").visible, "A co-op snapshot mounts the mod on the client")
 	w.apply_mod_snapshot({}, {})

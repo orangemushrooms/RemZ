@@ -22,8 +22,8 @@ static func throw_cash(player: Player) -> String:
 	var game := player.get_tree().current_scene
 	if not game.started or game.over or not player.alive or not player.active or player.get_tree().paused: return ""
 	if player.cash_cooldown > 0.0: return ""
-	if player.score <= 0: return "Keine Rem Dollars zum Abwerfen."
-	if player.get_tree().get_nodes_in_group("cash_drops").size() >= MAX_CASH_DROPS: return "Sammelt zuerst die Geldbündel am Boden auf."
+	if player.score <= 0: return "No Rem Dollars to drop."
+	if player.get_tree().get_nodes_in_group("cash_drops").size() >= MAX_CASH_DROPS: return "Pick up the cash bundles on the ground first."
 	var drop := Pickup.new()
 	drop.amount = mini(CASH_BUNDLE, player.score)
 	drop.owner_peer = player.peer_id
@@ -33,7 +33,7 @@ static func throw_cash(player: Player) -> String:
 	drop.toss_velocity = -player.global_basis.z * 5.0 + Vector3.UP * 3.0
 	player.add_score(-drop.amount)
 	player.cash_cooldown = 0.35
-	return "%d R abgeworfen" % drop.amount
+	return Lang.t("%d R dropped", [drop.amount])
 
 func setup(k: String) -> void:
 	kind = k
@@ -173,23 +173,23 @@ func _on_body(body: Node3D) -> void:
 	match kind:
 		"cash":
 			body.add_score(amount)
-			hud.message("+%d R aufgenommen" % amount, 1.4)
+			hud.message(Lang.t("+%d R picked up", [amount]), 1.4)
 		"ammo":
 			var id: String = weapons.ammo_weapon()
 			# One drop is one magazine, but never a 150 round belt: that alone was worth 65 R.
 			var mag := mini(int(weapons.DEFS[id]["mag"]), 45)
 			weapons.add_ammo(id, mag)
-			hud.message("Munition: +%d %s" % [mag, weapons.DEFS[id]["name"]], 1.4)
+			hud.message(Lang.t("Ammo: +%d %s", [mag, weapons.DEFS[id]["name"]]), 1.4)
 		"grenade":
 			weapons.grenades = mini(weapons.grenades_max, weapons.grenades + 1)
 			weapons.update_hud()
-			hud.message("+1 Granate", 1.4)
+			hud.message("+1 grenade", 1.4)
 		_:
 			var p: Player = body
 			var heal := minf(30.0, p.max_hp - p.hp)
 			p.hp += heal
 			hud.set_health(p.hp)
-			hud.message("Verbandspäckli: +%d Leben" % int(heal), 1.4)
+			hud.message(Lang.t("Bandage pack: +%d health", [int(heal)]), 1.4)
 	Sfx.play(scene, "pickup", -8.0)
 	if kind != "cash" and "achievements" in scene and scene.achievements:
 		scene.achievements.event("drops")

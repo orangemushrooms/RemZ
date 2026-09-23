@@ -56,7 +56,7 @@ func run() -> void:
 	d.accepted.watch = true
 	d.accepted_wave.watch = 1
 	shop.refresh_notifications()
-	check(popup._current.get("kind") == "progress" and popup._detail.text.contains("Turm bauen"), "A completed subgoal names the quest and objective")
+	check(popup._current.get("kind") == "progress" and Lang.text(popup._detail.text).contains("Build a tower"), "A completed subgoal names the quest and objective")
 	check(popup._title.text == Progression.QUESTS.watch.name and Sfx._voices.has("quest_progress"), "Subgoal popup has its own sound")
 	popup._process(1.0)
 	var elapsed := popup._elapsed
@@ -68,7 +68,7 @@ func run() -> void:
 	check(popup._elapsed == elapsed, "Further counter increments are silent after the target")
 	shop.team.turned = 1
 	shop.refresh_notifications()
-	check(popup._detail.text.contains("Turm ausrichten") and popup._detail.text.contains("Turm bauen"), "Rapid subgoals combine into one readable popup")
+	check(Lang.text(popup._detail.text).contains("Aim a tower") and Lang.text(popup._detail.text).contains("Build a tower"), "Rapid subgoals combine into one readable popup")
 	var wall := Barricade.new()
 	wall.level = 1
 	game.barricades.append(wall)
@@ -76,7 +76,7 @@ func run() -> void:
 	check(popup._current.kind == "progress" and not shop.complete("watch"), "Completing build goals still waits for the required wave")
 	game.waves.completed = 2
 	shop.refresh_notifications()
-	check(popup._current.kind == "ready" and popup._detail.text.contains("Mechanic") and not d.claimed.get("watch", false), "All goals show a turn-in reminder without claiming the reward")
+	check(popup._current.kind == "ready" and Lang.text(popup._detail.text).contains("Mechanic") and not d.claimed.get("watch", false), "All goals show a turn-in reminder without claiming the reward")
 	check(Sfx._voices.has("quest_ready") and popup._queue.is_empty(), "The final subgoal produces one completion sound and popup")
 	wall.level = 0
 	shop.refresh_notifications()
@@ -85,7 +85,7 @@ func run() -> void:
 	check(popup._queue.is_empty(), "Rebuilding a lost objective does not repeat its milestone")
 	paused = true
 	popup.rewarded("watch")
-	check(popup._current.kind == "complete" and popup._detail.text.contains("110 Rem Dollars"), "Turn-in replaces the pending reminder with the reward")
+	check(popup._current.kind == "complete" and Lang.text(popup._detail.text).contains("110 Rem Dollars"), "Turn-in replaces the pending reminder with the reward")
 	check(Sfx._voices.quest_complete.back().playing and Sfx._voices.quest_complete.back().process_mode == Node.PROCESS_MODE_ALWAYS, "Reward audio plays in a paused shop")
 	check(not Sfx._voices.quest_ready.back().playing, "A quick turn-in replaces the previous chime without overlapping it")
 	var before: Array = Sfx._voices.quest_complete.duplicate()
@@ -106,10 +106,10 @@ func run() -> void:
 	d.accepted_wave.line = 2
 	shop.team.kills = 29
 	shop.refresh_notifications()
-	check(popup._current.kind == "progress" and not popup._detail.text.contains("Zombies"), "Only reached thresholds count as subgoals")
+	check(popup._current.kind == "progress" and not Lang.text(popup._detail.text).contains("Zombies"), "Only reached thresholds count as subgoals")
 	shop.team.kills = 30
 	shop.refresh_notifications()
-	check(popup._detail.text.contains("Zombies 30/30"), "Crossing a kill threshold produces a milestone")
+	check(Lang.text(popup._detail.text).contains("Zombies 30/30"), "Crossing a kill threshold produces a milestone")
 	game.waves.completed = 3
 	shop.refresh_notifications()
 	check(popup._current.kind == "ready", "Required waves after accepting are included in full completion")

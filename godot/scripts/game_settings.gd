@@ -2,15 +2,15 @@ class_name GameSettings
 extends Node
 
 const PATH := "user://settings.cfg"
-const PROFILES := ["Flüssig", "Ausgewogen", "Hohe Qualität"]
+const PROFILES := ["Smooth", "Balanced", "High quality"]
 const LIMITS := [0, 60, 100, 120, 144, 165, 240]
 # hp / dmg: zombie health and damage, count: zombies per wave, speed: zombie speed, drop: supply drop chance,
 # score: points per kill, regen: player regeneration
 const DIFFICULTIES := [
-	{ "name": "Leicht", "desc": "Zum Kennenlernen der Hütte: schwächere Zombies, kleinere Wellen, viele Vorräte.", "hp": 0.8, "dmg": 0.7, "count": 0.8, "speed": 1.0, "drop": 1.4, "score": 0.8, "regen": 1.3 },
-	{ "name": "Normal", "desc": "Die ausgewogene Nacht am Heitersberg.", "hp": 1.0, "dmg": 1.0, "count": 1.0, "speed": 1.0, "drop": 1.0, "score": 1.0, "regen": 1.0 },
-	{ "name": "Schwer", "desc": "Zähere und schnellere Horden, weniger Vorräte, 30 % mehr Rem Dollars.", "hp": 1.25, "dmg": 1.3, "count": 1.25, "speed": 1.05, "drop": 0.8, "score": 1.3, "regen": 0.8 },
-	{ "name": "Albtraum", "desc": "Riesige Wellen, brutale Treffer, kaum Regeneration. 70 % mehr Rem Dollars für die Bestenliste.", "hp": 1.5, "dmg": 1.7, "count": 1.5, "speed": 1.12, "drop": 0.6, "score": 1.7, "regen": 0.5 },
+	{ "name": "Easy", "desc": "For getting to know the hut: weaker zombies, smaller waves, plenty of supplies.", "hp": 0.8, "dmg": 0.7, "count": 0.8, "speed": 1.0, "drop": 1.4, "score": 0.8, "regen": 1.3 },
+	{ "name": "Normal", "desc": "The balanced night on the Heitersberg.", "hp": 1.0, "dmg": 1.0, "count": 1.0, "speed": 1.0, "drop": 1.0, "score": 1.0, "regen": 1.0 },
+	{ "name": "Hard", "desc": "Tougher and faster hordes, fewer supplies, 30% more Rem Dollars.", "hp": 1.25, "dmg": 1.3, "count": 1.25, "speed": 1.05, "drop": 0.8, "score": 1.3, "regen": 0.8 },
+	{ "name": "Nightmare", "desc": "Huge waves, brutal hits, barely any regeneration. 70% more Rem Dollars for the high scores.", "hp": 1.5, "dmg": 1.7, "count": 1.5, "speed": 1.12, "drop": 0.6, "score": 1.7, "regen": 0.5 },
 ]
 const RANGES := [
 	{"trees": 190.0, "props": 100.0, "detail": 45.0, "leaves": 32.0, "grass": 55.0},
@@ -108,26 +108,35 @@ func save() -> void:
 	cfg.set_value("audio", "volume", volume)
 	cfg.set_value("video", "tremor", tremor)
 	cfg.set_value("game", "difficulty", difficulty)
+	cfg.set_value("game", "language", Lang.current)
 	if cfg.save(PATH) != OK:
-		push_warning("Einstellungen konnten nicht gespeichert werden.")
+		push_warning("Settings could not be saved.")
 
 func add_controls(parent: VBoxContainer, with_quit: bool = true) -> void:
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.add_theme_constant_override("h_separation", 20)
 	parent.add_child(grid)
+	# Language names stay in their own language (never translated), so a player always finds theirs.
+	var language := OptionButton.new()
+	language.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+	for name in Lang.language_names():
+		language.add_item(name)
+	language.select(maxi(Lang.language_codes().find(Lang.current), 0))
+	language.item_selected.connect(func(i: int): Lang.set_language(Lang.language_codes()[i]); _changed())
+	_row(grid, "Language", language)
 	var quality := OptionButton.new()
 	for name in PROFILES:
 		quality.add_item(name)
 	quality.select(profile)
 	quality.item_selected.connect(func(i: int): profile = i; _changed())
-	_row(grid, "Grafik", quality)
+	_row(grid, "Graphics", quality)
 	var cap := OptionButton.new()
 	for limit in LIMITS:
-		cap.add_item("Unbegrenzt" if limit == 0 else "%d FPS" % limit)
+		cap.add_item("Unlimited" if limit == 0 else "%d FPS" % limit)
 	cap.select(LIMITS.find(fps_limit))
 	cap.item_selected.connect(func(i: int): fps_limit = LIMITS[i]; _changed())
-	_row(grid, "Bildratenlimit", cap)
+	_row(grid, "Frame rate limit", cap)
 	var sync := CheckButton.new()
 	sync.button_pressed = vsync
 	sync.toggled.connect(func(on: bool): vsync = on; _changed())
@@ -135,34 +144,34 @@ func add_controls(parent: VBoxContainer, with_quit: bool = true) -> void:
 	var fps := CheckButton.new()
 	fps.button_pressed = show_fps
 	fps.toggled.connect(func(on: bool): show_fps = on; _changed())
-	_row(grid, "FPS anzeigen", fps)
+	_row(grid, "Show FPS", fps)
 	var mouse := HSlider.new()
 	mouse.min_value = 0.2
 	mouse.max_value = 3.0
 	mouse.step = 0.05
 	mouse.value = sensitivity
 	mouse.value_changed.connect(func(value: float): sensitivity = value; _changed())
-	_row(grid, "Mausempfindlichkeit", mouse)
+	_row(grid, "Mouse sensitivity", mouse)
 	var audio := HSlider.new()
 	audio.max_value = 1.0
 	audio.step = 0.01
 	audio.value = volume
 	audio.value_changed.connect(func(value: float): volume = value; _changed())
-	_row(grid, "Lautstärke", audio)
+	_row(grid, "Volume", audio)
 	var shake := HSlider.new()
 	shake.max_value = 1.0
 	shake.step = 0.05
 	shake.value = tremor
-	shake.tooltip_text = "Bodenbeben durch Titanen: links aus, rechts volle Stärke."
+	shake.tooltip_text = "Ground tremors from titans: off on the left, full strength on the right."
 	shake.value_changed.connect(func(value: float): tremor = value; _changed())
-	_row(grid, "Titanen-Bodenbeben", shake)
+	_row(grid, "Titan ground tremors", shake)
 	var fullscreen := Button.new()
-	fullscreen.text = "Vollbild umschalten (F11)"
+	fullscreen.text = "Toggle fullscreen (F11)"
 	fullscreen.pressed.connect(_fullscreen)
 	parent.add_child(fullscreen)
 	if with_quit:
 		var quit_button := Button.new()
-		quit_button.text = "Spiel beenden"
+		quit_button.text = "Quit game"
 		quit_button.pressed.connect(func(): save(); get_tree().quit())
 		parent.add_child(quit_button)
 

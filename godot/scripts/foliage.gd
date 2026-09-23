@@ -225,15 +225,15 @@ static func prepare_ground_cover(leaves: bool, grass: bool) -> void:
 		var quad := QuadMesh.new()
 		quad.size = Vector2(0.22, 0.16)
 		quad.orientation = PlaneMesh.FACE_Y
-		specs.append({"layer": "leaves", "name": "Leaves", "parent": "", "category": "leaves", "mesh": quad,
+		specs.append({"layer": "leaves", "name": &"Leaves", "parent": "", "category": "leaves", "mesh": quad,
 			"material": sprite_material("res://assets/sprites/leaves.png", Vector2(4, 2), 0.0, Color(0.7, 0.6, 0.5))})
 	if grass:
 		var meadow := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(0.5, 0.52, 0.3))
 		meadow.set_shader_parameter("meadow_distance_thinning", true)
-		specs.append({"layer": "meadow", "name": "MeadowGrass", "parent": "", "category": "grass", "mesh": _tuft_mesh(0.82, 0.4), "material": meadow})
-		specs.append({"layer": "woodland_grass", "name": "WoodlandGrass", "parent": "ForestFloor", "category": "grass", "mesh": _tuft_mesh(0.7, 0.45),
+		specs.append({"layer": "meadow", "name": &"MeadowGrass", "parent": "", "category": "grass", "mesh": _tuft_mesh(0.82, 0.4), "material": meadow})
+		specs.append({"layer": "woodland_grass", "name": &"WoodlandGrass", "parent": "ForestFloor", "category": "grass", "mesh": _tuft_mesh(0.7, 0.45),
 			"material": sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 0.65, Color(0.62, 0.64, 0.4))})
-		specs.append({"layer": "woodland_ferns", "name": "WoodlandFerns", "parent": "ForestFloor", "category": "grass", "mesh": _tuft_mesh(1.25, 0.65),
+		specs.append({"layer": "woodland_ferns", "name": &"WoodlandFerns", "parent": "ForestFloor", "category": "grass", "mesh": _tuft_mesh(1.25, 0.65),
 			"material": sprite_material("res://assets/sprites/leaf_fern.png", Vector2.ONE, 0.55, Color(0.68, 0.75, 0.5))})
 	for spec: Dictionary in specs: spec["bounds"] = (spec.mesh as Mesh).get_aabb()
 	_cover_specs = specs

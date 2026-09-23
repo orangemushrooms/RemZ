@@ -102,7 +102,7 @@ func run() -> void:
 	check(not cash.taken and cash.visible, "Maze cache returns at its scheduled wave")
 	game.waves.wave = 16
 	cash.restock(16)
-	check(cash.cache_tier == 4 and cash.label.contains("750"), "Late-game cash cache upgrades its reward and prompt")
+	check(cash.cache_tier == 4 and Lang.text(cash.label).contains("750"), "Late-game cash cache upgrades its reward and prompt")
 	before = p.score
 	cash.take(w, game.hud)
 	cash.take(w, game.hud)

@@ -90,14 +90,14 @@ func add_player(id: int) -> void:
 		mushrooms[id] = Inventory.Mushrooms.empty_stock()
 		var avatar = preload("res://scripts/coop_avatar.gd").new()
 		p.add_child(avatar)
-		avatar.setup(p, NetSession.roster.get(id, "Spieler"), actors.size())
+		avatar.setup(p, NetSession.roster.get(id, "Player"), actors.size())
 		avatars[id] = avatar
 	p.peer_id = id
 	actors[id] = p
 	weapons[id] = w
 	pose_times[id] = NetSession._elapsed
 	game.progression.data(id)
-	if NetSession.is_host(): game.stats.register_player(id, NetSession.roster.get(id, "Spieler"))
+	if NetSession.is_host(): game.stats.register_player(id, NetSession.roster.get(id, "Player"))
 
 func spawn_position(index: int) -> Vector3:
 	var point: Vector3 = Map.ground_pos(Map.PLAYER_START.x + index * 1.3, Map.PLAYER_START.y + 1.0)
@@ -284,13 +284,13 @@ func collect_loot(id: int, key: String) -> void:
 	if item is ForestKey:
 		game.forest_keys.owned[item.key_id] = true
 		if game.inventory.is_open: game.inventory._refresh()
-		for peer in actors: NetSession.feedback(peer, "message", ["Teamschlüssel gefunden: " + ForestKeys.KEYS[item.key_id], 3.0])
+		for peer in actors: NetSession.feedback(peer, "message", [Lang.t("Team key found: %s", [ForestKeys.KEYS[item.key_id]]), 3.0])
 	elif item.kind == "maze_cache":
 		if not item.grant_cache(p,w): return
 	elif item.kind == "mushroom":
 		mushrooms[id][item.id] = int(mushrooms[id].get(item.id, 0)) + 1
 		if item.id == "steinpilz": game.progression.event("edible_mushrooms")
-		NetSession.feedback(id, "message", [item.label + " gesammelt", 1.5])
+		NetSession.feedback(id, "message", [Lang.t("%s collected", [item.label]), 1.5])
 		game.achievements.event("mushrooms")
 	else:
 		if not item.grant_supplies(w, p.hud): return
@@ -317,7 +317,7 @@ func collect_drop(drop: Pickup, id: int) -> void:
 		_: p.hp = minf(p.max_hp, p.hp + 30.0)
 	w.update_hud()
 	p.hud.set_health(p.hp)
-	NetSession.feedback(id, "message", ["+%d R aufgenommen" % drop.amount if drop.kind == "cash" else "Vorrat aufgenommen", 1.4])
+	NetSession.feedback(id, "message", [Lang.t("+%d R picked up", [drop.amount]) if drop.kind == "cash" else "Supplies picked up", 1.4])
 	Sfx.event(game, id, "pickup")
 	if drop.kind != "cash": game.achievements.event("drops")
 	drop.queue_free()
@@ -340,7 +340,7 @@ func eat(id: int, kind: String) -> void:
 	game.stats.mushrooms_eaten += 1
 	p.hud.set_health(p.hp)
 	Sfx.event(game, id, "consume")
-	NetSession.feedback(id, "message", ["%s: %s" % [Inventory.MUSHROOMS[kind].name, Inventory.MUSHROOMS[kind].text], 3.0])
+	NetSession.feedback(id, "message", [Lang.t("%s: %s", [Inventory.MUSHROOMS[kind].name, Inventory.MUSHROOMS[kind].text]), 3.0])
 	if id == 1: game.inventory._refresh()
 
 func check_team() -> void:
@@ -370,9 +370,9 @@ func _show_game_over() -> void:
 	game.over = true
 	game.player.active = false
 	var hut_fell: bool = game.hut != null and game.hut.destroyed
-	game.hud.show_overlay("HÜTTE VERLOREN" if hut_fell else "TEAM AUSGESCHIEDEN", ("Die Waldhütte ist zerstört." if hut_fell else "Alle Spieler sind ausgeschieden.") + " Der Host kann eine neue Runde starten.", "Neue Runde" if NetSession.is_host() else "Warte auf Host", "", "over")
+	game.hud.show_overlay("HUT LOST" if hut_fell else "TEAM DOWN", "The forest hut has been destroyed. The host can start a new round." if hut_fell else "All players are down. The host can start a new round.", "New round" if NetSession.is_host() else "Waiting for host", "", "over")
 	game.hud.overlay_button.disabled = NetSession.is_client()
-	game.stats.finish(game.player.score, game.waves.completed, "Koop · " + str(game.difficulty.name))
+	game.stats.finish(game.player.score, game.waves.completed, Lang.t("Co-op · %s", [game.difficulty.name]))
 
 func _close_local_menus() -> void:
 	game.defences.cancel_placement()
@@ -430,14 +430,14 @@ func _update_local_life() -> void:
 		_close_local_menus()
 		game.player.active = false
 		game.weapons.viewmodel.hide()
-		game.hud.message("Du bist ausgeschieden. Ein Mitspieler kann dich mit E wiederbeleben.", 60.0)
+		game.hud.message("You are down. A teammate can revive you with E.", 60.0)
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif game.player.alive and local_dead:
 		local_dead = false
 		game.player.active = true
 		game.weapons.viewmodel.show()
 		game.hud.set_health(game.player.hp)
-		game.hud.message("Wiederbelebt!", 2.0)
+		game.hud.message("Revived!", 2.0)
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func show_shot(id: int, weapon: String, mod_effects: Array = []) -> void:
@@ -739,7 +739,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		var rebuild: bool = b.level != data.bars[i][0]
 		if b.level > 0 and data.bars[i][0] == 0:
 			Sfx.play_at(game, "barricade_break", b.center, 0.0)
-			game.hud.message("Barrikade %s durchbrochen!" % b.slot.name, 2.0)
+			game.hud.message(Lang.t("Barricade %s breached!", [b.slot.name]), 2.0)
 		b.level = data.bars[i][0]
 		b.hp = data.bars[i][1]
 		if data.bars[i].size() > 2:
@@ -766,14 +766,14 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.waves.total = data.wave[4]
 	game.waves.boss_fight = data.wave.size() > 6 and bool(data.wave[6])
 	if data.wave[2] == "intro":
-		game.hud.set_wave(1, "Erreiche den Weg zur Hütte")
+		game.hud.set_wave(1, "Reach the Hut Path")
 	else:
-		game.hud.set_wave(data.wave[0] if data.wave[2] != "idle" else data.wave[0]+1, "%d übrig" % data.wave[5] if data.wave[2] != "idle" else "Start in %d s · Host startet die nächste Welle" % ceili(data.wave[3]))
+		game.hud.set_wave(data.wave[0] if data.wave[2] != "idle" else data.wave[0]+1, Lang.t("%d left", [data.wave[5]]) if data.wave[2] != "idle" else Lang.t("Starts in %d s · the host starts the next wave", [ceili(data.wave[3])]))
 	game.hud.set_wave_progress(data.wave[5], data.wave[4])
 	# The host decides when a boss fight starts and ends; the song itself is picked here.
 	if current_wave != data.wave[0]:
 		current_wave = data.wave[0]
-		game.hud.message("Welle %d" % current_wave, 2.0)
+		game.hud.message(Lang.t("Wave %d", [current_wave]), 2.0)
 		if game.music: game.music.fight(game.waves.boss_fight)
 	elif game.music and game.music.in_fight() and data.wave[2] == "idle":
 		# Clients follow the host into the pause and get the same daylight / night choice.
@@ -816,4 +816,4 @@ func wave_cleared(bonus: int) -> void:
 			p.alive = true
 			p.hp = p.max_hp
 			p.active = true
-		NetSession.feedback(id, "message", ["Welle überstanden · Pistolenreserve gesichert · +%d Rem Dollars" % bonus, 3.0])
+		NetSession.feedback(id, "message", [Lang.t("Wave survived · pistol reserve secured · +%d Rem Dollars", [bonus]), 3.0])

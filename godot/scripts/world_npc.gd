@@ -54,7 +54,7 @@ func setup(id: String, main: Node) -> void:
 	collider.position.y = 0.85
 	body.add_child(collider)
 	caption = Label3D.new()
-	caption.text = spec.name + "\n" + spec.role
+	caption.text = Lang.t("%s\n%s", [spec.name, spec.role])
 	caption.position.y = float(spec.height) + 0.3
 	caption.font_size = 27
 	caption.pixel_size = 0.004

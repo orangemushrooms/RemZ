@@ -17,11 +17,11 @@ var cache_respawn_wave := -1
 func update_cache_tier(wave: int) -> void:
 	cache_tier = clampi(wave / 4, 0, 4)
 	match id:
-		"fire": label = "Feuerpatronen (%d)" % (12 + cache_tier * 6)
-		"frost": label = "Frostpatronen (%d)" % (12 + cache_tier * 6)
-		"cache_cash": label = "Versteckter Geldbeutel (%d R)" % (250 + cache_tier * 125)
-		"cache_grenade": label = "Granatenversteck (%d)" % (1 + cache_tier / 2)
-		_: label = "Munitionskiste (%d Magazine)" % (2 + cache_tier)
+		"fire": label = Lang.t("Fire rounds (%d)", [12 + cache_tier * 6])
+		"frost": label = Lang.t("Frost rounds (%d)", [12 + cache_tier * 6])
+		"cache_cash": label = Lang.t("Hidden purse (%d R)", [250 + cache_tier * 125])
+		"cache_grenade": label = Lang.t("Grenade stash (%d)", [1 + cache_tier / 2])
+		_: label = Lang.t("Ammo crate (%d magazines)", [2 + cache_tier])
 
 func restock(wave: int) -> void:
 	if not renewable or wave <= stocked_wave: return
@@ -46,12 +46,12 @@ func grant_supplies(w: Weapons, hud: Hud) -> bool:
 			hud.message(reason, 3.0)
 			return false
 		w.unlock(wid)
-		hud.message(Weapons.DEFS[wid].name + " gefunden", 2.5)
+		hud.message(Lang.t("%s found", [Weapons.DEFS[wid].name]), 2.5)
 	else:
 		if not w.has_ammo_space(wid):
-			hud.message("Munitionsreserve voll", 1.4)
+			hud.message("Ammo reserve full", 1.4)
 			return false
-		hud.message("Vorräte: %d Magazin(e) für %s" % [magazines, Weapons.DEFS[wid].name], 2.5)
+		hud.message(Lang.t("Supplies: %d magazine(s) for %s", [magazines, Weapons.DEFS[wid].name]), 2.5)
 	w.add_ammo(wid, int(Weapons.DEFS[wid].mag) * magazines)
 	w.update_hud()
 	return true
@@ -63,7 +63,7 @@ func setup(k: String, weapon_id: String, text: String) -> void:
 	add_to_group("render_dynamic") # Every visible child must disappear with this pickup.
 
 func prompt_text() -> String:
-	return "[E] %s sammeln" % label if kind == "mushroom" else "[E] %s aufnehmen" % label
+	return Lang.t("[E] Collect %s", [label]) if kind == "mushroom" else Lang.t("[E] Pick up %s", [label])
 
 func take(weapons: Weapons, hud: Hud) -> void:
 	if NetSession.enabled:
@@ -94,22 +94,22 @@ func grant_cache(p: Player, w: Weapons) -> bool:
 	if id in ["fire","frost"]:
 		var data: Dictionary = game.progression.rare_market.data(p.peer_id)
 		if int(data.ammo[id]) >= 96:
-			p.hud.message("Spezialmunition voll",1.5)
+			p.hud.message("Special ammo full",1.5)
 			return false
 		data.ammo[id] = mini(96, int(data.ammo[id]) + 12 + cache_tier * 6)
 	elif id == "cache_cash": p.add_score(250 + cache_tier * 125)
 	elif id == "cache_grenade":
 		if w.grenades>=w.grenades_max:
-			p.hud.message("Granaten voll",1.5)
+			p.hud.message("Grenades full",1.5)
 			return false
 		w.grenades = mini(w.grenades_max, w.grenades + 1 + cache_tier / 2)
 	else:
 		if not w.has_ammo_space(w.ammo_weapon()):
-			p.hud.message("Munitionsreserve voll",1.5)
+			p.hud.message("Ammo reserve full",1.5)
 			return false
 		w.add_ammo(w.ammo_weapon(),int(Weapons.DEFS[w.ammo_weapon()].mag) * (2 + cache_tier))
 	cache_respawn_wave = maxi(0, game.waves.wave) + randi_range(2, 4)
-	p.hud.message(label+" gefunden",2.5)
+	p.hud.message(Lang.t("%s found", [label]),2.5)
 	w.update_hud()
 	Sfx.play(game,"pickup",-6)
 	return true

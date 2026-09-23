@@ -414,17 +414,16 @@ func hud_state(w, id: String) -> Dictionary:
 		"heat":
 			var heat := float(st.get("heat", 0.0))
 			var venting := bool(st.get("vent", false))
-			var cells := "%d Zellen" % int(st.get("ammo", 0))
-			return {"text": "ENTLÜFTET …" if venting else "Hitze · " + cells, "value": 1.0 if venting else heat,
+			return {"text": Lang.t("VENTING …") if venting else Lang.t("Heat · %d cells", [int(st.get("ammo", 0))]), "value": 1.0 if venting else heat,
 				"colour": Color(1.0, 0.45, 0.15) if venting or heat > 0.7 else Color(0.35, 0.85, 1.0)}
 		"spin":
 			var spin: float = float(st.get("spin", 0.0))
 			if spin <= 0.01: return {}
-			return {"text": "Läufe %d %%" % roundi(spin * 100.0), "value": spin, "colour": Color(1.0, 0.78, 0.3)}
+			return {"text": Lang.t("Barrels %d%%", [roundi(spin * 100.0)]), "value": spin, "colour": Color(1.0, 0.78, 0.3)}
 		"blast":
 			var loaded := int(st.get("ammo", 0))
 			var spare := int(st.get("reserve", 0))
-			return {"text": "Energiezellen %d + %d" % [loaded, spare], "value": float(loaded + spare) / maxf(1.0, float(int(st["def"]["mag"]) + w.reserve_limit(id))),
+			return {"text": Lang.t("Energy cells %d + %d", [loaded, spare]), "value": float(loaded + spare) / maxf(1.0, float(int(st["def"]["mag"]) + w.reserve_limit(id))),
 				"colour": Color(0.72, 0.45, 1.0)}
 	return {}
 

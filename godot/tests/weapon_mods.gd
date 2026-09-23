@@ -29,11 +29,11 @@ func run() -> void:
 	p.global_position = shop.npcs.mechanic.global_position + Vector3(0, 0, 1)
 	game.waves.completed = 0
 	var reason := shop.transact(p, "mechanic", "mod", "extended", "pistol")
-	check(reason.contains("Level") or reason.contains("level"), "Low level blocks installation")
+	check(Lang.text(reason).contains("Level") or Lang.text(reason).contains("level"), "Low level blocks installation")
 	check(p.score == 20000 and w.mod_owned.is_empty(), "Rejected mod never charges or grants ownership")
 	game.waves.completed = 15
 	reason = shop.transact(p, "mechanic", "mod", "extended", "pistol")
-	check(reason.contains(str(Progression.QUESTS.arrival.name)), "Quest lock names the missing quest")
+	check(Lang.text(reason).contains(str(Progression.QUESTS.arrival.name)), "Quest lock names the missing quest")
 	for id in Progression.QUESTS: shop.data(p.peer_id).claimed[id] = true
 	shop.transact(p, "mechanic", "mod", "extended", "pistol")
 	check(p.score == 19750 and w.state.pistol.def.mag == 18, "Purchase charges once and expands the actual magazine")
@@ -91,7 +91,7 @@ func run() -> void:
 		game.waves.completed += 1
 		check(shop.mod_lock_reason(p, id, wid).is_empty(), id + " unlocks at exact level with completed quest")
 		shop.data(p.peer_id).claimed.erase(spec.quest)
-		check(shop.mod_lock_reason(p, id, wid).contains(str(Progression.QUESTS[spec.quest].name)), id + " still requires the named quest")
+		check(Lang.text(shop.mod_lock_reason(p, id, wid)).contains(str(Progression.QUESTS[spec.quest].name)), id + " still requires the named quest")
 		shop.data(p.peer_id).claimed[spec.quest] = true
 	game.waves.completed = 15
 	p.global_position = shop.npcs.mechanic.global_position + Vector3(0, 0, 1)

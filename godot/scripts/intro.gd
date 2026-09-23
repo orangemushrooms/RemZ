@@ -18,8 +18,8 @@ const FOG_DENSE := 0.045                      # exponential fog density when wak
 const VFOG_DENSE := 0.03
 const MUSIC_DB := -6.0
 const TYPE_SPEED := 32.0                      # characters per second
-const BRIEFING := "Finde die Waldhütte.\nFolge der Strasse und dem Richtungspfeil."
-const BRIEFING_ROAD := "Sie haben dich gehört.\nZur Waldhütte, halte die Barrikaden!"
+const BRIEFING := "Find the forest hut.\nFollow the road and the direction arrow."
+const BRIEFING_ROAD := "They heard you.\nGet to the forest hut, hold the barricades!"
 # the arrow follows the road: junction, along the Weg zur Hütte, the fork, the hut
 const WAYPOINTS := [Vector2(124.0, 21.0), Vector2(70.0, 41.0), Vector2(30.0, 54.5), Vector2(7.0, 61.0), Vector2(4.0, -4.0)]
 
@@ -61,7 +61,7 @@ func setup(m: Node, p: Player, e: Environment) -> void:
 	env = e
 	_test = "--intro-test" in OS.get_cmdline_user_args()
 	for r in Map.ROADS:
-		if r["name"].begins_with("Weg zur H"):
+		if r["name"].begins_with(&"Weg zur H"):   # map.json road name, a key
 			_road_pts = r["pts"]
 	_layer = CanvasLayer.new()
 	_layer.layer = 20
@@ -101,6 +101,7 @@ func setup(m: Node, p: Player, e: Environment) -> void:
 	_text.offset_top = -250
 	_text.offset_bottom = -150
 	_text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_text.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED   # _type() shows the resolved text letter by letter
 	_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_text.visible = false
 	_layer.add_child(_text)
@@ -282,9 +283,13 @@ func _process(delta: float) -> void:
 		_test_step(delta)
 
 func _type(delta: float) -> void:
-	if _typed < _briefing.length():
-		_typed = minf(_briefing.length(), _typed + delta * TYPE_SPEED)
-		_text.text = _briefing.substr(0, int(_typed))
+	# typed in the current language; a switch in the pause menu carries on in the new one
+	var full := Lang.text(_briefing)
+	if _typed < full.length():
+		_typed = minf(full.length(), _typed + delta * TYPE_SPEED)
+		_text.text = full.substr(0, int(_typed))
+	elif _text.text != full:
+		_text.text = full
 
 func _update_guidance() -> void:
 	var p := Vector2(player.global_position.x, player.global_position.z)

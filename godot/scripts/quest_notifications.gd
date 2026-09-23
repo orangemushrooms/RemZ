@@ -138,14 +138,14 @@ func _next() -> void:
 	var quest: Dictionary = Progression.QUESTS[_current.id]
 	var progress: bool = _current.kind == "progress"
 	var color := GREEN if progress else GOLD
-	_heading.text = "TEILZIEL ERREICHT" if progress else ("QUEST ABGESCHLOSSEN" if _current.kind == "complete" else "QUEST ERFÜLLT")
+	_heading.text = "MILESTONE REACHED" if progress else ("QUEST COMPLETED" if _current.kind == "complete" else "QUEST FULFILLED")
 	_title.text = quest.name
 	if progress:
 		_detail.text = " · ".join(_current.goals)
 	elif _current.kind == "complete":
-		_detail.text = "+%d Rem Dollars · Belohnung erhalten" % int(quest.reward)
+		_detail.text = Lang.t("+%d Rem Dollars · reward received", [int(quest.reward)])
 	else:
-		_detail.text = "Alle Ziele erreicht!\nBei %s abgeben · %d R" % [Progression.NPCS[quest.npc].name, quest.reward]
+		_detail.text = Lang.t("All goals reached!\nTurn in to %s · %d R", [Progression.NPCS[quest.npc].name, quest.reward])
 	_style.border_color = color
 	_heading.add_theme_color_override("font_color", color)
 	_symbol.add_theme_color_override("font_color", color)

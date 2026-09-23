@@ -2,17 +2,17 @@ extends RefCounted
 
 # Game items: a single catalogue drives effects, world variants and sale prices.
 const DEFS := {
-	"goldroehrling": {"name": "Goldröhrling", "text": "Extrem seltener Verkaufsfund · 1000 Rem Dollars beim Vendor. Nicht zum Essen.", "heal": 0.0, "sell": 1000, "weight": 0, "collectible": true, "color": Color("efbb32")},
-	"steinpilz": {"name": "Steinpilz", "text": "+25 Leben", "heal": 25.0, "sell": 8, "weight": 30, "color": Color("8c6138")},
-	"fliegenpilz": {"name": "Fliegenpilz", "text": "-15 Leben; 20 s doppelter Waffen- und Nahkampfschaden", "heal": -15.0, "duration": 20.0, "damage": 2.0, "effect": "Schaden ×2", "sell": 14, "weight": 12, "color": Color("cf302b")},
-	"pfifferling": {"name": "Pfifferling", "text": "+10 Leben; 30 s +20 % Lauftempo", "heal": 10.0, "duration": 30.0, "speed": 1.2, "effect": "Tempo +20 %", "sell": 10, "weight": 18, "color": Color("edb83d"), "cap": 0.20, "flat": 0.32},
-	"morchel": {"name": "Morchel", "text": "+15 Leben; 30 s 25 % kürzere Nachladezeit", "heal": 15.0, "duration": 30.0, "reload": 0.75, "effect": "Nachladen −25 %", "sell": 14, "weight": 10, "color": Color("9f8241"), "cap": 0.11, "flat": 1.7},
-	"maronenroehrling": {"name": "Maronenröhrling", "text": "+40 Leben", "heal": 40.0, "sell": 12, "weight": 16, "color": Color("754025"), "cap": 0.21, "flat": 0.75},
-	"parasol": {"name": "Parasol", "text": "+15 Leben; 30 s 25 % weniger erlittener Schaden", "heal": 15.0, "duration": 30.0, "guard": 0.75, "effect": "Schutz −25 %", "sell": 12, "weight": 12, "color": Color("c0ac83"), "cap": 0.28, "flat": 0.28},
-	"reizker": {"name": "Reizker", "text": "+10 Leben; 40 s doppelte Gesundheitsregeneration", "heal": 10.0, "duration": 40.0, "regen": 2.0, "effect": "Regeneration ×2", "sell": 10, "weight": 14, "color": Color("c97132"), "cap": 0.22, "flat": 0.38},
-	"tintenpilz": {"name": "Tintenpilz", "text": "35 s 35 % weniger Waffenstreuung", "heal": 0.0, "duration": 35.0, "spread": 0.65, "effect": "Streuung −35 %", "sell": 16, "weight": 9, "color": Color("d6d0b9"), "cap": 0.12, "flat": 1.5},
-	"violetter_roetelritterling": {"name": "Violetter Rötelritterling", "text": "+5 Leben; 40 s +35 % Waffen- und Nahkampfschaden", "heal": 5.0, "duration": 40.0, "damage": 1.35, "effect": "Schaden +35 %", "sell": 18, "weight": 7, "color": Color("9267a5"), "cap": 0.22, "flat": 0.55},
-	"krause_glucke": {"name": "Krause Glucke", "text": "+60 Leben", "heal": 60.0, "sell": 22, "weight": 5, "color": Color("d2bf85"), "cap": 0.13, "flat": 0.8},
+	"goldroehrling": {"name": "Golden Bolete", "text": "Extremely rare find to sell · 1000 Rem Dollars at the Vendor. Not for eating.", "heal": 0.0, "sell": 1000, "weight": 0, "collectible": true, "color": Color("efbb32")},
+	"steinpilz": {"name": "Porcini", "text": "+25 health", "heal": 25.0, "sell": 8, "weight": 30, "color": Color("8c6138")},
+	"fliegenpilz": {"name": "Fly Agaric", "text": "-15 health; 20 s double weapon and melee damage", "heal": -15.0, "duration": 20.0, "damage": 2.0, "effect": "Damage ×2", "sell": 14, "weight": 12, "color": Color("cf302b")},
+	"pfifferling": {"name": "Chanterelle", "text": "+10 health; 30 s +20% running speed", "heal": 10.0, "duration": 30.0, "speed": 1.2, "effect": "Speed +20%", "sell": 10, "weight": 18, "color": Color("edb83d"), "cap": 0.20, "flat": 0.32},
+	"morchel": {"name": "Morel", "text": "+15 health; 30 s 25% shorter reload time", "heal": 15.0, "duration": 30.0, "reload": 0.75, "effect": "Reload −25%", "sell": 14, "weight": 10, "color": Color("9f8241"), "cap": 0.11, "flat": 1.7},
+	"maronenroehrling": {"name": "Bay Bolete", "text": "+40 health", "heal": 40.0, "sell": 12, "weight": 16, "color": Color("754025"), "cap": 0.21, "flat": 0.75},
+	"parasol": {"name": "Parasol Mushroom", "text": "+15 health; 30 s 25% less damage taken", "heal": 15.0, "duration": 30.0, "guard": 0.75, "effect": "Damage taken −25%", "sell": 12, "weight": 12, "color": Color("c0ac83"), "cap": 0.28, "flat": 0.28},
+	"reizker": {"name": "Saffron Milk Cap", "text": "+10 health; 40 s double health regeneration", "heal": 10.0, "duration": 40.0, "regen": 2.0, "effect": "Regeneration ×2", "sell": 10, "weight": 14, "color": Color("c97132"), "cap": 0.22, "flat": 0.38},
+	"tintenpilz": {"name": "Shaggy Ink Cap", "text": "35 s 35% less weapon spread", "heal": 0.0, "duration": 35.0, "spread": 0.65, "effect": "Spread −35%", "sell": 16, "weight": 9, "color": Color("d6d0b9"), "cap": 0.12, "flat": 1.5},
+	"violetter_roetelritterling": {"name": "Wood Blewit", "text": "+5 health; 40 s +35% weapon and melee damage", "heal": 5.0, "duration": 40.0, "damage": 1.35, "effect": "Damage +35%", "sell": 18, "weight": 7, "color": Color("9267a5"), "cap": 0.22, "flat": 0.55},
+	"krause_glucke": {"name": "Cauliflower Fungus", "text": "+60 health", "heal": 60.0, "sell": 22, "weight": 5, "color": Color("d2bf85"), "cap": 0.13, "flat": 0.8},
 }
 
 const GOLD_ROUND_CHANCE := 0.05
@@ -61,18 +61,18 @@ static func summary(effects: Dictionary) -> String:
 	var lines := PackedStringArray()
 	for kind in effects:
 		if DEFS.has(kind) and float(effects[kind]) > 0.0:
-			lines.append("%s · %s · %d s" % [DEFS[kind].name, DEFS[kind].get("effect", ""), ceili(effects[kind])])
+			lines.append(Lang.t("%s · %s · %d s", [DEFS[kind].name, DEFS[kind].get("effect", ""), ceili(effects[kind])]))
 	return "\n".join(lines)
 
 # Empty result means success; callers own HUD, sound and statistics.
 static func consume(player, stock: Dictionary, kind: String) -> String:
-	if not DEFS.has(kind): return "Unbekannte Pilzsorte."
-	if not player.alive: return "Essen ist momentan nicht möglich."
-	if int(stock.get(kind, 0)) <= 0: return "Keine %s im Inventar." % DEFS[kind].name
+	if not DEFS.has(kind): return "Unknown kind of mushroom."
+	if not player.alive: return "You cannot eat right now."
+	if int(stock.get(kind, 0)) <= 0: return Lang.t("No %s in your inventory.", [DEFS[kind].name])
 	var spec: Dictionary = DEFS[kind]
-	if spec.get("collectible", false): return "Goldröhrling aufbewahren: beim Vendor für 1000 Rem Dollars verkaufen."
+	if spec.get("collectible", false): return "Keep the Golden Bolete: sell it to the Vendor for 1000 Rem Dollars."
 	if float(spec.heal) > 0.0 and not spec.has("duration") and player.hp >= player.max_hp:
-		return "Gesundheit voll – der Pilz bleibt im Inventar."
+		return "Health full – the mushroom stays in your inventory."
 	stock[kind] -= 1
 	player.hp = clampf(player.hp + float(spec.heal), 1.0, player.max_hp)
 	if spec.has("duration"):

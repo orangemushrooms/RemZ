@@ -241,7 +241,7 @@ func run() -> void:
 	for id in relic_ids:
 		p.score = 10000
 		var reply: String = market.buy(p, id)
-		if reply.begins_with("Gekauft") and p.relic == id and market.stock[id] == 0 and p.score == 10000 - int(market.Items.DEFS[id].price): bought += 1
+		if Lang.text(reply).begins_with("Bought") and p.relic == id and market.stock[id] == 0 and p.score == 10000 - int(market.Items.DEFS[id].price): bought += 1
 	check(bought == relic_ids.size() and relic_ids.size() == 14, "All %d legendaries can be bought, charge their price and equip (%d ok)" % [relic_ids.size(), bought])
 	market.equip(p, "none")
 	var plain_damage := w.effective_damage_mul()
@@ -320,7 +320,7 @@ func run() -> void:
 	check(market.stock.fire == 3, "Next wave replenishes market")
 	shop.interact("wanderer")
 	check(not market.can_process(), "Solo shop pause also freezes trader and damage-over-time")
-	check(shop.page == "Raritäten" and shop._tabs.Raritäten.visible and not shop._tabs.Handel.visible, "Wanderer opens his dedicated rare-item menu")
+	check(shop.page == "Rarities" and shop._tabs.Rarities.visible and not shop._tabs.Trade.visible, "Wanderer opens his dedicated rare-item menu")
 	shop.close()
 	NetSession.enabled = true
 	NetSession.world.add_player(1)

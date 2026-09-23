@@ -6,11 +6,11 @@ extends CharacterBody3D
 # are skipped, "model" / "fallback" remain the default). The field titan is taller than the beeches (22-29 m)
 # and handled by titan.gd (ground strike, no stagger, always casts shadows).
 const TYPES := {
-	"earthworm": {"name": "DER ERDWURM", "model": "zombie_earthworm", "hp": 2600.0, "speed": 8.0, "damage": 48.0, "reach": 9.0, "attack_time": 3.0, "score": 300, "height": 14.0, "worm": true, "tint": Color.WHITE},
-	"earthworm_ancient": {"name": "DER GRABMAHR", "model": "zombie_earthworm_ancient", "hp": 3800.0, "speed": 7.0, "damage": 62.0, "reach": 11.0, "attack_time": 3.4, "score": 420, "height": 19.0, "worm": true, "tint": Color.WHITE},
-	"titan_hunter": {"name": "JAGDTITAN", "model": "zombie_colossus", "hp": 1700.0, "speed": 6.0, "damage": 45.0, "reach": 8.0, "attack_time": 3.0, "score": 230, "height": 8.0, "tint": Color(0.58, 0.83, 0.65), "giant": true, "blast_radius": 4.0, "windup": 1.7, "recovery": 1.1, "structure_mul": 0.65, "warning_color": Color(0.45, 1.0, 0.3)},
-	"titan_siege": {"name": "BELAGERUNGSTITAN", "model": "zombie_bloater", "hp": 3600.0, "speed": 2.6, "damage": 80.0, "reach": 10.0, "attack_time": 4.5, "score": 350, "height": 14.0, "tint": Color(0.7, 0.66, 0.51), "giant": true, "blast_radius": 6.0, "windup": 2.8, "recovery": 2.0, "structure_mul": 1.6, "warning_color": Color(1.0, 0.68, 0.1)},
-	"titan_ash": {"name": "ASCHETITAN", "model": "zombie_titan", "hp": 3000.0, "speed": 3.6, "damage": 60.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
+	"earthworm": {"name": "THE EARTHWORM", "model": "zombie_earthworm", "hp": 2600.0, "speed": 8.0, "damage": 48.0, "reach": 9.0, "attack_time": 3.0, "score": 300, "height": 14.0, "worm": true, "tint": Color.WHITE},
+	"earthworm_ancient": {"name": "THE GRAVE WYRM", "model": "zombie_earthworm_ancient", "hp": 3800.0, "speed": 7.0, "damage": 62.0, "reach": 11.0, "attack_time": 3.4, "score": 420, "height": 19.0, "worm": true, "tint": Color.WHITE},
+	"titan_hunter": {"name": "HUNTER TITAN", "model": "zombie_colossus", "hp": 1700.0, "speed": 6.0, "damage": 45.0, "reach": 8.0, "attack_time": 3.0, "score": 230, "height": 8.0, "tint": Color(0.58, 0.83, 0.65), "giant": true, "blast_radius": 4.0, "windup": 1.7, "recovery": 1.1, "structure_mul": 0.65, "warning_color": Color(0.45, 1.0, 0.3)},
+	"titan_siege": {"name": "SIEGE TITAN", "model": "zombie_bloater", "hp": 3600.0, "speed": 2.6, "damage": 80.0, "reach": 10.0, "attack_time": 4.5, "score": 350, "height": 14.0, "tint": Color(0.7, 0.66, 0.51), "giant": true, "blast_radius": 6.0, "windup": 2.8, "recovery": 2.0, "structure_mul": 1.6, "warning_color": Color(1.0, 0.68, 0.1)},
+	"titan_ash": {"name": "ASH TITAN", "model": "zombie_titan", "hp": 3000.0, "speed": 3.6, "damage": 60.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
 	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 4200.0, "speed": 4.2, "damage": 70.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
 	"shambler": { "model": "zombie_shambler", "skins": ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma"], "hp": 100.0, "speed": 1.6, "damage": 12.0, "reach": 1.6, "attack_time": 1.1, "score": 10, "height": 1.8 },
 	"runner": { "model": "zombie_runner", "skins": ["zombie_runner", "zombie_jogger"], "hp": 60.0, "speed": 4.2, "damage": 8.0, "reach": 1.4, "attack_time": 0.7, "score": 15, "height": 1.7 },
@@ -542,7 +542,7 @@ func update_rare_visual() -> void:
 		if visual_state != _rare_visual_state:
 			_rare_visual_state = visual_state
 			_rare_marker.visible = burning or frozen
-			_rare_marker.text = "BRAND + FROST" if burning and frozen else ("BRAND" if burning else "FROST")
+			_rare_marker.text = "FIRE + FROST" if burning and frozen else ("FIRE" if burning else "FROST")
 			_rare_marker.modulate = Color(1, 0.4, 0.1) if burning else Color(0.3, 0.8, 1)
 			_rare_particles.emitting = burning
 			_frost_particles.emitting = frozen

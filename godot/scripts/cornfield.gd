@@ -302,7 +302,7 @@ func _make_caches() -> void:
 	var rewards := ["fire","frost","cache_cash","cache_grenade","ammo"]
 	for i in mini(ends.size(),rewards.size()):
 		var item := Loot.new()
-		item.setup("maze_cache",rewards[i],["Feuerpatronen (12)","Frostpatronen (12)","Versteckter Geldbeutel (250 R)","Granatenversteck","Munitionskiste"][i])
+		item.setup("maze_cache",rewards[i],[Lang.t("Fire rounds (%d)",[12]),Lang.t("Frost rounds (%d)",[12]),Lang.t("Hidden purse (%d R)",[250]),"Grenade stash","Ammo crate"][i])
 		item.renewable = true
 		item.restock(0)
 		add_child(item)

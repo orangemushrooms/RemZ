@@ -1,7 +1,7 @@
 class_name ForestKeys
 extends Node
 
-const KEYS := {"waldhuette": "Waldhütte", "holzlager": "Holzlager"}
+const KEYS := {"waldhuette": "Forest Hut", "holzlager": "Woodshed"}
 const HINT_RADIUS := 16.0
 const SPAWN_CHANCE := 0.30
 var main: Node3D
@@ -125,7 +125,7 @@ func collect(key: ForestKey) -> void:
 	owned[key.key_id] = true
 	key.pickup_visual.hide()
 	hint.update_target(null, main.player)
-	main.hud.message("Schlüssel gefunden: %s\nAlle Türen dieser Hütte sind jetzt bedienbar. [I] Inventar" % KEYS[key.key_id], 4.0)
+	main.hud.message(Lang.t("Key found: %s\nAll doors of this building can now be used. [I] Inventory", [KEYS[key.key_id]]), 4.0)
 	Sfx.play(self, "key_pickup", -6.0)
 
 func _process(delta: float) -> void:

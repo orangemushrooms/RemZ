@@ -55,8 +55,8 @@ func run() -> void:
 	check(p.score == before and not w.unlocked.revolver, "Remote merchant purchase rejected atomically")
 	await visit("camp")
 	check(shop.close_enough(p, "camp"), "Camp merchant reachable in actual world")
-	var missing := shop.transact(p, "camp", "quest", "marksman_training")
-	check(missing.contains("Eine ruhige Hand") and missing.contains("Am Feuer") and missing.contains("Vendor"), "Blocked quest names its prerequisite, NPC and earliest actionable step")
+	var missing := Lang.text(shop.transact(p, "camp", "quest", "marksman_training"))
+	check(missing.contains("A Steady Hand") and missing.contains("By the Fire") and missing.contains("Vendor"), "Blocked quest names its prerequisite, NPC and earliest actionable step")
 	check(not shop.local_data().accepted.get("marksman_training", false), "Blocked quest cannot be accepted")
 	var covered := {}
 	for chain in Progression.QUEST_CHAINS:
@@ -66,20 +66,20 @@ func run() -> void:
 	check(covered.size() == Progression.QUESTS.size(), "All quests have a named chain")
 	shop.interact("camp")
 	check(shop.is_open and paused and not p.active, "NPC interaction opens shop and pauses solo")
-	for page in ["Handel", "Aufträge", "Training", "Türme", "Skins"]:
+	for page in ["Trade", "Quests", "Training", "Towers", "Skins"]:
 		shop.page = page
 		shop._render()
 		check(shop.rows.get_child_count() > 0, "Shop page renders: " + page)
-		if page == "Aufträge":
+		if page == "Quests":
 			var clear_requirement := false
 			for widgets in shop._row_nodes:
-				if widgets[0].text.contains("Präzision unter Druck"):
-					clear_requirement = widgets[0].text.contains("Marksman") and widgets[4].text.contains("Eine ruhige Hand") and widgets[4].text.contains("Vendor") and widgets[1].text.contains("Kaufberechtigung")
+				if Lang.text(widgets[0].text).contains("Precision Under Pressure"):
+					clear_requirement = Lang.text(widgets[0].text).contains("Marksman") and Lang.text(widgets[4].text).contains("A Steady Hand") and Lang.text(widgets[4].text).contains("Vendor") and Lang.text(widgets[1].text).contains("purchase permit")
 			check(clear_requirement, "Quest UI shows chain, named prerequisite, giver and weapon permission")
 			if "--render-quests" in OS.get_cmdline_user_args():
 				await process_frame
 				for widgets in shop._row_nodes:
-					if widgets[0].text.contains("Präzision unter Druck"):
+					if Lang.text(widgets[0].text).contains("Precision Under Pressure"):
 						(shop.rows.get_parent() as ScrollContainer).scroll_vertical = int(widgets[0].get_parent().get_parent().position.y)
 				await process_frame
 				await RenderingServer.frame_post_draw
@@ -88,10 +88,10 @@ func run() -> void:
 				DirAccess.make_dir_recursive_absolute(folder)
 				root.get_texture().get_image().save_png(folder + "marksman-requirements.png")
 		for widgets in shop._row_nodes:
-			check(widgets[3] is TextureRect and widgets[3].texture != null and widgets[3].mouse_filter == Control.MOUSE_FILTER_IGNORE, "Shop icon loads without intercepting clicks: " + widgets[0].text)
+			check(widgets[3] is TextureRect and widgets[3].texture != null and widgets[3].mouse_filter == Control.MOUSE_FILTER_IGNORE, "Shop icon loads without intercepting clicks: " + Lang.text(widgets[0].text))
 	# A sale used to be a small grey line nobody noticed: it has to flash the earned points in gold
 	# and show the new total straight away, not a quarter second later.
-	shop.page = "Verkaufen"
+	shop.page = "Sell"
 	shop._render()
 	game.weapons.grenades = 2
 	var purse: int = p.score
@@ -99,7 +99,7 @@ func run() -> void:
 	check(p.score == purse + 15, "Selling a grenade pays its price")
 	check(shop._gain_popup.visible and shop._gain_popup.text == "+15 R" and shop._gain_popup.get_theme_color("font_color") == shop.GAIN_GOLD,
 		"The earned points pop up in gold")
-	check(shop._balance_pulse > 0.9 and shop.balance.text.begins_with("%d REM DOLLARS" % p.score),
+	check(shop._balance_pulse > 0.9 and Lang.text(shop.balance.text).begins_with("%d REM DOLLARS" % p.score),
 		"The balance flashes and already shows the new total")
 	# Leave the purse and the pouch exactly as they were; the checks below count on them.
 	p.score = purse
@@ -107,7 +107,7 @@ func run() -> void:
 	shop._balance_pulse = 0.0
 	shop._gain_t = 0.0
 	shop._gain_popup.visible = false
-	shop.page = "Handel"
+	shop.page = "Trade"
 	shop._render()
 	var first_button: Button = shop._row_nodes[0][2]
 	shop.team.kills += 1
@@ -142,8 +142,8 @@ func run() -> void:
 	check(Sfx._voices["quest_complete"] == completion_voices, "Rejected duplicate reward stays silent")
 	shop.transact(p, "camp", "weapon", "revolver")
 	check(not w.unlocked.revolver, "Quest completion still requires surviving wave one")
-	var level_result := shop.transact(p, "camp", "quest", "steady_aim")
-	check(level_result.contains("Einsatzlevel 2") and not shop.local_data().accepted.get("steady_aim", false), "Quest transaction rejects acceptance below level gate")
+	var level_result := Lang.text(shop.transact(p, "camp", "quest", "steady_aim"))
+	check(level_result.contains("Mission level 2") and not shop.local_data().accepted.get("steady_aim", false), "Quest transaction rejects acceptance below level gate")
 	game.waves.completed = 1
 	p.score = 219
 	shop.transact(p, "camp", "weapon", "revolver")
@@ -156,9 +156,9 @@ func run() -> void:
 	var ammo_rows := 0
 	var revolver_ammo := false
 	for widgets in shop._row_nodes:
-		if widgets[0].text.begins_with("Munition"):
+		if Lang.text(widgets[0].text).begins_with("Ammo"):
 			ammo_rows += 1
-			if widgets[0].text.contains("Revolver"): revolver_ammo = true
+			if Lang.text(widgets[0].text).contains("Revolver"): revolver_ammo = true
 	check(ammo_rows == 2 and revolver_ammo, "Shop adds ammunition for every owned weapon after purchase")
 	shop.transact(p, "camp", "weapon", "revolver")
 	check(p.score == 0, "Duplicate purchase never charges again")
@@ -211,7 +211,7 @@ func run() -> void:
 	shop.transact(p, "mechanic", "quest", "supplies")
 	check(shop.has_claim(p.peer_id, "supplies"), "Delivery must be returned to claim its reward")
 	# Precision rifles require the complete Marksman chain, not a delivery alone.
-	check(shop.lock_reason(p, "marksman").contains("Marksman") and shop.lock_reason(p, "marksman").contains("Eine ruhige Hand"), "Sniper shop names the missing Marksman chain and next quest")
+	check(Lang.text(shop.lock_reason(p, "marksman")).contains("Marksman") and Lang.text(shop.lock_reason(p, "marksman")).contains("A Steady Hand"), "Sniper shop names the missing Marksman chain and next quest")
 	await visit("camp")
 	before = p.score
 	shop.transact(p, "camp", "weapon", "marksman")
@@ -226,20 +226,20 @@ func run() -> void:
 		check(p.score == quest_balance and not shop.has_claim(p.peer_id, quest), quest + " cannot be claimed by clicking again with old counters")
 		game.waves.completed += 1
 		shop.transact(p, "camp", "quest", quest)
-	check(not shop.chain_complete(p.peer_id, "marksman") and shop.lock_reason(p, "marksman").contains("Secret Vendor"), "Intermediate quests direct the player to the final giver")
+	check(not shop.chain_complete(p.peer_id, "marksman") and Lang.text(shop.lock_reason(p, "marksman")).contains("Secret Vendor"), "Intermediate quests direct the player to the final giver")
 	await visit("secret")
 	game.waves.completed = 7
 	shop.transact(p, "secret", "quest", "silent_deal")
 	game.waves.completed += 1
-	check(shop.next_quest_step(p.peer_id, "silent_deal").contains("Belohnung abholen") and not shop.chain_complete(p.peer_id, "marksman"), "Completed objective requires turn-in before granting permission")
+	check(Lang.text(shop.next_quest_step(p.peer_id, "silent_deal")).contains("collect reward") and not shop.chain_complete(p.peer_id, "marksman"), "Completed objective requires turn-in before granting permission")
 	var chain_reward := shop.transact(p, "secret", "quest", "silent_deal")
-	check(shop.chain_complete(p.peer_id, "marksman") and chain_reward.contains("Kaufberechtigung"), "Final turn-in announces the earned Marksman permission")
+	check(shop.chain_complete(p.peer_id, "marksman") and Lang.text(chain_reward).contains("Purchase permit"), "Final turn-in announces the earned Marksman permission")
 	check(not shop.chain_complete(2, "marksman"), "Shared team goals do not grant another player's unclaimed permission")
 	var quest_snapshot := shop.snapshot()
 	shop.apply_snapshot(quest_snapshot)
 	check(shop.chain_complete(p.peer_id, "marksman") and not shop.chain_complete(2, "marksman"), "Snapshots preserve individual chain permissions")
 	check(shop.lock_reason(p, "marksman").is_empty(), "Marksman chain permits the precision rifle")
-	check(shop.lock_reason(p, "titanbreaker").contains("Was auf dem Feld lauert"), "Heavy sniper still requires its separate titan quest")
+	check(Lang.text(shop.lock_reason(p, "titanbreaker")).contains("What Lurks in the Field"), "Heavy sniper still requires its separate titan quest")
 	await visit("camp")
 	before = p.score
 	shop.transact(p, "camp", "weapon", "marksman")
@@ -305,7 +305,7 @@ func run() -> void:
 	shop.transact(p, "ranger", "ammo", "pistol")
 	check(w.state.pistol.reserve == reserve_before, "Quest-only ranger cannot be used as a hidden shop")
 	shop.interact("ranger")
-	check(shop.is_open and shop.page == "Aufträge" and not shop._tabs.Handel.visible, "Mara opens her own quest-only conversation")
+	check(shop.is_open and shop.page == "Quests" and not shop._tabs.Trade.visible, "Mara opens her own quest-only conversation")
 	shop.close()
 	shop.transact(p, "ranger", "quest", "forest_basket")
 	var saved_clock: float = game.day_night.clock_seconds

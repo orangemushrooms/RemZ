@@ -32,7 +32,7 @@ func data(peer: int) -> Dictionary:
 	if not people.has(peer): people[peer] = {"owned": {}, "active": "", "ammo": {"fire": 0, "frost": 0}, "mode": "", "phoenix_wave": -1}
 	return people[peer]
 
-const REGION_NAMES := {"N": "Nordwald", "E": "Ostwald", "S": "Südwald", "W": "Westwald"}
+const REGION_NAMES := {"N": "North Forest", "E": "East Forest", "S": "South Forest", "W": "West Forest"}
 var stock_key := ""   # wave | phase | region the current assortment was rolled for
 var here_region := ""  # forest quarter of the merchant's last stop
 
@@ -48,7 +48,7 @@ func phase() -> String:
 	return "day" if DayNightCycle.daylight_at(game.day_night.clock_seconds / 3600.0) >= 0.5 else "night"
 
 func region_name() -> String:
-	return REGION_NAMES.get(here_region, "Wald")
+	return REGION_NAMES.get(here_region, "Forest")
 
 func offered(spec: Dictionary, wave: int, at_phase: String, in_region: String) -> bool:
 	if spec.kind != "relic" or int(spec.level) > wave + 2: return false
@@ -82,14 +82,14 @@ func restock(wave: int) -> void:
 		weights.remove_at(index)
 
 func buy(p: Player, id: String) -> String:
-	if not active or not stock.has(id) or not Items.DEFS.has(id): return "Diese Rarität ist gerade nicht im Sortiment."
+	if not active or not stock.has(id) or not Items.DEFS.has(id): return "This rarity is not in stock right now."
 	var spec: Dictionary = Items.DEFS[id]
 	var d := data(p.peer_id)
 	if spec.kind == "relic" and d.owned.get(id, false): return equip(p, id)
-	if game.progression.mission_level() < int(spec.level): return "Einsatzlevel %d benötigt." % spec.level
-	if int(stock[id]) <= 0: return "Ausverkauft. Neue Lieferung in der nächsten Welle."
-	if p.score < int(spec.price): return "Zu wenig Rem Dollars: %d R benötigt." % spec.price
-	if spec.kind == "ammo" and int(d.ammo[id]) + int(spec.amount) > Items.AMMO_CAP: return "Spezialmunition voll (maximal 96 je Sorte). Erst verbrauchen."
+	if game.progression.mission_level() < int(spec.level): return Lang.t("Mission level %d required.", [spec.level])
+	if int(stock[id]) <= 0: return "Sold out. New delivery next wave."
+	if p.score < int(spec.price): return Lang.t("Not enough Rem Dollars: %d R needed.", [spec.price])
+	if spec.kind == "ammo" and int(d.ammo[id]) + int(spec.amount) > Items.AMMO_CAP: return "Special ammo full (96 per type at most). Use some up first."
 	p.add_score(-int(spec.price))
 	stock[id] -= 1
 	if spec.kind == "relic":
@@ -101,7 +101,7 @@ func buy(p: Player, id: String) -> String:
 		d.mode = id
 	Sfx.event(self, p.peer_id, "purchase")
 	game.progression.weapon_for(p).update_hud()
-	return "Gekauft und aktiviert: " + str(spec.name)
+	return Lang.t("Bought and activated: %s", [spec.name])
 
 func equip(p: Player, id: String) -> String:
 	var d := data(p.peer_id)
@@ -110,14 +110,14 @@ func equip(p: Player, id: String) -> String:
 		d.active = ""
 		p.relic = ""
 	elif id in ["fire", "frost"]:
-		if int(d.ammo[id]) <= 0: return "Keine Patronen dieser Sorte."
+		if int(d.ammo[id]) <= 0: return "No rounds of this type."
 		d.mode = id
 	elif d.owned.get(id, false):
 		d.active = id
 		p.relic = id
-	else: return "Diesen Talisman besitzt du nicht."
+	else: return "You do not own this talisman."
 	game.progression.weapon_for(p).update_hud()
-	return "Ausrüstung gewechselt."
+	return "Equipment changed."
 
 func request_equip(id: String) -> void:
 	if NetSession.enabled: NetSession.command("rare_equip", [id])
@@ -139,7 +139,7 @@ func consume_round(p: Player) -> String:
 
 func ammo_label(peer: int) -> String:
 	var d := data(peer)
-	return "" if str(d.mode).is_empty() else " · %s %d" % ["Feuer" if d.mode == "fire" else "Frost", d.ammo[d.mode]]
+	return "" if str(d.mode).is_empty() else " · " + Lang.t("Fire %d" if d.mode == "fire" else "Frost %d", [d.ammo[d.mode]])
 
 func prevent_death(p: Player) -> bool:
 	var d := data(p.peer_id)
@@ -217,7 +217,7 @@ func _physics_process(delta: float) -> void:
 		mark_visited()
 		npc.show()
 		npc.body.collision_layer = 1
-		game.hud.message("Der Nebelkrämer zieht durch die Gegend. Halte nach seiner violetten Laterne Ausschau.", 5)
+		game.hud.message("The Mist Peddler is roaming the area. Look out for his violet lantern.", 5)
 	restock(game.waves.wave)
 	var customers: Array = NetSession.world.actors.values() if NetSession.is_host() else [game.player]
 	moving = false

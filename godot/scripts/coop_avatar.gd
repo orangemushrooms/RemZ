@@ -37,7 +37,7 @@ func setup(p: Player, display_name: String, index: int) -> void:
 	aim.position = Vector3(0.0, 1.40, -0.04)
 	body.add_child(aim)
 	label = Label3D.new()
-	label.text = display_name
+	label.text = Lang.t("%s", [Lang.raw(display_name)])
 	label.font_size = 32
 	label.pixel_size = 0.004
 	label.position.y = 2.12
@@ -184,7 +184,8 @@ func _process(delta: float) -> void:
 	if axe_heavy: aim.rotation.x = pitch - swing*1.1
 	if knife_stab: aim.rotation.x = pitch - swing*1.45
 	visual.pose(delta, speed, pitch, gun.to_global(right_grip), gun.to_global(left_grip), actor.alive, crouch_blend)
-	label.text = "%s\n%d / %d" % [NetSession.roster.get(actor.peer_id, "Spieler"), maxi(0, ceili(actor.hp)), int(actor.max_hp)] if actor.alive else "%s\nWiederbeleben [E]" % NetSession.roster.get(actor.peer_id, "Spieler")
+	var tag := Lang.raw(NetSession.roster.get(actor.peer_id, "Player"))
+	label.text = Lang.t("%s\n%d / %d", [tag, maxi(0, ceili(actor.hp)), int(actor.max_hp)]) if actor.alive else Lang.t("%s\nRevive [E]", [tag])
 
 func set_skin(finish: String) -> void:
 	if not gun or _skin == finish: return

@@ -115,12 +115,12 @@ static func daylight_at(hour: float) -> float:
 static func phase_at(hour: float) -> String:
 	var h := fposmod(hour, 24.0)
 	if h >= 5.0 and h < 9.0:
-		return "Morgen"
+		return "Morning"
 	if h >= 9.0 and h < 17.0:
-		return "Tag"
+		return "Day"
 	if h >= 17.0 and h < DUSK_END_HOUR:
-		return "Abend"
-	return "Nacht"
+		return "Evening"
+	return "Night"
 
 static func clock_text(seconds: float) -> String:
 	var minute := int(fposmod(seconds, DAY_SECONDS) / 60.0)

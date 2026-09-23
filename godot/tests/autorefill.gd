@@ -79,7 +79,7 @@ func run() -> void:
 	NetSession.enabled = false
 	p.global_position = shop.npcs.camp.global_position + Vector3(0, 0, 1)
 	shop.interact("camp")
-	shop.page = "Handel"
+	shop.page = "Trade"
 	shop._render()
 	if "--render-autorefill" in OS.get_cmdline_user_args():
 		for i in 5: await process_frame

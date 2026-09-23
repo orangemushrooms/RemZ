@@ -122,7 +122,7 @@ func _draw_cartography() -> void:
 		c.draw_polyline(polygon, Color(0.94, 0.79, 0.56), 1.0, true)
 	var fire := _point(Map.FIRE)
 	c.draw_circle(fire, 3.0, Color(1.0, 0.68, 0.22))
-	c.draw_string(_font, fire + Vector2(7, 4), "Hütte", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 0.91, 0.69))
+	c.draw_string(_font, fire + Vector2(7, 4), Lang.text("Hut"), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1, 0.91, 0.69))
 	# A metric scale makes the overview useful for judging approach distances.
 	var scale_origin := Vector2(22, 297)
 	var fifty_meters := 50.0 * _scale
@@ -130,13 +130,20 @@ func _draw_cartography() -> void:
 	for x in [0.0, fifty_meters]:
 		c.draw_line(scale_origin + Vector2(x, -3), scale_origin + Vector2(x, 3), Color.WHITE)
 	c.draw_string(_font, scale_origin + Vector2(0, -6), "50 m", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
-	c.draw_string(_font, Vector2(14, 331), "▲ Du   • Gegner   ━ Sperrlinie", HORIZONTAL_ALIGNMENT_LEFT, 278, 11, Color(0.76, 0.81, 0.75))
+	c.draw_string(_font, Vector2(14, 331), Lang.text("▲ You   • Enemies   ━ Barrier line"), HORIZONTAL_ALIGNMENT_LEFT, 278, 11, Color(0.76, 0.81, 0.75))
 	c.draw_rect(MAP_RECT, Color(0.71, 0.73, 0.62, 0.4), false, 1.0)
 
 func _draw_frame() -> void:
 	draw_style_box(_panel_style(), Rect2(Vector2.ZERO, Vector2(300, 340)))
 	draw_string(_font, Vector2(14, 25), TITLE, HORIZONTAL_ALIGNMENT_LEFT, 274, 18, Color(0.96, 0.87, 0.64))
-	draw_string(_font, Vector2(14, 331), "▲ Du   • Gegner   ━ Sperrlinie", HORIZONTAL_ALIGNMENT_LEFT, 278, 11, Color(0.76, 0.81, 0.75))
+	draw_string(_font, Vector2(14, 331), Lang.text("▲ You   • Enemies   ━ Barrier line"), HORIZONTAL_ALIGNMENT_LEFT, 278, 11, Color(0.76, 0.81, 0.75))
+
+# Every layer draws its text itself; the symbols repaint ten times a second anyway, the frame and the
+# cached cartography only on request.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED and _cartography:
+		queue_redraw()
+		_cartography.queue_redraw()
 
 func _panel_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
@@ -155,9 +162,12 @@ func _draw_compass(c: Control) -> void:
 		var direction := Vector2.UP.rotated(i * PI / 2.0 + rot)
 		var side := direction.orthogonal() * 3.0
 		c.draw_colored_polygon(PackedVector2Array([center + direction * 13, center + side, center - side]), Color(1, 0.72, 0.3) if i == 0 else Color(0.68, 0.72, 0.64))
-	for label in [["N", Vector2(0, -19)], ["O", Vector2(19, 0)], ["S", Vector2(0, 19)], ["W", Vector2(-19, 0)]]:
-		var p: Vector2 = center + (label[1] as Vector2).rotated(rot)
-		c.draw_string(_font, p + Vector2(-3, 4), label[0], HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
+	# All four letters are one msgid (German writes O for east); a lone "E" would clash with other texts.
+	var letters := Lang.text("N E S W").split(" ")
+	if letters.size() != 4: letters = PackedStringArray(["N", "E", "S", "W"])
+	for i in 4:
+		var p: Vector2 = center + Vector2(0, -19).rotated(i * PI / 2.0 + rot)
+		c.draw_string(_font, p + Vector2(-3, 4), letters[i], HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE)
 
 func _npc_visible(id: String) -> bool:
 	if id == "wanderer":
@@ -184,7 +194,7 @@ func _draw_symbols(c: Control) -> void:
 				c.draw_circle(npc_point, 6.0, Color(0.04, 0.02, 0.06, 0.9))
 			c.draw_circle(npc_point, 4.0 if wandering else 3.5, marker_color)
 			var label_offset := Vector2(-28, 13) if id == "camp" else Vector2(5, -5)
-			var label := "Wanderhändler" if wandering else str(Progression.NPCS[id].name)
+			var label := Lang.text("Wandering trader") if wandering else Lang.text(str(Progression.NPCS[id].name))
 			if wandering:
 				label_offset.x = -_font.get_string_size(label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x - 5 if npc_point.x > MAP_RECT.get_center().x else 5
 				c.draw_string_outline(_font, npc_point + label_offset, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color(0.04, 0.02, 0.06))

@@ -43,8 +43,8 @@ func run() -> void:
 	game.waves.completed = 1
 	game.progression.data(p.peer_id).claimed.arrival = true
 	var result: String = game.progression.transact(p, "camp", "weapon", "hatchet")
-	check(w.unlocked.hatchet and p.score == 320 and result.begins_with("Gekauft"), "Vendor sells the axe for 180 points")
-	check(game.progression.transact(p, "camp", "ammo", "hatchet").contains("keine Munition") and p.score == 320, "Vendor refuses melee ammunition without charging")
+	check(w.unlocked.hatchet and p.score == 320 and Lang.text(result).begins_with("Bought"), "Vendor sells the axe for 180 points")
+	check(Lang.text(game.progression.transact(p, "camp", "ammo", "hatchet")).contains("no ammo") and p.score == 320, "Vendor refuses melee ammunition without charging")
 	game.day_night.set_time_hours(10.0)
 	game.hud.msg_label.text = ""
 	game.achievements.hide()
@@ -52,7 +52,7 @@ func run() -> void:
 		w.set_weapon(id)
 		w._handle_weapon_input(0.016)
 		check(w.current == id and w.cur().node.visible, id + " equips its own visible model")
-		check(game.hud.ammo_label.text.contains("Nahkampf"), id + " has a melee HUD")
+		check(game.hud.ammo_label.text.contains("Melee"), id + " has a melee HUD")
 		w.reload()
 		check(w.cur().reloading == 0 and w.cur().ammo == 0, id + " never reloads or uses ammunition")
 		await shot(id)
