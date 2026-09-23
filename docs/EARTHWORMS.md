@@ -128,4 +128,4 @@ Startbare Windows-Version: `builds/earthworms/RemZ.exe`; die danebenliegende
 der Suite `earthworm_gallery` pruefen; Aufnahmen unter
 `artifacts/earthworm-models.png` und `artifacts/earthworm-models-attack.png`.
 Detailaufnahmen: `artifacts/earthworm-closeup-0.png` und `artifacts/earthworm-closeup-1.png`.
-Die kompatible Koop-Buildkennung lautet `remz-dev-20260923-earthworm-quality`.
+Die kompatible Koop-Buildkennung lautete fuer diesen Zwischenstand `remz-dev-20260923-earthworm-quality`; der Gesamtbuild mit Tuermen, Zielfernrohr und Wuermern traegt `remz-dev-20260923-komplett`.
