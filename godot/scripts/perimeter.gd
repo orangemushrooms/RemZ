@@ -130,6 +130,8 @@ func inside_normal(a: Vector2, b: Vector2) -> Vector2:
 func _build_collision() -> void:
 	body = StaticBody3D.new()
 	body.name = "PalisadeBody"
+	# The gates sit inside this wall, so a boss slam against it must reach them (titan.gd).
+	body.add_to_group("perimeter_wall")
 	body.collision_layer = 1
 	body.collision_mask = 0
 	_section.add_child(body)

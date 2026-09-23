@@ -54,7 +54,13 @@ func run() -> void:
 	await process_frame
 	var first_slot: Node = game.inventory.grid.get_child(0)
 	await create_timer(0.5).timeout
-	check(is_instance_valid(first_slot), "Unchanged snapshots preserve clickable inventory controls")
+	# Two windows apart: one rebuild right after opening would be survivable, a rebuild on every
+	# snapshot is what makes the inventory unclickable in co-op.
+	var settled: Node = game.inventory.grid.get_child(0)
+	await create_timer(0.5).timeout
+	check(is_instance_valid(first_slot) and is_instance_valid(settled),
+		"Unchanged snapshots preserve clickable inventory controls (first=%s settled=%s)" % [
+			is_instance_valid(first_slot), is_instance_valid(settled)])
 	game.inventory.close()
 	check(game.progression.npcs.size() == Progression.NPCS.size() and game.progression.people.size() == 4, "Packaged NPC catalogue and four player quest states are present")
 	check(Weapons.ORDER.all(func(id): return Weapons.is_melee(id) or ResourceLoader.exists("res://assets/models/%s.glb" % Weapons.DEFS[id].model)), "Packaged build contains every firearm mesh")

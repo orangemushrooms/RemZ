@@ -52,12 +52,12 @@ func run() -> void:
 	check(bar.level == 0 and bar.visual.get_child_count() == 0, "Unbuilt line has no physical models")
 	check(not bar.purchase(player, "build") and player.score == 0 and bar.level == 0, "Unaffordable line creates nothing and charges nothing")
 	player.add_score(200)
-	var planner_key := InputEventKey.new()
-	planner_key.pressed = true
-	planner_key.physical_keycode = KEY_V
-	Input.parse_input_event(planner_key)
+	# V no longer opens the planner: it now points at the Mechanic, and E builds or repairs a line
+	# in place (barricade_menu._unhandled_input). The planner screen itself is what this suite
+	# covers, so open it directly instead of through the retired shortcut.
+	menu.open(bar)
 	await process_frame
-	check(menu.is_open and menu.selected == bar, "V opens the nearest defence line")
+	check(menu.is_open and menu.selected == bar, "Planner opens on the nearest defence line")
 	check(menu.is_open and paused and not player.active, "Planner pauses combat")
 	check(root.get_camera_3d() == menu.overview and not game.hud.visible and not game.weapons.viewmodel.visible, "Planner frames the whole line and clears the combat HUD")
 	check(bar.preview.visible and bar.preview.get_child_count() == int(bar.slot.segments), "Red preview covers every segment")
@@ -160,10 +160,13 @@ func run() -> void:
 	await physics_frame
 	check(bar.distance_to_line(player.global_position) < 2.5, "Interaction uses the entire line, including its ends")
 	check(bar.purchase(player, "build"), "Destroyed line can be rebuilt from an endpoint")
-	game.skills.open()
+	# Training lives in the Mechanic dialog now (skills.gd only forwards), so there is no separate
+	# skills modal to stack against. Any open menu leaves the player inactive, which is exactly
+	# what has to keep the planner shut.
+	player.active = false
 	menu.open(bar)
-	check(game.skills.is_open and not menu.is_open and paused, "Construction cannot open over another modal menu")
-	game.skills.close()
+	check(not menu.is_open, "Construction cannot open while another menu holds the player")
+	player.active = true
 	game.inventory.open()
 	Input.parse_input_event(event)
 	await process_frame

@@ -1009,6 +1009,9 @@ func _info(text: String, size := 18) -> void:
 	if _building_layout: rows.add_child(_label(text, size))
 
 func _render() -> void:
+	# interact() leaves shop untouched when the player is out of reach or the trader is hidden,
+	# so a render without an open trader would index NPCS with an empty id.
+	if not NPCS.has(shop): return
 	for tab in _tabs:
 		if shop == "wanderer":
 			_tabs[tab].visible = tab == "Raritäten"
@@ -1277,7 +1280,7 @@ func _process(delta: float) -> void:
 	else: tutorial.text = ""
 
 func snapshot() -> Dictionary:
-	return {"people": people.duplicate(true), "team": team.duplicate(true), "cache_position": cache_node.global_position, "cache_ready": cache_ready, "rare_market": rare_market.snapshot() if rare_market else {}}
+	return {"people": people.duplicate(true), "team": team.duplicate(true), "cache_position": cache_node.global_position if cache_node else Vector3.ZERO, "cache_ready": cache_ready, "rare_market": rare_market.snapshot() if rare_market else {}}
 
 func refresh_notifications() -> void:
 	var peer: int = NetSession.local_id() if NetSession.enabled else game.player.peer_id
@@ -1292,6 +1295,6 @@ func apply_snapshot(s: Dictionary, initial := false) -> void:
 	people = s.get("people", {}).duplicate(true)
 	team = s.get("team", team).duplicate(true)
 	cache_ready = bool(s.get("cache_ready", false))
-	if cache_ready:
-		cache_node.global_position = s["cache_position"]
-	cache_node.visible = cache_ready and not team.cache
+	if cache_node:
+		if cache_ready: cache_node.global_position = s["cache_position"]
+		cache_node.visible = cache_ready and not team.cache

@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 2
-const BUILD := "remz-dev-20260922-weapon-expansion"
+const BUILD := "remz-dev-20260923-titan-gate-fix"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -99,6 +99,9 @@ func _ready() -> void:
 	for spec: Dictionary in Zombie.TYPES.values():
 		for asset in Zombie.skin_names(spec):
 			context.update((str(asset) + str(ResourceLoader.exists("res://assets/models/%s.glb" % asset))).to_utf8_buffer())
+	# Only files the export preset ships verbatim (include_filter) can be hashed here: an imported
+	# texture like ground.png is absent from the pack, so the exe would hash different bytes than
+	# the editor and refuse every connection. The BUILD constant above already separates releases.
 	for file in ["map.json", "heightmap.f32"]:
 		context.update(FileAccess.get_file_as_bytes("res://assets/map/" + file))
 	_fingerprint = context.finish().hex_encode()

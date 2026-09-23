@@ -263,7 +263,8 @@ func run() -> void:
 			game.achievements = null
 		while not game.navigation_ready:
 			await process_frame
-		check(game.forest_keys.owned.is_empty() and game.forest_keys.spawned.size() == 2 and paused, "Full game restart resets the key hunt and returns to the ready menu")
+		# A restart drops straight into the next round now (see smoke.gd), so the world runs unpaused.
+		check(game.forest_keys.owned.is_empty() and game.forest_keys.spawned.size() == 2 and not paused, "Full game restart resets the key hunt and resumes play (owned=%d spawned=%d paused=%s)" % [game.forest_keys.owned.size(), game.forest_keys.spawned.size(), paused])
 		for door: Door in get_nodes_in_group("hut_doors"):
 			check(door.is_locked() and not door.is_open, "Full restart relocks each cabin door")
 	print("DOORS_KEYS_DONE checks=%d failures=%d" % [checks, failures])

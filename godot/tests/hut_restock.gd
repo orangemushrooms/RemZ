@@ -22,11 +22,12 @@ func run() -> void:
 	var gun: Loot
 	var count := 0
 	for item in game.loots:
-		if item is Loot and item.renewable:
+		# The maize maze hides five renewable caches of its own; cornfield.gd covers those.
+		if item is Loot and item.renewable and item.kind != "maze_cache":
 			count += 1
 			if item.kind == "ammo": supply = item
 			if item.id == "smg": gun = item
-	check(count == 12, "Twelve fixed hut supply slots, with no unbounded spawning")
+	check(count == 12, "Twelve fixed hut supply slots, with no unbounded spawning (found %d)" % count)
 	check(gun.taken and not gun.visible, "Additional gun stays hidden before its wave")
 	w.state.pistol.reserve = w.reserve_limit("pistol")
 	supply.take(w,game.hud)

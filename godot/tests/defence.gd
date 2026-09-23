@@ -208,6 +208,13 @@ func run() -> void:
 	await create_timer(34.0, false).timeout
 	check(approaching.global_position.z < 82, "Giant navigates the actual field to the entrance")
 	check(approaching.siege_target == bar or bar.hp <= 0, "Giant engages the defended gateway")
-	check(bar.hp < bar.max_hp() or bar.level == 0, "Field approach ends in actual boss damage to the gate")
+	# The walk across the field plus a wind-up is close to the fixed wait above, so poll for the
+	# first slam instead of assuming it already landed.
+	var waited := 0.0
+	while bar.hp >= bar.max_hp() and bar.level > 0 and waited < 45.0:
+		await create_timer(1.0, false).timeout
+		waited += 1.0
+	var gap := approaching.global_position.distance_to(bar.attack_point(approaching.global_position))
+	check(bar.hp < bar.max_hp() or bar.level == 0, "Field approach ends in actual boss damage to the gate (after %.0f s extra, gap %.1f m, reach %.1f, phase %s, impacts %d, hp %.0f/%.0f)" % [waited, gap, float(approaching.type.reach), approaching.strike_phase, approaching.impact_serial, bar.hp, bar.max_hp()])
 	print("DEFENCE_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

@@ -259,8 +259,12 @@ func snapshot() -> Dictionary:
 	return {"animals": poses, "stocks": stocks.duplicate(true), "drops": drops.duplicate(true), "jobs": jobs.duplicate()}
 
 func apply_snapshot(data: Dictionary) -> void:
-	var changed: bool = stocks != data.get("stocks", {})
+	# stocks is nested per peer, and Godot compares the inner dictionaries by reference: against a
+	# fresh duplicate() the whole dictionary always looked different, so an open inventory was
+	# rebuilt ten times a second and no slot stayed clickable. Compare our own flat entry instead.
+	var previous: Dictionary = stock(game.player.peer_id).duplicate()
 	stocks = data.get("stocks", {}).duplicate(true)
+	var changed: bool = previous != stock(game.player.peer_id)
 	drops = data.get("drops", {}).duplicate(true)
 	jobs = data.get("jobs", {}).duplicate()
 	var poses: Array = data.get("animals", [])

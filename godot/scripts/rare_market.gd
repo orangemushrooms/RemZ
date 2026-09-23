@@ -332,7 +332,11 @@ func snapshot() -> Dictionary:
 	return {"active": active, "pos": npc.global_position, "yaw": npc.figure.rotation.y, "moving": moving, "wave": stock_wave, "key": stock_key, "region": here_region, "stock": stock.duplicate(), "people": people.duplicate(true)}
 
 func apply_snapshot(s: Dictionary) -> void:
-	var previous := data(game.player.peer_id).duplicate(true)
+	# Both ends of the comparison below have to describe the same player: on a client
+	# game.player.peer_id and NetSession.local_id() can differ, which would compare our own
+	# equipment against somebody else's.
+	var peer: int = NetSession.local_id() if NetSession.enabled else game.player.peer_id
+	var previous := data(peer).duplicate(true)
 	var fresh := not active
 	active = s.get("active", false)
 	npc.visible = active
@@ -346,6 +350,6 @@ func apply_snapshot(s: Dictionary) -> void:
 	here_region = str(s.get("region", ""))
 	stock = s.get("stock", {}).duplicate()
 	people = s.get("people", {}).duplicate(true)
-	var current := data(NetSession.local_id() if NetSession.enabled else game.player.peer_id)
+	var current := data(peer)
 	game.player.relic = str(current.active)
 	if previous != current and game.inventory.is_open: game.inventory._refresh()

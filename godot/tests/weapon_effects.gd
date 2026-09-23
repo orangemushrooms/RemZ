@@ -47,6 +47,7 @@ func run() -> void:
 	weapon.set_process(false)
 	var fx: WeaponEffects = weapon.effects
 	for id in Weapons.ORDER:
+		if Weapons.DEFS[id].get("melee", false): continue  # Melee weapons have no muzzle flash, smoke or recoil kick.
 		weapon.unlock(id)
 		weapon.set_weapon(id)
 		weapon.cur().cooldown = 0.0

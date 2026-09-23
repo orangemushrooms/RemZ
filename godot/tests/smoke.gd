@@ -72,7 +72,9 @@ func run() -> void:
 		check(not owl.visible and not owl.voice.playing, "Forest owls are hidden and silent during daytime")
 		game.day_night.clock_seconds = saved_clock
 	check(game.render_stats.removed_render_nodes > 0, "Static map meshes are batched")
-	check(get_nodes_in_group("render_grass").size() > 1, "Grass has independently culled cells")
+	# --no-foliage builds the world without grass, so there would be no cells to cull.
+	if "--no-foliage" not in OS.get_cmdline_user_args():
+		check(get_nodes_in_group("render_grass").size() > 1, "Grass has independently culled cells")
 	for quality in 3:
 		game.settings.profile = quality
 		game.settings.apply()

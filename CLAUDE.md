@@ -45,7 +45,10 @@ ground leaves / grass multimeshes, falling leaves, campfire. `player.gd`, `weapo
 cryo freeze that builds up hit by hit, the flare projectile with its light, the graviton blast;
 runtime values live in `state[id]`, never in `state[id].def`, which every mod change replaces),
 `perimeter.gd` (palisade ring: `CORNERS` between the gate endpoints, log/rail MultiMeshes, collision boxes in the
-`navsource` group so the navmesh only connects outside and inside through the gates; `contains()`, `points`,
+`navsource` group so the navmesh only connects outside and inside through the gates; the wall body also joins
+`perimeter_wall`, which `Titan.clear_strike_line(.., .., true)` lets a slam pass so the wall cannot shield the gate
+it carries - without it a titan standing anywhere but exactly square to a gate hammered it forever for no damage
+(`--suite=titan_siege_gate` checks all four gates from five angles); `contains()`, `points`,
 `gate_edge`; `tools/plot_perimeter.py` overlays the ring on roads and terrain before touching a corner),
 `weapon_attachments.gd` (hangs the mod models on a weapon; see Weapon mods).
 Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scored in `main._zombie_killed`
@@ -203,8 +206,13 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   every compatible mod: bore axis, flush fit, calibre, no receiver or hand clipping, muzzle moved, grips and
   sight line unchanged, stacked loadout, co-op snapshot). Add `--render-mods` in a windowed run for
   `artifacts/weapon-mods/<weapon>-<mod>.png` (the joint, broadside, hands hidden) and `-ganz.png` (whole gun).
-  `tests/weapon_mods.gd` stays the economy side. `weapon_effects.gd` fails 14 checks on knife and hatchet
-  (the suite asks melee for muzzle flash) - that predates the mods.
+  `tests/weapon_mods.gd` stays the economy side. `weapon_effects.gd` (181 checks, windowed) now skips
+  melee in its muzzle loop, so knife and hatchet no longer fail it.
+- Coop load (Sep 2026): `--suite=coop_snapshot_cost --smoke-test --no-intro --no-music --no-foliage` (headless)
+  times one host snapshot tick with four players and a full horde - build, var_to_bytes and DEFLATE run on the
+  main thread ten times a second; `--suite=coop_host_load` (windowed, needs a renderer) measures the host's own
+  frames while carrying that round. Sep 2026 on the dev PC: 2.1 ms per tick (40.7 kB raw, 6.8 kB packed) and
+  143 FPS with the worst of 2143 frames at 13.1 ms.
 - Horde checks: `Godot.exe --path godot --script res://tests/run.gd -- --suite=horde_visual --no-intro` (titan on the
   field, second skin, skin line, short titan walk -> `shots/horde_*.png`, prints HORDE_TITAN / HORDE_SKINS /
   HORDE_WALK) and `--suite=horde_bench --no-intro` (60 zombies: frozen / no shadows / anims paused / simulated FPS;

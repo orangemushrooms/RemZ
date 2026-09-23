@@ -253,10 +253,15 @@ func begin_strike(destination: Vector3) -> void:
 	emit_cue("windup")
 	update_warning()
 
-func clear_strike_line(target_position: Vector3, target_body: CollisionObject3D = null) -> bool:
+func clear_strike_line(target_position: Vector3, target_body: CollisionObject3D = null, through_perimeter := false) -> bool:
 	var q := PhysicsRayQueryParameters3D.create(strike_point + Vector3.UP * 1.0, target_position + Vector3.UP * 1.0, 1 | 8, [get_rid()])
 	var hit := get_world_3d().direct_space_state.intersect_ray(q)
-	return hit.is_empty() or (target_body != null and hit.collider == target_body)
+	if hit.is_empty(): return true
+	if target_body != null and hit.collider == target_body: return true
+	# A gate is part of the palisade. The slam lands at reach * 0.8, so unless the giant stands
+	# exactly square to the gate the line grazes the neighbouring wall - which used to shield the
+	# gate from every angled approach. Players, towers and huts stay protected by the wall.
+	return through_perimeter and hit.collider.is_in_group("perimeter_wall")
 
 func resolve_strike() -> void:
 	impact_serial += 1
@@ -268,7 +273,7 @@ func resolve_strike() -> void:
 		if actor.alive and actor.global_position.distance_to(strike_point) < blast_radius() and clear_strike_line(actor.global_position):
 			actor.damage(float(type.damage) * damage_mul, strike_point)
 	for b in barricades:
-		if b.hp > 0 and b.attack_point(strike_point).distance_to(strike_point) < blast_radius() and clear_strike_line(b.attack_point(strike_point), b.body):
+		if b.hp > 0 and b.attack_point(strike_point).distance_to(strike_point) < blast_radius() and clear_strike_line(b.attack_point(strike_point), b.body, true):
 			b.damage(230.0 * damage_mul * float(type.get("structure_mul", 1.0)))
 	for tower in get_tree().get_nodes_in_group("defence_towers"):
 		if tower.hp > 0 and tower.attack_point(strike_point).distance_to(strike_point) < blast_radius() and clear_strike_line(tower.attack_point(strike_point), tower.body):

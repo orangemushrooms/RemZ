@@ -13,6 +13,11 @@ func check(ok: bool, text: String) -> void:
 	print("PASS: " if ok else "FAIL: ", text)
 
 func run() -> void:
+	# The dummy renderer returns no MultiMesh transforms, which would fail every wall check below.
+	if DisplayServer.get_name() == "headless":
+		push_error("Perimeter beam geometry requires a rendered window.")
+		quit(1)
+		return
 	for direction: Vector3 in [Vector3(6, 0, 0), Vector3(0, 0, 6), Vector3(4, 1.2, 5), Vector3(-3, -2, 7)]:
 		var start := Vector3(8, 2, -4)
 		var end := start + direction

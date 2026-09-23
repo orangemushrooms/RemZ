@@ -56,10 +56,19 @@ func run() -> void:
 		player.look_at(Vector3(target.x, player.global_position.y, target.z), Vector3.UP, true)
 		player.camera.look_at(target)
 		var hp0 := z.hp
-		weapons.cur().cooldown = 0.0
-		weapons.cur().ammo = 30
-		weapons.try_fire()
 		var dist := player.camera.global_position.distance_to(target)
+		# Aim.spread keeps a minimum cone (maxf(0.25, precision) plus a hip term), so a single
+		# shot at this range is a dice roll by design. Fire aimed bursts instead: the point here
+		# is that "range" only starts the damage falloff and never shortens the 600 m hit ray.
+		weapons.ads = 1.0
+		for _shot in 8:
+			weapons._aim_kick = Vector2.ZERO
+			weapons._bloom = 0.0
+			weapons.cur().cooldown = 0.0
+			weapons.cur().ammo = 30
+			weapons.try_fire()
+			if z.hp < hp0: break
+		weapons.ads = 0.0
 		check(z.hp < hp0, "%s hits a zombie at %.0f m (hp %.0f -> %.0f)" % [wid, dist, hp0, z.hp])
 		z.queue_free()
 		await physics_frame
@@ -78,7 +87,8 @@ func run() -> void:
 	check(cut_soft < cut_gravel, "Forest floor is duller than gravel (%.0f Hz < %.0f Hz)" % [cut_soft, cut_gravel])
 	for pair in [[Vector2(120, 0), "hard"], [Vector2(70, 41), "gravel"], [Vector2(7, -7), "gravel"], [Vector2(60, 80), "grass"], [Vector2(-40, -40), "leaves"]]:
 		player.global_position = Map.ground_pos(pair[0].x, pair[0].y) + Vector3.UP * 0.2
-		check(player._surface_step() == pair[1], "Surface at %s is %s" % [pair[0], pair[1]])
+		var surface := player._surface_step()
+		check(surface == pair[1], "Surface at %s is %s (got %s)" % [pair[0], pair[1], surface])
 	var hut: Dictionary = Map.BUILDINGS["waldhuette"]
 	player.global_position = Map.ground_pos(hut.pos.x, hut.pos.y) + Vector3.UP * 0.2
 	check(player._surface_step() == "hard", "Garage floor is hard")
