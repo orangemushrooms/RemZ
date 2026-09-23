@@ -10,7 +10,8 @@ extends SceneTree
 
 const WHITE_LEVEL := 0.92        # a pixel whose three channels all exceed this counts as blown out
 const MAX_WHITE_SHARE := 0.2     # a frame with more blown-out pixels than this fails
-const MAX_LOADING_MEAN := 0.12  # the loading screen is dark ink with a little text (about 0.06)
+const MAX_LOADING_EDGE := 0.12  # the loading screen's outer strips are dark ink (about 0.05); the crest
+                                # and the text sit in the middle
 const SAVE_LIMIT := 30
 
 var game: Node
@@ -55,15 +56,26 @@ func _frame_drawn() -> void:
 	small.convert(Image.FORMAT_RGB8)
 	small.resize(96, 54, Image.INTERPOLATE_BILINEAR)
 	var total := 0.0
+	var edge := 0.0
+	var edge_count := 0
+	var centre := 0.0
+	var centre_count := 0
 	var white := 0
 	for y in small.get_height():
 		for x in small.get_width():
 			var c := small.get_pixel(x, y)
-			total += 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b
+			var luminance := 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b
+			total += luminance
+			if x < 14 or x >= small.get_width() - 14:
+				edge += luminance
+				edge_count += 1
+			elif x >= 34 and x < 62 and y >= 6 and y < 21:   # the crest's yellow upper field
+				centre += luminance
+				centre_count += 1
 			if c.r > WHITE_LEVEL and c.g > WHITE_LEVEL and c.b > WHITE_LEVEL: white += 1
 	var count := small.get_width() * small.get_height()
 	var label := _stage()
-	var entry := {"t": Time.get_ticks_msec() - began, "stage": label, "mean": total / count,
+	var entry := {"t": Time.get_ticks_msec() - began, "stage": label, "mean": total / count, "edge": edge / edge_count, "centre": centre / centre_count,
 		"white": float(white) / count, "frame": Engine.get_frames_drawn()}
 	var camera := root.get_camera_3d()
 	if camera:
@@ -121,12 +133,18 @@ func run() -> void:
 	var by_stage := {}
 	for entry in frames:
 		var key: String = entry.stage
-		if not by_stage.has(key): by_stage[key] = {"frames": 0, "worst_white": 0.0, "brightest": 0.0}
+		if not by_stage.has(key): by_stage[key] = {"frames": 0, "worst_white": 0.0, "brightest": 0.0, "brightest_edge": 0.0, "centres": []}
+		by_stage[key].centres.append(entry.centre)
 		by_stage[key].frames += 1
 		by_stage[key].worst_white = maxf(by_stage[key].worst_white, entry.white)
 		by_stage[key].brightest = maxf(by_stage[key].brightest, entry.mean)
+		by_stage[key].brightest_edge = maxf(by_stage[key].brightest_edge, entry.edge)
 		if worst.is_empty() or entry.white > worst.white: worst = entry
 	for key in by_stage:
+		var centres: Array = by_stage[key].centres
+		centres.sort()
+		by_stage[key].erase("centres")
+		by_stage[key]["centre_median"] = centres[centres.size() / 2]
 		print("START_STAGE %-16s %s" % [key, JSON.stringify(by_stage[key])])
 	check(frames.size() > 100, "Frames were read back (%d)" % frames.size())
 	check(by_stage.has("loading screen") and by_stage.has("menu") and by_stage.has("intro wake")
@@ -136,8 +154,10 @@ func run() -> void:
 		check(by_stage[key].worst_white <= MAX_WHITE_SHARE,
 			"%s: no blown-out frame (worst %.0f %% white)" % [key, 100.0 * by_stage[key].worst_white])
 		if key.ends_with("loading screen"):
-			check(by_stage[key].brightest <= MAX_LOADING_MEAN,
-				"%s: every frame shows the dark loading screen, never the world behind it (brightest mean %.2f)" % [key, by_stage[key].brightest])
+			check(by_stage[key].brightest_edge <= MAX_LOADING_EDGE,
+				"%s: every frame shows the dark loading screen, never the world behind it (brightest outer strip %.2f)" % [key, by_stage[key].brightest_edge])
+			check(by_stage[key].centre_median > 0.2,
+				"%s: the crest stands above the title (yellow field brightness %.2f)" % [key, by_stage[key].centre_median])
 	print("START_EXPOSURE_WORST ", JSON.stringify(worst))
 	print("START_EXPOSURE_DONE checks=%d failures=%d" % [checks, failures])
 	quit(0 if failures == 0 else 1)

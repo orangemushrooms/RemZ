@@ -251,9 +251,13 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   a frame after every build step. Controls record their draw commands only on the next idle frame, which never
   comes inside `_ready`, so the screen paints with RenderingServer calls on its own canvas item. As Labels it
   stayed empty at the very first start and every step showed the half-built world, blown out white (sky radiance
-  not baked yet). `--suite=start_exposure --no-music` (windowed, no --smoke-test, 12 checks) reads back every
-  frame from the first loading step through menu, intro and pause -> Hauptmenü and fails on a blown-out frame or
-  a loading-screen frame that is not the dark screen. `frame_post_draw` reports the previous frame.
+  not baked yet). Above the title stands the crest with the zombie deer, `assets/ui/remz_crest.png`, cut out of
+  `godot/icon.png` by `python tools/build_crest.py [--preview]` (traced rim, transparent backdrop, soft red glow,
+  827 x 959 px, imported with mipmaps); `BootScreen.crest_rect` makes it as tall as the window allows but never
+  more than 1.1x its own pixels on the physical screen. `--suite=start_exposure --no-music` (windowed, no
+  --smoke-test, 14 checks) reads back every frame from the first loading step through menu, intro and pause ->
+  Hauptmenü and fails on a blown-out frame, a loading-screen frame whose outer strips are not the dark ink, or a
+  loading screen without the crest. `frame_post_draw` reports the previous frame.
 - Cheat menu (Strg+Shift+D, `cheat_menu.gd`): +1000 R, skip wave, minimap reveals and every weapon of
   `Weapons.ORDER` with a full magazine (mods included) and the reserve at `reserve_limit` (`fill_weapon`, also
   cools a plasma barrel); the chosen weapon goes straight into the hands, "Alle Waffen" fills all of them.

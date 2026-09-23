@@ -20,6 +20,13 @@ const SUBTITLE := "NACHT AM HEITERSBERG"
 const COLUMN := 420.0
 const GAP := 10.0
 const BAR_HEIGHT := 6.0
+# The crest with the zombie deer, cut out of the game icon by tools/build_crest.py (827 x 959 px, soft
+# red glow included). It takes whatever height the window leaves above the title column, up to its
+# own pixels times MAX_UPSCALE on the physical screen, so it never turns soft.
+const CREST := preload("res://assets/ui/remz_crest.png")
+const CREST_GAP := 18.0
+const MAX_UPSCALE := 1.1
+const MARGIN := 0.04
 var _item: RID                   # everything visible: backdrop, title, bar, status line
 var _track := Hud._flat(Color(1, 1, 1, 0.08), 3)
 var _fill := Hud._flat(Hud.GOLD, 3)
@@ -49,6 +56,7 @@ func _init() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_item = RenderingServer.canvas_item_create()
 	RenderingServer.canvas_item_set_parent(_item, get_canvas())
+	RenderingServer.canvas_item_set_default_texture_filter(_item, RenderingServer.CANVAS_ITEM_TEXTURE_FILTER_LINEAR_WITH_MIPMAPS)
 	var blocker := Control.new()
 	blocker.set_anchors_preset(Control.PRESET_FULL_RECT)
 	blocker.mouse_filter = Control.MOUSE_FILTER_STOP   # nothing behind it may be clicked while loading
@@ -90,15 +98,19 @@ func close() -> void:
 	tween.tween_method(func(alpha: float) -> void: RenderingServer.canvas_item_set_modulate(_item, Color(1, 1, 1, alpha)), 1.0, 0.0, 0.35)
 	tween.tween_callback(queue_free)
 
-# The same centred column the Label version had: title, subtitle, bar, status line.
+# The crest, then the same centred column the Label version had: title, subtitle, bar, status line.
 func _paint() -> void:
 	if not is_inside_tree() or DisplayServer.get_name() == "headless": return
 	var size := get_viewport().get_visible_rect().size
 	var font := ThemeDB.fallback_font
 	var left := (size.x - COLUMN) * 0.5
-	var y := (size.y - (font.get_height(30) + font.get_height(12) + font.get_height(13) + BAR_HEIGHT + 3.0 * GAP)) * 0.5
+	var column := font.get_height(30) + font.get_height(12) + font.get_height(13) + BAR_HEIGHT + 3.0 * GAP
+	var crest := crest_rect(size, column)
+	var y := crest.end.y + CREST_GAP
 	RenderingServer.canvas_item_clear(_item)
 	RenderingServer.canvas_item_add_rect(_item, Rect2(Vector2.ZERO, size), Hud.INK)
+	if crest.size.y >= 1.0:
+		RenderingServer.canvas_item_add_texture_rect(_item, crest, CREST.get_rid())
 	font.draw_string(_item, Vector2(left, y + font.get_ascent(30)), TITLE, HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 30, Hud.GOLD)
 	y += font.get_height(30) + GAP
 	font.draw_string(_item, Vector2(left, y + font.get_ascent(12)), SUBTITLE, HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 12, Color(0.875, 0.875, 0.875, 0.6))
@@ -110,3 +122,15 @@ func _paint() -> void:
 	var status := Hud.MUTED
 	status.a = _pulse
 	font.draw_string(_item, Vector2(left, y + font.get_ascent(13)), _text, HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 13, status)
+
+# Where the crest goes in a window of this (logical) size: as tall as the room above the text column
+# allows, never wider than the window, and never past MAX_UPSCALE times its own pixels on screen - the
+# canvas stretch maps logical to physical pixels, and a 1440p or 4K window would blow it up otherwise.
+func crest_rect(size: Vector2, column: float) -> Rect2:
+	var pixels := float(DisplayServer.window_get_size().y) / maxf(size.y, 1.0)
+	var native := Vector2(CREST.get_size())
+	var height := minf(size.y * (1.0 - 2.0 * MARGIN) - column - CREST_GAP, native.y * MAX_UPSCALE / maxf(pixels, 0.01))
+	height = maxf(minf(height, size.x * (1.0 - 2.0 * MARGIN) * native.y / native.x), 0.0)
+	var width := height * native.x / native.y
+	var top := (size.y - (height + CREST_GAP + column)) * 0.5
+	return Rect2((size.x - width) * 0.5, top, width, height)
