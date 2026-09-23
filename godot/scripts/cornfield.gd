@@ -28,15 +28,20 @@ static func field_to_world(p: Vector2) -> Vector2:
 static func world_to_field(p: Vector2) -> Vector2:
 	var relative := p-FIELD_ORIGIN
 	return Vector2(relative.dot(FIELD_AXIS),relative.dot(FIELD_CROSS))
+# Called on the main thread before the ground cover worker asks field_ground(), so that thread only
+# ever reads the index.
+static func index_trees() -> void:
+	if not _tree_cells.is_empty(): return
+	for tree in Map.TREES:
+		var at := Vector2(tree[0],tree[1])
+		var cell := Vector2i(floori(at.x/8.0),floori(at.y/8.0))
+		if not _tree_cells.has(cell): _tree_cells[cell] = []
+		_tree_cells[cell].append(at)
+
 static func field_ground(p: Vector2) -> bool:
 	if not FIELD.has_point(world_to_field(p)): return false
 	if Map.meadow_weight(p.x,p.y)<0.75 or Map.leaf_weight(p.x,p.y)>0.12: return false
-	if _tree_cells.is_empty():
-		for tree in Map.TREES:
-			var at := Vector2(tree[0],tree[1])
-			var cell := Vector2i(floori(at.x/8.0),floori(at.y/8.0))
-			if not _tree_cells.has(cell): _tree_cells[cell] = []
-			_tree_cells[cell].append(at)
+	index_trees()
 	var cell := Vector2i(floori(p.x/8.0),floori(p.y/8.0))
 	for z in range(-1,2):
 		for x in range(-1,2):

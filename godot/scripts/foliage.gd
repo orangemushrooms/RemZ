@@ -201,57 +201,191 @@ static func _multimesh(mesh: Mesh, count: int, mat: Material) -> MultiMeshInstan
 	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	return mi
 
-# A whole-map MultiMesh cannot cull individual tufts. Partition the generated
-# transforms into local cells, including a conservative bound for shader wind.
-static func _partition(mesh: Mesh, material: Material, transforms: Array[Transform3D], colors: Array[Color], category: String) -> Node3D:
-	var root := Node3D.new()
-	root.name = category.capitalize()
+# ---------------------------------------------------------------- ground cover
+# Grass tufts, woodland grass, ferns and leaf litter come from fixed seeds, so every build of the map
+# yields the very same instances. Placing them takes some two million terrain samples - 25 s in the
+# editor, several seconds in the export, all of it on the main thread until September 2026, which
+# froze the window long enough for Windows to offer "Programm schliessen" on every return to the
+# menu. Now the first build of a run places them on a worker thread while the loading screen keeps
+# drawing, and every later build ("Nochmal", "Hauptmenü", a new co-op round) reuses the finished
+# MultiMeshes at once. Nothing edits these MultiMeshes after they are made, so sharing them is safe.
+const COVER_CELL := 16.0
+const LEAF_SEED := 4243          # leaf litter used the map's shared generator before; now its own
+static var _cover: Array = []    # finished layers: {name, parent, category, material, cells: [[origin, MultiMesh]]}
+static var _cover_specs: Array = []
+static var _cover_result: Array = []
+static var _cover_task := -1
+
+# Starts placing the requested layers on a worker thread, once per run.
+static func prepare_ground_cover(leaves: bool, grass: bool) -> void:
+	if not _cover.is_empty() or _cover_task != -1 or not (leaves or grass): return
+	# Meshes and materials are made here on the main thread; the worker only needs their bounds.
+	var specs: Array = []
+	if leaves:
+		var quad := QuadMesh.new()
+		quad.size = Vector2(0.22, 0.16)
+		quad.orientation = PlaneMesh.FACE_Y
+		specs.append({"layer": "leaves", "name": "Leaves", "parent": "", "category": "leaves", "mesh": quad,
+			"material": sprite_material("res://assets/sprites/leaves.png", Vector2(4, 2), 0.0, Color(0.7, 0.6, 0.5))})
+	if grass:
+		var meadow := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(0.5, 0.52, 0.3))
+		meadow.set_shader_parameter("meadow_distance_thinning", true)
+		specs.append({"layer": "meadow", "name": "MeadowGrass", "parent": "", "category": "grass", "mesh": _tuft_mesh(0.82, 0.4), "material": meadow})
+		specs.append({"layer": "woodland_grass", "name": "WoodlandGrass", "parent": "ForestFloor", "category": "grass", "mesh": _tuft_mesh(0.7, 0.45),
+			"material": sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 0.65, Color(0.62, 0.64, 0.4))})
+		specs.append({"layer": "woodland_ferns", "name": "WoodlandFerns", "parent": "ForestFloor", "category": "grass", "mesh": _tuft_mesh(1.25, 0.65),
+			"material": sprite_material("res://assets/sprites/leaf_fern.png", Vector2.ONE, 0.55, Color(0.68, 0.75, 0.5))})
+	for spec: Dictionary in specs: spec["bounds"] = (spec.mesh as Mesh).get_aabb()
+	_cover_specs = specs
+	var work: Array = []
+	for spec: Dictionary in specs: work.append({"layer": spec.layer, "bounds": spec.bounds})
+	_cover_task = WorkerThreadPool.add_task(_place_cover.bind(work), false, "Ground cover")
+
+# True once the MultiMeshes exist; converts the worker's output the first time it is asked.
+static func ground_cover_ready() -> bool:
+	if not _cover.is_empty(): return true
+	if _cover_task == -1 or not WorkerThreadPool.is_task_completed(_cover_task): return false
+	_finish_cover()
+	return true
+
+# Blocks until the placement is done (leaving the scene while the worker still runs).
+static func finish_ground_cover() -> void:
+	if _cover_task != -1: _finish_cover()
+
+static func _finish_cover() -> void:
+	WorkerThreadPool.wait_for_task_completion(_cover_task)
+	_cover_task = -1
+	for i in _cover_specs.size():
+		var spec: Dictionary = _cover_specs[i]
+		var cells: Array = []
+		for cell: Dictionary in _cover_result[i]:
+			var mm := MultiMesh.new()
+			mm.transform_format = MultiMesh.TRANSFORM_3D
+			mm.use_custom_data = true
+			mm.mesh = spec.mesh
+			mm.instance_count = cell.count
+			mm.buffer = cell.buffer
+			mm.custom_aabb = cell.aabb
+			cells.append([cell.origin, mm])
+		_cover.append({"name": spec.name, "parent": spec.parent, "category": spec.category, "material": spec.material, "cells": cells})
+	_cover_result = []
+
+# Fresh nodes for this scene around the shared MultiMeshes, one per 16 m cell so they still cull.
+static func attach_ground_cover(scene: Node3D) -> void:
+	var parents := {}
+	for layer: Dictionary in _cover:
+		var root := Node3D.new()
+		root.name = layer.name
+		for cell: Array in layer.cells:
+			var instance := MultiMeshInstance3D.new()
+			instance.multimesh = cell[1]
+			instance.material_override = layer.material
+			instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			instance.position = cell[0]
+			instance.add_to_group("render_" + str(layer.category))
+			root.add_child(instance)
+		if str(layer.parent).is_empty():
+			scene.add_child(root)
+			continue
+		if not parents.has(layer.parent):
+			var holder := Node3D.new()
+			holder.name = layer.parent
+			scene.add_child(holder)
+			parents[layer.parent] = holder
+		parents[layer.parent].add_child(root)
+
+# ---- worker thread: plain data only, no nodes, no RenderingServer calls
+static func _place_cover(work: Array) -> void:
+	var result: Array = []
+	var woodland: Array = []
+	for job: Dictionary in work:
+		var placed: Array
+		match str(job.layer):
+			"leaves": placed = _place_leaves(100000)
+			"meadow": placed = _place_meadow()
+			"woodland_grass":
+				woodland = _place_woodland()
+				placed = woodland[0]
+			"woodland_ferns":
+				if woodland.is_empty(): woodland = _place_woodland()
+				placed = woodland[1]
+		result.append(_pack_cells(placed[0], placed[1], job.bounds))
+	_cover_result = result
+
+# A whole-map MultiMesh cannot cull individual tufts: 16 m cells, each with a conservative bound for
+# the shader's wind. MultiMesh buffer layout: the 3x4 transform row by row, then the custom data.
+static func _pack_cells(transforms: Array[Transform3D], colors: Array[Color], mesh_bounds: AABB) -> Array:
 	var cells := {}
 	for i in transforms.size():
 		var p := transforms[i].origin
-		var cell := Vector2i(floori(p.x / 16.0), floori(p.z / 16.0))
+		var cell := Vector2i(floori(p.x / COVER_CELL), floori(p.z / COVER_CELL))
 		if not cells.has(cell):
 			cells[cell] = []
 		cells[cell].append(i)
+	var packed: Array = []
 	for cell: Vector2i in cells:
 		var indices: Array = cells[cell]
-		var instance := _multimesh(mesh, indices.size(), material)
-		instance.position = Vector3(cell.x * 16.0, 0, cell.y * 16.0)
-		instance.add_to_group("render_" + category)
+		var origin := Vector3(cell.x * COVER_CELL, 0, cell.y * COVER_CELL)
+		var buffer := PackedFloat32Array()
+		buffer.resize(indices.size() * 16)
 		var bounds := AABB()
 		for i in indices.size():
-			var transform := transforms[indices[i]]
-			transform.origin -= instance.position
-			instance.multimesh.set_instance_transform(i, transform)
-			instance.multimesh.set_instance_custom_data(i, colors[indices[i]])
-			var aabb := transform * mesh.get_aabb()
+			var t := transforms[indices[i]]
+			t.origin -= origin
+			var c := colors[indices[i]]
+			var k := i * 16
+			buffer[k] = t.basis.x.x; buffer[k + 1] = t.basis.y.x; buffer[k + 2] = t.basis.z.x; buffer[k + 3] = t.origin.x
+			buffer[k + 4] = t.basis.x.y; buffer[k + 5] = t.basis.y.y; buffer[k + 6] = t.basis.z.y; buffer[k + 7] = t.origin.y
+			buffer[k + 8] = t.basis.x.z; buffer[k + 9] = t.basis.y.z; buffer[k + 10] = t.basis.z.z; buffer[k + 11] = t.origin.z
+			buffer[k + 12] = c.r; buffer[k + 13] = c.g; buffer[k + 14] = c.b; buffer[k + 15] = c.a
+			var aabb := t * mesh_bounds
 			bounds = aabb if i == 0 else bounds.merge(aabb)
-		instance.multimesh.custom_aabb = bounds.grow(0.25)
-		root.add_child(instance)
-	return root
+		packed.append({"origin": origin, "count": indices.size(), "buffer": buffer, "aabb": bounds.grow(0.25)})
+	return packed
 
-# Flat leaves lying on the ground. sampler(rng) -> Vector3 position or null
-static func ground_leaves(count: int, sampler: Callable, rng: RandomNumberGenerator) -> Node3D:
-	var quad := QuadMesh.new()
-	quad.size = Vector2(0.22, 0.16)
-	quad.orientation = PlaneMesh.FACE_Y
-	var material := sprite_material("res://assets/sprites/leaves.png", Vector2(4, 2), 0.0, Color(0.7, 0.6, 0.5))
+# Roads buffered once instead of scanning every road segment for every tuft.
+static func _road_buffers(margin: float) -> Array:
+	var buffers: Array = []
+	for road in Map.ROADS:
+		for polygon in Geometry2D.offset_polyline(PackedVector2Array(road.pts), road.width * 0.5 + margin, Geometry2D.JOIN_ROUND, Geometry2D.END_ROUND):
+			var bounds := Rect2(polygon[0], Vector2.ZERO)
+			for point in polygon:
+				bounds = bounds.expand(point)
+			buffers.append({"bounds": bounds, "polygon": polygon})
+	return buffers
+
+static func _by_road(point: Vector2, buffers: Array) -> bool:
+	for buffer in buffers:
+		if buffer.bounds.has_point(point) and Geometry2D.is_point_in_polygon(point, buffer.polygon):
+			return true
+	return false
+
+# Flat leaves lying on the ground, thickest under the trees, thin on tracks and in clearings.
+static func _place_leaves(count: int) -> Array:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = LEAF_SEED
 	var transforms: Array[Transform3D] = []
 	var colors: Array[Color] = []
 	var placed := 0
 	var tries := 0
 	while placed < count and tries < count * 4:
 		tries += 1
-		var p = sampler.call(rng)
-		if p == null:
+		var x: float = rng.randf_range(-110.0, 110.0)
+		var z: float = rng.randf_range(-120.0, 100.0)
+		if rng.randf() > Map.leaf_weight(x, z) * 0.9 + 0.05:
 			continue
+		if Map.on_road(x, z) and rng.randf() > 0.25:
+			continue
+		if Map.in_building(x, z) or (Map.in_clearing(x, z) and rng.randf() > 0.45):
+			continue
+		var p := Map.ground_pos(x, z)
 		var b := Basis().rotated(Vector3.UP, rng.randf() * TAU)
 		b = b.rotated(Vector3(rng.randf() - 0.5, 0.0, rng.randf() - 0.5).normalized(), rng.randf() * 0.25)
 		b = b.scaled(Vector3.ONE * rng.randf_range(0.7, 1.3))
 		transforms.append(Transform3D(b, p + Vector3(0, 0.015, 0)))
 		colors.append(Color(float(rng.randi() % 8), rng.randf_range(0.7, 1.1), 0.0, 0.0))
 		placed += 1
-	return _partition(quad, material, transforms, colors, "leaves")
+	return [transforms, colors]
 
 static func _tuft_mesh(w: float, h: float) -> ArrayMesh:
 	var st := SurfaceTool.new()
@@ -269,27 +403,18 @@ static func _tuft_mesh(w: float, h: float) -> ArrayMesh:
 	return st.commit()
 
 # Dense meadow cover: jittered spacing fills the gaps left by independent random clumps.
-static func meadow_grass() -> Node3D:
+static func _place_meadow() -> Array:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 34127
 	var patches := FastNoiseLite.new()
 	patches.seed = 34127
 	patches.frequency = 0.06
-	var mesh := _tuft_mesh(0.82, 0.4)
-	var material := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 1.0, Color(0.5, 0.52, 0.3))
-	material.set_shader_parameter("meadow_distance_thinning", true)
 	var transforms: Array[Transform3D] = []
 	var colors: Array[Color] = []
 	# Include a border beyond the playable bounds so the field does not end at the player limit.
 	var area := Map.BOUNDS.grow(20.0).intersection(Map.extent())
-	# Buffer roads once instead of scanning every road segment for every blade cluster.
-	var road_buffers: Array = []
-	for road in Map.ROADS:
-		for polygon in Geometry2D.offset_polyline(PackedVector2Array(road.pts), road.width * 0.5 + 0.7, Geometry2D.JOIN_ROUND, Geometry2D.END_ROUND):
-			var bounds := Rect2(polygon[0], Vector2.ZERO)
-			for point in polygon:
-				bounds = bounds.expand(point)
-			road_buffers.append({"bounds": bounds, "polygon": polygon})
+	var road_buffers := _road_buffers(0.7)
+	var cornfield := preload("res://scripts/cornfield.gd")
 	var spacing := 0.28
 	for row in ceili(area.size.y / spacing):
 		for column in ceili(area.size.x / spacing):
@@ -298,18 +423,13 @@ static func meadow_grass() -> Node3D:
 			var point := Vector2(x, z)
 			if not area.has_point(point):
 				continue
-			if preload("res://scripts/cornfield.gd").field_ground(point): continue
+			if cornfield.field_ground(point): continue
 			var cover := Map.meadow_weight(x, z)
 			if cover < 0.5 or (cover < 0.85 and rng.randf() > cover):
 				continue
 			if Map.in_building(x, z, 0.8) or Map.in_clearing(x, z):
 				continue
-			var by_road := false
-			for buffer in road_buffers:
-				if buffer.bounds.has_point(point) and Geometry2D.is_point_in_polygon(point, buffer.polygon):
-					by_road = true
-					break
-			if by_road:
+			if _by_road(point, road_buffers):
 				continue
 			if not Map.POND.is_empty() and point.distance_to(Map.POND.pos) < Map.POND.r + 1.0:
 				continue
@@ -323,16 +443,13 @@ static func meadow_grass() -> Node3D:
 			var pos := Map.ground_pos(x, z) - Vector3.UP * 0.025
 			transforms.append(Transform3D(basis * Basis.from_scale(Vector3(width, height, width)), pos))
 			colors.append(Color(float(rng.randi() % 4), rng.randf_range(0.75, 1.05), 1.0, rng.randf_range(0.0, 0.9)))
-	var root := _partition(mesh, material, transforms, colors, "grass")
-	root.name = "MeadowGrass"
-	return root
+	return [transforms, colors]
 
 # Low woodland cover across the playable map, including the approach to the hut.
 # A jittered grid fills gaps; broad patches vary density, height and fern abundance.
-# Its own seed leaves trees, pickups and the existing meadow distribution unchanged.
-static func forest_floor() -> Node3D:
-	var root := Node3D.new()
-	root.name = "ForestFloor"
+# Its own seed leaves trees, pickups and the meadow distribution unchanged.
+# Returns [[grass transforms, grass colours], [fern transforms, fern colours]].
+static func _place_woodland() -> Array:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 62017
 	var patches := FastNoiseLite.new()
@@ -343,14 +460,7 @@ static func forest_floor() -> Node3D:
 	var ferns: Array[Transform3D] = []
 	var fern_colors: Array[Color] = []
 	var area := Map.BOUNDS.intersection(Map.extent())
-	# Buffer tracks once; avoid scanning every road segment for every tuft.
-	var road_buffers: Array = []
-	for road in Map.ROADS:
-		for polygon in Geometry2D.offset_polyline(PackedVector2Array(road.pts), road.width * 0.5 + 0.7, Geometry2D.JOIN_ROUND, Geometry2D.END_ROUND):
-			var bounds := Rect2(polygon[0], Vector2.ZERO)
-			for point in polygon:
-				bounds = bounds.expand(point)
-			road_buffers.append({"bounds": bounds, "polygon": polygon})
+	var road_buffers := _road_buffers(0.7)
 	var spacing := 0.65
 	for row in ceili(area.size.y / spacing):
 		for column in ceili(area.size.x / spacing):
@@ -364,12 +474,7 @@ static func forest_floor() -> Node3D:
 				continue
 			if Map.in_building(x, z, 1.3) or Map.in_clearing(x, z):
 				continue
-			var by_road := false
-			for buffer in road_buffers:
-				if buffer.bounds.has_point(Vector2(x, z)) and Geometry2D.is_point_in_polygon(Vector2(x, z), buffer.polygon):
-					by_road = true
-					break
-			if by_road:
+			if _by_road(Vector2(x, z), road_buffers):
 				continue
 			if not Map.POND.is_empty() and Vector2(x, z).distance_to(Map.POND.pos) < Map.POND.r + 1.0:
 				continue
@@ -386,16 +491,7 @@ static func forest_floor() -> Node3D:
 				var size := rng.randf_range(0.65, 1.15)
 				ferns.append(Transform3D(basis * Basis.from_scale(Vector3(size, size, size)), pos))
 				fern_colors.append(Color(0.0, rng.randf_range(0.7, 1.1), 0.3, 0.0))
-	var grass_mat := sprite_material("res://assets/sprites/grass.png", Vector2(4, 1), 0.65, Color(0.62, 0.64, 0.4))
-	var fern_mat := sprite_material("res://assets/sprites/leaf_fern.png", Vector2.ONE, 0.55, Color(0.68, 0.75, 0.5))
-	# Reuse the grass profile's distance limits and shadow-free 16 m spatial batches.
-	var grass_cells := _partition(_tuft_mesh(0.7, 0.45), grass_mat, grasses, grass_colors, "grass")
-	grass_cells.name = "WoodlandGrass"
-	root.add_child(grass_cells)
-	var fern_cells := _partition(_tuft_mesh(1.25, 0.65), fern_mat, ferns, fern_colors, "grass")
-	fern_cells.name = "WoodlandFerns"
-	root.add_child(fern_cells)
-	return root
+	return [[grasses, grass_colors], [ferns, fern_colors]]
 
 # Foliage cards around tree crowns: crowns = Array of [Vector3 center, float radius]
 static func canopy(crowns: Array, rng: RandomNumberGenerator) -> MultiMeshInstance3D:

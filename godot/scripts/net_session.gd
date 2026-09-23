@@ -488,6 +488,8 @@ func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> voi
 		game.hud.set_loading(true)
 	status = "Rückkehr zum Hauptmenü …"
 	changed.emit()
+	# The loading screen covers the rebuild and fades into the start menu (boot_screen.gd).
+	BootScreen.cover(get_tree(), "Zurück ins Hauptmenü …")
 	world = null
 	game = null
 	_message_after_load = reason
@@ -521,6 +523,7 @@ func _reload(session_epoch: int) -> void:
 	_snapshot_parts.clear()
 	world = null
 	game = null
+	BootScreen.cover(get_tree(), "Neue Runde …")
 	get_tree().paused = false
 	get_tree().call_deferred("reload_current_scene")
 

@@ -61,11 +61,57 @@ var _navigation_task := -1
 var _navigation_geometry = preload("res://scripts/navigation_geometry.gd").new()
 var _alive_count := 0
 var render_stats := {}
+var _boot_t := Time.get_ticks_msec()
+var _boot_screen: BootScreen
+var _in_ready := false
+var _reloading := false
+# Build step -> [share of the loading bar, what the loading screen says meanwhile]
+const BOOT_STEPS := {
+	"environment": [0.03, "Gelände am Heitersberg"], "terrain": [0.14, "Wege und Strassen"],
+	"roads": [0.17, "Wald"], "forests": [0.24, "Waldhütte und Holzlager"], "buildings": [0.3, "Lagerplatz"],
+	"campsite, pond, fence": [0.33, "Unterholz"], "clutter": [0.4, "Maisfeld"], "cornfield": [0.47, "Gras und Laub"],
+	"foliage": [0.5, "Ausrüstung"], "  player, weapons": [0.62, "Tore, Händler und Aufträge"],
+	"  barricades .. progression": [0.66, "Geräusche des Waldes"], "  intro, cheats, music": [0.69, "Zombies"],
+	"prewarm + zombie models": [0.74, "Wegnetz der Zombies"], "navigation bake": [0.86, "Schlüssel und Vorräte"],
+	"navigation map, keys, cache": [0.9, "Effekte vorbereiten"], "render warm-up": [0.95, "Gras und Laub"],
+}
+
+# After every build step: --profile-boot prints how long it took (BOOT_STEP lines), and the loading
+# screen moves on - inside _ready it also keeps the window answering and draws itself (boot_screen.gd).
+func _boot_mark(step: String) -> void:
+	var now := Time.get_ticks_msec()
+	if "--profile-boot" in _flags: print("BOOT_STEP %-24s %6d ms" % [step, now - _boot_t])
+	_boot_t = now
+	if _boot_screen and BOOT_STEPS.has(step):
+		_boot_screen.step(BOOT_STEPS[step][0], BOOT_STEPS[step][1], _in_ready)
+
+# Menu actions that rebuild the scene ("Hauptmenü", "Nochmal") cover the screen first, so the last
+# game frame never hangs there while the map is rebuilt; the new scene fades the cover out once ready.
+func _reload_scene(text: String) -> void:
+	if _reloading: return
+	_reloading = true
+	BootScreen.cover(get_tree(), text)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+func _close_boot_screen() -> void:
+	if _boot_screen: _boot_screen.close()
+	_boot_screen = null
 
 func _ready() -> void:
 	rng.seed = 4242
 	_autotest = "--autotest" in OS.get_cmdline_user_args()
 	_flags = OS.get_cmdline_user_args()
+	_in_ready = true
+	# A menu action left its cover under the root window; the very first build brings its own.
+	_boot_screen = BootScreen.find(get_tree())
+	if _boot_screen == null:
+		_boot_screen = BootScreen.new()
+		add_child(_boot_screen)
+		_boot_screen.step(0.0, "Die Nacht bricht herein")
+	_boot_mark("enter _ready")
 	settings = GameSettings.new()
 	add_child(settings)
 	difficulty = GameSettings.DIFFICULTIES[settings.difficulty]
@@ -74,6 +120,7 @@ func _ready() -> void:
 	Map._ensure()
 	Progression.clear_space()
 	_build_environment()
+	_boot_mark("environment")
 	nav_region = NavigationRegion3D.new()
 	var nm := NavigationMesh.new()
 	nm.geometry_parsed_geometry_type = NavigationMesh.PARSED_GEOMETRY_STATIC_COLLIDERS
@@ -92,19 +139,28 @@ func _ready() -> void:
 	nav_region.navigation_mesh = nm
 	add_child(nav_region)
 	_build_terrain()
+	_boot_mark("terrain")
 	_build_roads()
+	_boot_mark("roads")
 	_build_forests()
+	_boot_mark("forests")
 	_build_buildings()
+	_boot_mark("buildings")
 	_build_campsite()
 	_build_small_campsite()
 	_build_pond()
 	_build_fence()
+	_boot_mark("campsite, pond, fence")
 	_build_clutter()
+	_boot_mark("clutter")
 	cornfield = preload("res://scripts/cornfield.gd").new()
 	add_child(cornfield)
 	cornfield.build(self)
+	_boot_mark("cornfield")
 	_build_foliage()
+	_boot_mark("foliage")
 	render_stats = RenderOptimizer.optimize(self)
+	_boot_mark("render optimizer")
 	print("RENDER_OPTIMIZER ", render_stats)
 
 	hud = Hud.new()
@@ -112,6 +168,7 @@ func _ready() -> void:
 	add_child(hud)
 	hud.start_pressed.connect(_on_start)
 	hud.main_menu_pressed.connect(_to_main_menu)
+	_boot_mark("  hud")
 	hud.set_difficulties(GameSettings.DIFFICULTIES, settings.difficulty, func(i: int):
 		settings.difficulty = i
 		settings._changed()
@@ -133,6 +190,7 @@ func _ready() -> void:
 	weapons = Weapons.new()
 	add_child(weapons)
 	weapons.setup(player, hud, zombies_root)
+	_boot_mark("  player, weapons")
 	for s in Map.BARRICADES:
 		var b := Barricade.new()
 		b.setup(s, hud)
@@ -175,6 +233,7 @@ func _ready() -> void:
 	progression = Progression.new()
 	add_child(progression)
 	progression.setup(self)
+	_boot_mark("  barricades .. progression")
 	quickbar = preload("res://scripts/quickbar.gd").new()
 	add_child(quickbar)
 	quickbar.setup(self)
@@ -182,6 +241,7 @@ func _ready() -> void:
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
 	ambience.day_night = day_night
+	_boot_mark("  quickbar, ambience")
 	intro = Intro.new()
 	add_child(intro)
 	intro.setup(self, player, settings.env)
@@ -195,10 +255,12 @@ func _ready() -> void:
 	add_child(music)
 	if not "--no-music" in _flags:
 		music.play("title")
+	_boot_mark("  intro, cheats, music")
 	_spawn_deer()
 	hunting = preload("res://scripts/hunting.gd").new()
 	add_child(hunting)
 	hunting.setup(self)
+	_boot_mark("systems (hud .. hunting)")
 	settings.add_controls(hud.settings_box, false)
 	player.regen_mul = float(difficulty["regen"])
 	settings.apply()
@@ -206,17 +268,22 @@ func _ready() -> void:
 	TitanPresence.for_scene(self).prewarm()
 	preload("res://scripts/bullet_impacts.gd").prewarm()
 	Zombie.preload_models()
+	_boot_mark("prewarm + zombie models")
 	hud.show_overlay("WALDHÜTTE REMETSCHWIL", "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein. Die Zombies gehen auch auf die Waldhütte selbst los: fällt sie, ist die Runde verloren. Repariere sie mit E an ihrer Wand.", "Spiel starten", "Wegnetz wird berechnet ...", "start")
 	hud.overlay_button.disabled = true
 	hud.set_loading(true)
 	_navigation_geometry.prepare(self, nav_region.navigation_mesh, perimeter)
+	_boot_mark("navigation geometry")
 	_bake_navigation()
 	if "--shot-menu" in _flags:
 		_shot_menu()
 	get_tree().paused = true
+	_in_ready = false
 
 # --shot-menu: screenshot the start overlay (logo, loading bar) while the navmesh bakes, then quit
 func _shot_menu() -> void:
+	while not navigation_ready:
+		await get_tree().process_frame
 	for i in 30:
 		await get_tree().process_frame
 	var dir := ProjectSettings.globalize_path("res://") + "../shots/"
@@ -256,11 +323,20 @@ func _exit_tree() -> void:
 	if _navigation_task != -1:
 		WorkerThreadPool.wait_for_task_completion(_navigation_task)
 		_navigation_task = -1
+	Foliage.finish_ground_cover()
+
+var _ground_cover_attached := false
+
+func _attach_ground_cover() -> void:
+	if _ground_cover_attached: return
+	_ground_cover_attached = true
+	Foliage.attach_ground_cover(self)
 
 func _navigation_baked() -> void:
 	if navigation_ready:
 		_refresh_perimeter_navigation()
 		return
+	_boot_mark("navigation bake")
 	# The baked region must reach the navigation server before validating key paths.
 	get_tree().paused = false
 	await get_tree().physics_frame
@@ -274,12 +350,23 @@ func _navigation_baked() -> void:
 	if not forest_keys.populate():
 		get_tree().paused = true
 		hud.overlay_status.text = "Schlüsselplätze konnten nicht vorbereitet werden. Bitte neu starten."
+		_close_boot_screen()
 		return
 	if not progression.place_cache():
 		get_tree().paused = true
 		hud.overlay_status.text = "Kein erreichbarer Ort für die Lieferung gefunden. Bitte neu starten."
+		_close_boot_screen()
 		return
+	_boot_mark("navigation map, keys, cache")
 	await Zombie.prewarm_visuals(self)
+	_boot_mark("render warm-up")
+	# The first build of a run places the ground cover on a worker thread; the menu opens with it.
+	if not "--no-foliage" in _flags and not _ground_cover_attached:
+		while not Foliage.ground_cover_ready():
+			await get_tree().process_frame
+		_attach_ground_cover()
+		settings.apply()   # the new cells need the quality profile's view distances
+		_boot_mark("ground cover")
 	get_tree().paused = true
 	navigation_ready = true
 	_place_gold_mushroom()
@@ -294,6 +381,7 @@ func _navigation_baked() -> void:
 		_on_start()
 	if _autotest or "--benchmark" in _flags or "--intro-test" in _flags:
 		_on_start()
+	_close_boot_screen()
 	for f in _flags:
 		if f.begins_with("--view="):
 			_shot_view(f.substr(7))
@@ -474,10 +562,36 @@ func _build_environment() -> void:
 	fill.look_at_from_position(Vector3(60, 40, -60), Vector3(0, 0, 0))
 
 # ---------------------------------------------------------------- terrain
+# The terrain and skirt meshes are the same on every build: made once per run, reused by every
+# "Nochmal" / "Hauptmenü" (3 s in the editor each time otherwise).
+static var _terrain_cache := {}
+
 func _build_terrain() -> void:
 	var ext := Map.extent()
 	var w := int(ext.size.x) + 1
 	var d := int(ext.size.y) + 1
+	if not _terrain_cache.has("mesh"): _terrain_cache.merge(_terrain_data(ext, w, d))
+	var mi := MeshInstance3D.new()
+	mi.mesh = _terrain_cache.mesh
+	mi.material_override = Foliage.terrain_material()
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF   # otherwise it shadows the roads lying 4 cm above it
+	add_child(mi)
+	var body := StaticBody3D.new()
+	body.collision_layer = 1
+	body.add_to_group("navsource")
+	var cs := CollisionShape3D.new()
+	var shape := HeightMapShape3D.new()
+	body.add_to_group("terrain_ground")
+	shape.map_width = w
+	shape.map_depth = d
+	shape.map_data = _terrain_cache.heights
+	cs.shape = shape
+	cs.position = Vector3(ext.position.x + (w - 1) / 2.0, 0, ext.position.y + (d - 1) / 2.0)
+	body.add_child(cs)
+	add_child(body)
+	_build_skirt(ext)
+
+func _terrain_data(ext: Rect2, w: int, d: int) -> Dictionary:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var heights := PackedFloat32Array()
@@ -501,29 +615,21 @@ func _build_terrain() -> void:
 			st.add_index(a); st.add_index(b); st.add_index(c)
 			st.add_index(b); st.add_index(e); st.add_index(c)
 	st.generate_tangents()
-	var mi := MeshInstance3D.new()
-	mi.mesh = st.commit()
-	mi.material_override = Foliage.terrain_material()
-	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF   # otherwise it shadows the roads lying 4 cm above it
-	add_child(mi)
-	var body := StaticBody3D.new()
-	body.collision_layer = 1
-	body.add_to_group("navsource")
-	var cs := CollisionShape3D.new()
-	var shape := HeightMapShape3D.new()
-	body.add_to_group("terrain_ground")
-	shape.map_width = w
-	shape.map_depth = d
-	shape.map_data = heights
-	cs.shape = shape
-	cs.position = Vector3(ext.position.x + (w - 1) / 2.0, 0, ext.position.y + (d - 1) / 2.0)
-	body.add_child(cs)
-	add_child(body)
-	_build_skirt(ext)
+	return {"mesh": st.commit(), "heights": heights}
 
 # coarse ground beyond the playable extent (heights clamped to the edge) so the horizon is never empty,
 # plus the villages of Sennhof / Remetschwil from OSM footprints as a backdrop in the east and south-east
 func _build_skirt(ext: Rect2) -> void:
+	if not _terrain_cache.has("skirt"): _terrain_cache.skirt = _skirt_mesh(ext)
+	var mi := MeshInstance3D.new()
+	mi.mesh = _terrain_cache.skirt
+	mi.material_override = Foliage.terrain_material()
+	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(mi)
+	add_child(preload("res://scripts/village_buildings.gd").new().build())
+	_village_props()
+
+func _skirt_mesh(ext: Rect2) -> ArrayMesh:
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var step := 10.0
@@ -547,13 +653,7 @@ func _build_skirt(ext: Rect2) -> void:
 			st.add_index(a); st.add_index(a + 1); st.add_index(a + nx)
 			st.add_index(a + 1); st.add_index(a + nx + 1); st.add_index(a + nx)
 	st.generate_tangents()
-	var mi := MeshInstance3D.new()
-	mi.mesh = st.commit()
-	mi.material_override = Foliage.terrain_material()
-	mi.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	add_child(mi)
-	add_child(preload("res://scripts/village_buildings.gd").new().build())
-	_village_props()
+	return st.commit()
 
 # Farm yard details that the aerial shows around Sennhof (all outside the playable bounds, decoration only):
 # a row of wrapped silage bales east of the big barn, a tractor in the yard between the barns, a car on the
@@ -2252,22 +2352,11 @@ func _spawn_deer() -> void:
 func _build_foliage() -> void:
 	if "--no-foliage" in _flags:
 		return
-	var leaf_sampler := func(r: RandomNumberGenerator):
-		var x: float = r.randf_range(-110.0, 110.0)
-		var z: float = r.randf_range(-120.0, 100.0)
-		var w := Map.leaf_weight(x, z)
-		if r.randf() > w * 0.9 + 0.05:
-			return null
-		if Map.on_road(x, z) and r.randf() > 0.25:
-			return null
-		if Map.in_building(x, z) or (Map.in_clearing(x, z) and r.randf() > 0.45):
-			return null
-		return Map.ground_pos(x, z)
-	if not "--no-leaves" in _flags:
-		add_child(Foliage.ground_leaves(100000, leaf_sampler, rng))
-	if not "--no-grass" in _flags:
-		add_child(Foliage.meadow_grass())
-		add_child(Foliage.forest_floor())
+	# Grass, woodland cover and leaf litter: placed on a worker thread by the first build of a run,
+	# reused by every later one (foliage.gd). _navigation_baked waits for it before the menu opens.
+	preload("res://scripts/cornfield.gd").index_trees()
+	Foliage.prepare_ground_cover(not "--no-leaves" in _flags, not "--no-grass" in _flags)
+	if Foliage.ground_cover_ready(): _attach_ground_cover()
 	if not "--no-particles" in _flags:
 		add_child(Foliage.falling_leaves(Map.ground_pos(Map.FIRE.x, Map.FIRE.y) + Vector3(0, 9, 10), Vector3(45, 7, 40)))
 
@@ -2291,8 +2380,7 @@ func _on_start(play_intro: bool = true) -> void:
 			return
 	if over:
 		NetSession.restart_pending = true
-		get_tree().paused = false
-		get_tree().reload_current_scene()
+		_reload_scene("Neue Runde …")
 		return
 	get_tree().paused = false
 	hud.hide_overlay()
@@ -2324,8 +2412,7 @@ func _to_main_menu() -> void:
 	if NetSession.enabled:
 		NetSession.leave()
 		return
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+	_reload_scene("Zurück ins Hauptmenü …")
 
 func _game_over() -> void:
 	if NetSession.enabled:
