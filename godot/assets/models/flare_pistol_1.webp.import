@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bro3loue2josu"
-path="res://.godot/imported/flare_pistol_1.webp-b95887bd88b1dbf8c3487abfd9c9025a.ctex"
+path.s3tc="res://.godot/imported/flare_pistol_1.webp-b95887bd88b1dbf8c3487abfd9c9025a.s3tc.ctex"
+path.etc2="res://.godot/imported/flare_pistol_1.webp-b95887bd88b1dbf8c3487abfd9c9025a.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "1d5369bebf2a153b99aa9c9beb7465b9"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/flare_pistol_1.webp"
-dest_files=["res://.godot/imported/flare_pistol_1.webp-b95887bd88b1dbf8c3487abfd9c9025a.ctex"]
+dest_files=["res://.godot/imported/flare_pistol_1.webp-b95887bd88b1dbf8c3487abfd9c9025a.s3tc.ctex", "res://.godot/imported/flare_pistol_1.webp-b95887bd88b1dbf8c3487abfd9c9025a.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

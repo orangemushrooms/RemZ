@@ -12,10 +12,10 @@ var wave := 0
 var completed := 0
 const MAX_ACTIVE := 72
 const MAX_CORPSES := 24
-const MAX_TITANS := 4
+const MAX_TITANS := 3
 const ARMY_START := 8
-const ARMY_STEP := 0.2
-const ARMY_MAX := 4.0
+const ARMY_STEP := 0.12
+const ARMY_MAX := 2.5
 var _frame_time := 1.0 / 60.0
 var _cleanup_time := 0.0
 const SPAWN_DISTANCE := 28.0
@@ -36,6 +36,7 @@ var total := 0
 var boss_wave := false
 var boss_fight := false   # music cue, mirrored to co-op clients through the wave snapshot
 var _boss_check := 0.0
+var _heavy_spawn_t := 0.0
 
 func setup(m: Node, h: Hud, p: Player, w: Weapons) -> void:
 	main = m
@@ -53,17 +54,18 @@ static func army_multiplier(n: int) -> float:
 	return minf(ARMY_MAX, 1.0 + maxf(0, n - ARMY_START + 1) * ARMY_STEP)
 
 func regular_count(n: int) -> int:
-	var count := roundi((10 + n * 5) * _difficulty("count") * army_multiplier(n))
+	var count := roundi((10 + n * 5) * _difficulty("count") * army_multiplier(n) * EncounterBalance.horde_share(n))
 	if NetSession.enabled: count = roundi(count * (1.0 + 0.55 * (NetSession.roster.size() - 1)))
 	return count
 
 func active_limit() -> int:
 	# Never despawn living enemies; reduce only incoming reinforcements under load.
-	return 40 if _frame_time > 1.0 / 35.0 else (56 if _frame_time > 1.0 / 50.0 else MAX_ACTIVE)
+	var limit := 40 if _frame_time > 1.0 / 35.0 else (56 if _frame_time > 1.0 / 50.0 else MAX_ACTIVE)
+	return mini(limit, 40 if wave < 24 else 52) if EncounterBalance.horde_share(wave) < 0.8 else limit
 
 func spawn_interval() -> float:
 	var base := maxf(0.3, 1.5 - wave * 0.1)
-	return maxf(0.12, base / army_multiplier(wave)) * (1.5 if _frame_time > 1.0 / 35.0 else 1.0)
+	return maxf(0.38 if EncounterBalance.horde_share(wave) < 0.8 else 0.22, base / army_multiplier(wave)) * (1.5 if _frame_time > 1.0 / 35.0 else 1.0)
 
 func trim_corpses() -> void:
 	var corpses: Array[Zombie] = []
@@ -80,19 +82,18 @@ func trim_corpses() -> void:
 # size of wave n without touching the random generator (shown during the intermission)
 func preview_count(n: int) -> int:
 	var count := regular_count(n)
-	return count + (3 + n / 4 if n % 5 == 0 else 0) + titan_count(n) + lesser_titan_count(n)
+	return count + EncounterBalance.brute_count(n) + titan_count(n) + lesser_titan_count(n) + EncounterBalance.worm_count(n)
 
-# field titans: the first one in wave 6, then every third wave, a second from wave 12, a third from wave 24
+# Field titans start at six. Worm and brute-boss waves have priority.
 static func titan_count(n: int) -> int:
-	if n < 6 or n % 3 != 0: return 0
-	return mini(3, 1 + n / 12)
+	return EncounterBalance.titan_count(n)
 
 static func lesser_titan_count(n: int) -> int:
-	return 0 if n < 8 else mini(3, 1 + (n - 8) / 8)
+	return EncounterBalance.lesser_count(n)
 
 static func lesser_titan_kind(n: int, index: int) -> String:
-	if n == 10 and index == 0: return "titan_siege"
-	if n == 12 and index == 0: return "titan_ash"
+	if n == 11 and index == 0: return "titan_siege"
+	if n == 13 and index == 0: return "titan_ash"
 	var choices := ["titan_hunter"]
 	if n >= 10: choices.append("titan_siege")
 	if n >= 12: choices.append("titan_ash")
@@ -102,6 +103,8 @@ func plan(n: int) -> Array:
 	var q: Array = []
 	# Titans enter across the open southern fields, never inside the forest.
 	var fields := TITAN_FIELDS
+	for i in EncounterBalance.worm_count(n):
+		q.append({"type": "earthworm_ancient" if n >= 24 and i == 0 else "earthworm", "lane": "south", "point": fields[i]})
 	for i in titan_count(n):
 		q.append({"type": "titan", "lane": "east" if i == 0 else "south", "point": fields[i]})
 	for i in lesser_titan_count(n):
@@ -109,7 +112,7 @@ func plan(n: int) -> Array:
 	var count := regular_count(n)
 	boss_wave = n % 5 == 0
 	if boss_wave:
-		for k in 3 + n / 4:
+		for k in EncounterBalance.brute_count(n):
 			q.append({ "type": "brute", "lane": ["north", "south", "east", "west"][k % 4] })
 	var forest_indices: Array = range(count)
 	forest_indices.shuffle()
@@ -146,6 +149,7 @@ func start(n: int) -> void:
 	if NetSession.is_client(): return
 	if NetSession.is_host(): NetSession.world.wave_started(n)
 	wave = n
+	_heavy_spawn_t = 0.0
 	_straggler_time = 0.0
 	_stragglers_hunting = false
 	wave_started.emit(n)
@@ -158,7 +162,7 @@ func start(n: int) -> void:
 	total = queue.size()
 	phase = "spawning"
 	spawn_t = 0.0
-	speed_mul = (1.0 + (n - 1) * 0.04) * _difficulty("speed")
+	speed_mul = minf(2.2, 1.0 + (n - 1) * 0.035) * _difficulty("speed")
 	hud.set_wave(n, "%d Zombies" % queue.size())
 	hud.set_wave_progress(total, total)
 	if "achievements" in main and main.achievements:
@@ -166,6 +170,8 @@ func start(n: int) -> void:
 	hud.message("Welle %d" % n if not boss_wave else "Welle %d\nBOSSWELLE: die Brocken kommen" % n, 2.0 if not boss_wave else 3.5)
 	if titan_count(n) + lesser_titan_count(n) > 0:
 		hud.message("Welle %d · TITANEN\nBewegung auf dem Feld. Bereite die Verteidigung vor!" % n, 5.0)
+	if EncounterBalance.worm_count(n) > 0:
+		hud.message("Welle %d · WURMWELLE\nDas Feld bebt. Meide die Erdringe – beschiesse die freiliegenden Würmer!" % n, 6.0)
 	Sfx.play(self, "wave", -4.0)
 	boss_fight = is_boss_fight()
 	_boss_check = 0.25
@@ -194,7 +200,7 @@ func skip_current_wave() -> bool:
 	queue.clear()
 	for zombie in main.zombies_root.get_children():
 		if zombie is Zombie and zombie.alive:
-			zombie.damage(maxf(zombie.hp, 1.0), Vector3.ZERO)
+			zombie.die(Vector3.ZERO)
 	if phase == "spawning":
 		_complete_wave()
 	start(wave + 1)
@@ -219,12 +225,13 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("next_wave") and wave > 0 and timer > 1.0:
 			timer = 1.0
 			hud.message("Welle %d kommt!" % (wave + 1), 1.2)
-		var boss := (wave + 1) % 5 == 0 or titan_count(wave + 1) + lesser_titan_count(wave + 1) > 0
+		var boss := EncounterBalance.title(wave + 1) != "HORDE"
 		hud.set_wave(wave + 1, "Start in %d s  ·  %d Zombies%s
-Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  BOSSWELLE" if boss else ""])
+Enter: sofort starten" % [ceili(timer), preview_count(wave + 1), "  ·  " + EncounterBalance.title(wave + 1) if boss else ""])
 		if timer <= 0.0:
 			start(wave + 1)
 	elif phase == "spawning":
+		_heavy_spawn_t = maxf(0, _heavy_spawn_t - delta)
 		spawn_t -= delta
 		if spawn_t <= 0.0 and queue.size() > 0 and main.alive_zombies() < active_limit():
 			# Keep blocked entries queued, but allow other enemy types to enter meanwhile.
@@ -268,11 +275,11 @@ func _complete_wave() -> void:
 	Sfx.play(self, "menu", -6.0)
 
 func _try_spawn(entry: Dictionary) -> bool:
-	if Zombie.is_titan_kind(entry["type"]):
+	if Zombie.is_boss_kind(entry["type"]):
 		var active := 0
 		for z in main.zombies_root.get_children():
-			if z is Titan and z.alive: active += 1
-		if active >= MAX_TITANS: return false
+			if z is Zombie and Zombie.is_boss_kind(z.net_kind) and z.alive: active += 1
+		if active >= EncounterBalance.heavy_limit(wave) or _heavy_spawn_t > 0: return false
 		# Giants stay on the open fields even when their planned entrance is occupied.
 		var fields: Array = TITAN_FIELDS.duplicate()
 		if entry.has("point"):
@@ -281,6 +288,7 @@ func _try_spawn(entry: Dictionary) -> bool:
 		for point: Vector2 in fields:
 			var lane: String = entry["lane"] if point == entry.get("point", Vector2.INF) else ("east" if point == TITAN_FIELDS[0] else "south")
 			if main.spawn_zombie(entry["type"], point, speed_mul, lane, TITAN_SPAWN_DISTANCE):
+				_heavy_spawn_t = 16.0 if wave < 24 else 12.0
 				return true
 		return false
 	# Forest enemies remain part of the normal wave budget. If all sampled

@@ -13,22 +13,19 @@ func check(ok: bool, label: String) -> void:
 		push_error("FAIL: " + label)
 func run() -> void:
 	var waves := Waves.new()
-	for n in range(1, 8): check(waves.regular_count(n) == 10 + n * 5, "Early wave %d keeps original size" % n)
-	for pair in [[8, 60], [12, 140], [17, 285], [22, 480], [30, 640]]:
-		check(waves.regular_count(pair[0]) == pair[1], "Army wave %d contains %d regular enemies" % [pair[0], pair[1]])
-	var previous := 0
+	for n in [1, 2, 3, 4, 7]: check(waves.regular_count(n) == 10 + n * 5, "Early ordinary wave %d keeps original size" % n)
+	check(waves.regular_count(12) < roundi(70 * Waves.army_multiplier(12)), "Worm introduction replaces part of the horde budget")
 	for n in range(8, 51):
 		var plan := waves.plan(n)
-		check(plan.size() == waves.preview_count(n) and plan.size() > previous, "Wave %d grows and preview matches actual plan" % n)
-		previous = plan.size()
-	check(Waves.army_multiplier(100) == 4, "Multiplier stays bounded in very late waves")
+		check(plan.size() == waves.preview_count(n), "Wave %d preview matches actual encounter plan" % n)
+	check(Waves.army_multiplier(100) == 2.5, "Multiplier stays bounded in very late waves")
 	waves.wave = 22
 	waves._frame_time = 1.0 / 60
-	check(waves.active_limit() == 72 and is_equal_approx(waves.spawn_interval(), 0.12), "Army reinforcements accelerate with a bounded live population")
+	check(waves.active_limit() == 72 and is_equal_approx(waves.spawn_interval(), 0.22), "Army reinforcements accelerate with a bounded live population")
 	waves._frame_time = 1.0 / 40
 	check(waves.active_limit() == 56, "Moderate frame pressure lowers reinforcement ceiling")
 	waves._frame_time = 1.0 / 25
-	check(waves.active_limit() == 40 and waves.spawn_interval() > 0.12, "Heavy frame pressure also slows spawning")
+	check(waves.active_limit() == 40 and waves.spawn_interval() > 0.22, "Heavy frame pressure also slows spawning")
 	waves.free()
 	var game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)

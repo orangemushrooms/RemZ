@@ -6,10 +6,12 @@ extends CharacterBody3D
 # are skipped, "model" / "fallback" remain the default). The field titan is taller than the beeches (22-29 m)
 # and handled by titan.gd (ground strike, no stagger, always casts shadows).
 const TYPES := {
-	"titan_hunter": {"name": "JAGDTITAN", "model": "zombie_colossus", "hp": 2400.0, "speed": 6.0, "damage": 85.0, "reach": 8.0, "attack_time": 3.0, "score": 230, "height": 8.0, "tint": Color(0.58, 0.83, 0.65), "giant": true, "blast_radius": 4.0, "windup": 1.7, "recovery": 1.1, "structure_mul": 0.65, "warning_color": Color(0.45, 1.0, 0.3)},
-	"titan_siege": {"name": "BELAGERUNGSTITAN", "model": "zombie_bloater", "hp": 6000.0, "speed": 2.6, "damage": 130.0, "reach": 10.0, "attack_time": 4.5, "score": 350, "height": 14.0, "tint": Color(0.7, 0.66, 0.51), "giant": true, "blast_radius": 6.0, "windup": 2.8, "recovery": 2.0, "structure_mul": 1.6, "warning_color": Color(1.0, 0.68, 0.1)},
-	"titan_ash": {"name": "ASCHETITAN", "model": "zombie_titan", "hp": 4500.0, "speed": 3.6, "damage": 100.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
-	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 7500.0, "speed": 4.2, "damage": 120.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
+	"earthworm": {"name": "DER ERDWURM", "model": "zombie_earthworm", "hp": 2600.0, "speed": 8.0, "damage": 48.0, "reach": 9.0, "attack_time": 3.0, "score": 300, "height": 14.0, "worm": true, "tint": Color.WHITE},
+	"earthworm_ancient": {"name": "DER GRABMAHR", "model": "zombie_earthworm_ancient", "hp": 3800.0, "speed": 7.0, "damage": 62.0, "reach": 11.0, "attack_time": 3.4, "score": 420, "height": 19.0, "worm": true, "tint": Color.WHITE},
+	"titan_hunter": {"name": "JAGDTITAN", "model": "zombie_colossus", "hp": 1700.0, "speed": 6.0, "damage": 45.0, "reach": 8.0, "attack_time": 3.0, "score": 230, "height": 8.0, "tint": Color(0.58, 0.83, 0.65), "giant": true, "blast_radius": 4.0, "windup": 1.7, "recovery": 1.1, "structure_mul": 0.65, "warning_color": Color(0.45, 1.0, 0.3)},
+	"titan_siege": {"name": "BELAGERUNGSTITAN", "model": "zombie_bloater", "hp": 3600.0, "speed": 2.6, "damage": 80.0, "reach": 10.0, "attack_time": 4.5, "score": 350, "height": 14.0, "tint": Color(0.7, 0.66, 0.51), "giant": true, "blast_radius": 6.0, "windup": 2.8, "recovery": 2.0, "structure_mul": 1.6, "warning_color": Color(1.0, 0.68, 0.1)},
+	"titan_ash": {"name": "ASCHETITAN", "model": "zombie_titan", "hp": 3000.0, "speed": 3.6, "damage": 60.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
+	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 4200.0, "speed": 4.2, "damage": 70.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
 	"shambler": { "model": "zombie_shambler", "skins": ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma"], "hp": 100.0, "speed": 1.6, "damage": 12.0, "reach": 1.6, "attack_time": 1.1, "score": 10, "height": 1.8 },
 	"runner": { "model": "zombie_runner", "skins": ["zombie_runner", "zombie_jogger"], "hp": 60.0, "speed": 4.2, "damage": 8.0, "reach": 1.4, "attack_time": 0.7, "score": 15, "height": 1.7 },
 	"brute":    { "model": "zombie_bloater", "fallback": "zombie_shambler", "hp": 320.0, "speed": 1.2, "damage": 25.0, "reach": 2.0, "attack_time": 1.6, "score": 40, "height": 2.3, "tint": Color(0.9, 0.85, 0.6) },
@@ -207,6 +209,15 @@ static func pick_model_path(spec: Dictionary) -> String:
 static func is_titan_kind(kind: String) -> bool:
 	return bool(TYPES.get(kind, {}).get("giant", false))
 
+static func is_worm_kind(kind: String) -> bool:
+	return bool(TYPES.get(kind, {}).get("worm", false))
+
+static func is_boss_kind(kind: String) -> bool:
+	return is_titan_kind(kind) or is_worm_kind(kind)
+
+func targetable() -> bool:
+	return alive
+
 func setup(type_name: String, p: Player, bars: Array, spd_mul: float, on_kill: Callable) -> void:
 	net_kind = type_name
 	type = TYPES[type_name]
@@ -380,7 +391,7 @@ static func cast_ray(context: Node3D, query: PhysicsRayQueryParameters3D) -> Dic
 	var best_distance := query.from.distance_squared_to(endpoint)
 	var candidates: Array = []
 	for zombie: Zombie in context.get_tree().get_nodes_in_group("shot_targets"):
-		if not zombie.alive or zombie.is_queued_for_deletion() or zombie._shot_volumes.is_empty() or query.exclude.has(zombie.get_rid()): continue
+		if not zombie.targetable() or zombie.is_queued_for_deletion() or zombie._shot_volumes.is_empty() or query.exclude.has(zombie.get_rid()): continue
 		# A conservative model-space envelope includes arms, leaning poses and
 		# all rig animations; it follows model offsets, not the movement capsule.
 		var transform := zombie.model.global_transform
@@ -477,7 +488,7 @@ func die(dir: Vector3) -> void:
 	hit_pending = 0.0
 	velocity = Vector3.ZERO
 	play("death")
-	if not type.get("giant", false): Sfx.play_at(get_parent(), "zombie_death", global_position, -20.0)
+	if not is_boss_kind(net_kind): Sfx.play_at(get_parent(), "zombie_death", global_position, -20.0)
 	collision_layer = 0
 	collision_mask = 1
 	agent.avoidance_enabled = false

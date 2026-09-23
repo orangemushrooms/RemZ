@@ -44,8 +44,8 @@ def save(name, x, attack=0.002, release=0.04):
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    names = ["flamethrower_tower.mp3", "Machinegun_Tower.mp3", "Mortar_Tower.mp3", "Teslacoil_Tower.mp3"]
-    flame, mg, mortar, tesla = [decode(name) for name in names]
+    names = ["flamethrower_tower.mp3", "Machinegun_Tower.mp3", "Mortar_Tower.mp3", "Teslacoil_Tower.mp3", "Sentinel_Tower.mp3"]
+    flame, mg, mortar, tesla, sentinel = [decode(name) for name in names]
     # Crossfade the stable flame body across the wrap; no silent MP3 padding in the loop.
     loop = cut(flame, 0.26, 1.16)
     n = round(0.09 * RATE)
@@ -58,6 +58,9 @@ def main():
     clips["mortar_shot"] = save("mortar_shot", cut(mortar, 0.30, 2.28), release=0.16)
     # One short electrical discharge per visible bolt; no overlapping 2.6-second buzzes.
     clips["tesla_shot"] = save("tesla_shot", cut(tesla, 0.185, 0.735), attack=0.005, release=0.18)
+    # Remove the 61 ms lead-in; fade the quiet reverb before the recording's noise floor.
+    # Three voices retain this decay even at the level-three Sentinel firing rate.
+    clips["sentinel_shot"] = save("sentinel_shot", cut(sentinel, 0.061, 0.56), attack=0.001, release=0.10)
     manifest = {"sources": {name: hashlib.sha256((SOURCE / name).read_bytes()).hexdigest() for name in names},
                 "clips": clips, "sample_rate": RATE, "channels": 1}
     (OUT / "sources.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")

@@ -1,0 +1,79 @@
+2026-09-23T09:31:03 remz-dev-20260923-titan-gate-fix BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T09:31:03 remz-dev-20260923-titan-gate-fix NETWORK_INITIALIZED
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix MAP_READY
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix JOIN_BEGIN address=127.0.0.1 port=24687
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix JOIN_SOCKET result=0
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix TRANSPORT_CONNECTED sending_hello
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=1
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=343374090
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix WELCOME
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=407385210
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix INITIAL_RECEIVE parts=5
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix INITIAL_APPLY_BEGIN
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix STATE_STAGE structures
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix STATE_STAGE players
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix STATE_STAGE enemies
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix STATE_STAGE items
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix STATE_STAGE barricades
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix INITIAL_APPLY_DONE
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix STATE_RECEIVE parts=5
+2026-09-23T09:31:19 remz-dev-20260923-titan-gate-fix STATE_STAGE structures
+2026-09-23T09:31:20 remz-dev-20260923-titan-gate-fix STATE_STAGE players
+2026-09-23T09:31:20 remz-dev-20260923-titan-gate-fix STATE_STAGE enemies
+2026-09-23T09:31:20 remz-dev-20260923-titan-gate-fix STATE_STAGE items
+2026-09-23T09:31:20 remz-dev-20260923-titan-gate-fix STATE_STAGE barricades
+2026-09-23T09:31:20 remz-dev-20260923-titan-gate-fix STATE_APPLY_DONE sequence=4
+2026-09-23T09:31:20 remz-dev-20260923-titan-gate-fix ROUND_BEGIN intro=false
+2026-09-23T09:31:20 remz-dev-20260923-titan-gate-fix ROUND_RUNNING players=4
+2026-09-23T09:32:01 remz-dev-20260923-titan-gate-fix STATE_STAGE structures
+2026-09-23T09:32:01 remz-dev-20260923-titan-gate-fix STATE_STAGE players
+2026-09-23T09:32:01 remz-dev-20260923-titan-gate-fix STATE_STAGE enemies
+2026-09-23T09:32:01 remz-dev-20260923-titan-gate-fix STATE_STAGE items
+2026-09-23T09:32:01 remz-dev-20260923-titan-gate-fix STATE_STAGE barricades
+2026-09-23T09:32:28 remz-dev-20260923-titan-gate-fix LEAVE_BEGIN phase=running reason=Sitzung verlassen.
+2026-09-23T09:32:28 remz-dev-20260923-titan-gate-fix LEAVE_PEER_DETACHED
+2026-09-23T09:32:28 remz-dev-20260923-titan-gate-fix LEAVE_PEER_CLOSED
+2026-09-23T09:32:28 remz-dev-20260923-titan-gate-fix LEAVE_RELOAD
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix MAP_READY
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix JOIN_BEGIN address=127.0.0.1 port=24687
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix JOIN_SOCKET result=0
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix TRANSPORT_CONNECTED sending_hello
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=1
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=343374090
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=407385210
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix WELCOME
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix INITIAL_RECEIVE parts=6
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix INITIAL_APPLY_BEGIN
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix STATE_STAGE structures
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix STATE_STAGE players
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix STATE_STAGE enemies
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix STATE_STAGE items
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix STATE_STAGE barricades
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix INITIAL_APPLY_DONE
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix ROUND_BEGIN intro=false
+2026-09-23T09:32:41 remz-dev-20260923-titan-gate-fix ROUND_RUNNING players=4
+2026-09-23T09:32:54 remz-dev-20260923-titan-gate-fix STATE_STAGE structures
+2026-09-23T09:32:54 remz-dev-20260923-titan-gate-fix STATE_STAGE players
+2026-09-23T09:32:54 remz-dev-20260923-titan-gate-fix STATE_STAGE enemies
+2026-09-23T09:32:54 remz-dev-20260923-titan-gate-fix STATE_STAGE items
+2026-09-23T09:32:54 remz-dev-20260923-titan-gate-fix STATE_STAGE barricades
+2026-09-23T09:33:08 remz-dev-20260923-titan-gate-fix STATE_RECEIVE parts=8
+2026-09-23T09:33:08 remz-dev-20260923-titan-gate-fix STATE_APPLY_DONE sequence=1050
+2026-09-23T09:33:24 remz-dev-20260923-titan-gate-fix MAP_READY
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix INITIAL_RECEIVE parts=5
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix INITIAL_APPLY_BEGIN
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE structures
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE players
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE enemies
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE items
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE barricades
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix INITIAL_APPLY_DONE
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_RECEIVE parts=5
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE structures
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE players
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE enemies
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE items
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_STAGE barricades
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix STATE_APPLY_DONE sequence=1054
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix ROUND_BEGIN intro=false
+2026-09-23T09:33:25 remz-dev-20260923-titan-gate-fix ROUND_RUNNING players=4

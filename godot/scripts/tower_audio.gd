@@ -1,9 +1,9 @@
 extends Node3D
 # One local positional emitter per tower; show_shot is also driven by remote snapshots.
 const DIR := "res://assets/audio/sfx/towers/"
-const CLIPS := {"flame": "flame_loop", "mg42": "mg42_shot", "mortar": "mortar_shot", "tesla": "tesla_shot"}
-const LEVELS := {"flame": -10.0, "mg42": -8.0, "mortar": -3.0, "tesla": -5.0}
-const DISTANCES := {"flame": 70.0, "mg42": 140.0, "mortar": 160.0, "tesla": 110.0}
+const CLIPS := {"standard": "sentinel_shot", "flame": "flame_loop", "mg42": "mg42_shot", "mortar": "mortar_shot", "tesla": "tesla_shot"}
+const LEVELS := {"standard": -5.0, "flame": -10.0, "mg42": -8.0, "mortar": -3.0, "tesla": -5.0}
+const DISTANCES := {"standard": 120.0, "flame": 70.0, "mg42": 140.0, "mortar": 160.0, "tesla": 110.0}
 var tower: DefenceTower
 var voice: AudioStreamPlayer3D
 var hold := 0.0
@@ -26,9 +26,9 @@ func _ready() -> void:
 		stream.loop_end = roundi(stream.get_length() * stream.mix_rate)
 	voice.stream = stream
 	voice.volume_db = LEVELS[tower.kind]
-	voice.unit_size = 12.0
+	voice.unit_size = 20.0 if tower.kind == "standard" else 12.0
 	voice.max_distance = DISTANCES[tower.kind]
-	voice.max_polyphony = 3 if tower.kind == "mg42" else 1
+	voice.max_polyphony = 3 if tower.kind in ["standard", "mg42"] else 1
 	add_child(voice)
 
 func fire() -> void:

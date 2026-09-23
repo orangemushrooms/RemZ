@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 2
-const BUILD := "remz-dev-20260923-titan-gate-fix"
+const BUILD := "remz-dev-20260923-earthworm-quality"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"

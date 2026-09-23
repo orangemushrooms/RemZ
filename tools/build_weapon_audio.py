@@ -1,4 +1,9 @@
-"""Bake the sound design for the eight new weapons into godot/assets/audio/sfx/weapons/.
+"""Bake weapon sounds into godot/assets/audio/sfx/weapons/.
+
+The eight gun reports now use the user's September 23 MP3s from the project.
+Run --recordings-only to update just those, retaining existing mechanical and
+impact effects. A full build also replaces the legacy report recipes below with
+these supplied recordings before saving; it cannot restore the old shot sounds.
 
 Same house rules as tools/prepare_tower_audio.py and tools/build_titan_audio.py: the user's own
 recordings are the organic layer, everything else is synthesised here, nothing is downloaded and
@@ -21,6 +26,8 @@ from pathlib import Path
 import argparse
 import json
 import subprocess
+import hashlib
+import shutil
 
 import imageio_ffmpeg
 import numpy as np
@@ -33,6 +40,11 @@ USER_FLARE = ROOT / "input/audio/Flaregun.mp3"   # absolute, so decode() ignores
 OUT = ROOT / "godot/assets/audio/sfx/weapons"
 RATE = 44100
 RNG = np.random.default_rng(20260922)
+RECORDINGS = {
+    'deagle': 'Desert Eagle.mp3', 'flare': 'Flaregun.mp3', 'mac10': 'Mac10.mp3',
+    'cryo': 'Kryo_MP.mp3', 'plasma': 'Plasma_Gunshot.mp3', 'lever': 'Unterhebler_shot.mp3',
+    'minigun': 'Minigun_Shots_long.mp3', 'graviton': 'Graviton_Gunshot.mp3',
+}
 
 
 # ---------------------------------------------------------------- helpers
@@ -152,6 +164,51 @@ def save(name, x, peak=0.82, looped=False):
         "centroid_hz": round(centroid),
         "loop": looped,
     }
+
+
+def replace_recordings(report):
+    """Use the supplied September 23 reports, with no synthetic layers or EQ.
+
+    Keep the existing graviton impact separate from its new muzzle recording.
+    Originals are untouched; decoded MP3 overshoots get safe PCM headroom.
+    """
+    OUT.mkdir(parents=True, exist_ok=True)
+    impact = OUT / 'graviton_impact.wav'
+    if not impact.exists():
+        shutil.copyfile(OUT / 'graviton.wav', impact)
+    impact_rate, impact_pcm = wavfile.read(impact)
+    impact_samples = impact_pcm.astype(float) / 32767.0
+    spectrum = np.abs(np.fft.rfft(impact_samples * np.hanning(len(impact_samples))))
+    freqs = np.fft.rfftfreq(len(impact_samples), 1 / impact_rate)
+    report['graviton_impact'] = {
+        'file': impact.name, 'seconds': round(len(impact_samples) / impact_rate, 3),
+        'rms': round(float(np.sqrt(np.mean(impact_samples ** 2))), 4),
+        'centroid_hz': round(float(np.sum(spectrum * freqs) / max(float(np.sum(spectrum)), 1e-9))),
+        'loop': False,
+    }
+    sources = {}
+    for name, filename in RECORDINGS.items():
+        source = ROOT / 'godot/assets/audio/sfx' / filename
+        x = decode(source)
+        # Earliest audible attack, not the loudest later transient (long bursts).
+        active = np.flatnonzero(np.abs(x) > np.max(np.abs(x)) * 0.008)
+        if not active.size:
+            raise ValueError(f'Empty recording: {source}')
+        start = max(0, int(active[0]) - round(0.002 * RATE))
+        # Retain the natural tail until it falls 54 dB below the recording peak.
+        tail = np.flatnonzero(envelope(x) > np.max(envelope(x)) * 0.002)
+        end = min(len(x), int(tail[-1]) + round(0.05 * RATE))
+        clip = x[start:end]
+        if name == 'minigun':
+            clip = loop(clip, 0.06)
+        else:
+            clip = fade(clip, 0.001, 0.025)
+        report[name] = save(name, clip, looped=name == 'minigun')
+        report[name]['source'] = source.relative_to(ROOT).as_posix()
+        report[name]['source_sha256'] = hashlib.sha256(source.read_bytes()).hexdigest()
+        report[name]['trim_start_seconds'] = round(start / RATE, 5)
+        sources[name] = report[name]['source'] + (' (continuous fire, loop seam crossfaded)' if name == 'minigun' else ' (silence trimmed, peak normalized)')
+    return sources
 
 
 # ---------------------------------------------------------------- clips
@@ -279,6 +336,7 @@ def build():
         norm(noise(0.55, 300, 2400) * decay(0.55, 0.18), 0.35),
     ))
 
+    recording_sources = replace_recordings(report)
     (OUT / "sources.json").write_text(json.dumps({
         "built_by": "tools/build_weapon_audio.py",
         "library": str(LIBRARY),
@@ -295,6 +353,8 @@ def build():
             "minigun_spindown": "fully synthesised",
             "graviton": "anti_tank_tower.mp3 + time_stop.mp3 + synthesised sub drop",
             "graviton_charge": "fully synthesised", "cryo_freeze": "fully synthesised",
+            "graviton_impact": "original graviton explosion: anti_tank_tower.mp3 + time_stop.mp3 + synthesised sub drop",
+            **recording_sources,
         },
         "clips": report,
     }, indent=2), encoding="utf-8")
@@ -304,8 +364,16 @@ def build():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--report", action="store_true")
+    parser.add_argument("--recordings-only", action="store_true", help="Replace only the eight reports with the new project recordings; keep existing mechanical/effect sounds")
     args = parser.parse_args()
-    clips = build()
+    if args.recordings_only:
+        provenance = json.loads((OUT / 'sources.json').read_text(encoding='utf-8'))
+        clips = provenance['clips']
+        provenance['sources'].update(replace_recordings(clips))
+        provenance['sources']['graviton_impact'] = 'original graviton explosion: anti_tank_tower.mp3 + time_stop.mp3 + synthesised sub drop'
+        (OUT / 'sources.json').write_text(json.dumps(provenance, indent=2), encoding='utf-8')
+    else:
+        clips = build()
     for name, info in clips.items():
         print("%-18s %5.3f s  rms %.3f  centroid %5d Hz%s" % (
             name, info["seconds"], info["rms"], info["centroid_hz"], "  [loop]" if info["loop"] else ""))

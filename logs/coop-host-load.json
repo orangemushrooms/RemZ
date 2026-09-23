@@ -1,0 +1,17 @@
+{
+	"cpu": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+	"gpu": "NVIDIA GeForce RTX 3060 Ti",
+	"resolution": "(1600, 900)",
+	"stage": {
+		"alive": 72,
+		"average_fps": 142.956357485353,
+		"frames": 2143,
+		"max_ms": 13.06,
+		"over_33ms": 0,
+		"over_50ms": 0,
+		"p95_ms": 10.119,
+		"p99_ms": 11.672,
+		"snapshot_ms": 1.92060273972603,
+		"stage": "four_players_full_horde"
+	}
+}

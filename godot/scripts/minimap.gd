@@ -228,7 +228,7 @@ func _draw_symbols(c: Control) -> void:
 		if zombie is Zombie and zombie.alive:
 			var p := map_position(zombie.global_position)
 			if MAP_RECT.has_point(p):
-				c.draw_circle(p, 5.0 if Zombie.is_titan_kind(zombie.net_kind) else 2.0, Color(1.0, 0.29, 0.22))
+				c.draw_circle(p, 5.0 if Zombie.is_boss_kind(zombie.net_kind) else 2.0, Color(1.0, 0.62, 0.18) if Zombie.is_worm_kind(zombie.net_kind) else Color(1.0, 0.29, 0.22))
 	var p := map_position(player.global_position).clamp(MAP_RECT.position + Vector2.ONE * 5, MAP_RECT.end - Vector2.ONE * 5)
 	var heading := Vector2(-sin(player.rotation.y), -cos(player.rotation.y))
 	var side := heading.orthogonal()

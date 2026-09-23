@@ -1,0 +1,20 @@
+2026-09-23T13:16:37 remz-dev-20260923-earthworm-quality BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T13:16:37 remz-dev-20260923-earthworm-quality NETWORK_INITIALIZED
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality MAP_READY
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality HOST_CREATE port=24736
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality HOST_READY
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality PEER_CONNECTED id=698864028
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality INITIAL_SEND peer=698864028 raw=22004 bytes=3988 parts=5
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality CLIENT_READY peer=698864028
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality ROUND_START_SEND players=2
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality STATE_SEND peer=698864028 raw=22004 bytes=3992 parts=5
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality ROUND_BEGIN intro=false
+2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality ROUND_RUNNING players=2
+2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality PEER_CONNECTED id=816756160
+2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality INITIAL_SEND peer=816756160 raw=25564 bytes=4345 parts=5
+2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality CLIENT_READY peer=816756160
+2026-09-23T13:17:01 remz-dev-20260923-earthworm-quality PEER_DISCONNECTED id=816756160
+2026-09-23T13:17:01 remz-dev-20260923-earthworm-quality PEER_DISCONNECTED id=698864028
+2026-09-23T13:17:02 remz-dev-20260923-earthworm-quality LEAVE_BEGIN phase=running reason=Sitzung verlassen.
+2026-09-23T13:17:02 remz-dev-20260923-earthworm-quality LEAVE_PEER_DETACHED
+2026-09-23T13:17:02 remz-dev-20260923-earthworm-quality LEAVE_PEER_CLOSED

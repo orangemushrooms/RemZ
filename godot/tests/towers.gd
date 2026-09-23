@@ -99,6 +99,8 @@ func run() -> void:
 		defence.control(player,tower.tower_id,0.0,-0.25,true,true)
 		tower._physics_process(0.05)
 		check(tower.shots>shots,kind+" fires using manual controls")
+		if kind == "standard":
+			check(tower.shot_audio.voice.playing and tower.shot_audio.voice.stream.resource_path.ends_with("/sentinel_shot.wav"), "First Sentinel plays the new recording through manual controls")
 		tower._physics_process(0.5)
 		check(not tower.trigger and not tower.aiming,kind+" stops firing and aiming when control packets stop")
 		defence.control(player,tower.tower_id,PI*0.5,0.0,false)
@@ -145,6 +147,8 @@ func run() -> void:
 		check(tower.can_see(enemies[0]),kind+" acquires an animated body hitbox")
 		tower.target = enemies[0]
 		tower.shoot()
+		if kind == "standard":
+			check(tower.shot_audio.voice.playing and tower.shot_audio.voice.stream.resource_path.ends_with("/sentinel_shot.wav"), "First Sentinel plays the new recording when shooting its acquired target")
 		if kind=="mortar": await create_timer(2.0,false).timeout
 		check(enemies[0].hp<10000,kind+" deals actual damage")
 		if kind in ["tesla","mortar","flame"]: check(enemies[1].hp<10000,kind+" hits multiple enemies")

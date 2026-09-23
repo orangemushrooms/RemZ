@@ -1,0 +1,19 @@
+2026-09-23T01:08:54 remz-dev-20260922-weapon-expansion BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T01:08:54 remz-dev-20260922-weapon-expansion NETWORK_INITIALIZED
+2026-09-23T01:09:07 remz-dev-20260922-weapon-expansion MAP_READY
+2026-09-23T01:09:18 remz-dev-20260922-weapon-expansion MAP_READY
+2026-09-23T01:09:29 remz-dev-20260922-weapon-expansion MAP_READY
+2026-09-23T01:09:29 remz-dev-20260922-weapon-expansion HOST_CREATE port=24599
+2026-09-23T01:09:30 remz-dev-20260922-weapon-expansion HOST_READY
+2026-09-23T01:09:30 remz-dev-20260922-weapon-expansion ROUND_START_SEND players=1
+2026-09-23T01:09:30 remz-dev-20260922-weapon-expansion ROUND_BEGIN intro=false
+2026-09-23T01:09:30 remz-dev-20260922-weapon-expansion ROUND_RUNNING players=1
+2026-09-23T01:09:41 remz-dev-20260922-weapon-expansion MAP_READY
+2026-09-23T01:09:41 remz-dev-20260922-weapon-expansion ROUND_START_SEND players=1
+2026-09-23T01:09:41 remz-dev-20260922-weapon-expansion ROUND_BEGIN intro=false
+2026-09-23T01:09:41 remz-dev-20260922-weapon-expansion ROUND_RUNNING players=1
+2026-09-23T01:09:41 remz-dev-20260922-weapon-expansion LEAVE_BEGIN phase=running reason=Sitzung verlassen.
+2026-09-23T01:09:41 remz-dev-20260922-weapon-expansion LEAVE_PEER_DETACHED
+2026-09-23T01:09:41 remz-dev-20260922-weapon-expansion LEAVE_PEER_CLOSED
+2026-09-23T01:09:41 remz-dev-20260922-weapon-expansion LEAVE_RELOAD
+2026-09-23T01:09:52 remz-dev-20260922-weapon-expansion MAP_READY

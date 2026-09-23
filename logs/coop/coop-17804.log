@@ -1,0 +1,101 @@
+2026-09-23T13:47:39 remz-dev-20260923-earthworm-quality BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T13:47:39 remz-dev-20260923-earthworm-quality NETWORK_INITIALIZED
+2026-09-23T13:47:58 remz-dev-20260923-earthworm-quality MAP_READY
+2026-09-23T13:47:58 remz-dev-20260923-earthworm-quality JOIN_BEGIN address=127.0.0.1 port=24781
+2026-09-23T13:47:58 remz-dev-20260923-earthworm-quality JOIN_SOCKET result=0
+2026-09-23T13:47:58 remz-dev-20260923-earthworm-quality TRANSPORT_CONNECTED sending_hello
+2026-09-23T13:47:58 remz-dev-20260923-earthworm-quality PEER_CONNECTED id=1
+2026-09-23T13:47:58 remz-dev-20260923-earthworm-quality PEER_CONNECTED id=953879647
+2026-09-23T13:47:58 remz-dev-20260923-earthworm-quality PEER_CONNECTED id=609908043
+2026-09-23T13:47:58 remz-dev-20260923-earthworm-quality WELCOME
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality INITIAL_RECEIVE parts=5
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality INITIAL_APPLY_BEGIN
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality INITIAL_APPLY_DONE
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_RECEIVE parts=5
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality STATE_APPLY_DONE sequence=4
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality ROUND_BEGIN intro=false
+2026-09-23T13:47:59 remz-dev-20260923-earthworm-quality ROUND_RUNNING players=4
+2026-09-23T13:48:11 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:48:11 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:48:11 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:48:11 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:48:11 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:48:18 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:48:18 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:48:18 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:48:18 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:48:18 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:48:24 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:48:24 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:48:24 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:48:24 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:48:24 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:48:26 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:48:26 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:48:26 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:48:26 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:48:26 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:48:27 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:48:27 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:48:27 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:48:27 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:48:27 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:48:29 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:48:29 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:48:29 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:48:29 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:48:29 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:48:38 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:48:38 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:48:38 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:48:38 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:48:38 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:48:40 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:48:40 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:48:40 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:48:40 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:48:40 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:48:45 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:48:45 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:48:45 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:48:45 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:48:45 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:49:03 remz-dev-20260923-earthworm-quality PEER_DISCONNECTED id=609908043
+2026-09-23T13:49:15 remz-dev-20260923-earthworm-quality PEER_CONNECTED id=719135584
+2026-09-23T13:49:41 remz-dev-20260923-earthworm-quality STATE_RECEIVE parts=8
+2026-09-23T13:49:41 remz-dev-20260923-earthworm-quality STATE_APPLY_DONE sequence=993
+2026-09-23T13:49:54 remz-dev-20260923-earthworm-quality MAP_READY
+2026-09-23T13:49:55 remz-dev-20260923-earthworm-quality INITIAL_RECEIVE parts=5
+2026-09-23T13:49:55 remz-dev-20260923-earthworm-quality INITIAL_APPLY_BEGIN
+2026-09-23T13:49:55 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:49:55 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:49:55 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:49:55 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:49:55 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:49:55 remz-dev-20260923-earthworm-quality INITIAL_APPLY_DONE
+2026-09-23T13:49:56 remz-dev-20260923-earthworm-quality STATE_RECEIVE parts=5
+2026-09-23T13:49:56 remz-dev-20260923-earthworm-quality STATE_STAGE structures
+2026-09-23T13:49:56 remz-dev-20260923-earthworm-quality STATE_STAGE players
+2026-09-23T13:49:56 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
+2026-09-23T13:49:56 remz-dev-20260923-earthworm-quality STATE_STAGE items
+2026-09-23T13:49:56 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
+2026-09-23T13:49:56 remz-dev-20260923-earthworm-quality STATE_APPLY_DONE sequence=997
+2026-09-23T13:49:56 remz-dev-20260923-earthworm-quality ROUND_BEGIN intro=false
+2026-09-23T13:49:56 remz-dev-20260923-earthworm-quality ROUND_RUNNING players=4
+2026-09-23T13:49:57 remz-dev-20260923-earthworm-quality PEER_DISCONNECTED id=719135584
+2026-09-23T13:49:58 remz-dev-20260923-earthworm-quality PEER_DISCONNECTED id=1
+2026-09-23T13:49:58 remz-dev-20260923-earthworm-quality LEAVE_BEGIN phase=running reason=Der Host hat die Verbindung beendet.
+2026-09-23T13:49:58 remz-dev-20260923-earthworm-quality LEAVE_PEER_DETACHED
+2026-09-23T13:49:58 remz-dev-20260923-earthworm-quality LEAVE_PEER_CLOSED
+2026-09-23T13:49:58 remz-dev-20260923-earthworm-quality LEAVE_RELOAD
+2026-09-23T13:50:10 remz-dev-20260923-earthworm-quality MAP_READY

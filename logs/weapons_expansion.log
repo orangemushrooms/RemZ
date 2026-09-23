@@ -1,0 +1,152 @@
+Balance before: 1958
+TASK_CREATED: 01a0caf1-9792-76e1-b459-7be455e1f9dd
+SUBMITTED deagle preview 01a0caf1-9792-76e1-b459-7be455e1f9dd
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+TASK_CREATED: 01a0caf1-99e2-7558-997c-7d26cb089449
+SUBMITTED mac10 preview 01a0caf1-99e2-7558-997c-7d26cb089449
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+TASK_CREATED: 01a0caf1-99e3-7776-828d-c29432181707
+SUBMITTED cryo_smg preview 01a0caf1-99e3-7776-828d-c29432181707
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+TASK_CREATED: 01a0caf1-99e4-7749-b05d-286772a49a34
+SUBMITTED flare_pistol preview 01a0caf1-99e4-7749-b05d-286772a49a34
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+TASK_CREATED: 01a0caf2-f302-739b-a97d-b4548d8480b9
+SUBMITTED deagle refine 01a0caf2-f302-739b-a97d-b4548d8480b9
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████████] 100% — SUCCEEDED (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+TASK_CREATED: 01a0caf3-30a3-717c-9097-a567c1859818
+SUBMITTED mac10 refine 01a0caf3-30a3-717c-9097-a567c1859818
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████████] 100% — SUCCEEDED (115.625s, poll #10)
+TASK_CREATED: 01a0caf3-7070-758e-bbc6-ba9ffb0a8f28
+SUBMITTED flare_pistol refine 01a0caf3-7070-758e-bbc6-ba9ffb0a8f28
+  [░░░░░░░░░░░░░░░░░░░░] 0% — PENDING (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (40.625s, poll #5)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (130.625s, poll #11)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+TASK_CREATED: 01a0caf3-aa2b-75c5-8d7b-524d6650e300
+SUBMITTED cryo_smg refine 01a0caf3-aa2b-75c5-8d7b-524d6650e300
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (23.75s, poll #4)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (40.625s, poll #5)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (65.9375s, poll #6)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (23.75s, poll #4)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (40.625s, poll #5)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (65.9375s, poll #6)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (40.625s, poll #5)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (95.9375s, poll #7)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (65.9375s, poll #6)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (95.9375s, poll #7)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (65.9375s, poll #6)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (125.9375s, poll #8)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (125.9375s, poll #8)
+  [████████░░░░░░░░░░░░] 40% — IN_PROGRESS (95.9375s, poll #7)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (155.9375s, poll #9)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (155.9375s, poll #9)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (185.9375s, poll #10)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (155.9375s, poll #9)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (185.9375s, poll #10)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (155.9375s, poll #9)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (215.9375s, poll #11)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (185.9375s, poll #10)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (215.9375s, poll #11)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (185.9375s, poll #10)
+  [███████████████░░░░░] 78% — IN_PROGRESS (245.9375s, poll #12)
+  [███████████████░░░░░] 75% — IN_PROGRESS (215.9375s, poll #11)
+  [███████████████░░░░░] 78% — IN_PROGRESS (245.9375s, poll #12)
+  [███████████████░░░░░] 78% — IN_PROGRESS (215.9375s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (275.9375s, poll #13)
+  [██████████████████░░] 90% — IN_PROGRESS (245.9375s, poll #12)
+  [███████████████████░] 99% — IN_PROGRESS (290.9375s, poll #14)
+  [███████████████████░] 99% — IN_PROGRESS (275.9375s, poll #13)
+  [██████████████████░░] 90% — IN_PROGRESS (245.9375s, poll #12)
+  [███████████████████░] 99% — IN_PROGRESS (305.9375s, poll #15)
+  [███████████████████░] 99% — IN_PROGRESS (290.9375s, poll #14)
+  [███████████████████░] 99% — IN_PROGRESS (275.9375s, poll #13)
+  [███████████████████░] 99% — IN_PROGRESS (320.9375s, poll #16)
+  [███████████████████░] 99% — IN_PROGRESS (305.9375s, poll #15)
+  [███████████████████░] 99% — IN_PROGRESS (275.9375s, poll #13)
+  [███████████████████░] 99% — IN_PROGRESS (290.9375s, poll #14)
+  [███████████████████░] 99% — IN_PROGRESS (335.9375s, poll #17)
+  [███████████████████░] 99% — IN_PROGRESS (320.9375s, poll #16)
+  [███████████████████░] 99% — IN_PROGRESS (290.9375s, poll #14)
+  [███████████████████░] 99% — IN_PROGRESS (305.9375s, poll #15)
+  [███████████████████░] 99% — IN_PROGRESS (350.9375s, poll #18)
+  [███████████████████░] 99% — IN_PROGRESS (335.9375s, poll #17)
+  [███████████████████░] 99% — IN_PROGRESS (305.9375s, poll #15)
+  [███████████████████░] 99% — IN_PROGRESS (320.9375s, poll #16)
+  [███████████████████░] 99% — IN_PROGRESS (365.9375s, poll #19)
+  [███████████████████░] 99% — IN_PROGRESS (350.9375s, poll #18)
+  [███████████████████░] 99% — IN_PROGRESS (320.9375s, poll #16)
+  [███████████████████░] 99% — IN_PROGRESS (335.9375s, poll #17)
+  [████████████████████] 100% — SUCCEEDED (380.9375s, poll #20)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_230833_deagle_01a0caf1\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_230833_deagle_01a0caf1\model.glb (7.8 MB)
+COMPLETE deagle 7955 KB
+  [███████████████████░] 99% — IN_PROGRESS (365.9375s, poll #19)
+  [███████████████████░] 99% — IN_PROGRESS (335.9375s, poll #17)
+  [███████████████████░] 99% — IN_PROGRESS (350.9375s, poll #18)
+  [████████████████████] 100% — SUCCEEDED (380.9375s, poll #20)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_230849_mac10_01a0caf1\model.glb...
+  [███████████████████░] 99% — IN_PROGRESS (350.9375s, poll #18)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_230849_mac10_01a0caf1\model.glb (7.9 MB)
+  [███████████████████░] 99% — IN_PROGRESS (365.9375s, poll #19)
+COMPLETE mac10 8076 KB
+  [████████████████████] 100% — SUCCEEDED (365.9375s, poll #19)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_230920_cryo-smg_01a0caf1\model.glb...
+  [████████████████████] 100% — SUCCEEDED (380.9375s, poll #20)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_230905_flare-pistol_01a0caf1\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_230920_cryo-smg_01a0caf1\model.glb (9.5 MB)
+COMPLETE cryo_smg 9692 KB
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_230905_flare-pistol_01a0caf1\model.glb (7.9 MB)
+COMPLETE flare_pistol 8081 KB
+FAILED plasma_sniper HTTPError 400 Client Error: Bad Request for url: https://api.meshy.ai/openapi/v2/text-to-3d
+FAILED lever_rifle HTTPError 400 Client Error: Bad Request for url: https://api.meshy.ai/openapi/v2/text-to-3d
+FAILED minigun HTTPError 400 Client Error: Bad Request for url: https://api.meshy.ai/openapi/v2/text-to-3d
+FAILED graviton_cannon HTTPError 400 Client Error: Bad Request for url: https://api.meshy.ai/openapi/v2/text-to-3d
+Balance after: 1838
+DONE 4 of 8 failed: ['plasma_sniper', 'lever_rifle', 'minigun', 'graviton_cannon']

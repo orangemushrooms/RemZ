@@ -54,11 +54,10 @@ func run() -> void:
 		camera.global_position = origin + Vector3(5, 5, 5)
 		camera.look_at(origin + Vector3(0, 2.9, -6))
 		tower.fire_at(aim)
-		if kind != "standard":
-			var audio: Node3D = tower.shot_audio
-			check(audio.voice.playing and audio.voice.stream is AudioStreamWAV, kind + " plays the prepared user recording on a real shot")
-			check(audio.voice.global_position.is_equal_approx(start) and audio.voice.max_distance >= 70, kind + " sound comes from the muzzle with distance attenuation")
-			check(audio.voice.stream.get_length() < float(tower.spec().rate) if kind in ["mortar", "tesla"] else audio.voice.max_polyphony <= 3, kind + " playback is bounded for its firing rate")
+		var audio: Node3D = tower.shot_audio
+		check(audio.voice.playing and audio.voice.stream is AudioStreamWAV, kind + " plays the prepared user recording on a real shot")
+		check(audio.voice.global_position.is_equal_approx(start) and audio.voice.max_distance >= 70, kind + " sound comes from the muzzle with distance attenuation")
+		check(audio.voice.stream.get_length() < float(tower.spec().rate) if kind in ["mortar", "tesla"] else audio.voice.max_polyphony <= 3, kind + " playback is bounded for its firing rate")
 		# Disable acquisition, leaving the visual tick running for exact recoil/tracer checks.
 		tower.replica = true
 		tower._physics_process(0.015)
@@ -157,15 +156,14 @@ func run() -> void:
 		var remote: DefenceTower = mirror.towers[tower.tower_id]
 		remote.set_physics_process(false)
 		check(remote._flash_t == 0, kind + " late join does not replay an old shot")
-		if kind != "standard": check(remote.shot_audio == null, kind + " late join stays silent for historical shots")
+		check(remote.shot_audio == null, kind + " late join stays silent for historical shots")
 		state[tower.tower_id][6] += 1
 		mirror.apply_snapshot(state, false)
 		check(remote._flash_t > 0 and remote.fx.remaining > 0, kind + " replicated shot starts the same new effects")
-		if kind != "standard":
-			check(remote.shot_audio.voice.playing, kind + " replicated new shot plays its user recording")
-			remote.shot_audio.voice.stop()
-			mirror.apply_snapshot(state, false)
-			check(not remote.shot_audio.voice.playing, kind + " repeated snapshot does not replay the sound")
+		check(remote.shot_audio.voice.playing, kind + " replicated new shot plays its user recording")
+		remote.shot_audio.voice.stop()
+		mirror.apply_snapshot(state, false)
+		check(not remote.shot_audio.voice.playing, kind + " repeated snapshot does not replay the sound")
 		var sound_ref: WeakRef = weakref(tower.shot_audio) if tower.shot_audio else null
 		mirror.apply_snapshot({}, false)
 		mirror.queue_free()

@@ -253,6 +253,7 @@ func refresh() -> void:
 		label.modulate = Color(1, 0.58, 0.32) if hp < max_hp() * 0.4 else Color(0.82, 0.9, 0.76)
 
 func target_point(enemy: Zombie) -> Vector3:
+	if enemy is Earthworm: return enemy.aim_point()
 	# Aim inside an animated torso hitbox, including hunched/leaning variants.
 	for volume in enemy._shot_volumes:
 		var bone: String = volume.bone_name.to_lower()
@@ -270,7 +271,7 @@ func target_point(enemy: Zombie) -> Vector3:
 	return enemy.global_position+Vector3.UP*enemy.height*0.55
 
 func can_see(z: Zombie) -> bool:
-	if not is_instance_valid(z) or not z.alive: return false
+	if not is_instance_valid(z) or not z.targetable(): return false
 	var direction := z.global_position - global_position
 	if Vector2(direction.x, direction.z).length_squared() > 0.01:
 		var yaw := atan2(-direction.x, -direction.z)
@@ -471,12 +472,11 @@ func show_shot() -> void:
 	var start := muzzle.global_position
 	var direction := last_impact - start
 	if direction.length() < 0.05: return
-	if kind != "standard":
-		if not shot_audio:
-			shot_audio = preload("res://scripts/tower_audio.gd").new()
-			shot_audio.tower = self
-			muzzle.add_child(shot_audio)
-		shot_audio.fire()
+	if not shot_audio:
+		shot_audio = preload("res://scripts/tower_audio.gd").new()
+		shot_audio.tower = self
+		muzzle.add_child(shot_audio)
+	shot_audio.fire()
 	fx.global_basis = muzzle.global_basis if kind == "mortar" else Basis.looking_at(direction.normalized(), Vector3.UP)
 	fx.fire(minf(direction.length(), attack_range()))
 	_recoil_velocity = minf(7, _recoil_velocity + (6.0 if kind == "mortar" else 1.3 if kind == "mg42" else 1.8 if kind == "standard" else 0.12 if kind == "flame" else 0.0))
@@ -497,5 +497,3 @@ func show_shot() -> void:
 	_trace_travel = 0.0
 	tracer.global_position = start
 	tracer.look_at(last_impact, Vector3.UP)
-	# Carry across the defensive perimeter, while retaining positional direction.
-	if kind == "standard": Sfx.play_at(game, "smg", start, -5.0, randf_range(0.83, 0.93), 20.0, 120.0)

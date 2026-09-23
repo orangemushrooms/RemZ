@@ -269,6 +269,7 @@ func set_weapon(id: String) -> void:
 		hud.message("%s beim Waffenhändler kaufen" % DEFS[id]["name"], 1.4)
 		return
 	if current != id:
+		Sfx.stop_fire_loop(self)
 		if is_inside_tree(): Sfx.play(self, "weapon_switch", -10.0)
 		_aim_kick = Vector2.ZERO
 		_bloom = 0.0
@@ -392,6 +393,7 @@ func reload() -> void:
 	if s["reloading"] > 0.0 or s["ammo"] == s["def"]["mag"] or s["reserve"] <= 0:
 		return
 	s["reloading"] = float(s["def"]["reload"]) * effective_reload_mul()
+	Sfx.stop_fire_loop(self, false)
 	if NetSession.is_client() and not network_apply:
 		NetSession.command("reload")
 	if not server_proxy:
@@ -543,7 +545,7 @@ func try_fire() -> void:
 				z.killer_peer = player.peer_id
 				var dist := origin.distance_to(hit.position)
 				var falloff := 1.0 - 0.45 * clampf((dist - float(d["range"])) / (2.0 * float(d["range"])), 0.0, 1.0)
-				var titan_bonus := float(d.get("titan_multiplier", 1.0)) if Zombie.is_titan_kind(z.net_kind) else 1.0
+				var titan_bonus := float(d.get("titan_multiplier", 1.0)) if Zombie.is_boss_kind(z.net_kind) else 1.0
 				z.damage(float(d["damage"]) * effective_damage_mul() * titan_bonus * falloff * pow(float(d.get("pierce_retention", 1.0)), victims) * (2.2 if headshot else 1.0), dir)
 				rare.hit(z, special_round, player.peer_id, current)
 				if specials: specials.on_hit(self, current, z, dir, player.peer_id)
@@ -792,6 +794,8 @@ func _reset_scope(reset_fov := true) -> void:
 		for part in hud.crosshair_parts: part.visible = player.active and player.alive
 
 func _process(delta: float) -> void:
+	if not player or not player.alive or not player.active:
+		Sfx.stop_fire_loop(self)
 	if server_proxy:
 		if player.active and player.alive:
 			_tick_ammo(delta)
@@ -834,6 +838,7 @@ func _tick_ammo(delta: float) -> void:
 			s["reloading"] = 0.0
 			update_hud()
 func _handle_weapon_input(delta: float) -> void:
+	if not Input.is_action_pressed("fire"): Sfx.stop_fire_loop(self, false)
 	var scene := get_tree().current_scene
 	if player.mounted_tower:
 		_reset_scope(false) # DefenceSystem owns the mounted camera's zoom.

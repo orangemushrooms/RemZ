@@ -541,13 +541,14 @@ func _process(delta: float) -> void:
 			hint.show()
 	var titan: Zombie
 	for z in game.zombies_root.get_children():
-		if z is Zombie and Zombie.is_titan_kind(z.net_kind) and z.alive:
+		if z is Zombie and Zombie.is_boss_kind(z.net_kind) and z.alive:
 			if titan == null or z.global_position.distance_squared_to(game.player.global_position) < titan.global_position.distance_squared_to(game.player.global_position): titan = z
 	boss_panel.visible = titan != null and game.started and not game.over and game.player.active and not game.hud.overlay.visible
 	if titan:
 		boss_bar.max_value = titan.max_hp
 		boss_bar.value = titan.hp
-		boss_name.text = str(titan.type.get("name", "DER FELDTITAN")) + " · %d m%s" % [roundi(titan.global_position.distance_to(game.player.global_position)), " · RASEREI" if titan.hp < titan.max_hp * Titan.RAGE_THRESHOLD else ""]
+		var status: String = " · " + titan.status_label() if titan is Earthworm else (" · RASEREI" if titan.hp < titan.max_hp * Titan.RAGE_THRESHOLD else "")
+		boss_name.text = str(titan.type.get("name", "DER FELDTITAN")) + " · %d m%s" % [roundi(titan.global_position.distance_to(game.player.global_position)), status]
 
 func snapshot() -> Dictionary:
 	var data := {}

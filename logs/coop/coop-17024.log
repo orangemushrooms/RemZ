@@ -1,2 +1,39 @@
-2026-09-21T18:52:42 remz-coop-leaderboard-ping-20260921 BOOT exe=C:/Users/miche/Desktop/Godot.exe
-2026-09-21T18:52:42 remz-coop-leaderboard-ping-20260921 NETWORK_INITIALIZED
+2026-09-23T07:48:58 remz-dev-20260922-weapon-expansion BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T07:48:58 remz-dev-20260922-weapon-expansion NETWORK_INITIALIZED
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion MAP_READY
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion JOIN_SOCKET result=0
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_PEER_DETACHED
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_PEER_CLOSED
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_DONE reused_loaded_map
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion JOIN_SOCKET result=0
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_PEER_DETACHED
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_PEER_CLOSED
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_DONE reused_loaded_map
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion JOIN_SOCKET result=0
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_PEER_DETACHED
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_PEER_CLOSED
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_DONE reused_loaded_map
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion JOIN_SOCKET result=0
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_BEGIN phase=connecting reason=Keine Antwort vom Host. Hamachi-Verbindung und Freigabe von UDP 24699 in der Windows-Firewall prüfen.
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_PEER_DETACHED
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_PEER_CLOSED
+2026-09-23T07:49:12 remz-dev-20260922-weapon-expansion LEAVE_DONE reused_loaded_map
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion JOIN_SOCKET result=0
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion LEAVE_BEGIN phase=connecting reason=Verbindung fehlgeschlagen. Hamachi-IP, Netzwerk und UDP-Port prüfen.
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion LEAVE_PEER_DETACHED
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion LEAVE_PEER_CLOSED
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion LEAVE_DONE reused_loaded_map
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion HOST_CREATE port=24699
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion HOST_READY
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion LEAVE_BEGIN phase=lobby reason=Sitzung verlassen.
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion LEAVE_PEER_DETACHED
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion LEAVE_PEER_CLOSED
+2026-09-23T07:49:13 remz-dev-20260922-weapon-expansion LEAVE_DONE reused_loaded_map

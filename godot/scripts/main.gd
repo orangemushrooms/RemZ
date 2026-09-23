@@ -2448,7 +2448,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 	var nav_map := nav_region.get_navigation_map()
 	if minimum_distance > 0.0 and NavigationServer3D.map_get_iteration_id(nav_map) == 0:
 		return false
-	if NavigationServer3D.map_get_iteration_id(nav_map) > 0:
+	if not Zombie.is_worm_kind(type) and NavigationServer3D.map_get_iteration_id(nav_map) > 0:
 		spawn = NavigationServer3D.map_get_closest_point(nav_map, spawn)
 	# Check the final navigable position, since projection can move a spawn toward a player.
 	if minimum_distance > 0.0:
@@ -2464,12 +2464,14 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 			if Vector2(offset.x, offset.z).length_squared() < minimum_distance * minimum_distance:
 				return false
 	if profile: timings.append(Time.get_ticks_usec())
-	var z: Zombie = Titan.new() if Zombie.is_titan_kind(type) else Zombie.new()
+	if minimum_distance > 0.0 and Zombie.is_worm_kind(type) and not Earthworm.surface_clear(self, perimeter, spawn): return false
+	var z: Zombie = Earthworm.new() if Zombie.is_worm_kind(type) else (Titan.new() if Zombie.is_titan_kind(type) else Zombie.new())
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	z.hp *= float(difficulty["hp"])
-	if Zombie.is_titan_kind(type):
-		z.hp *= (1.0 + maxf(0, waves.wave - 8) * 0.12) * (1.0 + 0.65 * (NetSession.roster.size() - 1) if NetSession.enabled else 1.0)
-		var message := "%s\nEin %d Meter großer Titan nähert sich über die Wiese!" % [z.type.get("name", "DER FELDTITAN"), int(z.height)]
+	if Zombie.is_boss_kind(type):
+		z.speed_mul = EncounterBalance.heavy_speed(speed_mul)
+		z.hp *= EncounterBalance.heavy_hp(waves.wave, NetSession.roster.size() if NetSession.enabled else 1, Zombie.is_worm_kind(type))
+		var message := "%s\nEin %d Meter grosser Wurm gräbt sich durch das Feld!" % [z.type.name, int(z.height)] if Zombie.is_worm_kind(type) else "%s\nEin %d Meter grosser Titan nähert sich über die Wiese!" % [z.type.get("name", "DER FELDTITAN"), int(z.height)]
 		hud.message(message, 5)
 		if NetSession.is_host():
 			for peer in NetSession.ready_peers:
@@ -2479,6 +2481,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 	var lane_slots := {"north": 0, "east": 1, "south": 2, "west": 3}
 	if lane_slots.has(lane): z.lane_bar = barricades[lane_slots[lane]]
 	z.damage_mul = float(difficulty["dmg"])
+	if Zombie.is_boss_kind(type): z.damage_mul *= EncounterBalance.heavy_damage(waves.wave, Zombie.is_worm_kind(type))
 	zombies_root.add_child(z)
 	if profile: timings.append(Time.get_ticks_usec())
 	z.global_position = spawn + Vector3(0, 0.2, 0)

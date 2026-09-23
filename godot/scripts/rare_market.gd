@@ -169,7 +169,7 @@ func hit(z: Zombie, mode: String, peer: int, weapon: String) -> void:
 
 func update_status(z: Zombie, s: Dictionary) -> void:
 	z.rare_status = ("fire+frost" if float(s.frost) > 0 else "fire") if float(s.burn) > 0 else ("frost" if float(s.frost) > 0 else "")
-	z.frost_mul = (0.8 if Zombie.is_titan_kind(z.net_kind) else 0.55) if float(s.frost) > 0 else 1.0
+	z.frost_mul = (0.8 if Zombie.is_boss_kind(z.net_kind) else 0.55) if float(s.frost) > 0 else 1.0
 
 func tick_statuses(delta: float) -> void:
 	for z in statuses.keys():

@@ -1,0 +1,126 @@
+2026-09-23T00:49:53 remz-dev-20260922-weapon-expansion BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T00:49:53 remz-dev-20260922-weapon-expansion NETWORK_INITIALIZED
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion MAP_READY
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion JOIN_BEGIN address=127.0.0.1 port=24687
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion JOIN_SOCKET result=0
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion TRANSPORT_CONNECTED sending_hello
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion PEER_CONNECTED id=1
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion PEER_CONNECTED id=1085181851
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion WELCOME
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion INITIAL_RECEIVE parts=5
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion INITIAL_APPLY_BEGIN
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion INITIAL_APPLY_DONE
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion PEER_CONNECTED id=696674684
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_RECEIVE parts=5
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_APPLY_DONE sequence=4
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion ROUND_BEGIN intro=false
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion ROUND_RUNNING players=4
+2026-09-23T00:50:31 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:50:31 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:50:31 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:50:31 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:50:31 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:50:42 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:50:42 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:50:42 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:50:42 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:50:42 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:50:45 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:50:45 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:50:45 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:50:45 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:50:45 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:50:46 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:50:46 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:50:46 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:50:46 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:50:46 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:00 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:00 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:00 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:00 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:00 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:02 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:02 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:02 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:02 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:02 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:07 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:07 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:07 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:07 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:07 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:08 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:08 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:08 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:08 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:08 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:12 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:12 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:12 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:12 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:12 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:21 remz-dev-20260922-weapon-expansion PEER_DISCONNECTED id=696674684
+2026-09-23T00:51:35 remz-dev-20260922-weapon-expansion PEER_CONNECTED id=278635319
+2026-09-23T00:51:36 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:36 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:37 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:37 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:37 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:39 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:39 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:39 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:39 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:39 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:42 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:42 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:42 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:42 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:42 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:45 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:45 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:45 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:45 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:45 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:51:47 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:51:47 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:51:47 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:51:47 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:51:47 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:52:01 remz-dev-20260922-weapon-expansion STATE_RECEIVE parts=8
+2026-09-23T00:52:01 remz-dev-20260922-weapon-expansion STATE_APPLY_DONE sequence=1056
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion MAP_READY
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion INITIAL_RECEIVE parts=5
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion INITIAL_APPLY_BEGIN
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion INITIAL_APPLY_DONE
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_RECEIVE parts=5
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_STAGE structures
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_STAGE players
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_STAGE enemies
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_STAGE items
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_STAGE barricades
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_APPLY_DONE sequence=1060
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion ROUND_BEGIN intro=false
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion ROUND_RUNNING players=4
+2026-09-23T00:52:22 remz-dev-20260922-weapon-expansion PEER_DISCONNECTED id=278635319
+2026-09-23T00:52:23 remz-dev-20260922-weapon-expansion PEER_DISCONNECTED id=1
+2026-09-23T00:52:23 remz-dev-20260922-weapon-expansion LEAVE_BEGIN phase=running reason=Der Host hat die Verbindung beendet.
+2026-09-23T00:52:23 remz-dev-20260922-weapon-expansion LEAVE_PEER_DETACHED
+2026-09-23T00:52:23 remz-dev-20260922-weapon-expansion LEAVE_PEER_CLOSED
+2026-09-23T00:52:23 remz-dev-20260922-weapon-expansion LEAVE_RELOAD
+2026-09-23T00:52:39 remz-dev-20260922-weapon-expansion MAP_READY

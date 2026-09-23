@@ -1,0 +1,27 @@
+2026-09-23T09:24:41 remz-dev-20260923-titan-gate-fix BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T09:24:41 remz-dev-20260923-titan-gate-fix NETWORK_INITIALIZED
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix MAP_READY
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix JOIN_BEGIN address=127.0.0.1 port=24692
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix JOIN_SOCKET result=0
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix TRANSPORT_CONNECTED sending_hello
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=1
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=293564719
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=1998716597
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix WELCOME
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix INITIAL_RECEIVE parts=5
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix INITIAL_APPLY_BEGIN
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE structures
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE players
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE enemies
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE items
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE barricades
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix INITIAL_APPLY_DONE
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_RECEIVE parts=5
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE structures
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE players
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE enemies
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE items
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_STAGE barricades
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix STATE_APPLY_DONE sequence=4
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix ROUND_BEGIN intro=false
+2026-09-23T09:24:57 remz-dev-20260923-titan-gate-fix ROUND_RUNNING players=4

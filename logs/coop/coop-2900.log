@@ -1,0 +1,20 @@
+2026-09-23T12:31:50 remz-dev-20260923-earthworm-waves BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T12:31:50 remz-dev-20260923-earthworm-waves NETWORK_INITIALIZED
+2026-09-23T12:32:32 remz-dev-20260923-earthworm-waves MAP_READY
+2026-09-23T12:32:32 remz-dev-20260923-earthworm-waves HOST_CREATE port=24736
+2026-09-23T12:32:32 remz-dev-20260923-earthworm-waves HOST_READY
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves PEER_CONNECTED id=1830836317
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves INITIAL_SEND peer=1830836317 raw=22004 bytes=3990 parts=5
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves CLIENT_READY peer=1830836317
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves ROUND_START_SEND players=2
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_SEND peer=1830836317 raw=22004 bytes=3993 parts=5
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves ROUND_BEGIN intro=false
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves ROUND_RUNNING players=2
+2026-09-23T12:32:34 remz-dev-20260923-earthworm-waves PEER_CONNECTED id=443781978
+2026-09-23T12:32:34 remz-dev-20260923-earthworm-waves INITIAL_SEND peer=443781978 raw=25568 bytes=4350 parts=5
+2026-09-23T12:32:34 remz-dev-20260923-earthworm-waves CLIENT_READY peer=443781978
+2026-09-23T12:32:35 remz-dev-20260923-earthworm-waves PEER_DISCONNECTED id=443781978
+2026-09-23T12:32:35 remz-dev-20260923-earthworm-waves PEER_DISCONNECTED id=1830836317
+2026-09-23T12:32:36 remz-dev-20260923-earthworm-waves LEAVE_BEGIN phase=running reason=Sitzung verlassen.
+2026-09-23T12:32:36 remz-dev-20260923-earthworm-waves LEAVE_PEER_DETACHED
+2026-09-23T12:32:36 remz-dev-20260923-earthworm-waves LEAVE_PEER_CLOSED

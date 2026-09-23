@@ -1,0 +1,29 @@
+2026-09-23T12:31:50 remz-dev-20260923-earthworm-waves BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T12:31:50 remz-dev-20260923-earthworm-waves NETWORK_INITIALIZED
+2026-09-23T12:32:32 remz-dev-20260923-earthworm-waves MAP_READY
+2026-09-23T12:32:32 remz-dev-20260923-earthworm-waves JOIN_BEGIN address=127.0.0.1 port=24736
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves JOIN_SOCKET result=0
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves TRANSPORT_CONNECTED sending_hello
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves PEER_CONNECTED id=1
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves WELCOME
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves INITIAL_RECEIVE parts=5
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves INITIAL_APPLY_BEGIN
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE structures
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE players
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE enemies
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE items
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE barricades
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves INITIAL_APPLY_DONE
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_RECEIVE parts=5
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE structures
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE players
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE enemies
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE items
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_STAGE barricades
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves STATE_APPLY_DONE sequence=2
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves ROUND_BEGIN intro=false
+2026-09-23T12:32:33 remz-dev-20260923-earthworm-waves ROUND_RUNNING players=2
+2026-09-23T12:32:34 remz-dev-20260923-earthworm-waves PEER_CONNECTED id=443781978
+2026-09-23T12:32:35 remz-dev-20260923-earthworm-waves LEAVE_BEGIN phase=running reason=Sitzung verlassen.
+2026-09-23T12:32:35 remz-dev-20260923-earthworm-waves LEAVE_PEER_DETACHED
+2026-09-23T12:32:35 remz-dev-20260923-earthworm-waves LEAVE_PEER_CLOSED

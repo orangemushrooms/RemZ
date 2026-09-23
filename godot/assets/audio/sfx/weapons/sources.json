@@ -2,57 +2,73 @@
   "built_by": "tools/build_weapon_audio.py",
   "library": "C:\\Users\\miche\\Desktop\\Developement\\music",
   "sources": {
-    "deagle": "Weapons/Anti_Mater_Rifle_Gunshot.mp3 + synthesised sub",
-    "flare": "input/audio/Flaregun.mp3 (the user's recording, leading silence trimmed)",
-    "mac10": "Silenced_Tower.mp3 + synthesised bolt",
-    "cryo": "Weapons/Tactical_Rifle_Gunshot.mp3 + Water_Tower.mp3 gas + synthesised ring",
-    "plasma": "fully synthesised",
+    "deagle": "godot/assets/audio/sfx/Desert Eagle.mp3 (silence trimmed, peak normalized)",
+    "flare": "godot/assets/audio/sfx/Flaregun.mp3 (silence trimmed, peak normalized)",
+    "mac10": "godot/assets/audio/sfx/Mac10.mp3 (silence trimmed, peak normalized)",
+    "cryo": "godot/assets/audio/sfx/Kryo_MP.mp3 (silence trimmed, peak normalized)",
+    "plasma": "godot/assets/audio/sfx/Plasma_Gunshot.mp3 (silence trimmed, peak normalized)",
     "plasma_vent": "fully synthesised",
-    "lever": "Weapons/Sniper_Rifle_Gunshot.mp3",
+    "lever": "godot/assets/audio/sfx/Unterhebler_shot.mp3 (silence trimmed, peak normalized)",
     "lever_cycle": "fully synthesised",
-    "minigun": "Weapons/Heavy_Machine_Gun_Gunshot.mp3 + synthesised sub",
+    "minigun": "godot/assets/audio/sfx/Minigun_Shots_long.mp3 (continuous fire, loop seam crossfaded)",
     "minigun_spinup": "fully synthesised",
     "minigun_loop": "fully synthesised",
     "minigun_spindown": "fully synthesised",
-    "graviton": "anti_tank_tower.mp3 + time_stop.mp3 + synthesised sub drop",
+    "graviton": "godot/assets/audio/sfx/Graviton_Gunshot.mp3 (silence trimmed, peak normalized)",
     "graviton_charge": "fully synthesised",
-    "cryo_freeze": "fully synthesised"
+    "cryo_freeze": "fully synthesised",
+    "graviton_impact": "original graviton explosion: anti_tank_tower.mp3 + time_stop.mp3 + synthesised sub drop"
   },
   "clips": {
     "deagle": {
       "file": "deagle.wav",
-      "seconds": 0.55,
-      "rms": 0.1726,
-      "centroid_hz": 3935,
-      "loop": false
+      "seconds": 1.096,
+      "rms": 0.0975,
+      "centroid_hz": 2804,
+      "loop": false,
+      "source": "godot/assets/audio/sfx/Desert Eagle.mp3",
+      "source_sha256": "91b2a167837e717dbb41f73ea0a18929ca8ff028f5d575ee7d20352f75de9ef5",
+      "trim_start_seconds": 0.04626
     },
     "flare": {
       "file": "flare.wav",
-      "seconds": 2.682,
-      "rms": 0.0673,
-      "centroid_hz": 3193,
-      "loop": false
+      "seconds": 1.765,
+      "rms": 0.0774,
+      "centroid_hz": 3304,
+      "loop": false,
+      "source": "godot/assets/audio/sfx/Flaregun.mp3",
+      "source_sha256": "152cbbb6fe714803157652484dec3a991e018e8e636b0f8b0b2c61cda00b1caa",
+      "trim_start_seconds": 0.01673
     },
     "mac10": {
       "file": "mac10.wav",
-      "seconds": 0.16,
-      "rms": 0.1516,
-      "centroid_hz": 4461,
-      "loop": false
+      "seconds": 1.954,
+      "rms": 0.0248,
+      "centroid_hz": 3042,
+      "loop": false,
+      "source": "godot/assets/audio/sfx/Mac10.mp3",
+      "source_sha256": "90c3abdedb909c433817dd5324e73ecb694f152d5e46713a159a8d6e3c382404",
+      "trim_start_seconds": 0.06077
     },
     "cryo": {
       "file": "cryo.wav",
-      "seconds": 0.26,
-      "rms": 0.088,
-      "centroid_hz": 5002,
-      "loop": false
+      "seconds": 1.27,
+      "rms": 0.0695,
+      "centroid_hz": 7890,
+      "loop": false,
+      "source": "godot/assets/audio/sfx/Kryo_MP.mp3",
+      "source_sha256": "89be66521c413c420fbf53642a2ad327c2a49488ba3144736457e9d4e3c20207",
+      "trim_start_seconds": 0.0
     },
     "plasma": {
       "file": "plasma.wav",
-      "seconds": 0.4,
-      "rms": 0.1347,
-      "centroid_hz": 1122,
-      "loop": false
+      "seconds": 1.219,
+      "rms": 0.1446,
+      "centroid_hz": 2278,
+      "loop": false,
+      "source": "godot/assets/audio/sfx/Plasma_Gunshot.mp3",
+      "source_sha256": "2c86a4dc4a6bc2ecaeb28068075141d32ff0e0af03bff1000c47abc68e6f4a70",
+      "trim_start_seconds": 0.0
     },
     "plasma_vent": {
       "file": "plasma_vent.wav",
@@ -63,10 +79,13 @@
     },
     "lever": {
       "file": "lever.wav",
-      "seconds": 0.62,
-      "rms": 0.2356,
-      "centroid_hz": 3521,
-      "loop": false
+      "seconds": 1.2,
+      "rms": 0.0456,
+      "centroid_hz": 2403,
+      "loop": false,
+      "source": "godot/assets/audio/sfx/Unterhebler_shot.mp3",
+      "source_sha256": "8105548ad431191c65df2510339d4eaf4e3b8c9eef9b24e48c536f4c1de7dad4",
+      "trim_start_seconds": 0.03596
     },
     "lever_cycle": {
       "file": "lever_cycle.wav",
@@ -77,10 +96,13 @@
     },
     "minigun": {
       "file": "minigun.wav",
-      "seconds": 0.105,
-      "rms": 0.2852,
-      "centroid_hz": 3002,
-      "loop": false
+      "seconds": 8.044,
+      "rms": 0.1132,
+      "centroid_hz": 3473,
+      "loop": true,
+      "source": "godot/assets/audio/sfx/Minigun_Shots_long.mp3",
+      "source_sha256": "7cdaeda0d0a448159d25a5f1dee0b7ad764879a5d783b7cdb5d2c4367e241be1",
+      "trim_start_seconds": 0.0
     },
     "minigun_spinup": {
       "file": "minigun_spinup.wav",
@@ -105,10 +127,13 @@
     },
     "graviton": {
       "file": "graviton.wav",
-      "seconds": 1.6,
-      "rms": 0.0988,
-      "centroid_hz": 1089,
-      "loop": false
+      "seconds": 2.609,
+      "rms": 0.1454,
+      "centroid_hz": 1356,
+      "loop": false,
+      "source": "godot/assets/audio/sfx/Graviton_Gunshot.mp3",
+      "source_sha256": "a637b203ade48d9aa9f50769b34ea8c15417139b1eeef408623862ba74efc2a0",
+      "trim_start_seconds": 0.0
     },
     "graviton_charge": {
       "file": "graviton_charge.wav",
@@ -122,6 +147,13 @@
       "seconds": 0.55,
       "rms": 0.0772,
       "centroid_hz": 7370,
+      "loop": false
+    },
+    "graviton_impact": {
+      "file": "graviton_impact.wav",
+      "seconds": 1.6,
+      "rms": 0.0988,
+      "centroid_hz": 1091,
       "loop": false
     }
   }

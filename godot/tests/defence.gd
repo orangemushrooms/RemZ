@@ -50,9 +50,9 @@ func run() -> void:
 		check(plan.size() == game.waves.preview_count(n), "Wave %d preview includes all bosses" % n)
 		check(count == Waves.titan_count(n) and (n >= 6 or count == 0) and count <= 3, "Wave %d respects titan progression" % n)
 	var bar: Barricade = game.barricades[1]
-	check(Waves.titan_count(120) == 3, "Very late waves keep a bounded number of giant bosses")
+	check(Waves.titan_count(117) == 3 and Waves.titan_count(120) == 0, "Late titan waves stay bounded and do not overlap worm encounters")
 	var boss_positions := {}
-	for entry in game.waves.plan(24):
+	for entry in game.waves.plan(39):
 		if entry.type == "titan": boss_positions[entry.point] = true
 	check(boss_positions.size() == 3, "Simultaneous bosses have separate field spawns")
 	bar.build()
@@ -168,7 +168,7 @@ func run() -> void:
 	player.max_hp = 200
 	player.hp = 200
 	titan.resolve_strike()
-	check(is_equal_approx(player.hp, 80), "Normal titan slam removes 120 HP from a fully trained player")
+	check(is_equal_approx(player.hp, 128.32), "Wave-eight normal titan slam uses bounded 71.68 HP damage")
 	var wall := StaticBody3D.new()
 	wall.collision_layer = 1
 	var wall_shape := CollisionShape3D.new()

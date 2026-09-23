@@ -1,0 +1,13 @@
+2026-09-23T09:11:56 remz-dev-20260923-titan-gate-fix BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T09:11:56 remz-dev-20260923-titan-gate-fix NETWORK_INITIALIZED
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix MAP_READY
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix JOIN_BEGIN address=127.0.0.1 port=24692
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix JOIN_SOCKET result=0
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix TRANSPORT_CONNECTED sending_hello
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=1
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=1965282938
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix PEER_CONNECTED id=1286703423
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix LEAVE_BEGIN phase=connecting reason=Andere Spielversion/Karte. Bitte dieselbe Windows-Version verwenden.
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix LEAVE_PEER_DETACHED
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix LEAVE_PEER_CLOSED
+2026-09-23T09:12:14 remz-dev-20260923-titan-gate-fix LEAVE_DONE reused_loaded_map

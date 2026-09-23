@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dd1gertlgw11"
+path="res://.godot/imported/Desert Eagle.mp3-09d3a3b0e2e7593d173b27950a2dc707.mp3str"
+
+[deps]
+
+source_file="res://assets/audio/sfx/Desert Eagle.mp3"
+dest_files=["res://.godot/imported/Desert Eagle.mp3-09d3a3b0e2e7593d173b27950a2dc707.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

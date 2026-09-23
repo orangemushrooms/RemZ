@@ -1,0 +1,23 @@
+Balance before: 1688
+TASK_CREATED: 01a0cafe-d09f-70f5-a3e4-ddee8c659525
+SUBMITTED deagle_v3 preview 01a0cafe-d09f-70f5-a3e4-ddee8c659525
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (55.625s, poll #6)
+TASK_CREATED: 01a0caff-b866-75e1-adef-3efe2e4e8821
+SUBMITTED deagle_v3 refine 01a0caff-b866-75e1-adef-3efe2e4e8821
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (23.75s, poll #4)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (40.625s, poll #5)
+  [██████████████████░░] 90% — IN_PROGRESS (65.9375s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (95.9375s, poll #7)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_232230_deagle-v3_01a0cafe\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20260922_232230_deagle-v3_01a0cafe\model.glb (7.4 MB)
+COMPLETE deagle_v3 7610 KB
+Balance after: 1658
+DONE 1 of 1 failed: none

@@ -153,7 +153,7 @@ func on_hit(w, id: String, z: Zombie, direction: Vector3, peer: int) -> void:
 				# Brittle: a frozen body takes more from the same burst.
 				var bonus := float(s.get("brittle_mul", 1.3)) - 1.0
 				if bonus > 0.0: z.damage(float(w.state[id].def.damage) * w.effective_damage_mul() * bonus, direction)
-			chill(z, float(s.get("per_hit", 0.15)) * (float(s.get("titan_scale", 0.4)) if Zombie.is_titan_kind(z.net_kind) else 1.0), peer, id)
+			chill(z, float(s.get("per_hit", 0.15)) * (float(s.get("titan_scale", 0.4)) if Zombie.is_boss_kind(z.net_kind) else 1.0), peer, id)
 		_:
 			if not element.is_empty(): ignite(z, element, float(s.get("burn_time", 3.0)), peer, id)
 
@@ -186,7 +186,7 @@ func detonate(w, id: String, point: Vector3, peer: int) -> void:
 		z.last_headshot = false
 		z.killer_weapon = id
 		z.killer_peer = peer
-		z.damage(damage * falloff * (titan_bonus if Zombie.is_titan_kind(z.net_kind) else 1.0), (z.global_position - point).normalized())
+		z.damage(damage * falloff * (titan_bonus if Zombie.is_boss_kind(z.net_kind) else 1.0), (z.global_position - point).normalized())
 	# The shooter is not immune to their own gravity well.
 	var shooter = w.player
 	if is_instance_valid(shooter) and shooter.alive:
@@ -201,7 +201,7 @@ func detonate(w, id: String, point: Vector3, peer: int) -> void:
 static func blast_visuals(scene: Node, point: Vector3) -> void:
 	if scene == null: return
 	Grenade.explosion_visuals(scene, point)
-	Sfx.play_at(scene, "graviton", point, -4.0)
+	Sfx.play_at(scene, "graviton_impact", point, -4.0)
 	# The same shove in the view that a grenade gives, for whoever is close enough to feel it.
 	var viewer = scene.player if "player" in scene else null
 	if is_instance_valid(viewer) and viewer.global_position.distance_to(point) < 14.0:

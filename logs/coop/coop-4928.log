@@ -1,3 +1,39 @@
-2026-09-22T21:00:37 remz-dev-20260921-horde-performance BOOT exe=C:/Users/miche/Desktop/Godot.exe
-2026-09-22T21:00:37 remz-dev-20260921-horde-performance NETWORK_INITIALIZED
-2026-09-22T21:01:29 remz-dev-20260921-horde-performance MAP_READY
+2026-09-23T13:50:21 remz-dev-20260923-earthworm-quality BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T13:50:21 remz-dev-20260923-earthworm-quality NETWORK_INITIALIZED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality MAP_READY
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_SOCKET result=0
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_DETACHED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_CLOSED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_DONE reused_loaded_map
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_SOCKET result=0
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_DETACHED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_CLOSED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_DONE reused_loaded_map
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_SOCKET result=0
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_DETACHED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_CLOSED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_DONE reused_loaded_map
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_SOCKET result=0
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_BEGIN phase=connecting reason=Keine Antwort vom Host. Hamachi-Verbindung und Freigabe von UDP 24699 in der Windows-Firewall prüfen.
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_DETACHED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_CLOSED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_DONE reused_loaded_map
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality JOIN_SOCKET result=0
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_BEGIN phase=connecting reason=Verbindung fehlgeschlagen. Hamachi-IP, Netzwerk und UDP-Port prüfen.
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_DETACHED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_CLOSED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_DONE reused_loaded_map
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality HOST_CREATE port=24699
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality HOST_READY
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_BEGIN phase=lobby reason=Sitzung verlassen.
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_DETACHED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_PEER_CLOSED
+2026-09-23T13:50:35 remz-dev-20260923-earthworm-quality LEAVE_DONE reused_loaded_map

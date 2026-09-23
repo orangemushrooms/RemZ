@@ -56,6 +56,7 @@ func setup(p: Player, display_name: String, index: int) -> void:
 
 func set_weapon(id: String) -> void:
 	if id == weapon or not Weapons.DEFS.has(id): return
+	Sfx.stop_fire_loop(self)
 	weapon = id
 	_skin = "__unset"
 	if gun:
@@ -156,7 +157,10 @@ func shot(id: String, mod_effects: Array = []) -> void:
 	Sfx.play_at(self, Weapons.DEFS[id].sfx, global_position + Vector3.UP * 1.3, float(mod_effects[0] if mod_effects.size() >= 3 else Weapons.DEFS[id].get("sfx_db", -8.0)), float(Weapons.DEFS[id].get("sfx_pitch", 1.0)))
 
 func _process(delta: float) -> void:
-	if not is_instance_valid(actor): return
+	if not is_instance_valid(actor):
+		Sfx.stop_fire_loop(self)
+		return
+	if not actor.alive: Sfx.stop_fire_loop(self)
 	crouch_blend = move_toward(crouch_blend, 1.0 if actor.crouching and actor.alive else 0.0, delta * 6.0)
 	label.position.y = 2.12 - crouch_blend * 0.6
 	var speed := Vector2(actor.velocity.x, actor.velocity.z).length()

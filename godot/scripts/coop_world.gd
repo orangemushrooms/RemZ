@@ -496,7 +496,7 @@ func snapshot() -> Dictionary:
 	var zs := {}
 	for z in game.zombies_root.get_children():
 		if not z is Zombie: continue
-		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul, z.max_hp, z.boss_state() if z is Titan else [], z.model_path, z.appearance_seed, z.height, z.rare_status]
+		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul, z.max_hp, z.boss_state() if z is Titan or z is Earthworm else [], z.model_path, z.appearance_seed, z.height, z.rare_status]
 	var gs := {}
 	for id in grenades.keys():
 		var g = grenades[id]
@@ -657,7 +657,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		var s: Array = data.zombies[id]
 		var fresh := not zombies.has(id)
 		if not zombies.has(id):
-			var z: Zombie = Titan.new() if Zombie.is_titan_kind(s[0]) else Zombie.new()
+			var z: Zombie = Earthworm.new() if Zombie.is_worm_kind(s[0]) else (Titan.new() if Zombie.is_titan_kind(s[0]) else Zombie.new())
 			z.replica = true
 			z.setup(s[0], game.player, game.barricades, s[6], Callable())
 			z.model_path = s[9]
@@ -670,6 +670,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		z.max_hp = s[7]
 		z.rare_status = s[12] if s.size() > 12 else ""
 		if z is Titan: z.apply_boss_state(s[8], initial or fresh)
+		if z is Earthworm: z.apply_boss_state(s[8], initial)
 		z.net_position = s[1]
 		z.net_yaw = s[2]
 		if z.hp > float(s[3]): z._flash()

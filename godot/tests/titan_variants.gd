@@ -20,7 +20,7 @@ func run() -> void:
 	game.player.max_hp = 1000
 	game.player.hp = 1000
 	game.player.global_position = Map.ground_pos(0, 90)
-	check(Waves.lesser_titan_count(7) == 0 and Waves.lesser_titan_count(8) == 1 and Waves.lesser_titan_count(24) == 3, "Smaller titan groups scale from wave eight to three per wave")
+	check(Waves.lesser_titan_count(7) == 0 and Waves.lesser_titan_count(8) == 1 and Waves.lesser_titan_count(26) == 2 and Waves.lesser_titan_count(24) == 0, "Lesser titans scale on their own waves and leave worm encounters clear")
 	var seen := {}
 	for n in range(1, 31):
 		var plan: Array = game.waves.plan(n)

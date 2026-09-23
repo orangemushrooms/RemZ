@@ -1,0 +1,46 @@
+2026-09-23T00:49:53 remz-dev-20260922-weapon-expansion BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T00:49:53 remz-dev-20260922-weapon-expansion NETWORK_INITIALIZED
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion MAP_READY
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion HOST_CREATE port=24687
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion HOST_READY
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion PEER_CONNECTED id=998137819
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion PEER_CONNECTED id=1085181851
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion INITIAL_SEND peer=998137819 raw=25888 bytes=4139 parts=5
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion INITIAL_SEND peer=1085181851 raw=25888 bytes=4140 parts=5
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion CLIENT_READY peer=998137819
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion PEER_CONNECTED id=696674684
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion CLIENT_READY peer=1085181851
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion INITIAL_SEND peer=696674684 raw=29200 bytes=4225 parts=5
+2026-09-23T00:50:12 remz-dev-20260922-weapon-expansion CLIENT_READY peer=696674684
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion ROUND_START_SEND players=4
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_SEND peer=998137819 raw=29200 bytes=4227 parts=5
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_SEND peer=1085181851 raw=29200 bytes=4227 parts=5
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion STATE_SEND peer=696674684 raw=29200 bytes=4227 parts=5
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion ROUND_BEGIN intro=false
+2026-09-23T00:50:13 remz-dev-20260922-weapon-expansion ROUND_RUNNING players=4
+2026-09-23T00:51:21 remz-dev-20260922-weapon-expansion PEER_DISCONNECTED id=696674684
+2026-09-23T00:51:35 remz-dev-20260922-weapon-expansion PEER_CONNECTED id=278635319
+2026-09-23T00:51:35 remz-dev-20260922-weapon-expansion INITIAL_SEND peer=278635319 raw=31408 bytes=5285 parts=6
+2026-09-23T00:51:35 remz-dev-20260922-weapon-expansion CLIENT_READY peer=278635319
+2026-09-23T00:52:01 remz-dev-20260922-weapon-expansion STATE_SEND peer=998137819 raw=44688 bytes=7045 parts=8
+2026-09-23T00:52:01 remz-dev-20260922-weapon-expansion STATE_SEND peer=1085181851 raw=44688 bytes=7045 parts=8
+2026-09-23T00:52:01 remz-dev-20260922-weapon-expansion STATE_SEND peer=278635319 raw=44688 bytes=7045 parts=8
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion MAP_READY
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion INITIAL_SEND peer=998137819 raw=29136 bytes=4194 parts=5
+2026-09-23T00:52:18 remz-dev-20260922-weapon-expansion CLIENT_READY peer=998137819
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion INITIAL_SEND peer=1085181851 raw=29136 bytes=4193 parts=5
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion CLIENT_READY peer=1085181851
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion INITIAL_SEND peer=278635319 raw=29136 bytes=4192 parts=5
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion CLIENT_READY peer=278635319
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion ROUND_START_SEND players=4
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_SEND peer=998137819 raw=29136 bytes=4194 parts=5
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_SEND peer=1085181851 raw=29136 bytes=4194 parts=5
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion STATE_SEND peer=278635319 raw=29136 bytes=4194 parts=5
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion ROUND_BEGIN intro=false
+2026-09-23T00:52:19 remz-dev-20260922-weapon-expansion ROUND_RUNNING players=4
+2026-09-23T00:52:22 remz-dev-20260922-weapon-expansion PEER_DISCONNECTED id=278635319
+2026-09-23T00:52:23 remz-dev-20260922-weapon-expansion LEAVE_BEGIN phase=running reason=Integration test finished
+2026-09-23T00:52:23 remz-dev-20260922-weapon-expansion LEAVE_PEER_DETACHED
+2026-09-23T00:52:23 remz-dev-20260922-weapon-expansion LEAVE_PEER_CLOSED
+2026-09-23T00:52:23 remz-dev-20260922-weapon-expansion LEAVE_RELOAD
+2026-09-23T00:52:39 remz-dev-20260922-weapon-expansion MAP_READY

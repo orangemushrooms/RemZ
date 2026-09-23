@@ -1,0 +1,11 @@
+TASK_CREATED: 01a0cb02-36e9-708f-9d3d-30a7ad71e5d3
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 69% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\deagle_v3_clean\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\deagle_v3_clean\model.glb (7.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\deagle_v3_clean\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\deagle_v3_clean\thumb.png (0.1 MB)
+DONE deagle_v3 clean

@@ -4,6 +4,7 @@ class_name Sfx
 
 const DIR := "res://assets/audio/sfx/"
 const FOOTSTEPS := ["footstep1", "footstep2", "footstep3"]
+const FireLoop = preload("res://scripts/weapon_fire_loop.gd")
 
 # logical name -> list of file stems; one is picked at random per play for variety
 const FILES := {
@@ -12,7 +13,7 @@ const FILES := {
 	"smg": ["smg"],
 	"ak47": ["ak47"],
 	"shotgun": ["shotgun"],
-	# The eight new weapons, baked by tools/build_weapon_audio.py out of the user's own library.
+	# The eight supplied September 23 recordings, trimmed/normalized by build_weapon_audio.py.
 	"deagle": ["weapons/deagle"],
 	"flare": ["weapons/flare"],
 	"mac10": ["weapons/mac10"],
@@ -27,6 +28,7 @@ const FILES := {
 	"minigun_loop": ["weapons/minigun_loop"],
 	"minigun_spindown": ["weapons/minigun_spindown"],
 	"graviton": ["weapons/graviton"],
+	"graviton_impact": ["weapons/graviton_impact"],
 	"graviton_charge": ["weapons/graviton_charge"],
 	"reload": ["reload"],
 	"empty": ["empty"],
@@ -245,6 +247,9 @@ static func event(node: Node, peer_id: int, name: String) -> void:
 		play(node, name, EVENTS[name])
 
 static func play(node: Node, name: String, volume_db: float = 0.0, pitch: float = 1.0) -> void:
+	if name == "minigun":
+		_sustain_fire(node, false, volume_db, pitch)
+		return
 	if not _allow_voice(name): return
 	var p := _voice(node, name, false) as AudioStreamPlayer
 	p.stream = get_stream(name)
@@ -272,6 +277,9 @@ static func _voice(parent: Node, name: String, spatial: bool) -> Node:
 	return available
 
 static func play_at(node: Node, name: String, pos: Vector3, volume_db: float = 0.0, pitch: float = 1.0, unit_size: float = 10.0, max_distance: float = 60.0) -> void:
+	if name == "minigun":
+		_sustain_fire(node, true, volume_db, pitch, pos, unit_size, max_distance)
+		return
 	if not _allow_voice("3d:" + name): return
 	var p := _voice(node, "3d:" + name, true) as AudioStreamPlayer3D
 	p.stream = get_stream(name)
@@ -281,6 +289,25 @@ static func play_at(node: Node, name: String, pos: Vector3, volume_db: float = 0
 	p.max_distance = max_distance
 	p.global_position = pos
 	p.play()
+
+static func _sustain_fire(node: Node, spatial: bool, volume: float, pitch: float, point := Vector3.ZERO, unit_size := 10.0, max_distance := 60.0) -> void:
+	var key := "MinigunFire3D" if spatial else "MinigunFire"
+	var loop = node.get_node_or_null(key)
+	if loop == null:
+		var stream := get_stream("minigun") as AudioStreamWAV
+		if not stream: return
+		loop = FireLoop.new()
+		loop.name = key
+		node.add_child(loop)
+		loop.configure(stream, spatial)
+	loop.shot(volume, pitch, point, unit_size, max_distance)
+
+static func stop_fire_loop(node: Node, immediately := true) -> void:
+	for key in ["MinigunFire", "MinigunFire3D"]:
+		var loop = node.get_node_or_null(key)
+		if loop:
+			if immediately: loop.stop()
+			else: loop.release()
 
 # ---------------------------------------------------------------- footsteps
 static func _ensure_step_buses() -> void:

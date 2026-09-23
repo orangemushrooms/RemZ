@@ -3,7 +3,8 @@
     "flamethrower_tower.mp3": "16777394db6bc202f302e278b7f268974213c8791384ff16568e2492bb4cc44c",
     "Machinegun_Tower.mp3": "96beb0a7335f67fb53f80c9b8a9cb627c8bc22babce8c78ebb52473d37f30c86",
     "Mortar_Tower.mp3": "b6464a4c30ebf50f72f1a1a5a5c937c1e4b3f5c3efd47979947f0013919c21cf",
-    "Teslacoil_Tower.mp3": "84be53d7f663fa8fd7367409d7655ab937e45511b6bf1bc6201dbb38db1db644"
+    "Teslacoil_Tower.mp3": "84be53d7f663fa8fd7367409d7655ab937e45511b6bf1bc6201dbb38db1db644",
+    "Sentinel_Tower.mp3": "90c3abdedb909c433817dd5324e73ecb694f152d5e46713a159a8d6e3c382404"
   },
   "clips": {
     "flame_loop": {
@@ -20,6 +21,10 @@
     },
     "tesla_shot": {
       "seconds": 0.55,
+      "peak": 0.75
+    },
+    "sentinel_shot": {
+      "seconds": 0.499,
       "peak": 0.75
     }
   },
