@@ -26,6 +26,9 @@ func trace_load(message: String) -> void:
 	print("COOP_LOAD ", message)
 	if diagnostic_path.is_empty():
 		var local_folder := ProjectSettings.globalize_path("res://../logs/coop") if OS.has_feature("editor") else OS.get_executable_path().get_base_dir().path_join("logs")
+		if "--trailer-run" in OS.get_cmdline_user_args():
+			for arg in OS.get_cmdline_user_args():
+				if arg.begins_with("--trailer-folder="): local_folder = arg.trim_prefix("--trailer-folder=")
 		for folder in [local_folder, ProjectSettings.globalize_path("user://logs"), OS.get_cache_dir().path_join("RemZ-logs")]:
 			if DirAccess.make_dir_recursive_absolute(folder) != OK: continue
 			var candidate: String = folder.path_join("coop-%d.log" % OS.get_process_id())

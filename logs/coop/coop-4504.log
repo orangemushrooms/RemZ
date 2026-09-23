@@ -1,0 +1,39 @@
+2026-09-23T18:41:05 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-23T18:41:05 remz-dev-20260923-komplett NETWORK_INITIALIZED
+2026-09-23T18:41:52 remz-dev-20260923-komplett MAP_READY
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_SOCKET result=0
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_DONE reused_loaded_map
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_SOCKET result=0
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_DONE reused_loaded_map
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_SOCKET result=0
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_BEGIN phase=connecting reason=Cancelled
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_DONE reused_loaded_map
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_SOCKET result=0
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_BEGIN phase=connecting reason=No answer from the host. Check the Hamachi connection and that UDP 24699 is allowed in the Windows Firewall.
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_DONE reused_loaded_map
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_BEGIN address=127.0.0.1 port=24699
+2026-09-23T18:41:52 remz-dev-20260923-komplett JOIN_SOCKET result=0
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_BEGIN phase=connecting reason=Connection failed. Check the Hamachi IP, the network and the UDP port.
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_DONE reused_loaded_map
+2026-09-23T18:41:52 remz-dev-20260923-komplett HOST_CREATE port=24699
+2026-09-23T18:41:52 remz-dev-20260923-komplett HOST_READY
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_BEGIN phase=lobby reason=Left the session.
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-23T18:41:52 remz-dev-20260923-komplett LEAVE_DONE reused_loaded_map
