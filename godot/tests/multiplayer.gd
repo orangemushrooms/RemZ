@@ -426,6 +426,14 @@ func host_run() -> void:
 	await command_clients("wait_tower_removed", ["c3"])
 	check(read_json("done-c3").towers == 0, "Destroyed tower disappears on other peers")
 	NetSession.world.actor(c2).add_score(10000)
+	# Tower types unlock with waves the team survived (Schweres MG after wave 6): the host refuses a
+	# locked type from a client with money to spare and charges nothing, then the team gets there.
+	await teleport(c2,Map.ground_pos(60,115)+Vector3.UP*0.1)
+	var locked_score: int = NetSession.world.actor(c2).score
+	await command_clients("tower_place",["c2"],[[60,Map.ground_height(60,112),112],"mg42"])
+	await wait_seconds(0.4)
+	check(game.defences.towers.is_empty() and NetSession.world.actor(c2).score==locked_score,"Host refuses a remote tower the team has not unlocked yet (%d of 6 waves)" % game.waves.completed)
+	game.waves.completed = maxi(game.waves.completed, DefenceTower.SPECS.tesla.unlock_waves)
 	for tower_kind in ["flame","mortar","mg42","tesla"]:
 		await teleport(c2,Map.ground_pos(60,115)+Vector3.UP*0.1)
 		var score_before: int = NetSession.world.actor(c2).score
