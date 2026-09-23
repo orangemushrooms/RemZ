@@ -26,8 +26,14 @@ func run() -> void:
 	var bar: Barricade = game.barricades[0]
 	var normal := Vector3(bar.normal2.x, 0, bar.normal2.y)
 	game.player.global_position = bar.center - normal * 3
+	# Skin, size (0.94-1.08) and pose speed come from the global RNG, which the threaded world build
+	# draws from a varying number of times, so the seed above did not hold here: pin the model and
+	# seed again right before this one zombie.
+	Zombie.force_skin = "zombie_shambler"
+	seed(4242)
 	var zombie := Zombie.new()
 	zombie.setup("shambler", game.player, game.barricades, 1.0, Callable())
+	Zombie.force_skin = ""
 	game.zombies_root.add_child(zombie)
 	zombie.set_physics_process(false)
 	zombie.agent.avoidance_enabled = false
