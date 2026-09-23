@@ -44,7 +44,7 @@ const DEFS := {
 	"deagle": {"name": "Desert Eagle .50", "model": "deagle", "height": 0.15, "mag": 7, "reserve": 42, "reserve_factor": 6, "damage": 118.0, "rate": 0.34, "reload": 2.0, "pellets": 1, "spread": 0.013, "range": 65.0, "auto": false, "sfx": "deagle", "sfx_db": -4.0, "sfx_pitch": 0.94, "flash_scale": 1.35,
 		"mod_block": ["extended", "endless"],
 		"pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 9.5, "kick_yaw": 2.1, "kick_back": 0.20, "recover": 4.2},
-	"flare_pistol": {"name": "Leuchtpistole", "model": "flare_pistol", "height": 0.14, "mag": 1, "reserve": 12, "reserve_factor": 14, "damage": 45.0, "rate": 0.9, "reload": 1.9, "pellets": 1, "spread": 0.020, "range": 40.0, "auto": false, "sfx": "flare", "sfx_db": -10.0, "sfx_pitch": 1.06, "flash_scale": 1.6, "flash_mode": "fire", "element": "fire",
+	"flare_pistol": {"name": "Leuchtpistole", "model": "flare_pistol", "height": 0.14, "mag": 1, "reserve": 12, "reserve_factor": 14, "damage": 45.0, "rate": 0.9, "reload": 1.9, "pellets": 1, "spread": 0.020, "range": 40.0, "auto": false, "sfx": "flare", "sfx_db": -9.0, "flash_scale": 1.6, "flash_mode": "fire", "element": "fire",
 		"special": {"kind": "flare", "speed": 44.0, "impact": 0.0, "splash": 20.0, "radius": 3.5, "burn_time": 4.0, "splash_ignites": false, "light_range": 12.0, "flare_life": 8.0},
 		"mod_block": ["extended", "endless", "match_barrel", "compensator"],
 		"pos": Vector3(0.26, -0.20, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 4.4, "kick_yaw": 1.2, "kick_back": 0.11, "recover": 6.0},

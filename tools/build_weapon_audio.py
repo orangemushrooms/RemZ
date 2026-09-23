@@ -13,6 +13,7 @@ Sources (unused by the game so far, verified by md5 against godot/assets/audio/s
   Water_Tower.mp3                       -> cold gas hiss (cryo, flare sizzle)
   anti_tank_tower.mp3                   -> graviton implosion body
   time_stop.mp3                         -> graviton warp tail
+  input/audio/Flaregun.mp3 (repo)       -> Leuchtpistole, the user's own flare shot (Sep 2026)
 
 Run: python tools/build_weapon_audio.py [--report]   (numpy, scipy, imageio-ffmpeg)
 """
@@ -28,6 +29,7 @@ from scipy.io import wavfile
 
 ROOT = Path(__file__).resolve().parents[1]
 LIBRARY = Path(r"C:\Users\miche\Desktop\Developement\music")
+USER_FLARE = ROOT / "input/audio/Flaregun.mp3"   # absolute, so decode() ignores LIBRARY for it
 OUT = ROOT / "godot/assets/audio/sfx/weapons"
 RATE = 44100
 RNG = np.random.default_rng(20260922)
@@ -174,13 +176,19 @@ def build():
         norm(np.sin(2 * np.pi * 78 * seconds(0.22)) * decay(0.22, 0.05), 0.35),
     ))
 
-    # Leuchtpistole: hollow breech thump, then the burning star hissing away. No gunpowder crack.
-    sizzle = norm(filt(body(water, 0.35, 1.05), 900, 7200), 0.5) * np.linspace(1.0, 0.25, round(1.05 * RATE))
-    report["flare"] = save("flare", mix(
-        norm(filt(shot(tactical, 0.18, release=0.12), high=520), 0.75),
-        norm(np.sin(2 * np.pi * 132 * seconds(0.3)) * decay(0.3, 0.07), 0.5),
-        pad(fade(sizzle, 0.02, 0.35), 0.06),
-    ))
+    # Leuchtpistole: the user's own recording. Only the 57 ms of dead air in front of the bang go
+    # (they read as a delayed shot); the rest plays as recorded, mono like every other report.
+    if USER_FLARE.exists():
+        recording = decode(USER_FLARE)
+        report["flare"] = save("flare", fade(recording[onset(recording, lead=0.002):], 0.001, 0.05))
+    else:
+        # Fallback without the recording: hollow breech thump, then the burning star hissing away.
+        sizzle = norm(filt(body(water, 0.35, 1.05), 900, 7200), 0.5) * np.linspace(1.0, 0.25, round(1.05 * RATE))
+        report["flare"] = save("flare", mix(
+            norm(filt(shot(tactical, 0.18, release=0.12), high=520), 0.75),
+            norm(np.sin(2 * np.pi * 132 * seconds(0.3)) * decay(0.3, 0.07), 0.5),
+            pad(fade(sizzle, 0.02, 0.35), 0.06),
+        ))
 
     # MAC-10 with the can on: the suppressed tower report, trimmed to a single flat clack, plus
     # the bolt rattling in the stamped receiver - what you actually hear at this rate of fire.
@@ -276,7 +284,8 @@ def build():
         "library": str(LIBRARY),
         "sources": {
             "deagle": "Weapons/Anti_Mater_Rifle_Gunshot.mp3 + synthesised sub",
-            "flare": "Weapons/Tactical_Rifle_Gunshot.mp3 (high passed) + Water_Tower.mp3 sizzle + synthesised thump",
+            "flare": ("input/audio/Flaregun.mp3 (the user's recording, leading silence trimmed)" if USER_FLARE.exists()
+                      else "Weapons/Tactical_Rifle_Gunshot.mp3 (high passed) + Water_Tower.mp3 sizzle + synthesised thump"),
             "mac10": "Silenced_Tower.mp3 + synthesised bolt",
             "cryo": "Weapons/Tactical_Rifle_Gunshot.mp3 + Water_Tower.mp3 gas + synthesised ring",
             "plasma": "fully synthesised", "plasma_vent": "fully synthesised",

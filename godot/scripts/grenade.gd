@@ -95,9 +95,13 @@ func _explode() -> void:
 	explosion_visuals(get_tree().current_scene, pos)
 	queue_free()
 
-static func explosion_visuals(parent: Node3D, pos: Vector3) -> void:
-	# fireball
-	var fire := GPUParticles3D.new()
+# Fireball and smoke materials, built once. Fresh ParticleProcessMaterials and StandardMaterial3Ds
+# per explosion made Godot regenerate and recompile all four shaders whenever no other explosion was
+# still burning - a hitch on every grenade and every graviton shot.
+static var _parts: Dictionary = {}
+
+static func _explosion_parts() -> Dictionary:
+	if not _parts.is_empty(): return _parts
 	var fm := ParticleProcessMaterial.new()
 	fm.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	fm.emission_sphere_radius = 0.5
@@ -117,7 +121,6 @@ static func explosion_visuals(parent: Node3D, pos: Vector3) -> void:
 	var gt := GradientTexture1D.new()
 	gt.gradient = grad
 	fm.color_ramp = gt
-	fire.process_material = fm
 	var q := QuadMesh.new()
 	q.size = Vector2(1, 1)
 	var mat := StandardMaterial3D.new()
@@ -128,16 +131,6 @@ static func explosion_visuals(parent: Node3D, pos: Vector3) -> void:
 	mat.vertex_color_use_as_albedo = true
 	mat.albedo_texture = Foliage._soft_dot()
 	q.material = mat
-	fire.draw_pass_1 = q
-	fire.amount = 80
-	fire.lifetime = 0.9
-	fire.one_shot = true
-	fire.explosiveness = 0.95
-	parent.add_child(fire)
-	fire.global_position = pos
-	fire.emitting = true
-	# smoke
-	var smoke := GPUParticles3D.new()
 	var smm := ParticleProcessMaterial.new()
 	smm.emission_shape = ParticleProcessMaterial.EMISSION_SHAPE_SPHERE
 	smm.emission_sphere_radius = 1.0
@@ -156,7 +149,6 @@ static func explosion_visuals(parent: Node3D, pos: Vector3) -> void:
 	var sgt := GradientTexture1D.new()
 	sgt.gradient = sg
 	smm.color_ramp = sgt
-	smoke.process_material = smm
 	var sq := QuadMesh.new()
 	sq.size = Vector2(1, 1)
 	var smat := StandardMaterial3D.new()
@@ -166,7 +158,26 @@ static func explosion_visuals(parent: Node3D, pos: Vector3) -> void:
 	smat.vertex_color_use_as_albedo = true
 	smat.albedo_texture = Foliage._soft_dot()
 	sq.material = smat
-	smoke.draw_pass_1 = sq
+	_parts = {"fire": fm, "fire_quad": q, "smoke": smm, "smoke_quad": sq}
+	return _parts
+
+static func explosion_visuals(parent: Node3D, pos: Vector3) -> void:
+	var parts := _explosion_parts()
+	# fireball
+	var fire := GPUParticles3D.new()
+	fire.process_material = parts.fire
+	fire.draw_pass_1 = parts.fire_quad
+	fire.amount = 80
+	fire.lifetime = 0.9
+	fire.one_shot = true
+	fire.explosiveness = 0.95
+	parent.add_child(fire)
+	fire.global_position = pos
+	fire.emitting = true
+	# smoke
+	var smoke := GPUParticles3D.new()
+	smoke.process_material = parts.smoke
+	smoke.draw_pass_1 = parts.smoke_quad
 	smoke.amount = 40
 	smoke.lifetime = 4.0
 	smoke.one_shot = true

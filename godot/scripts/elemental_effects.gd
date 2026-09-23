@@ -2,6 +2,22 @@ extends RefCounted
 
 const SHADER = preload("res://shaders/elemental_particle.gdshader")
 static var _tracer_mesh: CylinderMesh
+static var _tracer_materials: Dictionary = {}
+
+# One material per element for every tracer. A fresh StandardMaterial3D per shot made Godot free
+# and recompile its generated shader whenever the previous tracer had faded (a hitch per shot after
+# any pause); the fade now runs on GeometryInstance3D.transparency instead of the material.
+static func tracer_material(mode: String) -> StandardMaterial3D:
+	if not _tracer_materials.has(mode):
+		var material := StandardMaterial3D.new()
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		material.albedo_color = Color(0.3, 0.8, 1, 0.8) if mode == "frost" else Color(1, 0.3, 0.025, 0.8)
+		material.emission_enabled = true
+		material.emission = material.albedo_color
+		material.emission_energy_multiplier = 2.0
+		_tracer_materials[mode] = material
+	return _tracer_materials[mode]
 
 static func tracer_mesh() -> CylinderMesh:
 	if not _tracer_mesh:
@@ -101,20 +117,13 @@ static func shot(parent: Node, origin: Vector3, end: Vector3, mode: String, impa
 	tracer.add_to_group("elemental_tracer")
 	tracer.mesh = tracer_mesh()
 	tracer.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	var material := StandardMaterial3D.new()
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.albedo_color = Color(0.3, 0.8, 1, 0.8) if mode == "frost" else Color(1, 0.3, 0.025, 0.8)
-	material.emission_enabled = true
-	material.emission = material.albedo_color
-	material.emission_energy_multiplier = 2.0
-	tracer.material_override = material
+	tracer.material_override = tracer_material(mode)
 	parent.add_child(tracer)
 	var direction := (end - origin).normalized()
 	tracer.align()
 	tracer.set_process(follow_muzzle.is_valid())
 	var tween := tracer.create_tween()
-	tween.tween_property(material, "albedo_color:a", 0.0, 0.12)
+	tween.tween_property(tracer, "transparency", 1.0, 0.12)
 	tween.tween_callback(tracer.queue_free)
 	# The muzzle sits half a metre from the eye, so impact-sized sparks would wipe out the whole
 	# screen on every shot. The barrel gets a small puff, the target the full burst.

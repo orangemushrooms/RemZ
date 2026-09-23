@@ -115,7 +115,9 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   minigun, graviton_cannon. Their sounds are baked by `tools/build_weapon_audio.py` out of the
   user's own library (the unused clips in `music/Weapons/`, `Silenced_Tower`, `anti_tank_tower`,
   `Water_Tower`, `time_stop`) into `godot/assets/audio/sfx/weapons/*.wav`, in the same style as
-  `prepare_tower_audio.py`. The weapon id equals the model name for all eight, which is what keeps
+  `prepare_tower_audio.py`. Exception: the flare shot is the user's own recording `input/audio/Flaregun.mp3`
+  (only the 57 ms of dead air in front are trimmed, played at -9 dB = pistol level); the tool falls back to
+  the synthesised thump when that file is missing. The weapon id equals the model name for all eight, which is what keeps
   the two namespaces (GRIPS/PROFILES by id, MountData/MAGAZINE by model) from drifting apart.
 - Meshy API (key in the file `Meshy Key` in the repo root, export it as `MESHY_API_KEY`, never print it).
   Prompts in `tools/assets.json`. `python tools/gen_asset.py <name> --pbr --polycount N` (preview + refine,
@@ -259,7 +261,11 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
 - Pitfalls learned: SDFGI leaks through leaf cards and burns them white (keep it off, use SSIL). Flat road
   ribbons must not receive shadows, and their triangle winding must be counter-clockwise seen from above or
   they render black (back-face normals). Large Bash heredocs with Python break on Git Bash;
-  write patch scripts as files instead.
+  write patch scripts as files instead. Never build a StandardMaterial3D or ParticleProcessMaterial per
+  shot / effect: when the last instance with a feature set is freed, Godot frees its generated shader and
+  the next shot compiles it again (the flare pistol stalled 30-50 ms on every shot that way). Keep one shared
+  instance (`WeaponSpecials.star_mesh`, `ElementalEffects.tracer_material`, `Grenade._explosion_parts`) and
+  warm it in `combat_warmup.gd`; `--suite=flare_hitch` (windowed, 18 checks) counts the pipelines per shot.
 
 ## Repo hygiene
 - Commit locally with the Co-Authored-By line; push only when asked. The git remote URL currently embeds a

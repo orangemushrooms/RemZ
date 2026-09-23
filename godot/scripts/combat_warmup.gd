@@ -32,6 +32,11 @@ static func populate(viewport: SubViewport, game: Node3D) -> Node3D:
 		particles.position = Vector3(0, 2, 0)
 		particles.emitting = true
 		effects.shot(root, Vector3(-1, 2, 0), Vector3(1, 2, -1), mode, true)
+	# The flare pistol's star; WeaponSpecials holds the mesh and its material for good.
+	var star := MeshInstance3D.new()
+	star.mesh = WeaponSpecials.star_mesh()
+	root.add_child(star)
+	star.position = Vector3(1, 2, 0)
 	preload("res://scripts/tower_effects.gd").explosion(root, Vector3(0, 1, -2))
 	Grenade.explosion_visuals(root, Vector3(0, 1, -2))
 	for kind in ["fw_ruby", "fw_gold", "fw_cracker"]:

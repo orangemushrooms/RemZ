@@ -467,6 +467,25 @@ func on_switch(w, from_id: String, to_id: String) -> void:
 
 # ---------------------------------------------------------------- flare projectile
 
+static var _star: SphereMesh
+
+# One glowing star shared by every flare. A StandardMaterial3D made per shot was the flare pistol's
+# hitch: by the next trigger pull the last star had burnt out, Godot had freed the shader generated
+# for it and compiled it again - 30 to 40 ms and a handful of pipelines on every single shot.
+static func star_mesh() -> SphereMesh:
+	if _star == null:
+		_star = SphereMesh.new()
+		_star.radius = 0.055
+		_star.height = 0.11
+		var material := StandardMaterial3D.new()
+		material.albedo_color = Color(1.0, 0.75, 0.35)
+		material.emission_enabled = true
+		material.emission = Color(1.0, 0.6, 0.2)
+		material.emission_energy_multiplier = 6.0
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		_star.material = material
+	return _star
+
 # A slow burning star, not a bullet: it arcs, it lights the ground it passes and it sets fire to
 # whatever it touches. Swept ray per step so it can never tunnel through a zombie.
 class Flare extends Node3D:
@@ -490,17 +509,7 @@ class Flare extends Node3D:
 		light.shadow_enabled = false
 		add_child(light)
 		var mesh := MeshInstance3D.new()
-		var sphere := SphereMesh.new()
-		sphere.radius = 0.055
-		sphere.height = 0.11
-		mesh.mesh = sphere
-		var material := StandardMaterial3D.new()
-		material.albedo_color = Color(1.0, 0.75, 0.35)
-		material.emission_enabled = true
-		material.emission = Color(1.0, 0.6, 0.2)
-		material.emission_energy_multiplier = 6.0
-		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		mesh.material_override = material
+		mesh.mesh = WeaponSpecials.star_mesh()
 		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		add_child(mesh)
 		var trail = preload("res://scripts/elemental_effects.gd").particles("fire", 0.1, 0.3)

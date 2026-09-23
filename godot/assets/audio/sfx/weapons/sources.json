@@ -3,7 +3,7 @@
   "library": "C:\\Users\\miche\\Desktop\\Developement\\music",
   "sources": {
     "deagle": "Weapons/Anti_Mater_Rifle_Gunshot.mp3 + synthesised sub",
-    "flare": "Weapons/Tactical_Rifle_Gunshot.mp3 (high passed) + Water_Tower.mp3 sizzle + synthesised thump",
+    "flare": "input/audio/Flaregun.mp3 (the user's recording, leading silence trimmed)",
     "mac10": "Silenced_Tower.mp3 + synthesised bolt",
     "cryo": "Weapons/Tactical_Rifle_Gunshot.mp3 + Water_Tower.mp3 gas + synthesised ring",
     "plasma": "fully synthesised",
@@ -28,9 +28,9 @@
     },
     "flare": {
       "file": "flare.wav",
-      "seconds": 1.11,
-      "rms": 0.0957,
-      "centroid_hz": 3350,
+      "seconds": 2.682,
+      "rms": 0.0673,
+      "centroid_hz": 3193,
       "loop": false
     },
     "mac10": {
