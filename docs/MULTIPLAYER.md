@@ -22,7 +22,7 @@ Bei Verbindungsproblemen zuerst Hamachis Online-Status, die Host-IP, den Port un
 
 - Eine neue Sitzung beginnt mit dem normalen Intro: KONM-Logo, Aufwachen im Nebel und gemeinsamer Start auf der Sennhofstrasse. Der Richtungspfeil zeigt den Weg zur Waldhütte. Sobald ein Teammitglied den Weg zur Hütte erreicht, startet die erste gemeinsame Welle. Später beitretende Spieler erscheinen beim Team; nach einem Team-Wipe startet die nächste Runde wie im Einzelspieler ohne erneutes Intro.
 - Gemeinsame Wellen, Gegner, Uhrzeit, Türen, Schlüssel, Fenster und Barrikaden. Die Gegnerzahl wächst mit der Spielerzahl.
-- Jeder besitzt eigene Lebenspunkte, Punkte, Waffen, Munition, Granaten, Verbesserungen, Skins und Questbelohnungen. Ein Weltgegenstand kann nur einmal aufgehoben werden. Schlüssel und Auftragsziele wie Lieferungen und Titanensiege gelten für das Team.
+- Jeder besitzt eigene Lebenspunkte, Rem Dollars, Waffen, Munition, Granaten, Verbesserungen, Skins und Questbelohnungen. Ein Weltgegenstand kann nur einmal aufgehoben werden. Schlüssel und Auftragsziele wie Lieferungen und Titanensiege gelten für das Team.
 - Waffen und Training werden ausschliesslich bei NPCs gekauft. Der Host prüft Standort, Sichtlinie, Preis und Freischaltungen erneut. Vendor steht am Lagerfeuer, Mechanic nördlich davon; seltene Waffen gibt es beim versteckten Secret Vendor. [Händler, Aufträge und Preise](FORTSCHRITT.md).
 - Mitspieler sind sichtbar, tragen ihre aktuelle Waffe und erscheinen auf der Minimap. Namen und Lebenspunkte werden angezeigt. Schüsse und Schritte anderer Spieler sind räumlich hörbar.
 - Kein Schaden durch Beschuss von Mitspielern. Eigene Granaten können den Werfer weiterhin verletzen.
@@ -57,7 +57,7 @@ Kurzer manueller Durchlauf:
 
 1. Beide Figuren bewegen und schiessen lassen; die andere Figur muss jeweils sichtbar reagieren.
 2. Beim Host **Esc** öffnen, zum Client wechseln und weiterlaufen/schiessen. Gegner und Uhr müssen weiterlaufen. Anschliessend die Rollen tauschen.
-3. Dasselbe mit **I** (Inventar), einem Händlergespräch (**E** beim NPC) und dem Barrikaden-Baumenü wiederholen. Der Menübenutzer bleibt angreifbar.
+3. Dasselbe mit **I** (Inventar), einem Händlergespräch (**E** beim NPC) und dem Turmbaumenü (**T**) wiederholen. Der Menübenutzer bleibt angreifbar.
 4. Einen Gegenstand aufnehmen, eine Barrikade bauen und einen Gegner töten: der Weltzustand muss in beiden Fenstern übereinstimmen.
 5. Einen Spieler sterben lassen und mit dem anderen wiederbeleben; erst beim Tod des ganzen Teams endet die Runde. Danach als Host neu starten.
 6. Client verlassen und erneut beitreten. Abschliessend den Host verlassen: der Client muss ins Hauptmenü zurückkehren.
@@ -98,7 +98,7 @@ Lokale Mehrprozess-Tests prüfen die Spielintegration. Eine Verbindung zwischen 
 
 ## Leaderboard
 
-**Tab halten** zeigt die Rangliste der aktuellen Runde: Kills, Headshots, Deaths, Titan Kills, Assists, Punkte und Live-Ping. **Q** schaltet die Auftragsanzeige; der schnelle Nahkampf/Kolbenschlag liegt auf **H**. Die Rangliste pausiert das Spiel nicht und ist auch nach dem Ausscheiden oder am Rundenende verfügbar.
+**Tab halten** zeigt die Rangliste der aktuellen Runde: Kills, Headshots, Deaths, Titan Kills, Assists, Rem Dollars und Live-Ping. **Q** schaltet die Auftragsanzeige; der schnelle Nahkampf/Kolbenschlag liegt auf **H**. Die Rangliste pausiert das Spiel nicht und ist auch nach dem Ausscheiden oder am Rundenende verfügbar.
 
 Der Host zählt für jeden Spieler separat. Der letzte Treffer erhält den Kill; Headshots zählen tödliche Kopfschüsse. Titan-Kills zählen zusätzlich als normale Kills. Jeder andere Spieler, der dem Gegner während dessen Lebenszeit Schaden zugefügt hat, erhält genau einen Assist. Automatische Türme zählen für den Besitzer, bediente Türme für den Schützen. Brand- und Explosionsschaden behalten ihre Urheber. Ein Tod zählt beim Ausscheiden, erneut erst nach einer Wiederbelebung; ein rettender Phönix-Talisman zählt nicht als Tod.
 
@@ -106,4 +106,4 @@ Sortierung: Kills, Titan-Kills, Headshots, Assists absteigend, dann weniger Tode
 
 Tests: `--suite=leaderboard --smoke-test --no-intro --no-music --no-foliage`; optional `--render-leaderboard` für ein Bild unter `artifacts/leaderboard/`. `tools/test_multiplayer.ps1` prüft die Synchronisation mit drei echten Clients, späterem Beitritt, Wiederbelebung, Rundenende und Neustart.
 
-Die Spalte **Punkte** zeigt das aktuelle verfügbare Guthaben (auch nach Käufen), keine kumulierte Verdienstsumme. **Ping** zeigt die vom Host gemessene ENet-Round-Trip-Zeit in Millisekunden; der Host und Solo-Spieler haben 0 ms, getrennte oder noch nicht messbare Verbindungen einen Strich. Der Host fordert sekündlich eine Messung an und verteilt die Werte über die Spielzustände; am Rundenende bleibt der Ping über separate Aktualisierungen live. Technische Grundlage: [ENetPacketPeer-Statistiken](https://docs.godotengine.org/en/stable/classes/class_enetpacketpeer.html#enum-enetpacketpeer-peerstatistic).
+Die Spalte **Rem Dollars** zeigt das aktuelle verfügbare Guthaben (auch nach Käufen), keine kumulierte Verdienstsumme. **Ping** zeigt die vom Host gemessene ENet-Round-Trip-Zeit in Millisekunden; der Host und Solo-Spieler haben 0 ms, getrennte oder noch nicht messbare Verbindungen einen Strich. Der Host fordert sekündlich eine Messung an und verteilt die Werte über die Spielzustände; am Rundenende bleibt der Ping über separate Aktualisierungen live. Technische Grundlage: [ENetPacketPeer-Statistiken](https://docs.godotengine.org/en/stable/classes/class_enetpacketpeer.html#enum-enetpacketpeer-peerstatistic).
