@@ -7,6 +7,7 @@ signal changed
 const COST_BUILD := 50
 const COST_REPAIR := 25
 const MAX_LEVEL := 3
+const HP_PER_LEVEL := 300.0   # a line holds level * this; the planner shows the same numbers
 const SEGMENT_LENGTH := 3.2
 const HEIGHT := 1.55
 const BUILD_REACH := 6.0
@@ -220,7 +221,7 @@ static func _add_bar(parent: Node3D, a: Vector3, b: Vector3, width: float, mat: 
 	parent.add_child(mesh)
 
 func max_hp() -> float:
-	return level * 300.0
+	return level * HP_PER_LEVEL
 
 func under_attack() -> bool:
 	return level > 0 and hp > 0.0 and attack_alert_remaining > 0.0

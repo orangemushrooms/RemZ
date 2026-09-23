@@ -177,7 +177,7 @@ func _build_ui() -> void:
 		step.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		step.add_theme_stylebox_override("panel", _style(Color(0.08, 0.12, 0.10), Color(0.19, 0.25, 0.22), 9))
 		levels.add_child(step)
-		var label := _label(Lang.t("0%d\n%d HP", [i + 1, (i + 1) * 150]), 14)
+		var label := _label(Lang.t("0%d\n%d HP", [i + 1, roundi((i + 1) * Barricade.HP_PER_LEVEL)]), 14)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		step.add_child(label)
 		level_labels.append(label)
@@ -335,7 +335,7 @@ func _refresh() -> void:
 	repair_button.disabled = not repair_error.is_empty()
 	repair_button.tooltip_text = repair_error
 	repair_button.visible = selected.level > 0
-	explanation.text = "50 Rem Dollars for the barrier line and its palisade section. Both only appear once you build." if selected.level == 0 else "Reinforcing adds 150 HP of durability and restores the whole line. Repairing refills its current HP."
+	explanation.text = "50 Rem Dollars for the barrier line and its palisade section. Both only appear once you build." if selected.level == 0 else Lang.t("Reinforcing adds %d HP of durability and restores the whole line. Repairing refills its current HP.", [roundi(Barricade.HP_PER_LEVEL)])
 	preview_title.text = Lang.t("%02d   /   %s", [main.barricades.find(selected) + 1, selected.slot["name"]])
 	preview_status.text = Lang.t("RED BUILD PREVIEW   ·   %.1f M TOTAL LENGTH", [selected.half_len * 2.0]) if selected.level == 0 else Lang.t("LINE SECURED   ·   TIER %d / 3", [selected.level])
 	preview_status.add_theme_color_override("font_color", RED if selected.level == 0 else GREEN)

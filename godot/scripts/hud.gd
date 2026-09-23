@@ -477,7 +477,7 @@ func _build_briefing(box: VBoxContainer) -> void:
 		"Fallen zombies drop ammo, grenades and bandage packs. Just walk through them.",
 		"Vendor sells weapons at the campfire. Complete quests and survive waves to unlock his stock. A secret trader waits in the forest.",
 		"Porcini heal, fly agarics briefly double your damage. Eat both from the inventory (I).",
-		"T opens the tower preview. R/mouse wheel rotates, E confirms. At a tower E re-aims it, F repairs it. Upgrades at Mechanic. Q shows your quests. Hold Tab for the leaderboard.",
+		"T opens the tower preview. R/mouse wheel rotates, E confirms. At a tower: E mounts it, R re-aims it, F repairs it. Upgrades at Mechanic. Q shows your quests. Hold Tab for the leaderboard.",
 	]:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 10)
@@ -496,8 +496,8 @@ func _build_controls(box: VBoxContainer) -> void:
 	grid.add_theme_constant_override("v_separation", 6)
 	box.add_child(grid)
 	for pair in [["WASD", "Move"], ["Mouse", "Look around"], ["Shift", "Sprint"], ["Hold Ctrl", "Crouch / aim more precisely"], ["Space", "Jump"],
-			["Left click", "Shoot / strike"], ["Right click", "Aim (ADS)"], ["R", "Reload"], ["1–9 / 0", "Quick bar: slots 1–10"], ["Mouse wheel", "Switch weapon"],
-			["G", "Throw grenade"], ["E", "NPC / barricade / aim tower / repair hut"], ["V", "Defense planning with Mechanic"], ["T", "Place gun turret · E confirms"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
+			["Left click", "Shoot / strike"], ["Right click", "Aim (ADS)"], ["R", "Reload / align tower"], ["1–9 / 0", "Quick bar: slots 1–10"], ["Mouse wheel", "Switch weapon"],
+			["G", "Throw grenade"], ["E", "NPC / barricade / mount tower / repair hut"], ["V", "Defense planning with Mechanic"], ["T", "Place gun turret · E confirms"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
 			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["Ctrl+Shift+D", "Cheat menu"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110

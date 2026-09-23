@@ -129,7 +129,10 @@ class Catalogue extends Translation:
 	func _get_message(src_message: StringName, context: StringName) -> StringName:
 		var value := String(src_message)
 		if value.contains(Lang.OPEN):
-			return StringName(expand(value))
+			# An empty result reads as "no translation" to the server, which would then show the raw segment;
+			# a zero-width space keeps the label empty instead.
+			var expanded := expand(value)
+			return StringName(expanded if not expanded.is_empty() else "\u200B")
 		if po:
 			return po.get_message(src_message, context)
 		return &""

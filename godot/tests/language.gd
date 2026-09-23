@@ -87,6 +87,10 @@ func _settings_switch() -> void:
 	check(picker != null, "Settings offer a language choice")
 	if picker == null: return
 	check(picker.get_item_text(1) == "Deutsch" and picker.selected == Lang.language_codes().find(Lang.current), "Language names are native and the current one is selected")
+	# Switching saves the settings; outside --smoke-test / --autotest that would be the player's own file.
+	if not game.settings._testing:
+		print("NOTE: live switch skipped, this run would write the player's settings.cfg (add --smoke-test)")
+		return
 	var other := 1 - picker.selected
 	var start_button: Button = game.hud.overlay_button
 	picker.select(other)

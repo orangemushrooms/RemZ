@@ -612,8 +612,8 @@ msgid "50 Rem Dollars for the barrier line and its palisade section. Both only a
 msgstr "50 Rem Dollars für die Sperrlinie und ihren Palisadenabschnitt. Beide entstehen erst beim Bauen."
 
 #: scripts/barricade_menu.gd
-msgid "Reinforcing adds 150 HP of durability and restores the whole line. Repairing refills its current HP."
-msgstr "Verstärken erhöht die Haltbarkeit um 150 TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
+msgid "Reinforcing adds %d HP of durability and restores the whole line. Repairing refills its current HP."
+msgstr "Verstärken erhöht die Haltbarkeit um %d TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
 
 #: scripts/barricade_menu.gd
 msgid "RED BUILD PREVIEW   ·   %.1f M TOTAL LENGTH"
@@ -1632,8 +1632,8 @@ msgid "Porcini heal, fly agarics briefly double your damage. Eat both from the i
 msgstr "Steinpilze heilen, Fliegenpilze verdoppeln kurz den Schaden. Beides im Inventar (I) essen."
 
 #: scripts/hud.gd
-msgid "T opens the tower preview. R/mouse wheel rotates, E confirms. At a tower E re-aims it, F repairs it. Upgrades at Mechanic. Q shows your quests. Hold Tab for the leaderboard."
-msgstr "T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm richtet E neu aus, F repariert. Ausbau bei Mechanic. Q zeigt deine Aufträge. Halte Tab für das Leaderboard."
+msgid "T opens the tower preview. R/mouse wheel rotates, E confirms. At a tower: E mounts it, R re-aims it, F repairs it. Upgrades at Mechanic. Q shows your quests. Hold Tab for the leaderboard."
+msgstr "T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm: E steigt auf, R richtet neu aus, F repariert. Ausbau bei Mechanic. Q zeigt deine Aufträge. Halte Tab für das Leaderboard."
 
 #: scripts/hud.gd
 msgid "Move"
@@ -1688,8 +1688,8 @@ msgid "Aim (ADS)"
 msgstr "Zielen (ADS)"
 
 #: scripts/hud.gd
-msgid "Reload"
-msgstr "Nachladen"
+msgid "Reload / align tower"
+msgstr "Nachladen / Turm ausrichten"
 
 #: scripts/hud.gd
 msgid "Quick bar: slots 1–10"
@@ -1708,8 +1708,8 @@ msgid "Throw grenade"
 msgstr "Granate werfen"
 
 #: scripts/hud.gd
-msgid "NPC / barricade / aim tower / repair hut"
-msgstr "NPC / Barrikade / Turm ausrichten / Hütte reparieren"
+msgid "NPC / barricade / mount tower / repair hut"
+msgstr "NPC / Barrikade / Turm besteigen / Hütte reparieren"
 
 #: scripts/hud.gd
 msgid "Defense planning with Mechanic"
@@ -2792,8 +2792,8 @@ msgid "The host is still loading the map. Please try joining again in a moment."
 msgstr "Der Host lädt gerade die Karte. Bitte gleich noch einmal beitreten."
 
 #: scripts/net_session.gd
-msgid "Different game version / map. Please use the same Windows version."
-msgstr "Andere Spielversion/Karte. Bitte dieselbe Windows-Version verwenden."
+msgid "Different game version or map. Host and teammates need the same RemZ build."
+msgstr "Andere Spielversion oder Karte. Host und Mitspieler brauchen denselben RemZ-Build."
 
 #: scripts/net_session.gd
 msgid "This session is full (4/4 players)."

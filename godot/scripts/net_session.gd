@@ -250,7 +250,7 @@ func _hello(version: int, fingerprint: String, display_name: String) -> void:
 		_rejected.rpc_id(id, "The host is still loading the map. Please try joining again in a moment.")
 		return
 	if version != PROTOCOL or fingerprint != _fingerprint:
-		_rejected.rpc_id(id, "Different game version / map. Please use the same Windows version.")
+		_rejected.rpc_id(id, "Different game version or map. Host and teammates need the same RemZ build.")
 		return
 	if roster.size() >= MAX_PLAYERS:
 		_rejected.rpc_id(id, "This session is full (4/4 players).")
