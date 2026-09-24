@@ -144,7 +144,7 @@ func _build_menu() -> void:
 	list.add_child(title)
 	site_picker = OptionButton.new()
 	site_picker.add_item("Ground placement")
-	for i in 6: site_picker.add_item(Lang.text(Lang.t("Forest hut roof · slot %d", [i + 1])))
+	for i in 6: site_picker.add_item(Lang.t("Forest hut roof · slot %d", [i + 1]))
 	site_picker.item_selected.connect(func(index: int): roof_slot = index - 1)
 	list.add_child(site_picker)
 	roof_repair = Button.new()
@@ -230,7 +230,7 @@ func _refresh_build_menu() -> void:
 	var state := [game.waves.completed, game.player.score, towers.size(), roof_slot, roof_access(game.player), Lang.current]
 	if state == _build_menu_state: return
 	_build_menu_state = state
-	for i in 6: site_picker.set_item_text(i + 1, Lang.text(Lang.t("Forest hut roof · slot %d", [i + 1])))
+	for i in 6: site_picker.set_item_text(i + 1, Lang.t("Forest hut roof · slot %d", [i + 1]))
 	for kind in kind_buttons:
 		var spec: Dictionary = DefenceTower.SPECS[kind]
 		var button: Button = kind_buttons[kind]
