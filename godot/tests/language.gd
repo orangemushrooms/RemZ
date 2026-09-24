@@ -140,10 +140,14 @@ func _sweep_menus() -> void:
 	game.waves.wave = 5
 	game.waves.completed = 4
 	for i in 8: shop.rare_market._physics_process(0.1)
+	# This suite checks text, not locomotion. Keep teleports stable and try different
+	# sides of each NPC: a random forest stop can have a tree on its southern side.
+	shop.rare_market.set_physics_process(false)
+	game.player.set_physics_process(false)
 	for npc in Progression.NPCS:
-		# the Mist Peddler keeps walking; on a busy machine he can leave reach between teleport and talk
-		for attempt in 5:
-			game.player.global_position = shop.npcs[npc].global_position + Vector3(0, 0.1, 2.3)
+		for attempt in 12:
+			var angle := TAU * attempt / 12.0
+			game.player.global_position = shop.npcs[npc].global_position + Vector3(sin(angle) * 1.8, 0.1, cos(angle) * 1.8)
 			await physics_frame
 			await physics_frame
 			shop.interact(npc)
@@ -159,6 +163,8 @@ func _sweep_menus() -> void:
 			await _sweep("%s / %s" % [npc, page], shop)
 		shop.close()
 		await _frames(2)
+	game.player.set_physics_process(true)
+	shop.rare_market.set_physics_process(true)
 	game.barricade_menu.open()
 	await _frames(3)
 	await _sweep("barricade planner", game.barricade_menu)

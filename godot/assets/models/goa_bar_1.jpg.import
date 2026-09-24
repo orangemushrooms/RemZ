@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://hdxtae5vvpd4"
-path="res://.godot/imported/goa_bar_1.jpg-f6e8aca1f9f9ff1ddf57ef5f69512c19.ctex"
+path.s3tc="res://.godot/imported/goa_bar_1.jpg-f6e8aca1f9f9ff1ddf57ef5f69512c19.s3tc.ctex"
+path.etc2="res://.godot/imported/goa_bar_1.jpg-f6e8aca1f9f9ff1ddf57ef5f69512c19.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "4e66819f6d5300878bfc36445c2df651"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/goa_bar_1.jpg"
-dest_files=["res://.godot/imported/goa_bar_1.jpg-f6e8aca1f9f9ff1ddf57ef5f69512c19.ctex"]
+dest_files=["res://.godot/imported/goa_bar_1.jpg-f6e8aca1f9f9ff1ddf57ef5f69512c19.s3tc.ctex", "res://.godot/imported/goa_bar_1.jpg-f6e8aca1f9f9ff1ddf57ef5f69512c19.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

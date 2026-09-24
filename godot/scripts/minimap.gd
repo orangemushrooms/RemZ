@@ -289,8 +289,8 @@ func _draw_symbols(c: Control) -> void:
 		var goal: Vector2 = world.secret_night.target()
 		var point := map_position(Map.ground_pos(goal.x, goal.y))
 		c.draw_circle(point, 7.0, Color(0.1, 0.95, 1.0), false, 2.0, true)
-		var label := "HEIMWEG" if world.secret_night.step >= SecretNight.RETURN else ("ECHO" if world.secret_night.step == SecretNight.ECHO else "GOA")
-		c.draw_string(_font, point + Vector2(9, 0), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.1, 0.95, 1.0))
+		var label := "HOMEWARD" if world.secret_night.step >= SecretNight.RETURN else ("ECHO" if world.secret_night.step == SecretNight.ECHO else "GOA")
+		c.draw_string(_font, point + Vector2(9, 0), Lang.text(label), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.1, 0.95, 1.0))
 	if "progression" in world and world.progression:
 		for id in world.progression.npcs:
 			var symbol := _quest_symbol(id)

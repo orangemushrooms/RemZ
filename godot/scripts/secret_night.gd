@@ -17,17 +17,17 @@ const WAKING_SECONDS := 8.0
 const RETURN_RADIUS := 14.0
 const REWARD := 150
 const PREPARATION_SECONDS := 20.0
-const STAGE_NAMES := ["DER FERNE KLANG", "KLANGTOTEMS", "KLARER KOPF", "EIN LETZTER TANZ", "LETZTER TRACK", "DAS ECHO DER NACHT", "DER HEIMWEG", "ZURÜCK IN DER WIRKLICHKEIT"]
+const STAGE_NAMES := ["THE DISTANT SOUND", "SOUND TOTEMS", "CLEAR HEAD", "ONE LAST DANCE", "LAST TRACK", "ECHO OF THE NIGHT", "THE WAY HOME", "BACK TO REALITY"]
 const COLOURS := [Color(0.1, 0.9, 1.0), Color(1.0, 0.18, 0.6), Color(0.7, 0.35, 1.0)]
-const INTRO := "Euer Team hat zu viele Pilze gegessen.\nIhr hört aus der Ferne einen Klang. Folgt ihm …"
-const STEPS := ["Folgt dem Bass und den leuchtenden Pilzen in den Oberen Schorchen.",
-	"Weckt die Klangtotems: TÜRKIS → PINK → VIOLETT. [E]",
-	"Die Musik ist zurück. Holt an der Bar den Klarer-Kopf-Trank. [E]",
-	"Bleibt für das Finale im leuchtenden Tanzkreis.",
-	"Der letzte Beat klingt aus. Nehmt diesen Moment mit.",
-	"Abschlussauftrag: Holt das Echo der Nacht vor dem DJ-Pult ab. [E]",
-	"Bringt das Echo der Nacht zurück zur Feuerstelle. Sammelt das Team und legt es ins Feuer. [E]",
-	"Das Echo verglüht. Bleibt zusammen am Feuer, bis der Kopf wieder klar ist."]
+const INTRO := "Your team has eaten too many mushrooms.\nYou hear a sound in the distance. Follow it …"
+const STEPS := ["Follow the bass and the glowing mushrooms to Oberer Schorchen.",
+	"Awaken the sound totems: TURQUOISE → PINK → VIOLET. [E]",
+	"The music is back. Get the Clear Head drink at the bar. [E]",
+	"Stay in the glowing dance circle for the finale.",
+	"The last beat fades away. Take this moment with you.",
+	"Final quest: collect the Echo of the Night in front of the DJ booth. [E]",
+	"Bring the Echo of the Night back to the campfire. Gather your team and place it in the fire. [E]",
+	"The echo burns away. Stay together by the fire until your heads are clear."]
 var main: Node
 var active := false
 var completed := false
@@ -145,11 +145,11 @@ func prompt(p: Player) -> String:
 	if not active or not p.alive or p.controlling_drone or p.mounted_tower: return ""
 	if Vector2(p.global_position.x, p.global_position.z).distance_to(target()) > 3.5: return ""
 	match step:
-		1: return "[E] Klangtotem stimmen · " + ["Türkis", "Pink", "Violett"][mini(tuned, 2)]
-		2: return "[E] Klarer-Kopf-Trank trinken · Wasser, Minze und Waldmagie"
-		ECHO: return "[E] Echo der Nacht aufnehmen · gemeinsamer Questgegenstand"
+		1: return Lang.t("[E] Tune sound totem · %s", [["Turquoise", "Pink", "Violet"][mini(tuned, 2)]])
+		2: return "[E] Drink Clear Head · water, mint and forest magic"
+		ECHO: return "[E] Collect Echo of the Night · shared quest item"
 		RETURN:
-			return "[E] Echo der Nacht ins Feuer legen" if echo_collected and _team_near(Map.FIRE, RETURN_RADIUS, true) else "Sammelt das Team und das Echo am Feuer …"
+			return "[E] Place Echo of the Night in the fire" if echo_collected and _team_near(Map.FIRE, RETURN_RADIUS, true) else "Gather your team and the echo by the fire …"
 	return ""
 
 func request_interact() -> void:
@@ -192,7 +192,7 @@ func _complete() -> void:
 
 func _completion_message() -> void:
 	main.music.play(main.music.intermission_track(saved_clock / 3600.0))
-	main.hud.message("ECHO DER NACHT · AUFTRAG ERFÜLLT\nDas letzte Echo verglüht. Ihr seid wieder zu Hause.\n+%d Rem Dollars pro Spieler · Wave 5 in %d Sekunden" % [REWARD, int(PREPARATION_SECONDS)], 10.0)
+	main.hud.message(Lang.t("ECHO OF THE NIGHT · QUEST COMPLETE\nThe last echo burns away. You are home again.\n+%d Rem Dollars per player · Wave 5 in %d seconds", [REWARD, int(PREPARATION_SECONDS)]), 10.0)
 
 func _team_near(point: Vector2, radius: float, everyone := false) -> bool:
 	var actors: Array = NetSession.world.actors.values() if NetSession.enabled and NetSession.world else [main.player]
@@ -230,14 +230,14 @@ func _process(delta: float) -> void:
 	_present_stage()
 	_update_song_distance(delta)
 	var distance := Vector2(main.player.global_position.x, main.player.global_position.z).distance_to(target())
-	title.text = "SECRET NACHT · OBERER SCHORCHEN"
-	var detail := "%d m · Wave 5 wartet auf euch" % int(distance)
-	if step == 3: detail = "Alle lebenden Teammitglieder im Kreis · %d / 16 s" % mini(16, int(dance_time))
-	elif step == CLOSING: detail = "Letzter Track · noch %d s" % ceili(CLOSING_SECONDS - closing_time)
-	elif step == RETURN: detail = "Echo der Nacht: im Teambesitz · %d m bis zur Feuerstelle" % int(distance)
-	elif step == WAKING: detail = "Zusammen am Feuer · %d / %d s" % [mini(int(WAKING_SECONDS), int(waking_time)), int(WAKING_SECONDS)]
-	copy.text = STEPS[step] + "\n" + detail
-	main.hud.set_wave(5, "SECRET NACHT · " + STAGE_NAMES[step])
+	title.text = "SECRET NIGHT · OBERER SCHORCHEN"
+	var detail := Lang.t("%d m · Wave 5 is waiting for you", [int(distance)])
+	if step == 3: detail = Lang.t("All living teammates inside the circle · %d / 16 s", [mini(16, int(dance_time))])
+	elif step == CLOSING: detail = Lang.t("Last track · %d s remaining", [ceili(CLOSING_SECONDS - closing_time)])
+	elif step == RETURN: detail = Lang.t("Echo of the Night: carried by your team · %d m to the campfire", [int(distance)])
+	elif step == WAKING: detail = Lang.t("Together by the fire · %d / %d s", [mini(int(WAKING_SECONDS), int(waking_time)), int(WAKING_SECONDS)])
+	copy.text = Lang.t(STEPS[step]) + "\n" + detail
+	main.hud.set_wave(5, Lang.t("SECRET NIGHT · %s", [STAGE_NAMES[step]]))
 	rain.global_position = main.player.global_position + Vector3(0, 10, 0)
 	var beat := 0.5 + 0.5 * sin(elapsed * TAU * 140.0 / 60.0)
 	var energy := party_energy()
@@ -258,11 +258,11 @@ func _present_stage() -> void:
 	_announced_step = step
 	match step:
 		0: main.hud.message(INTRO, 10.0)
-		3: main.hud.message("DJ: Noch ein letzter Tanz, ihr Waldgeister!\nKommt alle in den Kreis. Danach wird es Zeit, heimzugehen.", 7.0)
-		CLOSING: main.hud.message("DJ: Das war unsere letzte Reise für heute.\nKommt gut heim. Wir sehen uns auf der anderen Seite des Morgens.", 8.0)
-		ECHO: main.hud.message("ABSCHLUSSAUFTRAG · DAS ECHO DER NACHT\nAm DJ-Pult bleibt ein leuchtendes Klangtotem zurück.\nEine letzte Botschaft: Bringt mein Echo zum Feuer. Nur dort endet dieser Traum.", 10.0)
-		RETURN: main.hud.message("ECHO DER NACHT AUFGENOMMEN\nIhr spürt den letzten Beat im Totem. Bringt es gemeinsam zur Feuerstelle.\nDie Leuchtpilze weisen euch den Heimweg.", 8.0)
-		WAKING: main.hud.message("Ihr legt das Echo ins Feuer. Der letzte Beat wird zu einem Funken.\nEin tiefer Atemzug. Die Welt wird wieder klar.", 7.0)
+		3: main.hud.message("DJ: One last dance, forest spirits!\nEveryone into the circle. Then it is time to go home.", 7.0)
+		CLOSING: main.hud.message("DJ: That was our last journey tonight.\nGet home safely. See you on the other side of the morning.", 8.0)
+		ECHO: main.hud.message("FINAL QUEST · ECHO OF THE NIGHT\nA glowing sound totem remains by the DJ booth.\nOne last message: bring my echo to the fire. Only there can this dream end.", 10.0)
+		RETURN: main.hud.message("ECHO OF THE NIGHT COLLECTED\nYou feel the last beat inside the totem. Bring it to the campfire together.\nThe glowing mushrooms show you the way home.", 8.0)
+		WAKING: main.hud.message("You place the echo in the fire. The last beat becomes a spark.\nOne deep breath. The world becomes clear again.", 7.0)
 
 func _update_ending(delta: float) -> void:
 	var energy := party_energy()
@@ -278,7 +278,7 @@ func _update_ending(delta: float) -> void:
 		mesh.visible = energy > 0.001
 	for glow in party_glows: glow.material.emission_energy_multiplier = glow.energy * energy
 	for label in party_labels: label.modulate.a = energy
-	stage_sign.text = "SCHORCHEN\nAFTER HOURS" if step < CLOSING else ("EIN LETZTER BEAT" if step == CLOSING else "BIS ZUM NÄCHSTEN TRAUM")
+	stage_sign.text = "SCHORCHEN\nAFTER HOURS" if step < CLOSING else ("ONE LAST BEAT" if step == CLOSING else "UNTIL THE NEXT DREAM")
 	stage_sign.modulate = COLOURS[0].lerp(Color(0.7, 0.55, 0.3), 1.0 - energy)
 	var weather := 1.0 if step < CLOSING else energy
 	rain.amount_ratio = weather
@@ -298,7 +298,7 @@ func _update_ending(delta: float) -> void:
 		echo_prop.scale = Vector3.ONE * lerpf(1.0, 0.15, waking)
 		echo_light.light_color = Color(1, 0.5, 0.12) if echo_offered else COLOURS[0]
 		echo_light.light_energy = (2.0 + beat) * (1.0 - waking)
-		echo_caption.text = "Das Echo verglüht …" if echo_offered else "ECHO DER NACHT\n[E] Aufnehmen"
+		echo_caption.text = "The echo burns away …" if echo_offered else "ECHO OF THE NIGHT\n[E] Collect"
 		echo_caption.rotation.y = -echo_prop.rotation.y
 		for mesh in echo_meshes: mesh.transparency = waking
 	if step == WAKING:
@@ -417,7 +417,7 @@ func _build_party() -> void:
 	scenery.get_child(scenery.get_child_count() - 1).hide()
 	stage_sign = _label("SCHORCHEN\nAFTER HOURS", base + Vector3(0, 5, 0), COLOURS[0], 72)
 	party_labels.erase(stage_sign)
-	_label("NEBELBAR\nBier · Pilze · Klarer Kopf", Map.ground_pos(BAR.x, BAR.y) + Vector3(0, 3, 0), COLOURS[1])
+	_label("HAZE BAR\nBeer · Mushrooms · Clear Head", Map.ground_pos(BAR.x, BAR.y) + Vector3(0, 3, 0), COLOURS[1])
 	for i in 3:
 		var pos := Map.ground_pos(TOTEMS[i].x, TOTEMS[i].y)
 		WorldModels.attach(scenery, "goa_totem", pos, 2.6)
@@ -427,7 +427,7 @@ func _build_party() -> void:
 		scenery.add_child(lamp)
 		lamp.position = pos + Vector3.UP * 2
 		totem_lights.append(lamp)
-		_label(["I · TÜRKIS", "II · PINK", "III · VIOLETT"][i], pos + Vector3.UP * 3.3, COLOURS[i], 36)
+		_label(["I · TURQUOISE", "II · PINK", "III · VIOLET"][i], pos + Vector3.UP * 3.3, COLOURS[i], 36)
 	for i in 6:
 		var lamp := SpotLight3D.new()
 		lamp.light_color = COLOURS[i % 3]
@@ -529,7 +529,7 @@ func _build_echo() -> void:
 	echo_light.omni_range = 6.0
 	echo_light.position.y = 0.4
 	echo_prop.add_child(echo_light)
-	echo_caption = _label("ECHO DER NACHT\n[E] Aufnehmen", Vector3.ZERO, COLOURS[0], 38)
+	echo_caption = _label("ECHO OF THE NIGHT\n[E] Collect", Vector3.ZERO, COLOURS[0], 38)
 	party_labels.erase(echo_caption)
 	echo_caption.reparent(echo_prop)
 	echo_caption.position = Vector3.UP * 1.1

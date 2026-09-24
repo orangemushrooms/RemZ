@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://1b3xfhjs2pjt"
-path.s3tc="res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264dbd1c090e4c8ac114.s3tc.ctex"
-path.etc2="res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264dbd1c090e4c8ac114.etc2.ctex"
+path.bptc="res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264dbd1c090e4c8ac114.bptc.ctex"
+path.astc="res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264dbd1c090e4c8ac114.astc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -16,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://assets/models/zombie_titan_texture_0.webp"
-dest_files=["res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264dbd1c090e4c8ac114.s3tc.ctex", "res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264dbd1c090e4c8ac114.etc2.ctex"]
+dest_files=["res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264dbd1c090e4c8ac114.bptc.ctex", "res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264dbd1c090e4c8ac114.astc.ctex"]
 
 [params]
 

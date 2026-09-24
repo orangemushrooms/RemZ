@@ -2771,6 +2771,18 @@ msgstr "Wanderhändler"
 msgid "Golden Bolete"
 msgstr "Goldröhrling"
 
+#: scripts/minimap.gd
+msgid "HOMEWARD"
+msgstr "HEIMWEG"
+
+#: scripts/minimap.gd
+msgid "ECHO"
+msgstr "ECHO"
+
+#: scripts/minimap.gd
+msgid "GOA"
+msgstr "GOA"
+
 #: scripts/mushrooms.gd
 msgid "Extremely rare find to sell · 1000 Rem Dollars at the Vendor. Not for eating."
 msgstr "Extrem seltener Verkaufsfund · 1000 Rem Dollars beim Vendor. Nicht zum Essen."
@@ -4430,6 +4442,194 @@ msgstr "Der Nebelkrämer zieht durch die Gegend. Halte nach seiner violetten Lat
 #: scripts/run_stats.gd
 msgid "%d:%02d min"
 msgstr "%d:%02d min"
+
+#: scripts/secret_night.gd
+msgid "THE DISTANT SOUND"
+msgstr "DER FERNE KLANG"
+
+#: scripts/secret_night.gd
+msgid "SOUND TOTEMS"
+msgstr "KLANGTOTEMS"
+
+#: scripts/secret_night.gd
+msgid "CLEAR HEAD"
+msgstr "KLARER KOPF"
+
+#: scripts/secret_night.gd
+msgid "ONE LAST DANCE"
+msgstr "EIN LETZTER TANZ"
+
+#: scripts/secret_night.gd
+msgid "LAST TRACK"
+msgstr "LETZTER TRACK"
+
+#: scripts/secret_night.gd
+msgid "ECHO OF THE NIGHT"
+msgstr "DAS ECHO DER NACHT"
+
+#: scripts/secret_night.gd
+msgid "THE WAY HOME"
+msgstr "DER HEIMWEG"
+
+#: scripts/secret_night.gd
+msgid "BACK TO REALITY"
+msgstr "ZURÜCK IN DER WIRKLICHKEIT"
+
+#: scripts/secret_night.gd
+msgid "Your team has eaten too many mushrooms.\nYou hear a sound in the distance. Follow it …"
+msgstr "Euer Team hat zu viele Pilze gegessen.\nIhr hört aus der Ferne einen Klang. Folgt ihm …"
+
+#: scripts/secret_night.gd
+msgid "Follow the bass and the glowing mushrooms to Oberer Schorchen."
+msgstr "Folgt dem Bass und den leuchtenden Pilzen in den Oberen Schorchen."
+
+#: scripts/secret_night.gd
+msgid "Awaken the sound totems: TURQUOISE → PINK → VIOLET. [E]"
+msgstr "Weckt die Klangtotems: TÜRKIS → PINK → VIOLETT. [E]"
+
+#: scripts/secret_night.gd
+msgid "The music is back. Get the Clear Head drink at the bar. [E]"
+msgstr "Die Musik ist zurück. Holt an der Bar den Klarer-Kopf-Trank. [E]"
+
+#: scripts/secret_night.gd
+msgid "Stay in the glowing dance circle for the finale."
+msgstr "Bleibt für das Finale im leuchtenden Tanzkreis."
+
+#: scripts/secret_night.gd
+msgid "The last beat fades away. Take this moment with you."
+msgstr "Der letzte Beat klingt aus. Nehmt diesen Moment mit."
+
+#: scripts/secret_night.gd
+msgid "Final quest: collect the Echo of the Night in front of the DJ booth. [E]"
+msgstr "Abschlussauftrag: Holt das Echo der Nacht vor dem DJ-Pult ab. [E]"
+
+#: scripts/secret_night.gd
+msgid "Bring the Echo of the Night back to the campfire. Gather your team and place it in the fire. [E]"
+msgstr "Bringt das Echo der Nacht zurück zur Feuerstelle. Sammelt das Team und legt es ins Feuer. [E]"
+
+#: scripts/secret_night.gd
+msgid "The echo burns away. Stay together by the fire until your heads are clear."
+msgstr "Das Echo verglüht. Bleibt zusammen am Feuer, bis der Kopf wieder klar ist."
+
+#: scripts/secret_night.gd
+msgid "[E] Tune sound totem · %s"
+msgstr "[E] Klangtotem stimmen · %s"
+
+#: scripts/secret_night.gd
+msgid "Turquoise"
+msgstr "Türkis"
+
+#: scripts/secret_night.gd
+msgid "Pink"
+msgstr "Pink"
+
+#: scripts/secret_night.gd
+msgid "Violet"
+msgstr "Violett"
+
+#: scripts/secret_night.gd
+msgid "[E] Drink Clear Head · water, mint and forest magic"
+msgstr "[E] Klarer-Kopf-Trank trinken · Wasser, Minze und Waldmagie"
+
+#: scripts/secret_night.gd
+msgid "[E] Collect Echo of the Night · shared quest item"
+msgstr "[E] Echo der Nacht aufnehmen · gemeinsamer Questgegenstand"
+
+#: scripts/secret_night.gd
+msgid "[E] Place Echo of the Night in the fire"
+msgstr "[E] Echo der Nacht ins Feuer legen"
+
+#: scripts/secret_night.gd
+msgid "Gather your team and the echo by the fire …"
+msgstr "Sammelt das Team und das Echo am Feuer …"
+
+#: scripts/secret_night.gd
+msgid "ECHO OF THE NIGHT · QUEST COMPLETE\nThe last echo burns away. You are home again.\n+%d Rem Dollars per player · Wave 5 in %d seconds"
+msgstr "ECHO DER NACHT · AUFTRAG ERFÜLLT\nDas letzte Echo verglüht. Ihr seid wieder zu Hause.\n+%d Rem Dollars pro Spieler · Welle 5 in %d Sekunden"
+
+#: scripts/secret_night.gd
+msgid "SECRET NIGHT · OBERER SCHORCHEN"
+msgstr "SECRET NACHT · OBERER SCHORCHEN"
+
+#: scripts/secret_night.gd
+msgid "%d m · Wave 5 is waiting for you"
+msgstr "%d m · Welle 5 wartet auf euch"
+
+#: scripts/secret_night.gd
+msgid "All living teammates inside the circle · %d / 16 s"
+msgstr "Alle lebenden Teammitglieder im Kreis · %d / 16 s"
+
+#: scripts/secret_night.gd
+msgid "Last track · %d s remaining"
+msgstr "Letzter Track · noch %d s"
+
+#: scripts/secret_night.gd
+msgid "Echo of the Night: carried by your team · %d m to the campfire"
+msgstr "Echo der Nacht: im Teambesitz · %d m bis zur Feuerstelle"
+
+#: scripts/secret_night.gd
+msgid "Together by the fire · %d / %d s"
+msgstr "Zusammen am Feuer · %d / %d s"
+
+#: scripts/secret_night.gd
+msgid "SECRET NIGHT · %s"
+msgstr "SECRET NACHT · %s"
+
+#: scripts/secret_night.gd
+msgid "DJ: One last dance, forest spirits!\nEveryone into the circle. Then it is time to go home."
+msgstr "DJ: Noch ein letzter Tanz, ihr Waldgeister!\nKommt alle in den Kreis. Danach wird es Zeit, heimzugehen."
+
+#: scripts/secret_night.gd
+msgid "DJ: That was our last journey tonight.\nGet home safely. See you on the other side of the morning."
+msgstr "DJ: Das war unsere letzte Reise für heute.\nKommt gut heim. Wir sehen uns auf der anderen Seite des Morgens."
+
+#: scripts/secret_night.gd
+msgid "FINAL QUEST · ECHO OF THE NIGHT\nA glowing sound totem remains by the DJ booth.\nOne last message: bring my echo to the fire. Only there can this dream end."
+msgstr "ABSCHLUSSAUFTRAG · DAS ECHO DER NACHT\nAm DJ-Pult bleibt ein leuchtendes Klangtotem zurück.\nEine letzte Botschaft: Bringt mein Echo zum Feuer. Nur dort endet dieser Traum."
+
+#: scripts/secret_night.gd
+msgid "ECHO OF THE NIGHT COLLECTED\nYou feel the last beat inside the totem. Bring it to the campfire together.\nThe glowing mushrooms show you the way home."
+msgstr "ECHO DER NACHT AUFGENOMMEN\nIhr spürt den letzten Beat im Totem. Bringt es gemeinsam zur Feuerstelle.\nDie Leuchtpilze weisen euch den Heimweg."
+
+#: scripts/secret_night.gd
+msgid "You place the echo in the fire. The last beat becomes a spark.\nOne deep breath. The world becomes clear again."
+msgstr "Ihr legt das Echo ins Feuer. Der letzte Beat wird zu einem Funken.\nEin tiefer Atemzug. Die Welt wird wieder klar."
+
+#: scripts/secret_night.gd
+msgid "SCHORCHEN\nAFTER HOURS"
+msgstr "SCHORCHEN\nAFTER HOURS"
+
+#: scripts/secret_night.gd
+msgid "ONE LAST BEAT"
+msgstr "EIN LETZTER BEAT"
+
+#: scripts/secret_night.gd
+msgid "UNTIL THE NEXT DREAM"
+msgstr "BIS ZUM NÄCHSTEN TRAUM"
+
+#: scripts/secret_night.gd
+msgid "The echo burns away …"
+msgstr "Das Echo verglüht …"
+
+#: scripts/secret_night.gd
+msgid "ECHO OF THE NIGHT\n[E] Collect"
+msgstr "ECHO DER NACHT\n[E] Aufnehmen"
+
+#: scripts/secret_night.gd
+msgid "HAZE BAR\nBeer · Mushrooms · Clear Head"
+msgstr "NEBELBAR\nBier · Pilze · Klarer Kopf"
+
+#: scripts/secret_night.gd
+msgid "I · TURQUOISE"
+msgstr "I · TÜRKIS"
+
+#: scripts/secret_night.gd
+msgid "II · PINK"
+msgstr "II · PINK"
+
+#: scripts/secret_night.gd
+msgid "III · VIOLET"
+msgstr "III · VIOLETT"
 
 #: scripts/skills.gd
 msgid "Toughness"
