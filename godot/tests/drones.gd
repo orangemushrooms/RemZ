@@ -114,6 +114,7 @@ func run() -> void:
 	game.defences._process(0.01)
 	game.weapons._handle_weapon_input(0.01)
 	check(not game.weapons.viewmodel.visible and s.reticle.visible and not game.hud.ammo_label.get_parent().visible,"Other systems cannot restore hand weapon or personal ammo during flight")
+	check(not game.hud.ammo_label.get_parent().get_parent().visible,"No empty ammo panel is left on screen during flight")
 	check(not s.launch(p,"viper").is_empty(),"One pilot cannot launch a second drone")
 	drone.global_position = Map.ground_pos(60,112)+Vector3.UP*8
 	drone.yaw = 0
@@ -250,6 +251,7 @@ func run() -> void:
 	copy.queue_free()
 	s.recall(p)
 	check(p.controlling_drone==0 and p.camera.current and s.drones.is_empty(),"Recall restores body camera and clears ownership")
+	check(game.hud.ammo_label.is_visible_in_tree(),"Recall brings the ammo panel back")
 	check(p.global_position==feet and float(s.refit.scout)>0,"Recall preserves pilot position and imposes refit")
 	check(not s.launch(p,"scout").is_empty(),"Refit cannot be bypassed by relaunch")
 	await settle()

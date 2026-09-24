@@ -329,7 +329,7 @@ func _sync_view() -> void:
 		game.weapons.viewmodel.visible = game.player.alive and not game.over
 		flight_hud.hide()
 		reticle.hide()
-		game.hud.ammo_label.get_parent().show()
+		_show_ammo(true)
 		input_grace = 0.3
 		game.defences.input_grace = 0.3
 
@@ -384,9 +384,16 @@ func _process(delta: float) -> void:
 		else: control(game.player,drone.drone_id,move,_look_yaw,_look_pitch,fire)
 	flight_hud.visible = enabled
 	reticle.visible = enabled
-	game.hud.ammo_label.get_parent().hide()
+	_show_ammo(false)
 	flight_hud.text = Lang.t("%s · HULL %d / %d · HEAT %d%%\nAltitude %.1f m · %s\nWASD fly · Mouse aim · Space / Ctrl up / down · LMB fire · R / Esc return",[drone.spec().name,ceili(drone.hp),int(drone.spec().hp),roundi(drone.heat*100),drone.global_position.y-Map.ground_height(drone.global_position.x,drone.global_position.z),"COOLING" if drone.overheated else "LIVE FEED"])
 	game.weapons.viewmodel.hide()
+
+# The ammo box and the panel around it: hiding only the box left the empty panel on screen as a
+# small dark pill beside the minimap for the whole flight.
+func _show_ammo(shown: bool) -> void:
+	var box: Control = game.hud.ammo_label.get_parent()
+	box.visible = shown
+	box.get_parent().visible = shown
 
 func snapshot() -> Dictionary:
 	var live := {}
