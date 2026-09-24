@@ -31,8 +31,11 @@ Quests are accepted and turned in at the NPC who gives them. Completed goals pay
 | A Discreet Job | Secret Vendor | 8 | After “Precision Under Pressure”: 40 headshot kills | 180 R |
 | The Giants' Debt | Secret Vendor | 11 | After the first titan quest: three titans in total | 260 R |
 | A Name No One Knows | Secret Vendor | 16 | After “The Giants' Debt”: wave 12 and five titans in total | 380 R |
+| First Flight | Mechanic | 5 | From wave 5: fly 150 m and defeat 5 zombies with the Kestrel as a team | 150 R |
+| Armed Patrol | Mechanic | 10 | After “First Flight”, from wave 10: fly 400 m and defeat 15 zombies with the Viper | 250 R |
+| Heavy Air Support | Mechanic | 15 | After “Armed Patrol”, from wave 15: fly 600 m and defeat 30 zombies with the Tempest | 400 R |
 
-Mission level = waves survived + 1; below the listed level you cannot accept a quest. After accepting, the team has to survive one more wave before the quest can be turned in (two for “The Last Light”, “Like Clockwork” and “A Name No One Knows”); only “By the Fire” is exempt. For the extra quests, the team's progress in the current round counts even before you accept them. Required defenses must still be standing when you turn in the quest. Each player collects their reward once from the quest giver; a golden question mark above the character and on the minimap shows quests that are ready to turn in.
+Mission level = waves survived + 1; below the listed level you cannot accept a quest. After accepting, the team has to survive one more wave before the quest can be turned in (two for “The Last Light”, “Like Clockwork” and “A Name No One Knows”); only “By the Fire” and the three drone quests (Drone Operations, see [Defense](DEFENSE.md)) are exempt. For the extra quests, the team's progress in the current round counts even before you accept them. Required defenses must still be standing when you turn in the quest. Each player collects their reward once from the quest giver; a golden question mark above the character and on the minimap shows quests that are ready to turn in.
 
 The toolbox for the delivery lies in a different, random spot every round; once you accept the quest, the spot is marked on the map. A hidden trader with a stall of his own is in the northern forest. His map marker appears once you have seen him from no more than 30 m with a clear line of sight. He sells rare weapons and special finishes.
 

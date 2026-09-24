@@ -14,6 +14,28 @@ Zombies attack a built line when it blocks their way to the hut. They keep their
 - Unmanned towers fire automatically within a 160° sector; operated manually, they can fire all around. Sustained fire leads to overheating. Walls and terrain stop shots; team members take no damage from towers.
 - Zombies and titans can destroy towers. Behind a barricade, towers are better protected. On the minimap they appear as blue squares.
 
+## Roof turrets on the forest hut
+
+- At the forest hut, **T** offers six roof slots (three on each side of the roof) next to ground placement; the first free slot is preselected. Choose the weapon, **R / Mouse wheel** turns the field of fire, **E** builds, **T / Esc** cancels at no cost.
+- Same five types, prices and unlock waves as on the ground. Roof and ground towers share the limit of six per team.
+- Roof turrets always fire automatically in their 160° sector; they cannot be mounted. From the edge of the roof they also hit zombies standing right at the hut wall (the Flamethrower from about 1.2 m). Zombies and titans cannot reach them.
+- Pick an occupied slot in the same menu to repair it (35 R) or re-align it. Upgrading and dismantling at **Mechanic → Towers**.
+
+## Drone control center
+
+The console stands upstairs in the forest hut; you need the hut key. **E** at the station, pick a drone, then **Ready to fly**.
+
+| Drone | From wave | Hull | Damage per shot | Shots/s | Speed | Range |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Kestrel Scout | 5 | 100 | 24 | 5.6 | 9 m/s | 65 m |
+| Viper Gunship | 10 | 180 | 42 | 8.3 | 11 m/s | 85 m |
+| Tempest Assault | 15 | 280 | 62 | 11.8 | 12 m/s | 110 m |
+
+- **WASD** flies relative to where you look, **Mouse** aims, **Space / Ctrl** climbs and descends, **Left click** fires, **R / Esc** recalls the drone. The flight ceiling is 45 m above the ground, and the drone cannot leave the map.
+- Your body stays at the station and can be attacked; your own weapons and grenades are locked during the flight. Sustained fire overheats the drone gun. Bumping into obstacles scrapes the hull a little; zombie strikes and titan slams hit hard.
+- Each model flies once per team at a time, and each player flies one drone. Launching costs nothing; after a recall the drone is ready again in 10 s, after it was destroyed in 30 s.
+- Mechanic's quest line **Drone Operations** starts with wave 5, see [Progression](PROGRESSION.md).
+
 ## Field titans
 
 The first titan, about **27 m tall, appears in wave 6**, then in every third wave, except worm waves (every fourth wave from wave 12) and boss waves (every fifth wave): field titans therefore come in waves 6, 9, 18, 21, 27, 33, 39 and so on. Up to wave 17 there is one, from wave 18 there are two and from wave 36 three (first in wave 39), each at a separate spot on the fields. From wave 8, the remaining waves without a field titan, worm or boss wave bring smaller titans: the Hunter Titan (8 m) from wave 8, the Siege Titan (14 m) from wave 11 and the Ash Titan (19 m) from wave 13, one per wave up to wave 23 and two after that. The existing brute waves remain. Titans come across the open southern fields, with their own rigged model, heavy footsteps and a boss health bar. The values below apply to the field titan; the smaller titans have their own warning times, radii and damage.

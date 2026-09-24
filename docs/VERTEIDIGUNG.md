@@ -14,6 +14,28 @@ Zombies greifen eine gebaute Linie an, wenn sie ihren Weg zur Hütte versperrt. 
 - Unbesetzt feuern Türme automatisch im 160°-Sektor, manuell rundum. Dauerfeuer führt zur Überhitzung. Wände und Gelände stoppen Schüsse; Teammitglieder nehmen keinen Turmschaden.
 - Zombies und Titanen können Türme zerstören. Hinter einer Barrikade sind sie besser geschützt. Auf der Minikarte erscheinen sie als blaue Quadrate.
 
+## Dachtürme auf der Waldhütte
+
+- An der Waldhütte bietet **T** neben der Bodenplatzierung sechs Dachplätze (drei auf jeder Dachseite); der erste freie Platz ist vorgewählt. Waffe wählen, **R / Mausrad** dreht den Schusssektor, **E** baut, **T / Esc** bricht kostenlos ab.
+- Dieselben fünf Typen, Preise und Freischaltungen wie am Boden. Dach- und Bodentürme teilen das Limit von sechs Türmen pro Team.
+- Dachtürme feuern immer automatisch im 160°-Sektor und lassen sich nicht besteigen. Vom Dachrand treffen sie auch Zombies direkt an der Hüttenwand (der Flammenwerfer ab etwa 1,2 m). Zombies und Titanen erreichen sie nicht.
+- Einen belegten Platz im selben Menü wählen, um ihn zu reparieren (35 R) oder neu auszurichten. Ausbau und Abbau bei **Mechanic → Türme**.
+
+## Drohnenkontrollzentrum
+
+Die Konsole steht im Obergeschoss der Waldhütte; nötig ist der Hüttenschlüssel. **E** an der Station, Drohne wählen, dann **Ready to fly**.
+
+| Drohne | Ab Welle | Hülle | Schaden pro Schuss | Schüsse/s | Tempo | Reichweite |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Kestrel-Aufklärer | 5 | 100 | 24 | 5,6 | 9 m/s | 65 m |
+| Viper-Kampfdrohne | 10 | 180 | 42 | 8,3 | 11 m/s | 85 m |
+| Tempest-Sturmdrohne | 15 | 280 | 62 | 11,8 | 12 m/s | 110 m |
+
+- **WASD** fliegt relativ zur Blickrichtung, **Maus** zielt, **Leertaste / Strg** steigt und sinkt, **Linksklick** feuert, **R / Esc** ruft die Drohne zurück. Die Flughöhe ist auf 45 m über dem Gelände begrenzt, der Kartenrand bleibt geschlossen.
+- Der Körper bleibt an der Station und kann angegriffen werden; eigene Waffen und Granaten sind während des Flugs gesperrt. Dauerfeuer überhitzt die Bordwaffe. Zusammenstösse kosten etwas Hülle, Zombieschläge und Titaneneinschläge treffen hart.
+- Jedes Modell fliegt im Team nur einmal gleichzeitig, jeder Spieler steuert eine Drohne. Der Start kostet nichts; nach einem Rückruf ist die Drohne nach 10 s wieder bereit, nach einer Zerstörung nach 30 s.
+- Die Questreihe **Drohneneinsätze** beim Mechanic beginnt mit Welle 5, siehe [Fortschritt](FORTSCHRITT.md).
+
 ## Feldtitanen
 
 Der erste rund **27 m grosse Titan erscheint in Welle 6**, danach in jeder dritten Welle, ausser in Wurmwellen (ab Welle 12 jede vierte Welle) und Bosswellen (jede fünfte Welle): Feldtitanen kommen also in den Wellen 6, 9, 18, 21, 27, 33, 39 und so weiter. Bis Welle 17 ist es einer, ab Welle 18 sind es zwei und ab Welle 36 drei (erstmals in Welle 39), jeweils an getrennten Feldpositionen. In den übrigen Wellen ab Welle 8 ohne Feldtitan, Wurm oder Bosswelle erscheinen kleinere Titanen: der Jagdtitan (8 m) ab Welle 8, der Belagerungstitan (14 m) ab Welle 11 und der Aschetitan (19 m) ab Welle 13, bis Welle 23 einer pro Welle, danach zwei. Die bisherigen Brockenwellen bleiben erhalten. Titanen kommen über die offenen südlichen Felder, mit eigenem geriggtem Modell, schweren Schritten und Bosslebensanzeige. Die folgenden Werte gelten für den Feldtitanen; die kleineren Titanen haben eigene Vorwarnzeiten, Radien und Schadenswerte.
