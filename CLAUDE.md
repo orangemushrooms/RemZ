@@ -186,7 +186,15 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   35 % of the zombies stop once to scream within 14 m, heavy hits play the flinch clip, deaths pick a random
   fall. Beyond 45 / 90 m the AnimationPlayer runs in manual mode and advances every 2nd / 3rd tick. Heads
   turn towards the player within 12 m (LookAtModifier3D on the Head bone, `--no-headlook`). Older rigs with
-  only walk / attack / death still work: missing clips fall back to the gait.
+  only walk / attack / death still work: missing clips fall back to the gait. A swing keeps its clip for
+  `attack_hold()` (strike + 0.45 s, at most the cadence) and a flinch for `HIT_HOLD` before the gait resumes,
+  with a 0.3 s blend back; cutting them at the damage tick made the horde twitch (24 Sep 2026).
+  `zombie_animation.prepare()` cleans every rig once at load: constant bone-length tracks go onto the
+  skeleton, the horizontal Hips motion of every clip but the deaths is frozen (Meshy's library walk2 travelled
+  3.4 m per loop and the runner sprint 3 m per 0.5 s, so the mesh ran ahead of its collider and snapped back),
+  gaits whose ends do not match are cut to their best-matching window and the last 0.12 s of every gait glide
+  into its first pose. `--suite=zombie_clip_audit` (headless, 232 checks) prints `CLIP_AUDIT` per clip and fails
+  on root drift, a loop seam over 8 deg, a floating corpse or feet below the floor.
 - Meshy rigged characters are 1.7 m tall; scale by height/1.7, never by mesh AABB. Zombie skins: shambler =
   shambler/farmer/hiker/grandma, runner = runner/jogger, soldier = soldier/forester, titan = titan/colossus; a new
   skin only needs the GLB in `godot/assets/models/` plus its name in the `skins` list. `gen_asset.py` reuses the

@@ -71,12 +71,45 @@ static func measure(source: PackedScene, host: Node = null) -> Dictionary:
 	model.free()
 	return info
 
-static func prepare(source: PackedScene) -> PackedScene:
+# Loop clips whose last pose differs from the first by more than this are cut at their best loop point.
+const SEAM_DEG := 20.0
+const SEAM_SAMPLES := 48
+const SEAM_BLEND := 0.12
+
+static func _is_gait(clip: String) -> bool:
+	return clip.begins_with("walk") or clip.begins_with("run") or clip.begins_with("idle")
+
+static func _pose_gap(rig: Skeleton3D, a: Array, b: Array) -> float:
+	var worst := 0.0
+	for i in a.size():
+		worst = maxf(worst, (a[i] as Quaternion).angle_to(b[i] as Quaternion))
+	return worst
+
+static func _pose(rig: Skeleton3D) -> Array:
+	var out := []
+	for b in rig.get_bone_count(): out.append(rig.get_bone_pose_rotation(b))
+	return out
+
+# Three fixes applied once per model while loading, so every actor plays clean clips:
+# 1. Constant bone-length position tracks are stored on the skeleton and dropped (see above).
+# 2. Root motion: Meshy's library gaits and flinches carry the walk in the Hips position track (walk2
+#    of the shambler rigs travels 3.4 m per loop, the runner sprints 3 m per 0.5 s), while the body is
+#    moved by the navigation. The mesh ran ahead of its collider and snapped back at every loop. The
+#    horizontal Hips motion is frozen at its first key for every clip but the deaths (a corpse stays
+#    where it fell); the vertical bob stays.
+# 3. Loop seams: a gait whose last pose is far from its first (walk2: 44 deg, the library clip starts
+#    mid-step) is cut to the window of at least 40 % of its length whose two ends match best, and the
+#    last SEAM_BLEND seconds of every gait glide into its first pose, so the loop closes without a jump.
+static func prepare(source: PackedScene, host: Node = null) -> PackedScene:
 	var model: Node3D = source.instantiate()
 	var player := model.find_child("AnimationPlayer", true, false) as AnimationPlayer
-	if not player:
+	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D
+	if not player or not rig:
 		model.free()
 		return source
+	if host == null and Engine.get_main_loop() is SceneTree:
+		host = (Engine.get_main_loop() as SceneTree).root
+	if host: host.add_child(model)
 	var tracks := {}
 	for clip in player.get_animation_list():
 		var animation := player.get_animation(clip)
@@ -84,22 +117,54 @@ static func prepare(source: PackedScene) -> PackedScene:
 			if animation.track_get_type(track) != Animation.TYPE_POSITION_3D: continue
 			var path := animation.track_get_path(track)
 			if path.get_subname_count() != 1: continue
-			var rig := player.get_node(player.root_node).get_node_or_null(NodePath(path.get_concatenated_names())) as Skeleton3D
-			if not rig: continue
 			var bone := rig.find_bone(path.get_subname(0))
 			if bone < 0: continue
 			for key in animation.track_get_key_count(track):
 				var value: Vector3 = animation.track_get_key_value(track, key)
-				if not tracks.has(path): tracks[path] = {"rig": rig, "bone": bone, "value": value, "constant": true}
+				if not tracks.has(path): tracks[path] = {"bone": bone, "value": value, "constant": true}
 				# Rig coordinates are centimetres. Maximum deviation is one micron.
 				if tracks[path].value.distance_to(value) > 0.0001: tracks[path].constant = false
 	var constants := {}
 	for path: NodePath in tracks:
 		if not tracks[path].constant: continue
-		var rig: Skeleton3D = tracks[path].rig
 		rig.set_bone_pose_position(tracks[path].bone, tracks[path].value)
 		constants[path] = true
-	if constants.is_empty():
+	# the up axis of the Hips position track (parent-bone space) for the root-motion freeze
+	var hips := rig.find_bone("Hips")
+	var up_axis := 1
+	if hips >= 0:
+		var parent := rig.get_bone_parent(hips)
+		var rest := rig.get_bone_global_rest(parent) if parent >= 0 else Transform3D.IDENTITY
+		var local_up := rest.basis.inverse() * Vector3.UP
+		up_axis = 0 if absf(local_up.x) > absf(local_up.y) and absf(local_up.x) > absf(local_up.z) else (2 if absf(local_up.z) > absf(local_up.y) else 1)
+	# loop seams of the gaits
+	var cuts := {}
+	for clip in player.get_animation_list():
+		if not _is_gait(clip): continue
+		var length := player.get_animation(clip).length
+		if length <= 0.2: continue
+		player.play(clip)
+		var poses := []
+		for i in SEAM_SAMPLES + 1:
+			player.seek(length * float(i) / SEAM_SAMPLES, true)
+			rig.force_update_all_bone_transforms()
+			poses.append(_pose(rig))
+		var seam := _pose_gap(rig, poses[0], poses[SEAM_SAMPLES])
+		if rad_to_deg(seam) <= SEAM_DEG: continue
+		var best := Vector2i(0, SEAM_SAMPLES)
+		var best_gap := seam
+		var min_span := int(SEAM_SAMPLES * 0.4)
+		for i in range(0, SEAM_SAMPLES - min_span):
+			for j in range(i + min_span, SEAM_SAMPLES + 1):
+				var gap := _pose_gap(rig, poses[i], poses[j])
+				if gap < best_gap:
+					best_gap = gap
+					best = Vector2i(i, j)
+		if best != Vector2i(0, SEAM_SAMPLES):
+			cuts[clip] = Vector2(length * float(best.x) / SEAM_SAMPLES, length * float(best.y) / SEAM_SAMPLES)
+	player.stop()
+	if constants.is_empty() and hips < 0 and cuts.is_empty():
+		if host: host.remove_child(model)
 		model.free()
 		return source
 	for name in player.get_animation_library_list():
@@ -108,12 +173,67 @@ static func prepare(source: PackedScene) -> PackedScene:
 		for clip in original.get_animation_list():
 			var animation := original.get_animation(clip).duplicate(true) as Animation
 			for track in range(animation.get_track_count() - 1, -1, -1):
-				if animation.track_get_type(track) == Animation.TYPE_POSITION_3D and constants.has(animation.track_get_path(track)):
+				if animation.track_get_type(track) != Animation.TYPE_POSITION_3D: continue
+				var path := animation.track_get_path(track)
+				if constants.has(path):
 					animation.remove_track(track)
+				elif hips >= 0 and path.get_subname_count() == 1 and path.get_subname(0) == rig.get_bone_name(hips) and not clip.begins_with("death"):
+					var first: Vector3 = animation.track_get_key_value(track, 0) if animation.track_get_key_count(track) > 0 else Vector3.ZERO
+					for key in animation.track_get_key_count(track):
+						var value: Vector3 = animation.track_get_key_value(track, key)
+						for axis in 3:
+							if axis != up_axis: value[axis] = first[axis]
+						animation.track_set_key_value(track, key, value)
+			if cuts.has(clip): _cut(animation, cuts[clip].x, cuts[clip].y)
+			if _is_gait(clip): _close_loop(animation)
 			library.add_animation(clip, animation)
 		player.remove_animation_library(name)
 		player.add_animation_library(name, library)
+	if host: host.remove_child(model)
 	var prepared := PackedScene.new()
 	var result := prepared.pack(model)
 	model.free()
 	return prepared if result == OK else source
+
+# Keep only the window [start, end] of a clip: a key at the window's start is interpolated in, earlier
+# keys go, the rest shift to time zero and the length becomes the window.
+static func _cut(animation: Animation, start: float, end: float) -> void:
+	for track in animation.get_track_count():
+		var kind := animation.track_get_type(track)
+		if start > 0.0:
+			match kind:
+				Animation.TYPE_POSITION_3D: animation.position_track_insert_key(track, start, animation.position_track_interpolate(track, start))
+				Animation.TYPE_ROTATION_3D: animation.rotation_track_insert_key(track, start, animation.rotation_track_interpolate(track, start))
+				Animation.TYPE_SCALE_3D: animation.scale_track_insert_key(track, start, animation.scale_track_interpolate(track, start))
+		for key in range(animation.track_get_key_count(track) - 1, -1, -1):
+			var t := animation.track_get_key_time(track, key)
+			if t < start - 0.0005 or t > end + 0.0005:
+				animation.track_remove_key(track, key)
+		for key in animation.track_get_key_count(track):
+			animation.track_set_key_time(track, key, maxf(0.0, animation.track_get_key_time(track, key) - start))
+	animation.length = end - start
+
+# The last SEAM_BLEND seconds of a loop interpolate into the pose of its first frame: the loop wraps
+# without a visible seam whatever the library clip ends on.
+static func _close_loop(animation: Animation) -> void:
+	var length := animation.length
+	var blend := minf(SEAM_BLEND, length * 0.2)
+	if blend <= 0.01: return
+	for track in animation.get_track_count():
+		var kind := animation.track_get_type(track)
+		if animation.track_get_key_count(track) < 2: continue
+		match kind:
+			Animation.TYPE_ROTATION_3D:
+				var hold := animation.rotation_track_interpolate(track, length - blend)
+				var first := animation.rotation_track_interpolate(track, 0.0)
+				for key in range(animation.track_get_key_count(track) - 1, -1, -1):
+					if animation.track_get_key_time(track, key) > length - blend + 0.0005: animation.track_remove_key(track, key)
+				animation.rotation_track_insert_key(track, length - blend, hold)
+				animation.rotation_track_insert_key(track, length, first)
+			Animation.TYPE_POSITION_3D:
+				var hold := animation.position_track_interpolate(track, length - blend)
+				var first := animation.position_track_interpolate(track, 0.0)
+				for key in range(animation.track_get_key_count(track) - 1, -1, -1):
+					if animation.track_get_key_time(track, key) > length - blend + 0.0005: animation.track_remove_key(track, key)
+				animation.position_track_insert_key(track, length - blend, hold)
+				animation.position_track_insert_key(track, length, first)

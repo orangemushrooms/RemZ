@@ -146,7 +146,7 @@ static func preload_models(host: Node = null) -> void:
 			if not _scenes.has(path):
 				_scenes[path] = load(path) if ResourceLoader.exists(path) else null
 				if _scenes[path]:
-					_scenes[path] = preload("res://scripts/zombie_animation.gd").prepare(_scenes[path])
+					_scenes[path] = preload("res://scripts/zombie_animation.gd").prepare(_scenes[path], host)
 					var source: Node3D = _scenes[path].instantiate()
 					_prepare_hitbox_shapes(source, path)
 					source.free()
