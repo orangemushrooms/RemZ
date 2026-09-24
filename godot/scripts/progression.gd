@@ -1180,6 +1180,10 @@ func _render() -> void:
 					var cost: int = tower.upgrade_cost()
 					var reason: String = game.defences.upgrade_reason(p, tower)
 					_row(Lang.t("%s #%d · Tier %d", [tower.spec().name, id, tower.level]), Lang.t("%d/%d HP · %d m range · %d m away", [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)]), "Maximum" if tower.level == 3 else Lang.t("Upgrade · %d R", [cost]), request.bind("tower_upgrade", str(id)), not reason.is_empty(), reason)
+					# The builder's own towers can be dismantled (maintain "sell" checks it again). The row went
+					# missing on 22 Sep while the guides kept describing it; a roof turret, which no zombie
+					# reaches, otherwise held its slot of the team's six for the rest of the round.
+					if tower.owner_peer == p.peer_id: _row(Lang.t("Dismantle %s #%d", [tower.spec().name, id]), Lang.t("The tower is removed. %d R back.", [tower.refund()]), "Dismantle", request.bind("tower_sell", str(id)), tower.operator_peer != 0, "The tower is being operated right now." if tower.operator_peer else "")
 		"Skins":
 			var wid: String = game.weapons.current
 			_info(Lang.t("Finishes for: %s\nPick your weapon before the conversation. Skins don't change combat stats.", [Weapons.DEFS[wid].name]), 16)

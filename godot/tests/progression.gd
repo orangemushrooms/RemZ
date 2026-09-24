@@ -199,6 +199,15 @@ func run() -> void:
 	await visit("mechanic")
 	shop.transact(p, "mechanic", "tower_upgrade", str(tower.tower_id))
 	check(tower.level == 2 and p.score == before - 100, "Mechanic upgrades deployed tower transactionally")
+	# The builder's Towers page offers dismantling; the row had gone missing while the guides described it.
+	shop.interact("mechanic")
+	shop.page = "Towers"
+	shop._render()
+	var dismantle: Button = null
+	for widgets in shop._row_nodes:
+		if widgets[2].text == "Dismantle": dismantle = widgets[2]
+	check(dismantle != null and not dismantle.disabled, "Mechanic offers dismantling of the builder's own tower")
+	shop.close()
 	shop.transact(p, "mechanic", "quest", "watch")
 	game.waves.completed = 3
 	shop.transact(p, "mechanic", "quest", "supplies")

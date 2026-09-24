@@ -987,7 +987,7 @@ msgstr "%s: %d Rem Dollars benötigt."
 msgid "Maximum tier reached."
 msgstr "Maximale Stufe erreicht."
 
-#: scripts/defence_system.gd
+#: scripts/defence_system.gd scripts/progression.gd
 msgid "The tower is being operated right now."
 msgstr "Der Turm wird gerade bedient."
 
@@ -4046,6 +4046,18 @@ msgstr "Maximum"
 #: scripts/progression.gd
 msgid "Upgrade · %d R"
 msgstr "Ausbauen · %d R"
+
+#: scripts/progression.gd
+msgid "Dismantle %s #%d"
+msgstr "%s #%d abbauen"
+
+#: scripts/progression.gd
+msgid "The tower is removed. %d R back."
+msgstr "Der Turm wird entfernt. %d R zurück."
+
+#: scripts/progression.gd
+msgid "Dismantle"
+msgstr "Abbauen"
 
 #: scripts/progression.gd
 msgid "Finishes for: %s\nPick your weapon before the conversation. Skins don't change combat stats."
