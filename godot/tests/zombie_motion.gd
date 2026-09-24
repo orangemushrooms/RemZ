@@ -105,6 +105,15 @@ func run() -> void:
 		check(z.state == "hit" and z.clip.begins_with("hit"), "hit plays a flinch clip (%s)" % z.clip)
 	else:
 		check(z.state == "hit" and z.clip.begins_with("walk"), "hit without a flinch clip keeps the gait")
+	# a flinch and a swing hold their clip past the strike: cutting them at the damage tick snapped the
+	# arms back into the gait and made the horde twitch (Sep 2026)
+	check(z._hit_t >= Zombie.HIT_HOLD - 0.001, "a flinch holds its clip for %.2f s before the gait resumes" % z._hit_t)
+	for kind in ["shambler", "soldier", "nurse", "runner"]:
+		var body := actor(kind)
+		var cadence := float(body.type["attack_time"])
+		var hold := body.attack_hold()
+		check(hold >= minf(cadence, body.attack_lead() + 0.4) - 0.001 and hold <= cadence + 0.001, "%s swing is held %.2f s of its %.1f s cadence (strike at %.2f)" % [kind, hold, cadence, body.attack_lead()])
+		body.queue_free()
 	z.state = "walk"
 	z.play("scream")
 	check(z.state == "scream" and (z.clip == "scream" or not z.anim.has_animation("scream")), "scream state on every rig, clip when present (%s)" % z.clip)

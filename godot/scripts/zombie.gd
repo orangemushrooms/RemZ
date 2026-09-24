@@ -34,6 +34,10 @@ var anim: AnimationPlayer
 var model: Node3D
 var state := "walk"
 var attack_t := 0.0
+# A swing is held for its follow-through and a flinch for HIT_HOLD before the gait resumes; cutting
+# them at the strike snapped the arms back into the walk every attack and every hit (visible twitching).
+const HIT_HOLD := 0.45
+var _hit_t := 0.0
 var hit_pending := 0.0
 var hit_target = null
 var hit_reach := 1.6
@@ -501,7 +505,7 @@ func _update_animation(delta: float) -> void:
 			return
 	else:
 		_stand_t = 0.0
-	if clip == "idle" and _ground_speed >= 0.12:
+	if clip == "idle" and _ground_speed >= 0.3:
 		clip = _variant("walk")
 		anim.play(clip, 0.25)
 	elif clip != "idle":
@@ -648,6 +652,7 @@ func _fit_model() -> void:
 func play(name: String) -> void:
 	if state == name and name != "attack" and name != "hit":
 		return
+	var previous := state
 	state = name
 	if not anim: return
 	var target := _variant(name)
@@ -675,6 +680,7 @@ func play(name: String) -> void:
 		"hit":
 			anim.play(target, 0.06)
 			anim.speed_scale = 1.4
+			_hit_t = HIT_HOLD
 		"scream":
 			anim.play(target, 0.12)
 			anim.speed_scale = 1.0 if bool(type.get("giant", false)) else 1.25
@@ -682,7 +688,8 @@ func play(name: String) -> void:
 			anim.play(target, 0.15)
 			anim.speed_scale = 1.0
 		_:
-			anim.play(target, 0.2 if name == "walk" else 0.25)
+			# back from a swing or flinch the arms travel a long way: blend it, do not snap
+			anim.play(target, (0.3 if previous in ["attack", "hit", "scream"] else 0.2) if name == "walk" else 0.25)
 			if name != "walk": anim.speed_scale = 1.0
 
 # Length of the clip behind a logical state at its playback speed (0 when the rig has none).
@@ -714,6 +721,10 @@ func damage(n: float, dir: Vector3) -> void:
 # Seconds after play("attack") at which the swing's strike must land: the damage tick of common zombies.
 func attack_lead() -> float:
 	return 0.35
+
+# Seconds a swing keeps its clip after the call (strike plus the arm coming back), capped by the cadence.
+func attack_hold() -> float:
+	return minf(float(type["attack_time"]), attack_lead() + 0.45)
 
 var _stagger := 0.0
 var _pool: Decal
@@ -941,6 +952,7 @@ func _physics_process(delta: float) -> void:
 	var yaw := atan2(dir.x, dir.z)
 	rotation.y = lerp_angle(rotation.y, yaw, minf(1.0, delta * 6.0))
 	attack_t -= delta
+	if _hit_t > 0.0: _hit_t -= delta
 	var reach: float = 1.9 if bar else type["reach"]
 	if d < reach:
 		velocity = Vector3.ZERO
@@ -951,10 +963,12 @@ func _physics_process(delta: float) -> void:
 			hit_pending = 0.35
 			hit_target = bar
 			hit_reach = reach
-		elif attack_t < type["attack_time"] - 0.7 and state == "attack":
+		elif attack_t < type["attack_time"] - attack_hold() and state == "attack":
+			play("walk")
+		elif state == "hit" and _hit_t <= 0.0:
 			play("walk")
 	else:
-		if state != "walk" and attack_t < type["attack_time"] - 0.7:
+		if state != "walk" and attack_t < type["attack_time"] - attack_hold() and _hit_t <= 0.0:
 			play("walk")
 		if state == "walk":
 			_repath -= delta
