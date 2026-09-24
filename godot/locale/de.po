@@ -1900,14 +1900,6 @@ msgid "Minimap large / small"
 msgstr "Minimap gross / klein"
 
 #: scripts/hud.gd
-msgid "Ctrl+Shift+D"
-msgstr "Strg+Shift+D"
-
-#: scripts/hud.gd
-msgid "Cheat menu"
-msgstr "Cheatmenü"
-
-#: scripts/hud.gd
 msgid "Flashlight"
 msgstr "Taschenlampe"
 

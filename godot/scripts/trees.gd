@@ -290,6 +290,7 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 			var barks: Array = SPECIES[k]["bark"]
 			mats["%s:%d" % [k, v]] = _bark_material(barks[v % barks.size()], SPECIES[k]["tint"])
 	for t in trees:
+		if Vector2(t[0], t[1]).distance_to(SecretNight.SITE) < 21.0: continue
 		var kind: String = t[2]
 		var s: float = t[3]
 		var yaw := deg_to_rad(float(t[4]))
@@ -311,6 +312,7 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 			colliders.add_child(cs)
 	# shrubs: low clusters of beech cards (young beeches, brambles at the forest edges)
 	for sh in shrubs:
+		if Vector2(sh[0], sh[1]).distance_to(SecretNight.SITE) < 21.0: continue
 		var pos := Map.ground_pos(sh[0], sh[1])
 		var s: float = sh[2]
 		var center := pos + Vector3(0, 0.9 * s, 0)
@@ -340,6 +342,7 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 static func understory(parent: Node3D, ferns: Array, logs: Array, near: Vector2, rng: RandomNumberGenerator) -> void:
 	var items: Array = []
 	for f in ferns:
+		if Vector2(f[0], f[1]).distance_to(SecretNight.SITE) < 21.0: continue
 		var pos := Map.ground_pos(f[0], f[1])
 		var s: float = f[2]
 		for k in 3:
@@ -358,6 +361,7 @@ static func understory(parent: Node3D, ferns: Array, logs: Array, near: Vector2,
 		parent.add_child(_multimesh_cells(quad, items, m, near, 90.0))
 	var log_items: Array = []
 	for l in logs:
+		if Vector2(l[0], l[1]).distance_to(SecretNight.SITE) < 21.0: continue
 		var pos := Map.ground_pos(l[0], l[1])
 		var len: float = l[2]
 		var b := Basis().rotated(Vector3.UP, deg_to_rad(float(l[3]))).rotated(Vector3.RIGHT, rng.randf_range(-0.06, 0.06)).scaled(Vector3(len, 1.0, 1.0))

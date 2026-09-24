@@ -73,6 +73,8 @@ func _process(delta: float) -> void:
 	advance(delta)
 
 func advance(real_seconds: float) -> void:
+	if main and "secret_night" in main and main.secret_night and main.secret_night.active:
+		return
 	var before := fposmod(clock_seconds, DAY_SECONDS)
 	var elapsed := _cycle_time(before) + maxf(real_seconds, 0.0) * maxf(time_scale, 0.0)
 	clock_seconds = _clock_time(fposmod(elapsed, DAY_SECONDS))

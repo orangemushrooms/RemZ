@@ -147,6 +147,11 @@ func plan(n: int) -> Array:
 
 func start(n: int) -> void:
 	if NetSession.is_client(): return
+	if "secret_night" in main and main.secret_night:
+		if main.secret_night.active: return
+		if n == 5 and not main.secret_night.completed:
+			main.secret_night.begin()
+			return
 	if NetSession.is_host(): NetSession.world.wave_started(n)
 	wave = n
 	_heavy_spawn_t = 0.0
@@ -195,6 +200,7 @@ static func _boss_kind(kind: String) -> bool:
 	return bool(spec.get("giant", false)) or bool(spec.get("worm", false))
 
 func skip_current_wave() -> bool:
+	if "secret_night" in main and main.secret_night and main.secret_night.active: return false
 	if NetSession.is_client() or not main.started or main.over:
 		return false
 	queue.clear()

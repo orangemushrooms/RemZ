@@ -498,7 +498,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	for pair in [["WASD", "Move"], ["Mouse", "Look around"], ["Shift", "Sprint"], ["Hold Ctrl", "Crouch / aim more precisely"], ["Space", "Jump"],
 			["Left click", "Shoot / strike"], ["Right click", "Aim (ADS)"], ["R", "Reload / align tower"], ["1–9 / 0", "Quick bar: slots 1–10"], ["Mouse wheel", "Switch weapon"],
 			["G", "Throw grenade"], ["E", "NPC / barricade / mount tower / repair hut"], ["V", "Defense planning with Mechanic"], ["T", "Build turret · at the hut also on the roof · E confirms"], ["E · drone station", "Fly a drone (hut, upper floor) · R / Esc: recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
-			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["Ctrl+Shift+D", "Cheat menu"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
+			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110
 		grid.add_child(k)

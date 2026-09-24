@@ -189,6 +189,8 @@ func action(id: int, operation: String, args: Array) -> void:
 	var w: Weapons = weapons[id]
 	if p.controlling_drone and operation not in ["drone_control", "drone_recall"]: return
 	match operation:
+		"secret_night":
+			if args.is_empty(): game.secret_night.interact(p)
 		"drone_launch":
 			if args.size() != 1 or not args[0] is String: return
 			var error: String = game.drones.launch(p,args[0])
@@ -551,6 +553,7 @@ func snapshot() -> Dictionary:
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
 	return {"maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": game.drones.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+		"secret_night": game.secret_night.snapshot(),
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "mushroom_positions": mushroom_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
@@ -586,6 +589,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.progression.apply_snapshot(data.get("progression", {}), initial)
 	game.fireworks.apply_snapshot(data.get("fireworks", {}))
 	game.hunting.apply_snapshot(data.get("hunting", {}))
+	game.secret_night.apply_snapshot(data.get("secret_night", {}))
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
 	if initial: game.hud._mark_difficulty(int(data.difficulty))
 	if initial: NetSession.trace_load("STATE_STAGE players")
@@ -790,7 +794,10 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		game.hud.set_wave(data.wave[0] if data.wave[2] != "idle" else data.wave[0]+1, Lang.t("%d left", [data.wave[5]]) if data.wave[2] != "idle" else Lang.t("Starts in %d s · the host starts the next wave", [ceili(data.wave[3])]))
 	game.hud.set_wave_progress(data.wave[5], data.wave[4])
 	# The host decides when a boss fight starts and ends; the song itself is picked here.
-	if current_wave != data.wave[0]:
+	if game.secret_night.active:
+		current_wave = data.wave[0]
+		game.music.play("secret_night")
+	elif current_wave != data.wave[0]:
 		current_wave = data.wave[0]
 		game.hud.message(Lang.t("Wave %d", [current_wave]), 2.0)
 		if game.music: game.music.fight(game.waves.boss_fight)
