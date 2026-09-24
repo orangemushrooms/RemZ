@@ -1,0 +1,19 @@
+{
+  "preview": "01a0d36c-a4e5-7749-84ef-f0320b6f9d96",
+  "design": "01a0d372-1ffd-771c-bee1-f1f863463438",
+  "model": "01a0d374-c136-7270-9418-3bb888744df6",
+  "rig": "01a0d378-c2ec-702f-a0d2-2ddaff4159b8",
+  "anims": {
+    "walk": "01a0d379-e030-74c0-9787-4759e31ca743",
+    "walk2": "01a0d379-e9d8-757e-be5b-c83ebd3b0a3b",
+    "attack": "01a0d379-f356-7530-985d-c2d3162126fe",
+    "attack2": "01a0d379-fc77-7484-b20a-aa263a23b303",
+    "death": "01a0d37a-062b-7764-afae-1aafb4d6c0e6",
+    "death2": "01a0d37a-0fee-76f1-912a-c2b35274231a",
+    "death3": "01a0d37a-1918-7301-811f-38e3e8544116",
+    "hit": "01a0d37a-21c5-707f-9bb2-feb895567f5f",
+    "hit2": "01a0d37a-2b38-7075-aed6-bc2d5b673814",
+    "idle": "01a0d37a-3448-765c-935c-64cae809686d",
+    "scream": "01a0d37a-3d85-7185-a287-37473a6fd4e3"
+  }
+}

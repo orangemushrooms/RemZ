@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-b524-751f-a53d-dece421dfbef",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a colossal grotesque zombie titan: emaciated giant humanoid with overlong arms and huge clawed hands, exposed ribcage and spine, torn grey rotting skin hanging in strips, several milky eyes, gaping jaw with broken teeth, remnants of clothing. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253905703,
+  "started_at": 1790253905711,
+  "finished_at": 1790253924521,
+  "expires_at": 1790513124521,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-b524-751f-a53d-dece421dfbef_0.png?Expires=1790513124&Signature=jCtiokYWAOFrh5kFeNRtUoxrTiGU~1YhJ~Lka8eVqc2a2bKhROnBAdEgMc8cZBqmxnIoxe8LadGlGbdFoGGnuf3xAa0bDLxRthWk6Xxg6~aIMGpJCVmfILYw~EsFqngpcB1t7q0I4HV1kt52f1t~1melmMbH1Fn3B-Hv656MzFflBvT9Vod4-AyufrNZZ9r0PXtg3r-XWF951str0hP4Xjcvb5ng0BH~R3aL4acpEmsMgVAvXzDTTbCrvjtLxg1kix1W1sOCrFie7Z-iLAg~Wy7qOPQd5mCK~RRE5aAPef20az~P~thkb-Vq~ddW7FNyc449rJwpwO2aBVcrUHFCgg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

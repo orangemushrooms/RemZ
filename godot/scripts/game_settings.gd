@@ -62,15 +62,39 @@ func _ready() -> void:
 	add_child(_save_timer)
 	Input.use_accumulated_input = false
 
+# "--gfx-off=a,b": leave out single upgrades of the high profile for benchmarks (ssaoultra, mip, aniso,
+# radiance, debanding, smaa). Measured 24 Sep 2026 on the plaza (docs/PERFORMANCE.md): an 8k shadow atlas cost
+# 40 %, full-resolution SSAO/SSIL 8 %, blended shadow splits 7 %, PCSS SOFT_HIGH 3 %, a 24-bit shadow atlas 3 %,
+# 16x anisotropy 2.5 %, 96^3 fog froxels 1.5 % - those stay out; what is left costs about 2 % together
+# (8x anisotropy 1.2 %, the rest within the noise).
+func _gfx(feature: String) -> bool:
+	for flag in _flags:
+		if flag.begins_with("--gfx-off=") and feature in flag.substr(10).split(","):
+			return false
+	return true
+
 func apply() -> void:
 	var viewport := get_viewport()
 	viewport.msaa_3d = Viewport.MSAA_DISABLED if (profile == 0 or "--no-msaa" in _flags) else Viewport.MSAA_2X
-	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if profile == 0 else Viewport.SCREEN_SPACE_AA_DISABLED
+	# SMAA (Godot 4.7) resolves the fast profile's edges cleaner than FXAA at the same cost.
+	viewport.screen_space_aa = (Viewport.SCREEN_SPACE_AA_SMAA if _gfx("smaa") else Viewport.SCREEN_SPACE_AA_FXAA) if profile == 0 else Viewport.SCREEN_SPACE_AA_DISABLED
+	viewport.use_debanding = _gfx("debanding")           # dusk sky and fog gradients without banding, no measurable cost
 	viewport.mesh_lod_threshold = [4.0, 2.5, 1.5][profile]
 	viewport.scaling_3d_scale = [0.85, 1.0, 1.0][profile]
 	viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_FSR if profile == 0 else Viewport.SCALING_3D_MODE_BILINEAR
-	RenderingServer.directional_soft_shadow_filter_set_quality(RenderingServer.SHADOW_QUALITY_SOFT_LOW if profile < 2 else RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM)
-	RenderingServer.positional_soft_shadow_filter_set_quality(RenderingServer.SHADOW_QUALITY_SOFT_LOW if profile < 2 else RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM)
+	# Texture sharpness: 8x anisotropy from the balanced profile up and a slightly negative mipmap bias on
+	# the high one, which TAA resolves into crisper ground, bark and cloth detail at grazing angles.
+	viewport.anisotropic_filtering_level = [Viewport.ANISOTROPY_4X, Viewport.ANISOTROPY_8X, Viewport.ANISOTROPY_8X][profile] if _gfx("aniso") else Viewport.ANISOTROPY_4X
+	viewport.texture_mipmap_bias = [0.0, -0.15, -0.3][profile] if _gfx("mip") else 0.0
+	var soft: Array = [RenderingServer.SHADOW_QUALITY_SOFT_LOW, RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM, RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM]
+	RenderingServer.directional_soft_shadow_filter_set_quality(soft[profile])
+	RenderingServer.positional_soft_shadow_filter_set_quality(soft[profile])
+	RenderingServer.directional_shadow_atlas_set_size(4096, true)   # an 8k atlas halved the frame rate, 24-bit depth cost 3 %
+	# SSAO / SSIL at ultra sampling on the high profile, still at half resolution (full resolution cost 8 %).
+	var ao_quality: Array = [RenderingServer.ENV_SSAO_QUALITY_LOW, RenderingServer.ENV_SSAO_QUALITY_HIGH, RenderingServer.ENV_SSAO_QUALITY_ULTRA if _gfx("ssaoultra") else RenderingServer.ENV_SSAO_QUALITY_HIGH]
+	var gi_quality: Array = [RenderingServer.ENV_SSIL_QUALITY_LOW, RenderingServer.ENV_SSIL_QUALITY_HIGH, RenderingServer.ENV_SSIL_QUALITY_ULTRA if _gfx("ssaoultra") else RenderingServer.ENV_SSIL_QUALITY_HIGH]
+	RenderingServer.environment_set_ssao_quality(ao_quality[profile], true, 0.5, 2, 50.0, 300.0)
+	RenderingServer.environment_set_ssil_quality(gi_quality[profile], true, 0.5, 4, 50.0, 300.0)
 	Engine.max_fps = 0 if _testing else fps_limit
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED if vsync and not _testing else DisplayServer.VSYNC_DISABLED)
 	AudioServer.set_bus_volume_db(0, linear_to_db(maxf(volume, 0.0001)))
@@ -78,6 +102,8 @@ func apply() -> void:
 		env.ssao_enabled = profile > 0 and not "--no-ssao" in _flags
 		env.ssil_enabled = profile == 2 and not "--no-ssil" in _flags
 		env.volumetric_fog_enabled = profile > 0 and not "--no-vfog" in _flags
+		# sharper sky reflections on wet gunmetal and the pond; the incremental bake keeps it free
+		if env.sky: env.sky.radiance_size = Sky.RADIANCE_SIZE_256 if profile == 2 and _gfx("radiance") else Sky.RADIANCE_SIZE_128
 	if sun:
 		sun.directional_shadow_max_distance = [65.0, 100.0, 150.0][profile]
 		sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS if profile == 0 else DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS

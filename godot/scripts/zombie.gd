@@ -83,7 +83,33 @@ var net_position := Vector3.ZERO
 var net_yaw := 0.0
 var _materials: Array[BaseMaterial3D] = []
 static var _scenes := {}
+static var _clip_info := {}          # model path -> {clip: {length, speed, peak}}, measured once by preload_models
 static var force_skin := ""          # tests: every new zombie uses this model while it is set (and exists)
+# Animation layer. "state" stays the logical state (walk / attack / death / hit / idle / scream) that the AI,
+# the tests and the co-op snapshot use; "clip" is the concrete clip of this zombie's rig: its own gait (walk,
+# walk2 or run), alternating swings (attack / attack2), a random fall (death .. death3), a flinch (hit / hit2).
+# Older rigs with only walk / attack / death keep working: the missing clips fall back to the gait.
+var clip := ""
+var _locomotion := "walk"
+var _anim_last_pos := Vector3.ZERO
+var _ground_speed := 0.0            # smoothed horizontal speed from the real displacement (host and replica alike)
+var _stand_t := 0.0
+var _anim_lod := 1                  # 1 = every frame, 2 / 3 = distant actors advance their rig every 2nd / 3rd tick
+var _anim_accum := 0.0
+var _anim_tick := 0
+var _swing := 0
+var _scream_t := 0.0
+var _screamed := false
+const ANIM_LOD_NEAR := 45.0
+const ANIM_LOD_FAR := 90.0
+const SCREAM_RANGE := 14.0
+const SCREAM_CHANCE := 35           # percent of the common zombies that stop once to scream at the player
+# Head tracking: within HEAD_LOOK_RANGE the head bone turns towards the player on top of the clip (a
+# LookAtModifier3D on the rig), fading out beyond it and while falling. "--no-headlook" disables it.
+var _head_look: LookAtModifier3D
+var _head_look_target: Node3D
+const HEAD_LOOK_RANGE := 12.0
+const LOD_BIAS := 0.6
 const HITBOX_LAYER := 32
 const SHOT_MASK := 1 | 8 | HITBOX_LAYER
 static var _hitbox_shapes := {}
@@ -108,7 +134,7 @@ static func _load_volume_library() -> void:
 			planes.assign(baked.planes)
 			baked.planes = planes
 
-static func preload_models() -> void:
+static func preload_models(host: Node = null) -> void:
 	_load_volume_library()
 	for spec: Dictionary in TYPES.values():
 		for name in skin_names(spec):
@@ -120,6 +146,15 @@ static func preload_models() -> void:
 					var source: Node3D = _scenes[path].instantiate()
 					_prepare_hitbox_shapes(source, path)
 					source.free()
+			if _scenes[path] and not _clip_info.has(path):
+				_clip_info[path] = preload("res://scripts/zombie_animation.gd").measure(_scenes[path], host)
+
+# Clip metrics of a model (see zombie_animation.measure); measured on demand for models outside TYPES.
+static func clip_info(path: String) -> Dictionary:
+	if not _clip_info.has(path):
+		var scene: PackedScene = _scenes.get(path)
+		_clip_info[path] = preload("res://scripts/zombie_animation.gd").measure(scene) if scene else {}
+	return _clip_info[path]
 
 # Submit the real skinned/material variants while the loading screen is still
 # up. Loading a GLB alone does not prepare its first visible GPU draw/pipeline.
@@ -274,16 +309,24 @@ func _ready() -> void:
 		_fit_model()
 		anim = model.find_child("AnimationPlayer", true, false)
 		if anim:
-			for n in ["walk", "attack", "death"]:
-				if anim.has_animation(n):
-					anim.get_animation(n).loop_mode = Animation.LOOP_LINEAR if n == "walk" else Animation.LOOP_NONE
-			anim.speed_scale = appearance.randf_range(0.85, 1.15)
-			anim.play("walk")
-		# pale, desaturated decayed skin instead of the old green cast
-		var tint: Color = type.get("tint", Color.from_hsv(appearance.randf_range(0.02, 0.09), appearance.randf_range(0.08, 0.18), appearance.randf_range(0.7, 0.95)))
+			for n in anim.get_animation_list():
+				var gait := n.begins_with("walk") or n.begins_with("run") or n.begins_with("idle")
+				anim.get_animation(n).loop_mode = Animation.LOOP_LINEAR if gait else Animation.LOOP_NONE
+			_locomotion = _pick_locomotion(appearance)
+			anim.speed_scale = 1.0
+			state = ""
+			play("walk")
+		# slight per-body variation of the decayed skin; the PBR textures carry the real colour now
+		var tint: Color = type.get("tint", Color.from_hsv(appearance.randf_range(0.02, 0.09), appearance.randf_range(0.0, 0.1), appearance.randf_range(0.82, 1.0)))
+		# The 50k-triangle rigs carry Godot's imported LODs; drop to the coarser ones a little earlier than the
+		# scenery does (a horde of 60 at 15-25 m is the case that matters), giants stay at full detail.
+		var lod_bias := LOD_BIAS if not bool(type.get("giant", false)) else 1.0
+		for flag in OS.get_cmdline_user_args():
+			if flag.begins_with("--zombie-lod-bias="): lod_bias = float(flag.get_slice("=", 1))
 		for m in model.find_children("*", "MeshInstance3D", true, false):
 			var mi := m as MeshInstance3D
 			_visual_meshes.append(mi)
+			mi.lod_bias = lod_bias
 			for i in mi.mesh.get_surface_count():
 				var mat: Material = mi.mesh.surface_get_material(i)
 				if mat is BaseMaterial3D:
@@ -291,6 +334,7 @@ func _ready() -> void:
 					dup.albedo_color = dup.albedo_color * tint
 					dup.emission_enabled = true
 					dup.emission = Color.BLACK
+					dup.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 					mi.set_surface_override_material(i, dup)
 					_materials.append(dup)
 	var scale_var := appearance.randf_range(0.94, 1.08)
@@ -300,6 +344,175 @@ func _ready() -> void:
 		if not _hitboxes.is_empty() or not _shot_volumes.is_empty():
 			collision_layer = 2
 		add_to_group("shot_targets")
+		_build_head_look()
+	_anim_last_pos = global_position
+
+func _build_head_look() -> void:
+	if bool(type.get("giant", false)) or bool(type.get("worm", false)) or "--no-headlook" in OS.get_cmdline_user_args(): return
+	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D
+	if not rig or rig.find_bone("Head") < 0: return
+	_head_look = LookAtModifier3D.new()
+	_head_look.bone_name = "Head"
+	# The rig faces +Z and stands along +Y; read the head bone's own axes off its rest pose instead of
+	# assuming a convention (Meshy heads are tilted about 27 degrees in rest).
+	var rest := rig.get_bone_global_rest(rig.find_bone("Head")).basis
+	_head_look.forward_axis = _closest_bone_axis(rest, Vector3(0, 0, 1))
+	_head_look.primary_rotation_axis = _closest_unsigned_axis(rest, Vector3.UP)
+	_head_look.use_secondary_rotation = true
+	_head_look.use_angle_limitation = true
+	_head_look.symmetry_limitation = true
+	_head_look.primary_limit_angle = deg_to_rad(110.0)
+	_head_look.primary_damp_threshold = 0.6
+	_head_look.secondary_limit_angle = deg_to_rad(50.0)
+	_head_look.secondary_damp_threshold = 0.6
+	_head_look.duration = 0.4
+	_head_look.transition_type = Tween.TRANS_SINE
+	_head_look.ease_type = Tween.EASE_IN_OUT
+	_head_look.influence = 0.0
+	rig.add_child(_head_look)
+
+# The signed bone axis (rest pose, skeleton space) that points most along a direction.
+static func _closest_bone_axis(rest: Basis, direction: Vector3) -> SkeletonModifier3D.BoneAxis:
+	var candidates := [[SkeletonModifier3D.BONE_AXIS_PLUS_X, rest.x], [SkeletonModifier3D.BONE_AXIS_MINUS_X, -rest.x],
+		[SkeletonModifier3D.BONE_AXIS_PLUS_Y, rest.y], [SkeletonModifier3D.BONE_AXIS_MINUS_Y, -rest.y],
+		[SkeletonModifier3D.BONE_AXIS_PLUS_Z, rest.z], [SkeletonModifier3D.BONE_AXIS_MINUS_Z, -rest.z]]
+	var best: SkeletonModifier3D.BoneAxis = SkeletonModifier3D.BONE_AXIS_PLUS_Z
+	var best_dot := -INF
+	for candidate in candidates:
+		var d: float = (candidate[1] as Vector3).normalized().dot(direction)
+		if d > best_dot:
+			best_dot = d
+			best = candidate[0]
+	return best
+
+static func _closest_unsigned_axis(rest: Basis, direction: Vector3) -> Vector3.Axis:
+	var dots := [absf(rest.x.normalized().dot(direction)), absf(rest.y.normalized().dot(direction)), absf(rest.z.normalized().dot(direction))]
+	var best := Vector3.AXIS_Y
+	if dots[0] >= dots[1] and dots[0] >= dots[2]: best = Vector3.AXIS_X
+	elif dots[2] > dots[1]: best = Vector3.AXIS_Z
+	return best
+
+# Fade the head tracking with the distance to the player it hunts; off while falling, screaming or frozen.
+func _update_head_look(delta: float) -> void:
+	if not _head_look: return
+	var want := 0.0
+	if alive and is_instance_valid(player) and state != "scream" and frost_mul > 0.0:
+		if _head_look_target != player:
+			_head_look_target = player
+			# the player's origin is at the feet: look at the head (camera pivot) when there is one
+			var focus: Node3D = player.head if "head" in player and player.head is Node3D else player
+			_head_look.target_node = _head_look.get_path_to(focus)
+		var d := global_position.distance_to(player.global_position)
+		want = clampf((HEAD_LOOK_RANGE - d) / 4.0, 0.0, 1.0) * 0.85
+	_head_look.influence = lerpf(_head_look.influence, want, 1.0 - exp(-delta * 6.0))
+	_head_look.active = _head_look.influence > 0.01
+
+# The gait this body walks with: runners take the run clip, everyone else one of the walk variants.
+func _pick_locomotion(rng: RandomNumberGenerator) -> String:
+	if not anim: return "walk"
+	if float(type["speed"]) * speed_mul >= 2.4 and anim.has_animation("run"):
+		return "run"
+	# Only walks whose own pace is within 0.55-2x of this body's speed: an elderly shuffle played at three
+	# times its pace looks like a film run fast, not like a zombie.
+	var gaits: Array[String] = []
+	var fitting: Array[String] = []
+	var pace := float(type["speed"]) * speed_mul
+	for n in ["walk", "walk2", "walk3"]:
+		if not anim.has_animation(n): continue
+		gaits.append(n)
+		var natural := _natural_speed(n)
+		if natural <= 0.0 or (pace / natural >= 0.55 and pace / natural <= 2.0): fitting.append(n)
+	if gaits.is_empty(): return "walk"
+	if not fitting.is_empty(): gaits = fitting
+	return gaits[rng.randi() % gaits.size()]
+
+# The gait for the current pace: a slowed runner (frost) drops to its walk clip instead of a slow-motion sprint.
+func _gait() -> String:
+	if _locomotion == "run" and _ground_speed < 1.9 and anim and anim.has_animation("walk") and alive and clip == "run":
+		return "walk"
+	if _locomotion == "run" and clip == "walk" and _ground_speed < 2.3: return "walk"
+	return _locomotion
+
+# The concrete clip of this rig for a logical state; "" when the rig has no clip for it.
+func _variant(name: String) -> String:
+	if not anim: return ""
+	var options: Array[String] = []
+	match name:
+		"walk":
+			return _gait() if anim.has_animation(_gait()) else ("walk" if anim.has_animation("walk") else "")
+		"attack":
+			for n in ["attack", "attack2", "attack3"]:
+				if anim.has_animation(n): options.append(n)
+			if options.is_empty(): return ""
+			_swing += 1
+			return options[(_swing + appearance_seed) % options.size()]
+		"death":
+			for n in ["death", "death2", "death3"]:
+				if anim.has_animation(n): options.append(n)
+			return "" if options.is_empty() else options[randi() % options.size()]
+		"hit":
+			for n in ["hit", "hit2"]:
+				if anim.has_animation(n): options.append(n)
+			return "" if options.is_empty() else options[randi() % options.size()]
+	return name if anim.has_animation(name) else ""
+
+# Seconds into a clip at which its strike lands (measured), or a guess for unmeasured rigs.
+func _peak(name: String) -> float:
+	var info: Dictionary = clip_info(model_path).get(name, {})
+	return float(info.get("peak", 0.6)) if not info.is_empty() else 0.6
+
+# Ground speed a gait clip was made for, in world metres per second for this body's scale.
+func _natural_speed(name: String) -> float:
+	var info: Dictionary = clip_info(model_path).get(name, {})
+	if info.is_empty() or not model: return 0.0
+	return float(info.get("speed", 0.0)) * model.scale.y
+
+# Per tick: stride matching, idle when standing, gait switch and the animation LOD of distant actors.
+func _update_animation(delta: float) -> void:
+	if not anim or not model: return
+	var p := global_position
+	var moved := Vector2(p.x - _anim_last_pos.x, p.z - _anim_last_pos.z).length() / maxf(delta, 0.001)
+	_anim_last_pos = p
+	if moved > 40.0: moved = 0.0     # spawn placement or teleport, not a stride
+	_ground_speed = lerpf(_ground_speed, moved, 1.0 - exp(-delta * 10.0))
+	_update_head_look(delta)
+	# distant rigs: skinning stays on the GPU every frame, the pose only changes every 2nd / 3rd tick
+	var lod := 1
+	if is_instance_valid(player) and not bool(type.get("giant", false)) and alive:
+		var d2 := p.distance_squared_to(player.global_position)
+		lod = 1 if d2 < ANIM_LOD_NEAR * ANIM_LOD_NEAR else (2 if d2 < ANIM_LOD_FAR * ANIM_LOD_FAR else 3)
+	if lod != _anim_lod:
+		_anim_lod = lod
+		_anim_accum = 0.0
+		anim.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_IDLE if lod == 1 else AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL
+	if _anim_lod > 1:
+		_anim_accum += delta
+		_anim_tick += 1
+		if _anim_tick % _anim_lod == 0 and anim.active:
+			anim.advance(_anim_accum)
+			_anim_accum = 0.0
+	if not alive or state != "walk": return
+	if _ground_speed < 0.12:
+		_stand_t += delta
+		if _stand_t > 0.35 and clip != "idle" and anim.has_animation("idle"):
+			clip = "idle"
+			anim.play("idle", 0.3)
+			anim.speed_scale = 0.9 + float(appearance_seed % 5) * 0.05
+			return
+	else:
+		_stand_t = 0.0
+	if clip == "idle" and _ground_speed >= 0.12:
+		clip = _variant("walk")
+		anim.play(clip, 0.25)
+	elif clip != "idle":
+		var gait := _variant("walk")
+		if gait != "" and gait != clip:
+			clip = gait
+			anim.play(clip, 0.3)
+	if clip != "idle":
+		var natural := _natural_speed(clip)
+		var target := clampf(_ground_speed / natural, 0.35, 2.4) if natural > 0.05 else 1.0
+		anim.speed_scale = lerpf(anim.speed_scale, target, 1.0 - exp(-delta * 8.0))
 
 # Keep navigation capsules small; bullets use convex volumes fitted to the rig's
 # weighted vertices. Bone-space volumes follow walking, attacks and model scaling.
@@ -433,11 +646,49 @@ func _fit_model() -> void:
 	model.position = Vector3.ZERO
 
 func play(name: String) -> void:
-	if state == name and name != "attack":
+	if state == name and name != "attack" and name != "hit":
 		return
 	state = name
-	if anim and anim.has_animation(name):
-		anim.play(name, 0.15)
+	if not anim: return
+	var target := _variant(name)
+	if target == "":
+		# older rigs without this clip: a flinch, scream or idle just stands in its gait
+		if name in ["idle", "hit", "scream"]:
+			target = _variant("walk")
+			if target == "" or clip == target: return
+		elif not anim.has_animation(name):
+			return
+		else:
+			target = name
+	clip = target
+	_stand_t = 0.0
+	match name:
+		"attack":
+			anim.play(target, 0.08)
+			# the strike of the swing lands on the damage tick (hit_pending, 0.35 s after the call; a titan's
+			# slam on the end of its wind-up)
+			var lead := attack_lead()
+			var speed := clampf(_peak(target) / lead, 0.15, 2.4)
+			if _peak(target) / speed > lead + 0.05:
+				anim.seek(_peak(target) - lead * speed, false)
+			anim.speed_scale = speed
+		"hit":
+			anim.play(target, 0.06)
+			anim.speed_scale = 1.4
+		"scream":
+			anim.play(target, 0.12)
+			anim.speed_scale = 1.0 if bool(type.get("giant", false)) else 1.25
+		"death":
+			anim.play(target, 0.15)
+			anim.speed_scale = 1.0
+		_:
+			anim.play(target, 0.2 if name == "walk" else 0.25)
+			if name != "walk": anim.speed_scale = 1.0
+
+# Length of the clip behind a logical state at its playback speed (0 when the rig has none).
+func clip_seconds(name: String) -> float:
+	if not anim or clip == "" or not anim.has_animation(clip) or state != name: return 0.0
+	return anim.get_animation(clip).length / maxf(anim.speed_scale, 0.01)
 
 func damage(n: float, dir: Vector3) -> void:
 	if replica or NetSession.is_client(): return
@@ -456,6 +707,13 @@ func damage(n: float, dir: Vector3) -> void:
 	attack_t = maxf(attack_t, 0.25)
 	if hp <= 0.0:
 		die(dir)
+	elif state == "walk" and (k >= 0.7 or randf() < 0.35) and not bool(type.get("giant", false)):
+		# the flinch clip for heavy hits and a third of the light ones; a swing or scream is never interrupted
+		play("hit")
+
+# Seconds after play("attack") at which the swing's strike must land: the damage tick of common zombies.
+func attack_lead() -> float:
+	return 0.35
 
 var _stagger := 0.0
 var _pool: Decal
@@ -483,7 +741,12 @@ func _set_emission(on: bool) -> void:
 func die(dir: Vector3) -> void:
 	if not alive: return
 	alive = false
-	if anim: anim.active = true
+	if anim:
+		anim.active = true
+		if _anim_lod != 1:
+			# a corpse finishes its fall at full rate and never needs the LOD again
+			_anim_lod = 1
+			anim.callback_mode_process = AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_IDLE
 	for hitbox in _hitboxes:
 		hitbox.collision_layer = 0
 	hit_pending = 0.0
@@ -557,6 +820,7 @@ func update_rare_visual() -> void:
 
 func _physics_process(delta: float) -> void:
 	update_rare_visual()
+	_update_animation(delta)
 	if _flash_t > 0.0:
 		_flash_t -= delta
 		if _flash_t <= 0.0: _set_emission(false)
@@ -618,13 +882,26 @@ func _physics_process(delta: float) -> void:
 		if not is_on_floor():
 			velocity.y -= 20.0 * delta
 		move_and_slide()
-		if model:
+		if model and not clip.begins_with("hit"):
+			# rigs without a flinch clip lean back procedurally
 			model.rotation.x = -0.4 * sin(t * PI)
 			model.position.y = 0.06 * sin(t * PI)
+		elif state == "hit" and anim and not anim.is_playing():
+			play("walk")   # the flinch is over while sustained fire keeps the body pinned: stand, do not freeze
 		return
 	if model and model.rotation.x != 0.0:
 		model.rotation.x = 0.0
 		model.position.y = 0.0
+	if state == "scream":
+		# rooted for the length of the scream, then back on the way
+		_scream_t -= delta
+		velocity.x = 0.0
+		velocity.z = 0.0
+		agent.velocity = Vector3.ZERO
+		if not is_on_floor(): velocity.y -= 20.0 * delta
+		move_and_slide()
+		if _scream_t <= 0.0: play("walk")
+		return
 	if NavigationServer3D.map_get_iteration_id(agent.get_navigation_map()) == 0:
 		return
 	var player_priority := _nearby_player_priority(delta)
@@ -648,6 +925,17 @@ func _physics_process(delta: float) -> void:
 	var to_target := target - p
 	to_target.y = 0.0
 	var d := to_target.length()
+	if not _screamed and dist < SCREAM_RANGE and d > 6.0:
+		# once, on first sight of the player: some of them stop and scream (rigs with the clip only, never
+		# with a gate, wall or victim already within a few steps)
+		_screamed = true
+		if state == "walk" and attack_t <= 0.0 and appearance_seed % 100 < SCREAM_CHANCE and anim and anim.has_animation("scream") and not bool(type.get("giant", false)):
+			play("scream")
+			_scream_t = minf(clip_seconds("scream"), 1.8)
+			attack_t = maxf(attack_t, _scream_t + 0.2)
+			velocity = Vector3.ZERO
+			agent.velocity = Vector3.ZERO
+			return
 	var dir := to_target.normalized()
 	# face the target
 	var yaw := atan2(dir.x, dir.z)

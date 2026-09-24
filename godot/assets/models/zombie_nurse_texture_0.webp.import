@@ -3,25 +3,25 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dns06a40mjfyo"
-path.s3tc="res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.s3tc.ctex"
-path.etc2="res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.etc2.ctex"
+path.bptc="res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.bptc.ctex"
+path.astc="res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.astc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "6eb142845e6ec3355c8223085f8daf58"
+"md5": "3e342ba9c000d750ffcc7056fa5696b2"
 }
 
 [deps]
 
 source_file="res://assets/models/zombie_nurse_texture_0.webp"
-dest_files=["res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.s3tc.ctex", "res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.etc2.ctex"]
+dest_files=["res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.bptc.ctex", "res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.astc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

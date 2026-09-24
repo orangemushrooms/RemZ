@@ -1,0 +1,6 @@
+{
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a lean athletic infected zombie: ripped dark grey hoodie with the hood down, torn cargo pants, worn sneakers, emaciated body, tendons visible, bloody screaming mouth, wide eyes. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "pose_mode": "t-pose",
+  "aspect_ratio": "3:4"
+}

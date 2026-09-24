@@ -52,7 +52,8 @@ func _ready() -> void:
 	agent.avoidance_priority = 0.9
 	agent.target_desired_distance = float(type.reach) * 0.4
 	agent.path_desired_distance = 2.5
-	# a 27 m body moves in slow motion: the walk cycle is stretched, the stride is what makes it look colossal
+	# a 27 m body moves in slow motion: the stride matching in Zombie scales the walk cycle by the model
+	# scale, so the feet of a giant cover real ground and the stride is what makes it look colossal
 	if anim: anim.speed_scale = clampf(8.1 / height, 0.3, 0.85)
 	warning_material = Barricade._marker_material(type.get("warning_color", Color(1, 0.22, 0.045)), 0.8)
 	# Tactical warning stays legible through dense meadow grass.
@@ -131,6 +132,21 @@ func damage(amount: float, direction: Vector3) -> void:
 	_stagger = 0
 	_knock = Vector3.ZERO
 
+# The slam of the attack clip lands exactly when the wind-up ends and the strike resolves.
+func attack_lead() -> float:
+	return windup()
+
+# Roar and rage: the scream clip roots the giant for its length, the strike loop resumes afterwards.
+func _roar(cue: String) -> void:
+	emit_cue(cue)
+	if not anim or not anim.has_animation("scream") or strike_phase != "walk": return
+	play("scream")
+	strike_phase = "roar"
+	strike_time = clampf(clip_seconds("scream"), 1.0, 3.5)
+	velocity.x = 0
+	velocity.z = 0
+	agent.velocity = Vector3.ZERO
+
 func shove(_impulse: Vector3) -> void:
 	pass
 
@@ -165,14 +181,15 @@ func _physics_process(delta: float) -> void:
 		var nearest := NetSession.nearest_player(global_position)
 		if nearest: player = nearest
 	if not is_instance_valid(player) or not player.alive or (not player.active and not NetSession.enabled): return
+	_update_animation(delta)
 	_roar_time -= delta
 	if strike_phase == "walk" and _roar_time <= 0:
-		emit_cue("roar")
+		_roar("roar")
 		_roar_time = 20.0 + float((appearance_seed + _cue_serial) % 11)
 	var rage := hp < max_hp * RAGE_THRESHOLD
 	if rage and not _rage_announced:
 		_rage_announced = true
-		emit_cue("rage")
+		_roar("rage")
 		_roar_time = 22.0
 	if strike_phase != "walk":
 		velocity.x = 0

@@ -3,25 +3,25 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b8v4ijdgg0774"
-path.s3tc="res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.s3tc.ctex"
-path.etc2="res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.etc2.ctex"
+path.bptc="res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.bptc.ctex"
+path.astc="res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.astc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "ff4aafb4860e3649fbf793134081e164"
+"md5": "c73f00a692d3ed6a97fe2fd748880cf5"
 }
 
 [deps]
 
 source_file="res://assets/models/zombie_soldier_texture_0.webp"
-dest_files=["res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.s3tc.ctex", "res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.etc2.ctex"]
+dest_files=["res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.bptc.ctex", "res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.astc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

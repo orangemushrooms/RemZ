@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-b3aa-7738-a738-bf01f6650969",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a huge bloated zombie brute: massively swollen bare torso with burst skin, boils and stretched veins, thick arms, torn blue overalls hanging from the waist, bare feet, small head sunk into the shoulders, gaping jaw. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253905300,
+  "started_at": 1790253905312,
+  "finished_at": 1790253931439,
+  "expires_at": 1790513131439,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-b3aa-7738-a738-bf01f6650969_0.png?Expires=1790513131&Signature=psrz-bh6bTo4CoVHFWD~X04uuG32WyKGeYcY1tOOlyO1mk-pT9KiWbutNQQWSLL9ovqjpTalB0ir~KlAJiNvA6r~IXOe5lsqHdToGFQL84SdGQTy09EKCC3rjmNUXe11yQsHmRh9OydZC-r0xdptKIwAc~VsFGYgannD0dsr5qvC8A2ylSdLJzz5G6-fuXvSq~X6c7mQofZAfjacTn0IDZo-PF-CvjiObpKKro1bNC0LilV9FVmvo62bL3Ld3aTpf4l5W22VJF5NOGDcibjmLvZZWyAQDwD9a8-~mtbjZ~2OMzpklokP-y72udD2khoAj95g2tH3GKW7QhFPErBkOA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

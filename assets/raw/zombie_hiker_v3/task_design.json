@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-2004-7031-9e26-fbf91e503535",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a zombie hiker: torn red softshell outdoor jacket, grey hiking trousers, brown leather hiking boots, small grey daypack with straps, short hair, head tilted, mouth open. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253867575,
+  "started_at": 1790253867584,
+  "finished_at": 1790253894741,
+  "expires_at": 1790513094741,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-2004-7031-9e26-fbf91e503535_0.png?Expires=1790513094&Signature=o8bHk1tOFhQpWZmDk28AxujAXCzxUq1S5eSaEy9PutEDxJhmHq5bc7wZnUEdYb3m40mkHBAPvYP5Iy3Rvp9ZZINvapCLxU5teO5vumnHMJJSdEbBXE1E6HN32ToPsVDo6MblVRStxoGxnojKRTGqbIjAW0FMWk2YA11zRMZG8yRlryNujdDZ6WPkYa7NAY5fq5eZDY0eHNv3rZzx36eq2kQhYvQRHje8AfJOQBDCR-DFe8KuTPzxc4e0tFtyTBNdNa~BpHqoCLt2LuLcNifR1gI0FbqpP2XlqPP~sDx7OdCR6Gj-Ssk51j7c-A0rgCqgbZGRM0LA3HsvMzTJoZtCGQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

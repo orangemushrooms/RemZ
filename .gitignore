@@ -18,3 +18,9 @@ input/ph/
 input/geo/
 tools/out/flap_src/
 /nul
+# Meshy v3 character sources: the GLBs are 25-35 MB each (every animation carries the whole mesh); the task
+# receipts, prompts and design sheets stay tracked so the pipeline remains resumable and reviewable
+assets/raw/*_v3/*.glb
+assets/raw/*_v3/view_*.png
+assets/raw/*_v3/thumb.png
+assets/raw/*_v3/preview_thumb.png

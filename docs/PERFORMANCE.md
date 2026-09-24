@@ -97,6 +97,57 @@ wiederholt; der Tesla-Blitz wurde im Kontrollbild visuell geprueft.
 Bestandene Funktionspruefungen ersetzen kein erreichtes
 Frame-Zeit-Ziel; die Grenzen des Extremtests sind oben ausgewiesen.
 
+## Nachtrag 24.09.2026: Zombies v3 und Grafikprofil
+
+Die zwoelf humanoiden Zombie-Skins sind neu (Meshy 7.1, 50-62k Dreiecke statt 31k, 4k-Albedo als BC7,
+2k-Normal- und Metall/Rauheitskarten statt gar keiner PBR-Karten). Damit die Horde trotzdem nicht teurer
+wird, kommen drei Massnahmen dazu:
+
+- Animations-LOD (`zombie.gd`, `_update_animation`): jenseits von 45 m laeuft der AnimationPlayer im
+  manuellen Modus und rueckt die Pose nur jeden zweiten Tick vor, jenseits von 90 m jeden dritten. Das
+  Skinning bleibt auf der GPU, nur das Mischen der Clips (bisher ~7 % des Frames bei 60 Zombies) faellt
+  fuer ferne Gegner weg. Leichen und Titanen laufen immer mit voller Rate.
+- Alle Zombie-Texturen sind VRAM-komprimiert (Normal-Maps als RGTC, Albedo als BC7); die Normal-Maps der
+  beiden Erdwuermer waren bis dahin verlustfrei importiert (64 MB VRAM pro Karte) und sind jetzt ebenfalls
+  komprimiert.
+- Die zehn normalen Skins werden im Packer auf 32k Dreiecke reduziert (`pack.mjs --simplify 0.62`,
+  meshoptimizer; Naehte und UVs bleiben, die 4k-Normal-Maps tragen das Feine). Godots importierte LODs
+  greifen bei den Meshy-Netzen nicht (Fehlermass 0,5-3,5 m, `lod_bias` 0,35 aenderte nichts), und mit
+  50k kostete `horde_bench` "60 zombies, simulated" 105 statt 113 FPS. Mit 32k: 113,3 FPS - Stand vom
+  19.09. (113) gehalten, "frozen" 117 statt 129 (die PBR-Materialien), "empty meadow" 147 statt 148.
+- Die Trefferzonen der neuen Rigs sind gebacken (`zombie_hit_volumes.tres`, 307 Huellen), Schuesse
+  brauchen also weiter keine Area-Knoten pro Knochen.
+
+Das hohe Grafikprofil bekommt (`game_settings.gd`, einzeln abschaltbar ueber `--gfx-off=`): SSAO/SSIL mit
+Ultra-Abtastung (weiter halbe Aufloesung), Mipmap-Bias -0.3, 256-px-Himmelsradianz, 8x Anisotropie (auch im
+mittleren Profil); alle Profile Debanding, das schnelle Profil SMAA statt FXAA.
+
+Messung 24.09.2026, `--views` Plaza / Wiese / Weggabelung, 1600 x 900, hohes Profil, Editor offen:
+
+| Variante | Plaza | Wiese | Gabelung |
+| --- | ---: | ---: | ---: |
+| altes Profil (alle Aufwertungen aus) | 66,2 | 134,5 | 81,8 |
+| erster Entwurf (8k-Atlas, volle SSAO/SSIL-Aufloesung, PCSS hoch, Kaskadenblend, 16x) | 33,1 | 76,8 | 45,1 |
+| davon 8k-Schattenatlas allein | -40 % | | |
+| davon SSAO/SSIL in voller Aufloesung | -8 % | | |
+| davon weiche Kaskadenuebergaenge | -7 % | | |
+| davon PCSS SOFT_HIGH | -3 % | | |
+| davon 24-Bit-Schattenatlas | -3 % | | |
+| davon 16x Anisotropie | -2,5 % | | |
+| davon 96^3 Nebel-Froxel | -1,5 % | | |
+| davon 8x Anisotropie | -1,2 % | | |
+| Ultra-SSAO halbe Aufloesung, Mipmap-Bias, Radianz, Debanding | je unter 1 % | | |
+| Endstand (Ultra-SSAO, Mipmap-Bias, Radianz, 8x, Debanding) | ca. -2 % | ca. -2 % | ca. -2 % |
+
+Der erste Entwurf halbierte die Bildrate; geblieben sind die Aufwertungen, die zusammen etwa 2 % kosten
+(zwei Laeufe je Variante, `artifacts/zombies_v3/settle_*.log`). Kommandos:
+
+```powershell
+& C:/Users/miche/Desktop/Godot.exe --path godot --resolution 1600x900 -- --no-music --quality=2 "--views=5,0,0,0.03,10;9,40,3.14,0.05,17.7;7,58,0,0.03,10"
+& C:/Users/miche/Desktop/Godot.exe --path godot --resolution 1600x900 -- --no-music --quality=2 --gfx-off=ssaoultra,mip,aniso,radiance,debanding "--views=5,0,0,0.03,10;9,40,3.14,0.05,17.7;7,58,0,0.03,10"
+& C:/Users/miche/Desktop/Godot.exe --path godot --script res://tests/run.gd -- --suite=horde_bench --no-intro --quality=2
+```
+
 ## Regressionen und Pflege
 
 Neue Suiten: `horde_ground` (native/optimierte Bewegung, Haenge, Kuppen,

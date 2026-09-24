@@ -3,25 +3,25 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://xbt88qp8sth4"
-path.s3tc="res://.godot/imported/zombie_jogger_texture_0.webp-f6026166a786ff01d190f9a3e2adcc1d.s3tc.ctex"
-path.etc2="res://.godot/imported/zombie_jogger_texture_0.webp-f6026166a786ff01d190f9a3e2adcc1d.etc2.ctex"
+path.bptc="res://.godot/imported/zombie_jogger_texture_0.webp-f6026166a786ff01d190f9a3e2adcc1d.bptc.ctex"
+path.astc="res://.godot/imported/zombie_jogger_texture_0.webp-f6026166a786ff01d190f9a3e2adcc1d.astc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "63317b1ee92127f64379095f4af9067f"
+"md5": "d73987c5b506134077bb43affd8f4552"
 }
 
 [deps]
 
 source_file="res://assets/models/zombie_jogger_texture_0.webp"
-dest_files=["res://.godot/imported/zombie_jogger_texture_0.webp-f6026166a786ff01d190f9a3e2adcc1d.s3tc.ctex", "res://.godot/imported/zombie_jogger_texture_0.webp-f6026166a786ff01d190f9a3e2adcc1d.etc2.ctex"]
+dest_files=["res://.godot/imported/zombie_jogger_texture_0.webp-f6026166a786ff01d190f9a3e2adcc1d.bptc.ctex", "res://.godot/imported/zombie_jogger_texture_0.webp-f6026166a786ff01d190f9a3e2adcc1d.astc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-8685-7375-9cd5-35d242e71798",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, an undead Swiss army soldier: ripped woodland camouflage uniform, black tactical vest with pouches, combat helmet with cover, black combat boots, knee pads, rotting face under the helmet. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253893809,
+  "started_at": 1790253893816,
+  "finished_at": 1790253907680,
+  "expires_at": 1790513107680,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-8685-7375-9cd5-35d242e71798_0.png?Expires=1790513107&Signature=k7rER8HSPFnVl6ZAWEdCdIujRC0Jg9QvOFwQZIhBOBN0JobWr9ZE2R9Umlvq1oJ1Pb7SKPW1zPI99ect-rTBU8Nz2CJv-lRWHnyB7p~CuwskxrcBLTV5TB-64-HxmQMmYyDfOEmV~mcFs9AvvoJQglpFB5CdU5UUcEWXR61TUBe2Kwq4jumdmnFTdUvl3t2lC7z2iZvAm8BaPstSbT0eiEfOqytyMOasJx8Z3E4VaGb4khUZWNH78LKQbUx~9GtwuMLthz-bk7ZVHYKaW27UodD~9tyn5vGfNvKl7Bxp9YkNREKJuq6IB1F3t84oe0nSVuC7u0rgDSJAh3FaTxzYVQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

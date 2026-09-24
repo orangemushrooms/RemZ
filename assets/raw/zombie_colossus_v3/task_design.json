@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-b5b5-76eb-9f91-9c932567c959",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a colossal forest zombie titan: gaunt giant humanoid with an elongated skull, sunken chest, long arms with clawed hands, mossy bark-like grey-green skin with roots and fungus growing from the shoulders and back, exposed ribs, cluster of pale eyes, torn jaw. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253905958,
+  "started_at": 1790253905967,
+  "finished_at": 1790253921877,
+  "expires_at": 1790513121877,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-b5b5-76eb-9f91-9c932567c959_0.png?Expires=1790513121&Signature=m~xeyrQa6pT3CI1JOkc~-BjYdf-81~U19WI9daHNByRwshON9HJcdMfR5rnRMQcUo5MOD6zfOrwX30niePLv2UBOOHlHMklkuJqKG8A851x9jDImIM-zP0aDtoHAQoDs7w8gQtUwwGu91wPpQnBcJ-JgVhTr~WbJWp6YoujtvzrIo6asU1FqVgaiAf2QydABNqzcdXz95cJI8el2wAiwbgMKIsSfUjnW71VqLoPzFNFXE3mrbB6jsz849StWxMuxQF3Q8n7~B3q2Bp2oSL9ZUs058XzhiQHCNyZ9HesQq90aG05Z9itysHqGoUakQCCLulFR4ytJ3Mev0Risv9Yklw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

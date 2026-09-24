@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-1ffc-7596-a1a7-8273795672d5",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a thin fast zombie jogger: neon yellow running shirt, black running shorts, running shoes with white socks, emaciated grey body, open screaming mouth, veins on the neck. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253867591,
+  "started_at": 1790253867598,
+  "finished_at": 1790253884142,
+  "expires_at": 1790513084142,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-1ffc-7596-a1a7-8273795672d5_0.png?Expires=1790513084&Signature=jokIwCTewigaZ--8TkxJW2IVlcoCAr4GFXduC8XZebPvaEJQwQq6YgJvpNSbimzSBK3Ig1kA-p4D2akZIgjMfP4tRwQbn6F-UKdHMTNQCdw7xLqTm3hm9q6H0muzEIwSYbD6VX~PizqjMNKpnYKOsBwJSKjrFKzXdDfNtqjMdh3GUqqMXJAfVpOoCbCxDHN36xkndivH98lryzCefZM0eV7vx3iZCprzJTPXHQQa9EcQuyO8wnmhGimiUFFH6NcwvnZpdNS7Kh3SdoVZK2E2P9k6btuQC-Q2dSMyZRm~EkZ-kF38RQFfJFvHEE72a28fDcCvsdNJRO1hKIamyKM0-g__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

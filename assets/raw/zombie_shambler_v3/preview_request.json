@@ -1,0 +1,13 @@
+{
+  "mode": "preview",
+  "prompt": "Photorealistic AAA game character, a rotting male zombie villager: torn red-and-black plaid flannel shirt over a stained undershirt, worn blue jeans with ripped knee, muddy leather work boots, unkempt short hair, slack jaw. Undead: pale grey necrotic skin with dark veins, sunken eyes, torn cheek, open wounds and bite marks, dried blackened blood. Standing upright in a strict symmetrical T-pose, straight arms out to the sides, straight legs slightly apart, realistic human proportions, detailed hands with five fingers, feet flat. No weapon, no base, no scenery, no text. Production AAA game character, realistic PBR materials, not cartoon, not a toy.",
+  "ai_model": "meshy-7.1",
+  "geometry_resolution": "4k",
+  "should_remesh": true,
+  "topology": "triangle",
+  "target_polycount": 50000,
+  "pose_mode": "t-pose",
+  "target_formats": [
+    "glb"
+  ]
+}

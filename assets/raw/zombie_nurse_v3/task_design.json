@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-8537-758e-9d3e-d64887dbb982",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, an undead nurse: blood-stained white uniform dress to the knees, torn sleeves, white stockings and clogs, hair tied back, name badge, gaunt face with bloody mouth. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253893501,
+  "started_at": 1790253893512,
+  "finished_at": 1790253920527,
+  "expires_at": 1790513120527,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-8537-758e-9d3e-d64887dbb982_0.png?Expires=1790513120&Signature=m6WSkQmw6sUEUliKdAPWVyMu40DW3sElqKSzNfhSB4U0M8~C45fWdUuOwKkK5TrjSbPM3QzL0Ht3QFyz60EJodWVZsdkHfQxr1FW-sNyxQBffyzOk7NKqB4l34wYN2Pp635EFVaOWw28Q64TcPKJ1SyYd6oIasrLrjhtvwt5KMzgVp1kvp21e44vgyyacLzhg5R2OSYPVnyQCqxPwGET2C3xLI1~KSG0UtGrAMa2cb4Jy~IEZcAIySklnzw-~B-3ZdpRosxBenQPC42cLtg9SII8uIkN2o2s3~dCPx9BSgAQa9fhAc6jY2STdPcA7gnKaYkakQIqx-eefr-T1ScDlQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

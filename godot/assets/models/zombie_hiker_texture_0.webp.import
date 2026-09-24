@@ -3,25 +3,25 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bgnqqrdhyd4wu"
-path.s3tc="res://.godot/imported/zombie_hiker_texture_0.webp-0acb8802599a0ed07591be5926661ebd.s3tc.ctex"
-path.etc2="res://.godot/imported/zombie_hiker_texture_0.webp-0acb8802599a0ed07591be5926661ebd.etc2.ctex"
+path.bptc="res://.godot/imported/zombie_hiker_texture_0.webp-0acb8802599a0ed07591be5926661ebd.bptc.ctex"
+path.astc="res://.godot/imported/zombie_hiker_texture_0.webp-0acb8802599a0ed07591be5926661ebd.astc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "19434843e5a4597987a070dc36e3e717"
+"md5": "7e23a440c5a0a0e5b8665d25745d6747"
 }
 
 [deps]
 
 source_file="res://assets/models/zombie_hiker_texture_0.webp"
-dest_files=["res://.godot/imported/zombie_hiker_texture_0.webp-0acb8802599a0ed07591be5926661ebd.s3tc.ctex", "res://.godot/imported/zombie_hiker_texture_0.webp-0acb8802599a0ed07591be5926661ebd.etc2.ctex"]
+dest_files=["res://.godot/imported/zombie_hiker_texture_0.webp-0acb8802599a0ed07591be5926661ebd.bptc.ctex", "res://.godot/imported/zombie_hiker_texture_0.webp-0acb8802599a0ed07591be5926661ebd.astc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

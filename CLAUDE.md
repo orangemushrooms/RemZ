@@ -160,6 +160,33 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   `MAGAZINE` says what a weapon feeds from - box, tube, or nothing for the revolver. `equip_mod` and
   `apply_mod_snapshot` both funnel through `refresh_attachments`, and co-op avatars mount the same parts from
   the host snapshot (`coop_avatar.set_mods`, layer 1 and shadows on).
+- Zombie skins, third generation (24 Sep 2026, `tools/zombies_v3.py`): every humanoid skin (the ten common ones
+  plus zombie_titan / zombie_colossus) is a reference-first Meshy asset - `design` draws a T-pose sheet with
+  nano-banana-pro (9 credits, look at `assets/raw/<name>_v3/design.png` before paying for the mesh), `model`
+  turns it into a Meshy 7.1 mesh (4k geometry, 50-60k triangles, 4k PBR, 35 credits), `rig` at 1.7 m, `anims`
+  buys the library clips per role (SHAMBLE / RUNNER / TITAN sets in the script, 3 credits each): walk + walk2
+  (Frankenstein / Stumble / Elderly Shaky / Slow Orc walk), run (runner, jogger, nurse), attack + attack2,
+  death .. death3, hit + hit2, idle, scream. `python tools/zombies_v3.py status` shows the stages, `redesign
+  <name>` throws a bad sheet away. Then `node tools/pack.mjs <name>_v3 --size 2048 --albedo-size 4096
+  --quality 88 --simplify 0.62 --as <name>` (merges every `anim_*.glb`, restores the normal and metal/roughness
+  maps that Meshy's rig export drops, base colour 4k, other maps 2k, meshoptimizer takes the ten common
+  skins from 50k to 32k triangles - Godot's imported LODs never kick in on Meshy meshes, and at 50k a 60-zombie
+  horde cost 7 % more; titan and colossus stay at 60k without `--simplify`) and copy
+  `public/models/<name>.glb` to `godot/assets/models/`, headless import, then rebake the shot volumes. The
+  whole set cost about 970 credits. Text-to-3D alone lost the clothing of the prompt (a bare "rotting
+  zombie"), the image step is what keeps farmer, hiker, nurse apart. Texture imports: albedo BC7
+  (`compress/high_quality`), normal maps RGTC (`compress/normal_map=1`), everything VRAM compressed.
+- Zombie animation layer (`zombie.gd`, checked by `--suite=zombie_motion`, 68 headless checks): `state` stays
+  the logical state (walk / attack / death / hit / idle / scream) that the AI, tests and the co-op snapshot
+  use, `clip` is the rig's concrete clip. `zombie_animation.measure()` samples every clip once at load
+  (`Zombie.clip_info(path)`): the ground speed a gait implies from the foot travel and the strike moment of a
+  swing from the hand speed. Gaits play at `speed_scale = displacement / natural speed` (no foot sliding, a
+  27 m titan strides), a runner drops to walk below 1.9 m/s, standing bodies go idle after 0.35 s, swings
+  are timed so the strike lands on the damage tick (`attack_lead()`, a titan's on the end of its wind-up),
+  35 % of the zombies stop once to scream within 14 m, heavy hits play the flinch clip, deaths pick a random
+  fall. Beyond 45 / 90 m the AnimationPlayer runs in manual mode and advances every 2nd / 3rd tick. Heads
+  turn towards the player within 12 m (LookAtModifier3D on the Head bone, `--no-headlook`). Older rigs with
+  only walk / attack / death still work: missing clips fall back to the gait.
 - Meshy rigged characters are 1.7 m tall; scale by height/1.7, never by mesh AABB. Zombie skins: shambler =
   shambler/farmer/hiker/grandma, runner = runner/jogger, soldier = soldier/forester, titan = titan/colossus; a new
   skin only needs the GLB in `godot/assets/models/` plus its name in the `skins` list. `gen_asset.py` reuses the
@@ -250,6 +277,20 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   main thread ten times a second; `--suite=coop_host_load` (windowed, needs a renderer) measures the host's own
   frames while carrying that round. Sep 2026 on the dev PC: 2.1 ms per tick (40.7 kB raw, 6.8 kB packed) and
   143 FPS with the worst of 2143 frames at 13.1 ms.
+- Zombie rigs: `--suite=zombie_motion` (headless, clip metrics of every skin, stride matching, idle, swing /
+  death variants, flinch and scream fallbacks, runner gait switch, animation LOD, titan slam timing) and
+  `--suite=zombie_anim_visual --no-intro --no-music` (windowed: `artifacts/zombies_v3/pose_<clip>.png`, one
+  body per skin frozen at the telling moment of each clip, `headlook_on/off.png` for the head tracking, plus
+  three frames of the walking row). After a
+  model changes, rebake the shot volumes: `--suite=export_zombie_hit_shapes` then
+  `python tools/bake_zombie_hit_shapes.py`, and run `--suite=horde_hit_precision` + `--suite=zombie_hitboxes`.
+- Graphics profiles (`game_settings.gd`, measured 24 Sep 2026 with `--views` on the plaza, meadow and fork at
+  1600x900): the high profile adds ultra-sampled SSAO / SSIL (half resolution), mipmap bias -0.3, a 256 px
+  sky radiance and 8x anisotropy (balanced profile 8x too); every profile gets debanding and the fast one SMAA
+  instead of FXAA. Together that costs about 2 % (8x anisotropy 1.2 %, the rest noise). Tried and thrown out
+  because of their cost: an 8k sun shadow atlas (-40 %), full-resolution SSAO / SSIL (-8 %), blended shadow
+  splits (-7 %), PCSS SOFT_HIGH (-3 %), a 24-bit shadow atlas (-3 %), 16x anisotropy (-2.5 %), 96^3 fog
+  froxels (-1.5 %). `--gfx-off=ssaoultra,mip,aniso,radiance,debanding,smaa` switches single upgrades off.
 - Horde checks: `Godot.exe --path godot --script res://tests/run.gd -- --suite=horde_visual --no-intro` (titan on the
   field, second skin, skin line, short titan walk -> `shots/horde_*.png`, prints HORDE_TITAN / HORDE_SKINS /
   HORDE_WALK) and `--suite=horde_bench --no-intro` (60 zombies: frozen / no shadows / anims paused / simulated FPS;

@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-1ffe-7135-b8a9-320e329f3bf6",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a lean athletic infected zombie: ripped dark grey hoodie with the hood down, torn cargo pants, worn sneakers, emaciated body, tendons visible, bloody screaming mouth, wide eyes. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253867496,
+  "started_at": 1790253867501,
+  "finished_at": 1790253890775,
+  "expires_at": 1790513090775,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-1ffe-7135-b8a9-320e329f3bf6_0.png?Expires=1790513090&Signature=Y1s5qo5pApZifStj3NydPTklt02oSf6VXJH5byMpLIb-YqOTTFO2JE02N9t2kk1cJ4deeK1nr67wHezwT-G1nmdICp-m1aOSfrNWv9tEBJ4ToM7wOVf7DjhU6tdH~kLNCf9t4wX~VfNcz1HS0CmSMGd3es0A8ivS5HoXTQFnfsN-aHfgif6kpLCdiOQoRr7IScby3RJAjYGAylfeUn9cd2ppdBYB4GqV5mYjAinzl2zYfIrZNRfKlYHit8Ifso~dOqwO9PAwDgwOOi9dE6xfFKjk16wyRJAqp0UIk18eJUa4h98kjK3CMFeZ76rQz6NZPiDClop2SpEbGYLCT~nhCg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

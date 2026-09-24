@@ -10,7 +10,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "3a2d05d3dad19f7395928d3bc2c544fe"
+"md5": "223b0bee678f5a9861b4458f39cbabb0"
 }
 
 [deps]
@@ -21,7 +21,7 @@ dest_files=["res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264db
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

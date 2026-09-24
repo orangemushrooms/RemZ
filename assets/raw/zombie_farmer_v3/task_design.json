@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-1ffc-7510-9be8-bcfa3f848c4f",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a Swiss farmer turned zombie: faded blue work dungarees over a torn green checked shirt, sleeves rolled up, green rubber boots, weathered face with grey stubble, slack jaw. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253867581,
+  "started_at": 1790253867590,
+  "finished_at": 1790253898602,
+  "expires_at": 1790513098602,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-1ffc-7510-9be8-bcfa3f848c4f_0.png?Expires=1790513098&Signature=UbtSaItzaGbZn1sJrgMaNCYKabHJnm1pVrZwClPzQ5ncwnptZ9CajAfaSEPCCtGCVAOMcN4TlNCqwuCshgESW2CGi6JJsEmMWpx5oROWlrwVuvWDBjeLDwf6BFJjYSG-WedqRLEFeXiGhtB8k8DDFeXCvojPZymtLKsFp32FyWF3PpO3TVnuIeUc~oI2wOcu8TVSafOVjK8LeAiO8u75156MXv3n34do4uoAGMZRSLyPmfz5sTVFf2ZoMIyWVxsBHZCyUjZEzeAh~tYFn1rwhSmaqyDWt~zsEGo57dCly4dsbNPTryYbZLwDtk97-9iAupWUBjmuWnYRtRSm~Kzn7Q__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

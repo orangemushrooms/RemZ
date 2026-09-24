@@ -3,25 +3,25 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b0wjvrnikkgkj"
-path.s3tc="res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.s3tc.ctex"
-path.etc2="res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.etc2.ctex"
+path.bptc="res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.bptc.ctex"
+path.astc="res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.astc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "0a3c74afdcea7363051e0b5e728fcdbf"
+"md5": "ccdd66c8f9f0fb296f972b301d072159"
 }
 
 [deps]
 
 source_file="res://assets/models/zombie_grandma_texture_0.webp"
-dest_files=["res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.s3tc.ctex", "res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.etc2.ctex"]
+dest_files=["res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.bptc.ctex", "res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.astc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

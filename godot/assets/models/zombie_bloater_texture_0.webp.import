@@ -3,25 +3,25 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d7u1njyd4m8c"
-path.s3tc="res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.s3tc.ctex"
-path.etc2="res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.etc2.ctex"
+path.bptc="res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.bptc.ctex"
+path.astc="res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.astc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "580525a3380093db6ba2c488e6c98b14"
+"md5": "25cebefc91c82f9e19f2ac396f85c07f"
 }
 
 [deps]
 
 source_file="res://assets/models/zombie_bloater_texture_0.webp"
-dest_files=["res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.s3tc.ctex", "res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.etc2.ctex"]
+dest_files=["res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.bptc.ctex", "res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.astc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

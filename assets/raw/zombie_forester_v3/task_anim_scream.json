@@ -1,0 +1,20 @@
+{
+  "id": "01a0d382-5a3d-76a5-a20e-8292876845b2",
+  "type": "animate",
+  "name": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790254931048,
+  "progress": 100,
+  "started_at": 1790254931056,
+  "finished_at": 1790254948298,
+  "expires_at": 1790514148298,
+  "task_error": null,
+  "result": {
+    "animation_glb_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d382-5a3d-76a5-a20e-8292876845b2/output/Animation_Zombie_Scream_withSkin.glb?Expires=1790514148&Signature=ForzReA9uEuQjKkQitliOeUwfDuc8-rA9mJxNdaCi7MDV1yjiR3nQ~1rJT5ROCW0w1h5D34OlZ8HOAGslQaG53yqxXGz7qUvAih8yUn76cEBI0vwMeLy9rIgJhkks3Vs6x9FTEu7uLKJUm7mqxs5XYeiJhEgMldsjYp5XYGd2oQzf4YjGxr2zTEhaPM4~CC2-8zDzKIbzaMFTU9dY2bFWePJUFCPMBDEKU3ImnaWoE2J0ZMQOKXq-ufs~rgoBsLYYx~~ngxZtCJIp5LAE3BvlbsZGidKwxBrgpNPyE3aSWSduqCK7Mg39W7pnIm~ZSM0ZKISmwfZpdj4zy4aAwM6Tw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "animation_fbx_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d382-5a3d-76a5-a20e-8292876845b2/output/Animation_Zombie_Scream_withSkin.fbx?Expires=1790514148&Signature=k5QWfYldSMrvjMAmuFZHgE0Veoa0cbCWEPC8K46dxqdvfuOy~lCTJRyF1vbrwL2JCu556t4EhW-YRFQkhTVAwV8-8PENX4rN4W93oTlacma6IdjfxUYWR2lAE-D7aUMDtvXcF7S6MvOjbldKRaMl6PbeLiqzo2upFIeCKRJWKE0LXdDR0YyCoOF6j9MPGnLnWAkidzxOspgZ7aN0S2KteImZAtBINq9GxzrlYwXs083YkoiH6KQ0KYfM7zISc9J2uCj1Pj1oCubNN9TWl2LhD88jRFHGpVjQUPDmwBXNtT9hKmeW9cG~8lvQkiJqywPJpgKb6El5ynQlwtJHoGR58Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "processed_usdz_url": "",
+    "processed_armature_fbx_url": "",
+    "processed_animation_fps_fbx_url": ""
+  },
+  "consumed_credits": 3
+}

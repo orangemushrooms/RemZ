@@ -10,7 +10,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "eec4978c58fa9d7ef5ecee5de00bf4b1"
+"md5": "9af25db16d60e3ac08495ed9867ca1fe"
 }
 
 [deps]
@@ -21,7 +21,7 @@ dest_files=["res://.godot/imported/zombie_colossus_texture_0.webp-9121deb196b4cc
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

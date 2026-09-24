@@ -1,0 +1,25 @@
+{
+  "id": "01a0d36c-a4e5-7749-84ef-f0320b6f9d96",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2340564642,
+  "prompt": "Photorealistic AAA game character, a rotting male zombie villager: torn red-and-black plaid flannel shirt over a stained undershirt, worn blue jeans with ripped knee, muddy leather work boots, unkempt short hair, slack jaw. Undead: pale grey necrotic skin with dark veins, sunken eyes, torn cheek, open wounds and bite marks, dried blackened blood. Standing upright in a strict symmetrical T-pose, straight arms out to the sides, straight legs slightly apart, realistic human proportions, detailed hands with five fingers, feet flat. No weapon, no base, no scenery, no text. Production AAA game character, realistic PBR materials, not cartoon, not a toy.",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790253509464,
+  "progress": 100,
+  "started_at": 1790253509475,
+  "finished_at": 1790253646273,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d36c-a4e5-7749-84ef-f0320b6f9d96/output/model.glb?Expires=4943808000&Signature=g54gM6lbaNS~vqSXCcVJ5KTkVwuOyxKjpgzmqchEQN91DhsydKilSrH8Xs-N2A6uMeJM8D-xaTmf1f3eVC3bx~XK6nhGFIUn7Yb5zx3H6m30rync6nghIqzE98RN3oJJx-3vjPV29TEAqoY8Kp3mKad-k41XTIf5YJdZ-W7kOYr8i7ykeMPgHBrXn55YWC2Iru7XrQkr-gCvZ65Y81St7JVKTWY6EP49TXYeUEyGXedtMWbCBCZ8U1RX3eHhI5O37dYUDeVTRcNrH9VexDbNTZZhf7jdJeQOpaKV~MBTQG5~mMttNELExmkmX08UBlVj520Sb5KWIAJQu5U~6NmKiA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d36c-a4e5-7749-84ef-f0320b6f9d96/output/preview.png?Expires=4943808000&Signature=bPDASbnA4wY~E3ExaQUlPpYUOi5ET6dw3u1WJvwUf7gH5mLzUHOhY6nadTVmhYuLsE6pqxY~AD11DNM0zY7mfFR3se-~N7H0SHA45Kg3gK-28jUao9o6eBu7a7odruWUdGnx35-nr5tn~kcN4ZYO5b1QNGnmCzyxSnMw1t5CaIYHFqsO3s3flB8o2nCPysosXnRT~1~LLIbZDT-hibyhWEX51l-IpAWztekeCzsqEzYafL88Ftwjmg1zyE4nzwmP3S5W1AsGCPVPfOYdvxz9GbhdC6xXyc1Z52PQz~ZTIAQfSzWyAijt25HOFg421~2QlNNi~~3JfjCYSz0CLVTLvA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 25,
+  "ultra_mode": true,
+  "geometry_resolution": "4k"
+}

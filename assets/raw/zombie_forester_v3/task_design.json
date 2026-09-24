@@ -1,0 +1,16 @@
+{
+  "id": "01a0d372-b3a7-776f-b6ee-a71fafe674f7",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a zombie forestry worker: orange high-visibility work jacket with grey reflective stripes, dark green chainsaw protection trousers, steel-toe boots, orange forestry helmet with mesh visor and ear muffs, rotting face. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790253905434,
+  "started_at": 1790253905441,
+  "finished_at": 1790253920228,
+  "expires_at": 1790513120228,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d372-b3a7-776f-b6ee-a71fafe674f7_0.png?Expires=1790513120&Signature=J-hjrjBOUVRZaAUT5RwuTzRWAK82s-kuaWZE5VxiV1tjASl9QKM3LOc0i8hczi8Z497o~KYGbvvK2xXylyzUA9L8CF8ixa-kAwiJMYSGBcRwEa5YSwHzMMvyjVTUcfowQnV59AgJRoTobpgGCrKEWaIPyJFQlTGFgO0OxcA5qgCFmmq9jUOk6v7ZX2pH4gVfE93iRr2OBjlrkwWDd-ImQAwlTy4kVAai1NEeKFupKByT2~dFunB2DWMc9j5Jo3FwDsHAXYGnLul~LSYs~G6~615A-lPg3NBmKhAbY-Gd-TzAPSSdt1mju-sfbQyQ49ap2zDAWX1rx4rm-C0fmdEFSA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

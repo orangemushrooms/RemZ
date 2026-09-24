@@ -3,25 +3,25 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cnkvprpbyw8h6"
-path.s3tc="res://.godot/imported/zombie_shambler_texture_0.webp-3c97d544007a5b0eea1e636afd335f6b.s3tc.ctex"
-path.etc2="res://.godot/imported/zombie_shambler_texture_0.webp-3c97d544007a5b0eea1e636afd335f6b.etc2.ctex"
+path.bptc="res://.godot/imported/zombie_shambler_texture_0.webp-3c97d544007a5b0eea1e636afd335f6b.bptc.ctex"
+path.astc="res://.godot/imported/zombie_shambler_texture_0.webp-3c97d544007a5b0eea1e636afd335f6b.astc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "5613d4a2f8429a10af9f6cc56c9d515b"
+"md5": "da1ecf81dae6ebbcbca3b2d36c6f7d50"
 }
 
 [deps]
 
 source_file="res://assets/models/zombie_shambler_texture_0.webp"
-dest_files=["res://.godot/imported/zombie_shambler_texture_0.webp-3c97d544007a5b0eea1e636afd335f6b.s3tc.ctex", "res://.godot/imported/zombie_shambler_texture_0.webp-3c97d544007a5b0eea1e636afd335f6b.etc2.ctex"]
+dest_files=["res://.godot/imported/zombie_shambler_texture_0.webp-3c97d544007a5b0eea1e636afd335f6b.bptc.ctex", "res://.godot/imported/zombie_shambler_texture_0.webp-3c97d544007a5b0eea1e636afd335f6b.astc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

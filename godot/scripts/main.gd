@@ -6,6 +6,7 @@ var player: Player
 var hud: Hud
 var weapons: Weapons
 var waves: Waves
+var secret_night: SecretNight
 var day_night: DayNightCycle
 var cornfield: Node3D
 var fill_light: DirectionalLight3D
@@ -260,6 +261,9 @@ func _ready() -> void:
 	music = Music.new()
 	music.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(music)
+	secret_night = SecretNight.new()
+	add_child(secret_night)
+	secret_night.setup(self)
 	if not "--no-music" in _flags:
 		music.play("title")
 	_boot_mark("  intro, cheats, music")
@@ -274,7 +278,7 @@ func _ready() -> void:
 	Sfx.prewarm()
 	TitanPresence.for_scene(self).prewarm()
 	preload("res://scripts/bullet_impacts.gd").prewarm()
-	Zombie.preload_models()
+	Zombie.preload_models(self)
 	_boot_mark("prewarm + zombie models")
 	hud.show_overlay("REMETSCHWIL FOREST HUT", "The forest hut on the Heitersberg is the last safe place. You wake up down on the Sennhofstrasse and first have to make your way up to the hut. Build barricades at the four approaches to raise the palisade ring piece by piece. Then they come: from the Sennhofstrasse along the Hut Path, across the meadow to the Meadow Gate, along the Village Path and down the North Forest Path. Upgrade the barriers in the gates (E), hold them, survive the waves and get yourself onto the high scores. The zombies also go for the forest hut itself: if it falls, the round is lost. Repair it with E at its wall.", "Start game", "Calculating the path network ...", "start")
 	hud.overlay_button.disabled = true
@@ -2654,7 +2658,11 @@ func _process(delta: float) -> void:
 		if reading_notice: hud.set_prompt("[E] Read sign · A strange note")
 		if drone_station: hud.set_prompt("[E] Drone control station")
 		if _notice_open: hud.set_prompt("[E] Close note")
-		if drone_station and Input.is_action_just_pressed("interact"):
+		var secret_prompt := secret_night.prompt(player)
+		if not secret_prompt.is_empty(): hud.set_prompt(secret_prompt)
+		if not secret_prompt.is_empty() and Input.is_action_just_pressed("interact"):
+			secret_night.request_interact()
+		elif drone_station and Input.is_action_just_pressed("interact"):
 			drones.open()
 		elif _notice_open and Input.is_action_just_pressed("interact"):
 			_close_notice()
