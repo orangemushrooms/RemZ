@@ -564,6 +564,9 @@ func set_difficulty_locked(locked: bool) -> void:
 func show_tab(id: String) -> void:
 	if not _tabs.has(id):
 		return
+	if game and game.music and not game.started and not "--no-music" in game._flags:
+		if id == "multiplayer": game.music.play("lobby")
+		elif game.music.current == "lobby": game.music.play("title")
 	for k in _tabs:
 		_tabs[k].visible = k == id
 	var titles := { "briefing": "BRIEFING", "multiplayer": "MULTIPLAYER / HAMACHI", "difficulty": "DIFFICULTY", "controls": "CONTROLS", "settings": "SETTINGS", "records": "HIGH SCORES", "achievements": "ACHIEVEMENTS", "summary": "ROUND SUMMARY" }

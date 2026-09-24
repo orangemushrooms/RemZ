@@ -14,6 +14,7 @@ const DIR := "res://assets/audio/music/"
 # a longer fight hands over to another boss song instead of jumping back to the quiet intro.
 const TRACKS := {
 	"title": { "loop": true, "db": -10.0 },
+	"lobby": { "loop": true, "db": -10.0, "file": "Multiplayer_Lobby_Music" },
 	"night": { "loop": true, "db": -14.0 },
 	"morning": { "loop": true, "db": -13.0, "file": "survived_the_night" },
 	"combat": { "loop": true, "db": -11.0 },
