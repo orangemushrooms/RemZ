@@ -8,6 +8,9 @@ var skip_button: Button
 var points_button: Button
 var secret_toggle: CheckButton
 var wanderer_toggle: CheckButton
+var gold_toggle: CheckButton
+var keys_button: Button
+var world_note: Label
 var weapon_buttons: Dictionary = {}   # weapon id -> Button
 var all_weapons_button: Button
 var weapon_note: Label
@@ -75,6 +78,18 @@ func _ready() -> void:
 	wanderer_toggle.text = "Show the wandering trader on the map (from wave 5)"
 	wanderer_toggle.toggled.connect(func(value: bool): main.hud.minimap.reveal_wanderer = value)
 	general.add_child(wanderer_toggle)
+	gold_toggle = CheckButton.new()
+	gold_toggle.text = "Show the Golden Bolete on the map"
+	gold_toggle.toggled.connect(_toggle_gold)
+	general.add_child(gold_toggle)
+	keys_button = Button.new()
+	keys_button.text = "Get the keys to both huts"
+	keys_button.custom_minimum_size.y = 40
+	keys_button.pressed.connect(_give_keys)
+	general.add_child(keys_button)
+	world_note = Label.new()
+	world_note.add_theme_color_override("font_color", Hud.GOLD)
+	general.add_child(world_note)
 	columns.add_child(VSeparator.new())
 	var arsenal := VBoxContainer.new()
 	arsenal.add_theme_constant_override("separation", 10)
@@ -119,10 +134,13 @@ func open() -> void:
 	skip_button.disabled = NetSession.is_client()
 	points_button.disabled = NetSession.is_client()
 	all_weapons_button.disabled = NetSession.is_client()
+	keys_button.disabled = NetSession.is_client()
 	weapon_note.text = ""
+	world_note.text = ""
 	_refresh_weapons()
 	secret_toggle.set_pressed_no_signal(main.hud.minimap.reveal_secret)
 	wanderer_toggle.set_pressed_no_signal(main.hud.minimap.reveal_wanderer)
+	gold_toggle.set_pressed_no_signal(main.hud.minimap.reveal_gold)
 	panel.show()
 	main.player.active = false
 	get_tree().paused = not NetSession.enabled
@@ -141,9 +159,31 @@ func _skip_wave() -> void:
 	close()
 	main.waves.skip_current_wave()
 
+# Marks the round's Golden Bolete on the minimap and the big map. Most rounds have none (5 %), so the
+# host places one when none is out; a co-op client only sees one that is already there.
+func _toggle_gold(value: bool) -> void:
+	main.hud.minimap.reveal_gold = value
+	if not value:
+		world_note.text = ""
+		return
+	var gold: Loot = main.gold_mushroom
+	var placed := false
+	if is_instance_valid(gold) and gold.taken and not NetSession.is_client(): placed = main.place_gold_mushroom(true)
+	if not is_instance_valid(gold) or gold.taken:
+		world_note.text = "No Golden Bolete out there right now. Only the host can place one." if NetSession.is_client() else "No free spot for a Golden Bolete found."
+	else:
+		world_note.text = "Golden Bolete placed in the forest and marked on the map." if placed else "Golden Bolete marked on the map."
+
+# Both hut keys at once, for the whole team. Host / solo only, like the other cheats.
+func _give_keys() -> void:
+	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return
+	var received: Array = main.forest_keys.grant_all()
+	Sfx.play(self, "key_pickup", -6.0)
+	world_note.text = "You already have both hut keys." if received.is_empty() else "Keys received: Forest Hut and Woodshed. All their doors can now be used."
+
 func _update_status() -> void:
 	status.text = Lang.t("Current wave: %d · Rem Dollars: %d", [main.waves.wave, main.player.score])
-	if NetSession.is_client(): status.text += "\n" + Lang.t("Rem Dollars, wave and weapon cheats are only available to the host.")
+	if NetSession.is_client(): status.text += "\n" + Lang.t("Rem Dollars, wave, weapon and key cheats are only available to the host.")
 
 func _add_points() -> void:
 	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return

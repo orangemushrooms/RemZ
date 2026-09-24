@@ -118,6 +118,21 @@ func valid_forest_point(point: Vector2) -> bool:
 	var distance := point.distance_to(Map.PLAYER_START)
 	return distance >= 24 and distance <= 115 and Map.BOUNDS.grow(-5).has_point(point) and Map.in_forest(point.x, point.y) and not Map.on_road(point.x, point.y, 2.0) and not Map.in_building(point.x, point.y, 8.0) and not Map.in_clearing(point.x, point.y) and Map.ground_normal(point.x, point.y).y > 0.86
 
+# Cheat menu: every hut key at once. A key still lying in the forest disappears like a collected one.
+# Host / solo only; co-op clients get the keys through the snapshot like any other key.
+func grant_all() -> Array:
+	var received := []
+	for id in KEYS:
+		if has_key(id): continue
+		owned[id] = true
+		received.append(KEYS[id])
+	for key in spawned:
+		if is_instance_valid(key) and not key.taken:
+			key.taken = true
+			key.pickup_visual.hide()
+	hint.update_target(null, main.player)
+	return received
+
 func collect(key: ForestKey) -> void:
 	if key.taken or has_key(key.key_id):
 		return

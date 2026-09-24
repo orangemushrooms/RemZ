@@ -385,7 +385,7 @@ func _navigation_baked() -> void:
 		_boot_mark("ground cover")
 	get_tree().paused = true
 	navigation_ready = true
-	_place_gold_mushroom()
+	place_gold_mushroom()
 	hud.overlay_button.disabled = false
 	hud.overlay_status.text = "Ready."
 	hud.set_loading(false)
@@ -2339,8 +2339,9 @@ func _mushroom_ground_clear(point: Vector2) -> bool:
 		if point.distance_to(npc.pos) < 3.0: return false
 	return true
 
-func _place_gold_mushroom() -> void:
-	if NetSession.is_client(): return
+# Rolls the round's Golden Bolete (5 %); `force` (cheat menu) always places one. Host / solo only.
+func place_gold_mushroom(force := false) -> bool:
+	if NetSession.is_client(): return false
 	var candidates: Array[Vector2] = []
 	for item in loots:
 		if not item is Loot or item.kind != "mushroom" or item == gold_mushroom: continue
@@ -2349,10 +2350,12 @@ func _place_gold_mushroom() -> void:
 	var random := RandomNumberGenerator.new()
 	random.randomize()
 	var index := Inventory.Mushrooms.rare_slot(random, candidates.size())
-	if index < 0: return
+	if force and not candidates.is_empty(): index = random.randi_range(0, candidates.size() - 1)
+	if index < 0: return false
 	gold_mushroom.global_position = Map.ground_pos(candidates[index].x, candidates[index].y)
 	gold_mushroom.taken = false
 	gold_mushroom.show()
+	return true
 
 func _mushroom(x: float, z: float, kind: String, height: float) -> void:
 	var n: Node3D

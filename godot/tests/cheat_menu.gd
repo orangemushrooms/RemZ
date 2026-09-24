@@ -65,6 +65,26 @@ func run() -> void:
 		elif not Weapons.is_melee(id) and (int(w.state[id].ammo) != int(w.state[id].def.mag) or int(w.state[id].reserve) != w.reserve_limit(id)): all_full = false
 	check(all_full, "'Alle Waffen' unlocks every weapon with a full magazine and reserve")
 	check(w.current == "plasma_sniper" and menu.is_open and paused, "'Alle Waffen' leaves the weapon in the hands and the menu open")
+	# The Golden Bolete: placed when none is out this round, then marked on the map; off hides the marker.
+	var gold: Loot = game.gold_mushroom
+	gold.taken = true
+	gold.hide()
+	menu.gold_toggle.button_pressed = true
+	check(game.hud.minimap.reveal_gold and not gold.taken and gold.visible and Map.in_forest(gold.global_position.x, gold.global_position.z), "The Golden Bolete toggle places one in the forest and marks it on the map")
+	var spot := gold.global_position
+	menu.gold_toggle.button_pressed = false
+	check(not game.hud.minimap.reveal_gold, "Turning the toggle off removes the map marker")
+	menu.gold_toggle.button_pressed = true
+	check(gold.global_position == spot and not gold.taken, "A Golden Bolete that is already out keeps its spot")
+	menu.gold_toggle.button_pressed = false
+	# Both hut keys at once; a key still lying in the forest disappears like a collected one.
+	game.forest_keys.owned.clear()
+	menu.keys_button.pressed.emit()
+	check(game.forest_keys.has_key("waldhuette") and game.forest_keys.has_key("holzlager"), "The keys button hands out both hut keys")
+	var lying := false
+	for key: ForestKey in game.forest_keys.spawned:
+		if not key.taken: lying = true
+	check(not lying and menu.is_open and paused, "No hut key is left in the forest and the menu stays open")
 	shortcut.echo = true
 	Input.parse_input_event(shortcut.duplicate())
 	check(menu.is_open, "Holding the shortcut does not repeatedly toggle the menu")

@@ -15,6 +15,7 @@ var _elapsed := 0.0
 var _font: Font
 var reveal_secret := false  # Cheat menu: show the secret vendor before discovery.
 var reveal_wanderer := false  # Explicit cheat only; discovery never reveals his position.
+var reveal_gold := false  # Cheat menu: mark the round's Golden Bolete while it is out there.
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_M and not event.ctrl_pressed and not event.alt_pressed and not event.meta_pressed and is_visible_in_tree():
@@ -204,6 +205,15 @@ func _draw_symbols(c: Control) -> void:
 		if world.progression.cache_ready and world.progression.local_data().accepted.get("supplies", false) and not world.progression.team.cache:
 			var cache_point := map_position(world.progression.cache_node.global_position)
 			c.draw_circle(cache_point, 4, Color(0.9, 0.67, 0.16), false, 1.5)
+	var gold = world.get("gold_mushroom")
+	if reveal_gold and is_instance_valid(gold) and not gold.taken:
+		var gold_point := map_position(gold.global_position).clamp(MAP_RECT.position + Vector2.ONE * 7, MAP_RECT.end - Vector2.ONE * 7)
+		var gold_label := Lang.text("Golden Bolete")
+		var gold_offset := Vector2(8, 4) if gold_point.x < MAP_RECT.get_center().x else Vector2(-_font.get_string_size(gold_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10).x - 8, 4)
+		c.draw_circle(gold_point, 6.5, Color(0.08, 0.05, 0.0, 0.92))
+		c.draw_circle(gold_point, 4.5, Color(1.0, 0.8, 0.22))
+		c.draw_string_outline(_font, gold_point + gold_offset, gold_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color(0.08, 0.05, 0.0))
+		c.draw_string(_font, gold_point + gold_offset, gold_label, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(1.0, 0.86, 0.4))
 	if NetSession.enabled and NetSession.world:
 		for id in NetSession.world.actors:
 			if id == NetSession.local_id(): continue

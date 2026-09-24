@@ -696,6 +696,14 @@ msgid "Show the wandering trader on the map (from wave 5)"
 msgstr "Wanderhändler auf der Karte anzeigen (ab Welle 5)"
 
 #: scripts/cheat_menu.gd
+msgid "Show the Golden Bolete on the map"
+msgstr "Goldröhrling auf der Karte zeigen"
+
+#: scripts/cheat_menu.gd
+msgid "Get the keys to both huts"
+msgstr "Schlüssel für beide Hütten erhalten"
+
+#: scripts/cheat_menu.gd
 msgid "Get a weapon · full magazine and full reserve"
 msgstr "Waffe holen · volles Magazin und volle Reserve"
 
@@ -708,12 +716,36 @@ msgid "Close (Esc / Ctrl+Shift+D)"
 msgstr "Schliessen (Esc / Strg+Shift+D)"
 
 #: scripts/cheat_menu.gd
+msgid "No Golden Bolete out there right now. Only the host can place one."
+msgstr "Gerade liegt kein Goldröhrling im Wald. Nur der Host kann einen platzieren."
+
+#: scripts/cheat_menu.gd
+msgid "No free spot for a Golden Bolete found."
+msgstr "Kein freier Platz für einen Goldröhrling gefunden."
+
+#: scripts/cheat_menu.gd
+msgid "Golden Bolete placed in the forest and marked on the map."
+msgstr "Goldröhrling im Wald platziert und auf der Karte markiert."
+
+#: scripts/cheat_menu.gd
+msgid "Golden Bolete marked on the map."
+msgstr "Goldröhrling auf der Karte markiert."
+
+#: scripts/cheat_menu.gd
+msgid "You already have both hut keys."
+msgstr "Du hast bereits beide Hüttenschlüssel."
+
+#: scripts/cheat_menu.gd
+msgid "Keys received: Forest Hut and Woodshed. All their doors can now be used."
+msgstr "Schlüssel erhalten: Waldhütte und Holzlager. Alle ihre Türen lassen sich jetzt benutzen."
+
+#: scripts/cheat_menu.gd
 msgid "Current wave: %d · Rem Dollars: %d"
 msgstr "Aktuelle Welle: %d · Rem Dollars: %d"
 
 #: scripts/cheat_menu.gd
-msgid "Rem Dollars, wave and weapon cheats are only available to the host."
-msgstr "Rem Dollars, Wellen- und Waffen-Cheats sind nur für den Host verfügbar."
+msgid "Rem Dollars, wave, weapon and key cheats are only available to the host."
+msgstr "Rem Dollars, Wellen-, Waffen- und Schlüssel-Cheats sind nur für den Host verfügbar."
 
 #: scripts/cheat_menu.gd
 msgid "Received: %s"
@@ -2743,7 +2775,7 @@ msgstr "N O S W"
 msgid "Wandering trader"
 msgstr "Wanderhändler"
 
-#: scripts/mushrooms.gd
+#: scripts/minimap.gd scripts/mushrooms.gd
 msgid "Golden Bolete"
 msgstr "Goldröhrling"
 
