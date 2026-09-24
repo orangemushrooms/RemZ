@@ -179,7 +179,7 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   `TRACKS[..].file` names the mp3 when it differs from the logical track name. `--no-music` silences it.
   After adding files run `Godot.exe --headless --path godot --import`.
 - Boss fights play one of the user's four boss songs (`music/boss_fight_1..4.mp3`, `Music.BOSS_TRACKS`,
-  levelled 1 dB above combat by measured LUFS) at random, never the same one twice in a row, and nothing else
+  levelled by measured LUFS about 5 dB above combat since 24 Sep 2026) at random, never the same one twice in a row, and nothing else
   does. `Waves.is_boss_fight()` decides: every fifth wave from start to end, otherwise as long as a titan or
   field worm is alive or still queued (checked four times a second, sent to co-op clients as `wave[6]`).
   `Music.fight(bool)` swaps between the boss song and the combat loop, a cleared wave goes to the pause track

@@ -63,7 +63,7 @@ const DEFS := {
 		"special": {"kind": "heat", "per_shot": 0.17, "cool": 0.22, "idle": 0.6, "regen": 0.55, "cold": 0.15, "vent_floor": 0.6, "vent_sfx": "plasma_vent"},
 		"mod_block": ["suppressor", "ghost", "compensator", "extended", "endless", "quick_action"],
 		"pos": Vector3(0.25, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.50), "kick_pitch": 2.8, "kick_yaw": 0.6, "kick_back": 0.09, "recover": 6.5},
-	"minigun": {"name": "Minigun M134", "model": "minigun", "height": 0.26, "mag": 150, "reserve": 300, "reserve_factor": 2, "damage": 32.0, "rate": 0.055, "reload": 6.5, "pellets": 1, "spread": 0.040, "range": 70.0, "auto": true, "sfx": "minigun", "sfx_db": -9.0, "flash_scale": 1.5, "bloom_gain": 0.05, "move_mul": 0.55, "move_mul_spun": 0.42,
+	"minigun": {"name": "Minigun M134", "model": "minigun", "height": 0.26, "mag": 150, "reserve": 300, "reserve_factor": 2, "damage": 32.0, "rate": 0.055, "reload": 6.5, "pellets": 1, "spread": 0.040, "range": 70.0, "auto": true, "sfx": "minigun", "sfx_db": -6.0, "flash_scale": 1.5, "bloom_gain": 0.05, "move_mul": 0.55, "move_mul_spun": 0.42,
 		"special": {"kind": "spin", "up": 0.85, "down": 0.9, "hold": 0.25, "penalty": 3.2, "loop_sfx": "minigun_loop", "start_sfx": "minigun_spinup", "stop_sfx": "minigun_spindown"},
 		"mod_block": ["suppressor", "ghost", "compensator", "match_barrel", "extended", "endless"],
 		"pos": Vector3(0.23, -0.26, -0.60), "ads": Vector3(0.16, -0.24, -0.56), "kick_pitch": 0.9, "kick_yaw": 1.6, "kick_back": 0.03, "recover": 11.0},
