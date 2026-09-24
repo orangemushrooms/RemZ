@@ -19,6 +19,7 @@ const SPECS := {
 	"tesla": {"unlock_waves": 8, "name": "Tesla Coil", "cost": 600, "range": 22.0, "damage": 75.0, "rate": 0.9, "heat": 0.16, "health": 1.8, "info": "Chain lightning jumps to nearby enemies"},
 }
 var kind := "standard"
+var rooftop := false
 var operator_peer := 0
 var trigger := false
 var aiming := false
@@ -139,30 +140,34 @@ func _ready() -> void:
 	concrete.normal_texture = load("res://assets/textures/ph_concrete_normal.jpg")
 	var brass := material(Color(0.54, 0.39, 0.13), 0.7)
 	var sand := material(Color(0.39, 0.37, 0.23))
-	for x in [-0.8, 0.8]:
+	if not rooftop:
+		for x in [-0.8, 0.8]:
+			for z in [-0.8, 0.8]:
+				box(self, Vector3(0.55, 0.3, 0.55), Vector3(x, 0.07, z), concrete)
+				box(self, Vector3(0.19, 2.5, 0.19), Vector3(x, 1.32, z), steel)
 		for z in [-0.8, 0.8]:
-			box(self, Vector3(0.55, 0.3, 0.55), Vector3(x, 0.07, z), concrete)
-			box(self, Vector3(0.19, 2.5, 0.19), Vector3(x, 1.32, z), steel)
-	for z in [-0.8, 0.8]:
-		for sign_x in [-1, 1]:
-			Barricade._add_bar(self, Vector3(-0.8 * sign_x, 0.25, z), Vector3(0.8 * sign_x, 2.4, z), 0.09, steel)
-	for i in 9:
-		box(self, Vector3(2.15, 0.14, 0.235), Vector3(0, 2.45, (i - 4) * 0.24), wood)
-	for x in [-0.92, 0.92]:
-		for z in [-0.68, 0.0, 0.68]:
-			var bag := WorldModels.attach(self, "sandbag", Vector3(x, 2.52, z), 0.65, 0)
-			if bag:
-				bag.rotation.y = PI * 0.5
-			else:
-				var preview := cylinder(self, 0.22, 0.65, Vector3(x, 2.7, z), sand)
-				preview.rotation.x = PI * 0.5
-	for i in 7:
-		box(self, Vector3(0.55, 0.075, 0.1), Vector3(0, 0.26 + i * 0.33, 1.08), steel)
-	for x in [-0.31, 0.31]:
-		box(self, Vector3(0.065, 2.5, 0.07), Vector3(x, 1.28, 1.08), steel)
-	cylinder(self, 0.12, 0.7, Vector3(0, 2.85, 0), steel)
+			for sign_x in [-1, 1]:
+				Barricade._add_bar(self, Vector3(-0.8 * sign_x, 0.25, z), Vector3(0.8 * sign_x, 2.4, z), 0.09, steel)
+		for i in 9:
+			box(self, Vector3(2.15, 0.14, 0.235), Vector3(0, 2.45, (i - 4) * 0.24), wood)
+		for x in [-0.92, 0.92]:
+			for z in [-0.68, 0.0, 0.68]:
+				var bag := WorldModels.attach(self, "sandbag", Vector3(x, 2.52, z), 0.65, 0)
+				if bag:
+					bag.rotation.y = PI * 0.5
+				else:
+					var preview := cylinder(self, 0.22, 0.65, Vector3(x, 2.7, z), sand)
+					preview.rotation.x = PI * 0.5
+		for i in 7:
+			box(self, Vector3(0.55, 0.075, 0.1), Vector3(0, 0.26 + i * 0.33, 1.08), steel)
+		for x in [-0.31, 0.31]:
+			box(self, Vector3(0.065, 2.5, 0.07), Vector3(x, 1.28, 1.08), steel)
+		cylinder(self, 0.12, 0.7, Vector3(0, 2.85, 0), steel)
+	else:
+		box(self, Vector3(1.25, 0.7, 1.25), Vector3(0, -0.25, 0), steel)
+		cylinder(self, 0.18, 0.5, Vector3(0, 0.3, 0), steel)
 	gun = Node3D.new()
-	gun.position.y = 3.15
+	gun.position.y = 0.65 if rooftop else 3.15
 	add_child(gun)
 	box(gun, Vector3(0.48, 0.38, 0.85), Vector3(0, 0, -0.08), steel)
 	box(gun, Vector3(0.32, 0.4, 0.48), Vector3(0.4, -0.03, 0), sand)
@@ -198,12 +203,12 @@ func _ready() -> void:
 	add_child(body)
 	var shape := CollisionShape3D.new()
 	var collider := BoxShape3D.new()
-	collider.size = Vector3(2.15, 2.52, 2.15)
+	collider.size = Vector3(1.25, 0.65, 1.25) if rooftop else Vector3(2.15, 2.52, 2.15)
 	shape.shape = collider
-	shape.position.y = 1.26
+	shape.position.y = 0.325 if rooftop else 1.26
 	body.add_child(shape)
 	label = Label3D.new()
-	label.position = Vector3(0, 4, 0)
+	label.position = Vector3(0, 1.6 if rooftop else 4.0, 0)
 	label.font_size = 36
 	label.pixel_size = 0.009
 	label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
@@ -247,7 +252,7 @@ func damage(amount: float) -> void:
 		queue_free()
 
 func refresh() -> void:
-	if reinforcement: reinforcement.visible = level >= 2
+	if reinforcement: reinforcement.visible = level >= 2 and not rooftop
 	if armour: armour.visible = level >= 3
 	if label:
 		label.visible = operator_peer == 0 or operator_peer != (NetSession.local_id() if NetSession.enabled else game.player.peer_id)
@@ -457,7 +462,7 @@ func _build_variant(steel: Material, copper: Material) -> void:
 		var model: Node3D = _model_scenes[path].instantiate()
 		model.name = "WeaponModel"
 		gun.add_child(model)
-		if kind=="flame": gun.position.y = 3.4
+		if kind=="flame": gun.position.y = 0.9 if rooftop else 3.4
 	else:
 		# Functional preview while generated assets are being imported.
 		box(gun,Vector3(0.6,0.5,0.8),Vector3.ZERO,steel)

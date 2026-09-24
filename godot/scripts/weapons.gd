@@ -425,7 +425,7 @@ func update_reticle() -> void:
 		hud.hit_marks[i].position = displacement + Vector2(-5, -1) + Vector2.from_angle(angle) * 14.0
 
 func try_fire() -> void:
-	if not player.active or not player.alive or player.mounted_tower:
+	if not player.active or not player.alive or player.mounted_tower or player.controlling_drone:
 		return
 	if is_melee(current):
 		melee()
@@ -567,7 +567,7 @@ func try_fire() -> void:
 
 # H uses the equipped blade/axe, or a gun-butt strike while holding a firearm.
 func melee(stab: bool = false) -> void:
-	if not player.active or not player.alive or player.mounted_tower or _melee_t > 0.0:
+	if not player.active or not player.alive or player.mounted_tower or player.controlling_drone or _melee_t > 0.0:
 		return
 	var armed := is_melee(current)
 	var spec: Dictionary = cur()["def"]
@@ -615,7 +615,7 @@ func melee(stab: bool = false) -> void:
 			get_tree().current_scene.stats.melee_hits += 1
 
 func throw_grenade() -> void:
-	if not player.active or not player.alive or player.mounted_tower or grenades <= 0:
+	if not player.active or not player.alive or player.mounted_tower or player.controlling_drone or grenades <= 0:
 		return
 	grenades -= 1
 	update_hud()
@@ -844,6 +844,10 @@ func _tick_ammo(delta: float) -> void:
 func _handle_weapon_input(delta: float) -> void:
 	if not Input.is_action_pressed("fire"): Sfx.stop_fire_loop(self, false)
 	var scene := get_tree().current_scene
+	if player.controlling_drone:
+		_reset_scope(false)
+		for part in hud.crosshair_parts: part.hide()
+		return
 	if player.mounted_tower:
 		_reset_scope(false) # DefenceSystem owns the mounted camera's zoom.
 		return

@@ -1,7 +1,7 @@
 extends SceneTree
 
 class QuestWorld extends Node:
-	var waves := {"completed": 0}
+	var waves := {"completed": 0, "wave": 15}
 	var barricades: Array = []
 	var defences := {"towers": {}}
 	var player := {"peer_id": 1}
@@ -57,12 +57,12 @@ func run() -> void:
 		personal.accepted[id] = true
 		world.waves.completed = maxi(world.waves.completed, int(q.min_level) - 1 + int(q.waves_after_accept))
 		personal.accepted_wave[id] = world.waves.completed - int(q.waves_after_accept)
-		check(not shop.has_ready_quest(q.npc), id + " respects prerequisite")
+		if not q.requires.is_empty(): check(not shop.has_ready_quest(q.npc), id + " respects prerequisite")
 		personal.claimed[q.requires] = true
 		check(shop.has_ready_quest(q.npc), id + " marks the right giver")
 		personal.claimed[id] = true
 		check(not shop.has_ready_quest(q.npc), id + " clears marker after reward")
-	check(added == 13, "Thirteen goal-based quests including Marksman training")
+	check(added == 16, "Sixteen goal-based quests including drone operations")
 	shop.team = {}
 	shop.event("headshot_kills")
 	shop.event("tower_kills")

@@ -108,6 +108,7 @@ func spawn_position(index: int) -> Vector3:
 	return NavigationServer3D.map_get_closest_point(nav, point) + Vector3.UP * 0.3
 
 func remove_player(id: int) -> void:
+	if NetSession.is_host() and actor(id): game.drones.recall(actor(id))
 	if NetSession.is_host() and game.stats.players.has(id):
 		if is_instance_valid(actor(id)): game.stats.update_live(id, actor(id).score, -1)
 		game.stats.players[id].connected = false
@@ -151,7 +152,7 @@ func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bo
 	if intro_lock > 0.0: return
 	var p: Player = actor(id)
 	if not p or not p.alive: return
-	if p.mounted_tower: return
+	if p.mounted_tower or p.controlling_drone: return
 	var dt := clampf(now - float(pose_times.get(id, now)), 0.01, 0.5)
 	pose_times[id] = now
 	p.set_crouching(crouching)
@@ -186,7 +187,17 @@ func action(id: int, operation: String, args: Array) -> void:
 	var p: Player = actor(id)
 	if not p or not p.alive: return
 	var w: Weapons = weapons[id]
+	if p.controlling_drone and operation not in ["drone_control", "drone_recall"]: return
 	match operation:
+		"drone_launch":
+			if args.size() != 1 or not args[0] is String: return
+			var error: String = game.drones.launch(p,args[0])
+			if not error.is_empty(): NetSession.feedback(id,"message",[error,3.0])
+		"drone_control":
+			if args.size() != 5 or not args[0] is int or not args[1] is Vector3 or not args[2] is float or not args[3] is float or not args[4] is bool: return
+			game.drones.control(p,args[0],args[1],args[2],args[3],args[4])
+		"drone_recall":
+			if args.is_empty(): game.drones.recall(p)
 		"hunting":
 			if args.size() != 2 or not args[0] is String or not args[1] is int: return
 			NetSession.feedback(id, "message", [game.hunting.transact(p, args[0], args[1]), 2.5])
@@ -367,6 +378,7 @@ func hut_lost() -> void:
 
 func _show_game_over() -> void:
 	_close_local_menus()
+	game.drones.shutdown()
 	game.over = true
 	game.player.active = false
 	var hut_fell: bool = game.hut != null and game.hut.destroyed
@@ -375,6 +387,11 @@ func _show_game_over() -> void:
 	game.stats.finish(game.player.score, game.waves.completed, Lang.t("Co-op · %s", [game.difficulty.name]))
 
 func _close_local_menus() -> void:
+	if game.drones.is_open: game.drones.close()
+	if NetSession.is_host(): game.drones.recall(game.player)
+	else:
+		game.player.controlling_drone = 0
+		game.drones._sync_view()
 	game.defences.cancel_placement()
 	for menu in [game.skills, game.inventory, game.barricade_menu, game.defences, game.progression, game.cheat_menu]:
 		if menu.is_open: menu.close()
@@ -487,7 +504,7 @@ func snapshot() -> Dictionary:
 			ammo[wid] = [s.ammo, s.reserve, s.reloading]
 			var extra := WeaponSpecials.net_state(w, wid)
 			if not extra.is_empty(): specials[wid] = extra
-		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity, "crouch": p.crouching, "tower": p.mounted_tower,
+		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity, "crouch": p.crouching, "tower": p.mounted_tower, "drone": p.controlling_drone,
 			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul, "effects": p.mushroom_effects.duplicate(),
 			"relic": p.relic, "light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(), "mod_owned": w.mod_owned.duplicate(true), "mod_loadout": w.mod_loadout.duplicate(true),
 			"grenades": w.grenades, "grenades_max": w.grenades_max, "mods": [w.damage_mul, w.reload_mul, w.spread_mul],
@@ -533,7 +550,7 @@ func snapshot() -> Dictionary:
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
-	return {"maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": game.drones.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "mushroom_positions": mushroom_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
@@ -565,6 +582,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		if pumpkin_states[i]: game.pumpkins[i].shatter(not initial)
 	if initial: NetSession.trace_load("STATE_STAGE structures")
 	game.defences.apply_snapshot(data.get("towers", {}), initial)
+	game.drones.apply_snapshot(data.get("drones", {}), initial)
 	game.progression.apply_snapshot(data.get("progression", {}), initial)
 	game.fireworks.apply_snapshot(data.get("fireworks", {}))
 	game.hunting.apply_snapshot(data.get("hunting", {}))
@@ -578,6 +596,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		p.hp = s.hp
 		p.max_hp = s.max_hp
 		p.alive = s.alive
+		p.controlling_drone = int(s.get("drone",0))
 		var previous_tower := p.mounted_tower
 		p.mounted_tower = int(s.get("tower",0))
 		if previous_tower!=p.mounted_tower:

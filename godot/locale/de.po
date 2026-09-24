@@ -4590,3 +4590,135 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+msgid "Ground placement"
+msgstr "Auf dem Boden bauen"
+
+msgid "Forest hut roof · slot %d"
+msgstr "Waldhüttendach · Platz %d"
+
+msgid "Repair selected roof turret · 35 R"
+msgstr "Gewählten Dachturm reparieren · 35 R"
+
+msgid "Align selected roof turret"
+msgstr "Gewählten Dachturm ausrichten"
+
+msgid "Move to the forest hut to build on its roof."
+msgstr "Geh zur Waldhütte, um auf ihrem Dach zu bauen."
+
+msgid "Roof slot occupied."
+msgstr "Dieser Dachplatz ist belegt."
+
+msgid "Roof turrets operate automatically."
+msgstr "Dachtürme kämpfen automatisch."
+
+msgid "[T] Forest hut building menu · roof defences"
+msgstr "[T] Waldhütten-Baumenü · Dachverteidigung"
+
+msgid "Roof slot %d · automatic (160°) · max. %d m\nObstacles block the line of fire"
+msgstr "Dachplatz %d · automatisch (160°) · max. %d m\nHindernisse blockieren die Schusslinie"
+
+msgid "DRONE CONTROL"
+msgstr "DROHNENZENTRALE"
+
+msgid "[E] Drone control station"
+msgstr "[E] Drohnenkontrollzentrum"
+
+msgid "Ready to fly"
+msgstr "Ready to fly"
+
+msgid "Unknown drone."
+msgstr "Unbekannte Drohne."
+
+msgid "Use the drone station upstairs in the forest hut."
+msgstr "Benutze die Drohnenstation im Obergeschoss der Waldhütte."
+
+msgid "The forest hut key is required."
+msgstr "Du brauchst den Schlüssel zur Waldhütte."
+
+msgid "Available from wave %d."
+msgstr "Verfügbar ab Welle %d."
+
+msgid "This drone is already in flight."
+msgstr "Diese Drohne ist bereits im Einsatz."
+
+msgid "Refitting drone: %d s"
+msgstr "Drohne wird einsatzbereit gemacht: %d s"
+
+msgid "%s · Wave %d · %d HP\n%d damage · %.1f shots/s"
+msgstr "%s · Welle %d · %d LP\n%d Schaden · %.1f Schüsse/s"
+
+msgid "WASD: fly · Mouse: aim · Space / Ctrl: climb / descend\nLeft click: fire · R / Esc: return · Your body stays at the station."
+msgstr "WASD: fliegen · Maus: zielen · Leertaste / Strg: steigen / sinken\nLinksklick: feuern · R / Esc: zurück · Dein Körper bleibt an der Station."
+
+msgid "Only the host launches drones."
+msgstr "Nur der Host bestätigt Drohnenstarts."
+
+msgid "Drone launch area blocked."
+msgstr "Der Startbereich der Drohnen ist blockiert."
+
+msgid "Drone destroyed. Refitting for 30 seconds."
+msgstr "Drohne zerstört. Wieder einsatzbereit in 30 Sekunden."
+
+msgid "Drone recalled. Refitting for 10 seconds."
+msgstr "Drohne zurückgerufen. Wieder einsatzbereit in 10 Sekunden."
+
+msgid "%s · HULL %d / %d · HEAT %d%%\nAltitude %.1f m · %s\nWASD fly · Mouse aim · Space / Ctrl up / down · LMB fire · R / Esc return"
+msgstr "%s · HÜLLE %d / %d · HITZE %d%%\nHöhe %.1f m · %s\nWASD fliegen · Maus zielen · Leertaste / Strg hoch / runter · LMT feuern · R / Esc zurück"
+
+msgid "COOLING"
+msgstr "KÜHLT AB"
+
+msgid "LIVE FEED"
+msgstr "LIVEBILD"
+
+msgid "Kestrel Scout"
+msgstr "Kestrel-Aufklärer"
+
+msgid "Viper Gunship"
+msgstr "Viper-Kampfdrohne"
+
+msgid "Tempest Assault"
+msgstr "Tempest-Sturmdrohne"
+
+msgid "Close [Esc]"
+msgstr "Schließen [Esc]"
+
+msgid "First Flight"
+msgstr "Erster Flug"
+
+msgid "Armed Patrol"
+msgstr "Bewaffnete Patrouille"
+
+msgid "Heavy Air Support"
+msgstr "Schwere Luftunterstützung"
+
+msgid "Drone Operations"
+msgstr "Drohneneinsätze"
+
+msgid "Kestrel flight (m)"
+msgstr "Kestrel-Flugstrecke (m)"
+
+msgid "Kestrel kills"
+msgstr "Kestrel-Abschüsse"
+
+msgid "Viper flight (m)"
+msgstr "Viper-Flugstrecke (m)"
+
+msgid "Viper kills"
+msgstr "Viper-Abschüsse"
+
+msgid "Tempest flight (m)"
+msgstr "Tempest-Flugstrecke (m)"
+
+msgid "Tempest kills"
+msgstr "Tempest-Abschüsse"
+
+msgid "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E: Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward."
+msgstr "Benutzt die Drohnenstation im Obergeschoss der Waldhütte (Schlüssel erforderlich). Fliegt im Team 150 m und besiegt 5 Zombies mit der Kestrel. E: Ready to fly. Leertaste/Strg: steigen/sinken. R: zurück. Frühere Flüge dieser Runde zählen mit. Holt eure Belohnung beim Mechanic ab."
+
+msgid "Fly 400 m and defeat 15 zombies with the Viper as a team. Available when wave 10 starts. Earlier flights this round count. Return to Mechanic for your reward."
+msgstr "Fliegt im Team 400 m und besiegt 15 Zombies mit der Viper. Verfügbar ab Beginn von Welle 10. Frühere Flüge dieser Runde zählen mit. Holt eure Belohnung beim Mechanic ab."
+
+msgid "Fly 600 m and defeat 30 zombies with the Tempest as a team. Available when wave 15 starts. Earlier flights this round count. Return to Mechanic for your reward."
+msgstr "Fliegt im Team 600 m und besiegt 30 Zombies mit der Tempest. Verfügbar ab Beginn von Welle 15. Frühere Flüge dieser Runde zählen mit. Holt eure Belohnung beim Mechanic ab."

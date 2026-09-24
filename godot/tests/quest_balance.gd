@@ -1,7 +1,7 @@
 extends SceneTree
 
 class World extends Node:
-	var waves := {"completed": 0}
+	var waves := {"completed": 0, "wave": 0}
 	var player := {"peer_id": 1}
 	var barricades: Array = []
 	var defences := {"towers": {}}
@@ -27,6 +27,7 @@ func run() -> void:
 		if int(spec.min_level) > 1:
 			check(Lang.text(shop.quest_lock_reason(1, id)).contains("Mission level"), id + " rejects acceptance below minimum level")
 		world.waves.completed = int(spec.min_level) - 1
+		world.waves.wave = int(spec.get("min_wave", 0))
 		check(shop.quest_lock_reason(1, id).is_empty(), id + " becomes available at intended level")
 		d.accepted[id] = true
 		d.accepted_wave[id] = world.waves.completed

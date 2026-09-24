@@ -18,6 +18,10 @@ var boss_panel: VBoxContainer
 var boss_name: Label
 var boss_bar: ProgressBar
 var selected_kind := "standard"
+var roof_slot := -1
+var site_picker: OptionButton
+var roof_repair: Button
+var roof_align: Button
 var build_menu: PanelContainer
 var kind_buttons: Dictionary = {}
 var _build_menu_state: Array = []
@@ -95,6 +99,7 @@ func _build_preview() -> void:
 	var preview := DefenceTower.new()
 	preview.game = game
 	preview.kind = selected_kind
+	preview.rooftop = roof_slot >= 0
 	preview.replica = true
 	ghost.add_child(preview)
 	preview.set_physics_process(false)
@@ -124,20 +129,37 @@ func _build_menu() -> void:
 	build_menu.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	build_menu.offset_left = -320
 	build_menu.offset_right = 320
-	build_menu.offset_top = -250
-	build_menu.offset_bottom = 250
+	build_menu.offset_top = -335
+	build_menu.offset_bottom = 335
+	var scroll := ScrollContainer.new()
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	build_menu.add_child(scroll)
 	var list := VBoxContainer.new()
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	list.add_theme_constant_override("separation",12)
-	build_menu.add_child(list)
+	scroll.add_child(list)
 	var title := Label.new()
 	title.text = "TOWER BUILDING · up to 6 towers per team"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	list.add_child(title)
+	site_picker = OptionButton.new()
+	site_picker.add_item("Ground placement")
+	for i in 6: site_picker.add_item(Lang.text(Lang.t("Forest hut roof · slot %d", [i + 1])))
+	site_picker.item_selected.connect(func(index: int): roof_slot = index - 1)
+	list.add_child(site_picker)
+	roof_repair = Button.new()
+	roof_repair.text = "Repair selected roof turret · 35 R"
+	roof_repair.pressed.connect(_repair_roof)
+	list.add_child(roof_repair)
+	roof_align = Button.new()
+	roof_align.text = "Align selected roof turret"
+	roof_align.pressed.connect(_align_roof)
+	list.add_child(roof_align)
 	for kind in DefenceTower.TYPES:
 		var spec: Dictionary = DefenceTower.SPECS[kind]
 		var button := Button.new()
 		button.text = Lang.t("%s · %d R\n%s · %d m", [spec.name,spec.cost,spec.info,spec.range])
-		button.custom_minimum_size.y = 70
+		button.custom_minimum_size.y = 62
 		button.pressed.connect(select_kind.bind(kind))
 		list.add_child(button)
 		kind_buttons[kind] = button
@@ -148,6 +170,8 @@ func _build_menu() -> void:
 	build_menu.hide()
 
 func begin_building() -> void:
+	roof_slot = 0 if roof_access(game.player) else -1
+	site_picker.select(roof_slot + 1)
 	_refresh_build_menu()
 	is_open = true
 	game.player.active = false
@@ -165,8 +189,16 @@ func select_kind(kind: String) -> void:
 	_build_preview()
 	placing = true
 	rotating_id = 0
-	build_yaw = game.player.rotation.y
+	build_yaw = float(Map.BUILDINGS.waldhuette.yaw) + (PI if roof_slot >= 3 else 0.0) if roof_slot >= 0 else game.player.rotation.y
+	_focus_roof_preview()
 	game.hud.set_prompt("")
+
+func _focus_roof_preview() -> void:
+	if roof_slot < 0: return
+	var direction: Vector3 = roof_position(roof_slot) + Vector3.UP * 0.65 - game.player.camera.global_position
+	game.player.rotation.y = atan2(-direction.x, -direction.z)
+	game.player.pitch = clampf(atan2(direction.y, Vector2(direction.x, direction.z).length()), -1.45, 1.45)
+	game.player.head.rotation.x = game.player.pitch
 
 func unlock_waves(kind: String, level := 1) -> int:
 	return int(DefenceTower.SPECS[kind].unlock_waves) + int(DefenceTower.UPGRADE_WAVE_OFFSETS[level - 1])
@@ -195,13 +227,17 @@ func upgrade_reason(p: Player, tower: DefenceTower) -> String:
 	return ""
 
 func _refresh_build_menu() -> void:
-	var state := [game.waves.completed, game.player.score, towers.size()]
+	var state := [game.waves.completed, game.player.score, towers.size(), roof_slot, roof_access(game.player), Lang.current]
 	if state == _build_menu_state: return
 	_build_menu_state = state
+	for i in 6: site_picker.set_item_text(i + 1, Lang.text(Lang.t("Forest hut roof · slot %d", [i + 1])))
 	for kind in kind_buttons:
 		var spec: Dictionary = DefenceTower.SPECS[kind]
 		var button: Button = kind_buttons[kind]
 		var reason := build_requirement(game.player, kind)
+		if reason.is_empty() and roof_slot >= 0:
+			if not roof_access(game.player): reason = "Move to the forest hut to build on its roof."
+			elif roof_tower(roof_slot): reason = "Roof slot occupied."
 		var available := "From the start" if unlock_waves(kind) == 0 else Lang.t("After wave %d", [unlock_waves(kind)])
 		button.text = Lang.t("%s · %d R · %s\n%s · %d m", [spec.name, spec.cost, available, spec.info, spec.range])
 		button.disabled = not reason.is_empty()
@@ -209,12 +245,52 @@ func _refresh_build_menu() -> void:
 		if button.disabled: button.text += "\n" + Lang.t(reason)
 		button.tooltip_text = Lang.t("Tier 2 after wave %d · Tier 3 after wave %d", [unlock_waves(kind, 2), unlock_waves(kind, 3)])
 
+# Fixed, deterministic sockets: host and late joiners derive the same attachment
+# from the existing hut transform. No building geometry or network format changes.
+func roof_position(slot: int) -> Vector3:
+	var b: Dictionary = Map.BUILDINGS["waldhuette"]
+	var local := Vector3((slot % 3 - 1) * 2.1, 0, -2.45 if slot < 3 else 2.45)
+	local.y = float(b.base_h) + float(b.wall_h) + 0.14 + float(b.roof_h) * (1.0 - (absf(local.z) - 0.7) / (float(b.size.y) * 0.5)) + 0.12
+	return game.hut.center + local.rotated(Vector3.UP, float(b.yaw))
+
+func roof_index(point: Vector3) -> int:
+	if not point.is_finite() or not game.hut: return -1
+	for i in 6:
+		if point.distance_to(roof_position(i)) < 0.05: return i
+	return -1
+
+func roof_access(p: Player) -> bool:
+	return p.alive and not p.mounted_tower and game.hut != null and not game.hut.destroyed and game.hut.distance(p.global_position) <= HutHealth.REPAIR_REACH and absf(p.global_position.y - game.hut.center.y) < 8.0
+
+func roof_tower(slot: int) -> DefenceTower:
+	if slot < 0: return null
+	for tower: DefenceTower in towers.values():
+		if is_instance_valid(tower) and tower.global_position.distance_to(roof_position(slot)) < 1.0: return tower
+	return null
+
+func _repair_roof() -> void:
+	var tower := roof_tower(roof_slot)
+	if not tower: return
+	if NetSession.enabled: NetSession.command("tower_repair", [tower.tower_id])
+	else: game.hud.message(maintain(game.player, tower.tower_id, "repair"), 2)
+
+func _align_roof() -> void:
+	var tower := roof_tower(roof_slot)
+	if not tower or not roof_access(game.player): return
+	close()
+	begin_rotation(tower)
+
 func placement_error(p: Player, point: Vector3, kind := "standard") -> String:
 	if not DefenceTower.SPECS.has(kind): return "Unknown tower type."
 	if p.mounted_tower: return "Dismount before building."
 	if not p.alive or not point.is_finite(): return "Building not possible right now."
 	var requirement := build_requirement(p, kind)
 	if not requirement.is_empty(): return requirement
+	var socket := roof_index(point)
+	if socket >= 0:
+		if not roof_access(p): return "Move to the forest hut to build on its roof."
+		if roof_tower(socket): return "Roof slot occupied."
+		return ""
 	if p.global_position.distance_to(point) > 8.0: return "Choose a building site no more than 8 m away."
 	if not Map.BOUNDS.grow(-3).has_point(Vector2(point.x, point.z)): return "Outside the building area."
 	var ground := Map.ground_pos(point.x, point.z)
@@ -252,6 +328,7 @@ func create_tower(point: Vector3, owner: int, id := 0, remote := false, kind := 
 	tower.owner_peer = owner
 	tower.game = game
 	tower.replica = remote
+	tower.rooftop = roof_index(point) >= 0
 	tower.position = point
 	game.add_child(tower)
 	towers[id] = tower
@@ -264,7 +341,7 @@ func purchase(p: Player, point: Vector3, yaw := 0.0, kind := "standard") -> Stri
 	var error := placement_error(p, point, kind)
 	if not error.is_empty(): return error
 	p.add_score(-int(DefenceTower.SPECS[kind].cost))
-	var tower := create_tower(Map.ground_pos(point.x, point.z), p.peer_id,0,false,kind)
+	var tower := create_tower(roof_position(roof_index(point)) if roof_index(point) >= 0 else Map.ground_pos(point.x, point.z), p.peer_id,0,false,kind)
 	tower.rotation.y = wrapf(yaw, -PI, PI)
 	game.progression.event("built")
 	Sfx.play_at(game, "build", point, -8)
@@ -278,7 +355,7 @@ func maintain(p: Player, id: int, action: String, at_merchant := false) -> Strin
 	if action in ["upgrade", "sell"]:
 		if not at_merchant or not game.progression.close_enough(p, "mechanic"): return "Upgrading and dismantling only at Mechanic."
 	else:
-		if not p.alive or p.global_position.distance_to(tower.global_position) > 6: return "Too far from the tower."
+		if not p.alive or (not tower.rooftop and p.global_position.distance_to(tower.global_position) > 6): return "Too far from the tower."
 		if not reachable(p, tower): return "No clear view of the tower."
 	var cost := 0
 	match action:
@@ -309,7 +386,7 @@ func nearest(p: Player) -> DefenceTower:
 	var found: DefenceTower
 	var distance := 4.0
 	for tower: DefenceTower in towers.values():
-		if not is_instance_valid(tower): continue
+		if not is_instance_valid(tower) or tower.rooftop: continue
 		var d := p.global_position.distance_to(tower.global_position)
 		if d < distance and reachable(p, tower):
 			distance = d
@@ -317,6 +394,7 @@ func nearest(p: Player) -> DefenceTower:
 	return found
 
 func reachable(p: Player, tower: DefenceTower) -> bool:
+	if tower.rooftop: return roof_access(p)
 	var q := PhysicsRayQueryParameters3D.create(p.global_position + Vector3.UP * 1.7, tower.global_position + Vector3.UP * 1.7, 1 | 8, [p.get_rid()])
 	var hit: Dictionary = game.get_world_3d().direct_space_state.intersect_ray(q)
 	return hit.is_empty() or hit.collider == tower.body
@@ -328,10 +406,12 @@ func begin_rotation(tower: DefenceTower) -> void:
 	if not game.player.active or not is_instance_valid(tower): return
 	if tower.operator_peer: return
 	selected_kind = tower.kind
+	roof_slot = roof_index(tower.global_position)
 	_build_preview()
 	rotating_id = tower.tower_id
 	build_yaw = tower.rotation.y
 	build_position = tower.global_position
+	_focus_roof_preview()
 	placing = true
 	game.hud.set_prompt("")
 
@@ -340,7 +420,7 @@ func rotate_tower(p: Player, id: int, yaw: float) -> String:
 	var tower: DefenceTower = towers.get(id)
 	if not is_instance_valid(tower) or not p.alive: return "Tower not found."
 	if tower.operator_peer: return "The tower is being operated right now."
-	if p.global_position.distance_to(tower.global_position) > 6 or not reachable(p, tower): return "Move closer to the tower."
+	if (not tower.rooftop and p.global_position.distance_to(tower.global_position) > 6) or not reachable(p, tower): return "Move closer to the tower."
 	if absf(angle_difference(tower.rotation.y, yaw)) < 0.05: return "Rotate the tower with R or the mouse wheel."
 	tower.rotation.y = wrapf(yaw, -PI, PI)
 	tower.target = null
@@ -359,6 +439,7 @@ func mount(p: Player, id: int) -> String:
 	if NetSession.is_client(): return "Only the host confirms mounting."
 	var tower: DefenceTower = towers.get(id)
 	if not is_instance_valid(tower) or tower.hp<=0: return "Tower not found."
+	if tower.rooftop: return "Roof turrets operate automatically."
 	if not p.alive or p.mounted_tower or p.global_position.distance_to(tower.global_position)>4 or not reachable(p,tower): return "Move closer to the tower."
 	if tower.operator_peer: return "This tower is already occupied."
 	tower.operator_peer = p.peer_id
@@ -467,7 +548,7 @@ func aim_readout(tower: DefenceTower) -> Dictionary:
 	return {"distance": distance, "within": within, "blocked": blocked}
 
 func _input(event: InputEvent) -> void:
-	if not game or not game.started or game.over: return
+	if not game or not game.started or game.over or game.player.controlling_drone: return
 	if game.player.mounted_tower:
 		if event.is_action_pressed("interact") and input_grace<=0:
 			if NetSession.enabled: NetSession.command("tower_exit")
@@ -541,7 +622,7 @@ func _process(delta: float) -> void:
 		var state := "VIEW BLOCKED" if aim.blocked else "IN RANGE" if aim.within else "OUT OF RANGE" if aim.distance >= 0 else "NO TARGET"
 		range_label.text = Lang.t("%s · Range %d m\n%s", [Lang.t("Target %.1f m", [aim.distance]) if aim.distance >= 0 else "Clear field of fire", roundi(mounted.attack_range()), state])
 		range_label.modulate = Color(0.65, 1, 0.7) if aim.within and not aim.blocked else Color(1, 0.4, 0.25) if aim.distance >= 0 else Hud.GOLD
-	if game.weapons and game.weapons.viewmodel: game.weapons.viewmodel.visible = mounted == null
+	if game.weapons and game.weapons.viewmodel: game.weapons.viewmodel.visible = mounted == null and not game.player.controlling_drone
 	if mounted:
 		game.player.head.position.y = Player.CROUCH_EYE
 		game.hud.ammo_label.text = Lang.t("MANUAL · %d%%", [roundi(mounted.heat*100)])
@@ -563,7 +644,13 @@ func _process(delta: float) -> void:
 				else: control(game.player,mounted.tower_id,game.player.rotation.y,game.player.pitch,firing,aiming)
 			game.hud.set_prompt(Lang.t("%s · [Left click] Fire · [Hold right click] Aim · [E] Dismount\n%s · Heat %d%%", [mounted.spec().name,"OVERHEATED – let it cool down" if mounted.overheated or mounted.heat>=0.99 else "Precision mode" if aiming else "Manual control",roundi(mounted.heat*100)]))
 	if is_open and (not game.player.alive or game.over): close()
-	if is_open: _refresh_build_menu()
+	if is_open:
+		_refresh_build_menu()
+		var selected := roof_tower(roof_slot)
+		roof_repair.visible = roof_slot >= 0
+		roof_align.visible = roof_slot >= 0
+		roof_repair.disabled = not selected or not roof_access(game.player) or selected.hp >= selected.max_hp() or game.player.score < DefenceTower.REPAIR_COST
+		roof_align.disabled = not selected or not roof_access(game.player)
 	if placing:
 		if not game.player.active or not game.player.alive:
 			cancel_placement()
@@ -579,9 +666,9 @@ func _process(delta: float) -> void:
 					cancel_placement()
 					return
 				build_position = tower.global_position
-				build_error = "" if game.player.global_position.distance_to(build_position) <= 6 and reachable(game.player, tower) else "Move closer to the tower."
+				build_error = "" if (tower.rooftop or game.player.global_position.distance_to(build_position) <= 6) and reachable(game.player, tower) else "Move closer to the tower."
 			else:
-				build_position = Map.ground_pos(point.x, point.z)
+				build_position = roof_position(roof_slot) if roof_slot >= 0 else Map.ground_pos(point.x, point.z)
 				build_error = placement_error(game.player, build_position, selected_kind)
 			ghost.rotation.y = build_yaw
 			ghost.global_position = build_position
@@ -590,6 +677,8 @@ func _process(delta: float) -> void:
 			var spec: Dictionary = DefenceTower.SPECS[selected_kind]
 			var head := Lang.t("ALIGN %s · free", [spec.name]) if rotating_id else Lang.t("%s · %d R", [spec.name,spec.cost])
 			var detail := Lang.t("Max. %d m · bright sector: automatic (160°)\nManual: full circle · obstacles block", [roundi(preview_range())]) if build_error.is_empty() else build_error
+			if roof_slot >= 0 and build_error.is_empty():
+				detail = Lang.t("Roof slot %d · automatic (160°) · max. %d m\nObstacles block the line of fire", [roof_slot + 1, roundi(preview_range())])
 			hint.text = Lang.t("%s · %d / 6 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel", [head, towers.size(), detail])
 			hint.show()
 	var titan: Zombie

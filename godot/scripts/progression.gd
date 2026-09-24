@@ -35,6 +35,9 @@ const GOODS := {
 	"graviton_cannon": {"npc": "secret", "price": 3000, "wave": 13, "quest": "giant_debt", "ammo": 120, "desc": "Six meters of area damage and 140% bonus damage against titans. Only twelve energy cells."},
 }
 const QUESTS := {
+	"drone_training": {"min_level": 5, "min_wave": 5, "waves_after_accept": 0, "npc": "mechanic", "name": "First Flight", "requires": "", "reward": 150, "desc": "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E: Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_scout_meters": 150, "drone_scout_kills": 5}},
+	"drone_patrol": {"min_level": 10, "min_wave": 10, "waves_after_accept": 0, "npc": "mechanic", "name": "Armed Patrol", "requires": "drone_training", "reward": 250, "desc": "Fly 400 m and defeat 15 zombies with the Viper as a team. Available when wave 10 starts. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_viper_meters": 400, "drone_viper_kills": 15}},
+	"drone_air_support": {"min_level": 15, "min_wave": 15, "waves_after_accept": 0, "npc": "mechanic", "name": "Heavy Air Support", "requires": "drone_patrol", "reward": 400, "desc": "Fly 600 m and defeat 30 zombies with the Tempest as a team. Available when wave 15 starts. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_tempest_meters": 600, "drone_tempest_kills": 30}},
 	"forest_basket": {"min_level": 2, "waves_after_accept": 1,"npc": "ranger", "name": "What the Forest Gives Us", "requires": "arrival", "reward": 90, "desc": "Collect five porcini as a team. Mara shows you what to look out for in the forest. Mushrooms you already collected count, and you may keep them.", "goals": {"edible_mushrooms": 5}},
 	"restless_paths": {"min_level": 5, "waves_after_accept": 1,"npc": "ranger", "name": "Unrest on the Paths", "requires": "forest_basket", "reward": 140, "desc": "Defeat twelve runners as a team. Their quick footsteps give nobody any rest, not even here by the small fire.", "goals": {"runner_kills": 12}},
 	"forest_watch": {"min_level": 8, "waves_after_accept": 1,"npc": "ranger", "name": "While the Fire Burns", "requires": "restless_paths", "reward": 220, "desc": "Survive wave 6 and defeat 80 zombies in total. Then return to Mara at the small fire pit.", "goals": {"waves": 6, "kills": 80}},
@@ -55,6 +58,7 @@ const QUESTS := {
 	"nameless": {"min_level": 16, "waves_after_accept": 2,"npc": "secret", "name": "A Name No One Knows", "requires": "giant_debt", "reward": 380, "desc": "Survive wave 12 and defeat five field titans in total. After that we speak as equals.", "goals": {"waves": 12, "titans": 5}},
 }
 const QUEST_CHAINS := {
+	"drones": {"name": "Drone Operations", "quests": ["drone_training", "drone_patrol", "drone_air_support"]},
 	"arrival": {"name": "Arrival", "quests": ["arrival"]},
 	"assault": {"name": "Assault", "quests": ["line", "night_shift"]},
 	"marksman": {"name": "Marksman", "quests": ["steady_aim", "marksman_training", "silent_deal"]},
@@ -64,7 +68,7 @@ const QUEST_CHAINS := {
 	"titans": {"name": "Titan Hunt", "quests": ["titan", "giant_debt", "nameless"]},
 	"survival": {"name": "Protect the Camp", "quests": ["last_light"]},
 }
-const GOAL_LABELS := {"edible_mushrooms": "Porcini mushrooms", "runner_kills": "Runners", "headshot_kills": "Headshot kills", "waves": "Waves", "kills": "Zombies", "active_towers": "Active towers", "reinforced_barricades": "Barricades tier 2+", "elite_towers": "Towers tier 3", "tower_kills": "Tower kills", "titans": "Titans"}
+const GOAL_LABELS := {"drone_scout_meters": "Kestrel flight (m)", "drone_scout_kills": "Kestrel kills", "drone_viper_meters": "Viper flight (m)", "drone_viper_kills": "Viper kills", "drone_tempest_meters": "Tempest flight (m)", "drone_tempest_kills": "Tempest kills", "edible_mushrooms": "Porcini mushrooms", "runner_kills": "Runners", "headshot_kills": "Headshot kills", "waves": "Waves", "kills": "Zombies", "active_towers": "Active towers", "reinforced_barricades": "Barricades tier 2+", "elite_towers": "Towers tier 3", "tower_kills": "Tower kills", "titans": "Titans"}
 const SKINS := {
 	"forest": {"name": "Forest Camo", "price": 160, "npc": "camp", "quest": "line", "desc": "Moss, olive and dark earth. Purely cosmetic."},
 	"bronze": {"name": "Soot Bronze", "price": 300, "npc": "secret", "quest": "supplies", "desc": "Blackened metal with bronze panels. Purely cosmetic."},
@@ -385,10 +389,26 @@ func goal_value(kind: String) -> int:
 func mission_level() -> int:
 	return game.waves.completed + 1
 
+func record_drone_flight(kind: String, meters: float) -> void:
+	if NetSession.is_client() or kind not in ["scout", "viper", "tempest"]: return
+	if not is_finite(meters) or meters <= 0: return
+	var key := "drone_" + kind + "_meters"
+	team[key] = float(team.get(key, 0.0)) + meters
+
+func record_drone_kill(kind: String) -> void:
+	if NetSession.is_client() or kind not in ["scout", "viper", "tempest"]: return
+	var key := "drone_" + kind + "_kills"
+	team[key] = int(team.get(key, 0)) + 1
+
 func quest_lock_reason(peer: int, id: String) -> String:
 	var missing := prerequisite_reason(peer, QUESTS[id].requires)
 	if not missing.is_empty(): return missing
 	var level := int(QUESTS[id].min_level)
+	if mission_level() >= level and QUESTS[id].has("min_wave"):
+		var wave := int(QUESTS[id].min_wave)
+		var active_wave: Variant = game.waves.get("wave")
+		if maxi(game.waves.completed, int(active_wave) if active_wave != null else 0) < wave:
+			return Lang.t("Available from wave %d.", [wave])
 	return Lang.t("Mission level %d required (currently %d). Survive wave %d.", [level, mission_level(), level - 1]) if mission_level() < level else ""
 
 func required_completion_wave(peer: int, id: String) -> int:
@@ -1223,7 +1243,7 @@ func _process(delta: float) -> void:
 	var guiding: bool = game.intro != null and game.intro.showing_guidance()
 	notifications.visible = game.started and not game.over and not game.hud.overlay.visible and not guiding
 	tracker.visible = playing and _journal and not game.defences.placing and not guiding
-	tutorial.visible = playing and not game.defences.placing and not game.defences.is_open and not game.player.mounted_tower and not guiding
+	tutorial.visible = playing and not game.defences.placing and not game.defences.is_open and not game.player.mounted_tower and not game.player.controlling_drone and not guiding
 	if tutorial.visible and local_data().claimed.get("arrival", false) and team.built == 0:
 		_tower_tutorial_remaining = maxf(0.0, _tower_tutorial_remaining - delta)
 	_refresh_time -= delta
@@ -1239,7 +1259,7 @@ func _process(delta: float) -> void:
 		for barrier: Barricade in game.barricades: structures.append([barrier.level, barrier.hp > 0])
 		var reserves := {}
 		for wid in game.weapons.state: reserves[wid] = [game.weapons.state[wid].ammo, game.weapons.state[wid].reserve]
-		var signature := str([game.player.score, ceili(game.player.hp), game.weapons.grenades, reserves, mushroom_stock(game.player), game.hunting.stock(game.player.peer_id), game.weapons.unlocked, people, team, game.waves.completed, game.skills.levels, game.weapons.current, structures, game.weapons.mod_owned, game.weapons.mod_loadout, rare_market.stock, rare_market.people, game.fireworks.stock(game.player.peer_id)])
+		var signature := str([game.player.score, ceili(game.player.hp), game.weapons.grenades, reserves, mushroom_stock(game.player), game.hunting.stock(game.player.peer_id), game.weapons.unlocked, people, team, game.waves.completed, game.waves.wave, game.skills.levels, game.weapons.current, structures, game.weapons.mod_owned, game.weapons.mod_loadout, rare_market.stock, rare_market.people, game.fireworks.stock(game.player.peer_id)])
 		if signature != _last_signature:
 			_last_signature = signature
 			_render()

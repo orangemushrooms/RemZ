@@ -193,7 +193,7 @@ func refresh() -> void:
 
 func _process(delta: float) -> void:
 	if not game: return
-	bar.visible = game.started and not game.over and game.player.alive and not game.player.mounted_tower and (game.player.active or game.inventory.is_open)
+	bar.visible = game.started and not game.over and game.player.alive and not game.player.mounted_tower and not game.player.controlling_drone and (game.player.active or game.inventory.is_open)
 	if not bar.visible:
 		picker.hide()
 		return
@@ -211,6 +211,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	var key: int = event.physical_keycode if event.physical_keycode != 0 else event.keycode
 	if key < KEY_0 or key > KEY_9: return
 	if event.ctrl_pressed or event.alt_pressed or event.meta_pressed: return
-	if not game.player.active or game.player.mounted_tower or get_tree().paused: return
+	if not game.player.active or game.player.mounted_tower or game.player.controlling_drone or get_tree().paused: return
 	activate(9 if key == KEY_0 else key - KEY_1)
 	get_viewport().set_input_as_handled()

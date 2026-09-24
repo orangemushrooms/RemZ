@@ -278,6 +278,9 @@ func resolve_strike() -> void:
 	for tower in get_tree().get_nodes_in_group("defence_towers"):
 		if tower.hp > 0 and tower.attack_point(strike_point).distance_to(strike_point) < blast_radius() and clear_strike_line(tower.attack_point(strike_point), tower.body):
 			tower.damage(240.0 * damage_mul * float(type.get("structure_mul", 1.0)))
+	for drone: AttackDrone in get_tree().get_nodes_in_group("attack_drones"):
+		if drone.hp > 0 and drone.global_position.distance_to(strike_point) < blast_radius() and clear_strike_line(drone.global_position,drone):
+			drone.damage(float(type.damage)*damage_mul)
 	for door: Door in hut_doors:
 		if door.hp > 0 and door.attack_point(strike_point).distance_to(strike_point) < blast_radius() and clear_strike_line(door.attack_point(strike_point), door.body):
 			door.damage(230.0 * damage_mul * float(type.get("structure_mul", 1.0)))

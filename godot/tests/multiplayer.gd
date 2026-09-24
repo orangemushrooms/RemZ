@@ -213,7 +213,12 @@ func host_run() -> void:
 	z.global_position = Map.ground_pos(8, -19)
 	var hp := z.hp
 	await wait_seconds(0.6)
-	await command_clients("shoot", ["c1"], [[z.global_position.x, z.global_position.y + 1.2, z.global_position.z]])
+	# Random Meshy skins have different hunched torso heights. A fixed 1.2 m
+	# point can lie in empty space; this test checks transport, not hip-fire luck.
+	var aim_probe := DefenceTower.new()
+	var shot_at := aim_probe.target_point(z)
+	aim_probe.free()
+	await command_clients("shoot", ["c1"], [[shot_at.x, shot_at.y, shot_at.z]])
 	await wait_seconds(0.6)
 	check(z.hp < hp, "Remote AK shot damages the host zombie")
 	check(NetSession.world.weapons[c1].state.ak47.ammo == 29, "Exactly one round consumed on host")
@@ -668,6 +673,7 @@ func client_run() -> void:
 			"shoot":
 				game.weapons.set_weapon("ak47")
 				game.player.camera.look_at(Vector3(args[0][0], args[0][1], args[0][2]))
+				game.weapons.ads = 1.0
 				game.weapons.try_fire()
 			"reload": game.weapons.reload()
 			"grenade": game.weapons.throw_grenade()

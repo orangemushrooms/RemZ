@@ -76,6 +76,7 @@ var peer_id := 1
 var remote_actor := false
 var cash_cooldown := 0.0
 var mounted_tower := 0
+var controlling_drone := 0
 var _motion_from := Vector3.ZERO
 var _motion_to := Vector3.ZERO
 var _motion_ready := false
@@ -142,7 +143,7 @@ func stance_precision() -> float:
 	return 0.7 if crouching and absf(velocity.y) < 2.0 and Vector2(velocity.x, velocity.z).length() <= CROUCH_SPEED * effective_speed_mul() + 0.2 else 1.0
 
 func _unhandled_input(event: InputEvent) -> void:
-	if remote_actor or not active or not alive:
+	if remote_actor or not active or not alive or controlling_drone:
 		return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var scene := get_tree().current_scene
@@ -171,7 +172,7 @@ func _process(_delta: float) -> void:
 
 func _update_camera_motion(fraction: float) -> void:
 	_restore_camera_motion()
-	if remote_actor or not active or not alive or mounted_tower or not is_physics_processing() or not _motion_ready: return
+	if remote_actor or not active or not alive or mounted_tower or controlling_drone or not is_physics_processing() or not _motion_ready: return
 	# Teleports/network corrections must snap, never sweep through the map.
 	if not global_position.is_equal_approx(_motion_to):
 		_motion_ready = false
@@ -196,6 +197,10 @@ func _physics_process(delta: float) -> void:
 		return
 	if not active or not alive:
 		_clear_tremor()
+		return
+	if controlling_drone:
+		velocity = Vector3.ZERO
+		if not NetSession.is_client(): _regenerate(delta)
 		return
 	if mounted_tower:
 		velocity = Vector3.ZERO

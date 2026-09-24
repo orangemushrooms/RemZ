@@ -157,6 +157,8 @@ func _draw_compass(c: Control) -> void:
 	# the rose turns with the player: the top of the rose is the view direction, the orange needle points north
 	var center := Vector2(263, 72)
 	var rot: float = player.rotation.y if is_instance_valid(player) else 0.0
+	if is_instance_valid(player) and player.controlling_drone and world.drones.drones.has(player.controlling_drone):
+		rot = world.drones.drones[player.controlling_drone].yaw
 	c.draw_circle(center, 25.0, Color(0.025, 0.04, 0.035, 0.85))
 	for i in 4:
 		var direction := Vector2.UP.rotated(i * PI / 2.0 + rot)
@@ -234,6 +236,14 @@ func _draw_symbols(c: Control) -> void:
 			var point := map_position(tower.global_position)
 			if MAP_RECT.has_point(point):
 				c.draw_rect(Rect2(point - Vector2.ONE * 3, Vector2.ONE * 6), Color(0.3, 0.85, 0.95))
+	if "drones" in world and world.drones:
+		for drone: AttackDrone in world.drones.drones.values():
+			var at := map_position(drone.global_position)
+			if not MAP_RECT.has_point(at): continue
+			var direction := Vector2(-sin(drone.yaw),-cos(drone.yaw))
+			var wing := direction.orthogonal()
+			c.draw_circle(at,6,Color(0.02,0.05,0.06))
+			c.draw_colored_polygon(PackedVector2Array([at+direction*7,at-direction*4+wing*5,at-direction*4-wing*5]),Color(0.1,1,0.8))
 	for zombie in world.zombies_root.get_children():
 		if zombie is Zombie and zombie.alive:
 			var p := map_position(zombie.global_position)

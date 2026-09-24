@@ -18,6 +18,7 @@ var cheat_menu: CanvasLayer
 var forest_keys: ForestKeys
 var achievements: Achievements
 var barricade_menu: BarricadeMenu
+var drones: DroneSystem
 var defences: DefenceSystem
 var progression: Progression
 var ambience: Ambience
@@ -233,6 +234,9 @@ func _ready() -> void:
 	defences = DefenceSystem.new()
 	add_child(defences)
 	defences.setup(self)
+	drones = DroneSystem.new()
+	add_child(drones)
+	drones.setup(self)
 	progression = Progression.new()
 	add_child(progression)
 	progression.setup(self)
@@ -2448,6 +2452,7 @@ func _survived_text() -> String:
 func _end_round(title: String, text: String) -> void:
 	if over: return
 	over = true
+	if drones: drones.shutdown()
 	player.active = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	music.horde = 0.0
@@ -2571,7 +2576,7 @@ func _process(delta: float) -> void:
 	if fire_light:
 		var daylight_multiplier := day_night.fire_energy_multiplier if day_night else 1.0
 		fire_light.light_energy = 5.0 * daylight_multiplier * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
-	if player and player.active and not player.mounted_tower and not defences.placing and defences.input_grace <= 0:
+	if player and player.active and not player.controlling_drone and drones.input_grace <= 0 and not player.mounted_tower and not defences.placing and defences.input_grace <= 0:
 		if not intro.showing_guidance():
 			_tower_hint_remaining = maxf(0.0, _tower_hint_remaining - delta)
 		var near = null
@@ -2612,16 +2617,21 @@ func _process(delta: float) -> void:
 		var grill: bool = hunting.at_grill(player)
 		var hunt_interact: bool = not downed and loot == null and tower == null and near == null and (meat_drop >= 0 or grill)
 		if hunt_interact: npc = ""
+		var drone_station := not downed and drones.nearby(player)
 		var reading_notice := _looking_at_notice() and not downed
 		var idle_prompt := "[T] Tower build menu · from 120 R" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
 		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
 		if hut_fix: idle_prompt = hut.prompt_text()
+		if defences.roof_access(player): idle_prompt = Lang.t(idle_prompt) + "\n" + Lang.t("[T] Forest hut building menu · roof defences")
 		hud.set_prompt(Lang.t("[E] Revive %s · stay nearby for 3 seconds", [Lang.raw(NetSession.roster[downed])]) if downed else (loot.prompt_text() if loot else ("Tower occupied" if tower and tower.operator_peer else Lang.t("[E] Mount / operate · [R] Align · [F] Repair\nRange %d m · bright sector: automatic", [roundi(tower.attack_range())]) if tower else (near.prompt_text() if near else idle_prompt))))
 		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
 		if hunt_interact: hud.set_prompt(hunting.prompt(player, meat_drop))
 		if reading_notice: hud.set_prompt("[E] Read sign · A strange note")
+		if drone_station: hud.set_prompt("[E] Drone control station")
 		if _notice_open: hud.set_prompt("[E] Close note")
-		if _notice_open and Input.is_action_just_pressed("interact"):
+		if drone_station and Input.is_action_just_pressed("interact"):
+			drones.open()
+		elif _notice_open and Input.is_action_just_pressed("interact"):
 			_close_notice()
 		elif reading_notice and Input.is_action_just_pressed("interact"):
 			_read_notice()

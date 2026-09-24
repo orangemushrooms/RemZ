@@ -642,7 +642,7 @@ func _physics_process(delta: float) -> void:
 		_decision_target = _choose_defence(p, player_priority)
 		_decision_time = 0.16 + float(appearance_seed % 7) * 0.01
 		bar = _decision_target
-	if player_priority: bar = null
+	if player_priority and not bar is AttackDrone: bar = null
 	var target: Vector3 = bar.attack_point(p) if bar else player.global_position
 	agent.target_desired_distance = 0.25 if bar else 1.0
 	var to_target := target - p
@@ -755,6 +755,11 @@ func _choose_defence(p: Vector3, player_priority: bool) -> Node3D:
 				bd = dd
 				bar = door
 	if player_priority: bar = null
+	# Low flying drones are exposed to a real, telegraphed melee strike.
+	for drone: AttackDrone in get_tree().get_nodes_in_group("attack_drones"):
+		if drone.hp > 0 and drone.global_position.distance_to(p) < float(type["reach"]) + 0.4 and _can_hit(drone):
+			bar = drone
+			break
 	return bar
 
 func begin_hunt() -> void:
@@ -881,7 +886,7 @@ func _move_on_terrain() -> bool:
 
 func _can_hit(bar: Variant) -> bool:
 	var origin := global_position + Vector3.UP * height * 0.65
-	var target: Vector3 = bar.attack_point(global_position) + Vector3.UP if bar else player.global_position + Vector3.UP
+	var target: Vector3 = (bar.global_position if bar is AttackDrone else bar.attack_point(global_position) + Vector3.UP) if bar else player.global_position + Vector3.UP
 	var query := PhysicsRayQueryParameters3D.create(origin, target, 1 | 8)
 	query.exclude = [get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
