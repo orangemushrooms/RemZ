@@ -201,6 +201,7 @@ func _physics_process(delta: float) -> void:
 	if controlling_drone:
 		velocity = Vector3.ZERO
 		if not NetSession.is_client(): _regenerate(delta)
+		_heartbeat(delta)   # the body at the station is what the zombies go for meanwhile
 		return
 	if mounted_tower:
 		velocity = Vector3.ZERO
@@ -342,6 +343,9 @@ func _footsteps(delta: float, moving: bool, sprint: bool) -> void:
 			Sfx.footstep(self, _surface_step(), -13.0 if not sprint else -10.0, 1.0 + 0.05 * _step_side)
 	else:
 		_step_t = minf(_step_t, 0.12)
+	_heartbeat(delta)
+
+func _heartbeat(delta: float) -> void:
 	if alive and hp < max_hp * 0.35:
 		_heart_t -= delta
 		if _heart_t <= 0.0:

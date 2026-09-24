@@ -170,7 +170,14 @@ func _build_menu() -> void:
 	build_menu.hide()
 
 func begin_building() -> void:
-	roof_slot = 0 if roof_access(game.player) else -1
+	roof_slot = -1
+	if roof_access(game.player):
+		# Preselect the first free socket; with the roof full, the first turret for repair / alignment.
+		roof_slot = 0
+		for i in 6:
+			if not roof_tower(i):
+				roof_slot = i
+				break
 	site_picker.select(roof_slot + 1)
 	_refresh_build_menu()
 	is_open = true
@@ -247,9 +254,11 @@ func _refresh_build_menu() -> void:
 
 # Fixed, deterministic sockets: host and late joiners derive the same attachment
 # from the existing hut transform. No building geometry or network format changes.
+# 3.1 m from the ridge puts the gun just inside the wall line: from 2.45 m the wall hid every
+# zombie closer than about 2 m, exactly the ones hitting the hut (tests/roof_defences.gd).
 func roof_position(slot: int) -> Vector3:
 	var b: Dictionary = Map.BUILDINGS["waldhuette"]
-	var local := Vector3((slot % 3 - 1) * 2.1, 0, -2.45 if slot < 3 else 2.45)
+	var local := Vector3((slot % 3 - 1) * 2.1, 0, -3.1 if slot < 3 else 3.1)
 	local.y = float(b.base_h) + float(b.wall_h) + 0.14 + float(b.roof_h) * (1.0 - (absf(local.z) - 0.7) / (float(b.size.y) * 0.5)) + 0.12
 	return game.hut.center + local.rotated(Vector3.UP, float(b.yaw))
 

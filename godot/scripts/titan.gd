@@ -208,6 +208,8 @@ func _physics_process(delta: float) -> void:
 				best = d
 				obstruction = b
 	for tower in get_tree().get_nodes_in_group("defence_towers"):
+		# A roof turret sits behind the hut wall, where no slam reaches it: committed to one, the giant hammered forever.
+		if tower.rooftop: continue
 		var d: float = tower.global_position.distance_squared_to(global_position)
 		if not hunting and tower.hp > 0 and d < 100 and d < best and obstruction == null:
 			obstruction = tower

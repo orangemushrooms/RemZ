@@ -37,7 +37,8 @@ func display(center: Vector3, radius: float, yaw: float, manual: bool, invalid :
 	var mesh := ImmediateMesh.new()
 	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
 	var color := Color(1, 0.28, 0.15, 0.8) if invalid else Color(0.95, 0.74, 0.3, 0.85)
-	# Bright automatic sector, dashed remainder for manual 360-degree operation.
+	# Bright automatic sector, dashed remainder for manual 360-degree operation. A yaw turns -Z to
+	# (-sin, -cos), the way DefenceTower.can_see measures it; with +sin the sector showed mirrored.
 	for i in 180:
 		var a := -PI + TAU * i / 180.0
 		var b := -PI + TAU * (i + 1) / 180.0
@@ -45,19 +46,19 @@ func display(center: Vector3, radius: float, yaw: float, manual: bool, invalid :
 		if not manual and not in_sector and i % 3 != 0: continue
 		var tint := color
 		if not manual and not in_sector: tint.a = 0.23
-		_strip(mesh, center + Vector3(sin(a + yaw), 0, -cos(a + yaw)) * radius,
-			center + Vector3(sin(b + yaw), 0, -cos(b + yaw)) * radius, 0.18, tint)
+		_strip(mesh, center + Vector3(-sin(a + yaw), 0, -cos(a + yaw)) * radius,
+			center + Vector3(-sin(b + yaw), 0, -cos(b + yaw)) * radius, 0.18, tint)
 	if not manual:
 		for angle in [-DefenceTower.HALF_ARC, DefenceTower.HALF_ARC]:
-			var forward := Vector3(sin(angle + yaw), 0, -cos(angle + yaw))
+			var forward := Vector3(-sin(angle + yaw), 0, -cos(angle + yaw))
 			for i in ceili(radius):
 				_strip(mesh, center + forward * i, center + forward * minf(i + 1, radius), 0.09, color)
 	for angle in [0.0, -PI * 0.5, PI * 0.5, PI]:
-		var forward := Vector3(sin(angle + yaw), 0, -cos(angle + yaw))
+		var forward := Vector3(-sin(angle + yaw), 0, -cos(angle + yaw))
 		_strip(mesh, center + forward * (radius - 0.7), center + forward * (radius + 0.7), 0.12, color)
 	mesh.surface_end()
 	drawing.mesh = mesh
-	var front := center + Vector3(sin(yaw), 0, -cos(yaw)) * radius
+	var front := center + Vector3(-sin(yaw), 0, -cos(yaw)) * radius
 	caption.position = Map.ground_pos(front.x, front.z) + Vector3.UP * 1.2
 	caption.text = "MAX. %d m" % roundi(radius)
 	caption.modulate = color

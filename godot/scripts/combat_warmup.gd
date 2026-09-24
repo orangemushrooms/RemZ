@@ -37,6 +37,11 @@ static func populate(viewport: SubViewport, game: Node3D) -> Node3D:
 	star.mesh = WeaponSpecials.star_mesh()
 	root.add_child(star)
 	star.position = Vector3(1, 2, 0)
+	# The drones: the first launch of each model used to load ~14 MB mid-wave, on every co-op client too.
+	var drone_kinds: Array = AttackDrone.SPECS.keys()
+	for i in drone_kinds.size():
+		var drone_model := WorldModels.attach(root, "drone_" + str(drone_kinds[i]), Vector3(-1.5 + i * 1.5, 3, -1))
+		if drone_model: drone_model.scale = Vector3.ONE * 0.5
 	preload("res://scripts/tower_effects.gd").explosion(root, Vector3(0, 1, -2))
 	Grenade.explosion_visuals(root, Vector3(0, 1, -2))
 	for kind in ["fw_ruby", "fw_gold", "fw_cracker"]:

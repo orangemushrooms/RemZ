@@ -4612,7 +4612,7 @@ msgstr "Dieser Dachplatz ist belegt."
 msgid "Roof turrets operate automatically."
 msgstr "Dachtürme kämpfen automatisch."
 
-msgid "[T] Forest hut building menu · roof defences"
+msgid "[T] Forest hut building menu · roof defenses"
 msgstr "[T] Waldhütten-Baumenü · Dachverteidigung"
 
 msgid "Roof slot %d · automatic (160°) · max. %d m\nObstacles block the line of fire"
@@ -4664,7 +4664,7 @@ msgid "Drone recalled. Refitting for 10 seconds."
 msgstr "Drohne zurückgerufen. Wieder einsatzbereit in 10 Sekunden."
 
 msgid "%s · HULL %d / %d · HEAT %d%%\nAltitude %.1f m · %s\nWASD fly · Mouse aim · Space / Ctrl up / down · LMB fire · R / Esc return"
-msgstr "%s · HÜLLE %d / %d · HITZE %d%%\nHöhe %.1f m · %s\nWASD fliegen · Maus zielen · Leertaste / Strg hoch / runter · LMT feuern · R / Esc zurück"
+msgstr "%s · HÜLLE %d / %d · HITZE %d %%\nHöhe %.1f m · %s\nWASD fliegen · Maus zielen · Leertaste / Strg hoch / runter · LMT feuern · R / Esc zurück"
 
 msgid "COOLING"
 msgstr "KÜHLT AB"
@@ -4682,7 +4682,7 @@ msgid "Tempest Assault"
 msgstr "Tempest-Sturmdrohne"
 
 msgid "Close [Esc]"
-msgstr "Schließen [Esc]"
+msgstr "Schliessen [Esc]"
 
 msgid "First Flight"
 msgstr "Erster Flug"
@@ -4714,11 +4714,15 @@ msgstr "Tempest-Flugstrecke (m)"
 msgid "Tempest kills"
 msgstr "Tempest-Abschüsse"
 
-msgid "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E: Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward."
-msgstr "Benutzt die Drohnenstation im Obergeschoss der Waldhütte (Schlüssel erforderlich). Fliegt im Team 150 m und besiegt 5 Zombies mit der Kestrel. E: Ready to fly. Leertaste/Strg: steigen/sinken. R: zurück. Frühere Flüge dieser Runde zählen mit. Holt eure Belohnung beim Mechanic ab."
+msgid "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E at the station, then Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward."
+msgstr "Benutzt die Drohnenstation im Obergeschoss der Waldhütte (Schlüssel erforderlich). Fliegt im Team 150 m und besiegt 5 Zombies mit der Kestrel. E an der Station, dann Ready to fly. Leertaste/Strg: steigen/sinken. R: zurück. Frühere Flüge dieser Runde zählen mit. Hole danach deine Belohnung beim Mechanic ab."
 
 msgid "Fly 400 m and defeat 15 zombies with the Viper as a team. Available when wave 10 starts. Earlier flights this round count. Return to Mechanic for your reward."
-msgstr "Fliegt im Team 400 m und besiegt 15 Zombies mit der Viper. Verfügbar ab Beginn von Welle 10. Frühere Flüge dieser Runde zählen mit. Holt eure Belohnung beim Mechanic ab."
+msgstr "Fliegt im Team 400 m und besiegt 15 Zombies mit der Viper. Verfügbar ab Beginn von Welle 10. Frühere Flüge dieser Runde zählen mit. Hole danach deine Belohnung beim Mechanic ab."
 
 msgid "Fly 600 m and defeat 30 zombies with the Tempest as a team. Available when wave 15 starts. Earlier flights this round count. Return to Mechanic for your reward."
-msgstr "Fliegt im Team 600 m und besiegt 30 Zombies mit der Tempest. Verfügbar ab Beginn von Welle 15. Frühere Flüge dieser Runde zählen mit. Holt eure Belohnung beim Mechanic ab."
+msgstr "Fliegt im Team 600 m und besiegt 30 Zombies mit der Tempest. Verfügbar ab Beginn von Welle 15. Frühere Flüge dieser Runde zählen mit. Hole danach deine Belohnung beim Mechanic ab."
+
+#: scripts/progression.gd
+msgid "available from wave %d"
+msgstr "ab Welle %d verfügbar"

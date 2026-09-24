@@ -141,11 +141,14 @@ func _sweep_menus() -> void:
 	game.waves.completed = 4
 	for i in 8: shop.rare_market._physics_process(0.1)
 	for npc in Progression.NPCS:
-		game.player.global_position = shop.npcs[npc].global_position + Vector3(0, 0.1, 2.3)
-		await physics_frame
-		await physics_frame
-		shop.interact(npc)
-		await _frames(2)
+		# the Mist Peddler keeps walking; on a busy machine he can leave reach between teleport and talk
+		for attempt in 5:
+			game.player.global_position = shop.npcs[npc].global_position + Vector3(0, 0.1, 2.3)
+			await physics_frame
+			await physics_frame
+			shop.interact(npc)
+			await _frames(2)
+			if shop.is_open: break
 		if not shop.is_open:
 			check(false, "Dialogue with %s opens" % npc)
 			continue

@@ -35,7 +35,7 @@ const GOODS := {
 	"graviton_cannon": {"npc": "secret", "price": 3000, "wave": 13, "quest": "giant_debt", "ammo": 120, "desc": "Six meters of area damage and 140% bonus damage against titans. Only twelve energy cells."},
 }
 const QUESTS := {
-	"drone_training": {"min_level": 5, "min_wave": 5, "waves_after_accept": 0, "npc": "mechanic", "name": "First Flight", "requires": "", "reward": 150, "desc": "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E: Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_scout_meters": 150, "drone_scout_kills": 5}},
+	"drone_training": {"min_level": 5, "min_wave": 5, "waves_after_accept": 0, "npc": "mechanic", "name": "First Flight", "requires": "", "reward": 150, "desc": "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E at the station, then Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_scout_meters": 150, "drone_scout_kills": 5}},
 	"drone_patrol": {"min_level": 10, "min_wave": 10, "waves_after_accept": 0, "npc": "mechanic", "name": "Armed Patrol", "requires": "drone_training", "reward": 250, "desc": "Fly 400 m and defeat 15 zombies with the Viper as a team. Available when wave 10 starts. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_viper_meters": 400, "drone_viper_kills": 15}},
 	"drone_air_support": {"min_level": 15, "min_wave": 15, "waves_after_accept": 0, "npc": "mechanic", "name": "Heavy Air Support", "requires": "drone_patrol", "reward": 400, "desc": "Fly 600 m and defeat 30 zombies with the Tempest as a team. Available when wave 15 starts. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_tempest_meters": 600, "drone_tempest_kills": 30}},
 	"forest_basket": {"min_level": 2, "waves_after_accept": 1,"npc": "ranger", "name": "What the Forest Gives Us", "requires": "arrival", "reward": 90, "desc": "Collect five porcini as a team. Mara shows you what to look out for in the forest. Mushrooms you already collected count, and you may keep them.", "goals": {"edible_mushrooms": 5}},
@@ -58,7 +58,6 @@ const QUESTS := {
 	"nameless": {"min_level": 16, "waves_after_accept": 2,"npc": "secret", "name": "A Name No One Knows", "requires": "giant_debt", "reward": 380, "desc": "Survive wave 12 and defeat five field titans in total. After that we speak as equals.", "goals": {"waves": 12, "titans": 5}},
 }
 const QUEST_CHAINS := {
-	"drones": {"name": "Drone Operations", "quests": ["drone_training", "drone_patrol", "drone_air_support"]},
 	"arrival": {"name": "Arrival", "quests": ["arrival"]},
 	"assault": {"name": "Assault", "quests": ["line", "night_shift"]},
 	"marksman": {"name": "Marksman", "quests": ["steady_aim", "marksman_training", "silent_deal"]},
@@ -67,6 +66,7 @@ const QUEST_CHAINS := {
 	"supplies": {"name": "Supply", "quests": ["supplies"]},
 	"titans": {"name": "Titan Hunt", "quests": ["titan", "giant_debt", "nameless"]},
 	"survival": {"name": "Protect the Camp", "quests": ["last_light"]},
+	"drones": {"name": "Drone Operations", "quests": ["drone_training", "drone_patrol", "drone_air_support"]},
 }
 const GOAL_LABELS := {"drone_scout_meters": "Kestrel flight (m)", "drone_scout_kills": "Kestrel kills", "drone_viper_meters": "Viper flight (m)", "drone_viper_kills": "Viper kills", "drone_tempest_meters": "Tempest flight (m)", "drone_tempest_kills": "Tempest kills", "edible_mushrooms": "Porcini mushrooms", "runner_kills": "Runners", "headshot_kills": "Headshot kills", "waves": "Waves", "kills": "Zombies", "active_towers": "Active towers", "reinforced_barricades": "Barricades tier 2+", "elite_towers": "Towers tier 3", "tower_kills": "Tower kills", "titans": "Titans"}
 const SKINS := {
@@ -262,6 +262,8 @@ func next_quest_step(peer: int, id: String) -> String:
 		next = QUESTS[next].requires
 	var action := Lang.t("accept")
 	if mission_level() < int(QUESTS[next].min_level): action = Lang.t("unlocks at mission level %d (currently %d)", [QUESTS[next].min_level, mission_level()])
+	elif QUESTS[next].has("min_wave") and maxi(game.waves.completed, int(game.waves.wave)) < int(QUESTS[next].min_wave):
+		action = Lang.t("available from wave %d", [QUESTS[next].min_wave])
 	if data(peer).accepted.get(next, false):
 		action = Lang.t("collect reward") if complete(next, peer) else Lang.t("finish: %s", [quest_progress(next, peer)])
 	return quest_reference(next) + " – " + action

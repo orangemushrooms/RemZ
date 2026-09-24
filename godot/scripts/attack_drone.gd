@@ -7,6 +7,10 @@ const SPECS := {
 	"tempest": {"name": "Tempest Assault", "wave": 15, "hp": 280.0, "speed": 12.0, "damage": 62.0, "rate": 0.085, "range": 110.0, "size": 2.05, "heat": 0.04},
 }
 const Effects = preload("res://scripts/tower_effects.gd")
+# Own layer: player bullets, grenades and tower sight lines pass a drone instead of stopping at it.
+const LAYER := 64
+# Roof volumes only drones collide with (main._gable_roof): the roofs themselves are bare meshes.
+const BLOCKER_LAYER := 128
 var game: Node
 var system: Node3D
 var drone_id := 0
@@ -46,6 +50,9 @@ static var _motor_stream: AudioStreamWAV
 const MOTOR_LOOP_START := 2.32
 var motor_elapsed := 0.0
 var motor_start_position := 0.0
+var piloted_here := false   # this machine flies it: the view follows the mouse every frame
+var _motion_from := Vector3.ZERO
+var _motion_to := Vector3.ZERO
 
 func spec() -> Dictionary: return SPECS[kind]
 
@@ -54,8 +61,8 @@ func _ready() -> void:
 	body = self
 	add_to_group("attack_drones")
 	add_to_group("render_dynamic")
-	collision_layer = 8
-	collision_mask = 1 | 2 | 8
+	collision_layer = LAYER
+	collision_mask = 1 | 2 | 8 | LAYER | BLOCKER_LAYER
 	motion_mode = CharacterBody3D.MOTION_MODE_FLOATING
 	var shape := CollisionShape3D.new()
 	var sphere := SphereShape3D.new()
@@ -149,20 +156,28 @@ func _build_rotors() -> void:
 		DefenceTower.box(pivot,Vector3(radius*0.85,0.008,0.055),Vector3.ZERO,mat)
 		rotors.append(pivot)
 
-func update_view() -> void:
+# `offset` shifts only what is drawn (model, gun, camera) to the position between two physics
+# ticks; the body, its collisions and every shot stay on the tick.
+func update_view(offset := Vector3.ZERO) -> void:
 	rotation.y = yaw
 	gun.rotation.x = pitch
 	camera.rotation.x = pitch
-	# Chase camera follows the crosshair, with a sweep to avoid looking through walls.
-	var wanted := Vector3(0,0.6,2.8).rotated(Vector3.RIGHT,pitch)
-	var q := PhysicsRayQueryParameters3D.create(global_position, to_global(wanted),1|8,[get_rid()])
+	var local_offset := global_basis.inverse() * offset
+	visual.position = local_offset
+	gun.position = local_offset
+	# Chase camera follows the crosshair, with a sweep to avoid looking through walls and roofs.
+	var wanted := to_global(Vector3(0,0.6,2.8).rotated(Vector3.RIGHT,pitch)) + offset
+	var q := PhysicsRayQueryParameters3D.create(global_position + offset, wanted, 1|8|BLOCKER_LAYER, [get_rid()])
 	var hit := get_world_3d().direct_space_state.intersect_ray(q)
-	camera.global_position = hit.position + hit.normal*0.12 if not hit.is_empty() else to_global(wanted)
+	camera.global_position = hit.position + hit.normal*0.12 if not hit.is_empty() else wanted
 
 func _physics_process(delta: float) -> void:
 	if replica or hp <= 0 or game.over: return
 	if not game.started: return
-	cooldown = maxf(0,cooldown-delta)
+	_motion_from = global_position
+	# Keep up to one tick of overshoot, like Weapons: clamped at zero every shot waited for the next
+	# whole tick and the Tempest fired 10 instead of 11.8 rounds a second.
+	cooldown = maxf(-delta,cooldown-delta)
 	collision_cooldown = maxf(0,collision_cooldown-delta)
 	input_timeout = maxf(0,input_timeout-delta)
 	if input_timeout <= 0:
@@ -191,6 +206,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = minf(0,velocity.y)
 	if global_position.y < Map.ground_height(global_position.x,global_position.z)-3:
 		damage(10000,false)
+	_motion_to = global_position
 	if hp > 0:
 		game.progression.record_drone_flight(kind, minf(previous_position.distance_to(global_position), incoming.length()*delta))
 	update_view()
@@ -199,9 +215,17 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 	if replica:
 		global_position = global_position.lerp(target_position,1-exp(-delta*18))
-		yaw = lerp_angle(yaw,target_yaw,1-exp(-delta*20))
-		pitch = lerp_angle(pitch,target_pitch,1-exp(-delta*20))
+		# The pilot's own look is set locally every frame (DroneSystem), not chased from snapshots.
+		if not piloted_here:
+			yaw = lerp_angle(yaw,target_yaw,1-exp(-delta*20))
+			pitch = lerp_angle(pitch,target_pitch,1-exp(-delta*20))
 		update_view()
+	elif piloted_here and hp > 0:
+		# Draw between the last two physics positions; a teleport snaps.
+		var offset := Vector3.ZERO
+		if global_position.is_equal_approx(_motion_to):
+			offset = (_motion_from - _motion_to) * (1.0 - Engine.get_physics_interpolation_fraction())
+		update_view(offset)
 	for rotor in rotors: rotor.rotate_y(delta*90)
 	var local_velocity := velocity.rotated(Vector3.UP,-yaw)
 	visual.rotation.z = lerpf(visual.rotation.z,-local_velocity.x*0.018, minf(1,delta*6))
@@ -241,7 +265,7 @@ func shoot() -> void:
 		if not enemy.alive: game.progression.record_drone_kill(kind)
 	else:
 		preload("res://scripts/bullet_impacts.gd").hit(game,hit)
-	cooldown = float(spec().rate)
+	cooldown = maxf(cooldown,-float(spec().rate))+float(spec().rate)
 	heat = minf(1,heat+float(spec().heat))
 	if heat >= 0.99: overheated = true
 	shots += 1

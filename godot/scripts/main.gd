@@ -1260,6 +1260,26 @@ func _gable_roof(parent: Node3D, size: Vector2, y: float, height: float, over_ga
 	under.mesh = st_under.commit()
 	under.material_override = under_mat if under_mat else _plain(Color(0.22, 0.14, 0.09), 0.9)
 	parent.add_child(under)
+	# Drones alone collide with the roof (AttackDrone.BLOCKER_LAYER): it is a bare mesh, and a drone sank
+	# through it into the attic or the upper room. Bullets, grenades and turrets still pass; hung under the
+	# scene root it stays out of the navmesh bake (navsource) and out of the hut's own bodies.
+	var points := PackedVector3Array()
+	for v: float in [v_neg, v_pos]:
+		points.append(to_local.call(0.0, top, v))
+		for u: float in [u_neg, u_pos]:
+			var edge := top - slope * absf(u)
+			points.append(to_local.call(u, edge, v))
+			points.append(to_local.call(u, edge - thick, v))
+	var hull := ConvexPolygonShape3D.new()
+	hull.points = points
+	var shape := CollisionShape3D.new()
+	shape.shape = hull
+	var blocker := StaticBody3D.new()
+	blocker.collision_layer = AttackDrone.BLOCKER_LAYER
+	blocker.collision_mask = 0
+	blocker.add_child(shape)
+	add_child(blocker)
+	blocker.global_transform = parent.global_transform
 
 # ridge cap, purlins protruding under the gable overhangs with knee braces, rafter ends and gutters along the eaves
 func _gable_roof_details(parent: Node3D, size: Vector2, y: float, height: float, over_gable: Vector2, over_eave: Vector2, along_x: bool, wall_mat: Material) -> void:
@@ -2622,7 +2642,9 @@ func _process(delta: float) -> void:
 		var idle_prompt := "[T] Tower build menu · from 120 R" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
 		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
 		if hut_fix: idle_prompt = hut.prompt_text()
-		if defences.roof_access(player): idle_prompt = Lang.t(idle_prompt) + "\n" + Lang.t("[T] Forest hut building menu · roof defences")
+		if defences.roof_access(player):
+			var roof_hint := Lang.t("[T] Forest hut building menu · roof defenses")
+			idle_prompt = roof_hint if idle_prompt.is_empty() else Lang.t(idle_prompt) + "\n" + roof_hint
 		hud.set_prompt(Lang.t("[E] Revive %s · stay nearby for 3 seconds", [Lang.raw(NetSession.roster[downed])]) if downed else (loot.prompt_text() if loot else ("Tower occupied" if tower and tower.operator_peer else Lang.t("[E] Mount / operate · [R] Align · [F] Repair\nRange %d m · bright sector: automatic", [roundi(tower.attack_range())]) if tower else (near.prompt_text() if near else idle_prompt))))
 		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
 		if hunt_interact: hud.set_prompt(hunting.prompt(player, meat_drop))

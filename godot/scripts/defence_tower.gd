@@ -278,6 +278,17 @@ func target_point(enemy: Zombie) -> Vector3:
 		return shape.to_global(shape.get_meta("tower_center"))
 	return enemy.global_position+Vector3.UP*enemy.height*0.55
 
+# Where the muzzle ends up once the gun has swung onto `aim`. Sight checks use this, not the
+# barrel's current pose: a roof turret that dipped over the eaves at a zombie by the wall put its
+# muzzle behind the hut wall, every later check failed and it stayed blind for the rest of the round.
+func muzzle_toward(aim: Vector3) -> Vector3:
+	var direction := aim - gun.global_position
+	var pitch := atan2(direction.y, Vector2(direction.x, direction.z).length())
+	if kind == "tesla": pitch = 0.0
+	elif kind == "mortar": pitch = maxf(0.8, pitch)
+	var pose := Transform3D(Basis.from_euler(Vector3(pitch, atan2(-direction.x, -direction.z) - rotation.y, 0)), gun.position)
+	return global_transform * (pose * muzzle.position)
+
 func can_see(z: Zombie) -> bool:
 	if not is_instance_valid(z) or not z.targetable(): return false
 	var direction := z.global_position - global_position
@@ -285,8 +296,9 @@ func can_see(z: Zombie) -> bool:
 		var yaw := atan2(-direction.x, -direction.z)
 		if absf(angle_difference(rotation.y, yaw)) > HALF_ARC: return false
 	var aim := target_point(z)
-	if muzzle.global_position.distance_squared_to(aim) > pow(attack_range(), 2): return false
-	var q := PhysicsRayQueryParameters3D.create(muzzle.global_position, aim, Zombie.SHOT_MASK, [body.get_rid()])
+	var origin := muzzle_toward(aim)
+	if origin.distance_squared_to(aim) > pow(attack_range(), 2): return false
+	var q := PhysicsRayQueryParameters3D.create(origin, aim, Zombie.SHOT_MASK, [body.get_rid()])
 	q.collide_with_areas = true
 	if not z._shot_volumes.is_empty() and z._hitboxes.is_empty():
 		# Reject a covered target before searching every other enemy for an
@@ -365,6 +377,8 @@ func _physics_process(delta: float) -> void:
 			if can_see(z):
 				target = z
 				break
+		# Nothing in sight: level the barrel instead of leaving it dipped at the last kill.
+		if not target: aim_pitch = 0.0
 	if not is_instance_valid(target) or not target.alive: return
 	var direction := target_point(target) - gun.global_position
 	aim_yaw = wrapf(atan2(-direction.x, -direction.z) - rotation.y, -PI, PI)

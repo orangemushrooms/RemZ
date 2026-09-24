@@ -177,6 +177,53 @@ func run() -> void:
 	check(hp-drone.hp >= 30,"Zombie strike causes substantially heavier damage")
 	block.queue_free()
 	await settle()
+	# The view turns every frame, not only when the 20 Hz control packet reaches the drone.
+	s._sync_view()
+	s._send_time = 1.0
+	s._look_yaw = 1.1
+	s._look_pitch = -0.4
+	s._process(0.004)
+	check(drone.piloted_here and is_equal_approx(drone.yaw,1.1) and is_equal_approx(drone.pitch,-0.4),"Drone view follows the mouse every frame")
+	# Own physics layer: player bullets and tower sight lines pass a friendly drone.
+	var through := PhysicsRayQueryParameters3D.create(drone.global_position+Vector3(0,0,3),drone.global_position-Vector3(0,0,3),Zombie.SHOT_MASK)
+	through.collide_with_areas = true
+	var crossing := drone.get_world_3d().direct_space_state.intersect_ray(through)
+	check(crossing.get("collider") != drone and (drone.collision_layer & Zombie.SHOT_MASK) == 0,"Player bullets and tower sight pass a friendly drone")
+	# A menu opened over the flight keeps its keys: R must not recall the drone behind it.
+	p.active = false
+	var r_key := InputEventKey.new()
+	r_key.physical_keycode = KEY_R
+	r_key.pressed = true
+	s._input(r_key)
+	check(p.controlling_drone==drone.drone_id and not s._return_pending,"A menu over the flight keeps its keys")
+	p.active = true
+	# The roofs are bare meshes; drones collide with the volume under them instead of sinking into the hut.
+	drone.hp = float(drone.spec().hp)
+	drone.velocity = Vector3.ZERO
+	drone.global_position = game.hut.center+Vector3.UP*9.5
+	for i in 48:
+		s.control(p,drone.drone_id,Vector3.DOWN,0,0,false)
+		drone._physics_process(1.0/60)
+	var eaves: float = game.hut.center.y+float(Map.BUILDINGS.waldhuette.base_h)+float(Map.BUILDINGS.waldhuette.wall_h)
+	check(drone.global_position.y > eaves+1.0,"Drone lands on the hut roof instead of sinking into the upper room")
+	drone.hp = float(drone.spec().hp)
+	drone.velocity = Vector3.ZERO
+	drone.global_position = Map.ground_pos(60,112)+Vector3.UP*8
+	drone.update_view()
+	# The cooldown keeps the fraction of a tick: the Tempest used to fire 10 instead of 11.8 rounds a second.
+	var gunship := s.create_drone(s.next_id,"tempest",p.peer_id,Map.ground_pos(40,112)+Vector3.UP*30)
+	s.next_id += 1
+	gunship.set_physics_process(false)
+	await settle()
+	gunship.pitch = 1.0
+	for i in 120:
+		gunship.input_timeout = 1.0
+		gunship.firing = true
+		gunship._physics_process(1.0/60)
+	check(gunship.shots >= 23 and gunship.shots <= 25,"Tempest fires its listed 11.8 rounds a second (%d in 2 s)" % gunship.shots)
+	s.finish(gunship.drone_id,false,true)
+	s.refit.erase("tempest")
+	await settle()
 	# Replica snapshots preserve flight state and do not replay historical shots.
 	var copy := DroneSystem.new()
 	game.add_child(copy)
@@ -267,8 +314,10 @@ func run() -> void:
 	s.refit.clear()
 	s.launch(p,"scout")
 	p.alive = false
+	game.hud.msg_label.text = ""
 	s._process(0.01)
 	check(p.controlling_drone==0 and s.drones.is_empty(),"Pilot death releases drone and camera")
+	check(game.hud.msg_label.text.is_empty(),"No refit message over the death screen")
 	p.alive = true
 	var shop: Progression = game.progression
 	game.waves.completed = 14

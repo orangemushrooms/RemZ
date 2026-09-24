@@ -731,9 +731,11 @@ func _choose_defence(p: Vector3, player_priority: bool) -> Node3D:
 			if bar == null or dd + 16.0 < bd:
 				bd = dd
 				bar = b
-	# Nearby exposed towers can be attacked; a blocking fence still takes priority.
+	# Nearby exposed towers can be attacked; a blocking fence still takes priority. Roof turrets are
+	# out of reach: chasing one left the zombie swinging at the wall below for no damage, not even to the hut.
 	if bar == null and not hunting:
 		for tower in get_tree().get_nodes_in_group("defence_towers"):
+			if tower.rooftop: continue
 			if tower.hp > 0.0 and tower.global_position.distance_squared_to(p) < 12.0 * 12.0:
 				var dd: float = tower.attack_point(p).distance_squared_to(p)
 				if dd < bd and dd < to_player.length_squared():

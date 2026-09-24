@@ -132,12 +132,15 @@ func _build_ui() -> void:
 	panel.hide()
 	flight_hud = Label.new()
 	ui.add_child(flight_hud)
-	flight_hud.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	# Bottom centre (hotbar and prompts are hidden in flight): the top centre belongs to the boss bar
+	# and the hut alarm, which the flight readout used to cover.
+	flight_hud.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	flight_hud.offset_left = -420
 	flight_hud.offset_right = 420
-	flight_hud.offset_top = 115
-	flight_hud.offset_bottom = 270
+	flight_hud.offset_top = -190
+	flight_hud.offset_bottom = -36
 	flight_hud.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	flight_hud.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	flight_hud.add_theme_font_size_override("font_size",20)
 	flight_hud.add_theme_constant_override("outline_size",5)
 	flight_hud.add_theme_color_override("font_color",Color(0.45,0.95,1))
@@ -222,7 +225,7 @@ func spawn_position(kind: String) -> Vector3:
 	shape.radius = float(AttackDrone.SPECS[kind].size)*0.45
 	var q := PhysicsShapeQueryParameters3D.new()
 	q.shape = shape
-	q.collision_mask = 1|2|4|8
+	q.collision_mask = 1|2|4|8|AttackDrone.LAYER|AttackDrone.BLOCKER_LAYER
 	for offset in [Vector3(0,8,-5.8),Vector3(0,10,5.8),Vector3(5.5,10,0),Vector3(-5.5,12,0)]:
 		var at: Vector3 = game.hut.center + offset.rotated(Vector3.UP,float(b.yaw))
 		q.transform.origin = at
@@ -278,7 +281,8 @@ func recall(p: Player) -> void:
 	var drone: AttackDrone = drones.get(p.controlling_drone)
 	if drone and drone.owner_peer == p.peer_id: finish(drone.drone_id,false)
 
-func finish(id: int, destroyed: bool) -> void:
+# `quiet` for the recalls nobody asked for: the pilot died, the round ended or the scene closes.
+func finish(id: int, destroyed: bool, quiet := false) -> void:
 	var drone: AttackDrone = drones.get(id)
 	if not drone: return
 	var p := actor(drone.owner_peer)
@@ -290,11 +294,15 @@ func finish(id: int, destroyed: bool) -> void:
 	drone.queue_free()
 	if p == game.player:
 		_sync_view()
-		game.hud.message("Drone destroyed. Refitting for 30 seconds." if destroyed else "Drone recalled. Refitting for 10 seconds.",3)
+		# The listener is back at the station, often out of earshot of the positional blast.
+		if destroyed and p.global_position.distance_to(drone.global_position) > 30.0: Sfx.play(game,"barricade_break",-8)
+	# p.hud is the feedback proxy for a co-op client, whose pilot used to get no word at all.
+	if p and p.hud and not quiet:
+		p.hud.message("Drone destroyed. Refitting for 30 seconds." if destroyed else "Drone recalled. Refitting for 10 seconds.",3)
 
 func shutdown() -> void:
 	if is_open: close()
-	for id in drones.keys(): finish(id,false)
+	for id in drones.keys(): finish(id,false,true)
 	_sync_view()
 
 func _sync_view() -> void:
@@ -302,9 +310,12 @@ func _sync_view() -> void:
 	var drone: AttackDrone = drones.get(id)
 	if id and not drone: return # The player and entity may arrive in adjacent snapshots.
 	if _view_id == id: return
+	var previous: AttackDrone = drones.get(_view_id)
+	if previous: previous.piloted_here = false
 	_view_id = id
 	_return_pending = false
 	if drone:
+		drone.piloted_here = true
 		if is_open: close()
 		game.fireworks.cancel()
 		_look_yaw = drone.yaw
@@ -331,6 +342,8 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		return
 	if not game.player.controlling_drone: return
+	# A menu opened over the flight (cheat menu, inventory) keeps its clicks and keys.
+	if not game.player.active: return
 	if event is InputEventKey and event.physical_keycode in [KEY_M,KEY_F11,KEY_TAB]: return
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		_look_yaw = wrapf(_look_yaw-event.screen_relative.x*Player.SENS*game.player.mouse_sensitivity,-PI,PI)
@@ -348,13 +361,17 @@ func _process(delta: float) -> void:
 		for kind in refit: refit[kind] = maxf(0,refit[kind]-delta)
 		for id in drones.keys():
 			var p := actor(drones[id].owner_peer)
-			if not p or not p.alive or game.over: finish(id,false)
+			if not p or not p.alive or game.over: finish(id,false,true)
 	if is_open:
 		if not nearby(game.player): close()
 		else: _refresh_menu()
 	_sync_view()
 	var drone: AttackDrone = drones.get(game.player.controlling_drone)
 	if not drone: return
+	# Turn the view every frame: control() only reaches the drone 20 times a second, and on a
+	# co-op client only through the next snapshot.
+	drone.yaw = _look_yaw
+	drone.pitch = _look_pitch
 	var enabled: bool = game.player.alive and game.player.active and not game.over and not get_tree().paused and not game.hud.overlay.visible and not _return_pending
 	var axis := Input.get_vector("move_left","move_right","move_forward","move_back") if enabled else Vector2.ZERO
 	var up := float(Input.is_physical_key_pressed(KEY_SPACE))-float(Input.is_physical_key_pressed(KEY_CTRL)) if enabled else 0.0
@@ -387,6 +404,8 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			if not initial and ended.has(id) and ended[id][1]:
 				AttackDrone.Effects.explosion(game,ended[id][0])
 				Sfx.play_at(game,"barricade_break",ended[id][0],-8)
+				# Its own pilot looks from the station again next frame, often out of earshot of the blast.
+				if drones[id].piloted_here and game.player.global_position.distance_to(ended[id][0]) > 30.0: Sfx.play(game,"barricade_break",-8)
 			drones[id].queue_free()
 			drones.erase(id)
 	for id in live:

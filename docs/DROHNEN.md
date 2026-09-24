@@ -14,9 +14,11 @@ An der Station **E** drücken, eine Drohne auswählen und **Ready to fly** ankli
 
 Der Körper bleibt an der Station und kann angegriffen werden. Persönliche Waffen, Granaten und Bewegung sind während des Flugs gesperrt. Drohnen besitzen eigene Waffen ohne Verbrauch der Spielermunition; Dauerfeuer überhitzt sie. Mündungsfeuer, Licht, Rauch, Hülsen, Leuchtspur und räumliches Schussgeräusch begleiten Schüsse. Rotorgeräusche und Bewegung zeigen den Flug; beschädigte Drohnen rauchen.
 
-An Hindernissen verursacht ein genügend schneller Aufprall 2–8 Hüllenschaden mit 0,65 s Schutz gegen Mehrfachkontakte desselben Stoßes. Echte Zombie-Nahkampftreffer verursachen mindestens 30 Schaden beziehungsweise das 2,5-Fache ihres normalen Schadens. Titanenschläge treffen Drohnen in ihrem Wirkungsbereich, soweit keine Deckung schützt. Waffen treffen echte Gegnerhitboxen; Deckung blockiert auch zwischen Drohnenkörper und Mündung.
+An Hindernissen verursacht ein genügend schneller Aufprall 2–8 Hüllenschaden mit 0,65 s Schutz gegen Mehrfachkontakte desselben Stosses. Echte Zombie-Nahkampftreffer verursachen mindestens 30 Schaden beziehungsweise das 2,5-Fache ihres normalen Schadens. Titanenschläge treffen Drohnen in ihrem Wirkungsbereich, soweit keine Deckung schützt. Waffen treffen echte Gegnerhitboxen; Deckung blockiert auch zwischen Drohnenkörper und Mündung.
 
-Jedes Modell kann einmal gleichzeitig im Team fliegen, ein Spieler steuert höchstens eine Drohne. Start und Wiederaufbereitung kosten keine Rem Dollars. Nach Rückruf dauert die Wiederaufbereitung 10 s, nach Zerstörung 30 s. Bei Tod oder Verbindungsabbruch des Piloten wird seine Drohne freigegeben. Andere Piloten bleiben unbeeinträchtigt. In Koop pausieren Menüs die Welt nicht.
+Die Dächer von Waldhütte und Holzlager sind für Drohnen fest: Eine eigene Kollisionsebene (Layer 128) füllt den Raum unter jeder Dachfläche, sonst sank eine Drohne durch das Dach ins Obergeschoss. Kugeln, Granaten, Türme und das Wegnetz bemerken davon nichts. Drohnen liegen selbst auf Layer 64, damit Kugeln der Mitspieler und die Sichtlinien der Türme durch befreundete Drohnen hindurchgehen. Der Blick folgt der Maus in jedem Bild, Modell und Kamera werden zwischen den Physikschritten interpoliert; die Steuerbefehle gehen weiterhin 20-mal pro Sekunde an den Host. Die Feuerraten der Tabelle werden genau eingehalten. Die Fluganzeige steht unten in der Mitte, damit Boss-Leiste und Hüttenalarm frei bleiben. Ein Menü über dem Flug (Inventar, Cheat-Menü) behält seine Tasten und Klicks. Die drei Modelle werden beim Laden vorgewärmt, der erste Start ruckelt nicht mehr.
+
+Jedes Modell kann einmal gleichzeitig im Team fliegen, ein Spieler steuert höchstens eine Drohne. Start und Wiederaufbereitung kosten keine Rem Dollars. Nach Rückruf dauert die Wiederaufbereitung 10 s, nach Zerstörung 30 s; die Meldung dazu erreicht auch Koop-Clients. Bei Tod oder Verbindungsabbruch des Piloten wird seine Drohne freigegeben, ohne Meldung über dem Todes- oder Game-Over-Bildschirm. Andere Piloten bleiben unbeeinträchtigt. In Koop pausieren Menüs die Welt nicht.
 
 ## Quests beim Mechanic
 
@@ -40,7 +42,7 @@ Alle drei Flugkörper wurden eigens mit Meshy 7.1 erzeugt: je 30.000 Zielpolygon
 
 ## Tests
 
-- `drones`: Zugang, Stockwerk, Sichtlinie, Wellen 4/5, 9/10 und 14/15, Startplatzblockaden, Menü, Kamera, Pilotensperren, Flugtempo, Kartengrenzen, Kollisionen, Abkühlung, ungültige Befehle, Schüsse, Deckung, Effekte, echte Zombieangriffe, Tod, Rückruf und Replica-Zustand.
+- `drones`: Zugang, Stockwerk, Sichtlinie, Wellen 4/5, 9/10 und 14/15, Startplatzblockaden, Menü, Kamera, Pilotensperren, Flugtempo, Kartengrenzen, Kollisionen, Abkühlung, ungültige Befehle, Schüsse, Deckung, Effekte, echte Zombieangriffe, Tod, Rückruf und Replica-Zustand, dazu Blick pro Bild, Durchschuss befreundeter Drohnen, Menüs über dem Flug, Landung auf dem Hüttendach und die Feuerrate der Tempest (82 Prüfungen).
 - `drone_coop`: drei echte Godot-Prozesse über ENet, mit Fernsteuerung, autoritativen Treffern, späterem Beitritt, Tod des Hosts bei weiterfliegendem Client, Zerstörung und Disconnect. Ausführen mit `powershell -NoProfile -ExecutionPolicy Bypass -File tools/test_drone_coop.ps1`.
 - `drone_visuals`: gerenderte Stations-, Menü-, Detail- und Flugansichten unter `logs/drone-*.png`.
 - Regressionen: `roof_defences`, `towers`, `hut_health`, `hut_restock`, `defence`, `aiming` sowie der vollständige Vier-Spieler-Test `multiplayer`.

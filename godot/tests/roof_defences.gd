@@ -133,6 +133,58 @@ func run() -> void:
 		check(enemy.hp < 10000,kind + " roof weapon damages actual ground enemy")
 		t.queue_free()
 		await settle()
+	# Zombies at the hut wall - the ones raiding it - stay in sight of the sockets above them.
+	var wall := float(Map.BUILDINGS.waldhuette.size.y) * 0.5
+	for case in [["standard", 0.6], ["mg42", 0.6], ["flame", 1.3]]:
+		var close_at: Vector3 = game.hut.center + Vector3(0.3, 0, -(wall + float(case[1]))).rotated(Vector3.UP, yaw)
+		game.spawn_zombie("shambler", Vector2(close_at.x, close_at.z), 1)
+		var close: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
+		close.set_physics_process(false)
+		close.agent.avoidance_enabled = false
+		close.hp = 10000
+		var t := d.create_tower(point, p.peer_id, 0, false, case[0])
+		t.rotation.y = yaw
+		t.set_physics_process(false)
+		await settle()
+		for frame in 240: t._physics_process(1.0 / 60.0)
+		check(close.hp < 10000, "%s on the roof hits a zombie %.1f m from the hut wall" % case)
+		t.queue_free()
+		close.queue_free()
+		await settle()
+	# A barrel left dipped over the eaves put the muzzle behind the wall; sight checks started there and
+	# the turret never found another target.
+	var dipped := d.create_tower(point, p.peer_id, 0, false, "standard")
+	dipped.rotation.y = yaw
+	dipped.set_physics_process(false)
+	await settle()
+	dipped.gun.rotation.x = -1.35
+	dipped.aim_pitch = -1.35
+	enemy.hp = 10000
+	for frame in 240: dipped._physics_process(1.0 / 60.0)
+	check(dipped.shots > 0 and enemy.hp < 10000, "Roof turret recovers from a barrel dipped below the eaves")
+	# Zombies and giants leave roof turrets alone: out of reach, chasing one froze them at the wall below.
+	var raider_at: Vector3 = game.hut.center + Vector3(0.3, 0, -(wall + 2.0)).rotated(Vector3.UP, yaw)
+	game.spawn_zombie("shambler", Vector2(raider_at.x, raider_at.z), 1)
+	var raider: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
+	raider.set_physics_process(false)
+	p.global_position = Map.ground_pos(60, 112)
+	await settle()
+	var choice: Node3D = raider._choose_defence(raider.global_position, false)
+	check(not (choice is DefenceTower and choice.rooftop), "Zombies below a roof turret do not target it")
+	p.global_position = game.hut.center + Vector3(0, 0, 12).rotated(Vector3.UP, yaw)
+	p.active = true
+	var giant_at: Vector3 = game.hut.center + Vector3(0.5, 0, -(wall + 5.0)).rotated(Vector3.UP, yaw)
+	game.spawn_zombie("titan_hunter", Vector2(giant_at.x, giant_at.z), 1)
+	var giant: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
+	giant.set_physics_process(false)
+	await settle()
+	giant.strike_phase = "walk"   # skip the arrival roar, the decision runs from the first step
+	for frame in 3: giant._physics_process(1.0 / 60.0)
+	check(giant.siege_target != dipped, "Titans do not commit to a roof turret")
+	giant.queue_free()
+	raider.queue_free()
+	dipped.queue_free()
+	await settle()
 	game.queue_free()
 	await settle()
 	print("ROOF_DEFENCES_DONE checks=%d failures=%d" % [checks,failures])
