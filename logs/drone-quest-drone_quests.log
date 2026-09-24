@@ -1,0 +1,40 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: drone_training locked in break before required wave
+PASS: drone_training unlocks when wave starts
+PASS: drone_training belongs to Mechanic
+PASS: drone_training must be accepted
+PASS: drone_training cannot round distance up
+PASS: drone_training both goals complete at exact boundary
+PASS: drone_training team progress does not accept another player's quest
+PASS: drone_training shared effort counts for second pilot
+PASS: drone_training notification milestones include both goals
+PASS: drone_training journal displays progress
+PASS: drone_patrol locked in break before required wave
+PASS: drone_patrol unlocks when wave starts
+PASS: drone_patrol belongs to Mechanic
+PASS: drone_patrol must be accepted
+PASS: drone_patrol cannot round distance up
+PASS: drone_patrol both goals complete at exact boundary
+PASS: drone_patrol team progress does not accept another player's quest
+PASS: drone_patrol shared effort counts for second pilot
+PASS: drone_patrol notification milestones include both goals
+PASS: drone_patrol journal displays progress
+PASS: drone_air_support locked in break before required wave
+PASS: drone_air_support unlocks when wave starts
+PASS: drone_air_support belongs to Mechanic
+PASS: drone_air_support must be accepted
+PASS: drone_air_support cannot round distance up
+PASS: drone_air_support both goals complete at exact boundary
+PASS: drone_air_support team progress does not accept another player's quest
+PASS: drone_air_support shared effort counts for second pilot
+PASS: drone_air_support notification milestones include both goals
+PASS: drone_air_support journal displays progress
+PASS: Invalid telemetry cannot corrupt counters
+PASS: Snapshot preserves fractional counters and individual claims
+PASS: Chain completion remains personal
+DRONE_QUESTS_DONE checks=33 failures=0

@@ -1,0 +1,63 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Starter tower available without a quest
+PASS: flame locked despite money and a high current wave
+PASS: mortar locked despite money and a high current wave
+PASS: mg42 locked despite money and a high current wave
+PASS: tesla locked despite money and a high current wave
+PASS: Direct selection cannot bypass the lock
+PASS: Unknown type cannot start placement
+PASS: standard menu unlocks at completed-wave boundary
+PASS: standard can be built at its unlock
+PASS: standard charges exactly the listed price
+PASS: standard level 2 blocks early shop upgrade atomically
+PASS: standard level 2 unlocks and charges once
+PASS: standard level 3 blocks early shop upgrade atomically
+PASS: standard level 3 unlocks and charges once
+PASS: standard retains maximum level
+PASS: flame rejects premature purchase without charging or spawning
+PASS: flame menu unlocks at completed-wave boundary
+PASS: flame can be built at its unlock
+PASS: flame charges exactly the listed price
+PASS: flame level 2 blocks early shop upgrade atomically
+PASS: flame level 2 unlocks and charges once
+PASS: flame level 3 blocks early shop upgrade atomically
+PASS: flame level 3 unlocks and charges once
+PASS: flame retains maximum level
+PASS: mortar rejects premature purchase without charging or spawning
+PASS: mortar menu unlocks at completed-wave boundary
+PASS: mortar can be built at its unlock
+PASS: mortar charges exactly the listed price
+PASS: mortar level 2 blocks early shop upgrade atomically
+PASS: mortar level 2 unlocks and charges once
+PASS: mortar level 3 blocks early shop upgrade atomically
+PASS: mortar level 3 unlocks and charges once
+PASS: mortar retains maximum level
+PASS: mg42 rejects premature purchase without charging or spawning
+PASS: mg42 menu unlocks at completed-wave boundary
+PASS: mg42 can be built at its unlock
+PASS: mg42 charges exactly the listed price
+PASS: mg42 level 2 blocks early shop upgrade atomically
+PASS: mg42 level 2 unlocks and charges once
+PASS: mg42 level 3 blocks early shop upgrade atomically
+PASS: mg42 level 3 unlocks and charges once
+PASS: mg42 retains maximum level
+PASS: tesla rejects premature purchase without charging or spawning
+PASS: tesla menu unlocks at completed-wave boundary
+PASS: tesla can be built at its unlock
+PASS: tesla charges exactly the listed price
+PASS: tesla level 2 blocks early shop upgrade atomically
+PASS: tesla level 2 unlocks and charges once
+PASS: tesla level 3 blocks early shop upgrade atomically
+PASS: tesla level 3 unlocks and charges once
+PASS: tesla retains maximum level
+PASS: Unlocked tower still requires money
+PASS: Open menu updates after money changes
+PASS: New-round progress restores starter-only selection
+TOWER_PROGRESSION_DONE checks=54 failures=0

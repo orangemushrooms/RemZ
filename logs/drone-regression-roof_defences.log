@@ -1,0 +1,98 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Hut menu offers ground and six roof sockets
+PASS: All five Meshy weapon types are offered
+PASS: Selecting a roof weapon starts compact preview
+PASS: Selecting roof socket turns view toward preview
+PASS: Roof preview snaps to socket and validates
+PASS: standard builds on roof
+PASS: standard has compact Meshy weapon
+PASS: standard preserves roof height and exact cost
+PASS: standard duplicate socket rejects without charging
+PASS: standard automatic roof turret cannot teleport player
+PASS: standard repair works from hut
+PASS: standard alignment works from hut
+PASS: standard remote repair denied
+PASS: standard remote rotation denied
+PASS: flame builds on roof
+PASS: flame has compact Meshy weapon
+PASS: flame preserves roof height and exact cost
+PASS: flame duplicate socket rejects without charging
+PASS: flame automatic roof turret cannot teleport player
+PASS: flame repair works from hut
+PASS: flame alignment works from hut
+PASS: flame remote repair denied
+PASS: flame remote rotation denied
+PASS: mortar builds on roof
+PASS: mortar has compact Meshy weapon
+PASS: mortar preserves roof height and exact cost
+PASS: mortar duplicate socket rejects without charging
+PASS: mortar automatic roof turret cannot teleport player
+PASS: mortar repair works from hut
+PASS: mortar alignment works from hut
+PASS: mortar remote repair denied
+PASS: mortar remote rotation denied
+PASS: mg42 builds on roof
+PASS: mg42 has compact Meshy weapon
+PASS: mg42 preserves roof height and exact cost
+PASS: mg42 duplicate socket rejects without charging
+PASS: mg42 automatic roof turret cannot teleport player
+PASS: mg42 repair works from hut
+PASS: mg42 alignment works from hut
+PASS: mg42 remote repair denied
+PASS: mg42 remote rotation denied
+PASS: tesla builds on roof
+PASS: tesla has compact Meshy weapon
+PASS: tesla preserves roof height and exact cost
+PASS: tesla duplicate socket rejects without charging
+PASS: tesla automatic roof turret cannot teleport player
+PASS: tesla repair works from hut
+PASS: tesla alignment works from hut
+PASS: tesla remote repair denied
+PASS: tesla remote rotation denied
+PASS: Construction leaves hut health and transform unchanged
+PASS: Forged or nonfinite roof position rejected
+PASS: Forged or nonfinite roof position rejected
+PASS: Forged or nonfinite roof position rejected
+PASS: Forged or nonfinite roof position rejected
+PASS: Roof construction requires hut proximity
+PASS: Insufficient funds rejected
+PASS: Roof respects wave unlocks
+PASS: Nonfinite rotation rejected
+PASS: Unknown weapon rejected
+PASS: Dead builders rejected
+PASS: Destroyed hut rejects roof construction
+PASS: All six independent sockets usable
+PASS: Roof shares existing team tower limit
+PASS: Occupied roof socket disables purchase but allows alignment
+PASS: Damaged roof turret enables menu repair
+PASS: Menu repair operates selected roof turret
+PASS: Menu alignment starts compact roof preview
+PASS: Late join reconstructs compact roof tower 1
+PASS: Late join reconstructs compact roof tower 2
+PASS: Late join reconstructs compact roof tower 3
+PASS: Late join reconstructs compact roof tower 4
+PASS: Late join reconstructs compact roof tower 5
+PASS: Late join reconstructs compact roof tower 6
+PASS: standard sees actual ground enemy from roof
+PASS: standard automatically acquires, aims and fires from roof
+PASS: standard roof weapon damages actual ground enemy
+PASS: flame sees actual ground enemy from roof
+PASS: flame automatically acquires, aims and fires from roof
+PASS: flame roof weapon damages actual ground enemy
+PASS: mortar sees actual ground enemy from roof
+PASS: mortar automatically acquires, aims and fires from roof
+PASS: mortar roof weapon damages actual ground enemy
+PASS: mg42 sees actual ground enemy from roof
+PASS: mg42 automatically acquires, aims and fires from roof
+PASS: mg42 roof weapon damages actual ground enemy
+PASS: tesla sees actual ground enemy from roof
+PASS: tesla automatically acquires, aims and fires from roof
+PASS: tesla roof weapon damages actual ground enemy
+ROOF_DEFENCES_DONE checks=89 failures=0

@@ -1,0 +1,77 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 670, "batches": 19, "removed_render_nodes": 45 }
+COOP_LOAD MAP_READY
+PASS: Station is reachable inside upper hut floor
+PASS: Missing hut key blocks launch
+PASS: Cannot use upstairs station from garage
+PASS: Remote station use rejected
+PASS: Console cannot be used through an intervening solid object
+PASS: scout locked one wave before threshold
+PASS: scout unlocks exactly at wave 5
+PASS: viper locked one wave before threshold
+PASS: viper unlocks exactly at wave 10
+PASS: tempest locked one wave before threshold
+PASS: tempest unlocks exactly at wave 15
+PASS: Unknown drone rejected
+PASS: Blocked launch pads reject without taking control
+PASS: Station opens three-choice Ready to fly menu
+PASS: Ready to fly launches and closes menu
+PASS: Flight takes camera and hides personal weapon
+PASS: Flight uses imported Meshy model
+PASS: Pilot body remains at station while flying
+PASS: Personal shots and grenades blocked during drone flight
+PASS: Pause overlay retains normal Escape handling without recalling drone
+PASS: Resume keeps flight camera and re-enables control
+PASS: Other systems cannot restore hand weapon or personal ammo during flight
+PASS: One pilot cannot launch a second drone
+PASS: Nonfinite movement rejected
+PASS: Nonfinite aim rejected
+PASS: Oversized movement normalized by host
+PASS: Authority bounds camera angles
+PASS: Forged owner cannot control drone
+PASS: Unknown drone control is ignored
+PASS: Invalid damage never corrupts hull health
+PASS: Drone flies freely with bounded speed
+PASS: Missing control packets stop thrust and fire
+PASS: Flight ceiling keeps drone in playable airspace
+PASS: Map boundary prevents leaving world
+PASS: Weapon cools and unlocks after overheating
+PASS: Swept obstacle collision causes light bounded damage
+PASS: Drone cannot tunnel through wall
+PASS: Zombie strike causes substantially heavier damage
+PASS: Late join reconstructs authoritative drone
+PASS: Late join does not replay old shots
+PASS: Replica cannot apply damage or generate shots
+PASS: Replicated new shot has sound and muzzle flash
+PASS: Recall restores body camera and clears ownership
+PASS: Recall preserves pilot position and imposes refit
+PASS: Refit cannot be bypassed by relaunch
+PASS: scout inflicts increasing real damage per tier
+PASS: scout shot produces flash tracer and positional sound
+PASS: scout credits pilot kills correctly
+PASS: scout rate limit cannot be bypassed
+PASS: scout overheating prevents fire
+PASS: scout cannot shoot through solid cover
+PASS: viper inflicts increasing real damage per tier
+PASS: viper shot produces flash tracer and positional sound
+PASS: viper credits pilot kills correctly
+PASS: viper rate limit cannot be bypassed
+PASS: viper overheating prevents fire
+PASS: viper cannot shoot through solid cover
+PASS: tempest inflicts increasing real damage per tier
+PASS: tempest shot produces flash tracer and positional sound
+PASS: tempest credits pilot kills correctly
+PASS: tempest rate limit cannot be bypassed
+PASS: tempest overheating prevents fire
+PASS: tempest cannot shoot through solid cover
+PASS: Zombie acquires low exposed drone
+PASS: Animated zombie strike actually damages flying drone
+PASS: Heavy drone can launch after recall
+PASS: Destruction restores control with 30 second rebuild
+PASS: Pilot death releases drone and camera
+DRONES_DONE checks=68 failures=0

@@ -1,7 +1,16 @@
-2026-09-23T08:48:09 remz-dev-20260922-weapon-expansion BOOT exe=C:/Users/miche/Desktop/Godot.exe
-2026-09-23T08:48:09 remz-dev-20260922-weapon-expansion NETWORK_INITIALIZED
-2026-09-23T08:48:50 remz-dev-20260922-weapon-expansion MAP_READY
-2026-09-23T08:48:50 remz-dev-20260922-weapon-expansion HOST_CREATE port=24696
-2026-09-23T08:48:50 remz-dev-20260922-weapon-expansion HOST_READY
-2026-09-23T08:48:50 remz-dev-20260922-weapon-expansion ROUND_BEGIN intro=false
-2026-09-23T08:48:50 remz-dev-20260922-weapon-expansion ROUND_RUNNING players=4
+2026-09-24T08:44:44 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-24T08:44:44 remz-dev-20260923-komplett NETWORK_INITIALIZED
+2026-09-24T08:45:03 remz-dev-20260923-komplett MAP_READY
+2026-09-24T08:45:03 remz-dev-20260923-komplett HOST_CREATE port=24729
+2026-09-24T08:45:03 remz-dev-20260923-komplett HOST_READY
+2026-09-24T08:45:03 remz-dev-20260923-komplett PEER_CONNECTED id=676431193
+2026-09-24T08:45:03 remz-dev-20260923-komplett INITIAL_SEND peer=676431193 raw=22196 bytes=4029 parts=5
+2026-09-24T08:45:03 remz-dev-20260923-komplett CLIENT_READY peer=676431193
+2026-09-24T08:45:03 remz-dev-20260923-komplett ROUND_START_SEND players=2
+2026-09-24T08:45:03 remz-dev-20260923-komplett STATE_SEND peer=676431193 raw=22196 bytes=4031 parts=5
+2026-09-24T08:45:03 remz-dev-20260923-komplett ROUND_BEGIN intro=false
+2026-09-24T08:45:03 remz-dev-20260923-komplett ROUND_RUNNING players=2
+2026-09-24T08:45:17 remz-dev-20260923-komplett PEER_CONNECTED id=1021242500
+2026-09-24T08:45:17 remz-dev-20260923-komplett INITIAL_SEND peer=1021242500 raw=25764 bytes=4496 parts=5
+2026-09-24T08:45:17 remz-dev-20260923-komplett CLIENT_READY peer=1021242500
+2026-09-24T08:45:21 remz-dev-20260923-komplett PEER_DISCONNECTED id=676431193
