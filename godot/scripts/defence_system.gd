@@ -139,7 +139,7 @@ func _build_menu() -> void:
 	list.add_theme_constant_override("separation",12)
 	scroll.add_child(list)
 	var title := Label.new()
-	title.text = "TOWER BUILDING · up to 6 towers per team"
+	title.text = "TOWER BUILDING · up to 20 towers per team"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	list.add_child(title)
 	site_picker = OptionButton.new()
@@ -221,7 +221,7 @@ func unlock_reason(kind: String, level := 1) -> String:
 func build_requirement(p: Player, kind: String) -> String:
 	var reason := unlock_reason(kind)
 	if not reason.is_empty(): return reason
-	if towers.size() >= DefenceTower.LIMIT: return "No more than 6 towers per team."
+	if towers.size() >= DefenceTower.LIMIT: return "No more than 20 towers per team."
 	if p.score < int(DefenceTower.SPECS[kind].cost): return Lang.t("%s: %d Rem Dollars needed.", [DefenceTower.SPECS[kind].name, DefenceTower.SPECS[kind].cost])
 	return ""
 
@@ -688,7 +688,7 @@ func _process(delta: float) -> void:
 			var detail := Lang.t("Max. %d m · bright sector: automatic (160°)\nManual: full circle · obstacles block", [roundi(preview_range())]) if build_error.is_empty() else build_error
 			if roof_slot >= 0 and build_error.is_empty():
 				detail = Lang.t("Roof slot %d · automatic (160°) · max. %d m\nObstacles block the line of fire", [roof_slot + 1, roundi(preview_range())])
-			hint.text = Lang.t("%s · %d / 6 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel", [head, towers.size(), detail])
+			hint.text = Lang.t("%s · %d / 20 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel", [head, towers.size(), detail])
 			hint.show()
 	var titan: Zombie
 	for z in game.zombies_root.get_children():

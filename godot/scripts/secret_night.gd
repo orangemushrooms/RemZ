@@ -283,7 +283,7 @@ func _update_ending(delta: float) -> void:
 	var weather := 1.0 if step < CLOSING else energy
 	rain.amount_ratio = weather
 	rain.emitting = weather > 0.001
-	rain_sound.volume_db = -20.0 + linear_to_db(maxf(0.0001, weather))
+	rain_sound.volume_db = -20.0 + linear_to_db(0.5) + linear_to_db(maxf(0.0001, weather))
 	if weather <= 0.001: rain_sound.stop()
 	main.settings.env.volumetric_fog_density = lerpf(saved_fog, 0.012, weather)
 	haze_material.set_shader_parameter("strength", (0.12 if step >= 3 else 0.55) * weather)
@@ -560,7 +560,7 @@ func _build_weather() -> void:
 	if rain_sound.stream is AudioStreamWAV:
 		rain_sound.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		rain_sound.stream.loop_end = rain_sound.stream.data.size() / 2
-	rain_sound.volume_db = -20
+	rain_sound.volume_db = -20.0 + linear_to_db(0.5)
 	add_child(rain_sound)
 
 func _build_hud() -> void:

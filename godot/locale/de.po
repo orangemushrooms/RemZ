@@ -968,8 +968,8 @@ msgid "Night"
 msgstr "Nacht"
 
 #: scripts/defence_system.gd
-msgid "TOWER BUILDING · up to 6 towers per team"
-msgstr "TURMBAU · maximal 6 Türme im Team"
+msgid "TOWER BUILDING · up to 20 towers per team"
+msgstr "TURMBAU · maximal 20 Türme im Team"
 
 #: scripts/defence_system.gd
 msgid "Ground placement"
@@ -1008,8 +1008,8 @@ msgid "%s: survive wave %d first (%d/%d)."
 msgstr "%s: zuerst Welle %d überstehen (%d/%d)."
 
 #: scripts/defence_system.gd
-msgid "No more than 6 towers per team."
-msgstr "Maximal 6 Türme im Team."
+msgid "No more than 20 towers per team."
+msgstr "Maximal 20 Türme im Team."
 
 #: scripts/defence_system.gd
 msgid "%s: %d Rem Dollars needed."
@@ -1220,8 +1220,8 @@ msgid "Roof slot %d · automatic (160°) · max. %d m\nObstacles block the line 
 msgstr "Dachplatz %d · automatisch (160°) · max. %d m\nHindernisse blockieren die Schusslinie"
 
 #: scripts/defence_system.gd
-msgid "%s · %d / 6 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel"
-msgstr "%s · %d / 6 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen"
+msgid "%s · %d / 20 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel"
+msgstr "%s · %d / 20 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen"
 
 #: scripts/defence_system.gd
 msgid "RAGE"

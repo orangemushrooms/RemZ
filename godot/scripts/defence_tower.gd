@@ -3,7 +3,7 @@ extends Node3D
 
 const COST := 120
 const REPAIR_COST := 35
-const LIMIT := 6
+const LIMIT := 20
 const HEALTH := [240.0, 400.0, 600.0]
 const RANGE := [26.0, 32.0, 38.0]
 const UPGRADES := [100, 175]
