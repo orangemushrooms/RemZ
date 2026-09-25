@@ -122,13 +122,15 @@ func plan(n: int) -> Array:
 	for i in count:
 		var r := randf()
 		var t := "shambler"
-		if n >= 1 and r < 0.18 + n * 0.04:
+		# Sep 2026: the horde hardens faster - runners from the first wave, nurses and soldiers a wave
+		# earlier, brutes from wave 3 with a growing share.
+		if n >= 1 and r < minf(0.5, 0.22 + n * 0.045):
 			t = "runner"
-		if n >= 2 and r > 0.7 and r < 0.85:
+		if n >= 2 and r > 0.68 and r < 0.84:
 			t = "nurse"
-		if n >= 3 and r > 0.85 and r < 0.93:
+		if n >= 2 and r > 0.84 and r < 0.92:
 			t = "soldier"
-		if n >= 3 and r > 0.92:
+		if n >= 3 and r > 0.92 - minf(0.06, n * 0.005):
 			t = "brute"
 		var lr := randf()
 		var lane := "north"
@@ -167,7 +169,7 @@ func start(n: int) -> void:
 	total = queue.size()
 	phase = "spawning"
 	spawn_t = 0.0
-	speed_mul = minf(2.2, 1.0 + (n - 1) * 0.035) * _difficulty("speed")
+	speed_mul = minf(2.4, 1.0 + (n - 1) * 0.045) * _difficulty("speed")
 	hud.set_wave(n, Lang.t("%d zombies", [queue.size()]))
 	hud.set_wave_progress(total, total)
 	if "achievements" in main and main.achievements:
@@ -268,7 +270,7 @@ func _complete_wave() -> void:
 		main.music.play(main.music.intermission_track(main.day_night.clock_seconds / 3600.0) if main.day_night else "night")
 	completed = wave
 	phase = "idle"
-	timer = 180.0
+	timer = 120.0
 	hud.set_wave_progress(0, total)
 	if "achievements" in main and main.achievements:
 		main.achievements.wave_cleared(wave)

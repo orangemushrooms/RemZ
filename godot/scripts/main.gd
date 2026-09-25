@@ -2517,6 +2517,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 	var z: Zombie = Earthworm.new() if Zombie.is_worm_kind(type) else (Titan.new() if Zombie.is_titan_kind(type) else Zombie.new())
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	z.hp *= float(difficulty["hp"])
+	if not Zombie.is_boss_kind(type): z.hp *= EncounterBalance.horde_hp(waves.wave)
 	if Zombie.is_boss_kind(type):
 		z.speed_mul = EncounterBalance.heavy_speed(speed_mul)
 		z.hp *= EncounterBalance.heavy_hp(waves.wave, NetSession.roster.size() if NetSession.enabled else 1, Zombie.is_worm_kind(type))

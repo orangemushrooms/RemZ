@@ -170,7 +170,8 @@ func run() -> void:
 	player.max_hp = 200
 	player.hp = 200
 	titan.resolve_strike()
-	check(is_equal_approx(player.hp, 128.32), "Wave-eight normal titan slam uses bounded 71.68 HP damage")
+	var expected_slam: float = 70.0 * EncounterBalance.heavy_damage(8) * float(game.difficulty["dmg"])
+	check(is_equal_approx(player.hp, 200.0 - expected_slam), "Wave-eight titan slam uses bounded %.2f HP damage" % expected_slam)
 	var wall := StaticBody3D.new()
 	wall.collision_layer = 1
 	var wall_shape := CollisionShape3D.new()

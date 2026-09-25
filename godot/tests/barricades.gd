@@ -51,7 +51,7 @@ func run() -> void:
 	await physics_frame
 	check(bar.level == 0 and bar.visual.get_child_count() == 0, "Unbuilt line has no physical models")
 	check(not bar.purchase(player, "build") and player.score == 0 and bar.level == 0, "Unaffordable line creates nothing and charges nothing")
-	player.add_score(200)
+	player.add_score(600)
 	# V no longer opens the planner: it now points at the Mechanic, and E builds or repairs a line
 	# in place (barricade_menu._unhandled_input). The planner screen itself is what this suite
 	# covers, so open it directly instead of through the retired shortcut.
@@ -98,11 +98,15 @@ func run() -> void:
 	check(player.score == start_score - 75, "Repeated repair cannot waste points")
 	bar.damage(30)
 	menu._purchase("build")
-	check(bar.level == 2 and bar.hp == 600 and player.score == start_score - 125, "Upgrade restores and strengthens all segments together")
+	check(bar.level == 2 and bar.hp == 800 and player.score == start_score - 195, "Upgrade to the iron-banded wall restores and strengthens all segments together")
+	check(bar.visual.get_child_count() == int(bar.slot.segments), "Tier 2 rebuilds every segment with its own wall")
+	await screenshot("03b-iron-banded-line")
 	menu._purchase("build")
-	check(bar.level == 3 and bar.hp == 900 and player.score == start_score - 175, "Final upgrade reaches 900 HP at the advertised cost")
+	check(bar.level == 3 and bar.hp == 1600 and player.score == start_score - 415, "Final upgrade reaches the 1600 HP steel bulwark at the advertised cost")
+	bar.damage(100)
+	check(is_equal_approx(bar.hp, 1550.0), "Steel bulwark shrugs off half of every hit")
 	menu._purchase("build")
-	check(bar.level == 3 and player.score == start_score - 175, "Maximum level cannot be purchased twice")
+	check(bar.level == 3 and player.score == start_score - 415, "Maximum level cannot be purchased twice")
 	await screenshot("04-reinforced-line")
 	menu.site_buttons[3].pressed.emit()
 	check(menu.selected == game.barricades[3], "Site buttons select their own complete line")

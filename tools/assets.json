@@ -342,5 +342,13 @@
   "mod_mag_tube": {
     "prompt": "game asset, shotgun magazine tube extension, one plain straight steel tube closed by a rounded end cap with a small stud, a knurled clamp ring near the open end, lying horizontally, isolated single object, no gun, no weapon, no barrel, no ground, no text, no letters",
     "texture_prompt": "photorealistic 4k PBR, matte black parkerised steel, fine machining rings, light scratches and holster wear on the edges, no text, no letters"
+  },
+  "barricade_iron": {
+    "prompt": "game asset, reinforced defensive barricade wall section, long rectangular wooden palisade of thick vertical logs bolted together with heavy riveted iron bands and steel corner plates, two rusty steel I-beams braced diagonally at the back, a row of iron spikes along the top, barbed wire coil in front, single straight wall segment about three times longer than tall, no ground, no base, no text",
+    "texture_prompt": "dark weathered oak logs, rusted riveted iron straps and steel plates, dents and scratches, barbed wire, realistic PBR, no text, no letters"
+  },
+  "barricade_steel": {
+    "prompt": "game asset, military fortified barrier wall section, long rectangular reinforced concrete wall with exposed rebar and welded steel armour plates bolted to the front, heavy steel anti-tank hedgehog spikes welded on top, thick steel I-beam frame and angled buttress supports at the back, sandbags at the base, razor wire along the top edge, single straight wall segment about three times longer than tall, no ground, no base, no text",
+    "texture_prompt": "grey cracked concrete with rebar, scorched welded steel plates with rust streaks and bullet dents, hazard wear, olive sandbags, razor wire, realistic PBR, no text, no letters"
   }
 }

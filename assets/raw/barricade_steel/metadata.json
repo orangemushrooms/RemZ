@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, military fortified barrier wall section, long rectangular reinforced concrete wall with exposed rebar and welded steel armour plates bolted to the front, heavy steel anti-tank hedgehog spikes welded on top, thick steel I-beam frame and angled buttress supports at the back, sandbags at the base, razor wire along the top edge, single straight wall segment about three times longer than tall, no ground, no base, no text",
+  "folder": "barricade_steel",
+  "root_task_id": "01a0d722-d447-72d5-9c3e-56b171a01dee",
+  "created_at": "2026-09-25T07:58:30.403664",
+  "updated_at": "2026-09-25T07:58:30.403681",
+  "tasks": [
+    {
+      "task_id": "01a0d722-d447-72d5-9c3e-56b171a01dee",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-25T07:58:30.403679"
+    }
+  ]
+}

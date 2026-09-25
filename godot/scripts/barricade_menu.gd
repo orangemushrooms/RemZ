@@ -177,7 +177,8 @@ func _build_ui() -> void:
 		step.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		step.add_theme_stylebox_override("panel", _style(Color(0.08, 0.12, 0.10), Color(0.19, 0.25, 0.22), 9))
 		levels.add_child(step)
-		var label := _label(Lang.t("0%d\n%d HP", [i + 1, roundi((i + 1) * Barricade.HP_PER_LEVEL)]), 14)
+		var spec: Dictionary = Barricade.TIERS[i]
+		var label := _label(Lang.t("0%d  %s\n%d HP · %d%% armor · %d R", [i + 1, Lang.t(String(spec["name"])), roundi(float(spec["hp"])), roundi(float(spec["armor"]) * 100.0), int(spec["cost"])]), 13)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		step.add_child(label)
 		level_labels.append(label)
@@ -200,7 +201,7 @@ func _build_ui() -> void:
 	primary.add_theme_constant_override("icon_max_width", 42)
 	primary.pressed.connect(_purchase.bind("build"))
 	card_content.add_child(primary)
-	repair_button = _button("Repair whole line  ·  25 R")
+	repair_button = _button("")
 	repair_button.icon = ItemIcons.texture("skill_regen")
 	repair_button.expand_icon = true
 	repair_button.add_theme_constant_override("icon_max_width", 32)
@@ -322,20 +323,27 @@ func _refresh() -> void:
 		site_buttons[i].add_theme_stylebox_override("normal", _style(Color(0.13, 0.18, 0.14) if bar == selected else Color(0.08, 0.11, 0.10), GOLD if bar == selected else Color(0.23, 0.3, 0.27), 12))
 	title.text = selected.slot["name"]
 	dimensions.text = Lang.t("%.1f m  ·  %d connected segments", [selected.half_len * 2.0, selected.slot["segments"]])
-	condition.text = "Open approach  ·  no barrier" if selected.level == 0 else Lang.t("Tier %d  ·  %d / %d hit points", [selected.level, ceili(selected.hp), int(selected.max_hp())])
+	condition.text = "Open approach  ·  no barrier" if selected.level == 0 else Lang.t("Tier %d  ·  %s  ·  %d / %d hit points", [selected.level, Lang.t(selected.tier_name()), ceili(selected.hp), int(selected.max_hp())])
 	health.max_value = maxf(selected.max_hp(), 1)
 	health.value = selected.hp
 	for i in 3:
 		level_labels[i].modulate = GREEN if i < selected.level else MUTED
 	var build_error := selected.action_error(player, "build")
 	var repair_error := selected.action_error(player, "repair")
-	primary.text = "Build whole line  ·  50 R" if selected.level == 0 else (Lang.t("Reinforce to tier %d  ·  50 R", [selected.level + 1]) if selected.level < Barricade.MAX_LEVEL else "Fully reinforced")
+	primary.text = Lang.t("Build whole line  ·  %d R", [Barricade.build_cost(1)]) if selected.level == 0 else (Lang.t("Upgrade to tier %d · %s  ·  %d R", [selected.level + 1, Lang.t(String(Barricade.tier(selected.level + 1)["name"])), selected.next_cost()]) if selected.level < Barricade.MAX_LEVEL else "Fully reinforced")
+	repair_button.text = Lang.t("Repair whole line  ·  %d R", [Barricade.repair_cost(selected.level)])
 	primary.disabled = not build_error.is_empty()
 	primary.tooltip_text = build_error
 	repair_button.disabled = not repair_error.is_empty()
 	repair_button.tooltip_text = repair_error
 	repair_button.visible = selected.level > 0
-	explanation.text = "50 Rem Dollars for the barrier line and its palisade section. Both only appear once you build." if selected.level == 0 else Lang.t("Reinforcing adds %d HP of durability and restores the whole line. Repairing refills its current HP.", [roundi(Barricade.HP_PER_LEVEL)])
+	if selected.level == 0:
+		explanation.text = Lang.t("%d Rem Dollars for the timber palisade along the whole line. It only appears once you build.", [Barricade.build_cost(1)])
+	elif selected.level < Barricade.MAX_LEVEL:
+		var next: Dictionary = Barricade.tier(selected.level + 1)
+		explanation.text = Lang.t("Upgrading replaces the wall with the %s: %d HP and %d%% of every hit shrugged off. The whole line is restored. Repairing refills its current HP.", [Lang.t(String(next["name"])), roundi(float(next["hp"])), roundi(float(next["armor"]) * 100.0)])
+	else:
+		explanation.text = "The steel bulwark is the strongest wall. Repairing refills its HP."
 	preview_title.text = Lang.t("%02d   /   %s", [main.barricades.find(selected) + 1, selected.slot["name"]])
 	preview_status.text = Lang.t("RED BUILD PREVIEW   ·   %.1f M TOTAL LENGTH", [selected.half_len * 2.0]) if selected.level == 0 else Lang.t("LINE SECURED   ·   TIER %d / 3", [selected.level])
 	preview_status.add_theme_color_override("font_color", RED if selected.level == 0 else GREEN)

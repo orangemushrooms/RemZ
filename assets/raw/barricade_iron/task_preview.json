@@ -1,0 +1,27 @@
+{
+  "id": "01a0d721-2a67-70ff-972a-12a2bc35c925",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3735889489,
+  "prompt": "game asset, reinforced defensive barricade wall section, long rectangular wooden palisade of thick vertical logs bolted together with heavy riveted iron bands and steel corner plates, two rusty steel I-beams braced diagonally at the back, a row of iron spikes along the top, barbed wire coil in front, single straight wall segment about three times longer than tall, no ground, no base, no text",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790315671521,
+  "progress": 100,
+  "started_at": 1790315671530,
+  "finished_at": 1790315834320,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-2a67-70ff-972a-12a2bc35c925/output/model.glb?Expires=4943894400&Signature=nDm3Qd6Xz2t9Ze9SEM2~9xRiGiiqR3pgWX5zZDLWv8c-JuzKOIOLhQnSmR9oHJAAtsCFQP3MoOLEUJ8k5JwBeO56MtKKJ5GKDSBC1IVLXJFPKsd9pEJQO~bfM1XzM6LYzTDDSxDTbm1KZlOPF7WyRJ4LX7ROIhPS~ieLQrWkqdB-jp03Q3cusTX4-129PVX8Uu9zpAPH92wtDJ56-0MP8rSHLM9Iku9wLVhtvOvl8xdhsNVA7fTTXstRXTpmjcwCJ0NJ-PJqspav-HZJwT16m4inrU8sXs58u4If6nZrV66qz6ZFJ~JhhWSZKicxYJnmljdt3sziHuDVyRfZ6ONw6w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-2a67-70ff-972a-12a2bc35c925/output/model.fbx?Expires=4943894400&Signature=FkL4GX2dcDLHkQHMViJe48-0FCQdIAlxbVdcuEJgHuWy8zFSLH38ceQvsY1voY2DaWiS5yzR7lO6NqmJvio84A5Oy7T1jx8OEAVsER4q1QQucKcXAWTAjJSFMl~lqrXoXCAJj4yBC5hJc3eQRY~oWReed3UrpCLfj6XSTZDkbbuAn2C8~43UEc3ar7agWRnvZ7EtkALERHGu~fYHT8LiJn5IZUzNkNCPpuU6286EMqatjrqSweSTY8Ucwk59mqUGhVrvW-HA4BXOQPFRMBmJLFAjWpo6YtN3AK0k69QH7DcCdCXTXrHZuQMpRt77Z8Z0reqZAtlDSjc8Br46xrNR~Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-2a67-70ff-972a-12a2bc35c925/output/model.usdz?Expires=4943894400&Signature=An9Yz66O71xZHlY9tRckylTy6iB0Wt-pJQDGBJQXDcvZNuoqiXs7HYbvi40UiChAxooAOwaHGm4W-jAFTPB6jtHQDeiMGngfLqXhFkS0vNkhkN~9FKaj4JIzN9FYCt3qDWRo7XO4ziAM23deefi-wZmZrXiHd8deeg55PhQw6NyEE7lPygARGlC2k8wVKwUl0EXjxQ84kkZfiuD8jJ2b4Mg-2484eGCmqJNxAnz-TVdovH8S5sY8htuUpxbhXJiuMV142zyaZWZhUh7KHthvJozGL4PYJqY0blsgqSPzK-hIVrk~w-Vb4z0u11ij1IB1rYoZ5YDirlZcuUdhrPT0Iw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-2a67-70ff-972a-12a2bc35c925/output/model.obj?Expires=4943894400&Signature=Hd1yTh-rY3dZ4ja~JHtfcAAFgYuOoszPJm9idxAs3fY38MaGJKdJovPsQXbYkvn~LZPIQCARXxteQiJEjLsGgGe3u5t1qihDKo2NaOwi5JR-WHoIqFhHqNtVG~jv0LIdiT8dx~tGCn201TgtSdzhZLun3-DhD3w~XSLoCpL-WmaNbp32m02xu4rWJ4tIUAXxw8tEDsfX2DFUMy9tvHyjXHG4fKgHGNn2jGxGd4Rf2GWgM~-Rb4g9lmkxW0DjeB5yErgOIYVvY45kAWrq1MimcbCyiQ8QNDXJsidZMDQkxlDSKk73xil4QZyC9Op1UDx1NyfQRi6Ujf~eBwDe1yAWUQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-2a67-70ff-972a-12a2bc35c925/output/model.stl?Expires=4943894400&Signature=olmd~yfCs3C~LuLhxLFVlORGGhXWba2VfvEp7KQ-VVPCYHaNXYWBUU2bl4F~x~W3hQVabgJwU2j4laKdNh0j0I9nwhB8scDsV2eEVx8BHs36qhnlykgcjxTND1V4ed6iXI7POB3O1trAVOVhcVBNungMeBIneXpM~r5-L4Myg175fKAxzHbXvanfgrNTL~jUwFAGR-ZAjcgRSVCVJVNp9Vw4BRx95cAF6SV3IkV58LOcWrn~DHMWsDjtXP7ZfvzQwkvSTYM0~gl8gVD~2Zp24sNqiQMppl7Bx4vsTGkZGo3p6Y~5UmnTzxiqaGP5KifRFvyNUOtj~y1eVTCz5JvwQg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-2a67-70ff-972a-12a2bc35c925/output/preview.png?Expires=4943894400&Signature=LDkABXIKKY6cInQDRCRgcyaYj5D~5O7vwxVKVcs~gZ6qwy6WfGTkb84l-86MvI77RdZWirwMafMz-6p2d7TUdHGK80zXiLZEsayCYfx3x1MDBXszcxicEay0ZDjtwL70OH0z3sbhFLrrVceMJUqjYKMKU3POESNiS-V0ys88v~q2j~2UxP-5-nK4qjBEgcmq-tQSXjAEncxQVNAruoi7OheSaP80AxNGB5JsqVEeieaXhImCQJWf8BmjOJ1UrekoBURZPlqp0z4sJP44U8i0TodTA4lAu5FiMyT~P76t8YyOgfgtYs~wmsRv4Fg6~MvLb2TrR20oqvJZ0~0GoNYqVw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

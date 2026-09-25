@@ -29,10 +29,10 @@ func run() -> void:
 	bar.repair()
 	check(bar.health_label.text == "300 / 300" and bar.health_fill.region_rect.size.x == 256, "Repair restores the full bar")
 	bar.build()
-	check(bar.health_label.text == "600 / 600", "Upgrade updates maximum health")
+	check(bar.health_label.text == "800 / 800", "Upgrade updates maximum health")
 	bar.hp = 200
 	bar.changed.emit()
-	check(bar.health_label.text == "200 / 600", "Replicated health changes refresh the display")
+	check(bar.health_label.text == "200 / 800", "Replicated health changes refresh the display")
 	bar.damage(10000)
 	check(not bar.health_display.visible, "Destroyed barricade hides its bar")
 	bar.build()

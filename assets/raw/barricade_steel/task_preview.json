@@ -1,0 +1,27 @@
+{
+  "id": "01a0d721-3c59-7348-bf8e-f935fcb670c0",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3736311914,
+  "prompt": "game asset, military fortified barrier wall section, long rectangular reinforced concrete wall with exposed rebar and welded steel armour plates bolted to the front, heavy steel anti-tank hedgehog spikes welded on top, thick steel I-beam frame and angled buttress supports at the back, sandbags at the base, razor wire along the top edge, single straight wall segment about three times longer than tall, no ground, no base, no text",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790315676803,
+  "progress": 100,
+  "started_at": 1790315676817,
+  "finished_at": 1790315767648,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-3c59-7348-bf8e-f935fcb670c0/output/model.glb?Expires=4943894400&Signature=HED-ZmqDOxTCedDPLFDqQAnALrMT-TwK2RbNEhLUWLkR09CVzBEkYxDOM8PSZ6jc5V7-ADWLxbwL-TaPCWyfkmZcDLWqbcjpREwvu86vHNRPPVfPS0Ei9fvWHWTsbcqE16LCzuBmzqynFN4i7~1FJs8d~fSUtpwGRrgcpciShecSHFjMT279c3dblg-ABI0Z2hlejPL-0-hq2M9VMBdv0u9D~MypQFdS~~SRpJ6BytTTJjBKUe2ANp1g9WkA1eE9qLwXUJAByEMUzXVm99x6kqJwqsXkNkGhKkqem2Vz~ELaoo0s8GM61BvsnLGK4pvIGte91danQ3HH~~54AaXx~g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-3c59-7348-bf8e-f935fcb670c0/output/model.fbx?Expires=4943894400&Signature=ejCo5C74-kq5au4s4soHWdBA02Gc-DalD5ffK6oYTGhqyCoBJYpKpASniqRgMSlSBchxkdYlKU7VABifpSG1fyIssVq3LRHNSDYbGaifwPgkNm-rxlj~zEIwtSRjcChfE~qBvBbdjdme10BNq4EhBzHBhIiwIcVeXMfvtpor43ovt~ylqsf1aODMDpCL-lymZ6wtJkHqzXvuZq5ztFge2aVzzF3oM~06NnaFU4d26Ju7jBhED3AlgD9WID-gQJG3Lc6AikuLK-ZLRIadKGjOQ~tka~jhJez22yvZSl0-7yO~Mi0vnI3wVfVYuF9kFaNVmNZE5etuSpNaVwJJkCRBWg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-3c59-7348-bf8e-f935fcb670c0/output/model.usdz?Expires=4943894400&Signature=nrPRKPqTsnfE~R4AUTlPj~JoC4hN-qn1S-JGqvrYIkgUGT5M2RC1Lqb8~iAcfadWmanhtt-sHL3lBRD73C7LQ1RvG6aZC2StrhYI-h36c4ywczoAcJFdoXFkTgkxahfXmhfeT165SWdENedyQXDqzwEX3ayNth-S55pv8SFN1cYzh8XMeetPCiARd08aQJSuRXAoKK3pXnobFo5veVHTeqovkyIMuBxeWAMEQgg37qkRxIHT3rcSNUabyjDu~CucGHoD8pOlCEvud0MRp2Kaj7DloKk2TaJBBIbYRjMi0hPAGRDwFJW1Gz12Ii7wWVa7QF2wm-YsMaeSvg0NjiYb2A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-3c59-7348-bf8e-f935fcb670c0/output/model.obj?Expires=4943894400&Signature=cd9sdhu6eIRDryjlyIIAk614O6-DGe6XY3o3MWq-H8HgV2nA500NYE-LCtsr5EsJuujVGZtF4VVHHUJspGrnhbbBA41-fyb7tlHQT-fZmU6pVoGsSBVgCR683qd2CwnPO734wBIM~2LjqKLcLXnXPIcpUhPNLiq2UO6DdfRiaJqBX2Y36qFGocLjzpWH4WpwhHStsMpCKVoNYrIFva9TR01ADx8P~8dh1~CBB4AnjdrCHIpT-Boqxz7DfuFSCaP7bNPASqSZSTn36kx1MaZK0pnJU2~eM9wFr43Z2Jm4Y5wV6fjJ9OR211BGkmm2Zv0IFO7VGjZNtXgtT2P~hiq3TQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-3c59-7348-bf8e-f935fcb670c0/output/model.stl?Expires=4943894400&Signature=ppPWIgzLZmooxXGeBa4jmBM-kS-oeuBMtCzSSQNZLwNWzFlfJwLv7aTrJmhl96HJeAffyD4pB87Mi9F-LbbAJwh5GPf4k2BSiAxCU3qcNfb35DgB0NEGyBzAPUPBIi7FVgbAaDrkpMJIMuwp9aX-o9kf3QIkM48yIp2BHGexrEzlTr6O85RRacRU8mnMGXG7IpSoA-PFrFrooHm8xtH~c-FQsiyqCmdh5ow60xlt81afxDPrI9MDo7kp2Ro1RojNvzI7vQ3L56DJwakGWCCs36Bu3g9Phb-zsQFXHnGqFDweKbJlzgiMqLFMjFYKqGHqwdeUGxB-9VpttOyGc5x-Xw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d721-3c59-7348-bf8e-f935fcb670c0/output/preview.png?Expires=4943894400&Signature=ThQxiYX~R0XnITxAOlRJ4vPyE84Xvs8hafpep8e59O~9Yq1vZser8warDXVo7EXwnfu8MX37oBWMaVFQ4P2zX2dofhUy3YWxF~mM~aLlkYMT5Kyc4-8OhKzBiXOpPJTrEbGu-3qlK32GEpTjFya8Mgjjryw9WHS0ZcHCE5h~31BBE7GtvnbPNnBWndZfMT6dccKgUM8aFdeK8Iowr2tdMsaSO0ZXKh2sayE2un3wnixVNvs01Oegiv8iwuZ1N~~AgXm9ErCunqNKYdTJ0ZnvTZp541vRUHibqn~qCUXhHa-iuSDwzotf44Vg5sQ5UvLz~PdQR2ZJNLKkPUyXmpglGQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,18 @@
+{
+  "project_name": "game asset, reinforced defensive barricade wall section, long rectangular wooden palisade of thick vertical logs bolted together with heavy riveted iron bands and steel corner plates, two rusty steel I-beams braced diagonally at the back, a row of iron spikes along the top, barbed wire coil in front, single straight wall segment about three times longer than tall, no ground, no base, no text",
+  "folder": "barricade_iron",
+  "root_task_id": "01a0d723-ac96-7500-a5d1-75d41cdeada1",
+  "created_at": "2026-09-25T08:00:55.801122",
+  "updated_at": "2026-09-25T08:00:55.801138",
+  "tasks": [
+    {
+      "task_id": "01a0d723-ac96-7500-a5d1-75d41cdeada1",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-25T08:00:55.801136"
+    }
+  ]
+}

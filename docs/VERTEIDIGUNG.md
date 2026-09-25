@@ -1,6 +1,6 @@
 # Verteidigung und Feldtitanen
 
-**E** baut oder verstärkt direkt an einer Barrikadenlinie; bei Schäden repariert E die Linie. Eine ganze Linie kostet 50 Rem Dollars, Reparatur 25. Drei Stufen mit 300 / 600 / 900 Strukturpunkten; Verstärkungen reduzieren zusätzlich erlittenen Schaden. **V** verweist auf Verteidigungsberatung bei Mechanic. Händler, Einführung und Aufträge: [Fortschritt](FORTSCHRITT.md).
+**E** baut oder verstärkt direkt an einer Barrikadenlinie; bei Schäden repariert E die Linie. Drei Ausbaustufen, jede mit eigener Wand: **Holzpalisade** (50 R, 300 HP, Reparatur 25 R), **Eisenbeschlagene Wand** (120 R, 800 HP, 30 % Panzerung, Reparatur 50 R) und **Stahlbollwerk** (220 R, 1600 HP, 50 % Panzerung, Reparatur 90 R). Die Panzerung ist der Anteil jedes Treffers, den die Wand abprallen lässt. **V** verweist auf Verteidigungsberatung bei Mechanic. Händler, Einführung und Aufträge: [Fortschritt](FORTSCHRITT.md).
 
 Zombies greifen eine gebaute Linie an, wenn sie ihren Weg zur Hütte versperrt. Sie behalten das Durchbruchsziel beim seitlichen Ausweichen. Gegner aus den vier Anmarschrichtungen berücksichtigen den zugehörigen befestigten Zugang. Nach dessen Zerstörung setzen sie die Verfolgung fort. Eine Linie schützt ihren Zugang; bereits dahinter befindliche Gegner bleiben gefährlich.
 

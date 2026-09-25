@@ -21,7 +21,10 @@ achievements as a union, high scores merged to the top 10, marker `legacy_import
   north-south on the east edge; "Wiese" is really south of the Weg zur Hütte; "Waldweg nach Hütte" comes from the
   north). Translate before touching positions.
 - Systems: waves (10 + 5 n zombies times the difficulty factor, boss wave every 5th with brutes, 27 m field
-  titans from wave 6 every third wave, `Waves.MAX_ACTIVE` 72), a closed palisade ring (`perimeter.gd`) whose
+  titans from wave 6 every third wave, `Waves.MAX_ACTIVE` 72; since 25 Sep 2026 the common horde gains +6 %
+  health per wave (`EncounterBalance.horde_hp`, capped x2.5 - bosses keep `heavy_hp`), runners from wave 1,
+  soldiers from wave 2, brutes from wave 3 with a growing share, speed +4.5 % per wave, 120 s intermission,
+  Normal = hp 1.25 / dmg 1.35 / speed 1.06, Nightmare hp 2.0 / dmg 2.3), a closed palisade ring (`perimeter.gd`) whose
   only openings are the 4 barricade slots = gates (E / planner V; the player vaults a built gate with Space), the
   Waldhütte's own health (`hut_health.gd`, 5000 HP: 35 % of the zombies are "raiders" that head for its walls once
   inside the ring, every zombie within 9 m of a wall hits it, titan strikes hurt it, HUD line under the wave bar,
@@ -56,6 +59,13 @@ runtime values live in `state[id]`, never in `state[id].def`, which every mod ch
 it carries - without it a titan standing anywhere but exactly square to a gate hammered it forever for no damage
 (`--suite=titan_siege_gate` checks all four gates from five angles); `contains()`, `points`,
 `gate_edge`; `tools/plot_perimeter.py` overlays the ring on roads and terrain before touching a corner),
+`barricade.gd` (the gates themselves, 25 Sep 2026: three upgrade tiers in `Barricade.TIERS`, each with its own
+Meshy wall - `barricade` timber palisade 300 HP / 50 R, `barricade_iron` iron-banded log wall 800 HP / 120 R /
+30 % armor, `barricade_steel` (the `_plain` retexture without emblems) steel bulwark 1600 HP / 220 R / 50 % armor;
+armor is the share of every hit shrugged off, `_make_segment(level)` turns the GLB's longest side along the line
+and scales it into the 3.2 x 1.55 m segment, a missing GLB falls back to the timber model with steel bars; the
+planner in `barricade_menu.gd` reads the same table; `--suite=barricades --render-barricades` (windowed) renders
+every tier into `artifacts/barricades/`),
 `weapon_attachments.gd` (hangs the mod models on a weapon; see Weapon mods).
 Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scored in `main._zombie_killed`
 (difficulty multiplier, streak bonus, headshot x1.5); zombies only report through the `_on_kill` callback.

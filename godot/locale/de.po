@@ -492,6 +492,22 @@ msgid "Tempest Assault"
 msgstr "Tempest-Sturmdrohne"
 
 #: scripts/barricade.gd
+msgid "Timber palisade"
+msgstr "Holzpalisade"
+
+#: scripts/barricade.gd
+msgid "Iron-banded wall"
+msgstr "Eisenbeschlagene Wand"
+
+#: scripts/barricade.gd
+msgid "Steel bulwark"
+msgstr "Stahlbollwerk"
+
+#: scripts/barricade.gd
+msgid "Building site"
+msgstr "Bauplatz"
+
+#: scripts/barricade.gd
 msgid "WARNING: %s is under attack!"
 msgstr "WARNUNG: %s wird angegriffen!"
 
@@ -532,16 +548,12 @@ msgid "[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair"
 msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren"
 
 #: scripts/barricade.gd
-msgid "Building site"
-msgstr "Bauplatz"
-
-#: scripts/barricade.gd
 msgid "[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair  ·  Space: climb over"
 msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren  ·  Leertaste: drüberklettern"
 
 #: scripts/barricade.gd
-msgid "Tier %d · %d/%d"
-msgstr "Stufe %d · %d/%d"
+msgid "Tier %d · %s · %d/%d"
+msgstr "Stufe %d · %s · %d/%d"
 
 #: scripts/barricade_menu.gd
 msgid "REMETSCHWIL SENNHOF   /   DEFENSE"
@@ -560,16 +572,12 @@ msgid "BUILD PLAN   /   WHOLE LINE"
 msgstr "BAUPLAN   /   GESAMTE LINIE"
 
 #: scripts/barricade_menu.gd
-msgid "0%d\n%d HP"
-msgstr "0%d\n%d TP"
+msgid "0%d  %s\n%d HP · %d%% armor · %d R"
+msgstr "0%d  %s\n%d HP · %d%% Panzerung · %d R"
 
 #: scripts/barricade_menu.gd
 msgid "BUILD & MAINTAIN"
 msgstr "BAUEN & INSTAND HALTEN"
-
-#: scripts/barricade_menu.gd
-msgid "Repair whole line  ·  25 R"
-msgstr "Ganze Linie reparieren  ·  25 R"
 
 #: scripts/barricade_menu.gd
 msgid "ONE CLICK. THE WHOLE BARRIER."
@@ -604,28 +612,36 @@ msgid "Open approach  ·  no barrier"
 msgstr "Offener Zugang  ·  keine Sperre"
 
 #: scripts/barricade_menu.gd
-msgid "Tier %d  ·  %d / %d hit points"
-msgstr "Stufe %d  ·  %d / %d Trefferpunkte"
-
-#: scripts/barricade_menu.gd
-msgid "Build whole line  ·  50 R"
-msgstr "Ganze Linie bauen  ·  50 R"
-
-#: scripts/barricade_menu.gd
-msgid "Reinforce to tier %d  ·  50 R"
-msgstr "Auf Stufe %d verstärken  ·  50 R"
+msgid "Tier %d  ·  %s  ·  %d / %d hit points"
+msgstr "Stufe %d  ·  %s  ·  %d / %d Trefferpunkte"
 
 #: scripts/barricade_menu.gd
 msgid "Fully reinforced"
 msgstr "Maximal verstärkt"
 
 #: scripts/barricade_menu.gd
-msgid "50 Rem Dollars for the barrier line and its palisade section. Both only appear once you build."
-msgstr "50 Rem Dollars für die Sperrlinie und ihren Palisadenabschnitt. Beide entstehen erst beim Bauen."
+msgid "Build whole line  ·  %d R"
+msgstr "Ganze Linie bauen  ·  %d R"
 
 #: scripts/barricade_menu.gd
-msgid "Reinforcing adds %d HP of durability and restores the whole line. Repairing refills its current HP."
-msgstr "Verstärken erhöht die Haltbarkeit um %d TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
+msgid "Upgrade to tier %d · %s  ·  %d R"
+msgstr "Ausbau auf Stufe %d · %s  ·  %d R"
+
+#: scripts/barricade_menu.gd
+msgid "Repair whole line  ·  %d R"
+msgstr "Ganze Linie reparieren  ·  %d R"
+
+#: scripts/barricade_menu.gd
+msgid "%d Rem Dollars for the timber palisade along the whole line. It only appears once you build."
+msgstr "%d Rem Dollar für die Holzpalisade entlang der ganzen Linie. Sie erscheint erst, wenn du baust."
+
+#: scripts/barricade_menu.gd
+msgid "Upgrading replaces the wall with the %s: %d HP and %d%% of every hit shrugged off. The whole line is restored. Repairing refills its current HP."
+msgstr "Der Ausbau ersetzt die Wand durch die %s: %d HP, und %d%% jedes Treffers prallen ab. Die ganze Linie wird wiederhergestellt. Reparieren füllt die aktuellen HP auf."
+
+#: scripts/barricade_menu.gd
+msgid "The steel bulwark is the strongest wall. Repairing refills its HP."
+msgstr "Das Stahlbollwerk ist die stärkste Wand. Reparieren füllt seine HP auf."
 
 #: scripts/barricade_menu.gd
 msgid "RED BUILD PREVIEW   ·   %.1f M TOTAL LENGTH"
@@ -1612,8 +1628,8 @@ msgid "Normal"
 msgstr "Normal"
 
 #: scripts/game_settings.gd
-msgid "The balanced night on the Heitersberg."
-msgstr "Die ausgewogene Nacht am Heitersberg."
+msgid "The night on the Heitersberg: hordes that grow tougher every wave, no mercy at the gates."
+msgstr "Die Nacht auf dem Heitersberg: Horden, die mit jeder Welle zäher werden, keine Gnade an den Toren."
 
 #: scripts/game_settings.gd
 msgid "Hard"
@@ -5014,3 +5030,39 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "Tier %d · %d/%d"
+msgstr "Stufe %d · %d/%d"
+
+#. unused
+msgid "0%d\n%d HP"
+msgstr "0%d\n%d TP"
+
+#. unused
+msgid "Repair whole line  ·  25 R"
+msgstr "Ganze Linie reparieren  ·  25 R"
+
+#. unused
+msgid "Tier %d  ·  %d / %d hit points"
+msgstr "Stufe %d  ·  %d / %d Trefferpunkte"
+
+#. unused
+msgid "Build whole line  ·  50 R"
+msgstr "Ganze Linie bauen  ·  50 R"
+
+#. unused
+msgid "Reinforce to tier %d  ·  50 R"
+msgstr "Auf Stufe %d verstärken  ·  50 R"
+
+#. unused
+msgid "50 Rem Dollars for the barrier line and its palisade section. Both only appear once you build."
+msgstr "50 Rem Dollars für die Sperrlinie und ihren Palisadenabschnitt. Beide entstehen erst beim Bauen."
+
+#. unused
+msgid "Reinforcing adds %d HP of durability and restores the whole line. Repairing refills its current HP."
+msgstr "Verstärken erhöht die Haltbarkeit um %d TP und stellt die gesamte Linie wieder her. Reparieren füllt ihre aktuellen TP auf."
+
+#. unused
+msgid "The balanced night on the Heitersberg."
+msgstr "Die ausgewogene Nacht am Heitersberg."

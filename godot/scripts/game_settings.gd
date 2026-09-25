@@ -7,10 +7,10 @@ const LIMITS := [0, 60, 100, 120, 144, 165, 240]
 # hp / dmg: zombie health and damage, count: zombies per wave, speed: zombie speed, drop: supply drop chance,
 # score: points per kill, regen: player regeneration
 const DIFFICULTIES := [
-	{ "name": "Easy", "desc": "For getting to know the hut: weaker zombies, smaller waves, plenty of supplies.", "hp": 0.8, "dmg": 0.7, "count": 0.8, "speed": 1.0, "drop": 1.4, "score": 0.8, "regen": 1.3 },
-	{ "name": "Normal", "desc": "The balanced night on the Heitersberg.", "hp": 1.0, "dmg": 1.0, "count": 1.0, "speed": 1.0, "drop": 1.0, "score": 1.0, "regen": 1.0 },
-	{ "name": "Hard", "desc": "Tougher and faster hordes, fewer supplies, 30% more Rem Dollars.", "hp": 1.25, "dmg": 1.3, "count": 1.25, "speed": 1.05, "drop": 0.8, "score": 1.3, "regen": 0.8 },
-	{ "name": "Nightmare", "desc": "Huge waves, brutal hits, barely any regeneration. 70% more Rem Dollars for the high scores.", "hp": 1.5, "dmg": 1.7, "count": 1.5, "speed": 1.12, "drop": 0.6, "score": 1.7, "regen": 0.5 },
+	{ "name": "Easy", "desc": "For getting to know the hut: weaker zombies, smaller waves, plenty of supplies.", "hp": 0.9, "dmg": 0.85, "count": 0.85, "speed": 1.0, "drop": 1.4, "score": 0.8, "regen": 1.3 },
+	{ "name": "Normal", "desc": "The night on the Heitersberg: hordes that grow tougher every wave, no mercy at the gates.", "hp": 1.25, "dmg": 1.35, "count": 1.0, "speed": 1.06, "drop": 0.9, "score": 1.0, "regen": 0.9 },
+	{ "name": "Hard", "desc": "Tougher and faster hordes, fewer supplies, 30% more Rem Dollars.", "hp": 1.6, "dmg": 1.75, "count": 1.3, "speed": 1.12, "drop": 0.75, "score": 1.3, "regen": 0.75 },
+	{ "name": "Nightmare", "desc": "Huge waves, brutal hits, barely any regeneration. 70% more Rem Dollars for the high scores.", "hp": 2.0, "dmg": 2.3, "count": 1.6, "speed": 1.2, "drop": 0.55, "score": 1.7, "regen": 0.45 },
 ]
 const RANGES := [
 	{"trees": 190.0, "props": 100.0, "detail": 45.0, "leaves": 32.0, "grass": 55.0},

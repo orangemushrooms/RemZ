@@ -4,16 +4,45 @@ extends Node3D
 
 signal changed
 
-const COST_BUILD := 50
-const COST_REPAIR := 25
+# Three tiers, each with its own Meshy wall (Sep 2026): the timber palisade, an iron-banded log wall and
+# the steel bulwark. "armor" is the share of every hit the wall shrugs off, "cost" what the next tier
+# costs; the planner reads the same table. A missing GLB falls back to the timber model with steel bars.
+const TIERS := [
+	{"name": "Timber palisade", "model": "barricade", "hp": 300.0, "cost": 50, "armor": 0.0, "hit_sfx": "wood_hit", "repair": 25},
+	{"name": "Iron-banded wall", "model": "barricade_iron", "hp": 800.0, "cost": 120, "armor": 0.3, "hit_sfx": "wood_hit", "repair": 50},
+	{"name": "Steel bulwark", "model": "barricade_steel", "hp": 1600.0, "cost": 220, "armor": 0.5, "hit_sfx": "hit", "repair": 90},
+]
+const COST_BUILD := 50          # tier 1; later tiers come from TIERS
+const COST_REPAIR := 25         # tier 1; later tiers come from TIERS
 const MAX_LEVEL := 3
-const HP_PER_LEVEL := 300.0   # a line holds level * this; the planner shows the same numbers
+const HP_PER_LEVEL := 300.0     # tier 1 health, kept for older callers
 const SEGMENT_LENGTH := 3.2
 const HEIGHT := 1.55
 const BUILD_REACH := 6.0
 const ATTACK_ALERT_SECONDS := 5.0
 var attack_alert_remaining := 0.0
 const MODEL := preload("res://assets/models/barricade.glb")
+static var _tier_scenes := {}
+
+static func tier(level_index: int) -> Dictionary:
+	return TIERS[clampi(level_index - 1, 0, TIERS.size() - 1)]
+
+static func tier_hp(level_index: int) -> float:
+	return float(tier(level_index)["hp"]) if level_index > 0 else 0.0
+
+static func build_cost(level_index: int) -> int:
+	# cost of reaching level_index (1..MAX_LEVEL)
+	return int(tier(level_index)["cost"])
+
+static func repair_cost(level_index: int) -> int:
+	return int(tier(level_index)["repair"]) if level_index > 0 else COST_REPAIR
+
+static func tier_scene(level_index: int) -> PackedScene:
+	var name: String = tier(level_index)["model"]
+	if not _tier_scenes.has(name):
+		var path := "res://assets/models/%s.glb" % name
+		_tier_scenes[name] = load(path) if ResourceLoader.exists(path) else null
+	return _tier_scenes[name]
 const PLAN_COLOR := Color(1.0, 0.16, 0.12)
 const BUILT_COLOR := Color(0.25, 0.91, 0.65)
 
@@ -181,16 +210,26 @@ static func _bounds(node: Node3D, parent_transform := Transform3D.IDENTITY) -> A
 				bounds = bounds.merge(child_bounds) if bounds.has_volume() else child_bounds
 	return bounds
 
-func _make_segment() -> Node3D:
+func _make_segment(tier_level := 1) -> Node3D:
+	# The wall of the requested tier, its longest horizontal side turned along the line (+x), then
+	# scaled into the segment box. Tiers without a GLB use the timber model.
 	var holder := Node3D.new()
 	var fit := Node3D.new()
-	var model: Node3D = MODEL.instantiate()
+	var scene := tier_scene(tier_level)
+	var model: Node3D = (scene if scene else MODEL).instantiate()
 	holder.add_child(fit)
 	fit.add_child(model)
 	var bounds := _bounds(model)
-	fit.scale = Vector3((SEGMENT_LENGTH + 0.06) / maxf(bounds.size.x, 0.001), HEIGHT / maxf(bounds.size.y, 0.001), 0.8 / maxf(bounds.size.z, 0.001))
+	if bounds.size.z > bounds.size.x:
+		model.rotation.y = PI * 0.5
+		bounds = _bounds(model)
+	var depth := 0.8 if tier_level <= 1 else 1.0
+	fit.scale = Vector3((SEGMENT_LENGTH + 0.06) / maxf(bounds.size.x, 0.001), HEIGHT / maxf(bounds.size.y, 0.001), depth / maxf(bounds.size.z, 0.001))
 	fit.position = -Vector3(bounds.get_center().x, bounds.position.y, bounds.get_center().z) * fit.scale - Vector3.UP * 0.06
 	return holder
+
+static func has_tier_model(tier_level: int) -> bool:
+	return tier_scene(tier_level) != null
 
 static func _marker_material(color: Color, alpha: float) -> StandardMaterial3D:
 	var mat := StandardMaterial3D.new()
@@ -221,7 +260,13 @@ static func _add_bar(parent: Node3D, a: Vector3, b: Vector3, width: float, mat: 
 	parent.add_child(mesh)
 
 func max_hp() -> float:
-	return level * HP_PER_LEVEL
+	return tier_hp(level)
+
+func tier_name() -> String:
+	return String(tier(level)["name"]) if level > 0 else "Building site"
+
+func next_cost() -> int:
+	return build_cost(level + 1) if level < MAX_LEVEL else 0
 
 func under_attack() -> bool:
 	return level > 0 and hp > 0.0 and attack_alert_remaining > 0.0
@@ -242,18 +287,22 @@ func rebuild() -> void:
 	for shape: CollisionShape3D in body.get_children():
 		shape.set_deferred("disabled", level == 0)
 	if level > 0:
-		var metal := StandardMaterial3D.new()
-		metal.albedo_color = Color(0.21, 0.23, 0.22)
-		metal.metallic = 0.75
-		metal.roughness = 0.65
+		var own_model := has_tier_model(level)
+		var metal: StandardMaterial3D = null
+		if not own_model and level > 1:
+			metal = StandardMaterial3D.new()
+			metal.albedo_color = Color(0.21, 0.23, 0.22)
+			metal.metallic = 0.75
+			metal.roughness = 0.65
 		for frame in _segment_transforms:
-			var model := _make_segment()
+			var model := _make_segment(level)
 			model.transform = frame
 			visual.add_child(model)
-			for reinforcement in level - 1:
-				var y := 0.48 + reinforcement * 0.65
-				for side in [-0.43, 0.43]:
-					_add_bar(model, Vector3(-SEGMENT_LENGTH * 0.5, y, side), Vector3(SEGMENT_LENGTH * 0.5, y, side), 0.095, metal)
+			if metal:
+				for reinforcement in level - 1:
+					var y := 0.48 + reinforcement * 0.65
+					for side in [-0.43, 0.43]:
+						_add_bar(model, Vector3(-SEGMENT_LENGTH * 0.5, y, side), Vector3(SEGMENT_LENGTH * 0.5, y, side), 0.095, metal)
 	_update_preview()
 	changed.emit()
 
@@ -291,8 +340,8 @@ func repair() -> bool:
 func damage(n: float) -> void:
 	if hp <= 0.0 or n <= 0.0:
 		return
-	# Reinforced lines absorb pressure as well as having more structural health.
-	hp = maxf(0.0, hp - n / (1.0 + 0.45 * (level - 1)))
+	# Heavier tiers shrug off part of every hit on top of their larger health pool.
+	hp = maxf(0.0, hp - n * (1.0 - float(tier(level)["armor"])))
 	update_attack_alert(ATTACK_ALERT_SECONDS)
 	if hp <= 0.0:
 		level = 0
@@ -300,7 +349,7 @@ func damage(n: float) -> void:
 		Sfx.play_at(get_parent(), "barricade_break", center, 0.0)
 		rebuild()
 	else:
-		Sfx.play_at(get_parent(), "wood_hit", center, -4.0)
+		Sfx.play_at(get_parent(), String(tier(level)["hit_sfx"]), center, -4.0)
 		changed.emit()
 
 func _local(p: Vector3) -> Vector2:
@@ -369,7 +418,7 @@ func action_error(player: Player, action: String, require_reach := true) -> Stri
 		return "Maximum upgrade tier reached."
 	if action == "repair" and (level == 0 or hp >= max_hp()):
 		return "No repair needed."
-	var cost := COST_REPAIR if action == "repair" else COST_BUILD
+	var cost := repair_cost(level) if action == "repair" else build_cost(level + 1)
 	if player.score < cost:
 		return Lang.t("You are %d Rem Dollars short.", [cost - player.score])
 	if action == "build" and level == 0 and placement_blocked(player):
@@ -381,17 +430,18 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 	if not error.is_empty():
 		hud.message(error, 2.0)
 		return false
+	var cost := repair_cost(level) if action == "repair" else build_cost(level + 1)
 	var success := repair() if action == "repair" else build()
 	if not success:
 		return false
-	player.add_score(-COST_REPAIR if action == "repair" else -COST_BUILD)
+	player.add_score(-cost)
 	Sfx.play(self, "confirm", -8.0)
 	Sfx.play_at(get_parent(), "build", center, -6.0)
 	return true
 
 func prompt_text() -> String:
 	if level == 0: return Lang.t("[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair", [slot["name"], "Building site", half_len * 2.0])
-	return Lang.t("[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair  ·  Space: climb over", [slot["name"], Lang.t("Tier %d · %d/%d", [level, ceili(hp), int(max_hp())]), half_len * 2.0])
+	return Lang.t("[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair  ·  Space: climb over", [slot["name"], Lang.t("Tier %d · %s · %d/%d", [level, tier_name(), ceili(hp), int(max_hp())]), half_len * 2.0])
 
 func interact(player: Player) -> void:
 	# Scripted callers keep the original shortcut; the game opens the planner.
