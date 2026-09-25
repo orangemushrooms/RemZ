@@ -1,0 +1,31 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Developement/RemZ/builds/windows/RemZ.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+FPS_SAMPLE 184.7 flags=["--autotest", "--no-music"]
+VIEW 0 fps=185
+VIEW 1 fps=74
+VIEW 2 fps=144
+VIEW 3 fps=77
+VIEW 4 fps=80
+VIEW 5 fps=100
+VIEW 6 fps=89
+VIEW 7 fps=114
+VIEW 8 fps=77
+ZOMBIE at (20.93776, -0.016689, 46.96963)
+ZOMBIE at (20.08565, -0.140153, 49.29178)
+ZOMBIE at (20.23395, -0.103739, 47.53077)
+ZOMBIE at (-63.74346, -7.663945, 78.97576)
+ZOMBIE at (22.9824, 0.04334, 50.78513)
+ZOMBIE at (-50.51075, -6.045867, 75.95328)
+ZOMBIE at (-48.6801, -5.853439, 75.53278)
+ZOMBIE at (-55.87804, 0.634288, -149.4563)
+ZOMBIE at (-63.65027, -0.874029, -105.0419)
+ZOMBIE at (19.09344, -2.974329, 110.8372)
+AUTOTEST_DONE zombies=9 fps=77
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
