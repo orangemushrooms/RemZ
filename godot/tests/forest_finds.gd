@@ -113,6 +113,14 @@ func run() -> void:
 	game.hud._update_trip(60.0)
 	check(not game.hud.tripping() and not game.hud.trip_rect.visible, "The hallucination fades out again")
 	check(progression.complete("trip_mushroom", 1), "Mushroom quest completes")
+	# the liberty cap from the inventory does the same as the quest mushroom
+	game.inventory.mushrooms["kahlkopf"] = 1
+	var eaten := Inventory.Mushrooms.consume(player, game.inventory.mushrooms, "kahlkopf")
+	check(eaten.is_empty() and player.mushroom_effects.has("kahlkopf"), "Liberty cap is edible and buffs damage", eaten)
+	game.inventory.mushrooms["kahlkopf"] = 1
+	game.inventory._eat("kahlkopf")
+	check(game.hud.tripping() and int(game.inventory.mushrooms["kahlkopf"]) == 0, "Eating a liberty cap from the inventory starts the hallucination")
+	game.hud._update_trip(60.0)
 	# the crate in the maize
 	d.claimed["trip_mushroom"] = true
 	d.accepted["maze_crate"] = true

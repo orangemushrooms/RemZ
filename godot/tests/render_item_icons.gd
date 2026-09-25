@@ -55,6 +55,13 @@ func run() -> void:
 		catalogue.firework_cracker = "firework_cracker"
 	if "--batteries-only" in OS.get_cmdline_user_args(): catalogue = {"firework_battery_40": "firework_battery_40", "firework_battery_90": "firework_battery_90"}
 	if "--gold-mushroom-only" in OS.get_cmdline_user_args(): catalogue = {"goldroehrling": ""}
+	# "--only=a,b": just those ids (their models come from the full catalogue above)
+	for arg in OS.get_cmdline_user_args():
+		if arg.begins_with("--only="):
+			var only := {}
+			for id in arg.get_slice("=", 1).split(","):
+				if catalogue.has(id): only[id] = catalogue[id]
+			catalogue = only
 	for id in catalogue:
 		var holder := Node3D.new()
 		world.add_child(holder)
@@ -73,10 +80,14 @@ func run() -> void:
 			# A missing GLB must not take the whole run down with it.
 			var model_path := "res://assets/models/%s.glb" % catalogue[id]
 			if not ResourceLoader.exists(model_path):
-				push_warning("icon: missing model " + model_path)
-				holder.queue_free()
-				continue
-			object = load(model_path).instantiate()
+				if Inventory.Mushrooms.DEFS.has(id):
+					object = Inventory.Mushrooms.model(id)   # procedural stand-in, like in the world
+				else:
+					push_warning("icon: missing model " + model_path)
+					holder.queue_free()
+					continue
+			else:
+				object = load(model_path).instantiate()
 			holder.add_child(object)
 		var bounds := Barricade._bounds(object)
 		var scale_factor := 2.0 / maxf(maxf(bounds.size.x, bounds.size.y), bounds.size.z)

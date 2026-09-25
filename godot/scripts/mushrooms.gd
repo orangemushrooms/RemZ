@@ -13,6 +13,8 @@ const DEFS := {
 	"tintenpilz": {"name": "Shaggy Ink Cap", "text": "35 s 35% less weapon spread", "heal": 0.0, "duration": 35.0, "spread": 0.65, "effect": "Spread −35%", "sell": 16, "weight": 9, "color": Color("d6d0b9"), "cap": 0.12, "flat": 1.5},
 	"violetter_roetelritterling": {"name": "Wood Blewit", "text": "+5 health; 40 s +35% weapon and melee damage", "heal": 5.0, "duration": 40.0, "damage": 1.35, "effect": "Damage +35%", "sell": 18, "weight": 7, "color": Color("9267a5"), "cap": 0.22, "flat": 0.55},
 	"krause_glucke": {"name": "Cauliflower Fungus", "text": "+60 health", "heal": 60.0, "sell": 22, "weight": 5, "color": Color("d2bf85"), "cap": 0.13, "flat": 0.8},
+	# "trip" seconds of hallucination (hud.hallucinate: the view swims, blurs and shifts colour) on top of the buff
+	"kahlkopf": {"name": "Liberty Cap", "text": "+5 health; 25 s hallucinations, 30 s +50% weapon and melee damage", "heal": 5.0, "duration": 30.0, "damage": 1.5, "effect": "Damage +50% · hallucinating", "trip": 25.0, "sell": 20, "weight": 8, "color": Color("8a7a9a"), "cap": 0.07, "flat": 2.3},
 }
 
 const GOLD_ROUND_CHANCE := 0.05
@@ -109,6 +111,11 @@ static func model(kind: String) -> Node3D:
 	var cap_material := StandardMaterial3D.new()
 	cap_material.albedo_color = spec.color
 	cap_material.roughness = 0.82
+	if spec.has("trip"):
+		# the hallucinogenic caps carry a faint violet glow so they can be told apart in the dusk
+		cap_material.emission_enabled = true
+		cap_material.emission = Color(0.55, 0.25, 0.9)
+		cap_material.emission_energy_multiplier = 0.7
 	if kind == "goldroehrling":
 		stem_material.next_pass = gold_shimmer()
 		cap_material.next_pass = gold_shimmer()

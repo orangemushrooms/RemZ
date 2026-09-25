@@ -2924,6 +2924,18 @@ msgid "+60 health"
 msgstr "+60 Leben"
 
 #: scripts/mushrooms.gd
+msgid "Liberty Cap"
+msgstr "Spitzkegeliger Kahlkopf"
+
+#: scripts/mushrooms.gd
+msgid "+5 health; 25 s hallucinations, 30 s +50% weapon and melee damage"
+msgstr "+5 Leben; 25 s Halluzinationen, 30 s +50 % Waffen- und Nahkampfschaden"
+
+#: scripts/mushrooms.gd
+msgid "Damage +50% · hallucinating"
+msgstr "Schaden +50 % · halluzinierend"
+
+#: scripts/mushrooms.gd
 msgid "%s · %s · %d s"
 msgstr "%s · %s · %d s"
 

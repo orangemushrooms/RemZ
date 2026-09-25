@@ -389,7 +389,8 @@ func _eat(kind: String) -> void:
 		info.text = error
 		hud.message(error, 2.0)
 		return
-	if kind == "fliegenpilz" and main.achievements: main.achievements.event("rausch")
+	if (kind == "fliegenpilz" or MUSHROOMS[kind].has("trip")) and main.achievements: main.achievements.event("rausch")
+	if MUSHROOMS[kind].has("trip"): hud.hallucinate(float(MUSHROOMS[kind].trip))
 	main.stats.mushrooms_eaten += 1
 	hud.message(Lang.t("%s: %s", [MUSHROOMS[kind].name, MUSHROOMS[kind].text]), 3.0)
 	Sfx.play(self, "consume", -8.0)

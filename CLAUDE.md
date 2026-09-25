@@ -90,6 +90,13 @@ Batch of 25 Sep 2026 (`--suite=forest_finds --smoke-test --no-intro --no-music -
 - The flashlight switches itself on at 19:00 game time once per night (`main._auto_flashlight`, message
   "Night has fallen. Flashlight on - toggle it with F."); the player may switch it off again.
 - Training at the Mechanic costs `Skills.training_cost` = twice the listed base (tier 1 of Firepower 240 R).
+- Hallucinogenic mushrooms in the forest: `Mushrooms.DEFS.kahlkopf` (Liberty Cap, weight 8, procedural
+  model with a faint violet emissive cap, `"trip": 25.0`). Any kind with a `trip` key calls
+  `hud.hallucinate(trip)` when eaten (`inventory._eat`, `coop_world.eat` sends feedback "hallucinate" to a
+  client) on top of its buff (+50 % damage for 30 s) and counts for the "rausch" achievement. Icons for
+  new mushroom kinds: `--script res://tests/run.gd -- --suite=render_item_icons --only=kahlkopf` (windowed;
+  through run.gd so Lang / NetSession exist - called directly the mushroom script does not compile) then
+  `--headless --import`; kinds without a GLB render their procedural model.
 Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scored in `main._zombie_killed`
 (difficulty multiplier, streak bonus, headshot x1.5); zombies only report through the `_on_kill` callback.
 

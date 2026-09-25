@@ -24,6 +24,8 @@ PASS: Eating the strange mushroom starts the hallucination
 PASS: The view swims at full strength mid-trip
 PASS: The hallucination fades out again
 PASS: Mushroom quest completes
+PASS: Liberty cap is edible and buffs damage
+PASS: Eating a liberty cap from the inventory starts the hallucination
 PASS: Standing at the crate offers it
 PASS: Maize quest completes
 PASS: Co-op snapshot carries the finds
@@ -39,7 +41,7 @@ PASS: The arrow disappears once the attack stops
 PASS: Headshot kill marks the head as burst
 PASS: The head bone collapses after the animation update
 PASS: A body shot keeps the head
-FOREST_FINDS_DONE checks=35 failures=0
+FOREST_FINDS_DONE checks=37 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

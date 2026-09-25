@@ -349,7 +349,10 @@ func eat(id: int, kind: String) -> void:
 	if not error.is_empty():
 		NetSession.feedback(id, "message", [error, 2.0])
 		return
-	if kind == "fliegenpilz": game.achievements.event("rausch")
+	if kind == "fliegenpilz" or Inventory.MUSHROOMS[kind].has("trip"): game.achievements.event("rausch")
+	if Inventory.MUSHROOMS[kind].has("trip"):
+		if id == 1: game.hud.hallucinate(float(Inventory.MUSHROOMS[kind].trip))
+		else: NetSession.feedback(id, "hallucinate", [float(Inventory.MUSHROOMS[kind].trip)])
 	game.stats.mushrooms_eaten += 1
 	p.hud.set_health(p.hp)
 	Sfx.event(game, id, "consume")
