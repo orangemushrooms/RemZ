@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 674, "batches": 24, "removed_render_nodes": 53 }
+COOP_LOAD MAP_READY
+PASS: pistol hits a zombie at 60 m (hp 150 -> 116)
+PASS: pistol hits a zombie at 181 m (hp 150 -> 131)
+SCRIPT ERROR: Invalid call. Nonexistent function 'event' in base 'Nil'.
+   at: Weapons.try_fire (res://scripts/weapons.gd:560)
+   GDScript backtrace (most recent call first):
+       [0] try_fire (res://scripts/weapons.gd:560)
+       [1] run (res://tests/range_steps.gd:69)
+PASS: smg hits a zombie at 181 m (hp 150 -> 123)
+PASS: shotgun hits a zombie at 160 m (hp 150 -> 138)
+PASS: StepGrass bus exists with a low-pass filter
+PASS: StepSoft bus exists with a low-pass filter
+PASS: StepGravel bus exists with a low-pass filter
+PASS: StepWood bus exists with a low-pass filter
+PASS: StepCorn bus exists with a low-pass filter
+PASS: Forest floor is duller than gravel (800 Hz < 2600 Hz)
+PASS: Surface at (120.0, 0.0) is hard (got hard)
+PASS: Surface at (70.0, 41.0) is gravel (got gravel)
+PASS: Surface at (7.0, -7.0) is leaves (got leaves)
+PASS: Surface at (60.0, 80.0) is grass (got grass)
+PASS: Surface at (-40.0, -40.0) is leaves (got leaves)
+PASS: Garage floor is hard
+PASS: Upper hut room is wood
+PASS: Found standing maize to walk into
+PASS: Standing maize sounds like corn, not meadow
+PASS: A cleared maze passage stays silent
+PASS: Leaf brush loop runs and loops seamlessly
+PASS: Walking through the maize raises the leaf brush (-21.4 dB)
+PASS: Standing still in the field goes quiet again (-60.0 dB)
+RANGE_STEPS_DONE checks=23 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+EXIT 0
