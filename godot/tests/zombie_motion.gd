@@ -119,15 +119,18 @@ func run() -> void:
 	check(z.state == "scream" and (z.clip == "scream" or not z.anim.has_animation("scream")), "scream state on every rig, clip when present (%s)" % z.clip)
 	z.state = "walk"
 	var deaths := {}
-	for i in 12:
+	# the fall follows the shot since 25 Sep 2026: without a direction both fall directions show up, the
+	# stiff spread-arm drop only as the rare exception (so 80 tries, at least two variants)
+	for i in 80:
 		z.alive = true
 		z.state = "walk"
+		z._death_dir = Vector3.ZERO
 		z.play("death")
 		deaths[z.clip] = true
 	var death_variants := 0
 	for n in ["death", "death2", "death3"]:
 		if z.anim.has_animation(n): death_variants += 1
-	check(deaths.size() == death_variants, "all %d death variants are used (%s)" % [death_variants, deaths.keys()])
+	check(deaths.size() >= mini(2, death_variants), "at least two of %d death variants are used (%s)" % [death_variants, deaths.keys()])
 
 	# a runner sprints, and drops to its walk clip when slowed down
 	var r := actor("runner", "zombie_runner")

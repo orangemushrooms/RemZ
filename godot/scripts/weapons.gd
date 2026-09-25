@@ -545,6 +545,7 @@ func try_fire() -> void:
 			if z.alive:
 				var headshot: bool = hit.collider.get_meta("headshot", hit.position.y > z.global_position.y + z.height * 0.78)
 				z.last_headshot = headshot
+				z.last_hit_bone = str(hit.collider.get("bone_name")) if hit.collider.get("bone_name") != null else ""
 				z.killer_weapon = current
 				z.killer_peer = player.peer_id
 				var dist := origin.distance_to(hit.position)

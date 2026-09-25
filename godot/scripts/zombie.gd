@@ -451,14 +451,72 @@ func _variant(name: String) -> String:
 			_swing += 1
 			return options[(_swing + appearance_seed) % options.size()]
 		"death":
-			for n in ["death", "death2", "death3"]:
-				if anim.has_animation(n): options.append(n)
-			return "" if options.is_empty() else options[randi() % options.size()]
+			return _death_clip()
 		"hit":
 			for n in ["hit", "hit2"]:
 				if anim.has_animation(n): options.append(n)
 			return "" if options.is_empty() else options[randi() % options.size()]
 	return name if anim.has_animation(name) else ""
+
+# The fall follows the shot (25 Sep 2026): Meshy ships three library deaths per rig - one falls forward
+# (hips travel +Z, the rig's front), two fall backward, and one of the backward ones is the stiff mannequin
+# drop with the arms spread wide (hand distance over 17 shoulder widths at the end). A shot from the front
+# pushes the body onto its back, one from behind onto its face; the stiff clip only turns up now and then.
+# Metrics are measured once per model by seeking the clip on this rig (DEATH_METRICS cache).
+static var _death_metrics := {}
+const STIFF_SPREAD := 17.0
+var _death_dir := Vector3.ZERO
+
+func _measure_deaths() -> Dictionary:
+	if _death_metrics.has(model_path): return _death_metrics[model_path]
+	var metrics := {}
+	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D if model else null
+	if anim and rig and rig.find_bone("Hips") >= 0 and rig.find_bone("LeftHand") >= 0 and rig.find_bone("RightHand") >= 0:
+		var hips := rig.find_bone("Hips")
+		var lh := rig.find_bone("LeftHand")
+		var rh := rig.find_bone("RightHand")
+		var ls := rig.find_bone("LeftShoulder")
+		var rs := rig.find_bone("RightShoulder")
+		var shoulders: float = rig.get_bone_global_rest(ls).origin.distance_to(rig.get_bone_global_rest(rs).origin) if ls >= 0 and rs >= 0 else 1.0
+		for n in ["death", "death2", "death3"]:
+			if not anim.has_animation(n): continue
+			var a := anim.get_animation(n)
+			anim.play(n)
+			anim.seek(0.0, true)
+			var start: Vector3 = rig.get_bone_global_pose(hips).origin
+			anim.seek(a.length - 0.01, true)
+			var travel: Vector3 = rig.get_bone_global_pose(hips).origin - start
+			var spread: float = rig.get_bone_global_pose(lh).origin.distance_to(rig.get_bone_global_pose(rh).origin) / maxf(shoulders, 0.01)
+			metrics[n] = {"z": travel.z, "spread": spread}
+	_death_metrics[model_path] = metrics
+	return metrics
+
+func _death_clip() -> String:
+	var options: Array[String] = []
+	for n in ["death", "death2", "death3"]:
+		if anim.has_animation(n): options.append(n)
+	if options.is_empty(): return ""
+	var metrics := _measure_deaths()
+	var local := Vector3.ZERO
+	if model and _death_dir.length() > 0.01:
+		local = model.global_basis.inverse() * _death_dir
+	var forward := local.z > 0.15      # the bullet travels along the rig's front: knocked onto its face
+	var backward := local.z < -0.15
+	var matching: Array[String] = []
+	var stiff: Array[String] = []
+	for n in options:
+		var m: Dictionary = metrics.get(n, {})
+		if m.is_empty(): continue
+		var falls_forward: bool = float(m.z) > 0.0
+		if (forward and not falls_forward) or (backward and falls_forward): continue
+		if float(m.spread) > STIFF_SPREAD: stiff.append(n)
+		else: matching.append(n)
+	if not matching.is_empty():
+		# the stiff drop stays in the mix as the odd one out, never the rule
+		if not stiff.is_empty() and randf() < 0.15: return stiff[randi() % stiff.size()]
+		return matching[randi() % matching.size()]
+	if not stiff.is_empty(): return stiff[randi() % stiff.size()]
+	return options[randi() % options.size()]
 
 # Seconds into a clip at which its strike lands (measured), or a guess for unmeasured rigs.
 func _peak(name: String) -> float:
@@ -705,6 +763,8 @@ func damage(n: float, dir: Vector3) -> void:
 	hp -= n
 	Sfx.play_at(get_parent(), "hit", global_position, -6.0)
 	_flash()
+	if hp > 0.0: _record_limb_hit(n, dir)
+	else: last_hit_bone = ""
 	# flinch: short stagger with knockback along the shot direction, scaled by the hit (heavier for big calibres)
 	var k := clampf(n / 60.0, 0.3, 1.5)
 	_stagger = maxf(_stagger, 0.16 + 0.14 * k)
@@ -762,6 +822,7 @@ func die(dir: Vector3) -> void:
 		hitbox.collision_layer = 0
 	hit_pending = 0.0
 	velocity = Vector3.ZERO
+	_death_dir = dir
 	play("death")
 	if not is_boss_kind(net_kind): Sfx.play_at(get_parent(), "zombie_death", global_position, -20.0)
 	if last_headshot and not bool(type.get("giant", false)) and not bool(type.get("worm", false)):
@@ -791,6 +852,78 @@ func die(dir: Vector3) -> void:
 # poses after modifiers) and the weapons' pooled blood bursts spray from the neck. Replicas get the same
 # call through the co-op death state (snapshot field 13).
 var _head_popped := false
+# Dismemberment (25 Sep 2026): shots at a limb accumulate per limb (HitVolume.bone_name arrives as
+# last_hit_bone); at LIMB_SHARE of the health in total or LIMB_BURST_SHARE in one hit the limb comes off
+# (bones scaled away, blood, a burst sound). An arm halves the swing damage, both arms end the attacks, a
+# leg brings the body down. "severed" is a bit mask over LIMB_KEYS, replicated as zombie snapshot field 14.
+const LIMBS := {
+	"LeftArm": ["LeftArm", "LeftForeArm", "LeftHand"],
+	"RightArm": ["RightArm", "RightForeArm", "RightHand"],
+	"LeftLeg": ["LeftUpLeg", "LeftLeg", "LeftFoot", "LeftToeBase"],
+	"RightLeg": ["RightUpLeg", "RightLeg", "RightFoot", "RightToeBase"],
+}
+const LIMB_KEYS := ["LeftArm", "RightArm", "LeftLeg", "RightLeg"]
+const LIMB_SHARE := 0.4
+const LIMB_BURST_SHARE := 0.3
+var last_hit_bone := ""
+var severed := 0
+var _limb_damage := {}
+
+static func limb_of(bone_name: String) -> String:
+	for key in LIMBS:
+		if bone_name in LIMBS[key]: return key
+	return ""
+
+func limb_severed(key: String) -> bool:
+	return severed & (1 << LIMB_KEYS.find(key)) != 0
+
+func _record_limb_hit(n: float, dir: Vector3) -> void:
+	var key := limb_of(last_hit_bone)
+	last_hit_bone = ""
+	if key.is_empty() or limb_severed(key) or bool(type.get("giant", false)) or bool(type.get("worm", false)): return
+	_limb_damage[key] = float(_limb_damage.get(key, 0.0)) + n
+	if float(_limb_damage[key]) >= max_hp * LIMB_SHARE or n >= max_hp * LIMB_BURST_SHARE:
+		sever(key, dir)
+
+func sever(key: String, dir: Vector3) -> void:
+	if limb_severed(key) or not model: return
+	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D
+	if not rig: return
+	severed |= 1 << LIMB_KEYS.find(key)
+	var root_pos := global_position + Vector3.UP * height * 0.6
+	for bone_name in LIMBS[key]:
+		var bone := rig.find_bone(bone_name)
+		if bone < 0: continue
+		if bone_name == LIMBS[key][0]: root_pos = rig.global_transform * rig.get_bone_global_pose(bone).origin
+		rig.set_bone_pose_scale(bone, Vector3(0.001, 0.001, 0.001))
+	var scene := get_tree().current_scene
+	if "weapons" in scene and scene.weapons and scene.weapons.has_method("_blood"):
+		var away := Vector3(dir.x, 0.3, dir.z).normalized() if dir.length() > 0.01 else Vector3.UP
+		scene.weapons._blood(root_pos, away)
+		scene.weapons._blood(root_pos, away.rotated(Vector3.UP, 1.2))
+	Sfx.play_at(get_parent(), "head_burst", root_pos, -12.0, randf_range(1.15, 1.35), 4.0, 40.0)
+	if key.ends_with("Arm"):
+		damage_mul *= 0.5
+		if limb_severed("LeftArm") and limb_severed("RightArm"): damage_mul = 0.0
+	elif alive and not replica and not NetSession.is_client():
+		hp = 0.0
+		die(dir)
+
+# co-op replicas: apply the host's mask without the physics side effects
+func apply_severed(mask: int) -> void:
+	if mask == severed or not model: return
+	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D
+	if not rig: return
+	for i in LIMB_KEYS.size():
+		if mask & (1 << i) and not (severed & (1 << i)):
+			var key: String = LIMB_KEYS[i]
+			for bone_name in LIMBS[key]:
+				var bone := rig.find_bone(bone_name)
+				if bone >= 0: rig.set_bone_pose_scale(bone, Vector3(0.001, 0.001, 0.001))
+			var scene := get_tree().current_scene
+			if "weapons" in scene and scene.weapons: scene.weapons._blood(global_position + Vector3.UP * height * 0.6, Vector3.UP)
+	severed = mask
+
 func _pop_head(dir: Vector3) -> void:
 	if _head_popped or not model: return
 	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D

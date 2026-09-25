@@ -228,6 +228,47 @@ func run() -> void:
 	z2.last_headshot = false
 	z2.die(Vector3.FORWARD)
 	check(not z2._head_popped, "A body shot keeps the head")
+	# dismemberment: an arm halves the swings, a leg brings the body down
+	game.spawn_zombie("shambler", spawn + Vector2(4, 0), 1.0, "")
+	var z3: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
+	var dm_before: float = z3.damage_mul
+	z3.last_hit_bone = "LeftForeArm"
+	z3.damage(z3.max_hp * 0.35, Vector3.FORWARD)
+	check(z3.alive and z3.limb_severed("LeftArm") and is_equal_approx(z3.damage_mul, dm_before * 0.5), "A heavy hit takes the arm off and halves the swings")
+	z3.last_hit_bone = "Spine"
+	z3.damage(z3.max_hp * 0.2, Vector3.FORWARD)
+	check(z3.alive and not z3.limb_severed("RightArm") and z3._limb_damage.get("RightArm", 0.0) == 0.0, "Hits without a limb bone do not add up on a limb")
+	z3.last_hit_bone = "RightHand"
+	z3.damage(z3.max_hp * 0.2, Vector3.FORWARD)
+	check(z3.alive and not z3.limb_severed("RightArm"), "A light hand hit alone does not sever")
+	z3.last_hit_bone = "RightForeArm"
+	z3.damage(z3.max_hp * 0.22, Vector3.FORWARD)
+	print("LIMB_DEBUG hp=", z3.hp, " max=", z3.max_hp, " limb=", z3._limb_damage, " severed=", z3.severed, " dm=", z3.damage_mul)
+	check(z3.limb_severed("RightArm") and z3.damage_mul == 0.0, "Both arms gone after the hits add up: no more swings")
+	var rig3 := z3.model.find_child("Skeleton3D", true, false) as Skeleton3D
+	check(rig3.get_bone_global_pose(rig3.find_bone("LeftForeArm")).basis.get_scale().x < 0.01, "The severed arm's bones are gone")
+	game.spawn_zombie("shambler", spawn + Vector2(6, 0), 1.0, "")
+	var z4: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
+	z4.last_hit_bone = "RightLeg"
+	z4.damage(z4.max_hp * 0.35, Vector3.FORWARD)
+	check(not z4.alive and z4.limb_severed("RightLeg"), "A leg shot off brings the zombie down")
+	# the fall follows the shot: from the front onto the back, from behind onto the face, the stiff clip rare
+	var metrics: Dictionary = z4._measure_deaths()
+	check(metrics.size() >= 3 and metrics.values().any(func(m): return float(m.z) > 0.0) and metrics.values().any(func(m): return float(m.z) < 0.0), "Death clips are measured: forward and backward falls exist")
+	var stiff_count := 0
+	var back_count := 0
+	for i in 40:
+		game.spawn_zombie("shambler", spawn + Vector2(8, 0), 1.0, "")
+		var zz: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
+		zz.rotation.y = 0.0
+		var from_front := -zz.global_basis.z          # a bullet flying against the rig's front
+		zz.die(from_front)
+		var m: Dictionary = metrics.get(zz.clip, {})
+		if not m.is_empty() and float(m.z) < 0.0: back_count += 1
+		if not m.is_empty() and float(m.spread) > Zombie.STIFF_SPREAD: stiff_count += 1
+		zz.queue_free()
+	check(back_count == 40, "A shot from the front always drops the body onto its back", str(back_count))
+	check(stiff_count <= 14, "The stiff spread-arm drop is the exception", str(stiff_count))
 
 	print("FOREST_FINDS_DONE checks=%d failures=%d" % [checks, failures])
 	quit(0 if failures == 0 else 1)
