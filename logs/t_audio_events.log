@@ -62,4 +62,7 @@ PASS: Daylight track loads under its own file name
 PASS: Morning and daytime pauses use the daylight track
 PASS: Evening and night pauses keep the night loop
 AUDIO_EVENTS_DONE checks=34 failures=0
-EXIT 0
+WARNING: 4 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 2 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

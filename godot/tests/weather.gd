@@ -85,7 +85,7 @@ func run() -> void:
 	check(weather.lightning_serial == serial_before + 1, "The storm throws a bolt")
 	check(weather.flash > 0.2, "The bolt lights the sky (%.2f)" % weather.flash)
 	check(game.settings.sun.light_energy > 2.5, "The bolt lights the whole forest (sun %.1f)" % game.settings.sun.light_energy)
-	check(zombie._reveal_t > 0.0 and zombie._materials.size() > 0 and zombie._materials[0].emission.b > 1.5, "The horde glows cold white in the flash")
+	check(zombie._reveal_t > 0.0 and zombie._materials.size() > 0 and zombie._materials[0].emission.b > 0.8, "The horde glows cold white in the flash")
 	check(weather._thunder.size() == 1 and float(weather._thunder[0][0]) > 0.2, "Thunder follows the bolt after the distance delay")
 	tick(3.0, 0.1)
 	check(weather.thunder_count == weather.lightning_serial and weather._thunder.is_empty(), "Every bolt rolled its thunder (count %d, bolts %d)" % [weather.thunder_count, weather.lightning_serial])

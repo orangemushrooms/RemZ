@@ -10,7 +10,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [ DONE ] first_scan_filesystem
 
 [   0% ] update_scripts_classes | Started Globale Klassen registrieren … (2 steps)
-[   0% ] update_scripts_classes | Hud
+[   0% ] update_scripts_classes | 
 [  33% ] update_scripts_classes | 
 [ DONE ] update_scripts_classes
 
@@ -154,8 +154,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [   7% ] savepack | Speichere Datei: res://assets/audio/sfx/achievement.ogg.import
 [   7% ] savepack | Speichere Datei: res://.godot/imported/acid_spit.wav-5b4c71121ff24cea24148be4c2f7f4e0.sample
 [   7% ] savepack | Speichere Datei: res://assets/audio/sfx/acid_spit.wav.import
-[   7% ] savepack | Speichere Datei: res://.godot/imported/acid_splash.wav-e8ebd9f7dd512558490669441fb2174a.sample
-[   7% ] savepack | Speichere Datei: res://assets/audio/sfx/acid_splash.wav.import
+[   7% ] savepack | Speichere Datei: res://.godot/imported/acid_splash.mp3-37224ad676df720cdeb06a8621518028.mp3str
+[   7% ] savepack | Speichere Datei: res://assets/audio/sfx/acid_splash.mp3.import
 [   7% ] savepack | Speichere Datei: res://.godot/imported/ak47.mp3-adea1055831970bd64d58a257f032f3c.mp3str
 [   7% ] savepack | Speichere Datei: res://assets/audio/sfx/ak47.mp3.import
 [   7% ] savepack | Speichere Datei: res://.godot/imported/barricade_break_1.mp3-ff261a2b6ef2f5ddca6c6e7d6690cb9e.mp3str
@@ -254,8 +254,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  11% ] savepack | Speichere Datei: res://assets/audio/sfx/head_burst_5.wav.import
 [  11% ] savepack | Speichere Datei: res://.godot/imported/heartbeat.ogg-568426c9887bde1874b59287c3c75ec3.oggvorbisstr
 [  11% ] savepack | Speichere Datei: res://assets/audio/sfx/heartbeat.ogg.import
-[  11% ] savepack | Speichere Datei: res://.godot/imported/helmet_ping.wav-d2ec15c1f9e0ab13b8d2ef6ad620974b.sample
-[  11% ] savepack | Speichere Datei: res://assets/audio/sfx/helmet_ping.wav.import
+[  11% ] savepack | Speichere Datei: res://.godot/imported/helmet_ping.mp3-7c8d30e7a7d60ad721b708ddb47c9372.mp3str
+[  11% ] savepack | Speichere Datei: res://assets/audio/sfx/helmet_ping.mp3.import
 [  11% ] savepack | Speichere Datei: res://.godot/imported/hover_1.ogg-2c111310654fa1fd56dcfa00b64eb4d1.oggvorbisstr
 [  11% ] savepack | Speichere Datei: res://assets/audio/sfx/hover_1.ogg.import
 [  11% ] savepack | Speichere Datei: res://.godot/imported/hover_2.ogg-b9b9f415bec0a811e64a062d88123398.oggvorbisstr
@@ -356,8 +356,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  15% ] savepack | Speichere Datei: res://assets/audio/sfx/revolver.mp3.import
 [  15% ] savepack | Speichere Datei: res://.godot/imported/rustle.ogg-c4a01ea44ebd70a7f4a54a4c1091dc7b.oggvorbisstr
 [  15% ] savepack | Speichere Datei: res://assets/audio/sfx/rustle.ogg.import
-[  15% ] savepack | Speichere Datei: res://.godot/imported/screamer_call.wav-95b9703e3a51d6f31e6f034fafddf607.sample
-[  15% ] savepack | Speichere Datei: res://assets/audio/sfx/screamer_call.wav.import
+[  15% ] savepack | Speichere Datei: res://.godot/imported/screamer_call.mp3-bd894b193d93e0edc9cbb5052d507c06.mp3str
+[  15% ] savepack | Speichere Datei: res://assets/audio/sfx/screamer_call.mp3.import
 [  15% ] savepack | Speichere Datei: res://.godot/imported/secret_rain.wav-ddf536fe5122eee474524910bf92c057.sample
 [  15% ] savepack | Speichere Datei: res://assets/audio/sfx/secret_rain.wav.import
 [  15% ] savepack | Speichere Datei: res://.godot/imported/secret_vendor_vocal.mp3-fb9d7ddd3a01ec9069aeb9d5b164eda1.mp3str
@@ -372,12 +372,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  15% ] savepack | Speichere Datei: res://assets/audio/sfx/streak.ogg.import
 [  15% ] savepack | Speichere Datei: res://.godot/imported/Teslacoil_Tower.mp3-42ca4b9a4e5878e58ba16024ae044f97.mp3str
 [  15% ] savepack | Speichere Datei: res://assets/audio/sfx/Teslacoil_Tower.mp3.import
-[  15% ] savepack | Speichere Datei: res://.godot/imported/thunder_1.wav-590cb67287872cc44ecd1beb01c0aa89.sample
-[  15% ] savepack | Speichere Datei: res://assets/audio/sfx/thunder_1.wav.import
-[  15% ] savepack | Speichere Datei: res://.godot/imported/thunder_2.wav-04179c8961cefb2fcfc338e94a495132.sample
-[  15% ] savepack | Speichere Datei: res://assets/audio/sfx/thunder_2.wav.import
-[  16% ] savepack | Speichere Datei: res://.godot/imported/thunder_3.wav-d27bbfec284fa70f6f7c8be620360edb.sample
-[  16% ] savepack | Speichere Datei: res://assets/audio/sfx/thunder_3.wav.import
+[  15% ] savepack | Speichere Datei: res://.godot/imported/thunder_1.mp3-759c4fee6781573146d326d00b48e8d7.mp3str
+[  15% ] savepack | Speichere Datei: res://assets/audio/sfx/thunder_1.mp3.import
+[  15% ] savepack | Speichere Datei: res://.godot/imported/thunder_2.mp3-4acd433aa863b9c193dc00f17774cc3f.mp3str
+[  15% ] savepack | Speichere Datei: res://assets/audio/sfx/thunder_2.mp3.import
+[  16% ] savepack | Speichere Datei: res://.godot/imported/thunder_3.mp3-f0ccf2944512e857ccebc362d1f44037.mp3str
+[  16% ] savepack | Speichere Datei: res://assets/audio/sfx/thunder_3.mp3.import
 [  16% ] savepack | Speichere Datei: res://.godot/imported/Titan_spawn_1.mp3-f0c879362cb08a49c86044197c34acbb.mp3str
 [  16% ] savepack | Speichere Datei: res://assets/audio/sfx/Titan_spawn_1.mp3.import
 [  16% ] savepack | Speichere Datei: res://.godot/imported/titan_spawn_2.mp3-9a0658e55c7c69ca7523b2e701cbb2de.mp3str

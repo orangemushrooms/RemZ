@@ -158,8 +158,8 @@ Batch of 26 Sep 2026 (weather, moon, special infected, titan phases, sandbags, d
   drifting with the wind, a rain loop (`secret_rain.wav`, muffled under the hut roof) and the shader global
   `remz_wetness` (project.godot `[shader_globals]`; terrain, ground sprites, leaf cards and bark darken and
   get glossy, soaking in 28 s, drying in 110 s). Lightning: `Zombie.lightning_reveal()` makes every zombie
-  glow cold white for 0.45 s, the sun jumps to 9, thunder (`thunder_1..3.wav`, baked by
-  `tools/build_weather_audio.py`) arrives after distance / 343 s with a tremor. The intro and the secret
+  glow cold white for 0.45 s, the sun jumps to 9, thunder (`thunder_1..3.mp3`, the user's recordings; `tools/build_weather_audio.py`
+  bakes only the synthetic fallbacks that are left) arrives after distance / 343 s with a tremor. The intro and the secret
   night keep their own fog (weather goes clear while they run). `--weather=<state>` pins a state; the cheat
   menu has the same plus "Release".
 - Moon (`day_night_cycle.gd`): `night_index` counts every crossing of 20:00 (`night_began`), the phase runs
@@ -188,7 +188,7 @@ Batch of 26 Sep 2026 (weather, moon, special infected, titan phases, sandbags, d
   and nurses spawn `armored` (main.spawn_zombie; `armor_override` for the cheat menu): a helmet
   (`zombie_helmet.glb`, fallback a steel dome) on the Head bone through a BoneAttachment3D, sized in bone
   space (`1 / world_scale`). `Zombie.hit_helmet` in the weapons pipeline: a headshot on `helmet_hp > 0`
-  rings off (`helmet_ping.wav`), 20 % reaches the body, no headshot bonus; at zero the helmet tumbles off
+  rings off (`helmet_ping.mp3`), 20 % reaches the body, no headshot bonus; at zero the helmet tumbles off
   as a chunk and heads pop as usual. Snapshot fields 15 / 16 (`helmet_hp`, `armored`), `apply_helmet`.
 - Titan phases (`titan.gd`): below `ARM_LOSS` 65 % the right arm collapses (`_apply_lost`: bone scale,
   stump, blood, rage roar) and the giant throws trees (`thrown_tree.gd`: trunk, root ball and crown on an

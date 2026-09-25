@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: thunder_1 -> AudioStreamMP3 8.1 s
+PASS: thunder_2 -> AudioStreamMP3 7.4 s
+PASS: thunder_3 -> AudioStreamMP3 8.7 s
+PASS: screamer_call -> AudioStreamMP3 3.5 s
+PASS: acid_splash -> AudioStreamMP3 4.6 s
+PASS: helmet_ping -> AudioStreamMP3 1.9 s
+PASS: acid_spit -> AudioStreamWAV 0.8 s
+PASS: radio_ping -> AudioStreamWAV 0.6 s
+PASS: secret_rain -> AudioStreamWAV 8.0 s
+SOUND_FILES_DONE failures=0

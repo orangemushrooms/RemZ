@@ -1,6 +1,5 @@
-started 20:11:32
 weather              BAD exit=1 40s WEATHER_DONE checks=55 failures=1 FAIL: The horde glows cold white in the flash 
 new_zombies          OK exit=0 44s NEW_ZOMBIES_DONE checks=61 failures=0  
 audio_events         OK exit=0 3s AUDIO_EVENTS_DONE checks=34 failures=0  
 sound_files          OK exit=0 3s SOUND_FILES_DONE failures=0  
-REGRESSIONS_DONE 20:12:17
+REGRESSIONS_DONE

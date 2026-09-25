@@ -150,10 +150,16 @@ def radio_ping(seed=51):
 
 
 if __name__ == '__main__':
-    for i in range(3):
-        write('thunder_%d' % (i + 1), thunder(100 + i))
-    write('screamer_call', screamer_call())
+    # 25 Sep 2026 evening: the user replaced thunder_1..3, screamer_call, acid_splash and helmet_ping with
+    # real recordings (mp3 in the sfx folder, sfx.gd loads .mp3 before .wav). Only the two that stayed
+    # synthetic are baked by default; --all rebuilds every fallback as .wav next to the recordings.
+    import sys
+    everything = '--all' in sys.argv
+    if everything:
+        for i in range(3):
+            write('thunder_%d' % (i + 1), thunder(100 + i))
+        write('screamer_call', screamer_call())
+        write('acid_splash', acid_splash())
+        write('helmet_ping', helmet_ping())
     write('acid_spit', acid_spit())
-    write('acid_splash', acid_splash())
-    write('helmet_ping', helmet_ping())
     write('radio_ping', radio_ping())

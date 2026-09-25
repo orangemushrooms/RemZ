@@ -18,9 +18,9 @@ PASS: Screamers walk in from wave 6
 PASS: Helmets from wave 10, up to 45 %%
 PASS: No stalkers on a clear day
 PASS: Stalkers rise out of the maize in the fog
-PASS: Wave 7 in the fog: 3 dogs, 1 screamer, 1 stag, 5 stalkers ({ "zombie_dog": 3, "zombie_stag": 1, "screamer": 1, "stalker": 5, "shambler": 3, "spitter": 6, "runner": 20, "nurse": 9, "brute": 5, "soldier": 2 })
+PASS: Wave 7 in the fog: 3 dogs, 1 screamer, 1 stag, 5 stalkers ({ "zombie_dog": 3, "zombie_stag": 1, "screamer": 1, "stalker": 5, "runner": 20, "nurse": 7, "brute": 3, "shambler": 6, "spitter": 6, "soldier": 3 })
 PASS: The stalkers are marked for the maize
-PASS: Spitters take a share of the horde from wave 4 (5 in wave 12)
+PASS: Spitters take a share of the horde from wave 4 (3 in wave 12)
 PASS: The intermission preview counts wave 3 exactly
 PASS: The intermission preview counts wave 4 exactly
 PASS: The intermission preview counts wave 6 exactly
@@ -45,14 +45,14 @@ PASS: ... and drops it when the host says so
 PASS: Zombie snapshots carry the helmet fields
 PASS: A zombie stag spawns
 PASS: The stag is a rig-less beast
-PASS: The stag stands 1.75 m tall on the ground (bounds 1.81)
+PASS: The stag stands 1.75 m tall on the ground (bounds 1.73)
 PASS: The gallop follows the real displacement
-PASS: The stag charges a player in the open (after 0.5 s)
+PASS: The stag charges a player in the open (after 0.4 s)
 PASS: The charge rams the player (rams 1, hp 54)
 PASS: A dead beast falls onto its side
 PASS: A farm dog spawns
 PASS: The dog is a small beast
-PASS: The dog bites (hp 84 after 1.4 s)
+PASS: The dog bites (hp 84 after 0.7 s)
 PASS: A spitter stands ten metres from a gate
 PASS: The spitter lobs a glob that lands as an acid pool (after 1.1 s)
 PASS: The acid eats the gate (300 -> 110)
