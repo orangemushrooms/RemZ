@@ -24,12 +24,22 @@ Escape: pause, F11: fullscreen.
 Adjust graphics, sound and mouse sensitivity in the start/pause menu.
 
 MULTIPLAYER
-Main menu > Multiplayer / Hamachi. Up to four players, UDP port 24567.
-All players need this same build. Details: MULTIPLAYER.md.
+Main menu > Multiplayer. Up to four players.
+Online lobby: the host creates a lobby and shares the six-letter join code,
+teammates join with the code - over the internet, no Hamachi, no port
+forwarding, no Epic account. Direct / LAN / Hamachi: as before with an IP
+address and UDP port 24567. All players need this same build, including the
+three DLLs next to RemZ.exe. Details: MULTIPLAYER.md.
 Every player can pick their own language; messages from the host appear in
 each player's language.
 
 WHAT'S NEW IN THIS RELEASE
+- Online lobby: Multiplayer > Online lobby. The host clicks "Create lobby"
+  and shares the six-letter join code, up to three teammates join with
+  "Join with code" - over the internet, without Hamachi, port forwarding or
+  an Epic account (Epic Online Services, relayed through Epic when needed).
+  "Direct / LAN / Hamachi" works as before. The three DLLs next to RemZ.exe
+  belong to the game.
 - Secret Night before wave 5: follow a distant Goa track into the rainy
   forest. The closer you get to the party, the louder and clearer it sounds.
   Tune the totems, visit the bar and dance together. The final quest brings

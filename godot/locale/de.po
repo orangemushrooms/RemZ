@@ -804,12 +804,64 @@ msgid "CO-OP · 1 TO 4 PLAYERS"
 msgstr "KOOP · 1 BIS 4 SPIELER"
 
 #: scripts/coop_menu.gd
-msgid "All players join the same Hamachi network. One of you hosts the game; the others enter the host's Hamachi IP. On a LAN the local IP works too."
-msgstr "Alle Spieler verbinden sich mit demselben Hamachi-Netzwerk. Einer erstellt das Spiel; die anderen geben seine Hamachi-IP ein. Im LAN funktioniert auch die lokale IP."
-
-#: scripts/coop_menu.gd
 msgid "Your name"
 msgstr "Dein Name"
+
+#: scripts/coop_menu.gd
+msgid "Online lobby"
+msgstr "Online-Lobby"
+
+#: scripts/coop_menu.gd
+msgid "Direct / LAN / Hamachi"
+msgstr "Direkt / LAN / Hamachi"
+
+#: scripts/coop_menu.gd
+msgid "Start co-op"
+msgstr "Koop starten"
+
+#: scripts/coop_menu.gd
+msgid "Leave session"
+msgstr "Sitzung verlassen"
+
+#: scripts/coop_menu.gd
+msgid "Version: Co-op 2026.09.25-O"
+msgstr "Version: Koop 2026.09.25-O"
+
+#: scripts/coop_menu.gd
+msgid "Open logs"
+msgstr "Logs öffnen"
+
+#: scripts/coop_menu.gd
+msgid "Plays over the internet without Hamachi or router setup: the host creates a lobby and shares the six-letter join code, up to three teammates enter it and join. Traffic goes through Epic Online Services (peer to peer, relayed when needed); no Epic account is required."
+msgstr "Spielt über das Internet ohne Hamachi und ohne Router-Einstellungen: der Host erstellt eine Lobby und gibt den sechsstelligen Beitrittscode weiter, bis zu drei Mitspieler geben ihn ein und treten bei. Der Datenverkehr läuft über Epic Online Services (Peer-to-Peer, bei Bedarf über ein Relay); ein Epic-Konto ist nicht nötig."
+
+#: scripts/coop_menu.gd
+msgid "Join code"
+msgstr "Beitrittscode"
+
+#: scripts/coop_menu.gd
+msgid "The host's code, e.g. K7PZ4M"
+msgstr "Der Code des Hosts, z. B. K7PZ4M"
+
+#: scripts/coop_menu.gd
+msgid "Create lobby"
+msgstr "Lobby erstellen"
+
+#: scripts/coop_menu.gd
+msgid "Join with code"
+msgstr "Mit Code beitreten"
+
+#: scripts/coop_menu.gd
+msgid "JOIN CODE - give it to your teammates"
+msgstr "BEITRITTSCODE - gib ihn deinen Mitspielern"
+
+#: scripts/coop_menu.gd
+msgid "Copy code"
+msgstr "Code kopieren"
+
+#: scripts/coop_menu.gd
+msgid "All players join the same Hamachi network. One of you hosts the game; the others enter the host's Hamachi IP. On a LAN the local IP works too."
+msgstr "Alle Spieler verbinden sich mit demselben Hamachi-Netzwerk. Einer erstellt das Spiel; die anderen geben seine Hamachi-IP ein. Im LAN funktioniert auch die lokale IP."
 
 #: scripts/coop_menu.gd
 msgid "Host IP"
@@ -832,24 +884,16 @@ msgid "Join"
 msgstr "Beitreten"
 
 #: scripts/coop_menu.gd
-msgid "Start co-op"
-msgstr "Koop starten"
-
-#: scripts/coop_menu.gd
-msgid "Leave session"
-msgstr "Sitzung verlassen"
-
-#: scripts/coop_menu.gd
-msgid "Version: Co-op 2026.09.20-C"
-msgstr "Version: Koop 2026.09.20-C"
-
-#: scripts/coop_menu.gd
-msgid "Open logs"
-msgstr "Logs öffnen"
+msgid "Windows Firewall: allow RemZ on your network. Host and teammates need the same game version.\nCo-op: no friendly fire. Revive with E (3 s close by). Menus do not pause the shared world."
+msgstr "Windows-Firewall: RemZ in deinem Netzwerk zulassen. Host und Mitspieler brauchen dieselbe Spielversion.\nKoop: kein Beschuss unter Freunden. Mit E wiederbeleben (3 s in der Nähe). Menüs halten die gemeinsame Welt nicht an."
 
 #: scripts/coop_menu.gd
 msgid "Your IPv4 addresses: %s\nWindows Firewall: allow RemZ on the Hamachi / private network. Host and teammates must use the same port and the same game version.\nCo-op: no friendly fire. Revive with E (3 s close by). Menus do not pause the shared world."
 msgstr "Deine IPv4-Adressen: %s\nWindows-Firewall: RemZ für das Hamachi-/private Netzwerk zulassen. Host und Mitspieler müssen denselben Port und dieselbe Spielversion nutzen.\nKoop: kein Beschuss unter Freunden. Mit E wiederbeleben (3 s in der Nähe). Menüs halten die gemeinsame Welt nicht an."
+
+#: scripts/coop_menu.gd
+msgid "Copied!"
+msgstr "Kopiert!"
 
 #: scripts/coop_menu.gd
 msgid "Preparing the map …"
@@ -859,7 +903,7 @@ msgstr "Die Karte wird vorbereitet …"
 msgid "Return to the main menu first to host or join a game."
 msgstr "Zum Erstellen oder Beitreten zuerst ins Hauptmenü zurückkehren."
 
-#: scripts/coop_menu.gd scripts/progression.gd scripts/quest_notifications.gd
+#: scripts/coop_menu.gd scripts/online_lobby.gd scripts/progression.gd scripts/quest_notifications.gd
 msgid "ready"
 msgstr "bereit"
 
@@ -870,6 +914,10 @@ msgstr "lädt …"
 #: scripts/coop_menu.gd
 msgid "Players: %d / 4\n%s"
 msgstr "Spieler: %d / 4\n%s"
+
+#: scripts/coop_menu.gd
+msgid "Cancel"
+msgstr "Abbrechen"
 
 #: scripts/coop_menu.gd scripts/coop_world.gd
 msgid "Waiting for host"
@@ -1736,10 +1784,6 @@ msgid "Briefing"
 msgstr "Briefing"
 
 #: scripts/hud.gd
-msgid "Multiplayer / Hamachi"
-msgstr "Mehrspieler / Hamachi"
-
-#: scripts/hud.gd
 msgid "Difficulty"
 msgstr "Schwierigkeit"
 
@@ -1758,6 +1802,10 @@ msgstr "Bestenliste"
 #: scripts/hud.gd
 msgid "Achievements"
 msgstr "Erfolge"
+
+#: scripts/hud.gd
+msgid "Multiplayer"
+msgstr "Mehrspieler"
 
 #: scripts/hud.gd
 msgid "BRIEFING"
@@ -1964,10 +2012,6 @@ msgid "Difficulty: %s"
 msgstr "Schwierigkeit: %s"
 
 #: scripts/hud.gd
-msgid "MULTIPLAYER / HAMACHI"
-msgstr "MEHRSPIELER / HAMACHI"
-
-#: scripts/hud.gd
 msgid "DIFFICULTY"
 msgstr "SCHWIERIGKEIT"
 
@@ -1990,6 +2034,10 @@ msgstr "ERFOLGE"
 #: scripts/hud.gd
 msgid "ROUND SUMMARY"
 msgstr "BILANZ DER RUNDE"
+
+#: scripts/hud.gd
+msgid "MULTIPLAYER"
+msgstr "MEHRSPIELER"
 
 #: scripts/hud.gd
 msgid "No round played yet. Your ten best rounds end up here."
@@ -2960,16 +3008,28 @@ msgid "Health full – the mushroom stays in your inventory."
 msgstr "Gesundheit voll – der Pilz bleibt im Inventar."
 
 #: scripts/net_session.gd
-msgid "Co-op over LAN or Hamachi · up to 4 players"
-msgstr "Koop über LAN oder Hamachi · bis zu 4 Spieler"
+msgid "Co-op · up to 4 players · online lobby or direct connection"
+msgstr "Koop · bis zu 4 Spieler · Online-Lobby oder Direktverbindung"
+
+#: scripts/net_session.gd
+msgid "The host ended the connection."
+msgstr "Der Host hat die Verbindung beendet."
+
+#: scripts/net_session.gd
+msgid "Could not reach the host through the online service. The host may have left the lobby - ask for a fresh join code."
+msgstr "Der Host war über den Online-Dienst nicht erreichbar. Vielleicht hat er die Lobby verlassen - frag nach einem neuen Beitrittscode."
 
 #: scripts/net_session.gd
 msgid "Connection failed. Check the Hamachi IP, the network and the UDP port."
 msgstr "Verbindung fehlgeschlagen. Hamachi-IP, Netzwerk und UDP-Port prüfen."
 
 #: scripts/net_session.gd
-msgid "The host ended the connection."
-msgstr "Der Host hat die Verbindung beendet."
+msgid "No answer from the host through the online service. Both PCs need internet access; try the join code again."
+msgstr "Keine Antwort vom Host über den Online-Dienst. Beide PCs brauchen Internetzugang; versuche den Beitrittscode noch einmal."
+
+#: scripts/net_session.gd
+msgid "No answer from the host. Check the Hamachi connection and that UDP %d is allowed in the Windows Firewall."
+msgstr "Keine Antwort vom Host. Hamachi-Verbindung und Freigabe von UDP %d in der Windows-Firewall prüfen."
 
 #: scripts/net_session.gd
 msgid "The port must be between 1024 and 65535."
@@ -2994,6 +3054,46 @@ msgstr "Verbindung konnte nicht geöffnet werden."
 #: scripts/net_session.gd
 msgid "Connecting to %s:%d …"
 msgstr "Verbinde mit %s:%d …"
+
+#: scripts/net_session.gd
+msgid "Signing in to the online service …"
+msgstr "Anmeldung beim Online-Dienst …"
+
+#: scripts/net_session.gd
+msgid "Creating the lobby …"
+msgstr "Lobby wird erstellt …"
+
+#: scripts/net_session.gd
+msgid "Could not open the online connection. Please try again."
+msgstr "Die Online-Verbindung konnte nicht geöffnet werden. Bitte noch einmal versuchen."
+
+#: scripts/net_session.gd
+msgid "Lobby open · join code %s · share it with your teammates"
+msgstr "Lobby offen · Beitrittscode %s · gib ihn deinen Mitspielern"
+
+#: scripts/net_session.gd
+msgid "Enter the 6-character join code the host sees in the lobby."
+msgstr "Gib den 6-stelligen Beitrittscode ein, den der Host in der Lobby sieht."
+
+#: scripts/net_session.gd
+msgid "Looking for lobby %s …"
+msgstr "Suche Lobby %s …"
+
+#: scripts/net_session.gd
+msgid "Joining the lobby …"
+msgstr "Lobby wird betreten …"
+
+#: scripts/net_session.gd
+msgid "Could not open the online connection to the host."
+msgstr "Die Online-Verbindung zum Host konnte nicht geöffnet werden."
+
+#: scripts/net_session.gd
+msgid "Connecting to the host of lobby %s …"
+msgstr "Verbinde mit dem Host von Lobby %s …"
+
+#: scripts/net_session.gd
+msgid "The online service is not reachable right now."
+msgstr "Der Online-Dienst ist gerade nicht erreichbar."
 
 #: scripts/net_session.gd
 msgid "The host is still loading the map. Please try joining again in a moment."
@@ -3043,9 +3143,93 @@ msgstr "Verbindung wird beendet …"
 msgid "Returning to the main menu …"
 msgstr "Rückkehr zum Hauptmenü …"
 
-#: scripts/net_session.gd
-msgid "No answer from the host. Check the Hamachi connection and that UDP %d is allowed in the Windows Firewall."
-msgstr "Keine Antwort vom Host. Hamachi-Verbindung und Freigabe von UDP %d in der Windows-Firewall prüfen."
+#: scripts/online_lobby.gd
+msgid "The online lobby is not available on this PC: the Epic Online Services runtime did not load. Direct / LAN / Hamachi still works."
+msgstr "Die Online-Lobby ist auf diesem PC nicht verfügbar: die Laufzeit der Epic Online Services wurde nicht geladen. Direkt / LAN / Hamachi funktioniert weiterhin."
+
+#: scripts/online_lobby.gd
+msgid "The online lobby is not configured in this build (no EOS client credentials). Direct / LAN / Hamachi still works."
+msgstr "Die Online-Lobby ist in diesem Build nicht eingerichtet (keine EOS-Zugangsdaten). Direkt / LAN / Hamachi funktioniert weiterhin."
+
+#: scripts/online_lobby.gd
+msgid "The online sign-in is still running. Please wait a moment."
+msgstr "Die Online-Anmeldung läuft noch. Bitte einen Moment warten."
+
+#: scripts/online_lobby.gd
+msgid "The online service could not be started. Check your internet connection and try again."
+msgstr "Der Online-Dienst konnte nicht gestartet werden. Prüfe die Internetverbindung und versuche es erneut."
+
+#: scripts/online_lobby.gd
+msgid "Cancelled."
+msgstr "Abgebrochen."
+
+#: scripts/online_lobby.gd
+msgid "The online service did not answer. Check your internet connection and try again."
+msgstr "Der Online-Dienst hat nicht geantwortet. Prüfe die Internetverbindung und versuche es erneut."
+
+#: scripts/online_lobby.gd
+msgid "The online sign-in failed (%s). Try again in a moment."
+msgstr "Die Online-Anmeldung ist fehlgeschlagen (%s). Versuche es gleich noch einmal."
+
+#: scripts/online_lobby.gd
+msgid "The online sign-in failed (%s). The service may be down or this build may not be registered."
+msgstr "Die Online-Anmeldung ist fehlgeschlagen (%s). Der Dienst ist vielleicht gestört oder dieser Build ist nicht registriert."
+
+#: scripts/online_lobby.gd
+msgid "Not signed in to the online service."
+msgstr "Nicht beim Online-Dienst angemeldet."
+
+#: scripts/online_lobby.gd
+msgid "The online service did not answer while creating the lobby."
+msgstr "Der Online-Dienst hat beim Erstellen der Lobby nicht geantwortet."
+
+#: scripts/online_lobby.gd
+msgid "The lobby could not be created (%s)."
+msgstr "Die Lobby konnte nicht erstellt werden (%s)."
+
+#: scripts/online_lobby.gd
+msgid "The lobby could not be set up (%s)."
+msgstr "Die Lobby konnte nicht eingerichtet werden (%s)."
+
+#: scripts/online_lobby.gd
+msgid "The online service did not answer while setting up the lobby."
+msgstr "Der Online-Dienst hat beim Einrichten der Lobby nicht geantwortet."
+
+#: scripts/online_lobby.gd
+msgid "The lobby search failed (%s)."
+msgstr "Die Lobby-Suche ist fehlgeschlagen (%s)."
+
+#: scripts/online_lobby.gd
+msgid "The online service did not answer while looking for the lobby."
+msgstr "Der Online-Dienst hat bei der Lobby-Suche nicht geantwortet."
+
+#: scripts/online_lobby.gd
+msgid "Lobby %s is full (%d/%d players)."
+msgstr "Lobby %s ist voll (%d/%d Spieler)."
+
+#: scripts/online_lobby.gd
+msgid "The host runs a different RemZ version. Host and teammates need the same build."
+msgstr "Der Host spielt eine andere RemZ-Version. Host und Mitspieler brauchen denselben Build."
+
+#: scripts/online_lobby.gd
+msgid "No open lobby with code %s. Check the code - the host must still be in the lobby."
+msgstr "Keine offene Lobby mit Code %s. Prüfe den Code - der Host muss noch in der Lobby sein."
+
+#: scripts/online_lobby.gd
+msgid "The online service did not answer while joining the lobby."
+msgstr "Der Online-Dienst hat beim Beitreten der Lobby nicht geantwortet."
+
+#: scripts/online_lobby.gd
+msgid "This lobby is full (%d/%d players)."
+msgstr "Diese Lobby ist voll (%d/%d Spieler)."
+
+#: scripts/online_lobby.gd
+msgid "Could not join the lobby (%s). The host may have left."
+msgstr "Beitritt zur Lobby nicht möglich (%s). Der Host hat sie vielleicht verlassen."
+
+#: scripts/online_lobby.gd
+msgid "The lobby has no host any more."
+msgstr "Die Lobby hat keinen Host mehr."
 
 #: scripts/pickup.gd
 msgid "No Rem Dollars to drop."
@@ -5134,6 +5318,22 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "Version: Co-op 2026.09.20-C"
+msgstr "Version: Koop 2026.09.20-C"
+
+#. unused
+msgid "Multiplayer / Hamachi"
+msgstr "Mehrspieler / Hamachi"
+
+#. unused
+msgid "MULTIPLAYER / HAMACHI"
+msgstr "MEHRSPIELER / HAMACHI"
+
+#. unused
+msgid "Co-op over LAN or Hamachi · up to 4 players"
+msgstr "Koop über LAN oder Hamachi · bis zu 4 Spieler"
 
 #. unused
 msgid "Tier %d · %d/%d"

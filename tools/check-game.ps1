@@ -72,6 +72,11 @@ switch ($Mode) {
         $arguments += @('--headless', '--export-release', '"Windows Desktop"', ('"' + $output + '"'))
     }
 }
+if ($Mode -in @('ExportWindows', 'ExportPack')) {
+    # The online lobby needs the EOS client credentials inside the pack: .env -> godot/eos.cfg (both gitignored).
+    & python (Join-Path $PSScriptRoot 'eos_config.py')
+    if ($LASTEXITCODE -ne 0) { throw 'EOS credentials missing: fill .env (see docs/ONLINE_LOBBY.md) or the online lobby cannot be built.' }
+}
 $process = Start-Process -FilePath $Godot -ArgumentList $arguments -WorkingDirectory $workspace -WindowStyle Hidden -PassThru
 if (-not $process.WaitForExit(240000)) {
     $process.Kill()
@@ -86,6 +91,12 @@ if ($Mode -eq 'Benchmark') {
     Write-Output "Benchmark completed; inspect measured frame times in $log"
 } else {
     Write-Output "$Mode passed. Log: $log"
+}
+if ($Mode -eq 'ExportWindows') {
+    # Godot copies the GDExtension and its [dependencies] next to the exe; the online lobby is dead without them.
+    foreach ($dll in @('libeosg.windows.template_release.x86_64.dll', 'EOSSDK-Win64-Shipping.dll', 'xaudio2_9redist.dll')) {
+        if (-not (Test-Path -LiteralPath (Join-Path $workspace ('builds/windows/' + $dll)))) { throw "Export is missing $dll next to RemZ.exe" }
+    }
 }
 if ($Mode -in @('ExportWindows', 'ExportPack')) {
     Copy-Item -LiteralPath (Join-Path $project 'assets/viewmodel/VALVE-LICENSE.txt') -Destination (Join-Path $workspace 'builds/windows/VALVE-LICENSE.txt')

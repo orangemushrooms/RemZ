@@ -41,7 +41,9 @@ def main() -> None:
     now = datetime.datetime.now(datetime.timezone.utc)
     exe = BUILD / 'RemZ.exe'
     pck = BUILD / 'RemZ.pck'
-    for path in (exe, pck):
+    # The online lobby's runtime (GDExtension + EOS SDK) ships next to the exe; hash it like the pack.
+    dlls = [BUILD / name for name in ('libeosg.windows.template_release.x86_64.dll', 'EOSSDK-Win64-Shipping.dll', 'xaudio2_9redist.dll')]
+    for path in (exe, pck, *dlls):
         if not path.exists():
             raise SystemExit(f'missing {path}')
     dirty = git('status', '--porcelain', '--untracked-files=no') != ''
@@ -53,7 +55,7 @@ def main() -> None:
         'source_includes_working_tree_changes': dirty,
         'configuration': 'Windows Desktop release x86_64',
         'export': 'passed',
-        'files': [{'name': path.name, 'bytes': path.stat().st_size, 'sha256': sha256(path)} for path in (exe, pck)],
+        'files': [{'name': path.name, 'bytes': path.stat().st_size, 'sha256': sha256(path)} for path in (exe, pck, *dlls)],
     })
     validation = dict(info.get('validation', {}))
     if args.summary:

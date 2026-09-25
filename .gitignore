@@ -24,3 +24,4 @@ assets/raw/*_v3/*.glb
 assets/raw/*_v3/view_*.png
 assets/raw/*_v3/thumb.png
 assets/raw/*_v3/preview_thumb.png
+godot/eos.cfg

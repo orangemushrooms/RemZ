@@ -435,7 +435,7 @@ func _build_overlay() -> void:
 	loading_bar.visible = false
 	v.add_child(loading_bar)
 	v.add_child(_spacer(4))
-	for tab in [["briefing", "Briefing"], ["multiplayer", "Multiplayer / Hamachi"], ["difficulty", "Difficulty"], ["controls", "Controls"], ["settings", "Settings"], ["records", "High scores"], ["achievements", "Achievements"]]:
+	for tab in [["briefing", "Briefing"], ["multiplayer", "Multiplayer"], ["difficulty", "Difficulty"], ["controls", "Controls"], ["settings", "Settings"], ["records", "High scores"], ["achievements", "Achievements"]]:
 		var b := _menu_button(tab[1], false)
 		var id: String = tab[0]
 		b.pressed.connect(func(): Sfx.play(self, "click", -8.0); show_tab(id))
@@ -609,7 +609,7 @@ func show_tab(id: String) -> void:
 		elif game.music.current == "lobby": game.music.play("title")
 	for k in _tabs:
 		_tabs[k].visible = k == id
-	var titles := { "briefing": "BRIEFING", "multiplayer": "MULTIPLAYER / HAMACHI", "difficulty": "DIFFICULTY", "controls": "CONTROLS", "settings": "SETTINGS", "records": "HIGH SCORES", "achievements": "ACHIEVEMENTS", "summary": "ROUND SUMMARY" }
+	var titles := { "briefing": "BRIEFING", "multiplayer": "MULTIPLAYER", "difficulty": "DIFFICULTY", "controls": "CONTROLS", "settings": "SETTINGS", "records": "HIGH SCORES", "achievements": "ACHIEVEMENTS", "summary": "ROUND SUMMARY" }
 	_tab_title.text = titles.get(id, id.to_upper())
 	for k in _tab_buttons:
 		var b: Button = _tab_buttons[k]

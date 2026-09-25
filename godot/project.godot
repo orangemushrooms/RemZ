@@ -21,6 +21,12 @@ config/windows_native_icon="res://icon.ico"
 [autoload]
 
 Language="*res://scripts/lang.gd"
+EOSGRuntime="*res://addons/epic-online-services-godot/runtime.gd"
+HPlatform="*res://addons/epic-online-services-godot/heos/hplatform.gd"
+HAuth="*res://addons/epic-online-services-godot/heos/hauth.gd"
+HLobbies="*res://addons/epic-online-services-godot/heos/hlobbies.gd"
+HP2P="*res://addons/epic-online-services-godot/heos/hp2p.gd"
+Online="*res://scripts/online_lobby.gd"
 NetSession="*res://scripts/net_session.gd"
 
 [display]

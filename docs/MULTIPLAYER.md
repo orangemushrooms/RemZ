@@ -1,11 +1,16 @@
-# RemZ: Koop über Hamachi oder LAN
+# RemZ: Koop über die Online-Lobby, Hamachi oder LAN
 
-Bis zu **vier Spieler insgesamt**: ein Host und drei Mitspieler. Jeder benötigt denselben aktuellen Ordner `builds/windows` mit `RemZ.exe` und `RemZ.pck`. Der Host spielt selbst mit; ein separater Server ist nicht erforderlich.
+Bis zu **vier Spieler insgesamt**: ein Host und drei Mitspieler. Jeder benötigt denselben aktuellen Ordner `builds/windows` mit `RemZ.exe`, `RemZ.pck` und den drei DLLs daneben. Der Host spielt selbst mit; ein separater Server ist nicht erforderlich. Im Hauptmenü unter **Mehrspieler** (englisch **Multiplayer**) gibt es zwei Wege:
 
-## Gemeinsam starten
+- **Online lobby** - über das Internet, ohne Hamachi und ohne Portfreigabe am Router. Der Host klickt **Create lobby** und erhält einen sechsstelligen **Beitrittscode** (z. B. `K7PZ4M`, **Copy code** kopiert ihn). Die Mitspieler tippen den Code unter **Join code** ein und klicken **Join with code**. Die Verbindung läuft über Epic Online Services (Peer-to-Peer, bei strengen Routern automatisch über Epics Relay); ein Epic-Konto ist nicht nötig, die Anmeldung geschieht anonym mit einer Gerätekennung. Der Code gilt, solange der Host in der Lobby ist; nach dem Verlassen ist er ungültig.
+- **Direct / LAN / Hamachi** - der bisherige Weg mit IP-Adresse und UDP-Port, unverändert (unten beschrieben).
+
+Beide Wege führen in dieselbe Spielerliste; **Start co-op** startet der Host. Fällt der Online-Dienst aus oder fehlen seine DLLs, zeigt der Online-Reiter den Grund und der direkte Weg funktioniert weiter. Technik, Zugangsdaten und Tests: [ONLINE_LOBBY.md](ONLINE_LOBBY.md).
+
+## Gemeinsam starten (Direct / LAN / Hamachi)
 
 1. Hamachi auf allen PCs starten und demselben Hamachi-Netzwerk beitreten. Alle Teilnehmer müssen darin online erreichbar sein.
-2. Auf jedem PC `RemZ.exe` starten und im Hauptmenü **Mehrspieler / Hamachi** öffnen. Einen Namen eingeben.
+2. Auf jedem PC `RemZ.exe` starten und im Hauptmenü **Mehrspieler** öffnen und **Direct / LAN / Hamachi** wählen. Einen Namen eingeben.
 3. Der Host klickt **Spiel erstellen**. Standardport: **UDP 24567**. Seine Hamachi-IPv4-Adresse steht in Hamachi; installierte IPv4-Adressen zeigt auch das Spiel an.
 4. Die Mitspieler geben diese Adresse unter **Host-IP** ein, verwenden denselben Port und klicken **Beitreten**.
 5. Sobald die Spieler in der Liste bereit sind, klickt der Host **Koop starten**. Die Schwierigkeit bestimmt der Host vor Rundenbeginn.
@@ -37,7 +42,11 @@ Bei Verbindungsproblemen zuerst Hamachis Online-Status, die Host-IP, den Port un
 ```text
 RemZ.exe -- --host --name=Michael --port=24567
 RemZ.exe -- --join=25.12.34.56 --name=Luca --port=24567
+RemZ.exe -- --host-online --name=Michael
+RemZ.exe -- --join-code=K7PZ4M --name=Luca
 ```
+
+Der Online-Host schreibt seinen Code als `ONLINE_CODE=K7PZ4M` ins Protokoll (`logs/coop-*.log` neben der EXE).
 
 Optional startet `--coop-auto-start=4` auf dem Host automatisch, sobald vier Spieler bereit sind. Ohne diese Option startet der Host über das Menü.
 
@@ -51,7 +60,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/start_local_coop.ps1
 
 Das öffnet zwei Fenster der Windows-Ausgabe: `LocalHost` erstellt das Spiel, `LocalClient` verbindet sich mit `127.0.0.1` auf Port 24567. Sobald beide fertig geladen und bereit sind, im Host **Koop starten** drücken. Mit **Alt+Tab** zwischen den Fenstern wechseln. Hamachi ist für diesen Test nicht nötig. Bei langsamerem Laden des Hosts gegebenenfalls im Client nochmals **Beitreten** drücken. Bereits laufende Tests auf demselben Port vorher beenden; alternativ `-Port 24568` an den Aufruf anhängen.
 
-Ohne Skript: `RemZ.exe` zweimal öffnen, im ersten Fenster unter **Mehrspieler / Hamachi** ein Spiel erstellen, im zweiten mit Host-IP **127.0.0.1** und demselben Port beitreten. Nur der Host startet die Runde.
+Ohne Skript: `RemZ.exe` zweimal öffnen, im ersten Fenster unter **Mehrspieler > Direct / LAN / Hamachi** ein Spiel erstellen, im zweiten mit Host-IP **127.0.0.1** und demselben Port beitreten. Nur der Host startet die Runde.
 
 Kurzer manueller Durchlauf:
 
@@ -74,7 +83,7 @@ Ein abgebrochener Verbindungsversuch behält die bereits geladene Karte. ENet wi
 
 Bewegungspakete tragen eine fortlaufende Nummer, die der Host im Weltzustand bestätigt. Der Client vergleicht die Hostposition mit seiner damaligen Position zu dieser Nummer. Spätere lokale Bewegung bleibt erhalten; eine verzögerte Rückmeldung allein löst kein Zurücksetzen aus. Echte Abweichungen durch Kollisionen oder abgewiesene Bewegung werden weiterhin korrigiert. Der Host prüft die Spielerkapsel auch beim Gleiten entlang von Boden und Wänden.
 
-Diese Änderung verwendet Netzwerkprotokoll 2. Host und Mitspieler müssen gemeinsam auf die neue Ausgabe wechseln. `godot/tests/movement_sync.gd` prüft verzögerte Bestätigungen (100–1.000 ms), fehlende und veraltete Updates, echte Positionskorrekturen sowie Boden- und Wandkollisionen.
+Die Online-Lobby-Ausgabe verwendet Netzwerkprotokoll 3 (Anwendungs-Ping, Leaderboard-Zeilen einzeln). Host und Mitspieler müssen gemeinsam auf die neue Ausgabe wechseln. `godot/tests/movement_sync.gd` prüft verzögerte Bestätigungen (100–1.000 ms), fehlende und veraltete Updates, echte Positionskorrekturen sowie Boden- und Wandkollisionen.
 
 Die ENet-Verbindung läuft über UDP; siehe [Godots ENet-Dokumentation](https://docs.godotengine.org/en/stable/classes/class_enetmultiplayerpeer.html). Der Host entscheidet über Treffer, Schaden, Nachladen, Käufe, Gegenstände und den gemeinsamen Spielzustand. Bewegung wird lokal dargestellt und vom Host gegen Reichweite und Kollision geprüft. Momentaufnahmen werden komprimiert und in kleine Pakete aufgeteilt; alte, unvollständige und doppelte Momentaufnahmen werden verworfen. Befehle benutzen einen zuverlässigen Kanal mit Sitzungs- und Sequenzprüfung.
 
@@ -106,4 +115,4 @@ Sortierung: Kills, Titan-Kills, Headshots, Assists absteigend, dann weniger Tode
 
 Tests: `--suite=leaderboard --smoke-test --no-intro --no-music --no-foliage`; optional `--render-leaderboard` für ein Bild unter `artifacts/leaderboard/`. `tools/test_multiplayer.ps1` prüft die Synchronisation mit drei echten Clients, späterem Beitritt, Wiederbelebung, Rundenende und Neustart.
 
-Die Spalte **Rem Dollars** zeigt das aktuelle verfügbare Guthaben (auch nach Käufen), keine kumulierte Verdienstsumme. **Ping** zeigt die vom Host gemessene ENet-Round-Trip-Zeit in Millisekunden; der Host und Solo-Spieler haben 0 ms, getrennte oder noch nicht messbare Verbindungen einen Strich. Der Host fordert sekündlich eine Messung an und verteilt die Werte über die Spielzustände; am Rundenende bleibt der Ping über separate Aktualisierungen live. Technische Grundlage: [ENetPacketPeer-Statistiken](https://docs.godotengine.org/en/stable/classes/class_enetpacketpeer.html#enum-enetpacketpeer-peerstatistic).
+Die Spalte **Rem Dollars** zeigt das aktuelle verfügbare Guthaben (auch nach Käufen), keine kumulierte Verdienstsumme. **Ping** zeigt die vom Host gemessene Round-Trip-Zeit in Millisekunden (ENet-Statistik auf dem Direktweg, sekündlicher Anwendungs-Ping über die Online-Lobby); der Host und Solo-Spieler haben 0 ms, getrennte oder noch nicht messbare Verbindungen einen Strich. Der Host fordert sekündlich eine Messung an und verteilt die Werte über die Spielzustände; am Rundenende bleibt der Ping über separate Aktualisierungen live. Technische Grundlage: [ENetPacketPeer-Statistiken](https://docs.godotengine.org/en/stable/classes/class_enetpacketpeer.html#enum-enetpacketpeer-peerstatistic).

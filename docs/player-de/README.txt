@@ -25,12 +25,22 @@ Escape: Pause, F11: Vollbild.
 Grafik, Sound und Mausempfindlichkeit im Start-/Pausenmenü einstellen.
 
 MEHRSPIELER
-Hauptmenü > Mehrspieler / Hamachi (auf Englisch: Multiplayer / Hamachi).
-Bis zu vier Spieler, UDP-Port 24567. Alle Spieler brauchen diesen selben Build.
-Details: MEHRSPIELER.md. Jeder Spieler kann seine eigene Sprache wählen;
-Meldungen des Hosts erscheinen bei jedem in seiner Sprache.
+Hauptmenü > Mehrspieler (auf Englisch: Multiplayer). Bis zu vier Spieler.
+Online-Lobby: der Host erstellt eine Lobby und gibt den sechsstelligen
+Beitrittscode weiter, die Mitspieler treten mit dem Code bei - über das
+Internet, ohne Hamachi und ohne Portfreigabe, ohne Epic-Konto.
+Direkt / LAN / Hamachi: wie bisher mit IP-Adresse und UDP-Port 24567.
+Alle Spieler brauchen diesen selben Build; die drei DLLs neben RemZ.exe
+gehören dazu. Details: MEHRSPIELER.md. Jeder Spieler kann seine eigene
+Sprache wählen; Meldungen des Hosts erscheinen bei jedem in seiner Sprache.
 
 NEU IN DIESER AUSGABE
+- Online-Lobby: Mehrspieler > Online lobby. Der Host klickt «Create lobby»
+  und gibt den sechsstelligen Beitrittscode weiter, bis zu drei Mitspieler
+  treten mit «Join with code» bei - über das Internet, ohne Hamachi, ohne
+  Portfreigabe und ohne Epic-Konto (Epic Online Services, bei Bedarf über
+  Epics Relay). «Direct / LAN / Hamachi» bleibt wie bisher. Die drei DLLs
+  neben RemZ.exe gehören zum Spiel.
 - Secret Nacht vor Welle 5: Folgt dem fernen Goa-Track in den verregneten
   Wald. Je näher ihr der Party kommt, desto lauter und klarer klingt er.
   Stimmt die Totems, besucht die Bar und tanzt gemeinsam. Die Abschlussquest

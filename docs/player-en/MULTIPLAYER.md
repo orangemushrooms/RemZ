@@ -1,11 +1,16 @@
-# RemZ: Co-op over Hamachi or LAN
+# RemZ: Co-op over the online lobby, Hamachi or LAN
 
-Up to **four players in total**: one host and three teammates. Everyone needs the same current `builds/windows` folder with `RemZ.exe` and `RemZ.pck`. The host plays along; no separate server is needed.
+Up to **four players in total**: one host and three teammates. Everyone needs the same current `builds/windows` folder with `RemZ.exe`, `RemZ.pck` and the three DLLs next to them. The host plays along; no separate server is needed. **Multiplayer** in the main menu offers two ways in:
 
-## Starting together
+- **Online lobby** - over the internet, without Hamachi and without opening a port on the router. The host clicks **Create lobby** and gets a six-letter **join code** (for example `K7PZ4M`; **Copy code** copies it). Teammates type the code under **Join code** and click **Join with code**. The connection runs through Epic Online Services (peer to peer, automatically relayed through Epic when routers are strict); no Epic account is needed, the sign-in is anonymous with a device identity. The code is valid while the host stays in the lobby.
+- **Direct / LAN / Hamachi** - the previous way with an IP address and UDP port, unchanged (described below).
+
+Both ways end in the same player list; the host presses **Start co-op**. If the online service is down or its DLLs are missing, the online tab explains why and the direct way keeps working.
+
+## Starting together (Direct / LAN / Hamachi)
 
 1. Start Hamachi on all PCs and join the same Hamachi network. All participants must be online and reachable in it.
-2. Start `RemZ.exe` on every PC and open **Multiplayer / Hamachi** in the main menu. Enter a name.
+2. Start `RemZ.exe` on every PC and open **Multiplayer** in the main menu and pick **Direct / LAN / Hamachi**. Enter a name.
 3. The host clicks **Host game**. Default port: **UDP 24567**. The host's Hamachi IPv4 address is shown in Hamachi; the game also displays the IPv4 addresses installed on the PC.
 4. The teammates enter this address under **Host IP**, use the same port and click **Join**.
 5. As soon as the players in the list are ready, the host clicks **Start co-op**. The host sets the difficulty before the round starts.
@@ -37,7 +42,11 @@ If you run into connection problems, first check Hamachi's online status, the ho
 ```text
 RemZ.exe -- --host --name=Michael --port=24567
 RemZ.exe -- --join=25.12.34.56 --name=Luca --port=24567
+RemZ.exe -- --host-online --name=Michael
+RemZ.exe -- --join-code=K7PZ4M --name=Luca
 ```
+
+An online host writes its code as `ONLINE_CODE=K7PZ4M` into the log (`logs/coop-*.log` next to the exe).
 
 Optionally, `--coop-auto-start=4` on the host starts the round automatically as soon as four players are ready. Without this option, the host starts from the menu.
 
@@ -51,7 +60,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/start_local_coop.ps1
 
 This opens two windows of the Windows build: `LocalHost` creates the game, `LocalClient` connects to `127.0.0.1` on port 24567. Once both have finished loading and are ready, press **Start co-op** in the host window. Switch between the windows with **Alt+Tab**. Hamachi is not needed for this test. If the host loads more slowly, press **Join** in the client again if necessary. Close any tests already running on the same port first, or append `-Port 24568` to the command.
 
-Without the script: open `RemZ.exe` twice, host a game under **Multiplayer / Hamachi** in the first window, and join from the second one with host IP **127.0.0.1** and the same port. Only the host starts the round.
+Without the script: open `RemZ.exe` twice, host a game under **Multiplayer > Direct / LAN / Hamachi** in the first window, and join from the second one with host IP **127.0.0.1** and the same port. Only the host starts the round.
 
 A short manual run-through:
 
@@ -74,7 +83,7 @@ A cancelled connection attempt keeps the map that is already loaded. ENet is dis
 
 Movement packets carry a sequence number that the host acknowledges in the world state. The client compares the host's position with its own position at that sequence number. Later local movement is kept; a delayed acknowledgement alone does not trigger a reset. Real deviations caused by collisions or rejected movement are still corrected. The host also checks the player capsule while it slides along the ground and walls.
 
-This change uses network protocol 2. Host and teammates have to switch to the new release together. `godot/tests/movement_sync.gd` checks delayed acknowledgements (100–1,000 ms), missing and outdated updates, real position corrections, and ground and wall collisions.
+The online lobby release uses network protocol 3 (application ping, leaderboard rows sent one by one). Host and teammates have to switch to the new release together. `godot/tests/movement_sync.gd` checks delayed acknowledgements (100–1,000 ms), missing and outdated updates, real position corrections, and ground and wall collisions.
 
 The ENet connection runs over UDP; see [Godot's ENet documentation](https://docs.godotengine.org/en/stable/classes/class_enetmultiplayerpeer.html). The host decides on hits, damage, reloading, purchases, items and the shared game state. Movement is shown locally and checked by the host against range and collision. Snapshots are compressed and split into small packets; old, incomplete and duplicate snapshots are discarded. Commands use a reliable channel with session and sequence checks.
 

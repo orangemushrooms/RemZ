@@ -299,6 +299,32 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   until then). `--no-intro` skips it (autotest, benchmark and `--view=` skip automatically), `--intro-test`
   runs it headless-ish and saves `shots/intro_wake.png` / `intro_road.png`.
 
+## Online lobby (EOS, 25 Sep 2026)
+- The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,
+  six-letter join code, anonymous Connect Device ID login, no Epic account, no port forwarding) and **Direct /
+  LAN / Hamachi** (the unchanged ENet path on UDP 24567). Details: `docs/ONLINE_LOBBY.md`.
+- Pieces: `godot/addons/epic-online-services-godot/` = EOSG 2.3.1 (GDExtension + EOS SDK 1.19.1.2 DLLs, MIT;
+  the editor plugin is not enabled, the autoloads `EOSGRuntime`/`HPlatform`/`HAuth`/`HLobbies`/`HP2P` are listed
+  by hand; the inner class `EOS.Achievements` is renamed `EOS.AchievementsApi` because RemZ's global class
+  `Achievements` would otherwise break `eos.gd` - redo that after an addon update). `online_lobby.gd` (autoload
+  `Online`) reaches everything EOS dynamically (`Engine.get_singleton("IEOS")`, `ClassDB.instantiate
+  ("EOSGMultiplayerPeer")`, `load(eos.gd)`), so a missing runtime only disables the online tab.
+  `net_session.gd`: `host_online` / `join_online` (async, `Error`), `transport` "enet" | "eos" | "offline",
+  `online_pending`, `join_code`, app-level `_ping`/`_pong` for non-ENet peers, leaderboard rows sent one per RPC.
+  Lobby attributes `CODE` / `VERSION` (`Online.version_tag()`) / `HOST`, bucket `remz-coop-1`.
+- Hard facts: EOS P2P packets are at most 1170 bytes (EOSG header 6) - `SNAPSHOT_CHUNK` 900 fits, the
+  `online_lobby` suite measures every RPC shape (largest 957) and fails above 1164; the lobby search index lags a
+  fresh lobby, `find_lobby` retries three times; **Godot never returns from `quit()` while a created EOS platform
+  is alive** - `Online._exit_tree()` closes the peer and calls release + shutdown (`--suite=eos_exit_probe`).
+- Credentials: only in the gitignored `.env` (root); `python tools/eos_config.py` writes the gitignored
+  `godot/eos.cfg`, which the export preset packs (`check-game.ps1 -Mode ExportWindows` runs it first and then
+  checks that `libeosg...release.dll`, `EOSSDK-Win64-Shipping.dll` and `xaudio2_9redist.dll` sit next to the exe).
+  Never print or commit the secret. Portal: client "RemZ Windows", policy Peer2Peer, nothing else needed.
+- Tests: `--suite=online_lobby --smoke-test --no-intro --no-music --no-foliage` (headless, offline, 43 checks),
+  `--suite=online_live ...` (headless, internet, 21 checks against the real backend), `tools/test_online_coop.ps1`
+  (two processes over EOS on one PC, the client with `--eos-fresh-device`; `-Packed` uses `builds/windows/RemZ.exe`
+  with `--host-online` / `--join-code=`), `RemZ.exe --headless -- --eos-check` on the packed build.
+
 ## Language (English default, German optional)
 - Every player-facing text in the code is **English**; German is a translation the player picks under
   Settings > Language (`[game] language` in settings.cfg; never taken from the Windows locale). `lang.gd`

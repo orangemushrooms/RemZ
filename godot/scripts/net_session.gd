@@ -4,12 +4,18 @@ signal changed
 
 const PORT := 24567
 const MAX_PLAYERS := 4
-const PROTOCOL := 2
-const BUILD := "remz-dev-20260923-komplett"
+const PROTOCOL := 3 # 3 since 25 Sep 2026: application ping, per-row leaderboard, online lobby
+const BUILD := "remz-dev-20260925-online"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
-var status := "Co-op over LAN or Hamachi · up to 4 players"
+var status := "Co-op · up to 4 players · online lobby or direct connection"
+# Which MultiplayerPeer carries the session: "enet" (direct IP / LAN / Hamachi) or "eos" (online lobby, see
+# online_lobby.gd). Every RPC below is transport-agnostic; only the ping measurement and the wording differ.
+var transport := "offline"
+var join_code := ""
+var online_pending := false # an online host / join attempt is signing in or talking to the lobby service
+var _pings: Dictionary = {} # host: application-level round trip per peer (transports without ENet statistics)
 var player_name := "Player"
 var address := ""
 var port := PORT
@@ -76,7 +82,7 @@ func _ready() -> void:
 	multiplayer.peer_connected.connect(_peer_connected)
 	multiplayer.peer_disconnected.connect(_peer_disconnected)
 	multiplayer.connected_to_server.connect(_connected)
-	multiplayer.connection_failed.connect(func(): leave("Connection failed. Check the Hamachi IP, the network and the UDP port."))
+	multiplayer.connection_failed.connect(func(): leave(_connection_failed_text()))
 	multiplayer.server_disconnected.connect(func(): leave("The host ended the connection."))
 	var context := HashingContext.new()
 	context.start(HashingContext.HASH_SHA256)
@@ -116,6 +122,17 @@ func is_host() -> bool:
 func is_client() -> bool:
 	return enabled and not multiplayer.is_server()
 
+func is_online() -> bool:
+	return enabled and transport == "eos"
+
+func _connection_failed_text() -> String:
+	if transport == "eos": return "Could not reach the host through the online service. The host may have left the lobby - ask for a fresh join code."
+	return "Connection failed. Check the Hamachi IP, the network and the UDP port."
+
+func _timeout_text() -> String:
+	if transport == "eos": return "No answer from the host through the online service. Both PCs need internet access; try the join code again."
+	return Lang.t("No answer from the host. Check the Hamachi connection and that UDP %d is allowed in the Windows Firewall.", [port])
+
 func local_id() -> int:
 	return multiplayer.get_unique_id() if enabled else 1
 
@@ -148,21 +165,31 @@ func attach(node: Node3D) -> void:
 # Optional shortcuts for LAN launchers; the same lobby is available in the menu.
 func _command_line() -> void:
 	var requested_host := false
+	var requested_online := false
 	var requested_ip := ""
+	var requested_code := ""
 	var requested_name := "Player"
 	var requested_port := PORT
 	for arg in OS.get_cmdline_user_args():
 		if arg == "--host": requested_host = true
+		elif arg == "--host-online": requested_online = true
 		elif arg.begins_with("--join="): requested_ip = arg.trim_prefix("--join=")
+		elif arg.begins_with("--join-code="): requested_code = arg.trim_prefix("--join-code=")
 		elif arg.begins_with("--name="): requested_name = arg.trim_prefix("--name=")
 		elif arg.begins_with("--port="): requested_port = int(arg.trim_prefix("--port="))
 		elif arg.begins_with("--coop-auto-start="): _auto_start = clampi(int(arg.trim_prefix("--coop-auto-start=")), 1, 4)
 	if requested_host: host(requested_name, requested_port)
+	elif requested_online: host_online(requested_name)
+	elif not requested_code.is_empty(): join_online(requested_code, requested_name)
 	elif not requested_ip.is_empty(): join(requested_ip, requested_name, requested_port)
-	if requested_host or not requested_ip.is_empty(): game.hud.show_tab("multiplayer")
+	if requested_host or requested_online or not requested_ip.is_empty() or not requested_code.is_empty(): game.hud.show_tab("multiplayer")
 
+func _can_open() -> bool:
+	return not (_closing or enabled or online_pending or not is_instance_valid(game) or not game.navigation_ready or game.started)
+
+# ---------------------------------------------------------------- direct: ENet over UDP (LAN / Hamachi)
 func host(display_name: String, requested_port: int = PORT) -> Error:
-	if _closing or enabled or not is_instance_valid(game) or not game.navigation_ready or game.started:
+	if not _can_open():
 		return ERR_BUSY
 	if requested_port < 1024 or requested_port > 65535:
 		status = "The port must be between 1024 and 65535."
@@ -175,17 +202,8 @@ func host(display_name: String, requested_port: int = PORT) -> Error:
 		status = "Could not start the host. Is the UDP port already in use?"
 		changed.emit()
 		return error
-	multiplayer.multiplayer_peer = peer
-	enabled = true
-	phase = "lobby"
-	epoch += 1
 	port = requested_port
-	player_name = clean_name(display_name)
-	roster = {1: player_name}
-	game.stats.players.clear()
-	ready_peers = {1: true}
-	game.player.peer_id = 1
-	world.add_player(1)
+	_activate_host(peer, "enet", clean_name(display_name))
 	status = Lang.t("Host ready · give your Hamachi IP to your teammates · UDP %d", [port])
 	print("COOP_HOST_READY port=", port)
 	trace_load("HOST_READY")
@@ -193,7 +211,7 @@ func host(display_name: String, requested_port: int = PORT) -> Error:
 	return OK
 
 func join(ip: String, display_name: String, requested_port: int = PORT) -> Error:
-	if _closing or enabled or not is_instance_valid(game) or not game.navigation_ready or game.started:
+	if not _can_open():
 		return ERR_BUSY
 	ip = ip.strip_edges()
 	if not ip.is_valid_ip_address() or requested_port < 1024 or requested_port > 65535:
@@ -208,7 +226,114 @@ func join(ip: String, display_name: String, requested_port: int = PORT) -> Error
 		status = "Could not open the connection."
 		changed.emit()
 		return error
+	address = ip
+	port = requested_port
+	_activate_client(peer, "enet", clean_name(display_name), 15.0)
+	status = Lang.t("Connecting to %s:%d …", [Lang.raw(ip), port])
+	changed.emit()
+	return OK
+
+# ---------------------------------------------------------------- online: EOS lobby + P2P (join code)
+# Both flows talk to the Online autoload step by step and report every step in `status`. "Leave session" /
+# "Cancel" while a step is pending flips online_pending, which makes the waiting coroutine give up quietly.
+func host_online(display_name: String) -> Error:
+	if not _can_open():
+		return ERR_BUSY
+	if not Online.available():
+		status = Online.unavailable_reason()
+		changed.emit()
+		return ERR_UNAVAILABLE
+	online_pending = true
+	player_name = clean_name(display_name)
+	trace_load("ONLINE_HOST_BEGIN")
+	status = "Signing in to the online service …"
+	changed.emit()
+	var signed_in: Dictionary = await Online.ensure_ready(player_name)
+	if not _online_step_ok(signed_in): return FAILED
+	status = "Creating the lobby …"
+	changed.emit()
+	var created: Dictionary = await Online.create_lobby(player_name, Online.version_tag())
+	if not _online_step_ok(created): return FAILED
+	var peer = Online.make_server_peer()
+	if peer == null: return _online_fail("Could not open the online connection. Please try again.")
+	online_pending = false
+	join_code = str(created.code)
+	_activate_host(peer, "eos", player_name)
+	status = Lang.t("Lobby open · join code %s · share it with your teammates", [Lang.raw(join_code)])
+	print("COOP_HOST_READY online=1 ONLINE_CODE=", join_code)
+	# The diagnostics file is flushed per line (Godot's --log-file is not), so launchers can pick the code up here.
+	trace_load("ONLINE_HOST_READY ONLINE_CODE=%s" % join_code)
+	changed.emit()
+	return OK
+
+func join_online(code_text: String, display_name: String) -> Error:
+	if not _can_open():
+		return ERR_BUSY
+	var code := Online.normalize_code(code_text)
+	if not Online.valid_code(code):
+		status = "Enter the 6-character join code the host sees in the lobby."
+		changed.emit()
+		return ERR_INVALID_PARAMETER
+	if not Online.available():
+		status = Online.unavailable_reason()
+		changed.emit()
+		return ERR_UNAVAILABLE
+	online_pending = true
+	player_name = clean_name(display_name)
+	join_code = code
+	trace_load("ONLINE_JOIN_BEGIN code=%s" % code)
+	status = "Signing in to the online service …"
+	changed.emit()
+	var signed_in: Dictionary = await Online.ensure_ready(player_name)
+	if not _online_step_ok(signed_in): return FAILED
+	status = Lang.t("Looking for lobby %s …", [Lang.raw(code)])
+	changed.emit()
+	var found: Dictionary = await Online.find_lobby(code)
+	if not _online_step_ok(found): return FAILED
+	status = "Joining the lobby …"
+	changed.emit()
+	var joined: Dictionary = await Online.join_lobby(found.lobby)
+	if not _online_step_ok(joined): return FAILED
+	var peer = Online.make_client_peer(str(joined.host_id))
+	if peer == null: return _online_fail("Could not open the online connection to the host.")
+	online_pending = false
+	_activate_client(peer, "eos", player_name, 25.0)
+	status = Lang.t("Connecting to the host of lobby %s …", [Lang.raw(code)])
+	changed.emit()
+	return OK
+
+func _online_step_ok(result: Dictionary) -> bool:
+	if not online_pending or _closing: return false # cancelled from the menu; leave() already reported it
+	if bool(result.get("ok", false)): return true
+	_online_fail(str(result.get("error", "The online service is not reachable right now.")))
+	return false
+
+func _online_fail(reason: String) -> Error:
+	online_pending = false
+	join_code = ""
+	Online.leave()
+	status = reason
+	trace_load("ONLINE_FAILED reason=%s" % Lang.resolve(reason, "en"))
+	changed.emit()
+	return FAILED
+
+func _activate_host(peer: MultiplayerPeer, kind: String, display_name: String) -> void:
 	multiplayer.multiplayer_peer = peer
+	transport = kind
+	enabled = true
+	phase = "lobby"
+	epoch += 1
+	player_name = display_name
+	roster = {1: player_name}
+	game.stats.players.clear()
+	ready_peers = {1: true}
+	_pings.clear()
+	game.player.peer_id = 1
+	world.add_player(1)
+
+func _activate_client(peer: MultiplayerPeer, kind: String, display_name: String, timeout: float) -> void:
+	multiplayer.multiplayer_peer = peer
+	transport = kind
 	enabled = true
 	phase = "connecting"
 	game.stats.players.clear()
@@ -217,13 +342,8 @@ func join(ip: String, display_name: String, requested_port: int = PORT) -> Error
 	_snapshot_parts.clear()
 	_initial_parts.clear()
 	_initial_received = -1
-	address = ip
-	port = requested_port
-	player_name = clean_name(display_name)
-	_connect_t = 15.0
-	status = Lang.t("Connecting to %s:%d …", [Lang.raw(ip), port])
-	changed.emit()
-	return OK
+	player_name = display_name
+	_connect_t = timeout
 
 static func clean_name(value: String) -> String:
 	value = value.strip_edges().replace("\n", " ").replace("\r", " ").replace("\t", " ").left(24)
@@ -419,6 +539,7 @@ func _peer_disconnected(id: int) -> void:
 	_loading_peers.erase(id)
 	_commands.erase(id)
 	_rates.erase(id)
+	_pings.erase(id)
 	if world: world.remove_player(id)
 	if is_host():
 		_send_lobby()
@@ -428,6 +549,12 @@ func _peer_disconnected(id: int) -> void:
 func leave(reason := "Left the session.") -> void:
 	if _closing: return
 	if not enabled:
+		if online_pending:
+			# Cancel a sign-in / lobby step that is still under way; the waiting coroutine sees the flag and stops.
+			online_pending = false
+			join_code = ""
+			Online.leave()
+			trace_load("ONLINE_CANCELLED")
 		status = reason
 		changed.emit()
 		return
@@ -450,6 +577,11 @@ func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> voi
 	trace_load("LEAVE_PEER_DETACHED")
 	if old_peer: old_peer.close()
 	trace_load("LEAVE_PEER_CLOSED")
+	if transport == "eos" or Online.active(): Online.leave()
+	transport = "offline"
+	join_code = ""
+	online_pending = false
+	_pings.clear()
 	game = leaving_game
 	_auto_start = 0
 	restart_pending = false
@@ -712,20 +844,36 @@ func blood(position: Vector3, direction: Vector3) -> void:
 func _blood(session_epoch: int, position: Vector3, direction: Vector3) -> void:
 	if epoch == session_epoch and is_instance_valid(game): game.weapons._blood(position, direction)
 
-# Host-measured ENet round-trip time, in milliseconds. Never ask for a missing peer.
+# Host-measured round-trip time to a peer, in milliseconds: ENet's own statistic on the direct transport, the
+# application ping (_ping / _pong, once a second) on every other MultiplayerPeer. Never ask for a missing peer.
 func peer_ping(id: int) -> int:
 	if not is_host(): return -1
 	if id == 1: return 0
-	var transport := multiplayer.multiplayer_peer as ENetMultiplayerPeer
-	if not transport or not id in multiplayer.get_peers(): return -1
-	var peer := transport.get_peer(id)
+	if not id in multiplayer.get_peers(): return -1
+	var enet := multiplayer.multiplayer_peer as ENetMultiplayerPeer
+	if enet == null: return int(_pings.get(id, -1))
+	var peer := enet.get_peer(id)
 	if not peer or peer.get_state() != ENetPacketPeer.STATE_CONNECTED: return -1
 	return maxi(0, roundi(peer.get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME)))
 
 @rpc("authority", "call_remote", "unreliable", 1)
+func _ping(session_epoch: int, stamp: int) -> void:
+	if is_client() and epoch == session_epoch: _pong.rpc_id(1, session_epoch, stamp)
+
+@rpc("any_peer", "call_remote", "unreliable", 1)
+func _pong(session_epoch: int, stamp: int) -> void:
+	if is_host() and epoch == session_epoch: _record_pong(multiplayer.get_remote_sender_id(), stamp)
+
+func _record_pong(id: int, stamp: int) -> void:
+	if id <= 1 or not roster.has(id): return
+	_pings[id] = maxi(0, Time.get_ticks_msec() - stamp)
+
+# One row per RPC: four rows with long names would not fit into an EOS P2P packet (1170 bytes).
+@rpc("authority", "call_remote", "unreliable", 1)
 func _leaderboard_live(session_epoch: int, rows: Dictionary) -> void:
 	if is_client() and epoch == session_epoch and phase == "over" and is_instance_valid(game):
-		game.stats.players = rows.duplicate(true)
+		for id in rows:
+			if rows[id] is Dictionary: game.stats.players[int(id)] = rows[id].duplicate(true)
 
 func _process(delta: float) -> void:
 	_elapsed += delta
@@ -733,21 +881,26 @@ func _process(delta: float) -> void:
 	if _connect_t > 0.0:
 		_connect_t -= delta
 		if _connect_t <= 0.0:
-			leave(Lang.t("No answer from the host. Check the Hamachi connection and that UDP %d is allowed in the Windows Firewall.", [port]))
+			leave(_timeout_text())
 			return
 	if is_host():
 		_leaderboard_t += delta
 		if _leaderboard_t >= 1.0:
 			_leaderboard_t = 0.0
-			var transport := multiplayer.multiplayer_peer as ENetMultiplayerPeer
-			if transport:
+			var enet := multiplayer.multiplayer_peer as ENetMultiplayerPeer
+			if enet:
 				for id in multiplayer.get_peers():
-					var peer := transport.get_peer(id)
+					var peer := enet.get_peer(id)
 					if peer and peer.get_state() == ENetPacketPeer.STATE_CONNECTED: peer.ping()
+			else:
+				var stamp := Time.get_ticks_msec()
+				for id in ready_peers:
+					if id != 1 and ready_peers[id] and id in multiplayer.get_peers(): _ping.rpc_id(id, epoch, stamp)
 			# Running rounds use world snapshots. Keep ping live after the round ends too.
 			if phase == "over" and world and is_instance_valid(game):
 				world.refresh_leaderboard()
-				_leaderboard_live.rpc(epoch, game.stats.players)
+				for id in game.stats.players:
+					_leaderboard_live.rpc(epoch, {id: game.stats.players[id]})
 		for id in _rates.keys():
 			if not ready_peers.get(id, false) and _elapsed > float(_rates[id].deadline):
 				multiplayer.multiplayer_peer.disconnect_peer(id)
