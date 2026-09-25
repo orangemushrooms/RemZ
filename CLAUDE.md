@@ -78,7 +78,9 @@ Batch of 25 Sep 2026 (`--suite=forest_finds --smoke-test --no-intro --no-music -
   (`_update_attack_dirs` / `attack_dir`, same angle convention as the hit arcs).
 - Lethal headshots burst the head: `Zombie._pop_head` scales the Head bone's pose to 0.001 (the Meshy clips
   carry no scale tracks, so the death clip leaves it; a SkeletonModifier3D was tried and Godot restores poses
-  after modifiers), sprays three pooled `weapons._blood` bursts and plays `pumpkin_splat`. Replicas get the
+  after modifiers), sprays three pooled `weapons._blood` bursts and plays one of five baked `head_burst_1..5.wav`
+  (`tools/build_head_burst_audio.py`: pumpkin splat + flesh noise + thud + bone cracks + drips, seeded) at a
+  random pitch 0.88-1.14 and -9..-4 dB, so no two heads pop alike (the single fixed pop was the complaint). Replicas get the
   flag as zombie snapshot field 13.
 - Mara's search quests (`Progression.FINDS`, quests `pond_cache` / `trip_mushroom` / `maze_crate` in the
   forest chain): one node each, placed by `place_finds()` from `place_cache()` - the box at the pond shore,

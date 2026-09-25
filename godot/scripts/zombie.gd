@@ -805,7 +805,8 @@ func _pop_head(dir: Vector3) -> void:
 		var away := Vector3(dir.x, 0.0, dir.z).normalized()
 		for spray in [away + Vector3.UP * 0.8, away.rotated(Vector3.UP, 0.9) + Vector3.UP * 0.4, away.rotated(Vector3.UP, -0.9) + Vector3.UP * 0.4]:
 			scene.weapons._blood(head_pos, (spray as Vector3).normalized())
-	Sfx.play_at(get_parent(), "pumpkin_splat", head_pos, -4.0)
+	# five baked burst variants (tools/build_head_burst_audio.py), random pick, pitch and level vary per head
+	Sfx.play_at(get_parent(), "head_burst", head_pos, randf_range(-9.0, -4.0), randf_range(0.88, 1.14), 4.0, 45.0)
 
 func update_rare_visual() -> void:
 	if not _rare_marker and not rare_status.is_empty():

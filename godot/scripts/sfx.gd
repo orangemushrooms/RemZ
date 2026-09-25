@@ -64,6 +64,7 @@ const FILES := {
 	"build": ["build_1", "build_2", "build_3", "build_4", "build_5"],
 	"crash": ["crash"],
 	"pumpkin_splat": ["pumpkin_splat"],
+	"head_burst": ["head_burst_1", "head_burst_2", "head_burst_3", "head_burst_4", "head_burst_5"],
 	"boom": ["boom"],
 	"grenade_throw": ["grenade_throw"],
 	"grenade_bounce": ["grenade_bounce_1", "grenade_bounce_2", "grenade_bounce_3"],
