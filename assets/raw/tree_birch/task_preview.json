@@ -1,0 +1,27 @@
+{
+  "id": "01a0d76f-2943-7745-b962-5a7b15acb77e",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2080706538,
+  "prompt": "photorealistic game asset, mature silver birch tree, slender slightly curved white trunk with black horizontal fissures and peeling papery bark, several thin ascending branches, an airy open crown of fine drooping twigs with small triangular leaves turning golden yellow in early autumn, natural irregular silhouette, single tree, no ground, no base, no text",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790320783401,
+  "progress": 100,
+  "started_at": 1790320783407,
+  "finished_at": 1790320859010,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d76f-2943-7745-b962-5a7b15acb77e/output/model.glb?Expires=4943894400&Signature=XiHFNr6UZkyMc7sXAOi49oiLfjBuFKy4kCxmC0KDqXlzdD69D4T5O1sWP2JyEUvvR~xKE2~VczLWcy4H-VhoOM8OiB7mcfhDfNA91hnaO~ItrAEWiFShjQneiVi6M461iCaJH18DCoAw6KpLpoXYLtxgy4Se3B8yCN3tY0RD-eXwqzht7o659lKyngCscL3XxH5UeddfeeAndwcSxT3eeqANo51R24u-Vzbcwu2D5X4OxYiKy8OrWOGV6pFAZvxva5bkZ4wwRgRxHu2vXJQyqmaAmpwcPRRM6mzn9y7GCh~wsO6lXV2dnXwKJXKr1ZO1G~RZ9ezYuUsoivuoUi6C9g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d76f-2943-7745-b962-5a7b15acb77e/output/model.fbx?Expires=4943894400&Signature=EGqXr1ojIaU12kfGOwVPNylPfbB6QiyPH9osefVOea1ThYojcZKGw7OZ5nUD7hUGudYhXwDKEM5H73eCYCuqU6I7P8vJ3TrGE1Fm4nl6FWbh05-VqoHEIyEosEABXFse19~OakiyKKQK8kYFA5KEYiMp420Ywx~~5qdeAnzokC94vKa-LM4nfmpSUQlsj6ZYbgauZ4ZrslMu-FqbBEhykUxIWZ9oUGMJCtLfUbHUXO1YIf40-jIYmNpy2GNzoeIcA2gzxADPAlzB4aCUxy55OqyagjCXgLM1etLlIK9ZxlvML0E23x6AErr1yTP3KZiCqs0lKEVP4RUVyJ4KyUs5MQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d76f-2943-7745-b962-5a7b15acb77e/output/model.usdz?Expires=4943894400&Signature=EuBpGMRxjVvBUlclydndtZ5sg2QwgfLPh1GuFrB6hEGoyf-JTat7JyDf9zcjI0-ieDMLDvjMwnF8EWJC2K-3j7xZt7jdWsQYRjgUj9eBml9LPyeFb3tJxsiMkpVz8VVDPHf2imzXAbY0cAfq-RVzxqagUHrjDsFpDPFs0PP9QOsyACHUObSGlqHY0~lFptxKn94NUjKmwO9UUGwtqJ-oMtChJOf6wDlGqKmvOJzHb6CgcjLIibaXj4XD1omuphGC3GcahgOTF7raiCjlK7rWg1gKP7KVGvf-5C4IGyElA2rQkizhzvXAO7aSHstEWiOJRt~6KVTFSkWaX-Vt2PVWBg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d76f-2943-7745-b962-5a7b15acb77e/output/model.obj?Expires=4943894400&Signature=h50SM1ZnHLu64UpNnfSXgHw5dw4JecleOyg2kl3ByyNYwvZ73J~hJG8pdzlUq0SssH4ihpK8Gi9I8XupAq2IVNxHXopvGgy8WwuEClx6-WNMruCB8ZtamLyBQdrUKhINx90cl6PCAxsID-SAQqGMoahRVFOtGzJPQgNglLf~4n1WQNxO1O7QTPF741K3P0Aj93ZnM-7Flffh9j9lU~GMn2QYjtXkJevK52CfE09IWpXjx23kHr5lk37~yisoSiOr14pvLQWSlw3jrFh6X-~n1D5BRHac4GmWsVSN3tR753BePyLjmDmavPRyLBPDzHorUV7rmFshfs1I44gsalOE4A__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d76f-2943-7745-b962-5a7b15acb77e/output/model.stl?Expires=4943894400&Signature=PSA5o6lZvvU5ElSioPu25YnBNbHSIj2IbR~p47wGXGtvCXchpP85BGCNRr3MnhCf25ApjdgRlKg8hngSpV3BEXmnGM69g6QYjNgDcXOwryYsyEaY~dvcF06c8pn0jb~ViDVYXdI4gqMjrqvFchj7dy8t7LT~8l-qZIWpkkuQFt1kaM85t4JnLX-TMnGp0HE~1RhF9ZQTQ2R~aQ-LM6fnzxZq7u8XqJtri~xptXn0xiQMtnexoLni-LQRgaU2iHnHtFgazB8TwxKR2qIPJ1u9lIjdrnH8MwtnVtZzaOtfWhkIoAKggHDCHHKXPtRyy1qLLMYUkcfxCMk~F3Ch4xzaTw__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d76f-2943-7745-b962-5a7b15acb77e/output/preview.png?Expires=4943894400&Signature=BJ1p9wvcav7LqWlRBXiKIqxpDE3MGCYVe7U7jDFK9oremfXrLXHOn6hiUssGlV~gzvNm3ERjKxe7cyNwx3re3kHoczLdUjSUoTtiRKmKS4sE3MnYHh7Hhxyi4bB3T2WlA8Vndrs~BbHNfT86zFRIRPiFG8wamgKoWGmnPw5AA~T7YNTJBDexpaIm~brnsT8eoX8QxWeBsrnk7Dq8Y5y26fIfgtT-6Ucj6aiY5jB~PcWSlFPIs~MNJZED6ye95t4RP7gNsNDsTuK3bKXSJARssLb8QsTcORvbz9XeDL~0tJmgSViK1NUdK-2Pm7tJOF5Mq6r0xv3Ife04qVNzkuC98w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

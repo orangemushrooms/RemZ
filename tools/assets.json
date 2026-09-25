@@ -358,5 +358,9 @@
   "conifer_fir": {
     "prompt": "photorealistic game asset, tall silver fir tree, straight grey trunk with smooth pale grey bark, dense horizontal whorled branches with flat rich green needles, broad conical crown with a flat-topped crest, branches reaching the ground with slight upward sweep, natural irregular silhouette, single tree, no ground, no base, no text",
     "texture_prompt": "realistic glossy dark green fir needles with pale undersides, smooth pale grey bark with resin blisters, natural PBR, no cartoon, no text"
+  },
+  "tree_birch": {
+    "prompt": "photorealistic game asset, mature silver birch tree, slender slightly curved white trunk with black horizontal fissures and peeling papery bark, several thin ascending branches, an airy open crown of fine drooping twigs with small triangular leaves turning golden yellow in early autumn, natural irregular silhouette, single tree, no ground, no base, no text",
+    "texture_prompt": "realistic white birch bark with black lenticels and dark fissures, fine papery peel, small green and golden yellow autumn leaves, natural PBR, no cartoon, no text"
   }
 }

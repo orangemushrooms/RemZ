@@ -1,17 +1,23 @@
 # Procedural trees for the Remetschwil forest: beech (Buche), oak (Eiche), spruce (Fichte).
 # Trunks and branches are generated meshes with bark cut from the site photos, crowns are leaf cards in a
 # MultiMesh with sphere-like fake normals. Everything is instanced per species variant and partitioned into cells.
-# Species with a "model" (25 Sep 2026: "fir" = conifer_fir.glb, "spruce_hd" = conifer_spruce.glb, both Meshy)
-# are whole GLB meshes instead: one MultiMesh per 48 m cell with the GLB's own PBR materials (tinted by "tint"),
-# scaled by "height" like every Meshy static, no leaf cards. tools/conifer_zones.py decides where they stand.
+# Species with a "model" (25 Sep 2026: "fir" = conifer_fir.glb, "spruce_hd" = conifer_spruce.glb, "birch" =
+# tree_birch.glb, all Meshy) are whole GLB meshes instead: one MultiMesh per 48 m cell with the GLB's own PBR
+# materials (tinted by "tint"), scaled by "height" like every Meshy static, no leaf cards. Beyond MODEL_LOD and
+# for the shadows the "proxy" species stands in (procedural spruce for the conifers, beech for the birch).
+# "crown" adds procedural leaf cards of that species around the GLB at every distance (Meshy delivered the
+# birch bare; the airy card crown gives it its foliage and the wind sway), "crown_scale" / "crown_detail"
+# size and thin it.
+# tools/conifer_zones.py decides where they stand.
 class_name Trees
 
 const SPECIES := {
 	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 40, "card": 4.8, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.42, 0.4, 0.37), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
 	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 40, "card": 5.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.45, 0.4, 0.35), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
 	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 36, "card": 3.4, "bark": ["ph_bark_oak"], "tint": Color(0.45, 0.34, 0.26), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
-	"fir":       { "model": "conifer_fir", "height": 19.0, "radius": 0.34, "crown_r": 3.0, "tint": Color(0.62, 0.74, 0.5) },
-	"spruce_hd": { "model": "conifer_spruce", "height": 20.0, "radius": 0.36, "crown_r": 3.2, "tint": Color(0.6, 0.72, 0.48) },
+	"fir":       { "model": "conifer_fir", "proxy": "spruce", "height": 19.0, "radius": 0.34, "crown_r": 3.0, "tint": Color(0.62, 0.74, 0.5) },
+	"spruce_hd": { "model": "conifer_spruce", "proxy": "spruce", "height": 20.0, "radius": 0.36, "crown_r": 3.2, "tint": Color(0.6, 0.72, 0.48) },
+	"birch":     { "model": "tree_birch", "proxy": "beech", "height": 17.0, "radius": 0.24, "crown_r": 3.5, "tint": Color(0.92, 0.9, 0.78), "crown": "beech", "crown_scale": 0.62, "crown_detail": 0.45 },
 }
 
 static func is_model_species(kind: String) -> bool:
@@ -368,8 +374,8 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 	colliders.collision_layer = 1
 	colliders.add_to_group("navsource")
 	var model_items := {}     # model species -> Array of [Transform3D, Color]
-	var far_trunk := {}       # far LOD of the model trees: procedural spruce trunks, "spruce:variant" -> items
-	var far_leaf: Array = []  # ... and their leaf cards
+	var far_trunk := {}       # far LOD of the model trees: procedural proxy trunks, "proxy:variant" -> items
+	var far_leaf := {}        # ... and their leaf cards per proxy species
 	for k in SPECIES:
 		leaf_items[k] = []
 		shadow_items[k] = []
@@ -393,22 +399,29 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 		var b := Basis().rotated(Vector3.UP, yaw).scaled(Vector3.ONE * s)
 		if is_model_species(kind):
 			var model := model_mesh(kind)
+			var proxy: String = SPECIES[kind].get("proxy", "spruce")
 			if model.is_empty():
-				kind = "spruce"     # GLB missing: the procedural spruce stands in
+				kind = proxy        # GLB missing: the procedural proxy species stands in
 			else:
 				model_items[kind].append([Transform3D(b, pos) * model[1], Color.WHITE])
-				# the far proxy: a procedural spruce scaled to the same height
-				var ps: float = s * float(SPECIES[kind]["height"]) / float(SPECIES["spruce"]["height"])
+				if SPECIES[kind].has("crown"):
+					var crown: String = SPECIES[kind]["crown"]
+					var cs: float = s * float(SPECIES[kind]["height"]) / float(SPECIES[crown]["height"]) * float(SPECIES[kind].get("crown_scale", 1.0))
+					_crown_cards(crown, cs, yaw, pos, rng, leaf_items[crown], detail * float(SPECIES[kind].get("crown_detail", 1.0)))
+				# the far proxy: the procedural proxy species scaled to the same height
+				var ps: float = s * float(SPECIES[kind]["height"]) / float(SPECIES[proxy]["height"])
 				var pb := Basis().rotated(Vector3.UP, yaw).scaled(Vector3.ONE * ps)
-				var key := "spruce:%d" % v
+				var key := "%s:%d" % [proxy, v]
 				if not far_trunk.has(key):
 					far_trunk[key] = []
 				far_trunk[key].append([Transform3D(pb, pos), Color.WHITE])
-				_crown_cards("spruce", ps, yaw, pos, rng, far_leaf, detail * 0.6)
+				if not far_leaf.has(proxy):
+					far_leaf[proxy] = []
+				_crown_cards(proxy, ps, yaw, pos, rng, far_leaf[proxy], detail * 0.6)
 				# shadows come from the coarse card proxy like every other crown: the GLB itself in four cascade
 				# splits cost 9 M shadow primitives on the plaza (25 Sep 2026)
 				if shadow_radius > 0.0:
-					_crown_cards("spruce", ps, yaw, pos, rng, shadow_items["spruce"], 0.35)
+					_crown_cards(proxy, ps, yaw, pos, rng, shadow_items[proxy], 0.35)
 		if not is_model_species(kind):
 			trunk_items["%s:%d" % [kind, v]].append([Transform3D(b, pos), Color.WHITE])
 			_crown_cards(kind, s, yaw, pos, rng, leaf_items[kind], detail)
@@ -455,8 +468,9 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 		for key in far_trunk:
 			if not "--no-trunks" in flags:
 				parent.add_child(_multimesh_cells(meshes[key], far_trunk[key], mats[key], near, 0.0, false, lod, 0.0))
-		if not far_leaf.is_empty() and not "--no-crowns" in flags:
-			parent.add_child(_multimesh_cells(quad, far_leaf, _leaf_material("spruce"), near, 0.0, false, lod, 0.0))
+		for proxy in far_leaf:
+			if not far_leaf[proxy].is_empty() and not "--no-crowns" in flags:
+				parent.add_child(_multimesh_cells(quad, far_leaf[proxy], _leaf_material(proxy), near, 0.0, false, lod, 0.0))
 	for k in SPECIES:
 		if leaf_items[k].is_empty() or "--no-crowns" in flags:
 			continue

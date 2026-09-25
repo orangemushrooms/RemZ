@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic game asset, mature silver birch tree, slender slightly curved white trunk with black horizontal fissures and peeling papery bark, several thin ascending branches, an airy open crown of fine drooping twigs with small triangular leaves turning golden yellow in early autumn, natural irregular silhouette, single tree, no ground, no base, no text",
+  "folder": "tree_birch",
+  "root_task_id": "01a0d770-8504-7285-aa36-bb47ddab5508",
+  "created_at": "2026-09-25T09:23:21.137333",
+  "updated_at": "2026-09-25T09:23:21.137346",
+  "tasks": [
+    {
+      "task_id": "01a0d770-8504-7285-aa36-bb47ddab5508",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-25T09:23:21.137345"
+    }
+  ]
+}

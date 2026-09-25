@@ -2,7 +2,7 @@
 extent so that the deep forest and the Oberer Schorchen carry the two Meshy conifers ("fir" = conifer_fir,
 "spruce_hd" = conifer_spruce, see Trees.SPECIES) and the forest edge towards the fields gets a few scattered
 ones. Run after tools/build_map.py, deterministic (seeded), idempotent (only beech / oak / spruce / fir /
-spruce_hd are touched, positions and scales stay).
+spruce_hd are touched, positions and scales stay; the base species is kept as tree[5]).
 
     python tools/conifer_zones.py            rewrite map.json, print the counts
     python tools/conifer_zones.py --dry-run  only print the counts
@@ -18,6 +18,8 @@ Rules (metres, x east / z south, fire at (7, -7)):
   - forest edge towards the fields (z > FIELD_Z or x > FIELD_X, within FIELD_ROAD of a track): EDGE_SHARE
     scattered Meshy conifers among the beeches
 Species mix of the swapped trees: MIX_SPRUCE spruce_hd, the rest fir.
+Birches ("birch" = tree_birch.glb): BIRCH_SHARE of the remaining beeches and oaks anywhere in the forest,
+farther than BIRCH_FIRE from the fire and BIRCH_ROAD from a track edge.
 """
 import json
 import math
@@ -45,6 +47,9 @@ EDGE_SHARE = 0.12
 MIX_SPRUCE = 0.55
 SEED = 2609
 CONIFERS = ('fir', 'spruce_hd')
+BIRCH_SHARE = 0.14
+BIRCH_FIRE = 30.0
+BIRCH_ROAD = 4.0
 
 
 def seg_dist(p, a, b):
@@ -72,14 +77,17 @@ def main():
     data = json.loads(MAP.read_text(encoding='utf-8'))
     roads = data['roads']
     rng = random.Random(SEED)
-    counts = {'schorchen': 0, 'deep': 0, 'dark': 0, 'edge': 0}
+    counts = {'schorchen': 0, 'deep': 0, 'dark': 0, 'edge': 0, 'birch': 0}
     trees = data['trees']
     for tree in trees:
-        x, z, kind = float(tree[0]), float(tree[1]), tree[2]
-        if kind in CONIFERS:
-            kind = 'spruce' if kind == 'spruce_hd' else 'beech'   # rerun: start from the base species again
+        x, z = float(tree[0]), float(tree[1])
+        # the base species from build_map.py travels along as tree[5], so a rerun starts from the same layout
+        if len(tree) < 6:
+            tree.append(tree[2])
+        kind = tree[5]
         roll = rng.random()          # one draw per tree, whatever the rule, keeps the layout stable
         pick = rng.random()
+        birch_roll = rng.random()
         new = None
         d_site = math.hypot(x - SITE[0], z - SITE[1])
         d_fire = math.hypot(x - FIRE[0], z - FIRE[1])
@@ -97,6 +105,9 @@ def main():
         if new:
             tree[2] = 'spruce_hd' if pick < MIX_SPRUCE else 'fir'
             counts[key] += 1
+        elif kind in ('beech', 'oak') and d_fire > BIRCH_FIRE and d_road > BIRCH_ROAD and birch_roll < BIRCH_SHARE:
+            tree[2] = 'birch'
+            counts['birch'] += 1
         else:
             tree[2] = kind
     total = {}

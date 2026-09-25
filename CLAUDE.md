@@ -225,7 +225,12 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   within `MODEL_LOD` (100 m, per 48 m cell, toggled by `update_lod` from `update_shadows` - Godot's
   visibility ranges did not cull the MultiMesh cells) the GLB, beyond it a procedural spruce proxy at the
   same height; shadows always come from the card proxy (the GLB in four cascades cost 9 M shadow
-  primitives). Cost on the plaza at 15:00: 64 -> 54 FPS. `--views` now prints VIEW_DRAW / VIEW_SHADOW
+  primitives). Cost on the plaza at 15:00: 64 -> 54 FPS. The birch (`tree_birch`, species "birch", 17 m,
+  Meshy delivered it bare) carries a procedural beech card crown at every distance (`crown` /
+  `crown_scale` 0.62 / `crown_detail` 0.45 in SPECIES) and uses the beech as far proxy; `conifer_zones.py`
+  turns 14 % of the remaining beeches and oaks into birches (> 30 m from the fire, > 4 m from a track),
+  91 of them; the base species travels along as `tree[5]` so reruns are idempotent. No measurable FPS
+  cost (plaza 58, track 72). `--views` now prints VIEW_DRAW / VIEW_SHADOW
   (primitives, draw calls); `--no-model-trees`, `--model-shadows`, `--no-model-lod`, `--model-lod=<m>` isolate.
 - Trees are otherwise procedural (`trees.gd`), nothing to download. Poly Haven clutter (ferns, moss, branches) is
   optional: `python tools/fetch_polyhaven.py` + `blender -b -P tools/tree_reduce.py` into `godot/assets/trees`
