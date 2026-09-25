@@ -1,5 +1,4 @@
-started 21:13:08
 smoke                OK exit=0 80s SMOKE_DONE checks=83 failures=0  
 army_waves           OK exit=0 52s ARMY_WAVES_DONE checks=55 failures=0  
 new_zombies          OK exit=0 57s NEW_ZOMBIES_DONE checks=61 failures=0  
-REGRESSIONS_DONE 21:14:28
+REGRESSIONS_DONE

@@ -27,7 +27,7 @@ static func horde_share(wave: int) -> float:
 # The common horde toughens with every wave (Sep 2026): +6 % health per wave, capped at x2.5 by wave 26.
 # Bosses have their own curve (heavy_hp). Difficulty and party size multiply on top.
 static func horde_hp(wave: int) -> float:
-	return minf(2.5, 1.0 + maxf(0, wave - 1) * 0.06)
+	return minf(2.2, 1.0 + maxf(0, wave - 1) * 0.05)
 
 # Every extra teammate makes the common horde tougher as well (25 Sep 2026): +30 % health and +12 % damage
 # per additional player, on top of the +55 % head count in Waves.regular_count. Bosses use heavy_hp.
