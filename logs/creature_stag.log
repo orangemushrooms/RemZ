@@ -1,0 +1,21 @@
+17:57:36 retexture zombie_stag from stag
+TASK_CREATED: 01a0d949-5459-7261-aa18-bb28c3db3033
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (12.5s, poll #3)
+  [█████████░░░░░░░░░░░] 49% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (55.625s, poll #6)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\model.glb (8.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\thumb.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\tex0_base_color.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\tex0_base_color.png (6.8 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\tex0_metallic.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\tex0_metallic.png (0.0 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\tex0_roughness.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\tex0_roughness.png (1.2 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\tex0_normal.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag\tex0_normal.png (6.1 MB)
+17:58:39 DONE zombie_stag

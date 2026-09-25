@@ -1,0 +1,5 @@
+language_de          OK exit=0 38s LANGUAGE_DONE lang=de checks=89 failures=0  
+menu_flow            OK exit=0 87s MENU_FLOW_DONE checks=11 failures=0  
+smoke                OK exit=0 69s SMOKE_DONE checks=83 failures=0  
+forest_spirit        BAD exit=1 44s FOREST_SPIRIT_DONE checks=23 failures=4 FAIL: Lesser-titan waves sometimes bring the Forest Spirit (0 of 60 plans) | FAIL: It winds up a pulse within reach (after 8.0 s) | FAIL: The pulse fires and goes on cooldown | FAIL: The boss state carries the pulse serial 
+REGRESSIONS_DONE

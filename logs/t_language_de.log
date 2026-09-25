@@ -3,7 +3,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
 PASS: Starts in de whatever the Windows locale (de_DE)
-PASS: German catalogue is loaded (1388 messages)
+PASS: German catalogue is loaded (1465 messages)
 PASS: Plain msgid resolves per language
 PASS: Formatted segment resolves per language
 PASS: String arguments are translated on the receiving side: Barrikade Wiesentor durchbrochen!
@@ -25,7 +25,7 @@ PASS: Switching back restores the test language
 PASS: start menu / briefing: 27 texts, all translated
 PASS: start menu / multiplayer: 24 texts, all translated
 PASS: start menu / difficulty: 18 texts, all translated
-PASS: start menu / controls: 65 texts, all translated
+PASS: start menu / controls: 69 texts, all translated
 PASS: start menu / settings: 39 texts, all translated
 PASS: start menu / records: 101 texts, all translated
 PASS: start menu / achievements: 179 texts, all translated
@@ -34,7 +34,7 @@ PASS: quest tracker: 2 texts, all translated
 PASS: world labels: 36 texts, all translated
 PASS: inventory: 23 texts, all translated
 PASS: Skill key away from Mechanic explains where training is
-PASS: HUD message: 16 texts, all translated
+PASS: HUD message: 17 texts, all translated
 PASS: wanderer / Trade: 9 texts, all translated
 PASS: wanderer / Fireworks: 26 texts, all translated
 PASS: wanderer / Sell: 54 texts, all translated
@@ -80,21 +80,44 @@ PASS: secret / Towers: 17 texts, all translated
 PASS: secret / Mods: 40 texts, all translated
 PASS: secret / Skins: 20 texts, all translated
 PASS: secret / Rarities: 25 texts, all translated
-PASS: barricade planner: 26 texts, all translated
-PASS: cheat menu: 50 texts, all translated
+PASS: barricade planner: 30 texts, all translated
+PASS: cheat menu: 67 texts, all translated
 PASS: tower build menu: 20 texts, all translated
 PASS: tower build menu / roof slot: 22 texts, all translated
 PASS: drone console: 10 texts, all translated
 PASS: leaderboard: 21 texts, all translated
 PASS: pause / briefing: 28 texts, all translated
 PASS: pause / difficulty: 18 texts, all translated
-PASS: pause / controls: 65 texts, all translated
+PASS: pause / controls: 69 texts, all translated
 PASS: pause / settings: 39 texts, all translated
 PASS: pause / achievements: 179 texts, all translated
-PASS: game over / summary: 120 texts, all translated
-PASS: game over / high scores: 101 texts, all translated
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+PASS: game over / summary: 0 texts, all translated
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+PASS: game over / high scores: 0 texts, all translated
 LANGUAGE_DONE lang=de checks=89 failures=0
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
-EXIT 0

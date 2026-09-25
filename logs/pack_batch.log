@@ -1,0 +1,51 @@
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip death5
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip scream
+  + clip walk
+  + clip walk2
+  pbr maps: restored (50075/50075 UVs)
+  simplified 54551 -> 33821 triangles
+zombie_spitter_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_spitter.glb (5.50 MB, clips: attack, attack2, death, death2, death3, death4, death5, hit, hit2, idle, scream, walk, walk2; textures: texture_0:4096x4096, normal:2048x2048, metal_rough:2048x2048)
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip death5
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip run
+  + clip scream
+  + clip walk
+  pbr maps: restored (86927/86927 UVs)
+  simplified 49538 -> 39277 triangles
+zombie_screamer_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_screamer.glb (8.26 MB, clips: attack, attack2, death, death2, death3, death4, death5, hit, hit2, idle, run, scream, walk; textures: texture_0:4096x4096, normal:2048x2048, metal_rough:2048x2048)
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip death5
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip run
+  + clip scream
+  + clip walk
+  pbr maps: restored (63204/63204 UVs)
+  simplified 51592 -> 31986 triangles
+zombie_stalker_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_stalker.glb (6.41 MB, clips: attack, attack2, death, death2, death3, death4, death5, hit, hit2, idle, run, scream, walk; textures: texture_0:4096x4096, normal:2048x2048, metal_rough:2048x2048)
+zombie_dog_v2: model.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_dog.glb (2.98 MB, clips: none; textures: normal:2048x2048, Image_0:2048x2048, Image_1:2048x2048)
+zombie_stag_v2: model.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_stag.glb (3.81 MB, clips: none; textures: normal:2048x2048, Image_0:2048x2048, Image_1:2048x2048)
+zombie_helmet: model.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_helmet.glb (0.56 MB, clips: none; textures: tex:1024x1024, tex:1024x1024, tex:1024x1024, tex:1024x1024)

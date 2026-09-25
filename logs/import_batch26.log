@@ -1,0 +1,157 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Projektinitialisierung (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Lese Dateistrucktur …[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Globale Klassennamen laden …[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifiziere GDExtensions…[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Autoload-Skripte erzeugen …[39m[0m
+SCRIPT ERROR: Parse Error: Could not preload resource script "res://scripts/coop_world.gd".
+   at: GDScript::reload (res://scripts/net_session.gd:142)
+SCRIPT ERROR: Parse Error: Could not resolve script "res://scripts/coop_world.gd".
+   at: GDScript::reload (res://scripts/net_session.gd:142)
+SCRIPT ERROR: Parse Error: Could not resolve script "res://scripts/coop_world.gd".
+   at: GDScript::reload (res://scripts/net_session.gd:611)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://scripts/online_lobby.gd:0)
+ERROR: Failed to load script "res://scripts/online_lobby.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to create an autoload, script 'res://scripts/net_session.gd' is not compiling.
+   at: _create_autoload (editor/settings/editor_autoload_settings.cpp:340)
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Plugins initialisieren…[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Dateiscan starten …[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Globale Klassen registrieren … (26 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | AcidGlob[39m[0m
+[   3% ] [90m[1mupdate_scripts_classes[22m | AcidPool[39m[0m
+[   7% ] [90m[1mupdate_scripts_classes[22m | Barricade[39m[0m
+[  11% ] [90m[1mupdate_scripts_classes[22m | BarricadeMenu[39m[0m
+[  14% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  18% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  22% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | DayNightCycle[39m[0m
+[  29% ] [90m[1mupdate_scripts_classes[22m | Foliage[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | Hud[39m[0m
+[  37% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  40% ] [90m[1mupdate_scripts_classes[22m | Minimap[39m[0m
+[  44% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  48% ] [90m[1mupdate_scripts_classes[22m | Pings[39m[0m
+[  51% ] [90m[1mupdate_scripts_classes[22m | Player[39m[0m
+[  55% ] [90m[1mupdate_scripts_classes[22m | RunStats[39m[0m
+[  59% ] [90m[1mupdate_scripts_classes[22m | SandbagLine[39m[0m
+[  62% ] [90m[1mupdate_scripts_classes[22m | Sfx[39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | ThrownTree[39m[0m
+[  70% ] [90m[1mupdate_scripts_classes[22m | Titan[39m[0m
+[  74% ] [90m[1mupdate_scripts_classes[22m | Trees[39m[0m
+[  77% ] [90m[1mupdate_scripts_classes[22m | Waves[39m[0m
+[  81% ] [90m[1mupdate_scripts_classes[22m | Weapons[39m[0m
+[  85% ] [90m[1mupdate_scripts_classes[22m | Weather[39m[0m
+[  88% ] [90m[1mupdate_scripts_classes[22m | Zombie[39m[0m
+[  92% ] [90m[1mupdate_scripts_classes[22m | ZombieBeast[39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Aktionen scannen … (14 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | acid_spit.wav[39m[0m
+[   6% ] [90m[1m_update_scan_actions[22m | acid_splash.wav[39m[0m
+[  13% ] [90m[1m_update_scan_actions[22m | helmet_ping.wav[39m[0m
+[  20% ] [90m[1m_update_scan_actions[22m | radio_ping.wav[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | screamer_call.wav[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | thunder_1.wav[39m[0m
+[  40% ] [90m[1m_update_scan_actions[22m | thunder_2.wav[39m[0m
+[  46% ] [90m[1m_update_scan_actions[22m | thunder_3.wav[39m[0m
+[  53% ] [90m[1m_update_scan_actions[22m | zombie_dog.glb[39m[0m
+[  60% ] [90m[1m_update_scan_actions[22m | zombie_helmet.glb[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | zombie_screamer.glb[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | zombie_spitter.glb[39m[0m
+[  80% ] [90m[1m_update_scan_actions[22m | zombie_stag.glb[39m[0m
+[  86% ] [90m[1m_update_scan_actions[22m | zombie_stalker.glb[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started Assets (erneut) importieren (14 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   6% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  13% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  20% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  26% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  33% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  40% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  46% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  53% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  60% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  66% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  73% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  80% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  86% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   0% ] [90m[1mreimport[22m | Vor-Neuimport-Operationen ausführen …[39m[0m
+[   0% ] [90m[1mreimport[22m | acid_spit.wav[39m[0m
+[   6% ] [90m[1mreimport[22m | acid_splash.wav[39m[0m
+[  13% ] [90m[1mreimport[22m | helmet_ping.wav[39m[0m
+[  20% ] [90m[1mreimport[22m | radio_ping.wav[39m[0m
+[  26% ] [90m[1mreimport[22m | screamer_call.wav[39m[0m
+[  33% ] [90m[1mreimport[22m | thunder_1.wav[39m[0m
+[  40% ] [90m[1mreimport[22m | thunder_2.wav[39m[0m
+[  46% ] [90m[1mreimport[22m | thunder_3.wav[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_dog.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  60% ] [90m[1mreimport[22m | zombie_helmet.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  66% ] [90m[1mreimport[22m | zombie_screamer.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  73% ] [90m[1mreimport[22m | zombie_spitter.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  80% ] [90m[1mreimport[22m | zombie_stag.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  86% ] [90m[1mreimport[22m | zombie_stalker.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  93% ] [90m[1mreimport[22m | Asset-Import fertigstellen …[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started Assets (erneut) importieren (14 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Nach-Neuimport-Operationen ausführen …[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Editor laden (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Editor-Layout laden …[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Docks laden …[39m[0m
+[  33% ] [90m[1mloading_editor_layout[22m | Öffne Szenen neu…[39m[0m
+SCRIPT ERROR: Parse Error: Invalid argument for "callout()" function: argument 4 should be "String" but is "Dictionary".
+   at: GDScript::reload (res://scripts/main.gd:2567)
+SCRIPT ERROR: Parse Error: Invalid argument for "callout()" function: argument 4 should be "String" but is "Dictionary".
+   at: GDScript::reload (res://scripts/main.gd:2609)
+ERROR: Failed to load script "res://scripts/main.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+[  50% ] [90m[1mloading_editor_layout[22m | Zentrales Editor-Layout laden …[39m[0m
+[  66% ] [90m[1mloading_editor_layout[22m | Pluginfensterlayout laden …[39m[0m
+[  83% ] [90m[1mloading_editor_layout[22m | Editorlayout bereit.[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

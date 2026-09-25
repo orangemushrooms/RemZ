@@ -14,6 +14,7 @@ PASS: Field crows fly without being scared
 PASS: Forest owls fly at night
 PASS: Forest owls are hidden and silent during daytime
 PASS: Static map meshes are batched
+PASS: Grass has independently culled cells
 PASS: Graphics profile 0 applies
 PASS: Graphics profile 1 applies
 PASS: Graphics profile 2 applies
@@ -82,13 +83,13 @@ PASS: Pause freezes grenade fuse and physics
 PASS: Resume continues grenade simulation
 PASS: Remote skill menu no longer grants purchases
 PASS: Closing skills resumes combat
+PASS: A fatal hit puts the player down first (26 Sep 2026)
 PASS: Death freezes gameplay and shows restart
 RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
 COOP_LOAD MAP_READY
 PASS: Restart resets health, waves and enemies
 PASS: Restart goes straight into the next round
-SMOKE_DONE checks=81 failures=0
+SMOKE_DONE checks=83 failures=0
 ERROR: 2 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 2 ObjectDB instances were leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
-EXIT 0

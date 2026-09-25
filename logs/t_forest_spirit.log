@@ -1,0 +1,33 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: The Forest Spirit is a boss of its own kind
+PASS: Its model exists
+PASS: The local rig carries walk, attack, pulse, death and idle clips (["attack", "attack2", "death", "hit", "idle", "pulse", "scream", "walk"])
+PASS: The reduced mesh stays in budget (167449 triangles)
+PASS: Lesser-titan waves sometimes bring the Forest Spirit (15 of 60 plans)
+PASS: ... but not every time
+PASS: The spirit enters from a lane like a titan
+PASS: Its arrival is announced
+PASS: It stands 3.4 m tall with a boss's health (2805)
+PASS: Five bone volumes plus the capsule take the shots
+PASS: The head volume counts as a headshot
+PASS: It walks its rig
+PASS: The pulse ring waits hidden
+PASS: A spirit stands six metres from the player
+PASS: It winds up a pulse within reach (after 4.0 s)
+PASS: The pulse fires and goes on cooldown
+PASS: The pulse hurts the player (100 -> 53)
+PASS: ... and throws them back
+PASS: The boss state carries the pulse serial
+PASS: The co-op snapshot carries its boss state
+PASS: A replica mirrors the pulse
+PASS: It takes damage without being knocked around
+PASS: It dies with its clip and hides the ring
+FOREST_SPIRIT_DONE checks=23 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

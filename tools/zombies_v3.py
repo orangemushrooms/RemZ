@@ -118,6 +118,26 @@ SPECS = {
                'feet, small head sunk into the shoulders, gaping jaw.' + DECAY + POSE,
         texture=SKIN_TEX + 'bloated pale yellow-grey skin with pus-filled boils, burst stretch marks, torn dirty blue overalls.' + TEX_END,
         anims=dict(SHAMBLE, walk=119, walk2=112, attack2=128, idle=255), polycount=55000),
+    # 26 Sep 2026: the three special infected of the weather / mutation batch (spitter, screamer, stalker)
+    'zombie_spitter': dict(
+        prompt='Photorealistic AAA game character, a bloated acid zombie: grotesquely swollen bare torso, translucent '
+               'yellow-green skin with glowing acid sacs on the throat, chest and belly, burst boils, green slime '
+               'dripping from the mouth, torn brown overalls hanging from the waist, bare feet, head sunk into the '
+               'shoulders, jaw hanging open.' + DECAY + POSE,
+        texture=SKIN_TEX + 'translucent yellow-green bloated skin lit from within by lime-green acid sacs, burst boils, green slime, torn brown overalls.' + TEX_END,
+        anims=dict(SHAMBLE, walk=119, walk2=112, attack2=128, idle=255), polycount=55000),
+    'zombie_screamer': dict(
+        prompt='Photorealistic AAA game character, a screamer zombie woman: gaunt emaciated body, chalk-white dead '
+               'skin, black veins spreading from a torn-open gaping mouth with the jaw ripped wide, black hollow eye '
+               'sockets, long matted black hair, shredded grey hospital gown to the knees, bare feet.' + DECAY + POSE,
+        texture=SKIN_TEX + 'chalk-white necrotic skin with black veins, black hollow eye sockets, torn grey cotton gown with dark blood, matted black hair.' + TEX_END,
+        anims=dict(RUNNER, run=510), polycount=50000),
+    'zombie_stalker': dict(
+        prompt='Photorealistic AAA game character, a stalker zombie that hides in maize fields: lean wiry body, '
+               'soot-black mud-caked skin and rags, dried corn husks and leaves stuck all over the body and head, '
+               'ragged dark trousers, bare feet, hunched posture, pale glinting eyes, mouth open.' + DECAY + POSE,
+        texture=SKIN_TEX + 'soot-black mud-caked skin, very dark matte rags, dried yellow corn husks and leaves stuck to the body, pale eyes.' + TEX_END,
+        anims=dict(RUNNER, walk=559), polycount=50000),
     'zombie_titan': dict(
         prompt='Photorealistic AAA game character, a colossal grotesque zombie titan: emaciated giant humanoid with '
                'overlong arms and huge clawed hands, exposed ribcage and spine, torn grey rotting skin hanging in '

@@ -12,12 +12,36 @@ const TYPES := {
 	"titan_siege": {"name": "SIEGE TITAN", "model": "zombie_bloater", "hp": 3600.0, "speed": 2.6, "damage": 80.0, "reach": 10.0, "attack_time": 4.5, "score": 350, "height": 14.0, "tint": Color(0.7, 0.66, 0.51), "giant": true, "blast_radius": 6.0, "windup": 2.8, "recovery": 2.0, "structure_mul": 1.6, "warning_color": Color(1.0, 0.68, 0.1)},
 	"titan_ash": {"name": "ASH TITAN", "model": "zombie_titan", "hp": 3000.0, "speed": 3.6, "damage": 60.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
 	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 4200.0, "speed": 4.2, "damage": 70.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
+	"forest_spirit": {"name": "THE FOREST SPIRIT", "model": "zombie_forest_spirit", "hp": 1650.0, "speed": 3.0, "damage": 24.0, "reach": 2.5, "attack_time": 1.8, "score": 220, "height": 3.4, "boss": true, "tint": Color.WHITE},
 	"shambler": { "model": "zombie_shambler", "skins": ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma"], "hp": 120.0, "speed": 1.75, "damage": 15.0, "reach": 1.6, "attack_time": 1.0, "score": 10, "height": 1.8 },
 	"runner": { "model": "zombie_runner", "skins": ["zombie_runner", "zombie_jogger"], "hp": 75.0, "speed": 4.6, "damage": 11.0, "reach": 1.4, "attack_time": 0.6, "score": 15, "height": 1.7 },
 	"brute":    { "model": "zombie_bloater", "fallback": "zombie_shambler", "hp": 420.0, "speed": 1.35, "damage": 34.0, "reach": 2.0, "attack_time": 1.5, "score": 40, "height": 2.3, "tint": Color(0.9, 0.85, 0.6) },
 	"nurse":    { "model": "zombie_nurse", "fallback": "zombie_runner", "hp": 95.0, "speed": 2.9, "damage": 13.0, "reach": 1.5, "attack_time": 0.85, "score": 15, "height": 1.7 },
 	"soldier":  { "model": "zombie_soldier", "skins": ["zombie_soldier", "zombie_forester"], "fallback": "zombie_shambler", "hp": 230.0, "speed": 2.1, "damage": 21.0, "reach": 1.6, "attack_time": 0.95, "score": 25, "height": 1.85 },
+	# 26 Sep 2026, the special infected. "ranged": the spitter lobs acid at gates, the hut and players from
+	# min..range metres (acid_pool seconds of structure damage per second). "screamer": on sight it calls the
+	# horde: every zombie within call_radius hunts the marked player, "call" runners join the wave, the player
+	# is marked on every minimap for "mark" seconds. "stalker": spawns only in the maize (weather / night) and
+	# is invisible unless a flashlight beam is on it. "beast": rig-less Meshy animals moved by zombie_beast.gd
+	# (the dog lunges, the stag charges and rams).
+	"spitter":  { "name": "SPITTER", "model": "zombie_spitter", "fallback": "zombie_bloater", "hp": 260.0, "speed": 1.5, "damage": 14.0, "reach": 1.8, "attack_time": 1.4, "score": 35, "height": 2.15,
+		"ranged": {"range": 17.0, "min": 5.0, "cooldown": 4.2, "damage": 22.0, "structure": 95.0, "acid": 6.5, "speed": 15.0} },
+	"screamer": { "name": "SCREAMER", "model": "zombie_screamer", "fallback": "zombie_nurse", "hp": 150.0, "speed": 2.7, "damage": 12.0, "reach": 1.5, "attack_time": 0.9, "score": 45, "height": 1.72,
+		"screamer": {"range": 24.0, "cooldown": 22.0, "call": 3, "mark": 12.0, "call_radius": 70.0} },
+	"stalker":  { "name": "STALKER", "model": "zombie_stalker", "fallback": "zombie_jogger", "hp": 110.0, "speed": 3.4, "damage": 19.0, "reach": 1.5, "attack_time": 0.8, "score": 40, "height": 1.72, "stalker": true },
+	"zombie_dog": { "name": "FARM DOG", "model": "zombie_dog", "hp": 65.0, "speed": 7.2, "damage": 12.0, "reach": 1.5, "attack_time": 0.7, "score": 20, "height": 0.8,
+		"beast": {"length": 1.35, "lunge": 0.5} },
+	"zombie_stag": { "name": "ZOMBIE STAG", "model": "zombie_stag", "fallback": "stag", "hp": 400.0, "speed": 5.0, "damage": 24.0, "reach": 2.2, "attack_time": 2.2, "score": 70, "height": 1.75,
+		"beast": {"length": 2.5, "charge": 11.5, "ram": 34.0, "ram_structure": 110.0, "charge_range": 28.0, "cooldown": 6.0} },
 }
+# blood moon (day_night_cycle.gd): every zombie walks this much faster while the red moon is up
+static var horde_pace := 1.0
+# the helmet of an armored zombie (waves >= 10): headshots ring off it until it is shot away
+const HELMET_HP := 70.0
+const HELMET_SHARE := 0.2          # share of a deflected headshot that still reaches the body
+static var _helmet_scene: PackedScene
+static var _helmet_material: StandardMaterial3D
+static var _helmet_loaded := false
 
 var type: Dictionary
 var hp: float
@@ -70,6 +94,16 @@ var killer_weapon := ""          # weapon id of the fatal shot ("" = grenade / o
 var killer_peer := 1
 var damage_peers: Dictionary = {} # Contributors for this enemy's lifetime, host only.
 var net_kind := "shambler"
+var armored := false               # host decision before add_child: carries a helmet (see HELMET_HP)
+var helmet_hp := 0.0
+var _helmet: Node3D
+var _helmet_gone := false
+var cloak := 1.0                   # stalkers: 1 fully visible .. 0.07 a shimmer (see _update_cloak)
+var _reveal_t := 0.0               # lightning: cold white glow for a moment (weather.gd)
+var _spit_pending := 0.0
+var _spit_target := Vector3.INF
+var _call_t := 0.0                 # screamer: seconds until it may call the horde again
+var calls := 0                     # screamer: horde calls so far (tests, statistics)
 var model_path := ""
 var appearance_seed := 0
 var replica := false
@@ -148,8 +182,8 @@ static func preload_models(host: Node = null) -> void:
 				if _scenes[path]:
 					_scenes[path] = preload("res://scripts/zombie_animation.gd").prepare(_scenes[path], host)
 					var source: Node3D = _scenes[path].instantiate()
-					_prepare_hitbox_shapes(source, path)
-					if not bool(spec.get("giant", false)) and not bool(spec.get("worm", false)): ZombieGore.prepare(source, path)
+					if not bool(spec.get("boss", false)): _prepare_hitbox_shapes(source, path)
+					if not bool(spec.get("giant", false)) and not bool(spec.get("worm", false)) and not bool(spec.get("boss", false)): ZombieGore.prepare(source, path)
 					source.free()
 			if _scenes[path] and not _clip_info.has(path):
 				_clip_info[path] = preload("res://scripts/zombie_animation.gd").measure(_scenes[path], host)
@@ -253,7 +287,17 @@ static func is_worm_kind(kind: String) -> bool:
 	return bool(TYPES.get(kind, {}).get("worm", false))
 
 static func is_boss_kind(kind: String) -> bool:
-	return is_titan_kind(kind) or is_worm_kind(kind)
+	return is_titan_kind(kind) or is_worm_kind(kind) or bool(TYPES.get(kind, {}).get("boss", false))
+
+static func is_beast_kind(kind: String) -> bool:
+	return TYPES.get(kind, {}).has("beast")
+
+static func is_stalker_kind(kind: String) -> bool:
+	return bool(TYPES.get(kind, {}).get("stalker", false))
+
+# common humanoids that may wear the helmet of the mutation (never bosses, beasts or the stalker)
+static func can_be_armored(kind: String) -> bool:
+	return kind in ["shambler", "soldier", "brute", "spitter", "nurse"]
 
 func targetable() -> bool:
 	return alive
@@ -341,6 +385,9 @@ func _ready() -> void:
 					dup.emission_enabled = true
 					dup.emission = Color.BLACK
 					dup.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+					if bool(type.get("stalker", false)):
+						dup.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
+						dup.albedo_color.a = 0.07
 					mi.set_surface_override_material(i, dup)
 					_materials.append(dup)
 					overrides.append(dup)
@@ -352,7 +399,7 @@ func _ready() -> void:
 		model.scale *= scale_var
 		_build_hitboxes()
 		# the cut into body and parts comes after the hit shapes: they are keyed on the original mesh node
-		if not bool(type.get("giant", false)) and not bool(type.get("worm", false)) and not "--no-gore" in OS.get_cmdline_user_args():
+		if not is_boss_kind(net_kind) and not "--no-gore" in OS.get_cmdline_user_args():
 			ZombieGore.prepare(model, model_path)
 			_gore_parts = ZombieGore.attach(model, model_path, _gore_overrides)
 			for part in _gore_parts.values(): _visual_meshes.append(part)
@@ -360,7 +407,10 @@ func _ready() -> void:
 			collision_layer = 2
 		add_to_group("shot_targets")
 		_build_head_look()
+		if armored: _build_helmet()
+		if bool(type.get("stalker", false)): cloak = 0.07
 	_anim_last_pos = global_position
+	agent.max_speed = float(type["speed"]) * speed_mul * 1.45   # headroom for the blood moon pace
 
 func _build_head_look() -> void:
 	if bool(type.get("giant", false)) or bool(type.get("worm", false)) or "--no-headlook" in OS.get_cmdline_user_args(): return
@@ -421,6 +471,183 @@ func _update_head_look(delta: float) -> void:
 		want = clampf((HEAD_LOOK_RANGE - d) / 4.0, 0.0, 1.0) * 0.85
 	_head_look.influence = lerpf(_head_look.influence, want, 1.0 - exp(-delta * 6.0))
 	_head_look.active = _head_look.influence > 0.01
+
+# ---------------------------------------------------------------- the mutation: a steel helmet
+static func _load_helmet() -> void:
+	if _helmet_loaded: return
+	_helmet_loaded = true
+	var path := "res://assets/models/zombie_helmet.glb"
+	_helmet_scene = load(path) if ResourceLoader.exists(path) else null
+	_helmet_material = StandardMaterial3D.new()
+	_helmet_material.albedo_color = Color(0.3, 0.32, 0.3)
+	_helmet_material.metallic = 0.8
+	_helmet_material.roughness = 0.55
+
+# The helmet hangs on the Head bone through a BoneAttachment3D. Bone space is centimetres times the model
+# scale, so every size is divided by the rig's world scale; the bone's own axes are read off its rest pose
+# (Meshy heads sit tilted), the helmet's dome points along the bone axis that is world-up in rest.
+func _build_helmet() -> void:
+	if not model: return
+	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D
+	if not rig: return
+	var head := rig.find_bone("Head")
+	if head < 0: return
+	_load_helmet()
+	helmet_hp = HELMET_HP
+	var attachment := BoneAttachment3D.new()
+	attachment.name = "Helmet"
+	attachment.bone_name = rig.get_bone_name(head)
+	rig.add_child(attachment)
+	_helmet = attachment
+	var world_scale: float = maxf(rig.global_transform.basis.get_scale().y, 0.0001)
+	var unit := 1.0 / world_scale                      # bone-space units per metre
+	var rest := rig.get_bone_global_rest(head).basis
+	var inverse := rest.inverse()
+	var up := (inverse * Vector3.UP).normalized()
+	var forward := (inverse * Vector3.FORWARD * -1.0).normalized()   # the rig faces +Z
+	var frame := Basis()
+	frame.y = up
+	frame.z = forward
+	frame.x = up.cross(forward).normalized()
+	frame.z = frame.x.cross(up).normalized()
+	frame = frame.orthonormalized()
+	var holder := Node3D.new()
+	holder.transform = Transform3D(frame, up * 0.115 * unit)
+	attachment.add_child(holder)
+	var visual: Node3D
+	if _helmet_scene:
+		visual = _helmet_scene.instantiate()
+		var bounds := Barricade._bounds(visual)
+		var longest := maxf(maxf(bounds.size.x, bounds.size.z), 0.001)
+		var fit := 0.31 * unit / longest
+		visual.scale = Vector3.ONE * fit
+		visual.position = -Vector3(bounds.get_center().x, bounds.position.y, bounds.get_center().z) * fit
+		for mesh: MeshInstance3D in visual.find_children("*", "MeshInstance3D", true, false):
+			for i in mesh.mesh.get_surface_count():
+				var source := mesh.mesh.surface_get_material(i) as BaseMaterial3D
+				if source:
+					var dark := source.duplicate() as BaseMaterial3D
+					dark.albedo_color = Color(0.55, 0.58, 0.5)
+					dark.metallic = 0.6
+					dark.roughness = 0.6
+					mesh.set_surface_override_material(i, dark)
+	else:
+		visual = Node3D.new()
+		var dome := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		sphere.radius = 0.14 * unit
+		sphere.height = 0.2 * unit
+		dome.mesh = sphere
+		dome.scale = Vector3(1.0, 0.85, 1.1)
+		dome.material_override = _helmet_material
+		visual.add_child(dome)
+		var brim := MeshInstance3D.new()
+		var ring := TorusMesh.new()
+		ring.inner_radius = 0.13 * unit
+		ring.outer_radius = 0.165 * unit
+		brim.mesh = ring
+		brim.position.y = -0.05 * unit
+		brim.material_override = _helmet_material
+		visual.add_child(brim)
+	holder.add_child(visual)
+
+# A headshot on a helmeted zombie: the helmet takes the hit, the body only HELMET_SHARE of it, no headshot
+# bonus. The last hit knocks the helmet off (a tumbling chunk), after that heads pop as usual.
+func hit_helmet(damage: float, dir: Vector3) -> float:
+	if helmet_hp <= 0.0: return damage
+	helmet_hp -= damage
+	Sfx.play_at(get_parent(), "helmet_ping", global_position + Vector3.UP * height * 0.9, -6.0, randf_range(0.9, 1.15), 5.0, 50.0)
+	if helmet_hp <= 0.0:
+		helmet_hp = 0.0
+		drop_helmet(dir)
+	return damage * HELMET_SHARE
+
+func drop_helmet(dir: Vector3) -> void:
+	if _helmet_gone: return
+	_helmet_gone = true
+	helmet_hp = 0.0
+	if not is_instance_valid(_helmet): return
+	var holder := _helmet.get_child(0) if _helmet.get_child_count() > 0 else null
+	var origin := _helmet.global_position
+	if holder:
+		var chunk := RigidBody3D.new()
+		chunk.collision_layer = 0
+		chunk.collision_mask = 1 | 8
+		chunk.mass = 1.2
+		chunk.angular_damp = 1.0
+		var shape := CollisionShape3D.new()
+		var ball := SphereShape3D.new()
+		ball.radius = 0.15
+		shape.shape = ball
+		chunk.add_child(shape)
+		var visual := Node3D.new()
+		chunk.add_child(visual)
+		# the helmet's own scale is bone space: rebuild it at world size on the chunk
+		var world_scale: float = maxf(_helmet.global_transform.basis.get_scale().y, 0.0001)
+		_helmet.remove_child(holder)
+		visual.add_child(holder)
+		holder.transform = Transform3D(holder.basis.orthonormalized().scaled(Vector3.ONE * world_scale), Vector3.ZERO)
+		holder.scale = Vector3.ONE * world_scale
+		holder.position = Vector3.ZERO
+		get_parent().add_child(chunk)
+		chunk.global_position = origin + Vector3.UP * 0.1
+		var push := (Vector3(dir.x, 0.0, dir.z).normalized() if dir.length() > 0.01 else Vector3.UP) * randf_range(2.0, 3.5) + Vector3.UP * randf_range(2.5, 4.0)
+		chunk.linear_velocity = push
+		chunk.angular_velocity = Vector3(randf_range(-8, 8), randf_range(-8, 8), randf_range(-8, 8))
+		var cleanup := get_tree().create_timer(12.0)
+		cleanup.timeout.connect(func(): if is_instance_valid(chunk): chunk.queue_free())
+	_helmet.queue_free()
+	_helmet = null
+
+# replicas: the host's helmet state (snapshot fields 15 / 16)
+func apply_helmet(hp: float, has_armor: bool) -> void:
+	if has_armor and not armored:
+		armored = true
+		if model and not _helmet and hp > 0.0: _build_helmet()
+	helmet_hp = hp
+	if armored and hp <= 0.0 and not _helmet_gone: drop_helmet(Vector3.UP)
+
+# ---------------------------------------------------------------- the stalker's cloak
+# Nearly invisible unless a flashlight beam (anyone's) is on it, it is swinging, it was just hit, lightning
+# lights the forest or it is dead. Runs on host and replicas alike from what each peer can see.
+const CLOAK_HIDDEN := 0.07
+const CLOAK_RANGE := 30.0
+
+func _lit_by_flashlight() -> bool:
+	var actors: Array = NetSession.world.actors.values() if NetSession.enabled and NetSession.world else [player]
+	var centre := global_position + Vector3.UP * height * 0.5
+	for actor in actors:
+		if not is_instance_valid(actor) or not (actor is Player) or not actor.flashlight or not actor.flashlight.visible: continue
+		var light: SpotLight3D = actor.flashlight
+		if not light.is_inside_tree(): continue
+		var to := centre - light.global_position
+		var d := to.length()
+		if d > CLOAK_RANGE or d < 0.01: continue
+		var cosine := (-light.global_basis.z).normalized().dot(to / d)
+		if cosine >= cos(deg_to_rad(light.spot_angle) * 0.85 + 0.03): return true
+	return false
+
+func _update_cloak(delta: float) -> void:
+	var lit := not alive or state == "attack" or _flash_t > 0.0 or _reveal_t > 0.0 or _lit_by_flashlight()
+	var target := 1.0 if lit else CLOAK_HIDDEN
+	cloak = move_toward(cloak, target, delta * (5.0 if lit else 1.2))
+	for material in _materials:
+		material.albedo_color.a = cloak
+	var shadows := cloak > 0.5
+	if shadows != _cloak_shadows:
+		_cloak_shadows = shadows
+		for mesh in _visual_meshes:
+			if is_instance_valid(mesh): mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if shadows else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+var _cloak_shadows := true
+
+func visible_on_map() -> bool:
+	return not bool(type.get("stalker", false)) or cloak > 0.5
+
+# A lightning strike (weather.gd): the body glows cold white for a moment, so the whole horde stands out.
+func lightning_reveal(seconds: float) -> void:
+	_reveal_t = maxf(_reveal_t, seconds)
+	for material in _materials:
+		material.emission = Color(0.62, 0.72, 0.95)
 
 # The gait this body walks with: runners take the run clip, everyone else one of the walk variants.
 func _pick_locomotion(rng: RandomNumberGenerator) -> String:
@@ -800,6 +1027,7 @@ func _flash() -> void:
 	_set_emission(true)
 
 func _set_emission(on: bool) -> void:
+	if _reveal_t > 0.0 and not on: return   # the lightning glow outlasts the hit flash
 	for material in _materials:
 		material.emission = Color(0.5, 0.1, 0.1) if on else Color.BLACK
 
@@ -993,9 +1221,14 @@ func update_rare_visual() -> void:
 func _physics_process(delta: float) -> void:
 	update_rare_visual()
 	_update_animation(delta)
+	if _reveal_t > 0.0:
+		_reveal_t -= delta
+		if _reveal_t <= 0.0:
+			for material in _materials: material.emission = Color(0.5, 0.1, 0.1) if _flash_t > 0.0 else Color.BLACK
 	if _flash_t > 0.0:
 		_flash_t -= delta
 		if _flash_t <= 0.0: _set_emission(false)
+	if bool(type.get("stalker", false)) and model: _update_cloak(delta)
 	if replica:
 		global_position = global_position.lerp(net_position, 1.0-exp(-delta*16.0))
 		rotation.y = lerp_angle(rotation.y, net_yaw, 1.0-exp(-delta*16.0))
@@ -1007,7 +1240,9 @@ func _physics_process(delta: float) -> void:
 			_pool.modulate.a = minf(1.0, 0.3 + growth)
 			_pool_complete = growth >= 1.0
 		return
-	if NetSession.enabled:
+	var marked := _marked_player()
+	if marked: player = marked
+	elif NetSession.enabled:
 		var target_player := NetSession.nearest_player(global_position)
 		if target_player: player = target_player
 	if not alive:
@@ -1076,12 +1311,17 @@ func _physics_process(delta: float) -> void:
 		return
 	if NavigationServer3D.map_get_iteration_id(agent.get_navigation_map()) == 0:
 		return
+	if _special_move(delta): return
 	var player_priority := _nearby_player_priority(delta)
 	_update_hunt(delta)
 	var p := global_position
 	var to_player := player.global_position - p
 	to_player.y = 0.0
 	var dist := to_player.length()
+	if _call_t > 0.0: _call_t -= delta
+	if _spit_pending > 0.0:
+		_spit_pending -= delta
+		if _spit_pending <= 0.0: _spit()
 	_decision_time -= delta
 	if _decision_time <= 0.0 or (not is_instance_valid(_decision_target) and _decision_target != null):
 		_decision_time = 0.16 + float(appearance_seed % 7) * 0.01
@@ -1097,7 +1337,25 @@ func _physics_process(delta: float) -> void:
 	var to_target := target - p
 	to_target.y = 0.0
 	var d := to_target.length()
-	if not _screamed and dist < SCREAM_RANGE and d > 6.0:
+	if type.has("screamer") and _call_t <= 0.0 and dist < float(type.screamer.range) and state == "walk" and attack_t <= 0.0 and _sees(player.global_position + Vector3.UP):
+		_call_horde()
+		return
+	if type.has("ranged") and attack_t <= 0.0 and state == "walk" and _spit_pending <= 0.0:
+		var spit_at := _spit_point(bar)
+		var sd := Vector2(spit_at.x - p.x, spit_at.z - p.z).length()
+		if sd >= float(type.ranged.min) and sd <= float(type.ranged.range) and _sees(spit_at, bar):
+			play("attack")
+			attack_t = float(type.ranged.cooldown)
+			_spit_pending = 0.45
+			_spit_target = spit_at
+			velocity.x = 0.0
+			velocity.z = 0.0
+			agent.velocity = Vector3.ZERO
+			rotation.y = lerp_angle(rotation.y, atan2(spit_at.x - p.x, spit_at.z - p.z), 1.0)
+			if not is_on_floor(): velocity.y -= 20.0 * delta
+			move_and_slide()
+			return
+	if not _screamed and dist < SCREAM_RANGE and d > 6.0 and not type.has("screamer"):
 		# once, on first sight of the player: some of them stop and scream (rigs with the clip only, never
 		# with a gate, wall or victim already within a few steps)
 		_screamed = true
@@ -1143,7 +1401,7 @@ func _physics_process(delta: float) -> void:
 			if hunting and bar == null and _can_hit(null):
 				# An open approach must not stall at an obsolete or finished path.
 				mv = to_player
-			var sp: float = type["speed"] * speed_mul * frost_mul
+			var sp: float = type["speed"] * speed_mul * frost_mul * horde_pace
 			var want: Vector3 = mv.normalized() * sp if mv.length() > 0.05 else Vector3.ZERO
 			if agent.avoidance_enabled:
 				agent.set_velocity(want)
@@ -1173,6 +1431,54 @@ func _physics_process(delta: float) -> void:
 	if growl_t <= 0.0 and dist < 25.0:
 		growl_t = randf_range(4.0, 12.0)
 		Sfx.play_at(get_parent(), "growl", global_position, -5.0)
+
+# Beasts (zombie_beast.gd) put their charge here; true = the move owned this tick.
+func _special_move(_delta: float) -> bool:
+	return false
+
+# the player a screamer marked (main.marked_player): every zombie on the map goes for them
+func _marked_player() -> Player:
+	var scene := get_tree().current_scene
+	if scene and scene.has_method("marked_player"):
+		var marked = scene.marked_player()
+		if marked is Player and marked.alive: return marked
+	return null
+
+# a clear line from the eyes to a point; a hit on the very thing aimed at (a gate's body, the hut) counts as clear
+func _sees(target: Vector3, aimed: Node3D = null) -> bool:
+	var query := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP * height * 0.8, target, 1 | 8, [get_rid()])
+	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	if hit.is_empty(): return true
+	if hit.collider is Node and (hit.collider as Node).is_in_group("hut_body"): return true
+	if aimed and "body" in aimed and hit.collider == aimed.body: return true
+	return false
+
+# ---- the spitter: a glob of acid at the gate, the hut wall or the player it is walking towards
+func _spit_point(bar: Node3D) -> Vector3:
+	if bar and is_instance_valid(bar) and bar.has_method("attack_point"):
+		var at: Vector3 = bar.attack_point(global_position)
+		return at + Vector3.UP * (0.7 if bar is Barricade else 1.2)
+	return player.global_position + Vector3.UP * 0.4
+
+func _spit() -> void:
+	if not alive or replica or NetSession.is_client() or not _spit_target.is_finite(): return
+	var scene := get_tree().current_scene
+	if not scene or not scene.has_method("acid_spit"): return
+	var mouth := global_position + Vector3.UP * height * 0.78 + global_basis.z * 0.5
+	scene.acid_spit(mouth, _spit_target, self)
+	_spit_target = Vector3.INF
+
+# ---- the screamer: rooted for its cry, the horde and the map learn where the player is
+func _call_horde() -> void:
+	_call_t = float(type.screamer.cooldown)
+	calls += 1
+	play("scream")
+	_scream_t = 2.4
+	attack_t = maxf(attack_t, 2.7)
+	velocity = Vector3.ZERO
+	agent.velocity = Vector3.ZERO
+	var scene := get_tree().current_scene
+	if scene and scene.has_method("horde_call"): scene.horde_call(self, player)
 
 # Reconsider strategic targets at staggered intervals. Movement, animation,
 # hit timing, range checks and damage still run every physics tick.
@@ -1373,7 +1679,7 @@ func _hit_palisade(amount: float) -> void:
 	var nearest: Barricade = null
 	var best := INF
 	for b in barricades:
-		if not b is Barricade or b.level <= 0 or b.hp <= 0.0: continue
+		if not b is Barricade or b.level <= 0 or b.hp <= 0.0 or not b.is_gate(): continue
 		var d: float = b.distance_to_line(global_position)
 		if d < best:
 			best = d

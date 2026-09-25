@@ -1,0 +1,41 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+NAV_WAIT paused=false region_enabled=true server_enabled=true iteration=2 polygons=25293 map=RID(343597383680) registered_map=RID(343597383680)
+COOP_LOAD MAP_READY
+PASS: The player starts up with one self revive
+PASS: A fatal hit puts the player down, not dead
+PASS: The bleed-out clock starts and the game goes on
+PASS: Going down is announced
+PASS: The radio calls the down and the statistics count it
+PASS: The HUD shows the down panel
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+PASS: Down means crouched
+PASS: A hit while down bleeds the clock instead of the health (19.00)
+PASS: Health stays at zero while down
+PASS: No regeneration while down
+PASS: Holding E fills the bar
+PASS: Letting go drains it
+PASS: Four seconds of E get the player back up with 40 HP (down false hp 40.0 revives 0 hold 0.00)
+PASS: Regeneration waits after getting up
+PASS: The down panel is gone
+PASS: A cleared wave restores the self revive
+PASS: Down again in the next wave (down true alive true hp 0.0)
+PASS: A wave cleared while down gets the player up with half health
+PASS: Down with no self revive left
+PASS: Holding E does nothing without a self revive
+PASS: Bleeding out ends the round
+PASS: ... with the death screen
+DOWNED_DONE checks=22 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

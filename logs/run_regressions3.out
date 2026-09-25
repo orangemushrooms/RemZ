@@ -1,0 +1,7 @@
+forest_spirit        BAD exit=1 38s FOREST_SPIRIT_DONE checks=23 failures=1 FAIL: It winds up a pulse within reach (after 4.0 s) 
+titan_variants       BAD exit=1 32s TITAN_VARIANTS_DONE checks=66 failures=4 ERROR: FAIL: titan_hunter applies its actual strike damage | ERROR: FAIL: titan_siege applies its actual strike damage | ERROR: FAIL: titan_ash applies its actual strike damage | ERROR: FAIL: titan applies its actual strike damage 
+zombie_hitboxes      OK exit=0 13s ZOMBIE_HITBOXES_DONE checks=160 failures=0  
+horde_hit_precision  OK exit=0 17s HORDE_HIT_PRECISION_DONE checks=107 failures=0  
+missing_models       OK exit=0 3s MISSING_MODELS_DONE checks=72 failures=0  
+earthworms           BAD exit=1 25s EARTHWORMS_DONE checks=48 failures=2 ERROR: FAIL: Wave 12 normal worm has intended size, HP and bounded speed | ERROR: FAIL: Player inside unoccluded impact takes exactly one intended hit 
+REGRESSIONS_DONE

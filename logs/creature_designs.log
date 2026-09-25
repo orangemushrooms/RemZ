@@ -1,0 +1,19 @@
+18:06:24 design zombie_dog_v2
+18:06:24 design zombie_stag_v2
+TASK_CREATED: 01a0d951-6380-71cf-9351-f280d695f9cc
+TASK_CREATED: 01a0d951-638e-711a-9f68-10833b3320db
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (0s, poll #1)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (0s, poll #1)
+  [██████░░░░░░░░░░░░░░] 30% — IN_PROGRESS (5s, poll #2)
+  [██████░░░░░░░░░░░░░░] 30% — IN_PROGRESS (5s, poll #2)
+  [██████░░░░░░░░░░░░░░] 30% — IN_PROGRESS (12.5s, poll #3)
+  [██████░░░░░░░░░░░░░░] 30% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████████] 100% — SUCCEEDED (23.75s, poll #4)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\design.png...
+  [██████░░░░░░░░░░░░░░] 30% — IN_PROGRESS (23.75s, poll #4)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\design.png (1.0 MB)
+18:06:49 DESIGN READY zombie_dog_v2
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\design.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\design.png (0.9 MB)
+18:07:06 DESIGN READY zombie_stag_v2

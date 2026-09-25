@@ -37,6 +37,9 @@ func run() -> void:
 	z.damage(1e5, Vector3.FORWARD)
 	# death -> Nochmal
 	game.player.damage(1e5)
+	# 26 Sep 2026: a fatal hit only downs the player; bleed the clock out to reach the death screen
+	game.player.down_time = 0.0
+	game.player._update_down(0.1)
 	check(game.over and paused, "Death shows the game-over card")
 	var t1 := Time.get_ticks_msec()
 	game._on_start()
@@ -61,6 +64,9 @@ func run() -> void:
 	check(NetSession.phase == "running" and game.started and game.player.active, "Coop host starts solo")
 	game.waves.set_process(false)
 	game.player.damage(1e5)
+	# 26 Sep 2026: a fatal hit only downs the player; bleed the clock out to reach the death screen
+	game.player.down_time = 0.0
+	game.player._update_down(0.1)
 	await process_frame
 	check(NetSession.phase == "over" and game.over, "Host death ends the coop round")
 	t1 = Time.get_ticks_msec()

@@ -18,10 +18,24 @@ const NIGHT_DURATION_FACTOR := 0.8
 # clock runs on through the waves so the night actually arrives. reset_each_wave = true restores the old
 # "every wave starts in the morning" behaviour.
 const CONTINUOUS_DAY_MINUTES := 15.0
+# Moon phases and the blood moon (26 Sep 2026): every night that begins (the clock crossing 20:00) counts;
+# the phase runs over MOON_CYCLE nights (0 new, half way full), and every BLOOD_MOON_EVERY-th night the
+# moon rises blood red: the horde runs BLOOD_MOON_PACE times faster and every kill pays double
+# (main._zombie_killed). Weather (weather.gd) dims the sun through weather_dim / overcast.
+const MOON_CYCLE := 8
+const BLOOD_MOON_EVERY := 5
+const BLOOD_MOON_PACE := 1.25
+const BLOOD_MOON_TINT := Color(0.85, 0.2, 0.12)
+signal night_began(index: int)
+signal blood_moon_changed(active: bool)
 @export var time_scale := DAY_SECONDS / (CONTINUOUS_DAY_MINUTES * 60.0)
 @export var reset_each_wave := false
 var clock_seconds := MORNING_SECONDS
 var fire_energy_multiplier := 1.0
+var night_index := 0            # nights begun since the round started (the first evening makes it 1)
+var blood_moon_active := false
+var weather_dim := 1.0          # sun and ambient multiplier under clouds (weather.gd)
+var overcast := 0.0             # 0 clear .. 1 closed cloud lid (sky shader)
 var main: Node
 var environment: Environment
 var sun: DirectionalLight3D
@@ -43,6 +57,9 @@ func setup(game: Node, fill_light: DirectionalLight3D) -> void:
 	if "--continuous-day-night" in OS.get_cmdline_user_args():
 		time_scale = DAY_SECONDS / (CONTINUOUS_DAY_MINUTES * 60.0)
 		reset_each_wave = false
+	# "--blood-moon": the first evening of the round is already a blood night (screenshots, quick checks)
+	if "--blood-moon" in OS.get_cmdline_user_args():
+		night_index = BLOOD_MOON_EVERY - 1
 	# Only fixtures opt in. Muzzle flashes, loot lights and the flashlight keep
 	# their own lifetimes/controls. Cache references once, not every frame.
 	for light: Node in get_tree().get_nodes_in_group("day_night_lamps"):
@@ -62,6 +79,10 @@ func set_time_hours(hours: float) -> void:
 	_sky_elapsed = 0.0
 	_sky_real_elapsed = 0.0
 	_displayed_minute = -1
+	# "--blood-moon" with a jump straight into the night (--views hour): the blood night is this one
+	if "--blood-moon" in OS.get_cmdline_user_args() and is_night() and night_index == BLOOD_MOON_EVERY - 1:
+		night_index = BLOOD_MOON_EVERY
+	_update_moon()
 	_apply_lighting(true)
 	_update_clock()
 
@@ -79,6 +100,11 @@ func advance(real_seconds: float) -> void:
 	var elapsed := _cycle_time(before) + maxf(real_seconds, 0.0) * maxf(time_scale, 0.0)
 	clock_seconds = _clock_time(fposmod(elapsed, DAY_SECONDS))
 	var game_seconds := floorf(elapsed / DAY_SECONDS) * DAY_SECONDS + clock_seconds - before
+	# every crossing of 20:00 begins a night (a frame may wrap midnight: then the crossing is behind us)
+	if game_seconds > 0.0 and (before < NIGHT_START and (clock_seconds >= NIGHT_START or clock_seconds < before)):
+		night_index += 1
+		night_began.emit(night_index)
+	_update_moon()
 	_light_elapsed += maxf(real_seconds, 0.0)
 	_sky_elapsed += game_seconds
 	_sky_real_elapsed += maxf(real_seconds, 0.0)
@@ -90,6 +116,41 @@ func advance(real_seconds: float) -> void:
 			_sky_real_elapsed = 0.0
 		_apply_lighting(update_sky)
 	_update_clock()
+
+# Nights begun so far decide the moon: blood red every fifth night, from 20:00 to 05:00.
+func is_night() -> bool:
+	return clock_seconds >= NIGHT_START or clock_seconds < DAY_START
+
+func blood_moon() -> bool:
+	return blood_moon_active
+
+static func blood_night(index: int) -> bool:
+	return index > 0 and index % BLOOD_MOON_EVERY == 0
+
+# 0 = new moon, 1 = full; a blood moon is always full
+func moon_phase() -> float:
+	if blood_moon_active: return 1.0
+	return 0.5 - 0.5 * cos(float(night_index % MOON_CYCLE) / MOON_CYCLE * TAU)
+
+func moon_phase_name() -> String:
+	if blood_moon_active: return "Blood moon"
+	var k := night_index % MOON_CYCLE
+	return ["New moon", "Waxing crescent", "First quarter", "Waxing gibbous", "Full moon", "Waning gibbous", "Last quarter", "Waning crescent"][k]
+
+func _update_moon() -> void:
+	var active := is_night() and blood_night(night_index)
+	if active == blood_moon_active: return
+	blood_moon_active = active
+	Zombie.horde_pace = BLOOD_MOON_PACE if active else 1.0
+	blood_moon_changed.emit(active)
+	_apply_lighting(true)
+
+# co-op clients follow the host's night count (snapshot "moon")
+func apply_moon(index: int) -> void:
+	if index == night_index: return
+	night_index = index
+	_update_moon()
+	_apply_lighting(true)
 
 func current_time_scale() -> float:
 	var daytime := clock_seconds >= DAY_START and clock_seconds < NIGHT_START
@@ -153,23 +214,27 @@ func _apply_lighting(update_sky: bool) -> void:
 	var sun_strength := smoothstep(-0.055, 0.3, direction.y)
 	var warm := Color(1.0, 0.51, 0.26)
 	var daylight := Color(1.0, 0.92, 0.8)
-	sun.light_energy = 2.5 * sun_strength
+	sun.light_energy = 2.5 * sun_strength * weather_dim
 	sun.light_color = daylight.lerp(warm, twilight * 0.75)
 	sun.look_at_from_position(direction * 100.0, Vector3.ZERO)
 	# Reuse the existing shadow-free fill for gentle moonlight; no extra light
-	# or shadow atlas is introduced when night falls.
-	fill.light_energy = lerpf(0.16, 0.7, day)
-	fill.light_color = Color(0.39, 0.52, 0.78).lerp(Color(0.7, 0.72, 0.78), day)
-	environment.ambient_light_energy = lerpf(0.85, 1.1, day)
+	# or shadow atlas is introduced when night falls. The moon's phase sets how much of it there is,
+	# clouds take most of it away, and a blood moon turns the whole night red.
+	var moonlight := (0.55 + 0.75 * moon_phase()) * lerpf(1.0, 0.35, overcast)
+	fill.light_energy = lerpf(0.16 * moonlight, 0.7 * weather_dim, day)
+	var moon_colour := Color(0.39, 0.52, 0.78) if not blood_moon_active else Color(0.72, 0.2, 0.14)
+	fill.light_color = moon_colour.lerp(Color(0.7, 0.72, 0.78), day)
+	environment.ambient_light_energy = lerpf(0.85, 1.1, day) * lerpf(1.0, 0.82, overcast)
 	# A small, cool ambient floor keeps nearby paths/enemy silhouettes readable
 	# under dense canopy, without lifting fire or flashlight exposure.
-	environment.ambient_light_color = Color(0.42, 0.5, 0.66)
+	environment.ambient_light_color = Color(0.42, 0.5, 0.66) if not blood_moon_active else Color(0.55, 0.32, 0.3).lerp(Color(0.42, 0.5, 0.66), day)
 	environment.ambient_light_sky_contribution = lerpf(0.35, 1.0, day)
-	environment.fog_light_color = Color(0.105, 0.15, 0.25).lerp(Color(0.59, 0.66, 0.70), day).lerp(Color(0.66, 0.43, 0.31), twilight * 0.28)
-	environment.fog_light_energy = lerpf(0.12, 0.8, day)
-	environment.fog_sun_scatter = lerpf(0.02, 0.22, day)
+	var night_fog := Color(0.105, 0.15, 0.25) if not blood_moon_active else Color(0.22, 0.07, 0.06)
+	environment.fog_light_color = night_fog.lerp(Color(0.59, 0.66, 0.70).lerp(Color(0.4, 0.42, 0.45), overcast), day).lerp(Color(0.66, 0.43, 0.31), twilight * 0.28 * (1.0 - overcast))
+	environment.fog_light_energy = lerpf(0.12, 0.8 * weather_dim, day)
+	environment.fog_sun_scatter = lerpf(0.02, 0.22, day) * (1.0 - overcast * 0.8)
 	environment.volumetric_fog_emission_energy = lerpf(0.001, 0.02, day)
-	environment.volumetric_fog_emission = Color(0.22, 0.32, 0.5).lerp(Color(0.8, 0.65, 0.45), day)
+	environment.volumetric_fog_emission = (Color(0.22, 0.32, 0.5) if not blood_moon_active else Color(0.4, 0.12, 0.1)).lerp(Color(0.8, 0.65, 0.45), day)
 	# Constant exposure preserves the contrast of the real local lights.
 	var lamp_multiplier := lerpf(1.65, 0.85, day)
 	for entry: Dictionary in _lamps:
@@ -186,3 +251,7 @@ func _apply_lighting(update_sky: bool) -> void:
 		_sky_material.set_shader_parameter("daylight", day)
 		_sky_material.set_shader_parameter("twilight", twilight)
 		_sky_material.set_shader_parameter("sun_direction", direction)
+		_sky_material.set_shader_parameter("overcast", overcast)
+		_sky_material.set_shader_parameter("moon_phase", moon_phase())
+		_sky_material.set_shader_parameter("moon_tint", BLOOD_MOON_TINT if blood_moon_active else Color(0.55, 0.66, 0.86))
+		_sky_material.set_shader_parameter("moon_size", 0.026 if blood_moon_active else 0.018)

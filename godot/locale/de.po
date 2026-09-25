@@ -503,6 +503,10 @@ msgstr "Eisenbeschlagene Wand"
 msgid "Steel bulwark"
 msgstr "Stahlbollwerk"
 
+#: scripts/barricade.gd scripts/coop_world.gd
+msgid "Barricade %s breached!"
+msgstr "Barrikade %s durchbrochen!"
+
 #: scripts/barricade.gd
 msgid "Building site"
 msgstr "Bauplatz"
@@ -511,11 +515,7 @@ msgstr "Bauplatz"
 msgid "WARNING: %s is under attack!"
 msgstr "WARNUNG: %s wird angegriffen!"
 
-#: scripts/barricade.gd scripts/coop_world.gd
-msgid "Barricade %s breached!"
-msgstr "Barrikade %s durchbrochen!"
-
-#: scripts/barricade.gd
+#: scripts/barricade.gd scripts/sandbag_line.gd
 msgid "Building is not possible right now."
 msgstr "Bauen ist momentan nicht möglich."
 
@@ -523,7 +523,7 @@ msgstr "Bauen ist momentan nicht möglich."
 msgid "Unknown action."
 msgstr "Unbekannte Aktion."
 
-#: scripts/barricade.gd
+#: scripts/barricade.gd scripts/sandbag_line.gd
 msgid "Too far away. Move within 6 m of the line."
 msgstr "Zu weit entfernt. Gehe auf höchstens 6 m an die Linie heran."
 
@@ -531,15 +531,15 @@ msgstr "Zu weit entfernt. Gehe auf höchstens 6 m an die Linie heran."
 msgid "Maximum upgrade tier reached."
 msgstr "Maximale Ausbaustufe erreicht."
 
-#: scripts/barricade.gd scripts/defence_system.gd scripts/hut_health.gd
+#: scripts/barricade.gd scripts/defence_system.gd scripts/hut_health.gd scripts/sandbag_line.gd
 msgid "No repair needed."
 msgstr "Keine Reparatur nötig."
 
-#: scripts/barricade.gd scripts/hut_health.gd
+#: scripts/barricade.gd scripts/coop_world.gd scripts/hut_health.gd scripts/sandbag_line.gd
 msgid "You are %d Rem Dollars short."
 msgstr "Es fehlen %d Rem Dollars."
 
-#: scripts/barricade.gd
+#: scripts/barricade.gd scripts/sandbag_line.gd
 msgid "Building area occupied. You or an enemy is standing in the line."
 msgstr "Baufläche belegt. Du oder ein Gegner stehen in der Linie."
 
@@ -562,6 +562,10 @@ msgstr "REMETSCHWIL SENNHOF   /   VERTEIDIGUNG"
 #: scripts/barricade_menu.gd
 msgid "BARRICADES"
 msgstr "BARRIKADEN"
+
+#: scripts/barricade_menu.gd scripts/hud.gd scripts/progression.gd
+msgid "+%d R"
+msgstr "+%d R"
 
 #: scripts/barricade_menu.gd
 msgid "Back to the game  [Esc]"
@@ -594,6 +598,14 @@ msgstr "1–4  Bauplatz wählen     ·     R  Reparieren     ·     V / Esc  Zur
 #: scripts/barricade_menu.gd
 msgid "1–4  Choose building site     ·     R  Repair     ·     V / Esc  Back     ·     The game is paused while you plan"
 msgstr "1–4  Bauplatz wählen     ·     R  Reparieren     ·     V / Esc  Zurück     ·     Spiel pausiert während der Planung"
+
+#: scripts/barricade_menu.gd
+msgid "Team gate fund  ·  %d R"
+msgstr "Team-Torkasse  ·  %d R"
+
+#: scripts/barricade_menu.gd
+msgid "Gate fund: co-op only"
+msgstr "Torkasse: nur im Koop"
 
 #: scripts/barricade_menu.gd
 msgid "%02d  %s\n       OPEN  ·  %d m"
@@ -720,6 +732,50 @@ msgid "Get the keys to both huts"
 msgstr "Schlüssel für beide Hütten erhalten"
 
 #: scripts/cheat_menu.gd
+msgid "Weather · pinned until released"
+msgstr "Wetter · fixiert bis zur Freigabe"
+
+#: scripts/cheat_menu.gd
+msgid "Clear"
+msgstr "Klar"
+
+#: scripts/cheat_menu.gd scripts/weather.gd
+msgid "Fog"
+msgstr "Nebel"
+
+#: scripts/cheat_menu.gd scripts/weather.gd
+msgid "Rain"
+msgstr "Regen"
+
+#: scripts/cheat_menu.gd
+msgid "Storm"
+msgstr "Sturm"
+
+#: scripts/cheat_menu.gd
+msgid "Release weather"
+msgstr "Wetter freigeben"
+
+#: scripts/cheat_menu.gd
+msgid "Blood moon tonight (20:30)"
+msgstr "Blutmond heute Nacht (20:30)"
+
+#: scripts/cheat_menu.gd
+msgid "Spawn 12 m ahead · host only"
+msgstr "12 m voraus erzeugen · nur Host"
+
+#: scripts/cheat_menu.gd
+msgid "Armored shambler"
+msgstr "Gepanzerter Schlurfer"
+
+#: scripts/cheat_menu.gd
+msgid "Field titan"
+msgstr "Feldtitan"
+
+#: scripts/cheat_menu.gd
+msgid "Knock me down"
+msgstr "Mich niederstrecken"
+
+#: scripts/cheat_menu.gd
 msgid "Get a weapon · full magazine and full reserve"
 msgstr "Waffe holen · volles Magazin und volle Reserve"
 
@@ -730,6 +786,26 @@ msgstr "Alle Waffen mit voller Munition"
 #: scripts/cheat_menu.gd
 msgid "Close (Esc / Ctrl+Shift+D)"
 msgstr "Schliessen (Esc / Strg+Shift+D)"
+
+#: scripts/cheat_menu.gd
+msgid "Weather follows the schedule again."
+msgstr "Das Wetter folgt wieder dem Plan."
+
+#: scripts/cheat_menu.gd
+msgid "Weather pinned: %s"
+msgstr "Wetter fixiert: %s"
+
+#: scripts/cheat_menu.gd
+msgid "The blood moon is up."
+msgstr "Der Blutmond steht am Himmel."
+
+#: scripts/cheat_menu.gd
+msgid "Spawned: %s"
+msgstr "Erzeugt: %s"
+
+#: scripts/cheat_menu.gd
+msgid "No room to spawn here."
+msgstr "Hier ist kein Platz zum Erzeugen."
 
 #: scripts/cheat_menu.gd
 msgid "No Golden Bolete out there right now. Only the host can place one."
@@ -924,6 +1000,10 @@ msgid "Waiting for host"
 msgstr "Warte auf Host"
 
 #: scripts/coop_world.gd
+msgid "%s put %d R into the gate fund (%d R)"
+msgstr "%s hat %d R in die Torkasse gelegt (%d R)"
+
+#: scripts/coop_world.gd
 msgid "Team key found: %s"
 msgstr "Teamschlüssel gefunden: %s"
 
@@ -938,6 +1018,10 @@ msgstr "+%d R aufgenommen"
 #: scripts/coop_world.gd
 msgid "Supplies picked up"
 msgstr "Vorrat aufgenommen"
+
+#: scripts/coop_world.gd scripts/inventory.gd scripts/pings.gd
+msgid "%s: %s"
+msgstr "%s: %s"
 
 #: scripts/coop_world.gd scripts/main.gd
 msgid "HUT LOST"
@@ -964,12 +1048,32 @@ msgid "Co-op · %s"
 msgstr "Koop · %s"
 
 #: scripts/coop_world.gd
-msgid "You are down. A teammate can revive you with E."
-msgstr "Du bist ausgeschieden. Ein Mitspieler kann dich mit E wiederbeleben."
+msgid "You bled out. A teammate can still revive you with E."
+msgstr "Du bist verblutet. Ein Teamkollege kann dich mit E noch wiederbeleben."
 
 #: scripts/coop_world.gd
 msgid "Revived!"
 msgstr "Wiederbelebt!"
+
+#: scripts/coop_world.gd scripts/hud.gd scripts/main.gd scripts/pings.gd
+msgid "down"
+msgstr "am Boden"
+
+#: scripts/coop_world.gd scripts/main.gd
+msgid "YOU ARE DOWN - hold E to get back up"
+msgstr "DU BIST AM BODEN - halte E, um wieder aufzustehen"
+
+#: scripts/coop_world.gd scripts/main.gd
+msgid "YOU ARE DOWN - a teammate can revive you with E"
+msgstr "DU BIST AM BODEN - ein Teamkollege kann dich mit E wiederbeleben"
+
+#: scripts/coop_world.gd
+msgid "Back on your feet!"
+msgstr "Wieder auf den Beinen!"
+
+#: scripts/coop_world.gd scripts/main.gd
+msgid "Sandbag line raised behind %s - fall back and hold it!"
+msgstr "Sandsacklinie hinter %s errichtet - zurückfallen und halten!"
 
 #: scripts/coop_world.gd scripts/waves.gd
 msgid "Reach the Hut Path"
@@ -988,8 +1092,8 @@ msgid "Wave %d"
 msgstr "Welle %d"
 
 #: scripts/coop_world.gd
-msgid "Wave survived · pistol reserve secured · +%d Rem Dollars"
-msgstr "Welle überstanden · Pistolenreserve gesichert · +%d Rem Dollars"
+msgid "Wave survived · pistol reserve secured · +%d Rem Dollars · gate fund +%d R"
+msgstr "Welle überstanden · Pistolenreserve gesichert · +%d Rem Dollars · Torkasse +%d R"
 
 #: scripts/cornfield.gd scripts/loot.gd
 msgid "Fire rounds (%d)"
@@ -1014,6 +1118,42 @@ msgstr "Munitionskiste"
 #: scripts/currency.gd
 msgid "Rem Dollars (R)"
 msgstr "Rem Dollars (R)"
+
+#: scripts/day_night_cycle.gd
+msgid "Blood moon"
+msgstr "Blutmond"
+
+#: scripts/day_night_cycle.gd
+msgid "New moon"
+msgstr "Neumond"
+
+#: scripts/day_night_cycle.gd
+msgid "Waxing crescent"
+msgstr "Zunehmende Sichel"
+
+#: scripts/day_night_cycle.gd
+msgid "First quarter"
+msgstr "Erstes Viertel"
+
+#: scripts/day_night_cycle.gd
+msgid "Waxing gibbous"
+msgstr "Zunehmender Mond"
+
+#: scripts/day_night_cycle.gd
+msgid "Full moon"
+msgstr "Vollmond"
+
+#: scripts/day_night_cycle.gd
+msgid "Waning gibbous"
+msgstr "Abnehmender Mond"
+
+#: scripts/day_night_cycle.gd
+msgid "Last quarter"
+msgstr "Letztes Viertel"
+
+#: scripts/day_night_cycle.gd
+msgid "Waning crescent"
+msgstr "Abnehmende Sichel"
 
 #: scripts/day_night_cycle.gd scripts/hud.gd scripts/progression.gd
 msgid "Morning"
@@ -1787,6 +1927,10 @@ msgstr "ORTSZEIT"
 msgid "%d× · game time"
 msgstr "%d× · Spielzeit"
 
+#: scripts/hud.gd
+msgid "SPOTTED - the horde knows where you are!"
+msgstr "ENTDECKT - die Horde weiss, wo du bist!"
+
 #: scripts/hud.gd scripts/main.gd
 msgid "Start game"
 msgstr "Spiel starten"
@@ -2004,6 +2148,22 @@ msgid "Fullscreen"
 msgstr "Vollbild"
 
 #: scripts/hud.gd
+msgid "X / middle mouse"
+msgstr "X / mittlere Maustaste"
+
+#: scripts/hud.gd
+msgid "Callout: ping what you look at (gate, hut, enemy, spot)"
+msgstr "Funkspruch: markiert, was du anschaust (Tor, Hütte, Gegner, Stelle)"
+
+#: scripts/hud.gd
+msgid "Hold E (down)"
+msgstr "E halten (am Boden)"
+
+#: scripts/hud.gd
+msgid "Get back up once per wave · teammates revive with E"
+msgstr "Einmal pro Welle wieder aufstehen · Teamkollegen beleben mit E wieder"
+
+#: scripts/hud.gd
 msgid "TIPS"
 msgstr "HINWEISE"
 
@@ -2159,17 +2319,29 @@ msgstr " (du)"
 msgid "%d HP"
 msgstr "%d LP"
 
-#: scripts/hud.gd scripts/weapon_specials.gd scripts/weapons.gd
-msgid "down"
-msgstr "am Boden"
-
 #: scripts/hud.gd
 msgid "The forest begins to swim. Wait it out."
 msgstr "Der Wald beginnt zu schwimmen. Warte es ab."
 
 #: scripts/hud.gd
+msgid "Sandbags"
+msgstr "Sandsäcke"
+
+#: scripts/hud.gd
 msgid "Forest hut"
 msgstr "Waldhütte"
+
+#: scripts/hud.gd
+msgid "YOU ARE DOWN  ·  %d s"
+msgstr "DU BIST AM BODEN  ·  %d s"
+
+#: scripts/hud.gd
+msgid "hold E to get back up"
+msgstr "E halten, um aufzustehen"
+
+#: scripts/hud.gd
+msgid "a teammate can revive you with E"
+msgstr "ein Teamkollege kann dich mit E wiederbeleben"
 
 #: scripts/hud.gd
 msgid "HUT %d / %d"
@@ -2772,6 +2944,26 @@ msgid "Back to main menu …"
 msgstr "Zurück ins Hauptmenü …"
 
 #: scripts/main.gd
+msgid "BLOOD MOON\nThe horde runs faster tonight. Every kill counts double."
+msgstr "BLUTMOND\nDie Horde ist heute Nacht schneller. Jeder Abschuss zählt doppelt."
+
+#: scripts/main.gd
+msgid "The blood moon has set."
+msgstr "Der Blutmond ist untergegangen."
+
+#: scripts/main.gd
+msgid "A screamer's cry echoes through the forest - %s is marked! The horde is coming."
+msgstr "Der Schrei eines Kreischers hallt durch den Wald - %s ist markiert! Die Horde kommt."
+
+#: scripts/main.gd
+msgid "%s lost an arm - it is tearing out trees!"
+msgstr "%s hat einen Arm verloren - er reisst jetzt Bäume aus!"
+
+#: scripts/main.gd
+msgid "%s lost a leg - it crawls, keep your distance from its sweep!"
+msgstr "%s hat ein Bein verloren - er kriecht, halte Abstand zu seinem Hieb!"
+
+#: scripts/main.gd
 msgid "You survived %d wave with %d Rem Dollars."
 msgstr "Du hast %d Welle überstanden mit %d Rem Dollars."
 
@@ -3270,6 +3462,58 @@ msgstr "+1 Granate"
 #: scripts/pickup.gd
 msgid "Bandage pack: +%d health"
 msgstr "Verbandspäckli: +%d Leben"
+
+#: scripts/pings.gd
+msgid "%s is under attack!"
+msgstr "%s wird angegriffen!"
+
+#: scripts/pings.gd
+msgid "%s is breaking!"
+msgstr "%s bricht!"
+
+#: scripts/pings.gd
+msgid "%s breached! Fall back to the sandbags!"
+msgstr "%s durchbrochen! Zurück zu den Sandsäcken!"
+
+#: scripts/pings.gd
+msgid "Hold %s!"
+msgstr "Haltet %s!"
+
+#: scripts/pings.gd
+msgid "Hold the sandbag line behind %s!"
+msgstr "Haltet die Sandsacklinie hinter %s!"
+
+#: scripts/pings.gd
+msgid "Defend the forest hut!"
+msgstr "Verteidigt die Waldhütte!"
+
+#: scripts/pings.gd
+msgid "Enemy spotted here!"
+msgstr "Gegner hier gesichtet!"
+
+#: scripts/pings.gd
+msgid "Move here!"
+msgstr "Hierher!"
+
+#: scripts/pings.gd
+msgid "Regroup on me!"
+msgstr "Sammeln bei mir!"
+
+#: scripts/pings.gd
+msgid "%s is down!"
+msgstr "%s ist am Boden!"
+
+#: scripts/pings.gd
+msgid "%s was spotted by a screamer!"
+msgstr "%s wurde von einem Kreischer entdeckt!"
+
+#: scripts/pings.gd
+msgid "Titan incoming!"
+msgstr "Titan im Anmarsch!"
+
+#: scripts/pings.gd
+msgid "Blood moon! They are faster - kills count double."
+msgstr "Blutmond! Sie sind schneller - Abschüsse zählen doppelt."
 
 #: scripts/progression.gd
 msgid "Mist Peddler"
@@ -4763,6 +5007,30 @@ msgstr "Der Nebelkrämer zieht durch die Gegend. Halte nach seiner violetten Lat
 msgid "%d:%02d min"
 msgstr "%d:%02d min"
 
+#: scripts/sandbag_line.gd
+msgid "Sandbag line"
+msgstr "Sandsacklinie"
+
+#: scripts/sandbag_line.gd
+msgid "Fallback site"
+msgstr "Rückzugsstellung"
+
+#: scripts/sandbag_line.gd
+msgid "Sandbag line behind %s destroyed!"
+msgstr "Sandsacklinie hinter %s zerstört!"
+
+#: scripts/sandbag_line.gd
+msgid "The sandbag line already stands."
+msgstr "Die Sandsacklinie steht bereits."
+
+#: scripts/sandbag_line.gd
+msgid "[E] Sandbag line behind %s  ·  build for %d R\nRises for free when the gate is breached  ·  Space: climb over"
+msgstr "[E] Sandsacklinie hinter %s  ·  bauen für %d R\nEntsteht gratis, wenn das Tor durchbrochen wird  ·  Leertaste: drüberklettern"
+
+#: scripts/sandbag_line.gd
+msgid "[E] Sandbag line behind %s  ·  %d/%d  ·  repair %d R\nSpace: climb over"
+msgstr "[E] Sandsacklinie hinter %s  ·  %d/%d  ·  reparieren %d R\nLeertaste: drüberklettern"
+
 #: scripts/secret_night.gd
 msgid "THE DISTANT SOUND"
 msgstr "DER FERNE KLANG"
@@ -5467,6 +5735,10 @@ msgstr "LMB Schnitt / RMB Stich"
 msgid "LMB light / RMB heavy"
 msgstr "LMB leicht / RMB schwer"
 
+#: scripts/weather.gd
+msgid "Thunderstorm"
+msgstr "Gewitter"
+
 #: scripts/zombie.gd
 msgid "THE EARTHWORM"
 msgstr "DER ERDWURM"
@@ -5488,6 +5760,26 @@ msgid "ASH TITAN"
 msgstr "ASCHETITAN"
 
 #: scripts/zombie.gd
+msgid "SPITTER"
+msgstr "SPUCKER"
+
+#: scripts/zombie.gd
+msgid "SCREAMER"
+msgstr "KREISCHER"
+
+#: scripts/zombie.gd
+msgid "STALKER"
+msgstr "SCHLEICHER"
+
+#: scripts/zombie.gd
+msgid "FARM DOG"
+msgstr "HOFHUND"
+
+#: scripts/zombie.gd
+msgid "ZOMBIE STAG"
+msgstr "ZOMBIE-HIRSCH"
+
+#: scripts/zombie.gd
 msgid "FIRE + FROST"
 msgstr "BRAND + FROST"
 
@@ -5498,6 +5790,14 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "You are down. A teammate can revive you with E."
+msgstr "Du bist ausgeschieden. Ein Mitspieler kann dich mit E wiederbeleben."
+
+#. unused
+msgid "Wave survived · pistol reserve secured · +%d Rem Dollars"
+msgstr "Welle überstanden · Pistolenreserve gesichert · +%d Rem Dollars"
 
 #. unused
 msgid "%s · %d R · click to build · R / wheel to turn"
@@ -5558,3 +5858,9 @@ msgstr "Verstärken erhöht die Haltbarkeit um %d TP und stellt die gesamte Lini
 #. unused
 msgid "The balanced night on the Heitersberg."
 msgstr "Die ausgewogene Nacht am Heitersberg."
+
+msgid "THE FOREST SPIRIT"
+msgstr "DER WALDGEIST"
+
+msgid "THE FOREST SPIRIT\nAn ancient horror awakens in the woods!"
+msgstr "DER WALDGEIST\nEin uralter Schrecken erwacht im Wald!"

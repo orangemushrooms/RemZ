@@ -1,0 +1,6 @@
+{
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a bloated acid zombie: grotesquely swollen bare torso, translucent yellow-green skin with glowing acid sacs on the throat, chest and belly, burst boils, green slime dripping from the mouth, torn brown overalls hanging from the waist, bare feet, head sunk into the shoulders, jaw hanging open. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "pose_mode": "t-pose",
+  "aspect_ratio": "3:4"
+}

@@ -1,0 +1,62 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: Low level blocks installation
+PASS: Rejected mod never charges or grants ownership
+PASS: Quest lock names the missing quest
+PASS: Purchase charges once and expands the actual magazine
+PASS: Larger magazine gives no free ammunition
+PASS: Mods never mutate base definitions or other weapons
+PASS: Repeated purchase is idempotent
+PASS: Extended magazine reload penalty reaches the reload system
+PASS: Reload transfers eighteen rounds from reserve
+PASS: Removing magazine preserves excess ammunition
+PASS: Owned mod can be reinstalled for free
+PASS: Full reserve prevents lossy magazine removal
+PASS: Suppressor changes audio, flash and range
+PASS: Suppression reduces the actual muzzle lighting
+PASS: Unsuppressed shots restore full flash without cumulative profile mutation
+PASS: Different slots combine multiplicatively
+PASS: Wrong merchant, melee, unknown mod and unowned weapon are rejected
+PASS: Legendary muzzle replaces rather than stacks with suppressor
+PASS: Legendary barrel improves damage and piercing
+PASS: Autorefill prices extended capacity at the normal per-round rate
+PASS: Autorefill fills modified magazine
+PASS: suppressor blocked one level below requirement
+PASS: suppressor unlocks at exact level with completed quest
+PASS: suppressor still requires the named quest
+PASS: compensator blocked one level below requirement
+PASS: compensator unlocks at exact level with completed quest
+PASS: compensator still requires the named quest
+PASS: extended blocked one level below requirement
+PASS: extended unlocks at exact level with completed quest
+PASS: extended still requires the named quest
+PASS: quick_action blocked one level below requirement
+PASS: quick_action unlocks at exact level with completed quest
+PASS: quick_action still requires the named quest
+PASS: match_barrel blocked one level below requirement
+PASS: match_barrel unlocks at exact level with completed quest
+PASS: match_barrel still requires the named quest
+PASS: ghost blocked one level below requirement
+PASS: ghost unlocks at exact level with completed quest
+PASS: ghost still requires the named quest
+PASS: endless blocked one level below requirement
+PASS: endless unlocks at exact level with completed quest
+PASS: endless still requires the named quest
+PASS: titan_core blocked one level below requirement
+PASS: titan_core unlocks at exact level with completed quest
+PASS: titan_core still requires the named quest
+PASS: Remote installation rejected
+PASS: Insufficient money cannot grant a mod
+PASS: Mechanic mod menu renders and refreshes every slot
+PASS: Host validates and equips remote player mods
+PASS: Snapshot preserves individual ownership
+PASS: Remote muzzle effect uses the host's modded shot values
+PASS: Snapshot rebuilds effective stats without leaking another player's mods
+WEAPON_MODS_DONE checks=52 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

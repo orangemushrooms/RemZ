@@ -82,7 +82,46 @@ func trim_corpses() -> void:
 # size of wave n without touching the random generator (shown during the intermission)
 func preview_count(n: int) -> int:
 	var count := regular_count(n)
-	return count + EncounterBalance.brute_count(n) + titan_count(n) + lesser_titan_count(n) + EncounterBalance.worm_count(n)
+	return count + EncounterBalance.brute_count(n) + titan_count(n) + lesser_titan_count(n) + EncounterBalance.worm_count(n) + dog_count(n) + stag_count(n) + screamer_count(n) + stalker_count(n)
+
+# The special infected of 26 Sep 2026. Dogs run in from the village (wave 3), the zombie stag crosses the
+# fields (wave 5), screamers walk in with the horde (wave 6), stalkers rise out of the maize while the
+# field is hidden (wave 4, fog / rain / storm / night), spitters take a share of the horde from wave 4
+# (plan) and from wave 10 part of the humanoids wear a helmet (main.spawn_zombie).
+static func dog_count(n: int) -> int:
+	if n < 3 or n % 2 == 0: return 0
+	return mini(6, 2 + n / 6)
+
+static func stag_count(n: int) -> int:
+	if n < 5 or n % 5 == 0: return 0
+	return 1 if n < 12 else 2
+
+static func screamer_count(n: int) -> int:
+	if n < 6: return 0
+	return mini(3, 1 + n / 10)
+
+static func stalker_base(n: int) -> int:
+	if n < 4: return 0
+	return mini(8, 3 + n / 3)
+
+static func armor_chance(n: int) -> float:
+	if n < 10: return 0.0
+	return minf(0.45, 0.2 + (n - 10) * 0.02)
+
+func stalkers_hidden() -> bool:
+	if main and "weather" in main and main.weather: return main.weather.hides_stalkers()
+	return main != null and main.day_night != null and main.day_night.is_night()
+
+func stalker_count(n: int) -> int:
+	return stalker_base(n) if stalkers_hidden() else 0
+
+# A screamer's call (main.horde_call): runners join the running wave from the lane nearest the cry.
+func reinforce(kind: String, amount: int, lane: String) -> int:
+	if phase != "spawning" or NetSession.is_client(): return 0
+	for i in amount:
+		queue.append({"type": kind, "lane": lane, "called": true})
+	total += amount
+	return amount
 
 # Field titans start at six. Worm and brute-boss waves have priority.
 static func titan_count(n: int) -> int:
@@ -107,13 +146,27 @@ func plan(n: int) -> Array:
 		q.append({"type": "earthworm_ancient" if n >= 24 and i == 0 else "earthworm", "lane": "south", "point": fields[i]})
 	for i in titan_count(n):
 		q.append({"type": "titan", "lane": "east" if i == 0 else "south", "point": fields[i]})
+	# On some non-headline waves, the forest boss replaces one lesser titan.
+	# The wave size and boss budget stay unchanged.
+	var forest_spirit := lesser_titan_count(n) > 0 and randf() < 0.22
 	for i in lesser_titan_count(n):
-		q.append({"type": lesser_titan_kind(n, i), "lane": "east" if i == 0 else "south", "point": fields[i] + Vector2(10, -6)})
+		if forest_spirit and i == 0:
+			q.append({"type": "forest_spirit", "lane": "north", "forest": true})
+		else:
+			q.append({"type": lesser_titan_kind(n, i), "lane": "east" if i == 0 else "south", "point": fields[i] + Vector2(10, -6)})
 	var count := regular_count(n)
 	boss_wave = n % 5 == 0
 	if boss_wave:
 		for k in EncounterBalance.brute_count(n):
 			q.append({ "type": "brute", "lane": ["north", "south", "east", "west"][k % 4] })
+	for k in dog_count(n):
+		q.append({"type": "zombie_dog", "lane": "south"})
+	for k in stag_count(n):
+		q.append({"type": "zombie_stag", "lane": "east" if k == 0 else "south"})
+	for k in screamer_count(n):
+		q.append({"type": "screamer", "lane": ["north", "east", "south", "west"][(k + n) % 4]})
+	for k in stalker_count(n):
+		q.append({"type": "stalker", "lane": "south", "corn": true})
 	var forest_indices: Array = range(count)
 	forest_indices.shuffle()
 	forest_indices.resize(roundi(count * FOREST_SPAWN_SHARE))
@@ -126,6 +179,8 @@ func plan(n: int) -> Array:
 		# earlier, brutes from wave 3 with a growing share.
 		if n >= 1 and r < minf(0.5, 0.22 + n * 0.045):
 			t = "runner"
+		if n >= 4 and r >= 0.58 and r < 0.66:
+			t = "spitter"
 		if n >= 2 and r > 0.68 and r < 0.84:
 			t = "nurse"
 		if n >= 2 and r > 0.84 and r < 0.92:
@@ -196,10 +251,9 @@ func is_boss_fight() -> bool:
 		if z is Zombie and z.alive and _boss_kind(z.net_kind): return true
 	return false
 
-# Titans ("giant") and field worms ("worm") are the bosses.
+# Titans, worms and the Waldgeist are bosses.
 static func _boss_kind(kind: String) -> bool:
-	var spec: Dictionary = Zombie.TYPES.get(kind, {})
-	return bool(spec.get("giant", false)) or bool(spec.get("worm", false))
+	return Zombie.is_boss_kind(kind)
 
 func skip_current_wave() -> bool:
 	if "secret_night" in main and main.secret_night and main.secret_night.active: return false
@@ -277,6 +331,8 @@ func _complete_wave() -> void:
 	var bonus := 20 + wave * 6
 	player.add_score(bonus)
 	weapons.refill_all()
+	player.self_revives = 1
+	if player.downed and not NetSession.enabled: player.revive(player.max_hp * 0.5)
 	if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
 	hud.message(Lang.t("Wave %d survived\n+%d Rem Dollars, pistol reserve secured\nTraders and quests: Vendor & Mechanic · T: Tower", [wave, bonus]), 4.0)
 	Sfx.play(self, "menu", -6.0)
@@ -287,20 +343,31 @@ func _try_spawn(entry: Dictionary) -> bool:
 		for z in main.zombies_root.get_children():
 			if z is Zombie and Zombie.is_boss_kind(z.net_kind) and z.alive: active += 1
 		if active >= EncounterBalance.heavy_limit(wave) or _heavy_spawn_t > 0: return false
-		# Giants stay on the open fields even when their planned entrance is occupied.
-		var fields: Array = TITAN_FIELDS.duplicate()
-		if entry.has("point"):
-			fields.erase(entry.point)
-			fields.push_front(entry.point)
-		for point: Vector2 in fields:
-			var lane: String = entry["lane"] if point == entry.get("point", Vector2.INF) else ("east" if point == TITAN_FIELDS[0] else "south")
-			if main.spawn_zombie(entry["type"], point, speed_mul, lane, TITAN_SPAWN_DISTANCE):
+		if entry["type"] == "forest_spirit":
+			if _try_forest_spawn(entry["type"], TITAN_SPAWN_DISTANCE):
 				_heavy_spawn_t = 16.0 if wave < 24 else 12.0
 				return true
-		return false
+			# A completely blocked forest must not trap the wave forever.
+			entry["forest_failures"] = int(entry.get("forest_failures", 0)) + 1
+			if entry["forest_failures"] < 8: return false
+		else:
+			# Giants stay on the open fields even when their planned entrance is occupied.
+			var fields: Array = TITAN_FIELDS.duplicate()
+			if entry.has("point"):
+				fields.erase(entry.point)
+				fields.push_front(entry.point)
+			for point: Vector2 in fields:
+				var lane: String = entry["lane"] if point == entry.get("point", Vector2.INF) else ("east" if point == TITAN_FIELDS[0] else "south")
+				if main.spawn_zombie(entry["type"], point, speed_mul, lane, TITAN_SPAWN_DISTANCE):
+					_heavy_spawn_t = 16.0 if wave < 24 else 12.0
+					return true
+			return false
 	# Forest enemies remain part of the normal wave budget. If all sampled
 	# forest spots are blocked, use a safe entrance rather than stall the wave.
-	if entry.get("forest", false) and _try_forest_spawn(entry["type"]):
+	if entry.get("forest", false) and entry["type"] != "forest_spirit" and _try_forest_spawn(entry["type"]):
+		return true
+	# stalkers rise inside the standing maize; when no hidden spot is free they take the field lane
+	if entry.get("corn", false) and _try_corn_spawn(entry["type"]):
 		return true
 	var lanes: Array = Map.SPAWNS.keys()
 	lanes.shuffle()
@@ -311,21 +378,22 @@ func _try_spawn(entry: Dictionary) -> bool:
 		points.shuffle()
 		for point: Vector2 in points:
 			var candidate := point + Vector2(randf_range(-1.5, 1.5), randf_range(-1.5, 1.5))
-			if main.spawn_zombie(entry["type"], candidate, speed_mul, lane, SPAWN_DISTANCE):
+			if main.spawn_zombie(entry["type"], candidate, speed_mul, lane, TITAN_SPAWN_DISTANCE if entry["type"] == "forest_spirit" else SPAWN_DISTANCE):
+				if entry["type"] == "forest_spirit": _heavy_spawn_t = 16.0 if wave < 24 else 12.0
 				return true
 	return false
 
 # Sample beside forest tracks: the deep woods are blocked for zombie navigation.
 # Validate the projected point as well, so navigation cannot move a forest spawn
 # onto a road, into a building, or onto an isolated navigation island.
-func _try_forest_spawn(kind: String) -> bool:
+func _try_forest_spawn(kind: String, minimum_distance := SPAWN_DISTANCE) -> bool:
 	if NetSession.is_client() or Zombie.is_titan_kind(kind) or Map.ROADS.is_empty(): return false
 	var nav: RID = main.nav_region.get_navigation_map()
 	if NavigationServer3D.map_get_iteration_id(nav) == 0: return false
 	var destination := NavigationServer3D.map_get_closest_point(nav, Map.ground_pos(Map.FIRE.x, Map.FIRE.y))
 	var capsule := CapsuleShape3D.new()
-	capsule.radius = 0.5
-	capsule.height = 2.6
+	capsule.radius = 0.75 if kind == "forest_spirit" else 0.5
+	capsule.height = maxf(2.6, float(Zombie.TYPES[kind].height) + 0.2)
 	for attempt in 12:
 		var road: Dictionary = Map.ROADS.pick_random()
 		var segment := randi_range(0, road.pts.size() - 2)
@@ -341,12 +409,33 @@ func _try_forest_spawn(kind: String) -> bool:
 		if not _forest_point_valid(projected): continue
 		var query := PhysicsShapeQueryParameters3D.new()
 		query.shape = capsule
-		query.transform.origin = point + Vector3.UP * 1.5
+		query.transform.origin = point + Vector3.UP * (capsule.height * 0.5 + 0.2)
 		query.collision_mask = 1 | 2 | 8 | 16
 		if not main.get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty(): continue
 		var path := NavigationServer3D.map_get_path(nav, point, destination, true)
 		if path.is_empty() or path[path.size() - 1].distance_to(destination) > 0.8: continue
-		if main.spawn_zombie(kind, projected, speed_mul, "", SPAWN_DISTANCE): return true
+		if main.spawn_zombie(kind, projected, speed_mul, "", minimum_distance): return true
+	return false
+
+# A spot in the standing maize (cornfield.in_corn), at least SPAWN_DISTANCE from every player, on the
+# navigation mesh, with a path to the fire.
+func _try_corn_spawn(kind: String) -> bool:
+	if NetSession.is_client() or not main.cornfield: return false
+	var field = main.cornfield
+	var nav: RID = main.nav_region.get_navigation_map()
+	if NavigationServer3D.map_get_iteration_id(nav) == 0: return false
+	var destination := NavigationServer3D.map_get_closest_point(nav, Map.ground_pos(Map.FIRE.x, Map.FIRE.y))
+	for attempt in 16:
+		var local := Vector2(randf_range(4.0, field.FIELD.size.x - 4.0), randf_range(4.0, field.FIELD.size.y - 4.0))
+		var candidate: Vector2 = field.field_to_world(local)
+		if not field.in_corn(candidate) or field.inside_maze(candidate): continue
+		if main.perimeter and main.perimeter.excludes_spawn(candidate): continue
+		var ground := Map.ground_pos(candidate.x, candidate.y)
+		var point := NavigationServer3D.map_get_closest_point(nav, ground)
+		if Vector2(point.x, point.z).distance_to(candidate) > 1.5 or absf(point.y - ground.y) > 1.5: continue
+		var path := NavigationServer3D.map_get_path(nav, point, destination, true)
+		if path.is_empty() or path[path.size() - 1].distance_to(destination) > 0.8: continue
+		if main.spawn_zombie(kind, Vector2(point.x, point.z), speed_mul, "south", SPAWN_DISTANCE): return true
 	return false
 
 func _forest_point_valid(point: Vector2) -> bool:

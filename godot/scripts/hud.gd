@@ -91,6 +91,16 @@ void fragment() {
 }
 """
 var attack_dir: Control
+# 26 Sep 2026: weather line in the clock, the down panel, the radio log and the world markers of the callouts
+var weather_label: Label
+var downed_panel: PanelContainer
+var downed_text: Label
+var bleed_bar: ProgressBar
+var hold_bar: ProgressBar
+var radio_box: VBoxContainer
+var _radio_lines: Array = []        # [Label, time left]
+var marked_label: Label
+var pings_layer: Control
 var _attack_arrows: Array = []      # [angle, name, strength 0..1] refreshed every frame from the gates under attack
 var _attack_pulse := 0.0
 var _popups: Array = []             # [Label, time left]
@@ -347,6 +357,69 @@ func _ready() -> void:
 	clock_rate = _label(Lang.t("%d× · game time", [96]), 11)
 	clock_rate.modulate.a = 0.6
 	clock.add_child(clock_rate)
+	weather_label = _label("", 12, Color(0.75, 0.85, 1.0))
+	weather_label.visible = false
+	clock.add_child(weather_label)
+
+	# the radio: the last callouts of the team, under the team list top left
+	radio_box = VBoxContainer.new()
+	radio_box.position = Vector2(16, 540)
+	radio_box.add_theme_constant_override("separation", 2)
+	radio_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(radio_box)
+	# markers of the callouts in the world
+	pings_layer = Control.new()
+	pings_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	pings_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	pings_layer.draw.connect(_draw_pings)
+	root.add_child(pings_layer)
+	# a screamer's mark
+	marked_label = _label("SPOTTED - the horde knows where you are!", 18, Color(1.0, 0.35, 0.6))
+	marked_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	marked_label.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	marked_label.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	marked_label.position.y = 118
+	marked_label.add_theme_constant_override("outline_size", 4)
+	marked_label.add_theme_color_override("font_outline_color", Color(0.1, 0, 0.05))
+	marked_label.visible = false
+	root.add_child(marked_label)
+	# down: bleed-out and the E hold, above the prompt
+	downed_panel = PanelContainer.new()
+	root.add_child(downed_panel)
+	downed_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	downed_panel.offset_left = -260
+	downed_panel.offset_right = 260
+	downed_panel.offset_top = -262
+	downed_panel.offset_bottom = -196
+	downed_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var down_style := StyleBoxFlat.new()
+	down_style.bg_color = Color(0.14, 0.01, 0.01, 0.92)
+	down_style.border_color = Color(1, 0.2, 0.15)
+	down_style.set_border_width_all(2)
+	down_style.set_corner_radius_all(8)
+	down_style.set_content_margin_all(10)
+	downed_panel.add_theme_stylebox_override("panel", down_style)
+	var down_box := VBoxContainer.new()
+	down_box.add_theme_constant_override("separation", 4)
+	downed_panel.add_child(down_box)
+	downed_text = _label("", 16, Color(1, 0.35, 0.3))
+	downed_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	down_box.add_child(downed_text)
+	bleed_bar = ProgressBar.new()
+	bleed_bar.custom_minimum_size = Vector2(480, 6)
+	bleed_bar.max_value = 1.0
+	bleed_bar.show_percentage = false
+	bleed_bar.add_theme_stylebox_override("fill", _flat(Color(0.9, 0.12, 0.1), 3))
+	bleed_bar.add_theme_stylebox_override("background", _flat(Color(1, 1, 1, 0.12), 3))
+	down_box.add_child(bleed_bar)
+	hold_bar = ProgressBar.new()
+	hold_bar.custom_minimum_size = Vector2(480, 6)
+	hold_bar.max_value = 1.0
+	hold_bar.show_percentage = false
+	hold_bar.add_theme_stylebox_override("fill", _flat(GOLD, 3))
+	hold_bar.add_theme_stylebox_override("background", _flat(Color(1, 1, 1, 0.12), 3))
+	down_box.add_child(hold_bar)
+	downed_panel.hide()
 
 	# message center, prompt lower center
 	msg_label = _label("", 24)
@@ -538,7 +611,8 @@ func _build_controls(box: VBoxContainer) -> void:
 	for pair in [["WASD", "Move"], ["Mouse", "Look around"], ["Shift", "Sprint"], ["Hold Ctrl", "Crouch / aim more precisely"], ["Space", "Jump"],
 			["Left click", "Shoot / strike"], ["Right click", "Aim (ADS)"], ["R", "Reload / align tower"], ["1–9 / 0", "Quick bar: slots 1–10"], ["Mouse wheel", "Switch weapon"],
 			["G", "Throw grenade"], ["E", "NPC / barricade / mount tower / repair hut"], ["V", "Defense planning with Mechanic"], ["T", "Build turret · at the hut also on the roof · E confirms"], ["E · drone station", "Fly a drone (hut, upper floor) · R / Esc: recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
-			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
+			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"],
+			["X / middle mouse", "Callout: ping what you look at (gate, hut, enemy, spot)"], ["Hold E (down)", "Get back up once per wave · teammates revive with E"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110
 		grid.add_child(k)
@@ -899,6 +973,22 @@ func _process(delta: float) -> void:
 		_popups = alive
 	_update_attack_dirs(delta)
 	_update_trip(delta)
+	if not _radio_lines.is_empty():
+		var keep: Array = []
+		for entry in _radio_lines:
+			entry[1] -= delta
+			var label: Label = entry[0]
+			if entry[1] <= 0.0:
+				label.queue_free()
+				continue
+			label.modulate.a = clampf(entry[1] / 1.5, 0.0, 1.0)
+			keep.append(entry)
+		_radio_lines = keep
+	if pings_layer and game and "pings" in game and game.pings and (not game.pings.active.is_empty() or _pings_drawn):
+		_pings_drawn = not game.pings.active.is_empty()
+		pings_layer.queue_redraw()
+	if marked_label and marked_label.visible:
+		marked_label.modulate.a = 0.7 + 0.3 * sin(Time.get_ticks_msec() * 0.012)
 	if not _hit_dirs.is_empty():
 		var keep: Array = []
 		for h in _hit_dirs:
@@ -947,6 +1037,9 @@ func _update_attack_dirs(delta: float) -> void:
 		if "barricades" in game:
 			for b in game.barricades:
 				if b is Barricade and b.under_attack(): targets.append([b.center, b.slot["name"]])
+		if "sandbags" in game:
+			for line in game.sandbags:
+				if line.under_attack(): targets.append([line.center, "Sandbags"])
 		if "hut" in game and game.hut and game.hut.has_method("under_attack") and game.hut.under_attack():
 			targets.append([game.hut.attack_point(cam.global_position), "Forest hut"])
 		for t in targets:
@@ -989,6 +1082,71 @@ func _draw_hit_dirs() -> void:
 		hit_dir.draw_polyline(pts, col, 5.0, true)
 		var tip := Vector2(sin(a), -cos(a))
 		hit_dir.draw_colored_polygon(PackedVector2Array([tip * 72.0, tip * 60.0 + tip.orthogonal() * 8.0, tip * 60.0 - tip.orthogonal() * 8.0]), col)
+
+# ---------------------------------------------------------------- 26 Sep 2026: weather, down, radio, markers
+var _pings_drawn := false
+
+func set_weather(text: String) -> void:
+	if not weather_label: return
+	weather_label.visible = not text.is_empty()
+	if weather_label.text != text: weather_label.text = text
+
+func set_marked(active: bool) -> void:
+	if marked_label and marked_label.visible != active: marked_label.visible = active
+
+# active: the player is down. seconds_left of bleed-out, hold 0..1 of the E hold, can_self: a self revive
+# is left, teammates: someone else could come.
+func set_downed(active: bool, seconds_left: float, hold: float, can_self: bool, teammates: bool) -> void:
+	if not downed_panel: return
+	if downed_panel.visible != active: downed_panel.visible = active
+	if not active: return
+	var line := Lang.t("YOU ARE DOWN  ·  %d s", [ceili(maxf(seconds_left, 0.0))])
+	if can_self: line += "  ·  " + Lang.t("hold E to get back up")
+	elif teammates: line += "  ·  " + Lang.t("a teammate can revive you with E")
+	if downed_text.text != line: downed_text.text = line
+	bleed_bar.value = clampf(seconds_left / Player.DOWN_SECONDS, 0.0, 1.0)
+	hold_bar.visible = can_self
+	hold_bar.value = clampf(hold, 0.0, 1.0)
+
+func radio_line(text: String, colour: Color = Color.WHITE) -> void:
+	if not radio_box: return
+	var label := _label(text, 14, colour.lightened(0.25))
+	label.add_theme_constant_override("outline_size", 4)
+	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
+	radio_box.add_child(label)
+	_radio_lines.append([label, 9.0])
+	while _radio_lines.size() > 4:
+		var old: Array = _radio_lines.pop_front()
+		(old[0] as Label).queue_free()
+
+# every live callout: a diamond with its text where it points, clamped to the screen edge when off screen
+func _draw_pings() -> void:
+	if not game or not "pings" in game or not game.pings or not game.player or not game.player.camera: return
+	var camera: Camera3D = game.player.camera
+	if not camera.current: return
+	var font := ThemeDB.fallback_font
+	var size := pings_layer.size
+	for entry in game.pings.active:
+		var world: Vector3 = entry.position + Vector3.UP * 1.2
+		var behind := camera.is_position_behind(world)
+		var point := camera.unproject_position(world)
+		if behind: point = Vector2(size.x - point.x, size.y - point.y)
+		var clamped := point.clamp(Vector2(40, 60), size - Vector2(40, 120))
+		var edge := behind or clamped != point
+		var alpha := clampf(float(entry.time) / 1.5, 0.0, 1.0)
+		var colour: Color = entry.colour
+		colour.a = alpha
+		var d := 9.0
+		pings_layer.draw_colored_polygon(PackedVector2Array([clamped + Vector2(0, -d - 2), clamped + Vector2(d + 2, 0), clamped + Vector2(0, d + 2), clamped + Vector2(-d - 2, 0)]), Color(0, 0, 0, 0.75 * alpha))
+		pings_layer.draw_colored_polygon(PackedVector2Array([clamped + Vector2(0, -d), clamped + Vector2(d, 0), clamped + Vector2(0, d), clamped + Vector2(-d, 0)]), colour)
+		if edge: continue
+		var text := Lang.text(str(entry.text))
+		var distance := roundi(camera.global_position.distance_to(entry.position))
+		var caption := "%s  %d m" % [text, distance]
+		var width := font.get_string_size(caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+		var at := clamped + Vector2(-width * 0.5, -d - 8)
+		pings_layer.draw_string_outline(font, at, caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, 4, Color(0, 0, 0, 0.85 * alpha))
+		pings_layer.draw_string(font, at, caption, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, colour)
 
 # ---------------------------------------------------------------- API used by the systems
 func set_health(v: float) -> void:

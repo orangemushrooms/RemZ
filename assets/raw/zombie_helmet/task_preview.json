@@ -1,0 +1,27 @@
+{
+  "id": "01a0d951-637e-73d9-9c1a-d20623d17739",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 2533486324,
+  "prompt": "game asset, a weathered WW2 style steel combat helmet, rounded dome with a short brim and a leather chin strap, dented and scratched, single object, no head, no ground, no base",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790352386487,
+  "progress": 100,
+  "started_at": 1790352386494,
+  "finished_at": 1790352506928,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d951-637e-73d9-9c1a-d20623d17739/output/model.glb?Expires=4943894400&Signature=FFcGq2w2B9U0IU-3OmrcfJ81hB104Nd5VBUCduKEn~3~q6c73VlJJImHUoewaQWU-K7pHUyUXf661N2dwUpeI9izEtmBpt4Z1Tr4mQ7o~BEudlrqhaj3EwY6cRpWPpay5ITpOExOtzt680ORQ1vX~M~Cre4T8Hq~vvTROlL6O89YGoJyLpQpB76Dwqz~rA-E8Lrk0XKfasi89vSoepdf3~u-2pc7EZXhmH2UdFvWZvYZDTAzGopJOp0rVBqjHLVjvZFGY72Xt9uKYKy-i31XfeP0BQurvEzNawEV3vwx9z~kuLWICEI7FB6T9jWZnhABBiPUDKLyioSQcNUQhCl5qQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d951-637e-73d9-9c1a-d20623d17739/output/model.fbx?Expires=4943894400&Signature=WNm3AALBTiGvqm7SoiEHl8h2pNZqxorZwCcPi~bkLSe6Yv6jfD1yde6oxpvTU1k6ltkbExA8f83z95D~mk~61ViJP9w8wY2geFE1NnObZKwR-9evyQvih0pW8ZS3G7DzDETN0YFr7MImSH6GyUblyyyIMtVEVC~sdwqFCJovjYoh8xP2~KDpXWrpJowAFps2eQ0mTYys-ZbuA6g2F8B24qa84R2q6pliU73v7m2yotgrAdFUEjP0BaTd8m13UFokmXpNt8rMBzrItX0wGj6jIcbtkL-1~g3ElDvTeXmYx2Zbs5k7vAjd1Nd9MTiaKQZpMfavcz03mA0ghihH4kkz1Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d951-637e-73d9-9c1a-d20623d17739/output/model.usdz?Expires=4943894400&Signature=nXdd8-j22u-FUkh9IXO5fyz-14cTwEbSW55lQYM4-GDOkHQXh0fr-wWst~1VEuUqhpUZK8fq7ako23SNEgv4O7jBCbEWeGeXcX9eeRbx-65Gd85JnPXtRSvXtunglEpVP8bVxZA3gLtjfLA66cKb75BiQ74XgSSPzunPvkEZtky95zhM653VE8zl-IbuEw1NczXCzUw1IBifYQzXX5vwFpvwajgJfxJmbGE-jDWaU3fHJXlxTzm0xwn3dBwsLpBH~fc3pDDCiXI5VCXpFDp62L03vGono~sOvauRF26vOsjuOKnNGcob39gF4rRyNhN2ELX8gFtjBbHR93fljqdKQg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d951-637e-73d9-9c1a-d20623d17739/output/model.obj?Expires=4943894400&Signature=kuHi0IeJ6U2kfDrM2kehRT3g8uhTnD76SIrjCH1Py3vmIZpFw79q941CXTYqx1Da3DK4pby8TvwQfz9kkRhuwzI8MGuCmfiQ9umnVUZV6R4Gvk5KaSTfU4gc-ga436iSe0yY1TNDqRF-YSsBhX5~Ls6YGbO8cppjqFXQDjOP4Jl8AwcwqN9wXhwDim49Qs5A-a4f-bOKE3bpNVMzkX1B6rnqZE0bS9j2vBKg8cPF0q6oK9uIcG7nkDefNeMa~290Ni5y6bnsQ73fvQXSpoPkbiRFFfa8sF-FlNozTPcc0RAIbHXG9cvtsLvxDWcNEXOrQB-3Gck3xGJ8Hts-l6eD8g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d951-637e-73d9-9c1a-d20623d17739/output/model.stl?Expires=4943894400&Signature=i2kZT2H-aBZ3zF71A8wp~RG8U0vvb90U6eqLqYDVDCNhx1OaonG0kr5PvjiEFIvYFpIbrYRBqx2TB0zHJnH9HByG9gn4i~~ONYgA9ikmIeGOidpmOjEw3vTWZSXdZy0AR7tZH9s5vFNVuj7OUT3mDaQrEh34jZ7OQRFchZzFMMVx96ePu8-5QsAU6qLavXoKKEvpwN4sY6kGp9hlplfy3r1FhGEj2nmjYbOlmPJe4gU5tw6wRWBapUtsB-NcP8oD3QMo9eew0ErtUtJwIw3CxwoTx5ZyKgKObcRZXRvsclFdZO0rW04Zx7xSVrlBwzOsWPIqAcTJRQ95Zrm15mXB0Q__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d951-637e-73d9-9c1a-d20623d17739/output/preview.png?Expires=4943894400&Signature=AER4XX2OG1R2RaJGxKkI~GSDHVQDVZfOgMgmlxF3x6lRBHw2tM1AZGIJa4rWwjuJgeAQxukJSTcGhsfk~uVF8Xm-F8qARQe6Z1nStwdYaAtvXtRN-TsymDQ1a5rFSS39KYZ1WM6zkHuoh7nQYpbf855oYzWBjf2jqJRztc3z0hbe-u0u8Yqo0UJeQY3drvPggQ1E3dWlkJX~71LVOM3m1pxGwFjtsF1ZeRUOVpgyO1~qFqaVVOIaoejpJcsCPMVeLE4NAgt6wz6YQ9ZxPxdjMBVUzCHlcJvoBTLpUHRbJzM9Jr0-Xvm-VC8ZccfRKzGXNXDBgt6TOrHvQVl~7hRDFQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

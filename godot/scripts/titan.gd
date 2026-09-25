@@ -6,6 +6,30 @@ const BLAST_RADIUS := 8.5
 const RAGE_THRESHOLD := 0.55
 const RECOVERY := 1.6
 const RAGE_RECOVERY := 1.0
+# Phases (26 Sep 2026): below ARM_LOSS of its health the giant loses its right arm (bones collapse, a stump,
+# blood) and from then on tears trees out of the ground and throws them (thrown_tree.gd) every THROW_MIN..
+# THROW_MAX seconds at a player THROW_RANGE metres away; below LEG_LOSS it loses its left leg and crawls:
+# the body tilts forward onto the ground (a much lower head), it moves at CRAWL_SPEED of its pace, and its
+# slam becomes a shorter, quicker sweep. Both are replicated through boss_state (lost mask) and the
+# throw RPC.
+const ARM_LOSS := 0.65
+const LEG_LOSS := 0.35
+const LOST_ARM := 1
+const LOST_LEG := 2
+const THROW_MIN := 9.0
+const THROW_MAX := 15.0
+const THROW_RANGE := Vector2(14.0, 80.0)
+const THROW_WINDUP := 1.3
+const CRAWL_SPEED := 0.5
+const CRAWL_TILT := -0.95
+var lost := 0
+var crawling := false
+var throw_serial := 0
+var _shown_throw := 0
+var throw_from := Vector3.ZERO
+var throw_to := Vector3.ZERO
+var _throw_t := 12.0
+var throws := 0
 var strike_point := Vector3.ZERO
 var strike_phase := "arrival"
 var strike_time := 2.8
@@ -26,10 +50,10 @@ var _last_position := Vector3.ZERO
 var _warning_center := Vector3.INF
 
 func blast_radius() -> float:
-	return float(type.get("blast_radius", BLAST_RADIUS))
+	return float(type.get("blast_radius", BLAST_RADIUS)) * (0.75 if crawling else 1.0)
 
 func windup() -> float:
-	return float(type.get("windup", WINDUP))
+	return float(type.get("windup", WINDUP)) * (0.6 if crawling else 1.0)
 
 func recovery(rage: bool) -> float:
 	return float(type.get("recovery", RECOVERY)) * (RAGE_RECOVERY / RECOVERY if rage else 1.0)
@@ -98,7 +122,7 @@ func _process(delta: float) -> void:
 	var contact := false
 	# Contact correction is essential at this scale: a small rig offset becomes
 	# a metre of floating feet when a human animation is applied to a giant.
-	if skeleton and not foot_bones.is_empty():
+	if skeleton and not foot_bones.is_empty() and not crawling:
 		var lowest := INF
 		if _foot_heights.size() != foot_bones.size(): _foot_heights.resize(foot_bones.size())
 		for i in foot_bones.size():
@@ -131,6 +155,87 @@ func damage(amount: float, direction: Vector3) -> void:
 	# A giant cannot be stun-locked or pushed around by automatic fire.
 	_stagger = 0
 	_knock = Vector3.ZERO
+	if alive and not replica:
+		if hp <= max_hp * ARM_LOSS and not (lost & LOST_ARM): _lose(LOST_ARM, direction)
+		if hp <= max_hp * LEG_LOSS and not (lost & LOST_LEG): _lose(LOST_LEG, direction)
+
+# ---------------------------------------------------------------- phases
+func _lose(bit: int, direction: Vector3) -> void:
+	lost |= bit
+	_apply_lost(bit, direction)
+	_roar("rage")
+	_roar_time = 22.0
+	if bit == LOST_ARM: _throw_t = 3.5
+	var scene := get_tree().current_scene
+	if scene and scene.has_method("titan_phase"): scene.titan_phase(self, bit)
+
+# the visible side of a lost limb, host and replicas alike: bones collapse, a dark stump, blood
+func _apply_lost(bit: int, direction: Vector3) -> void:
+	if not model: return
+	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D
+	if not rig: return
+	var key := "RightArm" if bit == LOST_ARM else "LeftLeg"
+	var part := "right_arm" if bit == LOST_ARM else "left_leg"
+	var root := rig.find_bone(LIMBS[key][0])
+	var joint: Vector3 = rig.global_transform * rig.get_bone_global_pose(root).origin if root >= 0 else global_position + Vector3.UP * height * 0.7
+	_cut_part(rig, part, key, direction, false)
+	if root >= 0:
+		var attachment := BoneAttachment3D.new()
+		attachment.name = "Stump_" + part
+		attachment.bone_name = rig.get_bone_name(root)
+		rig.add_child(attachment)
+		var cap := MeshInstance3D.new()
+		var sphere := SphereMesh.new()
+		var world_scale: float = maxf(rig.global_transform.basis.get_scale().y, 0.0001)
+		sphere.radius = height * 0.028 / world_scale
+		sphere.height = sphere.radius * 2.0
+		sphere.radial_segments = 12
+		sphere.rings = 6
+		cap.mesh = sphere
+		cap.material_override = ZombieGore.stump_material()
+		attachment.add_child(cap)
+	var scene := get_tree().current_scene
+	if scene and "weapons" in scene and scene.weapons and scene.weapons.has_method("_blood"):
+		for i in 8:
+			var spurt := get_tree().create_timer(0.1 + i * 0.3)
+			spurt.timeout.connect(func():
+				if not is_instance_valid(self) or not is_instance_valid(rig): return
+				var at: Vector3 = rig.global_transform * rig.get_bone_global_pose(root).origin if root >= 0 else joint
+				scene.weapons._blood(at, Vector3(randf_range(-0.6, 0.6), 1.0, randf_range(-0.6, 0.6)).normalized()))
+	Sfx.play_at(get_parent(), "head_burst", joint, 0.0, 0.55, 12.0, 120.0)
+	if bit == LOST_LEG: _begin_crawl()
+
+func _begin_crawl() -> void:
+	crawling = true
+	if model:
+		model.rotation.x = CRAWL_TILT
+		model.position.y = -height * 0.36
+	if anim: anim.speed_scale = clampf(8.1 / height, 0.3, 0.85) * 0.8
+	if warning: warning.hide()
+
+func can_throw() -> bool:
+	return alive and (lost & LOST_ARM) != 0
+
+# The throw: a wind-up, then the tree leaves the hand towards where the player will be.
+func _begin_throw(target: Player) -> void:
+	strike_phase = "throw"
+	strike_time = THROW_WINDUP
+	play("attack")
+	velocity = Vector3.ZERO
+	agent.velocity = Vector3.ZERO
+	var to := target.global_position - global_position
+	to.y = 0.0
+	rotation.y = atan2(to.x, to.z)
+	emit_cue("windup")
+	throw_to = target.global_position + Vector3(target.velocity.x, 0.0, target.velocity.z) * 1.4
+
+func _release_tree() -> void:
+	throw_serial += 1
+	throws += 1
+	throw_from = global_position + Vector3.UP * height * 0.78 + global_basis.x * -height * 0.16 + global_basis.z * height * 0.12
+	var scene := get_tree().current_scene
+	if scene and scene.has_method("titan_throw"): scene.titan_throw(self, throw_from, throw_to)
+	_throw_t = randf_range(THROW_MIN, THROW_MAX)
 
 # The slam of the attack clip lands exactly when the wind-up ends and the strike resolves.
 func attack_lead() -> float:
@@ -203,11 +308,24 @@ func _physics_process(delta: float) -> void:
 				resolve_strike()
 				strike_phase = "recovery"
 				strike_time = recovery(rage)
+			elif strike_phase == "throw":
+				_release_tree()
+				strike_phase = "recovery"
+				strike_time = 1.1
 			else:
 				strike_phase = "walk"
 				play("walk")
 		update_warning()
 		return
+	if lost & LOST_ARM:
+		_throw_t -= delta
+		if _throw_t <= 0.0:
+			var to := player.global_position - global_position
+			to.y = 0.0
+			if to.length() >= THROW_RANGE.x and to.length() <= THROW_RANGE.y and _sees(player.global_position + Vector3.UP):
+				_begin_throw(player)
+				return
+			_throw_t = 2.0
 	if NavigationServer3D.map_get_iteration_id(agent.get_navigation_map()) == 0: return
 	var player_priority := _nearby_player_priority(delta)
 	_update_hunt(delta)
@@ -246,7 +364,7 @@ func _physics_process(delta: float) -> void:
 		agent.target_position = destination
 	var next := agent.get_next_path_position() - global_position
 	next.y = 0
-	var speed: float = type.speed * minf(speed_mul, 1.35) * frost_mul * (1.25 if rage else 1.0)
+	var speed: float = type.speed * minf(speed_mul, 1.35) * frost_mul * (1.25 if rage else 1.0) * horde_pace * (CRAWL_SPEED if crawling else 1.0)
 	agent.max_speed = speed
 	agent.velocity = next.normalized() * speed
 	if not is_on_floor(): velocity.y -= 20 * delta
@@ -353,7 +471,7 @@ func impact_effect() -> void:
 	get_tree().create_timer(2.0, false).timeout.connect(dust.queue_free)
 
 func boss_state() -> Array:
-	return [strike_phase, strike_time, strike_point, impact_serial]
+	return [strike_phase, strike_time, strike_point, impact_serial, lost, throw_serial]
 
 func apply_boss_state(data: Array, initial: bool) -> void:
 	strike_phase = data[0]
@@ -361,3 +479,12 @@ func apply_boss_state(data: Array, initial: bool) -> void:
 	strike_point = data[2]
 	impact_serial = data[3]
 	if initial: _shown_impact = impact_serial
+	if data.size() > 4 and int(data[4]) != lost:
+		var mask := int(data[4])
+		for bit in [LOST_ARM, LOST_LEG]:
+			if mask & bit and not (lost & bit):
+				lost |= bit
+				_apply_lost(bit, Vector3.UP)
+	if data.size() > 5:
+		throw_serial = int(data[5])
+		if initial: _shown_throw = throw_serial

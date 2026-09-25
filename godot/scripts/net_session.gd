@@ -755,6 +755,12 @@ func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 			Sfx.play(game, "hurt", -3.0)
 		"score": game.hud.score_popup(args[0], args[1])
 		"streak": game.hud.streak(args[0], args[1])
+		"ping":
+			if args.size() == 4 and args[0] is String and args[1] is String and args[2] is Vector3 and args[3] is String and game.pings:
+				game.pings.receive(args[0], args[1], args[2], args[3])
+		"screamer":
+			if args.size() == 1 and args[0] is Vector3 and args[0].is_finite():
+				Sfx.play_at(game.zombies_root, "screamer_call", args[0], -1.0, randf_range(0.95, 1.08), 14.0, 220.0)
 
 func weapon_fired(id: int, weapon: String, stab: bool = false) -> void:
 	if not is_host(): return
@@ -817,6 +823,28 @@ func _explosion(session_epoch: int, position: Vector3) -> void:
 
 func nearest_player(position: Vector3) -> Player:
 	return world.nearest_player(position) if enabled and world else null
+
+# 26 Sep 2026: the spitter's acid and the titan's thrown tree, drawn on every client from the host's call
+func acid_glob(from: Vector3, to: Vector3, kind: String) -> void:
+	if is_host(): _acid_glob.rpc(epoch, from, to, kind)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _acid_glob(session_epoch: int, from: Vector3, to: Vector3, kind: String) -> void:
+	if epoch == session_epoch and world and is_instance_valid(game) and from.is_finite() and to.is_finite(): world.show_acid_glob(from, to, kind)
+
+func acid_pool(at: Vector3, kind: String) -> void:
+	if is_host(): _acid_pool.rpc(epoch, at, kind)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _acid_pool(session_epoch: int, at: Vector3, kind: String) -> void:
+	if epoch == session_epoch and world and is_instance_valid(game) and at.is_finite(): world.show_acid_pool(at, kind)
+
+func titan_throw(emitter: int, serial: int, from: Vector3, to: Vector3, seconds: float) -> void:
+	if is_host(): _titan_throw.rpc(epoch, emitter, serial, from, to, seconds)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _titan_throw(session_epoch: int, _emitter: int, _serial: int, from: Vector3, to: Vector3, seconds: float) -> void:
+	if epoch == session_epoch and world and is_instance_valid(game) and from.is_finite() and to.is_finite() and is_finite(seconds): world.show_titan_throw(from, to, clampf(seconds, 0.6, 4.0))
 
 func titan_cue(kind: String, origin: Vector3, body_height: float, emitter: int, serial: int) -> void:
 	if not is_host(): return

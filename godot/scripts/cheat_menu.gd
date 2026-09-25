@@ -14,6 +14,8 @@ var world_note: Label
 var weapon_buttons: Dictionary = {}   # weapon id -> Button
 var all_weapons_button: Button
 var weapon_note: Label
+var world_buttons: Array[Button] = []
+const SPAWN_KINDS := ["spitter", "screamer", "stalker", "zombie_dog", "zombie_stag", "forest_spirit", "armored", "titan"]
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -91,6 +93,60 @@ func _ready() -> void:
 	world_note.add_theme_color_override("font_color", Hud.GOLD)
 	general.add_child(world_note)
 	columns.add_child(VSeparator.new())
+	# 26 Sep 2026: weather, the moon and the special infected, for looking at them without waiting
+	var world := VBoxContainer.new()
+	world.add_theme_constant_override("separation", 8)
+	columns.add_child(world)
+	var weather_heading := Label.new()
+	weather_heading.text = "Weather · pinned until released"
+	world.add_child(weather_heading)
+	var weather_row := HBoxContainer.new()
+	weather_row.add_theme_constant_override("separation", 6)
+	world.add_child(weather_row)
+	for pair in [["Clear", "clear"], ["Fog", "fog"], ["Rain", "rain"], ["Storm", "storm"]]:
+		var button := Button.new()
+		button.text = pair[0]
+		button.custom_minimum_size = Vector2(76, 36)
+		button.pressed.connect(_set_weather.bind(pair[1]))
+		weather_row.add_child(button)
+		world_buttons.append(button)
+	var release := Button.new()
+	release.text = "Release weather"
+	release.custom_minimum_size.y = 36
+	release.pressed.connect(_set_weather.bind(""))
+	world.add_child(release)
+	world_buttons.append(release)
+	var moon := Button.new()
+	moon.text = "Blood moon tonight (20:30)"
+	moon.custom_minimum_size.y = 36
+	moon.pressed.connect(_blood_moon)
+	world.add_child(moon)
+	world_buttons.append(moon)
+	var spawn_heading := Label.new()
+	spawn_heading.text = "Spawn 12 m ahead · host only"
+	world.add_child(spawn_heading)
+	var spawn_grid := GridContainer.new()
+	spawn_grid.columns = 2
+	spawn_grid.add_theme_constant_override("h_separation", 6)
+	spawn_grid.add_theme_constant_override("v_separation", 6)
+	world.add_child(spawn_grid)
+	for kind in SPAWN_KINDS:
+		var button := Button.new()
+		# the type's name is a msgid ("SPITTER"): the button translates it itself, so no capitalize() here
+		var caption := "Armored shambler" if kind == "armored" else ("Field titan" if kind == "titan" else str(Zombie.TYPES[kind].get("name", kind)))
+		button.text = caption
+		button.custom_minimum_size = Vector2(150, 34)
+		button.add_theme_font_size_override("font_size", 13)
+		button.pressed.connect(_spawn.bind(kind))
+		spawn_grid.add_child(button)
+		world_buttons.append(button)
+	var down := Button.new()
+	down.text = "Knock me down"
+	down.custom_minimum_size.y = 34
+	down.pressed.connect(_knock_down)
+	world.add_child(down)
+	world_buttons.append(down)
+	columns.add_child(VSeparator.new())
 	var arsenal := VBoxContainer.new()
 	arsenal.add_theme_constant_override("separation", 10)
 	columns.add_child(arsenal)
@@ -135,6 +191,7 @@ func open() -> void:
 	points_button.disabled = NetSession.is_client()
 	all_weapons_button.disabled = NetSession.is_client()
 	keys_button.disabled = NetSession.is_client()
+	for button in world_buttons: button.disabled = NetSession.is_client()
 	weapon_note.text = ""
 	world_note.text = ""
 	_refresh_weapons()
@@ -158,6 +215,38 @@ func _skip_wave() -> void:
 	if not is_open or NetSession.is_client(): return
 	close()
 	main.waves.skip_current_wave()
+
+func _set_weather(state: String) -> void:
+	if not is_open or NetSession.is_client() or not main.weather: return
+	if state.is_empty():
+		main.weather.release()
+		world_note.text = "Weather follows the schedule again."
+	else:
+		main.weather.force(state)
+		world_note.text = Lang.t("Weather pinned: %s", [state])
+
+# the next blood night begins now: the night count jumps to the next multiple of five, the clock to 20:30
+func _blood_moon() -> void:
+	if not is_open or NetSession.is_client() or not main.day_night: return
+	var cycle: DayNightCycle = main.day_night
+	var next := cycle.night_index + (DayNightCycle.BLOOD_MOON_EVERY - cycle.night_index % DayNightCycle.BLOOD_MOON_EVERY)
+	if cycle.night_index % DayNightCycle.BLOOD_MOON_EVERY == 0 and cycle.night_index > 0: next = cycle.night_index
+	cycle.night_index = next
+	cycle.set_time_hours(20.5)
+	cycle._update_moon()
+	world_note.text = "The blood moon is up."
+
+func _spawn(kind: String) -> void:
+	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return
+	var ahead: Vector3 = main.player.global_position - main.player.global_basis.z * 12.0
+	var real_kind := "shambler" if kind == "armored" else kind
+	var spawned: bool = main.spawn_zombie(real_kind, Vector2(ahead.x, ahead.z), 1.0, "", 0.0, 1 if kind == "armored" else -1)
+	world_note.text = Lang.t("Spawned: %s", [kind]) if spawned else "No room to spawn here."
+
+func _knock_down() -> void:
+	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return
+	close()
+	main.player.damage(main.player.hp + 1.0, main.player.global_position + Vector3.FORWARD)
 
 # Marks the round's Golden Bolete on the minimap and the big map. Most rounds have none (5 %), so the
 # host places one when none is out; a co-op client only sees one that is already there.

@@ -1,0 +1,27 @@
+18:06:24 generating ['zombie_spitter', 'zombie_screamer', 'zombie_stalker'] up to design
+18:06:25 zombie_stalker design task 01a0d951-6398-709f-86a5-c16670f70cdd
+18:06:25 zombie_spitter design task 01a0d951-638e-76f5-a5ff-d7665fd81e59
+18:06:25 zombie_stalker design IN_PROGRESS 20%
+18:06:25 zombie_screamer design task 01a0d951-638e-77fc-b6d0-abe791d8a70b
+18:06:25 zombie_spitter design IN_PROGRESS 20%
+18:06:25 zombie_screamer design IN_PROGRESS 20%
+18:06:37 zombie_stalker design IN_PROGRESS 30%
+18:06:37 zombie_spitter design IN_PROGRESS 30%
+18:06:37 zombie_screamer design IN_PROGRESS 30%
+18:06:50 zombie_screamer design SUCCEEDED 100%
+18:06:50 zombie_screamer design done, credits 9
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\design.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\design.png (1.2 MB)
+18:06:50 zombie_screamer READY up to design
+18:07:02 zombie_stalker design SUCCEEDED 100%
+18:07:02 zombie_stalker design done, credits 9
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\design.png...
+18:07:02 zombie_spitter design SUCCEEDED 100%
+18:07:02 zombie_spitter design done, credits 9
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\design.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\design.png (1.2 MB)
+18:07:02 zombie_stalker READY up to design
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\design.png (0.9 MB)
+18:07:02 zombie_spitter READY up to design
+Balance: {'balance': 970}
+ZOMBIES_V3_DONE ok=3 failed=[]

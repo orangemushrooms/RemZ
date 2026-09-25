@@ -17,6 +17,7 @@ var grenades: Dictionary = {}
 var drops: Dictionary = {}
 var deer: Array = []
 var revive: Dictionary = {}
+var purse := 0                 # the team's gate fund (Barricade.purse / spend), host authoritative
 var next_id := 1
 var local_dead := false
 var current_wave := 0
@@ -81,6 +82,8 @@ func add_player(id: int) -> void:
 		p.active = NetSession.phase == "running"
 		p.regen_mul = float(game.difficulty.regen)
 		p.died.connect(check_team)
+		p.went_down.connect(func(): game.player_down(p))
+		p.went_down.connect(check_team)
 		w = Weapons.new()
 		p.add_child(w)
 		w.setup_proxy(p, proxy, game.zombies_root)
@@ -268,8 +271,9 @@ func action(id: int, operation: String, args: Array) -> void:
 		"interact":
 			if args.size() == 1 and args[0] is String: collect_loot(id, args[0])
 		"build", "repair":
-			if args.size() != 1 or not args[0] is int or args[0] < 0 or args[0] >= game.barricades.size(): return
-			var b: Barricade = game.barricades[args[0]]
+			var lines: Array = game.defence_lines()
+			if args.size() != 1 or not args[0] is int or args[0] < 0 or args[0] >= lines.size(): return
+			var b: Barricade = lines[args[0]]
 			var error := b.action_error(p, operation, true)
 			if error.is_empty(): b.purchase(p, operation, true)
 			else: NetSession.feedback(id, "message", [error, 2.0])
@@ -278,8 +282,28 @@ func action(id: int, operation: String, args: Array) -> void:
 		"eat":
 			if args.size() == 1 and args[0] is String: eat(id, args[0])
 		"revive":
-			if args.size() == 1 and args[0] is int and actors.has(args[0]) and not actor(args[0]).alive:
+			if args.size() == 1 and args[0] is int and actors.has(args[0]) and args[0] != id and (not actor(args[0]).alive or actor(args[0]).downed):
 				revive[id] = {"target": args[0], "time": 0.0}
+		"self_revive":
+			# hold E while down: the host runs the clock of the hold
+			if args.size() != 1 or not args[0] is bool: return
+			if args[0] and p.downed and p.self_revives > 0: revive[id] = {"target": id, "time": 0.0}
+			elif not args[0] and revive.has(id) and int(revive[id].target) == id: revive.erase(id)
+		"ping":
+			if args.size() != 3 or not args[0] is String or not args[1] is Vector3 or not args[2] is String: return
+			if not args[1].is_finite() or args[2].length() > 48 or not Pings.TEXTS.has(args[0]): return
+			game.pings.broadcast(id, args[0], args[1], args[2])
+		"purse_deposit":
+			if args.size() != 1 or not args[0] is int or not int(args[0]) in [50, 100, 250]: return
+			var amount := int(args[0])
+			if p.score < amount:
+				NetSession.feedback(id, "message", [Lang.t("You are %d Rem Dollars short.", [amount - p.score]), 2.0])
+				return
+			p.add_score(-amount)
+			purse += amount
+			var who: String = NetSession.roster.get(id, "Player")
+			for peer in actors: NetSession.feedback(peer, "message", [Lang.t("%s put %d R into the gate fund (%d R)", [Lang.raw(who), amount, purse]), 3.0])
+			Sfx.event(game, id, "purchase")
 		"next_wave":
 			if id == 1 and game.waves.phase == "idle": game.waves.timer = minf(game.waves.timer, 1.0)
 
@@ -363,9 +387,18 @@ func eat(id: int, kind: String) -> void:
 	NetSession.feedback(id, "message", [Lang.t("%s: %s", [Inventory.MUSHROOMS[kind].name, Inventory.MUSHROOMS[kind].text]), 3.0])
 	if id == 1: game.inventory._refresh()
 
+# The team is beaten when nobody stands and nobody down has a self revive left: a downed player with one can
+# still get up, and a standing player can revive the others (even the dead).
+func team_beaten() -> bool:
+	for p: Player in actors.values():
+		if not is_instance_valid(p) or not p.alive: continue
+		if not p.downed: return false
+		if p.self_revives > 0: return false
+	return true
+
 func check_team() -> void:
 	if not NetSession.is_host() or NetSession.phase != "running": return
-	if nearest_player(Vector3.ZERO) == null:
+	if team_beaten():
 		NetSession.phase = "over"
 		game.over = true
 		NetSession._send_lobby()
@@ -421,15 +454,19 @@ func tick(delta: float) -> void:
 		for id in revive.keys():
 			var target: Player = actor(revive[id].target)
 			var p: Player = actor(id)
-			if not p or not p.alive or not target or target.alive or p.global_position.distance_to(target.global_position) > 2.5 or not _visible(p, target.global_position + Vector3.UP):
+			if int(revive[id].target) == id:
+				# the self revive: the hold runs on the host while the player stays down
+				if not p or not p.downed or p.self_revives <= 0:
+					revive.erase(id)
+					continue
+				if p.hold_self_revive(delta): revive.erase(id)
+				continue
+			if not p or not p.alive or p.downed or not target or (target.alive and not target.downed) or p.global_position.distance_to(target.global_position) > 2.5 or not _visible(p, target.global_position + Vector3.UP):
 				revive.erase(id)
 				continue
 			revive[id].time += delta
 			if revive[id].time >= 3.0:
-				target.hp = minf(target.max_hp, 50.0)
-				target.alive = true
-				target.active = true
-				target.regen_timer = 5.0
+				target.revive(minf(target.max_hp, 50.0))
 				revive.erase(id)
 		if not game.player.active and game.player.alive: game.player._regenerate(delta)
 	else:
@@ -445,7 +482,7 @@ func tick(delta: float) -> void:
 
 func nearby_downed_player() -> int:
 	for id in actors:
-		if id == NetSession.local_id() or actor(id).alive: continue
+		if id == NetSession.local_id() or (actor(id).alive and not actor(id).downed): continue
 		if actor(id).global_position.distance_to(game.player.global_position) < 2.5 and _visible(game.player, actor(id).global_position + Vector3.UP):
 			return id
 	return 0
@@ -456,7 +493,7 @@ func _update_local_life() -> void:
 		_close_local_menus()
 		game.player.active = false
 		game.weapons.viewmodel.hide()
-		game.hud.message("You are down. A teammate can revive you with E.", 60.0)
+		game.hud.message("You bled out. A teammate can still revive you with E.", 60.0)
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	elif game.player.alive and local_dead:
 		local_dead = false
@@ -514,6 +551,7 @@ func snapshot() -> Dictionary:
 			var extra := WeaponSpecials.net_state(w, wid)
 			if not extra.is_empty(): specials[wid] = extra
 		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity, "crouch": p.crouching, "tower": p.mounted_tower, "drone": p.controlling_drone,
+			"down": [p.downed, p.down_time, p.self_revives, p.marked_t, p.revive_hold],
 			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul, "effects": p.mushroom_effects.duplicate(),
 			"relic": p.relic, "light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(), "mod_owned": w.mod_owned.duplicate(true), "mod_loadout": w.mod_loadout.duplicate(true),
 			"grenades": w.grenades, "grenades_max": w.grenades_max, "mods": [w.damage_mul, w.reload_mul, w.spread_mul],
@@ -522,7 +560,7 @@ func snapshot() -> Dictionary:
 	var zs := {}
 	for z in game.zombies_root.get_children():
 		if not z is Zombie: continue
-		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul, z.max_hp, z.boss_state() if z is Titan or z is Earthworm else [], z.model_path, z.appearance_seed, z.height, z.rare_status, z._head_popped, z.severed]
+		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul, z.max_hp, z.boss_state() if z is Titan or z is Earthworm or z is ForestSpirit else [], z.model_path, z.appearance_seed, z.height, z.rare_status, z._head_popped, z.severed, z.helmet_hp, z.armored]
 	var gs := {}
 	for id in grenades.keys():
 		var g = grenades[id]
@@ -552,6 +590,8 @@ func snapshot() -> Dictionary:
 			if node is Loot and node.id == "goldroehrling": mushroom_positions[key] = node.global_position
 	var bars: Array = []
 	for b in game.barricades: bars.append([b.level, b.hp, b.attack_alert_remaining])
+	var sandbag_states: Array = []
+	for line in game.sandbags: sandbag_states.append([line.level, line.hp, line.attack_alert_remaining])
 	var intact: Array = []
 	for id in broken_nodes:
 		if is_instance_valid(broken_nodes[id]): intact.append(id)
@@ -562,6 +602,8 @@ func snapshot() -> Dictionary:
 	return {"maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": game.drones.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"secret_night": game.secret_night.snapshot(),
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
+		"sandbags": sandbag_states, "purse": purse,
+		"weather": game.weather.snapshot() if game.weather else [], "moon": [game.day_night.night_index],
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "mushroom_positions": mushroom_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
 		"difficulty": game.settings.difficulty,
@@ -617,6 +659,20 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		p.speed_mul = s.speed
 		p.regen_mul = s.regen
 		p.mushroom_effects = s.get("effects", {}).duplicate()
+		var down: Array = s.get("down", [])
+		if down.size() >= 4:
+			var was_down: bool = p.downed
+			p.downed = bool(down[0])
+			p.down_time = float(down[1])
+			p.self_revives = int(down[2])
+			p.marked_t = float(down[3])
+			if id != NetSession.local_id() and down.size() > 4: p.revive_hold = float(down[4])
+			if id == NetSession.local_id() and was_down != p.downed:
+				if p.downed: game.hud.message("YOU ARE DOWN - hold E to get back up" if p.self_revives > 0 else "YOU ARE DOWN - a teammate can revive you with E", 4.0)
+				else:
+					p.revive_hold = 0.0
+					game.hud.message("Back on your feet!", 2.0)
+					Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if p.active else Input.mouse_mode
 		if id != NetSession.local_id():
 			p.set_crouching(bool(s.get("crouch", false)), false)
 			p.velocity = s.v
@@ -687,7 +743,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		var s: Array = data.zombies[id]
 		var fresh := not zombies.has(id)
 		if not zombies.has(id):
-			var z: Zombie = Earthworm.new() if Zombie.is_worm_kind(s[0]) else (Titan.new() if Zombie.is_titan_kind(s[0]) else Zombie.new())
+			var z: Zombie = ForestSpirit.new() if s[0] == "forest_spirit" else (Earthworm.new() if Zombie.is_worm_kind(s[0]) else (Titan.new() if Zombie.is_titan_kind(s[0]) else (ZombieBeast.new() if Zombie.is_beast_kind(s[0]) else Zombie.new())))
 			z.replica = true
 			z.setup(s[0], game.player, game.barricades, s[6], Callable())
 			z.model_path = s[9]
@@ -702,11 +758,13 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		if z.anim: z.anim.active = not z.alive or not z.rare_status.contains("frozen")
 		if z is Titan: z.apply_boss_state(s[8], initial or fresh)
 		if z is Earthworm: z.apply_boss_state(s[8], initial)
+		if z is ForestSpirit: z.apply_boss_state(s[8], initial)
 		z.net_position = s[1]
 		z.net_yaw = s[2]
 		if z.hp > float(s[3]): z._flash()
 		z.hp = s[3]
 		if s.size() > 14: z.apply_severed(int(s[14]))
+		if s.size() > 16: z.apply_helmet(float(s[15]), bool(s[16]))
 		if not s[4] and z.alive:
 			z.last_headshot = s.size() > 13 and bool(s[13])   # the host's headshot burst on the replica too
 			z.die(Vector3.ZERO)
@@ -784,6 +842,27 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		game.hut.hp = float(data.hut[0])
 		game.hut.destroyed = bool(data.hut[2])
 		game.hut.update_attack_alert(float(data.hut[1]), state_loaded)
+	var sandbag_states: Array = data.get("sandbags", [])
+	for i in mini(game.sandbags.size(), sandbag_states.size()):
+		var line: SandbagLine = game.sandbags[i]
+		var state: Array = sandbag_states[i]
+		var changed_line: bool = line.level != int(state[0]) or line.hp != float(state[1])
+		var rebuild_line: bool = line.level != int(state[0])
+		if line.level == 0 and int(state[0]) > 0 and state_loaded:
+			game.hud.message(Lang.t("Sandbag line raised behind %s - fall back and hold it!", [line.slot.name]), 4.0)
+			Sfx.play_at(game, "build", line.center, -4.0)
+		elif line.level > 0 and int(state[0]) == 0 and state_loaded:
+			Sfx.play_at(game, "barricade_break", line.center, 0.0)
+			game.hud.message(line.breach_message(), 2.0)
+		line.level = int(state[0])
+		line.hp = float(state[1])
+		if state.size() > 2: line.update_attack_alert(float(state[2]), state_loaded)
+		if changed_line:
+			if rebuild_line: line.rebuild()
+			line.changed.emit()
+	purse = int(data.get("purse", 0))
+	if game.weather and data.get("weather", []) is Array and not data.weather.is_empty(): game.weather.apply_snapshot(data.weather, initial or not state_loaded)
+	if game.day_night and data.get("moon", []) is Array and not data.moon.is_empty(): game.day_night.apply_moon(int(data.moon[0]))
 	for id in broken_nodes:
 		if not id in data.intact and is_instance_valid(broken_nodes[id]): broken_nodes[id].shatter()
 	for i in mini(deer.size(), data.deer.size()):
@@ -843,13 +922,37 @@ func wave_started(_number: int) -> void:
 	pass
 
 func wave_cleared(bonus: int) -> void:
+	# the gate fund grows with every wave the team survives together
+	var fund: int = 10 + int(game.waves.wave) * 3
+	purse += fund
 	for id in actors:
 		var p: Player = actor(id)
 		if id != 1:
 			p.add_score(bonus)
 			weapons[id].refill_all()
+		p.self_revives = 1
+		if p.downed: p.revive(p.max_hp)
 		if not p.alive:
 			p.alive = true
 			p.hp = p.max_hp
 			p.active = true
-		NetSession.feedback(id, "message", [Lang.t("Wave survived · pistol reserve secured · +%d Rem Dollars", [bonus]), 3.0])
+		NetSession.feedback(id, "message", [Lang.t("Wave survived · pistol reserve secured · +%d Rem Dollars · gate fund +%d R", [bonus, fund]), 3.0])
+
+# clients: the spitter's glob and pool, the titan's tree (visual replicas, the host owns the damage)
+func show_acid_glob(from: Vector3, to: Vector3, kind: String) -> void:
+	var glob := AcidGlob.new()
+	game.add_child(glob)
+	glob.setup(from, to, Zombie.TYPES.get(kind, {}).get("ranged", {}), true)
+	Sfx.play_at(game.zombies_root, "acid_spit", from, -4.0, randf_range(0.9, 1.1), 6.0, 60.0)
+
+func show_acid_pool(at: Vector3, kind: String) -> void:
+	var pool := AcidPool.new()
+	game.add_child(pool)
+	pool.global_position = at
+	pool.setup(Zombie.TYPES.get(kind, {}).get("ranged", {}), true)
+
+func show_titan_throw(from: Vector3, to: Vector3, seconds: float) -> void:
+	var tree := ThrownTree.new()
+	game.add_child(tree)
+	tree.setup(from, to, seconds, null, true)
+	Sfx.play_at(game.zombies_root, "crash", from, -2.0, 0.6, 30.0, 200.0)

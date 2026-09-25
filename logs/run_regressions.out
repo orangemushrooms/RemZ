@@ -1,0 +1,26 @@
+language_de          BAD exit=1 35s LANGUAGE_DONE lang=de checks=89 failures=1 FAIL: cheat menu: 6 problem(s) above 
+cheat_menu           OK exit=0 33s CHEAT_MENU_DONE checks=32 failures=0  
+team_purse           OK exit=0 34s TEAM_PURSE_DONE checks=29 failures=0  
+perimeter            OK exit=0 118s PERIMETER_DONE checks=26 failures=0  
+menu_flow            BAD exit=4294967295 793s (no done line) ERROR: FAIL: Death shows the game-over card 
+coop_snapshot_cost   OK exit=0 39s COOP_SNAPSHOT_COST_DONE checks=6 failures=0  
+network_packets      OK exit=0 3s NETWORK_PACKETS_DONE checks=14 failures=0  
+online_lobby         OK exit=0 32s ONLINE_LOBBY_DONE checks=43 failures=0  
+smoke                BAD exit=1 124s (no done line) ERROR: FAIL: Death freezes gameplay and shows restart 
+zombie_hitboxes      BAD exit=-9 1500s (no done line)  SCRIPT ERROR: Cannot call method 'pause' on a null value.
+horde_hit_precision  BAD exit=-9 1500s (no done line)  SCRIPT ERROR: Cannot call method 'pause' on a null value. | SCRIPT ERROR: Invalid assignment of property or key 'position' with value of type 'Vector3' on a base object of type 'Nil'.
+day_night            OK exit=0 39s DAY_NIGHT_DONE checks=55 failures=0 rendered=false  
+titan_siege_gate     OK exit=0 25s TITAN_SIEGE_GATE_DONE checks=20 failures=0  
+boss_music           BAD exit=1 23s BOSS_MUSIC_DONE checks=29 failures=2 ERROR: FAIL: Wave 5 opens on a boss song (secret_night) | ERROR: FAIL: The boss wave keeps its song with no titan in sight 
+secret_night         OK exit=0 23s SECRET_NIGHT_DONE checks=70 failures=0  
+hut_health           OK exit=0 24s HUT_HEALTH_DONE checks=40 failures=0  
+forest_finds         OK exit=0 23s FOREST_FINDS_DONE checks=56 failures=0  
+tower_planner        OK exit=0 22s TOWER_PLANNER_DONE checks=23 failures=0  
+barricades           OK exit=0 43s BARRICADES_DONE checks=44 failures=0  
+missing_models       BAD exit=1 2s MISSING_MODELS_DONE checks=72 failures=1 FAIL kahlkopf uses its imported species model 
+weapon_mods          OK exit=0 22s WEAPON_MODS_DONE checks=52 failures=0  
+earthworms           BAD exit=1 22s EARTHWORMS_DONE checks=48 failures=2 ERROR: FAIL: Wave 12 normal worm has intended size, HP and bounded speed | ERROR: FAIL: Player inside unoccluded impact takes exactly one intended hit 
+titan_variants       BAD exit=1 22s TITAN_VARIANTS_DONE checks=68 failures=5 ERROR: FAIL: Wave 14 includes variants in exact preview | ERROR: FAIL: titan_hunter applies its actual strike damage | ERROR: FAIL: titan_siege applies its actual strike damage | ERROR: FAIL: titan_ash applies its actual strike damage | ERROR: FAIL: titan applies its actual strike damage 
+aggro                OK exit=0 22s AGGRO_DONE checks=17 failures=0  
+coop_intro_route     BAD exit=2 200s (no done line)  
+REGRESSIONS_DONE

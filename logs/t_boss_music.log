@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Boss song loads: boss_fight_1
+PASS: boss_fight_1 does not loop (it stops dead at full volume)
+PASS: Boss song loads: boss_fight_2
+PASS: boss_fight_2 does not loop (it stops dead at full volume)
+PASS: Boss song loads: boss_fight_3
+PASS: boss_fight_3 does not loop (it stops dead at full volume)
+PASS: Boss song loads: boss_fight_4
+PASS: boss_fight_4 does not loop (it stops dead at full volume)
+PASS: A wave without a boss opens on the combat loop
+PASS: A boss fight switches to a boss song
+PASS: The running fight keeps its song
+PASS: After the boss fight the combat loop comes back
+PASS: The next fight picks another song
+PASS: Never the same boss song twice in a row (200 picks)
+PASS: All four boss songs come up (4 of 4)
+PASS: A song running out hands over to another boss song (boss_fight_1 -> boss_fight_3)
+PASS: The old song fades out while the new one fades in
+PASS: Game over is not a fight
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: Wave 1 opens on the combat loop
+PASS: An ordinary zombie keeps the wave alive
+PASS: A titan comes onto the field
+PASS: The titan starts a boss song (boss_fight_1)
+PASS: The song stays while the titan lives
+PASS: When the titan falls the wave goes on with the combat loop
+PASS: A queued titan is a boss fight too, with a new song
+PASS: The cleared wave hands over to the pause track (morning)
+ERROR: FAIL: Wave 5 opens on a boss song (secret_night)
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/boss_music.gd:25)
+       [1] _waves_drive_the_music (res://tests/boss_music.gd:119)
+ERROR: FAIL: The boss wave keeps its song with no titan in sight
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/boss_music.gd:25)
+       [1] _waves_drive_the_music (res://tests/boss_music.gd:124)
+PASS: After the boss wave the pause track returns (night)
+BOSS_MUSIC_DONE checks=29 failures=2
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

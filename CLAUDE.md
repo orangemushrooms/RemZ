@@ -146,6 +146,97 @@ Batch of 25 Sep 2026 (`--suite=forest_finds --smoke-test --no-intro --no-music -
   new mushroom kinds: `--script res://tests/run.gd -- --suite=render_item_icons --only=kahlkopf` (windowed;
   through run.gd so Lang / NetSession exist - called directly the mushroom script does not compile) then
   `--headless --import`; kinds without a GLB render their procedural model.
+Batch of 26 Sep 2026 (weather, moon, special infected, titan phases, sandbags, down / callouts / purse):
+- Weather (`weather.gd`, `main.weather`): states clear / fog / rain / storm, one schedule per game day
+  (day 0 is scripted: fog 06:20-08:00, rain 16:30, storm 18:00-19:24, rain until 20:36; later days roll
+  fog 55 %, rain 50 %, a storm inside a third of the rains). Host and solo decide, clients mirror the
+  snapshot field "weather" `[state, intensity, wind.x, wind.y, lightning_serial, wetness, day]` and replay
+  every bolt from its serial (seeded distance and direction, so flash timing and thunder delay agree).
+  Effects: `DayNightCycle.weather_dim` / `overcast` on sun, fill and fog, the sky shader uniforms
+  `overcast` / `flash` / `moon_phase` / `moon_tint` / `moon_size`, `env.fog_density` and
+  `volumetric_fog_density`, one GPUParticles3D of rain streaks around the camera, four `FogVolume` banks
+  drifting with the wind, a rain loop (`secret_rain.wav`, muffled under the hut roof) and the shader global
+  `remz_wetness` (project.godot `[shader_globals]`; terrain, ground sprites, leaf cards and bark darken and
+  get glossy, soaking in 28 s, drying in 110 s). Lightning: `Zombie.lightning_reveal()` makes every zombie
+  glow cold white for 0.45 s, the sun jumps to 9, thunder (`thunder_1..3.wav`, baked by
+  `tools/build_weather_audio.py`) arrives after distance / 343 s with a tremor. The intro and the secret
+  night keep their own fog (weather goes clear while they run). `--weather=<state>` pins a state; the cheat
+  menu has the same plus "Release".
+- Moon (`day_night_cycle.gd`): `night_index` counts every crossing of 20:00 (`night_began`), the phase runs
+  over `MOON_CYCLE` 8 nights (`moon_phase()`, `moon_phase_name()`), every `BLOOD_MOON_EVERY` 5th night is a
+  blood moon from 20:00 to 05:00 (`blood_moon()`, `blood_moon_changed`): red full moon, red moonlight and
+  fog, `Zombie.horde_pace` 1.25 on every zombie's ground speed (titans too) and double points in
+  `main._zombie_killed`. `set_time_hours` and `apply_moon` (co-op, snapshot "moon") re-evaluate it.
+- Special infected (`Zombie.TYPES`, models by `tools/zombies_v3.py` specs + `tools/creature_models.py`):
+  `spitter` (`"ranged"`: lobs an `AcidGlob` at a gate, the hut wall or the player from 5-17 m every 4.2 s;
+  the landing spawns an `AcidPool` that eats gates, sandbags, towers and the hut wall for 6.5 s and burns
+  players standing in it; host only, clients get `NetSession._acid_glob` / `_acid_pool`); `screamer`
+  (`"screamer"`: on sight within 24 m it screams once per 22 s, `main.horde_call`: the player is
+  `marked_t` 12 s for every zombie (`main.marked_player`, pink ring on every minimap, "SPOTTED" on the HUD),
+  every zombie within 70 m hunts them, three runners join the wave from the nearest lane
+  (`Waves.reinforce`); `stalker` (`"stalker"`: only planned while `Weather.hides_stalkers()` - fog, rain,
+  storm or night - and spawned inside the standing maize by `Waves._try_corn_spawn`; `cloak` 0.07 unless a
+  flashlight beam (anyone's, `_lit_by_flashlight`), a swing, a hit, lightning or death lights it, materials
+  through `TRANSPARENCY_ALPHA_DEPTH_PRE_PASS`, off the minimap while hidden); `zombie_dog` and
+  `zombie_stag` (`"beast"`, `zombie_beast.gd`: rig-less Meshy animals fitted by height, gallop bob and
+  lunge from the real ground speed, the stag charges from 4-28 m with a clear line, rams players (shove)
+  and gates, wheels away between charges, both fall onto their side when killed; bullets hit the capsule).
+  Plan: dogs from wave 3 on odd waves, the stag from wave 6 (never a boss wave), screamers from wave 6,
+  stalkers from wave 4, spitters replace 8 % of the horde from wave 4 (`Waves.dog_count` etc., all in
+  `preview_count`).
+- The mutation: from wave 10 `Waves.armor_chance` (20 % to 45 %) of shamblers, soldiers, brutes, spitters
+  and nurses spawn `armored` (main.spawn_zombie; `armor_override` for the cheat menu): a helmet
+  (`zombie_helmet.glb`, fallback a steel dome) on the Head bone through a BoneAttachment3D, sized in bone
+  space (`1 / world_scale`). `Zombie.hit_helmet` in the weapons pipeline: a headshot on `helmet_hp > 0`
+  rings off (`helmet_ping.wav`), 20 % reaches the body, no headshot bonus; at zero the helmet tumbles off
+  as a chunk and heads pop as usual. Snapshot fields 15 / 16 (`helmet_hp`, `armored`), `apply_helmet`.
+- Titan phases (`titan.gd`): below `ARM_LOSS` 65 % the right arm collapses (`_apply_lost`: bone scale,
+  stump, blood, rage roar) and the giant throws trees (`thrown_tree.gd`: trunk, root ball and crown on an
+  arc every 9-15 s at a player 14-80 m away; `ThrownTree.RADIUS` 5.5 m crushes players (shove), gates,
+  sandbags, towers, the hut and zombies; `NetSession._titan_throw` replays the arc on clients); below
+  `LEG_LOSS` 35 % the left leg goes and it crawls (`CRAWL_TILT`, half speed, slam radius 0.75 and windup
+  0.6). `boss_state()` carries `lost` and `throw_serial`; replicas mirror the collapse.
+- Sandbag lines (`sandbag_line.gd`, `main.sandbags`, one per gate, `SandbagLine.FALLBACK_DEPTH` 9 m inside
+  the ring, same direction): a site until the gate falls (`Barricade.breached` -> `main._gate_breached`
+  -> `deploy()` for free), then a 450 HP wall (visual 0.95 m, collision 1.25 m so the zombies' 1 m sight
+  line cannot skip it), armour 0.2, repair 40 R, rebuild 60 R with E, vaulted with Space (the vault ray
+  now runs at 0.65 m). `main.defence_lines()` = gates + sandbags is what zombies, acid and trees hit;
+  `Barricade.is_gate()` keeps palisade hits, the planner and the ring on the gates. Snapshot "sandbags".
+  Barricade gained `wall_height` / `collision_height` / `segment_scene` / `armor` / `hit_sound` /
+  `breach_message` for the subclass.
+- Down instead of dead (`player.gd`): at zero health `go_down()` - `DOWN_SECONDS` 25 s bleed-out, crawl
+  at 40 % pace, still shooting, every hit costs `HIT_BLEED` 0.12 s per point; holding E for
+  `SELF_REVIVE_HOLD` 4 s gets up with 40 HP once per wave (`self_revives`, restored by every cleared wave,
+  which also lifts a downed player with half health); at zero `_bleed_out()` -> `died` (solo "YOU DIED").
+  Co-op: the host runs the hold (command "self_revive" true/false -> `revive` dict, target == self), a
+  teammate's E (3 s, "revive") works on downed and dead players, `wave_cleared` restores everyone;
+  snapshot `players[id].down = [downed, down_time, self_revives, marked_t, revive_hold]`; `player.shove`.
+  HUD: `set_downed` (bleed and hold bars above the prompt), `--no-downed` restores instant death.
+- Callouts (`pings.gd`, `main.pings`, action `ping` = X or middle mouse): `contextual()` pings what the
+  crosshair rests on (gate under attack / breaking / hold, sandbags, hut, enemy, ground = move, nothing =
+  regroup; an open site along the sight line counts), the game calls out breaches, downs, screamer marks,
+  titans and the blood moon (`callout` with a 12 s cooldown per key). Every ping: radio log top left,
+  a diamond marker in the world (`hud._draw_pings`) and on the minimap for 9 s, `radio_ping.wav`.
+  Co-op: command "ping" -> host validates -> feedback "ping" `[author, kind, position, subject]`; the text
+  is built on each machine (`Pings.TEXTS`, gate names translate, player names stay).
+- Team purse (co-op): `coop_world.purse`, deposits of 50 / 100 / 250 R from the planner (command
+  "purse_deposit"), `Barricade.purse()` / `spend()` pay gates and sandbag lines from the fund before the
+  buyer's pocket, every cleared wave adds 10 + 3 x wave. Snapshot "purse". Solo has no fund.
+- Suites (all headless, `--smoke-test --no-intro --no-music --no-foliage`): `weather` (55), `new_zombies`
+  (61), `titan_phases` (22), `sandbags` (43), `downed` (22), `pings` (19), `team_purse` (29, hosts an
+  offline session like coop_snapshot_cost), `forest_spirit` (23, the second session's boss: rig, clips,
+  bone volumes, the pulse, boss state, wave plan, forest spawn). Windowed: `batch26_visual` renders the
+  batch into `artifacts/batch26/*.png` (line-up in the rain, storm flash, blood moon, fog banks, crawling
+  titan and its tree, sandbags with acid), `sandbags_visual` only the line. `tools/run_regressions.py`
+  runs the regression list three at a time into `logs/t_*.log` and `logs/regressions_summary.txt`.
+  Older suites that assumed instant death or damage without the difficulty multiplier were adjusted
+  (menu_flow, smoke, multiplayer bleed the downed player out; earthworms / titan_variants multiply by
+  `difficulty.hp` / `damage_mul`; zombie_hitboxes / horde_hit_precision skip beasts and bone-volume bosses;
+  missing_models accepts the procedural liberty cap).
+- Forest Spirit (second session, 26 Sep 2026): `forest_spirit.gd` (`"boss": true` in TYPES, locally rigged
+  `zombie_forest_spirit.glb` from `tools/rig_forest_spirit.mjs`, five bone-following Area3D volumes, a
+  pulse every 11 s that throws players back, replaces one lesser titan in 22 % of those waves and enters
+  through the woods). `Zombie.is_boss_kind` counts "boss" kinds; they skip baked hulls and gore.
 Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scored in `main._zombie_killed`
 (difficulty multiplier, streak bonus, headshot x1.5); zombies only report through the `_on_kill` callback.
 
@@ -249,6 +340,14 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   `MAGAZINE` says what a weapon feeds from - box, tube, or nothing for the revolver. `equip_mod` and
   `apply_mod_snapshot` both funnel through `refresh_attachments`, and co-op avatars mount the same parts from
   the host snapshot (`coop_avatar.set_mods`, layer 1 and shadows on).
+- Creatures of 26 Sep 2026: `zombie_spitter`, `zombie_screamer`, `zombie_stalker` are v3 skins (specs in
+  `tools/zombies_v3.py`, folders `assets/raw/<name>_v3`, packed with `--simplify 0.62 --as <name>`; the
+  stalker walks with library clip 559 "Sneaky Walk"). `zombie_dog` and `zombie_stag` come from
+  `tools/creature_models.py` (nano-banana-pro side-view sheet -> image-to-3d Meshy 7.1, folders
+  `zombie_dog_v2` / `zombie_stag_v2`, static meshes: Meshy rigs only humanoids) and `zombie_helmet` from its
+  text-to-3d job. `tools/creature_variants.py` holds the cheaper retexture route (the first attempt, kept
+  as reference: a retexture through `model_url` as a data URI works when the old task id is gone). The
+  shot volumes were rebaked afterwards (17 meshes).
 - Zombie skins, third generation (24 Sep 2026, `tools/zombies_v3.py`): every humanoid skin (the ten common ones
   plus zombie_titan / zombie_colossus) is a reference-first Meshy asset - `design` draws a T-pose sheet with
   nano-banana-pro (9 credits, look at `assets/raw/<name>_v3/design.png` before paying for the mesh), `model`

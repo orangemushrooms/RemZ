@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+COOP_LOAD HOST_CREATE port=24695
+COOP_HOST_READY port=24695
+COOP_LOAD HOST_READY
+PASS: The fixture hosts a round
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=2
+COOP_RUNNING players=2
+PASS: Host and a teammate share the round
+PASS: The gate fund starts empty
+PASS: A deposit moves Rem Dollars into the fund
+PASS: Odd amounts and unaffordable deposits are refused
+PASS: The fund counts towards a gate the player could not afford alone
+PASS: The gate is built
+PASS: The fund pays first, the player keeps their money (fund 50, pocket 65)
+PASS: Fund plus pocket pay the next tier (120 R)
+PASS: Both are drained exactly (fund 0, pocket 0)
+PASS: A cleared wave feeds the fund and pays everyone (fund 10, Anna +20)
+PASS: The snapshot carries the fund
+PASS: Player snapshots carry the down state
+PASS: Anna's ping arrives through the host
+PASS: Unknown kinds and broken positions are dropped
+PASS: Anna goes down; the team is not over
+PASS: The radio calls her down
+PASS: Her E hold is registered
+PASS: Two seconds in she is still down
+PASS: Letting go cancels the hold
+PASS: Four seconds of E get her up
+PASS: Down again
+PASS: No self revive left: the hold does nothing
+PASS: The host stands next to a downed teammate
+PASS: Halfway through the three seconds
+PASS: The host's E gets her up with 50 HP
+PASS: Bleeding out kills her; the team fights on
+PASS: A dead teammate can still be revived by hand
+PASS: The wave end restores every self revive
+COOP_LOAD LEAVE_BEGIN phase=running reason=done
+TEAM_PURSE_DONE checks=29 failures=0
+COOP_LOAD LEAVE_PEER_DETACHED
+COOP_LOAD LEAVE_PEER_CLOSED
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

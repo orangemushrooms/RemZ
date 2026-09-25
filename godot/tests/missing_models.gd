@@ -33,7 +33,8 @@ func run() -> void:
 	for kind in Inventory.Mushrooms.DEFS:
 		var mushroom := Inventory.Mushrooms.model(kind)
 		world.add_child(mushroom)
-		check(mushroom.has_meta("model_id"), kind + " uses its imported species model")
+		# kinds without a GLB (the liberty cap) render their procedural model on purpose
+		check(mushroom.has_meta("model_id") or not ResourceLoader.exists("res://assets/models/mushroom_%s.glb" % kind), kind + " uses its imported species model")
 	var key := ForestKey.new()
 	key.key_id = "waldhuette"
 	world.add_child(key)

@@ -53,6 +53,8 @@ uniform float scale_gravel = 0.55;
 uniform sampler2D cover_map : filter_linear, repeat_disable;
 uniform vec2 cover_origin;
 uniform vec2 cover_size;
+// rain (weather.gd): 0 dry .. 1 soaked - darker, glossier ground with a wet sheen
+global uniform float remz_wetness;
 varying vec3 w;
 varying vec2 wuv;
 varying float vdist;
@@ -121,10 +123,21 @@ void fragment() {
 	NORMAL_MAP = normalize(ln * ww.r + gn * ww.g + kn * ww.b);
 	NORMAL_MAP_DEPTH = 0.35;
 	ROUGHNESS = lr * ww.r + gr * ww.g + kr * ww.b;
+	float wet = clamp(remz_wetness, 0.0, 1.0);
+	ALBEDO = mix(ALBEDO, ALBEDO * vec3(0.5, 0.52, 0.58), wet);
+	ROUGHNESS = mix(ROUGHNESS, ROUGHNESS * 0.25, wet);
+	SPECULAR = mix(0.5, 0.8, wet);
 }
 """
 
+static var terrain_mat: ShaderMaterial
+
 static func terrain_material() -> ShaderMaterial:
+	if terrain_mat: return terrain_mat
+	terrain_mat = _terrain_material()
+	return terrain_mat
+
+static func _terrain_material() -> ShaderMaterial:
 	var sh := Shader.new()
 	sh.code = TERRAIN_SHADER
 	var m := ShaderMaterial.new()
@@ -149,6 +162,7 @@ uniform vec2 cells = vec2(4.0, 2.0);
 uniform float wind = 0.0;
 uniform bool meadow_distance_thinning = false;
 uniform vec3 tint : source_color = vec3(1.0);
+global uniform float remz_wetness;
 varying float bright;
 void vertex() {
 	float cell = INSTANCE_CUSTOM.x;
@@ -173,8 +187,10 @@ void fragment() {
 	ALBEDO = c.rgb * tint * bright * mix(1.0, 0.55, UV.y * cells.y - floor(UV.y * cells.y)) * (wind > 0.5 ? 1.0 : 1.0);
 	ALPHA = c.a;
 	ALPHA_SCISSOR_THRESHOLD = 0.45;
-	ROUGHNESS = 0.85;
-	SPECULAR = 0.15;
+	float wet = clamp(remz_wetness, 0.0, 1.0);
+	ALBEDO *= mix(1.0, 0.62, wet);
+	ROUGHNESS = mix(0.85, 0.35, wet);
+	SPECULAR = mix(0.15, 0.5, wet);
 }
 """
 

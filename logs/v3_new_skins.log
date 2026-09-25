@@ -1,0 +1,297 @@
+18:15:08 generating ['zombie_spitter', 'zombie_screamer', 'zombie_stalker'] up to anims
+18:15:09 zombie_spitter model task 01a0d959-62d1-720c-896f-11de56e9e7e0
+18:15:09 zombie_stalker model task 01a0d959-62d4-7637-abc3-e076c7ecf2a8
+18:15:09 zombie_screamer model task 01a0d959-62d1-720a-b9b2-114aa904d9f3
+18:15:09 zombie_spitter model IN_PROGRESS 1%
+18:15:09 zombie_stalker model IN_PROGRESS 1%
+18:15:10 zombie_screamer model IN_PROGRESS 1%
+18:16:10 zombie_spitter model IN_PROGRESS 26%
+18:16:47 zombie_screamer model IN_PROGRESS 25%
+18:17:23 zombie_stalker model IN_PROGRESS 26%
+18:18:00 zombie_spitter model IN_PROGRESS 67%
+18:18:12 zombie_spitter model IN_PROGRESS 84%
+18:19:25 zombie_spitter model SUCCEEDED 100%
+18:19:25 zombie_spitter model done, credits 35
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\model.glb (30.3 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\thumb.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\view_back.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\view_back.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\view_front.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\view_front.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\view_left.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\view_left.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\view_right.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\view_right.png (0.1 MB)
+18:20:02 zombie_stalker model IN_PROGRESS 67%
+18:20:02 zombie_screamer model IN_PROGRESS 67%
+18:20:12 zombie_spitter rig task 01a0d95d-6079-7556-a8b9-2aadae124bda
+18:20:12 zombie_spitter rig IN_PROGRESS 1%
+18:20:14 zombie_stalker model IN_PROGRESS 84%
+18:20:14 zombie_screamer model IN_PROGRESS 84%
+18:20:24 zombie_spitter rig IN_PROGRESS 36%
+18:20:36 zombie_spitter rig IN_PROGRESS 68%
+18:20:48 zombie_spitter rig IN_PROGRESS 90%
+18:21:01 zombie_spitter rig SUCCEEDED 100%
+18:21:01 zombie_spitter rig done, credits 5
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\rigged.glb (25.4 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\basic_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\basic_walking.glb (25.4 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\basic_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\basic_running.glb (25.4 MB)
+18:21:10 zombie_spitter anim walk 119 01a0d95e-e5c6-711f-851f-12f75363226c
+18:21:12 zombie_spitter anim walk2 112 01a0d95e-eea7-7445-b6e8-ea1f112bba80
+18:21:14 zombie_spitter anim attack 214 01a0d95e-f6c3-759d-bcb0-b58c3ffd8b58
+18:21:17 zombie_spitter anim attack2 128 01a0d95e-fefb-74af-83ea-0a14db8ff381
+18:21:19 zombie_spitter anim death 184 01a0d95f-07c5-7482-a8e7-46641fa44d5d
+18:21:21 zombie_spitter anim death2 189 01a0d95f-1024-72ee-ae37-f89c4ef8e157
+18:21:23 zombie_spitter anim death3 183 01a0d95f-1853-75d6-a1a9-55f2ed76b08d
+18:21:25 zombie_spitter anim death4 185 01a0d95f-2056-759e-865d-de2ed8bcf8c8
+18:21:27 zombie_stalker model SUCCEEDED 100%
+18:21:27 zombie_stalker model done, credits 35
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\model.glb...
+18:21:27 zombie_screamer model SUCCEEDED 100%
+18:21:27 zombie_screamer model done, credits 35
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\model.glb...
+18:21:27 zombie_spitter anim death5 188 01a0d95f-28b3-7162-8175-84bc4ce49b41
+18:21:30 zombie_spitter anim hit 178 01a0d95f-3117-70c3-9c8e-194eec02c9b4
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\model.glb (31.9 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\thumb.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\view_back.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\view_back.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\view_front.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\view_front.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\view_left.png...
+18:21:32 zombie_spitter anim hit2 177 01a0d95f-3a8e-766c-bb3c-a57b34c338c0
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\view_left.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\view_right.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\view_right.png (0.1 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\model.glb (34.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\thumb.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\view_back.png...
+18:21:34 zombie_spitter anim idle 255 01a0d95f-4347-7025-bafb-3190226c41f8
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\view_back.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\view_front.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\view_front.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\view_left.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\view_left.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\view_right.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\view_right.png (0.1 MB)
+18:21:36 zombie_spitter anim scream 386 01a0d95f-4c58-7146-8b77-949491300529
+18:21:38 zombie_spitter anim_walk SUCCEEDED 100%
+18:21:38 zombie_spitter anim_walk done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_walk.glb (25.5 MB)
+18:21:43 zombie_spitter anim_walk2 SUCCEEDED 100%
+18:21:43 zombie_spitter anim_walk2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_walk2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_walk2.glb (25.4 MB)
+18:21:47 zombie_spitter anim_attack SUCCEEDED 100%
+18:21:47 zombie_spitter anim_attack done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_attack.glb...
+18:21:48 zombie_stalker rig task 01a0d95f-3f33-76be-b0b1-b23a7ce05caf
+18:21:48 zombie_stalker rig IN_PROGRESS 1%
+18:21:49 zombie_screamer rig task 01a0d95f-493c-7510-9bcf-d03ab9171c52
+18:21:50 zombie_screamer rig IN_PROGRESS 1%
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_attack.glb (25.4 MB)
+18:21:50 zombie_spitter anim_attack2 SUCCEEDED 100%
+18:21:50 zombie_spitter anim_attack2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_attack2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_attack2.glb (25.4 MB)
+18:21:53 zombie_spitter anim_death SUCCEEDED 100%
+18:21:53 zombie_spitter anim_death done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death.glb (25.4 MB)
+18:21:56 zombie_spitter anim_death2 SUCCEEDED 100%
+18:21:56 zombie_spitter anim_death2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death2.glb (25.4 MB)
+18:21:59 zombie_spitter anim_death3 SUCCEEDED 100%
+18:21:59 zombie_spitter anim_death3 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death3.glb...
+18:22:00 zombie_stalker rig IN_PROGRESS 36%
+18:22:02 zombie_screamer rig IN_PROGRESS 36%
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death3.glb (25.4 MB)
+18:22:02 zombie_spitter anim_death4 SUCCEEDED 100%
+18:22:02 zombie_spitter anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death4.glb (25.4 MB)
+18:22:05 zombie_spitter anim_death5 SUCCEEDED 100%
+18:22:05 zombie_spitter anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_death5.glb (25.4 MB)
+18:22:08 zombie_spitter anim_hit SUCCEEDED 100%
+18:22:08 zombie_spitter anim_hit done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_hit.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_hit.glb (25.4 MB)
+18:22:11 zombie_spitter anim_hit2 SUCCEEDED 100%
+18:22:11 zombie_spitter anim_hit2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_hit2.glb...
+18:22:12 zombie_stalker rig IN_PROGRESS 74%
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_hit2.glb (25.4 MB)
+18:22:13 zombie_spitter anim_idle SUCCEEDED 100%
+18:22:13 zombie_spitter anim_idle done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_idle.glb...
+18:22:14 zombie_screamer rig IN_PROGRESS 68%
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_idle.glb (25.4 MB)
+18:22:16 zombie_spitter anim_scream SUCCEEDED 100%
+18:22:16 zombie_spitter anim_scream done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_scream.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_scream.glb (25.4 MB)
+18:22:22 zombie_spitter READY up to anims
+18:22:24 zombie_stalker rig IN_PROGRESS 90%
+18:22:26 zombie_screamer rig IN_PROGRESS 90%
+18:22:37 zombie_stalker rig SUCCEEDED 100%
+18:22:37 zombie_stalker rig done, credits 5
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\rigged.glb...
+18:22:38 zombie_screamer rig SUCCEEDED 100%
+18:22:38 zombie_screamer rig done, credits 5
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\rigged.glb (21.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\basic_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\rigged.glb (19.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\basic_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\basic_walking.glb (21.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\basic_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\basic_walking.glb (19.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\basic_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\basic_running.glb (21.5 MB)
+18:22:50 zombie_stalker anim run 16 01a0d960-6ad6-7469-bba0-f9b5fb69855b
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\basic_running.glb (19.5 MB)
+18:22:52 zombie_stalker anim walk 559 01a0d960-7382-750e-849f-f4219c7e2f94
+18:22:52 zombie_screamer anim run 510 01a0d960-73be-73fb-8f6a-00b00498fd9c
+18:22:54 zombie_screamer anim walk 123 01a0d960-7bfe-73a7-9456-ec0feb8f5cf4
+18:22:54 zombie_stalker anim attack 214 01a0d960-7bb7-7614-b71f-3a62e8b3037c
+18:22:56 zombie_screamer anim attack 214 01a0d960-840e-7712-a7a8-9f56368e322d
+18:22:56 zombie_stalker anim attack2 212 01a0d960-848a-75aa-b88a-aa644e0955bf
+18:22:58 zombie_screamer anim attack2 212 01a0d960-8be5-729c-beef-ca235d22f88a
+18:22:58 zombie_stalker anim death 184 01a0d960-8d1f-73c0-958d-675c6b7cb1e7
+18:23:00 zombie_screamer anim death 184 01a0d960-93e3-7020-b908-c1cfa4abc2f9
+18:23:01 zombie_stalker anim death2 183 01a0d960-9502-7794-95dd-9228b2548e70
+18:23:02 zombie_screamer anim death2 183 01a0d960-9c49-7597-b3be-18426f716225
+18:23:03 zombie_stalker anim death3 189 01a0d960-9d4d-74c3-bf19-c77aaae7aca0
+18:23:04 zombie_screamer anim death3 189 01a0d960-a412-7182-bbff-21cb1e1816c1
+18:23:05 zombie_stalker anim death4 185 01a0d960-a58d-7313-873b-4b4468c44b55
+18:23:06 zombie_screamer anim death4 185 01a0d960-ac6d-7687-9640-7d55998d1845
+18:23:07 zombie_stalker anim death5 188 01a0d960-adc2-70c2-b0c2-687141a11acd
+18:23:08 zombie_screamer anim death5 188 01a0d960-b42e-72c7-ba06-32e11f215f00
+18:23:09 zombie_stalker anim hit 177 01a0d960-b5d7-766b-ade8-55d13e7ee3f0
+18:23:10 zombie_screamer anim hit 177 01a0d960-bc47-7738-9fdc-a51f908ad18f
+18:23:11 zombie_stalker anim hit2 179 01a0d960-be08-755b-bbc3-d04a8dc06ee0
+18:23:13 zombie_screamer anim hit2 179 01a0d960-c440-75db-b0a9-6de886e587d2
+18:23:13 zombie_stalker anim idle 12 01a0d960-c69d-768f-832c-8af5b7d1e89f
+18:23:15 zombie_screamer anim idle 12 01a0d960-cc2c-707d-8bfb-f6059612d525
+18:23:15 zombie_stalker anim scream 386 01a0d960-ced3-748a-a83d-ab5d6da73928
+18:23:17 zombie_screamer anim scream 386 01a0d960-d41b-7719-94ae-f62824c8fb55
+18:23:17 zombie_stalker anim_run SUCCEEDED 100%
+18:23:17 zombie_stalker anim_run done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_run.glb...
+18:23:18 zombie_screamer anim_run SUCCEEDED 100%
+18:23:18 zombie_screamer anim_run done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_run.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_run.glb (19.5 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_run.glb (21.5 MB)
+18:23:22 zombie_screamer anim_walk SUCCEEDED 100%
+18:23:22 zombie_screamer anim_walk done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_walk.glb...
+18:23:22 zombie_stalker anim_walk SUCCEEDED 100%
+18:23:22 zombie_stalker anim_walk done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_walk.glb (21.6 MB)
+18:23:25 zombie_stalker anim_attack SUCCEEDED 100%
+18:23:25 zombie_stalker anim_attack done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_walk.glb (19.5 MB)
+18:23:28 zombie_screamer anim_attack SUCCEEDED 100%
+18:23:28 zombie_screamer anim_attack done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_attack.glb (21.6 MB)
+18:23:28 zombie_stalker anim_attack2 SUCCEEDED 100%
+18:23:28 zombie_stalker anim_attack2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_attack2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_attack2.glb (21.6 MB)
+18:23:31 zombie_stalker anim_death SUCCEEDED 100%
+18:23:31 zombie_stalker anim_death done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death.glb (21.6 MB)
+18:23:36 zombie_stalker anim_death2 SUCCEEDED 100%
+18:23:36 zombie_stalker anim_death2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_attack.glb (19.5 MB)
+18:23:37 zombie_screamer anim_attack2 SUCCEEDED 100%
+18:23:37 zombie_screamer anim_attack2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_attack2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death2.glb (21.6 MB)
+18:23:40 zombie_stalker anim_death3 SUCCEEDED 100%
+18:23:40 zombie_stalker anim_death3 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death3.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death3.glb (21.6 MB)
+18:23:44 zombie_stalker anim_death4 SUCCEEDED 100%
+18:23:44 zombie_stalker anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_attack2.glb (19.5 MB)
+18:23:45 zombie_screamer anim_death SUCCEEDED 100%
+18:23:45 zombie_screamer anim_death done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death4.glb (21.6 MB)
+18:23:49 zombie_stalker anim_death5 SUCCEEDED 100%
+18:23:49 zombie_stalker anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death.glb (19.5 MB)
+18:23:51 zombie_screamer anim_death2 SUCCEEDED 100%
+18:23:51 zombie_screamer anim_death2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_death5.glb (21.6 MB)
+18:23:54 zombie_stalker anim_hit SUCCEEDED 100%
+18:23:54 zombie_stalker anim_hit done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_hit.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death2.glb (19.5 MB)
+18:23:57 zombie_screamer anim_death3 SUCCEEDED 100%
+18:23:57 zombie_screamer anim_death3 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death3.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_hit.glb (21.6 MB)
+18:23:58 zombie_stalker anim_hit2 SUCCEEDED 100%
+18:23:58 zombie_stalker anim_hit2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_hit2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_hit2.glb (21.5 MB)
+18:24:01 zombie_stalker anim_idle SUCCEEDED 100%
+18:24:01 zombie_stalker anim_idle done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_idle.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death3.glb (19.5 MB)
+18:24:03 zombie_screamer anim_death4 SUCCEEDED 100%
+18:24:03 zombie_screamer anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_idle.glb (21.6 MB)
+18:24:04 zombie_stalker anim_scream SUCCEEDED 100%
+18:24:04 zombie_stalker anim_scream done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_scream.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_scream.glb (21.6 MB)
+18:24:07 zombie_stalker READY up to anims
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death4.glb (19.5 MB)
+18:24:10 zombie_screamer anim_death5 SUCCEEDED 100%
+18:24:10 zombie_screamer anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_death5.glb (19.5 MB)
+18:24:12 zombie_screamer anim_hit SUCCEEDED 100%
+18:24:13 zombie_screamer anim_hit done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_hit.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_hit.glb (19.5 MB)
+18:24:15 zombie_screamer anim_hit2 SUCCEEDED 100%
+18:24:15 zombie_screamer anim_hit2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_hit2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_hit2.glb (19.5 MB)
+18:24:17 zombie_screamer anim_idle SUCCEEDED 100%
+18:24:17 zombie_screamer anim_idle done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_idle.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_idle.glb (19.6 MB)
+18:24:20 zombie_screamer anim_scream SUCCEEDED 100%
+18:24:20 zombie_screamer anim_scream done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_scream.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_scream.glb (19.5 MB)
+18:24:22 zombie_screamer READY up to anims
+Balance: {'balance': 653}
+ZOMBIES_V3_DONE ok=3 failed=[]

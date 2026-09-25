@@ -106,6 +106,27 @@ PASS: zombie_soldier animated headshot during walk
 PASS: zombie_soldier animated headshot during attack
 PASS: zombie_soldier empty navigation capsule does not catch bullets
 PASS: zombie_soldier hitboxes follow model offsets and rotation
+PASS: zombie_spitter has model-fitted hitboxes
+PASS: zombie_spitter hitboxes scale with the model
+PASS: zombie_spitter keeps movement collision separate from bullet hitboxes
+PASS: zombie_spitter animated headshot during walk
+PASS: zombie_spitter animated headshot during attack
+PASS: zombie_spitter empty navigation capsule does not catch bullets
+PASS: zombie_spitter hitboxes follow model offsets and rotation
+PASS: zombie_screamer has model-fitted hitboxes
+PASS: zombie_screamer hitboxes scale with the model
+PASS: zombie_screamer keeps movement collision separate from bullet hitboxes
+PASS: zombie_screamer animated headshot during walk
+PASS: zombie_screamer animated headshot during attack
+PASS: zombie_screamer empty navigation capsule does not catch bullets
+PASS: zombie_screamer hitboxes follow model offsets and rotation
+PASS: zombie_stalker has model-fitted hitboxes
+PASS: zombie_stalker hitboxes scale with the model
+PASS: zombie_stalker keeps movement collision separate from bullet hitboxes
+PASS: zombie_stalker animated headshot during walk
+PASS: zombie_stalker animated headshot during attack
+PASS: zombie_stalker empty navigation capsule does not catch bullets
+PASS: zombie_stalker hitboxes follow model offsets and rotation
 PASS: zombie_farmer has model-fitted hitboxes
 PASS: zombie_farmer hitboxes scale with the model
 PASS: zombie_farmer keeps movement collision separate from bullet hitboxes
@@ -141,5 +162,4 @@ PASS: zombie_forester animated headshot during walk
 PASS: zombie_forester animated headshot during attack
 PASS: zombie_forester empty navigation capsule does not catch bullets
 PASS: zombie_forester hitboxes follow model offsets and rotation
-ZOMBIE_HITBOXES_DONE checks=139 failures=0
-EXIT 0
+ZOMBIE_HITBOXES_DONE checks=160 failures=0

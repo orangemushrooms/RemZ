@@ -187,6 +187,9 @@ func run() -> void:
 	grenade.queue_free()
 	game.player.hp = game.player.max_hp
 	game.player.damage(10000.0)
+	check(game.player.downed and game.player.alive and not game.over, "A fatal hit puts the player down first (26 Sep 2026)")
+	game.player.down_time = 0.0
+	game.player._update_down(0.1)
 	check(game.over and paused and not game.player.alive, "Death freezes gameplay and shows restart")
 	game._on_start()
 	await scene_changed

@@ -40,7 +40,7 @@ PASS: Full health produces a zero repair quote
 PASS: Repair needs the player at the hut
 PASS: Test zombie spawned beside the hut
 PASS: Zombie beside the hut targets it
-PASS: Zombie attack damages the hut (3800 -> 3780 after 1.3 s)
+PASS: Zombie attack damages the hut (3800 -> 3780 after 1.5 s)
 PASS: Destroyed hut clears the attack alarm
 PASS: Hut destruction stops the attack warning
 PASS: Destroyed hut ends the round with its own title
@@ -48,4 +48,3 @@ HUT_HEALTH_DONE checks=40 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
-EXIT 0

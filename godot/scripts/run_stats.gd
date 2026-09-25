@@ -54,6 +54,11 @@ func record_kill(zombie: Zombie) -> void:
 func record_death(id: int) -> void:
 	if not NetSession.is_client() and players.has(id): players[id].deaths += 1
 
+var downs := 0    # times a player went down (26 Sep 2026)
+
+func record_down(_id: int) -> void:
+	if not NetSession.is_client(): downs += 1
+
 func leaderboard_rows() -> Array:
 	var rows := players.values().duplicate(true)
 	rows.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:

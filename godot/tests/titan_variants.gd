@@ -26,6 +26,10 @@ func run() -> void:
 		var plan: Array = game.waves.plan(n)
 		var small := 0
 		for entry in plan:
+			if entry.type == "forest_spirit":
+				# the Forest Spirit (26 Sep 2026) replaces one lesser titan and comes through the woods
+				small += 1
+				continue
 			if Zombie.is_titan_kind(entry.type) and entry.type != "titan":
 				small += 1
 				seen[entry.type] = true
@@ -46,7 +50,8 @@ func run() -> void:
 		titan.strike_point = game.player.global_position
 		game.player.hp = 1000
 		titan.resolve_strike()
-		check(is_equal_approx(game.player.hp, 1000 - float(titan.type.damage)), kind + " applies its actual strike damage")
+		# the difficulty's damage multiplier (Normal 1.35 since 25 Sep 2026) rides on every strike
+		check(is_equal_approx(game.player.hp, 1000 - float(titan.type.damage) * titan.damage_mul), kind + " applies its actual strike damage")
 		game.player.global_position += Vector3(titan.blast_radius() + 1, 0, 0)
 		game.player.hp = 1000
 		titan.resolve_strike()

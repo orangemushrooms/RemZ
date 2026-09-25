@@ -1,0 +1,16 @@
+{
+  "id": "01a0d951-638e-77fc-b6d0-abe791d8a70b",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a screamer zombie woman: gaunt emaciated body, chalk-white dead skin, black veins spreading from a torn-open gaping mouth with the jaw ripped wide, black hollow eye sockets, long matted black hair, shredded grey hospital gown to the knees, bare feet. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790352385684,
+  "started_at": 1790352385690,
+  "finished_at": 1790352407532,
+  "expires_at": 1790611607532,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d951-638e-77fc-b6d0-abe791d8a70b_0.png?Expires=1790611607&Signature=lgFOQrFXOrfh44oh0fOqfOgbwM8NWsbLsoChBIwG7SYbbAMFj7EcC3Y9JLcwZJlmtXNo7QAdLFnupgZ6qbap1EUU0p3vzWsE7sarG81oLw~4TqyT9YjQ0OcdQ6wex-GFKVMmMgNn5A4R~G7JcXAANzWv7NsV8lS3yROGuuMfDjw4oSiCSbkgUKkOIrCtzUfLjaiDwpV3xebnkZZV~z4PdlpVBvPKfZfnT3G6809SF-psb5J5~QyA5Bz4vWWmIqCVn2~nApZTfXOjLryv2pGGG3N67V3s0YGHy-7OZ8GDa2xhnqsT7uCF3N2~XVIszFfTqbOKLLh60H38U~NM2yZWoQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

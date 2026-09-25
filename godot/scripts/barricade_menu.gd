@@ -37,6 +37,8 @@ var _saved_mouse := Input.MOUSE_MODE_CAPTURED
 var _refresh_time := 0.0
 var _card: PanelContainer
 var _controls_hint: Label
+var fund_label: Label
+var fund_buttons: Array[Button] = []
 
 func setup(game: Node) -> void:
 	main = game
@@ -129,6 +131,25 @@ func _build_ui() -> void:
 	wallet.add_child(wallet_row)
 	wallet_row.add_child(preload("res://scripts/currency.gd").icon(32.0, GOLD))
 	wallet_row.add_child(points)
+	# the team's gate fund (co-op): deposits pay for gates and sandbag lines before the buyer's own money
+	var fund := PanelContainer.new()
+	fund.add_theme_stylebox_override("panel", _style(INK, Color(0.3, 0.36, 0.29), 10))
+	header.add_child(fund)
+	var fund_box := VBoxContainer.new()
+	fund_box.add_theme_constant_override("separation", 4)
+	fund.add_child(fund_box)
+	fund_label = _label("", 14, GOLD)
+	fund_box.add_child(fund_label)
+	var fund_row := HBoxContainer.new()
+	fund_row.add_theme_constant_override("separation", 6)
+	fund_box.add_child(fund_row)
+	for amount in [50, 100, 250]:
+		var deposit := _button(Lang.t("+%d R", [amount]))
+		deposit.custom_minimum_size = Vector2(70, 30)
+		deposit.add_theme_font_size_override("font_size", 13)
+		deposit.pressed.connect(_deposit.bind(amount))
+		fund_row.add_child(deposit)
+		fund_buttons.append(deposit)
 	var back := _button("Back to the game  [Esc]")
 	back.pressed.connect(close)
 	header.add_child(back)
@@ -311,10 +332,17 @@ func _position_camera() -> void:
 	overview.h_offset = -distance * tan(deg_to_rad(overview.fov * 0.5)) * aspect * 0.29
 	overview.make_current()
 
+func _deposit(amount: int) -> void:
+	if not is_open or not NetSession.enabled: return
+	NetSession.command("purse_deposit", [amount])
+
 func _refresh() -> void:
 	if not is_open or not selected:
 		return
 	points.text = "%d  REM DOLLARS" % player.score
+	if fund_label:
+		fund_label.text = Lang.t("Team gate fund  ·  %d R", [Barricade.purse()]) if NetSession.enabled else "Gate fund: co-op only"
+		for button in fund_buttons: button.disabled = not NetSession.enabled
 	for i in site_buttons.size():
 		var bar: Barricade = main.barricades[i]
 		var distance := bar.distance_to_line(player.global_position)

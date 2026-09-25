@@ -1,0 +1,16 @@
+{
+  "id": "01a0d951-638e-76f5-a5ff-d7665fd81e59",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a bloated acid zombie: grotesquely swollen bare torso, translucent yellow-green skin with glowing acid sacs on the throat, chest and belly, burst boils, green slime dripping from the mouth, torn brown overalls hanging from the waist, bare feet, head sunk into the shoulders, jaw hanging open. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790352385571,
+  "started_at": 1790352385576,
+  "finished_at": 1790352416250,
+  "expires_at": 1790611616250,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d951-638e-76f5-a5ff-d7665fd81e59_0.png?Expires=1790611616&Signature=LYpJoHi-~VbxUHY5cSqExYFBMgAraKBZSaLZ4gziCDrXkk7yNByMLJxhg5Ty8~qGeK-u3Ysf5cwQadRcpBqQp9~NLnwb48kbH5Umwe8gO-kkk-1WpfpT1u3JLDkZtSZ7JMGFNImr6Ox3TevFA2W6yGWcww82LPJP5rEVm~zzEbLM30TmMJjbwtplC-nvqKkKQUA1ONYE4vwh5-Q~IjFQk0jgU7C8fDshVt4dpjvxsP70M7cAfUYiFpAsbEt-FzJXxjVurMiC7pTnB4~uKX-PwmdH--6Ffn5e~MEIgrgFixPcTraWfgWzUMoYfjbiMCR1NyyXrbVted6HcsJOvs-LTA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

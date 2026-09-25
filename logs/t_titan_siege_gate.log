@@ -2,21 +2,21 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
-RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
 COOP_LOAD MAP_READY
 GATE 0 @ +0 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 0 from +0 deg
 GATE 0 @ +25 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10728:<StaticBody3D#657583007232> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11486:<StaticBody3D#744656760069> groups=[&"barricade"]
 PASS: Titan at reach damages gate 0 from +25 deg
 GATE 0 @ +45 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10728:<StaticBody3D#657583007232> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11486:<StaticBody3D#744656760069> groups=[&"barricade"]
 PASS: Titan at reach damages gate 0 from +45 deg
 GATE 0 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10728:<StaticBody3D#657583007232> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11486:<StaticBody3D#744656760069> groups=[&"barricade"]
 PASS: Titan at reach damages gate 0 from -25 deg
 GATE 0 @ -45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10728:<StaticBody3D#657583007232> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11486:<StaticBody3D#744656760069> groups=[&"barricade"]
 PASS: Titan at reach damages gate 0 from -45 deg
 GATE 1 @ +0 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 1 from +0 deg
@@ -27,18 +27,18 @@ GATE 1 @ +45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clea
    blocked by: <null> groups=[]
 PASS: Titan at reach damages gate 1 from +45 deg
 GATE 1 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10778:<StaticBody3D#659294283476> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11536:<StaticBody3D#746368036313> groups=[&"barricade"]
 PASS: Titan at reach damages gate 1 from -25 deg
 GATE 1 @ -45 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10778:<StaticBody3D#659294283476> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11536:<StaticBody3D#746368036313> groups=[&"barricade"]
 PASS: Titan at reach damages gate 1 from -45 deg
 GATE 2 @ +0 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 2 from +0 deg
 GATE 2 @ +25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10828:<StaticBody3D#660988782320> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11586:<StaticBody3D#748062535157> groups=[&"barricade"]
 PASS: Titan at reach damages gate 2 from +25 deg
 GATE 2 @ +45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10828:<StaticBody3D#660988782320> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11586:<StaticBody3D#748062535157> groups=[&"barricade"]
 PASS: Titan at reach damages gate 2 from +45 deg
 GATE 2 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
    blocked by: <null> groups=[]
@@ -55,13 +55,12 @@ GATE 3 @ +45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clea
    blocked by: <null> groups=[]
 PASS: Titan at reach damages gate 3 from +45 deg
 GATE 3 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10878:<StaticBody3D#662683281164> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11636:<StaticBody3D#749757034001> groups=[&"barricade"]
 PASS: Titan at reach damages gate 3 from -25 deg
 GATE 3 @ -45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@10878:<StaticBody3D#662683281164> groups=[&"barricade"]
+   blocked by: @StaticBody3D@11636:<StaticBody3D#749757034001> groups=[&"barricade"]
 PASS: Titan at reach damages gate 3 from -45 deg
 TITAN_SIEGE_GATE_DONE checks=20 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
-EXIT 0

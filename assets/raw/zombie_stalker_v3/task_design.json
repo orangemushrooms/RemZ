@@ -1,0 +1,16 @@
+{
+  "id": "01a0d951-6398-709f-86a5-c16670f70cdd",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photorealistic AAA game character, a stalker zombie that hides in maize fields: lean wiry body, soot-black mud-caked skin and rags, dried corn husks and leaves stuck all over the body and head, ragged dark trousers, bare feet, hunched posture, pale glinting eyes, mouth open. Undead: pale grey necrotic skin, dark veins, sunken eyes, open wounds, dried black blood. Full-body photo, front view, strict T-pose: arms straight out horizontally to the sides, palms down, legs straight and slightly apart, facing the camera, whole body from head to feet visible and centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no weapon, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790352385429,
+  "started_at": 1790352385435,
+  "finished_at": 1790352410227,
+  "expires_at": 1790611610227,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d951-6398-709f-86a5-c16670f70cdd_0.png?Expires=1790611610&Signature=CYRSpV63eqAwMlMLVhqbXC5GSbp5DlUxSri3SFXSt9NSd6H~q1ofNqpNQd~G0jX-ylyaSid1CtyYPB0xJCqA~UodM3qV5np7MBfeMwXnuH-huJf7b93S5ZxZ6XKi3erund2pZElPzPVLTlenIF6k77qaROL~d2XE8XVec8rOJDdGAUc1atgULJQE-5-YyXhyyoBNxf-B3vzHLeJIgQo2paTsX2A7T96xKp-4XTZHmjA~xJWKobUTBx5lnqi4mPrVljX9~hVhlAFU-eDi3~RfbqsYic8cQj-zt~6vcsHtaQBOamdzUm9ETdDlrT6uzObPaGKkflbnQrlEhiEuSOLKPQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

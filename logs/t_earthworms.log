@@ -1,0 +1,58 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: 120 wave plans: exact previews, field-only worms, no worms before 12, no titan pile-ups
+PASS: Worm escalation: one at 12, two at 24, three at 40
+PASS: Very late and four-player boss scaling remains bounded
+PASS: Earthworm_1 is the imported non-looping user recording
+PASS: Earthworm_2 is the imported non-looping user recording
+PASS: Earthworm_3 is the imported non-looping user recording
+PASS: First worm spawns on the actual field
+PASS: Wave 12 normal worm has intended size, HP and bounded speed
+PASS: Spawn plays exactly one supplied worm recording
+PASS: Field entrance (10.0, 126.0) finds a real safe approach to the defended camp
+PASS: Field entrance (-110.0, 108.0) finds a real safe approach to the defended camp
+PASS: Field entrance (-42.0, 126.0) finds a real safe approach to the defended camp
+PASS: Arrival warns before revealing the worm
+PASS: Worm has animated body hit zones, not a humanoid capsule
+PASS: Rig includes walk
+PASS: Rig includes burrow
+PASS: Rig includes emerge
+PASS: Rig includes attack
+PASS: Rig includes recovery
+PASS: Rig includes dive
+PASS: Rig includes death
+PASS: Fully underground worm cannot take invisible hits
+PASS: Arrival transitions to visible emergence
+PASS: Exposed worm takes damage without automatic-fire stun lock
+PASS: Each attack cycle leaves a generous shooting window
+PASS: Real ballistic ray intersects the exposed animated worm
+PASS: Automatic tower can acquire the exposed body
+PASS: Burrowing disables ballistic hits and automatic tower targeting
+PASS: Attack clip deforms the actual skinned head
+PASS: Attack marker is locked; it cannot chase a dodging player
+PASS: Player outside the marked radius takes no damage
+PASS: Player inside unoccluded impact takes exactly one intended hit
+PASS: Worm cannot surface inside the camp
+PASS: Worm cannot tunnel through the camp
+PASS: Underground body actually travels through the field
+PASS: Moving earth trail reveals buried travel
+PASS: Burrow timeout always produces a new full emergence warning
+PASS: Late join reconstructs attack target and remaining warning time
+PASS: Late join does not replay past roar/impact effects
+PASS: Repeated snapshots do not duplicate audio
+PASS: Replica cannot author damage
+PASS: Ancient variant is larger and tougher with a distinct attack footprint
+PASS: Ancient uses its own Meshy model and rig
+PASS: Heavy reinforcements respect separation cooldown
+PASS: Worm death scores exactly once and releases the wave counter
+PASS: Dead worm cannot be scored again
+PASS: Skip-wave also completes with a fully underground worm
+PASS: Balance report directory exists in editor and exported test harness
+EARTHWORMS_DONE checks=48 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

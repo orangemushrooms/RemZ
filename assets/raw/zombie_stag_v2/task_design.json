@@ -1,0 +1,16 @@
+{
+  "id": "01a0d951-638e-711a-9f68-10833b3320db",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Full-body photo of an undead red deer stag standing: large branching antlers, blood-red rotting hide dripping with dark blood, the ribcage and spine exposed on the flank, torn ears, glowing yellow eyes, rotten muzzle with the teeth showing, mud on the legs. Side view in profile, all four legs straight and clearly visible, whole animal centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790352384922,
+  "started_at": 1790352384927,
+  "finished_at": 1790352412776,
+  "expires_at": 1790611612776,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d951-638e-711a-9f68-10833b3320db_0.png?Expires=1790611612&Signature=cTd6062T2WMpzP56d8K0yStPiQ6pL5LikK8u8vqatTcKVZWoOhY2mnLEgscsHOnm~pt1EEQGsthKsscSTHREhZNIR~z-ogp7T0q2AktfR7mYgYWwhvQ4JwJijFneZd1Xir7lSnFyhdgXXoYDEymvg~b5WksMwPqWbPXb9Wyg8VqszQlgDE8052CFO-ijN4Qu8bfwFa8MSqeBCO6RH2zOHcRtsH~EnHRN1sRg945CBOdpV1pxO3tllyGOE-lOyp3~4jxlQkeB5FYqjInkYnX~wtZvhZjaJM5Xdc14GIofAdeB-JUCPNoT8jxCGdcuZEMV3SHh4VphoAbc-~7-YJ0H7g__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

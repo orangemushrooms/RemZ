@@ -1,0 +1,55 @@
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+18:15:08 model zombie_stag_v2
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+18:15:08 model zombie_dog_v2
+TASK_CREATED: 01a0d959-6381-7428-a5e0-93979c79b060
+TASK_CREATED: 01a0d959-6380-70ca-bbf4-931b44ddffa9
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [█░░░░░░░░░░░░░░░░░░░] 9% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 9% — IN_PROGRESS (5s, poll #2)
+  [██░░░░░░░░░░░░░░░░░░] 11% — IN_PROGRESS (12.5s, poll #3)
+  [██░░░░░░░░░░░░░░░░░░] 10% — IN_PROGRESS (12.5s, poll #3)
+  [██░░░░░░░░░░░░░░░░░░] 13% — IN_PROGRESS (23.75s, poll #4)
+  [█████░░░░░░░░░░░░░░░] 25% — IN_PROGRESS (23.75s, poll #4)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (40.625s, poll #5)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (40.625s, poll #5)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (65.9375s, poll #6)
+  [███████░░░░░░░░░░░░░] 35% — IN_PROGRESS (65.9375s, poll #6)
+  [████████░░░░░░░░░░░░] 42% — IN_PROGRESS (95.9375s, poll #7)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (95.9375s, poll #7)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (125.9375s, poll #8)
+  [█████████████░░░░░░░] 67% — IN_PROGRESS (125.9375s, poll #8)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (155.9375s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (155.9375s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (170.9375s, poll #10)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\model.glb (12.9 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\thumb.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\view_back.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\view_back.png (0.0 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\view_front.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\view_front.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\view_left.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\view_left.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\view_right.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_dog_v2\view_right.png (0.1 MB)
+18:18:05 DONE zombie_dog_v2
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (185.9375s, poll #10)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (215.9375s, poll #11)
+  [████████████████░░░░] 84% — IN_PROGRESS (245.9375s, poll #12)
+  [████████████████████] 100% — SUCCEEDED (275.9375s, poll #13)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\model.glb (13.6 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\thumb.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\view_back.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\view_back.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\view_front.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\view_front.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\view_left.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\view_left.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\view_right.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stag_v2\view_right.png (0.1 MB)
+18:19:51 DONE zombie_stag_v2

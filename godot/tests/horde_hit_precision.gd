@@ -52,6 +52,8 @@ func run() -> void:
 	check(typed, "Exported hull arrays recover Plane element type before actor setup")
 	var variants := {}
 	for kind in Zombie.TYPES:
+		# rig-less beasts and the bone-volume boss (26 Sep 2026) carry no baked hulls
+		if Zombie.is_beast_kind(kind) or bool(Zombie.TYPES[kind].get("boss", false)): continue
 		for skin in Zombie.skin_names(Zombie.TYPES[kind]):
 			if not variants.has(skin): variants[skin] = kind
 	for skin in variants:

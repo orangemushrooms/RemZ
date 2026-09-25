@@ -87,9 +87,26 @@ PASS: zombie_forester broad bounds enclose all sampled animated vertices
 PASS: zombie_forester native/baked rays agree on hits: 0
 PASS: zombie_forester native/baked surface distance below 5 mm in model space: 0.00031282842974
 PASS: zombie_forester native/baked rays agree on headshots: 0
+PASS: zombie_spitter every shot volume is fully initialized
+PASS: zombie_spitter uses validated baked volumes
+PASS: zombie_spitter broad bounds enclose all sampled animated vertices
+PASS: zombie_spitter native/baked rays agree on hits: 0
+PASS: zombie_spitter native/baked surface distance below 5 mm in model space: 0.00045305953245
+PASS: zombie_spitter native/baked rays agree on headshots: 0
+PASS: zombie_screamer every shot volume is fully initialized
+PASS: zombie_screamer uses validated baked volumes
+PASS: zombie_screamer broad bounds enclose all sampled animated vertices
+PASS: zombie_screamer native/baked rays agree on hits: 0
+PASS: zombie_screamer native/baked surface distance below 5 mm in model space: 0.00020232285897
+PASS: zombie_screamer native/baked rays agree on headshots: 0
+PASS: zombie_stalker every shot volume is fully initialized
+PASS: zombie_stalker uses validated baked volumes
+PASS: zombie_stalker broad bounds enclose all sampled animated vertices
+PASS: zombie_stalker native/baked rays agree on hits: 0
+PASS: zombie_stalker native/baked surface distance below 5 mm in model space: 0.00009280701488
+PASS: zombie_stalker native/baked rays agree on headshots: 0
 PASS: Nearest animated actor stops ray first
 PASS: Piercing exclusion skips all front actor bones
 PASS: Excluded animated actors cannot block ray
 PASS: Changed model automatically falls back to native convex collider
-HORDE_HIT_PRECISION_DONE checks=89 failures=0
-EXIT 0
+HORDE_HIT_PRECISION_DONE checks=107 failures=0

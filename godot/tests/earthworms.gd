@@ -57,7 +57,8 @@ func run() -> void:
 	var worm: Earthworm = game.zombies_root.get_children().back()
 	worm.set_physics_process(false)
 	await process_frame
-	check(worm.height == 14 and is_equal_approx(worm.hp, 2600) and is_equal_approx(worm.speed_mul, 1.25), "Wave 12 normal worm has intended size, HP and bounded speed")
+	# the difficulty's health multiplier (Normal 1.25 since 25 Sep 2026) rides on the worm's health
+	check(worm.height == 14 and is_equal_approx(worm.hp, 2600 * float(game.difficulty.hp)) and is_equal_approx(worm.speed_mul, 1.25), "Wave 12 normal worm has intended size, HP and bounded speed")
 	check(worm.cue_serial == 1 and worm._heard_cue == 1 and worm._voice.stream is AudioStreamMP3, "Spawn plays exactly one supplied worm recording")
 	var saved_player: Vector3 = game.player.global_position
 	var saved_worm := worm.global_position
@@ -120,7 +121,7 @@ func run() -> void:
 	check(game.player.hp == player_hp, "Player outside the marked radius takes no damage")
 	game.player.global_position = locked
 	worm.resolve_strike()
-	check(is_equal_approx(game.player.hp, player_hp - 48), "Player inside unoccluded impact takes exactly one intended hit")
+	check(is_equal_approx(game.player.hp, player_hp - 48 * worm.damage_mul), "Player inside unoccluded impact takes exactly one intended hit")
 	check(not worm.safe_surface(Map.ground_pos(Map.FIRE.x, Map.FIRE.y)), "Worm cannot surface inside the camp")
 	check(not worm._safe_tunnel(Map.ground_pos(Map.FIRE.x, Map.FIRE.y)), "Worm cannot tunnel through the camp")
 	worm._set_phase("dive", Earthworm.DIVE_TIME)

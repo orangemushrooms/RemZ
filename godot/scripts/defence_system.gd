@@ -731,7 +731,7 @@ func _process(delta: float) -> void:
 	if titan:
 		boss_bar.max_value = titan.max_hp
 		boss_bar.value = titan.hp
-		var status: String = titan.status_label() if titan is Earthworm else ("RAGE" if titan.hp < titan.max_hp * Titan.RAGE_THRESHOLD else "")
+		var status: String = titan.status_label() if titan is Earthworm else ("RAGE" if titan is Titan and titan.hp < titan.max_hp * Titan.RAGE_THRESHOLD else "")
 		var boss: String = str(titan.type.get("name", "THE FIELD TITAN"))
 		var metres := roundi(titan.global_position.distance_to(game.player.global_position))
 		boss_name.text = Lang.t("%s · %d m · %s", [boss, metres, status]) if not status.is_empty() else Lang.t("%s · %d m", [boss, metres])

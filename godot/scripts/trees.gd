@@ -89,6 +89,7 @@ uniform sampler2D tex : source_color, filter_linear_mipmap;
 uniform float wind = 1.0;
 uniform vec3 tint : source_color = vec3(1.0);
 uniform float autumn = 0.25;
+global uniform float remz_wetness;
 varying vec3 ccenter;
 varying float shade;
 varying float treehash;
@@ -113,12 +114,13 @@ void fragment() {
 	float yellowing = smoothstep(0.55, 1.0, fract(h * 7.31)) * autumn;
 	vec3 lum = vec3(dot(col, vec3(0.3, 0.59, 0.11)));
 	col = mix(col, lum * vec3(1.55, 1.25, 0.55), yellowing);
-	ALBEDO = col * shade;
+	float wet = clamp(remz_wetness, 0.0, 1.0);
+	ALBEDO = col * shade * mix(1.0, 0.6, wet);
 	vec3 wpos = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	vec3 n = normalize(wpos - ccenter + vec3(0.0, 0.8, 0.0));
 	NORMAL = normalize((VIEW_MATRIX * vec4(n, 0.0)).xyz);
-	ROUGHNESS = 0.85;
-	SPECULAR = 0.15;
+	ROUGHNESS = mix(0.85, 0.4, wet);
+	SPECULAR = mix(0.15, 0.45, wet);
 	// sunlight through the leaf: the canopy glows when the sun is behind it
 	BACKLIGHT = col * 0.55;
 	AO = 0.55 + 0.45 * shade;
@@ -218,12 +220,14 @@ uniform sampler2D normal_tex : hint_normal, filter_linear_mipmap_anisotropic;
 uniform sampler2D rough_tex : hint_default_white, filter_linear_mipmap_anisotropic;
 uniform vec3 tint : source_color = vec3(1.0);
 uniform float shade = 0.4;
+global uniform float remz_wetness;
 void fragment() {
-	ALBEDO = texture(albedo_tex, UV).rgb * tint;
+	float wet = clamp(remz_wetness, 0.0, 1.0);
+	ALBEDO = texture(albedo_tex, UV).rgb * tint * mix(1.0, 0.55, wet);
 	NORMAL_MAP = texture(normal_tex, UV).rgb;
 	NORMAL_MAP_DEPTH = 1.0;
-	ROUGHNESS = max(texture(rough_tex, UV).r, 0.85);
-	SPECULAR = 0.1;
+	ROUGHNESS = mix(max(texture(rough_tex, UV).r, 0.85), 0.45, wet);
+	SPECULAR = mix(0.1, 0.4, wet);
 	AO = shade;
 	AO_LIGHT_AFFECT = 0.85;
 }

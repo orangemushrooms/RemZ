@@ -1,0 +1,53 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: One sandbag line per gate
+PASS: Gates first, then the sandbag lines
+PASS: Line 0 stands inside the ring
+PASS: Line 0 sits 9.0 m behind its gate
+PASS: Line 0 runs parallel to its gate
+PASS: Line 0 starts as a site behind Hut Path
+PASS: Line 0 is a low wall on the barricade layer
+PASS: Line 1 stands inside the ring
+PASS: Line 1 sits 9.0 m behind its gate
+PASS: Line 1 runs parallel to its gate
+PASS: Line 1 starts as a site behind Meadow Gate
+PASS: Line 1 is a low wall on the barricade layer
+PASS: Line 2 stands inside the ring
+PASS: Line 2 sits 9.0 m behind its gate
+PASS: Line 2 runs parallel to its gate
+PASS: Line 2 starts as a site behind Village Path
+PASS: Line 2 is a low wall on the barricade layer
+PASS: Line 3 stands inside the ring
+PASS: Line 3 sits 9.0 m behind its gate
+PASS: Line 3 runs parallel to its gate
+PASS: Line 3 starts as a site behind North Forest Path
+PASS: Line 3 is a low wall on the barricade layer
+PASS: The breached gate raises its sandbag line
+PASS: The deployment costs nothing
+PASS: The deployment is announced
+PASS: The radio calls the breach
+PASS: Sandbag segments stand on the line
+PASS: The line has its own health and armour
+PASS: A hit is partly shrugged off and raises the alert
+PASS: The HUD arrows point at the attacked line
+PASS: The zombie between gate and line goes for the sandbags
+PASS: The sandbag line takes the zombie's hits (370 -> 354 after 4.2 s)
+PASS: Space in front of the line finds it to climb over
+PASS: Repairing needs Rem Dollars
+PASS: Repair refills the line for its price
+PASS: The prompt offers the repair
+PASS: A destroyed line falls back to a site
+PASS: Rebuilding needs Rem Dollars
+PASS: The line can be rebuilt for its price
+PASS: A standing line refuses a second build
+PASS: The co-op snapshot carries the sandbag lines
+PASS: The snapshot carries the gate fund
+PASS: A rebuilt gate leaves the sandbag line standing
+SANDBAGS_DONE checks=43 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

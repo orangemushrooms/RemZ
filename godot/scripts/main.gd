@@ -27,7 +27,10 @@ var music: Music
 var intro: Intro
 var zombies_root: Node3D
 var barricades: Array = []
+var sandbags: Array = []                  # the sandbag line behind every gate (sandbag_line.gd), same order
 var perimeter: Perimeter                  # palisade ring, its gates are the barricade slots
+var weather: Weather                      # rain, fog banks, thunderstorms (weather.gd)
+var pings: Pings                          # the team radio (pings.gd)
 var hut: HutHealth                        # Waldhütte health: attacked by zombies, repaired with E, lost at zero
 var loots: Array = []
 var gold_mushroom: Loot
@@ -208,6 +211,20 @@ func _ready() -> void:
 		add_child(perimeter)
 		perimeter.setup(barricades)
 		perimeter.layout_changed.connect(_perimeter_changed)
+	# The second line: a sandbag emplacement inside the ring behind every gate, raised when the gate falls.
+	for b in barricades:
+		var gate_at := Vector2(b.center.x, b.center.z)
+		var inside: Vector2 = b.normal2
+		if perimeter:
+			if not perimeter.contains(gate_at + b.normal2 * SandbagLine.FALLBACK_DEPTH): inside = -b.normal2
+		elif (Map.FIRE - gate_at).dot(b.normal2) < 0.0:
+			inside = -b.normal2
+		var line := SandbagLine.new()
+		line.gate = b
+		line.setup(SandbagLine.slot_behind(b.slot, inside), hud)
+		add_child(line)
+		sandbags.append(line)
+		b.breached.connect(_gate_breached.bind(b, line))
 	waves = Waves.new()
 	add_child(waves)
 	waves.setup(self, hud, player, weapons)
@@ -250,6 +267,16 @@ func _ready() -> void:
 	add_child(ambience)
 	ambience.setup(player, Map.ground_pos(Map.FIRE.x, Map.FIRE.y), Map.ground_pos(-40.0, -60.0))
 	ambience.day_night = day_night
+	weather = Weather.new()
+	add_child(weather)
+	weather.setup(self)
+	pings = Pings.new()
+	add_child(pings)
+	pings.setup(self)
+	day_night.blood_moon_changed.connect(_blood_moon)
+	player.went_down.connect(func():
+		player_down(player)
+		if NetSession.enabled and NetSession.world: NetSession.world.check_team())
 	_boot_mark("  quickbar, ambience")
 	intro = Intro.new()
 	add_child(intro)
@@ -2477,6 +2504,116 @@ func _hut_lost() -> void:
 	_end_round("HUT LOST", Lang.t("The forest hut has been destroyed.") + " " + _survived_text())
 
 # "You survived 1 wave" / "3 waves": one msgid per number so every language words its own plural
+# ---------------------------------------------------------------- 26 Sep 2026: weather, sandbags, callouts, special infected
+# every gate and sandbag line, in one list: what the zombies attack and the acid and the trees hit
+func defence_lines() -> Array:
+	var lines: Array = barricades.duplicate()
+	lines.append_array(sandbags)
+	return lines
+
+# a message for everyone at the fire: the local HUD plus every co-op client
+func broadcast_message(text: String, seconds: float) -> void:
+	hud.message(text, seconds)
+	if NetSession.is_host():
+		for peer in NetSession.ready_peers:
+			if peer != 1 and NetSession.ready_peers[peer]: NetSession.feedback(peer, "message", [text, seconds])
+
+func _gate_breached(gate: Barricade, line: SandbagLine) -> void:
+	if NetSession.is_client() or over: return
+	if pings: pings.callout("breach:" + str(gate.slot.id), "gate_breached", gate.center, str(gate.slot.name))
+	if line.deploy():
+		broadcast_message(Lang.t("Sandbag line raised behind %s - fall back and hold it!", [gate.slot.name]), 4.0)
+
+func _blood_moon(active: bool) -> void:
+	if NetSession.is_client() or not started: return
+	if active:
+		broadcast_message("BLOOD MOON\nThe horde runs faster tonight. Every kill counts double.", 5.0)
+		if pings: pings.callout("blood_moon", "blood_moon", Map.ground_pos(Map.FIRE.x, Map.FIRE.y))
+		Sfx.play(self, "wave", -2.0, 0.7)
+	else:
+		broadcast_message("The blood moon has set.", 3.0)
+
+# the player a screamer marked: every zombie on the map goes for them for the mark's duration
+func marked_player() -> Player:
+	var actors: Array = NetSession.world.actors.values() if NetSession.is_host() and NetSession.world else [player]
+	for actor in actors:
+		if is_instance_valid(actor) and actor.alive and actor.marked_t > 0.0: return actor
+	return null
+
+# A screamer's cry (zombie._call_horde, host): the target is marked for everyone, every zombie within the
+# call radius hunts them, and runners join the wave from the lane nearest the screamer.
+func horde_call(screamer: Zombie, target: Player) -> void:
+	if NetSession.is_client() or not is_instance_valid(target): return
+	var spec: Dictionary = screamer.type.get("screamer", {})
+	target.marked_t = float(spec.get("mark", 12.0))
+	var radius: float = float(spec.get("call_radius", 70.0))
+	for z in zombies_root.get_children():
+		if z is Zombie and z.alive and z != screamer and not Zombie.is_boss_kind(z.net_kind) and z.global_position.distance_to(screamer.global_position) < radius:
+			z.player = target
+			z.begin_hunt()
+	var lane := "north"
+	var best := INF
+	for name in Map.SPAWNS:
+		for point: Vector2 in Map.SPAWNS[name]:
+			var d := point.distance_to(Vector2(screamer.global_position.x, screamer.global_position.z))
+			if d < best:
+				best = d
+				lane = name
+	waves.reinforce("runner", int(spec.get("call", 3)), lane)
+	Sfx.play_at(zombies_root, "screamer_call", screamer.global_position + Vector3.UP * 1.5, -1.0, randf_range(0.95, 1.08), 14.0, 220.0)
+	if NetSession.is_host():
+		for peer in NetSession.ready_peers:
+			if peer != 1 and NetSession.ready_peers[peer]: NetSession.feedback(peer, "screamer", [screamer.global_position + Vector3.UP * 1.5])
+	var who: String = NetSession.roster.get(target.peer_id, NetSession.player_name) if NetSession.enabled else NetSession.player_name
+	broadcast_message(Lang.t("A screamer's cry echoes through the forest - %s is marked! The horde is coming.", [Lang.raw(who)]), 4.0)
+	if pings: pings.callout("spotted:%d" % target.peer_id, "spotted", target.global_position, who)
+
+# the spitter's glob leaves the mouth (host): the arc for everyone, the pool when it lands
+func acid_spit(from: Vector3, to: Vector3, spitter: Zombie) -> void:
+	var glob := AcidGlob.new()
+	add_child(glob)
+	glob.setup(from, to, spitter.type.get("ranged", {}), false, spitter)
+	Sfx.play_at(zombies_root, "acid_spit", from, -4.0, randf_range(0.9, 1.1), 6.0, 60.0)
+	NetSession.acid_glob(from, to, spitter.net_kind)
+
+func acid_land(at: Vector3, spec: Dictionary, spitter: Zombie) -> void:
+	var pool := AcidPool.new()
+	add_child(pool)
+	pool.global_position = Map.ground_pos(at.x, at.z) + Vector3.UP * 0.04
+	pool.setup(spec, false)
+	# whoever stands right under the glob takes the direct hit
+	var actors: Array = NetSession.world.actors.values() if NetSession.is_host() and NetSession.world else [player]
+	for actor in actors:
+		if is_instance_valid(actor) and actor.alive and actor.global_position.distance_to(at) < 1.4:
+			actor.damage(float(spec.get("damage", 22.0)) * (spitter.damage_mul if is_instance_valid(spitter) else 1.0), at)
+	NetSession.acid_pool(pool.global_position, spitter.net_kind if is_instance_valid(spitter) else "spitter")
+
+# a titan tears a tree out and throws it (host): the projectile here, the same arc on every client
+func titan_throw(titan: Titan, from: Vector3, to: Vector3) -> void:
+	var tree := ThrownTree.new()
+	add_child(tree)
+	var seconds := clampf(from.distance_to(to) / 26.0, 1.2, 3.0)
+	tree.setup(from, to, seconds, titan, false)
+	Sfx.play_at(zombies_root, "crash", from, -2.0, 0.6, 30.0, 200.0)
+	NetSession.titan_throw(titan.appearance_seed, titan.throw_serial, from, to, seconds)
+
+func titan_phase(titan: Titan, bit: int) -> void:
+	var name: String = titan.type.get("name", "THE FIELD TITAN")
+	if bit == Titan.LOST_ARM:
+		broadcast_message(Lang.t("%s lost an arm - it is tearing out trees!", [name]), 4.0)
+	else:
+		broadcast_message(Lang.t("%s lost a leg - it crawls, keep your distance from its sweep!", [name]), 4.0)
+
+# a player went down (solo: the HUD, co-op: the radio tells everyone)
+func player_down(who: Player) -> void:
+	if NetSession.is_client() or over: return
+	var name: String = NetSession.roster.get(who.peer_id, NetSession.player_name) if NetSession.enabled else NetSession.player_name
+	if pings: pings.callout("down:%d" % who.peer_id, "down", who.global_position, name)
+	if who == player:
+		hud.message("YOU ARE DOWN - hold E to get back up" if who.self_revives > 0 else "YOU ARE DOWN - a teammate can revive you with E", 4.0)
+	elif NetSession.is_host():
+		NetSession.feedback(who.peer_id, "message", ["YOU ARE DOWN - hold E to get back up" if who.self_revives > 0 else "YOU ARE DOWN - a teammate can revive you with E", 4.0])
+
 func _survived_text() -> String:
 	if waves.completed == 1: return Lang.t("You survived %d wave with %d Rem Dollars.", [waves.completed, player.score])
 	return Lang.t("You survived %d waves with %d Rem Dollars.", [waves.completed, player.score])
@@ -2494,7 +2631,7 @@ func _end_round(title: String, text: String) -> void:
 	hud.show_overlay(title, text, "Play again", "", "over")
 	hud.show_run_summary(stats, player.score, waves.completed, rank, str(difficulty["name"]))
 
-func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimum_distance := 0.0) -> bool:
+func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimum_distance := 0.0, armor_override := -1) -> bool:
 	if NetSession.is_client(): return false
 	var profile := Zombie.is_titan_kind(type) and "--profile-spawn" in _flags
 	var timings: Array = [Time.get_ticks_usec()] if profile else []
@@ -2519,15 +2656,18 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 				return false
 	if profile: timings.append(Time.get_ticks_usec())
 	if minimum_distance > 0.0 and Zombie.is_worm_kind(type) and not Earthworm.surface_clear(self, perimeter, spawn): return false
-	var z: Zombie = Earthworm.new() if Zombie.is_worm_kind(type) else (Titan.new() if Zombie.is_titan_kind(type) else Zombie.new())
-	z.setup(type, player, barricades, speed_mul, _zombie_killed)
+	var z: Zombie = ForestSpirit.new() if type == "forest_spirit" else (Earthworm.new() if Zombie.is_worm_kind(type) else (Titan.new() if Zombie.is_titan_kind(type) else (ZombieBeast.new() if Zombie.is_beast_kind(type) else Zombie.new())))
+	z.setup(type, player, defence_lines(), speed_mul, _zombie_killed)
+	# the mutation: from wave 10 a share of the common humanoids wears a helmet
+	if armor_override == 1 or (armor_override < 0 and Zombie.can_be_armored(type) and randf() < Waves.armor_chance(waves.wave)):
+		z.armored = true
 	z.hp *= float(difficulty["hp"])
 	var party: int = NetSession.roster.size() if NetSession.enabled else 1
 	if not Zombie.is_boss_kind(type): z.hp *= EncounterBalance.horde_hp(waves.wave) * EncounterBalance.party_hp(party)
 	if Zombie.is_boss_kind(type):
 		z.speed_mul = EncounterBalance.heavy_speed(speed_mul)
 		z.hp *= EncounterBalance.heavy_hp(waves.wave, NetSession.roster.size() if NetSession.enabled else 1, Zombie.is_worm_kind(type))
-		var message := Lang.t("%s\nA %d-meter worm is burrowing through the field!", [z.type.name, int(z.height)]) if Zombie.is_worm_kind(type) else Lang.t("%s\nA %d-meter titan is approaching across the meadow!", [z.type.get("name", "THE FIELD TITAN"), int(z.height)])
+		var message := Lang.t("THE FOREST SPIRIT\nAn ancient horror awakens in the woods!") if type == "forest_spirit" else (Lang.t("%s\nA %d-meter worm is burrowing through the field!", [z.type.name, int(z.height)]) if Zombie.is_worm_kind(type) else Lang.t("%s\nA %d-meter titan is approaching across the meadow!", [z.type.get("name", "THE FIELD TITAN"), int(z.height)]))
 		hud.message(message, 5)
 		if NetSession.is_host():
 			for peer in NetSession.ready_peers:
@@ -2557,6 +2697,7 @@ func _zombie_killed(zombie: Zombie) -> void:
 	_alive_count = maxi(0, _alive_count - 1)
 	# points: base value x difficulty x KILL_VALUE, plus up to +100 % for a kill streak (from the third kill within 4 s)
 	var base := float(zombie.type["score"]) * float(difficulty["score"]) * KILL_VALUE
+	if day_night and day_night.blood_moon(): base *= 2.0   # the red moon pays double
 	var streak := stats.streak() + 1
 	var bonus := clampf((streak - 2) * 0.1, 0.0, 1.0)
 	var points := int(round(base * (1.0 + bonus) * (1.5 if zombie.last_headshot else 1.0)))
@@ -2596,6 +2737,7 @@ func alive_zombies() -> int:
 	return _alive_count
 
 var _shadow_cells_t := 0.0
+var _weather_label_t := 0.0
 
 func _process(delta: float) -> void:
 	_update_notice()
@@ -2611,18 +2753,29 @@ func _process(delta: float) -> void:
 	if fire_light:
 		var daylight_multiplier := day_night.fire_energy_multiplier if day_night else 1.0
 		fire_light.light_energy = 5.0 * daylight_multiplier * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
-	if player and player.active and not player.controlling_drone and drones.input_grace <= 0 and not player.mounted_tower and not defences.placing and defences.input_grace <= 0:
+	if player:
+		var teammates := NetSession.enabled and NetSession.roster.size() > 1
+		hud.set_downed(player.downed, player.down_time, player.hold_fraction(), player.self_revives > 0, teammates)
+		hud.set_marked(player.marked_t > 0.0)
+		if weather and day_night and _weather_label_t <= 0.0:
+			_weather_label_t = 0.5
+			var moon := ""
+			if day_night.is_night(): moon = Lang.text(day_night.moon_phase_name())
+			var label := Lang.text(weather.label())
+			hud.set_weather(label + (" · " if not label.is_empty() and not moon.is_empty() else "") + moon)
+		_weather_label_t -= delta
+	if player and player.active and not player.downed and not player.controlling_drone and drones.input_grace <= 0 and not player.mounted_tower and not defences.placing and defences.input_grace <= 0:
 		if not intro.showing_guidance():
 			_tower_hint_remaining = maxf(0.0, _tower_hint_remaining - delta)
 		var near = null
 		var nd := Barricade.BUILD_REACH
-		for b in barricades:
+		for b in defence_lines():
 			var d: float = b.distance_to_line(player.global_position)
 			if d < nd:
 				nd = d
 				near = b
 		near_bar = near
-		for b in barricades:
+		for b in defence_lines():
 			b.set_preview(b == near)
 		var loot = null
 		var ld := Door.INTERACT_REACH
@@ -2693,7 +2846,7 @@ func _process(delta: float) -> void:
 		elif tower and Input.is_action_just_pressed("interact"):
 			defences.request_mount(tower)
 		elif near and Input.is_action_just_pressed("interact"):
-			if NetSession.enabled: NetSession.command("repair" if near.level > 0 and near.hp < near.max_hp() else "build", [barricades.find(near)])
+			if NetSession.enabled: NetSession.command("repair" if near.level > 0 and near.hp < near.max_hp() else "build", [defence_lines().find(near)])
 			else: near.purchase(player, "repair" if near.level > 0 and near.hp < near.max_hp() else "build")
 		elif hunt_interact and Input.is_action_just_pressed("interact"):
 			hunting.request("collect" if meat_drop >= 0 else "cook", meat_drop)

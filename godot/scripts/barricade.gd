@@ -3,6 +3,7 @@ class_name Barricade
 extends Node3D
 
 signal changed
+signal breached                 # a built line fell to zero (main deploys the sandbag line behind a gate)
 
 # Three tiers, each with its own Meshy wall (Sep 2026): the timber palisade, an iron-banded log wall and
 # the steel bulwark. "armor" is the share of every hit the wall shrugs off, "cost" what the next tier
@@ -43,6 +44,44 @@ static func tier_scene(level_index: int) -> PackedScene:
 		var path := "res://assets/models/%s.glb" % name
 		_tier_scenes[name] = load(path) if ResourceLoader.exists(path) else null
 	return _tier_scenes[name]
+
+# Overridable per line kind (sandbag_line.gd): a gate is one of the four palisade openings.
+func is_gate() -> bool:
+	return true
+
+func wall_height() -> float:
+	return HEIGHT
+
+# the collision box may stand taller than the visual wall: a zombie's sight line to a player right behind
+# it (1 m up) must hit the box, or the zombie sees the player, ignores the line and pushes against it forever
+func collision_height() -> float:
+	return wall_height()
+
+func segment_scene(tier_level: int) -> PackedScene:
+	return tier_scene(tier_level)
+
+func armor() -> float:
+	return float(tier(level)["armor"])
+
+func hit_sound() -> String:
+	return String(tier(level)["hit_sfx"])
+
+func breach_message() -> String:
+	return Lang.t("Barricade %s breached!", [slot["name"]])
+
+# The team purse (26 Sep 2026, co-op only): deposits every teammate makes pay for gates and sandbag lines
+# before the buyer's own Rem Dollars do. Solo play has no purse. Host authoritative (coop_world.purse).
+static func purse() -> int:
+	if NetSession.is_host() and NetSession.world: return int(NetSession.world.purse)
+	if NetSession.is_client() and NetSession.world: return int(NetSession.world.purse)
+	return 0
+
+static func spend(player: Player, cost: int) -> void:
+	var from_purse := 0
+	if NetSession.is_host() and NetSession.world:
+		from_purse = mini(int(NetSession.world.purse), cost)
+		NetSession.world.purse -= from_purse
+	if cost - from_purse > 0: player.add_score(-(cost - from_purse))
 const PLAN_COLOR := Color(1.0, 0.16, 0.12)
 const BUILT_COLOR := Color(0.25, 0.91, 0.65)
 
@@ -101,9 +140,9 @@ func _ready() -> void:
 		_segment_transforms.append(frame)
 		var shape := CollisionShape3D.new()
 		var box := BoxShape3D.new()
-		box.size = Vector3(SEGMENT_LENGTH + 0.06, HEIGHT, 0.9)
+		box.size = Vector3(SEGMENT_LENGTH + 0.06, collision_height(), 0.9)
 		shape.shape = box
-		shape.transform = frame * Transform3D(Basis.IDENTITY, Vector3(0, HEIGHT * 0.5 - 0.06, 0))
+		shape.transform = frame * Transform3D(Basis.IDENTITY, Vector3(0, collision_height() * 0.5 - 0.06, 0))
 		shape.disabled = true
 		body.add_child(shape)
 		var planned := _make_segment()
@@ -132,7 +171,7 @@ func _create_health_display() -> void:
 	health_display.name = "HealthDisplay"
 	health_display.position.y = 3.4
 	for frame in _segment_transforms:
-		health_display.position.y = maxf(health_display.position.y, frame.origin.y + HEIGHT + 0.6)
+		health_display.position.y = maxf(health_display.position.y, frame.origin.y + wall_height() + 0.6)
 	add_child(health_display)
 	var image := Image.create(256, 18, false, Image.FORMAT_RGBA8)
 	image.fill(Color.WHITE)
@@ -215,7 +254,7 @@ func _make_segment(tier_level := 1) -> Node3D:
 	# scaled into the segment box. Tiers without a GLB use the timber model.
 	var holder := Node3D.new()
 	var fit := Node3D.new()
-	var scene := tier_scene(tier_level)
+	var scene := segment_scene(tier_level)
 	var model: Node3D = (scene if scene else MODEL).instantiate()
 	holder.add_child(fit)
 	fit.add_child(model)
@@ -224,7 +263,8 @@ func _make_segment(tier_level := 1) -> Node3D:
 		model.rotation.y = PI * 0.5
 		bounds = _bounds(model)
 	var depth := 0.8 if tier_level <= 1 else 1.0
-	fit.scale = Vector3((SEGMENT_LENGTH + 0.06) / maxf(bounds.size.x, 0.001), HEIGHT / maxf(bounds.size.y, 0.001), depth / maxf(bounds.size.z, 0.001))
+	if not is_gate(): depth = 1.1
+	fit.scale = Vector3((SEGMENT_LENGTH + 0.06) / maxf(bounds.size.x, 0.001), wall_height() / maxf(bounds.size.y, 0.001), depth / maxf(bounds.size.z, 0.001))
 	fit.position = -Vector3(bounds.get_center().x, bounds.position.y, bounds.get_center().z) * fit.scale - Vector3.UP * 0.06
 	return holder
 
@@ -341,15 +381,16 @@ func damage(n: float) -> void:
 	if hp <= 0.0 or n <= 0.0:
 		return
 	# Heavier tiers shrug off part of every hit on top of their larger health pool.
-	hp = maxf(0.0, hp - n * (1.0 - float(tier(level)["armor"])))
+	hp = maxf(0.0, hp - n * (1.0 - armor()))
 	update_attack_alert(ATTACK_ALERT_SECONDS)
 	if hp <= 0.0:
 		level = 0
-		hud.message(Lang.t("Barricade %s breached!", [slot["name"]]), 2.0)
+		hud.message(breach_message(), 2.0)
 		Sfx.play_at(get_parent(), "barricade_break", center, 0.0)
 		rebuild()
+		breached.emit()
 	else:
-		Sfx.play_at(get_parent(), String(tier(level)["hit_sfx"]), center, -4.0)
+		Sfx.play_at(get_parent(), hit_sound(), center, -4.0)
 		changed.emit()
 
 func _local(p: Vector3) -> Vector2:
@@ -419,8 +460,8 @@ func action_error(player: Player, action: String, require_reach := true) -> Stri
 	if action == "repair" and (level == 0 or hp >= max_hp()):
 		return "No repair needed."
 	var cost := repair_cost(level) if action == "repair" else build_cost(level + 1)
-	if player.score < cost:
-		return Lang.t("You are %d Rem Dollars short.", [cost - player.score])
+	if player.score + purse() < cost:
+		return Lang.t("You are %d Rem Dollars short.", [cost - player.score - purse()])
 	if action == "build" and level == 0 and placement_blocked(player):
 		return "Building area occupied. You or an enemy is standing in the line."
 	return ""
@@ -434,7 +475,7 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 	var success := repair() if action == "repair" else build()
 	if not success:
 		return false
-	player.add_score(-cost)
+	spend(player, cost)
 	Sfx.play(self, "confirm", -8.0)
 	Sfx.play_at(get_parent(), "build", center, -6.0)
 	return true

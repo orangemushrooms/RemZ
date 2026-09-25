@@ -85,6 +85,14 @@ const FILES := {
 	"growl": ["zombie_1", "zombie_2", "zombie_3", "zombie_4"],
 	"barricade_break": ["barricade_break_1", "barricade_break_2", "barricade_break_3", "barricade_break_4"],
 	"wave": ["wave_start"],
+	# 26 Sep 2026: weather, callouts and the special infected (tools/build_weather_audio.py)
+	"rain": ["secret_rain"],
+	"thunder": ["thunder_1", "thunder_2", "thunder_3"],
+	"radio": ["radio_ping"],
+	"screamer_call": ["screamer_call"],
+	"acid_spit": ["acid_spit"],
+	"acid_splash": ["acid_splash"],
+	"helmet_ping": ["helmet_ping"],
 	"step_gravel": FOOTSTEPS,
 	"step_grass": FOOTSTEPS,
 	"step_leaves": FOOTSTEPS,
@@ -199,6 +207,12 @@ static func _procedural(name: String) -> AudioStreamWAV:
 		"heartbeat": return _burst(0.32, 0.07, 0.03, 1.0, 48.0, -25.0)
 		"streak": return _burst(0.18, 0.06, 0.8, 0.3, 880.0, 400.0)
 		"melee": return _burst(0.22, 0.05, 0.25, 0.7, 90.0, -60.0)
+		"thunder": return _burst(2.6, 0.9, 0.03, 0.9, 42.0, -14.0)
+		"radio": return _burst(0.12, 0.03, 0.8, 0.35, 1760.0, 0.0)
+		"screamer_call": return _burst(1.6, 0.5, 0.35, 0.7, 700.0, 500.0)
+		"acid_spit": return _burst(0.4, 0.12, 0.6, 0.5, 120.0, -60.0)
+		"acid_splash": return _burst(0.6, 0.2, 0.5, 0.6)
+		"helmet_ping": return _burst(0.5, 0.12, 0.95, 0.5, 2300.0, -300.0)
 	return _burst(0.1, 0.03, 0.5, 0.3)
 
 static func _file(stem: String) -> AudioStream:

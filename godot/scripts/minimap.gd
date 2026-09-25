@@ -262,11 +262,21 @@ func _draw_symbols(c: Control) -> void:
 			var wing := direction.orthogonal()
 			c.draw_circle(at,6,Color(0.02,0.05,0.06))
 			c.draw_colored_polygon(PackedVector2Array([at+direction*7,at-direction*4+wing*5,at-direction*4-wing*5]),Color(0.1,1,0.8))
+	# sandbag lines inside the ring (26 Sep 2026): tan when standing, a thin dotted mark while only a site
+	if "sandbags" in world:
+		for line in world.sandbags:
+			if line.level <= 0: continue
+			var a := map_position(line.point_at(-line.half_len))
+			var b := map_position(line.point_at(line.half_len))
+			if MAP_RECT.has_point(a) or MAP_RECT.has_point(b):
+				c.draw_line(a, b, Color(0.02, 0.04, 0.03), 4.0, true)
+				c.draw_line(a, b, Color(0.85, 0.72, 0.42) if line.hp >= line.max_hp() * 0.5 else Color(1.0, 0.6, 0.3), 2.0, true)
 	for zombie in world.zombies_root.get_children():
-		if zombie is Zombie and zombie.alive:
+		if zombie is Zombie and zombie.alive and zombie.visible_on_map():
 			var p := map_position(zombie.global_position)
 			if MAP_RECT.has_point(p):
-				c.draw_circle(p, 5.0 if Zombie.is_boss_kind(zombie.net_kind) else 2.0, Color(1.0, 0.62, 0.18) if Zombie.is_worm_kind(zombie.net_kind) else Color(1.0, 0.29, 0.22))
+				var marker_color := Color(0.35, 0.95, 0.52) if zombie.net_kind == "forest_spirit" else (Color(1.0, 0.62, 0.18) if Zombie.is_worm_kind(zombie.net_kind) else Color(1.0, 0.29, 0.22))
+				c.draw_circle(p, 5.0 if Zombie.is_boss_kind(zombie.net_kind) else 2.0, marker_color)
 	var p := map_position(player.global_position).clamp(MAP_RECT.position + Vector2.ONE * 5, MAP_RECT.end - Vector2.ONE * 5)
 	var heading := Vector2(-sin(player.rotation.y), -cos(player.rotation.y))
 	var side := heading.orthogonal()
@@ -287,6 +297,28 @@ func _draw_symbols(c: Control) -> void:
 		c.draw_circle(center, 9.0 + pulse * 4.0, Color(1, 0.06, 0.02, 0.15 + pulse * 0.2))
 		c.draw_line(center - direction * extent, center + direction * extent, Color(1, 0.08, 0.03, 0.3 + pulse * 0.4), 8.0, true)
 		c.draw_line(center - direction * extent, center + direction * extent, Color(1, 0.12 + pulse * 0.18, 0.06), 3.5, true)
+	# a screamer's mark: the horde knows where these players are
+	var marked: Array = []
+	if NetSession.enabled and NetSession.world:
+		for id in NetSession.world.actors:
+			var actor: Player = NetSession.world.actor(id)
+			if actor and actor.marked_t > 0.0: marked.append(actor)
+	elif player.marked_t > 0.0:
+		marked.append(player)
+	for actor in marked:
+		var mark := map_position(actor.global_position)
+		if not MAP_RECT.has_point(mark): continue
+		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.011)
+		c.draw_circle(mark, 10.0 + pulse * 6.0, Color(1.0, 0.25, 0.6, 0.18 + pulse * 0.2))
+		c.draw_circle(mark, 8.0 + pulse * 3.0, Color(1.0, 0.3, 0.65), false, 2.0, true)
+	# callouts of the radio (pings.gd): a diamond in the callout's colour
+	if "pings" in world and world.pings:
+		for entry in world.pings.active:
+			var at := map_position(entry.position).clamp(MAP_RECT.position + Vector2.ONE * 6, MAP_RECT.end - Vector2.ONE * 6)
+			var colour: Color = entry.colour
+			colour.a = clampf(float(entry.time) / 1.5, 0.0, 1.0)
+			c.draw_colored_polygon(PackedVector2Array([at + Vector2(0, -7), at + Vector2(7, 0), at + Vector2(0, 7), at + Vector2(-7, 0)]), Color(0.02, 0.04, 0.03, colour.a))
+			c.draw_colored_polygon(PackedVector2Array([at + Vector2(0, -5), at + Vector2(5, 0), at + Vector2(0, 5), at + Vector2(-5, 0)]), colour)
 	if "hut" in world and world.hut and world.hut.under_attack():
 		var hut_point := map_position(world.hut.center)
 		var pulse := 0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.009)

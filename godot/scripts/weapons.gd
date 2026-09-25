@@ -551,7 +551,15 @@ func try_fire() -> void:
 				var dist := origin.distance_to(hit.position)
 				var falloff := 1.0 - 0.45 * clampf((dist - float(d["range"])) / (2.0 * float(d["range"])), 0.0, 1.0)
 				var titan_bonus := float(d.get("titan_multiplier", 1.0)) if Zombie.is_boss_kind(z.net_kind) else 1.0
-				z.damage(float(d["damage"]) * effective_damage_mul() * titan_bonus * falloff * pow(float(d.get("pierce_retention", 1.0)), victims) * (2.2 if headshot else 1.0), dir)
+				var dealt := float(d["damage"]) * effective_damage_mul() * titan_bonus * falloff * pow(float(d.get("pierce_retention", 1.0)), victims)
+				if headshot and z.helmet_hp > 0.0:
+					# the mutation's helmet rings: the helmet takes the round, the head is spared
+					dealt = z.hit_helmet(dealt, dir)
+					headshot = false
+					z.last_headshot = false
+				elif headshot:
+					dealt *= 2.2
+				z.damage(dealt, dir)
 				rare.hit(z, special_round, player.peer_id, current)
 				if specials: specials.on_hit(self, current, z, dir, player.peer_id)
 				_blood(hit.position, dir)

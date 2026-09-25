@@ -3,6 +3,18 @@ class_name Player
 extends CharacterBody3D
 
 signal died
+signal went_down
+signal got_up
+
+# Down instead of dead (26 Sep 2026): at zero health the player goes down for DOWN_SECONDS - crawling at
+# DOWN_SPEED of the walking pace, still shooting, every hit shortening the bleed-out. Holding E for
+# SELF_REVIVE_HOLD seconds gets them back up with SELF_REVIVE_HP once per wave; in co-op a teammate's E
+# does it in 3 seconds (coop_world.revive). Only when the bleed-out runs out does the player die.
+const DOWN_SECONDS := 25.0
+const DOWN_SPEED := 0.4
+const SELF_REVIVE_HOLD := 4.0
+const SELF_REVIVE_HP := 40.0
+const HIT_BLEED := 0.12            # seconds of bleed-out lost per point of damage while down
 
 const WALK_SPEED := 4.4
 const SPRINT_SPEED := 7.2
@@ -77,6 +89,13 @@ var remote_actor := false
 var cash_cooldown := 0.0
 var mounted_tower := 0
 var controlling_drone := 0
+var downed := false
+var down_time := 0.0
+var self_revives := 1              # self revives left this wave
+var revive_hold := 0.0             # seconds E has been held while down (local player)
+var marked_t := 0.0                # a screamer's mark: the whole horde knows where this player is
+var downs := 0                     # statistics
+var _shove := Vector3.ZERO
 var _motion_from := Vector3.ZERO
 var _motion_to := Vector3.ZERO
 var _motion_ready := false
@@ -155,6 +174,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("flashlight"):
 		flashlight.visible = not flashlight.visible
 		Sfx.play(self, "flashlight", -12.0)
+	if downed and event.is_action_pressed("interact") and not event.is_echo() and self_revives > 0 and NetSession.is_client():
+		NetSession.command("self_revive", [true])
+	if downed and event.is_action_released("interact") and NetSession.is_client():
+		NetSession.command("self_revive", [false])
 	if event.is_action_pressed("drop_cash") and not event.is_echo():
 		if NetSession.enabled: NetSession.command("drop_cash")
 		else:
@@ -211,13 +234,17 @@ func _physics_process(delta: float) -> void:
 		if not NetSession.is_client(): _regenerate(delta)
 		return
 	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	set_crouching(Input.is_action_pressed("crouch"))
+	set_crouching(Input.is_action_pressed("crouch") or downed)
 	var sprint := Input.is_action_pressed("sprint") and not crouching
 	var speed := (CROUCH_SPEED if crouching else SPRINT_SPEED if sprint else WALK_SPEED) * effective_speed_mul()
+	if downed: speed = WALK_SPEED * DOWN_SPEED * effective_speed_mul()
 	var dir := (transform.basis * Vector3(input.x, 0.0, input.y)).normalized()
 	var target := dir * speed
 	velocity.x = lerpf(velocity.x, target.x, minf(1.0, delta * 12.0))
 	velocity.z = lerpf(velocity.z, target.z, minf(1.0, delta * 12.0))
+	if _shove != Vector3.ZERO:
+		velocity += _shove
+		_shove = Vector3.ZERO
 	if not is_on_floor():
 		velocity.y -= _gravity * delta
 	elif Input.is_key_pressed(KEY_SPACE) and not crouching:
@@ -226,6 +253,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y = -1.0
 	move_and_slide()
+	_update_down(delta)
 	# keep inside the map
 	global_position.x = clampf(global_position.x, Map.BOUNDS.position.x, Map.BOUNDS.end.x)
 	global_position.z = clampf(global_position.z, Map.BOUNDS.position.y, Map.BOUNDS.end.y)
@@ -275,7 +303,102 @@ func _update_tremor(delta: float) -> void:
 	camera.rotation.x = ((sin(t * 23.0) + sin(t * 39.0) * 0.3) * 0.007 + heavy * 0.012) * amount
 	camera.rotation.z += (sin(t * 19.0) * 0.005 + heavy * 0.006) * amount
 
+# ---------------------------------------------------------------- down, bleed-out, revive
+func _update_down(delta: float) -> void:
+	if marked_t > 0.0: marked_t = maxf(0.0, marked_t - delta)
+	if not downed: return
+	if NetSession.is_client():
+		# the host runs the clock; the local hold only drives the bar until the snapshot confirms
+		if Input.is_action_pressed("interact") and self_revives > 0: revive_hold = minf(revive_hold + delta, SELF_REVIVE_HOLD)
+		else: revive_hold = maxf(0.0, revive_hold - delta * 2.0)
+		return
+	down_time -= delta
+	if not remote_actor:
+		if Input.is_action_pressed("interact") and self_revives > 0:
+			revive_hold += delta
+			if revive_hold >= SELF_REVIVE_HOLD: self_revive()
+		else:
+			revive_hold = maxf(0.0, revive_hold - delta * 2.0)
+	if downed and down_time <= 0.0: _bleed_out()
+
+func go_down() -> void:
+	if downed or not alive: return
+	downed = true
+	downs += 1
+	down_time = DOWN_SECONDS
+	revive_hold = 0.0
+	hp = 0.0
+	set_crouching(true, false)
+	regen_timer = DOWN_SECONDS
+	var scene := get_tree().current_scene
+	if "stats" in scene and scene.stats: scene.stats.record_down(peer_id)
+	if mounted_tower and "defences" in scene and scene.defences.towers.has(mounted_tower):
+		scene.defences.release_tower(scene.defences.towers[mounted_tower])
+	if "drones" in scene and scene.drones and controlling_drone: scene.drones.recall(self)
+	hud.set_health(hp)
+	if not remote_actor:
+		Sfx.play(self, "hurt", 0.0, 0.8)
+		Sfx.play(self, "heartbeat", -2.0)
+	went_down.emit()
+
+func revive(new_hp: float) -> void:
+	if not alive: alive = true
+	if not downed:
+		hp = maxf(hp, new_hp)
+		active = true
+		regen_timer = 5.0
+		hud.set_health(hp)
+		return
+	downed = false
+	down_time = 0.0
+	revive_hold = 0.0
+	hp = new_hp
+	regen_timer = 5.0
+	active = true
+	hud.set_health(hp)
+	if not remote_actor: Sfx.play(self, "consume", -6.0, 0.8)
+	got_up.emit()
+
+func self_revive() -> void:
+	if not downed or self_revives <= 0: return
+	self_revives -= 1
+	revive(SELF_REVIVE_HP)
+
+# the host runs a remote teammate's hold (coop_world command "self_revive")
+func hold_self_revive(delta: float) -> bool:
+	if not downed or self_revives <= 0: return false
+	revive_hold += delta
+	if revive_hold >= SELF_REVIVE_HOLD:
+		self_revive()
+		return true
+	return false
+
+func _bleed_out() -> void:
+	if not alive or not downed: return
+	downed = false
+	down_time = 0.0
+	hp = 0.0
+	alive = false
+	var scene := get_tree().current_scene
+	if "stats" in scene and scene.stats: scene.stats.record_death(peer_id)
+	mushroom_effects.clear()
+	if not remote_actor: Sfx.play(self, "player_death", -2.0)
+	died.emit()
+
+func bleed_fraction() -> float:
+	return clampf(down_time / DOWN_SECONDS, 0.0, 1.0) if downed else 0.0
+
+func hold_fraction() -> float:
+	return clampf(revive_hold / SELF_REVIVE_HOLD, 0.0, 1.0) if downed else 0.0
+
+# a ram or a thrown tree throws the player back (velocity impulse on the next tick)
+func shove(impulse: Vector3) -> void:
+	if not impulse.is_finite(): return
+	_shove += impulse
+	wobble = maxf(wobble, 1.0)
+
 func _regenerate(delta: float) -> void:
+	if downed: return
 	if regen_timer > 0.0:
 		regen_timer -= delta
 	elif hp < max_hp:
@@ -288,7 +411,7 @@ func _barricade_ahead() -> bool:
 	fwd.y = 0.0
 	if fwd.length_squared() < 0.01:
 		return false
-	var from := global_position + Vector3.UP * 0.9
+	var from := global_position + Vector3.UP * 0.65
 	var q := PhysicsRayQueryParameters3D.create(from, from + fwd.normalized() * 1.5, 8)
 	return not get_world_3d().direct_space_state.intersect_ray(q).is_empty()
 
@@ -298,15 +421,12 @@ func damage(n: float, from: Vector3 = Vector3.INF) -> void:
 	if not alive:
 		return
 	n *= mushroom_multiplier("guard") * relic_multiplier("guard")
-	hp -= n
 	var scene := get_tree().current_scene
 	if "achievements" in scene and scene.achievements:
 		scene.achievements.player_hurt()
 	if "stats" in scene and scene.stats:
 		scene.stats.damage_taken += n
-	regen_timer = 5.0
 	wobble = 1.0
-	hud.set_health(hp)
 	if from.is_finite():
 		var local := global_transform.basis.inverse() * (from - global_position)
 		hud.damage_flash(atan2(local.x, -local.z))
@@ -315,9 +435,20 @@ func damage(n: float, from: Vector3 = Vector3.INF) -> void:
 	if not remote_actor:
 		Sfx.play(self, "hurt", -4.0)
 		Sfx.play(self, "hurt_thud", -10.0)
+	if downed:
+		# every hit while down bleeds the clock; the finishing blow comes when it runs out
+		down_time -= n * HIT_BLEED
+		if down_time <= 0.0: _bleed_out()
+		return
+	hp -= n
+	regen_timer = 5.0
+	hud.set_health(hp)
 	if hp <= 0.0:
 		if "progression" in scene and scene.progression and scene.progression.rare_market.prevent_death(self): return
 		hp = 0.0
+		if not "--no-downed" in OS.get_cmdline_user_args():
+			go_down()
+			return
 		alive = false
 		if "stats" in scene and scene.stats: scene.stats.record_death(peer_id)
 		if mounted_tower and "defences" in scene and scene.defences.towers.has(mounted_tower):

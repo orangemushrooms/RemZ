@@ -1,0 +1,27 @@
+{
+  "id": "01a0d948-ceac-7623-85ad-38d08cde919e",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3099736886,
+  "prompt": "game asset, an undead farm dog, a large rotting German shepherd zombie dog standing on four legs with the head low and jaws open, exposed ribs and torn skin, mangy fur, single animal, no ground, no base, realistic proportions",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790351825179,
+  "progress": 100,
+  "started_at": 1790351825187,
+  "finished_at": 1790351891472,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d948-ceac-7623-85ad-38d08cde919e/output/model.glb?Expires=4943894400&Signature=E6qz7W5cYZWcedUW6oUZIyrSfngZpjz7DwXFuXIja30yDnSQL0qEsEuMMv~IsCG2PZ~uwAvE5uqKQLFFi-L6QDJLqj5dmhHb9BiVPRL2-AulxVxYz1EkD4Dtly0l-TDBs2dMZ7WUnOGcz4yqFcMs1vG-Uv8zhpBqObJzNV4gcrljhzeEY9JdWgHndwAGcIvKudmGKPDBI3Gk63D0c9Fbt8hAnbROHthMikrgbU8LnKuYlFR6rw6kzuim1T9MqJC8YZbJNUzC~Tx4D-jZrcOxxqs1TlGE9-5dRJL4Id1Ez0wO4rlq9o8Dp85aFgQb6cQ5-WO4-wt-ImJNcUGRB~ZGww__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d948-ceac-7623-85ad-38d08cde919e/output/model.fbx?Expires=4943894400&Signature=absUIkKu10mETnQq8WuKsmCJBZ5NRkYfmYMjtDi7JPYftHNzto2rUw~4vznoFXjiUO4SzCUyDWMJkKsonaUK5BIecvWLVvnob-WX146VmSUXU8mPqBMaYro1~VDmWaw5C4~rXF--Z7gHaQXMOqsk4wypLDPTqkIoiGocNoiwUovCO6p5VnAOejkm-PgVBnMPRyFy0sK7aiSXUDNVcKlg58qW49VJQfpSTryfXDm--sRL8cTkMcaixxQSfg2BNwNHTatIGJDAlb6CUKRUcOtpA5-LrOlCVv117PjGD7M-AA1CEmZFF9bK4Ch6JqUtWzmztTW9PwmLJ3sqvLGier78xg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d948-ceac-7623-85ad-38d08cde919e/output/model.usdz?Expires=4943894400&Signature=TLEBMkKh~-ZJuNmmgt4IRFO2r76DajOfWrz1akXmFHVqcxTmvbLfpdXTwD2h-6uV5JI-SDkwRnIk~ghaVAZxSdAOCdN1t1dLvpY1urpDzB0L96n9fToi7UDUPFqm8Pc2TR6A~gNB2PDGKRwh7oR6h0J~Zu7TphTxbTU643Lq1TFE~DcVCwGLm00DQWOmImg0OK4hvFtWRQz6JUATN6I4jpfI8vCWIkCGi7rB0~pIB4Fn9e1jISYdgFx4-4FYvVaFCxNs06LQu0iHUXrV~e0HkKPYKpIghvbsvDY34i3PT6TFLQZNOon0ojKGZSsaCwInjF1UsOPhujl~JiQreEZY5Q__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d948-ceac-7623-85ad-38d08cde919e/output/model.obj?Expires=4943894400&Signature=K3vmxfywj0VBm~b5aFdFM7EM13w2JZ3XNFS8Hm-Esphq5hlNyMJtWsbc0snj5sFeRQQaSkbmBqsUS5WwT7xIsq~8gh3doo0QoFxMapui301RRUGLYF4m314U3brIs06zci8Z-J0tov4nH82poFR6PHgFSuSDtcN7Y4WLotxqGaAw7v5RihxjKfHrPr5ueRwrq8WFpFpI6c1CDE5sAdY61-9J6kl3nMvDq7g7dXgygwyQgYM1TW2PN-bzJzalYI1gjInvxRX6Lo7IU5MU0LSRTPYLNVCudoHTKI~oTT5n3q~jZBCO9e37RkLwjD8UMuqHW9tmbPJNxd-l08ALfqZMpg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d948-ceac-7623-85ad-38d08cde919e/output/model.stl?Expires=4943894400&Signature=Fi0Z-iexK1gKffy9refSwtoXnKGf4GZoB5NeUvlO0LKqq~DUBPwpM6Ho~UuRyCPsSUCmER7M7ovK4qB5EKZBcrdZhzSVBoTRAZJT1fq1Vcrm8SHeZ7ycuUYz1k5G51UkrOAoJPo4B43DNYJZYfoqIZ-PLqKjLu4pdKhygcfNYskWRCjKhvG32BPb8h0DgWluy3RIT7N4fwlU7uiqho0rjnPtooKezEcxhnrYhZDa58HFsKZQRRyAZCWnApULg7FsAKsWr0QAwX31gDiKtEODgGXdXMrIlSQmyrEhigZ7jUhvmk9sba6Bq~9QqpLF7UiU-4NqQ6Ok-2ioEHgsOrDBYQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0d948-ceac-7623-85ad-38d08cde919e/output/preview.png?Expires=4943894400&Signature=LS0JBgXusNe6Bz220q7Ph1D5aRR0tnfZcNarAEPFbLLlVxdtDIakxBCr28Z5AxkA1qNDrg3-MnXGsXRJ07V1-K2ZNHQSGNZW7Tq30DkpOwog5AY40vsppjWHUejPs~HI1F0MFdIE0UyWsqoERC4ZalORZGLcxI9Nu-oGVeKWcz9pa9g-Fnl~lLVz9NzBFDficXZUv1l7Qi3O4KCp3t9k5TVWF7-3ooT-RRThZmUCnThEcwqlqA-3k282KxR8K21SdmPx~kWFNYsL~~iaxwoMEWtUJzryH-nuPkG3MFWvdliae2tWAgtWjaX8UDJR4WugsbxgfZvaQcKcMJAFmQF3sw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

@@ -1,0 +1,5 @@
+started 19:35:13
+forest_spirit        OK exit=0 50s FOREST_SPIRIT_DONE checks=23 failures=0  
+titan_variants       OK exit=0 44s TITAN_VARIANTS_DONE checks=65 failures=0  
+earthworms           OK exit=0 45s EARTHWORMS_DONE checks=48 failures=0  
+REGRESSIONS_DONE 19:36:03

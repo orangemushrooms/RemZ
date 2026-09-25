@@ -1,0 +1,1254 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+DBG spawn true
+DBG t=0 pos=(39.95436, -1.019825, 103.2727) state=walk attack_t=-1.00 cool=2.00 charge_t=0.00 stun=0.00 charges=0 sees=true d=11.3 vel=(0.003137, 0.0, -4.999999) alive=true floor=true frost=1.0 stagger=0.00
+DBG t=1 pos=(39.94675, -0.818328, 98.28098) state=walk attack_t=-2.00 cool=1.00 charge_t=0.00 stun=0.00 charges=0 sees=true d=6.3 vel=(0.011679, 0.0, -4.999987) alive=true floor=true frost=1.0 stagger=0.00
+DBG t=2 pos=(39.94725, -0.62223, 94.20708) state=attack attack_t=2.03 cool=0.00 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+DBG t=3 pos=(39.94725, -0.62223, 94.20708) state=walk attack_t=1.02 cool=-1.02 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+DBG t=4 pos=(39.94725, -0.62223, 94.20708) state=walk attack_t=0.02 cool=-2.02 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+DBG t=5 pos=(39.94725, -0.62223, 94.20708) state=walk attack_t=1.23 cool=-3.02 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+DBG t=6 pos=(39.94725, -0.62223, 94.20708) state=walk attack_t=0.22 cool=-4.03 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+DBG t=7 pos=(39.94725, -0.62223, 94.20708) state=walk attack_t=1.43 cool=-5.03 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+DBG t=8 pos=(39.94725, -0.62223, 94.20708) state=walk attack_t=0.42 cool=-6.05 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+DBG t=9 pos=(39.94725, -0.62223, 94.20708) state=attack attack_t=1.63 cool=-7.05 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+DBG t=10 pos=(39.94725, -0.62223, 94.20708) state=walk attack_t=0.63 cool=-8.05 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1132)
+DBG t=11 pos=(39.94725, -0.62223, 94.20708) state=attack attack_t=1.83 cool=-9.07 charge_t=0.00 stun=0.00 charges=0 sees=true d=2.2 vel=(0.0, 0.0, 0.0) alive=true floor=true frost=1.0 stagger=0.00
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

@@ -1,0 +1,16 @@
+{
+  "id": "01a0d951-6380-71cf-9351-f280d695f9cc",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Full-body photo of an undead farm dog: a large rotting German shepherd zombie dog standing, head slightly lowered with the jaws open and teeth bared, torn skin with the ribs exposed on the flank, mangy grey-brown fur with bald patches, dried black blood around the muzzle, milky white eyes, dark veins. Side view in profile, all four legs straight and clearly visible, whole animal centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no text, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790352384908,
+  "started_at": 1790352384914,
+  "finished_at": 1790352403582,
+  "expires_at": 1790611603582,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0d951-6380-71cf-9351-f280d695f9cc_0.png?Expires=1790611603&Signature=OCeisoAj4aVl0F4Nl5x15Fwrlw6xEm~ZV3AvpHe5YDHLeXnmCFnIr~xmrrth0Q~JGcJkYXQhc~NrxX2xicBFoYr532ZgPQmgAMc~mgNSKDtwxM77KS39XhNV-8HDSrbX07STGggcXsFHKRqEygXcbNvRuS~rD~JlC2~5Ad48pmdU3RiRiLuJwtkV8sjB-Q8fvMbf1bZRBJ-ufSUuvbKdg~dwUu0u1A5xPBp-J-hSr4F9F00EL23e4Uu6hLaTjnZrWYnujr2a8yJuWD4Sakfl5gFxzgWHLT4SsoKuOeHc0hWSTlwSXuNDrPb6K1U-DAvCpTERjw5~msSj6IkJFNeBcA__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

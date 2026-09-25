@@ -24,3 +24,7 @@ func score_popup(points: int, head: bool) -> void:
 	NetSession.feedback(peer_id, "score", [points, head])
 func streak(n: int, bonus_percent: int) -> void:
 	NetSession.feedback(peer_id, "streak", [n, bonus_percent])
+func set_downed(_active: bool, _seconds_left: float, _hold: float, _can_self: bool, _teammates: bool) -> void: pass
+func radio_line(_text: String, _colour: Color = Color.WHITE) -> void: pass
+func set_weather(_text: String) -> void: pass
+func set_marked(_active: bool) -> void: pass
