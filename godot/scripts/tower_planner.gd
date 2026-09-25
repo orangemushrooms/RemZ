@@ -16,6 +16,7 @@ const VIEW_SIZE := 34.0            # the roof and its near surroundings (was 68:
 const VIEW_MIN := 18.0
 const VIEW_MAX := 80.0
 const PLANNER_REACH := 45.0
+const HUT_VIEW_RANGE := 22.0       # farther from the hut than this, the planner opens over the player instead
 const ROOF_SNAP := 2.2              # a click this close to a roof slot goes onto the slot
 
 var defences: Node
@@ -188,7 +189,11 @@ func open() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	game.hud.hide()
 	game.weapons.viewmodel.hide()
+	# the roof view when the player is at the hut; anywhere else the map opens over the player, so towers
+	# can be planned out on the meadow or at a gate too (PLANNER_REACH is measured from the player)
 	var centre: Vector3 = game.hut.center
+	if Vector2(player.global_position.x - centre.x, player.global_position.z - centre.z).length() > HUT_VIEW_RANGE:
+		centre = Map.ground_pos(player.global_position.x, player.global_position.z)
 	overview.size = VIEW_SIZE
 	overview.global_position = centre + Vector3.UP * 60.0
 	overview.rotation = Vector3(-PI * 0.5, 0.0, 0.0)

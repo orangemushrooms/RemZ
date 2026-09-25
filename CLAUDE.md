@@ -109,7 +109,8 @@ Batch of 25 Sep 2026 (`--suite=forest_finds --smoke-test --no-intro --no-music -
   planner = true)`), drag a standing ground tower to relocate it for free (`DefenceSystem.relocate`, co-op
   command "tower_move"), R / wheel turn the hovered tower (`rotate_tower(.., planner)`) or the ghost. Solo it
   pauses like the barricade planner. The old list menu (`begin_building`, `site_picker`) stays for the tests.
-  Second pass: the view is 34 m wide on the hut (`VIEW_SIZE`, +/- zoom 18-80), a click within `ROOF_SNAP`
+  Second pass: the view is 34 m wide on the hut (`VIEW_SIZE`, +/- zoom 18-80; farther than
+  `HUT_VIEW_RANGE` 22 m from the hut the map opens over the player instead, so the meadow can be planned), a click within `ROOF_SNAP`
   2.2 m of a roof ring goes onto that slot (`roof_slot_near`), and from the planner the roof takes turrets
   from anywhere within `PLANNER_REACH` while the hut stands (`placement_error` planner_roof).
   `--suite=tower_planner` (23 checks), `--render-planner` windowed saves `artifacts/tower_planner/planner.png`.

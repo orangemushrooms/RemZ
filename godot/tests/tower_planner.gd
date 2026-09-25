@@ -136,5 +136,14 @@ func run() -> void:
 	planner.close()
 	check(not planner.is_open and not d.is_open and not paused and player.active and root.get_camera_3d() == player.camera and game.hud.visible, "Closing restores camera, HUD and the round")
 	check(not planner.roof_markers[0].visible and not d.ghost.visible, "Markers and ghost disappear with the planner")
+	# 25 Sep 2026 evening: far from the hut the map opens over the player, so the meadow can be planned too
+	var far := Map.ground_pos(10, 120)
+	player.global_position = far
+	planner.open()
+	var far_view := Vector2(planner.overview.global_position.x, planner.overview.global_position.z)
+	check(planner.is_open and far_view.distance_to(Vector2(far.x, far.z)) < 1.0, "Away from the hut the planner opens over the player (%.1f m off)" % far_view.distance_to(Vector2(far.x, far.z)))
+	var meadow_spot := Map.ground_pos(18, 116)
+	check(d.placement_error(player, meadow_spot, "standard", true).is_empty(), "A tower on the meadow within reach can be placed from there")
+	planner.close()
 	print("TOWER_PLANNER_DONE checks=%d failures=%d" % [checks, failures])
 	quit(0 if failures == 0 else 1)

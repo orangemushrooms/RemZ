@@ -27,7 +27,9 @@ PASS: Roof turrets cannot be dragged off the roof
 PASS: The view frames the roof and its surroundings
 PASS: Closing restores camera, HUD and the round
 PASS: Markers and ghost disappear with the planner
-TOWER_PLANNER_DONE checks=23 failures=0
+PASS: Away from the hut the planner opens over the player (0.0 m off)
+PASS: A tower on the meadow within reach can be placed from there
+TOWER_PLANNER_DONE checks=25 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
