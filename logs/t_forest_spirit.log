@@ -8,11 +8,11 @@ PASS: The Forest Spirit is a boss of its own kind
 PASS: Its model exists
 PASS: The local rig carries walk, attack, pulse, death and idle clips (["attack", "attack2", "death", "hit", "idle", "pulse", "scream", "walk"])
 PASS: The reduced mesh stays in budget (167449 triangles)
-PASS: Lesser-titan waves sometimes bring the Forest Spirit (15 of 60 plans)
+PASS: Lesser-titan waves sometimes bring the Forest Spirit (16 of 60 plans)
 PASS: ... but not every time
 PASS: The spirit enters from a lane like a titan
 PASS: Its arrival is announced
-PASS: It stands 3.4 m tall with a boss's health (2805)
+PASS: It stands 3.4 m tall with a boss's health (2356)
 PASS: Five bone volumes plus the capsule take the shots
 PASS: The head volume counts as a headshot
 PASS: It walks its rig
@@ -20,7 +20,7 @@ PASS: The pulse ring waits hidden
 PASS: A spirit stands six metres from the player
 PASS: It winds up a pulse within reach (after 4.0 s)
 PASS: The pulse fires and goes on cooldown
-PASS: The pulse hurts the player (100 -> 53)
+PASS: The pulse hurts the player (100 -> 60)
 PASS: ... and throws them back
 PASS: The boss state carries the pulse serial
 PASS: The co-op snapshot carries its boss state

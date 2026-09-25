@@ -1,0 +1,5 @@
+prune: Removed types... Node (1), Accessor (1)
+PREPARED {"name":"zombie_earthworm","triangleCount":62069,"vertexCount":74506,"removedDegenerates":0,"joints":22,"maxLengthError":1.3183898417423734e-16,"textureSizes":[{"name":"normal","width":4096,"height":4096},{"name":"Image_0","width":4096,"height":4096},{"name":"Image_1","width":2048,"height":2048}],"clips":["walk","burrow","emerge","attack","recovery","dive","death"],"axis":[-0.0028938535244599052,0.989667563558284,0.1433518024036968],"bytes":38211616}
+prune: Removed types... Node (1), Accessor (1)
+PREPARED {"name":"zombie_earthworm_ancient","triangleCount":72745,"vertexCount":74087,"removedDegenerates":0,"joints":22,"maxLengthError":1.6653345369377348e-16,"textureSizes":[{"name":"normal","width":4096,"height":4096},{"name":"Image_0","width":4096,"height":4096},{"name":"Image_1","width":2048,"height":2048}],"clips":["walk","burrow","emerge","attack","recovery","dive","death"],"axis":[-0.0024338621326640488,0.9908310045066953,0.1350851465682754],"bytes":40388540}
+EXIT 0

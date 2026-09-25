@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+COOP_LOAD HOST_CREATE port=24699
+COOP_HOST_READY port=24699
+COOP_LOAD HOST_READY
+PASS: The fixture hosts a round
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=2
+COOP_RUNNING players=2
+PASS: A titan rises on the meadow
+PASS: The titan crawls for the picture (clip crawl)
+BATCH27_SHOT titan_crawl (1920, 1009)
+PASS: Saved titan_crawl
+BATCH27_SHOT titan_tree_flight (1920, 1009)
+PASS: Saved titan_tree_flight
+BATCH27_SHOT titan_tree_landed (1920, 1009)
+PASS: Saved titan_tree_landed
+PASS: A stag stands on the meadow
+BATCH27_SHOT stag_charge (1920, 1009)
+PASS: Saved stag_charge
+PASS: An earthworm surfaces on the meadow
+BATCH27_SHOT worm_exposed (1920, 1009)
+PASS: Saved worm_exposed
+BATCH27_SHOT worm_windup (1920, 1009)
+PASS: Saved worm_windup
+PASS: Three towers stand for the Mechanic (3)
+PASS: The tower page is open with its beacons
+BATCH27_SHOT mechanic_towers (1920, 1009)
+PASS: Saved mechanic_towers
+BATCH27_SHOT tower_beacons_off (1920, 1009)
+PASS: Saved tower_beacons_off
+PASS: The pilot launches a scout
+BATCH27_SHOT drone_rocket_flight (1920, 1009)
+PASS: Saved drone_rocket_flight
+BATCH27_SHOT drone_rocket_burst (1920, 1009)
+PASS: Saved drone_rocket_burst
+PASS: The camera watches Anna
+BATCH27_SHOT spectator_view (1920, 1009)
+PASS: Saved spectator_view
+BATCH27_VISUAL_DONE checks=20 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

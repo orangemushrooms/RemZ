@@ -1,0 +1,5 @@
+batch27              BAD exit=1 29s (no done line) FAIL: ... for all 17 firearms | FAIL: Standing, the lowest hoof rests on the terrain (0.47 m) | FAIL: A sentinel stands for the Mechanic (Building site occupied.) | FAIL: The tower page lights the beacons | FAIL: The beacon shows the tower's number through walls | FAIL: The row previews the next tier's numbers 
+titan_phases         BAD exit=1 36s TITAN_PHASES_DONE checks=26 failures=1 FAIL: It plays the crawl on hands and knees (clip scream) 
+earthworms           BAD exit=1 28s EARTHWORMS_DONE checks=48 failures=1 ERROR: FAIL: Each attack cycle leaves a generous shooting window 
+REGRESSIONS_DONE
+EXIT 0

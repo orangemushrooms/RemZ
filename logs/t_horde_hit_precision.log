@@ -7,19 +7,19 @@ PASS: zombie_earthworm every shot volume is fully initialized
 PASS: zombie_earthworm uses validated baked volumes
 PASS: zombie_earthworm broad bounds enclose all sampled animated vertices
 PASS: zombie_earthworm native/baked rays agree on hits: 0
-PASS: zombie_earthworm native/baked surface distance below 5 mm in model space: 0.01770598255098
+PASS: zombie_earthworm native/baked surface distance below 5 mm in model space: 0.01936342939734
 PASS: zombie_earthworm native/baked rays agree on headshots: 0
 PASS: zombie_earthworm_ancient every shot volume is fully initialized
 PASS: zombie_earthworm_ancient uses validated baked volumes
 PASS: zombie_earthworm_ancient broad bounds enclose all sampled animated vertices
 PASS: zombie_earthworm_ancient native/baked rays agree on hits: 0
-PASS: zombie_earthworm_ancient native/baked surface distance below 5 mm in model space: 0.0109806060791
+PASS: zombie_earthworm_ancient native/baked surface distance below 5 mm in model space: 0.01114945858717
 PASS: zombie_earthworm_ancient native/baked rays agree on headshots: 0
 PASS: zombie_colossus every shot volume is fully initialized
 PASS: zombie_colossus uses validated baked volumes
 PASS: zombie_colossus broad bounds enclose all sampled animated vertices
 PASS: zombie_colossus native/baked rays agree on hits: 0
-PASS: zombie_colossus native/baked surface distance below 5 mm in model space: 0.00021050078794
+PASS: zombie_colossus native/baked surface distance below 5 mm in model space: 0.00039080754505
 PASS: zombie_colossus native/baked rays agree on headshots: 0
 PASS: zombie_bloater every shot volume is fully initialized
 PASS: zombie_bloater uses validated baked volumes
@@ -31,7 +31,7 @@ PASS: zombie_titan every shot volume is fully initialized
 PASS: zombie_titan uses validated baked volumes
 PASS: zombie_titan broad bounds enclose all sampled animated vertices
 PASS: zombie_titan native/baked rays agree on hits: 0
-PASS: zombie_titan native/baked surface distance below 5 mm in model space: 0.00965881440789
+PASS: zombie_titan native/baked surface distance below 5 mm in model space: 0.00966644287109
 PASS: zombie_titan native/baked rays agree on headshots: 0
 PASS: zombie_shambler every shot volume is fully initialized
 PASS: zombie_shambler uses validated baked volumes

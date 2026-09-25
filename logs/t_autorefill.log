@@ -1,0 +1,37 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: Full refill charges exactly the quoted total
+PASS: pistol magazine and reserve reach their limits
+PASS: deagle magazine and reserve reach their limits
+PASS: revolver magazine and reserve reach their limits
+PASS: flare_pistol magazine and reserve reach their limits
+PASS: smg magazine and reserve reach their limits
+PASS: mac10 magazine and reserve reach their limits
+PASS: cryo_smg magazine and reserve reach their limits
+PASS: ak47 magazine and reserve reach their limits
+PASS: shotgun magazine and reserve reach their limits
+PASS: breacher magazine and reserve reach their limits
+PASS: lever_rifle magazine and reserve reach their limits
+PASS: marksman magazine and reserve reach their limits
+PASS: plasma_sniper magazine and reserve reach their limits
+PASS: lmg magazine and reserve reach their limits
+PASS: minigun magazine and reserve reach their limits
+PASS: titanbreaker magazine and reserve reach their limits
+PASS: graviton_cannon magazine and reserve reach their limits
+PASS: Refill cancels affected reloads and keeps grenades separate
+PASS: Already full cannot charge twice
+PASS: Small budget buys proportional rounds at existing ammo prices
+PASS: Partial refill prioritizes current weapon and magazine without overdraft
+PASS: Zero budget never grants free ammunition
+PASS: Locked weapon receives no ammunition
+PASS: Remote purchase is rejected atomically
+PASS: Mechanic cannot perform vendor refill
+PASS: Host refills only requesting peer's ammunition and debits that peer
+AUTOREFILL_DONE checks=27 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

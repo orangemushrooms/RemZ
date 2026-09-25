@@ -1,0 +1,48 @@
+language             OK exit=0 28s LANGUAGE_DONE lang=en checks=89 failures=0  
+language_de          OK exit=0 28s LANGUAGE_DONE lang=de checks=89 failures=0  
+cheat_menu           OK exit=0 26s CHEAT_MENU_DONE checks=32 failures=0  
+team_purse           OK exit=0 28s TEAM_PURSE_DONE checks=29 failures=0  
+perimeter            OK exit=0 99s PERIMETER_DONE checks=26 failures=0  
+menu_flow            OK exit=0 69s MENU_FLOW_DONE checks=11 failures=0  
+coop_snapshot_cost   OK exit=0 27s COOP_SNAPSHOT_COST_DONE checks=6 failures=0  
+network_packets      OK exit=0 3s NETWORK_PACKETS_DONE checks=14 failures=0  
+online_lobby         OK exit=0 24s ONLINE_LOBBY_DONE checks=43 failures=0  
+smoke                OK exit=0 52s SMOKE_DONE checks=83 failures=0  
+zombie_hitboxes      OK exit=0 12s ZOMBIE_HITBOXES_DONE checks=160 failures=0  
+horde_hit_precision  OK exit=0 14s HORDE_HIT_PRECISION_DONE checks=107 failures=0  
+day_night            OK exit=0 42s DAY_NIGHT_DONE checks=55 failures=0 rendered=false  
+titan_siege_gate     OK exit=0 27s TITAN_SIEGE_GATE_DONE checks=20 failures=0  
+boss_music           BAD exit=1 25s BOSS_MUSIC_DONE checks=29 failures=2 ERROR: FAIL: Wave 5 opens on a boss song (secret_night) | ERROR: FAIL: The boss wave keeps its song with no titan in sight 
+secret_night         OK exit=0 24s SECRET_NIGHT_DONE checks=70 failures=0  
+hut_health           OK exit=0 24s HUT_HEALTH_DONE checks=40 failures=0  
+forest_finds         OK exit=0 24s FOREST_FINDS_DONE checks=56 failures=0  
+tower_planner        OK exit=0 25s TOWER_PLANNER_DONE checks=25 failures=0  
+barricades           OK exit=0 44s BARRICADES_DONE checks=44 failures=0  
+missing_models       OK exit=0 3s MISSING_MODELS_DONE checks=72 failures=0  
+weapon_mods          BAD exit=1 25s WEAPON_MODS_DONE checks=52 failures=3 ERROR: FAIL: Larger magazine gives no free ammunition | ERROR: FAIL: Reload transfers eighteen rounds from reserve | ERROR: FAIL: Removing magazine preserves excess ammunition 
+titan_variants       OK exit=0 26s TITAN_VARIANTS_DONE checks=66 failures=0  
+aggro                OK exit=0 26s AGGRO_DONE checks=17 failures=0  
+drones               BAD exit=1 25s DRONES_DONE checks=84 failures=2 FAIL: Mechanic pays completed drone quest exactly | FAIL: Repeated drone quest turn-in cannot duplicate reward 
+new_zombies          OK exit=0 29s NEW_ZOMBIES_DONE checks=61 failures=0  
+downed               OK exit=0 24s DOWNED_DONE checks=22 failures=0  
+weapon_specials      OK exit=0 51s WEAPON_SPECIALS_DONE checks=77 failures=0  
+new_weapons          OK exit=0 46s NEW_WEAPONS_DONE checks=254 failures=0  
+autorefill           OK exit=0 30s AUTOREFILL_DONE checks=27 failures=0  
+cornfield            OK exit=0 27s CORNFIELD_DONE checks=40 failures=0  
+hut_restock          OK exit=0 26s HUT_RESTOCK_DONE checks=17 failures=0  
+roof_defences        OK exit=0 28s ROOF_DEFENCES_DONE checks=95 failures=0  
+zombie_motion        OK exit=0 10s ZOMBIE_MOTION_DONE checks=91 failures=0  
+zombie_clip_audit    BAD exit=1 6s ZOMBIE_CLIP_AUDIT_DONE checks=360 failures=8 FAIL: zombie_forest_spirit attack keeps the feet above the floor (lowest -0.87 m) | FAIL: zombie_forest_spirit attack2 keeps the feet above the floor (lowest -0.87 m) | FAIL: zombie_forest_spirit death keeps the feet above the floor (lowest -0.88 m) | FAIL: zombie_forest_spirit hit keeps the feet above the floor (lowest -0.87 m) | FAIL: zombie_forest_spirit idle keeps the feet above the floor (lowest -0.87 m) | FAIL: zombie_forest_spirit pulse keeps the feet above the floor (lowest -0.87 m) 
+sandbags             OK exit=0 29s SANDBAGS_DONE checks=43 failures=0  
+pings                OK exit=0 26s PINGS_DONE checks=19 failures=0  
+weather              OK exit=0 26s WEATHER_DONE checks=55 failures=0  
+forest_spirit        OK exit=0 34s FOREST_SPIRIT_DONE checks=23 failures=0  
+progression          BAD exit=1 29s PROGRESSION_DONE checks=179 failures=1 ERROR: FAIL: Eligible weapon purchase charges once with bounded starting ammunition 
+weapon_attachments   OK exit=0 46s ATTACHMENTS_DONE checks=881 failures=0  
+range_steps          OK exit=0 47s RANGE_STEPS_DONE checks=23 failures=0  
+sound_files          OK exit=0 3s SOUND_FILES_DONE failures=0  
+batch27              OK exit=0 29s BATCH27_DONE checks=44 failures=0  
+titan_phases         OK exit=0 40s TITAN_PHASES_DONE checks=26 failures=0  
+earthworms           OK exit=0 25s EARTHWORMS_DONE checks=48 failures=0  
+REGRESSIONS_DONE
+EXIT 0

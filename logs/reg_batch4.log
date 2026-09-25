@@ -1,0 +1,4 @@
+boss_music           OK exit=0 23s BOSS_MUSIC_DONE checks=29 failures=0  
+zombie_clip_audit    OK exit=0 5s ZOMBIE_CLIP_AUDIT_DONE checks=347 failures=0  
+REGRESSIONS_DONE
+EXIT 0

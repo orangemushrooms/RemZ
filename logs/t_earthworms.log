@@ -28,7 +28,7 @@ PASS: Rig includes death
 PASS: Fully underground worm cannot take invisible hits
 PASS: Arrival transitions to visible emergence
 PASS: Exposed worm takes damage without automatic-fire stun lock
-PASS: Each attack cycle leaves a generous shooting window
+PASS: Each attack cycle leaves a generous shooting window (5.5 s exposed, 10.9 s above ground)
 PASS: Real ballistic ray intersects the exposed animated worm
 PASS: Automatic tower can acquire the exposed body
 PASS: Burrowing disables ballistic hits and automatic tower targeting

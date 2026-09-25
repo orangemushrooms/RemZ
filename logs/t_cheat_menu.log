@@ -10,7 +10,7 @@ PASS: Points button credits 1000 points and updates the displayed balance while 
 PASS: Points button can be used repeatedly without closing or resuming the game
 PASS: Every weapon has its own cheat button (19)
 PASS: The weapon button unlocks the minigun and puts it in the hands
-PASS: The minigun comes with a full belt and a full reserve (150 + 300)
+PASS: The minigun comes with a full belt and a full reserve (150 + 450)
 PASS: The menu stays open and names what was handed out
 PASS: Pressing an owned weapon fills it up again
 PASS: An overheated plasma rifle comes back cold and loaded

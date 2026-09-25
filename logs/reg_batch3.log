@@ -1,0 +1,5 @@
+drones               BAD exit=1 26s DRONES_DONE checks=84 failures=2 FAIL: Mechanic pays completed drone quest exactly (0 -> 0) | FAIL: Repeated drone quest turn-in cannot duplicate reward 
+weapon_mods          OK exit=0 25s WEAPON_MODS_DONE checks=52 failures=0  
+progression          OK exit=0 26s PROGRESSION_DONE checks=179 failures=0  
+REGRESSIONS_DONE
+EXIT 0

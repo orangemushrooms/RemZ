@@ -1,0 +1,264 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: deagle steht in Weapons.DEFS
+PASS: deagle hat alle Pflichtfelder
+PASS: deagle steht in Weapons.ORDER (sonst unsichtbar in Shop, Inventar, Quickbar)
+PASS: deagle ist beim Händler kaufbar
+PASS: deagle: GOODS-Eintrag vollständig (quest, wave, price, ammo, desc)
+PASS: deagle: Verkäufer ist Vendor oder Secret Vendor
+PASS: deagle: Preis und Munitionspreis gesetzt
+PASS: deagle: Magazin >= 1 (mag 0 zerstört die Munitionsrechnung)
+PASS: deagle: Nachladezeit > 0 (balance_report teilt sonst durch null)
+PASS: deagle: Feuerrate > 0
+PASS: deagle: Reservelimit fasst mindestens ein Magazin
+PASS: flare_pistol steht in Weapons.DEFS
+PASS: flare_pistol hat alle Pflichtfelder
+PASS: flare_pistol steht in Weapons.ORDER (sonst unsichtbar in Shop, Inventar, Quickbar)
+PASS: flare_pistol ist beim Händler kaufbar
+PASS: flare_pistol: GOODS-Eintrag vollständig (quest, wave, price, ammo, desc)
+PASS: flare_pistol: Verkäufer ist Vendor oder Secret Vendor
+PASS: flare_pistol: Preis und Munitionspreis gesetzt
+PASS: flare_pistol: Magazin >= 1 (mag 0 zerstört die Munitionsrechnung)
+PASS: flare_pistol: Nachladezeit > 0 (balance_report teilt sonst durch null)
+PASS: flare_pistol: Feuerrate > 0
+PASS: flare_pistol: Reservelimit fasst mindestens ein Magazin
+PASS: mac10 steht in Weapons.DEFS
+PASS: mac10 hat alle Pflichtfelder
+PASS: mac10 steht in Weapons.ORDER (sonst unsichtbar in Shop, Inventar, Quickbar)
+PASS: mac10 ist beim Händler kaufbar
+PASS: mac10: GOODS-Eintrag vollständig (quest, wave, price, ammo, desc)
+PASS: mac10: Verkäufer ist Vendor oder Secret Vendor
+PASS: mac10: Preis und Munitionspreis gesetzt
+PASS: mac10: Magazin >= 1 (mag 0 zerstört die Munitionsrechnung)
+PASS: mac10: Nachladezeit > 0 (balance_report teilt sonst durch null)
+PASS: mac10: Feuerrate > 0
+PASS: mac10: Reservelimit fasst mindestens ein Magazin
+PASS: cryo_smg steht in Weapons.DEFS
+PASS: cryo_smg hat alle Pflichtfelder
+PASS: cryo_smg steht in Weapons.ORDER (sonst unsichtbar in Shop, Inventar, Quickbar)
+PASS: cryo_smg ist beim Händler kaufbar
+PASS: cryo_smg: GOODS-Eintrag vollständig (quest, wave, price, ammo, desc)
+PASS: cryo_smg: Verkäufer ist Vendor oder Secret Vendor
+PASS: cryo_smg: Preis und Munitionspreis gesetzt
+PASS: cryo_smg: Magazin >= 1 (mag 0 zerstört die Munitionsrechnung)
+PASS: cryo_smg: Nachladezeit > 0 (balance_report teilt sonst durch null)
+PASS: cryo_smg: Feuerrate > 0
+PASS: cryo_smg: Reservelimit fasst mindestens ein Magazin
+PASS: plasma_sniper steht in Weapons.DEFS
+PASS: plasma_sniper hat alle Pflichtfelder
+PASS: plasma_sniper steht in Weapons.ORDER (sonst unsichtbar in Shop, Inventar, Quickbar)
+PASS: plasma_sniper ist beim Händler kaufbar
+PASS: plasma_sniper: GOODS-Eintrag vollständig (quest, wave, price, ammo, desc)
+PASS: plasma_sniper: Verkäufer ist Vendor oder Secret Vendor
+PASS: plasma_sniper: Preis und Munitionspreis gesetzt
+PASS: plasma_sniper: Magazin >= 1 (mag 0 zerstört die Munitionsrechnung)
+PASS: plasma_sniper: Nachladezeit > 0 (balance_report teilt sonst durch null)
+PASS: plasma_sniper: Feuerrate > 0
+PASS: plasma_sniper: Reservelimit fasst mindestens ein Magazin
+PASS: lever_rifle steht in Weapons.DEFS
+PASS: lever_rifle hat alle Pflichtfelder
+PASS: lever_rifle steht in Weapons.ORDER (sonst unsichtbar in Shop, Inventar, Quickbar)
+PASS: lever_rifle ist beim Händler kaufbar
+PASS: lever_rifle: GOODS-Eintrag vollständig (quest, wave, price, ammo, desc)
+PASS: lever_rifle: Verkäufer ist Vendor oder Secret Vendor
+PASS: lever_rifle: Preis und Munitionspreis gesetzt
+PASS: lever_rifle: Magazin >= 1 (mag 0 zerstört die Munitionsrechnung)
+PASS: lever_rifle: Nachladezeit > 0 (balance_report teilt sonst durch null)
+PASS: lever_rifle: Feuerrate > 0
+PASS: lever_rifle: Reservelimit fasst mindestens ein Magazin
+PASS: minigun steht in Weapons.DEFS
+PASS: minigun hat alle Pflichtfelder
+PASS: minigun steht in Weapons.ORDER (sonst unsichtbar in Shop, Inventar, Quickbar)
+PASS: minigun ist beim Händler kaufbar
+PASS: minigun: GOODS-Eintrag vollständig (quest, wave, price, ammo, desc)
+PASS: minigun: Verkäufer ist Vendor oder Secret Vendor
+PASS: minigun: Preis und Munitionspreis gesetzt
+PASS: minigun: Magazin >= 1 (mag 0 zerstört die Munitionsrechnung)
+PASS: minigun: Nachladezeit > 0 (balance_report teilt sonst durch null)
+PASS: minigun: Feuerrate > 0
+PASS: minigun: Reservelimit fasst mindestens ein Magazin
+PASS: graviton_cannon steht in Weapons.DEFS
+PASS: graviton_cannon hat alle Pflichtfelder
+PASS: graviton_cannon steht in Weapons.ORDER (sonst unsichtbar in Shop, Inventar, Quickbar)
+PASS: graviton_cannon ist beim Händler kaufbar
+PASS: graviton_cannon: GOODS-Eintrag vollständig (quest, wave, price, ammo, desc)
+PASS: graviton_cannon: Verkäufer ist Vendor oder Secret Vendor
+PASS: graviton_cannon: Preis und Munitionspreis gesetzt
+PASS: graviton_cannon: Magazin >= 1 (mag 0 zerstört die Munitionsrechnung)
+PASS: graviton_cannon: Nachladezeit > 0 (balance_report teilt sonst durch null)
+PASS: graviton_cannon: Feuerrate > 0
+PASS: graviton_cannon: Reservelimit fasst mindestens ein Magazin
+PASS: deagle: Modell deagle.glb vorhanden
+PASS: deagle: Mündung/Magazin von deagle ist vermessen (weapon_geometry.mjs --bake)
+PASS: deagle: eigenes Mündungsfeuer-Profil (sonst AK-Blitz)
+PASS: deagle: eigene Handpositionen
+PASS: deagle: Schusssound 'deagle' registriert
+PASS: deagle: Inventar-Icon vorhanden
+PASS: flare_pistol: Modell flare_pistol.glb vorhanden
+PASS: flare_pistol: Mündung/Magazin von flare_pistol ist vermessen (weapon_geometry.mjs --bake)
+PASS: flare_pistol: eigenes Mündungsfeuer-Profil (sonst AK-Blitz)
+PASS: flare_pistol: eigene Handpositionen
+PASS: flare_pistol: Schusssound 'flare' registriert
+PASS: flare_pistol: Inventar-Icon vorhanden
+PASS: mac10: Modell mac10.glb vorhanden
+PASS: mac10: Mündung/Magazin von mac10 ist vermessen (weapon_geometry.mjs --bake)
+PASS: mac10: eigenes Mündungsfeuer-Profil (sonst AK-Blitz)
+PASS: mac10: eigene Handpositionen
+PASS: mac10: Schusssound 'mac10' registriert
+PASS: mac10: Inventar-Icon vorhanden
+PASS: cryo_smg: Modell cryo_smg.glb vorhanden
+PASS: cryo_smg: Mündung/Magazin von cryo_smg ist vermessen (weapon_geometry.mjs --bake)
+PASS: cryo_smg: eigenes Mündungsfeuer-Profil (sonst AK-Blitz)
+PASS: cryo_smg: eigene Handpositionen
+PASS: cryo_smg: Schusssound 'cryo' registriert
+PASS: cryo_smg: Inventar-Icon vorhanden
+PASS: plasma_sniper: Modell plasma_sniper.glb vorhanden
+PASS: plasma_sniper: Mündung/Magazin von plasma_sniper ist vermessen (weapon_geometry.mjs --bake)
+PASS: plasma_sniper: eigenes Mündungsfeuer-Profil (sonst AK-Blitz)
+PASS: plasma_sniper: eigene Handpositionen
+PASS: plasma_sniper: Schusssound 'plasma' registriert
+PASS: plasma_sniper: Inventar-Icon vorhanden
+PASS: lever_rifle: Modell lever_rifle.glb vorhanden
+PASS: lever_rifle: Mündung/Magazin von lever_rifle ist vermessen (weapon_geometry.mjs --bake)
+PASS: lever_rifle: eigenes Mündungsfeuer-Profil (sonst AK-Blitz)
+PASS: lever_rifle: eigene Handpositionen
+PASS: lever_rifle: Schusssound 'lever' registriert
+PASS: lever_rifle: Inventar-Icon vorhanden
+PASS: minigun: Modell minigun.glb vorhanden
+PASS: minigun: Mündung/Magazin von minigun ist vermessen (weapon_geometry.mjs --bake)
+PASS: minigun: eigenes Mündungsfeuer-Profil (sonst AK-Blitz)
+PASS: minigun: eigene Handpositionen
+PASS: minigun: Schusssound 'minigun' registriert
+PASS: minigun: Inventar-Icon vorhanden
+PASS: graviton_cannon: Modell graviton_cannon.glb vorhanden
+PASS: graviton_cannon: Mündung/Magazin von graviton_cannon ist vermessen (weapon_geometry.mjs --bake)
+PASS: graviton_cannon: eigenes Mündungsfeuer-Profil (sonst AK-Blitz)
+PASS: graviton_cannon: eigene Handpositionen
+PASS: graviton_cannon: Schusssound 'graviton' registriert
+PASS: graviton_cannon: Inventar-Icon vorhanden
+PASS: deagle: lässt sich ausrüsten
+PASS: deagle: Schuss verbraucht Munition
+PASS: deagle: Mündung sitzt vorn an der Waffe (0.26, -0.17, -0.68)
+PASS: deagle: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.020)
+PASS: flare_pistol: lässt sich ausrüsten
+PASS: flare_pistol: Schuss verbraucht Munition
+PASS: flare_pistol: Mündung sitzt vorn an der Waffe (0.26, -0.15, -0.63)
+PASS: flare_pistol: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.023)
+PASS: mac10: lässt sich ausrüsten
+PASS: mac10: Schuss verbraucht Munition
+PASS: mac10: Mündung sitzt vorn an der Waffe (0.24, -0.18, -0.81)
+PASS: mac10: Mündung liegt in der Waffensilhouette (0.003 m seitlich, halbe Breite 0.026)
+PASS: cryo_smg: lässt sich ausrüsten
+PASS: cryo_smg: Schuss verbraucht Munition
+PASS: cryo_smg: Mündung sitzt vorn an der Waffe (0.24, -0.20, -0.78)
+PASS: cryo_smg: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.026)
+PASS: plasma_sniper: lässt sich ausrüsten
+PASS: plasma_sniper: Schuss verbraucht Munition
+PASS: plasma_sniper: Mündung sitzt vorn an der Waffe (0.25, -0.23, -1.08)
+PASS: plasma_sniper: Mündung liegt in der Waffensilhouette (0.002 m seitlich, halbe Breite 0.033)
+PASS: lever_rifle: lässt sich ausrüsten
+PASS: lever_rifle: Schuss verbraucht Munition
+PASS: lever_rifle: Mündung sitzt vorn an der Waffe (0.24, -0.16, -0.96)
+PASS: lever_rifle: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.016)
+PASS: minigun: lässt sich ausrüsten
+PASS: minigun: Schuss verbraucht Munition
+PASS: minigun: Mündung sitzt vorn an der Waffe (0.28, -0.15, -0.92)
+PASS: minigun: Mündung liegt in der Waffensilhouette (0.051 m seitlich, halbe Breite 0.142)
+PASS: graviton_cannon: lässt sich ausrüsten
+PASS: graviton_cannon: Schuss verbraucht Munition
+PASS: graviton_cannon: Mündung sitzt vorn an der Waffe (0.22, -0.21, -0.94)
+PASS: graviton_cannon: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.078)
+PASS: deagle: zu wenig Geld verhindert den Kauf
+PASS: deagle: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAAEAAAAERlc2VydCBFYWdsZSAuNTA=﷒)
+PASS: deagle: der Kauf kostet genau 560 R
+PASS: deagle: die Waffe kommt geladen mit zwei Reservemagazinen
+PASS: deagle: das Startmagazin sprengt das Reservelimit nicht
+PASS: flare_pistol: zu wenig Geld verhindert den Kauf
+PASS: flare_pistol: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAADAAAAEZsYXJlIFBpc3RvbA==﷒)
+PASS: flare_pistol: der Kauf kostet genau 220 R
+PASS: flare_pistol: die Waffe kommt geladen mit zwei Reservemagazinen
+PASS: flare_pistol: das Startmagazin sprengt das Reservelimit nicht
+PASS: mac10: zu wenig Geld verhindert den Kauf
+PASS: mac10: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAACQAAAE1BQy0xMCBTRAAAAA==﷒)
+PASS: mac10: der Kauf kostet genau 600 R
+PASS: mac10: die Waffe kommt geladen mit zwei Reservemagazinen
+PASS: mac10: das Startmagazin sprengt das Reservelimit nicht
+PASS: cryo_smg: zu wenig Geld verhindert den Kauf
+PASS: cryo_smg: Kauf beim secret schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAACwAAAENyeW8gU01HIEM3AA==﷒)
+PASS: cryo_smg: der Kauf kostet genau 1000 R
+PASS: cryo_smg: die Waffe kommt geladen mit zwei Reservemagazinen
+PASS: cryo_smg: das Startmagazin sprengt das Reservelimit nicht
+PASS: plasma_sniper: zu wenig Geld verhindert den Kauf
+PASS: plasma_sniper: Kauf beim secret schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAADAAAAFBsYXNtYSBSaWZsZQ==﷒)
+PASS: plasma_sniper: der Kauf kostet genau 1750 R
+PASS: plasma_sniper: die Waffe kommt geladen mit zwei Reservemagazinen
+PASS: plasma_sniper: das Startmagazin sprengt das Reservelimit nicht
+PASS: lever_rifle: zu wenig Geld verhindert den Kauf
+PASS: lever_rifle: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAAEwAAAExldmVyIEFjdGlvbiAuNDUtNzAA﷒)
+PASS: lever_rifle: der Kauf kostet genau 640 R
+PASS: lever_rifle: die Waffe kommt geladen mit zwei Reservemagazinen
+PASS: lever_rifle: das Startmagazin sprengt das Reservelimit nicht
+PASS: minigun: zu wenig Geld verhindert den Kauf
+PASS: minigun: Kauf beim secret schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAADAAAAE1pbmlndW4gTTEzNA==﷒)
+PASS: minigun: der Kauf kostet genau 2100 R
+PASS: minigun: die Waffe kommt geladen mit zwei Reservemagazinen
+PASS: minigun: das Startmagazin sprengt das Reservelimit nicht
+PASS: graviton_cannon: zu wenig Geld verhindert den Kauf
+PASS: graviton_cannon: Kauf beim secret schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAADwAAAEdyYXZpdG9uIENhbm5vbgA=﷒)
+PASS: graviton_cannon: der Kauf kostet genau 3000 R
+PASS: graviton_cannon: die Waffe kommt geladen mit zwei Reservemagazinen
+PASS: graviton_cannon: das Startmagazin sprengt das Reservelimit nicht
+PASS: deagle + suppressor: Mod verändert nur vorhandene Felder
+PASS: deagle + suppressor: Magazin bleibt >= 1
+PASS: deagle + compensator: Mod verändert nur vorhandene Felder
+PASS: deagle + compensator: Magazin bleibt >= 1
+PASS: deagle + quick_action: Mod verändert nur vorhandene Felder
+PASS: deagle + quick_action: Magazin bleibt >= 1
+PASS: deagle + match_barrel: Mod verändert nur vorhandene Felder
+PASS: deagle + match_barrel: Magazin bleibt >= 1
+PASS: deagle + ghost: Mod verändert nur vorhandene Felder
+PASS: deagle + ghost: Magazin bleibt >= 1
+PASS: flare_pistol + quick_action: Mod verändert nur vorhandene Felder
+PASS: flare_pistol + quick_action: Magazin bleibt >= 1
+PASS: mac10 + extended: Mod verändert nur vorhandene Felder
+PASS: mac10 + extended: Magazin bleibt >= 1
+PASS: mac10 + quick_action: Mod verändert nur vorhandene Felder
+PASS: mac10 + quick_action: Magazin bleibt >= 1
+PASS: mac10 + match_barrel: Mod verändert nur vorhandene Felder
+PASS: mac10 + match_barrel: Magazin bleibt >= 1
+PASS: cryo_smg + extended: Mod verändert nur vorhandene Felder
+PASS: cryo_smg + extended: Magazin bleibt >= 1
+PASS: cryo_smg + quick_action: Mod verändert nur vorhandene Felder
+PASS: cryo_smg + quick_action: Magazin bleibt >= 1
+PASS: cryo_smg + ghost: Mod verändert nur vorhandene Felder
+PASS: cryo_smg + ghost: Magazin bleibt >= 1
+PASS: cryo_smg + endless: Mod verändert nur vorhandene Felder
+PASS: cryo_smg + endless: Magazin bleibt >= 1
+PASS: plasma_sniper + match_barrel: Mod verändert nur vorhandene Felder
+PASS: plasma_sniper + match_barrel: Magazin bleibt >= 1
+PASS: plasma_sniper + titan_core: Mod verändert nur vorhandene Felder
+PASS: plasma_sniper + titan_core: Magazin bleibt >= 1
+PASS: lever_rifle + suppressor: Mod verändert nur vorhandene Felder
+PASS: lever_rifle + suppressor: Magazin bleibt >= 1
+PASS: lever_rifle + compensator: Mod verändert nur vorhandene Felder
+PASS: lever_rifle + compensator: Magazin bleibt >= 1
+PASS: lever_rifle + quick_action: Mod verändert nur vorhandene Felder
+PASS: lever_rifle + quick_action: Magazin bleibt >= 1
+PASS: lever_rifle + match_barrel: Mod verändert nur vorhandene Felder
+PASS: lever_rifle + match_barrel: Magazin bleibt >= 1
+PASS: lever_rifle + ghost: Mod verändert nur vorhandene Felder
+PASS: lever_rifle + ghost: Magazin bleibt >= 1
+PASS: minigun + quick_action: Mod verändert nur vorhandene Felder
+PASS: minigun + quick_action: Magazin bleibt >= 1
+PASS: graviton_cannon + quick_action: Mod verändert nur vorhandene Felder
+PASS: graviton_cannon + quick_action: Magazin bleibt >= 1
+PASS: graviton_cannon + titan_core: Mod verändert nur vorhandene Felder
+PASS: graviton_cannon + titan_core: Magazin bleibt >= 1
+NEW_WEAPONS_DONE checks=254 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

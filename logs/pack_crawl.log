@@ -1,0 +1,40 @@
+  + clip attack
+  + clip attack2
+  + clip crawl
+  + clip death
+  + clip death2
+  + clip idle
+  + clip scream
+  + clip walk
+  + clip walk2
+  pbr maps: restored (67328/67328 UVs)
+zombie_titan_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_titan.glb (8.73 MB, clips: attack, attack2, crawl, death, death2, idle, scream, walk, walk2; textures: texture_0:4096x4096, normal:2048x2048, metal_rough:2048x2048)
+  + clip attack
+  + clip attack2
+  + clip crawl
+  + clip death
+  + clip death2
+  + clip idle
+  + clip scream
+  + clip walk
+  + clip walk2
+  pbr maps: restored (73458/73458 UVs)
+zombie_colossus_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_colossus.glb (10.09 MB, clips: attack, attack2, crawl, death, death2, idle, scream, walk, walk2; textures: texture_0:4096x4096, normal:2048x2048, metal_rough:2048x2048)
+  + clip attack
+  + clip attack2
+  + clip crawl
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip death5
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip scream
+  + clip walk
+  + clip walk2
+  pbr maps: restored (50020/50020 UVs)
+  simplified 56784 -> 35206 triangles
+zombie_bloater_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_bloater.glb (5.01 MB, clips: attack, attack2, crawl, death, death2, death3, death4, death5, hit, hit2, idle, scream, walk, walk2; textures: texture_0:4096x4096, normal:2048x2048, metal_rough:2048x2048)
+EXIT 0

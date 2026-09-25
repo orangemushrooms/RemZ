@@ -1,0 +1,5 @@
+batch27              BAD exit=0 26s (no done line)  
+titan_phases         OK exit=0 36s TITAN_PHASES_DONE checks=26 failures=0  
+earthworms           OK exit=0 25s EARTHWORMS_DONE checks=48 failures=0  
+REGRESSIONS_DONE
+EXIT 0

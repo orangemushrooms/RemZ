@@ -2,24 +2,27 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
-ZOMBIE_CLIPS zombie_colossus: attack(len 3.03, 0.16 m/s, peak 1.71) attack2(len 1.87, 0.25 m/s, peak 1.58) death(len 2.27, 0.76 m/s, peak 1.35) death2(len 2.23, 0.57 m/s, peak 1.47) idle(len 1.43, 0.24 m/s, peak 0.99) scream(len 2.83, 0.15 m/s, peak 0.97) walk(len 5.53, 0.38 m/s, peak 4.15) walk2(len 4.13, 0.87 m/s, peak 1.03)
+ZOMBIE_CLIPS zombie_colossus: attack(len 3.03, 0.16 m/s, peak 1.71) attack2(len 1.87, 0.25 m/s, peak 1.58) crawl(len 2.90, 1.03 m/s, peak 1.45) death(len 2.27, 0.76 m/s, peak 1.35) death2(len 2.23, 0.57 m/s, peak 1.47) idle(len 1.43, 0.24 m/s, peak 0.99) scream(len 2.83, 0.15 m/s, peak 0.97) walk(len 5.53, 0.38 m/s, peak 4.15) walk2(len 4.13, 0.87 m/s, peak 1.03)
 PASS: zombie_colossus walk clip implies a plausible ground speed (0.38 m/s)
 PASS: zombie_colossus attack clip has its strike inside the clip (1.71 of 3.03 s)
-ZOMBIE_CLIPS zombie_bloater: attack(len 3.50, 0.28 m/s, peak 0.66) attack2(len 1.87, 0.28 m/s, peak 1.58) death(len 2.23, 0.59 m/s, peak 1.47) death2(len 2.27, 0.58 m/s, peak 1.35) death3(len 3.53, 0.37 m/s, peak 2.32) death4(len 4.47, 0.31 m/s, peak 2.65) death5(len 3.53, 0.22 m/s, peak 0.33) hit(len 1.67, 0.57 m/s, peak 0.62) hit2(len 3.03, 0.16 m/s, peak 3.03) idle(len 1.43, 0.17 m/s, peak 0.99) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 5.53, 0.29 m/s, peak 4.15) walk2(len 4.13, 0.61 m/s, peak 1.03)
+ZOMBIE_CLIPS zombie_bloater: attack(len 3.50, 0.28 m/s, peak 0.66) attack2(len 1.87, 0.28 m/s, peak 1.58) crawl(len 2.90, 0.80 m/s, peak 1.45) death(len 2.23, 0.59 m/s, peak 1.47) death2(len 2.27, 0.58 m/s, peak 1.35) death3(len 3.53, 0.37 m/s, peak 2.32) death4(len 4.47, 0.31 m/s, peak 2.65) death5(len 3.53, 0.22 m/s, peak 0.33) hit(len 1.67, 0.57 m/s, peak 0.62) hit2(len 3.03, 0.16 m/s, peak 3.03) idle(len 1.43, 0.17 m/s, peak 0.99) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 5.53, 0.29 m/s, peak 4.15) walk2(len 4.13, 0.61 m/s, peak 1.03)
 PASS: zombie_bloater walk clip implies a plausible ground speed (0.29 m/s)
 PASS: zombie_bloater attack clip has its strike inside the clip (0.66 of 3.50 s)
-ZOMBIE_CLIPS zombie_titan: attack(len 3.03, 0.15 m/s, peak 1.71) attack2(len 1.87, 0.24 m/s, peak 1.58) death(len 2.27, 0.70 m/s, peak 1.35) death2(len 2.23, 0.62 m/s, peak 1.47) idle(len 1.43, 0.16 m/s, peak 0.99) scream(len 2.83, 0.18 m/s, peak 0.97) walk(len 5.53, 0.36 m/s, peak 4.15) walk2(len 4.13, 0.84 m/s, peak 1.03)
+ZOMBIE_CLIPS zombie_titan: attack(len 3.03, 0.15 m/s, peak 1.71) attack2(len 1.87, 0.24 m/s, peak 1.58) crawl(len 2.90, 1.05 m/s, peak 1.45) death(len 2.27, 0.70 m/s, peak 1.35) death2(len 2.23, 0.62 m/s, peak 1.47) idle(len 1.43, 0.16 m/s, peak 0.99) scream(len 2.83, 0.18 m/s, peak 0.97) walk(len 5.53, 0.36 m/s, peak 4.15) walk2(len 4.13, 0.84 m/s, peak 1.03)
 PASS: zombie_titan walk clip implies a plausible ground speed (0.36 m/s)
 PASS: zombie_titan attack clip has its strike inside the clip (1.71 of 3.03 s)
-ZOMBIE_CLIPS zombie_titan: attack(len 3.03, 0.15 m/s, peak 1.71) attack2(len 1.87, 0.24 m/s, peak 1.58) death(len 2.27, 0.70 m/s, peak 1.35) death2(len 2.23, 0.62 m/s, peak 1.47) idle(len 1.43, 0.16 m/s, peak 0.99) scream(len 2.83, 0.18 m/s, peak 0.97) walk(len 5.53, 0.36 m/s, peak 4.15) walk2(len 4.13, 0.84 m/s, peak 1.03)
+ZOMBIE_CLIPS zombie_titan: attack(len 3.03, 0.15 m/s, peak 1.71) attack2(len 1.87, 0.24 m/s, peak 1.58) crawl(len 2.90, 1.05 m/s, peak 1.45) death(len 2.27, 0.70 m/s, peak 1.35) death2(len 2.23, 0.62 m/s, peak 1.47) idle(len 1.43, 0.16 m/s, peak 0.99) scream(len 2.83, 0.18 m/s, peak 0.97) walk(len 5.53, 0.36 m/s, peak 4.15) walk2(len 4.13, 0.84 m/s, peak 1.03)
 PASS: zombie_titan walk clip implies a plausible ground speed (0.36 m/s)
 PASS: zombie_titan attack clip has its strike inside the clip (1.71 of 3.03 s)
-ZOMBIE_CLIPS zombie_colossus: attack(len 3.03, 0.16 m/s, peak 1.71) attack2(len 1.87, 0.25 m/s, peak 1.58) death(len 2.27, 0.76 m/s, peak 1.35) death2(len 2.23, 0.57 m/s, peak 1.47) idle(len 1.43, 0.24 m/s, peak 0.99) scream(len 2.83, 0.15 m/s, peak 0.97) walk(len 5.53, 0.38 m/s, peak 4.15) walk2(len 4.13, 0.87 m/s, peak 1.03)
+ZOMBIE_CLIPS zombie_colossus: attack(len 3.03, 0.16 m/s, peak 1.71) attack2(len 1.87, 0.25 m/s, peak 1.58) crawl(len 2.90, 1.03 m/s, peak 1.45) death(len 2.27, 0.76 m/s, peak 1.35) death2(len 2.23, 0.57 m/s, peak 1.47) idle(len 1.43, 0.24 m/s, peak 0.99) scream(len 2.83, 0.15 m/s, peak 0.97) walk(len 5.53, 0.38 m/s, peak 4.15) walk2(len 4.13, 0.87 m/s, peak 1.03)
 PASS: zombie_colossus walk clip implies a plausible ground speed (0.38 m/s)
 PASS: zombie_colossus attack clip has its strike inside the clip (1.71 of 3.03 s)
-ZOMBIE_CLIPS zombie_bloater: attack(len 3.50, 0.28 m/s, peak 0.66) attack2(len 1.87, 0.28 m/s, peak 1.58) death(len 2.23, 0.59 m/s, peak 1.47) death2(len 2.27, 0.58 m/s, peak 1.35) death3(len 3.53, 0.37 m/s, peak 2.32) death4(len 4.47, 0.31 m/s, peak 2.65) death5(len 3.53, 0.22 m/s, peak 0.33) hit(len 1.67, 0.57 m/s, peak 0.62) hit2(len 3.03, 0.16 m/s, peak 3.03) idle(len 1.43, 0.17 m/s, peak 0.99) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 5.53, 0.29 m/s, peak 4.15) walk2(len 4.13, 0.61 m/s, peak 1.03)
+ZOMBIE_CLIPS zombie_bloater: attack(len 3.50, 0.28 m/s, peak 0.66) attack2(len 1.87, 0.28 m/s, peak 1.58) crawl(len 2.90, 0.80 m/s, peak 1.45) death(len 2.23, 0.59 m/s, peak 1.47) death2(len 2.27, 0.58 m/s, peak 1.35) death3(len 3.53, 0.37 m/s, peak 2.32) death4(len 4.47, 0.31 m/s, peak 2.65) death5(len 3.53, 0.22 m/s, peak 0.33) hit(len 1.67, 0.57 m/s, peak 0.62) hit2(len 3.03, 0.16 m/s, peak 3.03) idle(len 1.43, 0.17 m/s, peak 0.99) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 5.53, 0.29 m/s, peak 4.15) walk2(len 4.13, 0.61 m/s, peak 1.03)
 PASS: zombie_bloater walk clip implies a plausible ground speed (0.29 m/s)
 PASS: zombie_bloater attack clip has its strike inside the clip (0.66 of 3.50 s)
+ZOMBIE_CLIPS zombie_forest_spirit: attack(len 1.15, 0.11 m/s, peak 0.50) attack2(len 1.15, 0.11 m/s, peak 0.50) death(len 2.00, 0.20 m/s, peak 1.13) hit(len 0.55, 0.23 m/s, peak 0.55) idle(len 3.60, 0.00 m/s, peak 3.60) pulse(len 1.50, 0.16 m/s, peak 1.27) scream(len 1.70, 0.06 m/s, peak 1.70) walk(len 1.65, 0.32 m/s, peak 0.82)
+PASS: zombie_forest_spirit walk clip implies a plausible ground speed (0.32 m/s)
+PASS: zombie_forest_spirit attack clip has its strike inside the clip (0.50 of 1.15 s)
 ZOMBIE_CLIPS zombie_shambler: attack(len 3.50, 0.35 m/s, peak 0.66) attack2(len 3.23, 0.35 m/s, peak 1.11) death(len 2.23, 0.53 m/s, peak 1.47) death2(len 2.27, 0.73 m/s, peak 1.35) death3(len 3.53, 0.45 m/s, peak 2.32) death4(len 4.47, 0.39 m/s, peak 2.65) death5(len 3.53, 0.32 m/s, peak 0.33) hit(len 1.67, 0.75 m/s, peak 0.62) hit2(len 3.03, 0.25 m/s, peak 3.03) idle(len 4.03, 0.02 m/s, peak 2.14) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 4.13, 0.82 m/s, peak 1.03) walk2(len 1.70, 1.36 m/s, peak 0.27)
 PASS: zombie_shambler walk clip implies a plausible ground speed (0.82 m/s)
 PASS: zombie_shambler attack clip has its strike inside the clip (0.66 of 3.50 s)
@@ -40,7 +43,7 @@ ZOMBIE_CLIPS zombie_jogger: attack(len 3.50, 0.35 m/s, peak 0.66) attack2(len 2.
 PASS: zombie_jogger walk clip implies a plausible ground speed (1.04 m/s)
 PASS: zombie_jogger run clip is faster than its walk (2.70 > 1.04 m/s)
 PASS: zombie_jogger attack clip has its strike inside the clip (0.66 of 3.50 s)
-ZOMBIE_CLIPS zombie_bloater: attack(len 3.50, 0.28 m/s, peak 0.66) attack2(len 1.87, 0.28 m/s, peak 1.58) death(len 2.23, 0.59 m/s, peak 1.47) death2(len 2.27, 0.58 m/s, peak 1.35) death3(len 3.53, 0.37 m/s, peak 2.32) death4(len 4.47, 0.31 m/s, peak 2.65) death5(len 3.53, 0.22 m/s, peak 0.33) hit(len 1.67, 0.57 m/s, peak 0.62) hit2(len 3.03, 0.16 m/s, peak 3.03) idle(len 1.43, 0.17 m/s, peak 0.99) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 5.53, 0.29 m/s, peak 4.15) walk2(len 4.13, 0.61 m/s, peak 1.03)
+ZOMBIE_CLIPS zombie_bloater: attack(len 3.50, 0.28 m/s, peak 0.66) attack2(len 1.87, 0.28 m/s, peak 1.58) crawl(len 2.90, 0.80 m/s, peak 1.45) death(len 2.23, 0.59 m/s, peak 1.47) death2(len 2.27, 0.58 m/s, peak 1.35) death3(len 3.53, 0.37 m/s, peak 2.32) death4(len 4.47, 0.31 m/s, peak 2.65) death5(len 3.53, 0.22 m/s, peak 0.33) hit(len 1.67, 0.57 m/s, peak 0.62) hit2(len 3.03, 0.16 m/s, peak 3.03) idle(len 1.43, 0.17 m/s, peak 0.99) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 5.53, 0.29 m/s, peak 4.15) walk2(len 4.13, 0.61 m/s, peak 1.03)
 PASS: zombie_bloater walk clip implies a plausible ground speed (0.29 m/s)
 PASS: zombie_bloater attack clip has its strike inside the clip (0.66 of 3.50 s)
 ZOMBIE_CLIPS zombie_shambler: attack(len 3.50, 0.35 m/s, peak 0.66) attack2(len 3.23, 0.35 m/s, peak 1.11) death(len 2.23, 0.53 m/s, peak 1.47) death2(len 2.27, 0.73 m/s, peak 1.35) death3(len 3.53, 0.45 m/s, peak 2.32) death4(len 4.47, 0.39 m/s, peak 2.65) death5(len 3.53, 0.32 m/s, peak 0.33) hit(len 1.67, 0.75 m/s, peak 0.62) hit2(len 3.03, 0.25 m/s, peak 3.03) idle(len 4.03, 0.02 m/s, peak 2.14) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 4.13, 0.82 m/s, peak 1.03) walk2(len 1.70, 1.36 m/s, peak 0.27)
@@ -66,7 +69,7 @@ PASS: zombie_shambler attack clip has its strike inside the clip (0.66 of 3.50 s
 ZOMBIE_CLIPS zombie_spitter: attack(len 3.50, 0.34 m/s, peak 0.66) attack2(len 1.87, 0.23 m/s, peak 1.58) death(len 2.23, 0.53 m/s, peak 1.47) death2(len 2.27, 0.73 m/s, peak 1.35) death3(len 3.53, 0.46 m/s, peak 2.32) death4(len 4.47, 0.39 m/s, peak 2.65) death5(len 3.53, 0.31 m/s, peak 0.33) hit(len 1.67, 0.73 m/s, peak 0.62) hit2(len 3.03, 0.25 m/s, peak 3.03) idle(len 1.43, 0.24 m/s, peak 0.99) scream(len 2.83, 0.11 m/s, peak 0.97) walk(len 5.53, 0.36 m/s, peak 4.15) walk2(len 4.13, 0.81 m/s, peak 1.03)
 PASS: zombie_spitter walk clip implies a plausible ground speed (0.36 m/s)
 PASS: zombie_spitter attack clip has its strike inside the clip (0.66 of 3.50 s)
-ZOMBIE_CLIPS zombie_bloater: attack(len 3.50, 0.28 m/s, peak 0.66) attack2(len 1.87, 0.28 m/s, peak 1.58) death(len 2.23, 0.59 m/s, peak 1.47) death2(len 2.27, 0.58 m/s, peak 1.35) death3(len 3.53, 0.37 m/s, peak 2.32) death4(len 4.47, 0.31 m/s, peak 2.65) death5(len 3.53, 0.22 m/s, peak 0.33) hit(len 1.67, 0.57 m/s, peak 0.62) hit2(len 3.03, 0.16 m/s, peak 3.03) idle(len 1.43, 0.17 m/s, peak 0.99) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 5.53, 0.29 m/s, peak 4.15) walk2(len 4.13, 0.61 m/s, peak 1.03)
+ZOMBIE_CLIPS zombie_bloater: attack(len 3.50, 0.28 m/s, peak 0.66) attack2(len 1.87, 0.28 m/s, peak 1.58) crawl(len 2.90, 0.80 m/s, peak 1.45) death(len 2.23, 0.59 m/s, peak 1.47) death2(len 2.27, 0.58 m/s, peak 1.35) death3(len 3.53, 0.37 m/s, peak 2.32) death4(len 4.47, 0.31 m/s, peak 2.65) death5(len 3.53, 0.22 m/s, peak 0.33) hit(len 1.67, 0.57 m/s, peak 0.62) hit2(len 3.03, 0.16 m/s, peak 3.03) idle(len 1.43, 0.17 m/s, peak 0.99) scream(len 2.83, 0.10 m/s, peak 0.97) walk(len 5.53, 0.29 m/s, peak 4.15) walk2(len 4.13, 0.61 m/s, peak 1.03)
 PASS: zombie_bloater walk clip implies a plausible ground speed (0.29 m/s)
 PASS: zombie_bloater attack clip has its strike inside the clip (0.66 of 3.50 s)
 ZOMBIE_CLIPS zombie_screamer: attack(len 3.50, 0.34 m/s, peak 0.66) attack2(len 2.50, 0.35 m/s, peak 1.33) death(len 2.23, 0.86 m/s, peak 1.47) death2(len 3.53, 0.52 m/s, peak 2.87) death3(len 2.27, 0.83 m/s, peak 1.35) death4(len 4.47, 0.43 m/s, peak 2.65) death5(len 3.53, 0.48 m/s, peak 0.22) hit(len 3.03, 0.23 m/s, peak 3.03) hit2(len 1.27, 0.18 m/s, peak 0.24) idle(len 5.37, 0.08 m/s, peak 2.68) run(len 0.67, 2.49 m/s, peak 0.25) scream(len 2.83, 0.15 m/s, peak 0.97) walk(len 3.00, 0.99 m/s, peak 1.69)
@@ -85,10 +88,10 @@ ZOMBIE_CLIPS zombie_jogger: attack(len 3.50, 0.35 m/s, peak 0.66) attack2(len 2.
 PASS: zombie_jogger walk clip implies a plausible ground speed (1.04 m/s)
 PASS: zombie_jogger run clip is faster than its walk (2.70 > 1.04 m/s)
 PASS: zombie_jogger attack clip has its strike inside the clip (0.66 of 3.50 s)
-PASS: clip metrics measured for 25 skins
+PASS: clip metrics measured for 26 skins
 PASS: shambler starts in its gait clip (walk2)
-PASS: natural speed of the gait in world units is known (1.53 m/s)
-PASS: speed_scale follows the displacement: 1.04 for 1.6 m/s (expected 1.04)
+PASS: natural speed of the gait in world units is known (1.51 m/s)
+PASS: speed_scale follows the displacement: 1.06 for 1.6 m/s (expected 1.06)
 PASS: a slower body slows its clip (0.35)
 PASS: standing still plays idle while the logical state stays walk
 PASS: moving again leaves idle for the gait (walk2)
@@ -102,9 +105,9 @@ PASS: soldier swing is held 0.80 s of its 0.9 s cadence (strike at 0.35)
 PASS: nurse swing is held 0.80 s of its 0.8 s cadence (strike at 0.35)
 PASS: runner swing is held 0.60 s of its 0.6 s cadence (strike at 0.35)
 PASS: scream state on every rig, clip when present (scream)
-PASS: at least two of 3 death variants are used (["death4", "death5", "death2"])
+PASS: at least two of 3 death variants are used (["death5", "death2", "death4"])
 PASS: a standing runner waits in its walk clip, its gait is the run
-PASS: sprinting runner keeps the run clip at 1.05
+PASS: sprinting runner keeps the run clip at 1.08
 PASS: a slowed runner walks instead of a slow-motion sprint (walk)
 PASS: 60 m away the rig updates every second tick
 PASS: manual mode still advances the clip
@@ -116,4 +119,4 @@ PASS: 5 m from the player the head tracks (influence 0.81)
 PASS: 40 m away the head tracking fades out (0.00)
 PASS: titan starts walking (walk)
 PASS: titan slam lands after 2.40 s of a 2.40 s wind-up
-ZOMBIE_MOTION_DONE checks=89 failures=0
+ZOMBIE_MOTION_DONE checks=91 failures=0

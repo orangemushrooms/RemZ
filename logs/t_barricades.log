@@ -44,23 +44,31 @@ PASS: Destruction removes every segment collider
 ERROR: Condition "p.d == 0" is true. Returning: Point2()
    at: unproject_position (scene/3d/camera_3d.cpp:495)
    GDScript backtrace (most recent call first):
-       [0] _draw_pings (res://scripts/hud.gd:1132)
+       [0] _draw_pings (res://scripts/hud.gd:1134)
 ERROR: Condition "p.d == 0" is true. Returning: Point2()
    at: unproject_position (scene/3d/camera_3d.cpp:495)
    GDScript backtrace (most recent call first):
-       [0] _draw_pings (res://scripts/hud.gd:1132)
+       [0] _draw_pings (res://scripts/hud.gd:1134)
 ERROR: Condition "p.d == 0" is true. Returning: Point2()
    at: unproject_position (scene/3d/camera_3d.cpp:495)
    GDScript backtrace (most recent call first):
-       [0] _draw_pings (res://scripts/hud.gd:1132)
+       [0] _draw_pings (res://scripts/hud.gd:1134)
 ERROR: Condition "p.d == 0" is true. Returning: Point2()
    at: unproject_position (scene/3d/camera_3d.cpp:495)
    GDScript backtrace (most recent call first):
-       [0] _draw_pings (res://scripts/hud.gd:1132)
+       [0] _draw_pings (res://scripts/hud.gd:1134)
 ERROR: Condition "p.d == 0" is true. Returning: Point2()
    at: unproject_position (scene/3d/camera_3d.cpp:495)
    GDScript backtrace (most recent call first):
-       [0] _draw_pings (res://scripts/hud.gd:1132)
+       [0] _draw_pings (res://scripts/hud.gd:1134)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1134)
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1134)
 PASS: Player inside the line blocks construction
 PASS: Blocked build leaves points and all segments untouched
 PASS: Enemy occupying any segment blocks construction

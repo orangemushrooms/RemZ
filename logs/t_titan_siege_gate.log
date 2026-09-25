@@ -7,58 +7,58 @@ COOP_LOAD MAP_READY
 GATE 0 @ +0 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 0 from +0 deg
 GATE 0 @ +25 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11486:<StaticBody3D#744656760069> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#753364135471> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 0 from +25 deg
 GATE 0 @ +45 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11486:<StaticBody3D#744656760069> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#753364135471> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 0 from +45 deg
 GATE 0 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11486:<StaticBody3D#744656760069> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#753364135471> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 0 from -25 deg
 GATE 0 @ -45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11486:<StaticBody3D#744656760069> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#753364135471> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 0 from -45 deg
 GATE 1 @ +0 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 1 from +0 deg
 GATE 1 @ +25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: <null> groups=[]
+   blocked by: PalisadeBody:<StaticBody3D#754521763387> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 1 from +25 deg
 GATE 1 @ +45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: <null> groups=[]
+   blocked by: PalisadeBody:<StaticBody3D#754521763387> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 1 from +45 deg
 GATE 1 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11536:<StaticBody3D#746368036313> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#754521763387> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 1 from -25 deg
 GATE 1 @ -45 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11536:<StaticBody3D#746368036313> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#754521763387> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 1 from -45 deg
 GATE 2 @ +0 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 2 from +0 deg
 GATE 2 @ +25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11586:<StaticBody3D#748062535157> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#755176074845> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 2 from +25 deg
 GATE 2 @ +45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11586:<StaticBody3D#748062535157> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#755176074845> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 2 from +45 deg
 GATE 2 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: <null> groups=[]
+   blocked by: PalisadeBody:<StaticBody3D#755176074845> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 2 from -25 deg
 GATE 2 @ -45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: <null> groups=[]
+   blocked by: PalisadeBody:<StaticBody3D#755176074845> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 2 from -45 deg
 GATE 3 @ +0 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 3 from +0 deg
 GATE 3 @ +25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: <null> groups=[]
+   blocked by: PalisadeBody:<StaticBody3D#756199485077> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 3 from +25 deg
 GATE 3 @ +45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: <null> groups=[]
+   blocked by: PalisadeBody:<StaticBody3D#756199485077> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 3 from +45 deg
 GATE 3 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11636:<StaticBody3D#749757034001> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#756199485077> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 3 from -25 deg
 GATE 3 @ -45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: @StaticBody3D@11636:<StaticBody3D#749757034001> groups=[&"barricade"]
+   blocked by: PalisadeBody:<StaticBody3D#756199485077> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 3 from -45 deg
 TITAN_SIEGE_GATE_DONE checks=20 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.

@@ -3,7 +3,6 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
 RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
-NAV_WAIT paused=false region_enabled=true server_enabled=true iteration=2 polygons=25293 map=RID(343597383680) registered_map=RID(343597383680)
 COOP_LOAD MAP_READY
 PASS: The player starts up with one self revive
 PASS: A fatal hit puts the player down, not dead
@@ -14,11 +13,11 @@ PASS: The HUD shows the down panel
 ERROR: Condition "p.d == 0" is true. Returning: Point2()
    at: unproject_position (scene/3d/camera_3d.cpp:495)
    GDScript backtrace (most recent call first):
-       [0] _draw_pings (res://scripts/hud.gd:1132)
+       [0] _draw_pings (res://scripts/hud.gd:1134)
 ERROR: Condition "p.d == 0" is true. Returning: Point2()
    at: unproject_position (scene/3d/camera_3d.cpp:495)
    GDScript backtrace (most recent call first):
-       [0] _draw_pings (res://scripts/hud.gd:1132)
+       [0] _draw_pings (res://scripts/hud.gd:1134)
 PASS: Down means crouched
 PASS: A hit while down bleeds the clock instead of the health (19.00)
 PASS: Health stays at zero while down

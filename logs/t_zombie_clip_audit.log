@@ -6,6 +6,8 @@ CLIP_AUDIT zombie_colossus attack len=3.03 drift=0.000 hips_y=0.46..0.87 end_y=0
 PASS: zombie_colossus attack keeps the feet above the floor (lowest 0.12 m)
 CLIP_AUDIT zombie_colossus attack2 len=1.87 drift=0.000 hips_y=0.85..1.12 end_y=0.91 foot_min=0.20 seam=111.7deg(LeftUpLeg)
 PASS: zombie_colossus attack2 keeps the feet above the floor (lowest 0.20 m)
+CLIP_AUDIT zombie_colossus crawl len=2.90 drift=0.000 hips_y=0.36..0.43 end_y=0.38 foot_min=0.08 seam=0.0deg(RightToeBase)
+PASS: zombie_colossus crawl keeps the feet above the floor (lowest 0.08 m)
 CLIP_AUDIT zombie_colossus death len=2.27 drift=0.902 hips_y=0.12..0.95 end_y=0.12 foot_min=0.06 seam=91.2deg(Hips)
 PASS: zombie_colossus death ends on the ground (hips at 0.12 m)
 PASS: zombie_colossus death keeps the feet above the floor (lowest 0.06 m)
@@ -30,6 +32,8 @@ CLIP_AUDIT zombie_bloater attack len=3.50 drift=0.000 hips_y=0.56..0.66 end_y=0.
 PASS: zombie_bloater attack keeps the feet above the floor (lowest 0.09 m)
 CLIP_AUDIT zombie_bloater attack2 len=1.87 drift=0.000 hips_y=0.59..0.77 end_y=0.64 foot_min=0.16 seam=107.0deg(LeftUpLeg)
 PASS: zombie_bloater attack2 keeps the feet above the floor (lowest 0.16 m)
+CLIP_AUDIT zombie_bloater crawl len=2.90 drift=0.000 hips_y=0.27..0.33 end_y=0.29 foot_min=0.10 seam=0.1deg(Spine02)
+PASS: zombie_bloater crawl keeps the feet above the floor (lowest 0.10 m)
 CLIP_AUDIT zombie_bloater death len=2.23 drift=0.853 hips_y=0.14..0.69 end_y=0.14 foot_min=0.09 seam=129.4deg(Hips)
 PASS: zombie_bloater death ends on the ground (hips at 0.14 m)
 PASS: zombie_bloater death keeps the feet above the floor (lowest 0.09 m)
@@ -67,6 +71,8 @@ CLIP_AUDIT zombie_titan attack len=3.03 drift=0.000 hips_y=0.45..0.85 end_y=0.81
 PASS: zombie_titan attack keeps the feet above the floor (lowest 0.13 m)
 CLIP_AUDIT zombie_titan attack2 len=1.87 drift=0.000 hips_y=0.84..1.08 end_y=0.93 foot_min=0.20 seam=105.1deg(LeftUpLeg)
 PASS: zombie_titan attack2 keeps the feet above the floor (lowest 0.20 m)
+CLIP_AUDIT zombie_titan crawl len=2.90 drift=0.000 hips_y=0.40..0.47 end_y=0.43 foot_min=0.09 seam=0.0deg(LeftArm)
+PASS: zombie_titan crawl keeps the feet above the floor (lowest 0.09 m)
 CLIP_AUDIT zombie_titan death len=2.27 drift=0.824 hips_y=0.06..0.93 end_y=0.06 foot_min=0.04 seam=91.5deg(Hips)
 PASS: zombie_titan death ends on the ground (hips at 0.06 m)
 PASS: zombie_titan death keeps the feet above the floor (lowest 0.04 m)
@@ -531,4 +537,4 @@ CLIP_AUDIT zombie_stalker walk len=2.90 drift=0.000 hips_y=0.73..0.76 end_y=0.74
 PASS: zombie_stalker walk stays in place (drift 0.00 m)
 PASS: zombie_stalker walk loops without a seam (0.0 deg on LeftToeBase)
 PASS: zombie_stalker walk keeps the feet above the floor (lowest 0.13 m)
-ZOMBIE_CLIP_AUDIT_DONE checks=344 failures=0
+ZOMBIE_CLIP_AUDIT_DONE checks=347 failures=0

@@ -1,0 +1,9 @@
+EOS_PRODUCT_NAME     present
+EOS_PRODUCT_ID       present
+EOS_SANDBOX_ID       present
+EOS_DEPLOYMENT_ID    present
+EOS_CLIENT_ID        present
+EOS_CLIENT_SECRET    present
+wrote godot\eos.cfg (complete)
+ExportWindows passed. Log: C:\Users\miche\Desktop\Developement\RemZ\logs\check-exportwindows.log
+EXPORT EXIT 0

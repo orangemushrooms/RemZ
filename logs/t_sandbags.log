@@ -35,7 +35,7 @@ PASS: The line has its own health and armour
 PASS: A hit is partly shrugged off and raises the alert
 PASS: The HUD arrows point at the attacked line
 PASS: The zombie between gate and line goes for the sandbags
-PASS: The sandbag line takes the zombie's hits (370 -> 354 after 4.2 s)
+PASS: The sandbag line takes the zombie's hits (370 -> 356 after 1.6 s)
 PASS: Space in front of the line finds it to climb over
 PASS: Repairing needs Rem Dollars
 PASS: Repair refills the line for its price

@@ -1,0 +1,64 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+COOP_LOAD HOST_CREATE port=24698
+COOP_HOST_READY port=24698
+COOP_LOAD HOST_READY
+PASS: The fixture hosts a round
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=2
+COOP_RUNNING players=2
+PASS: Every gun carries one magazine more, in the pockets and at the limit
+PASS: ... for all 17 firearms
+PASS: The MG-60 hits for 80
+PASS: The graviton blast reaches 11 m
+PASS: The mortar shell does 210, the team may raise 40 towers
+PASS: The drone guns hit twice as hard
+PASS: The acid eats at most 24 structure per second
+PASS: The earthworms are far stronger and strike sooner
+PASS: The limit message names 40
+PASS: A full pool leaves the gate standing (300 -> 144, 156 dealt)
+PASS: A stag stands on the meadow
+PASS: Standing, the lowest hoof rests on the terrain (0.00 m)
+PASS: Charging head-down, no hoof goes below the terrain (0.01 m, tilt -0.12)
+PASS: The dead stag lies on its flank, not in the ground (centre 0.34 m)
+PASS: The tree carries a root ball and one model
+PASS: The model is a 11.5 m tree from the forest set (2 meshes)
+PASS: Titan, colossus and bloater carry the crawl clip
+PASS: The pilot launches a scout
+PASS: A rocket leaves the drone (5 left)
+PASS: The rocket's burst kills the zombie in its way and credits the pilot
+PASS: The cooldown holds the next rocket back
+PASS: A right click while flying queues a rocket
+PASS: ... which the next control packet hands to the drone
+PASS: Three zombies stand inside the blast radius
+PASS: R blows the drone up and the blast kills all three (3)
+PASS: The drone is gone and refits as destroyed
+PASS: A sentinel stands for the Mechanic ()
+PASS: The tower page lights the beacons
+PASS: The beacon shows the tower's number through walls
+PASS: The row previews the next tier's numbers
+PASS: The row's icon is the sentinel's own render
+PASS: Every kind has an icon, an unknown kind falls back to the generic tower
+PASS: Another page puts the beacons out
+PASS: Closing the Mechanic puts them out too
+PASS: Down with a living teammate, the camera goes to her
+PASS: It hangs behind her shoulder (2.7 m)
+PASS: The own gun is out of the picture
+PASS: The panel names who is being watched
+PASS: A click switches to the next teammate
+PASS: A teammate who goes down is no longer watched
+PASS: Revived, the own camera and gun are back
+PASS: Bled out, the camera watches the team until the revive
+PASS: The revive ends the spectating
+BATCH27_DONE checks=44 failures=0
+ERROR: Condition "p.d == 0" is true. Returning: Point2()
+   at: unproject_position (scene/3d/camera_3d.cpp:495)
+   GDScript backtrace (most recent call first):
+       [0] _draw_pings (res://scripts/hud.gd:1134)
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

@@ -49,7 +49,7 @@ PASS: A body shot keeps the head
 PASS: A heavy hit takes the arm off and halves the swings
 PASS: Hits without a limb bone do not add up on a limb
 PASS: A light hand hit alone does not sever
-LIMB_DEBUG hp=4.5 max=150.0 limb={ "LeftArm": 52.5, "RightArm": 63.0 } severed=3 dm=0.0
+LIMB_DEBUG hp=3.78 max=126.0 limb={ "LeftArm": 44.1, "RightArm": 52.92 } severed=3 dm=0.0
 PASS: Both arms gone after the hits add up: no more swings
 PASS: The severed arms' meshes are gone, the body mesh stays
 PASS: Both arms fly off as chunks
