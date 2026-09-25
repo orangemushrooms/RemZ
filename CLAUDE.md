@@ -90,6 +90,16 @@ Batch of 25 Sep 2026 (`--suite=forest_finds --smoke-test --no-intro --no-music -
 - The flashlight switches itself on at 19:00 game time once per night (`main._auto_flashlight`, message
   "Night has fallen. Flashlight on - toggle it with F."); the player may switch it off again.
 - Training at the Mechanic costs `Skills.training_cost` = twice the listed base (tier 1 of Firepower 240 R).
+- Secret Night, the long version (`secret_night.gd`, 25 Sep 2026, `--suite=secret_night` 66 checks, `--visual`
+  windowed saves `artifacts/secret-night-{floor,side,farewell,echo}.png`): 12 stages - follow the sound,
+  tune the totems, `HARVEST` (pick the three glowing mushrooms at `GLOW_SPOTS`, `harvest_mask` bits), `TRIP`
+  (eat the DJ's mushroom at the bar: `_trip_everyone` = `hud.hallucinate(18)` for every actor), `COLOUR_RUN`
+  (`RUN_SEQUENCE` pink / violet / turquoise / violet, reach the flashing totem within `RUN_SECONDS` 10 each,
+  too slow restarts the run), `CLEAR` (Clear Head drink, `hud.sober()` / feedback "sober"), `DANCE_STEP`,
+  `GUESTS` (`_spawn_ravers`: eight zombies rise around the floor, cleared = `main.alive_zombies() == 0`),
+  then CLOSING / ECHO / RETURN / WAKING as before; reward 250. `DANCE` moved to (-108, -192) and dancers never
+  spawn at z < -197: the circle used to reach into the stage proxy (front at z -199.5) and the dancers stood
+  inside the DJ desk. Snapshot carries harvest / run_round / run_target / run_time / ravers.
 - Hallucinogenic mushrooms in the forest: `Mushrooms.DEFS.kahlkopf` (Liberty Cap, weight 8, procedural
   model with a faint violet emissive cap, `"trip": 25.0`). Any kind with a `trip` key calls
   `hud.hallucinate(trip)` when eaten (`inventory._eat`, `coop_world.eat` sends feedback "hallucinate" to a

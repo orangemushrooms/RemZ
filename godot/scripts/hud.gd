@@ -926,6 +926,12 @@ func _update_trip(delta: float) -> void:
 func tripping() -> bool:
 	return _trip_t > 0.0
 
+# the Clear Head drink: whatever is left of a trip fades within a second and a half
+func sober() -> void:
+	if _trip_t > 0.0:
+		_trip_len = maxf(_trip_len, 1.0)
+		_trip_t = minf(_trip_t, minf(1.5, _trip_len * 0.25))
+
 # Gates under attack (barricade.under_attack(), the hut's under_attack()) become pulsing red arrows around
 # the crosshair with the gate's name, using the same angle convention as the hit arcs (0 = ahead, +PI/2 right).
 func _update_attack_dirs(delta: float) -> void:

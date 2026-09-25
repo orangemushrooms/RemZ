@@ -11,6 +11,9 @@ func check(ok: bool, label: String) -> void:
 		push_error("FAIL: " + label)
 
 func run() -> void:
+	if "--visual" in OS.get_cmdline_user_args():
+		root.mode = Window.MODE_WINDOWED
+		root.size = Vector2i(1600, 900)
 	var game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
 	current_scene = game
@@ -39,6 +42,14 @@ func run() -> void:
 	game.player.global_position = Map.ground_pos(SecretNight.DANCE.x, SecretNight.DANCE.y)
 	night._process(0.1)
 	check(night.step == 1, "Reaching the party reveals the totems")
+	if "--visual" in OS.get_cmdline_user_args():
+		# the dance floor from the south (the dancers must stand in front of the stage, not inside it)
+		game.player.global_position = Map.ground_pos(SecretNight.DANCE.x, SecretNight.DANCE.y + 11) + Vector3.UP * 0.5
+		game.player.camera.look_at(Map.ground_pos(SecretNight.SITE.x, SecretNight.SITE.y) + Vector3.UP * 1.5)
+		await capture(game, "floor")
+		game.player.global_position = Map.ground_pos(SecretNight.DANCE.x + 12, SecretNight.DANCE.y + 3) + Vector3.UP * 0.5
+		game.player.camera.look_at(Map.ground_pos(SecretNight.SITE.x, SecretNight.SITE.y) + Vector3.UP * 1.5)
+		await capture(game, "side")
 	night._update_song_distance(2.0)
 	check(night.song.volume_db > -10 and night.song_filter.cutoff_hz > 15000, "Dance floor reveals the loud, clear track")
 	game.player.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y)
@@ -49,11 +60,33 @@ func run() -> void:
 	for point: Vector2 in SecretNight.TOTEMS:
 		game.player.global_position = Map.ground_pos(point.x, point.y)
 		check(night.interact(game.player), "Nearby correct totem activates")
-	check(night.step == 2 and night.tuned == 3, "Three totems unlock the bar")
+	check(night.step == SecretNight.HARVEST and night.tuned == 3, "Three totems send the team mushroom picking")
+	check(night.glow_props.size() == 3 and night.glow_props[0].visible, "The glowing mushrooms stand ready around the floor")
+	for i in 3:
+		var spot: Vector2 = SecretNight.GLOW_SPOTS[i]
+		game.player.global_position = Map.ground_pos(spot.x, spot.y)
+		check(night.interact(game.player), "Glowing mushroom %d can be picked" % (i + 1))
+		night._update_ending(0.0)
+		check(not night.glow_props[i].visible, "Picked mushroom %d disappears" % (i + 1))
+	check(night.step == SecretNight.TRIP and night.harvested() == 3, "Three mushrooms unlock the DJ's mushroom at the bar")
 	var target: Vector2 = night.target()
 	game.player.global_position = Map.ground_pos(target.x, target.y)
+	check(night.interact(game.player) and night.step == SecretNight.COLOUR_RUN and game.hud.tripping(), "The DJ's mushroom starts the colour run and the hallucination")
+	night._process(0.1)
+	check(night.run_target == SecretNight.RUN_SEQUENCE[0], "The first colour is called")
+	game.player.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y)
+	night._process(SecretNight.RUN_SECONDS + 0.5)
+	check(night.run_round == 0 and night.run_target == -1, "Too slow starts the colour run over")
+	for round in SecretNight.RUN_SEQUENCE.size():
+		night._process(0.1)
+		var totem: Vector2 = SecretNight.TOTEMS[night.run_target]
+		game.player.global_position = Map.ground_pos(totem.x, totem.y)
+		night._process(0.1)
+	check(night.step == SecretNight.CLEAR and night.run_round == SecretNight.RUN_SEQUENCE.size(), "Four totems reached in time unlock the Clear Head")
+	target = night.target()
+	game.player.global_position = Map.ground_pos(target.x, target.y)
 	night.interact(game.player)
-	check(night.step == 3, "Clear-head drink unlocks the finale")
+	check(night.step == SecretNight.DANCE_STEP and game.hud._trip_t <= 1.5, "Clear-head drink unlocks the finale and ends the trip")
 	var remote := Player.new()
 	remote.remote_actor = true
 	root.add_child(remote)
@@ -78,7 +111,11 @@ func run() -> void:
 	check(night.dance_time == 0, "Finale does not progress away from dance floor")
 	game.player.global_position = Map.ground_pos(SecretNight.DANCE.x, SecretNight.DANCE.y)
 	night._process(16)
-	check(night.step == SecretNight.CLOSING and night.closing_time == 0, "Final dance begins the last track instead of ending abruptly")
+	check(night.step == SecretNight.GUESTS and night.ravers_spawned and game.alive_zombies() >= 6, "The final dance wakes the ravers")
+	for z in game.zombies_root.get_children():
+		if z is Zombie and z.alive: z.die(Vector3.FORWARD)
+	night._process(0.1)
+	check(night.step == SecretNight.CLOSING and night.closing_time == 0, "Clearing the floor begins the last track instead of ending abruptly")
 	game.player.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y)
 	check(not night.interact(game.player), "The ending cannot be skipped at the campfire")
 	game.player.global_position = Map.ground_pos(SecretNight.DANCE.x, SecretNight.DANCE.y)

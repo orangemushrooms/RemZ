@@ -4780,6 +4780,34 @@ msgid "BACK TO REALITY"
 msgstr "ZURÜCK IN DER WIRKLICHKEIT"
 
 #: scripts/secret_night.gd
+msgid "GLOW HARVEST"
+msgstr "LEUCHTERNTE"
+
+#: scripts/secret_night.gd
+msgid "THE DJ'S MUSHROOM"
+msgstr "DER PILZ DES DJ"
+
+#: scripts/secret_night.gd
+msgid "COLOUR RUN"
+msgstr "FARBENLAUF"
+
+#: scripts/secret_night.gd
+msgid "UNINVITED GUESTS"
+msgstr "UNGEBETENE GÄSTE"
+
+#: scripts/secret_night.gd
+msgid "TURQUOISE"
+msgstr "TÜRKIS"
+
+#: scripts/secret_night.gd
+msgid "PINK"
+msgstr "PINK"
+
+#: scripts/secret_night.gd
+msgid "VIOLET"
+msgstr "VIOLETT"
+
+#: scripts/secret_night.gd
 msgid "Your team has eaten too many mushrooms.\nYou hear a sound in the distance. Follow it …"
 msgstr "Euer Team hat zu viele Pilze gegessen.\nIhr hört aus der Ferne einen Klang. Folgt ihm …"
 
@@ -4792,12 +4820,28 @@ msgid "Awaken the sound totems: TURQUOISE → PINK → VIOLET. [E]"
 msgstr "Weckt die Klangtotems: TÜRKIS → PINK → VIOLETT. [E]"
 
 #: scripts/secret_night.gd
-msgid "The music is back. Get the Clear Head drink at the bar. [E]"
-msgstr "Die Musik ist zurück. Holt an der Bar den Klarer-Kopf-Trank. [E]"
+msgid "The bartender wants three glowing mushrooms from around the floor. Pick them. [E]"
+msgstr "Der Barkeeper will drei leuchtende Pilze von rund um die Tanzfläche. Pflück sie. [E]"
+
+#: scripts/secret_night.gd
+msgid "The DJ hands you a mushroom of his own. Eat it at the bar. [E]"
+msgstr "Der DJ drückt dir einen eigenen Pilz in die Hand. Iss ihn an der Bar. [E]"
+
+#: scripts/secret_night.gd
+msgid "Run to the totem that flashes. Four rounds, ten seconds each."
+msgstr "Lauf zum Totem, das aufblitzt. Vier Runden, je zehn Sekunden."
+
+#: scripts/secret_night.gd
+msgid "Heads spinning. Get the Clear Head drink at the bar. [E]"
+msgstr "Der Kopf dreht sich. Hol dir den Klarkopf-Drink an der Bar. [E]"
 
 #: scripts/secret_night.gd
 msgid "Stay in the glowing dance circle for the finale."
 msgstr "Bleibt für das Finale im leuchtenden Tanzkreis."
+
+#: scripts/secret_night.gd
+msgid "The bass woke the dead. Clear the dance floor!"
+msgstr "Der Bass hat die Toten geweckt. Räum die Tanzfläche!"
 
 #: scripts/secret_night.gd
 msgid "The last beat fades away. Take this moment with you."
@@ -4832,6 +4876,14 @@ msgid "Violet"
 msgstr "Violett"
 
 #: scripts/secret_night.gd
+msgid "[E] Pick the glowing mushroom · %d / 3"
+msgstr "[E] Den leuchtenden Pilz pflücken · %d / 3"
+
+#: scripts/secret_night.gd
+msgid "[E] Eat the DJ's mushroom · \"Trust me, forest spirit.\""
+msgstr "[E] Den Pilz des DJ essen · \"Vertrau mir, Waldgeist.\""
+
+#: scripts/secret_night.gd
 msgid "[E] Drink Clear Head · water, mint and forest magic"
 msgstr "[E] Klarer-Kopf-Trank trinken · Wasser, Minze und Waldmagie"
 
@@ -4852,6 +4904,14 @@ msgid "ECHO OF THE NIGHT · QUEST COMPLETE\nThe last echo burns away. You are ho
 msgstr "ECHO DER NACHT · AUFTRAG ERFÜLLT\nDas letzte Echo verglüht. Ihr seid wieder zu Hause.\n+%d Rem Dollars pro Spieler · Welle 5 in %d Sekunden"
 
 #: scripts/secret_night.gd
+msgid "DJ: %s! Run to the totem that flashes!"
+msgstr "DJ: %s! Lauf zum Totem, das aufblitzt!"
+
+#: scripts/secret_night.gd
+msgid "DJ: Too slow, forest spirits! Once more from the top."
+msgstr "DJ: Zu langsam, Waldgeister! Noch einmal von vorn."
+
+#: scripts/secret_night.gd
 msgid "SECRET NIGHT · OBERER SCHORCHEN"
 msgstr "SECRET NACHT · OBERER SCHORCHEN"
 
@@ -4862,6 +4922,18 @@ msgstr "%d m · Welle 5 wartet auf euch"
 #: scripts/secret_night.gd
 msgid "All living teammates inside the circle · %d / 16 s"
 msgstr "Alle lebenden Teammitglieder im Kreis · %d / 16 s"
+
+#: scripts/secret_night.gd
+msgid "Glowing mushrooms · %d / 3"
+msgstr "Leuchtende Pilze · %d / 3"
+
+#: scripts/secret_night.gd
+msgid "Round %d / %d · %s · %d s left"
+msgstr "Runde %d / %d · %s · noch %d s"
+
+#: scripts/secret_night.gd
+msgid "Ravers left on the floor · %d"
+msgstr "Raver auf der Tanzfläche · %d"
 
 #: scripts/secret_night.gd
 msgid "Last track · %d s remaining"
@@ -4880,8 +4952,28 @@ msgid "SECRET NIGHT · %s"
 msgstr "SECRET NACHT · %s"
 
 #: scripts/secret_night.gd
+msgid "BARTENDER: Three glowing mushrooms from around the floor, and the next round is on the house."
+msgstr "BARKEEPER: Drei leuchtende Pilze von rund um die Tanzfläche, und die nächste Runde geht aufs Haus."
+
+#: scripts/secret_night.gd
+msgid "DJ: You brought them? Then take this one. Trust me, forest spirit.\nEat it at the bar."
+msgstr "DJ: Du hast sie? Dann nimm diesen hier. Vertrau mir, Waldgeist.\nIss ihn an der Bar."
+
+#: scripts/secret_night.gd
+msgid "DJ: Now the colours show you the way. Run to the totem that flashes - ten seconds each!"
+msgstr "DJ: Jetzt zeigen dir die Farben den Weg. Lauf zum Totem, das aufblitzt - je zehn Sekunden!"
+
+#: scripts/secret_night.gd
+msgid "DJ: Enough spinning. The bartender has a Clear Head for you."
+msgstr "DJ: Genug gedreht. Der Barkeeper hat einen Klarkopf für dich."
+
+#: scripts/secret_night.gd
 msgid "DJ: One last dance, forest spirits!\nEveryone into the circle. Then it is time to go home."
 msgstr "DJ: Noch ein letzter Tanz, ihr Waldgeister!\nKommt alle in den Kreis. Danach wird es Zeit, heimzugehen."
+
+#: scripts/secret_night.gd
+msgid "DJ: The bass woke the dead! Clear the floor before the last track!"
+msgstr "DJ: Der Bass hat die Toten geweckt! Räum die Tanzfläche vor dem letzten Track!"
 
 #: scripts/secret_night.gd
 msgid "DJ: That was our last journey tonight.\nGet home safely. See you on the other side of the morning."
@@ -4934,6 +5026,10 @@ msgstr "II · PINK"
 #: scripts/secret_night.gd
 msgid "III · VIOLET"
 msgstr "III · VIOLETT"
+
+#: scripts/secret_night.gd
+msgid "GLOWING MUSHROOM\n[E] Pick"
+msgstr "LEUCHTENDER PILZ\n[E] Pflücken"
 
 #: scripts/skills.gd
 msgid "Toughness"
@@ -5318,6 +5414,10 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "The music is back. Get the Clear Head drink at the bar. [E]"
+msgstr "Die Musik ist zurück. Holt an der Bar den Klarer-Kopf-Trank. [E]"
 
 #. unused
 msgid "Version: Co-op 2026.09.20-C"

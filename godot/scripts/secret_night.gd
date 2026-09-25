@@ -5,25 +5,48 @@ extends Node3D
 const SITE := Vector2(-108, -201)
 const TOTEMS := [Vector2(-119, -193), Vector2(-111, -184), Vector2(-99, -192)]
 const BAR := Vector2(-120, -202)
-const DANCE := Vector2(-108, -195)
+# The dance circle sits in front of the stage (the stage proxy reaches to z -199.5); with the circle at -195
+# the dancers stood inside the DJ desk. Kept 3 m clear since 25 Sep 2026.
+const DANCE := Vector2(-108, -192)
 const SONG := "res://assets/audio/music/Goa_Party_Sidequest.mp3"
-const CLOSING := 4
-const ECHO := 5
-const RETURN := 6
-const WAKING := 7
+# Stages (25 Sep 2026, the long version): 0 follow the sound, 1 tune the totems, HARVEST pick three glowing
+# mushrooms around the floor, TRIP eat the DJ's mushroom at the bar (everyone hallucinates), COLOUR_RUN reach
+# the totem that flashes, four rounds in RUN_SECONDS each (too slow = start over), CLEAR drink the Clear Head,
+# DANCE_STEP the final dance, GUESTS the bass wakes the dead - clear the floor, then the old ending.
+const HARVEST := 2
+const TRIP := 3
+const COLOUR_RUN := 4
+const CLEAR := 5
+const DANCE_STEP := 6
+const GUESTS := 7
+const CLOSING := 8
+const ECHO := 9
+const RETURN := 10
+const WAKING := 11
 const ECHO_POINT := SITE + Vector2(0, 8.0)
 const CLOSING_SECONDS := 18.0
 const WAKING_SECONDS := 8.0
 const RETURN_RADIUS := 14.0
-const REWARD := 150
+const REWARD := 250
 const PREPARATION_SECONDS := 20.0
-const STAGE_NAMES := ["THE DISTANT SOUND", "SOUND TOTEMS", "CLEAR HEAD", "ONE LAST DANCE", "LAST TRACK", "ECHO OF THE NIGHT", "THE WAY HOME", "BACK TO REALITY"]
+const GLOW_SPOTS := [Vector2(-96, -198), Vector2(-120, -190), Vector2(-110, -183)]
+const TRIP_SECONDS := 18.0
+const RUN_SEQUENCE := [1, 2, 0, 2]
+const RUN_SECONDS := 10.0
+const RUN_RADIUS := 3.5
+const RAVERS := ["shambler", "runner", "shambler", "nurse", "shambler", "runner", "shambler", "soldier"]
+const STAGE_NAMES := ["THE DISTANT SOUND", "SOUND TOTEMS", "GLOW HARVEST", "THE DJ'S MUSHROOM", "COLOUR RUN", "CLEAR HEAD", "ONE LAST DANCE", "UNINVITED GUESTS", "LAST TRACK", "ECHO OF THE NIGHT", "THE WAY HOME", "BACK TO REALITY"]
 const COLOURS := [Color(0.1, 0.9, 1.0), Color(1.0, 0.18, 0.6), Color(0.7, 0.35, 1.0)]
+const COLOUR_NAMES := ["TURQUOISE", "PINK", "VIOLET"]
 const INTRO := "Your team has eaten too many mushrooms.\nYou hear a sound in the distance. Follow it …"
 const STEPS := ["Follow the bass and the glowing mushrooms to Oberer Schorchen.",
 	"Awaken the sound totems: TURQUOISE → PINK → VIOLET. [E]",
-	"The music is back. Get the Clear Head drink at the bar. [E]",
+	"The bartender wants three glowing mushrooms from around the floor. Pick them. [E]",
+	"The DJ hands you a mushroom of his own. Eat it at the bar. [E]",
+	"Run to the totem that flashes. Four rounds, ten seconds each.",
+	"Heads spinning. Get the Clear Head drink at the bar. [E]",
 	"Stay in the glowing dance circle for the finale.",
+	"The bass woke the dead. Clear the dance floor!",
 	"The last beat fades away. Take this moment with you.",
 	"Final quest: collect the Echo of the Night in front of the DJ booth. [E]",
 	"Bring the Echo of the Night back to the campfire. Gather your team and place it in the fire. [E]",
@@ -38,6 +61,12 @@ var closing_time := 0.0
 var waking_time := 0.0
 var echo_collected := false
 var echo_offered := false
+var harvest_mask := 0          # bits of GLOW_SPOTS already picked
+var run_round := 0             # colour run rounds done
+var run_target := -1           # totem to reach right now, -1 = about to be drawn
+var run_time := 0.0
+var ravers_spawned := false
+var glow_props: Array[Node3D] = []
 var echo_prop: Node3D
 var echo_light: OmniLight3D
 var echo_caption: Label3D
@@ -90,6 +119,11 @@ func begin() -> void:
 	waking_time = 0.0
 	echo_collected = false
 	echo_offered = false
+	harvest_mask = 0
+	run_round = 0
+	run_target = -1
+	run_time = 0.0
+	ravers_spawned = false
 	elapsed = 0.0
 	main.waves.phase = "secret_night"
 	main.waves.queue.clear()
@@ -135,18 +169,41 @@ func target() -> Vector2:
 	match step:
 		0: return DANCE
 		1: return TOTEMS[mini(tuned, 2)]
-		2: return BAR + Vector2(0, 2)
-		3: return DANCE
+		HARVEST: return GLOW_SPOTS[_nearest_glow(Vector2(main.player.global_position.x, main.player.global_position.z))] if harvest_mask != 7 else BAR + Vector2(0, 2)
+		TRIP: return BAR + Vector2(0, 2)
+		COLOUR_RUN: return TOTEMS[run_target] if run_target >= 0 else DANCE
+		CLEAR: return BAR + Vector2(0, 2)
+		DANCE_STEP: return DANCE
+		GUESTS: return DANCE
 		CLOSING: return DANCE
 		ECHO: return ECHO_POINT
 	return Map.FIRE
+
+func _nearest_glow(from: Vector2) -> int:
+	var best := -1
+	var best_d := INF
+	for i in GLOW_SPOTS.size():
+		if harvest_mask & (1 << i): continue
+		var d: float = from.distance_to(GLOW_SPOTS[i])
+		if d < best_d:
+			best_d = d
+			best = i
+	return maxi(best, 0)
+
+func harvested() -> int:
+	var n := 0
+	for i in GLOW_SPOTS.size():
+		if harvest_mask & (1 << i): n += 1
+	return n
 
 func prompt(p: Player) -> String:
 	if not active or not p.alive or p.controlling_drone or p.mounted_tower: return ""
 	if Vector2(p.global_position.x, p.global_position.z).distance_to(target()) > 3.5: return ""
 	match step:
 		1: return Lang.t("[E] Tune sound totem · %s", [["Turquoise", "Pink", "Violet"][mini(tuned, 2)]])
-		2: return "[E] Drink Clear Head · water, mint and forest magic"
+		HARVEST: return Lang.t("[E] Pick the glowing mushroom · %d / 3", [harvested()]) if harvest_mask != 7 else ""
+		TRIP: return "[E] Eat the DJ's mushroom · \"Trust me, forest spirit.\""
+		CLEAR: return "[E] Drink Clear Head · water, mint and forest magic"
 		ECHO: return "[E] Collect Echo of the Night · shared quest item"
 		RETURN:
 			return "[E] Place Echo of the Night in the fire" if echo_collected and _team_near(Map.FIRE, RETURN_RADIUS, true) else "Gather your team and the echo by the fire …"
@@ -163,8 +220,24 @@ func interact(p: Player) -> bool:
 		1:
 			tuned += 1
 			Sfx.play(self, "menu", -8.0)
-			if tuned == 3: step = 2
-		2: step = 3
+			if tuned == 3: step = HARVEST
+		HARVEST:
+			var index := _nearest_glow(Vector2(p.global_position.x, p.global_position.z))
+			if harvest_mask & (1 << index): return false
+			harvest_mask |= 1 << index
+			Sfx.play(self, "mushroom_pickup", -6.0)
+			if harvest_mask == 7: step = TRIP
+		TRIP:
+			step = COLOUR_RUN
+			run_round = 0
+			run_target = -1
+			run_time = 0.0
+			_trip_everyone(TRIP_SECONDS)
+			Sfx.play(self, "consume", -8.0)
+		CLEAR:
+			step = DANCE_STEP
+			_sober_everyone()
+			Sfx.play(self, "consume", -8.0)
 		ECHO:
 			if echo_collected: return false
 			echo_collected = true
@@ -178,6 +251,30 @@ func interact(p: Player) -> bool:
 	_present_stage()
 	_update_ending(0.0)
 	return true
+
+# The DJ's mushroom: every teammate's view swims (hud.hallucinate, clients through the "hallucinate" feedback);
+# the Clear Head drink ends it within a second and a half.
+func _trip_everyone(seconds: float) -> void:
+	var actors: Array = NetSession.world.actors.values() if NetSession.is_host() else [main.player]
+	for p: Player in actors:
+		if p == main.player: main.hud.hallucinate(seconds)
+		elif NetSession.is_host(): NetSession.feedback(p.peer_id, "hallucinate", [seconds])
+
+func _sober_everyone() -> void:
+	var actors: Array = NetSession.world.actors.values() if NetSession.is_host() else [main.player]
+	for p: Player in actors:
+		if p == main.player: main.hud.sober()
+		elif NetSession.is_host(): NetSession.feedback(p.peer_id, "sober", [])
+
+# The bass wakes the dead: eight ravers rise around the floor and have to be cleared before the last track.
+func _spawn_ravers() -> void:
+	if ravers_spawned or NetSession.is_client(): return
+	ravers_spawned = true
+	for i in RAVERS.size():
+		var angle := TAU * i / RAVERS.size() + 0.3
+		var point := DANCE + Vector2(cos(angle), sin(angle)) * 15.0
+		if not main.spawn_zombie(RAVERS[i], point, 1.0, "", 0.0):
+			main.spawn_zombie(RAVERS[i], DANCE + Vector2(cos(angle), sin(angle)) * 9.0, 1.0, "", 0.0)
 
 func _complete() -> void:
 	if not active or completed or step != WAKING or not echo_offered or NetSession.is_client(): return
@@ -214,9 +311,29 @@ func _process(delta: float) -> void:
 	elapsed += delta
 	if not NetSession.is_client():
 		if step == 0 and _team_near(DANCE, 12.0): step = 1
-		if step == 3:
+		if step == COLOUR_RUN:
+			if run_target < 0:
+				run_target = RUN_SEQUENCE[run_round]
+				run_time = 0.0
+				main.hud.message(Lang.t("DJ: %s! Run to the totem that flashes!", [COLOUR_NAMES[run_target]]), 3.0)
+			else:
+				run_time += delta
+				if _team_near(TOTEMS[run_target], RUN_RADIUS):
+					run_round += 1
+					run_target = -1
+					Sfx.play(self, "menu", -8.0)
+					if run_round >= RUN_SEQUENCE.size(): step = CLEAR
+				elif run_time >= RUN_SECONDS:
+					run_round = 0
+					run_target = -1
+					main.hud.message("DJ: Too slow, forest spirits! Once more from the top.", 3.0)
+		elif step == DANCE_STEP:
 			if _team_near(DANCE, 7.0, true): dance_time += delta
 			if dance_time >= 16.0:
+				step = GUESTS
+				_spawn_ravers()
+		elif step == GUESTS:
+			if ravers_spawned and main.alive_zombies() == 0:
 				step = CLOSING
 				closing_time = 0.0
 		elif step == CLOSING:
@@ -232,7 +349,10 @@ func _process(delta: float) -> void:
 	var distance := Vector2(main.player.global_position.x, main.player.global_position.z).distance_to(target())
 	title.text = "SECRET NIGHT · OBERER SCHORCHEN"
 	var detail := Lang.t("%d m · Wave 5 is waiting for you", [int(distance)])
-	if step == 3: detail = Lang.t("All living teammates inside the circle · %d / 16 s", [mini(16, int(dance_time))])
+	if step == DANCE_STEP: detail = Lang.t("All living teammates inside the circle · %d / 16 s", [mini(16, int(dance_time))])
+	elif step == HARVEST: detail = Lang.t("Glowing mushrooms · %d / 3", [harvested()])
+	elif step == COLOUR_RUN: detail = Lang.t("Round %d / %d · %s · %d s left", [mini(run_round + 1, RUN_SEQUENCE.size()), RUN_SEQUENCE.size(), COLOUR_NAMES[run_target] if run_target >= 0 else "…", ceili(RUN_SECONDS - run_time)])
+	elif step == GUESTS: detail = Lang.t("Ravers left on the floor · %d", [main.alive_zombies()])
 	elif step == CLOSING: detail = Lang.t("Last track · %d s remaining", [ceili(CLOSING_SECONDS - closing_time)])
 	elif step == RETURN: detail = Lang.t("Echo of the Night: carried by your team · %d m to the campfire", [int(distance)])
 	elif step == WAKING: detail = Lang.t("Together by the fire · %d / %d s", [mini(int(WAKING_SECONDS), int(waking_time)), int(WAKING_SECONDS)])
@@ -258,7 +378,12 @@ func _present_stage() -> void:
 	_announced_step = step
 	match step:
 		0: main.hud.message(INTRO, 10.0)
-		3: main.hud.message("DJ: One last dance, forest spirits!\nEveryone into the circle. Then it is time to go home.", 7.0)
+		HARVEST: main.hud.message("BARTENDER: Three glowing mushrooms from around the floor, and the next round is on the house.", 7.0)
+		TRIP: main.hud.message("DJ: You brought them? Then take this one. Trust me, forest spirit.\nEat it at the bar.", 7.0)
+		COLOUR_RUN: main.hud.message("DJ: Now the colours show you the way. Run to the totem that flashes - ten seconds each!", 7.0)
+		CLEAR: main.hud.message("DJ: Enough spinning. The bartender has a Clear Head for you.", 6.0)
+		DANCE_STEP: main.hud.message("DJ: One last dance, forest spirits!\nEveryone into the circle. Then it is time to go home.", 7.0)
+		GUESTS: main.hud.message("DJ: The bass woke the dead! Clear the floor before the last track!", 7.0)
 		CLOSING: main.hud.message("DJ: That was our last journey tonight.\nGet home safely. See you on the other side of the morning.", 8.0)
 		ECHO: main.hud.message("FINAL QUEST · ECHO OF THE NIGHT\nA glowing sound totem remains by the DJ booth.\nOne last message: bring my echo to the fire. Only there can this dream end.", 10.0)
 		RETURN: main.hud.message("ECHO OF THE NIGHT COLLECTED\nYou feel the last beat inside the totem. Bring it to the campfire together.\nThe glowing mushrooms show you the way home.", 8.0)
@@ -268,7 +393,11 @@ func _update_ending(delta: float) -> void:
 	var energy := party_energy()
 	var beat := 0.5 + 0.5 * sin(elapsed * TAU * 140.0 / 60.0)
 	for light in lights: light.light_energy = (3.0 + beat * 2.0) * energy
-	for i in totem_lights.size(): totem_lights[i].light_energy = (3.5 if i < tuned else 0.8) * energy
+	for i in totem_lights.size():
+		var flash := 4.0 + 6.0 * beat if step == COLOUR_RUN and i == run_target else 0.0
+		totem_lights[i].light_energy = ((3.5 if i < tuned else 0.8) + flash) * energy
+	for i in glow_props.size():
+		glow_props[i].visible = step <= HARVEST and not (harvest_mask & (1 << i)) and energy > 0.001
 	for light in party_fills: light.light_energy = 4.5 * energy
 	for beam in beams:
 		beam.transparency = 1.0 - energy
@@ -327,7 +456,7 @@ func _exit_tree() -> void:
 	if index >= 0: AudioServer.remove_bus(index)
 
 func snapshot() -> Dictionary:
-	return {"active": active, "completed": completed, "step": step, "tuned": tuned, "dance": dance_time, "closing": closing_time, "waking": waking_time, "echo_collected": echo_collected, "echo_offered": echo_offered, "elapsed": elapsed, "clock": saved_clock}
+	return {"active": active, "completed": completed, "step": step, "tuned": tuned, "dance": dance_time, "closing": closing_time, "waking": waking_time, "echo_collected": echo_collected, "echo_offered": echo_offered, "elapsed": elapsed, "clock": saved_clock, "harvest": harvest_mask, "run_round": run_round, "run_target": run_target, "run_time": run_time, "ravers": ravers_spawned}
 
 func apply_snapshot(data: Dictionary) -> void:
 	if data.is_empty(): return
@@ -341,6 +470,11 @@ func apply_snapshot(data: Dictionary) -> void:
 	waking_time = clampf(float(data.get("waking", 0)), 0, WAKING_SECONDS)
 	echo_collected = bool(data.get("echo_collected", false))
 	echo_offered = bool(data.get("echo_offered", false))
+	harvest_mask = int(data.get("harvest", 0))
+	run_round = int(data.get("run_round", 0))
+	run_target = int(data.get("run_target", -1))
+	run_time = float(data.get("run_time", 0))
+	ravers_spawned = bool(data.get("ravers", false))
 	elapsed = float(data.get("elapsed", 0))
 	if active and not was_active: _enter_presentation(float(data.get("clock", main.day_night.clock_seconds)))
 	if active: saved_clock = float(data.get("clock", saved_clock))
@@ -488,12 +622,32 @@ func _build_party() -> void:
 	for i in 8:
 		var angle := TAU * i / 8.0
 		var point := DANCE + Vector2(cos(angle), sin(angle)) * 4.5
+		if point.y < -197.0: continue    # never inside the stage (its front is at z -199.5)
 		var pos := Map.ground_pos(point.x, point.y)
 		var guest := _guest("npc_mechanic" if i % 2 == 0 else "npc_secret_trader", pos)
 		if guest:
 			guest.rotation.y = -angle - PI / 2
 			guest.set_meta("floor", pos.y)
 			dancers.append(guest)
+	# the three glowing mushrooms of the harvest round
+	for i in GLOW_SPOTS.size():
+		var holder := Node3D.new()
+		scenery.add_child(holder)
+		var pos := Map.ground_pos(GLOW_SPOTS[i].x, GLOW_SPOTS[i].y)
+		holder.position = pos
+		WorldModels.attach(holder, "mushroom_cluster", Vector3.ZERO, 0.9)
+		var glow := _box(pos + Vector3.UP * 0.35, Vector3(0.18, 0.2, 0.18), COLOURS[i], false, 5.0, false)
+		glow.reparent(holder)
+		var lamp := OmniLight3D.new()
+		lamp.light_color = COLOURS[i]
+		lamp.light_energy = 1.6
+		lamp.omni_range = 4.0
+		lamp.shadow_enabled = false
+		lamp.position.y = 0.6
+		holder.add_child(lamp)
+		var caption := _label("GLOWING MUSHROOM\n[E] Pick", pos + Vector3.UP * 1.1, COLOURS[i], 30)
+		caption.reparent(holder)
+		glow_props.append(holder)
 	song = AudioStreamPlayer3D.new()
 	song.stream = load(SONG) if ResourceLoader.exists(SONG) else load("res://assets/audio/music/secret_goa_placeholder.wav")
 	if song.stream is AudioStreamMP3: song.stream.loop = true

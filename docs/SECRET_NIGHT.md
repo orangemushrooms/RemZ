@@ -17,6 +17,20 @@ Der Wald wird zur verregneten Nacht. Am nördlichen Waldweg Richtung Oberer Sorc
 
 Die Quest ist pro Runde einmalig. Fortschritt, Abschiedszeit und Aufwachzeit werden vom Host verwaltet und über den vorhandenen Welt-Snapshot an Clients und später beitretende Spieler übertragen. Wer während des Heimwegs beitritt, hört keine neu gestartete Party. Die Belohnung wird ausschliesslich vom Host vergeben und lässt sich durch wiederholtes E oder Snapshots nicht verdoppeln. Interaktionen benötigen Nähe zum aktuellen Ziel. Bei Spielende werden die Effekte ohne Belohnung abgeräumt. Die Kamerasteuerung bleibt unverändert; die Solo-Pause hält auch den Abschied an.
 
+## Ablauf in der langen Fassung (25. September 2026)
+
+1. **Der ferne Klang** – dem Bass und den leuchtenden Pilzen zum Oberen Schorchen folgen.
+2. **Klangtotems** – Türkis, Pink, Violett in dieser Reihenfolge mit E wecken.
+3. **Leuchternte** – drei leuchtende Pilze rund um die Tanzfläche pflücken (E), der Barkeeper will sie.
+4. **Der Pilz des DJ** – an der Bar essen: das ganze Team halluziniert 18 Sekunden (die Sicht schwimmt, Farben verschieben sich).
+5. **Farbenlauf** – vier Runden: der DJ ruft eine Farbe, das Totem blitzt, das Team muss es innerhalb von zehn Sekunden erreichen. Zu langsam heisst von vorn.
+6. **Klarkopf** – der Drink an der Bar beendet den Rausch.
+7. **Ein letzter Tanz** – 16 Sekunden mit allen Lebenden im leuchtenden Kreis.
+8. **Ungebetene Gäste** – der Bass weckt acht Tote rund um die Tanzfläche; die Fläche muss geräumt werden.
+9. **Letzter Track**, **Echo der Nacht**, **Der Weg nach Hause**, **Zurück in die Realität** wie bisher. Belohnung 250 R pro Spieler.
+
+Der Tanzkreis liegt bei (-108, -192), drei Meter vor der Bühnenkante; die Tänzer standen vorher im DJ-Pult.
+
 ## Song einsetzen
 
 Der eingebundene Song ist `godot/assets/audio/music/Goa_Party_Sidequest.mp3` und wird geloopt. Nur bei fehlender Datei greift der selbst erzeugte Guide `secret_goa_placeholder.wav`. Nach einem Austausch den Windows-Build erneut exportieren. Die Lichtbewegung hat derzeit ein festes Tempo von 140 BPM.
