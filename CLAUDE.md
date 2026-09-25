@@ -36,7 +36,9 @@ achievements as a union, high scores merged to the top 10, marker `legacy_import
   from kills (ammo / grenade / medkit, walk through), kill streaks (+10 % per kill from the 3rd within 4 s, score
   popups), 4 difficulties (`GameSettings.DIFFICULTIES`, chosen in the start menu, saved), run statistics and a
   persistent top-10 table (`run_stats.gd`, `user://highscores.json`), 28 achievements, fleeing deer, procedural
-  ambience (wind, fire, birds, footsteps per surface, heartbeat when low) plus recorded music/SFX, HUD with
+  ambience (fire, birds, footsteps per surface, heartbeat when low; the wind is the user's own recording
+  `sfx/Forest_Wind_Ambiance.mp3` since 25 Sep 2026, looped in `ambience.gd` at -6 dB under the trees, -10 on
+  the meadow, -13 at the forest edge - it replaced both synthetic beds, `rustle` is an alias of `wind`) plus recorded music/SFX, HUD with
   low-health vignette, hit-direction arcs and a wave progress bar. The start / pause / game-over menu is one
   tabbed card in `hud.gd` (Briefing, Multiplayer, Difficulty, Controls, Settings, High scores, Achievements, Summary).
 
@@ -210,7 +212,21 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   skin only needs the GLB in `godot/assets/models/` plus its name in the `skins` list. `gen_asset.py` reuses the
   task state in `assets/raw/<name>/` when that folder exists: a second variant needs a new asset name. Meshy statics come as
   ~1.9-unit boxes; `Weapons._fit_height` normalises them. Weapons/animals face +X / +Z, see rotations in code.
-- Trees are procedural (`trees.gd`), nothing to download. Poly Haven clutter (ferns, moss, branches) is
+- Conifers (25 Sep 2026): two Meshy trees, `conifer_spruce` (Norway spruce) and `conifer_fir` (silver fir),
+  prompts in `tools/assets.json`, the `_real` retextures (matte dark needles, brown bark) are the ones packed
+  (`pack.mjs <name>_real --simplify 0.2 --simplify-error 0.03 --as <name>`; meshoptimizer stops at ~11k
+  triangles because of the UV islands). `Trees.SPECIES` "fir" / "spruce_hd" carry `model`, height 19 / 20 m,
+  a dark green `tint` and matte materials (specular 0, roughness 1 - the specular glints on the 14x scaled
+  facets read as glass). `tools/conifer_zones.py` rewrites the species in `map.json` after `build_map.py`
+  (deterministic): everything within 85 m of the Secret Night site = the Oberer Schorchen stand, 55 % of the
+  deep forest (> 24 m from a track, > 60 m from the fire), 55 % of the aerial's spruce stands within 150 m,
+  12 % scattered along the field-facing forest edge, never within 45 m of the fire. LOD in `trees.gd`:
+  within `MODEL_LOD` (100 m, per 48 m cell, toggled by `update_lod` from `update_shadows` - Godot's
+  visibility ranges did not cull the MultiMesh cells) the GLB, beyond it a procedural spruce proxy at the
+  same height; shadows always come from the card proxy (the GLB in four cascades cost 9 M shadow
+  primitives). Cost on the plaza at 15:00: 64 -> 54 FPS. `--views` now prints VIEW_DRAW / VIEW_SHADOW
+  (primitives, draw calls); `--no-model-trees`, `--model-shadows`, `--no-model-lod`, `--model-lod=<m>` isolate.
+- Trees are otherwise procedural (`trees.gd`), nothing to download. Poly Haven clutter (ferns, moss, branches) is
   optional: `python tools/fetch_polyhaven.py` + `blender -b -P tools/tree_reduce.py` into `godot/assets/trees`
   (gitignored); `main.gd` skips it when absent.
 - PBR ground textures in `godot/assets/textures/` (Poly Haven), leaf/grass sprites in `godot/assets/sprites/`.

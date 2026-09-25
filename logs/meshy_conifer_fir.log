@@ -1,0 +1,24 @@
+08:37:45 preview conifer_fir
+TASK_CREATED: 01a0d748-c8d6-72c5-8607-ebefc82e1fb8
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (85.625s, poll #8)
+08:39:15 refine conifer_fir
+TASK_CREATED: 01a0d74a-250f-73ba-9f3e-793350b6b2e0
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████░░░░░] 78% — IN_PROGRESS (65.9375s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (95.9375s, poll #7)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\conifer_fir\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\conifer_fir\model.glb (9.9 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\conifer_fir\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\conifer_fir\thumb.png (0.1 MB)
+08:40:56 DONE conifer_fir

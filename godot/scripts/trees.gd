@@ -1,17 +1,80 @@
 # Procedural trees for the Remetschwil forest: beech (Buche), oak (Eiche), spruce (Fichte).
 # Trunks and branches are generated meshes with bark cut from the site photos, crowns are leaf cards in a
 # MultiMesh with sphere-like fake normals. Everything is instanced per species variant and partitioned into cells.
+# Species with a "model" (25 Sep 2026: "fir" = conifer_fir.glb, "spruce_hd" = conifer_spruce.glb, both Meshy)
+# are whole GLB meshes instead: one MultiMesh per 48 m cell with the GLB's own PBR materials (tinted by "tint"),
+# scaled by "height" like every Meshy static, no leaf cards. tools/conifer_zones.py decides where they stand.
 class_name Trees
 
 const SPECIES := {
 	"beech":  { "height": 26.0, "radius": 0.36, "crown_r": 6.0, "crown_lo": 0.33, "cards": 40, "card": 4.8, "bark": ["ph_bark_beech", "ph_bark_beech2"], "tint": Color(0.42, 0.4, 0.37), "leaf": "leaf_beech", "shade": Vector2(0.85, 1.15) },
 	"oak":    { "height": 22.0, "radius": 0.5, "crown_r": 7.5, "crown_lo": 0.28, "cards": 40, "card": 5.0, "bark": ["ph_bark_oak", "ph_bark_ivy"], "tint": Color(0.45, 0.4, 0.35), "leaf": "leaf_oak", "shade": Vector2(0.8, 1.1) },
 	"spruce": { "height": 29.0, "radius": 0.32, "crown_r": 3.2, "crown_lo": 0.2, "cards": 36, "card": 3.4, "bark": ["ph_bark_oak"], "tint": Color(0.45, 0.34, 0.26), "leaf": "leaf_spruce", "shade": Vector2(0.7, 1.0) },
+	"fir":       { "model": "conifer_fir", "height": 19.0, "radius": 0.34, "crown_r": 3.0, "tint": Color(0.62, 0.74, 0.5) },
+	"spruce_hd": { "model": "conifer_spruce", "height": 20.0, "radius": 0.36, "crown_r": 3.2, "tint": Color(0.6, 0.72, 0.48) },
 }
+
+static func is_model_species(kind: String) -> bool:
+	return SPECIES.has(kind) and SPECIES[kind].has("model")
+
+# The GLB of a model species as one Mesh plus the transform that puts its bottom centre on the origin and
+# scales it to "height" (Meshy statics are ~1.9-unit boxes). [Mesh, Transform3D] or [] when the file is missing.
+static var _model_cache := {}
+static func model_mesh(kind: String) -> Array:
+	if _model_cache.has(kind):
+		return _model_cache[kind]
+	var result: Array = []
+	var path := "res://assets/models/%s.glb" % SPECIES[kind]["model"]
+	if ResourceLoader.exists(path):
+		var scene: PackedScene = load(path)
+		var root: Node3D = scene.instantiate()
+		var found := _first_mesh(root, Transform3D.IDENTITY)
+		if not found.is_empty():
+			var mesh: Mesh = found[0]
+			var xf: Transform3D = found[1]
+			var bounds: AABB = xf * mesh.get_aabb()
+			var k: float = float(SPECIES[kind]["height"]) / maxf(bounds.size.y, 0.001)
+			var fit := Transform3D(Basis.IDENTITY.scaled(Vector3.ONE * k), Vector3.ZERO) * Transform3D(Basis.IDENTITY, -Vector3(bounds.get_center().x, bounds.position.y, bounds.get_center().z)) * xf
+			# the GLB's own materials, tinted per species; one shared copy so the forest stays a handful of pipelines
+			var tinted: Mesh = mesh.duplicate()
+			var tint: Color = SPECIES[kind].get("tint", Color.WHITE)
+			for i in tinted.get_surface_count():
+				var mat := tinted.surface_get_material(i)
+				if mat is BaseMaterial3D:
+					var m: BaseMaterial3D = mat.duplicate()
+					m.albedo_color = m.albedo_color * tint
+					# matte needles: the specular glints on the big scaled facets read as glass at 14x
+					m.metallic_specular = 0.0
+					m.roughness = 1.0
+					m.metallic = 0.0
+					tinted.surface_set_material(i, m)
+			result = [tinted, fit]
+		root.free()
+	_model_cache[kind] = result
+	return result
+
+static func _first_mesh(node: Node, parent_xf: Transform3D) -> Array:
+	var xf := parent_xf
+	if node is Node3D:
+		xf = parent_xf * (node as Node3D).transform
+	if node is MeshInstance3D and (node as MeshInstance3D).mesh:
+		return [(node as MeshInstance3D).mesh, xf]
+	for child in node.get_children():
+		var found := _first_mesh(child, xf)
+		if not found.is_empty():
+			return found
+	return []
 const VARIANTS := 5
 const CELL := 48.0
+# Model species LOD: within MODEL_LOD of the camera a cell shows the GLB conifers, beyond it the same trees as
+# procedural spruce proxies (trunk + leaf cards, a tenth of the triangles). Godot's visibility ranges swap
+# the two per cell; the 10 m overlap hides the seam behind the haze. Measured 25 Sep 2026 on the plaza at
+# 15:00: 1361 conifers without LOD halved the frame rate (68 -> 35 FPS).
+const MODEL_LOD := 100.0
 # cells whose shadow casting follows the player (see update_shadows); [MultiMeshInstance3D, Vector2 centre, radius]
 static var shadow_cells: Array = []
+# model-tree LOD cells toggled by update_shadows: [MultiMeshInstance3D, Vector2 centre, near_set: bool, distance]
+static var lod_cells: Array = []
 
 const LEAF_SHADER := """
 shader_type spatial;
@@ -217,7 +280,7 @@ static func _leaf_material(kind: String) -> ShaderMaterial:
 	m.set_shader_parameter("autumn", 0.0 if kind == "spruce" else 0.3)
 	return m
 
-static func _multimesh_cells(mesh: Mesh, items: Array, mat: Material, near: Vector2, shadow_dist: float, shadows_only: bool = false) -> Node3D:
+static func _multimesh_cells(mesh: Mesh, items: Array, mat: Material, near: Vector2, shadow_dist: float, shadows_only: bool = false, range_begin: float = 0.0, range_end: float = 0.0) -> Node3D:
 	var root := Node3D.new()
 	var cells := {}
 	for it in items:
@@ -252,12 +315,37 @@ static func _multimesh_cells(mesh: Mesh, items: Array, mat: Material, near: Vect
 		mi.cast_shadow = on if cell_center.distance_to(near) < shadow_dist else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		if shadow_dist > 0.0 and shadow_dist < 500.0:
 			shadow_cells.append([mi, cell_center, shadow_dist, on])
+		# Godot's visibility ranges left every cell drawn here (measured 25 Sep 2026: 14.6 M primitives with
+		# the cut-off at 30 m), so the LOD toggles "visible" itself from update_shadows.
+		if range_end > 0.0:
+			lod_cells.append([mi, cell_center, true, range_end])
+		elif range_begin > 0.0:
+			lod_cells.append([mi, cell_center, false, range_begin])
 		root.add_child(mi)
 	return root
+
+# The near set (GLB conifers) shows while the cell's centre is within its distance plus half a cell diagonal,
+# the far set (spruce proxies) while it is beyond its distance minus that margin: the two overlap by a cell.
+static func update_lod(at: Vector2) -> void:
+	for cell in lod_cells:
+		var mi: MultiMeshInstance3D = cell[0]
+		if not is_instance_valid(mi):
+			continue
+		var d2: float = (cell[1] as Vector2).distance_squared_to(at)
+		var want: bool
+		if cell[2]:
+			var reach: float = cell[3] + CELL * 0.71
+			want = d2 < reach * reach
+		else:
+			var inner: float = maxf(0.0, cell[3] - CELL * 0.71)
+			want = d2 >= inner * inner
+		if mi.visible != want:
+			mi.visible = want
 
 # Called by main every half second: only the cells near the player throw shadows. Cheaper than a fixed circle
 # around the fire and it never leaves the player standing in a shadowless patch at the map edge.
 static func update_shadows(at: Vector2, radius: float) -> void:
+	update_lod(at)
 	var r2 := (radius + CELL * 0.71) * (radius + CELL * 0.71)
 	for cell in shadow_cells:
 		var mi: MultiMeshInstance3D = cell[0]
@@ -279,9 +367,15 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 	var colliders := StaticBody3D.new()
 	colliders.collision_layer = 1
 	colliders.add_to_group("navsource")
+	var model_items := {}     # model species -> Array of [Transform3D, Color]
+	var far_trunk := {}       # far LOD of the model trees: procedural spruce trunks, "spruce:variant" -> items
+	var far_leaf: Array = []  # ... and their leaf cards
 	for k in SPECIES:
 		leaf_items[k] = []
 		shadow_items[k] = []
+		if is_model_species(k):
+			model_items[k] = []
+			continue
 		for v in VARIANTS:
 			var r2 := RandomNumberGenerator.new()
 			r2.seed = hash(k) + v * 7919
@@ -297,10 +391,29 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 		var pos := Map.ground_pos(t[0], t[1])
 		var v := rng.randi() % VARIANTS
 		var b := Basis().rotated(Vector3.UP, yaw).scaled(Vector3.ONE * s)
-		trunk_items["%s:%d" % [kind, v]].append([Transform3D(b, pos), Color.WHITE])
-		_crown_cards(kind, s, yaw, pos, rng, leaf_items[kind], detail)
-		if shadow_radius > 0.0:
-			_crown_cards(kind, s, yaw, pos, rng, shadow_items[kind], 0.35)
+		if is_model_species(kind):
+			var model := model_mesh(kind)
+			if model.is_empty():
+				kind = "spruce"     # GLB missing: the procedural spruce stands in
+			else:
+				model_items[kind].append([Transform3D(b, pos) * model[1], Color.WHITE])
+				# the far proxy: a procedural spruce scaled to the same height
+				var ps: float = s * float(SPECIES[kind]["height"]) / float(SPECIES["spruce"]["height"])
+				var pb := Basis().rotated(Vector3.UP, yaw).scaled(Vector3.ONE * ps)
+				var key := "spruce:%d" % v
+				if not far_trunk.has(key):
+					far_trunk[key] = []
+				far_trunk[key].append([Transform3D(pb, pos), Color.WHITE])
+				_crown_cards("spruce", ps, yaw, pos, rng, far_leaf, detail * 0.6)
+				# shadows come from the coarse card proxy like every other crown: the GLB itself in four cascade
+				# splits cost 9 M shadow primitives on the plaza (25 Sep 2026)
+				if shadow_radius > 0.0:
+					_crown_cards("spruce", ps, yaw, pos, rng, shadow_items["spruce"], 0.35)
+		if not is_model_species(kind):
+			trunk_items["%s:%d" % [kind, v]].append([Transform3D(b, pos), Color.WHITE])
+			_crown_cards(kind, s, yaw, pos, rng, leaf_items[kind], detail)
+			if shadow_radius > 0.0:
+				_crown_cards(kind, s, yaw, pos, rng, shadow_items[kind], 0.35)
 		crowns.append([pos + Vector3(0, SPECIES[kind]["height"] * s * 0.7, 0), SPECIES[kind]["crown_r"] * s])
 		if with_collision:
 			var cs := CollisionShape3D.new()
@@ -325,8 +438,25 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 		if trunk_items[key].is_empty() or "--no-trunks" in flags:
 			continue
 		parent.add_child(_multimesh_cells(meshes[key], trunk_items[key], mats[key], near, shadow_radius + 20.0))
+	# "--no-model-trees" leaves the Meshy conifers out, "--model-shadows" lets the GLBs themselves cast shadows
+	# instead of their card proxies, "--no-model-lod" / "--model-lod=<m>" control the LOD (all for --views).
 	var quad := QuadMesh.new()
 	quad.size = Vector2.ONE
+	var no_lod := "--no-model-lod" in flags
+	var lod := MODEL_LOD
+	for flag in flags:
+		if flag.begins_with("--model-lod="): lod = float(flag.get_slice("=", 1))
+	for k in model_items:
+		if model_items[k].is_empty() or "--no-trees" in flags or "--no-model-trees" in flags:
+			continue
+		var model_shadow := shadow_radius + 20.0 if "--model-shadows" in flags else 0.0
+		parent.add_child(_multimesh_cells(model_mesh(k)[0], model_items[k], null, near, model_shadow, false, 0.0, 0.0 if no_lod else lod + 10.0))
+	if not no_lod and not "--no-trees" in flags and not "--no-model-trees" in flags:
+		for key in far_trunk:
+			if not "--no-trunks" in flags:
+				parent.add_child(_multimesh_cells(meshes[key], far_trunk[key], mats[key], near, 0.0, false, lod, 0.0))
+		if not far_leaf.is_empty() and not "--no-crowns" in flags:
+			parent.add_child(_multimesh_cells(quad, far_leaf, _leaf_material("spruce"), near, 0.0, false, lod, 0.0))
 	for k in SPECIES:
 		if leaf_items[k].is_empty() or "--no-crowns" in flags:
 			continue

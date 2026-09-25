@@ -17,6 +17,15 @@ var _call_t := 6.0                 # recorded owl / raven calls (assets/audio/sf
 var day_night: DayNightCycle       # set by main; owls at night, ravens by day
 var _rng := RandomNumberGenerator.new()
 var _wind_target := -12.0
+const FOREST_WIND := preload("res://assets/audio/sfx/Forest_Wind_Ambiance.mp3")
+const WIND_FOREST_DB := -6.0
+const WIND_MEADOW_DB := -10.0
+const WIND_EDGE_DB := -13.0
+
+static func _wind_stream() -> AudioStream:
+	var loop := FOREST_WIND.duplicate() as AudioStreamMP3
+	loop.loop = true
+	return loop
 var _rustle_target := -14.0
 
 static func _loop(samples: PackedFloat32Array, rate: int) -> AudioStreamWAV:
@@ -94,17 +103,16 @@ static func _crackle(seconds: float, seed_v: int) -> AudioStreamWAV:
 func setup(p: Player, fire_pos: Vector3, stream_pos: Vector3) -> void:
 	player = p
 	_rng.seed = 99
+	# The wind is the user's own recording (25 Sep 2026, Forest_Wind_Ambiance.mp3, 201 s, RMS -37 dBFS),
+	# looped; it replaced both synthetic beds (the meadow wind and the forest rustle). Only its level follows
+	# the biome: fullest under the trees, a little less on the open meadow, lightest at the forest edge.
 	wind = AudioStreamPlayer.new()
-	wind.stream = _noise_bed(12.0, 0.012, 0.0008, 0.07, 0.8, 0.9, 1)
-	wind.volume_db = -22.0
+	wind.name = "ForestWind"
+	wind.stream = _wind_stream()
+	wind.volume_db = WIND_FOREST_DB
 	add_child(wind)
-	wind.play()
-	rustle = AudioStreamPlayer.new()
-	# Reduce leaf/tree rustling by one third at every distance/biome blend.
-	rustle.stream = _noise_bed(9.0, 0.35, 0.02, 0.11, 0.9, 0.35 * (2.0 / 3.0), 2)
-	rustle.volume_db = -24.0
-	add_child(rustle)
-	rustle.play()
+	wind.play(_rng.randf() * 150.0)   # never start every round at the same gust
+	rustle = wind
 	crickets = AudioStreamPlayer.new()
 	crickets.name = "NightCrickets"
 	var cricket_loop := CRICKETS.duplicate() as AudioStreamMP3
@@ -196,10 +204,9 @@ func _process(delta: float) -> void:
 	var in_forest := Map.leaf_weight(p.x, p.z) > 0.5
 	# wind is strongest on the open meadow, rustle strongest under trees
 	# subtle: a soft leaf rustle under the trees, light wind on the meadow, birds clearly audible above it
-	_wind_target = -17.0 if Map.meadow_weight(p.x, p.z) > 0.5 else (-26.0 if in_forest else -21.0)
-	_rustle_target = -20.0 if in_forest else -27.0
+	_wind_target = WIND_MEADOW_DB if Map.meadow_weight(p.x, p.z) > 0.5 else (WIND_FOREST_DB if in_forest else WIND_EDGE_DB)
+	_rustle_target = _wind_target
 	wind.volume_db = lerpf(wind.volume_db, _wind_target, delta * 0.8)
-	rustle.volume_db = lerpf(rustle.volume_db, _rustle_target, delta * 0.8)
 	_bird_t -= delta
 	if _bird_t <= 0.0:
 		_bird_t = _rng.randf_range(0.8, 3.0)

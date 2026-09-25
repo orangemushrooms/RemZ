@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic game asset, tall mature Norway spruce tree, single straight trunk with rough reddish-brown scaly bark, dense layered branches of dark green needles drooping slightly at the tips, narrow conical crown coming to a pointed top, lower branches sparser and longer, natural irregular silhouette, single tree, no ground, no base, no text",
+  "folder": "conifer_spruce",
+  "root_task_id": "01a0d74a-3757-7530-9077-ea796020bc02",
+  "created_at": "2026-09-25T08:41:01.061585",
+  "updated_at": "2026-09-25T08:41:01.061598",
+  "tasks": [
+    {
+      "task_id": "01a0d74a-3757-7530-9077-ea796020bc02",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-25T08:41:01.061596"
+    }
+  ]
+}

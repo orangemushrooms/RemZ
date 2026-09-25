@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 674, "batches": 24, "removed_render_nodes": 53 }
+COOP_LOAD MAP_READY
+VIEW_FPS 0 54.1 at (3.0, 0.089295, 5.0)
+VIEW_DRAW 0 primitives=5793935 draw_calls=1268 objects=1376
+VIEW_SHADOW 0 primitives=3847203 draw_calls=1659
+VIEW_FPS 1 68.9 at (-60.0, -0.159073, -120.0)
+VIEW_DRAW 1 primitives=6473801 draw_calls=693 objects=718
+VIEW_SHADOW 1 primitives=605209 draw_calls=193
+VIEW_FPS 2 53.9 at (20.0, 2.83657, -40.0)
+VIEW_DRAW 2 primitives=5902958 draw_calls=1048 objects=1077
+VIEW_SHADOW 2 primitives=2428868 draw_calls=889
+VIEW_FPS 3 92.1 at (-95.0, -1.216681, -175.0)
+VIEW_DRAW 3 primitives=6135434 draw_calls=729 objects=762
+VIEW_SHADOW 3 primitives=973813 draw_calls=206
+VIEW_FPS 4 54.0 at (3.0, 0.089295, 5.0)
+VIEW_DRAW 4 primitives=5875532 draw_calls=1288 objects=1401
+VIEW_SHADOW 4 primitives=3644652 draw_calls=1499
+SHOT_VIEWS_DONE 5
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

@@ -556,7 +556,7 @@ func try_fire() -> void:
 				_blood(hit.position, dir)
 				hud.hitmarker(headshot)
 				any_hit = true
-				if headshot:
+				if headshot and get_tree().current_scene.get("achievements"):
 					get_tree().current_scene.achievements.event("headshots")
 				victims += 1
 				if victims >= int(d.get("pierce_targets", 1)): break

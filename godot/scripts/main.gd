@@ -447,6 +447,9 @@ func _shot_views(spec: String) -> void:
 			await get_tree().process_frame
 			frames += 1
 		print("VIEW_FPS %d %.1f at %s" % [n, frames / ((Time.get_ticks_usec() - t0) / 1000000.0), player.global_position])
+		var vp := get_viewport()
+		print("VIEW_DRAW %d primitives=%d draw_calls=%d objects=%d" % [n, vp.get_render_info(Viewport.RENDER_INFO_TYPE_VISIBLE, Viewport.RENDER_INFO_PRIMITIVES_IN_FRAME), vp.get_render_info(Viewport.RENDER_INFO_TYPE_VISIBLE, Viewport.RENDER_INFO_DRAW_CALLS_IN_FRAME), vp.get_render_info(Viewport.RENDER_INFO_TYPE_VISIBLE, Viewport.RENDER_INFO_OBJECTS_IN_FRAME)])
+		print("VIEW_SHADOW %d primitives=%d draw_calls=%d" % [n, vp.get_render_info(Viewport.RENDER_INFO_TYPE_SHADOW, Viewport.RENDER_INFO_PRIMITIVES_IN_FRAME), vp.get_render_info(Viewport.RENDER_INFO_TYPE_SHADOW, Viewport.RENDER_INFO_DRAW_CALLS_IN_FRAME)])
 		get_viewport().get_texture().get_image().save_png(dir + "view_%d.png" % n)
 		n += 1
 	print("SHOT_VIEWS_DONE %d" % n)
@@ -954,6 +957,7 @@ func _build_forests() -> void:
 	if "--no-trees" in _flags:
 		return
 	Trees.shadow_cells.clear()
+	Trees.lod_cells.clear()
 	Trees.build(self, Map.TREES, Map.SHRUBS, Map.FIRE, rng, true, 1.0, 65.0)
 	# border forest outside the playable area: a third of the cards, no shadows (it is never closer than ~60 m)
 	if not "--no-border" in _flags:

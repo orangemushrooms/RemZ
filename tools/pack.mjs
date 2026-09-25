@@ -29,11 +29,12 @@ const size = option('--size', 1024);
 const albedoSize = option('--albedo-size', size);
 const quality = option('--quality', 82);
 const simplifyRatio = option('--simplify', 0);
+const simplifyError = option('--simplify-error', 0.005);   // meshoptimizer error bound, larger = coarser
 const asIndex = args.indexOf('--as');
 const gameName = asIndex >= 0 ? args[asIndex + 1] : null;
 const consumed = new Set();
 if (gameName) consumed.add(gameName);
-for (const flag of ['--size', '--albedo-size', '--quality', '--simplify']) {
+for (const flag of ['--size', '--albedo-size', '--quality', '--simplify', '--simplify-error']) {
   const i = args.indexOf(flag);
   if (i >= 0) consumed.add(args[i + 1]);
 }
@@ -118,7 +119,7 @@ for (const name of names) {
   if (simplifyRatio > 0 && simplifyRatio < 1) {
     await MeshoptSimplifier.ready;
     const before = doc.getRoot().listMeshes().flatMap(m => m.listPrimitives()).reduce((n, p) => n + (p.getIndices()?.getCount() || 0) / 3, 0);
-    await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio: simplifyRatio, error: 0.005 }));
+    await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio: simplifyRatio, error: simplifyError }));
     const after = doc.getRoot().listMeshes().flatMap(m => m.listPrimitives()).reduce((n, p) => n + (p.getIndices()?.getCount() || 0) / 3, 0);
     console.log(`  simplified ${before} -> ${after} triangles`);
   }

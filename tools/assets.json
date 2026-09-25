@@ -350,5 +350,13 @@
   "barricade_steel": {
     "prompt": "game asset, military fortified barrier wall section, long rectangular reinforced concrete wall with exposed rebar and welded steel armour plates bolted to the front, heavy steel anti-tank hedgehog spikes welded on top, thick steel I-beam frame and angled buttress supports at the back, sandbags at the base, razor wire along the top edge, single straight wall segment about three times longer than tall, no ground, no base, no text",
     "texture_prompt": "grey cracked concrete with rebar, scorched welded steel plates with rust streaks and bullet dents, hazard wear, olive sandbags, razor wire, realistic PBR, no text, no letters"
+  },
+  "conifer_spruce": {
+    "prompt": "photorealistic game asset, tall mature Norway spruce tree, single straight trunk with rough reddish-brown scaly bark, dense layered branches of dark green needles drooping slightly at the tips, narrow conical crown coming to a pointed top, lower branches sparser and longer, natural irregular silhouette, single tree, no ground, no base, no text",
+    "texture_prompt": "realistic dark green spruce needles with subtle blue-green variation, reddish-brown flaky bark with lichen patches, natural PBR, no cartoon, no text"
+  },
+  "conifer_fir": {
+    "prompt": "photorealistic game asset, tall silver fir tree, straight grey trunk with smooth pale grey bark, dense horizontal whorled branches with flat rich green needles, broad conical crown with a flat-topped crest, branches reaching the ground with slight upward sweep, natural irregular silhouette, single tree, no ground, no base, no text",
+    "texture_prompt": "realistic glossy dark green fir needles with pale undersides, smooth pale grey bark with resin blisters, natural PBR, no cartoon, no text"
   }
 }
