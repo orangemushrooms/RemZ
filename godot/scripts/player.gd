@@ -269,9 +269,11 @@ func _update_tremor(delta: float) -> void:
 	var attack := clampf((_tremor_duration - _tremor_left) / 0.075, 0, 1)
 	var amount := _tremor * envelope * attack * tremor_scale
 	var t := _tremor_phase
-	camera.position = Vector3(sin(t * 24.7) * 0.012, (sin(t * 31.0) + sin(t * 47.0) * 0.25) * 0.035, 0) * amount
-	camera.rotation.x = (sin(t * 23.0) + sin(t * 39.0) * 0.3) * 0.006 * amount
-	camera.rotation.z += sin(t * 19.0) * 0.004 * amount
+	# a fast rattle plus a slow heavy sway (titan steps, 25 Sep 2026: the old rattle alone barely registered)
+	var heavy := sin(t * 5.3) * 0.6 + sin(t * 8.1) * 0.4
+	camera.position = Vector3(sin(t * 24.7) * 0.014 + heavy * 0.02, (sin(t * 31.0) + sin(t * 47.0) * 0.25) * 0.04 + absf(heavy) * 0.03, 0) * amount
+	camera.rotation.x = ((sin(t * 23.0) + sin(t * 39.0) * 0.3) * 0.007 + heavy * 0.012) * amount
+	camera.rotation.z += (sin(t * 19.0) * 0.005 + heavy * 0.006) * amount
 
 func _regenerate(delta: float) -> void:
 	if regen_timer > 0.0:

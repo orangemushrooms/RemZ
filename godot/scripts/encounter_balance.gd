@@ -29,6 +29,14 @@ static func horde_share(wave: int) -> float:
 static func horde_hp(wave: int) -> float:
 	return minf(2.5, 1.0 + maxf(0, wave - 1) * 0.06)
 
+# Every extra teammate makes the common horde tougher as well (25 Sep 2026): +30 % health and +12 % damage
+# per additional player, on top of the +55 % head count in Waves.regular_count. Bosses use heavy_hp.
+static func party_hp(party: int) -> float:
+	return 1.0 + 0.3 * clampi(party - 1, 0, 3)
+
+static func party_damage(party: int) -> float:
+	return 1.0 + 0.12 * clampi(party - 1, 0, 3)
+
 static func heavy_limit(wave: int) -> int:
 	return 2 if wave < 24 else 3
 

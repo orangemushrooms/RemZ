@@ -28,9 +28,15 @@ const CLOSING_SECONDS := 18.0
 const WAKING_SECONDS := 8.0
 const RETURN_RADIUS := 14.0
 const REWARD := 250
-const PREPARATION_SECONDS := 20.0
+const PREPARATION_SECONDS := 30.0
+# The quest always ends at the next morning: the echo burns down as the clock turns to MORNING_SECONDS, the
+# morning song plays, and for MORNING_GLOW_SECONDS the fog stays thick so the low sun shafts through the trees.
+const MORNING_SECONDS := 6.7 * 3600.0
+const MORNING_GLOW_SECONDS := 90.0
+const MORNING_FOG := 0.03
+const WAKE_SECONDS := 5.0
 const GLOW_SPOTS := [Vector2(-96, -198), Vector2(-120, -190), Vector2(-110, -183)]
-const TRIP_SECONDS := 18.0
+const TRIP_SECONDS := 36.0
 const RUN_SEQUENCE := [1, 2, 0, 2]
 const RUN_SECONDS := 10.0
 const RUN_RADIUS := 3.5
@@ -67,6 +73,8 @@ var run_target := -1           # totem to reach right now, -1 = about to be draw
 var run_time := 0.0
 var ravers_spawned := false
 var glow_props: Array[Node3D] = []
+var _morning_left := 0.0
+var _wake_left := 0.0
 var echo_prop: Node3D
 var echo_light: OmniLight3D
 var echo_caption: Label3D
@@ -248,6 +256,7 @@ func interact(p: Player) -> bool:
 			echo_offered = true
 			step = WAKING
 			waking_time = 0.0
+			saved_clock = MORNING_SECONDS    # the awakening turns the clock to the next morning
 	_present_stage()
 	_update_ending(0.0)
 	return true
@@ -285,6 +294,9 @@ func _complete() -> void:
 	_leave_presentation()
 	main.waves.phase = "idle"
 	main.waves.timer = PREPARATION_SECONDS
+	_morning_left = MORNING_GLOW_SECONDS
+	_wake_left = WAKE_SECONDS
+	_update_morning(0.0)
 	_completion_message()
 
 func _completion_message() -> void:
@@ -302,6 +314,7 @@ func _team_near(point: Vector2, radius: float, everyone := false) -> bool:
 	return living > 0 and (nearby == living if everyone else nearby > 0)
 
 func _process(delta: float) -> void:
+	_update_morning(delta)
 	if not active: return
 	if main.over:
 		active = false
@@ -367,6 +380,20 @@ func _process(delta: float) -> void:
 		dancers[i].rotation.z = sin(elapsed * TAU * 140.0 / 120.0 + i) * 0.09 * energy
 		dancers[i].position.y = float(dancers[i].get_meta("floor")) + beat * 0.09 * energy
 	_update_ending(delta)
+
+# After the completion: a warm wake-up flash over the screen and a long, thick morning haze so the sun
+# shafts through the forest, both fading out on their own.
+func _update_morning(delta: float) -> void:
+	if _morning_left <= 0.0: return
+	_morning_left = maxf(0.0, _morning_left - delta)
+	var k := smoothstep(0.0, 1.0, _morning_left / MORNING_GLOW_SECONDS)
+	main.settings.env.volumetric_fog_density = lerpf(saved_fog, MORNING_FOG, k)
+	if _wake_left > 0.0:
+		_wake_left = maxf(0.0, _wake_left - delta)
+		haze.show()
+		haze_material.set_shader_parameter("strength", 0.0)
+		haze_material.set_shader_parameter("awakening", smoothstep(0.0, 1.0, _wake_left / WAKE_SECONDS) * 0.95)
+		if _wake_left <= 0.0: haze.hide()
 
 func party_energy() -> float:
 	if step < CLOSING: return 1.0
@@ -551,7 +578,7 @@ func _build_party() -> void:
 	scenery.get_child(scenery.get_child_count() - 1).hide()
 	stage_sign = _label("SCHORCHEN\nAFTER HOURS", base + Vector3(0, 5, 0), COLOURS[0], 72)
 	party_labels.erase(stage_sign)
-	_label("HAZE BAR\nBeer · Mushrooms · Clear Head", Map.ground_pos(BAR.x, BAR.y) + Vector3(0, 3, 0), COLOURS[1])
+	_label("HAZE BAR\nBeer · Mushrooms · Clear Head", Map.ground_pos(BAR.x, BAR.y) + Vector3(0, 4.9, 0), COLOURS[1])   # above the canopy, not behind it
 	for i in 3:
 		var pos := Map.ground_pos(TOTEMS[i].x, TOTEMS[i].y)
 		WorldModels.attach(scenery, "goa_totem", pos, 2.6)

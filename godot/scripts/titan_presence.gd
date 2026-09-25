@@ -11,7 +11,7 @@ const CUES := {
 	"rage": {"clips": ["roar_2"], "range": 250.0, "unit": 48.0, "db": -1.0, "voice": true, "shake": 0.25, "radius": 65.0, "duration": 2.5, "duck": 0.65},
 	"windup": {"clips": ["windup"], "range": 135.0, "unit": 30.0, "db": -3.0, "voice": true, "shake": 0.07, "radius": 35.0, "duration": 1.2, "duck": 0.30},
 	"death": {"clips": ["death"], "range": 220.0, "unit": 45.0, "db": -2.0, "voice": true, "shake": 0.12, "radius": 60.0, "duration": 1.8, "duck": 0.55},
-	"step": {"clips": ["step_1", "step_2"], "range": 95.0, "unit": 20.0, "db": -4.0, "voice": false, "shake": 0.34, "radius": 75.0, "duration": 0.85, "duck": 0.0},
+	"step": {"clips": ["step_1", "step_2"], "range": 95.0, "unit": 20.0, "db": -4.0, "voice": false, "shake": 0.75, "radius": 120.0, "duration": 1.1, "duck": 0.0},
 	"slam": {"clips": ["slam"], "range": 145.0, "unit": 35.0, "db": -2.0, "voice": false, "shake": 0.80, "radius": 105.0, "duration": 1.55, "duck": 0.20},
 	"collapse": {"clips": ["slam"], "range": 160.0, "unit": 40.0, "db": -3.0, "voice": false, "shake": 0.65, "radius": 110.0, "duration": 2.0, "duck": 0.20},
 }

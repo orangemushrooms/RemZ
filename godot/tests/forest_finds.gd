@@ -54,6 +54,14 @@ func run() -> void:
 	# training prices
 	check(Skills.training_cost(Skills.UPGRADES[0], 0) == 200 and Skills.training_cost(Skills.UPGRADES[0], 1) == 300, "Training costs twice the listed base and grows per tier")
 
+	# cumulative quest goals only count from acceptance
+	progression.team.kills = 40
+	progression._record_baseline(1, "line")
+	check(progression.progress_value("kills", 1, "line") == 0, "Kills before accepting a quest do not count")
+	progression.team.kills = 45
+	check(progression.progress_value("kills", 1, "line") == 5, "Kills after accepting count from zero")
+	check(progression.progress_value("waves", 1, "line") == progression.goal_value("waves"), "Wave goals stay absolute")
+	check(EncounterBalance.party_hp(1) == 1.0 and EncounterBalance.party_hp(3) > EncounterBalance.party_hp(2) and EncounterBalance.party_damage(4) > 1.0, "The horde scales with the party size")
 	# the finds are placed once the navigation map is ready (place_cache runs from main)
 	progression.place_finds()
 	for id in ["pond_box", "trip_mushroom", "maze_crate"]:

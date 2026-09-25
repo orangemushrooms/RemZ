@@ -230,6 +230,7 @@ func run() -> void:
 	for quest in ["steady_aim", "marksman_training"]:
 		game.waves.completed = maxi(game.waves.completed, int(Progression.QUESTS[quest].min_level) - 1)
 		shop.transact(p, "camp", "quest", quest)
+		shop.team.headshot_kills = int(shop.team.headshot_kills) + 40   # counters only count from acceptance
 		var quest_balance := p.score
 		shop.transact(p, "camp", "quest", quest)
 		check(p.score == quest_balance and not shop.has_claim(p.peer_id, quest), quest + " cannot be claimed by clicking again with old counters")
@@ -239,6 +240,7 @@ func run() -> void:
 	await visit("secret")
 	game.waves.completed = 7
 	shop.transact(p, "secret", "quest", "silent_deal")
+	shop.team.headshot_kills = int(shop.team.headshot_kills) + 40
 	game.waves.completed += 1
 	check(Lang.text(shop.next_quest_step(p.peer_id, "silent_deal")).contains("collect reward") and not shop.chain_complete(p.peer_id, "marksman"), "Completed objective requires turn-in before granting permission")
 	var chain_reward := shop.transact(p, "secret", "quest", "silent_deal")

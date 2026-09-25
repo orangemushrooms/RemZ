@@ -188,7 +188,7 @@ func run() -> void:
 	var score_before: int = game.player.score
 	var remote_score_before: int = remote.score
 	night._process(4)
-	check(night.completed and not night.active and game.waves.timer == SecretNight.PREPARATION_SECONDS, "Completion releases twenty seconds to prepare")
+	check(night.completed and not night.active and game.waves.timer == SecretNight.PREPARATION_SECONDS and SecretNight.PREPARATION_SECONDS >= 30.0, "Completion releases thirty seconds to prepare")
 	check(game.player.score == score_before + SecretNight.REWARD and remote.score == remote_score_before + SecretNight.REWARD, "Every teammate receives the reward exactly once")
 	night._complete()
 	night.apply_snapshot(night.snapshot())
@@ -196,7 +196,13 @@ func run() -> void:
 	NetSession.enabled = false
 	NetSession.world = null
 	remote.queue_free()
-	check(is_equal_approx(game.day_night.clock_seconds, clock_before), "Original world time restored")
+	check(is_equal_approx(game.day_night.clock_seconds, SecretNight.MORNING_SECONDS), "The quest ends at the next morning")
+	check(night._morning_left > 0 and game.settings.env.volumetric_fog_density > night.saved_fog, "The morning haze lets the sun shaft through the trees")
+	check(night.haze.visible and float(night.haze_material.get_shader_parameter("awakening")) > 0.5, "A warm wake-up flash fades in")
+	night._update_morning(SecretNight.WAKE_SECONDS + 0.1)
+	check(not night.haze.visible, "The wake-up flash fades out again")
+	night._update_morning(SecretNight.MORNING_GLOW_SECONDS)
+	check(is_equal_approx(game.settings.env.volumetric_fog_density, night.saved_fog), "The morning haze clears")
 	check(not night.scenery.visible and not night.haze.visible and not night.song.playing, "No party effects remain after completion")
 	check(not night.interact(game.player), "Completion cannot be replayed")
 	game.waves.start(5)

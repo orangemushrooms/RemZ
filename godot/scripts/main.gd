@@ -2522,7 +2522,8 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 	var z: Zombie = Earthworm.new() if Zombie.is_worm_kind(type) else (Titan.new() if Zombie.is_titan_kind(type) else Zombie.new())
 	z.setup(type, player, barricades, speed_mul, _zombie_killed)
 	z.hp *= float(difficulty["hp"])
-	if not Zombie.is_boss_kind(type): z.hp *= EncounterBalance.horde_hp(waves.wave)
+	var party: int = NetSession.roster.size() if NetSession.enabled else 1
+	if not Zombie.is_boss_kind(type): z.hp *= EncounterBalance.horde_hp(waves.wave) * EncounterBalance.party_hp(party)
 	if Zombie.is_boss_kind(type):
 		z.speed_mul = EncounterBalance.heavy_speed(speed_mul)
 		z.hp *= EncounterBalance.heavy_hp(waves.wave, NetSession.roster.size() if NetSession.enabled else 1, Zombie.is_worm_kind(type))
@@ -2535,7 +2536,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 	if profile: timings.append(Time.get_ticks_usec())
 	var lane_slots := {"north": 0, "east": 1, "south": 2, "west": 3}
 	if lane_slots.has(lane): z.lane_bar = barricades[lane_slots[lane]]
-	z.damage_mul = float(difficulty["dmg"])
+	z.damage_mul = float(difficulty["dmg"]) * EncounterBalance.party_damage(party)
 	if Zombie.is_boss_kind(type): z.damage_mul *= EncounterBalance.heavy_damage(waves.wave, Zombie.is_worm_kind(type))
 	zombies_root.add_child(z)
 	if profile: timings.append(Time.get_ticks_usec())

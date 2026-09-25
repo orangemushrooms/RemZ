@@ -562,13 +562,38 @@ func complete(quest: String, peer := -1) -> bool:
 	if not data(peer).accepted.get(quest, false): return false
 	if not quest_lock_reason(peer, quest).is_empty(): return false
 	if game.waves.completed < required_completion_wave(peer, quest): return false
-	return _objectives_complete(quest)
+	return _objectives_complete(quest, peer)
 
-func _objectives_complete(quest: String) -> bool:
+# Cumulative team counters only count from the moment a player accepts the quest (25 Sep 2026): the
+# baseline is stored per peer and quest at acceptance, progress = counter - baseline. State goals (waves,
+# towers standing, finds) stay absolute.
+const CUMULATIVE_GOALS := ["kills", "titans", "headshot_kills", "tower_kills", "edible_mushrooms", "runner_kills", "built", "turned"]
+
+static func is_cumulative(kind: String) -> bool:
+	return kind in CUMULATIVE_GOALS or kind.begins_with("drone_")
+
+func progress_value(kind: String, peer: int, id: String) -> int:
+	var value := goal_value(kind)
+	if not is_cumulative(kind): return value
+	var base: Dictionary = data(peer).get("baseline", {}).get(id, {})
+	return maxi(0, value - int(base.get(kind, 0)))
+
+func _record_baseline(peer: int, id: String) -> void:
+	var d := data(peer)
+	if not d.has("baseline"): d.baseline = {}
+	var base := {}
+	for kind in objective_goals(id):
+		if is_cumulative(kind): base[kind] = goal_value(kind)
+	if id in ["line", "titan", "watch"]:
+		for kind in ["kills", "titans", "built", "turned"]: base[kind] = goal_value(kind)
+	d.baseline[id] = base
+
+func _objectives_complete(quest: String, peer := -1) -> bool:
+	if peer < 0: peer = game.player.peer_id
 	if not QUESTS.has(quest): return false
 	var goals := objective_goals(quest)
 	for kind in goals:
-		if goal_value(kind) < int(goals[kind]): return false
+		if progress_value(kind, peer, quest) < int(goals[kind]): return false
 	return not goals.is_empty()
 
 func objective_goals(id: String) -> Dictionary:
@@ -593,18 +618,20 @@ static func _goal_text(text: String, done: bool, rich: bool) -> String:
 func quest_progress(id: String, peer := -1, rich := false) -> String:
 	if peer < 0: peer = game.player.peer_id
 	var claimed := has_claim(peer, id)
-	var text := _objective_progress(id, rich, claimed)
+	var text := _objective_progress(id, rich, claimed, peer)
 	if data(peer).accepted.get(id, false) and not claimed and int(QUESTS[id].waves_after_accept) > 0:
 		var remaining := maxi(0, required_completion_wave(peer, id) - game.waves.completed)
 		text += ("\n" if rich else " · ") + _goal_text(Lang.t("After accepting: survive %d more wave(s)", [remaining]), remaining == 0, rich)
 	return text
 
-func _objective_progress(id: String, rich := false, claimed := false) -> String:
+func _objective_progress(id: String, rich := false, claimed := false, peer := -1) -> String:
+	if peer < 0: peer = game.player.peer_id
 	var parts := PackedStringArray()
 	if QUESTS.has(id) and QUESTS[id].has("goals"):
 		for kind in QUESTS[id].goals:
 			var target := int(QUESTS[id].goals[kind])
-			parts.append(_goal_text(Lang.t("%s %d/%d", [GOAL_LABELS[kind], target if claimed else mini(goal_value(kind), target), target]), claimed or goal_value(kind) >= target, rich))
+			var value := progress_value(kind, peer, id)
+			parts.append(_goal_text(Lang.t("%s %d/%d", [GOAL_LABELS[kind], target if claimed else mini(value, target), target]), claimed or value >= target, rich))
 	else:
 		match id:
 			"watch":
@@ -616,9 +643,12 @@ func _objective_progress(id: String, rich := false, claimed := false) -> String:
 				parts.append(_goal_text(Lang.t("Build barricade %d/1", [int(wall)]), wall, rich))
 			"line":
 				parts.append(_goal_text(Lang.t("Waves %d/2", [2 if claimed else mini(game.waves.completed, 2)]), claimed or game.waves.completed >= 2, rich))
-				parts.append(_goal_text(Lang.t("Zombies %d/30", [30 if claimed else mini(team.kills, 30)]), claimed or team.kills >= 30, rich))
+				var line_kills := progress_value("kills", peer, "line")
+				parts.append(_goal_text(Lang.t("Zombies %d/30", [30 if claimed else mini(line_kills, 30)]), claimed or line_kills >= 30, rich))
 			"supplies": parts.append(_goal_text(Lang.t("Delivery recovered") if claimed or team.cache else Lang.t("Search for the delivery at the map marker"), claimed or team.cache, rich))
-			"titan": parts.append(_goal_text(Lang.t("Titans %d/1", [1 if claimed else mini(team.titans, 1)]), claimed or team.titans > 0, rich))
+			"titan":
+				var titan_kills := progress_value("titans", peer, "titan")
+				parts.append(_goal_text(Lang.t("Titans %d/1", [1 if claimed else mini(titan_kills, 1)]), claimed or titan_kills > 0, rich))
 			_: parts.append(_goal_text(Lang.t("Meet Vendor at the campfire"), true, rich))
 	return ("\n" if rich else " · ").join(parts)
 
@@ -824,6 +854,7 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 				d.accepted[id] = true
 				if not d.has("accepted_wave"): d.accepted_wave = {}
 				d.accepted_wave[id] = game.waves.completed
+				_record_baseline(p.peer_id, id)
 				Sfx.event(self, p.peer_id, "quest_accept")
 				return Lang.t("Quest accepted: %s", [q.name])
 			if not complete(id, p.peer_id): return Lang.t("Quest not completed yet. %s", [quest_progress(id, p.peer_id)])

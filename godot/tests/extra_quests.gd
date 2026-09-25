@@ -62,7 +62,7 @@ func run() -> void:
 		check(shop.has_ready_quest(q.npc), id + " marks the right giver")
 		personal.claimed[id] = true
 		check(not shop.has_ready_quest(q.npc), id + " clears marker after reward")
-	check(added == 16, "Sixteen goal-based quests including drone operations")
+	check(added == 19, "Nineteen goal-based quests including drone operations and Mara's finds")
 	shop.team = {}
 	shop.event("headshot_kills")
 	shop.event("tower_kills")
