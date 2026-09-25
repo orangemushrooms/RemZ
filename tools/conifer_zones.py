@@ -12,7 +12,7 @@ Rules (metres, x east / z south, fire at (7, -7)):
     Schorchen" stand; the 21 m around the site itself are cleared by trees.gd anyway)
   - deep forest: farther than DEEP_ROAD from every track and farther than DEEP_FIRE from the fire ->
     DEEP_SHARE of the trees become Meshy conifers, the rest keep their species
-  - nothing within PLAZA_R of the fire
+  - nothing within PLAZA_R of the fire or within MIN_ROAD of a track edge (the crowns reach the ground)
   - the aerial's conifer stands (species "spruce" from build_map.py) inside DARK_RADIUS of the fire ->
     DARK_SHARE Meshy conifers (the procedural spruce stays as the filler of those stands)
   - forest edge towards the fields (z > FIELD_Z or x > FIELD_X, within FIELD_ROAD of a track): EDGE_SHARE
@@ -36,6 +36,7 @@ DEEP_FIRE = 60.0
 DEEP_SHARE = 0.55
 DARK_RADIUS = 150.0
 PLAZA_R = 45.0                 # no Meshy conifer this close to the fire: the campsite keeps the photo look
+MIN_ROAD = 6.0                 # ... nor this close to a track edge: the GLB crowns reach the ground and hung into the paths
 DARK_SHARE = 0.55
 FIELD_Z = 35.0
 FIELD_X = 55.0
@@ -83,7 +84,7 @@ def main():
         d_site = math.hypot(x - SITE[0], z - SITE[1])
         d_fire = math.hypot(x - FIRE[0], z - FIRE[1])
         d_road = road_distance((x, z), roads)
-        if d_fire < PLAZA_R:
+        if d_fire < PLAZA_R or d_road < MIN_ROAD:
             pass
         elif d_site < SCHORCHEN_R:
             new, key = True, 'schorchen'

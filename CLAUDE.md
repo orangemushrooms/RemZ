@@ -220,7 +220,8 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   facets read as glass). `tools/conifer_zones.py` rewrites the species in `map.json` after `build_map.py`
   (deterministic): everything within 85 m of the Secret Night site = the Oberer Schorchen stand, 55 % of the
   deep forest (> 24 m from a track, > 60 m from the fire), 55 % of the aerial's spruce stands within 150 m,
-  12 % scattered along the field-facing forest edge, never within 45 m of the fire. LOD in `trees.gd`:
+  12 % scattered along the field-facing forest edge, never within 45 m of the fire and never within 6 m of a
+  track edge (the crowns reach the ground and hung into the paths). LOD in `trees.gd`:
   within `MODEL_LOD` (100 m, per 48 m cell, toggled by `update_lod` from `update_shadows` - Godot's
   visibility ranges did not cull the MultiMesh cells) the GLB, beyond it a procedural spruce proxy at the
   same height; shadows always come from the card proxy (the GLB in four cascades cost 9 M shadow
