@@ -1,0 +1,26 @@
+07:54:34 preview barricade_steel
+TASK_CREATED: 01a0d721-3c59-7348-bf8e-f935fcb670c0
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (100.625s, poll #9)
+07:56:18 refine barricade_steel
+TASK_CREATED: 01a0d722-d447-72d5-9c3e-56b171a01dee
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (40.625s, poll #5)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████░░░░░] 78% — IN_PROGRESS (95.9375s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (125.9375s, poll #8)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\barricade_steel\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\barricade_steel\model.glb (9.6 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\barricade_steel\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\barricade_steel\thumb.png (0.2 MB)
+07:58:30 DONE barricade_steel

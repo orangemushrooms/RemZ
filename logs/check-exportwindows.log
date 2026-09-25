@@ -9,170 +9,11 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  83% ] first_scan_filesystem | Dateiscan starten …
 [ DONE ] first_scan_filesystem
 
-[   0% ] _update_scan_actions | Started Aktionen scannen … (47 steps)
-[   0% ] _update_scan_actions | Goa_Party_Sidequest.mp3
-[   2% ] _update_scan_actions | secret_goa_placeholder.wav
-[   4% ] _update_scan_actions | secret_rain.wav
-[   6% ] _update_scan_actions | goa_bar.glb
-[   8% ] _update_scan_actions | goa_bar_0.jpg
-[  10% ] _update_scan_actions | goa_bar_1.jpg
-[  12% ] _update_scan_actions | goa_bar_2.jpg
-[  14% ] _update_scan_actions | goa_stage.glb
-[  16% ] _update_scan_actions | goa_stage_0.jpg
-[  18% ] _update_scan_actions | goa_stage_1.jpg
-[  20% ] _update_scan_actions | goa_stage_2.jpg
-[  22% ] _update_scan_actions | goa_totem.glb
-[  25% ] _update_scan_actions | goa_totem_0.jpg
-[  27% ] _update_scan_actions | goa_totem_1.jpg
-[  29% ] _update_scan_actions | goa_totem_2.jpg
-[  31% ] _update_scan_actions | zombie_bloater_metal_rough.webp
-[  33% ] _update_scan_actions | zombie_bloater_normal.webp
-[  35% ] _update_scan_actions | zombie_bloater_texture_0.webp
-[  37% ] _update_scan_actions | zombie_colossus_metal_rough.webp
-[  39% ] _update_scan_actions | zombie_colossus_normal.webp
-[  41% ] _update_scan_actions | zombie_colossus_texture_0.webp
-[  43% ] _update_scan_actions | zombie_farmer_metal_rough.webp
-[  45% ] _update_scan_actions | zombie_farmer_normal.webp
-[  47% ] _update_scan_actions | zombie_farmer_texture_0.webp
-[  50% ] _update_scan_actions | zombie_forester_metal_rough.webp
-[  52% ] _update_scan_actions | zombie_forester_normal.webp
-[  54% ] _update_scan_actions | zombie_forester_texture_0.webp
-[  56% ] _update_scan_actions | zombie_grandma_metal_rough.webp
-[  58% ] _update_scan_actions | zombie_grandma_normal.webp
-[  60% ] _update_scan_actions | zombie_grandma_texture_0.webp
-[  62% ] _update_scan_actions | zombie_hiker_metal_rough.webp
-[  64% ] _update_scan_actions | zombie_hiker_normal.webp
-[  66% ] _update_scan_actions | zombie_hiker_texture_0.webp
-[  68% ] _update_scan_actions | zombie_jogger_metal_rough.webp
-[  70% ] _update_scan_actions | zombie_jogger_normal.webp
-[  72% ] _update_scan_actions | zombie_jogger_texture_0.webp
-[  75% ] _update_scan_actions | zombie_nurse_metal_rough.webp
-[  77% ] _update_scan_actions | zombie_nurse_normal.webp
-[  79% ] _update_scan_actions | zombie_nurse_texture_0.webp
-[  81% ] _update_scan_actions | zombie_runner_metal_rough.webp
-[  83% ] _update_scan_actions | zombie_runner_normal.webp
-[  85% ] _update_scan_actions | zombie_shambler_metal_rough.webp
-[  87% ] _update_scan_actions | zombie_shambler_normal.webp
-[  89% ] _update_scan_actions | zombie_soldier_metal_rough.webp
-[  91% ] _update_scan_actions | zombie_soldier_normal.webp
-[  93% ] _update_scan_actions | zombie_titan_metal_rough.webp
-[  95% ] _update_scan_actions | zombie_titan_normal.webp
+[   0% ] _update_scan_actions | Started Aktionen scannen … (3 steps)
+[   0% ] _update_scan_actions | barricade_steel_0.webp
+[  25% ] _update_scan_actions | barricade_steel_1.webp
+[  50% ] _update_scan_actions | barricade_steel_2.webp
 [ DONE ] _update_scan_actions
-
-[   0% ] reimport | Started Assets (erneut) importieren (13 steps)
-[   0% ] reimport | Dateien zum Neuimport vorbereiten …
-[   7% ] reimport | Dateien zum Neuimport vorbereiten …
-[  14% ] reimport | Dateien zum Neuimport vorbereiten …
-[  21% ] reimport | Dateien zum Neuimport vorbereiten …
-[  28% ] reimport | Dateien zum Neuimport vorbereiten …
-[  35% ] reimport | Dateien zum Neuimport vorbereiten …
-[  42% ] reimport | Dateien zum Neuimport vorbereiten …
-[  50% ] reimport | Dateien zum Neuimport vorbereiten …
-[  57% ] reimport | Dateien zum Neuimport vorbereiten …
-[  64% ] reimport | Dateien zum Neuimport vorbereiten …
-[  71% ] reimport | Dateien zum Neuimport vorbereiten …
-[  78% ] reimport | Dateien zum Neuimport vorbereiten …
-[  85% ] reimport | Dateien zum Neuimport vorbereiten …
-[   0% ] reimport | Vor-Neuimport-Operationen ausführen …
-[   0% ] preload_reimporting_scene | Started Szenen zum Neuladen vorbereiten (1 steps)
-[   0% ] preload_reimporting_scene | Szene [leer] wird analysiert
-[  50% ] preload_reimporting_scene | Vorbereitung abgeschlossen.
-[ DONE ] preload_reimporting_scene
-
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   0% ] reimport | goa_bar_0.jpg
-[   7% ] reimport | goa_bar_1.jpg
-[   7% ] reimport | goa_bar_1.jpg
-[  14% ] reimport | goa_bar_2.jpg
-[  14% ] reimport | goa_bar_2.jpg
-[  14% ] reimport | goa_bar_2.jpg
-[  14% ] reimport | goa_bar_2.jpg
-[  14% ] reimport | goa_bar_2.jpg
-[  14% ] reimport | goa_bar_2.jpg
-[  14% ] reimport | goa_bar_2.jpg
-[  21% ] reimport | goa_stage_0.jpg
-[  21% ] reimport | goa_stage_0.jpg
-[  28% ] reimport | goa_stage_1.jpg
-[  28% ] reimport | goa_stage_1.jpg
-[  28% ] reimport | goa_stage_1.jpg
-[  28% ] reimport | goa_stage_1.jpg
-[  35% ] reimport | goa_stage_2.jpg
-[  35% ] reimport | goa_stage_2.jpg
-[  42% ] reimport | goa_totem_0.jpg
-[  42% ] reimport | goa_totem_0.jpg
-[  50% ] reimport | goa_totem_1.jpg
-[  50% ] reimport | goa_totem_1.jpg
-[  50% ] reimport | goa_totem_1.jpg
-[  50% ] reimport | goa_totem_1.jpg
-[  57% ] reimport | goa_totem_2.jpg
-[  57% ] reimport | goa_totem_2.jpg
-[  57% ] reimport | goa_totem_2.jpg
-[  57% ] reimport | goa_totem_2.jpg
-[  57% ] reimport | goa_totem_2.jpg
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  64% ] reimport | zombie_colossus_texture_0.webp
-[  71% ] reimport | goa_bar.glb
-[   0% ] import | Started Szene importieren (104 steps)
-[   0% ] import | Importiere Szene…
-[   1% ] import | Eigenes Skript wird ausgeführt …
-[  99% ] import | Speichern …
-[ DONE ] import
-
-[  78% ] reimport | goa_stage.glb
-[   0% ] import | Started Szene importieren (104 steps)
-[   0% ] import | Importiere Szene…
-[   1% ] import | Eigenes Skript wird ausgeführt …
-[  99% ] import | Speichern …
-[ DONE ] import
-
-[  85% ] reimport | goa_totem.glb
-[   0% ] import | Started Szene importieren (104 steps)
-[   0% ] import | Importiere Szene…
-[   1% ] import | Eigenes Skript wird ausgeführt …
-[  99% ] import | Speichern …
-[ DONE ] import
-
-[  92% ] reimport | Asset-Import fertigstellen …
-[ DONE ] reimport
-
-[   0% ] reimport | Started Assets (erneut) importieren (13 steps)
-[   0% ] reimport | Nach-Neuimport-Operationen ausführen …
-[ DONE ] reimport
 
 [   0% ] savepack | Started Packe (102 steps)
 [   1% ] savepack | Speichere Datei: res://.godot/imported/burst_1.wav-7ce2fbfd3cf222a33d6a42cf039ef4a2.sample
@@ -268,8 +109,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [   4% ] savepack | Speichere Datei: res://assets/audio/sfx/weapons/graviton_impact.wav.import
 [   4% ] savepack | Speichere Datei: res://.godot/imported/lever.wav-a7b8824151f9b67b47911aebfd548006.sample
 [   4% ] savepack | Speichere Datei: res://assets/audio/sfx/weapons/lever.wav.import
-[   5% ] savepack | Speichere Datei: res://.godot/imported/lever_cycle.wav-a95848dd7c4148d2a1af084930c40a0e.sample
-[   5% ] savepack | Speichere Datei: res://assets/audio/sfx/weapons/lever_cycle.wav.import
+[   4% ] savepack | Speichere Datei: res://.godot/imported/lever_cycle.wav-a95848dd7c4148d2a1af084930c40a0e.sample
+[   4% ] savepack | Speichere Datei: res://assets/audio/sfx/weapons/lever_cycle.wav.import
 [   5% ] savepack | Speichere Datei: res://.godot/imported/mac10.wav-d2e15cba6db47ddd77c295c7d7f86ea0.sample
 [   5% ] savepack | Speichere Datei: res://assets/audio/sfx/weapons/mac10.wav.import
 [   5% ] savepack | Speichere Datei: res://.godot/imported/minigun.wav-1b8565e8b9a49957cb785ccede1bf8d7.sample
@@ -291,8 +132,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [   5% ] savepack | Speichere Datei: res://assets/audio/sfx/acceppt_2.mp3.import
 [   5% ] savepack | Speichere Datei: res://.godot/imported/achievement.ogg-c86529a11d03d4853c2121f784d3fe61.oggvorbisstr
 [   5% ] savepack | Speichere Datei: res://assets/audio/sfx/achievement.ogg.import
-[   6% ] savepack | Speichere Datei: res://.godot/imported/ak47.mp3-adea1055831970bd64d58a257f032f3c.mp3str
-[   6% ] savepack | Speichere Datei: res://assets/audio/sfx/ak47.mp3.import
+[   5% ] savepack | Speichere Datei: res://.godot/imported/ak47.mp3-adea1055831970bd64d58a257f032f3c.mp3str
+[   5% ] savepack | Speichere Datei: res://assets/audio/sfx/ak47.mp3.import
 [   6% ] savepack | Speichere Datei: res://.godot/imported/barricade_break_1.mp3-ff261a2b6ef2f5ddca6c6e7d6690cb9e.mp3str
 [   6% ] savepack | Speichere Datei: res://assets/audio/sfx/barricade_break_1.mp3.import
 [   6% ] savepack | Speichere Datei: res://.godot/imported/barricade_break_2.mp3-82ce019ec9a36f5c4d8eb49580b0b097.mp3str
@@ -361,8 +202,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [   8% ] savepack | Speichere Datei: res://assets/audio/sfx/footstep1.mp3.import
 [   8% ] savepack | Speichere Datei: res://.godot/imported/footstep2.mp3-6b201a9172277fea66ebea4d64baa931.mp3str
 [   8% ] savepack | Speichere Datei: res://assets/audio/sfx/footstep2.mp3.import
-[   9% ] savepack | Speichere Datei: res://.godot/imported/footstep3.mp3-4ad41320330ab5466c6583bf4d225613.mp3str
-[   9% ] savepack | Speichere Datei: res://assets/audio/sfx/footstep3.mp3.import
+[   8% ] savepack | Speichere Datei: res://.godot/imported/footstep3.mp3-4ad41320330ab5466c6583bf4d225613.mp3str
+[   8% ] savepack | Speichere Datei: res://assets/audio/sfx/footstep3.mp3.import
 [   9% ] savepack | Speichere Datei: res://.godot/imported/Graviton_Gunshot.mp3-e46d5348eaec8b0021925282a3365ece.mp3str
 [   9% ] savepack | Speichere Datei: res://assets/audio/sfx/Graviton_Gunshot.mp3.import
 [   9% ] savepack | Speichere Datei: res://.godot/imported/grenade_bounce_1.ogg-ae8c2877efb558e96cd639434d26ee75.oggvorbisstr
@@ -385,8 +226,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [   9% ] savepack | Speichere Datei: res://assets/audio/sfx/hover_3.ogg.import
 [   9% ] savepack | Speichere Datei: res://.godot/imported/hurt_1.ogg-45740375724aee4e505d9acff2f8581a.oggvorbisstr
 [   9% ] savepack | Speichere Datei: res://assets/audio/sfx/hurt_1.ogg.import
-[  10% ] savepack | Speichere Datei: res://.godot/imported/hurt_2.ogg-cd3bb0f6c00bb339ffa443b4bc59c148.oggvorbisstr
-[  10% ] savepack | Speichere Datei: res://assets/audio/sfx/hurt_2.ogg.import
+[   9% ] savepack | Speichere Datei: res://.godot/imported/hurt_2.ogg-cd3bb0f6c00bb339ffa443b4bc59c148.oggvorbisstr
+[   9% ] savepack | Speichere Datei: res://assets/audio/sfx/hurt_2.ogg.import
 [  10% ] savepack | Speichere Datei: res://.godot/imported/hurt_3.ogg-46535cf7a8e8dc1a9957a3c35cc91668.oggvorbisstr
 [  10% ] savepack | Speichere Datei: res://assets/audio/sfx/hurt_3.ogg.import
 [  10% ] savepack | Speichere Datei: res://.godot/imported/hurt_4.ogg-183cd3f016e9955e9f4cc8665c09cd41.oggvorbisstr
@@ -409,8 +250,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  10% ] savepack | Speichere Datei: res://assets/audio/sfx/land.ogg.import
 [  10% ] savepack | Speichere Datei: res://.godot/imported/Mac10.mp3-18c3195a1f7a9029de382d694490e19d.mp3str
 [  10% ] savepack | Speichere Datei: res://assets/audio/sfx/Mac10.mp3.import
-[  11% ] savepack | Speichere Datei: res://.godot/imported/Machinegun_Tower.mp3-68c80e5e30368c49ed20ed214f286dab.mp3str
-[  11% ] savepack | Speichere Datei: res://assets/audio/sfx/Machinegun_Tower.mp3.import
+[  10% ] savepack | Speichere Datei: res://.godot/imported/Machinegun_Tower.mp3-68c80e5e30368c49ed20ed214f286dab.mp3str
+[  10% ] savepack | Speichere Datei: res://assets/audio/sfx/Machinegun_Tower.mp3.import
 [  11% ] savepack | Speichere Datei: res://.godot/imported/mara_sfx_good_evening.mp3-229127acb6e6b4c31557f4d880ef7c39.mp3str
 [  11% ] savepack | Speichere Datei: res://assets/audio/sfx/mara_sfx_good_evening.mp3.import
 [  11% ] savepack | Speichere Datei: res://.godot/imported/mara_sfx_good_morning.mp3-ddb7bcfa1c1d1a11fec4e2ad161b7509.mp3str
@@ -433,8 +274,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  11% ] savepack | Speichere Datei: res://assets/audio/sfx/melee_3.ogg.import
 [  11% ] savepack | Speichere Datei: res://.godot/imported/melee_stab_1.ogg-17a902b7a75b9dfd7fab936165907743.oggvorbisstr
 [  11% ] savepack | Speichere Datei: res://assets/audio/sfx/melee_stab_1.ogg.import
-[  12% ] savepack | Speichere Datei: res://.godot/imported/melee_stab_2.ogg-45cd8f8d34fea3795f3cd4b903f38275.oggvorbisstr
-[  12% ] savepack | Speichere Datei: res://assets/audio/sfx/melee_stab_2.ogg.import
+[  11% ] savepack | Speichere Datei: res://.godot/imported/melee_stab_2.ogg-45cd8f8d34fea3795f3cd4b903f38275.oggvorbisstr
+[  11% ] savepack | Speichere Datei: res://assets/audio/sfx/melee_stab_2.ogg.import
 [  12% ] savepack | Speichere Datei: res://.godot/imported/Minigun_Shots_long.mp3-bccf90173605ecc4b212ebdfca3e3c37.mp3str
 [  12% ] savepack | Speichere Datei: res://assets/audio/sfx/Minigun_Shots_long.mp3.import
 [  12% ] savepack | Speichere Datei: res://.godot/imported/Mortar_Tower.mp3-59a38da594eb33c3d279c00c9e7bf9f6.mp3str
@@ -455,8 +296,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  12% ] savepack | Speichere Datei: res://assets/audio/sfx/pistol.mp3.import
 [  12% ] savepack | Speichere Datei: res://.godot/imported/Plasma_Gunshot.mp3-abfa162d54a376e43e764f304f0d385c.mp3str
 [  12% ] savepack | Speichere Datei: res://assets/audio/sfx/Plasma_Gunshot.mp3.import
-[  13% ] savepack | Speichere Datei: res://.godot/imported/player_death_1.ogg-dc53208638bb23db02016a527f745f63.oggvorbisstr
-[  13% ] savepack | Speichere Datei: res://assets/audio/sfx/player_death_1.ogg.import
+[  12% ] savepack | Speichere Datei: res://.godot/imported/player_death_1.ogg-dc53208638bb23db02016a527f745f63.oggvorbisstr
+[  12% ] savepack | Speichere Datei: res://assets/audio/sfx/player_death_1.ogg.import
 [  13% ] savepack | Speichere Datei: res://.godot/imported/player_death_2.ogg-89acdd151897ffa98c947f940012b158.oggvorbisstr
 [  13% ] savepack | Speichere Datei: res://assets/audio/sfx/player_death_2.ogg.import
 [  13% ] savepack | Speichere Datei: res://.godot/imported/pumpkin_splat.ogg-304ba0e0e934ecbc1dff870c8ff04aee.oggvorbisstr
@@ -479,8 +320,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  13% ] savepack | Speichere Datei: res://assets/audio/sfx/secret_rain.wav.import
 [  13% ] savepack | Speichere Datei: res://.godot/imported/secret_vendor_vocal.mp3-fb9d7ddd3a01ec9069aeb9d5b164eda1.mp3str
 [  13% ] savepack | Speichere Datei: res://assets/audio/sfx/secret_vendor_vocal.mp3.import
-[  14% ] savepack | Speichere Datei: res://.godot/imported/Sentinel_Tower.mp3-c7660531b894654198ebdba5b02079e6.mp3str
-[  14% ] savepack | Speichere Datei: res://assets/audio/sfx/Sentinel_Tower.mp3.import
+[  13% ] savepack | Speichere Datei: res://.godot/imported/Sentinel_Tower.mp3-c7660531b894654198ebdba5b02079e6.mp3str
+[  13% ] savepack | Speichere Datei: res://assets/audio/sfx/Sentinel_Tower.mp3.import
 [  14% ] savepack | Speichere Datei: res://.godot/imported/shotgun.mp3-106c634419b13f1a3ea0c9c8f465d290.mp3str
 [  14% ] savepack | Speichere Datei: res://assets/audio/sfx/shotgun.mp3.import
 [  14% ] savepack | Speichere Datei: res://.godot/imported/smg.mp3-35f0a9e2d5ca92acb96c4597dfc20272.mp3str
@@ -503,8 +344,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  14% ] savepack | Speichere Datei: res://assets/audio/sfx/vendor_vocal_1.mp3.import
 [  14% ] savepack | Speichere Datei: res://.godot/imported/vendor_vocal_2.mp3-a89116e173ff339a76608129fee00a39.mp3str
 [  14% ] savepack | Speichere Datei: res://assets/audio/sfx/vendor_vocal_2.mp3.import
-[  15% ] savepack | Speichere Datei: res://.godot/imported/vendor_vocal_3.mp3-977b386b165ec79f3c045b051699355b.mp3str
-[  15% ] savepack | Speichere Datei: res://assets/audio/sfx/vendor_vocal_3.mp3.import
+[  14% ] savepack | Speichere Datei: res://.godot/imported/vendor_vocal_3.mp3-977b386b165ec79f3c045b051699355b.mp3str
+[  14% ] savepack | Speichere Datei: res://assets/audio/sfx/vendor_vocal_3.mp3.import
 [  15% ] savepack | Speichere Datei: res://.godot/imported/wave_start.mp3-d41ed4a8833b33c2052db38c54165365.mp3str
 [  15% ] savepack | Speichere Datei: res://assets/audio/sfx/wave_start.mp3.import
 [  15% ] savepack | Speichere Datei: res://.godot/imported/weapon_switch_1.ogg-1f18cb833a171a43e6d43d8ca626c702.oggvorbisstr
@@ -527,8 +368,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  15% ] savepack | Speichere Datei: res://assets/audio/sfx/zombie_2.mp3.import
 [  15% ] savepack | Speichere Datei: res://.godot/imported/zombie_3.mp3-bbb6f383a62d9d5945d415c03c95dea2.mp3str
 [  15% ] savepack | Speichere Datei: res://assets/audio/sfx/zombie_3.mp3.import
-[  16% ] savepack | Speichere Datei: res://.godot/imported/zombie_4.mp3-3fade4483c7a18bcf78c690f2a1800ee.mp3str
-[  16% ] savepack | Speichere Datei: res://assets/audio/sfx/zombie_4.mp3.import
+[  15% ] savepack | Speichere Datei: res://.godot/imported/zombie_4.mp3-3fade4483c7a18bcf78c690f2a1800ee.mp3str
+[  15% ] savepack | Speichere Datei: res://assets/audio/sfx/zombie_4.mp3.import
 [  16% ] savepack | Speichere Datei: res://.godot/imported/zombie_death_1.ogg-19426e47f91a4765c46d1d76911ae00a.oggvorbisstr
 [  16% ] savepack | Speichere Datei: res://assets/audio/sfx/zombie_death_1.ogg.import
 [  16% ] savepack | Speichere Datei: res://.godot/imported/zombie_death_2.ogg-aed0ee2b69dce8fe35ee1efc1598c194.oggvorbisstr
@@ -544,9 +385,9 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  16% ] savepack | Speichere Datei: res://.godot/imported/owl.wav-a7c7e6f2584c5c75124c5cd36d35d107.sample
 [  16% ] savepack | Speichere Datei: res://assets/cornfield/owl.wav.import
 [  16% ] savepack | Speichere Datei: res://assets/cornfield/owl_body.res
-[  17% ] savepack | Speichere Datei: res://assets/cornfield/owl_wing.res
-[  17% ] savepack | Speichere Datei: res://.godot/imported/raven.wav-4c628a94c396515a2c5d6324d1bd1a57.sample
-[  17% ] savepack | Speichere Datei: res://assets/cornfield/raven.wav.import
+[  16% ] savepack | Speichere Datei: res://assets/cornfield/owl_wing.res
+[  16% ] savepack | Speichere Datei: res://.godot/imported/raven.wav-4c628a94c396515a2c5d6324d1bd1a57.sample
+[  16% ] savepack | Speichere Datei: res://assets/cornfield/raven.wav.import
 [  17% ] savepack | Speichere Datei: res://assets/cornfield/raven_body.res
 [  17% ] savepack | Speichere Datei: res://assets/cornfield/raven_wing.res
 [  17% ] savepack | Speichere Datei: res://assets/cornfield/scarecrow.res
@@ -562,10 +403,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  17% ] savepack | Speichere Datei: res://assets/models/ak47_1.webp.import
 [  17% ] savepack | Speichere Datei: res://.godot/imported/ak47_2.webp-a3dcc63eac4ecfc685e76f8cc1153395.ctex
 [  17% ] savepack | Speichere Datei: res://assets/models/ak47_2.webp.import
-[  18% ] savepack | Speichere Datei: res://.godot/imported/ak47_3.webp-392f3844f3035b4c3d6e02d1c366c34a.ctex
-[  18% ] savepack | Speichere Datei: res://assets/models/ak47_3.webp.import
-[  18% ] savepack | Speichere Datei: res://.godot/imported/ammo_crate.glb-e9d4e52a3aa5cc3a7fc9d84692971f62.scn
-[  18% ] savepack | Speichere Datei: res://assets/models/ammo_crate.glb.import
+[  17% ] savepack | Speichere Datei: res://.godot/imported/ak47_3.webp-392f3844f3035b4c3d6e02d1c366c34a.ctex
+[  17% ] savepack | Speichere Datei: res://assets/models/ak47_3.webp.import
+[  17% ] savepack | Speichere Datei: res://.godot/imported/ammo_crate.glb-e9d4e52a3aa5cc3a7fc9d84692971f62.scn
+[  17% ] savepack | Speichere Datei: res://assets/models/ammo_crate.glb.import
 [  18% ] savepack | Speichere Datei: res://.godot/imported/ammo_crate_0.webp-f8eeee8ef06defff4e5d252992e7387c.s3tc.ctex
 [  18% ] savepack | Speichere Datei: res://assets/models/ammo_crate_0.webp.import
 [  18% ] savepack | Speichere Datei: res://.godot/imported/ammo_crate_1.webp-4b8872e78bcef956ab48cf82cff0821e.s3tc.ctex
@@ -586,30 +427,48 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  18% ] savepack | Speichere Datei: res://assets/models/ammo_pack_3.webp.import
 [  18% ] savepack | Speichere Datei: res://.godot/imported/barricade.glb-e7bdccc3a57a0b09122dd725c249994b.scn
 [  18% ] savepack | Speichere Datei: res://assets/models/barricade.glb.import
-[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_0.webp-7ca0477c7d5480f450beef80897441a2.s3tc.ctex
-[  19% ] savepack | Speichere Datei: res://assets/models/barricade_0.webp.import
+[  18% ] savepack | Speichere Datei: res://.godot/imported/barricade_0.webp-7ca0477c7d5480f450beef80897441a2.s3tc.ctex
+[  18% ] savepack | Speichere Datei: res://assets/models/barricade_0.webp.import
+[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_iron.glb-1c7184ff918b0ff6f7752ad131ddf425.scn
+[  19% ] savepack | Speichere Datei: res://assets/models/barricade_iron.glb.import
+[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_iron_0.webp-efa95dd60b541691c00ba2774dc647bd.ctex
+[  19% ] savepack | Speichere Datei: res://assets/models/barricade_iron_0.webp.import
+[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_iron_1.webp-39b0eebb0c134cb3a348f7413599e920.ctex
+[  19% ] savepack | Speichere Datei: res://assets/models/barricade_iron_1.webp.import
+[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_iron_2.webp-d0e095655b1b4225a122269bce0127b4.ctex
+[  19% ] savepack | Speichere Datei: res://assets/models/barricade_iron_2.webp.import
+[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_iron_3.webp-df6a695f3a0ee41acf752228542cbb46.ctex
+[  19% ] savepack | Speichere Datei: res://assets/models/barricade_iron_3.webp.import
+[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_steel.glb-4134f6432e4ebbf38e9b30468ec74cd4.scn
+[  19% ] savepack | Speichere Datei: res://assets/models/barricade_steel.glb.import
+[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_steel_0.webp-5ae16dd5ad3b6b7eb24a9eedb3c4619b.ctex
+[  19% ] savepack | Speichere Datei: res://assets/models/barricade_steel_0.webp.import
+[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_steel_1.webp-52dffaf77db27c1dd6bb685f6bf18432.ctex
+[  19% ] savepack | Speichere Datei: res://assets/models/barricade_steel_1.webp.import
+[  19% ] savepack | Speichere Datei: res://.godot/imported/barricade_steel_2.webp-a0cd73f92e6c0b81378c1197ebf427d1.ctex
+[  19% ] savepack | Speichere Datei: res://assets/models/barricade_steel_2.webp.import
 [  19% ] savepack | Speichere Datei: res://.godot/imported/basket.glb-f04768503331713c1b06189f01c62bf5.scn
 [  19% ] savepack | Speichere Datei: res://assets/models/basket.glb.import
 [  19% ] savepack | Speichere Datei: res://.godot/imported/basket_0.webp-92584af7429a0f6db485b9ee518fba6e.s3tc.ctex
 [  19% ] savepack | Speichere Datei: res://assets/models/basket_0.webp.import
 [  19% ] savepack | Speichere Datei: res://.godot/imported/bench.glb-67c4dd1a3055ef614b82e5d1be7138f7.scn
 [  19% ] savepack | Speichere Datei: res://assets/models/bench.glb.import
-[  19% ] savepack | Speichere Datei: res://.godot/imported/bench_0.webp-7063461dab9fd08b1ace4edcf7881a8a.s3tc.ctex
-[  19% ] savepack | Speichere Datei: res://assets/models/bench_0.webp.import
-[  19% ] savepack | Speichere Datei: res://.godot/imported/blanket.glb-a3d3e5f1b6556db2fd16f748c16d332b.scn
-[  19% ] savepack | Speichere Datei: res://assets/models/blanket.glb.import
-[  19% ] savepack | Speichere Datei: res://.godot/imported/blanket_0.webp-ec5f11706c144a7e4fc28f93df732af6.s3tc.ctex
-[  19% ] savepack | Speichere Datei: res://assets/models/blanket_0.webp.import
-[  19% ] savepack | Speichere Datei: res://.godot/imported/breacher.glb-f1e1b767c41e75dcb25501210b1dbaa4.scn
-[  19% ] savepack | Speichere Datei: res://assets/models/breacher.glb.import
-[  19% ] savepack | Speichere Datei: res://.godot/imported/breacher_0.webp-fb404518fe0c198a892efb5f21582ba5.s3tc.ctex
-[  19% ] savepack | Speichere Datei: res://assets/models/breacher_0.webp.import
-[  19% ] savepack | Speichere Datei: res://.godot/imported/breacher_1.webp-ecc486eae9bdf104fba646543042c964.s3tc.ctex
-[  19% ] savepack | Speichere Datei: res://assets/models/breacher_1.webp.import
-[  19% ] savepack | Speichere Datei: res://.godot/imported/breacher_2.webp-d90a3f331a5667fcdc99e9200bba37b7.s3tc.ctex
-[  19% ] savepack | Speichere Datei: res://assets/models/breacher_2.webp.import
-[  19% ] savepack | Speichere Datei: res://.godot/imported/bush.glb-1587d984bb2980c95c9efb865b64ffca.scn
-[  19% ] savepack | Speichere Datei: res://assets/models/bush.glb.import
+[  20% ] savepack | Speichere Datei: res://.godot/imported/bench_0.webp-7063461dab9fd08b1ace4edcf7881a8a.s3tc.ctex
+[  20% ] savepack | Speichere Datei: res://assets/models/bench_0.webp.import
+[  20% ] savepack | Speichere Datei: res://.godot/imported/blanket.glb-a3d3e5f1b6556db2fd16f748c16d332b.scn
+[  20% ] savepack | Speichere Datei: res://assets/models/blanket.glb.import
+[  20% ] savepack | Speichere Datei: res://.godot/imported/blanket_0.webp-ec5f11706c144a7e4fc28f93df732af6.s3tc.ctex
+[  20% ] savepack | Speichere Datei: res://assets/models/blanket_0.webp.import
+[  20% ] savepack | Speichere Datei: res://.godot/imported/breacher.glb-f1e1b767c41e75dcb25501210b1dbaa4.scn
+[  20% ] savepack | Speichere Datei: res://assets/models/breacher.glb.import
+[  20% ] savepack | Speichere Datei: res://.godot/imported/breacher_0.webp-fb404518fe0c198a892efb5f21582ba5.s3tc.ctex
+[  20% ] savepack | Speichere Datei: res://assets/models/breacher_0.webp.import
+[  20% ] savepack | Speichere Datei: res://.godot/imported/breacher_1.webp-ecc486eae9bdf104fba646543042c964.s3tc.ctex
+[  20% ] savepack | Speichere Datei: res://assets/models/breacher_1.webp.import
+[  20% ] savepack | Speichere Datei: res://.godot/imported/breacher_2.webp-d90a3f331a5667fcdc99e9200bba37b7.s3tc.ctex
+[  20% ] savepack | Speichere Datei: res://assets/models/breacher_2.webp.import
+[  20% ] savepack | Speichere Datei: res://.godot/imported/bush.glb-1587d984bb2980c95c9efb865b64ffca.scn
+[  20% ] savepack | Speichere Datei: res://assets/models/bush.glb.import
 [  20% ] savepack | Speichere Datei: res://.godot/imported/bush_0.webp-9202846412bf6d3b4a4336ea446bdb4d.s3tc.ctex
 [  20% ] savepack | Speichere Datei: res://assets/models/bush_0.webp.import
 [  20% ] savepack | Speichere Datei: res://.godot/imported/bush_1.webp-5d22ad5717d754aa3163abbc3bed8bf4.s3tc.ctex
@@ -618,20 +477,20 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  20% ] savepack | Speichere Datei: res://assets/models/bush_2.webp.import
 [  20% ] savepack | Speichere Datei: res://.godot/imported/cabin.glb-dc2edaa76b3f5b6c0cd3fd2ea62c5f6e.scn
 [  20% ] savepack | Speichere Datei: res://assets/models/cabin.glb.import
-[  20% ] savepack | Speichere Datei: res://.godot/imported/cabin_0.webp-5800e2520cf87ccd18b1ee1c54da47ca.s3tc.ctex
-[  20% ] savepack | Speichere Datei: res://assets/models/cabin_0.webp.import
-[  20% ] savepack | Speichere Datei: res://.godot/imported/candle.glb-44993b96845affd892a8f55c8fe39c85.scn
-[  20% ] savepack | Speichere Datei: res://assets/models/candle.glb.import
-[  20% ] savepack | Speichere Datei: res://.godot/imported/candle_0.webp-387013a575fe586e0ec2cdefca27dea8.s3tc.ctex
-[  20% ] savepack | Speichere Datei: res://assets/models/candle_0.webp.import
-[  20% ] savepack | Speichere Datei: res://.godot/imported/car_estate.glb-f6178e37957163c079440be1913b5156.scn
-[  20% ] savepack | Speichere Datei: res://assets/models/car_estate.glb.import
-[  20% ] savepack | Speichere Datei: res://.godot/imported/car_estate_0.webp-bb443b003e23ece45d26bbca430dd60b.s3tc.ctex
-[  20% ] savepack | Speichere Datei: res://assets/models/car_estate_0.webp.import
-[  20% ] savepack | Speichere Datei: res://.godot/imported/car_estate_1.webp-2b8f9b88a687534f501ec43ce59dd9de.s3tc.ctex
-[  20% ] savepack | Speichere Datei: res://assets/models/car_estate_1.webp.import
-[  20% ] savepack | Speichere Datei: res://.godot/imported/car_estate_2.webp-86782f67058e074429407e0887041679.s3tc.ctex
-[  20% ] savepack | Speichere Datei: res://assets/models/car_estate_2.webp.import
+[  21% ] savepack | Speichere Datei: res://.godot/imported/cabin_0.webp-5800e2520cf87ccd18b1ee1c54da47ca.s3tc.ctex
+[  21% ] savepack | Speichere Datei: res://assets/models/cabin_0.webp.import
+[  21% ] savepack | Speichere Datei: res://.godot/imported/candle.glb-44993b96845affd892a8f55c8fe39c85.scn
+[  21% ] savepack | Speichere Datei: res://assets/models/candle.glb.import
+[  21% ] savepack | Speichere Datei: res://.godot/imported/candle_0.webp-387013a575fe586e0ec2cdefca27dea8.s3tc.ctex
+[  21% ] savepack | Speichere Datei: res://assets/models/candle_0.webp.import
+[  21% ] savepack | Speichere Datei: res://.godot/imported/car_estate.glb-f6178e37957163c079440be1913b5156.scn
+[  21% ] savepack | Speichere Datei: res://assets/models/car_estate.glb.import
+[  21% ] savepack | Speichere Datei: res://.godot/imported/car_estate_0.webp-bb443b003e23ece45d26bbca430dd60b.s3tc.ctex
+[  21% ] savepack | Speichere Datei: res://assets/models/car_estate_0.webp.import
+[  21% ] savepack | Speichere Datei: res://.godot/imported/car_estate_1.webp-2b8f9b88a687534f501ec43ce59dd9de.s3tc.ctex
+[  21% ] savepack | Speichere Datei: res://assets/models/car_estate_1.webp.import
+[  21% ] savepack | Speichere Datei: res://.godot/imported/car_estate_2.webp-86782f67058e074429407e0887041679.s3tc.ctex
+[  21% ] savepack | Speichere Datei: res://assets/models/car_estate_2.webp.import
 [  21% ] savepack | Speichere Datei: res://.godot/imported/car_estate_3.webp-9ba15bd842f66dcf1ea49c1dd52460db.s3tc.ctex
 [  21% ] savepack | Speichere Datei: res://assets/models/car_estate_3.webp.import
 [  21% ] savepack | Speichere Datei: res://.godot/imported/cash_bundle.glb-49fa86ac2155d8366b29634ba9f9466b.scn
@@ -642,20 +501,20 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  21% ] savepack | Speichere Datei: res://assets/models/cash_bundle_1.webp.import
 [  21% ] savepack | Speichere Datei: res://.godot/imported/cash_bundle_2.webp-b19376717f8185c263cc18c897089dbe.s3tc.ctex
 [  21% ] savepack | Speichere Datei: res://assets/models/cash_bundle_2.webp.import
-[  21% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg.glb-d4fdcf670495093cc14f740f6dd71907.scn
-[  21% ] savepack | Speichere Datei: res://assets/models/cryo_smg.glb.import
-[  21% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg_0.webp-17ea2454e2570790d4e2510972915a40.s3tc.ctex
-[  21% ] savepack | Speichere Datei: res://assets/models/cryo_smg_0.webp.import
-[  21% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg_1.webp-31b246c7382eb270b20e90534c992607.s3tc.ctex
-[  21% ] savepack | Speichere Datei: res://assets/models/cryo_smg_1.webp.import
-[  21% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg_2.webp-f12f146a39b226c001e95b6a573f28bb.s3tc.ctex
-[  21% ] savepack | Speichere Datei: res://assets/models/cryo_smg_2.webp.import
-[  21% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg_3.webp-7fb5d783cc2c47b91c19b87960a9ee85.s3tc.ctex
-[  21% ] savepack | Speichere Datei: res://assets/models/cryo_smg_3.webp.import
-[  21% ] savepack | Speichere Datei: res://.godot/imported/deagle.glb-7bcdd497aa1f192ed20a0994557bd877.scn
-[  21% ] savepack | Speichere Datei: res://assets/models/deagle.glb.import
-[  21% ] savepack | Speichere Datei: res://.godot/imported/deagle_0.webp-00e9e19c3f0cfe729bbba5f850578036.s3tc.ctex
-[  21% ] savepack | Speichere Datei: res://assets/models/deagle_0.webp.import
+[  22% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg.glb-d4fdcf670495093cc14f740f6dd71907.scn
+[  22% ] savepack | Speichere Datei: res://assets/models/cryo_smg.glb.import
+[  22% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg_0.webp-17ea2454e2570790d4e2510972915a40.s3tc.ctex
+[  22% ] savepack | Speichere Datei: res://assets/models/cryo_smg_0.webp.import
+[  22% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg_1.webp-31b246c7382eb270b20e90534c992607.s3tc.ctex
+[  22% ] savepack | Speichere Datei: res://assets/models/cryo_smg_1.webp.import
+[  22% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg_2.webp-f12f146a39b226c001e95b6a573f28bb.s3tc.ctex
+[  22% ] savepack | Speichere Datei: res://assets/models/cryo_smg_2.webp.import
+[  22% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg_3.webp-7fb5d783cc2c47b91c19b87960a9ee85.s3tc.ctex
+[  22% ] savepack | Speichere Datei: res://assets/models/cryo_smg_3.webp.import
+[  22% ] savepack | Speichere Datei: res://.godot/imported/deagle.glb-7bcdd497aa1f192ed20a0994557bd877.scn
+[  22% ] savepack | Speichere Datei: res://assets/models/deagle.glb.import
+[  22% ] savepack | Speichere Datei: res://.godot/imported/deagle_0.webp-00e9e19c3f0cfe729bbba5f850578036.s3tc.ctex
+[  22% ] savepack | Speichere Datei: res://assets/models/deagle_0.webp.import
 [  22% ] savepack | Speichere Datei: res://.godot/imported/deagle_1.webp-ae140b25fee593488750c93638206b38.s3tc.ctex
 [  22% ] savepack | Speichere Datei: res://assets/models/deagle_1.webp.import
 [  22% ] savepack | Speichere Datei: res://.godot/imported/deagle_2.webp-466f68dd48fd0a1703c5a240cf3ef377.s3tc.ctex
@@ -666,20 +525,20 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  22% ] savepack | Speichere Datei: res://assets/models/deer_0.webp.import
 [  22% ] savepack | Speichere Datei: res://.godot/imported/deer_feeder.glb-5582d14bdca87ffbf858f28e164eefde.scn
 [  22% ] savepack | Speichere Datei: res://assets/models/deer_feeder.glb.import
-[  22% ] savepack | Speichere Datei: res://.godot/imported/deer_feeder_0.webp-51123c97072cdcff31d99a7d594b8cc0.s3tc.ctex
-[  22% ] savepack | Speichere Datei: res://assets/models/deer_feeder_0.webp.import
-[  22% ] savepack | Speichere Datei: res://.godot/imported/deer_feeder_1.webp-54a5386030395472d93bb9ef9bb54fdd.s3tc.ctex
-[  22% ] savepack | Speichere Datei: res://assets/models/deer_feeder_1.webp.import
-[  22% ] savepack | Speichere Datei: res://.godot/imported/deer_feeder_2.webp-8c4af1abe5b47a59735440508abbd1c4.s3tc.ctex
-[  22% ] savepack | Speichere Datei: res://assets/models/deer_feeder_2.webp.import
-[  22% ] savepack | Speichere Datei: res://.godot/imported/deer_feeder_3.webp-6c6ed519b9f8f8eb520a56a165b91375.s3tc.ctex
-[  22% ] savepack | Speichere Datei: res://assets/models/deer_feeder_3.webp.import
-[  22% ] savepack | Speichere Datei: res://.godot/imported/drone_scout.glb-caa6c529b79bb20d9163af349332d79d.scn
-[  22% ] savepack | Speichere Datei: res://assets/models/drone_scout.glb.import
-[  22% ] savepack | Speichere Datei: res://.godot/imported/drone_scout_0.webp-5b7f2af01749a5f41a950b3d8aa849d6.ctex
-[  22% ] savepack | Speichere Datei: res://assets/models/drone_scout_0.webp.import
-[  22% ] savepack | Speichere Datei: res://.godot/imported/drone_scout_1.webp-11ff254f1011ff6aee9961edaa0ba509.ctex
-[  22% ] savepack | Speichere Datei: res://assets/models/drone_scout_1.webp.import
+[  23% ] savepack | Speichere Datei: res://.godot/imported/deer_feeder_0.webp-51123c97072cdcff31d99a7d594b8cc0.s3tc.ctex
+[  23% ] savepack | Speichere Datei: res://assets/models/deer_feeder_0.webp.import
+[  23% ] savepack | Speichere Datei: res://.godot/imported/deer_feeder_1.webp-54a5386030395472d93bb9ef9bb54fdd.s3tc.ctex
+[  23% ] savepack | Speichere Datei: res://assets/models/deer_feeder_1.webp.import
+[  23% ] savepack | Speichere Datei: res://.godot/imported/deer_feeder_2.webp-8c4af1abe5b47a59735440508abbd1c4.s3tc.ctex
+[  23% ] savepack | Speichere Datei: res://assets/models/deer_feeder_2.webp.import
+[  23% ] savepack | Speichere Datei: res://.godot/imported/deer_feeder_3.webp-6c6ed519b9f8f8eb520a56a165b91375.s3tc.ctex
+[  23% ] savepack | Speichere Datei: res://assets/models/deer_feeder_3.webp.import
+[  23% ] savepack | Speichere Datei: res://.godot/imported/drone_scout.glb-caa6c529b79bb20d9163af349332d79d.scn
+[  23% ] savepack | Speichere Datei: res://assets/models/drone_scout.glb.import
+[  23% ] savepack | Speichere Datei: res://.godot/imported/drone_scout_0.webp-5b7f2af01749a5f41a950b3d8aa849d6.ctex
+[  23% ] savepack | Speichere Datei: res://assets/models/drone_scout_0.webp.import
+[  23% ] savepack | Speichere Datei: res://.godot/imported/drone_scout_1.webp-11ff254f1011ff6aee9961edaa0ba509.ctex
+[  23% ] savepack | Speichere Datei: res://assets/models/drone_scout_1.webp.import
 [  23% ] savepack | Speichere Datei: res://.godot/imported/drone_scout_2.webp-83638fed1e0222bbd467b5ddc536bd16.ctex
 [  23% ] savepack | Speichere Datei: res://assets/models/drone_scout_2.webp.import
 [  23% ] savepack | Speichere Datei: res://.godot/imported/drone_tempest.glb-28a20a8f0090681024f6c2d226be4854.scn
@@ -690,20 +549,20 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  23% ] savepack | Speichere Datei: res://assets/models/drone_tempest_1.webp.import
 [  23% ] savepack | Speichere Datei: res://.godot/imported/drone_tempest_2.webp-9c9978a0918e741c334e11a1f47d370e.ctex
 [  23% ] savepack | Speichere Datei: res://assets/models/drone_tempest_2.webp.import
-[  23% ] savepack | Speichere Datei: res://.godot/imported/drone_viper.glb-4b7093373a7e1a88653e933c89475f87.scn
-[  23% ] savepack | Speichere Datei: res://assets/models/drone_viper.glb.import
-[  23% ] savepack | Speichere Datei: res://.godot/imported/drone_viper_0.webp-4e0cddb6ac13ea4d07e23377a26f9689.ctex
-[  23% ] savepack | Speichere Datei: res://assets/models/drone_viper_0.webp.import
-[  23% ] savepack | Speichere Datei: res://.godot/imported/drone_viper_1.webp-78495f05f0b9df4fec8d03cc9366879c.ctex
-[  23% ] savepack | Speichere Datei: res://assets/models/drone_viper_1.webp.import
-[  23% ] savepack | Speichere Datei: res://.godot/imported/drone_viper_2.webp-31986de7d58100e4483c68c7dd6b2cda.ctex
-[  23% ] savepack | Speichere Datei: res://assets/models/drone_viper_2.webp.import
-[  23% ] savepack | Speichere Datei: res://.godot/imported/fallen_log.glb-a9666d7c03a8ab6b81b45806edfbd1c2.scn
-[  23% ] savepack | Speichere Datei: res://assets/models/fallen_log.glb.import
-[  23% ] savepack | Speichere Datei: res://.godot/imported/fallen_log_0.webp-f06a07072176359515e950a8eba7876f.s3tc.ctex
-[  23% ] savepack | Speichere Datei: res://assets/models/fallen_log_0.webp.import
-[  23% ] savepack | Speichere Datei: res://.godot/imported/fallen_log_1.webp-a2876c6c3dfe35b56f12c5d65cfc1d0e.s3tc.ctex
-[  23% ] savepack | Speichere Datei: res://assets/models/fallen_log_1.webp.import
+[  24% ] savepack | Speichere Datei: res://.godot/imported/drone_viper.glb-4b7093373a7e1a88653e933c89475f87.scn
+[  24% ] savepack | Speichere Datei: res://assets/models/drone_viper.glb.import
+[  24% ] savepack | Speichere Datei: res://.godot/imported/drone_viper_0.webp-4e0cddb6ac13ea4d07e23377a26f9689.ctex
+[  24% ] savepack | Speichere Datei: res://assets/models/drone_viper_0.webp.import
+[  24% ] savepack | Speichere Datei: res://.godot/imported/drone_viper_1.webp-78495f05f0b9df4fec8d03cc9366879c.ctex
+[  24% ] savepack | Speichere Datei: res://assets/models/drone_viper_1.webp.import
+[  24% ] savepack | Speichere Datei: res://.godot/imported/drone_viper_2.webp-31986de7d58100e4483c68c7dd6b2cda.ctex
+[  24% ] savepack | Speichere Datei: res://assets/models/drone_viper_2.webp.import
+[  24% ] savepack | Speichere Datei: res://.godot/imported/fallen_log.glb-a9666d7c03a8ab6b81b45806edfbd1c2.scn
+[  24% ] savepack | Speichere Datei: res://assets/models/fallen_log.glb.import
+[  24% ] savepack | Speichere Datei: res://.godot/imported/fallen_log_0.webp-f06a07072176359515e950a8eba7876f.s3tc.ctex
+[  24% ] savepack | Speichere Datei: res://assets/models/fallen_log_0.webp.import
+[  24% ] savepack | Speichere Datei: res://.godot/imported/fallen_log_1.webp-a2876c6c3dfe35b56f12c5d65cfc1d0e.s3tc.ctex
+[  24% ] savepack | Speichere Datei: res://assets/models/fallen_log_1.webp.import
 [  24% ] savepack | Speichere Datei: res://.godot/imported/fallen_log_2.webp-36a85bfa0e401b9e76d4759fb301c35a.s3tc.ctex
 [  24% ] savepack | Speichere Datei: res://assets/models/fallen_log_2.webp.import
 [  24% ] savepack | Speichere Datei: res://.godot/imported/fallen_log_3.webp-268075ed6b339c6c9dcf1c2d58e55bcb.s3tc.ctex
@@ -712,20 +571,20 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  24% ] savepack | Speichere Datei: res://assets/models/fence_post_wire.glb.import
 [  24% ] savepack | Speichere Datei: res://.godot/imported/fence_post_wire_0.webp-a0abdd5bfe47d07aeb2b7ec4592a9a77.s3tc.ctex
 [  24% ] savepack | Speichere Datei: res://assets/models/fence_post_wire_0.webp.import
-[  24% ] savepack | Speichere Datei: res://.godot/imported/fence_post_wire_1.webp-4e1f8fefcc3d563ebc4722cf17e5fe27.s3tc.ctex
-[  24% ] savepack | Speichere Datei: res://assets/models/fence_post_wire_1.webp.import
-[  24% ] savepack | Speichere Datei: res://.godot/imported/fence_post_wire_2.webp-cde254bd66d4853b7da8f0b054e24895.s3tc.ctex
-[  24% ] savepack | Speichere Datei: res://assets/models/fence_post_wire_2.webp.import
-[  24% ] savepack | Speichere Datei: res://.godot/imported/fence_post_wire_3.webp-e2059d9e6f77013899dc8611b4d7c7e7.s3tc.ctex
-[  24% ] savepack | Speichere Datei: res://assets/models/fence_post_wire_3.webp.import
-[  24% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_40.glb-5a396cd309b2a4790b8bf63727a0f2d7.scn
-[  24% ] savepack | Speichere Datei: res://assets/models/firework_battery_40.glb.import
-[  24% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_40_0.jpg-a6d152bc99f9bb9249b3b05cfc4d4753.ctex
-[  24% ] savepack | Speichere Datei: res://assets/models/firework_battery_40_0.jpg.import
-[  24% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_40_1.jpg-b9e3c86eaaf483e22b89c6e215440b80.ctex
-[  24% ] savepack | Speichere Datei: res://assets/models/firework_battery_40_1.jpg.import
-[  24% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_40_2.jpg-b1edd8df87d5f39cecb0d677dd390871.ctex
-[  24% ] savepack | Speichere Datei: res://assets/models/firework_battery_40_2.jpg.import
+[  25% ] savepack | Speichere Datei: res://.godot/imported/fence_post_wire_1.webp-4e1f8fefcc3d563ebc4722cf17e5fe27.s3tc.ctex
+[  25% ] savepack | Speichere Datei: res://assets/models/fence_post_wire_1.webp.import
+[  25% ] savepack | Speichere Datei: res://.godot/imported/fence_post_wire_2.webp-cde254bd66d4853b7da8f0b054e24895.s3tc.ctex
+[  25% ] savepack | Speichere Datei: res://assets/models/fence_post_wire_2.webp.import
+[  25% ] savepack | Speichere Datei: res://.godot/imported/fence_post_wire_3.webp-e2059d9e6f77013899dc8611b4d7c7e7.s3tc.ctex
+[  25% ] savepack | Speichere Datei: res://assets/models/fence_post_wire_3.webp.import
+[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_40.glb-5a396cd309b2a4790b8bf63727a0f2d7.scn
+[  25% ] savepack | Speichere Datei: res://assets/models/firework_battery_40.glb.import
+[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_40_0.jpg-a6d152bc99f9bb9249b3b05cfc4d4753.ctex
+[  25% ] savepack | Speichere Datei: res://assets/models/firework_battery_40_0.jpg.import
+[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_40_1.jpg-b9e3c86eaaf483e22b89c6e215440b80.ctex
+[  25% ] savepack | Speichere Datei: res://assets/models/firework_battery_40_1.jpg.import
+[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_40_2.jpg-b1edd8df87d5f39cecb0d677dd390871.ctex
+[  25% ] savepack | Speichere Datei: res://assets/models/firework_battery_40_2.jpg.import
 [  25% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_90.glb-57b0b45464b77f46047691ff67ec32d9.scn
 [  25% ] savepack | Speichere Datei: res://assets/models/firework_battery_90.glb.import
 [  25% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_90_0.jpg-03ef52740e90bfb15f91686abd5e5e22.ctex
@@ -736,20 +595,20 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  25% ] savepack | Speichere Datei: res://assets/models/firework_battery_90_2.jpg.import
 [  25% ] savepack | Speichere Datei: res://.godot/imported/firework_cracker.glb-9eee8d249294401f6efd84cbaabe4868.scn
 [  25% ] savepack | Speichere Datei: res://assets/models/firework_cracker.glb.import
-[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_cracker_0.webp-4b8c55a95c074ba862c40a18f9ed948a.s3tc.ctex
-[  25% ] savepack | Speichere Datei: res://assets/models/firework_cracker_0.webp.import
-[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_cracker_1.webp-37a6e2913bf4c24c9e038d209f647ce6.s3tc.ctex
-[  25% ] savepack | Speichere Datei: res://assets/models/firework_cracker_1.webp.import
-[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_cracker_2.webp-702fb7def23e6a1cee4c9d839f5a38e2.s3tc.ctex
-[  25% ] savepack | Speichere Datei: res://assets/models/firework_cracker_2.webp.import
-[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_rocket.glb-0d93996949f00d14e43da7f8922e21d3.scn
-[  25% ] savepack | Speichere Datei: res://assets/models/firework_rocket.glb.import
-[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_rocket_0.webp-2bb8467c1ba4640b7adc92609ace8fbb.s3tc.ctex
-[  25% ] savepack | Speichere Datei: res://assets/models/firework_rocket_0.webp.import
-[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_rocket_1.webp-68c3a74c7375e6036627c2c81eeb595d.s3tc.ctex
-[  25% ] savepack | Speichere Datei: res://assets/models/firework_rocket_1.webp.import
-[  25% ] savepack | Speichere Datei: res://.godot/imported/firework_rocket_2.webp-76b687a8ce971cc9b738a4943cf0d7ae.s3tc.ctex
-[  25% ] savepack | Speichere Datei: res://assets/models/firework_rocket_2.webp.import
+[  26% ] savepack | Speichere Datei: res://.godot/imported/firework_cracker_0.webp-4b8c55a95c074ba862c40a18f9ed948a.s3tc.ctex
+[  26% ] savepack | Speichere Datei: res://assets/models/firework_cracker_0.webp.import
+[  26% ] savepack | Speichere Datei: res://.godot/imported/firework_cracker_1.webp-37a6e2913bf4c24c9e038d209f647ce6.s3tc.ctex
+[  26% ] savepack | Speichere Datei: res://assets/models/firework_cracker_1.webp.import
+[  26% ] savepack | Speichere Datei: res://.godot/imported/firework_cracker_2.webp-702fb7def23e6a1cee4c9d839f5a38e2.s3tc.ctex
+[  26% ] savepack | Speichere Datei: res://assets/models/firework_cracker_2.webp.import
+[  26% ] savepack | Speichere Datei: res://.godot/imported/firework_rocket.glb-0d93996949f00d14e43da7f8922e21d3.scn
+[  26% ] savepack | Speichere Datei: res://assets/models/firework_rocket.glb.import
+[  26% ] savepack | Speichere Datei: res://.godot/imported/firework_rocket_0.webp-2bb8467c1ba4640b7adc92609ace8fbb.s3tc.ctex
+[  26% ] savepack | Speichere Datei: res://assets/models/firework_rocket_0.webp.import
+[  26% ] savepack | Speichere Datei: res://.godot/imported/firework_rocket_1.webp-68c3a74c7375e6036627c2c81eeb595d.s3tc.ctex
+[  26% ] savepack | Speichere Datei: res://assets/models/firework_rocket_1.webp.import
+[  26% ] savepack | Speichere Datei: res://.godot/imported/firework_rocket_2.webp-76b687a8ce971cc9b738a4943cf0d7ae.s3tc.ctex
+[  26% ] savepack | Speichere Datei: res://assets/models/firework_rocket_2.webp.import
 [  26% ] savepack | Speichere Datei: res://.godot/imported/fire_pit.glb-cd2edab3d0ac5731a92c70f3ff94bc6a.scn
 [  26% ] savepack | Speichere Datei: res://assets/models/fire_pit.glb.import
 [  26% ] savepack | Speichere Datei: res://.godot/imported/fire_pit_0.webp-fe36fd04f253ca260eff4b93f20cb524.s3tc.ctex
@@ -760,20 +619,20 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  26% ] savepack | Speichere Datei: res://assets/models/fire_pit_2.webp.import
 [  26% ] savepack | Speichere Datei: res://.godot/imported/fire_pit_3.webp-28ee5ed87cb346b5ff5eb6c823b5ac8d.s3tc.ctex
 [  26% ] savepack | Speichere Datei: res://assets/models/fire_pit_3.webp.import
-[  26% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol.glb-65ae93150a13239ae5ba7a9a57bfd5bf.scn
-[  26% ] savepack | Speichere Datei: res://assets/models/flare_pistol.glb.import
-[  26% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol_0.webp-0ba78c5430ef12ce1e6680bf0ebf6fe5.s3tc.ctex
-[  26% ] savepack | Speichere Datei: res://assets/models/flare_pistol_0.webp.import
-[  26% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol_1.webp-b95887bd88b1dbf8c3487abfd9c9025a.s3tc.ctex
-[  26% ] savepack | Speichere Datei: res://assets/models/flare_pistol_1.webp.import
-[  26% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol_2.webp-80637a7c7e6b44f01a7e60c558dd6377.s3tc.ctex
-[  26% ] savepack | Speichere Datei: res://assets/models/flare_pistol_2.webp.import
-[  26% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol_3.webp-b80d1509cebcc4c75e944c2316f518b7.s3tc.ctex
-[  26% ] savepack | Speichere Datei: res://assets/models/flare_pistol_3.webp.import
-[  26% ] savepack | Speichere Datei: res://.godot/imported/forest_gravel_cluster.glb-5e97df65ccf69924ee7d025d8ebcf107.scn
-[  26% ] savepack | Speichere Datei: res://assets/models/forest_gravel_cluster.glb.import
-[  26% ] savepack | Speichere Datei: res://.godot/imported/forest_gravel_cluster_0.jpg-ababadd5a43fe2ce3da7087fb080734d.s3tc.ctex
-[  26% ] savepack | Speichere Datei: res://assets/models/forest_gravel_cluster_0.jpg.import
+[  27% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol.glb-65ae93150a13239ae5ba7a9a57bfd5bf.scn
+[  27% ] savepack | Speichere Datei: res://assets/models/flare_pistol.glb.import
+[  27% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol_0.webp-0ba78c5430ef12ce1e6680bf0ebf6fe5.s3tc.ctex
+[  27% ] savepack | Speichere Datei: res://assets/models/flare_pistol_0.webp.import
+[  27% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol_1.webp-b95887bd88b1dbf8c3487abfd9c9025a.s3tc.ctex
+[  27% ] savepack | Speichere Datei: res://assets/models/flare_pistol_1.webp.import
+[  27% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol_2.webp-80637a7c7e6b44f01a7e60c558dd6377.s3tc.ctex
+[  27% ] savepack | Speichere Datei: res://assets/models/flare_pistol_2.webp.import
+[  27% ] savepack | Speichere Datei: res://.godot/imported/flare_pistol_3.webp-b80d1509cebcc4c75e944c2316f518b7.s3tc.ctex
+[  27% ] savepack | Speichere Datei: res://assets/models/flare_pistol_3.webp.import
+[  27% ] savepack | Speichere Datei: res://.godot/imported/forest_gravel_cluster.glb-5e97df65ccf69924ee7d025d8ebcf107.scn
+[  27% ] savepack | Speichere Datei: res://assets/models/forest_gravel_cluster.glb.import
+[  27% ] savepack | Speichere Datei: res://.godot/imported/forest_gravel_cluster_0.jpg-ababadd5a43fe2ce3da7087fb080734d.s3tc.ctex
+[  27% ] savepack | Speichere Datei: res://assets/models/forest_gravel_cluster_0.jpg.import
 [  27% ] savepack | Speichere Datei: res://.godot/imported/forest_gravel_cluster_1.jpg-2f27c9e1f92bd56ffe95da191636f5dc.s3tc.ctex
 [  27% ] savepack | Speichere Datei: res://assets/models/forest_gravel_cluster_1.jpg.import
 [  27% ] savepack | Speichere Datei: res://.godot/imported/forest_gravel_cluster_2.jpg-ac02173dd3adc5e0289b26543a81c83f.s3tc.ctex
@@ -784,18 +643,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  27% ] savepack | Speichere Datei: res://assets/models/forest_key_0.webp.import
 [  27% ] savepack | Speichere Datei: res://.godot/imported/forest_key_1.webp-1fa1b28c734ad5566c760f0b32f3c8f2.s3tc.ctex
 [  27% ] savepack | Speichere Datei: res://assets/models/forest_key_1.webp.import
-[  27% ] savepack | Speichere Datei: res://.godot/imported/forest_key_2.webp-52c4eae45aac7434fec1bd7a883d49e3.s3tc.ctex
-[  27% ] savepack | Speichere Datei: res://assets/models/forest_key_2.webp.import
-[  27% ] savepack | Speichere Datei: res://.godot/imported/goa_bar.glb-aef6ea246995de2ae206ae7fbf2fb2cc.scn
-[  27% ] savepack | Speichere Datei: res://assets/models/goa_bar.glb.import
-[  27% ] savepack | Speichere Datei: res://.godot/imported/goa_bar_0.jpg-ef1c3fbb011d5b0ca091425495ae3052.s3tc.ctex
-[  27% ] savepack | Speichere Datei: res://assets/models/goa_bar_0.jpg.import
-[  27% ] savepack | Speichere Datei: res://.godot/imported/goa_bar_1.jpg-f6e8aca1f9f9ff1ddf57ef5f69512c19.s3tc.ctex
-[  27% ] savepack | Speichere Datei: res://assets/models/goa_bar_1.jpg.import
-[  27% ] savepack | Speichere Datei: res://.godot/imported/goa_bar_2.jpg-46690701cd3df0c730295300328d5d35.s3tc.ctex
-[  27% ] savepack | Speichere Datei: res://assets/models/goa_bar_2.jpg.import
-[  27% ] savepack | Speichere Datei: res://.godot/imported/goa_stage.glb-c8eebc53190da39316e453056cbc3665.scn
-[  27% ] savepack | Speichere Datei: res://assets/models/goa_stage.glb.import
+[  28% ] savepack | Speichere Datei: res://.godot/imported/forest_key_2.webp-52c4eae45aac7434fec1bd7a883d49e3.s3tc.ctex
+[  28% ] savepack | Speichere Datei: res://assets/models/forest_key_2.webp.import
+[  28% ] savepack | Speichere Datei: res://.godot/imported/goa_bar.glb-aef6ea246995de2ae206ae7fbf2fb2cc.scn
+[  28% ] savepack | Speichere Datei: res://assets/models/goa_bar.glb.import
+[  28% ] savepack | Speichere Datei: res://.godot/imported/goa_bar_0.jpg-ef1c3fbb011d5b0ca091425495ae3052.s3tc.ctex
+[  28% ] savepack | Speichere Datei: res://assets/models/goa_bar_0.jpg.import
+[  28% ] savepack | Speichere Datei: res://.godot/imported/goa_bar_1.jpg-f6e8aca1f9f9ff1ddf57ef5f69512c19.s3tc.ctex
+[  28% ] savepack | Speichere Datei: res://assets/models/goa_bar_1.jpg.import
+[  28% ] savepack | Speichere Datei: res://.godot/imported/goa_bar_2.jpg-46690701cd3df0c730295300328d5d35.s3tc.ctex
+[  28% ] savepack | Speichere Datei: res://assets/models/goa_bar_2.jpg.import
+[  28% ] savepack | Speichere Datei: res://.godot/imported/goa_stage.glb-c8eebc53190da39316e453056cbc3665.scn
+[  28% ] savepack | Speichere Datei: res://assets/models/goa_stage.glb.import
 [  28% ] savepack | Speichere Datei: res://.godot/imported/goa_stage_0.jpg-9ab0aef218d44136b2ffa51f83c97a10.s3tc.ctex
 [  28% ] savepack | Speichere Datei: res://assets/models/goa_stage_0.jpg.import
 [  28% ] savepack | Speichere Datei: res://.godot/imported/goa_stage_1.jpg-d94fabe35696dc83d15b8c27d19d5c4f.s3tc.ctex
@@ -808,18 +667,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  28% ] savepack | Speichere Datei: res://assets/models/goa_totem_0.jpg.import
 [  28% ] savepack | Speichere Datei: res://.godot/imported/goa_totem_1.jpg-c7b711845f405b00f44090a75040c32e.s3tc.ctex
 [  28% ] savepack | Speichere Datei: res://assets/models/goa_totem_1.jpg.import
-[  28% ] savepack | Speichere Datei: res://.godot/imported/goa_totem_2.jpg-f1e013c21cb1387cc3bfde2dbb9dec57.s3tc.ctex
-[  28% ] savepack | Speichere Datei: res://assets/models/goa_totem_2.jpg.import
-[  28% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon.glb-09c3440a8753683f2ffa066ac2b1c32a.scn
-[  28% ] savepack | Speichere Datei: res://assets/models/graviton_cannon.glb.import
-[  28% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon_0.webp-bc81b4c4c246817532c898ec20a5ad1d.s3tc.ctex
-[  28% ] savepack | Speichere Datei: res://assets/models/graviton_cannon_0.webp.import
-[  28% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon_1.webp-e1f79e0d47ab437956fa580135e12422.s3tc.ctex
-[  28% ] savepack | Speichere Datei: res://assets/models/graviton_cannon_1.webp.import
-[  28% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon_2.webp-e3209b4e09c5c697d01e0e462eca4c49.s3tc.ctex
-[  28% ] savepack | Speichere Datei: res://assets/models/graviton_cannon_2.webp.import
-[  28% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon_3.webp-28f15338159a833abe48ea492680bf41.s3tc.ctex
-[  28% ] savepack | Speichere Datei: res://assets/models/graviton_cannon_3.webp.import
+[  29% ] savepack | Speichere Datei: res://.godot/imported/goa_totem_2.jpg-f1e013c21cb1387cc3bfde2dbb9dec57.s3tc.ctex
+[  29% ] savepack | Speichere Datei: res://assets/models/goa_totem_2.jpg.import
+[  29% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon.glb-09c3440a8753683f2ffa066ac2b1c32a.scn
+[  29% ] savepack | Speichere Datei: res://assets/models/graviton_cannon.glb.import
+[  29% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon_0.webp-bc81b4c4c246817532c898ec20a5ad1d.s3tc.ctex
+[  29% ] savepack | Speichere Datei: res://assets/models/graviton_cannon_0.webp.import
+[  29% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon_1.webp-e1f79e0d47ab437956fa580135e12422.s3tc.ctex
+[  29% ] savepack | Speichere Datei: res://assets/models/graviton_cannon_1.webp.import
+[  29% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon_2.webp-e3209b4e09c5c697d01e0e462eca4c49.s3tc.ctex
+[  29% ] savepack | Speichere Datei: res://assets/models/graviton_cannon_2.webp.import
+[  29% ] savepack | Speichere Datei: res://.godot/imported/graviton_cannon_3.webp-28f15338159a833abe48ea492680bf41.s3tc.ctex
+[  29% ] savepack | Speichere Datei: res://assets/models/graviton_cannon_3.webp.import
 [  29% ] savepack | Speichere Datei: res://.godot/imported/grenade.glb-c800c3f8de0b0fa2f71f746f4257fb3e.scn
 [  29% ] savepack | Speichere Datei: res://assets/models/grenade.glb.import
 [  29% ] savepack | Speichere Datei: res://.godot/imported/grenade_0.webp-555419d766212aa11480b1aceb11aca2.s3tc.ctex
@@ -832,18 +691,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  29% ] savepack | Speichere Datei: res://assets/models/guidepost_1.webp.import
 [  29% ] savepack | Speichere Datei: res://.godot/imported/guidepost_2.webp-17a919dc5228ebfe2ba7263c71b95bc5.s3tc.ctex
 [  29% ] savepack | Speichere Datei: res://assets/models/guidepost_2.webp.import
-[  29% ] savepack | Speichere Datei: res://.godot/imported/guidepost_3.webp-b7cc70ca9e5a119f3656991d6b9d933b.s3tc.ctex
-[  29% ] savepack | Speichere Datei: res://assets/models/guidepost_3.webp.import
-[  29% ] savepack | Speichere Datei: res://.godot/imported/hatchet_real.glb-5dac2514c0dacc6074b0e63ffcbfe092.scn
-[  29% ] savepack | Speichere Datei: res://assets/models/hatchet_real.glb.import
-[  29% ] savepack | Speichere Datei: res://.godot/imported/hatchet_real_0.webp-e4e0ee794288d300a690160bdd7cedba.s3tc.ctex
-[  29% ] savepack | Speichere Datei: res://assets/models/hatchet_real_0.webp.import
-[  29% ] savepack | Speichere Datei: res://.godot/imported/hatchet_real_1.webp-24fdd4b01e2bd369607df24dff616b52.s3tc.ctex
-[  29% ] savepack | Speichere Datei: res://assets/models/hatchet_real_1.webp.import
-[  29% ] savepack | Speichere Datei: res://.godot/imported/hatchet_real_2.webp-b9c260463a724a2a692e123290a4b3d0.s3tc.ctex
-[  29% ] savepack | Speichere Datei: res://assets/models/hatchet_real_2.webp.import
-[  29% ] savepack | Speichere Datei: res://.godot/imported/hut_door_leaf.glb-616963f5d266dabdbf15209f5b9e62f0.scn
-[  29% ] savepack | Speichere Datei: res://assets/models/hut_door_leaf.glb.import
+[  30% ] savepack | Speichere Datei: res://.godot/imported/guidepost_3.webp-b7cc70ca9e5a119f3656991d6b9d933b.s3tc.ctex
+[  30% ] savepack | Speichere Datei: res://assets/models/guidepost_3.webp.import
+[  30% ] savepack | Speichere Datei: res://.godot/imported/hatchet_real.glb-5dac2514c0dacc6074b0e63ffcbfe092.scn
+[  30% ] savepack | Speichere Datei: res://assets/models/hatchet_real.glb.import
+[  30% ] savepack | Speichere Datei: res://.godot/imported/hatchet_real_0.webp-e4e0ee794288d300a690160bdd7cedba.s3tc.ctex
+[  30% ] savepack | Speichere Datei: res://assets/models/hatchet_real_0.webp.import
+[  30% ] savepack | Speichere Datei: res://.godot/imported/hatchet_real_1.webp-24fdd4b01e2bd369607df24dff616b52.s3tc.ctex
+[  30% ] savepack | Speichere Datei: res://assets/models/hatchet_real_1.webp.import
+[  30% ] savepack | Speichere Datei: res://.godot/imported/hatchet_real_2.webp-b9c260463a724a2a692e123290a4b3d0.s3tc.ctex
+[  30% ] savepack | Speichere Datei: res://assets/models/hatchet_real_2.webp.import
+[  30% ] savepack | Speichere Datei: res://.godot/imported/hut_door_leaf.glb-616963f5d266dabdbf15209f5b9e62f0.scn
+[  30% ] savepack | Speichere Datei: res://assets/models/hut_door_leaf.glb.import
 [  30% ] savepack | Speichere Datei: res://.godot/imported/hut_door_leaf_0.webp-4ef848df7616b4c43243dc6891d7d3b5.s3tc.ctex
 [  30% ] savepack | Speichere Datei: res://assets/models/hut_door_leaf_0.webp.import
 [  30% ] savepack | Speichere Datei: res://.godot/imported/hut_door_leaf_1.webp-62211499bcb5ca201f07a3382182716c.s3tc.ctex
@@ -854,20 +713,20 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  30% ] savepack | Speichere Datei: res://assets/models/info_board.glb.import
 [  30% ] savepack | Speichere Datei: res://.godot/imported/info_board_0.webp-ccbe6379029787cd6ad93b570dfb751b.s3tc.ctex
 [  30% ] savepack | Speichere Datei: res://assets/models/info_board_0.webp.import
-[  30% ] savepack | Speichere Datei: res://.godot/imported/info_board_1.webp-d56522d2c9407deaf1bcf507d39e1203.s3tc.ctex
-[  30% ] savepack | Speichere Datei: res://assets/models/info_board_1.webp.import
-[  30% ] savepack | Speichere Datei: res://.godot/imported/info_board_2.webp-dc5810a52956e7fed9490c7085fcf00c.s3tc.ctex
-[  30% ] savepack | Speichere Datei: res://assets/models/info_board_2.webp.import
-[  30% ] savepack | Speichere Datei: res://.godot/imported/info_board_3.webp-520e6e9180acf8fa54694a2f845fcfa4.s3tc.ctex
-[  30% ] savepack | Speichere Datei: res://assets/models/info_board_3.webp.import
-[  30% ] savepack | Speichere Datei: res://.godot/imported/knife_real.glb-9b48e2d7c25651962182b87d6718cab4.scn
-[  30% ] savepack | Speichere Datei: res://assets/models/knife_real.glb.import
-[  30% ] savepack | Speichere Datei: res://.godot/imported/knife_real_0.webp-6776f5f0394c6fdcfd0603cfe63cfcc9.s3tc.ctex
-[  30% ] savepack | Speichere Datei: res://assets/models/knife_real_0.webp.import
-[  30% ] savepack | Speichere Datei: res://.godot/imported/knife_real_1.webp-612364734fa541e6bcf7ab238da2555c.s3tc.ctex
-[  30% ] savepack | Speichere Datei: res://assets/models/knife_real_1.webp.import
-[  30% ] savepack | Speichere Datei: res://.godot/imported/knife_real_2.webp-99182c1a43e1bc5027fef59ab19fe270.s3tc.ctex
-[  30% ] savepack | Speichere Datei: res://assets/models/knife_real_2.webp.import
+[  31% ] savepack | Speichere Datei: res://.godot/imported/info_board_1.webp-d56522d2c9407deaf1bcf507d39e1203.s3tc.ctex
+[  31% ] savepack | Speichere Datei: res://assets/models/info_board_1.webp.import
+[  31% ] savepack | Speichere Datei: res://.godot/imported/info_board_2.webp-dc5810a52956e7fed9490c7085fcf00c.s3tc.ctex
+[  31% ] savepack | Speichere Datei: res://assets/models/info_board_2.webp.import
+[  31% ] savepack | Speichere Datei: res://.godot/imported/info_board_3.webp-520e6e9180acf8fa54694a2f845fcfa4.s3tc.ctex
+[  31% ] savepack | Speichere Datei: res://assets/models/info_board_3.webp.import
+[  31% ] savepack | Speichere Datei: res://.godot/imported/knife_real.glb-9b48e2d7c25651962182b87d6718cab4.scn
+[  31% ] savepack | Speichere Datei: res://assets/models/knife_real.glb.import
+[  31% ] savepack | Speichere Datei: res://.godot/imported/knife_real_0.webp-6776f5f0394c6fdcfd0603cfe63cfcc9.s3tc.ctex
+[  31% ] savepack | Speichere Datei: res://assets/models/knife_real_0.webp.import
+[  31% ] savepack | Speichere Datei: res://.godot/imported/knife_real_1.webp-612364734fa541e6bcf7ab238da2555c.s3tc.ctex
+[  31% ] savepack | Speichere Datei: res://assets/models/knife_real_1.webp.import
+[  31% ] savepack | Speichere Datei: res://.godot/imported/knife_real_2.webp-99182c1a43e1bc5027fef59ab19fe270.s3tc.ctex
+[  31% ] savepack | Speichere Datei: res://assets/models/knife_real_2.webp.import
 [  31% ] savepack | Speichere Datei: res://.godot/imported/lever_rifle.glb-eb603ae1d8f258407e576b3e0693a6ff.scn
 [  31% ] savepack | Speichere Datei: res://assets/models/lever_rifle.glb.import
 [  31% ] savepack | Speichere Datei: res://.godot/imported/lever_rifle_0.webp-2db76bd1fecab5dfbb728bf4ca44080d.s3tc.ctex
@@ -878,18 +737,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  31% ] savepack | Speichere Datei: res://assets/models/lever_rifle_2.webp.import
 [  31% ] savepack | Speichere Datei: res://.godot/imported/lever_rifle_3.webp-a159116ee33bdf8d3360a26238094fd3.s3tc.ctex
 [  31% ] savepack | Speichere Datei: res://assets/models/lever_rifle_3.webp.import
-[  31% ] savepack | Speichere Datei: res://.godot/imported/lmg.glb-4a70c3b6fa6461d8d2f7d5d0fe34ac8a.scn
-[  31% ] savepack | Speichere Datei: res://assets/models/lmg.glb.import
-[  31% ] savepack | Speichere Datei: res://.godot/imported/lmg_0.webp-2b8db47bf76afa0a143db67c28e29e41.s3tc.ctex
-[  31% ] savepack | Speichere Datei: res://assets/models/lmg_0.webp.import
-[  31% ] savepack | Speichere Datei: res://.godot/imported/lmg_1.webp-d899e0c52087dd7c66c6ea227ef09659.s3tc.ctex
-[  31% ] savepack | Speichere Datei: res://assets/models/lmg_1.webp.import
-[  31% ] savepack | Speichere Datei: res://.godot/imported/lmg_2.webp-9f3c69ead91f23b13a98f84200342bf4.s3tc.ctex
-[  31% ] savepack | Speichere Datei: res://assets/models/lmg_2.webp.import
-[  31% ] savepack | Speichere Datei: res://.godot/imported/lmg_3.webp-90402c193a3aad3757fee7d052ee012b.s3tc.ctex
-[  31% ] savepack | Speichere Datei: res://assets/models/lmg_3.webp.import
-[  31% ] savepack | Speichere Datei: res://.godot/imported/log_bench.glb-bb911a66a87526a9f0b21c3427f468d9.scn
-[  31% ] savepack | Speichere Datei: res://assets/models/log_bench.glb.import
+[  32% ] savepack | Speichere Datei: res://.godot/imported/lmg.glb-4a70c3b6fa6461d8d2f7d5d0fe34ac8a.scn
+[  32% ] savepack | Speichere Datei: res://assets/models/lmg.glb.import
+[  32% ] savepack | Speichere Datei: res://.godot/imported/lmg_0.webp-2b8db47bf76afa0a143db67c28e29e41.s3tc.ctex
+[  32% ] savepack | Speichere Datei: res://assets/models/lmg_0.webp.import
+[  32% ] savepack | Speichere Datei: res://.godot/imported/lmg_1.webp-d899e0c52087dd7c66c6ea227ef09659.s3tc.ctex
+[  32% ] savepack | Speichere Datei: res://assets/models/lmg_1.webp.import
+[  32% ] savepack | Speichere Datei: res://.godot/imported/lmg_2.webp-9f3c69ead91f23b13a98f84200342bf4.s3tc.ctex
+[  32% ] savepack | Speichere Datei: res://assets/models/lmg_2.webp.import
+[  32% ] savepack | Speichere Datei: res://.godot/imported/lmg_3.webp-90402c193a3aad3757fee7d052ee012b.s3tc.ctex
+[  32% ] savepack | Speichere Datei: res://assets/models/lmg_3.webp.import
+[  32% ] savepack | Speichere Datei: res://.godot/imported/log_bench.glb-bb911a66a87526a9f0b21c3427f468d9.scn
+[  32% ] savepack | Speichere Datei: res://assets/models/log_bench.glb.import
 [  32% ] savepack | Speichere Datei: res://.godot/imported/log_bench_0.webp-85a6c681fd64fad00fb91c2355ea61b7.s3tc.ctex
 [  32% ] savepack | Speichere Datei: res://assets/models/log_bench_0.webp.import
 [  32% ] savepack | Speichere Datei: res://.godot/imported/log_bench_beam.glb-af106ace8e277195c6163625832286b1.scn
@@ -902,18 +761,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  32% ] savepack | Speichere Datei: res://assets/models/log_bench_beam_2.webp.import
 [  32% ] savepack | Speichere Datei: res://.godot/imported/log_bench_beam_3.webp-2c9f8d65604769e067cdf2d881a279dc.s3tc.ctex
 [  32% ] savepack | Speichere Datei: res://assets/models/log_bench_beam_3.webp.import
-[  32% ] savepack | Speichere Datei: res://.godot/imported/log_fountain.glb-500cb9f1004dfd0a84652dfbf42a6e1c.scn
-[  32% ] savepack | Speichere Datei: res://assets/models/log_fountain.glb.import
-[  32% ] savepack | Speichere Datei: res://.godot/imported/log_fountain_0.webp-f847232654ce26b24afa1756aa4d7c0a.s3tc.ctex
-[  32% ] savepack | Speichere Datei: res://assets/models/log_fountain_0.webp.import
-[  32% ] savepack | Speichere Datei: res://.godot/imported/log_fountain_1.webp-5333876b3c05d41e7c26c53a9d3b19e3.s3tc.ctex
-[  32% ] savepack | Speichere Datei: res://assets/models/log_fountain_1.webp.import
-[  32% ] savepack | Speichere Datei: res://.godot/imported/log_fountain_2.webp-23eb9ebd4aa863812c2c5f274cc44bbe.s3tc.ctex
-[  32% ] savepack | Speichere Datei: res://assets/models/log_fountain_2.webp.import
-[  32% ] savepack | Speichere Datei: res://.godot/imported/log_fountain_3.webp-415238a3d36da4051cfa5b382ba7847e.s3tc.ctex
-[  32% ] savepack | Speichere Datei: res://assets/models/log_fountain_3.webp.import
-[  32% ] savepack | Speichere Datei: res://.godot/imported/log_picnic_table.glb-f69c2d72c1629da21fa4984916acaa5f.scn
-[  32% ] savepack | Speichere Datei: res://assets/models/log_picnic_table.glb.import
+[  33% ] savepack | Speichere Datei: res://.godot/imported/log_fountain.glb-500cb9f1004dfd0a84652dfbf42a6e1c.scn
+[  33% ] savepack | Speichere Datei: res://assets/models/log_fountain.glb.import
+[  33% ] savepack | Speichere Datei: res://.godot/imported/log_fountain_0.webp-f847232654ce26b24afa1756aa4d7c0a.s3tc.ctex
+[  33% ] savepack | Speichere Datei: res://assets/models/log_fountain_0.webp.import
+[  33% ] savepack | Speichere Datei: res://.godot/imported/log_fountain_1.webp-5333876b3c05d41e7c26c53a9d3b19e3.s3tc.ctex
+[  33% ] savepack | Speichere Datei: res://assets/models/log_fountain_1.webp.import
+[  33% ] savepack | Speichere Datei: res://.godot/imported/log_fountain_2.webp-23eb9ebd4aa863812c2c5f274cc44bbe.s3tc.ctex
+[  33% ] savepack | Speichere Datei: res://assets/models/log_fountain_2.webp.import
+[  33% ] savepack | Speichere Datei: res://.godot/imported/log_fountain_3.webp-415238a3d36da4051cfa5b382ba7847e.s3tc.ctex
+[  33% ] savepack | Speichere Datei: res://assets/models/log_fountain_3.webp.import
+[  33% ] savepack | Speichere Datei: res://.godot/imported/log_picnic_table.glb-f69c2d72c1629da21fa4984916acaa5f.scn
+[  33% ] savepack | Speichere Datei: res://assets/models/log_picnic_table.glb.import
 [  33% ] savepack | Speichere Datei: res://.godot/imported/log_picnic_table_0.webp-2f4f0ddff18c9c4117988b8b9ab10608.s3tc.ctex
 [  33% ] savepack | Speichere Datei: res://assets/models/log_picnic_table_0.webp.import
 [  33% ] savepack | Speichere Datei: res://.godot/imported/log_picnic_table_1.webp-e7f7deb47ef60d7a9561fa2ee43f79d3.s3tc.ctex
@@ -950,18 +809,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  33% ] savepack | Speichere Datei: res://assets/models/medkit_1.webp.import
 [  33% ] savepack | Speichere Datei: res://.godot/imported/medkit_2.webp-daaf686e976c9b4af41bd6baa237c6b1.s3tc.ctex
 [  33% ] savepack | Speichere Datei: res://assets/models/medkit_2.webp.import
-[  33% ] savepack | Speichere Datei: res://.godot/imported/medkit_3.webp-bc0a39288b5d12e00e85b496f79c5944.s3tc.ctex
-[  33% ] savepack | Speichere Datei: res://assets/models/medkit_3.webp.import
-[  33% ] savepack | Speichere Datei: res://.godot/imported/minigun.glb-c9507559296f7868053bb71ee80434f7.scn
-[  33% ] savepack | Speichere Datei: res://assets/models/minigun.glb.import
-[  33% ] savepack | Speichere Datei: res://.godot/imported/minigun_0.webp-ab7dfd99a6d0037c2d4e71bc531c87ce.s3tc.ctex
-[  33% ] savepack | Speichere Datei: res://assets/models/minigun_0.webp.import
-[  33% ] savepack | Speichere Datei: res://.godot/imported/minigun_1.webp-661ae0cd90c9304aac4c1270d5b028b4.s3tc.ctex
-[  33% ] savepack | Speichere Datei: res://assets/models/minigun_1.webp.import
-[  33% ] savepack | Speichere Datei: res://.godot/imported/minigun_2.webp-76b326f70c4cf56d748e813f805a0330.s3tc.ctex
-[  33% ] savepack | Speichere Datei: res://assets/models/minigun_2.webp.import
-[  33% ] savepack | Speichere Datei: res://.godot/imported/minigun_3.webp-aca2b3cfdb4ca2257484430d00311a6e.s3tc.ctex
-[  33% ] savepack | Speichere Datei: res://assets/models/minigun_3.webp.import
+[  34% ] savepack | Speichere Datei: res://.godot/imported/medkit_3.webp-bc0a39288b5d12e00e85b496f79c5944.s3tc.ctex
+[  34% ] savepack | Speichere Datei: res://assets/models/medkit_3.webp.import
+[  34% ] savepack | Speichere Datei: res://.godot/imported/minigun.glb-c9507559296f7868053bb71ee80434f7.scn
+[  34% ] savepack | Speichere Datei: res://assets/models/minigun.glb.import
+[  34% ] savepack | Speichere Datei: res://.godot/imported/minigun_0.webp-ab7dfd99a6d0037c2d4e71bc531c87ce.s3tc.ctex
+[  34% ] savepack | Speichere Datei: res://assets/models/minigun_0.webp.import
+[  34% ] savepack | Speichere Datei: res://.godot/imported/minigun_1.webp-661ae0cd90c9304aac4c1270d5b028b4.s3tc.ctex
+[  34% ] savepack | Speichere Datei: res://assets/models/minigun_1.webp.import
+[  34% ] savepack | Speichere Datei: res://.godot/imported/minigun_2.webp-76b326f70c4cf56d748e813f805a0330.s3tc.ctex
+[  34% ] savepack | Speichere Datei: res://assets/models/minigun_2.webp.import
+[  34% ] savepack | Speichere Datei: res://.godot/imported/minigun_3.webp-aca2b3cfdb4ca2257484430d00311a6e.s3tc.ctex
+[  34% ] savepack | Speichere Datei: res://assets/models/minigun_3.webp.import
 [  34% ] savepack | Speichere Datei: res://.godot/imported/mod_compensator.glb-6f0b369578145e8648f92538732dcb48.scn
 [  34% ] savepack | Speichere Datei: res://assets/models/mod_compensator.glb.import
 [  34% ] savepack | Speichere Datei: res://.godot/imported/mod_compensator_0.webp-b3c7b0e0d8f0254b7a2ce1d1838f29cd.s3tc.ctex
@@ -974,16 +833,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  34% ] savepack | Speichere Datei: res://assets/models/mod_endless.glb.import
 [  34% ] savepack | Speichere Datei: res://.godot/imported/mod_endless_0.webp-7c4b9d5551e7148b0bde38cbb852db73.s3tc.ctex
 [  34% ] savepack | Speichere Datei: res://assets/models/mod_endless_0.webp.import
-[  34% ] savepack | Speichere Datei: res://.godot/imported/mod_endless_1.webp-efa6baf2a955f75fafc1dd4eab7761be.s3tc.ctex
-[  34% ] savepack | Speichere Datei: res://assets/models/mod_endless_1.webp.import
-[  34% ] savepack | Speichere Datei: res://.godot/imported/mod_endless_2.webp-f44a2956a83fcdb7be1fd53abd698736.s3tc.ctex
-[  34% ] savepack | Speichere Datei: res://assets/models/mod_endless_2.webp.import
-[  34% ] savepack | Speichere Datei: res://.godot/imported/mod_endless_3.webp-08ffa3ab1c16087064a13ab426741f2b.s3tc.ctex
-[  34% ] savepack | Speichere Datei: res://assets/models/mod_endless_3.webp.import
-[  34% ] savepack | Speichere Datei: res://.godot/imported/mod_extended_mag.glb-75416858b3239ab1af125913959e9e48.scn
-[  34% ] savepack | Speichere Datei: res://assets/models/mod_extended_mag.glb.import
-[  34% ] savepack | Speichere Datei: res://.godot/imported/mod_extended_mag_0.webp-3266067f6af7f4c732c0184d4a7bb9e0.s3tc.ctex
-[  34% ] savepack | Speichere Datei: res://assets/models/mod_extended_mag_0.webp.import
+[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_endless_1.webp-efa6baf2a955f75fafc1dd4eab7761be.s3tc.ctex
+[  35% ] savepack | Speichere Datei: res://assets/models/mod_endless_1.webp.import
+[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_endless_2.webp-f44a2956a83fcdb7be1fd53abd698736.s3tc.ctex
+[  35% ] savepack | Speichere Datei: res://assets/models/mod_endless_2.webp.import
+[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_endless_3.webp-08ffa3ab1c16087064a13ab426741f2b.s3tc.ctex
+[  35% ] savepack | Speichere Datei: res://assets/models/mod_endless_3.webp.import
+[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_extended_mag.glb-75416858b3239ab1af125913959e9e48.scn
+[  35% ] savepack | Speichere Datei: res://assets/models/mod_extended_mag.glb.import
+[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_extended_mag_0.webp-3266067f6af7f4c732c0184d4a7bb9e0.s3tc.ctex
+[  35% ] savepack | Speichere Datei: res://assets/models/mod_extended_mag_0.webp.import
 [  35% ] savepack | Speichere Datei: res://.godot/imported/mod_extended_mag_1.webp-fd48ff49404804fd33cd615f43091cbe.s3tc.ctex
 [  35% ] savepack | Speichere Datei: res://assets/models/mod_extended_mag_1.webp.import
 [  35% ] savepack | Speichere Datei: res://.godot/imported/mod_extended_mag_2.webp-fdba966fb0825c6f61c840b5a8c673c4.s3tc.ctex
@@ -996,18 +855,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  35% ] savepack | Speichere Datei: res://assets/models/mod_ghost_1.webp.import
 [  35% ] savepack | Speichere Datei: res://.godot/imported/mod_ghost_2.webp-ca763be6275278e38fe2e0d83d37f13b.s3tc.ctex
 [  35% ] savepack | Speichere Datei: res://assets/models/mod_ghost_2.webp.import
-[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_ghost_3.webp-5ccfbfd3cf31f1515a72704134b5209e.ctex
-[  35% ] savepack | Speichere Datei: res://assets/models/mod_ghost_3.webp.import
-[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube.glb-4ca42167f753914836d8b345228c8e10.scn
-[  35% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube.glb.import
-[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube_0.webp-c04e0b3f48c8235f4a82d5f302901172.s3tc.ctex
-[  35% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube_0.webp.import
-[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube_1.webp-db3973f6f0c9091cfbe87f07ce1146ff.s3tc.ctex
-[  35% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube_1.webp.import
-[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube_2.webp-f0ec3de8cf346e0d9382daf1539a29f4.s3tc.ctex
-[  35% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube_2.webp.import
-[  35% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube_3.webp-c2301b4c300ee47e2113778ea42091ce.s3tc.ctex
-[  35% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube_3.webp.import
+[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_ghost_3.webp-5ccfbfd3cf31f1515a72704134b5209e.ctex
+[  36% ] savepack | Speichere Datei: res://assets/models/mod_ghost_3.webp.import
+[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube.glb-4ca42167f753914836d8b345228c8e10.scn
+[  36% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube.glb.import
+[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube_0.webp-c04e0b3f48c8235f4a82d5f302901172.s3tc.ctex
+[  36% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube_0.webp.import
+[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube_1.webp-db3973f6f0c9091cfbe87f07ce1146ff.s3tc.ctex
+[  36% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube_1.webp.import
+[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube_2.webp-f0ec3de8cf346e0d9382daf1539a29f4.s3tc.ctex
+[  36% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube_2.webp.import
+[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_mag_tube_3.webp-c2301b4c300ee47e2113778ea42091ce.s3tc.ctex
+[  36% ] savepack | Speichere Datei: res://assets/models/mod_mag_tube_3.webp.import
 [  36% ] savepack | Speichere Datei: res://.godot/imported/mod_match_barrel.glb-ead70d82ebdaa3957cad68dc3331ec1e.scn
 [  36% ] savepack | Speichere Datei: res://assets/models/mod_match_barrel.glb.import
 [  36% ] savepack | Speichere Datei: res://.godot/imported/mod_match_barrel_0.webp-117343b632867c32937caaccd342fd97.s3tc.ctex
@@ -1020,18 +879,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  36% ] savepack | Speichere Datei: res://assets/models/mod_match_barrel_3.webp.import
 [  36% ] savepack | Speichere Datei: res://.godot/imported/mod_quick_action.glb-ddad57c38c397ab2c34e9ca1719128a1.scn
 [  36% ] savepack | Speichere Datei: res://assets/models/mod_quick_action.glb.import
-[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_quick_action_0.webp-e3f20552cc13567bbfce627d2148f065.s3tc.ctex
-[  36% ] savepack | Speichere Datei: res://assets/models/mod_quick_action_0.webp.import
-[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_quick_action_1.webp-1aeeb9f26224ee1dbd61676f65c33c2f.s3tc.ctex
-[  36% ] savepack | Speichere Datei: res://assets/models/mod_quick_action_1.webp.import
-[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_quick_action_2.webp-3f103a1eca06a9c4855c71a2a356c50e.s3tc.ctex
-[  36% ] savepack | Speichere Datei: res://assets/models/mod_quick_action_2.webp.import
-[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_quick_action_3.webp-6d295ddb8bc3e7f9177d1ec7e9dba27e.ctex
-[  36% ] savepack | Speichere Datei: res://assets/models/mod_quick_action_3.webp.import
-[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_suppressor.glb-c08f1602d210ceee1f92e34e4bc45ab6.scn
-[  36% ] savepack | Speichere Datei: res://assets/models/mod_suppressor.glb.import
-[  36% ] savepack | Speichere Datei: res://.godot/imported/mod_suppressor_0.webp-1ad29e2f5fd81ac64aed119e9f6009b2.s3tc.ctex
-[  36% ] savepack | Speichere Datei: res://assets/models/mod_suppressor_0.webp.import
+[  37% ] savepack | Speichere Datei: res://.godot/imported/mod_quick_action_0.webp-e3f20552cc13567bbfce627d2148f065.s3tc.ctex
+[  37% ] savepack | Speichere Datei: res://assets/models/mod_quick_action_0.webp.import
+[  37% ] savepack | Speichere Datei: res://.godot/imported/mod_quick_action_1.webp-1aeeb9f26224ee1dbd61676f65c33c2f.s3tc.ctex
+[  37% ] savepack | Speichere Datei: res://assets/models/mod_quick_action_1.webp.import
+[  37% ] savepack | Speichere Datei: res://.godot/imported/mod_quick_action_2.webp-3f103a1eca06a9c4855c71a2a356c50e.s3tc.ctex
+[  37% ] savepack | Speichere Datei: res://assets/models/mod_quick_action_2.webp.import
+[  37% ] savepack | Speichere Datei: res://.godot/imported/mod_quick_action_3.webp-6d295ddb8bc3e7f9177d1ec7e9dba27e.ctex
+[  37% ] savepack | Speichere Datei: res://assets/models/mod_quick_action_3.webp.import
+[  37% ] savepack | Speichere Datei: res://.godot/imported/mod_suppressor.glb-c08f1602d210ceee1f92e34e4bc45ab6.scn
+[  37% ] savepack | Speichere Datei: res://assets/models/mod_suppressor.glb.import
+[  37% ] savepack | Speichere Datei: res://.godot/imported/mod_suppressor_0.webp-1ad29e2f5fd81ac64aed119e9f6009b2.s3tc.ctex
+[  37% ] savepack | Speichere Datei: res://assets/models/mod_suppressor_0.webp.import
 [  37% ] savepack | Speichere Datei: res://.godot/imported/mod_suppressor_1.webp-bfaa576a3680993c2772e1389566dab7.s3tc.ctex
 [  37% ] savepack | Speichere Datei: res://assets/models/mod_suppressor_1.webp.import
 [  37% ] savepack | Speichere Datei: res://.godot/imported/mod_suppressor_2.webp-56690c964d59aa679099dc51557374c8.s3tc.ctex
@@ -1044,18 +903,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  37% ] savepack | Speichere Datei: res://assets/models/mod_titan_core_0.webp.import
 [  37% ] savepack | Speichere Datei: res://.godot/imported/mod_titan_core_1.webp-c0a4e8c0a19efacd0b57724828f2c332.s3tc.ctex
 [  37% ] savepack | Speichere Datei: res://assets/models/mod_titan_core_1.webp.import
-[  37% ] savepack | Speichere Datei: res://.godot/imported/mod_titan_core_2.webp-f834d27a9b35a5b1e817f96fb1256bfe.s3tc.ctex
-[  37% ] savepack | Speichere Datei: res://assets/models/mod_titan_core_2.webp.import
-[  37% ] savepack | Speichere Datei: res://.godot/imported/mod_titan_core_3.webp-97f8cc031c443079483f2a0d529fd482.s3tc.ctex
-[  37% ] savepack | Speichere Datei: res://assets/models/mod_titan_core_3.webp.import
-[  37% ] savepack | Speichere Datei: res://.godot/imported/mug.glb-c647f20f653075446ecdb5fd6d940588.scn
-[  37% ] savepack | Speichere Datei: res://assets/models/mug.glb.import
-[  37% ] savepack | Speichere Datei: res://.godot/imported/mug_0.webp-6795776d90241e4a3fdaf894462078a1.s3tc.ctex
-[  37% ] savepack | Speichere Datei: res://assets/models/mug_0.webp.import
-[  37% ] savepack | Speichere Datei: res://.godot/imported/mushroom_cluster.glb-ebc5c04d2163bdaca39e647cbe761d9e.scn
-[  37% ] savepack | Speichere Datei: res://assets/models/mushroom_cluster.glb.import
-[  37% ] savepack | Speichere Datei: res://.godot/imported/mushroom_cluster_0.webp-60d2c904431427b85037cfd30fe4da1c.s3tc.ctex
-[  37% ] savepack | Speichere Datei: res://assets/models/mushroom_cluster_0.webp.import
+[  38% ] savepack | Speichere Datei: res://.godot/imported/mod_titan_core_2.webp-f834d27a9b35a5b1e817f96fb1256bfe.s3tc.ctex
+[  38% ] savepack | Speichere Datei: res://assets/models/mod_titan_core_2.webp.import
+[  38% ] savepack | Speichere Datei: res://.godot/imported/mod_titan_core_3.webp-97f8cc031c443079483f2a0d529fd482.s3tc.ctex
+[  38% ] savepack | Speichere Datei: res://assets/models/mod_titan_core_3.webp.import
+[  38% ] savepack | Speichere Datei: res://.godot/imported/mug.glb-c647f20f653075446ecdb5fd6d940588.scn
+[  38% ] savepack | Speichere Datei: res://assets/models/mug.glb.import
+[  38% ] savepack | Speichere Datei: res://.godot/imported/mug_0.webp-6795776d90241e4a3fdaf894462078a1.s3tc.ctex
+[  38% ] savepack | Speichere Datei: res://assets/models/mug_0.webp.import
+[  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_cluster.glb-ebc5c04d2163bdaca39e647cbe761d9e.scn
+[  38% ] savepack | Speichere Datei: res://assets/models/mushroom_cluster.glb.import
+[  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_cluster_0.webp-60d2c904431427b85037cfd30fe4da1c.s3tc.ctex
+[  38% ] savepack | Speichere Datei: res://assets/models/mushroom_cluster_0.webp.import
 [  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_fly.glb-8530f691ac975bd192354ad850f2949f.scn
 [  38% ] savepack | Speichere Datei: res://assets/models/mushroom_fly.glb.import
 [  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_fly_0.webp-e575cdad1f40013323b627c67b0cc5cb.s3tc.ctex
@@ -1068,16 +927,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  38% ] savepack | Speichere Datei: res://assets/models/mushroom_krause_glucke_1.webp.import
 [  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_krause_glucke_2.webp-710ecef6ea98868e08cfc9d3f6fe73f9.s3tc.ctex
 [  38% ] savepack | Speichere Datei: res://assets/models/mushroom_krause_glucke_2.webp.import
-[  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_maronenroehrling.glb-1e69ba3f94aa0f8dcb500e32d653f729.scn
-[  38% ] savepack | Speichere Datei: res://assets/models/mushroom_maronenroehrling.glb.import
-[  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_maronenroehrling_0.webp-05854a83f524bdd50d8790e8dca6e083.s3tc.ctex
-[  38% ] savepack | Speichere Datei: res://assets/models/mushroom_maronenroehrling_0.webp.import
-[  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_maronenroehrling_1.webp-748fa84e2a0c5615ea7065fef8e33f24.s3tc.ctex
-[  38% ] savepack | Speichere Datei: res://assets/models/mushroom_maronenroehrling_1.webp.import
-[  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_maronenroehrling_2.webp-0a96ef5f2e2bc5e8388f1e01d9506453.s3tc.ctex
-[  38% ] savepack | Speichere Datei: res://assets/models/mushroom_maronenroehrling_2.webp.import
-[  38% ] savepack | Speichere Datei: res://.godot/imported/mushroom_morchel.glb-d95c3335037a69c1cc4095779e7fef64.scn
-[  38% ] savepack | Speichere Datei: res://assets/models/mushroom_morchel.glb.import
+[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_maronenroehrling.glb-1e69ba3f94aa0f8dcb500e32d653f729.scn
+[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_maronenroehrling.glb.import
+[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_maronenroehrling_0.webp-05854a83f524bdd50d8790e8dca6e083.s3tc.ctex
+[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_maronenroehrling_0.webp.import
+[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_maronenroehrling_1.webp-748fa84e2a0c5615ea7065fef8e33f24.s3tc.ctex
+[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_maronenroehrling_1.webp.import
+[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_maronenroehrling_2.webp-0a96ef5f2e2bc5e8388f1e01d9506453.s3tc.ctex
+[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_maronenroehrling_2.webp.import
+[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_morchel.glb-d95c3335037a69c1cc4095779e7fef64.scn
+[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_morchel.glb.import
 [  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_morchel_0.webp-059f61861ec46f8be29db38353abb36b.s3tc.ctex
 [  39% ] savepack | Speichere Datei: res://assets/models/mushroom_morchel_0.webp.import
 [  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_morchel_1.webp-c02e3e929e90a5942293d47cbf69d17d.s3tc.ctex
@@ -1092,16 +951,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  39% ] savepack | Speichere Datei: res://assets/models/mushroom_parasol_1.webp.import
 [  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_parasol_2.webp-857f1c6d5a04ffed8187c0f433b38ffd.s3tc.ctex
 [  39% ] savepack | Speichere Datei: res://assets/models/mushroom_parasol_2.webp.import
-[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_pfifferling.glb-f3e107b6e6644a54cc4f4a55656ae7ea.scn
-[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_pfifferling.glb.import
-[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_pfifferling_0.webp-d87898534f8953d11b05074ffcc99a51.s3tc.ctex
-[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_pfifferling_0.webp.import
-[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_pfifferling_1.webp-355aa442a7471148b30287e45543b5e0.s3tc.ctex
-[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_pfifferling_1.webp.import
-[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_pfifferling_2.webp-1204e5bc0915fafea05bf91c8e33ffa3.s3tc.ctex
-[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_pfifferling_2.webp.import
-[  39% ] savepack | Speichere Datei: res://.godot/imported/mushroom_reizker.glb-dfb9eb74ffb18e176531df05bc108f21.scn
-[  39% ] savepack | Speichere Datei: res://assets/models/mushroom_reizker.glb.import
+[  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_pfifferling.glb-f3e107b6e6644a54cc4f4a55656ae7ea.scn
+[  40% ] savepack | Speichere Datei: res://assets/models/mushroom_pfifferling.glb.import
+[  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_pfifferling_0.webp-d87898534f8953d11b05074ffcc99a51.s3tc.ctex
+[  40% ] savepack | Speichere Datei: res://assets/models/mushroom_pfifferling_0.webp.import
+[  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_pfifferling_1.webp-355aa442a7471148b30287e45543b5e0.s3tc.ctex
+[  40% ] savepack | Speichere Datei: res://assets/models/mushroom_pfifferling_1.webp.import
+[  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_pfifferling_2.webp-1204e5bc0915fafea05bf91c8e33ffa3.s3tc.ctex
+[  40% ] savepack | Speichere Datei: res://assets/models/mushroom_pfifferling_2.webp.import
+[  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_reizker.glb-dfb9eb74ffb18e176531df05bc108f21.scn
+[  40% ] savepack | Speichere Datei: res://assets/models/mushroom_reizker.glb.import
 [  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_reizker_0.webp-6637f3aa2cebfb742a569202b81d5ef4.s3tc.ctex
 [  40% ] savepack | Speichere Datei: res://assets/models/mushroom_reizker_0.webp.import
 [  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_reizker_1.webp-4f3c483eb3a2e1ed27a0fd6277a9e58d.s3tc.ctex
@@ -1116,16 +975,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  40% ] savepack | Speichere Datei: res://assets/models/mushroom_tintenpilz_1.webp.import
 [  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_tintenpilz_2.webp-516a2c0835a1ce430f35dfb742b98356.s3tc.ctex
 [  40% ] savepack | Speichere Datei: res://assets/models/mushroom_tintenpilz_2.webp.import
-[  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_violetter_roetelritterling.glb-5be6a38a0624a84abf04a29f08fc0c08.scn
-[  40% ] savepack | Speichere Datei: res://assets/models/mushroom_violetter_roetelritterling.glb.import
-[  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_violetter_roetelritterling_0.webp-2ab549b52bb9d3fb7c8c7c829d41f80c.s3tc.ctex
-[  40% ] savepack | Speichere Datei: res://assets/models/mushroom_violetter_roetelritterling_0.webp.import
-[  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_violetter_roetelritterling_1.webp-11fd6ca3a3f12c487965ee8f86076458.s3tc.ctex
-[  40% ] savepack | Speichere Datei: res://assets/models/mushroom_violetter_roetelritterling_1.webp.import
-[  40% ] savepack | Speichere Datei: res://.godot/imported/mushroom_violetter_roetelritterling_2.webp-d0414a6abd3949d5a054b373c3056db7.s3tc.ctex
-[  40% ] savepack | Speichere Datei: res://assets/models/mushroom_violetter_roetelritterling_2.webp.import
-[  40% ] savepack | Speichere Datei: res://.godot/imported/npc_mechanic.glb-d5093e3c7c378ab673d730518cf69125.scn
-[  40% ] savepack | Speichere Datei: res://assets/models/npc_mechanic.glb.import
+[  41% ] savepack | Speichere Datei: res://.godot/imported/mushroom_violetter_roetelritterling.glb-5be6a38a0624a84abf04a29f08fc0c08.scn
+[  41% ] savepack | Speichere Datei: res://assets/models/mushroom_violetter_roetelritterling.glb.import
+[  41% ] savepack | Speichere Datei: res://.godot/imported/mushroom_violetter_roetelritterling_0.webp-2ab549b52bb9d3fb7c8c7c829d41f80c.s3tc.ctex
+[  41% ] savepack | Speichere Datei: res://assets/models/mushroom_violetter_roetelritterling_0.webp.import
+[  41% ] savepack | Speichere Datei: res://.godot/imported/mushroom_violetter_roetelritterling_1.webp-11fd6ca3a3f12c487965ee8f86076458.s3tc.ctex
+[  41% ] savepack | Speichere Datei: res://assets/models/mushroom_violetter_roetelritterling_1.webp.import
+[  41% ] savepack | Speichere Datei: res://.godot/imported/mushroom_violetter_roetelritterling_2.webp-d0414a6abd3949d5a054b373c3056db7.s3tc.ctex
+[  41% ] savepack | Speichere Datei: res://assets/models/mushroom_violetter_roetelritterling_2.webp.import
+[  41% ] savepack | Speichere Datei: res://.godot/imported/npc_mechanic.glb-d5093e3c7c378ab673d730518cf69125.scn
+[  41% ] savepack | Speichere Datei: res://assets/models/npc_mechanic.glb.import
 [  41% ] savepack | Speichere Datei: res://.godot/imported/npc_mechanic_texture_0.webp-6f29673cb6fccb6091e36fbbc5e3871f.s3tc.ctex
 [  41% ] savepack | Speichere Datei: res://assets/models/npc_mechanic_texture_0.webp.import
 [  41% ] savepack | Speichere Datei: res://.godot/imported/npc_mechanic_titan_metal_rough.webp-55f16d658ee8c1fd9889262a07945c23.s3tc.ctex
@@ -1138,18 +997,18 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  41% ] savepack | Speichere Datei: res://assets/models/npc_quartermaster_texture_0.webp.import
 [  41% ] savepack | Speichere Datei: res://.godot/imported/npc_quartermaster_titan_metal_rough.webp-1249f998cf5f7f2db50c6522c35371bc.s3tc.ctex
 [  41% ] savepack | Speichere Datei: res://assets/models/npc_quartermaster_titan_metal_rough.webp.import
-[  41% ] savepack | Speichere Datei: res://.godot/imported/npc_quartermaster_titan_normal.webp-4bfa15b1e9c408ea6aa1b90561e6b062.s3tc.ctex
-[  41% ] savepack | Speichere Datei: res://assets/models/npc_quartermaster_titan_normal.webp.import
-[  41% ] savepack | Speichere Datei: res://.godot/imported/npc_secret_trader.glb-128d28055ed9f0d78f3cf370236eb938.scn
-[  41% ] savepack | Speichere Datei: res://assets/models/npc_secret_trader.glb.import
-[  41% ] savepack | Speichere Datei: res://.godot/imported/npc_secret_trader_texture_0.webp-0c79cd6c30b011ba864b1bcf96745c1f.s3tc.ctex
-[  41% ] savepack | Speichere Datei: res://assets/models/npc_secret_trader_texture_0.webp.import
-[  41% ] savepack | Speichere Datei: res://.godot/imported/npc_secret_trader_titan_metal_rough.webp-276ebfd7a8cfd78f10a59807dbe2ef43.s3tc.ctex
-[  41% ] savepack | Speichere Datei: res://assets/models/npc_secret_trader_titan_metal_rough.webp.import
-[  41% ] savepack | Speichere Datei: res://.godot/imported/npc_secret_trader_titan_normal.webp-fbce4a99fe93018ac97ccafa7e240696.s3tc.ctex
-[  41% ] savepack | Speichere Datei: res://assets/models/npc_secret_trader_titan_normal.webp.import
-[  41% ] savepack | Speichere Datei: res://.godot/imported/owl_real.glb-2f8810806492107d8ba7b76b7ea66af8.scn
-[  41% ] savepack | Speichere Datei: res://assets/models/owl_real.glb.import
+[  42% ] savepack | Speichere Datei: res://.godot/imported/npc_quartermaster_titan_normal.webp-4bfa15b1e9c408ea6aa1b90561e6b062.s3tc.ctex
+[  42% ] savepack | Speichere Datei: res://assets/models/npc_quartermaster_titan_normal.webp.import
+[  42% ] savepack | Speichere Datei: res://.godot/imported/npc_secret_trader.glb-128d28055ed9f0d78f3cf370236eb938.scn
+[  42% ] savepack | Speichere Datei: res://assets/models/npc_secret_trader.glb.import
+[  42% ] savepack | Speichere Datei: res://.godot/imported/npc_secret_trader_texture_0.webp-0c79cd6c30b011ba864b1bcf96745c1f.s3tc.ctex
+[  42% ] savepack | Speichere Datei: res://assets/models/npc_secret_trader_texture_0.webp.import
+[  42% ] savepack | Speichere Datei: res://.godot/imported/npc_secret_trader_titan_metal_rough.webp-276ebfd7a8cfd78f10a59807dbe2ef43.s3tc.ctex
+[  42% ] savepack | Speichere Datei: res://assets/models/npc_secret_trader_titan_metal_rough.webp.import
+[  42% ] savepack | Speichere Datei: res://.godot/imported/npc_secret_trader_titan_normal.webp-fbce4a99fe93018ac97ccafa7e240696.s3tc.ctex
+[  42% ] savepack | Speichere Datei: res://assets/models/npc_secret_trader_titan_normal.webp.import
+[  42% ] savepack | Speichere Datei: res://.godot/imported/owl_real.glb-2f8810806492107d8ba7b76b7ea66af8.scn
+[  42% ] savepack | Speichere Datei: res://assets/models/owl_real.glb.import
 [  42% ] savepack | Speichere Datei: res://.godot/imported/owl_real_0.webp-ee74c76e3021d0f3010ff3840459f594.s3tc.ctex
 [  42% ] savepack | Speichere Datei: res://assets/models/owl_real_0.webp.import
 [  42% ] savepack | Speichere Datei: res://.godot/imported/owl_real_1.webp-466ce32b82d01a040f98daef1e7152e6.s3tc.ctex
@@ -1162,16 +1021,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  42% ] savepack | Speichere Datei: res://assets/models/pistol_0.webp.import
 [  42% ] savepack | Speichere Datei: res://.godot/imported/pistol_1.webp-c0379f49780c404747e6a6e706dd98d3.ctex
 [  42% ] savepack | Speichere Datei: res://assets/models/pistol_1.webp.import
-[  42% ] savepack | Speichere Datei: res://.godot/imported/pistol_2.webp-481305a7eff8b5ed0e007feb045c255b.ctex
-[  42% ] savepack | Speichere Datei: res://assets/models/pistol_2.webp.import
-[  42% ] savepack | Speichere Datei: res://.godot/imported/pistol_3.webp-0ec611e5db44027c182adec8e5e914f8.ctex
-[  42% ] savepack | Speichere Datei: res://assets/models/pistol_3.webp.import
-[  42% ] savepack | Speichere Datei: res://.godot/imported/plasma_sniper.glb-8519bb878a0ad1e8c588a7416e33c2bf.scn
-[  42% ] savepack | Speichere Datei: res://assets/models/plasma_sniper.glb.import
-[  42% ] savepack | Speichere Datei: res://.godot/imported/plasma_sniper_0.webp-7db9c387c8bee6548561016ddb5e1c00.s3tc.ctex
-[  42% ] savepack | Speichere Datei: res://assets/models/plasma_sniper_0.webp.import
-[  42% ] savepack | Speichere Datei: res://.godot/imported/plasma_sniper_1.webp-40efb484a189ebbb5f6f50d9084fc105.s3tc.ctex
-[  42% ] savepack | Speichere Datei: res://assets/models/plasma_sniper_1.webp.import
+[  43% ] savepack | Speichere Datei: res://.godot/imported/pistol_2.webp-481305a7eff8b5ed0e007feb045c255b.ctex
+[  43% ] savepack | Speichere Datei: res://assets/models/pistol_2.webp.import
+[  43% ] savepack | Speichere Datei: res://.godot/imported/pistol_3.webp-0ec611e5db44027c182adec8e5e914f8.ctex
+[  43% ] savepack | Speichere Datei: res://assets/models/pistol_3.webp.import
+[  43% ] savepack | Speichere Datei: res://.godot/imported/plasma_sniper.glb-8519bb878a0ad1e8c588a7416e33c2bf.scn
+[  43% ] savepack | Speichere Datei: res://assets/models/plasma_sniper.glb.import
+[  43% ] savepack | Speichere Datei: res://.godot/imported/plasma_sniper_0.webp-7db9c387c8bee6548561016ddb5e1c00.s3tc.ctex
+[  43% ] savepack | Speichere Datei: res://assets/models/plasma_sniper_0.webp.import
+[  43% ] savepack | Speichere Datei: res://.godot/imported/plasma_sniper_1.webp-40efb484a189ebbb5f6f50d9084fc105.s3tc.ctex
+[  43% ] savepack | Speichere Datei: res://assets/models/plasma_sniper_1.webp.import
 [  43% ] savepack | Speichere Datei: res://.godot/imported/plasma_sniper_2.webp-564ff4434162dbed76fda24a466f469e.s3tc.ctex
 [  43% ] savepack | Speichere Datei: res://assets/models/plasma_sniper_2.webp.import
 [  43% ] savepack | Speichere Datei: res://.godot/imported/plasma_sniper_3.webp-b6991cc788c0e1c423f3e5b5ae0d78d2.s3tc.ctex
@@ -1186,16 +1045,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  43% ] savepack | Speichere Datei: res://assets/models/player_survivor_titan_normal.webp.import
 [  43% ] savepack | Speichere Datei: res://.godot/imported/player_survivor_v2.glb-0ee5607f07966c828190322b0fc3a36d.scn
 [  43% ] savepack | Speichere Datei: res://assets/models/player_survivor_v2.glb.import
-[  43% ] savepack | Speichere Datei: res://.godot/imported/player_survivor_v2_survivor_albedo.webp-5d1a5944360e74fa2adac8f6cb3739e3.s3tc.ctex
-[  43% ] savepack | Speichere Datei: res://assets/models/player_survivor_v2_survivor_albedo.webp.import
-[  43% ] savepack | Speichere Datei: res://.godot/imported/player_survivor_v2_survivor_metal_rough.webp-d74137c2993843f55e2c7d7b93cf635a.s3tc.ctex
-[  43% ] savepack | Speichere Datei: res://assets/models/player_survivor_v2_survivor_metal_rough.webp.import
-[  43% ] savepack | Speichere Datei: res://.godot/imported/player_survivor_v2_survivor_normal.webp-0ae252f7f591dec35b4966fc1ee1eee7.s3tc.ctex
-[  43% ] savepack | Speichere Datei: res://assets/models/player_survivor_v2_survivor_normal.webp.import
-[  43% ] savepack | Speichere Datei: res://.godot/imported/pond_trough.glb-e6c9fb29ae60b9412fd81ad6a361508e.scn
-[  43% ] savepack | Speichere Datei: res://assets/models/pond_trough.glb.import
-[  43% ] savepack | Speichere Datei: res://.godot/imported/pond_trough_0.webp-8c147d2efe0725f973e789e097b5a944.s3tc.ctex
-[  43% ] savepack | Speichere Datei: res://assets/models/pond_trough_0.webp.import
+[  44% ] savepack | Speichere Datei: res://.godot/imported/player_survivor_v2_survivor_albedo.webp-5d1a5944360e74fa2adac8f6cb3739e3.s3tc.ctex
+[  44% ] savepack | Speichere Datei: res://assets/models/player_survivor_v2_survivor_albedo.webp.import
+[  44% ] savepack | Speichere Datei: res://.godot/imported/player_survivor_v2_survivor_metal_rough.webp-d74137c2993843f55e2c7d7b93cf635a.s3tc.ctex
+[  44% ] savepack | Speichere Datei: res://assets/models/player_survivor_v2_survivor_metal_rough.webp.import
+[  44% ] savepack | Speichere Datei: res://.godot/imported/player_survivor_v2_survivor_normal.webp-0ae252f7f591dec35b4966fc1ee1eee7.s3tc.ctex
+[  44% ] savepack | Speichere Datei: res://assets/models/player_survivor_v2_survivor_normal.webp.import
+[  44% ] savepack | Speichere Datei: res://.godot/imported/pond_trough.glb-e6c9fb29ae60b9412fd81ad6a361508e.scn
+[  44% ] savepack | Speichere Datei: res://assets/models/pond_trough.glb.import
+[  44% ] savepack | Speichere Datei: res://.godot/imported/pond_trough_0.webp-8c147d2efe0725f973e789e097b5a944.s3tc.ctex
+[  44% ] savepack | Speichere Datei: res://assets/models/pond_trough_0.webp.import
 [  44% ] savepack | Speichere Datei: res://.godot/imported/pond_trough_1.webp-d26b415403420194b3eb1ed652685c3a.s3tc.ctex
 [  44% ] savepack | Speichere Datei: res://assets/models/pond_trough_1.webp.import
 [  44% ] savepack | Speichere Datei: res://.godot/imported/pond_trough_2.webp-4fbc7a5eecb6f0029daf6e9e47abfdb1.s3tc.ctex
@@ -1210,16 +1069,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  44% ] savepack | Speichere Datei: res://assets/models/pumpkin_lantern_0.webp.import
 [  44% ] savepack | Speichere Datei: res://.godot/imported/raven_real.glb-3660ade6acfcaaea871db2e56100ea82.scn
 [  44% ] savepack | Speichere Datei: res://assets/models/raven_real.glb.import
-[  44% ] savepack | Speichere Datei: res://.godot/imported/raven_real_0.webp-522e68e6e31d28c52cd40fb4333ab2aa.s3tc.ctex
-[  44% ] savepack | Speichere Datei: res://assets/models/raven_real_0.webp.import
-[  44% ] savepack | Speichere Datei: res://.godot/imported/raven_real_1.webp-633184a5fce44cdce5b34c502f041cdd.s3tc.ctex
-[  44% ] savepack | Speichere Datei: res://assets/models/raven_real_1.webp.import
-[  44% ] savepack | Speichere Datei: res://.godot/imported/raven_real_2.webp-30b42c88e963528f848450a7e52a97aa.s3tc.ctex
-[  44% ] savepack | Speichere Datei: res://assets/models/raven_real_2.webp.import
-[  44% ] savepack | Speichere Datei: res://.godot/imported/revolver.glb-ff53ff29818c491bd0c9b89c6b3ac727.scn
-[  44% ] savepack | Speichere Datei: res://assets/models/revolver.glb.import
-[  44% ] savepack | Speichere Datei: res://.godot/imported/revolver_0.webp-3a074b8b19cc1eb00d82029866346d44.s3tc.ctex
-[  44% ] savepack | Speichere Datei: res://assets/models/revolver_0.webp.import
+[  45% ] savepack | Speichere Datei: res://.godot/imported/raven_real_0.webp-522e68e6e31d28c52cd40fb4333ab2aa.s3tc.ctex
+[  45% ] savepack | Speichere Datei: res://assets/models/raven_real_0.webp.import
+[  45% ] savepack | Speichere Datei: res://.godot/imported/raven_real_1.webp-633184a5fce44cdce5b34c502f041cdd.s3tc.ctex
+[  45% ] savepack | Speichere Datei: res://assets/models/raven_real_1.webp.import
+[  45% ] savepack | Speichere Datei: res://.godot/imported/raven_real_2.webp-30b42c88e963528f848450a7e52a97aa.s3tc.ctex
+[  45% ] savepack | Speichere Datei: res://assets/models/raven_real_2.webp.import
+[  45% ] savepack | Speichere Datei: res://.godot/imported/revolver.glb-ff53ff29818c491bd0c9b89c6b3ac727.scn
+[  45% ] savepack | Speichere Datei: res://assets/models/revolver.glb.import
+[  45% ] savepack | Speichere Datei: res://.godot/imported/revolver_0.webp-3a074b8b19cc1eb00d82029866346d44.s3tc.ctex
+[  45% ] savepack | Speichere Datei: res://assets/models/revolver_0.webp.import
 [  45% ] savepack | Speichere Datei: res://.godot/imported/revolver_1.webp-311f7f40ed751765f9ef4f6576fd349a.ctex
 [  45% ] savepack | Speichere Datei: res://assets/models/revolver_1.webp.import
 [  45% ] savepack | Speichere Datei: res://.godot/imported/revolver_2.webp-2996f4a645e1069b776728cdfdf3108a.ctex
@@ -1234,16 +1093,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  45% ] savepack | Speichere Datei: res://assets/models/rifle_1.webp.import
 [  45% ] savepack | Speichere Datei: res://.godot/imported/rifle_2.webp-797d84fbed71c8bb632d8d3976fddb8b.ctex
 [  45% ] savepack | Speichere Datei: res://assets/models/rifle_2.webp.import
-[  45% ] savepack | Speichere Datei: res://.godot/imported/rifle_3.webp-d2b66f039ddc905e97d294d07171d033.ctex
-[  45% ] savepack | Speichere Datei: res://assets/models/rifle_3.webp.import
-[  45% ] savepack | Speichere Datei: res://.godot/imported/rock.glb-9fe9ded640b9e8b845c59e36f0f83d1b.scn
-[  45% ] savepack | Speichere Datei: res://assets/models/rock.glb.import
-[  45% ] savepack | Speichere Datei: res://.godot/imported/rock_0.webp-fb6e73b85e3ed54e794f20503d6e3c48.s3tc.ctex
-[  45% ] savepack | Speichere Datei: res://assets/models/rock_0.webp.import
-[  45% ] savepack | Speichere Datei: res://.godot/imported/sandbag.glb-b092aab6f17f0096ed2135ba4d7153ec.scn
-[  45% ] savepack | Speichere Datei: res://assets/models/sandbag.glb.import
-[  45% ] savepack | Speichere Datei: res://.godot/imported/sandbag_0.webp-865e06928a80d0b0e7890198b9e8d701.s3tc.ctex
-[  45% ] savepack | Speichere Datei: res://assets/models/sandbag_0.webp.import
+[  46% ] savepack | Speichere Datei: res://.godot/imported/rifle_3.webp-d2b66f039ddc905e97d294d07171d033.ctex
+[  46% ] savepack | Speichere Datei: res://assets/models/rifle_3.webp.import
+[  46% ] savepack | Speichere Datei: res://.godot/imported/rock.glb-9fe9ded640b9e8b845c59e36f0f83d1b.scn
+[  46% ] savepack | Speichere Datei: res://assets/models/rock.glb.import
+[  46% ] savepack | Speichere Datei: res://.godot/imported/rock_0.webp-fb6e73b85e3ed54e794f20503d6e3c48.s3tc.ctex
+[  46% ] savepack | Speichere Datei: res://assets/models/rock_0.webp.import
+[  46% ] savepack | Speichere Datei: res://.godot/imported/sandbag.glb-b092aab6f17f0096ed2135ba4d7153ec.scn
+[  46% ] savepack | Speichere Datei: res://assets/models/sandbag.glb.import
+[  46% ] savepack | Speichere Datei: res://.godot/imported/sandbag_0.webp-865e06928a80d0b0e7890198b9e8d701.s3tc.ctex
+[  46% ] savepack | Speichere Datei: res://assets/models/sandbag_0.webp.import
 [  46% ] savepack | Speichere Datei: res://.godot/imported/sandbag_1.webp-effa77505f1a3b872cf75e1527b313f8.s3tc.ctex
 [  46% ] savepack | Speichere Datei: res://assets/models/sandbag_1.webp.import
 [  46% ] savepack | Speichere Datei: res://.godot/imported/sandbag_2.webp-9c9706185b0d5c5c0aa1a5eb79169e4b.s3tc.ctex
@@ -1258,14 +1117,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  46% ] savepack | Speichere Datei: res://assets/models/scarecrow_real_2.webp.import
 [  46% ] savepack | Speichere Datei: res://.godot/imported/silage_bales.glb-3be98d60248bf7f1e78cfa3f75eea96c.scn
 [  46% ] savepack | Speichere Datei: res://assets/models/silage_bales.glb.import
-[  46% ] savepack | Speichere Datei: res://.godot/imported/silage_bales_0.webp-915af99930168bf77c548837bbd3eea4.s3tc.ctex
-[  46% ] savepack | Speichere Datei: res://assets/models/silage_bales_0.webp.import
-[  46% ] savepack | Speichere Datei: res://.godot/imported/silage_bales_1.webp-ad52febb0ae388e24323dd63df668faf.s3tc.ctex
-[  46% ] savepack | Speichere Datei: res://assets/models/silage_bales_1.webp.import
-[  46% ] savepack | Speichere Datei: res://.godot/imported/silage_bales_2.webp-59a80205664a2f39230f39640aaea949.s3tc.ctex
-[  46% ] savepack | Speichere Datei: res://assets/models/silage_bales_2.webp.import
-[  46% ] savepack | Speichere Datei: res://.godot/imported/smg.glb-409cfc8484c5330eda628d1e33a75d07.scn
-[  46% ] savepack | Speichere Datei: res://assets/models/smg.glb.import
+[  47% ] savepack | Speichere Datei: res://.godot/imported/silage_bales_0.webp-915af99930168bf77c548837bbd3eea4.s3tc.ctex
+[  47% ] savepack | Speichere Datei: res://assets/models/silage_bales_0.webp.import
+[  47% ] savepack | Speichere Datei: res://.godot/imported/silage_bales_1.webp-ad52febb0ae388e24323dd63df668faf.s3tc.ctex
+[  47% ] savepack | Speichere Datei: res://assets/models/silage_bales_1.webp.import
+[  47% ] savepack | Speichere Datei: res://.godot/imported/silage_bales_2.webp-59a80205664a2f39230f39640aaea949.s3tc.ctex
+[  47% ] savepack | Speichere Datei: res://assets/models/silage_bales_2.webp.import
+[  47% ] savepack | Speichere Datei: res://.godot/imported/smg.glb-409cfc8484c5330eda628d1e33a75d07.scn
+[  47% ] savepack | Speichere Datei: res://assets/models/smg.glb.import
 [  47% ] savepack | Speichere Datei: res://.godot/imported/smg_0.webp-5a044f7aab680586921531fe414cf868.s3tc.ctex
 [  47% ] savepack | Speichere Datei: res://assets/models/smg_0.webp.import
 [  47% ] savepack | Speichere Datei: res://.godot/imported/smg_1.webp-72892e0450bd8525f54369593a4f021b.ctex
@@ -1280,16 +1139,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  47% ] savepack | Speichere Datei: res://assets/models/spruce_detailed_0.webp.import
 [  47% ] savepack | Speichere Datei: res://.godot/imported/spruce_detailed_1.webp-95fc1fd0add4e502d6f6ada1ed7f5261.s3tc.ctex
 [  47% ] savepack | Speichere Datei: res://assets/models/spruce_detailed_1.webp.import
-[  47% ] savepack | Speichere Datei: res://.godot/imported/spruce_detailed_2.webp-65c096374e7ed57e5a98a1f874acf94c.s3tc.ctex
-[  47% ] savepack | Speichere Datei: res://assets/models/spruce_detailed_2.webp.import
-[  47% ] savepack | Speichere Datei: res://.godot/imported/stag.glb-49a3d849472e5719f58106209a15cfb8.scn
-[  47% ] savepack | Speichere Datei: res://assets/models/stag.glb.import
-[  47% ] savepack | Speichere Datei: res://.godot/imported/stag_0.webp-a197b50510888589804d93196f4c7878.s3tc.ctex
-[  47% ] savepack | Speichere Datei: res://assets/models/stag_0.webp.import
-[  47% ] savepack | Speichere Datei: res://.godot/imported/storage_hut.glb-5049afb4720ef485403c0667b0fddd48.scn
-[  47% ] savepack | Speichere Datei: res://assets/models/storage_hut.glb.import
-[  47% ] savepack | Speichere Datei: res://.godot/imported/storage_hut_0.webp-6b5eb95a0da818ee10a770796cd67c75.s3tc.ctex
-[  47% ] savepack | Speichere Datei: res://assets/models/storage_hut_0.webp.import
+[  48% ] savepack | Speichere Datei: res://.godot/imported/spruce_detailed_2.webp-65c096374e7ed57e5a98a1f874acf94c.s3tc.ctex
+[  48% ] savepack | Speichere Datei: res://assets/models/spruce_detailed_2.webp.import
+[  48% ] savepack | Speichere Datei: res://.godot/imported/stag.glb-49a3d849472e5719f58106209a15cfb8.scn
+[  48% ] savepack | Speichere Datei: res://assets/models/stag.glb.import
+[  48% ] savepack | Speichere Datei: res://.godot/imported/stag_0.webp-a197b50510888589804d93196f4c7878.s3tc.ctex
+[  48% ] savepack | Speichere Datei: res://assets/models/stag_0.webp.import
+[  48% ] savepack | Speichere Datei: res://.godot/imported/storage_hut.glb-5049afb4720ef485403c0667b0fddd48.scn
+[  48% ] savepack | Speichere Datei: res://assets/models/storage_hut.glb.import
+[  48% ] savepack | Speichere Datei: res://.godot/imported/storage_hut_0.webp-6b5eb95a0da818ee10a770796cd67c75.s3tc.ctex
+[  48% ] savepack | Speichere Datei: res://assets/models/storage_hut_0.webp.import
 [  48% ] savepack | Speichere Datei: res://.godot/imported/stump.glb-eab95e8e0f708e33604c2cd4b0c17f30.scn
 [  48% ] savepack | Speichere Datei: res://assets/models/stump.glb.import
 [  48% ] savepack | Speichere Datei: res://.godot/imported/stump_0.webp-da06e36b6c4e9d6c6df6803f3b60ff23.s3tc.ctex
@@ -1304,16 +1163,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  48% ] savepack | Speichere Datei: res://assets/models/titanbreaker_0.webp.import
 [  48% ] savepack | Speichere Datei: res://.godot/imported/titanbreaker_1.webp-ff2efd5cd0392300e592e6a7be201ed5.s3tc.ctex
 [  48% ] savepack | Speichere Datei: res://assets/models/titanbreaker_1.webp.import
-[  48% ] savepack | Speichere Datei: res://.godot/imported/titanbreaker_2.webp-5131772f70ba504295991ea1093a8381.s3tc.ctex
-[  48% ] savepack | Speichere Datei: res://assets/models/titanbreaker_2.webp.import
-[  48% ] savepack | Speichere Datei: res://.godot/imported/titanbreaker_3.webp-dab29ebeb4a5ce6c9e200cbf1f4cc0bd.s3tc.ctex
-[  48% ] savepack | Speichere Datei: res://assets/models/titanbreaker_3.webp.import
-[  48% ] savepack | Speichere Datei: res://.godot/imported/tower_flame.glb-d4292b0eec9d32b749d0526a758c2e17.scn
-[  48% ] savepack | Speichere Datei: res://assets/models/tower_flame.glb.import
-[  48% ] savepack | Speichere Datei: res://.godot/imported/tower_flame_0.webp-a16fe13294f197ac60a9bd2b01774f3f.s3tc.ctex
-[  48% ] savepack | Speichere Datei: res://assets/models/tower_flame_0.webp.import
-[  48% ] savepack | Speichere Datei: res://.godot/imported/tower_flame_1.webp-ddb7808dc6abd9c96470ae1e1a5622e0.s3tc.ctex
-[  48% ] savepack | Speichere Datei: res://assets/models/tower_flame_1.webp.import
+[  49% ] savepack | Speichere Datei: res://.godot/imported/titanbreaker_2.webp-5131772f70ba504295991ea1093a8381.s3tc.ctex
+[  49% ] savepack | Speichere Datei: res://assets/models/titanbreaker_2.webp.import
+[  49% ] savepack | Speichere Datei: res://.godot/imported/titanbreaker_3.webp-dab29ebeb4a5ce6c9e200cbf1f4cc0bd.s3tc.ctex
+[  49% ] savepack | Speichere Datei: res://assets/models/titanbreaker_3.webp.import
+[  49% ] savepack | Speichere Datei: res://.godot/imported/tower_flame.glb-d4292b0eec9d32b749d0526a758c2e17.scn
+[  49% ] savepack | Speichere Datei: res://assets/models/tower_flame.glb.import
+[  49% ] savepack | Speichere Datei: res://.godot/imported/tower_flame_0.webp-a16fe13294f197ac60a9bd2b01774f3f.s3tc.ctex
+[  49% ] savepack | Speichere Datei: res://assets/models/tower_flame_0.webp.import
+[  49% ] savepack | Speichere Datei: res://.godot/imported/tower_flame_1.webp-ddb7808dc6abd9c96470ae1e1a5622e0.s3tc.ctex
+[  49% ] savepack | Speichere Datei: res://assets/models/tower_flame_1.webp.import
 [  49% ] savepack | Speichere Datei: res://.godot/imported/tower_flame_2.webp-0cd1a1bea5f80d9856c4bd931d6a3514.s3tc.ctex
 [  49% ] savepack | Speichere Datei: res://assets/models/tower_flame_2.webp.import
 [  49% ] savepack | Speichere Datei: res://.godot/imported/tower_mg42.glb-095fbab0e85601140cc63fbd2488a67e.scn
@@ -1328,14 +1187,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  49% ] savepack | Speichere Datei: res://assets/models/tower_mortar.glb.import
 [  49% ] savepack | Speichere Datei: res://.godot/imported/tower_mortar_0.webp-7673bb43d81590bcf911d60f505cc17e.s3tc.ctex
 [  49% ] savepack | Speichere Datei: res://assets/models/tower_mortar_0.webp.import
-[  49% ] savepack | Speichere Datei: res://.godot/imported/tower_mortar_1.webp-a22855a428183eb606f681ea05007647.s3tc.ctex
-[  49% ] savepack | Speichere Datei: res://assets/models/tower_mortar_1.webp.import
-[  49% ] savepack | Speichere Datei: res://.godot/imported/tower_mortar_2.webp-6860ff57041de8c31b8206866e9bf855.s3tc.ctex
-[  49% ] savepack | Speichere Datei: res://assets/models/tower_mortar_2.webp.import
-[  49% ] savepack | Speichere Datei: res://.godot/imported/tower_standard.glb-c327c87cdc3edb6afc39fed93d7d520e.scn
-[  49% ] savepack | Speichere Datei: res://assets/models/tower_standard.glb.import
-[  49% ] savepack | Speichere Datei: res://.godot/imported/tower_standard_0.webp-64031cc0468455677afda643c7f31ace.s3tc.ctex
-[  49% ] savepack | Speichere Datei: res://assets/models/tower_standard_0.webp.import
+[  50% ] savepack | Speichere Datei: res://.godot/imported/tower_mortar_1.webp-a22855a428183eb606f681ea05007647.s3tc.ctex
+[  50% ] savepack | Speichere Datei: res://assets/models/tower_mortar_1.webp.import
+[  50% ] savepack | Speichere Datei: res://.godot/imported/tower_mortar_2.webp-6860ff57041de8c31b8206866e9bf855.s3tc.ctex
+[  50% ] savepack | Speichere Datei: res://assets/models/tower_mortar_2.webp.import
+[  50% ] savepack | Speichere Datei: res://.godot/imported/tower_standard.glb-c327c87cdc3edb6afc39fed93d7d520e.scn
+[  50% ] savepack | Speichere Datei: res://assets/models/tower_standard.glb.import
+[  50% ] savepack | Speichere Datei: res://.godot/imported/tower_standard_0.webp-64031cc0468455677afda643c7f31ace.s3tc.ctex
+[  50% ] savepack | Speichere Datei: res://assets/models/tower_standard_0.webp.import
 [  50% ] savepack | Speichere Datei: res://.godot/imported/tower_standard_1.webp-946eb44fb26862980e072bbd53bd2eac.s3tc.ctex
 [  50% ] savepack | Speichere Datei: res://assets/models/tower_standard_1.webp.import
 [  50% ] savepack | Speichere Datei: res://.godot/imported/tower_standard_2.webp-c595507ceaf95aaf6793b79b87a08bb8.s3tc.ctex
@@ -1352,14 +1211,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  50% ] savepack | Speichere Datei: res://assets/models/tractor.glb.import
 [  50% ] savepack | Speichere Datei: res://.godot/imported/tractor_0.webp-b26565c14dcc722e99d11e859dc17d76.s3tc.ctex
 [  50% ] savepack | Speichere Datei: res://assets/models/tractor_0.webp.import
-[  50% ] savepack | Speichere Datei: res://.godot/imported/tractor_1.webp-56ba0ab6b457080a11dbf48a9a820b55.s3tc.ctex
-[  50% ] savepack | Speichere Datei: res://assets/models/tractor_1.webp.import
-[  50% ] savepack | Speichere Datei: res://.godot/imported/tractor_2.webp-616b5d0986abb80d5bab0c1be4075706.s3tc.ctex
-[  50% ] savepack | Speichere Datei: res://assets/models/tractor_2.webp.import
-[  50% ] savepack | Speichere Datei: res://.godot/imported/tractor_3.webp-3dc8ba923c53d18ecfdc6883013ae818.s3tc.ctex
-[  50% ] savepack | Speichere Datei: res://assets/models/tractor_3.webp.import
-[  50% ] savepack | Speichere Datei: res://.godot/imported/tree_autumn_a.glb-31f07905a490bd14bd7922275a8d5ba8.scn
-[  50% ] savepack | Speichere Datei: res://assets/models/tree_autumn_a.glb.import
+[  51% ] savepack | Speichere Datei: res://.godot/imported/tractor_1.webp-56ba0ab6b457080a11dbf48a9a820b55.s3tc.ctex
+[  51% ] savepack | Speichere Datei: res://assets/models/tractor_1.webp.import
+[  51% ] savepack | Speichere Datei: res://.godot/imported/tractor_2.webp-616b5d0986abb80d5bab0c1be4075706.s3tc.ctex
+[  51% ] savepack | Speichere Datei: res://assets/models/tractor_2.webp.import
+[  51% ] savepack | Speichere Datei: res://.godot/imported/tractor_3.webp-3dc8ba923c53d18ecfdc6883013ae818.s3tc.ctex
+[  51% ] savepack | Speichere Datei: res://assets/models/tractor_3.webp.import
+[  51% ] savepack | Speichere Datei: res://.godot/imported/tree_autumn_a.glb-31f07905a490bd14bd7922275a8d5ba8.scn
+[  51% ] savepack | Speichere Datei: res://assets/models/tree_autumn_a.glb.import
 [  51% ] savepack | Speichere Datei: res://.godot/imported/tree_autumn_a_0.webp-5ca3ea08ed00f180b354ed9a04f635ba.s3tc.ctex
 [  51% ] savepack | Speichere Datei: res://assets/models/tree_autumn_a_0.webp.import
 [  51% ] savepack | Speichere Datei: res://.godot/imported/tree_autumn_b.glb-bd8adae1cb8dc05a7584dc73605c16fe.scn
@@ -1376,14 +1235,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  51% ] savepack | Speichere Datei: res://assets/models/tree_leaf_0.webp.import
 [  51% ] savepack | Speichere Datei: res://.godot/imported/tree_leaf_1.webp-7c985e08db1d03c803f346ad58ea6d0a.s3tc.ctex
 [  51% ] savepack | Speichere Datei: res://assets/models/tree_leaf_1.webp.import
-[  51% ] savepack | Speichere Datei: res://.godot/imported/tree_leaf_2.webp-fcf361e86c59591111f275ecf62484d6.s3tc.ctex
-[  51% ] savepack | Speichere Datei: res://assets/models/tree_leaf_2.webp.import
-[  51% ] savepack | Speichere Datei: res://.godot/imported/tree_pine.glb-f1c7a4849dfede489caf3d5e683b648f.scn
-[  51% ] savepack | Speichere Datei: res://assets/models/tree_pine.glb.import
-[  51% ] savepack | Speichere Datei: res://.godot/imported/tree_pine_0.webp-02581dad4563791e3dcfa5f94c5dc85d.s3tc.ctex
-[  51% ] savepack | Speichere Datei: res://assets/models/tree_pine_0.webp.import
-[  51% ] savepack | Speichere Datei: res://.godot/imported/tree_pine_1.webp-d3d8ee83d43b3d4e8ab3e03a5cb3ada2.s3tc.ctex
-[  51% ] savepack | Speichere Datei: res://assets/models/tree_pine_1.webp.import
+[  52% ] savepack | Speichere Datei: res://.godot/imported/tree_leaf_2.webp-fcf361e86c59591111f275ecf62484d6.s3tc.ctex
+[  52% ] savepack | Speichere Datei: res://assets/models/tree_leaf_2.webp.import
+[  52% ] savepack | Speichere Datei: res://.godot/imported/tree_pine.glb-f1c7a4849dfede489caf3d5e683b648f.scn
+[  52% ] savepack | Speichere Datei: res://assets/models/tree_pine.glb.import
+[  52% ] savepack | Speichere Datei: res://.godot/imported/tree_pine_0.webp-02581dad4563791e3dcfa5f94c5dc85d.s3tc.ctex
+[  52% ] savepack | Speichere Datei: res://assets/models/tree_pine_0.webp.import
+[  52% ] savepack | Speichere Datei: res://.godot/imported/tree_pine_1.webp-d3d8ee83d43b3d4e8ab3e03a5cb3ada2.s3tc.ctex
+[  52% ] savepack | Speichere Datei: res://assets/models/tree_pine_1.webp.import
 [  52% ] savepack | Speichere Datei: res://.godot/imported/tree_pine_2.webp-0ece8af07d964e5edb25bcda70b1eff8.s3tc.ctex
 [  52% ] savepack | Speichere Datei: res://assets/models/tree_pine_2.webp.import
 [  52% ] savepack | Speichere Datei: res://.godot/imported/tripod_cauldron.glb-3e9cc36674d6b429fab511f3d20f6115.scn
@@ -1398,16 +1257,16 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  52% ] savepack | Speichere Datei: res://assets/models/waste_bin_1.webp.import
 [  52% ] savepack | Speichere Datei: res://.godot/imported/waste_bin_2.webp-b9b1468495909451e96162bcf284f057.s3tc.ctex
 [  52% ] savepack | Speichere Datei: res://assets/models/waste_bin_2.webp.import
-[  52% ] savepack | Speichere Datei: res://.godot/imported/waste_bin_3.webp-db91bf7b844fd171076629371e7853d2.ctex
-[  52% ] savepack | Speichere Datei: res://assets/models/waste_bin_3.webp.import
-[  52% ] savepack | Speichere Datei: res://.godot/imported/well.glb-d6d05fda6d9dc1288dae69ca9207cf9b.scn
-[  52% ] savepack | Speichere Datei: res://assets/models/well.glb.import
-[  52% ] savepack | Speichere Datei: res://.godot/imported/well_0.webp-dc02840322b98f85fe31feef58edcee3.s3tc.ctex
-[  52% ] savepack | Speichere Datei: res://assets/models/well_0.webp.import
-[  52% ] savepack | Speichere Datei: res://.godot/imported/woodpile.glb-466aa702fd85edbe125a9499fa1ce4b6.scn
-[  52% ] savepack | Speichere Datei: res://assets/models/woodpile.glb.import
-[  52% ] savepack | Speichere Datei: res://.godot/imported/woodpile_0.webp-5f330be6e2ee100952ee79bb3db5fc6a.s3tc.ctex
-[  52% ] savepack | Speichere Datei: res://assets/models/woodpile_0.webp.import
+[  53% ] savepack | Speichere Datei: res://.godot/imported/waste_bin_3.webp-db91bf7b844fd171076629371e7853d2.ctex
+[  53% ] savepack | Speichere Datei: res://assets/models/waste_bin_3.webp.import
+[  53% ] savepack | Speichere Datei: res://.godot/imported/well.glb-d6d05fda6d9dc1288dae69ca9207cf9b.scn
+[  53% ] savepack | Speichere Datei: res://assets/models/well.glb.import
+[  53% ] savepack | Speichere Datei: res://.godot/imported/well_0.webp-dc02840322b98f85fe31feef58edcee3.s3tc.ctex
+[  53% ] savepack | Speichere Datei: res://assets/models/well_0.webp.import
+[  53% ] savepack | Speichere Datei: res://.godot/imported/woodpile.glb-466aa702fd85edbe125a9499fa1ce4b6.scn
+[  53% ] savepack | Speichere Datei: res://assets/models/woodpile.glb.import
+[  53% ] savepack | Speichere Datei: res://.godot/imported/woodpile_0.webp-5f330be6e2ee100952ee79bb3db5fc6a.s3tc.ctex
+[  53% ] savepack | Speichere Datei: res://assets/models/woodpile_0.webp.import
 [  53% ] savepack | Speichere Datei: res://.godot/imported/workbench.glb-0c98bf47f05d9ba6025e187449744f2d.scn
 [  53% ] savepack | Speichere Datei: res://assets/models/workbench.glb.import
 [  53% ] savepack | Speichere Datei: res://.godot/imported/workbench_0.webp-75515f7da476762cedcb1fd0aa7398e2.s3tc.ctex
@@ -1422,14 +1281,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  53% ] savepack | Speichere Datei: res://assets/models/zombie_bloater.glb.import
 [  53% ] savepack | Speichere Datei: res://.godot/imported/zombie_bloater_metal_rough.webp-8112a45004ebfda35ac36e6f4a7c0a45.s3tc.ctex
 [  53% ] savepack | Speichere Datei: res://assets/models/zombie_bloater_metal_rough.webp.import
-[  53% ] savepack | Speichere Datei: res://.godot/imported/zombie_bloater_normal.webp-c3e36d0d5d912bb66c1389cfc78a794a.s3tc.ctex
-[  53% ] savepack | Speichere Datei: res://assets/models/zombie_bloater_normal.webp.import
-[  53% ] savepack | Speichere Datei: res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.bptc.ctex
-[  53% ] savepack | Speichere Datei: res://assets/models/zombie_bloater_texture_0.webp.import
-[  53% ] savepack | Speichere Datei: res://.godot/imported/zombie_colossus.glb-892a29bd57ac98471487d55a5d4de99c.scn
-[  53% ] savepack | Speichere Datei: res://assets/models/zombie_colossus.glb.import
-[  53% ] savepack | Speichere Datei: res://.godot/imported/zombie_colossus_metal_rough.webp-343c1f262a99b39b69abee68a1e26c87.s3tc.ctex
-[  53% ] savepack | Speichere Datei: res://assets/models/zombie_colossus_metal_rough.webp.import
+[  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_bloater_normal.webp-c3e36d0d5d912bb66c1389cfc78a794a.s3tc.ctex
+[  54% ] savepack | Speichere Datei: res://assets/models/zombie_bloater_normal.webp.import
+[  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.bptc.ctex
+[  54% ] savepack | Speichere Datei: res://assets/models/zombie_bloater_texture_0.webp.import
+[  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_colossus.glb-892a29bd57ac98471487d55a5d4de99c.scn
+[  54% ] savepack | Speichere Datei: res://assets/models/zombie_colossus.glb.import
+[  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_colossus_metal_rough.webp-343c1f262a99b39b69abee68a1e26c87.s3tc.ctex
+[  54% ] savepack | Speichere Datei: res://assets/models/zombie_colossus_metal_rough.webp.import
 [  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_colossus_normal.webp-552346684d603380b6b95819533dceb1.s3tc.ctex
 [  54% ] savepack | Speichere Datei: res://assets/models/zombie_colossus_normal.webp.import
 [  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_colossus_texture_0.webp-9121deb196b4cc57adcd5fc8b6b4afd9.bptc.ctex
@@ -1446,14 +1305,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  54% ] savepack | Speichere Datei: res://assets/models/zombie_earthworm_ancient_normal.webp.import
 [  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_earthworm_Image_0.webp-3566c3af7b5f695660860521306f2672.ctex
 [  54% ] savepack | Speichere Datei: res://assets/models/zombie_earthworm_Image_0.webp.import
-[  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_earthworm_Image_1.webp-f63ff6794dc8e8d8c046d8bcf2248863.ctex
-[  54% ] savepack | Speichere Datei: res://assets/models/zombie_earthworm_Image_1.webp.import
-[  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_earthworm_normal.webp-71806ab9bc5c196a01cf59200366a87f.bptc.ctex
-[  54% ] savepack | Speichere Datei: res://assets/models/zombie_earthworm_normal.webp.import
-[  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_farmer.glb-264d6f763a80a505608c435518ace30e.scn
-[  54% ] savepack | Speichere Datei: res://assets/models/zombie_farmer.glb.import
-[  54% ] savepack | Speichere Datei: res://.godot/imported/zombie_farmer_metal_rough.webp-a1535483511417365b3249fcf4349fe3.s3tc.ctex
-[  54% ] savepack | Speichere Datei: res://assets/models/zombie_farmer_metal_rough.webp.import
+[  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_earthworm_Image_1.webp-f63ff6794dc8e8d8c046d8bcf2248863.ctex
+[  55% ] savepack | Speichere Datei: res://assets/models/zombie_earthworm_Image_1.webp.import
+[  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_earthworm_normal.webp-71806ab9bc5c196a01cf59200366a87f.bptc.ctex
+[  55% ] savepack | Speichere Datei: res://assets/models/zombie_earthworm_normal.webp.import
+[  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_farmer.glb-264d6f763a80a505608c435518ace30e.scn
+[  55% ] savepack | Speichere Datei: res://assets/models/zombie_farmer.glb.import
+[  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_farmer_metal_rough.webp-a1535483511417365b3249fcf4349fe3.s3tc.ctex
+[  55% ] savepack | Speichere Datei: res://assets/models/zombie_farmer_metal_rough.webp.import
 [  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_farmer_normal.webp-6f6aab9aba04c4a3fe2c67942f1c9a07.s3tc.ctex
 [  55% ] savepack | Speichere Datei: res://assets/models/zombie_farmer_normal.webp.import
 [  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_farmer_texture_0.webp-5883567f5c84d6f0102d85108de25f97.bptc.ctex
@@ -1470,14 +1329,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  55% ] savepack | Speichere Datei: res://assets/models/zombie_grandma.glb.import
 [  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_grandma_metal_rough.webp-4a28460b14fd0898ccf238ae1c4028b6.s3tc.ctex
 [  55% ] savepack | Speichere Datei: res://assets/models/zombie_grandma_metal_rough.webp.import
-[  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_grandma_normal.webp-4442031d6b15afe21a794b680b4fabda.s3tc.ctex
-[  55% ] savepack | Speichere Datei: res://assets/models/zombie_grandma_normal.webp.import
-[  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.bptc.ctex
-[  55% ] savepack | Speichere Datei: res://assets/models/zombie_grandma_texture_0.webp.import
-[  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_hiker.glb-4949055e4dce455290bd3db52c106fe6.scn
-[  55% ] savepack | Speichere Datei: res://assets/models/zombie_hiker.glb.import
-[  55% ] savepack | Speichere Datei: res://.godot/imported/zombie_hiker_metal_rough.webp-3da2cf10ee2aa59621619267b565d195.s3tc.ctex
-[  55% ] savepack | Speichere Datei: res://assets/models/zombie_hiker_metal_rough.webp.import
+[  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_grandma_normal.webp-4442031d6b15afe21a794b680b4fabda.s3tc.ctex
+[  56% ] savepack | Speichere Datei: res://assets/models/zombie_grandma_normal.webp.import
+[  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_grandma_texture_0.webp-4eb7b6f97f5cb2aec4f5c1a4a5a074f2.bptc.ctex
+[  56% ] savepack | Speichere Datei: res://assets/models/zombie_grandma_texture_0.webp.import
+[  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_hiker.glb-4949055e4dce455290bd3db52c106fe6.scn
+[  56% ] savepack | Speichere Datei: res://assets/models/zombie_hiker.glb.import
+[  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_hiker_metal_rough.webp-3da2cf10ee2aa59621619267b565d195.s3tc.ctex
+[  56% ] savepack | Speichere Datei: res://assets/models/zombie_hiker_metal_rough.webp.import
 [  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_hiker_normal.webp-d57aea06292453b487db36319f1736f0.s3tc.ctex
 [  56% ] savepack | Speichere Datei: res://assets/models/zombie_hiker_normal.webp.import
 [  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_hiker_texture_0.webp-0acb8802599a0ed07591be5926661ebd.bptc.ctex
@@ -1494,14 +1353,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  56% ] savepack | Speichere Datei: res://assets/models/zombie_nurse.glb.import
 [  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_nurse_metal_rough.webp-1e7f909836c0ee3f49a2d19b8c1c03ca.s3tc.ctex
 [  56% ] savepack | Speichere Datei: res://assets/models/zombie_nurse_metal_rough.webp.import
-[  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_nurse_normal.webp-5f4b3727845534e186e1d4e9025ebdc8.s3tc.ctex
-[  56% ] savepack | Speichere Datei: res://assets/models/zombie_nurse_normal.webp.import
-[  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.bptc.ctex
-[  56% ] savepack | Speichere Datei: res://assets/models/zombie_nurse_texture_0.webp.import
-[  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_runner.glb-f9201196e63b5ccb8cb5cd4f025015b4.scn
-[  56% ] savepack | Speichere Datei: res://assets/models/zombie_runner.glb.import
-[  56% ] savepack | Speichere Datei: res://.godot/imported/zombie_runner_metal_rough.webp-81191a47e1d2bf87b06ab277f95f16a9.s3tc.ctex
-[  56% ] savepack | Speichere Datei: res://assets/models/zombie_runner_metal_rough.webp.import
+[  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_nurse_normal.webp-5f4b3727845534e186e1d4e9025ebdc8.s3tc.ctex
+[  57% ] savepack | Speichere Datei: res://assets/models/zombie_nurse_normal.webp.import
+[  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_nurse_texture_0.webp-3c7d003297ea2d3f07a3fa9524ef6ac7.bptc.ctex
+[  57% ] savepack | Speichere Datei: res://assets/models/zombie_nurse_texture_0.webp.import
+[  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_runner.glb-f9201196e63b5ccb8cb5cd4f025015b4.scn
+[  57% ] savepack | Speichere Datei: res://assets/models/zombie_runner.glb.import
+[  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_runner_metal_rough.webp-81191a47e1d2bf87b06ab277f95f16a9.s3tc.ctex
+[  57% ] savepack | Speichere Datei: res://assets/models/zombie_runner_metal_rough.webp.import
 [  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_runner_normal.webp-6bc6c2f53b4a5523633f798227e98f85.s3tc.ctex
 [  57% ] savepack | Speichere Datei: res://assets/models/zombie_runner_normal.webp.import
 [  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_runner_texture_0.webp-2744278346a9ee8269c9b0cba1eab55e.bptc.ctex
@@ -1518,12 +1377,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  57% ] savepack | Speichere Datei: res://assets/models/zombie_soldier.glb.import
 [  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_soldier_metal_rough.webp-5f337d6d9b79aa4c00b9f18d037b805a.s3tc.ctex
 [  57% ] savepack | Speichere Datei: res://assets/models/zombie_soldier_metal_rough.webp.import
-[  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_soldier_normal.webp-afde5fd663989c6bd8e6c7f524868cda.s3tc.ctex
-[  57% ] savepack | Speichere Datei: res://assets/models/zombie_soldier_normal.webp.import
-[  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.bptc.ctex
-[  57% ] savepack | Speichere Datei: res://assets/models/zombie_soldier_texture_0.webp.import
-[  57% ] savepack | Speichere Datei: res://.godot/imported/zombie_titan.glb-376152edd83c1471be73a5dcdf11d931.scn
-[  57% ] savepack | Speichere Datei: res://assets/models/zombie_titan.glb.import
+[  58% ] savepack | Speichere Datei: res://.godot/imported/zombie_soldier_normal.webp-afde5fd663989c6bd8e6c7f524868cda.s3tc.ctex
+[  58% ] savepack | Speichere Datei: res://assets/models/zombie_soldier_normal.webp.import
+[  58% ] savepack | Speichere Datei: res://.godot/imported/zombie_soldier_texture_0.webp-bd550f02ad1f280817e8a33f09812219.bptc.ctex
+[  58% ] savepack | Speichere Datei: res://assets/models/zombie_soldier_texture_0.webp.import
+[  58% ] savepack | Speichere Datei: res://.godot/imported/zombie_titan.glb-376152edd83c1471be73a5dcdf11d931.scn
+[  58% ] savepack | Speichere Datei: res://assets/models/zombie_titan.glb.import
 [  58% ] savepack | Speichere Datei: res://.godot/imported/zombie_titan_metal_rough.webp-2698008a4d3c44062d36bfae3b533348.s3tc.ctex
 [  58% ] savepack | Speichere Datei: res://assets/models/zombie_titan_metal_rough.webp.import
 [  58% ] savepack | Speichere Datei: res://.godot/imported/zombie_titan_normal.webp-3363f54c5d2201a12821b35f4f5dd5fe.s3tc.ctex
@@ -1540,14 +1399,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  58% ] savepack | Speichere Datei: res://assets/sprites/leaf_beech.png.import
 [  58% ] savepack | Speichere Datei: res://.godot/imported/leaf_fern.png-6d3e819a48d881ede2167778b4a23fb9.ctex
 [  58% ] savepack | Speichere Datei: res://assets/sprites/leaf_fern.png.import
-[  58% ] savepack | Speichere Datei: res://.godot/imported/leaf_oak.png-b84ef92790ce90c68713a72d2e1107f8.ctex
-[  58% ] savepack | Speichere Datei: res://assets/sprites/leaf_oak.png.import
-[  58% ] savepack | Speichere Datei: res://.godot/imported/leaf_spruce.png-17ba7dd50323329b9efbd32897279632.ctex
-[  58% ] savepack | Speichere Datei: res://assets/sprites/leaf_spruce.png.import
-[  58% ] savepack | Speichere Datei: res://.godot/imported/leaves.png-d00ccddd4d28e51aa7a2720415d473d7.ctex
-[  58% ] savepack | Speichere Datei: res://assets/sprites/leaves.png.import
-[  58% ] savepack | Speichere Datei: res://.godot/imported/asphalt_albedo.jpg-c65d1edc39967ece933d50fb1294a675.bptc.ctex
-[  58% ] savepack | Speichere Datei: res://assets/textures/asphalt_albedo.jpg.import
+[  59% ] savepack | Speichere Datei: res://.godot/imported/leaf_oak.png-b84ef92790ce90c68713a72d2e1107f8.ctex
+[  59% ] savepack | Speichere Datei: res://assets/sprites/leaf_oak.png.import
+[  59% ] savepack | Speichere Datei: res://.godot/imported/leaf_spruce.png-17ba7dd50323329b9efbd32897279632.ctex
+[  59% ] savepack | Speichere Datei: res://assets/sprites/leaf_spruce.png.import
+[  59% ] savepack | Speichere Datei: res://.godot/imported/leaves.png-d00ccddd4d28e51aa7a2720415d473d7.ctex
+[  59% ] savepack | Speichere Datei: res://assets/sprites/leaves.png.import
+[  59% ] savepack | Speichere Datei: res://.godot/imported/asphalt_albedo.jpg-c65d1edc39967ece933d50fb1294a675.bptc.ctex
+[  59% ] savepack | Speichere Datei: res://assets/textures/asphalt_albedo.jpg.import
 [  59% ] savepack | Speichere Datei: res://.godot/imported/asphalt_ao.jpg-71024d9013db4e1d1a91fe1919ac899d.s3tc.ctex
 [  59% ] savepack | Speichere Datei: res://assets/textures/asphalt_ao.jpg.import
 [  59% ] savepack | Speichere Datei: res://.godot/imported/asphalt_normal.jpg-5d87cd43aff56a5e8b79910a369fd6eb.s3tc.ctex
@@ -1564,14 +1423,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  59% ] savepack | Speichere Datei: res://assets/textures/bark_rough.jpg.import
 [  59% ] savepack | Speichere Datei: res://.godot/imported/grass_albedo.jpg-bbd72c71f0ea67d1cc908779e3b7bd3d.bptc.ctex
 [  59% ] savepack | Speichere Datei: res://assets/textures/grass_albedo.jpg.import
-[  59% ] savepack | Speichere Datei: res://.godot/imported/grass_ao.jpg-550859c88c50038301519647a3d5efb2.s3tc.ctex
-[  59% ] savepack | Speichere Datei: res://assets/textures/grass_ao.jpg.import
-[  59% ] savepack | Speichere Datei: res://.godot/imported/grass_normal.jpg-6a8782a00e2daaf8de7733076ac5ff29.s3tc.ctex
-[  59% ] savepack | Speichere Datei: res://assets/textures/grass_normal.jpg.import
-[  59% ] savepack | Speichere Datei: res://.godot/imported/grass_rough.jpg-9fbe1169496195a95791abb6fc41022a.s3tc.ctex
-[  59% ] savepack | Speichere Datei: res://assets/textures/grass_rough.jpg.import
-[  59% ] savepack | Speichere Datei: res://.godot/imported/gravel_albedo.jpg-0d7641294a36935b8af69a083184b5b6.bptc.ctex
-[  59% ] savepack | Speichere Datei: res://assets/textures/gravel_albedo.jpg.import
+[  60% ] savepack | Speichere Datei: res://.godot/imported/grass_ao.jpg-550859c88c50038301519647a3d5efb2.s3tc.ctex
+[  60% ] savepack | Speichere Datei: res://assets/textures/grass_ao.jpg.import
+[  60% ] savepack | Speichere Datei: res://.godot/imported/grass_normal.jpg-6a8782a00e2daaf8de7733076ac5ff29.s3tc.ctex
+[  60% ] savepack | Speichere Datei: res://assets/textures/grass_normal.jpg.import
+[  60% ] savepack | Speichere Datei: res://.godot/imported/grass_rough.jpg-9fbe1169496195a95791abb6fc41022a.s3tc.ctex
+[  60% ] savepack | Speichere Datei: res://assets/textures/grass_rough.jpg.import
+[  60% ] savepack | Speichere Datei: res://.godot/imported/gravel_albedo.jpg-0d7641294a36935b8af69a083184b5b6.bptc.ctex
+[  60% ] savepack | Speichere Datei: res://assets/textures/gravel_albedo.jpg.import
 [  60% ] savepack | Speichere Datei: res://.godot/imported/gravel_ao.jpg-24573f06aeab367176ef26fbc0cc39e7.s3tc.ctex
 [  60% ] savepack | Speichere Datei: res://assets/textures/gravel_ao.jpg.import
 [  60% ] savepack | Speichere Datei: res://.godot/imported/gravel_normal.jpg-a6010f218744f3067e6c16e4aca444f8.s3tc.ctex
@@ -1588,14 +1447,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  60% ] savepack | Speichere Datei: res://assets/textures/leaves2_rough.jpg.import
 [  60% ] savepack | Speichere Datei: res://.godot/imported/leaves_albedo.jpg-939902dbd8708575e5fc0bc787581b84.bptc.ctex
 [  60% ] savepack | Speichere Datei: res://assets/textures/leaves_albedo.jpg.import
-[  60% ] savepack | Speichere Datei: res://.godot/imported/leaves_ao.jpg-e58ad80994cece8e9860915e1e05367f.s3tc.ctex
-[  60% ] savepack | Speichere Datei: res://assets/textures/leaves_ao.jpg.import
-[  60% ] savepack | Speichere Datei: res://.godot/imported/leaves_normal.jpg-cfc7fe9a43a08acca6a4f2605af5d259.s3tc.ctex
-[  60% ] savepack | Speichere Datei: res://assets/textures/leaves_normal.jpg.import
-[  60% ] savepack | Speichere Datei: res://.godot/imported/leaves_rough.jpg-360f48f70fbfb04f06964db3988ff081.s3tc.ctex
-[  60% ] savepack | Speichere Datei: res://assets/textures/leaves_rough.jpg.import
-[  60% ] savepack | Speichere Datei: res://.godot/imported/ph_asphalt_albedo.jpg-374a7856af0df07f8bbf926c9a6692e3.bptc.ctex
-[  60% ] savepack | Speichere Datei: res://assets/textures/ph_asphalt_albedo.jpg.import
+[  61% ] savepack | Speichere Datei: res://.godot/imported/leaves_ao.jpg-e58ad80994cece8e9860915e1e05367f.s3tc.ctex
+[  61% ] savepack | Speichere Datei: res://assets/textures/leaves_ao.jpg.import
+[  61% ] savepack | Speichere Datei: res://.godot/imported/leaves_normal.jpg-cfc7fe9a43a08acca6a4f2605af5d259.s3tc.ctex
+[  61% ] savepack | Speichere Datei: res://assets/textures/leaves_normal.jpg.import
+[  61% ] savepack | Speichere Datei: res://.godot/imported/leaves_rough.jpg-360f48f70fbfb04f06964db3988ff081.s3tc.ctex
+[  61% ] savepack | Speichere Datei: res://assets/textures/leaves_rough.jpg.import
+[  61% ] savepack | Speichere Datei: res://.godot/imported/ph_asphalt_albedo.jpg-374a7856af0df07f8bbf926c9a6692e3.bptc.ctex
+[  61% ] savepack | Speichere Datei: res://assets/textures/ph_asphalt_albedo.jpg.import
 [  61% ] savepack | Speichere Datei: res://.godot/imported/ph_asphalt_normal.jpg-19db170e678bd550ab8c58f973fab13c.s3tc.ctex
 [  61% ] savepack | Speichere Datei: res://assets/textures/ph_asphalt_normal.jpg.import
 [  61% ] savepack | Speichere Datei: res://.godot/imported/ph_asphalt_rough.jpg-4bc05b996bdf2bea396597d5447cb5ca.s3tc.ctex
@@ -1612,12 +1471,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  61% ] savepack | Speichere Datei: res://assets/textures/ph_bark_beech_normal.jpg.import
 [  61% ] savepack | Speichere Datei: res://.godot/imported/ph_bark_beech_rough.jpg-0d23d173a65de6aa7961869a3f0bddc7.s3tc.ctex
 [  61% ] savepack | Speichere Datei: res://assets/textures/ph_bark_beech_rough.jpg.import
-[  61% ] savepack | Speichere Datei: res://.godot/imported/ph_bark_ivy_albedo.jpg-364ed0dc47de9cc94dab73d5e5c1ee8c.bptc.ctex
-[  61% ] savepack | Speichere Datei: res://assets/textures/ph_bark_ivy_albedo.jpg.import
-[  61% ] savepack | Speichere Datei: res://.godot/imported/ph_bark_ivy_normal.jpg-1e98fa9998d9e8b65e9a140e6691d2cb.s3tc.ctex
-[  61% ] savepack | Speichere Datei: res://assets/textures/ph_bark_ivy_normal.jpg.import
-[  61% ] savepack | Speichere Datei: res://.godot/imported/ph_bark_ivy_rough.jpg-5379b6601b3f441d3133e3295dc7d5ae.s3tc.ctex
-[  61% ] savepack | Speichere Datei: res://assets/textures/ph_bark_ivy_rough.jpg.import
+[  62% ] savepack | Speichere Datei: res://.godot/imported/ph_bark_ivy_albedo.jpg-364ed0dc47de9cc94dab73d5e5c1ee8c.bptc.ctex
+[  62% ] savepack | Speichere Datei: res://assets/textures/ph_bark_ivy_albedo.jpg.import
+[  62% ] savepack | Speichere Datei: res://.godot/imported/ph_bark_ivy_normal.jpg-1e98fa9998d9e8b65e9a140e6691d2cb.s3tc.ctex
+[  62% ] savepack | Speichere Datei: res://assets/textures/ph_bark_ivy_normal.jpg.import
+[  62% ] savepack | Speichere Datei: res://.godot/imported/ph_bark_ivy_rough.jpg-5379b6601b3f441d3133e3295dc7d5ae.s3tc.ctex
+[  62% ] savepack | Speichere Datei: res://assets/textures/ph_bark_ivy_rough.jpg.import
 [  62% ] savepack | Speichere Datei: res://.godot/imported/ph_bark_oak_albedo.jpg-5b78b2af426a07fa35b7ab14e2eacaa6.bptc.ctex
 [  62% ] savepack | Speichere Datei: res://assets/textures/ph_bark_oak_albedo.jpg.import
 [  62% ] savepack | Speichere Datei: res://.godot/imported/ph_bark_oak_normal.jpg-7434615c61b0eaa5ab4f7de746abd04b.s3tc.ctex
@@ -1636,12 +1495,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  62% ] savepack | Speichere Datei: res://assets/textures/ph_cladding_normal.jpg.import
 [  62% ] savepack | Speichere Datei: res://.godot/imported/ph_cladding_rough.jpg-be28eef435b37bdb5f754749c7d531ba.s3tc.ctex
 [  62% ] savepack | Speichere Datei: res://assets/textures/ph_cladding_rough.jpg.import
-[  62% ] savepack | Speichere Datei: res://.godot/imported/ph_concrete_albedo.jpg-7f0937c7ef3a32885e5ef241af5f45d1.bptc.ctex
-[  62% ] savepack | Speichere Datei: res://assets/textures/ph_concrete_albedo.jpg.import
-[  62% ] savepack | Speichere Datei: res://.godot/imported/ph_concrete_normal.jpg-106b239789a3d12b3669239e51ef000c.s3tc.ctex
-[  62% ] savepack | Speichere Datei: res://assets/textures/ph_concrete_normal.jpg.import
-[  62% ] savepack | Speichere Datei: res://.godot/imported/ph_concrete_rough.jpg-2ab4202f58056d8854a1b427e74c972e.s3tc.ctex
-[  62% ] savepack | Speichere Datei: res://assets/textures/ph_concrete_rough.jpg.import
+[  63% ] savepack | Speichere Datei: res://.godot/imported/ph_concrete_albedo.jpg-7f0937c7ef3a32885e5ef241af5f45d1.bptc.ctex
+[  63% ] savepack | Speichere Datei: res://assets/textures/ph_concrete_albedo.jpg.import
+[  63% ] savepack | Speichere Datei: res://.godot/imported/ph_concrete_normal.jpg-106b239789a3d12b3669239e51ef000c.s3tc.ctex
+[  63% ] savepack | Speichere Datei: res://assets/textures/ph_concrete_normal.jpg.import
+[  63% ] savepack | Speichere Datei: res://.godot/imported/ph_concrete_rough.jpg-2ab4202f58056d8854a1b427e74c972e.s3tc.ctex
+[  63% ] savepack | Speichere Datei: res://assets/textures/ph_concrete_rough.jpg.import
 [  63% ] savepack | Speichere Datei: res://.godot/imported/ph_corrugated_albedo.jpg-174f0b5215ab8e497c9c4e82fa5b53df.bptc.ctex
 [  63% ] savepack | Speichere Datei: res://assets/textures/ph_corrugated_albedo.jpg.import
 [  63% ] savepack | Speichere Datei: res://.godot/imported/ph_corrugated_normal.jpg-0c0642bfad2b03100b9d38a91bb0e77c.s3tc.ctex
@@ -1660,12 +1519,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  63% ] savepack | Speichere Datei: res://assets/textures/ph_gravel_normal.jpg.import
 [  63% ] savepack | Speichere Datei: res://.godot/imported/ph_gravel_rough.jpg-454c34dd17dcc0df7d59bd4b4b664d7b.s3tc.ctex
 [  63% ] savepack | Speichere Datei: res://assets/textures/ph_gravel_rough.jpg.import
-[  63% ] savepack | Speichere Datei: res://.godot/imported/ph_meadow_albedo.jpg-0075750882d4045412da05c937bcfd7a.bptc.ctex
-[  63% ] savepack | Speichere Datei: res://assets/textures/ph_meadow_albedo.jpg.import
-[  63% ] savepack | Speichere Datei: res://.godot/imported/ph_meadow_normal.jpg-29de4974a36df3ad9e8c743af8f1756b.s3tc.ctex
-[  63% ] savepack | Speichere Datei: res://assets/textures/ph_meadow_normal.jpg.import
-[  63% ] savepack | Speichere Datei: res://.godot/imported/ph_meadow_rough.jpg-94440cb15be627dc63693c995a02c3a6.s3tc.ctex
-[  63% ] savepack | Speichere Datei: res://assets/textures/ph_meadow_rough.jpg.import
+[  64% ] savepack | Speichere Datei: res://.godot/imported/ph_meadow_albedo.jpg-0075750882d4045412da05c937bcfd7a.bptc.ctex
+[  64% ] savepack | Speichere Datei: res://assets/textures/ph_meadow_albedo.jpg.import
+[  64% ] savepack | Speichere Datei: res://.godot/imported/ph_meadow_normal.jpg-29de4974a36df3ad9e8c743af8f1756b.s3tc.ctex
+[  64% ] savepack | Speichere Datei: res://assets/textures/ph_meadow_normal.jpg.import
+[  64% ] savepack | Speichere Datei: res://.godot/imported/ph_meadow_rough.jpg-94440cb15be627dc63693c995a02c3a6.s3tc.ctex
+[  64% ] savepack | Speichere Datei: res://assets/textures/ph_meadow_rough.jpg.import
 [  64% ] savepack | Speichere Datei: res://.godot/imported/ph_roof_dark_albedo.jpg-dd25eef895a60f87db2078ea512c7607.bptc.ctex
 [  64% ] savepack | Speichere Datei: res://assets/textures/ph_roof_dark_albedo.jpg.import
 [  64% ] savepack | Speichere Datei: res://.godot/imported/ph_roof_dark_normal.jpg-27b44eac30f286d39b99db13bb9930ca.s3tc.ctex
@@ -1682,14 +1541,14 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  64% ] savepack | Speichere Datei: res://assets/textures/planks_rough.jpg.import
 [  64% ] savepack | Speichere Datei: res://.godot/imported/rock_albedo.jpg-24a847ab799e561987c8d8b77b0b3a64.bptc.ctex
 [  64% ] savepack | Speichere Datei: res://assets/textures/rock_albedo.jpg.import
-[  64% ] savepack | Speichere Datei: res://.godot/imported/rock_ao.jpg-e39c7cf6298ff82d2f12f8dfc47ca68c.s3tc.ctex
-[  64% ] savepack | Speichere Datei: res://assets/textures/rock_ao.jpg.import
-[  64% ] savepack | Speichere Datei: res://.godot/imported/rock_normal.jpg-e5465421d0912b9440e915f59b4525c6.s3tc.ctex
-[  64% ] savepack | Speichere Datei: res://assets/textures/rock_normal.jpg.import
-[  64% ] savepack | Speichere Datei: res://.godot/imported/rock_rough.jpg-8868a1602ecb9b0c625ba1d977376fb0.s3tc.ctex
-[  64% ] savepack | Speichere Datei: res://assets/textures/rock_rough.jpg.import
-[  64% ] savepack | Speichere Datei: res://.godot/imported/roof_albedo.jpg-59ccc20e4aaa9a12621470bb3014fa8b.bptc.ctex
-[  64% ] savepack | Speichere Datei: res://assets/textures/roof_albedo.jpg.import
+[  65% ] savepack | Speichere Datei: res://.godot/imported/rock_ao.jpg-e39c7cf6298ff82d2f12f8dfc47ca68c.s3tc.ctex
+[  65% ] savepack | Speichere Datei: res://assets/textures/rock_ao.jpg.import
+[  65% ] savepack | Speichere Datei: res://.godot/imported/rock_normal.jpg-e5465421d0912b9440e915f59b4525c6.s3tc.ctex
+[  65% ] savepack | Speichere Datei: res://assets/textures/rock_normal.jpg.import
+[  65% ] savepack | Speichere Datei: res://.godot/imported/rock_rough.jpg-8868a1602ecb9b0c625ba1d977376fb0.s3tc.ctex
+[  65% ] savepack | Speichere Datei: res://assets/textures/rock_rough.jpg.import
+[  65% ] savepack | Speichere Datei: res://.godot/imported/roof_albedo.jpg-59ccc20e4aaa9a12621470bb3014fa8b.bptc.ctex
+[  65% ] savepack | Speichere Datei: res://assets/textures/roof_albedo.jpg.import
 [  65% ] savepack | Speichere Datei: res://.godot/imported/roof_ao.jpg-bdfa91489afc5754d51a45a1ee280709.s3tc.ctex
 [  65% ] savepack | Speichere Datei: res://assets/textures/roof_ao.jpg.import
 [  65% ] savepack | Speichere Datei: res://.godot/imported/roof_normal.jpg-daf1525b0ce88cb5404476f3fb2e6d99.s3tc.ctex
@@ -1706,12 +1565,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  65% ] savepack | Speichere Datei: res://assets/trees/bark_debris_01_a_bark_debris_01_nor_gl_2k.jpg.import
 [  65% ] savepack | Speichere Datei: res://.godot/imported/bark_debris_01_b.glb-d3e8281fa79c5bdf7cae5f9d88d983be.scn
 [  65% ] savepack | Speichere Datei: res://assets/trees/bark_debris_01_b.glb.import
-[  65% ] savepack | Speichere Datei: res://.godot/imported/bark_debris_01_b_bark_debris_01_arm_2k.jpg-bb7401256b4108ea775e4680c1416a7a.s3tc.ctex
-[  65% ] savepack | Speichere Datei: res://assets/trees/bark_debris_01_b_bark_debris_01_arm_2k.jpg.import
-[  65% ] savepack | Speichere Datei: res://.godot/imported/bark_debris_01_b_bark_debris_01_diff_2k.jpg-687469f30f69d97a2305e8c52441c3b4.s3tc.ctex
-[  65% ] savepack | Speichere Datei: res://assets/trees/bark_debris_01_b_bark_debris_01_diff_2k.jpg.import
-[  65% ] savepack | Speichere Datei: res://.godot/imported/bark_debris_01_b_bark_debris_01_nor_gl_2k.jpg-497c72c9a060fb1c45fd9dfe13b8ba45.s3tc.ctex
-[  65% ] savepack | Speichere Datei: res://assets/trees/bark_debris_01_b_bark_debris_01_nor_gl_2k.jpg.import
+[  66% ] savepack | Speichere Datei: res://.godot/imported/bark_debris_01_b_bark_debris_01_arm_2k.jpg-bb7401256b4108ea775e4680c1416a7a.s3tc.ctex
+[  66% ] savepack | Speichere Datei: res://assets/trees/bark_debris_01_b_bark_debris_01_arm_2k.jpg.import
+[  66% ] savepack | Speichere Datei: res://.godot/imported/bark_debris_01_b_bark_debris_01_diff_2k.jpg-687469f30f69d97a2305e8c52441c3b4.s3tc.ctex
+[  66% ] savepack | Speichere Datei: res://assets/trees/bark_debris_01_b_bark_debris_01_diff_2k.jpg.import
+[  66% ] savepack | Speichere Datei: res://.godot/imported/bark_debris_01_b_bark_debris_01_nor_gl_2k.jpg-497c72c9a060fb1c45fd9dfe13b8ba45.s3tc.ctex
+[  66% ] savepack | Speichere Datei: res://assets/trees/bark_debris_01_b_bark_debris_01_nor_gl_2k.jpg.import
 [  66% ] savepack | Speichere Datei: res://.godot/imported/bark_debris_01_c.glb-8ab39dbfe1c2f5919944c1f220226633.scn
 [  66% ] savepack | Speichere Datei: res://assets/trees/bark_debris_01_c.glb.import
 [  66% ] savepack | Speichere Datei: res://.godot/imported/bark_debris_01_c_bark_debris_01_arm_2k.jpg-97bb63c886044610e3abbb4f1a8b2527.s3tc.ctex
@@ -1754,12 +1613,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  66% ] savepack | Speichere Datei: res://assets/trees/dry_branches_medium_01_a_dry_branches_medium_01_nor_gl_2k.jpg.import
 [  66% ] savepack | Speichere Datei: res://.godot/imported/dry_branches_medium_01_b.glb-03866f5cda71c45f5fdc656ec7954d19.scn
 [  66% ] savepack | Speichere Datei: res://assets/trees/dry_branches_medium_01_b.glb.import
-[  66% ] savepack | Speichere Datei: res://.godot/imported/dry_branches_medium_01_b_dry_branches_medium_01_arm_2k.jpg-2749ce9a6a14496efb00141841ae27c2.s3tc.ctex
-[  66% ] savepack | Speichere Datei: res://assets/trees/dry_branches_medium_01_b_dry_branches_medium_01_arm_2k.jpg.import
-[  66% ] savepack | Speichere Datei: res://.godot/imported/dry_branches_medium_01_b_dry_branches_medium_01_diff_2k.jpg-6c0d5ac5bdb5f957ba73621fc24b88b3.s3tc.ctex
-[  66% ] savepack | Speichere Datei: res://assets/trees/dry_branches_medium_01_b_dry_branches_medium_01_diff_2k.jpg.import
-[  66% ] savepack | Speichere Datei: res://.godot/imported/dry_branches_medium_01_b_dry_branches_medium_01_nor_gl_2k.jpg-29175b999b2fbe9ba70591cc89b324d9.s3tc.ctex
-[  66% ] savepack | Speichere Datei: res://assets/trees/dry_branches_medium_01_b_dry_branches_medium_01_nor_gl_2k.jpg.import
+[  67% ] savepack | Speichere Datei: res://.godot/imported/dry_branches_medium_01_b_dry_branches_medium_01_arm_2k.jpg-2749ce9a6a14496efb00141841ae27c2.s3tc.ctex
+[  67% ] savepack | Speichere Datei: res://assets/trees/dry_branches_medium_01_b_dry_branches_medium_01_arm_2k.jpg.import
+[  67% ] savepack | Speichere Datei: res://.godot/imported/dry_branches_medium_01_b_dry_branches_medium_01_diff_2k.jpg-6c0d5ac5bdb5f957ba73621fc24b88b3.s3tc.ctex
+[  67% ] savepack | Speichere Datei: res://assets/trees/dry_branches_medium_01_b_dry_branches_medium_01_diff_2k.jpg.import
+[  67% ] savepack | Speichere Datei: res://.godot/imported/dry_branches_medium_01_b_dry_branches_medium_01_nor_gl_2k.jpg-29175b999b2fbe9ba70591cc89b324d9.s3tc.ctex
+[  67% ] savepack | Speichere Datei: res://assets/trees/dry_branches_medium_01_b_dry_branches_medium_01_nor_gl_2k.jpg.import
 [  67% ] savepack | Speichere Datei: res://.godot/imported/dry_branches_medium_01_c.glb-0cb8b24368c8878c447f2d9f3c9dd6e0.scn
 [  67% ] savepack | Speichere Datei: res://assets/trees/dry_branches_medium_01_c.glb.import
 [  67% ] savepack | Speichere Datei: res://.godot/imported/dry_branches_medium_01_c_dry_branches_medium_01_arm_2k.jpg-562cb4888b06cfc5083e033420d723a3.s3tc.ctex
@@ -1778,12 +1637,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  67% ] savepack | Speichere Datei: res://assets/trees/fern_02_a_fern_02_nor_gl_2k.jpg.import
 [  67% ] savepack | Speichere Datei: res://.godot/imported/fern_02_b.glb-e0448adf8b13fd8bf34b0556f38b5774.scn
 [  67% ] savepack | Speichere Datei: res://assets/trees/fern_02_b.glb.import
-[  67% ] savepack | Speichere Datei: res://.godot/imported/fern_02_b_fern_02_arm_2k.jpg-29d4f4b65d7f6a01f3be11f1e967c34a.s3tc.ctex
-[  67% ] savepack | Speichere Datei: res://assets/trees/fern_02_b_fern_02_arm_2k.jpg.import
-[  67% ] savepack | Speichere Datei: res://.godot/imported/fern_02_b_fern_02_diff_2k.png-cae0d41390333799bea085af69fa0b86.s3tc.ctex
-[  67% ] savepack | Speichere Datei: res://assets/trees/fern_02_b_fern_02_diff_2k.png.import
-[  67% ] savepack | Speichere Datei: res://.godot/imported/fern_02_b_fern_02_nor_gl_2k.jpg-b2fe8e23eecd1543a7076c4279af9864.s3tc.ctex
-[  67% ] savepack | Speichere Datei: res://assets/trees/fern_02_b_fern_02_nor_gl_2k.jpg.import
+[  68% ] savepack | Speichere Datei: res://.godot/imported/fern_02_b_fern_02_arm_2k.jpg-29d4f4b65d7f6a01f3be11f1e967c34a.s3tc.ctex
+[  68% ] savepack | Speichere Datei: res://assets/trees/fern_02_b_fern_02_arm_2k.jpg.import
+[  68% ] savepack | Speichere Datei: res://.godot/imported/fern_02_b_fern_02_diff_2k.png-cae0d41390333799bea085af69fa0b86.s3tc.ctex
+[  68% ] savepack | Speichere Datei: res://assets/trees/fern_02_b_fern_02_diff_2k.png.import
+[  68% ] savepack | Speichere Datei: res://.godot/imported/fern_02_b_fern_02_nor_gl_2k.jpg-b2fe8e23eecd1543a7076c4279af9864.s3tc.ctex
+[  68% ] savepack | Speichere Datei: res://assets/trees/fern_02_b_fern_02_nor_gl_2k.jpg.import
 [  68% ] savepack | Speichere Datei: res://.godot/imported/fern_02_c.glb-822c7bee4139ad4995ed9dae7077b76d.scn
 [  68% ] savepack | Speichere Datei: res://assets/trees/fern_02_c.glb.import
 [  68% ] savepack | Speichere Datei: res://.godot/imported/fern_02_c_fern_02_arm_2k.jpg-e147879bb974b2e392fa1a5fa9b60c6e.s3tc.ctex
@@ -1802,10 +1661,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  68% ] savepack | Speichere Datei: res://assets/trees/fern_02_d_fern_02_nor_gl_2k.jpg.import
 [  68% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_a.glb-f5e5ca393f41726a5d71f76918bf4948.scn
 [  68% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_a.glb.import
-[  68% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg-a1e4276035f47854445c0a7609012eed.s3tc.ctex
-[  68% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg.import
-[  68% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_diff_2k.jpg-08c3dbebe88d2c876aac1fc894112d16.s3tc.ctex
-[  68% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_a_fir_tree_01_bark_diff_2k.jpg.import
+[  69% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg-a1e4276035f47854445c0a7609012eed.s3tc.ctex
+[  69% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_a_fir_tree_01_bark_arm_2k.jpg.import
+[  69% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_diff_2k.jpg-08c3dbebe88d2c876aac1fc894112d16.s3tc.ctex
+[  69% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_a_fir_tree_01_bark_diff_2k.jpg.import
 [  69% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_a_fir_tree_01_bark_nor_gl_2k.jpg-a0108bd93559208b8d20deedccfcac0f.s3tc.ctex
 [  69% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_a_fir_tree_01_bark_nor_gl_2k.jpg.import
 [  69% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_a_fir_tree_01_trunk_a_arm_2k.jpg-2cdccd4bdcc659f2d4a9083299405eef.s3tc.ctex
@@ -1824,12 +1683,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  69% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_b.glb.import
 [  69% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_b_fir_tree_01_bark_arm_2k.jpg-8ec266a818d706825eb4790da75cfc0c.s3tc.ctex
 [  69% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_b_fir_tree_01_bark_arm_2k.jpg.import
-[  69% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_b_fir_tree_01_bark_diff_2k.jpg-1b4ad70759098120bbca07df483574a4.s3tc.ctex
-[  69% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_b_fir_tree_01_bark_diff_2k.jpg.import
-[  69% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_b_fir_tree_01_bark_nor_gl_2k.jpg-38e71b0ecea3ea738619fe26a7e104cf.s3tc.ctex
-[  69% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_b_fir_tree_01_bark_nor_gl_2k.jpg.import
-[  69% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_b_fir_tree_01_trunk_b_arm_2k.jpg-34c5ef8ce80acadf9a61e22d30af889d.s3tc.ctex
-[  69% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_b_fir_tree_01_trunk_b_arm_2k.jpg.import
+[  70% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_b_fir_tree_01_bark_diff_2k.jpg-1b4ad70759098120bbca07df483574a4.s3tc.ctex
+[  70% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_b_fir_tree_01_bark_diff_2k.jpg.import
+[  70% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_b_fir_tree_01_bark_nor_gl_2k.jpg-38e71b0ecea3ea738619fe26a7e104cf.s3tc.ctex
+[  70% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_b_fir_tree_01_bark_nor_gl_2k.jpg.import
+[  70% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_b_fir_tree_01_trunk_b_arm_2k.jpg-34c5ef8ce80acadf9a61e22d30af889d.s3tc.ctex
+[  70% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_b_fir_tree_01_trunk_b_arm_2k.jpg.import
 [  70% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_b_fir_tree_01_trunk_b_diff_2k.jpg-3f5a0a3404ba53932e3fe6360f158261.s3tc.ctex
 [  70% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_b_fir_tree_01_trunk_b_diff_2k.jpg.import
 [  70% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_b_fir_tree_01_trunk_b_nor_gl_2k.jpg-43c3394240b25409350ac9518ff49e5b.s3tc.ctex
@@ -1848,12 +1707,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  70% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_c_fir_tree_01_bark_diff_2k.jpg.import
 [  70% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_c_fir_tree_01_bark_nor_gl_2k.jpg-c081910f7585a88f4ae66297c8d7b888.s3tc.ctex
 [  70% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_c_fir_tree_01_bark_nor_gl_2k.jpg.import
-[  70% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_c_fir_tree_01_twig_arm_2k.jpg-a0e4cd72c918799d48a7411f4c2d179c.s3tc.ctex
-[  70% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_c_fir_tree_01_twig_arm_2k.jpg.import
-[  70% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_c_fir_tree_01_twig_diff_2k.png-46f8093acb86a78d673df232ba833923.s3tc.ctex
-[  70% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_c_fir_tree_01_twig_diff_2k.png.import
-[  70% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_c_fir_tree_01_twig_nor_gl_2k.jpg-7a5bf229677c6b2dff2ab613583397e6.s3tc.ctex
-[  70% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_c_fir_tree_01_twig_nor_gl_2k.jpg.import
+[  71% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_c_fir_tree_01_twig_arm_2k.jpg-a0e4cd72c918799d48a7411f4c2d179c.s3tc.ctex
+[  71% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_c_fir_tree_01_twig_arm_2k.jpg.import
+[  71% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_c_fir_tree_01_twig_diff_2k.png-46f8093acb86a78d673df232ba833923.s3tc.ctex
+[  71% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_c_fir_tree_01_twig_diff_2k.png.import
+[  71% ] savepack | Speichere Datei: res://.godot/imported/fir_tree_01_c_fir_tree_01_twig_nor_gl_2k.jpg-7a5bf229677c6b2dff2ab613583397e6.s3tc.ctex
+[  71% ] savepack | Speichere Datei: res://assets/trees/fir_tree_01_c_fir_tree_01_twig_nor_gl_2k.jpg.import
 [  71% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_a.glb-eb9bb001c261fd7d5f3dc8808f073a65.scn
 [  71% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_a.glb.import
 [  71% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_a_grass_medium_02_arm_2k.jpg-e964a244500ceeb9685d2f8807cb7930.s3tc.ctex
@@ -1872,12 +1731,12 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  71% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_b_grass_medium_02_nor_gl_2k.jpg.import
 [  71% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_c.glb-33e9071d8d8410fbc1dde5f011770449.scn
 [  71% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_c.glb.import
-[  71% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_c_grass_medium_02_arm_2k.jpg-33f85e11471b8519d37ebcb906b63173.s3tc.ctex
-[  71% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_c_grass_medium_02_arm_2k.jpg.import
-[  71% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_c_grass_medium_02_diff_2k.png-21bd35e626fa2ca3fba665f367e43816.s3tc.ctex
-[  71% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_c_grass_medium_02_diff_2k.png.import
-[  71% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_c_grass_medium_02_nor_gl_2k.jpg-009fd7a487eb926b7495a13f3090bf15.s3tc.ctex
-[  71% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_c_grass_medium_02_nor_gl_2k.jpg.import
+[  72% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_c_grass_medium_02_arm_2k.jpg-33f85e11471b8519d37ebcb906b63173.s3tc.ctex
+[  72% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_c_grass_medium_02_arm_2k.jpg.import
+[  72% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_c_grass_medium_02_diff_2k.png-21bd35e626fa2ca3fba665f367e43816.s3tc.ctex
+[  72% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_c_grass_medium_02_diff_2k.png.import
+[  72% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_c_grass_medium_02_nor_gl_2k.jpg-009fd7a487eb926b7495a13f3090bf15.s3tc.ctex
+[  72% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_c_grass_medium_02_nor_gl_2k.jpg.import
 [  72% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_d.glb-4cbcf3311b99e2fcc64cc314834392ba.scn
 [  72% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_d.glb.import
 [  72% ] savepack | Speichere Datei: res://.godot/imported/grass_medium_02_d_grass_medium_02_arm_2k.jpg-efc18ea09e8d5cd086034b3f794f2e09.s3tc.ctex
@@ -1896,10 +1755,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  72% ] savepack | Speichere Datei: res://assets/trees/grass_medium_02_e_grass_medium_02_nor_gl_2k.jpg.import
 [  72% ] savepack | Speichere Datei: res://.godot/imported/island_tree_01.glb-b4a70288b50329057cc2f3f8793787c2.scn
 [  72% ] savepack | Speichere Datei: res://assets/trees/island_tree_01.glb.import
-[  72% ] savepack | Speichere Datei: res://.godot/imported/island_tree_01_island_tree_01_arm_2k.jpg-ca6bc8f02fce09d5a36cded07d9f1118.s3tc.ctex
-[  72% ] savepack | Speichere Datei: res://assets/trees/island_tree_01_island_tree_01_arm_2k.jpg.import
-[  72% ] savepack | Speichere Datei: res://.godot/imported/island_tree_01_island_tree_01_branches_arm_2k.jpg-cbfc1af845ba1be18336e4095ea68186.s3tc.ctex
-[  72% ] savepack | Speichere Datei: res://assets/trees/island_tree_01_island_tree_01_branches_arm_2k.jpg.import
+[  73% ] savepack | Speichere Datei: res://.godot/imported/island_tree_01_island_tree_01_arm_2k.jpg-ca6bc8f02fce09d5a36cded07d9f1118.s3tc.ctex
+[  73% ] savepack | Speichere Datei: res://assets/trees/island_tree_01_island_tree_01_arm_2k.jpg.import
+[  73% ] savepack | Speichere Datei: res://.godot/imported/island_tree_01_island_tree_01_branches_arm_2k.jpg-cbfc1af845ba1be18336e4095ea68186.s3tc.ctex
+[  73% ] savepack | Speichere Datei: res://assets/trees/island_tree_01_island_tree_01_branches_arm_2k.jpg.import
 [  73% ] savepack | Speichere Datei: res://.godot/imported/island_tree_01_island_tree_01_branches_diff_2k.jpg-cfbf6aa6e9c5f969be0bdf729d6e4420.s3tc.ctex
 [  73% ] savepack | Speichere Datei: res://assets/trees/island_tree_01_island_tree_01_branches_diff_2k.jpg.import
 [  73% ] savepack | Speichere Datei: res://.godot/imported/island_tree_01_island_tree_01_branches_nor_gl_2k.jpg-500cac2226efd880bb9c05d4fc6494c9.s3tc.ctex
@@ -1920,10 +1779,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  73% ] savepack | Speichere Datei: res://assets/trees/island_tree_02_island_tree_02_arm_2k.jpg.import
 [  73% ] savepack | Speichere Datei: res://.godot/imported/island_tree_02_island_tree_02_branches_arm_2k.jpg-ad00f4289e5a67da43d04afb434a2ba3.s3tc.ctex
 [  73% ] savepack | Speichere Datei: res://assets/trees/island_tree_02_island_tree_02_branches_arm_2k.jpg.import
-[  73% ] savepack | Speichere Datei: res://.godot/imported/island_tree_02_island_tree_02_branches_diff_2k.jpg-93da261749ab51ce878f1cd91c838ba8.s3tc.ctex
-[  73% ] savepack | Speichere Datei: res://assets/trees/island_tree_02_island_tree_02_branches_diff_2k.jpg.import
-[  73% ] savepack | Speichere Datei: res://.godot/imported/island_tree_02_island_tree_02_branches_nor_gl_2k.jpg-d974f030a77187ea0b37594e4bba1a65.s3tc.ctex
-[  73% ] savepack | Speichere Datei: res://assets/trees/island_tree_02_island_tree_02_branches_nor_gl_2k.jpg.import
+[  74% ] savepack | Speichere Datei: res://.godot/imported/island_tree_02_island_tree_02_branches_diff_2k.jpg-93da261749ab51ce878f1cd91c838ba8.s3tc.ctex
+[  74% ] savepack | Speichere Datei: res://assets/trees/island_tree_02_island_tree_02_branches_diff_2k.jpg.import
+[  74% ] savepack | Speichere Datei: res://.godot/imported/island_tree_02_island_tree_02_branches_nor_gl_2k.jpg-d974f030a77187ea0b37594e4bba1a65.s3tc.ctex
+[  74% ] savepack | Speichere Datei: res://assets/trees/island_tree_02_island_tree_02_branches_nor_gl_2k.jpg.import
 [  74% ] savepack | Speichere Datei: res://.godot/imported/island_tree_02_island_tree_02_diff_2k.jpg-61c8a6881174765739e6cc77b2a2a7e8.s3tc.ctex
 [  74% ] savepack | Speichere Datei: res://assets/trees/island_tree_02_island_tree_02_diff_2k.jpg.import
 [  74% ] savepack | Speichere Datei: res://.godot/imported/island_tree_02_island_tree_02_leaves_arm_2k.jpg-4ea1ff2d5fda223152295b7e383834e4.s3tc.ctex
@@ -1944,10 +1803,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  74% ] savepack | Speichere Datei: res://assets/trees/island_tree_03_island_tree_03_branches_diff_2k.jpg.import
 [  74% ] savepack | Speichere Datei: res://.godot/imported/island_tree_03_island_tree_03_branches_nor_gl_2k.jpg-c204a119684d16268d0f54a5c20b5caf.s3tc.ctex
 [  74% ] savepack | Speichere Datei: res://assets/trees/island_tree_03_island_tree_03_branches_nor_gl_2k.jpg.import
-[  74% ] savepack | Speichere Datei: res://.godot/imported/island_tree_03_island_tree_03_diff_2k.jpg-89822cf2e3987606b1a4d1dc0a8115c2.s3tc.ctex
-[  74% ] savepack | Speichere Datei: res://assets/trees/island_tree_03_island_tree_03_diff_2k.jpg.import
-[  74% ] savepack | Speichere Datei: res://.godot/imported/island_tree_03_island_tree_03_leaves_arm_2k.jpg-6db0c8a48ec7fb019597edc3cd2e99a8.s3tc.ctex
-[  74% ] savepack | Speichere Datei: res://assets/trees/island_tree_03_island_tree_03_leaves_arm_2k.jpg.import
+[  75% ] savepack | Speichere Datei: res://.godot/imported/island_tree_03_island_tree_03_diff_2k.jpg-89822cf2e3987606b1a4d1dc0a8115c2.s3tc.ctex
+[  75% ] savepack | Speichere Datei: res://assets/trees/island_tree_03_island_tree_03_diff_2k.jpg.import
+[  75% ] savepack | Speichere Datei: res://.godot/imported/island_tree_03_island_tree_03_leaves_arm_2k.jpg-6db0c8a48ec7fb019597edc3cd2e99a8.s3tc.ctex
+[  75% ] savepack | Speichere Datei: res://assets/trees/island_tree_03_island_tree_03_leaves_arm_2k.jpg.import
 [  75% ] savepack | Speichere Datei: res://.godot/imported/island_tree_03_island_tree_03_leaves_diff_2k.png-bdb05d0c5670551269abe2dd41c57827.s3tc.ctex
 [  75% ] savepack | Speichere Datei: res://assets/trees/island_tree_03_island_tree_03_leaves_diff_2k.png.import
 [  75% ] savepack | Speichere Datei: res://.godot/imported/island_tree_03_island_tree_03_leaves_nor_gl_2k.jpg-f7e0b79fcbc338b606a5e9ac6d742eb6.s3tc.ctex
@@ -1966,10 +1825,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  75% ] savepack | Speichere Datei: res://assets/trees/jacaranda_tree_jacaranda_tree_leaves_arm_2k.jpg.import
 [  75% ] savepack | Speichere Datei: res://.godot/imported/jacaranda_tree_jacaranda_tree_leaves_diff_2k.png-cef637cbc0adf70be2bb61ece371b7b4.s3tc.ctex
 [  75% ] savepack | Speichere Datei: res://assets/trees/jacaranda_tree_jacaranda_tree_leaves_diff_2k.png.import
-[  75% ] savepack | Speichere Datei: res://.godot/imported/jacaranda_tree_jacaranda_tree_leaves_nor_gl_2k.jpg-ee1e6304415c8f7f5b43ebdfd3d50b1d.s3tc.ctex
-[  75% ] savepack | Speichere Datei: res://assets/trees/jacaranda_tree_jacaranda_tree_leaves_nor_gl_2k.jpg.import
-[  75% ] savepack | Speichere Datei: res://.godot/imported/jacaranda_tree_jacaranda_tree_trunk_arm_2k.jpg-c12dca07fd9cbd55b36f67933cb80ef4.s3tc.ctex
-[  75% ] savepack | Speichere Datei: res://assets/trees/jacaranda_tree_jacaranda_tree_trunk_arm_2k.jpg.import
+[  76% ] savepack | Speichere Datei: res://.godot/imported/jacaranda_tree_jacaranda_tree_leaves_nor_gl_2k.jpg-ee1e6304415c8f7f5b43ebdfd3d50b1d.s3tc.ctex
+[  76% ] savepack | Speichere Datei: res://assets/trees/jacaranda_tree_jacaranda_tree_leaves_nor_gl_2k.jpg.import
+[  76% ] savepack | Speichere Datei: res://.godot/imported/jacaranda_tree_jacaranda_tree_trunk_arm_2k.jpg-c12dca07fd9cbd55b36f67933cb80ef4.s3tc.ctex
+[  76% ] savepack | Speichere Datei: res://assets/trees/jacaranda_tree_jacaranda_tree_trunk_arm_2k.jpg.import
 [  76% ] savepack | Speichere Datei: res://.godot/imported/jacaranda_tree_jacaranda_tree_trunk_diff_2k.jpg-bc7b2d958854040fe35e07e1b56020af.s3tc.ctex
 [  76% ] savepack | Speichere Datei: res://assets/trees/jacaranda_tree_jacaranda_tree_trunk_diff_2k.jpg.import
 [  76% ] savepack | Speichere Datei: res://.godot/imported/jacaranda_tree_jacaranda_tree_trunk_nor_gl_2k.jpg-d642b0c43de7715c3700949db6a3e0d6.s3tc.ctex
@@ -1990,10 +1849,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  76% ] savepack | Speichere Datei: res://assets/trees/moss_01_b_moss_01_diff_2k.png.import
 [  76% ] savepack | Speichere Datei: res://.godot/imported/moss_01_b_moss_01_nor_gl_2k.jpg-d3457de0c86fab911e8be4856fc7ef6e.s3tc.ctex
 [  76% ] savepack | Speichere Datei: res://assets/trees/moss_01_b_moss_01_nor_gl_2k.jpg.import
-[  76% ] savepack | Speichere Datei: res://.godot/imported/moss_01_c.glb-bdf3a1473a109bd864c629872a23b85a.scn
-[  76% ] savepack | Speichere Datei: res://assets/trees/moss_01_c.glb.import
-[  76% ] savepack | Speichere Datei: res://.godot/imported/moss_01_c_moss_01_arm_2k.jpg-64502a0215e9e1fa4755dbaffcc1bf3a.s3tc.ctex
-[  76% ] savepack | Speichere Datei: res://assets/trees/moss_01_c_moss_01_arm_2k.jpg.import
+[  77% ] savepack | Speichere Datei: res://.godot/imported/moss_01_c.glb-bdf3a1473a109bd864c629872a23b85a.scn
+[  77% ] savepack | Speichere Datei: res://assets/trees/moss_01_c.glb.import
+[  77% ] savepack | Speichere Datei: res://.godot/imported/moss_01_c_moss_01_arm_2k.jpg-64502a0215e9e1fa4755dbaffcc1bf3a.s3tc.ctex
+[  77% ] savepack | Speichere Datei: res://assets/trees/moss_01_c_moss_01_arm_2k.jpg.import
 [  77% ] savepack | Speichere Datei: res://.godot/imported/moss_01_c_moss_01_diff_2k.png-1750dc467b99c605892ce2b9081398f3.s3tc.ctex
 [  77% ] savepack | Speichere Datei: res://assets/trees/moss_01_c_moss_01_diff_2k.png.import
 [  77% ] savepack | Speichere Datei: res://.godot/imported/moss_01_c_moss_01_nor_gl_2k.jpg-7b5eca4efde30c721e021b855e38db7b.s3tc.ctex
@@ -2014,10 +1873,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  77% ] savepack | Speichere Datei: res://assets/trees/moss_01_e_moss_01_diff_2k.png.import
 [  77% ] savepack | Speichere Datei: res://.godot/imported/moss_01_e_moss_01_nor_gl_2k.jpg-273ebc6eed442404add1028fc8f8ce01.s3tc.ctex
 [  77% ] savepack | Speichere Datei: res://assets/trees/moss_01_e_moss_01_nor_gl_2k.jpg.import
-[  77% ] savepack | Speichere Datei: res://.godot/imported/moss_01_f.glb-602dbd98be29bf4ab719dd21cfe01b50.scn
-[  77% ] savepack | Speichere Datei: res://assets/trees/moss_01_f.glb.import
-[  77% ] savepack | Speichere Datei: res://.godot/imported/moss_01_f_moss_01_arm_2k.jpg-0d3eeed31c5aedbff02c1d304cb4ec53.s3tc.ctex
-[  77% ] savepack | Speichere Datei: res://assets/trees/moss_01_f_moss_01_arm_2k.jpg.import
+[  78% ] savepack | Speichere Datei: res://.godot/imported/moss_01_f.glb-602dbd98be29bf4ab719dd21cfe01b50.scn
+[  78% ] savepack | Speichere Datei: res://assets/trees/moss_01_f.glb.import
+[  78% ] savepack | Speichere Datei: res://.godot/imported/moss_01_f_moss_01_arm_2k.jpg-0d3eeed31c5aedbff02c1d304cb4ec53.s3tc.ctex
+[  78% ] savepack | Speichere Datei: res://assets/trees/moss_01_f_moss_01_arm_2k.jpg.import
 [  78% ] savepack | Speichere Datei: res://.godot/imported/moss_01_f_moss_01_diff_2k.png-bd35fe6f6a6ca230d8bb1f5f7c650665.s3tc.ctex
 [  78% ] savepack | Speichere Datei: res://assets/trees/moss_01_f_moss_01_diff_2k.png.import
 [  78% ] savepack | Speichere Datei: res://.godot/imported/moss_01_f_moss_01_nor_gl_2k.jpg-17b23fe3363ce3bb81931202352fcfef.s3tc.ctex
@@ -2038,10 +1897,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  78% ] savepack | Speichere Datei: res://assets/trees/moss_01_h_moss_01_diff_2k.png.import
 [  78% ] savepack | Speichere Datei: res://.godot/imported/moss_01_h_moss_01_nor_gl_2k.jpg-91b6bb3a81a954c21ed787cc8242c3d9.s3tc.ctex
 [  78% ] savepack | Speichere Datei: res://assets/trees/moss_01_h_moss_01_nor_gl_2k.jpg.import
-[  78% ] savepack | Speichere Datei: res://.godot/imported/moss_01_i.glb-b6577823d2d8b9ba741461abed3708d9.scn
-[  78% ] savepack | Speichere Datei: res://assets/trees/moss_01_i.glb.import
-[  78% ] savepack | Speichere Datei: res://.godot/imported/moss_01_i_moss_01_arm_2k.jpg-1db352851ab649c40d1cb9051cb81c8b.s3tc.ctex
-[  78% ] savepack | Speichere Datei: res://assets/trees/moss_01_i_moss_01_arm_2k.jpg.import
+[  79% ] savepack | Speichere Datei: res://.godot/imported/moss_01_i.glb-b6577823d2d8b9ba741461abed3708d9.scn
+[  79% ] savepack | Speichere Datei: res://assets/trees/moss_01_i.glb.import
+[  79% ] savepack | Speichere Datei: res://.godot/imported/moss_01_i_moss_01_arm_2k.jpg-1db352851ab649c40d1cb9051cb81c8b.s3tc.ctex
+[  79% ] savepack | Speichere Datei: res://assets/trees/moss_01_i_moss_01_arm_2k.jpg.import
 [  79% ] savepack | Speichere Datei: res://.godot/imported/moss_01_i_moss_01_diff_2k.png-2f10d0cfdc5662f2bb77a144dd23a0b0.s3tc.ctex
 [  79% ] savepack | Speichere Datei: res://assets/trees/moss_01_i_moss_01_diff_2k.png.import
 [  79% ] savepack | Speichere Datei: res://.godot/imported/moss_01_i_moss_01_nor_gl_2k.jpg-438f228a546757955adde4a8918412de.s3tc.ctex
@@ -2062,8 +1921,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  79% ] savepack | Speichere Datei: res://assets/trees/moss_01_k_moss_01_diff_2k.png.import
 [  79% ] savepack | Speichere Datei: res://.godot/imported/moss_01_k_moss_01_nor_gl_2k.jpg-95c1cabd417b1c75d0d02bc01d7129f5.s3tc.ctex
 [  79% ] savepack | Speichere Datei: res://assets/trees/moss_01_k_moss_01_nor_gl_2k.jpg.import
-[  79% ] savepack | Speichere Datei: res://.godot/imported/moss_01_l.glb-0fe434d45e2233bc6216cbb676bb9443.scn
-[  79% ] savepack | Speichere Datei: res://assets/trees/moss_01_l.glb.import
+[  80% ] savepack | Speichere Datei: res://.godot/imported/moss_01_l.glb-0fe434d45e2233bc6216cbb676bb9443.scn
+[  80% ] savepack | Speichere Datei: res://assets/trees/moss_01_l.glb.import
 [  80% ] savepack | Speichere Datei: res://.godot/imported/moss_01_l_moss_01_arm_2k.jpg-dac36c858f868d58a5af4d0805862d1e.s3tc.ctex
 [  80% ] savepack | Speichere Datei: res://assets/trees/moss_01_l_moss_01_arm_2k.jpg.import
 [  80% ] savepack | Speichere Datei: res://.godot/imported/moss_01_l_moss_01_diff_2k.png-b862c7402b30e8feab41710ccdee1315.s3tc.ctex
@@ -2086,8 +1945,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  80% ] savepack | Speichere Datei: res://assets/trees/tree_small_02_tree_small_02_leaves_arm_2k.jpg.import
 [  80% ] savepack | Speichere Datei: res://.godot/imported/tree_small_02_tree_small_02_leaves_diff_2k.png-5eae2e2b31bad221af325c04bfcdd3c6.s3tc.ctex
 [  80% ] savepack | Speichere Datei: res://assets/trees/tree_small_02_tree_small_02_leaves_diff_2k.png.import
-[  80% ] savepack | Speichere Datei: res://.godot/imported/tree_small_02_tree_small_02_leaves_nor_gl_2k.jpg-6b00d8dc2796c09e495d5f67c044b3ad.s3tc.ctex
-[  80% ] savepack | Speichere Datei: res://assets/trees/tree_small_02_tree_small_02_leaves_nor_gl_2k.jpg.import
+[  81% ] savepack | Speichere Datei: res://.godot/imported/tree_small_02_tree_small_02_leaves_nor_gl_2k.jpg-6b00d8dc2796c09e495d5f67c044b3ad.s3tc.ctex
+[  81% ] savepack | Speichere Datei: res://assets/trees/tree_small_02_tree_small_02_leaves_nor_gl_2k.jpg.import
 [  81% ] savepack | Speichere Datei: res://.godot/imported/tree_small_02_tree_small_02_nor_gl_2k.jpg-5c17a776e2f4fc65ed0394ff6ec8adf8.s3tc.ctex
 [  81% ] savepack | Speichere Datei: res://assets/trees/tree_small_02_tree_small_02_nor_gl_2k.jpg.import
 [  81% ] savepack | Speichere Datei: res://.godot/imported/tree_stump_01.glb-d4f6001c478f7c62132d79d34cda242f.scn
@@ -2108,10 +1967,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  81% ] savepack | Speichere Datei: res://assets/ui/items/breacher.png.import
 [  81% ] savepack | Speichere Datei: res://.godot/imported/cash.png-c358f43a0ce160bd3e85d5dca4a71cf5.ctex
 [  81% ] savepack | Speichere Datei: res://assets/ui/items/cash.png.import
-[  81% ] savepack | Speichere Datei: res://.godot/imported/cooked_meat.svg-07be1ef901ae2950be0d323ea9c6b372.ctex
-[  81% ] savepack | Speichere Datei: res://assets/ui/items/cooked_meat.svg.import
-[  81% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg.png-02bc44d723038f49dadb08cf883dc89c.ctex
-[  81% ] savepack | Speichere Datei: res://assets/ui/items/cryo_smg.png.import
+[  82% ] savepack | Speichere Datei: res://.godot/imported/cooked_meat.svg-07be1ef901ae2950be0d323ea9c6b372.ctex
+[  82% ] savepack | Speichere Datei: res://assets/ui/items/cooked_meat.svg.import
+[  82% ] savepack | Speichere Datei: res://.godot/imported/cryo_smg.png-02bc44d723038f49dadb08cf883dc89c.ctex
+[  82% ] savepack | Speichere Datei: res://assets/ui/items/cryo_smg.png.import
 [  82% ] savepack | Speichere Datei: res://.godot/imported/deagle.png-75284592e181f8aa05e9d628a6c27aeb.ctex
 [  82% ] savepack | Speichere Datei: res://assets/ui/items/deagle.png.import
 [  82% ] savepack | Speichere Datei: res://.godot/imported/firework_battery_40.png-93f3704338deacb6d7ea29228320ec3b.ctex
@@ -2132,10 +1991,10 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  82% ] savepack | Speichere Datei: res://assets/ui/items/graviton_cannon.png.import
 [  82% ] savepack | Speichere Datei: res://.godot/imported/grenade.png-f0929ec45e4e641b1fd84dcf5504673f.ctex
 [  82% ] savepack | Speichere Datei: res://assets/ui/items/grenade.png.import
-[  82% ] savepack | Speichere Datei: res://.godot/imported/hatchet.svg-3ce9c4324b26d92366714031a791da64.ctex
-[  82% ] savepack | Speichere Datei: res://assets/ui/items/hatchet.svg.import
-[  82% ] savepack | Speichere Datei: res://.godot/imported/item.svg-202b5909bab4051f2e49d048c4e952ab.ctex
-[  82% ] savepack | Speichere Datei: res://assets/ui/items/item.svg.import
+[  83% ] savepack | Speichere Datei: res://.godot/imported/hatchet.svg-3ce9c4324b26d92366714031a791da64.ctex
+[  83% ] savepack | Speichere Datei: res://assets/ui/items/hatchet.svg.import
+[  83% ] savepack | Speichere Datei: res://.godot/imported/item.svg-202b5909bab4051f2e49d048c4e952ab.ctex
+[  83% ] savepack | Speichere Datei: res://assets/ui/items/item.svg.import
 [  83% ] savepack | Speichere Datei: res://.godot/imported/key.png-806ef150fe8a4c34edbc7c0c1c65e4f0.ctex
 [  83% ] savepack | Speichere Datei: res://assets/ui/items/key.png.import
 [  83% ] savepack | Speichere Datei: res://.godot/imported/key.svg-65312251192600bd77a204dd8a4e97b9.ctex
@@ -2156,8 +2015,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  83% ] savepack | Speichere Datei: res://assets/ui/items/marksman.png.import
 [  83% ] savepack | Speichere Datei: res://.godot/imported/maronenroehrling.png-8e546c03837a1e51841efcadacf0090f.ctex
 [  83% ] savepack | Speichere Datei: res://assets/ui/items/maronenroehrling.png.import
-[  83% ] savepack | Speichere Datei: res://.godot/imported/maronenroehrling.svg-d51e43c90a4e3d4dcad163ef62621396.ctex
-[  83% ] savepack | Speichere Datei: res://assets/ui/items/maronenroehrling.svg.import
+[  84% ] savepack | Speichere Datei: res://.godot/imported/maronenroehrling.svg-d51e43c90a4e3d4dcad163ef62621396.ctex
+[  84% ] savepack | Speichere Datei: res://assets/ui/items/maronenroehrling.svg.import
 [  84% ] savepack | Speichere Datei: res://.godot/imported/medicine.png-6c5f86189cfbedae3ca95c0b2aeda5ae.ctex
 [  84% ] savepack | Speichere Datei: res://assets/ui/items/medicine.png.import
 [  84% ] savepack | Speichere Datei: res://.godot/imported/minigun.png-78d072662423008c12406b8d3fa3a43b.ctex
@@ -2180,8 +2039,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  84% ] savepack | Speichere Datei: res://assets/ui/items/plasma_sniper.png.import
 [  84% ] savepack | Speichere Datei: res://.godot/imported/quest.svg-f39bedb24ae5f3c077421319bdfc6bdf.ctex
 [  84% ] savepack | Speichere Datei: res://assets/ui/items/quest.svg.import
-[  84% ] savepack | Speichere Datei: res://.godot/imported/raw_meat.svg-e16c84faeac49f32113a018eeff595c4.ctex
-[  84% ] savepack | Speichere Datei: res://assets/ui/items/raw_meat.svg.import
+[  85% ] savepack | Speichere Datei: res://.godot/imported/raw_meat.svg-e16c84faeac49f32113a018eeff595c4.ctex
+[  85% ] savepack | Speichere Datei: res://assets/ui/items/raw_meat.svg.import
 [  85% ] savepack | Speichere Datei: res://.godot/imported/reizker.png-d89eb46f9b98f60dc4ec4dd9e0278eb2.ctex
 [  85% ] savepack | Speichere Datei: res://assets/ui/items/reizker.png.import
 [  85% ] savepack | Speichere Datei: res://.godot/imported/reizker.svg-9a64a83a8c816766ae732e026547d284.ctex
@@ -2204,8 +2063,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  85% ] savepack | Speichere Datei: res://assets/ui/items/skill_reload.svg.import
 [  85% ] savepack | Speichere Datei: res://.godot/imported/skill_speed.svg-6f25d5ba7550d80f8952822a87308bb0.ctex
 [  85% ] savepack | Speichere Datei: res://assets/ui/items/skill_speed.svg.import
-[  85% ] savepack | Speichere Datei: res://.godot/imported/skill_steady.svg-4a79d02a29431583930afe25001f7f4c.ctex
-[  85% ] savepack | Speichere Datei: res://assets/ui/items/skill_steady.svg.import
+[  86% ] savepack | Speichere Datei: res://.godot/imported/skill_steady.svg-4a79d02a29431583930afe25001f7f4c.ctex
+[  86% ] savepack | Speichere Datei: res://assets/ui/items/skill_steady.svg.import
 [  86% ] savepack | Speichere Datei: res://.godot/imported/skin_bone.svg-9b0cde475eb49fa417604046e8fef024.ctex
 [  86% ] savepack | Speichere Datei: res://assets/ui/items/skin_bone.svg.import
 [  86% ] savepack | Speichere Datei: res://.godot/imported/skin_bronze.svg-add016b6d6d24dccf219c9a99eef2d5c.ctex
@@ -2228,8 +2087,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  86% ] savepack | Speichere Datei: res://assets/ui/items/violetter_roetelritterling.png.import
 [  86% ] savepack | Speichere Datei: res://.godot/imported/violetter_roetelritterling.svg-63bdc63e377f94f19c0f307b28e089d4.ctex
 [  86% ] savepack | Speichere Datei: res://assets/ui/items/violetter_roetelritterling.svg.import
-[  86% ] savepack | Speichere Datei: res://.godot/imported/konm_games_logo.png-8ca90a421ec5c20ce3989acc733118fd.ctex
-[  86% ] savepack | Speichere Datei: res://assets/ui/konm_games_logo.png.import
+[  87% ] savepack | Speichere Datei: res://.godot/imported/konm_games_logo.png-8ca90a421ec5c20ce3989acc733118fd.ctex
+[  87% ] savepack | Speichere Datei: res://assets/ui/konm_games_logo.png.import
 [  87% ] savepack | Speichere Datei: res://.godot/imported/remz_crest.png-cb204daf9ba6c2099539b0aaca62636c.ctex
 [  87% ] savepack | Speichere Datei: res://assets/ui/remz_crest.png.import
 [  87% ] savepack | Speichere Datei: res://assets/viewmodel/ASSET-HASHES.json
@@ -2249,8 +2108,8 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  87% ] savepack | Speichere Datei: res://assets/viewmodel/meshy_sleeve_2.jpg.import
 [  87% ] savepack | Speichere Datei: res://.godot/imported/right_glove.fbx-97ce6092b1040ebfc66bebda7e4ca2a1.scn
 [  87% ] savepack | Speichere Datei: res://assets/viewmodel/right_glove.fbx.import
-[  87% ] savepack | Speichere Datei: res://.godot/imported/RemZ_Currency.png-243ae2f16784e3352da0ad3faa18ee11.ctex
-[  87% ] savepack | Speichere Datei: res://assets/RemZ_Currency.png.import
+[  88% ] savepack | Speichere Datei: res://.godot/imported/RemZ_Currency.png-243ae2f16784e3352da0ad3faa18ee11.ctex
+[  88% ] savepack | Speichere Datei: res://assets/RemZ_Currency.png.import
 [  88% ] savepack | Speichere Datei: res://cinematics/run.gdc
 [  88% ] savepack | Speichere Datei: res://cinematics/trailer.json
 [  88% ] savepack | Speichere Datei: res://cinematics/trailer_director.gdc
@@ -2262,7 +2121,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  88% ] savepack | Speichere Datei: res://scripts/alpine_atmosphere.gdc
 [  88% ] savepack | Speichere Datei: res://scripts/ambience.gdc
 [  88% ] savepack | Speichere Datei: res://scripts/attack_drone.gdc
-[  88% ] savepack | Speichere Datei: res://scripts/barricade.gdc
+[  89% ] savepack | Speichere Datei: res://scripts/barricade.gdc
 [  89% ] savepack | Speichere Datei: res://scripts/barricade_menu.gdc
 [  89% ] savepack | Speichere Datei: res://scripts/boot_screen.gdc
 [  89% ] savepack | Speichere Datei: res://scripts/breakable.gdc
@@ -2274,7 +2133,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  89% ] savepack | Speichere Datei: res://scripts/coop_menu.gdc
 [  89% ] savepack | Speichere Datei: res://scripts/coop_world.gdc
 [  89% ] savepack | Speichere Datei: res://scripts/cornfield.gdc
-[  89% ] savepack | Speichere Datei: res://scripts/corn_meshes.gdc
+[  90% ] savepack | Speichere Datei: res://scripts/corn_meshes.gdc
 [  90% ] savepack | Speichere Datei: res://scripts/currency.gdc
 [  90% ] savepack | Speichere Datei: res://scripts/day_night_cycle.gdc
 [  90% ] savepack | Speichere Datei: res://scripts/deer.gdc
@@ -2286,7 +2145,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  90% ] savepack | Speichere Datei: res://scripts/elemental_effects.gdc
 [  90% ] savepack | Speichere Datei: res://scripts/encounter_balance.gdc
 [  90% ] savepack | Speichere Datei: res://scripts/field_bird.gdc
-[  90% ] savepack | Speichere Datei: res://scripts/fireworks.gdc
+[  91% ] savepack | Speichere Datei: res://scripts/fireworks.gdc
 [  91% ] savepack | Speichere Datei: res://scripts/firework_battery.gdc
 [  91% ] savepack | Speichere Datei: res://scripts/firework_effect.gdc
 [  91% ] savepack | Speichere Datei: res://scripts/firework_stars.gdshader
@@ -2321,7 +2180,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  93% ] savepack | Speichere Datei: res://scripts/perimeter.gdc
 [  93% ] savepack | Speichere Datei: res://scripts/pickup.gdc
 [  93% ] savepack | Speichere Datei: res://scripts/player.gdc
-[  93% ] savepack | Speichere Datei: res://scripts/progression.gdc
+[  94% ] savepack | Speichere Datei: res://scripts/progression.gdc
 [  94% ] savepack | Speichere Datei: res://scripts/quest_notifications.gdc
 [  94% ] savepack | Speichere Datei: res://scripts/quickbar.gdc
 [  94% ] savepack | Speichere Datei: res://scripts/rare_items.gdc
@@ -2333,7 +2192,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 [  94% ] savepack | Speichere Datei: res://scripts/sfx.gdc
 [  94% ] savepack | Speichere Datei: res://scripts/shootable_pumpkin.gdc
 [  94% ] savepack | Speichere Datei: res://scripts/skills.gdc
-[  94% ] savepack | Speichere Datei: res://scripts/survivor_hands.gdc
+[  95% ] savepack | Speichere Datei: res://scripts/survivor_hands.gdc
 [  95% ] savepack | Speichere Datei: res://scripts/survivor_rig.gdc
 [  95% ] savepack | Speichere Datei: res://scripts/titan.gdc
 [  95% ] savepack | Speichere Datei: res://scripts/titan_presence.gdc

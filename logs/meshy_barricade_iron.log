@@ -1,0 +1,33 @@
+07:54:29 preview barricade_iron
+TASK_CREATED: 01a0d721-2a67-70ff-972a-12a2bc35c925
+  [███░░░░░░░░░░░░░░░░░] 18% — IN_PROGRESS (0s, poll #1)
+  [█████░░░░░░░░░░░░░░░] 28% — IN_PROGRESS (5s, poll #2)
+  [██████████░░░░░░░░░░] 50% — IN_PROGRESS (12.5s, poll #3)
+  [████████████████░░░░] 82% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (115.625s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (130.625s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (145.625s, poll #12)
+  [████████████████████] 100% — SUCCEEDED (160.625s, poll #13)
+07:57:14 refine barricade_iron
+TASK_CREATED: 01a0d723-ac96-7500-a5d1-75d41cdeada1
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (12.5s, poll #3)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (23.75s, poll #4)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (40.625s, poll #5)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (65.9375s, poll #6)
+  [█░░░░░░░░░░░░░░░░░░░] 5% — IN_PROGRESS (95.9375s, poll #7)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (125.9375s, poll #8)
+  [███████████░░░░░░░░░] 55% — IN_PROGRESS (155.9375s, poll #9)
+  [███████████████░░░░░] 78% — IN_PROGRESS (185.9375s, poll #10)
+  [████████████████████] 100% — SUCCEEDED (215.9375s, poll #11)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\barricade_iron\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\barricade_iron\model.glb (9.6 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\barricade_iron\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\barricade_iron\thumb.png (0.2 MB)
+08:00:55 DONE barricade_iron
