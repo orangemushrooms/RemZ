@@ -58,7 +58,7 @@ func run() -> void:
 	worm.set_physics_process(false)
 	await process_frame
 	# the difficulty's health multiplier (Normal 1.25 since 25 Sep 2026) rides on the worm's health
-	check(worm.height == 14 and is_equal_approx(worm.hp, 2600 * float(game.difficulty.hp)) and is_equal_approx(worm.speed_mul, 1.25), "Wave 12 normal worm has intended size, HP and bounded speed")
+	check(worm.height == 14 and is_equal_approx(worm.hp, 4400 * float(game.difficulty.hp)) and is_equal_approx(worm.speed_mul, 1.25), "Wave 12 normal worm has intended size, HP and bounded speed")
 	check(worm.cue_serial == 1 and worm._heard_cue == 1 and worm._voice.stream is AudioStreamMP3, "Spawn plays exactly one supplied worm recording")
 	var saved_player: Vector3 = game.player.global_position
 	var saved_worm := worm.global_position
@@ -81,7 +81,7 @@ func run() -> void:
 	worm._advance_phase()
 	worm.damage(100, Vector3.FORWARD)
 	check(is_equal_approx(worm.hp, health - 100) and worm._stagger == 0, "Exposed worm takes damage without automatic-fire stun lock")
-	check(worm.phase_time >= 7, "Each attack cycle leaves a generous shooting window")
+	check(worm.phase_time >= Earthworm.EXPOSED_TIME and Earthworm.EXPOSED_TIME + Earthworm.WINDUP_TIME + Earthworm.RECOVERY_TIME >= 10.0, "Each attack cycle leaves a generous shooting window (%.1f s exposed, %.1f s above ground)" % [worm.phase_time, Earthworm.EXPOSED_TIME + Earthworm.WINDUP_TIME + Earthworm.RECOVERY_TIME])
 	worm.anim.pause()
 	await physics_frame
 	await physics_frame
@@ -121,7 +121,7 @@ func run() -> void:
 	check(game.player.hp == player_hp, "Player outside the marked radius takes no damage")
 	game.player.global_position = locked
 	worm.resolve_strike()
-	check(is_equal_approx(game.player.hp, player_hp - 48 * worm.damage_mul), "Player inside unoccluded impact takes exactly one intended hit")
+	check(is_equal_approx(game.player.hp, player_hp - 70 * worm.damage_mul), "Player inside unoccluded impact takes exactly one intended hit")
 	check(not worm.safe_surface(Map.ground_pos(Map.FIRE.x, Map.FIRE.y)), "Worm cannot surface inside the camp")
 	check(not worm._safe_tunnel(Map.ground_pos(Map.FIRE.x, Map.FIRE.y)), "Worm cannot tunnel through the camp")
 	worm._set_phase("dive", Earthworm.DIVE_TIME)

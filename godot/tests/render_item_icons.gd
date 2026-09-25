@@ -32,6 +32,8 @@ func run() -> void:
 	world.add_child(camera)
 	camera.current = true
 	var catalogue := {"ammo": "ammo_pack", "medicine": "medkit", "grenade": "grenade", "steinpilz": "mushroom_cluster", "fliegenpilz": "mushroom_fly", "barricade": "barricade", "tower": ""}
+	# one render per tower kind for the Mechanic's upgrade rows (26 Sep 2026): --only=tower_flame,...
+	for kind in DefenceTower.TYPES: catalogue["tower_" + kind] = ""
 	for id in Weapons.ORDER: catalogue[id] = Weapons.DEFS[id].model
 	for id in Inventory.Mushrooms.DEFS:
 		if not catalogue.has(id): catalogue[id] = "mushroom_" + id
@@ -66,8 +68,9 @@ func run() -> void:
 		var holder := Node3D.new()
 		world.add_child(holder)
 		var object: Node3D
-		if id == "tower":
+		if id == "tower" or id.begins_with("tower_"):
 			var tower := DefenceTower.new()
+			if id != "tower": tower.kind = id.trim_prefix("tower_")
 			tower.replica = true
 			tower.process_mode = Node.PROCESS_MODE_DISABLED
 			holder.add_child(tower)

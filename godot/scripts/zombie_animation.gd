@@ -89,7 +89,7 @@ const SEAM_SAMPLES := 48
 const SEAM_BLEND := 0.12
 
 static func _is_gait(clip: String) -> bool:
-	return clip.begins_with("walk") or clip.begins_with("run") or clip.begins_with("idle")
+	return clip.begins_with("walk") or clip.begins_with("run") or clip.begins_with("idle") or clip.begins_with("crawl")
 
 static func _pose_gap(rig: Skeleton3D, a: Array, b: Array) -> float:
 	var worst := 0.0

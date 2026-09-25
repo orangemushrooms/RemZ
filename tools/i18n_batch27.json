@@ -1,0 +1,11 @@
+{
+  "No more than 40 towers per team.": "Maximal 40 Türme im Team.",
+  "%s · %d / 40 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel": "%s · %d / 40 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen",
+  "Bought: %s · magazine + 3 spare magazines": "Gekauft: %s · Magazin + 3 Reservemagazine",
+  "%s · HULL %d / %d · HEAT %d%% · ROCKETS %d\nAltitude %.1f m · %s\nWASD fly · Mouse aim · Space / Ctrl up / down · LMB fire · RMB rocket · R self-destruct · Esc return": "%s · HÜLLE %d / %d · HITZE %d %% · RAKETEN %d\nHöhe %.1f m · %s\nWASD fliegen · Maus zielen · Leertaste / Strg hoch / runter · LMT feuern · RMT Rakete · R Selbstzerstörung · Esc zurück",
+  "Fly a drone (hut, upper floor) · RMB rocket · R self-destruct · Esc recall": "Drohne fliegen (Hütte, Obergeschoss) · RMT Rakete · R Selbstzerstörung · Esc zurückrufen",
+  "YOU BLED OUT": "DU BIST VERBLUTET",
+  "Watching %s  ·  LMB / RMB: next teammate": "Du siehst %s zu  ·  LMT / RMT: nächster Mitspieler",
+  "The gold #number beacons out in the world mark the towers listed here.": "Die goldenen #Nummern-Leuchtsäulen draussen markieren die hier aufgeführten Türme.",
+  "Tier %d → %d: damage %d → %d · range %d → %d m · hull %d → %d": "Stufe %d → %d: Schaden %d → %d · Reichweite %d → %d m · Hülle %d → %d"
+}

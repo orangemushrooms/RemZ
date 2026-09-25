@@ -9,7 +9,7 @@ import fs from 'node:fs';
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const names = process.argv.slice(2).length ? process.argv.slice(2) : ['zombie_earthworm', 'zombie_earthworm_ancient'];
 const count = 22, length = 1.7, neck = length * .76;
-const clips = {walk:4.8, burrow:2.0, emerge:1.8, attack:2.6, recovery:3.5, dive:1.8, death:3.2};
+const clips = {walk:4.8, burrow:2.0, emerge:1.8, attack:2.6, recovery:2.8, dive:1.8, death:3.2};
 const clamp = (v,a=0,b=1) => Math.max(a,Math.min(b,v));
 const smooth = v => {v=clamp(v); return v*v*(3-2*v);};
 const dot = (a,b) => a.reduce((s,v,i)=>s+v*b[i],0);
@@ -25,25 +25,45 @@ const invQ = q => [-q[0],-q[1],-q[2],q[3]];
 const rotate = (v,q) => mulQ(mulQ(q,[...v,0]),invQ(q)).slice(0,3);
 const cross = (a,b) => [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
 
+// 26 Sep 2026: every clip carries a travelling serpentine wave (sway phase-shifted along the body) and a
+// twist about the body axis, so the worm writhes instead of standing like a post: the risen body weaves
+// its head hunting, the emerge overshoots and whips back, the strike coils sideways before the slam and
+// shudders after it, the recovery drags the head up in jerks, the dive corkscrews into the ground and
+// the death is a spasm that collapses.
 function orientation(clip, u, p) {
-  const wave = p*Math.PI*2, upper = smooth((u-.12)/.88);
-  let bend = .18*upper, sway = .045*Math.sin(wave-u*3)*u;
-  if (clip === 'burrow') {bend=.15*upper; sway=.16*Math.sin(wave-u*5)*u;}
-  if (clip === 'emerge') {bend+=.38*Math.sin(p*Math.PI)*upper; sway*=Math.sin(p*Math.PI);}
+  const wave = p*Math.PI*2, upper = smooth((u-.12)/.88), tip = upper*upper;
+  let bend = .18*upper + .10*Math.sin(wave)*tip;
+  let sway = .09*Math.sin(wave*2-u*7)*u + .06*Math.sin(wave-u*2.5)*tip;
+  let twist = .12*Math.sin(wave-u*4)*u;
+  if (clip === 'burrow') {bend=.15*upper; sway=.2*Math.sin(wave*3-u*6)*u; twist=.1*Math.sin(wave*2-u*3)*u;}
+  if (clip === 'emerge') {
+    const rise = Math.sin(p*Math.PI), shake = (1-p)*(1-p);
+    bend = .18*upper + .55*rise*upper - .25*Math.sin(p*Math.PI*2)*tip;
+    sway = .16*Math.sin(p*40)*shake*u + .12*rise*Math.sin(wave*2-u*6)*u;
+    twist = .2*Math.sin(p*Math.PI*3)*(1-p)*u;
+  }
   if (clip === 'attack') {
-    // Slow recoil, short readable pause, accelerating downward strike.
-    const pull = smooth(p/.6), strike = smooth((p-.73)/.27);
+    // Slow recoil with a sideways coil, short readable pause, accelerating downward strike, a shudder.
+    const pull = smooth(p/.6), strike = smooth((p-.73)/.27), after = smooth((p-.88)/.12);
     bend = (.18-.6*pull+2.82*strike)*upper;
-    sway = .025*Math.sin(p*Math.PI)*u;
+    sway = .38*pull*(1-strike)*u + .06*Math.sin(p*60)*after*u;
+    twist = .3*pull*(1-strike)*tip;
   }
   if (clip === 'recovery') {
-    const lift = smooth((p-.15)/.85);
-    bend = (2.4-2.22*lift-.18*Math.sin(lift*Math.PI))*upper;
-    sway = .035*Math.sin(p*Math.PI)*u;
+    const lift = smooth((p-.15)/.85), jerk = Math.max(0, Math.sin(p*Math.PI*5))*(1-lift);
+    bend = (2.4-2.22*lift-.18*Math.sin(lift*Math.PI))*upper - .12*jerk*tip;
+    sway = .08*Math.sin(p*30)*(1-lift)*u + .05*Math.sin(wave*2-u*5)*u;
+    twist = .15*Math.sin(p*Math.PI*2)*(1-lift)*u;
   }
-  if (clip === 'dive') {bend=(.18+1.25*smooth(p))*upper; sway=0;}
-  if (clip === 'death') {bend=(.18+1.6*smooth(p/.82))*smooth(u/.4); sway=.2*Math.sin(p*Math.PI)*u;}
-  return mulQ([Math.sin(bend/2),0,0,Math.cos(bend/2)],[0,0,Math.sin(sway/2),Math.cos(sway/2)]);
+  if (clip === 'dive') {bend=(.18+1.25*smooth(p))*upper; sway=.08*Math.sin(p*24)*(1-p)*u; twist=1.3*smooth(p)*u;}
+  if (clip === 'death') {
+    const fall = smooth(p/.82), spasm = (1-p)*(1-p);
+    bend = (.18+1.6*fall)*smooth(u/.4) + .15*Math.sin(p*22)*spasm*tip;
+    sway = .35*Math.sin(p*22)*spasm*u + .2*Math.sin(p*Math.PI)*u;
+    twist = .5*Math.sin(p*9)*spasm*u;
+  }
+  const bendQ = [Math.sin(bend/2),0,0,Math.cos(bend/2)], swayQ = [0,0,Math.sin(sway/2),Math.cos(sway/2)], twistQ = [0,Math.sin(twist/2),0,Math.cos(twist/2)];
+  return mulQ(mulQ(bendQ,swayQ),twistQ);
 }
 
 const reports = [];

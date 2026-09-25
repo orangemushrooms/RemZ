@@ -57,7 +57,7 @@ def run(entry):
         except subprocess.TimeoutExpired:
             code = -9
     text = open(log, encoding="utf-8", errors="replace").read()
-    done = re.findall(r"^[A-Z_]+_DONE.*$", text, re.M)
+    done = re.findall(r"^[A-Z0-9_]+_DONE.*$", text, re.M)
     fails = [line for line in text.splitlines() if "FAIL" in line and "FAILED" not in line][:6]
     errors = [line for line in text.splitlines() if "SCRIPT ERROR" in line][:4]
     verdict = "OK" if code == 0 and done and "failures=0" in (done[-1] if done else "") else "BAD"

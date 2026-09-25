@@ -9,9 +9,12 @@ const RAGE_RECOVERY := 1.0
 # Phases (26 Sep 2026): below ARM_LOSS of its health the giant loses its right arm (bones collapse, a stump,
 # blood) and from then on tears trees out of the ground and throws them (thrown_tree.gd) every THROW_MIN..
 # THROW_MAX seconds at a player THROW_RANGE metres away; below LEG_LOSS it loses its left leg and crawls:
-# the body tilts forward onto the ground (a much lower head), it moves at CRAWL_SPEED of its pace, and its
-# slam becomes a shorter, quicker sweep. Both are replicated through boss_state (lost mask) and the
-# throw RPC.
+# the rig plays its "crawl" clip (Meshy library 340, hands and knees; every titan skin carries it since
+# 26 Sep 2026), the ground contact keeps hands and knees on the terrain the way the feet are kept while
+# walking, it moves at CRAWL_SPEED of its pace, and its slam becomes a shorter, quicker sweep. A rig
+# without the clip keeps its walk cycle at crawl pace. (The first version tilted the whole model forward
+# and dropped it by a third of its height, which read as the giant sinking into the ground.) Both phases
+# are replicated through boss_state (lost mask) and the throw RPC.
 const ARM_LOSS := 0.65
 const LEG_LOSS := 0.35
 const LOST_ARM := 1
@@ -21,7 +24,7 @@ const THROW_MAX := 15.0
 const THROW_RANGE := Vector2(14.0, 80.0)
 const THROW_WINDUP := 1.3
 const CRAWL_SPEED := 0.5
-const CRAWL_TILT := -0.95
+const CRAWL_BONES := ["LeftToeBase", "RightToeBase", "LeftHand", "RightHand", "LeftLeg", "RightLeg"]
 var lost := 0
 var crawling := false
 var throw_serial := 0
@@ -46,6 +49,7 @@ var warning: MeshInstance3D
 var warning_material: StandardMaterial3D
 var skeleton: Skeleton3D
 var foot_bones: Array[int] = []
+var crawl_bones: Array[int] = []   # feet, hands and knees: whatever touches the ground on all fours
 var _last_position := Vector3.ZERO
 var _warning_center := Vector3.INF
 
@@ -67,6 +71,9 @@ func _ready() -> void:
 			for bone in ["LeftToeBase", "RightToeBase"]:
 				var index := skeleton.find_bone(bone)
 				if index >= 0: foot_bones.append(index)
+			for bone in CRAWL_BONES:
+				var index := skeleton.find_bone(bone)
+				if index >= 0: crawl_bones.append(index)
 			break
 	for child in get_children():
 		if child is CollisionShape3D and child.shape is CapsuleShape3D:
@@ -121,12 +128,14 @@ func _process(delta: float) -> void:
 	if not alive: return
 	var contact := false
 	# Contact correction is essential at this scale: a small rig offset becomes
-	# a metre of floating feet when a human animation is applied to a giant.
-	if skeleton and not foot_bones.is_empty() and not crawling:
+	# a metre of floating feet when a human animation is applied to a giant. On all fours the
+	# hands and knees are the contact, so the crawl neither floats nor sinks.
+	var contact_bones := crawl_bones if crawling and not crawl_bones.is_empty() else foot_bones
+	if skeleton and not contact_bones.is_empty():
 		var lowest := INF
-		if _foot_heights.size() != foot_bones.size(): _foot_heights.resize(foot_bones.size())
-		for i in foot_bones.size():
-			var index := foot_bones[i]
+		if _foot_heights.size() != contact_bones.size(): _foot_heights.resize(contact_bones.size())
+		for i in contact_bones.size():
+			var index := contact_bones[i]
 			var foot := skeleton.to_global(skeleton.get_bone_global_pose(index).origin)
 			var above := foot.y - Map.ground_height(foot.x, foot.z)
 			if above <= 0.25 and _foot_heights[i] > 0.25: contact = true
@@ -207,11 +216,28 @@ func _apply_lost(bit: int, direction: Vector3) -> void:
 
 func _begin_crawl() -> void:
 	crawling = true
-	if model:
-		model.rotation.x = CRAWL_TILT
-		model.position.y = -height * 0.36
-	if anim: anim.speed_scale = clampf(8.1 / height, 0.3, 0.85) * 0.8
+	_foot_heights.clear()
+	if model: model.rotation.x = 0.0
+	# the gait re-picks itself on the next walk tick (_gait -> "crawl"); a swing in progress finishes first
+	if anim and alive and state == "walk" and has_crawl_clip():
+		clip = "crawl"
+		anim.play("crawl", 0.35)
+		anim.speed_scale = 0.6
 	if warning: warning.hide()
+
+func has_crawl_clip() -> bool:
+	return anim != null and anim.has_animation("crawl")
+
+# On all fours the locomotion clip is the crawl; everything else (slam, roar, death) keeps its clip.
+func _gait() -> String:
+	if crawling and has_crawl_clip(): return "crawl"
+	return super._gait()
+
+# The crawl clip carries hardly any foot travel, so the stride matching of the walk would race it:
+# a crawl plays at a fixed, heavy pace scaled by the giant's size.
+func _natural_speed(name: String) -> float:
+	if name == "crawl": return 0.0
+	return super._natural_speed(name)
 
 func can_throw() -> bool:
 	return alive and (lost & LOST_ARM) != 0
@@ -232,7 +258,7 @@ func _begin_throw(target: Player) -> void:
 func _release_tree() -> void:
 	throw_serial += 1
 	throws += 1
-	throw_from = global_position + Vector3.UP * height * 0.78 + global_basis.x * -height * 0.16 + global_basis.z * height * 0.12
+	throw_from = global_position + Vector3.UP * height * (0.45 if crawling else 0.78) + global_basis.x * -height * 0.16 + global_basis.z * height * 0.12
 	var scene := get_tree().current_scene
 	if scene and scene.has_method("titan_throw"): scene.titan_throw(self, throw_from, throw_to)
 	_throw_t = randf_range(THROW_MIN, THROW_MAX)

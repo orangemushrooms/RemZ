@@ -90,6 +90,7 @@ var cash_cooldown := 0.0
 var mounted_tower := 0
 var controlling_drone := 0
 var downed := false
+var spectating := false    # the camera follows a teammate (coop_world): WASD and the mouse are theirs
 var down_time := 0.0
 var self_revives := 1              # self revives left this wave
 var revive_hold := 0.0             # seconds E has been held while down (local player)
@@ -162,9 +163,13 @@ func stance_precision() -> float:
 	return 0.7 if crouching and absf(velocity.y) < 2.0 and Vector2(velocity.x, velocity.z).length() <= CROUCH_SPEED * effective_speed_mul() + 0.2 else 1.0
 
 func _unhandled_input(event: InputEvent) -> void:
+	if spectating and not remote_actor and event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_LEFT, MOUSE_BUTTON_RIGHT]:
+		if NetSession.world: NetSession.world.cycle_spectator(1 if event.button_index == MOUSE_BUTTON_LEFT else -1)
+		get_viewport().set_input_as_handled()
+		return
 	if remote_actor or not active or not alive or controlling_drone:
 		return
-	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and not spectating:
 		var scene := get_tree().current_scene
 		var weapons: Weapons = scene.get("weapons") if scene else null
 		var zoom_scale := tan(deg_to_rad(camera.fov) * 0.5) / tan(deg_to_rad(75.0) * 0.5) if mounted_tower or (weapons and weapons.ads > 0.0 and Weapons.DEFS[weapons.current].has("scope_zoom")) else 1.0
@@ -234,6 +239,7 @@ func _physics_process(delta: float) -> void:
 		if not NetSession.is_client(): _regenerate(delta)
 		return
 	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	if spectating: input = Vector2.ZERO   # the body on the ground stays where the teammates left it
 	set_crouching(Input.is_action_pressed("crouch") or downed)
 	var sprint := Input.is_action_pressed("sprint") and not crouching
 	var speed := (CROUCH_SPEED if crouching else SPRINT_SPEED if sprint else WALK_SPEED) * effective_speed_mul()

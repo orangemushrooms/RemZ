@@ -448,6 +448,41 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   until then). `--no-intro` skips it (autotest, benchmark and `--view=` skip automatically), `--intro-test`
   runs it headless-ish and saves `shots/intro_wake.png` / `intro_road.png`.
 
+## Batch of 26 Sep 2026 evening (`--suite=batch27 --smoke-test --no-intro --no-music --no-foliage`, 44 checks)
+- Titan crawl: every titan skin (zombie_titan / zombie_colossus / zombie_bloater) carries the Meshy library
+  clip 340 "Crawl and Look Back" as `crawl` (`tools/zombies_v3.py` TITAN set + the bloater, 3 credits each,
+  repacked with the usual pack.mjs lines). `Titan._begin_crawl` no longer tilts and sinks the model: `_gait()`
+  returns "crawl" while crawling, `crawl_bones` (toes, hands, knees) replace the feet in the ground-contact
+  correction, `_natural_speed("crawl")` is 0 so `Zombie._fixed_gait_speed` plays it at a size-scaled fixed pace,
+  "crawl" counts as a looping gait in zombie.gd and zombie_animation.gd. The rage roar of the leg loss plays
+  first, the crawl follows it. `--suite=titan_phases` checks the clip and the contact height.
+- Beasts (`zombie_beast.gd`): the model turns about its centre, so every pitch / roll used to push one end of
+  the stag into the ground. `_update_animation` lifts the body by sin(tilt) x half length (+ sin(roll) x half
+  width) from `_mesh_bounds()`; the size variation of zombie.gd rescales the model after the fit, so
+  `_refit_scale()` derives the resting height from the current scale. Dead beasts lie at half a body width.
+- `thrown_tree.gd` throws `tree_autumn_a` / `tree_autumn_b` (11.5 m, picked from the throw origin so host and
+  clients agree) with a soil root ball; the procedural trunk stays as fallback for a stripped build.
+- Earthworms: hp 4400 / 6200, strike 70 / 88 with a shove, gates 240, towers 220, hut 340, exposed 5.5 s,
+  recovery 2.8 s, the risen body turns after the player, a soil fountain while emerging / diving. The clips
+  (`tools/prepare_earthworms.mjs`, re-run = both GLBs + import) carry a travelling serpentine wave, a whip on
+  the emerge, a coiled strike, jerks in the recovery, a corkscrew dive and a spasm death.
+- Drones: gun damage doubled (48 / 84 / 124); right mouse button fires one of `AttackDrone.ROCKETS` 6 rockets
+  (`drone_rocket.gd`, 58 m/s swept dart, 5 m blast, 260 / 380 / 520, credited to the pilot, replica via
+  `NetSession.drone_rocket` and the burst via the explosion RPC); R is the self-destruct (`detonate()`, 9 m,
+  700 / 1100 / 1600, bosses at half, counts as destroyed = 30 s refit), Esc recalls. `drone_control` carries a
+  sixth bool (rocket), `drone_detonate` is a command, snapshot field 13 = rockets left.
+- Spectator (`coop_world._update_spectator`): a downed or bled-out local player watches the nearest living
+  teammate over the shoulder (2.6 m behind the eye along their look, ray-clamped), LMB / RMB cycle, the own
+  body lies still (`Player.spectating` blocks WASD, mouse and the trigger), the down panel names the teammate
+  ("Watching %s"), "YOU BLED OUT" while dead; a revive or the round end restores the own camera.
+- Mechanic's tower page: `DefenceSystem.set_markers` hangs a gold "#id" Label3D (no depth test) with a beam
+  on every tower while the page is open (off on another page / close), the rows show the kind's own render
+  (`ItemIcons.tower_icon`, `assets/ui/items/tower_<kind>.png` from `render_item_icons.gd --only=tower_flame,...`,
+  fallback tower.png) and the next tier's numbers (`DefenceTower.damage_at / range_at / hp_at`).
+- Numbers: one magazine more on every gun (DEFS reserve + mag, `reserve_limit` factor + 1, a bought gun comes
+  with 3 spare magazines), MG-60 damage 80, graviton blast radius 11 m (edge 0.3), mortar 210 (+50 per tier),
+  `DefenceTower.LIMIT` 40, spitter acid `structure` 24 per second (a whole pool leaves a timber gate standing).
+
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,
   six-letter join code, anonymous Connect Device ID login, no Epic account, no port forwarding) and **Direct /

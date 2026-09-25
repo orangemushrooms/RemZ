@@ -3,7 +3,7 @@ extends Node3D
 var start := Vector3.ZERO
 var destination := Vector3.ZERO
 var owner_peer := 1
-var damage_amount := 145.0
+var damage_amount := 210.0
 var authoritative := true
 var excluded: Array[RID] = []
 var game: Node3D

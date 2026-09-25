@@ -389,7 +389,7 @@ func _ready() -> void:
 	downed_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	downed_panel.offset_left = -260
 	downed_panel.offset_right = 260
-	downed_panel.offset_top = -262
+	downed_panel.offset_top = -286
 	downed_panel.offset_bottom = -196
 	downed_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var down_style := StyleBoxFlat.new()
@@ -610,7 +610,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	box.add_child(grid)
 	for pair in [["WASD", "Move"], ["Mouse", "Look around"], ["Shift", "Sprint"], ["Hold Ctrl", "Crouch / aim more precisely"], ["Space", "Jump"],
 			["Left click", "Shoot / strike"], ["Right click", "Aim (ADS)"], ["R", "Reload / align tower"], ["1–9 / 0", "Quick bar: slots 1–10"], ["Mouse wheel", "Switch weapon"],
-			["G", "Throw grenade"], ["E", "NPC / barricade / mount tower / repair hut"], ["V", "Defense planning with Mechanic"], ["T", "Build turret · at the hut also on the roof · E confirms"], ["E · drone station", "Fly a drone (hut, upper floor) · R / Esc: recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
+			["G", "Throw grenade"], ["E", "NPC / barricade / mount tower / repair hut"], ["V", "Defense planning with Mechanic"], ["T", "Build turret · at the hut also on the roof · E confirms"], ["E · drone station", "Fly a drone (hut, upper floor) · RMB rocket · R self-destruct · Esc recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
 			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"],
 			["X / middle mouse", "Callout: ping what you look at (gate, hut, enemy, spot)"], ["Hold E (down)", "Get back up once per wave · teammates revive with E"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
 		var k := _label(pair[0], 14, GOLD)
@@ -1096,16 +1096,18 @@ func set_marked(active: bool) -> void:
 
 # active: the player is down. seconds_left of bleed-out, hold 0..1 of the E hold, can_self: a self revive
 # is left, teammates: someone else could come.
-func set_downed(active: bool, seconds_left: float, hold: float, can_self: bool, teammates: bool) -> void:
+func set_downed(active: bool, seconds_left: float, hold: float, can_self: bool, teammates: bool, watching := "", dead := false) -> void:
 	if not downed_panel: return
 	if downed_panel.visible != active: downed_panel.visible = active
 	if not active: return
-	var line := Lang.t("YOU ARE DOWN  ·  %d s", [ceili(maxf(seconds_left, 0.0))])
-	if can_self: line += "  ·  " + Lang.t("hold E to get back up")
+	var line: String = Lang.t("YOU BLED OUT") if dead else Lang.t("YOU ARE DOWN  ·  %d s", [ceili(maxf(seconds_left, 0.0))])
+	if can_self and not dead: line += "  ·  " + Lang.t("hold E to get back up")
 	elif teammates: line += "  ·  " + Lang.t("a teammate can revive you with E")
+	if not watching.is_empty(): line += "\n" + Lang.t("Watching %s  ·  LMB / RMB: next teammate", [Lang.raw(watching)])
 	if downed_text.text != line: downed_text.text = line
+	bleed_bar.visible = not dead
 	bleed_bar.value = clampf(seconds_left / Player.DOWN_SECONDS, 0.0, 1.0)
-	hold_bar.visible = can_self
+	hold_bar.visible = can_self and not dead
 	hold_bar.value = clampf(hold, 0.0, 1.0)
 
 func radio_line(text: String, colour: Color = Color.WHITE) -> void:

@@ -842,6 +842,14 @@ func _acid_pool(session_epoch: int, at: Vector3, kind: String) -> void:
 func titan_throw(emitter: int, serial: int, from: Vector3, to: Vector3, seconds: float) -> void:
 	if is_host(): _titan_throw.rpc(epoch, emitter, serial, from, to, seconds)
 
+# a drone's rocket (26 Sep 2026): the clients fly a replica along the same line
+func drone_rocket(from: Vector3, direction: Vector3, reach: float) -> void:
+	if is_host() and enabled: _drone_rocket.rpc(epoch, from, direction, reach)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _drone_rocket(session_epoch: int, from: Vector3, direction: Vector3, reach: float) -> void:
+	if epoch == session_epoch and world and is_instance_valid(game) and from.is_finite() and direction.is_finite() and is_finite(reach): world.show_drone_rocket(from, direction, clampf(reach, 5.0, 250.0))
+
 @rpc("authority", "call_remote", "reliable", 0)
 func _titan_throw(session_epoch: int, _emitter: int, _serial: int, from: Vector3, to: Vector3, seconds: float) -> void:
 	if epoch == session_epoch and world and is_instance_valid(game) and from.is_finite() and to.is_finite() and is_finite(seconds): world.show_titan_throw(from, to, clampf(seconds, 0.6, 4.0))

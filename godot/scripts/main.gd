@@ -2755,7 +2755,8 @@ func _process(delta: float) -> void:
 		fire_light.light_energy = 5.0 * daylight_multiplier * (0.8 + 0.2 * sin(t * 11.0) * sin(t * 7.3) + 0.1 * sin(t * 23.0))
 	if player:
 		var teammates := NetSession.enabled and NetSession.roster.size() > 1
-		hud.set_downed(player.downed, player.down_time, player.hold_fraction(), player.self_revives > 0, teammates)
+		var watching: String = NetSession.world.spectating_name() if NetSession.enabled and NetSession.world else ""
+		hud.set_downed(player.downed or not watching.is_empty(), player.down_time, player.hold_fraction(), player.self_revives > 0, teammates, watching, not player.alive)
 		hud.set_marked(player.marked_t > 0.0)
 		if weather and day_night and _weather_label_t <= 0.0:
 			_weather_label_t = 0.5

@@ -20,6 +20,9 @@ var revive: Dictionary = {}
 var purse := 0                 # the team's gate fund (Barricade.purse / spend), host authoritative
 var next_id := 1
 var local_dead := false
+var spectating := 0            # the teammate the local camera follows while down or dead (26 Sep 2026)
+var spectator: Camera3D
+var spectator_snap := false
 var current_wave := 0
 var state_loaded := false
 var intro_lock := 0.0
@@ -190,7 +193,7 @@ func action(id: int, operation: String, args: Array) -> void:
 	var p: Player = actor(id)
 	if not p or not p.alive: return
 	var w: Weapons = weapons[id]
-	if p.controlling_drone and operation not in ["drone_control", "drone_recall"]: return
+	if p.controlling_drone and operation not in ["drone_control", "drone_recall", "drone_detonate"]: return
 	match operation:
 		"secret_night":
 			if args.is_empty(): game.secret_night.interact(p)
@@ -199,10 +202,12 @@ func action(id: int, operation: String, args: Array) -> void:
 			var error: String = game.drones.launch(p,args[0])
 			if not error.is_empty(): NetSession.feedback(id,"message",[error,3.0])
 		"drone_control":
-			if args.size() != 5 or not args[0] is int or not args[1] is Vector3 or not args[2] is float or not args[3] is float or not args[4] is bool: return
-			game.drones.control(p,args[0],args[1],args[2],args[3],args[4])
+			if args.size() != 6 or not args[0] is int or not args[1] is Vector3 or not args[2] is float or not args[3] is float or not args[4] is bool or not args[5] is bool: return
+			game.drones.control(p,args[0],args[1],args[2],args[3],args[4],args[5])
 		"drone_recall":
 			if args.is_empty(): game.drones.recall(p)
+		"drone_detonate":
+			if args.is_empty(): game.drones.detonate(p)
 		"hunting":
 			if args.size() != 2 or not args[0] is String or not args[1] is int: return
 			NetSession.feedback(id, "message", [game.hunting.transact(p, args[0], args[1]), 2.5])
@@ -479,6 +484,86 @@ func tick(delta: float) -> void:
 			p.head.rotation.x = p.pitch
 		game.day_night.advance(delta)
 	_update_local_life()
+	_update_spectator(delta)
+
+# ---------------------------------------------------------------- spectating while down or dead (26 Sep 2026)
+# A player on the ground (or bled out, waiting for a revive) watches a living teammate over the
+# shoulder instead of staring at the leaves: the camera hangs behind that teammate's head along their
+# look, LMB / RMB switch to the next one, the own body lies still meanwhile (player.gd ignores WASD
+# and the mouse while spectating, weapons.gd the trigger). Holding E for the self revive keeps working;
+# a revive, a cleared wave or the end of the round brings the own camera back.
+func spectator_candidates() -> Array:
+	var ids := []
+	for id in actors:
+		if id == NetSession.local_id(): continue
+		var p: Player = actors[id]
+		if is_instance_valid(p) and p.alive and not p.downed: ids.append(id)
+	ids.sort()
+	return ids
+
+func spectating_name() -> String:
+	return str(NetSession.roster.get(spectating, "")) if spectating else ""
+
+func cycle_spectator(step: int) -> void:
+	var ids := spectator_candidates()
+	if ids.is_empty(): return
+	var at := ids.find(spectating)
+	spectating = ids[posmod(at + step, ids.size())]
+	spectator_snap = true
+
+func _update_spectator(delta: float) -> void:
+	var me: Player = game.player
+	var wanted: bool = (me.downed or not me.alive) and not game.over and not me.controlling_drone
+	var ids: Array = spectator_candidates() if wanted else []
+	if ids.is_empty():
+		if spectating or me.spectating: _stop_spectating()
+		return
+	if not ids.has(spectating):
+		var best := INF
+		for id in ids:
+			var d: float = actors[id].global_position.distance_to(me.global_position)
+			if d < best:
+				best = d
+				spectating = id
+		spectator_snap = true
+	var target: Player = actors[spectating]
+	if spectator == null:
+		spectator = Camera3D.new()
+		spectator.name = "SpectatorCamera"
+		spectator.fov = 75.0
+		spectator.near = 0.05
+		spectator.far = 600.0
+		game.add_child(spectator)
+	var eye: Vector3 = target.global_position + Vector3.UP * (Player.CROUCH_EYE if target.crouching else Player.EYE)
+	var forward := Vector3(-sin(target.rotation.y), 0.0, -cos(target.rotation.y))
+	var right := forward.cross(Vector3.UP)
+	var look := (forward * cos(target.pitch) + Vector3.UP * sin(target.pitch)).normalized()
+	var place := eye - look * 2.6 + Vector3.UP * 0.45 + right * 0.55
+	var query := PhysicsRayQueryParameters3D.create(eye, place, 1 | 8, [target.get_rid(), me.get_rid()])
+	var hit := game.get_world_3d().direct_space_state.intersect_ray(query)
+	if not hit.is_empty(): place = hit.position + (eye - hit.position).normalized() * 0.3
+	if spectator_snap or not spectator.current:
+		spectator.global_position = place
+		spectator_snap = false
+	else:
+		spectator.global_position = spectator.global_position.lerp(place, 1.0 - exp(-delta * 12.0))
+	spectator.look_at(eye + look * 10.0, Vector3.UP)
+	if not spectator.current:
+		spectator.make_current()
+		if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED and not game.hud.overlay.visible and not game.get_tree().paused: Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	# weapons.gd shows the gun and the crosshair again every frame for a live player: keep them out
+	# of a picture that is not the own eyes
+	game.weapons.viewmodel.visible = false
+	for part in game.hud.crosshair_parts: part.visible = false
+	me.spectating = true
+
+func _stop_spectating() -> void:
+	spectating = 0
+	game.player.spectating = false
+	if spectator and spectator.current and not game.player.controlling_drone: game.player.camera.make_current()
+	game.weapons.viewmodel.visible = game.player.alive and not game.over
+	for part in game.hud.crosshair_parts: part.visible = game.player.alive
+	if not game.player.alive and local_dead and not game.hud.overlay.visible: Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func nearby_downed_player() -> int:
 	for id in actors:
@@ -950,6 +1035,12 @@ func show_acid_pool(at: Vector3, kind: String) -> void:
 	game.add_child(pool)
 	pool.global_position = at
 	pool.setup(Zombie.TYPES.get(kind, {}).get("ranged", {}), true)
+
+# a drone's rocket on a client: it flies the host's line and vanishes, the burst comes as the explosion RPC
+func show_drone_rocket(from: Vector3, direction: Vector3, reach: float) -> void:
+	var rocket := DroneRocket.new()
+	rocket.setup(game, from, direction, reach, 0.0, 0, "scout", true)
+	game.add_child(rocket)
 
 func show_titan_throw(from: Vector3, to: Vector3, seconds: float) -> void:
 	var tree := ThrownTree.new()

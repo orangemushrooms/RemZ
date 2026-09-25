@@ -21,6 +21,7 @@ var _look_yaw := 0.0
 var _look_pitch := 0.0
 var _send_time := 0.0
 var _return_pending := false
+var _rocket_pending := false   # a right click since the last control packet
 var input_grace := 0.0
 
 func setup(main: Node) -> void:
@@ -265,7 +266,7 @@ func launch(p: Player, kind: String) -> String:
 		_sync_view()
 	return ""
 
-func control(p: Player, id: int, move: Vector3, yaw: float, pitch: float, fire: bool) -> void:
+func control(p: Player, id: int, move: Vector3, yaw: float, pitch: float, fire: bool, rocket := false) -> void:
 	if NetSession.is_client() or not p.alive or game.over: return
 	if not move.is_finite() or not is_finite(yaw) or not is_finite(pitch): return
 	var drone: AttackDrone = drones.get(id)
@@ -274,7 +275,14 @@ func control(p: Player, id: int, move: Vector3, yaw: float, pitch: float, fire: 
 	drone.yaw = wrapf(yaw,-PI,PI)
 	drone.pitch = clampf(pitch,-1.3,1.0)
 	drone.firing = fire
+	if rocket: drone.rocket_pending = true
 	drone.input_timeout = 0.35
+
+# R while flying (command "drone_detonate"): the pilot's own drone blows itself up.
+func detonate(p: Player) -> void:
+	if NetSession.is_client() or game.over: return
+	var drone: AttackDrone = drones.get(p.controlling_drone)
+	if drone and drone.owner_peer == p.peer_id: drone.detonate()
 
 func recall(p: Player) -> void:
 	if NetSession.is_client(): return
@@ -348,10 +356,17 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		_look_yaw = wrapf(_look_yaw-event.screen_relative.x*Player.SENS*game.player.mouse_sensitivity,-PI,PI)
 		_look_pitch = clampf(_look_pitch-event.screen_relative.y*Player.SENS*game.player.mouse_sensitivity,-1.3,1.0)
-	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode in [KEY_R,KEY_ESCAPE]:
+	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_ESCAPE:
 		_return_pending = true
 		if NetSession.enabled: NetSession.command("drone_recall")
 		else: recall(game.player)
+	elif event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_R:
+		# self-destruct: the blast is the last thing the drone does, the pilot is back at the station
+		_return_pending = true
+		if NetSession.enabled: NetSession.command("drone_detonate")
+		else: detonate(game.player)
+	elif event.is_action_pressed("aim") and not event.is_echo() and input_grace <= 0 and not _return_pending:
+		_rocket_pending = true
 	get_viewport().set_input_as_handled()
 
 func _process(delta: float) -> void:
@@ -377,15 +392,18 @@ func _process(delta: float) -> void:
 	var up := float(Input.is_physical_key_pressed(KEY_SPACE))-float(Input.is_physical_key_pressed(KEY_CTRL)) if enabled else 0.0
 	var move := Vector3(axis.x,up,axis.y).limit_length(1)
 	var fire := enabled and Input.is_action_pressed("fire") and input_grace <= 0
+	if not enabled: _rocket_pending = false
 	_send_time -= delta
 	if _send_time <= 0:
 		_send_time = 0.05
-		if NetSession.enabled: NetSession.command("drone_control",[drone.drone_id,move,_look_yaw,_look_pitch,fire])
-		else: control(game.player,drone.drone_id,move,_look_yaw,_look_pitch,fire)
+		var rocket := _rocket_pending
+		_rocket_pending = false
+		if NetSession.enabled: NetSession.command("drone_control",[drone.drone_id,move,_look_yaw,_look_pitch,fire,rocket])
+		else: control(game.player,drone.drone_id,move,_look_yaw,_look_pitch,fire,rocket)
 	flight_hud.visible = enabled
 	reticle.visible = enabled
 	_show_ammo(false)
-	flight_hud.text = Lang.t("%s · HULL %d / %d · HEAT %d%%\nAltitude %.1f m · %s\nWASD fly · Mouse aim · Space / Ctrl up / down · LMB fire · R / Esc return",[drone.spec().name,ceili(drone.hp),int(drone.spec().hp),roundi(drone.heat*100),drone.global_position.y-Map.ground_height(drone.global_position.x,drone.global_position.z),"COOLING" if drone.overheated else "LIVE FEED"])
+	flight_hud.text = Lang.t("%s · HULL %d / %d · HEAT %d%% · ROCKETS %d\nAltitude %.1f m · %s\nWASD fly · Mouse aim · Space / Ctrl up / down · LMB fire · RMB rocket · R self-destruct · Esc return",[drone.spec().name,ceili(drone.hp),int(drone.spec().hp),roundi(drone.heat*100),drone.rockets,drone.global_position.y-Map.ground_height(drone.global_position.x,drone.global_position.z),"COOLING" if drone.overheated else "LIVE FEED"])
 	game.weapons.viewmodel.hide()
 
 # The ammo box and the panel around it: hiding only the box left the empty panel on screen as a
@@ -399,7 +417,7 @@ func snapshot() -> Dictionary:
 	var live := {}
 	for id in drones:
 		var d: AttackDrone = drones[id]
-		live[id] = [d.kind,d.owner_peer,d.global_position,d.yaw,d.pitch,d.hp,d.heat,d.overheated,d.shots,d.shot_origin,d.impact,d.velocity,d.motor_elapsed]
+		live[id] = [d.kind,d.owner_peer,d.global_position,d.yaw,d.pitch,d.hp,d.heat,d.overheated,d.shots,d.shot_origin,d.impact,d.velocity,d.motor_elapsed,d.rockets]
 	return {"live": live,"refit":refit.duplicate(),"ended":ended.duplicate(true)}
 
 func apply_snapshot(data: Dictionary, initial: bool) -> void:
@@ -432,6 +450,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		d.shot_origin = s[9]
 		d.impact = s[10]
 		d.velocity = s[11]
+		if s.size() > 13: d.rockets = int(s[13])
 		if fresh or initial:
 			d.yaw = s[3]
 			d.pitch = s[4]

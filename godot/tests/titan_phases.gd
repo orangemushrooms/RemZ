@@ -1,5 +1,6 @@
 # Titan phases (26 Sep 2026): the arm lost at 65 % (bones collapse, a stump), the trees it throws from
-# then on, the leg lost at 35 % and the crawl, and the replica that mirrors both from the boss state.
+# then on, the leg lost at 35 % and the crawl (the rig's own crawl clip on hands and knees, the contact
+# bones on the ground - no tilted, sunken model), and the replica that mirrors both from the boss state.
 #   Godot.exe --headless --path godot --script res://tests/run.gd -- --suite=titan_phases --smoke-test --no-intro --no-music --no-foliage
 extends SceneTree
 
@@ -89,11 +90,29 @@ func run() -> void:
 	check(second.landed and gate.hp < gate_hp, "A tree on a gate crushes it (%.0f -> %.0f)" % [gate_hp, gate.hp])
 	# ---- the leg
 	titan.strike_phase = "walk"
+	titan.play("walk")
 	titan.hp = titan.max_hp * 0.34
 	titan.damage(1.0, Vector3(1, 0, 0))
 	check(titan.lost & Titan.LOST_LEG and titan.crawling, "Below 35 %% the left leg comes off and the titan crawls")
 	check(bone_scale(titan, "LeftLeg").x < 0.01 and rig.get_node_or_null("Stump_left_leg") != null, "The leg's bones collapse into a stump")
-	check(absf(titan.model.rotation.x - Titan.CRAWL_TILT) < 0.001 and titan.model.position.y < -titan.height * 0.3, "The body lies forward on the ground")
+	check(titan.has_crawl_clip() and titan.crawl_bones.size() >= 5, "The rig carries the crawl clip and knows its hands and knees")
+	# the loss comes with a rage roar (the scream clip roots the giant for its length); the crawl follows it
+	t = 0.0
+	while t < 6.0 and titan.clip != "crawl":
+		await process_frame
+		t += root.get_process_delta_time() if root else 1.0 / 60.0
+	check(titan.clip == "crawl" and titan.anim.current_animation == "crawl", "It plays the crawl on hands and knees after the roar (clip %s after %.1f s)" % [titan.clip, t])
+	check(absf(titan.model.rotation.x) < 0.001, "The model is not tilted into the ground")
+	check(titan.anim.get_animation("crawl").loop_mode == Animation.LOOP_LINEAR, "The crawl loops like a gait")
+	t = 0.0
+	while t < 1.6:
+		await process_frame
+		t += root.get_process_delta_time() if root else 1.0 / 60.0
+	var lowest := INF
+	for index in titan.crawl_bones:
+		var joint: Vector3 = rig.to_global(rig.get_bone_global_pose(index).origin)
+		lowest = minf(lowest, joint.y - Map.ground_height(joint.x, joint.z))
+	check(lowest > -0.4 and lowest < 1.2, "Hands and knees rest on the terrain (lowest contact %.2f m above it)" % lowest)
 	check(titan.blast_radius() < full_radius and titan.windup() < full_windup, "The slam becomes a shorter, quicker sweep")
 	check(Lang.text(game.hud.msg_label.text).contains("lost a leg"), "The leg loss is announced")
 	# ---- the replica mirrors the boss state

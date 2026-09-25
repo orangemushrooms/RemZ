@@ -1,14 +1,19 @@
-# A tree torn out and thrown by a titan that has lost an arm (26 Sep 2026, titan.gd phases): trunk, root
-# ball and crown tumble along an arc from the giant's hand to the aimed point, crush whatever stands
-# within RADIUS of the impact (players with a shove, gates, sandbag lines, towers, the hut, even zombies)
-# and then lie on the ground for a while before sinking away. The host owns the damage; clients spawn a
-# replica from NetSession._titan_throw with the same arc.
+# A tree torn out and thrown by a titan that has lost an arm (26 Sep 2026, titan.gd phases): one of the
+# Meshy forest trees (MODELS, HEIGHT metres, picked from the throw's origin so host and clients agree)
+# with a root ball of soil under its trunk tumbles along an arc from the giant's hand to the aimed point,
+# crushes whatever stands within RADIUS of the impact (players with a shove, gates, sandbag lines,
+# towers, the hut, even zombies) and then lies on the ground for a while before sinking away. The host
+# owns the damage; clients spawn a replica from NetSession._titan_throw with the same arc. Without the
+# GLBs (a stripped build) the old procedural trunk and crown stand in.
 class_name ThrownTree
 extends Node3D
 
 const RADIUS := 5.5
 const REST_SECONDS := 24.0
 const SPIN := 3.2
+const MODELS := ["tree_autumn_a", "tree_autumn_b"]
+const HEIGHT := 11.5
+static var _scenes: Dictionary = {}
 
 var from := Vector3.ZERO
 var to := Vector3.ZERO
@@ -52,16 +57,6 @@ func setup(a: Vector3, b: Vector3, seconds: float, thrower: Titan, is_replica: b
 	_spin_axis = Vector3.UP.cross(dir.normalized()).normalized() if dir.length() > 0.1 else Vector3.RIGHT
 	_visual = Node3D.new()
 	add_child(_visual)
-	var trunk := MeshInstance3D.new()
-	var cylinder := CylinderMesh.new()
-	cylinder.top_radius = 0.32
-	cylinder.bottom_radius = 0.62
-	cylinder.height = 9.0
-	cylinder.radial_segments = 10
-	trunk.mesh = cylinder
-	trunk.material_override = _bark
-	trunk.position.y = 3.5
-	_visual.add_child(trunk)
 	var roots := MeshInstance3D.new()
 	var ball := SphereMesh.new()
 	ball.radius = 1.3
@@ -70,19 +65,63 @@ func setup(a: Vector3, b: Vector3, seconds: float, thrower: Titan, is_replica: b
 	ball.rings = 5
 	roots.mesh = ball
 	roots.material_override = _soil
-	roots.position.y = -1.0
+	roots.position.y = -0.7
+	roots.scale = Vector3(1.1, 0.75, 1.1)
 	_visual.add_child(roots)
-	var crown := MeshInstance3D.new()
-	var leaves := SphereMesh.new()
-	leaves.radius = 3.4
-	leaves.height = 8.0
-	leaves.radial_segments = 12
-	leaves.rings = 7
-	crown.mesh = leaves
-	crown.material_override = _crown
-	crown.position.y = 8.6
-	_visual.add_child(crown)
+	var model := _tree_model(a)
+	if model:
+		_visual.add_child(model)
+	else:
+		var trunk := MeshInstance3D.new()
+		var cylinder := CylinderMesh.new()
+		cylinder.top_radius = 0.32
+		cylinder.bottom_radius = 0.62
+		cylinder.height = 9.0
+		cylinder.radial_segments = 10
+		trunk.mesh = cylinder
+		trunk.material_override = _bark
+		trunk.position.y = 3.5
+		_visual.add_child(trunk)
+		var crown := MeshInstance3D.new()
+		var leaves := SphereMesh.new()
+		leaves.radius = 3.4
+		leaves.height = 8.0
+		leaves.radial_segments = 12
+		leaves.rings = 7
+		crown.mesh = leaves
+		crown.material_override = _crown
+		crown.position.y = 8.6
+		_visual.add_child(crown)
 	global_position = a
+
+# One of the forest tree GLBs, HEIGHT metres tall with the foot of its trunk on the visual's origin.
+static func _tree_model(origin: Vector3) -> Node3D:
+	var name: String = MODELS[int(absf(origin.x * 7.3 + origin.z * 3.1)) % MODELS.size()]
+	if not _scenes.has(name):
+		var path := "res://assets/models/%s.glb" % name
+		_scenes[name] = load(path) if ResourceLoader.exists(path) else null
+	var scene: PackedScene = _scenes[name]
+	if scene == null: return null
+	var model: Node3D = scene.instantiate()
+	var bounds := AABB()
+	var first := true
+	for m in model.find_children("*", "MeshInstance3D", true, false):
+		var t := Transform3D.IDENTITY
+		var n: Node = m
+		while n != model and n is Node3D:
+			t = (n as Node3D).transform * t
+			n = n.get_parent()
+		var b: AABB = t * (m as MeshInstance3D).get_aabb()
+		bounds = b if first else bounds.merge(b)
+		first = false
+		(m as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	if bounds.size.y <= 0.0:
+		model.free()
+		return null
+	var s := HEIGHT / bounds.size.y
+	model.scale = Vector3.ONE * s
+	model.position = Vector3(-bounds.get_center().x * s, -bounds.position.y * s, -bounds.get_center().z * s)
+	return model
 
 func _process(delta: float) -> void:
 	if landed:
@@ -104,10 +143,11 @@ func _impact() -> void:
 	global_position = to
 	var dir := to - from
 	dir.y = 0.0
-	# lie along the throw, roots first, half a metre into the ground
-	_visual.basis = Basis(Vector3.RIGHT, PI * 0.5)
+	# lie along the throw, roots first: the root ball digs in at the impact, the crown props the trunk
+	# up a little, so the tree rests on its branches instead of the crown lying half in the ground
+	_visual.basis = Basis(Vector3.RIGHT, PI * 0.5 - 0.14)
 	rotation.y = atan2(dir.x, dir.z) if dir.length() > 0.1 else 0.0
-	global_position.y = Map.ground_height(to.x, to.z) + 0.5
+	global_position.y = Map.ground_height(to.x, to.z) + 0.9
 	var scene := get_tree().current_scene
 	Sfx.play_at(scene if scene else self, "crash", to, 2.0, 0.8, 30.0, 220.0)
 	_dust(scene)

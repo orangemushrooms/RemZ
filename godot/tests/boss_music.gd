@@ -114,7 +114,9 @@ func _waves_drive_the_music() -> void:
 	await process_frame
 	waves._process(0.3)
 	check(waves.phase == "idle" and not waves.boss_fight and music.current in ["night", "morning"], "The cleared wave hands over to the pause track (%s)" % music.current)
-	# every fifth wave is a boss wave from its first second to its last zombie
+	# every fifth wave is a boss wave from its first second to its last zombie (the first wave 5 of a round
+	# is the Secret Night since 25 Sep 2026 - mark it done so the boss wave itself starts)
+	if "secret_night" in game and game.secret_night: game.secret_night.completed = true
 	waves.start(5)
 	check(waves.boss_wave and waves.boss_fight and Music.is_boss(music.current), "Wave 5 opens on a boss song (%s)" % music.current)
 	var boss_song := music.current

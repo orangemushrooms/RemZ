@@ -41,7 +41,9 @@ func run() -> void:
 	root.add_child(host)
 	var skins := {}
 	for spec: Dictionary in Zombie.TYPES.values():
-		if spec.get("worm", false): continue
+		# worms have their own rig rules; the hovering Forest Spirit (a boss of its own kind, locally rigged,
+		# feet never on the floor by design) has its own suite
+		if spec.get("worm", false) or spec.get("boss", false): continue
 		for skin in Zombie.skin_names(spec): skins[skin] = true
 	for skin in skins:
 		var path := "res://assets/models/%s.glb" % skin

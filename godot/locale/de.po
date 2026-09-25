@@ -1212,8 +1212,8 @@ msgid "%s: survive wave %d first (%d/%d)."
 msgstr "%s: zuerst Welle %d überstehen (%d/%d)."
 
 #: scripts/defence_system.gd
-msgid "No more than 20 towers per team."
-msgstr "Maximal 20 Türme im Team."
+msgid "No more than 40 towers per team."
+msgstr "Maximal 40 Türme im Team."
 
 #: scripts/defence_system.gd
 msgid "%s: %d Rem Dollars needed."
@@ -1436,8 +1436,8 @@ msgid "Roof slot %d · automatic (160°) · max. %d m\nObstacles block the line 
 msgstr "Dachplatz %d · automatisch (160°) · max. %d m\nHindernisse blockieren die Schusslinie"
 
 #: scripts/defence_system.gd
-msgid "%s · %d / 20 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel"
-msgstr "%s · %d / 20 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen"
+msgid "%s · %d / 40 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel"
+msgstr "%s · %d / 40 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen"
 
 #: scripts/defence_system.gd
 msgid "RAGE"
@@ -1596,16 +1596,16 @@ msgid "Drone recalled. Refitting for 10 seconds."
 msgstr "Drohne zurückgerufen. Wieder einsatzbereit in 10 Sekunden."
 
 #: scripts/drone_system.gd
-msgid "%s · HULL %d / %d · HEAT %d%%\nAltitude %.1f m · %s\nWASD fly · Mouse aim · Space / Ctrl up / down · LMB fire · R / Esc return"
-msgstr "%s · HÜLLE %d / %d · HITZE %d %%\nHöhe %.1f m · %s\nWASD fliegen · Maus zielen · Leertaste / Strg hoch / runter · LMT feuern · R / Esc zurück"
-
-#: scripts/drone_system.gd
 msgid "COOLING"
 msgstr "KÜHLT AB"
 
 #: scripts/drone_system.gd
 msgid "LIVE FEED"
 msgstr "LIVEBILD"
+
+#: scripts/drone_system.gd
+msgid "%s · HULL %d / %d · HEAT %d%% · ROCKETS %d\nAltitude %.1f m · %s\nWASD fly · Mouse aim · Space / Ctrl up / down · LMB fire · RMB rocket · R self-destruct · Esc return"
+msgstr "%s · HÜLLE %d / %d · HITZE %d %% · RAKETEN %d\nHöhe %.1f m · %s\nWASD fliegen · Maus zielen · Leertaste / Strg hoch / runter · LMT feuern · RMT Rakete · R Selbstzerstörung · Esc zurück"
 
 #: scripts/earthworm.gd
 msgid "UNDERGROUND"
@@ -2100,8 +2100,8 @@ msgid "E · drone station"
 msgstr "E · Drohnenstation"
 
 #: scripts/hud.gd
-msgid "Fly a drone (hut, upper floor) · R / Esc: recall"
-msgstr "Drohne fliegen (Hütte, Obergeschoss) · R / Esc: zurückrufen"
+msgid "Fly a drone (hut, upper floor) · RMB rocket · R self-destruct · Esc recall"
+msgstr "Drohne fliegen (Hütte, Obergeschoss) · RMT Rakete · R Selbstzerstörung · Esc zurückrufen"
 
 #: scripts/hud.gd
 msgid "Hold Tab"
@@ -2336,12 +2336,20 @@ msgid "YOU ARE DOWN  ·  %d s"
 msgstr "DU BIST AM BODEN  ·  %d s"
 
 #: scripts/hud.gd
+msgid "YOU BLED OUT"
+msgstr "DU BIST VERBLUTET"
+
+#: scripts/hud.gd
 msgid "hold E to get back up"
 msgstr "E halten, um aufzustehen"
 
 #: scripts/hud.gd
 msgid "a teammate can revive you with E"
 msgstr "ein Teamkollege kann dich mit E wiederbeleben"
+
+#: scripts/hud.gd
+msgid "Watching %s  ·  LMB / RMB: next teammate"
+msgstr "Du siehst %s zu  ·  LMT / RMT: nächster Mitspieler"
 
 #: scripts/hud.gd
 msgid "HUT %d / %d"
@@ -2982,6 +2990,10 @@ msgstr "%s\nEin %d Meter grosser Wurm gräbt sich durch das Feld!"
 #: scripts/main.gd
 msgid "%s\nA %d-meter titan is approaching across the meadow!"
 msgstr "%s\nEin %d Meter grosser Titan nähert sich über die Wiese!"
+
+#: scripts/main.gd
+msgid "THE FOREST SPIRIT\nAn ancient horror awakens in the woods!"
+msgstr "DER WALDGEIST\nEin uralter Schrecken erwacht im Wald!"
 
 #: scripts/main.gd
 msgid "[T] Tower build menu · from 120 R"
@@ -3648,8 +3660,8 @@ msgid "First Flight"
 msgstr "Erster Flug"
 
 #: scripts/progression.gd
-msgid "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E at the station, then Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward."
-msgstr "Benutzt die Drohnenstation im Obergeschoss der Waldhütte (Schlüssel erforderlich). Fliegt im Team 150 m und besiegt 5 Zombies mit der Kestrel. E an der Station, dann Ready to fly. Leertaste/Strg: steigen/sinken. R: zurück. Frühere Flüge dieser Runde zählen mit. Hole danach deine Belohnung beim Mechanic ab."
+msgid "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team, counted from accepting. E at the station, then Ready to fly. Space/Ctrl: climb/descend. RMB: rocket. R: self-destruct. Esc: return. Return to Mechanic for your reward."
+msgstr "Benutzt die Drohnenstation im Obergeschoss der Waldhütte (Schlüssel erforderlich). Fliegt im Team 150 m und besiegt 5 Zombies mit der Kestrel, gezählt ab der Annahme. E an der Station, dann Ready to fly. Leertaste/Strg: steigen/sinken. RMT: Rakete. R: Selbstzerstörung. Esc: zurück. Hole danach deine Belohnung beim Mechanic ab."
 
 #: scripts/progression.gd
 msgid "Armed Patrol"
@@ -4336,8 +4348,8 @@ msgid "Bought: %s · select it in the inventory or with the mouse wheel"
 msgstr "Gekauft: %s · Auswahl im Inventar oder mit dem Mausrad"
 
 #: scripts/progression.gd
-msgid "Bought: %s · magazine + 2 spare magazines"
-msgstr "Gekauft: %s · Magazin + 2 Reservemagazine"
+msgid "Bought: %s · magazine + 3 spare magazines"
+msgstr "Gekauft: %s · Magazin + 3 Reservemagazine"
 
 #: scripts/progression.gd
 msgid "Melee weapons need no ammo."
@@ -4632,12 +4644,20 @@ msgid "Mechanic offers tower upgrades."
 msgstr "Turmausbauten gibt es bei Mechanic."
 
 #: scripts/progression.gd
-msgid "%s #%d · Tier %d"
-msgstr "%s #%d · Stufe %d"
+msgid "The gold #number beacons out in the world mark the towers listed here."
+msgstr "Die goldenen #Nummern-Leuchtsäulen draussen markieren die hier aufgeführten Türme."
 
 #: scripts/progression.gd
 msgid "%d/%d HP · %d m range · %d m away"
 msgstr "%d/%d TP · %d m Reichweite · %d m entfernt"
+
+#: scripts/progression.gd
+msgid "Tier %d → %d: damage %d → %d · range %d → %d m · hull %d → %d"
+msgstr "Stufe %d → %d: Schaden %d → %d · Reichweite %d → %d m · Hülle %d → %d"
+
+#: scripts/progression.gd
+msgid "%s #%d · Tier %d"
+msgstr "%s #%d · Stufe %d"
 
 #: scripts/progression.gd
 msgid "Maximum"
@@ -5760,6 +5780,10 @@ msgid "ASH TITAN"
 msgstr "ASCHETITAN"
 
 #: scripts/zombie.gd
+msgid "THE FOREST SPIRIT"
+msgstr "DER WALDGEIST"
+
+#: scripts/zombie.gd
 msgid "SPITTER"
 msgstr "SPUCKER"
 
@@ -5790,6 +5814,30 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E at the station, then Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward."
+msgstr "Benutzt die Drohnenstation im Obergeschoss der Waldhütte (Schlüssel erforderlich). Fliegt im Team 150 m und besiegt 5 Zombies mit der Kestrel. E an der Station, dann Ready to fly. Leertaste/Strg: steigen/sinken. R: zurück. Frühere Flüge dieser Runde zählen mit. Hole danach deine Belohnung beim Mechanic ab."
+
+#. unused
+msgid "No more than 20 towers per team."
+msgstr "Maximal 20 Türme im Team."
+
+#. unused
+msgid "%s · %d / 20 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel"
+msgstr "%s · %d / 20 Türme\n%s\n[R / Mausrad] Drehen · Shift+R zurück\n[E] Bestätigen    [T / Esc] Abbrechen"
+
+#. unused
+msgid "%s · HULL %d / %d · HEAT %d%%\nAltitude %.1f m · %s\nWASD fly · Mouse aim · Space / Ctrl up / down · LMB fire · R / Esc return"
+msgstr "%s · HÜLLE %d / %d · HITZE %d %%\nHöhe %.1f m · %s\nWASD fliegen · Maus zielen · Leertaste / Strg hoch / runter · LMT feuern · R / Esc zurück"
+
+#. unused
+msgid "Fly a drone (hut, upper floor) · R / Esc: recall"
+msgstr "Drohne fliegen (Hütte, Obergeschoss) · R / Esc: zurückrufen"
+
+#. unused
+msgid "Bought: %s · magazine + 2 spare magazines"
+msgstr "Gekauft: %s · Magazin + 2 Reservemagazine"
 
 #. unused
 msgid "You are down. A teammate can revive you with E."
@@ -5858,9 +5906,3 @@ msgstr "Verstärken erhöht die Haltbarkeit um %d TP und stellt die gesamte Lini
 #. unused
 msgid "The balanced night on the Heitersberg."
 msgstr "Die ausgewogene Nacht am Heitersberg."
-
-msgid "THE FOREST SPIRIT"
-msgstr "DER WALDGEIST"
-
-msgid "THE FOREST SPIRIT\nAn ancient horror awakens in the woods!"
-msgstr "DER WALDGEIST\nEin uralter Schrecken erwacht im Wald!"

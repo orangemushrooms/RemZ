@@ -150,7 +150,7 @@ func run() -> void:
 	check(not w.unlocked.revolver and p.score == 219, "Insufficient funds preserve ownership and balance")
 	p.score = 220
 	shop.transact(p, "camp", "weapon", "revolver")
-	check(w.unlocked.revolver and p.score == 0 and w.state.revolver.reserve == 12, "Eligible weapon purchase charges once with bounded starting ammunition")
+	check(w.unlocked.revolver and p.score == 0 and w.state.revolver.reserve == 18, "Eligible weapon purchase charges once with bounded starting ammunition (three spare magazines)")
 	check(Sfx._voices.has("weapon_pickup"), "Purchased weapon plays gun pickup sound")
 	shop._render()
 	var ammo_rows := 0

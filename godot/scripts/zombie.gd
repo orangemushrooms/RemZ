@@ -6,8 +6,8 @@ extends CharacterBody3D
 # are skipped, "model" / "fallback" remain the default). The field titan is taller than the beeches (22-29 m)
 # and handled by titan.gd (ground strike, no stagger, always casts shadows).
 const TYPES := {
-	"earthworm": {"name": "THE EARTHWORM", "model": "zombie_earthworm", "hp": 2600.0, "speed": 8.0, "damage": 48.0, "reach": 9.0, "attack_time": 3.0, "score": 300, "height": 14.0, "worm": true, "tint": Color.WHITE},
-	"earthworm_ancient": {"name": "THE GRAVE WYRM", "model": "zombie_earthworm_ancient", "hp": 3800.0, "speed": 7.0, "damage": 62.0, "reach": 11.0, "attack_time": 3.4, "score": 420, "height": 19.0, "worm": true, "tint": Color.WHITE},
+	"earthworm": {"name": "THE EARTHWORM", "model": "zombie_earthworm", "hp": 4400.0, "speed": 8.0, "damage": 70.0, "reach": 9.0, "attack_time": 3.0, "score": 300, "height": 14.0, "worm": true, "tint": Color.WHITE},
+	"earthworm_ancient": {"name": "THE GRAVE WYRM", "model": "zombie_earthworm_ancient", "hp": 6200.0, "speed": 7.0, "damage": 88.0, "reach": 11.0, "attack_time": 3.4, "score": 420, "height": 19.0, "worm": true, "tint": Color.WHITE},
 	"titan_hunter": {"name": "HUNTER TITAN", "model": "zombie_colossus", "hp": 1700.0, "speed": 6.0, "damage": 45.0, "reach": 8.0, "attack_time": 3.0, "score": 230, "height": 8.0, "tint": Color(0.58, 0.83, 0.65), "giant": true, "blast_radius": 4.0, "windup": 1.7, "recovery": 1.1, "structure_mul": 0.65, "warning_color": Color(0.45, 1.0, 0.3)},
 	"titan_siege": {"name": "SIEGE TITAN", "model": "zombie_bloater", "hp": 3600.0, "speed": 2.6, "damage": 80.0, "reach": 10.0, "attack_time": 4.5, "score": 350, "height": 14.0, "tint": Color(0.7, 0.66, 0.51), "giant": true, "blast_radius": 6.0, "windup": 2.8, "recovery": 2.0, "structure_mul": 1.6, "warning_color": Color(1.0, 0.68, 0.1)},
 	"titan_ash": {"name": "ASH TITAN", "model": "zombie_titan", "hp": 3000.0, "speed": 3.6, "damage": 60.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
@@ -25,7 +25,7 @@ const TYPES := {
 	# is invisible unless a flashlight beam is on it. "beast": rig-less Meshy animals moved by zombie_beast.gd
 	# (the dog lunges, the stag charges and rams).
 	"spitter":  { "name": "SPITTER", "model": "zombie_spitter", "fallback": "zombie_bloater", "hp": 260.0, "speed": 1.5, "damage": 14.0, "reach": 1.8, "attack_time": 1.4, "score": 35, "height": 2.15,
-		"ranged": {"range": 17.0, "min": 5.0, "cooldown": 4.2, "damage": 22.0, "structure": 95.0, "acid": 6.5, "speed": 15.0} },
+		"ranged": {"range": 17.0, "min": 5.0, "cooldown": 4.2, "damage": 22.0, "structure": 24.0, "acid": 6.5, "speed": 15.0} },
 	"screamer": { "name": "SCREAMER", "model": "zombie_screamer", "fallback": "zombie_nurse", "hp": 150.0, "speed": 2.7, "damage": 12.0, "reach": 1.5, "attack_time": 0.9, "score": 45, "height": 1.72,
 		"screamer": {"range": 24.0, "cooldown": 22.0, "call": 3, "mark": 12.0, "call_radius": 70.0} },
 	"stalker":  { "name": "STALKER", "model": "zombie_stalker", "fallback": "zombie_jogger", "hp": 110.0, "speed": 3.4, "damage": 19.0, "reach": 1.5, "attack_time": 0.8, "score": 40, "height": 1.72, "stalker": true },
@@ -359,7 +359,7 @@ func _ready() -> void:
 		anim = model.find_child("AnimationPlayer", true, false)
 		if anim:
 			for n in anim.get_animation_list():
-				var gait := n.begins_with("walk") or n.begins_with("run") or n.begins_with("idle")
+				var gait := n.begins_with("walk") or n.begins_with("run") or n.begins_with("idle") or n.begins_with("crawl")
 				anim.get_animation(n).loop_mode = Animation.LOOP_LINEAR if gait else Animation.LOOP_NONE
 			_locomotion = _pick_locomotion(appearance)
 			anim.speed_scale = 1.0
@@ -750,6 +750,12 @@ func _natural_speed(name: String) -> float:
 	if info.is_empty() or not model: return 0.0
 	return float(info.get("speed", 0.0)) * model.scale.y
 
+# Playback speed of a gait whose natural speed cannot be measured (the titan's crawl): heavy and slow
+# for a giant, plain for a human-sized rig.
+func _fixed_gait_speed(name: String) -> float:
+	if name == "crawl": return clampf(3.2 / maxf(height, 1.0), 0.28, 1.0)
+	return 1.0
+
 # Per tick: stride matching, idle when standing, gait switch and the animation LOD of distant actors.
 func _update_animation(delta: float) -> void:
 	if not anim or not model: return
@@ -794,7 +800,7 @@ func _update_animation(delta: float) -> void:
 			anim.play(clip, 0.3)
 	if clip != "idle":
 		var natural := _natural_speed(clip)
-		var target := clampf(_ground_speed / natural, 0.35, 2.4) if natural > 0.05 else 1.0
+		var target := clampf(_ground_speed / natural, 0.35, 2.4) if natural > 0.05 else _fixed_gait_speed(clip)
 		anim.speed_scale = lerpf(anim.speed_scale, target, 1.0 - exp(-delta * 8.0))
 
 # Keep navigation capsules small; bullets use convex volumes fitted to the rig's

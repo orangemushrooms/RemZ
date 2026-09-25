@@ -35,7 +35,7 @@ const GOODS := {
 	"graviton_cannon": {"npc": "secret", "price": 3000, "wave": 13, "quest": "giant_debt", "ammo": 120, "desc": "Six meters of area damage and 140% bonus damage against titans. Only twelve energy cells."},
 }
 const QUESTS := {
-	"drone_training": {"min_level": 5, "min_wave": 5, "waves_after_accept": 0, "npc": "mechanic", "name": "First Flight", "requires": "", "reward": 150, "desc": "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E at the station, then Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_scout_meters": 150, "drone_scout_kills": 5}},
+	"drone_training": {"min_level": 5, "min_wave": 5, "waves_after_accept": 0, "npc": "mechanic", "name": "First Flight", "requires": "", "reward": 150, "desc": "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team, counted from accepting. E at the station, then Ready to fly. Space/Ctrl: climb/descend. RMB: rocket. R: self-destruct. Esc: return. Return to Mechanic for your reward.", "goals": {"drone_scout_meters": 150, "drone_scout_kills": 5}},
 	"drone_patrol": {"min_level": 10, "min_wave": 10, "waves_after_accept": 0, "npc": "mechanic", "name": "Armed Patrol", "requires": "drone_training", "reward": 250, "desc": "Fly 400 m and defeat 15 zombies with the Viper as a team. Available when wave 10 starts. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_viper_meters": 400, "drone_viper_kills": 15}},
 	"drone_air_support": {"min_level": 15, "min_wave": 15, "waves_after_accept": 0, "npc": "mechanic", "name": "Heavy Air Support", "requires": "drone_patrol", "reward": 400, "desc": "Fly 600 m and defeat 30 zombies with the Tempest as a team. Available when wave 15 starts. Earlier flights this round count. Return to Mechanic for your reward.", "goals": {"drone_tempest_meters": 600, "drone_tempest_kills": 30}},
 	"forest_basket": {"min_level": 2, "waves_after_accept": 1,"npc": "ranger", "name": "What the Forest Gives Us", "requires": "arrival", "reward": 90, "desc": "Collect five porcini as a team. Mara shows you what to look out for in the forest. Mushrooms you already collected count, and you may keep them.", "goals": {"edible_mushrooms": 5}},
@@ -877,11 +877,11 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			p.add_score(-int(GOODS[id].price))
 			w.unlock(id)
 			w.state[id].ammo = w.state[id].def.mag
-			w.state[id].reserve = int(Weapons.DEFS[id].mag) * 2
+			w.state[id].reserve = int(Weapons.DEFS[id].mag) * 3
 			game.achievements.event("weapons")
 			Sfx.event(self, p.peer_id, "weapon_pickup")
 			if Weapons.is_melee(id): return Lang.t("Bought: %s · select it in the inventory or with the mouse wheel", [Weapons.DEFS[id].name])
-			return Lang.t("Bought: %s · magazine + 2 spare magazines", [Weapons.DEFS[id].name])
+			return Lang.t("Bought: %s · magazine + 3 spare magazines", [Weapons.DEFS[id].name])
 		"ammo":
 			if Weapons.is_melee(id): return "Melee weapons need no ammo."
 			if npc == "mechanic" or not Weapons.DEFS.has(id) or not w.unlocked.get(id, false): return "Weapon not available."
@@ -1007,6 +1007,7 @@ func _greet(id: String) -> void:
 func close() -> void:
 	if not is_open: return
 	vendor_guide.hide()
+	game.defences.set_markers(false)
 	_arrival_guide_pending = false
 	is_open = false
 	panel.hide()
@@ -1234,6 +1235,7 @@ func _render() -> void:
 	_building_layout = layout != _layout_key
 	_layout_key = layout
 	_row_index = 0
+	if page != "Towers" or shop != "mechanic": game.defences.set_markers(false)
 	if _building_layout:
 		for child in rows.get_children():
 			rows.remove_child(child)
@@ -1364,11 +1366,17 @@ func _render() -> void:
 				_info(Lang.t("%s · %d R · %s\nTier 2 after wave %d · Tier 3 after wave %d", [spec.name, spec.cost, "From the start" if required == 0 else Lang.t("After wave %d", [required]), game.defences.unlock_waves(kind, 2), game.defences.unlock_waves(kind, 3)]), 16)
 			if shop != "mechanic": _info("Mechanic offers tower upgrades.")
 			else:
+				game.defences.set_markers(true)
+				if not game.defences.towers.is_empty(): _info("The gold #number beacons out in the world mark the towers listed here.", 15)
 				for id in game.defences.towers:
 					var tower: DefenceTower = game.defences.towers[id]
 					var cost: int = tower.upgrade_cost()
 					var reason: String = game.defences.upgrade_reason(p, tower)
-					_row(Lang.t("%s #%d · Tier %d", [tower.spec().name, id, tower.level]), Lang.t("%d/%d HP · %d m range · %d m away", [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)]), "Maximum" if tower.level == 3 else Lang.t("Upgrade · %d R", [cost]), request.bind("tower_upgrade", str(id)), not reason.is_empty(), reason)
+					var details: String = Lang.t("%d/%d HP · %d m range · %d m away", [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)])
+					if tower.level < 3:
+						var next: int = tower.level + 1
+						details += "\n" + Lang.t("Tier %d → %d: damage %d → %d · range %d → %d m · hull %d → %d", [tower.level, next, roundi(tower.damage_at(tower.level)), roundi(tower.damage_at(next)), roundi(tower.range_at(tower.level)), roundi(tower.range_at(next)), roundi(tower.hp_at(tower.level)), roundi(tower.hp_at(next))])
+					_row(Lang.t("%s #%d · Tier %d", [tower.spec().name, id, tower.level]), details, "Maximum" if tower.level == 3 else Lang.t("Upgrade · %d R", [cost]), request.bind("tower_upgrade", str(id)), not reason.is_empty(), reason)
 					# The builder's own towers can be dismantled (maintain "sell" checks it again). The row went
 					# missing on 22 Sep while the guides kept describing it; a roof turret, which no zombie
 					# reaches, otherwise held its slot of the team's six for the rest of the round.

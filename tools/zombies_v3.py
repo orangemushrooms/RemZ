@@ -55,7 +55,9 @@ SHAMBLE = {'walk': 112, 'walk2': 562, 'attack': 214, 'attack2': 221, 'death': 18
 RUNNER = {'run': 16, 'walk': 123, 'attack': 214, 'attack2': 212, 'death': 184, 'death2': 183, 'death3': 189,
           'death4': 185, 'death5': 188, 'hit': 177, 'hit2': 179, 'idle': 12, 'scream': 386}
 TITAN = {'walk': 119, 'walk2': 112, 'attack': 127, 'attack2': 128, 'death': 189, 'death2': 184, 'idle': 255,
-         'scream': 386}
+         'scream': 386, 'crawl': 340}
+# 26 Sep 2026: crawl = 340 "Crawl and Look Back" (hands and knees) for the titan's last phase (titan.gd
+# _begin_crawl); the tilted-model hack made the giant look like it sank into the ground.
 
 SPECS = {
     'zombie_shambler': dict(
@@ -117,7 +119,7 @@ SPECS = {
                'burst skin, boils and stretched veins, thick arms, torn blue overalls hanging from the waist, bare '
                'feet, small head sunk into the shoulders, gaping jaw.' + DECAY + POSE,
         texture=SKIN_TEX + 'bloated pale yellow-grey skin with pus-filled boils, burst stretch marks, torn dirty blue overalls.' + TEX_END,
-        anims=dict(SHAMBLE, walk=119, walk2=112, attack2=128, idle=255), polycount=55000),
+        anims=dict(SHAMBLE, walk=119, walk2=112, attack2=128, idle=255, crawl=340), polycount=55000),
     # 26 Sep 2026: the three special infected of the weather / mutation batch (spitter, screamer, stalker)
     'zombie_spitter': dict(
         prompt='Photorealistic AAA game character, a bloated acid zombie: grotesquely swollen bare torso, translucent '

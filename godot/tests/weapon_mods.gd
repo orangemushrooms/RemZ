@@ -37,7 +37,7 @@ func run() -> void:
 	for id in Progression.QUESTS: shop.data(p.peer_id).claimed[id] = true
 	shop.transact(p, "mechanic", "mod", "extended", "pistol")
 	check(p.score == 19750 and w.state.pistol.def.mag == 18, "Purchase charges once and expands the actual magazine")
-	check(w.state.pistol.ammo == 12 and w.state.pistol.reserve == 72, "Larger magazine gives no free ammunition")
+	check(w.state.pistol.ammo == 12 and w.state.pistol.reserve == 84, "Larger magazine gives no free ammunition")
 	check(Weapons.DEFS.pistol.mag == 12 and w.state.smg.def.mag == 30, "Mods never mutate base definitions or other weapons")
 	shop.transact(p, "mechanic", "mod", "extended", "pistol")
 	check(p.score == 19750, "Repeated purchase is idempotent")
@@ -45,9 +45,9 @@ func run() -> void:
 	w.reload()
 	check(is_equal_approx(w.cur().reloading, 1.21), "Extended magazine reload penalty reaches the reload system")
 	w._process(2.0)
-	check(w.state.pistol.ammo == 18 and w.state.pistol.reserve == 54, "Reload transfers eighteen rounds from reserve")
+	check(w.state.pistol.ammo == 18 and w.state.pistol.reserve == 66, "Reload transfers eighteen rounds from reserve")
 	shop.transact(p, "mechanic", "remove_mod", Weapons.Mods.DEFS.extended.slot, "pistol")
-	check(w.state.pistol.ammo == 12 and w.state.pistol.reserve == 60 and w.state.pistol.def.mag == 12, "Removing magazine preserves excess ammunition")
+	check(w.state.pistol.ammo == 12 and w.state.pistol.reserve == 72 and w.state.pistol.def.mag == 12, "Removing magazine preserves excess ammunition")
 	shop.transact(p, "mechanic", "mod", "extended", "pistol")
 	check(p.score == 19750 and w.state.pistol.def.mag == 18, "Owned mod can be reinstalled for free")
 	w.state.pistol.ammo = 18

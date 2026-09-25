@@ -327,12 +327,15 @@ func run() -> void:
 	p.head.rotation.x = 0
 	await settle()
 	var purse := p.score
+	# drone goals count from the acceptance (progress_value baseline): start the ledger at zero
+	shop.team.drone_scout_meters = 0.0
+	shop.team.drone_scout_kills = 0
 	shop.transact(p,"mechanic","quest","drone_training")
 	check(shop.local_data().accepted.get("drone_training",false) and p.score==purse,"Mechanic accepts flight quest without paying prematurely")
 	shop.team.drone_scout_meters = 150.0
 	shop.team.drone_scout_kills = 5
 	shop.transact(p,"mechanic","quest","drone_training")
-	check(shop.has_claim(p.peer_id,"drone_training") and p.score==purse+150,"Mechanic pays completed drone quest exactly")
+	check(shop.has_claim(p.peer_id,"drone_training") and p.score==purse+150,"Mechanic pays completed drone quest exactly (%d -> %d)" % [purse,p.score])
 	shop.transact(p,"mechanic","quest","drone_training")
 	check(p.score==purse+150,"Repeated drone quest turn-in cannot duplicate reward")
 	game.queue_free()

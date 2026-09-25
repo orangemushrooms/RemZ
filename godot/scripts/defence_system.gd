@@ -24,6 +24,8 @@ var roof_repair: Button
 var roof_align: Button
 var build_menu: PanelContainer
 var kind_buttons: Dictionary = {}
+var _markers: Dictionary = {}      # tower id -> the "#id" beacon shown while the Mechanic's tower page is open
+var markers_shown := false
 var _build_menu_state: Array = []
 var _control_send := 0.0
 var _was_mounted := false
@@ -225,7 +227,7 @@ func unlock_reason(kind: String, level := 1) -> String:
 func build_requirement(p: Player, kind: String) -> String:
 	var reason := unlock_reason(kind)
 	if not reason.is_empty(): return reason
-	if towers.size() >= DefenceTower.LIMIT: return "No more than 20 towers per team."
+	if towers.size() >= DefenceTower.LIMIT: return "No more than 40 towers per team."
 	if p.score < int(DefenceTower.SPECS[kind].cost): return Lang.t("%s: %d Rem Dollars needed.", [DefenceTower.SPECS[kind].name, DefenceTower.SPECS[kind].cost])
 	return ""
 
@@ -420,6 +422,59 @@ func maintain(p: Player, id: int, action: String, at_merchant := false) -> Strin
 	tower.refresh()
 	Sfx.event(self, p.peer_id, "purchase")
 	return ""
+
+# 26 Sep 2026: while the Mechanic's tower page is open every standing tower carries a gold "#id" beacon
+# with a beam into the sky, drawn through walls, so the row "Sentinel #3" points at a tower the player
+# can see. The rows themselves show the kind's render and the numbers of the next tier.
+func set_markers(on: bool) -> void:
+	if not on:
+		if not markers_shown: return
+		markers_shown = false
+		for id in _markers.keys():
+			if is_instance_valid(_markers[id]): _markers[id].queue_free()
+		_markers.clear()
+		return
+	markers_shown = true
+	for id in _markers.keys():
+		if not towers.has(id) or not is_instance_valid(towers[id]):
+			if is_instance_valid(_markers[id]): _markers[id].queue_free()
+			_markers.erase(id)
+	for id in towers:
+		var tower: DefenceTower = towers[id]
+		if not is_instance_valid(tower) or _markers.has(id): continue
+		_markers[id] = _make_marker(tower)
+
+func _make_marker(tower: DefenceTower) -> Node3D:
+	var marker := Node3D.new()
+	marker.name = "UpgradeMarker"
+	tower.add_child(marker)
+	var tag := Label3D.new()
+	tag.text = "#%d" % tower.tower_id
+	tag.font_size = 120
+	tag.pixel_size = 0.012
+	tag.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+	tag.no_depth_test = true
+	tag.modulate = Color(1.0, 0.82, 0.3)
+	tag.outline_modulate = Color(0.1, 0.06, 0.0)
+	tag.outline_size = 24
+	tag.position.y = 2.4 if tower.rooftop else 5.4
+	marker.add_child(tag)
+	var beam := MeshInstance3D.new()
+	var mesh := CylinderMesh.new()
+	mesh.top_radius = 0.05
+	mesh.bottom_radius = 0.09
+	mesh.height = 26.0
+	mesh.radial_segments = 8
+	beam.mesh = mesh
+	var glow := DefenceTower.material(Color(1.0, 0.8, 0.25, 0.55))
+	glow.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	glow.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	glow.no_depth_test = true
+	beam.material_override = glow
+	beam.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	beam.position.y = (2.4 if tower.rooftop else 5.4) + 13.0
+	marker.add_child(beam)
+	return marker
 
 func nearest(p: Player) -> DefenceTower:
 	var found: DefenceTower
@@ -664,7 +719,7 @@ func _process(delta: float) -> void:
 		var state := "VIEW BLOCKED" if aim.blocked else "IN RANGE" if aim.within else "OUT OF RANGE" if aim.distance >= 0 else "NO TARGET"
 		range_label.text = Lang.t("%s · Range %d m\n%s", [Lang.t("Target %.1f m", [aim.distance]) if aim.distance >= 0 else "Clear field of fire", roundi(mounted.attack_range()), state])
 		range_label.modulate = Color(0.65, 1, 0.7) if aim.within and not aim.blocked else Color(1, 0.4, 0.25) if aim.distance >= 0 else Hud.GOLD
-	if game.weapons and game.weapons.viewmodel and not (planner and planner.is_open): game.weapons.viewmodel.visible = mounted == null and not game.player.controlling_drone
+	if game.weapons and game.weapons.viewmodel and not (planner and planner.is_open): game.weapons.viewmodel.visible = mounted == null and not game.player.controlling_drone and not game.player.spectating
 	if mounted:
 		game.player.head.position.y = Player.CROUCH_EYE
 		game.hud.ammo_label.text = Lang.t("MANUAL · %d%%", [roundi(mounted.heat*100)])
@@ -721,7 +776,7 @@ func _process(delta: float) -> void:
 			var detail := Lang.t("Max. %d m · bright sector: automatic (160°)\nManual: full circle · obstacles block", [roundi(preview_range())]) if build_error.is_empty() else build_error
 			if roof_slot >= 0 and build_error.is_empty():
 				detail = Lang.t("Roof slot %d · automatic (160°) · max. %d m\nObstacles block the line of fire", [roof_slot + 1, roundi(preview_range())])
-			hint.text = Lang.t("%s · %d / 20 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel", [head, towers.size(), detail])
+			hint.text = Lang.t("%s · %d / 40 towers\n%s\n[R / Mouse wheel] Rotate · Shift+R back\n[E] Confirm    [T / Esc] Cancel", [head, towers.size(), detail])
 			hint.show()
 	var titan: Zombie
 	for z in game.zombies_root.get_children():

@@ -3,11 +3,19 @@ extends Zombie
 
 # Host owns movement, target locking and damage. Clients render the same phase
 # and clip time; joining a running encounter never replays old impacts or roars.
+# 26 Sep 2026: much stronger (hp 4400 / 6200, strike 70 / 88, gates 240, towers 220, the hut 340, a
+# shove on every player it hits), a quicker cycle (exposed 5.5 s, recovery 2.8 s), the exposed body
+# turns after its target, and a fountain of soil sprays while it emerges or dives. The clips themselves
+# (tools/prepare_earthworms.mjs) carry a travelling serpentine wave, a whip on the emerge, a coiled
+# strike and a corkscrew dive since the same day.
 const WARNING_TIME := 3.0
 const EMERGE_TIME := 1.8
-const EXPOSED_TIME := 7.0
+const EXPOSED_TIME := 5.5
 const WINDUP_TIME := 2.6
-const RECOVERY_TIME := 3.5
+const RECOVERY_TIME := 2.8
+const GATE_HIT := 240.0
+const TOWER_HIT := 220.0
+const HUT_HIT := 340.0
 const DIVE_TIME := 1.8
 const BURROW_TIME := 9.0
 const TRAIL_COUNT := 18
@@ -31,6 +39,7 @@ var _warning_center := Vector3.INF
 var _hitbox_enabled := true
 var _voice: AudioStreamPlayer3D
 var _crater: Node3D
+var _spray: CPUParticles3D
 
 func radius() -> float:
 	return 6.0 if net_kind == "earthworm_ancient" else 4.8
@@ -92,6 +101,22 @@ func _ready() -> void:
 		clump.position = Vector3(cos(angle) * spread, 0.1, sin(angle) * spread)
 		clump.scale = Vector3(1.6, 0.7 + 0.3 * sin(i * 2.5), 1.3)
 		_crater.add_child(clump)
+	_spray = CPUParticles3D.new()
+	_spray.amount = 90
+	_spray.lifetime = 1.6
+	_spray.emitting = false
+	_spray.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	_spray.emission_sphere_radius = radius() * 0.55
+	_spray.direction = Vector3.UP
+	_spray.spread = 40.0
+	_spray.initial_velocity_min = 6.0
+	_spray.initial_velocity_max = 14.0
+	_spray.gravity = Vector3(0, -12, 0)
+	_spray.scale_amount_min = 0.25
+	_spray.scale_amount_max = 0.9
+	_spray.mesh = clod
+	_spray.position.y = 0.4
+	add_child(_spray)
 	_voice = AudioStreamPlayer3D.new()
 	_voice.unit_size = 48.0
 	_voice.max_distance = 240.0
@@ -162,6 +187,11 @@ func _physics_process(delta: float) -> void:
 			_emit_cue()
 			_roar_time = 24.0 + float((appearance_seed + cue_serial) % 12)
 		phase_time -= delta
+		if phase in ["exposed", "recovery"]:
+			# the risen body turns after its prey instead of staring where it surfaced
+			var to := player.global_position - global_position
+			to.y = 0.0
+			if to.length() > 0.5: rotation.y = lerp_angle(rotation.y, atan2(to.x, to.z), minf(1.0, delta * 1.4))
 		if phase == "burrow":
 			var direction := destination - global_position
 			direction.y = 0
@@ -274,15 +304,19 @@ func resolve_strike() -> void:
 	for actor: Player in actors:
 		if actor.alive and actor.global_position.distance_to(strike_point) < radius() and _clear_line(actor.global_position):
 			actor.damage(float(type.damage) * damage_mul, strike_point)
+			if actor.has_method("shove"):
+				var away := actor.global_position - strike_point
+				away.y = 0.0
+				actor.shove((away.normalized() if away.length() > 0.1 else Vector3.FORWARD) * 6.5 + Vector3.UP * 3.5)
 	for b: Barricade in barricades:
 		var point := b.attack_point(strike_point)
-		if b.hp > 0 and point.distance_to(strike_point) < radius() and _clear_line(point, b.body, true): b.damage(140.0 * damage_mul)
+		if b.hp > 0 and point.distance_to(strike_point) < radius() and _clear_line(point, b.body, true): b.damage(GATE_HIT * damage_mul)
 	for tower in get_tree().get_nodes_in_group("defence_towers"):
 		var point: Vector3 = tower.attack_point(strike_point)
-		if tower.hp > 0 and point.distance_to(strike_point) < radius() and _clear_line(point, tower.body): tower.damage(140.0 * damage_mul)
+		if tower.hp > 0 and point.distance_to(strike_point) < radius() and _clear_line(point, tower.body): tower.damage(TOWER_HIT * damage_mul)
 	if is_instance_valid(hut) and hut.hp > 0:
 		var point := hut.attack_point(strike_point)
-		if point.distance_to(strike_point) < radius() and _clear_line(point): hut.damage(200.0 * damage_mul)
+		if point.distance_to(strike_point) < radius() and _clear_line(point): hut.damage(HUT_HIT * damage_mul)
 
 func _sync_visuals() -> void:
 	var exposed := targetable()
@@ -294,6 +328,7 @@ func _sync_visuals() -> void:
 		var fraction := clampf(phase_time / maxf(0.01, phase_length), 0, 1)
 		model.position.y = -burial_depth() + (-height * fraction if phase == "emerge" else (-height * (1.0 - fraction) if phase == "dive" else 0.0))
 	if _crater: _crater.visible = phase != "burrow"
+	if _spray: _spray.emitting = alive and phase in ["emerge", "dive"]
 	if not warning: return
 	warning.visible = alive and phase in ["arrival", "warning", "windup"]
 	if not warning.visible: return

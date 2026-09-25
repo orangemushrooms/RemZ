@@ -2,11 +2,20 @@ class_name AttackDrone
 extends CharacterBody3D
 
 const SPECS := {
-	"scout": {"name": "Kestrel Scout", "wave": 5, "hp": 100.0, "speed": 9.0, "damage": 24.0, "rate": 0.18, "range": 65.0, "size": 1.25, "heat": 0.075},
-	"viper": {"name": "Viper Gunship", "wave": 10, "hp": 180.0, "speed": 11.0, "damage": 42.0, "rate": 0.12, "range": 85.0, "size": 1.65, "heat": 0.055},
-	"tempest": {"name": "Tempest Assault", "wave": 15, "hp": 280.0, "speed": 12.0, "damage": 62.0, "rate": 0.085, "range": 110.0, "size": 2.05, "heat": 0.04},
+	"scout": {"name": "Kestrel Scout", "wave": 5, "hp": 100.0, "speed": 9.0, "damage": 48.0, "rate": 0.18, "range": 65.0, "size": 1.25, "heat": 0.075},
+	"viper": {"name": "Viper Gunship", "wave": 10, "hp": 180.0, "speed": 11.0, "damage": 84.0, "rate": 0.12, "range": 85.0, "size": 1.65, "heat": 0.055},
+	"tempest": {"name": "Tempest Assault", "wave": 15, "hp": 280.0, "speed": 12.0, "damage": 124.0, "rate": 0.085, "range": 110.0, "size": 2.05, "heat": 0.04},
 }
 const Effects = preload("res://scripts/tower_effects.gd")
+# 26 Sep 2026: rockets (right mouse button, ROCKETS per flight, ROCKET_COOLDOWN apart, drone_rocket.gd)
+# and the self-destruct (R): the hull bursts in a DETONATE_RADIUS blast that hurts every zombie around
+# it, bosses at half, and the machine counts as destroyed (30 s refit).
+const ROCKETS := 6
+const ROCKET_COOLDOWN := 1.4
+const ROCKET_DAMAGE := {"scout": 260.0, "viper": 380.0, "tempest": 520.0}
+const DETONATE_RADIUS := 9.0
+const DETONATE_EDGE := 0.35
+const DETONATE_DAMAGE := {"scout": 700.0, "viper": 1100.0, "tempest": 1600.0}
 # Own layer: player bullets, grenades and tower sight lines pass a drone instead of stopping at it.
 const LAYER := 64
 # Roof volumes only drones collide with (main._gable_roof): the roofs themselves are bare meshes.
@@ -29,6 +38,11 @@ var collision_cooldown := 0.0
 var heat := 0.0
 var overheated := false
 var shots := 0
+var rockets := ROCKETS
+var rocket_cooldown := 0.0
+var rocket_pending := false
+var rockets_fired := 0
+var detonated := false
 var impact := Vector3.ZERO
 var shot_origin := Vector3.ZERO
 var visual: Node3D
@@ -178,6 +192,7 @@ func _physics_process(delta: float) -> void:
 	# Keep up to one tick of overshoot, like Weapons: clamped at zero every shot waited for the next
 	# whole tick and the Tempest fired 10 instead of 11.8 rounds a second.
 	cooldown = maxf(-delta,cooldown-delta)
+	rocket_cooldown = maxf(0,rocket_cooldown-delta)
 	collision_cooldown = maxf(0,collision_cooldown-delta)
 	input_timeout = maxf(0,input_timeout-delta)
 	if input_timeout <= 0:
@@ -211,6 +226,58 @@ func _physics_process(delta: float) -> void:
 		game.progression.record_drone_flight(kind, minf(previous_position.distance_to(global_position), incoming.length()*delta))
 	update_view()
 	if firing and cooldown <= 0 and not overheated and hp > 0: shoot()
+	if rocket_pending:
+		rocket_pending = false
+		fire_rocket()
+
+# The aim of the camera, as the gun uses it: where the reticle rests, or the end of the range.
+func aim_point() -> Vector3:
+	var q := PhysicsRayQueryParameters3D.create(camera.global_position,camera.global_position-camera.global_basis.z*float(spec().range),Zombie.SHOT_MASK,[get_rid()])
+	q.collide_with_areas = true
+	var aim := Zombie.cast_ray(self,q)
+	return aim.position if not aim.is_empty() else q.to
+
+func fire_rocket() -> void:
+	if replica or NetSession.is_client() or hp <= 0 or rockets <= 0 or rocket_cooldown > 0: return
+	update_view()
+	var from := muzzle.global_position
+	var direction := from.direction_to(aim_point())
+	var rocket := DroneRocket.new()
+	rocket.setup(game,from,direction,float(spec().range)*1.3,float(ROCKET_DAMAGE[kind]),owner_peer,kind,false)
+	rocket.excluded.append(get_rid())
+	game.add_child(rocket)
+	rockets -= 1
+	rockets_fired += 1
+	rocket_cooldown = ROCKET_COOLDOWN
+	_flash_time = 0.06
+	NetSession.drone_rocket(from,direction,float(spec().range)*1.3)
+
+# R while flying: the hull goes up in one blast. Everything in DETONATE_RADIUS takes the hit, the pilot
+# gets the kills, the station refits the machine as destroyed.
+func detonate() -> void:
+	if replica or NetSession.is_client() or hp <= 0 or detonated: return
+	detonated = true
+	var at := global_position
+	var amount := float(DETONATE_DAMAGE[kind])
+	if "hunting" in game and game.hunting: game.hunting.blast(at,DETONATE_RADIUS,amount,owner_peer)
+	var space := get_world_3d().direct_space_state
+	for node in game.zombies_root.get_children():
+		var enemy := node as Zombie
+		if enemy == null or not enemy.alive: continue
+		var centre: Vector3 = enemy.global_position+Vector3.UP*enemy.height*0.5
+		var distance := at.distance_to(centre)
+		if distance > DETONATE_RADIUS+enemy.height*0.3: continue
+		var ray := PhysicsRayQueryParameters3D.create(at,centre,1|8,[get_rid()])
+		if not space.intersect_ray(ray).is_empty(): continue
+		var share := lerpf(1.0,DETONATE_EDGE,clampf(distance/DETONATE_RADIUS,0.0,1.0))*(0.5 if Zombie.is_boss_kind(enemy.net_kind) else 1.0)
+		enemy.killer_peer = owner_peer
+		enemy.killer_weapon = "drone"
+		enemy.last_headshot = false
+		enemy.damage(amount*share,(centre-at).normalized())
+		if not enemy.alive: game.progression.record_drone_kill(kind)
+	Grenade.explosion_visuals(game,at)
+	NetSession.explosion(at)
+	damage(10000,false)
 
 func _process(delta: float) -> void:
 	if replica:
