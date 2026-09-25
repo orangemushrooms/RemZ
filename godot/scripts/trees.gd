@@ -463,19 +463,25 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 		if model_items[k].is_empty() or "--no-trees" in flags or "--no-model-trees" in flags:
 			continue
 		var model_shadow := shadow_radius + 20.0 if "--model-shadows" in flags else 0.0
-		parent.add_child(_multimesh_cells(model_mesh(k)[0], model_items[k], null, near, model_shadow, false, 0.0, 0.0 if no_lod else lod + 10.0))
+		var model_cells := _multimesh_cells(model_mesh(k)[0], model_items[k], null, near, model_shadow, false, 0.0, 0.0 if no_lod else lod + 10.0)
+		model_cells.add_to_group("tree_crowns")   # the tower planner hides the canopy while it is open
+		parent.add_child(model_cells)
 	if not no_lod and not "--no-trees" in flags and not "--no-model-trees" in flags:
 		for key in far_trunk:
 			if not "--no-trunks" in flags:
 				parent.add_child(_multimesh_cells(meshes[key], far_trunk[key], mats[key], near, 0.0, false, lod, 0.0))
 		for proxy in far_leaf:
 			if not far_leaf[proxy].is_empty() and not "--no-crowns" in flags:
-				parent.add_child(_multimesh_cells(quad, far_leaf[proxy], _leaf_material(proxy), near, 0.0, false, lod, 0.0))
+				var far_cells := _multimesh_cells(quad, far_leaf[proxy], _leaf_material(proxy), near, 0.0, false, lod, 0.0)
+				far_cells.add_to_group("tree_crowns")
+				parent.add_child(far_cells)
 	for k in SPECIES:
 		if leaf_items[k].is_empty() or "--no-crowns" in flags:
 			continue
 		# the visible crowns never enter the shadow pass; the coarse proxies below cast the (soft) crown shadows
-		parent.add_child(_multimesh_cells(quad, leaf_items[k], _leaf_material(k), near, 0.0))
+		var crown_cells := _multimesh_cells(quad, leaf_items[k], _leaf_material(k), near, 0.0)
+		crown_cells.add_to_group("tree_crowns")
+		parent.add_child(crown_cells)
 		if not shadow_items[k].is_empty() and not "--no-crown-shadows" in flags:
 			parent.add_child(_multimesh_cells(quad, shadow_items[k], _leaf_material(k), near, shadow_radius, true))
 	if with_collision:

@@ -97,6 +97,7 @@ func close() -> void:
 	_bar = 1.0
 	_paint()
 	var tween := create_tween()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)   # a planner opened within the fade paused the tree and froze the crest
 	tween.tween_method(func(alpha: float) -> void: RenderingServer.canvas_item_set_modulate(_item, Color(1, 1, 1, alpha)), 1.0, 0.0, 0.35)
 	tween.tween_callback(queue_free)
 

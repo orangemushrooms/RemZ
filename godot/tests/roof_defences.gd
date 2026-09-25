@@ -87,7 +87,14 @@ func run() -> void:
 	check(not d.purchase(p,spare).is_empty(), "Destroyed hut rejects roof construction")
 	game.hut.destroyed = false
 	check(d.purchase(p,spare).is_empty() and d.towers.size() == 6, "All six independent sockets usable")
+	# the team limit is DefenceTower.LIMIT (20 since the 25 Sep 2026 "sd" commit): fill it up with ground towers
+	var filler := 0
+	while d.towers.size() < DefenceTower.LIMIT:
+		d.create_tower(Map.ground_pos(Map.FIRE.x - 40 - filler * 4, Map.FIRE.y + 40), 1)
+		filler += 1
 	check(not d.build_requirement(p,"standard").is_empty(), "Roof shares existing team tower limit")
+	for tower in d.towers.values().duplicate():
+		if tower.tower_id > 6 and not tower.rooftop: tower.free()
 	d.begin_building()
 	d._process(0.01)
 	check(d.kind_buttons.standard.disabled and not d.roof_align.disabled, "Occupied roof socket disables purchase but allows alignment")

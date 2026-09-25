@@ -102,6 +102,26 @@ Batch of 25 Sep 2026 (`--suite=forest_finds --smoke-test --no-intro --no-music -
   then CLOSING / ECHO / RETURN / WAKING as before; reward 250. `DANCE` moved to (-108, -192) and dancers never
   spawn at z < -197: the circle used to reach into the stage proxy (front at z -199.5) and the dancers stood
   inside the DJ desk. Snapshot carries harvest / run_round / run_target / run_time / ravers.
+- Tower planner (`tower_planner.gd`, 25 Sep 2026): T opens a bird's-eye orthographic view (`overview`, size 68 m
+  above the hut / fire midpoint) with the tower types on a card (keys 1-5), the six roof slots as gold rings
+  and buttons, the ghost following the mouse (`point_at` rays through the overview camera), click = build
+  anywhere within `PLANNER_REACH` 45 m of the player without the line-of-sight rule (`placement_error(..,
+  planner = true)`), drag a standing ground tower to relocate it for free (`DefenceSystem.relocate`, co-op
+  command "tower_move"), R / wheel turn the hovered tower (`rotate_tower(.., planner)`) or the ghost. Solo it
+  pauses like the barricade planner. The old list menu (`begin_building`, `site_picker`) stays for the tests.
+  `--suite=tower_planner` (20 checks), `--render-planner` windowed saves `artifacts/tower_planner/planner.png`.
+- Quests count from acceptance (`Progression.progress_value`, baseline per peer and quest in `data.baseline`,
+  cumulative kinds in `CUMULATIVE_GOALS`); the horde scales with the party (`EncounterBalance.party_hp` /
+  `party_damage`); titan steps: cue shake 0.75 / 120 m plus the heavy sway in `Player._update_tremor`.
+- Zombie deaths: `_death_clip` picks the Meshy library fall by the shot direction (front shot = onto the back,
+  hips travel -Z; measured once per model, `tests/death_clip_audit.gd` prints the numbers), the stiff
+  spread-arm drop (`STIFF_SPREAD` 17 shoulder widths) only 15 % of the time. Dismemberment: `LIMBS`,
+  `last_hit_bone` from the HitVolume, `sever()` at 40 % health per limb or a 30 % single hit, arms halve /
+  end the swings, a leg drops the body, snapshot field 14. A PhysicalBone3D ragdoll was tried and dropped:
+  Godot's simulator drifts the bodies every frame under the 0.01-scaled Meshy skeletons.
+- Secret Night ends at the next morning (`MORNING_SECONDS` 06:42, `_update_morning`: 90 s of thick fog for the
+  sun shafts and a 5 s wake-up flash), no map marker before the echo, bar sign at y 4.9, trip 36 s, 30 s to
+  prepare.
 - Hallucinogenic mushrooms in the forest: `Mushrooms.DEFS.kahlkopf` (Liberty Cap, weight 8, procedural
   model with a faint violet emissive cap, `"trip": 25.0`). Any kind with a `trip` key calls
   `hud.hallucinate(trip)` when eaten (`inventory._eat`, `coop_world.eat` sends feedback "hallucinate" to a

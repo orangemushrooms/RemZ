@@ -222,14 +222,18 @@ func action(id: int, operation: String, args: Array) -> void:
 			var result: String = game.progression.transact(p, args[0], args[1], args[2], args[3])
 			NetSession.feedback(id, "trade", [result, p.score - before])
 		"tower_rotate":
-			if args.size() != 2 or not args[0] is int or not args[1] is float or not is_finite(args[1]): return
-			var error: String = game.defences.rotate_tower(p, args[0], args[1])
+			if args.size() not in [2, 3] or not args[0] is int or not args[1] is float or not is_finite(args[1]): return
+			var error: String = game.defences.rotate_tower(p, args[0], args[1], args.size() == 3 and bool(args[2]))
+			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
+		"tower_move":
+			if args.size() != 2 or not args[0] is int or not args[1] is Vector3 or not args[1].is_finite(): return
+			var error: String = game.defences.relocate(p, args[0], args[1])
 			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"tower_place":
-			if args.size() not in [1, 2, 3] or not args[0] is Vector3 or not args[0].is_finite(): return
+			if args.size() not in [1, 2, 3, 4] or not args[0] is Vector3 or not args[0].is_finite(): return
 			if args.size() >= 2 and (not args[1] is float or not is_finite(args[1])): return
-			if args.size() == 3 and not args[2] is String: return
-			var error: String = game.defences.purchase(p, args[0], float(args[1]) if args.size() >= 2 else 0.0, str(args[2]) if args.size()==3 else "standard")
+			if args.size() >= 3 and not args[2] is String: return
+			var error: String = game.defences.purchase(p, args[0], float(args[1]) if args.size() >= 2 else 0.0, str(args[2]) if args.size() >= 3 else "standard", args.size() == 4 and bool(args[3]))
 			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"tower_mount":
 			if args.size()!=1 or not args[0] is int: return

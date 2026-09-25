@@ -32,6 +32,7 @@ var range_label: Label
 var _range_sample := 0.0
 var _tower_ads := 0.0
 const TOWER_AIM_FOV := 55.0
+var planner: TowerPlanner       # T: the top-down planner (tower_planner.gd); the old list menu stays for tests
 
 func setup(main: Node) -> void:
 	game = main
@@ -72,6 +73,9 @@ func setup(main: Node) -> void:
 	boss_panel.add_child(boss_bar)
 	boss_panel.hide()
 	_build_menu()
+	planner = TowerPlanner.new()
+	add_child(planner)
+	planner.setup(self)
 	_build_preview()
 	range_marker = preload("res://scripts/tower_range.gd").new()
 	game.add_child(range_marker)
@@ -289,18 +293,24 @@ func _align_roof() -> void:
 	close()
 	begin_rotation(tower)
 
-func placement_error(p: Player, point: Vector3, kind := "standard") -> String:
+# planner = true: placed from the top-down planner - anywhere within TowerPlanner.PLANNER_REACH of the
+# player, no line-of-sight check; ignore_id: the tower being moved is not "another tower" for itself.
+func placement_error(p: Player, point: Vector3, kind := "standard", planner := false, ignore_id := 0) -> String:
 	if not DefenceTower.SPECS.has(kind): return "Unknown tower type."
 	if p.mounted_tower: return "Dismount before building."
 	if not p.alive or not point.is_finite(): return "Building not possible right now."
-	var requirement := build_requirement(p, kind)
-	if not requirement.is_empty(): return requirement
+	if ignore_id == 0:
+		var requirement := build_requirement(p, kind)
+		if not requirement.is_empty(): return requirement
 	var socket := roof_index(point)
 	if socket >= 0:
+		if ignore_id != 0: return "Roof slots take new turrets only."
 		if not roof_access(p): return "Move to the forest hut to build on its roof."
 		if roof_tower(socket): return "Roof slot occupied."
 		return ""
-	if p.global_position.distance_to(point) > 8.0: return "Choose a building site no more than 8 m away."
+	if planner:
+		if p.global_position.distance_to(point) > TowerPlanner.PLANNER_REACH: return Lang.t("Choose a building site no more than %d m away.", [int(TowerPlanner.PLANNER_REACH)])
+	elif p.global_position.distance_to(point) > 8.0: return "Choose a building site no more than 8 m away."
 	if not Map.BOUNDS.grow(-3).has_point(Vector2(point.x, point.z)): return "Outside the building area."
 	var ground := Map.ground_pos(point.x, point.z)
 	if absf(ground.y - point.y) > 0.25: return "The tower must stand on solid ground."
@@ -311,7 +321,7 @@ func placement_error(p: Player, point: Vector3, kind := "standard") -> String:
 		if absf(Map.ground_height(point.x + offset.x, point.z + offset.y) - ground.y) > 0.45:
 			return "Ground too steep."
 	for tower: DefenceTower in towers.values():
-		if is_instance_valid(tower) and tower.global_position.distance_to(point) < 3.4: return "Too close to another tower."
+		if is_instance_valid(tower) and tower.tower_id != ignore_id and tower.global_position.distance_to(point) < 3.4: return "Too close to another tower."
 	for bar: Barricade in game.barricades:
 		if bar.distance_to_line(point) < 2.0: return "Keep the barricade line clear."
 	if Vector2(p.global_position.x - point.x, p.global_position.z - point.z).length() < 1.8: return "Don't build where you are standing."
@@ -322,8 +332,26 @@ func placement_error(p: Player, point: Vector3, kind := "standard") -> String:
 	q.transform.origin = ground + Vector3.UP * 2.0
 	q.collision_mask = 1 | 2 | 4 | 8 | 16
 	if not game.get_world_3d().direct_space_state.intersect_shape(q, 1).is_empty(): return "Building site occupied."
+	if planner: return ""
 	var ray := PhysicsRayQueryParameters3D.create(p.global_position + Vector3.UP * 1.7, ground + Vector3.UP, 1 | 8, [p.get_rid()])
 	if not game.get_world_3d().direct_space_state.intersect_ray(ray).is_empty(): return "No clear view of the building site."
+	return ""
+
+# The planner drags a standing ground tower to a new spot: free, but only while nobody operates it and
+# the new site passes the same checks as a fresh build (its own footprint excluded).
+func relocate(p: Player, id: int, point: Vector3) -> String:
+	if NetSession.is_client(): return "Only the host confirms construction."
+	var tower: DefenceTower = towers.get(id)
+	if not is_instance_valid(tower) or not p.alive: return "Tower not found."
+	if tower.rooftop: return "Roof turrets stay on their slot."
+	if tower.operator_peer: return "The tower is being operated right now."
+	var target := Map.ground_pos(point.x, point.z)
+	var error := placement_error(p, target, tower.kind, true, id)
+	if not error.is_empty(): return error
+	tower.global_position = target
+	tower.target = null
+	tower.aim_yaw = 0
+	Sfx.play_at(game, "build", target, -10)
 	return ""
 
 func create_tower(point: Vector3, owner: int, id := 0, remote := false, kind := "standard") -> DefenceTower:
@@ -344,10 +372,10 @@ func create_tower(point: Vector3, owner: int, id := 0, remote := false, kind := 
 	tower.tree_exiting.connect(func(): towers.erase(id))
 	return tower
 
-func purchase(p: Player, point: Vector3, yaw := 0.0, kind := "standard") -> String:
+func purchase(p: Player, point: Vector3, yaw := 0.0, kind := "standard", planner := false) -> String:
 	if NetSession.is_client(): return "Only the host confirms construction."
 	if not is_finite(yaw): return "Invalid orientation."
-	var error := placement_error(p, point, kind)
+	var error := placement_error(p, point, kind, planner)
 	if not error.is_empty(): return error
 	p.add_score(-int(DefenceTower.SPECS[kind].cost))
 	var tower := create_tower(roof_position(roof_index(point)) if roof_index(point) >= 0 else Map.ground_pos(point.x, point.z), p.peer_id,0,false,kind)
@@ -424,12 +452,14 @@ func begin_rotation(tower: DefenceTower) -> void:
 	placing = true
 	game.hud.set_prompt("")
 
-func rotate_tower(p: Player, id: int, yaw: float) -> String:
+func rotate_tower(p: Player, id: int, yaw: float, planner := false) -> String:
 	if NetSession.is_client() or not is_finite(yaw): return "Invalid orientation."
 	var tower: DefenceTower = towers.get(id)
 	if not is_instance_valid(tower) or not p.alive: return "Tower not found."
 	if tower.operator_peer: return "The tower is being operated right now."
-	if (not tower.rooftop and p.global_position.distance_to(tower.global_position) > 6) or not reachable(p, tower): return "Move closer to the tower."
+	if planner:
+		if p.global_position.distance_to(tower.global_position) > TowerPlanner.PLANNER_REACH: return "Move closer to the tower."
+	elif (not tower.rooftop and p.global_position.distance_to(tower.global_position) > 6) or not reachable(p, tower): return "Move closer to the tower."
 	if absf(angle_difference(tower.rotation.y, yaw)) < 0.05: return "Rotate the tower with R or the mouse wheel."
 	tower.rotation.y = wrapf(yaw, -PI, PI)
 	tower.target = null
@@ -441,6 +471,7 @@ func close() -> void:
 	cancel_placement()
 	is_open = false
 	if build_menu: build_menu.hide()
+	if planner and planner.is_open: planner.close()
 	game.player.active = game.started and game.player.alive and not game.over and not game.hud.overlay.visible
 	if game.player.active: Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -572,7 +603,7 @@ func _input(event: InputEvent) -> void:
 			if placing: cancel_placement()
 			elif is_open: close()
 			else:
-				begin_building()
+				planner.open()
 			get_viewport().set_input_as_handled()
 		elif event.physical_keycode == KEY_R and placing:
 			build_yaw = wrapf(build_yaw + deg_to_rad(15) * (-1 if event.shift_pressed else 1), -PI, PI)
@@ -631,7 +662,7 @@ func _process(delta: float) -> void:
 		var state := "VIEW BLOCKED" if aim.blocked else "IN RANGE" if aim.within else "OUT OF RANGE" if aim.distance >= 0 else "NO TARGET"
 		range_label.text = Lang.t("%s · Range %d m\n%s", [Lang.t("Target %.1f m", [aim.distance]) if aim.distance >= 0 else "Clear field of fire", roundi(mounted.attack_range()), state])
 		range_label.modulate = Color(0.65, 1, 0.7) if aim.within and not aim.blocked else Color(1, 0.4, 0.25) if aim.distance >= 0 else Hud.GOLD
-	if game.weapons and game.weapons.viewmodel: game.weapons.viewmodel.visible = mounted == null and not game.player.controlling_drone
+	if game.weapons and game.weapons.viewmodel and not (planner and planner.is_open): game.weapons.viewmodel.visible = mounted == null and not game.player.controlling_drone
 	if mounted:
 		game.player.head.position.y = Player.CROUCH_EYE
 		game.hud.ammo_label.text = Lang.t("MANUAL · %d%%", [roundi(mounted.heat*100)])

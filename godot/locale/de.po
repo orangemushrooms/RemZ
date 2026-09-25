@@ -555,7 +555,7 @@ msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren  ·  Leer
 msgid "Tier %d · %s · %d/%d"
 msgstr "Stufe %d · %s · %d/%d"
 
-#: scripts/barricade_menu.gd
+#: scripts/barricade_menu.gd scripts/tower_planner.gd
 msgid "REMETSCHWIL SENNHOF   /   DEFENSE"
 msgstr "REMETSCHWIL SENNHOF   /   VERTEIDIGUNG"
 
@@ -1099,11 +1099,11 @@ msgstr "Geh zur Waldhütte, um auf ihrem Dach zu bauen."
 msgid "Roof slot occupied."
 msgstr "Dieser Dachplatz ist belegt."
 
-#: scripts/defence_system.gd scripts/progression.gd
+#: scripts/defence_system.gd scripts/progression.gd scripts/tower_planner.gd
 msgid "From the start"
 msgstr "Ab Start"
 
-#: scripts/defence_system.gd scripts/progression.gd
+#: scripts/defence_system.gd scripts/progression.gd scripts/tower_planner.gd
 msgid "After wave %d"
 msgstr "Nach Welle %d"
 
@@ -1118,6 +1118,14 @@ msgstr "Zum Bauen zuerst absteigen."
 #: scripts/defence_system.gd
 msgid "Building not possible right now."
 msgstr "Bauen momentan nicht möglich."
+
+#: scripts/defence_system.gd
+msgid "Roof slots take new turrets only."
+msgstr "Dachplätze nehmen nur neue Geschütze."
+
+#: scripts/defence_system.gd
+msgid "Choose a building site no more than %d m away."
+msgstr "Wähl einen Bauplatz, der höchstens %d m entfernt ist."
 
 #: scripts/defence_system.gd
 msgid "Choose a building site no more than 8 m away."
@@ -1167,6 +1175,14 @@ msgstr "Keine freie Sicht zum Bauplatz."
 msgid "Only the host confirms construction."
 msgstr "Nur der Host bestätigt Bauten."
 
+#: scripts/defence_system.gd scripts/tower_planner.gd
+msgid "Tower not found."
+msgstr "Turm nicht vorhanden."
+
+#: scripts/defence_system.gd
+msgid "Roof turrets stay on their slot."
+msgstr "Dachgeschütze bleiben auf ihrem Platz."
+
 #: scripts/defence_system.gd
 msgid "Invalid orientation."
 msgstr "Ungültige Ausrichtung."
@@ -1190,10 +1206,6 @@ msgstr "Keine freie Sicht zum Turm."
 #: scripts/defence_system.gd
 msgid "Only the builder can dismantle the tower."
 msgstr "Nur der Erbauer kann den Turm abbauen."
-
-#: scripts/defence_system.gd
-msgid "Tower not found."
-msgstr "Turm nicht vorhanden."
 
 #: scripts/defence_system.gd
 msgid "Move closer to the tower."
@@ -2070,6 +2082,10 @@ msgstr "Zeit"
 #: scripts/hud.gd
 msgid "Mode · Date"
 msgstr "Modus · Datum"
+
+#: scripts/hud.gd scripts/progression.gd scripts/tower_planner.gd
+msgid "%s · %s"
+msgstr "%s · %s"
 
 #: scripts/hud.gd
 msgid "No achievements available."
@@ -5098,6 +5114,70 @@ msgstr "Training bereits vollständig."
 #: scripts/skills.gd
 msgid "Training bought: %s"
 msgstr "Training gekauft: %s"
+
+#: scripts/tower_planner.gd
+msgid "TOWER PLANNER"
+msgstr "TURMPLANER"
+
+#: scripts/tower_planner.gd
+msgid "TOWER TYPES"
+msgstr "TURMTYPEN"
+
+#: scripts/tower_planner.gd
+msgid "FOREST HUT ROOF"
+msgstr "DACH DER WALDHÜTTE"
+
+#: scripts/tower_planner.gd
+msgid "Back to the game  [T / Esc]"
+msgstr "Zurück ins Spiel  [T / Esc]"
+
+#: scripts/tower_planner.gd
+msgid "%s selected. Click the map to place it, drag a standing tower to move it."
+msgstr "%s gewählt. Klick auf die Karte, um ihn zu setzen; zieh einen stehenden Turm, um ihn zu verschieben."
+
+#: scripts/tower_planner.gd
+msgid "Point the map at a building site."
+msgstr "Zeig auf der Karte auf einen Bauplatz."
+
+#: scripts/tower_planner.gd
+msgid "Roof slot %d: %s · Tier %d · %d / %d HP"
+msgstr "Dachplatz %d: %s · Stufe %d · %d / %d HP"
+
+#: scripts/tower_planner.gd
+msgid "Done."
+msgstr "Erledigt."
+
+#: scripts/tower_planner.gd
+msgid "Moving %s · release to drop it here"
+msgstr "%s wird verschoben · loslassen, um ihn hier abzusetzen"
+
+#: scripts/tower_planner.gd
+msgid "Moving %s · %s"
+msgstr "%s wird verschoben · %s"
+
+#: scripts/tower_planner.gd
+msgid "%s · Tier %d · %d / %d HP · drag to move · R / wheel to turn"
+msgstr "%s · Stufe %d · %d / %d HP · ziehen zum Verschieben · R / Rad zum Drehen"
+
+#: scripts/tower_planner.gd
+msgid "%s · %d R · click to build · R / wheel to turn"
+msgstr "%s · %d R · klicken zum Bauen · R / Rad zum Drehen"
+
+#: scripts/tower_planner.gd
+msgid "%d  REM DOLLARS  ·  %d / %d towers"
+msgstr "%d  REM DOLLAR  ·  %d / %d Türme"
+
+#: scripts/tower_planner.gd
+msgid "%d  %s · %d R · %d m\n%s"
+msgstr "%d  %s · %d R · %d m\n%s"
+
+#: scripts/tower_planner.gd
+msgid "%d · %s"
+msgstr "%d · %s"
+
+#: scripts/tower_planner.gd
+msgid "free"
+msgstr "frei"
 
 #: scripts/vendor_tutorial.gd
 msgid "Your gear"
