@@ -330,13 +330,14 @@ func _apply_attributes(lobby_id: String, attributes: Dictionary) -> Dictionary:
 	return {"ok": true}
 
 # Finds the lobby behind a join code. Returns {"ok", "lobby", "host_name", "version"} or an error. The search
-# index trails a fresh lobby by a moment, so an empty answer is asked again before it counts.
-func find_lobby(wanted: String, attempts: int = 3) -> Dictionary:
+# index trails a fresh lobby - usually by a second, sometimes by more than five - so an empty answer is asked
+# again for about ten seconds before it counts.
+func find_lobby(wanted: String, attempts: int = 6) -> Dictionary:
 	var generation := _generation
 	var result: Dictionary = {}
 	for attempt in maxi(1, attempts):
 		if attempt > 0:
-			await get_tree().create_timer(1.5).timeout
+			await get_tree().create_timer(2.0).timeout
 			if generation != _generation: return {"ok": false, "error": "Cancelled."}
 		result = await _search_once(wanted)
 		if result.ok or not bool(result.get("retry", false)): break

@@ -32,8 +32,8 @@ sind transportunabhängig. `NetSession.transport` sagt, welcher Peer gerade trä
 - Lobby: Bucket `remz-coop-1`, `PublicAdvertised`, 4 Plätze, ohne Presence / RTC / Einladungen / Host-Migration.
   Attribute (öffentlich): `CODE` (6 Zeichen aus `ABCDEFGHJKLMNPQRSTUVWXYZ23456789`, ohne 0/O/1/I), `VERSION`
   (`Online.version_tag()` = `PROTOCOL|BUILD|Fingerprint[0:12]`), `HOST` (Name). Der Client sucht per Attribut
-  (`bucket` + `CODE`), wiederholt eine leere Antwort bis zu dreimal im Abstand von 1,5 s (der Suchindex hinkt
-  einer frischen Lobby nach), weist eine andere `VERSION` mit eigener Meldung ab, ebenso eine volle Lobby, und
+  (`bucket` + `CODE`), wiederholt eine leere Antwort bis zu sechsmal im Abstand von 2 s (der Suchindex hinkt
+  einer frischen Lobby meist eine Sekunde, gelegentlich über fünf nach), weist eine andere `VERSION` mit eigener Meldung ab, ebenso eine volle Lobby, und
   tritt sonst bei. P2P-Verbindungsanfragen nimmt der Host nur von Lobby-Mitgliedern an (`_review_requests`,
   15 s Gnadenfrist für einen noch nicht sichtbaren Beitritt).
 - `godot/scripts/net_session.gd`: `host_online(name)` / `join_online(code, name)` (asynchron, geben `Error`

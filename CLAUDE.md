@@ -314,7 +314,7 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   Lobby attributes `CODE` / `VERSION` (`Online.version_tag()`) / `HOST`, bucket `remz-coop-1`.
 - Hard facts: EOS P2P packets are at most 1170 bytes (EOSG header 6) - `SNAPSHOT_CHUNK` 900 fits, the
   `online_lobby` suite measures every RPC shape (largest 957) and fails above 1164; the lobby search index lags a
-  fresh lobby, `find_lobby` retries three times; **Godot never returns from `quit()` while a created EOS platform
+  fresh lobby by one to more than five seconds, `find_lobby` retries six times two seconds apart; **Godot never returns from `quit()` while a created EOS platform
   is alive** - `Online._exit_tree()` closes the peer and calls release + shutdown (`--suite=eos_exit_probe`).
 - Credentials: only in the gitignored `.env` (root); `python tools/eos_config.py` writes the gitignored
   `godot/eos.cfg`, which the export preset packs (`check-game.ps1 -Mode ExportWindows` runs it first and then
