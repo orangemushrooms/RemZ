@@ -1,0 +1,19 @@
+2026-09-25T11:58:05 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-25T11:58:05 remz-dev-20260923-komplett NETWORK_INITIALIZED
+2026-09-25T11:58:20 remz-dev-20260923-komplett MAP_READY
+2026-09-25T11:58:29 remz-dev-20260923-komplett MAP_READY
+2026-09-25T11:58:37 remz-dev-20260923-komplett MAP_READY
+2026-09-25T11:58:37 remz-dev-20260923-komplett HOST_CREATE port=24599
+2026-09-25T11:58:37 remz-dev-20260923-komplett HOST_READY
+2026-09-25T11:58:37 remz-dev-20260923-komplett ROUND_START_SEND players=1
+2026-09-25T11:58:37 remz-dev-20260923-komplett ROUND_BEGIN intro=false
+2026-09-25T11:58:37 remz-dev-20260923-komplett ROUND_RUNNING players=1
+2026-09-25T11:58:46 remz-dev-20260923-komplett MAP_READY
+2026-09-25T11:58:46 remz-dev-20260923-komplett ROUND_START_SEND players=1
+2026-09-25T11:58:46 remz-dev-20260923-komplett ROUND_BEGIN intro=false
+2026-09-25T11:58:46 remz-dev-20260923-komplett ROUND_RUNNING players=1
+2026-09-25T11:58:46 remz-dev-20260923-komplett LEAVE_BEGIN phase=running reason=Left the session.
+2026-09-25T11:58:46 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-25T11:58:46 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-25T11:58:46 remz-dev-20260923-komplett LEAVE_RELOAD
+2026-09-25T11:58:55 remz-dev-20260923-komplett MAP_READY

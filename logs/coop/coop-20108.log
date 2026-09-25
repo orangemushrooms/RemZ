@@ -1,3 +1,36 @@
-2026-09-24T15:12:05 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
-2026-09-24T15:12:05 remz-dev-20260923-komplett NETWORK_INITIALIZED
-2026-09-24T15:12:25 remz-dev-20260923-komplett MAP_READY
+2026-09-25T11:55:04 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-25T11:55:04 remz-dev-20260923-komplett NETWORK_INITIALIZED
+2026-09-25T11:55:20 remz-dev-20260923-komplett MAP_READY
+2026-09-25T11:55:20 remz-dev-20260923-komplett ONLINE_JOIN_BEGIN code=VYEU3N
+2026-09-25T11:55:20 remz-dev-20260923-komplett EOS_PLATFORM_START
+2026-09-25T11:55:20 remz-dev-20260923-komplett EOS_PLATFORM_READY
+2026-09-25T11:55:22 remz-dev-20260923-komplett EOS_LOGIN_OK
+2026-09-25T11:55:22 remz-dev-20260923-komplett EOS_LOBBY_FOUND code=VYEU3N
+2026-09-25T11:55:23 remz-dev-20260923-komplett EOS_LOBBY_JOINED code=VYEU3N
+2026-09-25T11:55:24 remz-dev-20260923-komplett TRANSPORT_CONNECTED sending_hello
+2026-09-25T11:55:24 remz-dev-20260923-komplett PEER_CONNECTED id=1
+2026-09-25T11:55:24 remz-dev-20260923-komplett WELCOME
+2026-09-25T11:55:24 remz-dev-20260923-komplett INITIAL_RECEIVE parts=5
+2026-09-25T11:55:24 remz-dev-20260923-komplett INITIAL_APPLY_BEGIN
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_STAGE structures
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_STAGE players
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_STAGE enemies
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_STAGE items
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_STAGE barricades
+2026-09-25T11:55:24 remz-dev-20260923-komplett INITIAL_APPLY_DONE
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_RECEIVE parts=5
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_STAGE structures
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_STAGE players
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_STAGE enemies
+2026-09-25T11:55:25 remz-dev-20260923-komplett STATE_STAGE items
+2026-09-25T11:55:25 remz-dev-20260923-komplett STATE_STAGE barricades
+2026-09-25T11:55:25 remz-dev-20260923-komplett STATE_APPLY_DONE sequence=2
+2026-09-25T11:55:25 remz-dev-20260923-komplett ROUND_BEGIN intro=false
+2026-09-25T11:55:25 remz-dev-20260923-komplett ROUND_RUNNING players=2
+2026-09-25T11:55:27 remz-dev-20260923-komplett LEAVE_BEGIN phase=running reason=Online test finished
+2026-09-25T11:55:27 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-25T11:55:27 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-25T11:55:27 remz-dev-20260923-komplett EOS_LOBBY_LEAVE
+2026-09-25T11:55:27 remz-dev-20260923-komplett LEAVE_RELOAD
+2026-09-25T11:55:36 remz-dev-20260923-komplett EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[15.918531s] TickIntervalThreshold=[40ms] MaxTickInterval=[8723ms] MaxExecutionTime=[1ms] TicksCount=[1034] ExpectedTicksCount=[1034]
+2026-09-25T11:55:37 remz-dev-20260923-komplett EOS LogEOSP2P: Leave all connections due to P2P network shutdown

@@ -1,0 +1,9 @@
+2026-09-25T11:54:50 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-25T11:54:50 remz-dev-20260923-komplett NETWORK_INITIALIZED
+2026-09-25T11:54:50 remz-dev-20260923-komplett EOS_PLATFORM_START
+2026-09-25T11:54:50 remz-dev-20260923-komplett EOS_PLATFORM_READY
+2026-09-25T11:54:50 remz-dev-20260923-komplett EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+2026-09-25T11:54:51 remz-dev-20260923-komplett EOS_LOGIN_OK
+2026-09-25T11:54:52 remz-dev-20260923-komplett EOS_LOBBY_CREATED code=AZBP57
+2026-09-25T11:54:52 remz-dev-20260923-komplett EOS_LOBBY_DESTROY
+2026-09-25T11:54:54 remz-dev-20260923-komplett EOS LogEOSP2P: Leave all connections due to P2P network shutdown

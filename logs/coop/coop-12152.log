@@ -1,5 +1,8 @@
-2026-09-23T13:17:47 remz-dev-20260923-earthworm-quality BOOT exe=C:/Users/miche/Desktop/Godot.exe
-2026-09-23T13:17:47 remz-dev-20260923-earthworm-quality NETWORK_INITIALIZED
-2026-09-23T13:18:35 remz-dev-20260923-earthworm-quality MAP_READY
-2026-09-23T13:19:16 remz-dev-20260923-earthworm-quality MAP_READY
-2026-09-23T13:19:58 remz-dev-20260923-earthworm-quality MAP_READY
+2026-09-25T11:40:26 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-25T11:40:26 remz-dev-20260923-komplett NETWORK_INITIALIZED
+2026-09-25T11:40:26 remz-dev-20260923-komplett EOS_PLATFORM_START
+2026-09-25T11:40:26 remz-dev-20260923-komplett EOS_PLATFORM_READY
+2026-09-25T11:40:26 remz-dev-20260923-komplett EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+2026-09-25T11:40:27 remz-dev-20260923-komplett EOS_LOGIN_OK
+2026-09-25T11:40:28 remz-dev-20260923-komplett EOS_LOBBY_CREATED code=T946KD
+2026-09-25T11:40:28 remz-dev-20260923-komplett EOS_LOBBY_DESTROY

@@ -1,0 +1,30 @@
+2026-09-25T11:53:43 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-25T11:53:43 remz-dev-20260923-komplett NETWORK_INITIALIZED
+2026-09-25T11:53:56 remz-dev-20260923-komplett MAP_READY
+2026-09-25T11:53:56 remz-dev-20260923-komplett EOS_PLATFORM_START
+2026-09-25T11:53:56 remz-dev-20260923-komplett EOS_PLATFORM_READY
+2026-09-25T11:53:56 remz-dev-20260923-komplett EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+2026-09-25T11:53:57 remz-dev-20260923-komplett EOS_LOGIN_OK
+2026-09-25T11:53:57 remz-dev-20260923-komplett ONLINE_HOST_BEGIN
+2026-09-25T11:53:58 remz-dev-20260923-komplett EOS_LOBBY_CREATED code=FPB9SQ
+2026-09-25T11:53:58 remz-dev-20260923-komplett ONLINE_HOST_READY
+2026-09-25T11:53:58 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=FPB9SQ results=0
+2026-09-25T11:54:00 remz-dev-20260923-komplett EOS_LOBBY_FOUND code=FPB9SQ
+2026-09-25T11:54:00 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+2026-09-25T11:54:02 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+2026-09-25T11:54:03 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+2026-09-25T11:54:04 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=FPB9SQ results=1
+2026-09-25T11:54:04 remz-dev-20260923-komplett LEAVE_BEGIN phase=lobby reason=Live test finished
+2026-09-25T11:54:04 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-25T11:54:04 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-25T11:54:04 remz-dev-20260923-komplett EOS_LOBBY_DESTROY
+2026-09-25T11:54:04 remz-dev-20260923-komplett LEAVE_DONE reused_loaded_map
+2026-09-25T11:54:07 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=FPB9SQ results=0
+2026-09-25T11:54:09 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=FPB9SQ results=0
+2026-09-25T11:54:10 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=FPB9SQ results=0
+2026-09-25T11:54:10 remz-dev-20260923-komplett ONLINE_JOIN_BEGIN code=FPB9SQ
+2026-09-25T11:54:10 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=FPB9SQ results=0
+2026-09-25T11:54:12 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=FPB9SQ results=0
+2026-09-25T11:54:14 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=FPB9SQ results=0
+2026-09-25T11:54:14 remz-dev-20260923-komplett ONLINE_FAILED reason=No open lobby with code FPB9SQ. Check the code - the host must still be in the lobby.
+2026-09-25T11:54:14 remz-dev-20260923-komplett EOS LogEOSP2P: Leave all connections due to P2P network shutdown

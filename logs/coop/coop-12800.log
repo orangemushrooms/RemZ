@@ -1,0 +1,26 @@
+2026-09-25T11:55:01 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-25T11:55:01 remz-dev-20260923-komplett NETWORK_INITIALIZED
+2026-09-25T11:55:16 remz-dev-20260923-komplett MAP_READY
+2026-09-25T11:55:16 remz-dev-20260923-komplett ONLINE_HOST_BEGIN
+2026-09-25T11:55:16 remz-dev-20260923-komplett EOS_PLATFORM_START
+2026-09-25T11:55:16 remz-dev-20260923-komplett EOS_PLATFORM_READY
+2026-09-25T11:55:16 remz-dev-20260923-komplett EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+2026-09-25T11:55:17 remz-dev-20260923-komplett EOS_LOGIN_OK
+2026-09-25T11:55:18 remz-dev-20260923-komplett EOS_LOBBY_CREATED code=VYEU3N
+2026-09-25T11:55:18 remz-dev-20260923-komplett ONLINE_HOST_READY
+2026-09-25T11:55:24 remz-dev-20260923-komplett EOS_P2P_ACCEPTED
+2026-09-25T11:55:24 remz-dev-20260923-komplett PEER_CONNECTED id=1047413995
+2026-09-25T11:55:24 remz-dev-20260923-komplett INITIAL_SEND peer=1047413995 raw=22624 bytes=4195 parts=5
+2026-09-25T11:55:24 remz-dev-20260923-komplett CLIENT_READY peer=1047413995
+2026-09-25T11:55:24 remz-dev-20260923-komplett ROUND_START_SEND players=2
+2026-09-25T11:55:24 remz-dev-20260923-komplett STATE_SEND peer=1047413995 raw=22624 bytes=4197 parts=5
+2026-09-25T11:55:24 remz-dev-20260923-komplett ROUND_BEGIN intro=false
+2026-09-25T11:55:24 remz-dev-20260923-komplett ROUND_RUNNING players=2
+2026-09-25T11:55:27 remz-dev-20260923-komplett PEER_DISCONNECTED id=1047413995
+2026-09-25T11:55:27 remz-dev-20260923-komplett LEAVE_BEGIN phase=running reason=Online test finished
+2026-09-25T11:55:27 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-25T11:55:27 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-25T11:55:27 remz-dev-20260923-komplett EOS_LOBBY_DESTROY
+2026-09-25T11:55:27 remz-dev-20260923-komplett LEAVE_RELOAD
+2026-09-25T11:55:36 remz-dev-20260923-komplett EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.203661s] TickIntervalThreshold=[40ms] MaxTickInterval=[8564ms] MaxExecutionTime=[1ms] TicksCount=[121] ExpectedTicksCount=[307]
+2026-09-25T11:55:37 remz-dev-20260923-komplett EOS LogEOSP2P: Leave all connections due to P2P network shutdown

@@ -1,3 +1,38 @@
-2026-09-21T17:38:09 remz-coop-startfix-20260920 BOOT exe=C:/Users/miche/Desktop/Godot.exe
-2026-09-21T17:38:09 remz-coop-startfix-20260920 NETWORK_INITIALIZED
-2026-09-21T17:38:57 remz-coop-startfix-20260920 MAP_READY
+2026-09-25T12:28:20 remz-dev-20260925-online BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-25T12:28:20 remz-dev-20260925-online NETWORK_INITIALIZED
+2026-09-25T12:28:34 remz-dev-20260925-online MAP_READY
+2026-09-25T12:28:35 remz-dev-20260925-online ONLINE_JOIN_BEGIN code=LGG36Q
+2026-09-25T12:28:35 remz-dev-20260925-online EOS_PLATFORM_START
+2026-09-25T12:28:35 remz-dev-20260925-online EOS_PLATFORM_READY
+2026-09-25T12:28:35 remz-dev-20260925-online EOS_RELAY_CONTROL forced
+2026-09-25T12:28:36 remz-dev-20260925-online EOS_LOGIN_OK
+2026-09-25T12:28:39 remz-dev-20260925-online EOS_LOBBY_SEARCH_EMPTY code=LGG36Q results=0
+2026-09-25T12:28:41 remz-dev-20260925-online EOS_LOBBY_FOUND code=LGG36Q
+2026-09-25T12:28:42 remz-dev-20260925-online EOS_LOBBY_JOINED code=LGG36Q
+2026-09-25T12:28:43 remz-dev-20260925-online TRANSPORT_CONNECTED sending_hello
+2026-09-25T12:28:43 remz-dev-20260925-online PEER_CONNECTED id=1
+2026-09-25T12:28:43 remz-dev-20260925-online WELCOME
+2026-09-25T12:28:43 remz-dev-20260925-online INITIAL_RECEIVE parts=5
+2026-09-25T12:28:43 remz-dev-20260925-online INITIAL_APPLY_BEGIN
+2026-09-25T12:28:43 remz-dev-20260925-online STATE_STAGE structures
+2026-09-25T12:28:43 remz-dev-20260925-online STATE_STAGE players
+2026-09-25T12:28:43 remz-dev-20260925-online STATE_STAGE enemies
+2026-09-25T12:28:43 remz-dev-20260925-online STATE_STAGE items
+2026-09-25T12:28:43 remz-dev-20260925-online STATE_STAGE barricades
+2026-09-25T12:28:43 remz-dev-20260925-online INITIAL_APPLY_DONE
+2026-09-25T12:28:43 remz-dev-20260925-online STATE_RECEIVE parts=5
+2026-09-25T12:28:44 remz-dev-20260925-online STATE_STAGE structures
+2026-09-25T12:28:44 remz-dev-20260925-online STATE_STAGE players
+2026-09-25T12:28:44 remz-dev-20260925-online STATE_STAGE enemies
+2026-09-25T12:28:44 remz-dev-20260925-online STATE_STAGE items
+2026-09-25T12:28:44 remz-dev-20260925-online STATE_STAGE barricades
+2026-09-25T12:28:44 remz-dev-20260925-online STATE_APPLY_DONE sequence=2
+2026-09-25T12:28:44 remz-dev-20260925-online ROUND_BEGIN intro=false
+2026-09-25T12:28:44 remz-dev-20260925-online ROUND_RUNNING players=2
+2026-09-25T12:28:45 remz-dev-20260925-online EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.003597s] TickIntervalThreshold=[40ms] MaxTickInterval=[46ms] MaxExecutionTime=[1ms] TicksCount=[1443] ExpectedTicksCount=[1443]
+2026-09-25T12:28:45 remz-dev-20260925-online LEAVE_BEGIN phase=running reason=Online test finished
+2026-09-25T12:28:45 remz-dev-20260925-online LEAVE_PEER_DETACHED
+2026-09-25T12:28:45 remz-dev-20260925-online LEAVE_PEER_CLOSED
+2026-09-25T12:28:45 remz-dev-20260925-online EOS_LOBBY_LEAVE
+2026-09-25T12:28:45 remz-dev-20260925-online LEAVE_RELOAD
+2026-09-25T12:28:53 remz-dev-20260925-online EOS LogEOSP2P: Leave all connections due to P2P network shutdown

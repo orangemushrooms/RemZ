@@ -1,0 +1,29 @@
+2026-09-25T11:44:33 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-25T11:44:33 remz-dev-20260923-komplett NETWORK_INITIALIZED
+2026-09-25T11:44:46 remz-dev-20260923-komplett MAP_READY
+2026-09-25T11:44:46 remz-dev-20260923-komplett EOS_PLATFORM_START
+2026-09-25T11:44:46 remz-dev-20260923-komplett EOS_PLATFORM_READY
+2026-09-25T11:44:46 remz-dev-20260923-komplett EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+2026-09-25T11:44:47 remz-dev-20260923-komplett EOS_LOGIN_OK
+2026-09-25T11:44:47 remz-dev-20260923-komplett ONLINE_HOST_BEGIN
+2026-09-25T11:44:48 remz-dev-20260923-komplett EOS_LOBBY_CREATED code=E2ZTKJ
+2026-09-25T11:44:48 remz-dev-20260923-komplett ONLINE_HOST_READY
+2026-09-25T11:44:51 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=E2ZTKJ results=0
+2026-09-25T11:44:53 remz-dev-20260923-komplett EOS_LOBBY_FOUND code=E2ZTKJ
+2026-09-25T11:44:53 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+2026-09-25T11:44:55 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+2026-09-25T11:44:57 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+2026-09-25T11:44:57 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=E2ZTKJ results=1
+2026-09-25T11:44:57 remz-dev-20260923-komplett LEAVE_BEGIN phase=lobby reason=Live test finished
+2026-09-25T11:44:57 remz-dev-20260923-komplett LEAVE_PEER_DETACHED
+2026-09-25T11:44:57 remz-dev-20260923-komplett LEAVE_PEER_CLOSED
+2026-09-25T11:44:57 remz-dev-20260923-komplett EOS_LOBBY_DESTROY
+2026-09-25T11:44:57 remz-dev-20260923-komplett LEAVE_DONE reused_loaded_map
+2026-09-25T11:45:00 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=E2ZTKJ results=0
+2026-09-25T11:45:02 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=E2ZTKJ results=0
+2026-09-25T11:45:04 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=E2ZTKJ results=0
+2026-09-25T11:45:04 remz-dev-20260923-komplett ONLINE_JOIN_BEGIN code=E2ZTKJ
+2026-09-25T11:45:04 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=E2ZTKJ results=0
+2026-09-25T11:45:06 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=E2ZTKJ results=0
+2026-09-25T11:45:07 remz-dev-20260923-komplett EOS_LOBBY_SEARCH_EMPTY code=E2ZTKJ results=0
+2026-09-25T11:45:07 remz-dev-20260923-komplett ONLINE_FAILED reason=No open lobby with code E2ZTKJ. Check the code - the host must still be in the lobby.
