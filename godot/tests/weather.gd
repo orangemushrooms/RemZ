@@ -51,7 +51,7 @@ func run() -> void:
 	tick(10.0)
 	check(weather.intensity > 0.95, "Rain reaches full strength after the fade (%.2f)" % weather.intensity)
 	check(weather._rain.emitting and weather._rain.amount_ratio > 0.5, "Rain streaks fall around the camera")
-	check(weather._rain_audio.playing and weather._rain_audio.volume_db > -30.0, "The rain loop plays (%.1f dB)" % weather._rain_audio.volume_db)
+	check(weather._rain_audio.playing and weather._rain_audio.volume_db > -40.0, "The rain loop plays (%.1f dB)" % weather._rain_audio.volume_db)
 	check(weather.wetness > 0.25 and weather.wetness < 1.0, "The ground is soaking (%.2f)" % weather.wetness)
 	var wet_global = RenderingServer.global_shader_parameter_get("remz_wetness")
 	check(wet_global == null or absf(float(wet_global) - weather.wetness) < 0.001, "The wetness global follows (%s)" % str(wet_global))

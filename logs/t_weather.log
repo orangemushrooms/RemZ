@@ -16,7 +16,7 @@ PASS: Later days roll their own schedule
 PASS: Rain can be pinned
 PASS: Rain reaches full strength after the fade (1.00)
 PASS: Rain streaks fall around the camera
-PASS: The rain loop plays (-17.2 dB)
+PASS: The rain loop plays (-29.2 dB)
 PASS: The ground is soaking (0.35)
 PASS: The wetness global follows (<null>)
 PASS: Rain dims the sun and closes the sky (dim 0.55, overcast 0.85)
