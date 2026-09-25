@@ -2,6 +2,8 @@ param(
     [string]$GodotBinary = 'C:/Users/miche/Desktop/Godot.exe',
     # -Packed runs builds/windows/RemZ.exe for both roles (--host-online / --join-code) instead of the test suite.
     [switch]$Packed,
+    # -ForceRelay routes both processes through Epic's relay servers (the path strict NATs fall back to).
+    [switch]$ForceRelay,
     [string]$GameBinary = ''
 )
 # Two processes over the real EOS backend: the host opens an online lobby, the client joins by code. Both run
@@ -28,6 +30,7 @@ try {
         foreach ($log in @($hostLog, $clientLog)) { if (Test-Path -LiteralPath $log) { Remove-Item -LiteralPath $log } }
         $hostArgs = @('--headless', '--log-file', ('"' + $hostLog + '"'), '--',
             '--host-online', '--coop-auto-start=2', '--name=PackedHost', '--smoke-test', '--no-foliage', '--no-music', '--eos-cache=host')
+        if ($ForceRelay) { $hostArgs += '--eos-force-relay' }
         $hostProcess = Start-Process -FilePath $binary -WorkingDirectory (Split-Path $binary) -ArgumentList $hostArgs -WindowStyle Hidden -PassThru
         $runs += $hostProcess
         $hostTrace = Join-Path $traceFolder ('coop-' + $hostProcess.Id + '.log')
@@ -45,6 +48,7 @@ try {
         Write-Host "Host lobby code: $code"
         $clientArgs = @('--headless', '--log-file', ('"' + $clientLog + '"'), '--',
             "--join-code=$code", '--name=PackedClient', '--smoke-test', '--no-foliage', '--no-music', '--eos-fresh-device', '--eos-cache=client')
+        if ($ForceRelay) { $clientArgs += '--eos-force-relay' }
         $clientProcess = Start-Process -FilePath $binary -WorkingDirectory (Split-Path $binary) -ArgumentList $clientArgs -WindowStyle Hidden -PassThru
         $runs += $clientProcess
         $clientTrace = Join-Path $traceFolder ('coop-' + $clientProcess.Id + '.log')
@@ -68,6 +72,7 @@ try {
             '--script', 'res://tests/run.gd', '--', '--suite=online_coop', '--smoke-test', '--no-intro', '--no-music', '--no-foliage',
             "--online-role=$role", "--eos-cache=$role")
         if ($role -eq 'client') { $arguments += '--eos-fresh-device' }
+        if ($ForceRelay) { $arguments += '--eos-force-relay' }
         $process = Start-Process -FilePath $GodotBinary -WorkingDirectory $workspace -ArgumentList $arguments -WindowStyle Hidden -PassThru
         $runs += $process
         if ($role -eq 'host') { Start-Sleep -Seconds 3 }

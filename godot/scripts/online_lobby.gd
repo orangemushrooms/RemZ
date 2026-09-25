@@ -200,7 +200,10 @@ func _start_platform() -> bool:
 	if not ok: return false
 	_platform_ready = true # from here on _exit_tree must release the platform, whoever started it
 	_eos.Logging.set_log_level(_eos.Logging.LogCategory.AllCategories, _eos.Logging.LogLevel.Warning)
-	_eos.P2P.P2PInterface.set_relay_control(_eos.P2P.RelayControl.AllowRelays)
+	# --eos-force-relay (tests): every packet takes Epic's relay, the path two strict routers would end up on.
+	var relay = _eos.P2P.RelayControl.ForceRelays if "--eos-force-relay" in OS.get_cmdline_user_args() else _eos.P2P.RelayControl.AllowRelays
+	_eos.P2P.P2PInterface.set_relay_control(relay)
+	NetSession.trace_load("EOS_RELAY_CONTROL %s" % ("forced" if relay == _eos.P2P.RelayControl.ForceRelays else "allowed"))
 	var queue = _eos.P2P.SetPacketQueueSizeOptions.new()
 	queue.incoming_packet_queue_max_size_bytes = QUEUE_BYTES
 	queue.outgoing_packet_queue_max_size_bytes = QUEUE_BYTES

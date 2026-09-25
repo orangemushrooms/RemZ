@@ -322,8 +322,9 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   Never print or commit the secret. Portal: client "RemZ Windows", policy Peer2Peer, nothing else needed.
 - Tests: `--suite=online_lobby --smoke-test --no-intro --no-music --no-foliage` (headless, offline, 43 checks),
   `--suite=online_live ...` (headless, internet, 21 checks against the real backend), `tools/test_online_coop.ps1`
-  (two processes over EOS on one PC, the client with `--eos-fresh-device`; `-Packed` uses `builds/windows/RemZ.exe`
-  with `--host-online` / `--join-code=`), `RemZ.exe --headless -- --eos-check` on the packed build.
+  (two processes over EOS on one PC, the client with `--eos-fresh-device`; `-ForceRelay` pushes both through
+  Epic's relay; `-Packed` uses `builds/windows/RemZ.exe` with `--host-online` / `--join-code=`),
+  `RemZ.exe --headless -- --eos-check` on the packed build. Still untested: two different internet connections.
 
 ## Language (English default, German optional)
 - Every player-facing text in the code is **English**; German is a translation the player picks under
