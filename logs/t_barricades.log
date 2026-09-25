@@ -1,0 +1,55 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+COOP_LOAD MAP_READY
+PASS: Unbuilt line has no physical models
+PASS: Unaffordable line creates nothing and charges nothing
+PASS: Planner opens on the nearest defence line
+PASS: Planner pauses combat
+PASS: Planner frames the whole line and clears the combat HUD
+PASS: Red preview covers every segment
+PASS: Planner stops the hidden weapon viewport
+PASS: Terrain markers share one batched draw
+PASS: New line offers one complete purchase
+PASS: One click builds the complete line for 50 total points
+PASS: Every planned model is built together
+PASS: Built line replaces the ghost and retains its green outline
+PASS: Built segment collision is active
+PASS: Built segment collision is active
+PASS: Build confirmation stays in the planner
+PASS: Physical line covers position -3.00 m
+PASS: Physical line covers position -0.05 m
+PASS: Physical line covers position 0.00 m
+PASS: Physical line covers position 0.05 m
+PASS: Physical line covers position 3.00 m
+PASS: Adjacent visual segments meet without a gap
+PASS: Repair restores the whole line for exactly 25 points
+PASS: Damage and repair reuse the existing geometry
+PASS: Repeated repair cannot waste points
+PASS: Upgrade to the iron-banded wall restores and strengthens all segments together
+PASS: Tier 2 rebuilds every segment with its own wall
+PASS: Final upgrade reaches the 1600 HP steel bulwark at the advertised cost
+PASS: Steel bulwark shrugs off half of every hit
+PASS: Maximum level cannot be purchased twice
+PASS: Site buttons select their own complete line
+PASS: Remote preview cannot purchase beyond build reach
+PASS: Escape closes construction and resumes combat
+PASS: Closing restores the player camera, hands and HUD
+PASS: Returning resumes weapon rendering
+PASS: Planning never teleports or rotates the player
+PASS: Destruction removes every segment collider
+PASS: Destruction removes every segment collider
+PASS: Player inside the line blocks construction
+PASS: Blocked build leaves points and all segments untouched
+PASS: Enemy occupying any segment blocks construction
+PASS: Interaction uses the entire line, including its ends
+PASS: Destroyed line can be rebuilt from an endpoint
+PASS: Construction cannot open while another menu holds the player
+PASS: Escape also closes inventory without leaving a stale modal
+BARRICADES_DONE checks=44 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+EXIT 0

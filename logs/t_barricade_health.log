@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+COOP_LOAD MAP_READY
+PASS: Empty building site has no health bar
+PASS: Building shows full health without focus
+PASS: Damage updates number and proportional fill
+PASS: Critical health turns red
+PASS: Repair restores the full bar
+PASS: Upgrade updates maximum health
+PASS: Replicated health changes refresh the display
+PASS: Destroyed barricade hides its bar
+PASS: Rebuilding restores the display
+PASS: Damage highlights the attacked line and names it in a warning
+PASS: Repeated hits extend alert without warning spam
+PASS: Alert expires after attacks stop
+PASS: Joining client can restore attack marker silently
+PASS: Destroyed line clears attack marker
+BARRICADE_HEALTH_DONE checks=14 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+EXIT 0

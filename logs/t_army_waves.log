@@ -1,0 +1,21 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+SCRIPT ERROR: Parse Error: Identifier "game" not declared in the current scope.
+   at: GDScript::reload (res://tests/army_waves.gd:16)
+   GDScript backtrace (most recent call first):
+       [0] _load_suite (res://tests/run.gd:15)
+SCRIPT ERROR: Parse Error: Identifier "game" not declared in the current scope.
+   at: GDScript::reload (res://tests/army_waves.gd:16)
+   GDScript backtrace (most recent call first):
+       [0] _load_suite (res://tests/run.gd:15)
+SCRIPT ERROR: Parse Error: Identifier "game" not declared in the current scope.
+   at: GDScript::reload (res://tests/army_waves.gd:16)
+   GDScript backtrace (most recent call first):
+       [0] _load_suite (res://tests/run.gd:15)
+ERROR: Failed to load script "res://tests/army_waves.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+   GDScript backtrace (most recent call first):
+       [0] _load_suite (res://tests/run.gd:15)
+EXIT 1

@@ -1,0 +1,100 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Starts in de whatever the Windows locale (de_DE)
+PASS: German catalogue is loaded (1265 messages)
+PASS: Plain msgid resolves per language
+PASS: Formatted segment resolves per language
+PASS: String arguments are translated on the receiving side: Barrikade Wiesentor durchbrochen!
+PASS: Nested segments and msgid arguments resolve
+PASS: Segments embedded in BBCode and concatenations resolve
+PASS: Lang.raw keeps a player name untouched
+PASS: A wrong argument count falls back instead of breaking the frame
+PASS: Unknown text stays as it is
+PASS: TranslationServer (what labels use) follows the language
+PASS: Switching back restores English
+RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+COOP_LOAD MAP_READY
+PASS: Settings offer a language choice
+PASS: Language names are native and the current one is selected
+PASS: Choosing English switches the language
+PASS: Start button follows the switch live
+PASS: Test runs never write the player's settings file
+PASS: Switching back restores the test language
+PASS: start menu / briefing: 27 texts, all translated
+PASS: start menu / multiplayer: 25 texts, all translated
+PASS: start menu / difficulty: 18 texts, all translated
+PASS: start menu / controls: 65 texts, all translated
+PASS: start menu / settings: 39 texts, all translated
+PASS: start menu / records: 93 texts, all translated
+PASS: start menu / achievements: 179 texts, all translated
+PASS: HUD: 15 texts, all translated
+PASS: quest tracker: 2 texts, all translated
+PASS: world labels: 30 texts, all translated
+PASS: inventory: 23 texts, all translated
+PASS: Skill key away from Mechanic explains where training is
+PASS: HUD message: 17 texts, all translated
+PASS: wanderer / Trade: 9 texts, all translated
+PASS: wanderer / Fireworks: 26 texts, all translated
+PASS: wanderer / Sell: 51 texts, all translated
+PASS: wanderer / Quests: 6 texts, all translated
+PASS: wanderer / Training: 7 texts, all translated
+PASS: wanderer / Towers: 13 texts, all translated
+PASS: wanderer / Mods: 6 texts, all translated
+PASS: wanderer / Skins: 10 texts, all translated
+PASS: wanderer / Rarities: 21 texts, all translated
+PASS: ranger / Trade: 9 texts, all translated
+PASS: ranger / Fireworks: 26 texts, all translated
+PASS: ranger / Sell: 51 texts, all translated
+PASS: ranger / Quests: 19 texts, all translated
+PASS: ranger / Training: 7 texts, all translated
+PASS: ranger / Towers: 13 texts, all translated
+PASS: ranger / Mods: 6 texts, all translated
+PASS: ranger / Skins: 10 texts, all translated
+PASS: ranger / Rarities: 21 texts, all translated
+PASS: camp / Trade: 62 texts, all translated
+PASS: camp / Fireworks: 30 texts, all translated
+PASS: camp / Sell: 55 texts, all translated
+PASS: camp / Quests: 37 texts, all translated
+PASS: camp / Training: 11 texts, all translated
+PASS: camp / Towers: 17 texts, all translated
+PASS: camp / Mods: 10 texts, all translated
+PASS: camp / Skins: 17 texts, all translated
+PASS: camp / Rarities: 25 texts, all translated
+PASS: mechanic / Trade: 10 texts, all translated
+PASS: mechanic / Fireworks: 29 texts, all translated
+PASS: mechanic / Sell: 54 texts, all translated
+PASS: mechanic / Quests: 41 texts, all translated
+PASS: mechanic / Training: 30 texts, all translated
+PASS: mechanic / Towers: 15 texts, all translated
+PASS: mechanic / Mods: 47 texts, all translated
+PASS: mechanic / Skins: 13 texts, all translated
+PASS: mechanic / Rarities: 24 texts, all translated
+PASS: secret / Trade: 44 texts, all translated
+PASS: secret / Fireworks: 30 texts, all translated
+PASS: secret / Sell: 55 texts, all translated
+PASS: secret / Quests: 27 texts, all translated
+PASS: secret / Training: 11 texts, all translated
+PASS: secret / Towers: 17 texts, all translated
+PASS: secret / Mods: 40 texts, all translated
+PASS: secret / Skins: 20 texts, all translated
+PASS: secret / Rarities: 25 texts, all translated
+PASS: barricade planner: 26 texts, all translated
+PASS: cheat menu: 50 texts, all translated
+PASS: tower build menu: 20 texts, all translated
+PASS: tower build menu / roof slot: 22 texts, all translated
+PASS: drone console: 10 texts, all translated
+PASS: leaderboard: 21 texts, all translated
+PASS: pause / briefing: 28 texts, all translated
+PASS: pause / difficulty: 18 texts, all translated
+PASS: pause / controls: 65 texts, all translated
+PASS: pause / settings: 39 texts, all translated
+PASS: pause / achievements: 179 texts, all translated
+PASS: game over / summary: 120 texts, all translated
+PASS: game over / high scores: 101 texts, all translated
+LANGUAGE_DONE lang=de checks=89 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+EXIT 0

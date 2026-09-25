@@ -1,0 +1,100 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Starts in en whatever the Windows locale (de_DE)
+PASS: German catalogue is loaded (1265 messages)
+PASS: Plain msgid resolves per language
+PASS: Formatted segment resolves per language
+PASS: String arguments are translated on the receiving side: Barrikade Wiesentor durchbrochen!
+PASS: Nested segments and msgid arguments resolve
+PASS: Segments embedded in BBCode and concatenations resolve
+PASS: Lang.raw keeps a player name untouched
+PASS: A wrong argument count falls back instead of breaking the frame
+PASS: Unknown text stays as it is
+PASS: TranslationServer (what labels use) follows the language
+PASS: Switching back restores English
+RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+COOP_LOAD MAP_READY
+PASS: Settings offer a language choice
+PASS: Language names are native and the current one is selected
+PASS: Choosing Deutsch switches the language
+PASS: Start button follows the switch live
+PASS: Test runs never write the player's settings file
+PASS: Switching back restores the test language
+PASS: start menu / briefing: 27 texts, no German left
+PASS: start menu / multiplayer: 25 texts, no German left
+PASS: start menu / difficulty: 18 texts, no German left
+PASS: start menu / controls: 65 texts, no German left
+PASS: start menu / settings: 39 texts, no German left
+PASS: start menu / records: 93 texts, no German left
+PASS: start menu / achievements: 179 texts, no German left
+PASS: HUD: 16 texts, no German left
+PASS: quest tracker: 2 texts, no German left
+PASS: world labels: 30 texts, no German left
+PASS: inventory: 23 texts, no German left
+PASS: Skill key away from Mechanic explains where training is
+PASS: HUD message: 17 texts, no German left
+PASS: wanderer / Trade: 9 texts, no German left
+PASS: wanderer / Fireworks: 26 texts, no German left
+PASS: wanderer / Sell: 51 texts, no German left
+PASS: wanderer / Quests: 6 texts, no German left
+PASS: wanderer / Training: 7 texts, no German left
+PASS: wanderer / Towers: 13 texts, no German left
+PASS: wanderer / Mods: 6 texts, no German left
+PASS: wanderer / Skins: 10 texts, no German left
+PASS: wanderer / Rarities: 21 texts, no German left
+PASS: ranger / Trade: 9 texts, no German left
+PASS: ranger / Fireworks: 26 texts, no German left
+PASS: ranger / Sell: 51 texts, no German left
+PASS: ranger / Quests: 19 texts, no German left
+PASS: ranger / Training: 7 texts, no German left
+PASS: ranger / Towers: 13 texts, no German left
+PASS: ranger / Mods: 6 texts, no German left
+PASS: ranger / Skins: 10 texts, no German left
+PASS: ranger / Rarities: 21 texts, no German left
+PASS: camp / Trade: 62 texts, no German left
+PASS: camp / Fireworks: 30 texts, no German left
+PASS: camp / Sell: 55 texts, no German left
+PASS: camp / Quests: 37 texts, no German left
+PASS: camp / Training: 11 texts, no German left
+PASS: camp / Towers: 17 texts, no German left
+PASS: camp / Mods: 10 texts, no German left
+PASS: camp / Skins: 17 texts, no German left
+PASS: camp / Rarities: 25 texts, no German left
+PASS: mechanic / Trade: 10 texts, no German left
+PASS: mechanic / Fireworks: 29 texts, no German left
+PASS: mechanic / Sell: 54 texts, no German left
+PASS: mechanic / Quests: 41 texts, no German left
+PASS: mechanic / Training: 30 texts, no German left
+PASS: mechanic / Towers: 15 texts, no German left
+PASS: mechanic / Mods: 47 texts, no German left
+PASS: mechanic / Skins: 13 texts, no German left
+PASS: mechanic / Rarities: 24 texts, no German left
+PASS: secret / Trade: 44 texts, no German left
+PASS: secret / Fireworks: 30 texts, no German left
+PASS: secret / Sell: 55 texts, no German left
+PASS: secret / Quests: 27 texts, no German left
+PASS: secret / Training: 11 texts, no German left
+PASS: secret / Towers: 17 texts, no German left
+PASS: secret / Mods: 40 texts, no German left
+PASS: secret / Skins: 20 texts, no German left
+PASS: secret / Rarities: 25 texts, no German left
+PASS: barricade planner: 26 texts, no German left
+PASS: cheat menu: 50 texts, no German left
+PASS: tower build menu: 20 texts, no German left
+PASS: tower build menu / roof slot: 22 texts, no German left
+PASS: drone console: 10 texts, no German left
+PASS: leaderboard: 21 texts, no German left
+PASS: pause / briefing: 28 texts, no German left
+PASS: pause / difficulty: 18 texts, no German left
+PASS: pause / controls: 65 texts, no German left
+PASS: pause / settings: 39 texts, no German left
+PASS: pause / achievements: 179 texts, no German left
+PASS: game over / summary: 120 texts, no German left
+PASS: game over / high scores: 101 texts, no German left
+LANGUAGE_DONE lang=en checks=89 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+EXIT 0

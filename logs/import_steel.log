@@ -1,0 +1,105 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Projektinitialisierung (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Lese Dateistrucktur …[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Globale Klassennamen laden …[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifiziere GDExtensions…[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Autoload-Skripte erzeugen …[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Plugins initialisieren…[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Dateiscan starten …[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Globale Klassen registrieren … (11 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Barricade[39m[0m
+[   8% ] [90m[1mupdate_scripts_classes[22m | BarricadeMenu[39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | DefenceSystem[39m[0m
+[  25% ] [90m[1mupdate_scripts_classes[22m | DefenceTower[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | EncounterBalance[39m[0m
+[  41% ] [90m[1mupdate_scripts_classes[22m | SecretNight[39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  58% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  75% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  83% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Aktionen scannen … (18 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | secret_goa_placeholder.wav[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | secret_rain.wav[39m[0m
+[  10% ] [90m[1m_update_scan_actions[22m | barricade_steel.glb[39m[0m
+[  15% ] [90m[1m_update_scan_actions[22m | goa_bar_0.jpg[39m[0m
+[  21% ] [90m[1m_update_scan_actions[22m | goa_bar_1.jpg[39m[0m
+[  26% ] [90m[1m_update_scan_actions[22m | goa_bar_2.jpg[39m[0m
+[  31% ] [90m[1m_update_scan_actions[22m | goa_stage_0.jpg[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | goa_stage_1.jpg[39m[0m
+[  42% ] [90m[1m_update_scan_actions[22m | goa_stage_2.jpg[39m[0m
+[  47% ] [90m[1m_update_scan_actions[22m | goa_totem_0.jpg[39m[0m
+[  52% ] [90m[1m_update_scan_actions[22m | goa_totem_1.jpg[39m[0m
+[  57% ] [90m[1m_update_scan_actions[22m | goa_totem_2.jpg[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | zombie_earthworm_ancient_normal.webp[39m[0m
+[  68% ] [90m[1m_update_scan_actions[22m | zombie_earthworm_normal.webp[39m[0m
+[  73% ] [90m[1m_update_scan_actions[22m | zombie_runner_texture_0.webp[39m[0m
+[  78% ] [90m[1m_update_scan_actions[22m | zombie_shambler_texture_0.webp[39m[0m
+[  84% ] [90m[1m_update_scan_actions[22m | zombie_soldier_texture_0.webp[39m[0m
+[  89% ] [90m[1m_update_scan_actions[22m | zombie_titan_texture_0.webp[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started Assets (erneut) importieren (11 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   8% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  16% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  25% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  33% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  41% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  50% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  58% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  66% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  75% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  83% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   0% ] [90m[1mreimport[22m | Vor-Neuimport-Operationen ausführen …[39m[0m
+[   0% ] [90m[1mreimport[22m | goa_bar_0.jpg[39m[0m
+[   8% ] [90m[1mreimport[22m | goa_bar_1.jpg[39m[0m
+[  16% ] [90m[1mreimport[22m | goa_bar_2.jpg[39m[0m
+[  25% ] [90m[1mreimport[22m | goa_stage_0.jpg[39m[0m
+[  33% ] [90m[1mreimport[22m | goa_stage_1.jpg[39m[0m
+[  41% ] [90m[1mreimport[22m | goa_stage_2.jpg[39m[0m
+[  50% ] [90m[1mreimport[22m | goa_totem_0.jpg[39m[0m
+[  50% ] [90m[1mreimport[22m | goa_totem_0.jpg[39m[0m
+[  50% ] [90m[1mreimport[22m | goa_totem_0.jpg[39m[0m
+[  50% ] [90m[1mreimport[22m | goa_totem_0.jpg[39m[0m
+[  50% ] [90m[1mreimport[22m | goa_totem_0.jpg[39m[0m
+[  50% ] [90m[1mreimport[22m | goa_totem_0.jpg[39m[0m
+[  50% ] [90m[1mreimport[22m | goa_totem_0.jpg[39m[0m
+[  50% ] [90m[1mreimport[22m | goa_totem_0.jpg[39m[0m
+[  58% ] [90m[1mreimport[22m | goa_totem_1.jpg[39m[0m
+[  66% ] [90m[1mreimport[22m | goa_totem_2.jpg[39m[0m
+[  75% ] [90m[1mreimport[22m | zombie_titan_texture_0.webp[39m[0m
+[  75% ] [90m[1mreimport[22m | zombie_titan_texture_0.webp[39m[0m
+[  75% ] [90m[1mreimport[22m | zombie_titan_texture_0.webp[39m[0m
+[  75% ] [90m[1mreimport[22m | zombie_titan_texture_0.webp[39m[0m
+[  75% ] [90m[1mreimport[22m | zombie_titan_texture_0.webp[39m[0m
+[  75% ] [90m[1mreimport[22m | zombie_titan_texture_0.webp[39m[0m
+[  75% ] [90m[1mreimport[22m | zombie_titan_texture_0.webp[39m[0m
+[  83% ] [90m[1mreimport[22m | barricade_steel.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  91% ] [90m[1mreimport[22m | Asset-Import fertigstellen …[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started Assets (erneut) importieren (11 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Nach-Neuimport-Operationen ausführen …[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Editor laden (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Editor-Layout laden …[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Docks laden …[39m[0m
+[  33% ] [90m[1mloading_editor_layout[22m | Öffne Szenen neu…[39m[0m
+[  50% ] [90m[1mloading_editor_layout[22m | Zentrales Editor-Layout laden …[39m[0m
+[  66% ] [90m[1mloading_editor_layout[22m | Pluginfensterlayout laden …[39m[0m
+[  83% ] [90m[1mloading_editor_layout[22m | Editorlayout bereit.[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

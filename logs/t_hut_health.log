@@ -1,0 +1,51 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+COOP_LOAD MAP_READY
+PASS: Hut starts with full health
+PASS: Hut wall bodies are tagged for zombie hits
+PASS: Attack point lies just outside the west wall
+PASS: Damage lowers health and raises the alert
+PASS: First hit immediately shows the large attack alarm
+PASS: First hit plays the supplied warning with its original voice pitch
+PASS: Attack alarm stays visible independently of ordinary messages
+PASS: Alert disappears after the attacks stop
+PASS: Warning audio stops with the visual alarm
+PASS: Initial multiplayer state shows an active alarm without replaying old audio
+PASS: A new authoritative attack phase replays the warning
+PASS: HUD shows the hut health
+PASS: Player at the wall may repair
+PASS: Repair needs points
+PASS: Small repairs charge proportionally for actual missing HP
+PASS: Repair charges the displayed quote
+PASS: Repair restores health up to the maximum
+PASS: Full hut refuses repair
+PASS: Repair price scales at wave 1 without reducing restored HP
+PASS: Insufficient points cannot buy late-wave repairs
+PASS: Prompt and actual repair charge agree
+PASS: Repair price scales at wave 5 without reducing restored HP
+PASS: Insufficient points cannot buy late-wave repairs
+PASS: Prompt and actual repair charge agree
+PASS: Repair price scales at wave 10 without reducing restored HP
+PASS: Insufficient points cannot buy late-wave repairs
+PASS: Prompt and actual repair charge agree
+PASS: Repair price scales at wave 20 without reducing restored HP
+PASS: Insufficient points cannot buy late-wave repairs
+PASS: Prompt and actual repair charge agree
+PASS: Late-wave partial repair remains proportional
+PASS: Completed wave prevents cheaper intermission repairs
+PASS: Full health produces a zero repair quote
+PASS: Repair needs the player at the hut
+PASS: Test zombie spawned beside the hut
+PASS: Zombie beside the hut targets it
+PASS: Zombie attack damages the hut (3800 -> 3780 after 1.3 s)
+PASS: Destroyed hut clears the attack alarm
+PASS: Hut destruction stops the attack warning
+PASS: Destroyed hut ends the round with its own title
+HUT_HEALTH_DONE checks=40 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+EXIT 0
