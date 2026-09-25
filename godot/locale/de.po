@@ -5160,8 +5160,12 @@ msgid "%s · Tier %d · %d / %d HP · drag to move · R / wheel to turn"
 msgstr "%s · Stufe %d · %d / %d HP · ziehen zum Verschieben · R / Rad zum Drehen"
 
 #: scripts/tower_planner.gd
-msgid "%s · %d R · click to build · R / wheel to turn"
-msgstr "%s · %d R · klicken zum Bauen · R / Rad zum Drehen"
+msgid "Roof slot %d · %s · %d R · click to build"
+msgstr "Dachplatz %d · %s · %d R · klicken zum Bauen"
+
+#: scripts/tower_planner.gd
+msgid "%s · %d R · click to build · R / wheel to turn · +/- zoom"
+msgstr "%s · %d R · klicken zum Bauen · R / Rad zum Drehen · +/- Zoom"
 
 #: scripts/tower_planner.gd
 msgid "%d  REM DOLLARS  ·  %d / %d towers"
@@ -5494,6 +5498,10 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "%s · %d R · click to build · R / wheel to turn"
+msgstr "%s · %d R · klicken zum Bauen · R / Rad zum Drehen"
 
 #. unused
 msgid "The music is back. Get the Clear Head drink at the bar. [E]"

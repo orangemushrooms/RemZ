@@ -24,16 +24,21 @@ static func measure(source: PackedScene, host: Node = null) -> Dictionary:
 	var feet := [rig.find_bone("LeftFoot"), rig.find_bone("RightFoot")]
 	var hands := [rig.find_bone("LeftHand"), rig.find_bone("RightHand")]
 	var to_model := model.global_transform.affine_inverse() * rig.global_transform
+	var shoulders := 1.0
+	if rig.find_bone("LeftShoulder") >= 0 and rig.find_bone("RightShoulder") >= 0:
+		shoulders = maxf((to_model * rig.get_bone_global_rest(rig.find_bone("LeftShoulder")).origin).distance_to(to_model * rig.get_bone_global_rest(rig.find_bone("RightShoulder")).origin), 0.001)
 	for clip in player.get_animation_list():
 		var length := player.get_animation(clip).length
 		if length <= 0.0: continue
 		var foot_pos: Array = [PackedVector3Array(), PackedVector3Array()]
 		var hand_pos: Array = [PackedVector3Array(), PackedVector3Array()]
+		var hips_pos := PackedVector3Array()
 		player.play(clip)
 		for i in SAMPLES + 1:
 			player.seek(length * float(i) / SAMPLES, true)
 			rig.force_update_all_bone_transforms()
 			var origin := to_model * rig.get_bone_global_pose(hips).origin if hips >= 0 else Vector3.ZERO
+			hips_pos.append(origin)
 			for f in 2:
 				foot_pos[f].append(to_model * rig.get_bone_global_pose(feet[f]).origin - origin if feet[f] >= 0 else Vector3.ZERO)
 			for h in 2:
@@ -66,6 +71,13 @@ static func measure(source: PackedScene, host: Node = null) -> Dictionary:
 					fastest = v
 					peak = length * float(i) / SAMPLES
 		info[clip] = {"length": length, "speed": distance / length, "peak": peak}
+		if clip.begins_with("death"):
+			# where the body ends up (model space, +Z is the rig's front) and how wide the arms are spread
+			# 40 % into the fall (in shoulder widths): the stiff plank fall keeps them out all the way down
+			var mid := roundi(0.4 * SAMPLES)
+			info[clip]["travel_z"] = hips_pos[SAMPLES].z - hips_pos[0].z
+			info[clip]["spread_mid"] = (hand_pos[0][mid] as Vector3).distance_to(hand_pos[1][mid]) / shoulders
+			info[clip]["spread_end"] = (hand_pos[0][SAMPLES] as Vector3).distance_to(hand_pos[1][SAMPLES]) / shoulders
 	player.stop()
 	if host: host.remove_child(model)
 	model.free()

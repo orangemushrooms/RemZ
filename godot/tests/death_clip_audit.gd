@@ -22,19 +22,12 @@ func run() -> void:
 		var rh := rig.find_bone("RightHand")
 		var ls := rig.find_bone("LeftShoulder")
 		var rs := rig.find_bone("RightShoulder")
-		for clip in ["death", "death2", "death3"]:
-			if not anim.has_animation(clip): continue
-			var a := anim.get_animation(clip)
-			anim.play(clip)
-			anim.seek(0.0, true)
-			var start: Vector3 = rig.get_bone_global_pose(hips).origin
-			anim.seek(a.length - 0.01, true)
-			var end: Vector3 = rig.get_bone_global_pose(hips).origin
-			var travel := end - start
-			var spread: float = rig.get_bone_global_pose(lh).origin.distance_to(rig.get_bone_global_pose(rh).origin)
-			var shoulders: float = rig.get_bone_global_pose(ls).origin.distance_to(rig.get_bone_global_pose(rs).origin)
-			var head_y: float = rig.get_bone_global_pose(rig.find_bone("Head")).origin.y
-			print("DEATH_CLIP %s %s len=%.2f travel=(%.0f, %.0f, %.0f) spread=%.2f head_y=%.0f" % [skin, clip, a.length, travel.x, travel.y, travel.z, spread / maxf(shoulders, 0.01), head_y])
+		var info: Dictionary = preload("res://scripts/zombie_animation.gd").measure(load(path))
+		for clip in info:
+			if not str(clip).begins_with("death"): continue
+			var m: Dictionary = info[clip]
+			print("DEATH_CLIP %s %s len=%.2f travel_z=%.3f spread_mid=%.2f spread_end=%.2f plank=%s" % [skin, clip, m.length, m.travel_z, m.spread_mid, m.spread_end, Zombie.is_plank(m)])
+		if hips < 0 or lh < 0 or rh < 0 or ls < 0 or rs < 0: pass
 		root.queue_free()
 	print("DEATH_CLIP_AUDIT_DONE")
 	quit(0)

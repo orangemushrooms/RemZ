@@ -116,19 +116,22 @@ func run() -> void:
 	var ghost_before := planner.ghost_yaw
 	planner.rotate_hovered(1)
 	check(absf(angle_difference(planner.ghost_yaw, ghost_before + deg_to_rad(15.0))) < 0.01, "Without a hovered tower the ghost turns instead")
-	# roof slots need the player at the hut
-	player.global_position = Map.ground_pos(Map.FIRE.x - 30, Map.FIRE.y + 30)
+	# roof slots: refused beyond the planner's reach, taken from within it, a click near a ring snaps onto it
+	player.global_position = Map.ground_pos(Map.FIRE.x - 60, Map.FIRE.y + 60)
 	await physics_frame
 	planner.place_roof(0)
-	check(d.roof_tower(0) == null and Lang.text(planner.status.text).contains("forest hut"), "A roof slot from afar is refused with the reason")
-	player.global_position = game.hut.center + Vector3(-5, 0, 0)
-	player.global_position.y = Map.ground_height(player.global_position.x, player.global_position.z) + 0.1
+	check(d.roof_tower(0) == null and Lang.text(planner.status.text).contains("forest hut"), "A roof slot from far away is refused with the reason")
+	player.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y + 14)
 	await physics_frame
-	if d.roof_access(player):
-		planner.place_roof(0)
-		check(d.roof_tower(0) != null and d.roof_tower(0).rooftop, "At the hut a roof slot takes the turret")
-		error = planner.move_tower(d.roof_tower(0), moved)
-		check(not error.is_empty(), "Roof turrets cannot be dragged off the roof")
+	planner.place_roof(0)
+	check(d.roof_tower(0) != null and d.roof_tower(0).rooftop, "Within the planner's reach a roof slot takes the turret")
+	var near_ring: Vector3 = d.roof_position(3) + Vector3(0.9, 0.3, 0.6)
+	check(planner.roof_slot_near(near_ring) == 3, "A point beside a roof ring snaps to that slot")
+	error = planner.place_at(near_ring)
+	check(error.is_empty() and d.roof_tower(3) != null, "Clicking beside a ring builds on the slot", error)
+	error = planner.move_tower(d.roof_tower(0), moved)
+	check(not error.is_empty(), "Roof turrets cannot be dragged off the roof")
+	check(planner.overview.size <= 40.0, "The view frames the roof and its surroundings")
 	# close restores everything
 	planner.close()
 	check(not planner.is_open and not d.is_open and not paused and player.active and root.get_camera_3d() == player.camera and game.hud.visible, "Closing restores camera, HUD and the round")

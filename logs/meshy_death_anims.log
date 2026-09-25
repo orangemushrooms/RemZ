@@ -1,0 +1,133 @@
+16:34:54 generating ['zombie_shambler', 'zombie_farmer', 'zombie_hiker', 'zombie_grandma', 'zombie_runner', 'zombie_jogger', 'zombie_nurse', 'zombie_soldier', 'zombie_forester', 'zombie_bloater'] up to anims
+16:34:55 zombie_grandma anim death4 185 01a0d8fd-9ef8-77d5-9e79-684f06bbc712
+16:34:55 zombie_farmer anim death4 185 01a0d8fd-9ee0-72e2-898f-a27e6bb88127
+16:34:55 zombie_shambler anim death4 185 01a0d8fd-9ee0-72e0-a121-762c70187932
+16:34:56 zombie_hiker anim death4 185 01a0d8fd-9ee0-7728-b594-0d81620264ec
+16:34:57 zombie_shambler anim death5 188 01a0d8fd-a809-7701-99b2-3e3cb7a2d87a
+16:34:57 zombie_grandma anim death5 188 01a0d8fd-a79f-7562-a53c-9a2bb3f2b507
+16:34:58 zombie_hiker anim death5 188 01a0d8fd-a8dd-724e-9b3e-d3e819c8976c
+16:34:58 zombie_farmer anim death5 188 01a0d8fd-a7af-7454-8680-bcd70cbe685f
+16:34:59 zombie_shambler anim_death4 IN_PROGRESS 15%
+16:34:59 zombie_grandma anim_death4 IN_PROGRESS 15%
+16:34:59 zombie_hiker anim_death4 IN_PROGRESS 15%
+16:35:00 zombie_farmer anim_death4 IN_PROGRESS 20%
+16:35:11 zombie_shambler anim_death4 IN_PROGRESS 47%
+16:35:11 zombie_grandma anim_death4 IN_PROGRESS 47%
+16:35:11 zombie_hiker anim_death4 IN_PROGRESS 47%
+16:35:12 zombie_farmer anim_death4 IN_PROGRESS 52%
+16:35:23 zombie_shambler anim_death4 SUCCEEDED 100%
+16:35:23 zombie_shambler anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v3\anim_death4.glb...
+16:35:23 zombie_grandma anim_death4 SUCCEEDED 100%
+16:35:23 zombie_grandma anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma_v3\anim_death4.glb...
+16:35:24 zombie_hiker anim_death4 SUCCEEDED 100%
+16:35:24 zombie_hiker anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker_v3\anim_death4.glb...
+16:35:24 zombie_farmer anim_death4 SUCCEEDED 100%
+16:35:24 zombie_farmer anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma_v3\anim_death4.glb (21.4 MB)
+16:35:28 zombie_grandma anim_death5 SUCCEEDED 100%
+16:35:28 zombie_grandma anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma_v3\anim_death5.glb (21.4 MB)
+16:35:32 zombie_grandma READY up to anims
+16:35:33 zombie_runner anim death4 185 01a0d8fe-30fb-705b-8902-d7edc65bcc7d
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v3\anim_death4.glb (23.1 MB)
+16:35:34 zombie_shambler anim_death5 SUCCEEDED 100%
+16:35:34 zombie_shambler anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer_v3\anim_death4.glb (20.6 MB)
+16:35:34 zombie_farmer anim_death5 SUCCEEDED 100%
+16:35:34 zombie_farmer anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer_v3\anim_death5.glb...
+16:35:35 zombie_runner anim death5 188 01a0d8fe-3a74-7180-9ef6-eb7f92ebb6e6
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker_v3\anim_death4.glb (25.7 MB)
+16:35:36 zombie_hiker anim_death5 SUCCEEDED 100%
+16:35:36 zombie_hiker anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker_v3\anim_death5.glb...
+16:35:37 zombie_runner anim_death4 IN_PROGRESS 15%
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v3\anim_death5.glb (23.1 MB)
+16:35:39 zombie_shambler READY up to anims
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer_v3\anim_death5.glb (20.6 MB)
+16:35:40 zombie_farmer READY up to anims
+16:35:41 zombie_jogger anim death4 185 01a0d8fe-4eb3-7201-9e39-15b0758bfca3
+16:35:41 zombie_nurse anim death4 185 01a0d8fe-50fc-7493-8109-10501d9662a1
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker_v3\anim_death5.glb (25.7 MB)
+16:35:42 zombie_hiker READY up to anims
+16:35:43 zombie_soldier anim death4 185 01a0d8fe-5774-757b-8f20-a56f589b4f80
+16:35:43 zombie_jogger anim death5 188 01a0d8fe-5913-71fc-bdd8-1353217b9ab6
+16:35:43 zombie_nurse anim death5 188 01a0d8fe-59b6-73cc-9dda-4d12ea2e05b8
+16:35:44 zombie_jogger anim_death4 IN_PROGRESS 15%
+16:35:45 zombie_soldier anim death5 188 01a0d8fe-60d5-70c3-b976-9070ed2772a3
+16:35:45 zombie_nurse anim_death4 IN_PROGRESS 15%
+16:35:46 zombie_soldier anim_death4 IN_PROGRESS 15%
+16:35:49 zombie_runner anim_death4 IN_PROGRESS 47%
+16:35:57 zombie_jogger anim_death4 IN_PROGRESS 47%
+16:35:57 zombie_nurse anim_death4 IN_PROGRESS 47%
+16:35:59 zombie_soldier anim_death4 IN_PROGRESS 47%
+16:36:01 zombie_runner anim_death4 SUCCEEDED 100%
+16:36:01 zombie_runner anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v3\anim_death4.glb (24.9 MB)
+16:36:04 zombie_runner anim_death5 SUCCEEDED 100%
+16:36:04 zombie_runner anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v3\anim_death5.glb (24.8 MB)
+16:36:07 zombie_runner READY up to anims
+16:36:07 zombie_forester anim death4 185 01a0d8fe-b88f-7044-bb8f-4de423ed9874
+16:36:09 zombie_jogger anim_death4 SUCCEEDED 100%
+16:36:09 zombie_jogger anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger_v3\anim_death4.glb...
+16:36:09 zombie_nurse anim_death4 SUCCEEDED 100%
+16:36:09 zombie_nurse anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v3\anim_death4.glb...
+16:36:10 zombie_forester anim death5 188 01a0d8fe-c1a7-750b-89a1-d77abb300d64
+16:36:11 zombie_soldier anim_death4 SUCCEEDED 100%
+16:36:11 zombie_soldier anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v3\anim_death4.glb...
+16:36:11 zombie_forester anim_death4 IN_PROGRESS 15%
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger_v3\anim_death4.glb (22.4 MB)
+16:36:15 zombie_jogger anim_death5 SUCCEEDED 100%
+16:36:15 zombie_jogger anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v3\anim_death4.glb (23.3 MB)
+16:36:16 zombie_nurse anim_death5 SUCCEEDED 100%
+16:36:16 zombie_nurse anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v3\anim_death4.glb (25.3 MB)
+16:36:16 zombie_soldier anim_death5 SUCCEEDED 100%
+16:36:16 zombie_soldier anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v3\anim_death5.glb (25.3 MB)
+16:36:20 zombie_soldier READY up to anims
+16:36:21 zombie_bloater anim death4 185 01a0d8fe-ed2c-71cd-b1bf-21eabf3d47a3
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger_v3\anim_death5.glb (22.4 MB)
+16:36:22 zombie_jogger READY up to anims
+16:36:23 zombie_bloater anim death5 188 01a0d8fe-f638-7379-91b7-cdbc2e971caf
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v3\anim_death5.glb (23.3 MB)
+16:36:23 zombie_nurse READY up to anims
+16:36:24 zombie_forester anim_death4 IN_PROGRESS 47%
+16:36:25 zombie_bloater anim_death4 IN_PROGRESS 15%
+16:36:36 zombie_forester anim_death4 SUCCEEDED 100%
+16:36:36 zombie_forester anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_forester_v3\anim_death4.glb...
+16:36:37 zombie_bloater anim_death4 IN_PROGRESS 47%
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_forester_v3\anim_death4.glb (26.2 MB)
+16:36:39 zombie_forester anim_death5 SUCCEEDED 100%
+16:36:39 zombie_forester anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_forester_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_forester_v3\anim_death5.glb (26.2 MB)
+16:36:42 zombie_forester READY up to anims
+16:36:49 zombie_bloater anim_death4 SUCCEEDED 100%
+16:36:49 zombie_bloater anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v3\anim_death4.glb (21.7 MB)
+16:36:51 zombie_bloater anim_death5 SUCCEEDED 100%
+16:36:51 zombie_bloater anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v3\anim_death5.glb (21.6 MB)
+16:36:54 zombie_bloater READY up to anims
+Balance: {'balance': 55}
+ZOMBIES_V3_DONE ok=10 failed=[]

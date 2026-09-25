@@ -48,10 +48,12 @@ TEX_END = ' Mud and grime, fine fabric weave, natural wear, no painted lighting,
 # 221 Charged Upward Slash, 212 Elbow Strike, 128 Heavy Hammer Swing, 127 Charged Ground Slam,
 # 184 Shot and Fall Forward, 189 Dying Backwards, 183 Shot and Fall Backward, 178/179 Hit Reaction,
 # 177 Gunshot Reaction, 0/12 Idle, 255 Angry Ground Stomp, 386 Zombie Scream.
+# 25 Sep 2026: death4 = 185 Shot and Slow Fall Backward, death5 = 188 Fall Dead from Abdominal Injury; 183
+# (the stiff plank fall with spread arms) stays in the files but zombie._death_clip never picks it.
 SHAMBLE = {'walk': 112, 'walk2': 562, 'attack': 214, 'attack2': 221, 'death': 184, 'death2': 189, 'death3': 183,
-           'hit': 178, 'hit2': 177, 'idle': 0, 'scream': 386}
+           'death4': 185, 'death5': 188, 'hit': 178, 'hit2': 177, 'idle': 0, 'scream': 386}
 RUNNER = {'run': 16, 'walk': 123, 'attack': 214, 'attack2': 212, 'death': 184, 'death2': 183, 'death3': 189,
-          'hit': 177, 'hit2': 179, 'idle': 12, 'scream': 386}
+          'death4': 185, 'death5': 188, 'hit': 177, 'hit2': 179, 'idle': 12, 'scream': 386}
 TITAN = {'walk': 119, 'walk2': 112, 'attack': 127, 'attack2': 128, 'death': 189, 'death2': 184, 'idle': 255,
          'scream': 386}
 

@@ -214,8 +214,8 @@ func run() -> void:
 	var rig := z.model.find_child("Skeleton3D", true, false) as Skeleton3D
 	var head := rig.find_bone("Head") if rig else -1
 	check(z._head_popped and head >= 0, "Headshot kill marks the head as burst")
-	var head_scale: Vector3 = rig.get_bone_global_pose(head).basis.get_scale() if head >= 0 else Vector3.ONE
-	check(head >= 0 and head_scale.x < 0.01, "The head bone collapses after the animation update", "global %s pose %s" % [head_scale, rig.get_bone_pose_scale(head) if head >= 0 else Vector3.ONE])
+	check(z._gore_parts.has("head") and not z._gore_parts.head.visible and rig.get_node_or_null("Stump_head") != null, "The head mesh is cut away and a stump caps the neck")
+	check(z._gore_parts.head.mesh.get_surface_count() > 0 and z._visual_meshes[0].mesh.get_surface_count() > 0, "Body and head are separate meshes on the same skeleton")
 	if capture:
 		var look := z.global_position + Vector3.UP * 1.0
 		player.global_position = z.global_position + Vector3(inward.x, 0.0, inward.y) * -2.6 + Vector3.UP * 0.1
@@ -245,30 +245,42 @@ func run() -> void:
 	z3.damage(z3.max_hp * 0.22, Vector3.FORWARD)
 	print("LIMB_DEBUG hp=", z3.hp, " max=", z3.max_hp, " limb=", z3._limb_damage, " severed=", z3.severed, " dm=", z3.damage_mul)
 	check(z3.limb_severed("RightArm") and z3.damage_mul == 0.0, "Both arms gone after the hits add up: no more swings")
+	check(z3._gore_parts.has("left_arm") and not z3._gore_parts.left_arm.visible and z3._gore_parts.right_arm.visible == false, "The severed arms' meshes are gone, the body mesh stays")
+	var chunks := 0
+	for node in game.zombies_root.get_children():
+		if node is RigidBody3D and node.name.begins_with("Chunk_"): chunks += 1
+	check(chunks >= 2, "Both arms fly off as chunks", str(chunks))
 	var rig3 := z3.model.find_child("Skeleton3D", true, false) as Skeleton3D
-	check(rig3.get_bone_global_pose(rig3.find_bone("LeftForeArm")).basis.get_scale().x < 0.01, "The severed arm's bones are gone")
+	check(rig3.get_node_or_null("Stump_left_arm") != null, "A stump cap follows the shoulder joint")
 	game.spawn_zombie("shambler", spawn + Vector2(6, 0), 1.0, "")
 	var z4: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
 	z4.last_hit_bone = "RightLeg"
 	z4.damage(z4.max_hp * 0.35, Vector3.FORWARD)
 	check(not z4.alive and z4.limb_severed("RightLeg"), "A leg shot off brings the zombie down")
 	# the fall follows the shot: from the front onto the back, from behind onto the face, the stiff clip rare
-	var metrics: Dictionary = z4._measure_deaths()
-	check(metrics.size() >= 3 and metrics.values().any(func(m): return float(m.z) > 0.0) and metrics.values().any(func(m): return float(m.z) < 0.0), "Death clips are measured: forward and backward falls exist")
-	var stiff_count := 0
+	var metrics: Dictionary = Zombie.clip_info(z4.model_path)
+	var deaths := metrics.keys().filter(func(k): return str(k).begins_with("death"))
+	check(deaths.size() >= 3 and deaths.any(func(k): return float(metrics[k].travel_z) > 0.0) and deaths.any(func(k): return float(metrics[k].travel_z) < 0.0), "Death clips are measured at load: forward and backward falls exist")
+	check(deaths.any(func(k): return Zombie.is_plank(metrics[k])), "The stiff plank fall is recognised by its spread arms")
+	var plank_count := 0
 	var back_count := 0
-	for i in 40:
+	var used := {}
+	for i in 60:
 		game.spawn_zombie("shambler", spawn + Vector2(8, 0), 1.0, "")
 		var zz: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
 		zz.rotation.y = 0.0
 		var from_front := -zz.global_basis.z          # a bullet flying against the rig's front
 		zz.die(from_front)
 		var m: Dictionary = metrics.get(zz.clip, {})
-		if not m.is_empty() and float(m.z) < 0.0: back_count += 1
-		if not m.is_empty() and float(m.spread) > Zombie.STIFF_SPREAD: stiff_count += 1
+		used[zz.clip] = true
+		if not m.is_empty() and (float(m.travel_z) < 0.0 or Zombie.is_crumple(m)): back_count += 1
+		if not m.is_empty() and Zombie.is_plank(m): plank_count += 1
 		zz.queue_free()
-	check(back_count == 40, "A shot from the front always drops the body onto its back", str(back_count))
-	check(stiff_count <= 14, "The stiff spread-arm drop is the exception", str(stiff_count))
+	check(back_count == 60, "A shot from the front drops the body onto its back or folds it over", str(back_count))
+	check(plank_count == 0, "The stiff plank fall is never played", str(plank_count))
+	check(used.size() >= 2, "Backward falls vary", str(used.keys()))
+	var rig4 := z4.model.find_child("Skeleton3D", true, false) as Skeleton3D
+	check(rig4.get_bone_global_pose(rig4.find_bone("Hips")).origin.y > 20.0, "Measuring never leaves the live rig lying on the ground", str(rig4.get_bone_global_pose(rig4.find_bone("Hips")).origin))
 
 	print("FOREST_FINDS_DONE checks=%d failures=%d" % [checks, failures])
 	quit(0 if failures == 0 else 1)

@@ -149,6 +149,7 @@ static func preload_models(host: Node = null) -> void:
 					_scenes[path] = preload("res://scripts/zombie_animation.gd").prepare(_scenes[path], host)
 					var source: Node3D = _scenes[path].instantiate()
 					_prepare_hitbox_shapes(source, path)
+					if not bool(spec.get("giant", false)) and not bool(spec.get("worm", false)): ZombieGore.prepare(source, path)
 					source.free()
 			if _scenes[path] and not _clip_info.has(path):
 				_clip_info[path] = preload("res://scripts/zombie_animation.gd").measure(_scenes[path], host)
@@ -331,6 +332,7 @@ func _ready() -> void:
 			var mi := m as MeshInstance3D
 			_visual_meshes.append(mi)
 			mi.lod_bias = lod_bias
+			var overrides := []
 			for i in mi.mesh.get_surface_count():
 				var mat: Material = mi.mesh.surface_get_material(i)
 				if mat is BaseMaterial3D:
@@ -341,10 +343,19 @@ func _ready() -> void:
 					dup.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 					mi.set_surface_override_material(i, dup)
 					_materials.append(dup)
+					overrides.append(dup)
+				else:
+					overrides.append(null)
+			_gore_overrides[mi] = overrides
 	var scale_var := appearance.randf_range(0.94, 1.08)
 	if model:
 		model.scale *= scale_var
 		_build_hitboxes()
+		# the cut into body and parts comes after the hit shapes: they are keyed on the original mesh node
+		if not bool(type.get("giant", false)) and not bool(type.get("worm", false)) and not "--no-gore" in OS.get_cmdline_user_args():
+			ZombieGore.prepare(model, model_path)
+			_gore_parts = ZombieGore.attach(model, model_path, _gore_overrides)
+			for part in _gore_parts.values(): _visual_meshes.append(part)
 		if not _hitboxes.is_empty() or not _shot_volumes.is_empty():
 			collision_layer = 2
 		add_to_group("shot_targets")
@@ -458,64 +469,47 @@ func _variant(name: String) -> String:
 			return "" if options.is_empty() else options[randi() % options.size()]
 	return name if anim.has_animation(name) else ""
 
-# The fall follows the shot (25 Sep 2026): Meshy ships three library deaths per rig - one falls forward
-# (hips travel +Z, the rig's front), two fall backward, and one of the backward ones is the stiff mannequin
-# drop with the arms spread wide (hand distance over 17 shoulder widths at the end). A shot from the front
-# pushes the body onto its back, one from behind onto its face; the stiff clip only turns up now and then.
-# Metrics are measured once per model by seeking the clip on this rig (DEATH_METRICS cache).
-static var _death_metrics := {}
-const STIFF_SPREAD := 17.0
+# The fall follows the shot (25 Sep 2026). Every rig carries Meshy library deaths: 184 falls forward (hips
+# travel +Z, the rig's front), 189 crumples backward, 185 sinks slowly backward, 188 folds over a belly
+# wound, and 183 is the stiff plank drop with the arms spread the whole way down - that one is never
+# picked (PLANK_SPREAD: hands wider than this many shoulder widths 40 % into the fall). The metrics come
+# from zombie_animation.measure at load (clip_info), never from seeking the live rig: that left the first
+# body of every model lying flat before its fall even started.
+const PLANK_SPREAD := 14.5
+const CRUMPLE_SPREAD := 8.0
 var _death_dir := Vector3.ZERO
 
-func _measure_deaths() -> Dictionary:
-	if _death_metrics.has(model_path): return _death_metrics[model_path]
-	var metrics := {}
-	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D if model else null
-	if anim and rig and rig.find_bone("Hips") >= 0 and rig.find_bone("LeftHand") >= 0 and rig.find_bone("RightHand") >= 0:
-		var hips := rig.find_bone("Hips")
-		var lh := rig.find_bone("LeftHand")
-		var rh := rig.find_bone("RightHand")
-		var ls := rig.find_bone("LeftShoulder")
-		var rs := rig.find_bone("RightShoulder")
-		var shoulders: float = rig.get_bone_global_rest(ls).origin.distance_to(rig.get_bone_global_rest(rs).origin) if ls >= 0 and rs >= 0 else 1.0
-		for n in ["death", "death2", "death3"]:
-			if not anim.has_animation(n): continue
-			var a := anim.get_animation(n)
-			anim.play(n)
-			anim.seek(0.0, true)
-			var start: Vector3 = rig.get_bone_global_pose(hips).origin
-			anim.seek(a.length - 0.01, true)
-			var travel: Vector3 = rig.get_bone_global_pose(hips).origin - start
-			var spread: float = rig.get_bone_global_pose(lh).origin.distance_to(rig.get_bone_global_pose(rh).origin) / maxf(shoulders, 0.01)
-			metrics[n] = {"z": travel.z, "spread": spread}
-	_death_metrics[model_path] = metrics
-	return metrics
+static func is_plank(info: Dictionary) -> bool:
+	return float(info.get("spread_mid", 0.0)) > PLANK_SPREAD
+
+# 188 folds over a belly wound with the arms held in: believable from any side, so it joins both sets
+static func is_crumple(info: Dictionary) -> bool:
+	return float(info.get("spread_end", 99.0)) < CRUMPLE_SPREAD and float(info.get("spread_mid", 99.0)) < CRUMPLE_SPREAD
 
 func _death_clip() -> String:
 	var options: Array[String] = []
-	for n in ["death", "death2", "death3"]:
-		if anim.has_animation(n): options.append(n)
+	for n in anim.get_animation_list():
+		if n.begins_with("death"): options.append(n)
 	if options.is_empty(): return ""
-	var metrics := _measure_deaths()
+	var info := clip_info(model_path)
 	var local := Vector3.ZERO
 	if model and _death_dir.length() > 0.01:
 		local = model.global_basis.inverse() * _death_dir
-	var forward := local.z > 0.15      # the bullet travels along the rig's front: knocked onto its face
-	var backward := local.z < -0.15
+	# only a shot clearly from behind (the bullet travelling along the rig's front) drops the body onto its
+	# face; everything else, including a shot with no direction, goes onto the back or folds over
+	var forward := local.z > 0.35
+	var backward := not forward
 	var matching: Array[String] = []
-	var stiff: Array[String] = []
+	var natural: Array[String] = []
 	for n in options:
-		var m: Dictionary = metrics.get(n, {})
-		if m.is_empty(): continue
-		var falls_forward: bool = float(m.z) > 0.0
-		if (forward and not falls_forward) or (backward and falls_forward): continue
-		if float(m.spread) > STIFF_SPREAD: stiff.append(n)
-		else: matching.append(n)
-	if not matching.is_empty():
-		# the stiff drop stays in the mix as the odd one out, never the rule
-		if not stiff.is_empty() and randf() < 0.15: return stiff[randi() % stiff.size()]
-		return matching[randi() % matching.size()]
-	if not stiff.is_empty(): return stiff[randi() % stiff.size()]
+		var m: Dictionary = info.get(n, {})
+		if m.is_empty() or is_plank(m): continue
+		natural.append(n)
+		var falls_forward: bool = float(m.get("travel_z", 0.0)) > 0.0
+		if not is_crumple(m) and ((forward and not falls_forward) or (backward and falls_forward)): continue
+		matching.append(n)
+	if not matching.is_empty(): return matching[randi() % matching.size()]
+	if not natural.is_empty(): return natural[randi() % natural.size()]
 	return options[randi() % options.size()]
 
 # Seconds into a clip at which its strike lands (measured), or a guess for unmeasured rigs.
@@ -868,6 +862,9 @@ const LIMB_BURST_SHARE := 0.3
 var last_hit_bone := ""
 var severed := 0
 var _limb_damage := {}
+var _gore_overrides := {}          # MeshInstance3D -> override material per original surface
+var _gore_parts := {}              # "left_arm" .. "head" -> skinned MeshInstance3D (zombie_gore.gd)
+const LIMB_PARTS := {"LeftArm": "left_arm", "RightArm": "right_arm", "LeftLeg": "left_leg", "RightLeg": "right_leg"}
 
 static func limb_of(bone_name: String) -> String:
 	for key in LIMBS:
@@ -891,11 +888,9 @@ func sever(key: String, dir: Vector3) -> void:
 	if not rig: return
 	severed |= 1 << LIMB_KEYS.find(key)
 	var root_pos := global_position + Vector3.UP * height * 0.6
-	for bone_name in LIMBS[key]:
-		var bone := rig.find_bone(bone_name)
-		if bone < 0: continue
-		if bone_name == LIMBS[key][0]: root_pos = rig.global_transform * rig.get_bone_global_pose(bone).origin
-		rig.set_bone_pose_scale(bone, Vector3(0.001, 0.001, 0.001))
+	var root_bone := rig.find_bone(LIMBS[key][0])
+	if root_bone >= 0: root_pos = rig.global_transform * rig.get_bone_global_pose(root_bone).origin
+	_cut_part(rig, LIMB_PARTS[key], key, dir, true)
 	var scene := get_tree().current_scene
 	if "weapons" in scene and scene.weapons and scene.weapons.has_method("_blood"):
 		var away := Vector3(dir.x, 0.3, dir.z).normalized() if dir.length() > 0.01 else Vector3.UP
@@ -909,6 +904,17 @@ func sever(key: String, dir: Vector3) -> void:
 		hp = 0.0
 		die(dir)
 
+# The part leaves the body: the cut mesh (zombie_gore.gd) when the model was split, else the old bone
+# collapse. fly = the chunk tumbles away (limbs); the head bursts instead.
+func _cut_part(rig: Skeleton3D, part: String, key: String, dir: Vector3, fly: bool) -> void:
+	if _gore_parts.has(part):
+		ZombieGore.sever(self, rig, _gore_parts[part], part, dir, fly)
+		return
+	var bones: Array = LIMBS[key] if LIMBS.has(key) else ["Head"]
+	for bone_name in bones:
+		var bone := rig.find_bone(bone_name)
+		if bone >= 0: rig.set_bone_pose_scale(bone, Vector3(0.001, 0.001, 0.001))
+
 # co-op replicas: apply the host's mask without the physics side effects
 func apply_severed(mask: int) -> void:
 	if mask == severed or not model: return
@@ -917,9 +923,7 @@ func apply_severed(mask: int) -> void:
 	for i in LIMB_KEYS.size():
 		if mask & (1 << i) and not (severed & (1 << i)):
 			var key: String = LIMB_KEYS[i]
-			for bone_name in LIMBS[key]:
-				var bone := rig.find_bone(bone_name)
-				if bone >= 0: rig.set_bone_pose_scale(bone, Vector3(0.001, 0.001, 0.001))
+			_cut_part(rig, LIMB_PARTS[key], key, Vector3.UP, true)
 			var scene := get_tree().current_scene
 			if "weapons" in scene and scene.weapons: scene.weapons._blood(global_position + Vector3.UP * height * 0.6, Vector3.UP)
 	severed = mask
@@ -932,7 +936,7 @@ func _pop_head(dir: Vector3) -> void:
 	if bone < 0: return
 	_head_popped = true
 	var head_pos: Vector3 = rig.global_transform * rig.get_bone_global_pose(bone).origin
-	rig.set_bone_pose_scale(bone, Vector3(0.001, 0.001, 0.001))
+	_cut_part(rig, "head", "", dir, false)
 	var scene := get_tree().current_scene
 	if "weapons" in scene and scene.weapons and scene.weapons.has_method("_blood"):
 		var away := Vector3(dir.x, 0.0, dir.z).normalized()

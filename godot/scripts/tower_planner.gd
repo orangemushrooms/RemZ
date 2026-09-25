@@ -12,8 +12,11 @@ const PAPER := Color(0.93, 0.95, 0.9)
 const GOLD := Color(0.94, 0.76, 0.43)
 const GREEN := Color(0.35, 0.89, 0.66)
 const RED := Color(1.0, 0.28, 0.22)
-const VIEW_SIZE := 68.0
+const VIEW_SIZE := 34.0            # the roof and its near surroundings (was 68: the hut was a stamp in the middle)
+const VIEW_MIN := 18.0
+const VIEW_MAX := 80.0
 const PLANNER_REACH := 45.0
+const ROOF_SNAP := 2.2              # a click this close to a roof slot goes onto the slot
 
 var defences: Node
 var game: Node
@@ -185,7 +188,8 @@ func open() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	game.hud.hide()
 	game.weapons.viewmodel.hide()
-	var centre: Vector3 = (game.hut.center + Map.ground_pos(Map.FIRE.x, Map.FIRE.y)) * 0.5
+	var centre: Vector3 = game.hut.center
+	overview.size = VIEW_SIZE
 	overview.global_position = centre + Vector3.UP * 60.0
 	overview.rotation = Vector3(-PI * 0.5, 0.0, 0.0)
 	overview.make_current()
@@ -228,6 +232,19 @@ func select_kind(kind: String) -> void:
 	status.add_theme_color_override("font_color", GREEN)
 	_state = []
 
+# the roof slot a point snaps to (-1 = none): the six rings are the targets, not the roof tiles between them
+func roof_slot_near(point: Vector3) -> int:
+	if not point.is_finite(): return -1
+	var best := -1
+	var best_d := ROOF_SNAP
+	for i in 6:
+		var slot: Vector3 = defences.roof_position(i)
+		var d := Vector2(slot.x - point.x, slot.z - point.z).length()
+		if d < best_d and absf(slot.y - point.y) < 4.0:
+			best_d = d
+			best = i
+	return best
+
 # the ground (or roof) point under a screen position, INF when the ray misses
 func point_at(screen: Vector2) -> Vector3:
 	var origin := overview.project_ray_origin(screen)
@@ -254,6 +271,7 @@ func place_at(point: Vector3) -> String:
 	var kind: String = defences.selected_kind
 	var target := point
 	var slot: int = defences.roof_index(point)
+	if slot < 0: slot = roof_slot_near(point)
 	if slot >= 0: target = defences.roof_position(slot)
 	else: target = Map.ground_pos(point.x, point.z)
 	if NetSession.enabled:
@@ -330,6 +348,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.physical_keycode == KEY_ESCAPE or event.physical_keycode == KEY_T:
 			close()
 			get_viewport().set_input_as_handled()
+		elif event.physical_keycode in [KEY_EQUAL, KEY_PLUS, KEY_KP_ADD]:
+			overview.size = clampf(overview.size * 0.8, VIEW_MIN, VIEW_MAX)
+			get_viewport().set_input_as_handled()
+		elif event.physical_keycode in [KEY_MINUS, KEY_KP_SUBTRACT]:
+			overview.size = clampf(overview.size * 1.25, VIEW_MIN, VIEW_MAX)
+			get_viewport().set_input_as_handled()
 		elif event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_5:
 			var index: int = event.physical_keycode - KEY_1
 			if index < DefenceTower.TYPES.size(): select_kind(DefenceTower.TYPES[index])
@@ -370,6 +394,7 @@ func _process(delta: float) -> void:
 		hint.text = Lang.t("%s · Tier %d · %d / %d HP · drag to move · R / wheel to turn", [hover_tower.spec().name, hover_tower.level, ceili(hover_tower.hp), int(hover_tower.max_hp())])
 		return
 	var slot: int = defences.roof_index(hover_point)
+	if slot < 0: slot = roof_slot_near(hover_point)
 	var target: Vector3 = defences.roof_position(slot) if slot >= 0 else Map.ground_pos(hover_point.x, hover_point.z)
 	var error: String = defences.placement_error(player, target, kind, true)
 	hover_valid = error.is_empty()
@@ -379,7 +404,10 @@ func _process(delta: float) -> void:
 		ghost.show()
 		defences.ghost_material.albedo_color = Color(0.2, 0.95, 0.5, 0.28) if hover_valid else Color(1, 0.16, 0.08, 0.3)
 	if defences.range_marker: defences.range_marker.display(target, defences.preview_range(), ghost_yaw, false, not hover_valid)
-	hint.text = Lang.t("%s · %d R · click to build · R / wheel to turn", [spec.name, spec.cost]) if hover_valid else Lang.t("%s · %s", [spec.name, Lang.t(error)])
+	if slot >= 0 and hover_valid:
+		hint.text = Lang.t("Roof slot %d · %s · %d R · click to build", [slot + 1, spec.name, spec.cost])
+	else:
+		hint.text = Lang.t("%s · %d R · click to build · R / wheel to turn · +/- zoom", [spec.name, spec.cost]) if hover_valid else Lang.t("%s · %s", [spec.name, Lang.t(error)])
 
 func _refresh() -> void:
 	var state := [game.waves.completed, player.score, defences.towers.size(), defences.selected_kind, Lang.current]

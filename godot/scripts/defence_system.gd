@@ -305,7 +305,9 @@ func placement_error(p: Player, point: Vector3, kind := "standard", planner := f
 	var socket := roof_index(point)
 	if socket >= 0:
 		if ignore_id != 0: return "Roof slots take new turrets only."
-		if not roof_access(p): return "Move to the forest hut to build on its roof."
+		# from the planner the roof is reachable from anywhere within its reach, the hut must still stand
+		var planner_roof: bool = planner and game.hut and not game.hut.destroyed and p.global_position.distance_to(game.hut.center) <= TowerPlanner.PLANNER_REACH
+		if not roof_access(p) and not planner_roof: return "Move to the forest hut to build on its roof."
 		if roof_tower(socket): return "Roof slot occupied."
 		return ""
 	if planner:

@@ -109,16 +109,33 @@ Batch of 25 Sep 2026 (`--suite=forest_finds --smoke-test --no-intro --no-music -
   planner = true)`), drag a standing ground tower to relocate it for free (`DefenceSystem.relocate`, co-op
   command "tower_move"), R / wheel turn the hovered tower (`rotate_tower(.., planner)`) or the ghost. Solo it
   pauses like the barricade planner. The old list menu (`begin_building`, `site_picker`) stays for the tests.
-  `--suite=tower_planner` (20 checks), `--render-planner` windowed saves `artifacts/tower_planner/planner.png`.
+  Second pass: the view is 34 m wide on the hut (`VIEW_SIZE`, +/- zoom 18-80), a click within `ROOF_SNAP`
+  2.2 m of a roof ring goes onto that slot (`roof_slot_near`), and from the planner the roof takes turrets
+  from anywhere within `PLANNER_REACH` while the hut stands (`placement_error` planner_roof).
+  `--suite=tower_planner` (23 checks), `--render-planner` windowed saves `artifacts/tower_planner/planner.png`.
 - Quests count from acceptance (`Progression.progress_value`, baseline per peer and quest in `data.baseline`,
   cumulative kinds in `CUMULATIVE_GOALS`); the horde scales with the party (`EncounterBalance.party_hp` /
   `party_damage`); titan steps: cue shake 0.75 / 120 m plus the heavy sway in `Player._update_tremor`.
-- Zombie deaths: `_death_clip` picks the Meshy library fall by the shot direction (front shot = onto the back,
-  hips travel -Z; measured once per model, `tests/death_clip_audit.gd` prints the numbers), the stiff
-  spread-arm drop (`STIFF_SPREAD` 17 shoulder widths) only 15 % of the time. Dismemberment: `LIMBS`,
-  `last_hit_bone` from the HitVolume, `sever()` at 40 % health per limb or a 30 % single hit, arms halve /
-  end the swings, a leg drops the body, snapshot field 14. A PhysicalBone3D ragdoll was tried and dropped:
-  Godot's simulator drifts the bodies every frame under the 0.01-scaled Meshy skeletons.
+- Zombie deaths (25 Sep 2026, second pass): every common skin carries five Meshy library deaths - 184 forward,
+  189 crumple backward, 185 slow fall backward (`death4`), 188 belly fold (`death5`, direction-neutral) and
+  183, the stiff plank drop with the arms out, which `_death_clip` never picks (`is_plank`: hands wider than
+  `PLANK_SPREAD` 14.5 shoulder widths 40 % into the fall; `is_crumple`: under 8 the whole way). The metrics
+  (`travel_z`, `spread_mid`, `spread_end`) come from `zombie_animation.measure` at load - seeking the live
+  rig for them left the first body of every model lying flat before its fall (the "they just end up on the
+  ground" bug). Only a shot clearly from behind (`local.z > 0.35`) drops the body onto its face.
+  `tools/zombies_v3.py` SHAMBLE / RUNNER carry death4 / death5 (3 credits per clip and skin);
+  `tests/death_clip_audit.gd` prints the numbers, `--suite=gore_visual` (windowed, `--no-foliage`) renders
+  five deaths and cuts into `artifacts/gore/`.
+- Dismemberment (`zombie_gore.gd`): at load every skinned mesh is cut into a body mesh plus head / arms / legs
+  by the dominant bone weight of each triangle (`ZombieGore.prepare`, cached per model, called from
+  `preload_models` and `setup`); each zombie gets one skinned MeshInstance3D per part on the same skeleton
+  (`attach`, after `_build_hitboxes` because the hit shapes are keyed on the original mesh node). `sever`
+  hides the part, hangs a dark stump on the joint (BoneAttachment3D), spurts pooled blood four times and
+  throws the part's rest-pose geometry off as a RigidBody3D chunk (frozen after 6 s, gone after 14).
+  Zombie side: `LIMBS`, `last_hit_bone` from the HitVolume, 40 % health per limb or a 30 % single hit,
+  arms halve / end the swings, a leg drops the body, the head cut is the headshot burst, snapshot field 14.
+  Horde bench unchanged (60 zombies 108-119 FPS). A PhysicalBone3D ragdoll was tried and dropped: Godot's
+  simulator drifts the bodies every frame under the 0.01-scaled Meshy skeletons.
 - Secret Night ends at the next morning (`MORNING_SECONDS` 06:42, `_update_morning`: 90 s of thick fog for the
   sun shafts and a 5 s wake-up flash), no map marker before the echo, bar sign at y 4.9, trip 36 s, 30 s to
   prepare.
