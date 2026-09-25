@@ -1,8 +1,7 @@
-started 21:02:01
 new_zombies          OK exit=0 50s NEW_ZOMBIES_DONE checks=61 failures=0  
 smoke                OK exit=0 88s SMOKE_DONE checks=83 failures=0  
 army_waves           OK exit=0 45s ARMY_WAVES_DONE checks=55 failures=0  
 titan_variants       OK exit=0 42s TITAN_VARIANTS_DONE checks=68 failures=0  
 earthworms           OK exit=0 39s EARTHWORMS_DONE checks=48 failures=0  
 language_de          OK exit=0 31s LANGUAGE_DONE lang=de checks=89 failures=0  
-REGRESSIONS_DONE 21:03:59
+REGRESSIONS_DONE

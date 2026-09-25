@@ -53,7 +53,7 @@ func run() -> void:
 	check(Zombie.is_stalker_kind("stalker") and Zombie.can_be_armored("shambler") and not Zombie.can_be_armored("stalker") and not Zombie.can_be_armored("titan"), "Kind helpers")
 	# ---- the wave plan
 	var waves: Waves = game.waves
-	check(Waves.dog_count(2) == 0 and Waves.dog_count(3) == 2 and Waves.dog_count(4) == 0 and Waves.dog_count(31) == 6, "Dogs run in from wave 3 on odd waves, up to six")
+	check(Waves.dog_count(2) == 0 and Waves.dog_count(3) == 2 and Waves.dog_count(4) == 0 and Waves.dog_count(31) == 5, "Dogs run in from wave 3 on odd waves, up to five")
 	check(Waves.stag_count(4) == 0 and Waves.stag_count(5) == 0 and Waves.stag_count(6) == 1 and Waves.stag_count(13) == 2, "The stag crosses the fields from wave 6, never in a boss wave")
 	check(Waves.screamer_count(5) == 0 and Waves.screamer_count(6) == 1 and Waves.screamer_count(20) == 3, "Screamers walk in from wave 6")
 	check(Waves.armor_chance(9) == 0.0 and absf(Waves.armor_chance(10) - 0.2) < 0.001 and absf(Waves.armor_chance(40) - 0.45) < 0.001, "Helmets from wave 10, up to 45 %%")
@@ -63,15 +63,15 @@ func run() -> void:
 	check(not waves.stalkers_hidden() and waves.stalker_count(6) == 0, "No stalkers on a clear day")
 	game.weather.force("fog")
 	game.weather.intensity = 1.0
-	check(waves.stalkers_hidden() and waves.stalker_count(6) == 5, "Stalkers rise out of the maize in the fog")
+	check(waves.stalkers_hidden() and waves.stalker_count(6) == 3, "Stalkers rise out of the maize in the fog")
 	var plan: Array = waves.plan(7)
 	var kinds := {}
 	for entry in plan: kinds[entry.type] = int(kinds.get(entry.type, 0)) + 1
-	check(int(kinds.get("dog", 0)) == 0 and int(kinds.get("zombie_dog", 0)) == 3 and int(kinds.get("screamer", 0)) == 1 and int(kinds.get("zombie_stag", 0)) == 1 and int(kinds.get("stalker", 0)) == 5, "Wave 7 in the fog: 3 dogs, 1 screamer, 1 stag, 5 stalkers (%s)" % str(kinds))
+	check(int(kinds.get("dog", 0)) == 0 and int(kinds.get("zombie_dog", 0)) == 2 and int(kinds.get("screamer", 0)) == 1 and int(kinds.get("zombie_stag", 0)) == 1 and int(kinds.get("stalker", 0)) == 3, "Wave 7 in the fog: 2 dogs, 1 screamer, 1 stag, 3 stalkers (%s)" % str(kinds))
 	var corn_entries := 0
 	for entry in plan:
 		if entry.get("corn", false): corn_entries += 1
-	check(corn_entries == 5, "The stalkers are marked for the maize")
+	check(corn_entries == 3, "The stalkers are marked for the maize")
 	var spitters := 0
 	for entry in waves.plan(12):
 		if entry.type == "spitter": spitters += 1

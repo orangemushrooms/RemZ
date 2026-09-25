@@ -34,7 +34,7 @@ PASS: quest tracker: 2 texts, all translated
 PASS: world labels: 36 texts, all translated
 PASS: inventory: 23 texts, all translated
 PASS: Skill key away from Mechanic explains where training is
-PASS: HUD message: 17 texts, all translated
+PASS: HUD message: 16 texts, all translated
 PASS: wanderer / Trade: 9 texts, all translated
 PASS: wanderer / Fireworks: 26 texts, all translated
 PASS: wanderer / Sell: 54 texts, all translated
@@ -108,16 +108,8 @@ ERROR: Condition "p.d == 0" is true. Returning: Point2()
    at: unproject_position (scene/3d/camera_3d.cpp:495)
    GDScript backtrace (most recent call first):
        [0] _draw_pings (res://scripts/hud.gd:1132)
-ERROR: Condition "p.d == 0" is true. Returning: Point2()
-   at: unproject_position (scene/3d/camera_3d.cpp:495)
-   GDScript backtrace (most recent call first):
-       [0] _draw_pings (res://scripts/hud.gd:1132)
 PASS: game over / high scores: 0 texts, all translated
 LANGUAGE_DONE lang=de checks=89 failures=0
-ERROR: Condition "p.d == 0" is true. Returning: Point2()
-   at: unproject_position (scene/3d/camera_3d.cpp:495)
-   GDScript backtrace (most recent call first):
-       [0] _draw_pings (res://scripts/hud.gd:1132)
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

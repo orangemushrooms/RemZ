@@ -12,12 +12,14 @@ PASS: Wave 4 includes variants in exact preview
 PASS: Wave 5 includes variants in exact preview
 PASS: Wave 6 includes variants in exact preview
 PASS: Wave 7 includes variants in exact preview
+PASS: Variant enters through an open field
 PASS: Wave 8 includes variants in exact preview
 PASS: Wave 9 includes variants in exact preview
 PASS: Wave 10 includes variants in exact preview
 PASS: Variant enters through an open field
 PASS: Wave 11 includes variants in exact preview
 PASS: Wave 12 includes variants in exact preview
+PASS: Variant enters through an open field
 PASS: Wave 13 includes variants in exact preview
 PASS: Variant enters through an open field
 PASS: Wave 14 includes variants in exact preview
@@ -26,15 +28,16 @@ PASS: Wave 16 includes variants in exact preview
 PASS: Variant enters through an open field
 PASS: Wave 17 includes variants in exact preview
 PASS: Wave 18 includes variants in exact preview
-PASS: Variant enters through an open field
 PASS: Wave 19 includes variants in exact preview
 PASS: Wave 20 includes variants in exact preview
 PASS: Wave 21 includes variants in exact preview
 PASS: Variant enters through an open field
 PASS: Wave 22 includes variants in exact preview
+PASS: Variant enters through an open field
 PASS: Wave 23 includes variants in exact preview
 PASS: Wave 24 includes variants in exact preview
 PASS: Wave 25 includes variants in exact preview
+PASS: Variant enters through an open field
 PASS: Variant enters through an open field
 PASS: Wave 26 includes variants in exact preview
 PASS: Wave 27 includes variants in exact preview
@@ -69,7 +72,7 @@ PASS: Variants have genuinely different attack footprints
 PASS: Faster attacks retain shorter but visible warnings
 PASS: New variants count toward titan quests
 PASS: Replica reconstructs variant telegraph and scale
-TITAN_VARIANTS_DONE checks=65 failures=0
+TITAN_VARIANTS_DONE checks=68 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

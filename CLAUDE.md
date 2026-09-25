@@ -24,7 +24,7 @@ achievements as a union, high scores merged to the top 10, marker `legacy_import
   titans from wave 6 every third wave, `Waves.MAX_ACTIVE` 72; since 25 Sep 2026 the common horde gains +6 %
   health per wave (`EncounterBalance.horde_hp`, capped x2.5 - bosses keep `heavy_hp`), runners from wave 1,
   soldiers from wave 2, brutes from wave 3 with a growing share, speed +4.5 % per wave, 120 s intermission,
-  Normal = hp 1.25 / dmg 1.35 / speed 1.06, Nightmare hp 2.0 / dmg 2.3), a closed palisade ring (`perimeter.gd`) whose
+  Normal = hp 1.15 / dmg 1.25 / count 0.95 / speed 1.04 since the evening of 25 Sep 2026 - a notch gentler on request, Nightmare hp 2.0 / dmg 2.3), a closed palisade ring (`perimeter.gd`) whose
   only openings are the 4 barricade slots = gates (E / planner V; the player vaults a built gate with Space), the
   Waldhütte's own health (`hut_health.gd`, 5000 HP: 35 % of the zombies are "raiders" that head for its walls once
   inside the ring, every zombie within 9 m of a wall hits it, titan strikes hurt it, HUD line under the wave bar,

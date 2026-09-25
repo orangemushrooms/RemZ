@@ -2,20 +2,64 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
-SCRIPT ERROR: Parse Error: Identifier "game" not declared in the current scope.
-   at: GDScript::reload (res://tests/army_waves.gd:16)
-   GDScript backtrace (most recent call first):
-       [0] _load_suite (res://tests/run.gd:15)
-SCRIPT ERROR: Parse Error: Identifier "game" not declared in the current scope.
-   at: GDScript::reload (res://tests/army_waves.gd:16)
-   GDScript backtrace (most recent call first):
-       [0] _load_suite (res://tests/run.gd:15)
-SCRIPT ERROR: Parse Error: Identifier "game" not declared in the current scope.
-   at: GDScript::reload (res://tests/army_waves.gd:16)
-   GDScript backtrace (most recent call first):
-       [0] _load_suite (res://tests/run.gd:15)
-ERROR: Failed to load script "res://tests/army_waves.gd" with error "Parse error".
-   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
-   GDScript backtrace (most recent call first):
-       [0] _load_suite (res://tests/run.gd:15)
-EXIT 1
+PASS: Early ordinary wave 1 keeps original size
+PASS: Early ordinary wave 2 keeps original size
+PASS: Early ordinary wave 3 keeps original size
+PASS: Early ordinary wave 4 keeps original size
+PASS: Early ordinary wave 7 keeps original size
+PASS: Worm introduction replaces part of the horde budget
+PASS: Wave 8 preview matches actual encounter plan
+PASS: Wave 9 preview matches actual encounter plan
+PASS: Wave 10 preview matches actual encounter plan
+PASS: Wave 11 preview matches actual encounter plan
+PASS: Wave 12 preview matches actual encounter plan
+PASS: Wave 13 preview matches actual encounter plan
+PASS: Wave 14 preview matches actual encounter plan
+PASS: Wave 15 preview matches actual encounter plan
+PASS: Wave 16 preview matches actual encounter plan
+PASS: Wave 17 preview matches actual encounter plan
+PASS: Wave 18 preview matches actual encounter plan
+PASS: Wave 19 preview matches actual encounter plan
+PASS: Wave 20 preview matches actual encounter plan
+PASS: Wave 21 preview matches actual encounter plan
+PASS: Wave 22 preview matches actual encounter plan
+PASS: Wave 23 preview matches actual encounter plan
+PASS: Wave 24 preview matches actual encounter plan
+PASS: Wave 25 preview matches actual encounter plan
+PASS: Wave 26 preview matches actual encounter plan
+PASS: Wave 27 preview matches actual encounter plan
+PASS: Wave 28 preview matches actual encounter plan
+PASS: Wave 29 preview matches actual encounter plan
+PASS: Wave 30 preview matches actual encounter plan
+PASS: Wave 31 preview matches actual encounter plan
+PASS: Wave 32 preview matches actual encounter plan
+PASS: Wave 33 preview matches actual encounter plan
+PASS: Wave 34 preview matches actual encounter plan
+PASS: Wave 35 preview matches actual encounter plan
+PASS: Wave 36 preview matches actual encounter plan
+PASS: Wave 37 preview matches actual encounter plan
+PASS: Wave 38 preview matches actual encounter plan
+PASS: Wave 39 preview matches actual encounter plan
+PASS: Wave 40 preview matches actual encounter plan
+PASS: Wave 41 preview matches actual encounter plan
+PASS: Wave 42 preview matches actual encounter plan
+PASS: Wave 43 preview matches actual encounter plan
+PASS: Wave 44 preview matches actual encounter plan
+PASS: Wave 45 preview matches actual encounter plan
+PASS: Wave 46 preview matches actual encounter plan
+PASS: Wave 47 preview matches actual encounter plan
+PASS: Wave 48 preview matches actual encounter plan
+PASS: Wave 49 preview matches actual encounter plan
+PASS: Wave 50 preview matches actual encounter plan
+PASS: Multiplier stays bounded in very late waves
+PASS: Army reinforcements accelerate with a bounded live population
+PASS: Moderate frame pressure lowers reinforcement ceiling
+PASS: Heavy frame pressure also slows spawning
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: Corpse cleanup bounds dead actors without removing living enemies
+PASS: Corpse cleanup also removes external blood decals
+ARMY_WAVES_DONE checks=55 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

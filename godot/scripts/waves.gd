@@ -90,7 +90,7 @@ func preview_count(n: int) -> int:
 # (plan) and from wave 10 part of the humanoids wear a helmet (main.spawn_zombie).
 static func dog_count(n: int) -> int:
 	if n < 3 or n % 2 == 0: return 0
-	return mini(6, 2 + n / 6)
+	return mini(5, 2 + n / 8)
 
 static func stag_count(n: int) -> int:
 	if n < 5 or n % 5 == 0: return 0
@@ -102,7 +102,7 @@ static func screamer_count(n: int) -> int:
 
 static func stalker_base(n: int) -> int:
 	if n < 4: return 0
-	return mini(8, 3 + n / 3)
+	return mini(6, 2 + n / 4)
 
 static func armor_chance(n: int) -> float:
 	if n < 10: return 0.0
@@ -179,7 +179,7 @@ func plan(n: int) -> Array:
 		# earlier, brutes from wave 3 with a growing share.
 		if n >= 1 and r < minf(0.5, 0.22 + n * 0.045):
 			t = "runner"
-		if n >= 4 and r >= 0.58 and r < 0.66:
+		if n >= 4 and r >= 0.58 and r < 0.64:
 			t = "spitter"
 		if n >= 2 and r > 0.68 and r < 0.84:
 			t = "nurse"
