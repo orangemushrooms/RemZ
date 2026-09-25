@@ -43,19 +43,25 @@ PASS: The wall hit raises the gate's attack alert
 PASS: The HUD draws a red arrow with the gate's name
 PASS: The arrow disappears once the attack stops
 PASS: Headshot kill marks the head as burst
-PASS: The head bone collapses after the animation update
+PASS: The head mesh is cut away and a stump caps the neck
+PASS: Body and head are separate meshes on the same skeleton
 PASS: A body shot keeps the head
 PASS: A heavy hit takes the arm off and halves the swings
 PASS: Hits without a limb bone do not add up on a limb
 PASS: A light hand hit alone does not sever
 LIMB_DEBUG hp=4.5 max=150.0 limb={ "LeftArm": 52.5, "RightArm": 63.0 } severed=3 dm=0.0
 PASS: Both arms gone after the hits add up: no more swings
-PASS: The severed arm's bones are gone
+PASS: The severed arms' meshes are gone, the body mesh stays
+PASS: Both arms fly off as chunks
+PASS: A stump cap follows the shoulder joint
 PASS: A leg shot off brings the zombie down
-PASS: Death clips are measured: forward and backward falls exist
-PASS: A shot from the front always drops the body onto its back
-PASS: The stiff spread-arm drop is the exception
-FOREST_FINDS_DONE checks=50 failures=0
+PASS: Death clips are measured at load: forward and backward falls exist
+PASS: The stiff plank fall is recognised by its spread arms
+PASS: A shot from the front drops the body onto its back or folds it over
+PASS: The stiff plank fall is never played
+PASS: Backward falls vary
+PASS: Measuring never leaves the live rig lying on the ground
+FOREST_FINDS_DONE checks=56 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

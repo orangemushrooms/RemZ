@@ -1,0 +1,310 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Projektinitialisierung (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Lese Dateistrucktur …[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Globale Klassennamen laden …[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifiziere GDExtensions…[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Autoload-Skripte erzeugen …[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Plugins initialisieren…[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Dateiscan starten …[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Globale Klassen registrieren … (2 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Zombie[39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Aktionen scannen … (10 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | zombie_bloater.glb[39m[0m
+[   9% ] [90m[1m_update_scan_actions[22m | zombie_farmer.glb[39m[0m
+[  18% ] [90m[1m_update_scan_actions[22m | zombie_forester.glb[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | zombie_grandma.glb[39m[0m
+[  36% ] [90m[1m_update_scan_actions[22m | zombie_hiker.glb[39m[0m
+[  45% ] [90m[1m_update_scan_actions[22m | zombie_jogger.glb[39m[0m
+[  54% ] [90m[1m_update_scan_actions[22m | zombie_nurse.glb[39m[0m
+[  63% ] [90m[1m_update_scan_actions[22m | zombie_runner.glb[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | zombie_shambler.glb[39m[0m
+[  81% ] [90m[1m_update_scan_actions[22m | zombie_soldier.glb[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started Assets (erneut) importieren (40 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   2% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   4% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   7% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   9% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  12% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  14% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  17% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  19% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  21% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  24% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  26% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  29% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  31% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  34% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  36% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  39% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  41% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  43% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  46% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  48% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  51% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  53% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  56% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  58% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  60% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  63% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  65% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  68% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  70% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  73% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  75% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  78% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  80% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  82% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  85% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  87% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  90% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  92% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  95% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   0% ] [90m[1mreimport[22m | Vor-Neuimport-Operationen ausführen …[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Started Szenen zum Neuladen vorbereiten (1 steps)[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Szene [leer] wird analysiert[39m[0m
+[  50% ] [90m[1mpreload_reimporting_scene[22m | Vorbereitung abgeschlossen.[39m[0m
+[92m[ DONE ][39m [1mpreload_reimporting_scene[22m
+[0m
+[   0% ] [90m[1mreimport[22m | zombie_runner_normal.webp[39m[0m
+[   2% ] [90m[1mreimport[22m | zombie_runner_metal_rough.webp[39m[0m
+[   4% ] [90m[1mreimport[22m | zombie_runner_texture_0.webp[39m[0m
+[   7% ] [90m[1mreimport[22m | zombie_nurse_normal.webp[39m[0m
+[   9% ] [90m[1mreimport[22m | zombie_nurse_metal_rough.webp[39m[0m
+[  12% ] [90m[1mreimport[22m | zombie_nurse_texture_0.webp[39m[0m
+[  14% ] [90m[1mreimport[22m | zombie_shambler_texture_0.webp[39m[0m
+[  17% ] [90m[1mreimport[22m | zombie_jogger_normal.webp[39m[0m
+[  19% ] [90m[1mreimport[22m | zombie_jogger_metal_rough.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  21% ] [90m[1mreimport[22m | zombie_jogger_texture_0.webp[39m[0m
+[  24% ] [90m[1mreimport[22m | zombie_shambler_metal_rough.webp[39m[0m
+[  26% ] [90m[1mreimport[22m | zombie_hiker_normal.webp[39m[0m
+[  29% ] [90m[1mreimport[22m | zombie_hiker_metal_rough.webp[39m[0m
+[  31% ] [90m[1mreimport[22m | zombie_hiker_texture_0.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  34% ] [90m[1mreimport[22m | zombie_shambler_normal.webp[39m[0m
+[  36% ] [90m[1mreimport[22m | zombie_soldier_normal.webp[39m[0m
+[  36% ] [90m[1mreimport[22m | zombie_soldier_normal.webp[39m[0m
+[  36% ] [90m[1mreimport[22m | zombie_soldier_normal.webp[39m[0m
+[  36% ] [90m[1mreimport[22m | zombie_soldier_normal.webp[39m[0m
+[  39% ] [90m[1mreimport[22m | zombie_bloater_texture_0.webp[39m[0m
+[  41% ] [90m[1mreimport[22m | zombie_bloater_metal_rough.webp[39m[0m
+[  43% ] [90m[1mreimport[22m | zombie_bloater_normal.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  46% ] [90m[1mreimport[22m | zombie_soldier_metal_rough.webp[39m[0m
+[  48% ] [90m[1mreimport[22m | zombie_farmer_texture_0.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  51% ] [90m[1mreimport[22m | zombie_farmer_metal_rough.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  53% ] [90m[1mreimport[22m | zombie_farmer_normal.webp[39m[0m
+[  56% ] [90m[1mreimport[22m | zombie_soldier_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  58% ] [90m[1mreimport[22m | zombie_forester_texture_0.webp[39m[0m
+[  60% ] [90m[1mreimport[22m | zombie_forester_metal_rough.webp[39m[0m
+[  60% ] [90m[1mreimport[22m | zombie_forester_metal_rough.webp[39m[0m
+[  60% ] [90m[1mreimport[22m | zombie_forester_metal_rough.webp[39m[0m
+[  60% ] [90m[1mreimport[22m | zombie_forester_metal_rough.webp[39m[0m
+[  60% ] [90m[1mreimport[22m | zombie_forester_metal_rough.webp[39m[0m
+[  63% ] [90m[1mreimport[22m | zombie_forester_normal.webp[39m[0m
+[  63% ] [90m[1mreimport[22m | zombie_forester_normal.webp[39m[0m
+[  63% ] [90m[1mreimport[22m | zombie_forester_normal.webp[39m[0m
+[  63% ] [90m[1mreimport[22m | zombie_forester_normal.webp[39m[0m
+[  63% ] [90m[1mreimport[22m | zombie_forester_normal.webp[39m[0m
+[  63% ] [90m[1mreimport[22m | zombie_forester_normal.webp[39m[0m
+[  63% ] [90m[1mreimport[22m | zombie_forester_normal.webp[39m[0m
+[  63% ] [90m[1mreimport[22m | zombie_forester_normal.webp[39m[0m
+[  65% ] [90m[1mreimport[22m | zombie_grandma_texture_0.webp[39m[0m
+[  65% ] [90m[1mreimport[22m | zombie_grandma_texture_0.webp[39m[0m
+[  65% ] [90m[1mreimport[22m | zombie_grandma_texture_0.webp[39m[0m
+[  65% ] [90m[1mreimport[22m | zombie_grandma_texture_0.webp[39m[0m
+[  68% ] [90m[1mreimport[22m | zombie_grandma_metal_rough.webp[39m[0m
+[  68% ] [90m[1mreimport[22m | zombie_grandma_metal_rough.webp[39m[0m
+[  68% ] [90m[1mreimport[22m | zombie_grandma_metal_rough.webp[39m[0m
+[  68% ] [90m[1mreimport[22m | zombie_grandma_metal_rough.webp[39m[0m
+[  68% ] [90m[1mreimport[22m | zombie_grandma_metal_rough.webp[39m[0m
+[  68% ] [90m[1mreimport[22m | zombie_grandma_metal_rough.webp[39m[0m
+[  68% ] [90m[1mreimport[22m | zombie_grandma_metal_rough.webp[39m[0m
+[  68% ] [90m[1mreimport[22m | zombie_grandma_metal_rough.webp[39m[0m
+[  68% ] [90m[1mreimport[22m | zombie_grandma_metal_rough.webp[39m[0m
+[  70% ] [90m[1mreimport[22m | zombie_grandma_normal.webp[39m[0m
+[  70% ] [90m[1mreimport[22m | zombie_grandma_normal.webp[39m[0m
+[  70% ] [90m[1mreimport[22m | zombie_grandma_normal.webp[39m[0m
+[  70% ] [90m[1mreimport[22m | zombie_grandma_normal.webp[39m[0m
+[  70% ] [90m[1mreimport[22m | zombie_grandma_normal.webp[39m[0m
+[  70% ] [90m[1mreimport[22m | zombie_grandma_normal.webp[39m[0m
+[  70% ] [90m[1mreimport[22m | zombie_grandma_normal.webp[39m[0m
+[  70% ] [90m[1mreimport[22m | zombie_grandma_normal.webp[39m[0m
+[  70% ] [90m[1mreimport[22m | zombie_grandma_normal.webp[39m[0m
+[  73% ] [90m[1mreimport[22m | zombie_soldier.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  75% ] [90m[1mreimport[22m | zombie_shambler.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  78% ] [90m[1mreimport[22m | zombie_runner.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  80% ] [90m[1mreimport[22m | zombie_nurse.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  82% ] [90m[1mreimport[22m | zombie_jogger.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  85% ] [90m[1mreimport[22m | zombie_hiker.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  87% ] [90m[1mreimport[22m | zombie_grandma.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  90% ] [90m[1mreimport[22m | zombie_forester.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  92% ] [90m[1mreimport[22m | zombie_farmer.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  95% ] [90m[1mreimport[22m | zombie_bloater.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  97% ] [90m[1mreimport[22m | Asset-Import fertigstellen …[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started Assets (erneut) importieren (40 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Nach-Neuimport-Operationen ausführen …[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Editor laden (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Editor-Layout laden …[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Docks laden …[39m[0m
+[  33% ] [90m[1mloading_editor_layout[22m | Öffne Szenen neu…[39m[0m
+[  50% ] [90m[1mloading_editor_layout[22m | Zentrales Editor-Layout laden …[39m[0m
+[  66% ] [90m[1mloading_editor_layout[22m | Pluginfensterlayout laden …[39m[0m
+[  83% ] [90m[1mloading_editor_layout[22m | Editorlayout bereit.[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

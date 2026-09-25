@@ -1,0 +1,66 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+COOP_LOAD EOS_PLATFORM_START
+COOP_LOAD EOS_PLATFORM_READY
+COOP_LOAD EOS_RELAY_CONTROL allowed
+COOP_LOAD EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+COOP_LOAD EOS_LOGIN_OK
+PASS: Platform starts and the device signs in anonymously ()
+PASS: A product user id is known after the login
+PASS: The P2P peer knows the same local user
+COOP_LOAD ONLINE_HOST_BEGIN
+COOP_LOAD EOS_LOBBY_CREATED code=3ZLKXJ
+COOP_HOST_READY online=1 ONLINE_CODE=3ZLKXJ
+COOP_LOAD ONLINE_HOST_READY ONLINE_CODE=3ZLKXJ
+PASS: NetSession hosts over the EOS peer
+PASS: A join code is issued and shown
+PASS: The active MultiplayerPeer is the EOS P2P peer with the host as peer 1
+PASS: The lobby exists, we own it and it takes four players
+PASS: The lobby advertises the code and our version tag
+PASS: The status line shows the join code
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_FOUND code=3ZLKXJ
+PASS: The search by code finds the lobby with the host name ()
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=ZZZZZZ results=0
+PASS: An unknown code is reported as not found
+PASS: The version attribute can be rewritten for the test
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=1
+PASS: A lobby of another build is refused with the version message
+PASS: The version attribute is restored
+COOP_LOAD LEAVE_BEGIN phase=lobby reason=Live test finished
+COOP_LOAD LEAVE_PEER_DETACHED
+COOP_LOAD LEAVE_PEER_CLOSED
+COOP_LOAD EOS_LOBBY_DESTROY
+COOP_LOAD LEAVE_DONE reused_loaded_map
+PASS: Leaving closes the EOS peer and resets the transport
+PASS: Leaving drops the lobby locally
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+PASS: The destroyed lobby is no longer found
+COOP_LOAD ONLINE_JOIN_BEGIN code=3ZLKXJ
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD EOS_LOBBY_SEARCH_EMPTY code=3ZLKXJ results=0
+COOP_LOAD ONLINE_FAILED reason=No open lobby with code 3ZLKXJ. Check the code - the host must still be in the lobby.
+PASS: Joining the destroyed lobby fails cleanly with the not-found message
+PASS: The failed join leaves the platform ready and the map loaded
+PASS: The diagnostics file records platform, login, lobby and teardown
+PASS: The client secret never reaches the diagnostics file
+ONLINE_LIVE_DONE checks=21 failures=0
+COOP_LOAD EOS LogEOSP2P: Leave all connections due to P2P network shutdown

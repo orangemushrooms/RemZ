@@ -1,0 +1,145 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Weapons script compiles
+PASS: Tower script compiles
+PASS: Brute has separate animated body and limb hitboxes
+PASS: Ray hits animated RightHand
+PASS: Ray hits animated RightForeArm
+PASS: Ray hits animated RightArm
+PASS: Ray hits animated RightShoulder
+PASS: Ray hits animated RightUpLeg
+PASS: Ray hits animated Hips
+PASS: Ray hits animated Spine02
+PASS: Ray hits animated Spine
+PASS: Ray hits animated Spine01
+PASS: Ray hits animated RightLeg
+PASS: Ray hits animated Head
+PASS: Ray hits animated RightFoot
+PASS: Ray hits animated RightToeBase
+PASS: Ray hits animated LeftUpLeg
+PASS: Ray hits animated LeftShoulder
+PASS: Ray hits animated LeftLeg
+PASS: Ray hits animated LeftArm
+PASS: Ray hits animated LeftFoot
+PASS: Ray hits animated LeftToeBase
+PASS: Ray hits animated LeftForeArm
+PASS: Ray hits animated LeftHand
+PASS: Visible limbs outside the old capsule are hittable
+PASS: Hitbox transforms match the model's actual metre scale
+PASS: Visible head registers a headshot
+PASS: Point-blank shots hit even when the camera is inside the hitbox
+PASS: Hand remains hittable during attack animation
+PASS: Hand remains hittable during attack animation
+PASS: World geometry still blocks bullets before a hitbox
+PASS: World geometry is safely resolved as a non-zombie hit
+PASS: Dead zombies no longer block shots
+PASS: zombie_earthworm has model-fitted hitboxes
+PASS: zombie_earthworm hitboxes scale with the model
+PASS: zombie_earthworm keeps movement collision separate from bullet hitboxes
+PASS: zombie_earthworm animated headshot during walk
+PASS: zombie_earthworm animated headshot during walk
+PASS: zombie_earthworm animated headshot during walk
+PASS: zombie_earthworm animated headshot during attack
+PASS: zombie_earthworm animated headshot during attack
+PASS: zombie_earthworm animated headshot during attack
+PASS: zombie_earthworm empty navigation capsule does not catch bullets
+PASS: zombie_earthworm hitboxes follow model offsets and rotation
+PASS: zombie_earthworm_ancient has model-fitted hitboxes
+PASS: zombie_earthworm_ancient hitboxes scale with the model
+PASS: zombie_earthworm_ancient keeps movement collision separate from bullet hitboxes
+PASS: zombie_earthworm_ancient animated headshot during walk
+PASS: zombie_earthworm_ancient animated headshot during walk
+PASS: zombie_earthworm_ancient animated headshot during walk
+PASS: zombie_earthworm_ancient animated headshot during attack
+PASS: zombie_earthworm_ancient animated headshot during attack
+PASS: zombie_earthworm_ancient animated headshot during attack
+PASS: zombie_earthworm_ancient empty navigation capsule does not catch bullets
+PASS: zombie_earthworm_ancient hitboxes follow model offsets and rotation
+PASS: zombie_colossus has model-fitted hitboxes
+PASS: zombie_colossus hitboxes scale with the model
+PASS: zombie_colossus keeps movement collision separate from bullet hitboxes
+PASS: zombie_colossus animated headshot during walk
+PASS: zombie_colossus animated headshot during attack
+PASS: zombie_colossus empty navigation capsule does not catch bullets
+PASS: zombie_colossus hitboxes follow model offsets and rotation
+PASS: zombie_bloater has model-fitted hitboxes
+PASS: zombie_bloater hitboxes scale with the model
+PASS: zombie_bloater keeps movement collision separate from bullet hitboxes
+PASS: zombie_bloater animated headshot during walk
+PASS: zombie_bloater animated headshot during attack
+PASS: zombie_bloater empty navigation capsule does not catch bullets
+PASS: zombie_bloater hitboxes follow model offsets and rotation
+PASS: zombie_titan has model-fitted hitboxes
+PASS: zombie_titan hitboxes scale with the model
+PASS: zombie_titan keeps movement collision separate from bullet hitboxes
+PASS: zombie_titan animated headshot during walk
+PASS: zombie_titan animated headshot during attack
+PASS: zombie_titan empty navigation capsule does not catch bullets
+PASS: zombie_titan hitboxes follow model offsets and rotation
+PASS: zombie_shambler has model-fitted hitboxes
+PASS: zombie_shambler hitboxes scale with the model
+PASS: zombie_shambler keeps movement collision separate from bullet hitboxes
+PASS: zombie_shambler animated headshot during walk
+PASS: zombie_shambler animated headshot during attack
+PASS: zombie_shambler empty navigation capsule does not catch bullets
+PASS: zombie_shambler hitboxes follow model offsets and rotation
+PASS: zombie_runner has model-fitted hitboxes
+PASS: zombie_runner hitboxes scale with the model
+PASS: zombie_runner keeps movement collision separate from bullet hitboxes
+PASS: zombie_runner animated headshot during walk
+PASS: zombie_runner animated headshot during attack
+PASS: zombie_runner empty navigation capsule does not catch bullets
+PASS: zombie_runner hitboxes follow model offsets and rotation
+PASS: zombie_nurse has model-fitted hitboxes
+PASS: zombie_nurse hitboxes scale with the model
+PASS: zombie_nurse keeps movement collision separate from bullet hitboxes
+PASS: zombie_nurse animated headshot during walk
+PASS: zombie_nurse animated headshot during attack
+PASS: zombie_nurse empty navigation capsule does not catch bullets
+PASS: zombie_nurse hitboxes follow model offsets and rotation
+PASS: zombie_soldier has model-fitted hitboxes
+PASS: zombie_soldier hitboxes scale with the model
+PASS: zombie_soldier keeps movement collision separate from bullet hitboxes
+PASS: zombie_soldier animated headshot during walk
+PASS: zombie_soldier animated headshot during attack
+PASS: zombie_soldier empty navigation capsule does not catch bullets
+PASS: zombie_soldier hitboxes follow model offsets and rotation
+PASS: zombie_farmer has model-fitted hitboxes
+PASS: zombie_farmer hitboxes scale with the model
+PASS: zombie_farmer keeps movement collision separate from bullet hitboxes
+PASS: zombie_farmer animated headshot during walk
+PASS: zombie_farmer animated headshot during attack
+PASS: zombie_farmer empty navigation capsule does not catch bullets
+PASS: zombie_farmer hitboxes follow model offsets and rotation
+PASS: zombie_hiker has model-fitted hitboxes
+PASS: zombie_hiker hitboxes scale with the model
+PASS: zombie_hiker keeps movement collision separate from bullet hitboxes
+PASS: zombie_hiker animated headshot during walk
+PASS: zombie_hiker animated headshot during attack
+PASS: zombie_hiker empty navigation capsule does not catch bullets
+PASS: zombie_hiker hitboxes follow model offsets and rotation
+PASS: zombie_grandma has model-fitted hitboxes
+PASS: zombie_grandma hitboxes scale with the model
+PASS: zombie_grandma keeps movement collision separate from bullet hitboxes
+PASS: zombie_grandma animated headshot during walk
+PASS: zombie_grandma animated headshot during attack
+PASS: zombie_grandma empty navigation capsule does not catch bullets
+PASS: zombie_grandma hitboxes follow model offsets and rotation
+PASS: zombie_jogger has model-fitted hitboxes
+PASS: zombie_jogger hitboxes scale with the model
+PASS: zombie_jogger keeps movement collision separate from bullet hitboxes
+PASS: zombie_jogger animated headshot during walk
+PASS: zombie_jogger animated headshot during attack
+PASS: zombie_jogger empty navigation capsule does not catch bullets
+PASS: zombie_jogger hitboxes follow model offsets and rotation
+PASS: zombie_forester has model-fitted hitboxes
+PASS: zombie_forester hitboxes scale with the model
+PASS: zombie_forester keeps movement collision separate from bullet hitboxes
+PASS: zombie_forester animated headshot during walk
+PASS: zombie_forester animated headshot during attack
+PASS: zombie_forester empty navigation capsule does not catch bullets
+PASS: zombie_forester hitboxes follow model offsets and rotation
+ZOMBIE_HITBOXES_DONE checks=139 failures=0
+EXIT 0

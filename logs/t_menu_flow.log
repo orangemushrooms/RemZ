@@ -2,20 +2,20 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
-RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
 COOP_LOAD MAP_READY
-MENU_T first load 21.3 s
+MENU_T first load 14.7 s
 MENU hurt hp=79.75 dist=1.17 state=attack can_hit=true
 PASS: A zombie next to the player takes health
 PASS: Death shows the game-over card
-RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
 COOP_LOAD MAP_READY
-MENU_T reload after death (11.7 s) 33.3 s
+MENU_T reload after death (8.6 s) 23.6 s
 PASS: Nochmal starts a fresh round directly, without menu or intro
 PASS: Pause halts the game
-RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
 COOP_LOAD MAP_READY
-MENU_T reload to main menu (10.5 s) 43.8 s
+MENU_T reload to main menu (8.4 s) 32.0 s
 PASS: Hauptmenü shows the start menu again
 COOP_LOAD HOST_CREATE port=24599
 COOP_HOST_READY port=24599
@@ -27,9 +27,9 @@ COOP_LOAD ROUND_RUNNING players=1
 COOP_RUNNING players=1
 PASS: Coop host starts solo
 PASS: Host death ends the coop round
-RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
 COOP_LOAD MAP_READY
-MENU_T coop reload (8.9 s) 52.7 s
+MENU_T coop reload (8.4 s) 40.4 s
 COOP_LOAD ROUND_START_SEND players=1
 COOP_LOAD ROUND_BEGIN intro=false
 COOP_LOAD ROUND_RUNNING players=1
@@ -40,12 +40,8 @@ COOP_LOAD LEAVE_BEGIN phase=running reason=Left the session.
 COOP_LOAD LEAVE_PEER_DETACHED
 COOP_LOAD LEAVE_PEER_CLOSED
 COOP_LOAD LEAVE_RELOAD
-RENDER_OPTIMIZER { "source_meshes": 675, "batches": 19, "removed_render_nodes": 39 }
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
 COOP_LOAD MAP_READY
-MENU_T leave coop 61.5 s
+MENU_T leave coop 49.1 s
 PASS: Leaving coop returns to the offline start menu
 MENU_FLOW_DONE checks=11 failures=0
-ERROR: 5 RID allocations of type 'P10JoltBody3D' were leaked at exit.
-WARNING: 5 ObjectDB instances were leaked at exit (run with `--verbose` for details).
-   at: cleanup (core/object/object.cpp:2536)
-EXIT 0

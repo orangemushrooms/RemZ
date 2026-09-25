@@ -3,7 +3,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
 PASS: Starts in de whatever the Windows locale (de_DE)
-PASS: German catalogue is loaded (1291 messages)
+PASS: German catalogue is loaded (1388 messages)
 PASS: Plain msgid resolves per language
 PASS: Formatted segment resolves per language
 PASS: String arguments are translated on the receiving side: Barrikade Wiesentor durchbrochen!
@@ -23,15 +23,15 @@ PASS: Start button follows the switch live
 PASS: Test runs never write the player's settings file
 PASS: Switching back restores the test language
 PASS: start menu / briefing: 27 texts, all translated
-PASS: start menu / multiplayer: 25 texts, all translated
+PASS: start menu / multiplayer: 24 texts, all translated
 PASS: start menu / difficulty: 18 texts, all translated
 PASS: start menu / controls: 65 texts, all translated
 PASS: start menu / settings: 39 texts, all translated
-PASS: start menu / records: 93 texts, all translated
+PASS: start menu / records: 101 texts, all translated
 PASS: start menu / achievements: 179 texts, all translated
 PASS: HUD: 15 texts, all translated
 PASS: quest tracker: 2 texts, all translated
-PASS: world labels: 33 texts, all translated
+PASS: world labels: 36 texts, all translated
 PASS: inventory: 23 texts, all translated
 PASS: Skill key away from Mechanic explains where training is
 PASS: HUD message: 16 texts, all translated

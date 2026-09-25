@@ -1,0 +1,9 @@
+∙ Comparing against previous build...
+creating build on remote server: itch.io API error (400): /wharf/builds: channel windows's latest build is still processing, try again later
+Butler fehlgeschlagen (Exit 1).
+In C:\Users\miche\Desktop\Developement\RemZ\tools\publish-itch.ps1:18 Zeichen:28
++ ... ITCODE -ne 0) { throw "Butler fehlgeschlagen (Exit $LASTEXITCODE)." }
++                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Butler fehlgeschlagen (Exit 1).:String) [], RuntimeException
+    + FullyQualifiedErrorId : Butler fehlgeschlagen (Exit 1).
+ 

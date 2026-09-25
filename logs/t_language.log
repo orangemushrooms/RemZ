@@ -3,7 +3,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
 PASS: Starts in en whatever the Windows locale (de_DE)
-PASS: German catalogue is loaded (1288 messages)
+PASS: German catalogue is loaded (1388 messages)
 PASS: Plain msgid resolves per language
 PASS: Formatted segment resolves per language
 PASS: String arguments are translated on the receiving side: Barrikade Wiesentor durchbrochen!
@@ -23,21 +23,21 @@ PASS: Start button follows the switch live
 PASS: Test runs never write the player's settings file
 PASS: Switching back restores the test language
 PASS: start menu / briefing: 27 texts, no German left
-PASS: start menu / multiplayer: 25 texts, no German left
+PASS: start menu / multiplayer: 24 texts, no German left
 PASS: start menu / difficulty: 18 texts, no German left
 PASS: start menu / controls: 65 texts, no German left
 PASS: start menu / settings: 39 texts, no German left
-PASS: start menu / records: 93 texts, no German left
+PASS: start menu / records: 101 texts, no German left
 PASS: start menu / achievements: 179 texts, no German left
 PASS: HUD: 15 texts, no German left
 PASS: quest tracker: 2 texts, no German left
-PASS: world labels: 33 texts, no German left
+PASS: world labels: 36 texts, no German left
 PASS: inventory: 23 texts, no German left
 PASS: Skill key away from Mechanic explains where training is
 PASS: HUD message: 16 texts, no German left
 PASS: wanderer / Trade: 9 texts, no German left
 PASS: wanderer / Fireworks: 26 texts, no German left
-PASS: wanderer / Sell: 51 texts, no German left
+PASS: wanderer / Sell: 54 texts, no German left
 PASS: wanderer / Quests: 6 texts, no German left
 PASS: wanderer / Training: 7 texts, no German left
 PASS: wanderer / Towers: 13 texts, no German left
@@ -46,7 +46,7 @@ PASS: wanderer / Skins: 10 texts, no German left
 PASS: wanderer / Rarities: 21 texts, no German left
 PASS: ranger / Trade: 9 texts, no German left
 PASS: ranger / Fireworks: 26 texts, no German left
-PASS: ranger / Sell: 51 texts, no German left
+PASS: ranger / Sell: 54 texts, no German left
 PASS: ranger / Quests: 31 texts, no German left
 PASS: ranger / Training: 7 texts, no German left
 PASS: ranger / Towers: 13 texts, no German left
@@ -55,7 +55,7 @@ PASS: ranger / Skins: 10 texts, no German left
 PASS: ranger / Rarities: 21 texts, no German left
 PASS: camp / Trade: 62 texts, no German left
 PASS: camp / Fireworks: 30 texts, no German left
-PASS: camp / Sell: 55 texts, no German left
+PASS: camp / Sell: 58 texts, no German left
 PASS: camp / Quests: 37 texts, no German left
 PASS: camp / Training: 11 texts, no German left
 PASS: camp / Towers: 17 texts, no German left
@@ -64,7 +64,7 @@ PASS: camp / Skins: 17 texts, no German left
 PASS: camp / Rarities: 25 texts, no German left
 PASS: mechanic / Trade: 10 texts, no German left
 PASS: mechanic / Fireworks: 29 texts, no German left
-PASS: mechanic / Sell: 54 texts, no German left
+PASS: mechanic / Sell: 57 texts, no German left
 PASS: mechanic / Quests: 41 texts, no German left
 PASS: mechanic / Training: 30 texts, no German left
 PASS: mechanic / Towers: 15 texts, no German left
@@ -73,7 +73,7 @@ PASS: mechanic / Skins: 13 texts, no German left
 PASS: mechanic / Rarities: 24 texts, no German left
 PASS: secret / Trade: 44 texts, no German left
 PASS: secret / Fireworks: 30 texts, no German left
-PASS: secret / Sell: 55 texts, no German left
+PASS: secret / Sell: 58 texts, no German left
 PASS: secret / Quests: 27 texts, no German left
 PASS: secret / Training: 11 texts, no German left
 PASS: secret / Towers: 17 texts, no German left

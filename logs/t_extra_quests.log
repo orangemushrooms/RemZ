@@ -1,0 +1,122 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: drone_training starts incomplete
+PASS: drone_training satisfies objectives at its targets
+PASS: drone_training has progress text
+PASS: drone_training marks the right giver
+PASS: drone_training clears marker after reward
+PASS: drone_patrol starts incomplete
+PASS: drone_patrol satisfies objectives at its targets
+PASS: drone_patrol has progress text
+PASS: drone_patrol respects prerequisite
+PASS: drone_patrol marks the right giver
+PASS: drone_patrol clears marker after reward
+PASS: drone_air_support starts incomplete
+PASS: drone_air_support satisfies objectives at its targets
+PASS: drone_air_support has progress text
+PASS: drone_air_support respects prerequisite
+PASS: drone_air_support marks the right giver
+PASS: drone_air_support clears marker after reward
+PASS: forest_basket starts incomplete
+PASS: forest_basket satisfies objectives at its targets
+PASS: forest_basket has progress text
+PASS: forest_basket respects prerequisite
+PASS: forest_basket marks the right giver
+PASS: forest_basket clears marker after reward
+PASS: restless_paths starts incomplete
+PASS: restless_paths satisfies objectives at its targets
+PASS: restless_paths has progress text
+PASS: restless_paths respects prerequisite
+PASS: restless_paths marks the right giver
+PASS: restless_paths clears marker after reward
+PASS: forest_watch starts incomplete
+PASS: forest_watch satisfies objectives at its targets
+PASS: forest_watch has progress text
+PASS: forest_watch respects prerequisite
+PASS: forest_watch marks the right giver
+PASS: forest_watch clears marker after reward
+PASS: pond_cache starts incomplete
+PASS: pond_cache satisfies objectives at its targets
+PASS: pond_cache has progress text
+PASS: pond_cache respects prerequisite
+PASS: pond_cache marks the right giver
+PASS: pond_cache clears marker after reward
+PASS: trip_mushroom starts incomplete
+PASS: trip_mushroom satisfies objectives at its targets
+PASS: trip_mushroom has progress text
+PASS: trip_mushroom respects prerequisite
+PASS: trip_mushroom marks the right giver
+PASS: trip_mushroom clears marker after reward
+PASS: maze_crate starts incomplete
+PASS: maze_crate satisfies objectives at its targets
+PASS: maze_crate has progress text
+PASS: maze_crate respects prerequisite
+PASS: maze_crate marks the right giver
+PASS: maze_crate clears marker after reward
+PASS: steady_aim starts incomplete
+PASS: steady_aim satisfies objectives at its targets
+PASS: steady_aim has progress text
+PASS: steady_aim respects prerequisite
+PASS: steady_aim marks the right giver
+PASS: steady_aim clears marker after reward
+PASS: marksman_training starts incomplete
+PASS: marksman_training satisfies objectives at its targets
+PASS: marksman_training has progress text
+PASS: marksman_training respects prerequisite
+PASS: marksman_training marks the right giver
+PASS: marksman_training clears marker after reward
+PASS: night_shift starts incomplete
+PASS: night_shift satisfies objectives at its targets
+PASS: night_shift has progress text
+PASS: night_shift respects prerequisite
+PASS: night_shift marks the right giver
+PASS: night_shift clears marker after reward
+PASS: last_light starts incomplete
+PASS: last_light satisfies objectives at its targets
+PASS: last_light has progress text
+PASS: last_light respects prerequisite
+PASS: last_light marks the right giver
+PASS: last_light clears marker after reward
+PASS: crossfire starts incomplete
+PASS: crossfire satisfies objectives at its targets
+PASS: crossfire has progress text
+PASS: crossfire respects prerequisite
+PASS: crossfire marks the right giver
+PASS: crossfire clears marker after reward
+PASS: reinforced starts incomplete
+PASS: reinforced satisfies objectives at its targets
+PASS: reinforced has progress text
+PASS: reinforced respects prerequisite
+PASS: reinforced marks the right giver
+PASS: reinforced clears marker after reward
+PASS: clockwork starts incomplete
+PASS: clockwork satisfies objectives at its targets
+PASS: clockwork has progress text
+PASS: clockwork respects prerequisite
+PASS: clockwork marks the right giver
+PASS: clockwork clears marker after reward
+PASS: silent_deal starts incomplete
+PASS: silent_deal satisfies objectives at its targets
+PASS: silent_deal has progress text
+PASS: silent_deal respects prerequisite
+PASS: silent_deal marks the right giver
+PASS: silent_deal clears marker after reward
+PASS: giant_debt starts incomplete
+PASS: giant_debt satisfies objectives at its targets
+PASS: giant_debt has progress text
+PASS: giant_debt respects prerequisite
+PASS: giant_debt marks the right giver
+PASS: giant_debt clears marker after reward
+PASS: nameless starts incomplete
+PASS: nameless satisfies objectives at its targets
+PASS: nameless has progress text
+PASS: nameless respects prerequisite
+PASS: nameless marks the right giver
+PASS: nameless clears marker after reward
+PASS: Nineteen goal-based quests including drone operations and Mara's finds
+PASS: New team counters survive snapshots and missing legacy keys
+PASS: Destroyed towers do not satisfy defence goals
+EXTRA_QUESTS_DONE checks=116 failures=0
+EXIT 0

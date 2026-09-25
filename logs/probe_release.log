@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PROBE mode=release available=true
+COOP_LOAD EOS_PLATFORM_START
+COOP_LOAD EOS_PLATFORM_READY
+PROBE platform=true
+COOP_LOAD EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+COOP_LOAD EOS_LOGIN_OK
+PROBE login=true
+COOP_LOAD EOS LogEOSP2P: Leave all connections due to P2P network shutdown
+PROBE released
+PROBE shutdown=0
+PROBE quitting t=3248

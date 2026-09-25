@@ -1,0 +1,69 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: Generated code 5K67HX has six letters from the safe alphabet
+PASS: 200 generated codes are distinct
+PASS: Normalisation upper-cases and strips separators
+PASS: Ambiguous letters O, 0, I and 1 are never part of a code
+PASS: A valid code has exactly six letters
+PASS: Version tag carries protocol, build and map fingerprint
+PASS: Env parsing accepts export, quotes, CRLF and trailing comments
+PASS: An equals sign inside a value survives
+PASS: Complete credentials are recognised and the product name defaults to RemZ
+PASS: A missing client id makes the credentials incomplete
+PASS: The editor finds the local credentials (eos.cfg or .env)
+PASS: A missing runtime reports itself as unavailable
+PASS: Hosting online without the runtime is refused without touching the session
+PASS: The refused online host leaves the offline peer in place
+PASS: The menu status explains why the online lobby is unavailable
+PASS: Joining online without the runtime is refused as well
+PASS: A short code is rejected before anything is contacted
+PASS: Missing credentials give a different reason than a missing runtime
+PASS: Hosting online without credentials is refused
+COOP_LOAD HOST_CREATE port=24701
+COOP_HOST_READY port=24701
+COOP_LOAD HOST_READY
+PASS: ENet host opens while the online lobby is unavailable
+PASS: Host ping is zero, an unknown peer has none
+PASS: An open ENet session blocks the online buttons
+PASS: A pong from a peer outside the roster is ignored
+COOP_LOAD LEAVE_BEGIN phase=lobby reason=Left the session.
+COOP_LOAD LEAVE_PEER_DETACHED
+COOP_LOAD LEAVE_PEER_CLOSED
+COOP_LOAD LEAVE_DONE reused_loaded_map
+PASS: Leaving the ENet session resets the transport and keeps the map
+PASS: Leaving without a lobby is harmless
+COOP_LOAD ONLINE_CANCELLED
+PASS: Cancel while signing in clears the pending attempt
+PASS: A step finishing after the cancel is ignored
+COOP_LOAD HOST_CREATE port=24701
+COOP_HOST_READY port=24701
+COOP_LOAD HOST_READY
+PASS: ENet host works again right after the cancelled online attempt
+COOP_LOAD LEAVE_BEGIN phase=lobby reason=Left the session.
+COOP_LOAD LEAVE_PEER_DETACHED
+COOP_LOAD LEAVE_PEER_CLOSED
+COOP_LOAD LEAVE_DONE reused_loaded_map
+COOP_LOAD PEER_CONNECTED id=2
+PASS: Before the first pong an online peer shows no ping
+PASS: The application ping measures the round trip
+COOP_LOAD PEER_DISCONNECTED id=2
+PASS: A disconnect forgets the peer's ping
+COOP_LOAD PEER_CONNECTED id=2
+PASS: Every RPC shape reached the transport (10 packets)
+RPC_PACKETS largest=957 bytes (_initial_part) limit=1164
+PASS: The largest RPC packet (957 bytes, _initial_part) fits the EOS P2P limit of 1164
+PASS: _initial_part carries the whole 900-byte chunk (957 bytes)
+PASS: _snapshot_part carries the whole 900-byte chunk (953 bytes)
+PASS: The tab offers the online lobby and the direct connection
+PASS: The online section has its own buttons and the code field
+PASS: The direct section keeps IP, port, host and join
+PASS: Direct mode shows the IP form only
+PASS: Online mode shows the lobby form only
+PASS: Without a session the code panel is hidden and the buttons follow availability
+PASS: An unavailable runtime greys out only the online buttons
+PASS: Start and leave stay hidden outside a session
+ONLINE_LOBBY_DONE checks=43 failures=0
