@@ -41,6 +41,10 @@ const QUESTS := {
 	"forest_basket": {"min_level": 2, "waves_after_accept": 1,"npc": "ranger", "name": "What the Forest Gives Us", "requires": "arrival", "reward": 90, "desc": "Collect five porcini as a team. Mara shows you what to look out for in the forest. Mushrooms you already collected count, and you may keep them.", "goals": {"edible_mushrooms": 5}},
 	"restless_paths": {"min_level": 5, "waves_after_accept": 1,"npc": "ranger", "name": "Unrest on the Paths", "requires": "forest_basket", "reward": 140, "desc": "Defeat twelve runners as a team. Their quick footsteps give nobody any rest, not even here by the small fire.", "goals": {"runner_kills": 12}},
 	"forest_watch": {"min_level": 8, "waves_after_accept": 1,"npc": "ranger", "name": "While the Fire Burns", "requires": "restless_paths", "reward": 220, "desc": "Survive wave 6 and defeat 80 zombies in total. Then return to Mara at the small fire pit.", "goals": {"waves": 6, "kills": 80}},
+	# Mara's search quests (25 Sep 2026): something to find out in the forest, marked on the map once accepted.
+	"pond_cache": {"min_level": 3, "waves_after_accept": 1,"npc": "ranger", "name": "The Box at the Pond", "requires": "forest_basket", "reward": 120, "desc": "Mara hid a box of supplies at the pond up in the forest before the first night. Find it at the shore and open it. The map marks the pond once you accept.", "goals": {"find_pond_box": 1}},
+	"trip_mushroom": {"min_level": 4, "waves_after_accept": 1,"npc": "ranger", "name": "The Strange Mushroom", "requires": "pond_cache", "reward": 160, "desc": "Somewhere in the forest grows a mushroom that glows violet at dusk. Find it and eat it right there. Mara warns you: the forest will look different for a while afterwards.", "goals": {"find_trip_mushroom": 1}},
+	"maze_crate": {"min_level": 6, "waves_after_accept": 1,"npc": "ranger", "name": "Into the Maize", "requires": "trip_mushroom", "reward": 220, "desc": "A supply crate was left deep in the maize maze south of the hut path. Enter the maze, follow the cleared passages to the crate and open it. The map shows where it lies.", "goals": {"find_maze_crate": 1}},
 	"arrival": {"min_level": 1, "waves_after_accept": 0,"npc": "camp", "name": "By the Fire", "requires": "", "reward": 20, "desc": "Vendor introduces you to the inventory, trading, tower building and barricades. Learn the basics, then collect your reward."},
 	"watch": {"min_level": 2, "waves_after_accept": 1,"npc": "mechanic", "name": "The First Sentinel", "requires": "arrival", "reward": 110, "desc": "Build a barricade and a tower. Then re-aim the tower. T: preview · R/mouse wheel: rotate · E: confirm. At the tower R: aim, E: climb in, F: repair."},
 	"line": {"min_level": 2, "waves_after_accept": 1,"npc": "camp", "name": "Hold the Line", "requires": "arrival", "reward": 140, "desc": "Survive two waves as a team and defeat 30 zombies. Return to Vendor."},
@@ -62,13 +66,21 @@ const QUEST_CHAINS := {
 	"assault": {"name": "Assault", "quests": ["line", "night_shift"]},
 	"marksman": {"name": "Marksman", "quests": ["steady_aim", "marksman_training", "silent_deal"]},
 	"engineer": {"name": "Defense Engineering", "quests": ["watch", "crossfire", "reinforced", "clockwork"]},
-	"forest": {"name": "Forest Watch", "quests": ["forest_basket", "restless_paths", "forest_watch"]},
+	"forest": {"name": "Forest Watch", "quests": ["forest_basket", "pond_cache", "restless_paths", "trip_mushroom", "maze_crate", "forest_watch"]},
 	"supplies": {"name": "Supply", "quests": ["supplies"]},
 	"titans": {"name": "Titan Hunt", "quests": ["titan", "giant_debt", "nameless"]},
 	"survival": {"name": "Protect the Camp", "quests": ["last_light"]},
 	"drones": {"name": "Drone Operations", "quests": ["drone_training", "drone_patrol", "drone_air_support"]},
 }
-const GOAL_LABELS := {"drone_scout_meters": "Kestrel flight (m)", "drone_scout_kills": "Kestrel kills", "drone_viper_meters": "Viper flight (m)", "drone_viper_kills": "Viper kills", "drone_tempest_meters": "Tempest flight (m)", "drone_tempest_kills": "Tempest kills", "edible_mushrooms": "Porcini mushrooms", "runner_kills": "Runners", "headshot_kills": "Headshot kills", "waves": "Waves", "kills": "Zombies", "active_towers": "Active towers", "reinforced_barricades": "Barricades tier 2+", "elite_towers": "Towers tier 3", "tower_kills": "Tower kills", "titans": "Titans"}
+const GOAL_LABELS := {"drone_scout_meters": "Kestrel flight (m)", "drone_scout_kills": "Kestrel kills", "drone_viper_meters": "Viper flight (m)", "drone_viper_kills": "Viper kills", "drone_tempest_meters": "Tempest flight (m)", "drone_tempest_kills": "Tempest kills", "edible_mushrooms": "Porcini mushrooms", "runner_kills": "Runners", "headshot_kills": "Headshot kills", "waves": "Waves", "kills": "Zombies", "active_towers": "Active towers", "reinforced_barricades": "Barricades tier 2+", "elite_towers": "Towers tier 3", "tower_kills": "Tower kills", "titans": "Titans", "find_pond_box": "Supply box at the pond", "find_trip_mushroom": "Strange mushroom eaten", "find_maze_crate": "Crate in the maize maze"}
+# Things to find for Mara's quests: one node each, placed with place_finds() once the navigation map is ready,
+# found through E like the Mechanic's delivery (team["find_<id>"] = 1 is the quest goal).
+const FINDS := {
+	"pond_box": {"quest": "pond_cache", "label": "[E] Open Mara's supply box", "marker": "SUPPLY BOX · MARA", "found": "Supply box opened: bandages and cartridges. Return to Mara."},
+	"trip_mushroom": {"quest": "trip_mushroom", "label": "[E] Eat the violet mushroom", "marker": "STRANGE MUSHROOM", "found": "You eat the mushroom. The forest begins to swim ..."},
+	"maze_crate": {"quest": "maze_crate", "label": "[E] Open the supply crate", "marker": "SUPPLY CRATE · MARA", "found": "Crate opened: ammunition for everyone. Find your way back out and return to Mara."},
+}
+const TRIP_SECONDS := 28.0
 const SKINS := {
 	"forest": {"name": "Forest Camo", "price": 160, "npc": "camp", "quest": "line", "desc": "Moss, olive and dark earth. Purely cosmetic."},
 	"bronze": {"name": "Soot Bronze", "price": 300, "npc": "secret", "quest": "supplies", "desc": "Blackened metal with bronze panels. Purely cosmetic."},
@@ -80,6 +92,7 @@ var people: Dictionary = {}
 var team := {"kills": 0, "titans": 0, "built": 0, "turned": 0, "cache": false}
 var cache_node: Node3D
 var cache_ready := false
+var finds: Dictionary = {}          # id -> {"node": Node3D, "ready": bool}
 var is_open := false
 var shop := ""
 var page := "Trade"
@@ -197,6 +210,29 @@ func setup(main: Node) -> void:
 	marker.pixel_size = 0.006
 	marker.visibility_range_end = 15
 	cache_node.add_child(marker)
+	for id in FINDS:
+		var node := Node3D.new()
+		node.name = "Find_" + id
+		node.hide()
+		node.add_to_group("render_dynamic")
+		game.add_child(node)
+		if id == "trip_mushroom":
+			_build_trip_mushroom(node)
+		else:
+			var body_colour := Color(0.23, 0.17, 0.08) if id == "pond_box" else Color(0.3, 0.32, 0.2)
+			var band_colour := Color(0.62, 0.43, 0.12) if id == "pond_box" else Color(0.55, 0.57, 0.5)
+			DefenceTower.box(node, Vector3(0.9, 0.55, 0.6), Vector3(0, 0.28, 0), DefenceTower.material(body_colour))
+			for x in [-0.28, 0.28]:
+				DefenceTower.box(node, Vector3(0.07, 0.57, 0.62), Vector3(x, 0.29, 0), DefenceTower.material(band_colour))
+		var find_marker := Label3D.new()
+		find_marker.text = FINDS[id].marker
+		find_marker.position.y = 1.1
+		find_marker.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+		find_marker.font_size = 30
+		find_marker.pixel_size = 0.006
+		find_marker.visibility_range_end = 15
+		node.add_child(find_marker)
+		finds[id] = {"node": node, "ready": false}
 	_build_ui()
 	notifications = preload("res://scripts/quest_notifications.gd").new()
 	add_child(notifications)
@@ -321,7 +357,104 @@ func choose_cache_position(random: RandomNumberGenerator) -> Vector3:
 		return ground
 	return Vector3.INF
 
+# A violet-glowing fly agaric: white stem, violet cap with an emissive rim, a small light.
+static func _build_trip_mushroom(node: Node3D) -> void:
+	var stem := MeshInstance3D.new()
+	var stem_mesh := CylinderMesh.new()
+	stem_mesh.top_radius = 0.05
+	stem_mesh.bottom_radius = 0.07
+	stem_mesh.height = 0.34
+	stem.mesh = stem_mesh
+	stem.material_override = DefenceTower.material(Color(0.9, 0.88, 0.8))
+	stem.position.y = 0.17
+	node.add_child(stem)
+	var cap := MeshInstance3D.new()
+	var cap_mesh := SphereMesh.new()
+	cap_mesh.radius = 0.19
+	cap_mesh.height = 0.22
+	cap.mesh = cap_mesh
+	var cap_material := StandardMaterial3D.new()
+	cap_material.albedo_color = Color(0.5, 0.15, 0.7)
+	cap_material.emission_enabled = true
+	cap_material.emission = Color(0.6, 0.2, 1.0)
+	cap_material.emission_energy_multiplier = 1.6
+	cap_material.roughness = 0.35
+	cap.material_override = cap_material
+	cap.position.y = 0.36
+	node.add_child(cap)
+	var glow := OmniLight3D.new()
+	glow.light_color = Color(0.7, 0.35, 1.0)
+	glow.light_energy = 1.4
+	glow.omni_range = 4.0
+	glow.shadow_enabled = false
+	glow.position.y = 0.5
+	node.add_child(glow)
+
+func _forest_find_position(random: RandomNumberGenerator, near_min: float, near_max: float) -> Vector3:
+	var area := Map.BOUNDS.grow(-10.0)
+	for attempt in 500:
+		var candidate := Vector2(random.randf_range(area.position.x, area.end.x), random.randf_range(area.position.y, area.end.y))
+		var d := candidate.distance_to(Map.FIRE)
+		if d < near_min or d > near_max: continue
+		if not Map.in_forest(candidate.x, candidate.y) or Map.on_road(candidate.x, candidate.y, 3.0): continue
+		if Map.in_building(candidate.x, candidate.y, 4.0) or Map.in_clearing(candidate.x, candidate.y): continue
+		if game.perimeter and game.perimeter.excludes_spawn(candidate): continue
+		if Map.ground_normal(candidate.x, candidate.y).y < 0.9: continue
+		if candidate.distance_to(SecretNight.SITE) < 30.0: continue
+		var blocked := false
+		for tree in Map.TREES:
+			if candidate.distance_squared_to(Vector2(tree[0], tree[1])) < 1.6 * 1.6:
+				blocked = true
+				break
+		if blocked: continue
+		return Map.ground_pos(candidate.x, candidate.y)
+	return choose_cache_position(random)
+
+func _maze_find_position() -> Vector3:
+	var corn = game.get("cornfield")
+	if corn == null or corn.passages.is_empty(): return Vector3.INF
+	var entrance := Vector2i(1, 0)
+	var best := Vector2i(-1, -1)
+	var best_score := -1
+	for cell: Vector2i in corn.passages:
+		var exits := 0
+		for d in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			if corn.passages.has(cell + d): exits += 1
+		if cell.y <= 0 or cell.y >= corn.SIZE - 1: continue
+		var score: int = absi(cell.x - entrance.x) + absi(cell.y - entrance.y) + (6 if exits == 1 else 0)
+		if score > best_score:
+			best_score = score
+			best = cell
+	if best.x < 0: return Vector3.INF
+	var at: Vector2 = corn.cell_position(best)
+	return Map.ground_pos(at.x, at.y)
+
+func place_finds() -> void:
+	if NetSession.is_client(): return
+	var random := RandomNumberGenerator.new()
+	random.randomize()
+	for id in finds:
+		if finds[id].ready: continue
+		var point := Vector3.INF
+		match id:
+			"pond_box":
+				if not Map.POND.is_empty():
+					var shore: Vector2 = Map.POND.pos + (Map.FIRE - Map.POND.pos).normalized() * (float(Map.POND.r) + 2.2)
+					point = Map.ground_pos(shore.x, shore.y)
+				else:
+					point = _forest_find_position(random, 50.0, 140.0)
+			"maze_crate":
+				point = _maze_find_position()
+				if not point.is_finite(): point = choose_cache_position(random)
+			_:
+				point = _forest_find_position(random, 55.0, 150.0)
+		if not point.is_finite(): continue
+		finds[id].node.global_position = point
+		finds[id].ready = true
+		finds[id].node.visible = int(team.get("find_" + id, 0)) == 0
+
 func place_cache() -> bool:
+	place_finds()
 	if cache_ready or NetSession.is_client(): return true
 	var random := RandomNumberGenerator.new()
 	random.randomize()
@@ -339,6 +472,9 @@ func close_enough(p: Player, id: String) -> bool:
 	if id == "cache":
 		if not cache_ready or team.cache: return false
 		target = cache_node.global_position + Vector3.UP * 0.6
+	elif finds.has(id):
+		if not finds[id].ready or int(team.get("find_" + id, 0)) > 0: return false
+		target = finds[id].node.global_position + Vector3.UP * 0.5
 	elif npcs.has(id):
 		if not npcs[id].is_visible_in_tree(): return false
 		target = npcs[id].global_position + Vector3.UP * 1.3
@@ -358,10 +494,14 @@ func nearest(p: Player) -> String:
 			distance = d
 			found = id
 	if not team.cache and close_enough(p, "cache"): return "cache"
+	for id in finds:
+		if int(team.get("find_" + id, 0)) == 0 and close_enough(p, id): return id
 	return found
 
 func prompt(id: String) -> String:
-	return "[E] Recover Mechanic's delivery" if id == "cache" else Lang.t("[E] %s · %s", [NPCS[id].name, NPCS[id].role])
+	if id == "cache": return "[E] Recover Mechanic's delivery"
+	if FINDS.has(id): return FINDS[id].label
+	return Lang.t("[E] %s · %s", [NPCS[id].name, NPCS[id].role])
 
 func event(kind: String) -> void:
 	if NetSession.is_client(): return
@@ -653,6 +793,20 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			w.update_hud()
 			Sfx.event(self, p.peer_id, "pickup")
 			return Lang.t("Autorefill: +%d rounds · −%d R · %s", [refill.rounds, refill.cost, "all full" if refill.rounds == refill.missing else "partial refill within your balance"])
+		"find":
+			if not FINDS.has(npc) or int(team.get("find_" + npc, 0)) > 0: return "There is nothing left to find here."
+			if not d.accepted.get(FINDS[npc].quest, false): return "Mara knows what this is about. Talk to her first."
+			team["find_" + npc] = 1
+			finds[npc].node.hide()
+			Sfx.event(self, p.peer_id, "consume" if npc == "trip_mushroom" else "pickup")
+			if npc == "trip_mushroom":
+				if p == game.player: game.hud.hallucinate(TRIP_SECONDS)
+				elif NetSession.is_host(): NetSession.feedback(p.peer_id, "hallucinate", [TRIP_SECONDS])
+			else:
+				var find_weapons := weapon_for(p)
+				if find_weapons: find_weapons.refill_all()
+				if p.hp < p.max_hp: p.hp = minf(p.max_hp, p.hp + 40.0)
+			return FINDS[npc].found
 		"cache":
 			if npc != "cache" or team.cache: return "The delivery has already been recovered."
 			if not d.accepted.get("supplies", false): return "Mechanic knows who this delivery belongs to. Talk to her."
@@ -777,6 +931,10 @@ func interact(id: String) -> void:
 	if id == "cache":
 		if NetSession.enabled: NetSession.command("shop", [id, "cache", "", ""])
 		else: game.hud.message(transact(game.player, id, "cache", ""), 3)
+		return
+	if FINDS.has(id):
+		if NetSession.enabled: NetSession.command("shop", [id, "find", "", ""])
+		else: game.hud.message(transact(game.player, id, "find", ""), 3.5)
 		return
 	if not game.player.active or not close_enough(game.player, id): return
 	shop = id
@@ -1164,7 +1322,7 @@ func _render() -> void:
 			else:
 				for spec in Skills.UPGRADES:
 					var level: int = game.skills.levels.get(spec.id, 0)
-					var cost := int(spec.cost) + int(spec.cost) * level / 2
+					var cost := Skills.training_cost(spec, level)
 					_row(Lang.t("%s · %d/%d", [spec.name, level, spec.max]), spec.desc, "%d R" % cost, request.bind("training", spec.id), level >= int(spec.max) or p.score < cost)
 		"Towers":
 			if _building_layout: rows.add_child(ItemIcons.view("tower", Vector2(140, 90)))
@@ -1313,7 +1471,9 @@ func _process(delta: float) -> void:
 	else: tutorial.text = ""
 
 func snapshot() -> Dictionary:
-	return {"people": people.duplicate(true), "team": team.duplicate(true), "cache_position": cache_node.global_position if cache_node else Vector3.ZERO, "cache_ready": cache_ready, "rare_market": rare_market.snapshot() if rare_market else {}}
+	var find_state := {}
+	for id in finds: find_state[id] = [finds[id].node.global_position, finds[id].ready]
+	return {"people": people.duplicate(true), "team": team.duplicate(true), "cache_position": cache_node.global_position if cache_node else Vector3.ZERO, "cache_ready": cache_ready, "finds": find_state, "rare_market": rare_market.snapshot() if rare_market else {}}
 
 func refresh_notifications() -> void:
 	var peer: int = NetSession.local_id() if NetSession.enabled else game.player.peer_id
@@ -1331,3 +1491,9 @@ func apply_snapshot(s: Dictionary, initial := false) -> void:
 	if cache_node:
 		if cache_ready: cache_node.global_position = s["cache_position"]
 		cache_node.visible = cache_ready and not team.cache
+	var find_state: Dictionary = s.get("finds", {})
+	for id in finds:
+		if not find_state.has(id): continue
+		finds[id].ready = bool(find_state[id][1])
+		if finds[id].ready: finds[id].node.global_position = find_state[id][0]
+		finds[id].node.visible = finds[id].ready and int(team.get("find_" + id, 0)) == 0

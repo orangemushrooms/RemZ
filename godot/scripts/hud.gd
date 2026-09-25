@@ -70,6 +70,29 @@ var _stats_frames := 0
 var _message_tween: Tween
 var _streak_t := 0.0
 var _hit_dirs: Array = []           # [angle, time left]
+var trip_rect: ColorRect
+var _trip_material: ShaderMaterial
+var _trip_t := 0.0
+var _trip_len := 0.0
+const TRIP_SHADER := """
+shader_type canvas_item;
+uniform sampler2D screen : hint_screen_texture, filter_linear_mipmap;
+uniform float strength = 0.0;
+void fragment() {
+	float w = strength;
+	vec2 uv = SCREEN_UV;
+	uv += vec2(sin(uv.y * 9.0 + TIME * 1.7), cos(uv.x * 7.0 + TIME * 1.3)) * 0.014 * w;
+	float lod = 2.6 * w;
+	vec2 shift = vec2(0.012 * w, 0.0);
+	vec3 col = vec3(textureLod(screen, uv + shift, lod).r, textureLod(screen, uv, lod).g, textureLod(screen, uv - shift, lod).b);
+	col = mix(col, col.gbr, 0.3 * w * (0.5 + 0.5 * sin(TIME * 0.8)));
+	col = mix(col, vec3(dot(col, vec3(0.3, 0.5, 0.2))) * vec3(0.9, 0.7, 1.2), 0.25 * w);
+	COLOR = vec4(col, 1.0);
+}
+"""
+var attack_dir: Control
+var _attack_arrows: Array = []      # [angle, name, strength 0..1] refreshed every frame from the gates under attack
+var _attack_pulse := 0.0
 var _popups: Array = []             # [Label, time left]
 var _popup_pool: Array[Label] = []
 var _pending_popups: Array = []
@@ -140,12 +163,29 @@ func _ready() -> void:
 	damage_rect.color = Color(0.7, 0.07, 0.1, 0.0)
 	damage_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.add_child(damage_rect)
+	# the strange mushroom: a swimming, colour-shifted blur over the whole screen (see hallucinate)
+	trip_rect = ColorRect.new()
+	trip_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	trip_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var trip_shader := Shader.new()
+	trip_shader.code = TRIP_SHADER
+	_trip_material = ShaderMaterial.new()
+	_trip_material.shader = trip_shader
+	trip_rect.material = _trip_material
+	trip_rect.hide()
+	root.add_child(trip_rect)
 	# hit direction arcs around the crosshair
 	hit_dir = Control.new()
 	hit_dir.set_anchors_preset(Control.PRESET_CENTER)
 	hit_dir.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	hit_dir.draw.connect(_draw_hit_dirs)
 	root.add_child(hit_dir)
+	# red arrows around the crosshair towards every gate (and the hut) under attack
+	attack_dir = Control.new()
+	attack_dir.set_anchors_preset(Control.PRESET_CENTER)
+	attack_dir.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	attack_dir.draw.connect(_draw_attack_dirs)
+	root.add_child(attack_dir)
 
 	# One transparent, ballistic reticle; menus can hide it through the common list.
 	var reticle := preload("res://scripts/aim_reticle.gd").new()
@@ -857,6 +897,8 @@ func _process(delta: float) -> void:
 			l.modulate.a = clampf(p[1] * 2.0, 0.0, 1.0)
 			alive.append(p)
 		_popups = alive
+	_update_attack_dirs(delta)
+	_update_trip(delta)
 	if not _hit_dirs.is_empty():
 		var keep: Array = []
 		for h in _hit_dirs:
@@ -865,6 +907,68 @@ func _process(delta: float) -> void:
 				keep.append(h)
 		_hit_dirs = keep
 		hit_dir.queue_redraw()
+
+# The strange mushroom: the view swims and shifts colour for the given seconds, fading in and out.
+func hallucinate(seconds: float) -> void:
+	_trip_len = maxf(seconds, 1.0)
+	_trip_t = _trip_len
+	trip_rect.show()
+	message("The forest begins to swim. Wait it out.", 3.5)
+
+func _update_trip(delta: float) -> void:
+	if _trip_t <= 0.0: return
+	_trip_t = maxf(0.0, _trip_t - delta)
+	var t := _trip_t / _trip_len
+	var strength := clampf(minf((1.0 - t) * 6.0, t * 4.0), 0.0, 1.0)
+	_trip_material.set_shader_parameter("strength", strength)
+	if _trip_t <= 0.0: trip_rect.hide()
+
+func tripping() -> bool:
+	return _trip_t > 0.0
+
+# Gates under attack (barricade.under_attack(), the hut's under_attack()) become pulsing red arrows around
+# the crosshair with the gate's name, using the same angle convention as the hit arcs (0 = ahead, +PI/2 right).
+func _update_attack_dirs(delta: float) -> void:
+	_attack_pulse += delta * 5.0
+	var arrows: Array = []
+	if game and "player" in game and game.player and game.player.camera and visible:
+		var cam: Camera3D = game.player.camera
+		var forward := -cam.global_basis.z
+		forward.y = 0.0
+		forward = forward.normalized()
+		var right := Vector3(-forward.z, 0.0, forward.x)
+		var targets: Array = []
+		if "barricades" in game:
+			for b in game.barricades:
+				if b is Barricade and b.under_attack(): targets.append([b.center, b.slot["name"]])
+		if "hut" in game and game.hut and game.hut.has_method("under_attack") and game.hut.under_attack():
+			targets.append([game.hut.attack_point(cam.global_position), "Forest hut"])
+		for t in targets:
+			var d: Vector3 = (t[0] as Vector3) - cam.global_position
+			d.y = 0.0
+			if d.length() < 0.5: continue
+			var angle := atan2(d.dot(right), d.dot(forward))
+			arrows.append([angle, t[1], clampf(1.0 - d.length() / 160.0, 0.35, 1.0)])
+	var changed := arrows.size() != _attack_arrows.size()
+	_attack_arrows = arrows
+	if attack_dir and (changed or not arrows.is_empty()):
+		attack_dir.queue_redraw()
+
+func _draw_attack_dirs() -> void:
+	var pulse := 0.75 + 0.25 * sin(_attack_pulse)
+	for a in _attack_arrows:
+		var angle: float = a[0]
+		var col := Color(1.0, 0.16, 0.1, 0.9 * pulse)
+		var tip := Vector2(sin(angle), -cos(angle))
+		var side := tip.orthogonal()
+		attack_dir.draw_colored_polygon(PackedVector2Array([tip * 176.0, tip * 148.0 + side * 14.0, tip * 148.0 - side * 14.0]), col)
+		attack_dir.draw_colored_polygon(PackedVector2Array([tip * 152.0 + side * 6.0, tip * 152.0 - side * 6.0, tip * 136.0 - side * 6.0, tip * 136.0 + side * 6.0]), col)
+		var font := ThemeDB.fallback_font
+		var text := Lang.text(a[1])
+		var size := font.get_string_size(text, HORIZONTAL_ALIGNMENT_CENTER, -1, 15)
+		var at := tip * 198.0 - Vector2(size.x * 0.5, -5.0)
+		attack_dir.draw_string_outline(font, at, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, 4, Color(0, 0, 0, 0.8 * pulse))
+		attack_dir.draw_string(font, at, text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, col)
 
 func _draw_hit_dirs() -> void:
 	for h in _hit_dirs:

@@ -859,7 +859,7 @@ msgstr "Die Karte wird vorbereitet …"
 msgid "Return to the main menu first to host or join a game."
 msgstr "Zum Erstellen oder Beitreten zuerst ins Hauptmenü zurückkehren."
 
-#: scripts/coop_menu.gd scripts/quest_notifications.gd
+#: scripts/coop_menu.gd scripts/progression.gd scripts/quest_notifications.gd
 msgid "ready"
 msgstr "bereit"
 
@@ -2100,6 +2100,14 @@ msgid "down"
 msgstr "am Boden"
 
 #: scripts/hud.gd
+msgid "The forest begins to swim. Wait it out."
+msgstr "Der Wald beginnt zu schwimmen. Warte es ab."
+
+#: scripts/hud.gd
+msgid "Forest hut"
+msgstr "Waldhütte"
+
+#: scripts/hud.gd
 msgid "HUT %d / %d"
 msgstr "HÜTTE %d / %d"
 
@@ -2751,6 +2759,10 @@ msgstr "[E] Drohnenkontrollzentrum"
 msgid "[E] Close note"
 msgstr "[E] Hinweis schliessen"
 
+#: scripts/main.gd
+msgid "Night has fallen. Flashlight on - toggle it with F."
+msgstr "Die Nacht ist da. Taschenlampe an - mit F schaltest du sie um."
+
 #: scripts/map.gd
 msgid "Hut Path"
 msgstr "Weg zur Hütte"
@@ -3224,6 +3236,30 @@ msgid "Survive wave 6 and defeat 80 zombies in total. Then return to Mara at the
 msgstr "Übersteht Welle 6 und besiegt insgesamt 80 Zombies. Kehre danach zu Mara an die kleine Feuerstelle zurück."
 
 #: scripts/progression.gd
+msgid "The Box at the Pond"
+msgstr "Die Kiste am Teich"
+
+#: scripts/progression.gd
+msgid "Mara hid a box of supplies at the pond up in the forest before the first night. Find it at the shore and open it. The map marks the pond once you accept."
+msgstr "Mara hat vor der ersten Nacht eine Kiste mit Vorräten am Teich oben im Wald versteckt. Finde sie am Ufer und öffne sie. Die Karte markiert den Teich, sobald du annimmst."
+
+#: scripts/progression.gd
+msgid "The Strange Mushroom"
+msgstr "Der seltsame Pilz"
+
+#: scripts/progression.gd
+msgid "Somewhere in the forest grows a mushroom that glows violet at dusk. Find it and eat it right there. Mara warns you: the forest will look different for a while afterwards."
+msgstr "Irgendwo im Wald wächst ein Pilz, der in der Dämmerung violett leuchtet. Finde ihn und iss ihn gleich dort. Mara warnt dich: Der Wald sieht danach eine Weile anders aus."
+
+#: scripts/progression.gd
+msgid "Into the Maize"
+msgstr "Hinein ins Maisfeld"
+
+#: scripts/progression.gd
+msgid "A supply crate was left deep in the maize maze south of the hut path. Enter the maze, follow the cleared passages to the crate and open it. The map shows where it lies."
+msgstr "Tief im Maislabyrinth südlich des Hüttenwegs wurde eine Vorratskiste zurückgelassen. Betritt das Labyrinth, folge den freigeschnittenen Gängen bis zur Kiste und öffne sie. Die Karte zeigt, wo sie liegt."
+
+#: scripts/progression.gd
 msgid "By the Fire"
 msgstr "Am Feuer"
 
@@ -3434,6 +3470,54 @@ msgstr "Tempest-Flugstrecke (m)"
 #: scripts/progression.gd
 msgid "Tempest kills"
 msgstr "Tempest-Abschüsse"
+
+#: scripts/progression.gd
+msgid "Supply box at the pond"
+msgstr "Vorratskiste am Teich"
+
+#: scripts/progression.gd
+msgid "Strange mushroom eaten"
+msgstr "Seltsamer Pilz gegessen"
+
+#: scripts/progression.gd
+msgid "Crate in the maize maze"
+msgstr "Kiste im Maislabyrinth"
+
+#: scripts/progression.gd
+msgid "[E] Open Mara's supply box"
+msgstr "[E] Maras Vorratskiste öffnen"
+
+#: scripts/progression.gd
+msgid "SUPPLY BOX · MARA"
+msgstr "VORRATSKISTE · MARA"
+
+#: scripts/progression.gd
+msgid "Supply box opened: bandages and cartridges. Return to Mara."
+msgstr "Vorratskiste geöffnet: Verbandszeug und Patronen. Kehr zu Mara zurück."
+
+#: scripts/progression.gd
+msgid "[E] Eat the violet mushroom"
+msgstr "[E] Den violetten Pilz essen"
+
+#: scripts/progression.gd
+msgid "STRANGE MUSHROOM"
+msgstr "SELTSAMER PILZ"
+
+#: scripts/progression.gd
+msgid "You eat the mushroom. The forest begins to swim ..."
+msgstr "Du isst den Pilz. Der Wald beginnt zu schwimmen ..."
+
+#: scripts/progression.gd
+msgid "[E] Open the supply crate"
+msgstr "[E] Die Vorratskiste öffnen"
+
+#: scripts/progression.gd
+msgid "SUPPLY CRATE · MARA"
+msgstr "VORRATSKISTE · MARA"
+
+#: scripts/progression.gd
+msgid "Crate opened: ammunition for everyone. Find your way back out and return to Mara."
+msgstr "Kiste geöffnet: Munition für alle. Finde den Weg zurück hinaus und kehr zu Mara zurück."
 
 #: scripts/progression.gd
 msgid "Forest Camo"
@@ -3738,6 +3822,14 @@ msgstr "alles voll"
 #: scripts/progression.gd
 msgid "partial refill within your balance"
 msgstr "Teilauffüllung nach Guthaben"
+
+#: scripts/progression.gd
+msgid "There is nothing left to find here."
+msgstr "Hier gibt es nichts mehr zu finden."
+
+#: scripts/progression.gd
+msgid "Mara knows what this is about. Talk to her first."
+msgstr "Mara weiss, worum es hier geht. Sprich zuerst mit ihr."
 
 #: scripts/progression.gd
 msgid "The delivery has already been recovered."

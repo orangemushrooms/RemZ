@@ -177,7 +177,7 @@ func run() -> void:
 	shop.transact(p, "mechanic", "training", "w_ak47")
 	check(p.score == before and not w.unlocked.ak47, "Legacy weapon upgrade ID cannot bypass progression")
 	shop.transact(p, "mechanic", "training", "damage")
-	check(is_equal_approx(w.damage_mul, 1.12) and p.score == before - 120, "Training applies and charges at the mechanic")
+	check(is_equal_approx(w.damage_mul, 1.12) and p.score == before - 240, "Training applies and charges double the listed base at the mechanic")
 	shop.transact(p, "mechanic", "quest", "watch")
 	check(not shop.complete("watch"), "Tower quest requires actual defence work")
 	var point := Map.ground_pos(60, 112)

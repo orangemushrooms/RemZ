@@ -764,6 +764,8 @@ func die(dir: Vector3) -> void:
 	velocity = Vector3.ZERO
 	play("death")
 	if not is_boss_kind(net_kind): Sfx.play_at(get_parent(), "zombie_death", global_position, -20.0)
+	if last_headshot and not bool(type.get("giant", false)) and not bool(type.get("worm", false)):
+		_pop_head(dir)
 	collision_layer = 0
 	collision_mask = 1
 	agent.avoidance_enabled = false
@@ -783,6 +785,27 @@ func die(dir: Vector3) -> void:
 		scene.add_child(_pool)
 		_pool.global_position = global_position + Vector3(dir.x, 0.0, dir.z).normalized() * 0.4 + Vector3(0, 0.05, 0)
 		_pool.rotation.y = randf() * TAU
+
+# A lethal headshot takes the head off: the Head bone's pose scale collapses (the Meshy clips carry no scale
+# tracks, so the death clip leaves it alone - a SkeletonModifier3D was tried first and Godot restores the
+# poses after modifiers) and the weapons' pooled blood bursts spray from the neck. Replicas get the same
+# call through the co-op death state (snapshot field 13).
+var _head_popped := false
+func _pop_head(dir: Vector3) -> void:
+	if _head_popped or not model: return
+	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D
+	if not rig: return
+	var bone := rig.find_bone("Head")
+	if bone < 0: return
+	_head_popped = true
+	var head_pos: Vector3 = rig.global_transform * rig.get_bone_global_pose(bone).origin
+	rig.set_bone_pose_scale(bone, Vector3(0.001, 0.001, 0.001))
+	var scene := get_tree().current_scene
+	if "weapons" in scene and scene.weapons and scene.weapons.has_method("_blood"):
+		var away := Vector3(dir.x, 0.0, dir.z).normalized()
+		for spray in [away + Vector3.UP * 0.8, away.rotated(Vector3.UP, 0.9) + Vector3.UP * 0.4, away.rotated(Vector3.UP, -0.9) + Vector3.UP * 0.4]:
+			scene.weapons._blood(head_pos, (spray as Vector3).normalized())
+	Sfx.play_at(get_parent(), "pumpkin_splat", head_pos, -4.0)
 
 func update_rare_visual() -> void:
 	if not _rare_marker and not rare_status.is_empty():
@@ -1000,11 +1023,14 @@ func _physics_process(delta: float) -> void:
 				hit_target = null
 				return
 			var dd: float = hit_target.attack_point(global_position).distance_to(global_position) if hit_target else player.global_position.distance_to(global_position)
-			if dd < hit_reach + 0.6 and _can_hit(hit_target):
-				if hit_target:
-					hit_target.damage(type["damage"] * damage_mul)
-				elif player.alive:
-					player.damage(type["damage"] * damage_mul, global_position)
+			if dd < hit_reach + 0.6:
+				if _can_hit(hit_target):
+					if hit_target:
+						hit_target.damage(type["damage"] * damage_mul)
+					elif player.alive:
+						player.damage(type["damage"] * damage_mul, global_position)
+				elif _blocked_by_wall and not (hit_target is Barricade):
+					_hit_palisade(type["damage"] * damage_mul)
 	growl_t -= delta
 	if growl_t <= 0.0 and dist < 25.0:
 		growl_t = randf_range(4.0, 12.0)
@@ -1194,9 +1220,27 @@ func _can_hit(bar: Variant) -> bool:
 	var query := PhysicsRayQueryParameters3D.create(origin, target, 1 | 8)
 	query.exclude = [get_rid()]
 	var hit := get_world_3d().direct_space_state.intersect_ray(query)
+	_blocked_by_wall = false
 	if hit.is_empty(): return true
+	_blocked_by_wall = hit.collider is Node and (hit.collider as Node).is_in_group("perimeter_wall")
 	if bar == null: return false
 	return hit.collider == bar.body or (bar is HutHealth and hit.collider.is_in_group("hut_body"))
+
+# A swing that lands on the palisade instead of its target (the player right behind the wall, the hut
+# behind it) shakes the ring on its gate posts: the nearest built gate takes WALL_HIT_SHARE of the damage
+# and raises its attack alert, so the HUD arrows point there. Before 25 Sep 2026 those swings did nothing.
+const WALL_HIT_SHARE := 0.6
+var _blocked_by_wall := false
+func _hit_palisade(amount: float) -> void:
+	var nearest: Barricade = null
+	var best := INF
+	for b in barricades:
+		if not b is Barricade or b.level <= 0 or b.hp <= 0.0: continue
+		var d: float = b.distance_to_line(global_position)
+		if d < best:
+			best = d
+			nearest = b
+	if nearest: nearest.damage(amount * WALL_HIT_SHARE)
 
 # strong push from a melee strike, independent of the hit stagger scaling
 func shove(impulse: Vector3) -> void:

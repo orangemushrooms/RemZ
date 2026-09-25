@@ -205,6 +205,14 @@ func _draw_symbols(c: Control) -> void:
 		if world.progression.cache_ready and world.progression.local_data().accepted.get("supplies", false) and not world.progression.team.cache:
 			var cache_point := map_position(world.progression.cache_node.global_position)
 			c.draw_circle(cache_point, 4, Color(0.9, 0.67, 0.16), false, 1.5)
+		for find_id in world.progression.finds:
+			var find: Dictionary = world.progression.finds[find_id]
+			if not find.ready or int(world.progression.team.get("find_" + find_id, 0)) > 0: continue
+			if not world.progression.local_data().accepted.get(Progression.FINDS[find_id].quest, false): continue
+			var find_point := map_position(find.node.global_position)
+			var find_colour := Color(0.75, 0.35, 1.0) if find_id == "trip_mushroom" else Color(0.9, 0.67, 0.16)
+			c.draw_circle(find_point, 4, find_colour, false, 1.5)
+			c.draw_circle(find_point, 1.5, find_colour)
 	var gold = world.get("gold_mushroom")
 	if reveal_gold and is_instance_valid(gold) and not gold.taken:
 		var gold_point := map_position(gold.global_position).clamp(MAP_RECT.position + Vector2.ONE * 7, MAP_RECT.end - Vector2.ONE * 7)

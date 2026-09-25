@@ -515,7 +515,7 @@ func snapshot() -> Dictionary:
 	var zs := {}
 	for z in game.zombies_root.get_children():
 		if not z is Zombie: continue
-		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul, z.max_hp, z.boss_state() if z is Titan or z is Earthworm else [], z.model_path, z.appearance_seed, z.height, z.rare_status]
+		zs[_entity_id(z)] = [z.net_kind, z.global_position, z.rotation.y, z.hp, z.alive, z.state, z.speed_mul, z.max_hp, z.boss_state() if z is Titan or z is Earthworm else [], z.model_path, z.appearance_seed, z.height, z.rare_status, z._head_popped]
 	var gs := {}
 	for id in grenades.keys():
 		var g = grenades[id]
@@ -699,7 +699,9 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		z.net_yaw = s[2]
 		if z.hp > float(s[3]): z._flash()
 		z.hp = s[3]
-		if not s[4] and z.alive: z.die(Vector3.ZERO)
+		if not s[4] and z.alive:
+			z.last_headshot = s.size() > 13 and bool(s[13])   # the host's headshot burst on the replica too
+			z.die(Vector3.ZERO)
 		if z.alive:
 			game._alive_count += 1
 			if z.state != s[5]: z.play(s[5])

@@ -615,6 +615,7 @@ func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 			if args.size() > 1: game.progression.show_gain(int(args[1]))
 			if not game.progression.is_open and not str(args[0]).is_empty(): game.hud.message(str(args[0]), 3)
 		"message": game.hud.message(args[0], args[1])
+		"hallucinate": game.hud.hallucinate(float(args[0]))
 		"hit": game.hud.hitmarker(args[0])
 		"hurt":
 			game.hud.damage_flash(args[0])

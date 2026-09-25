@@ -69,6 +69,27 @@ and scales it into the 3.2 x 1.55 m segment, a missing GLB falls back to the tim
 planner in `barricade_menu.gd` reads the same table; `--suite=barricades --render-barricades` (windowed) renders
 every tier into `artifacts/barricades/`),
 `weapon_attachments.gd` (hangs the mod models on a weapon; see Weapon mods).
+Batch of 25 Sep 2026 (`--suite=forest_finds --smoke-test --no-intro --no-music --no-foliage`, 35 checks;
+`--render-finds` windowed saves `artifacts/finds/{trip,mushroom,attack-arrows,headshot}.png`):
+- Palisade hits: a zombie swing that the ring blocks (`Zombie._can_hit` sets `_blocked_by_wall` when the ray
+  stops on the `perimeter_wall` body) damages the nearest built gate by `WALL_HIT_SHARE` 0.6 of the swing
+  (`_hit_palisade`) and raises its attack alert; before that those swings did nothing. `hud.gd` draws pulsing
+  red arrows with the gate name around the crosshair for every gate (and the hut) `under_attack()`
+  (`_update_attack_dirs` / `attack_dir`, same angle convention as the hit arcs).
+- Lethal headshots burst the head: `Zombie._pop_head` scales the Head bone's pose to 0.001 (the Meshy clips
+  carry no scale tracks, so the death clip leaves it; a SkeletonModifier3D was tried and Godot restores poses
+  after modifiers), sprays three pooled `weapons._blood` bursts and plays `pumpkin_splat`. Replicas get the
+  flag as zombie snapshot field 13.
+- Mara's search quests (`Progression.FINDS`, quests `pond_cache` / `trip_mushroom` / `maze_crate` in the
+  forest chain): one node each, placed by `place_finds()` from `place_cache()` - the box at the pond shore,
+  the violet glowing mushroom at a random forest spot 55-150 m from the fire, the crate on the dead-end
+  passage farthest into the maize maze; E via `nearest()` / `transact(.., id, "find", "")`, goal
+  `team["find_<id>"]`, minimap marker once accepted, co-op snapshot `finds`. Eating the mushroom calls
+  `hud.hallucinate(28)`: a full-screen `TRIP_SHADER` ColorRect (wobble, mip blur, chroma shift) fading in
+  and out (`_update_trip`, `tripping()`), sent to a client as feedback "hallucinate".
+- The flashlight switches itself on at 19:00 game time once per night (`main._auto_flashlight`, message
+  "Night has fallen. Flashlight on - toggle it with F."); the player may switch it off again.
+- Training at the Mechanic costs `Skills.training_cost` = twice the listed base (tier 1 of Firepower 240 R).
 Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scored in `main._zombie_killed`
 (difficulty multiplier, streak bonus, headshot x1.5); zombies only report through the `_on_kill` callback.
 

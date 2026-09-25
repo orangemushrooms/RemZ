@@ -8,6 +8,11 @@ var main: Node
 var levels := {}
 var is_open := false
 
+# Training at the Mechanic costs twice the listed base since 25 Sep 2026 (the user found it too cheap):
+# tier 1 = 2 x cost, every further tier adds another cost.
+static func training_cost(spec: Dictionary, level: int) -> int:
+	return 2 * (int(spec.cost) + int(spec.cost) * level / 2)
+
 const UPGRADES := [
 	{ "id": "hp", "name": "Toughness", "desc": "+25 max health", "cost": 100, "max": 4 },
 	{ "id": "speed", "name": "Legs", "desc": "+8% running speed", "cost": 80, "max": 4 },
@@ -33,7 +38,7 @@ func purchase(p: Player, w: Weapons, id: String) -> String:
 		if entry.id == id: spec = entry
 	if spec.is_empty(): return "This training does not exist."
 	var level: int = progress.get(id, 0)
-	var cost := int(spec.cost) + int(spec.cost) * level / 2
+	var cost := training_cost(spec, level)
 	if level >= int(spec.max): return "Training already complete."
 	if p.score < cost: return "Not enough Rem Dollars."
 	p.add_score(-cost)

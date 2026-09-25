@@ -36,6 +36,7 @@ var fire_light: OmniLight3D
 var grill_position := Vector3.ZERO
 var started := false
 var over := false
+var _night_light_done := false      # the 19:00 flashlight hint fired for this night
 var near_bar = null
 var _tower_hint_remaining := 12.0
 var notice_board: Node3D
@@ -2598,6 +2599,7 @@ var _shadow_cells_t := 0.0
 func _process(delta: float) -> void:
 	_update_notice()
 	var t := Time.get_ticks_msec() / 1000.0
+	_auto_flashlight()
 	if started and not over and player and (player.active or NetSession.is_host()) and not get_tree().paused and not NetSession.is_client():
 		stats.tick(delta)
 	_shadow_cells_t -= delta
@@ -2701,6 +2703,22 @@ func _process(delta: float) -> void:
 				if not error.is_empty(): hud.message(error, 2.0)
 	if _autotest and started:
 		_autotest_step(delta)
+
+# From 19:00 game time the flashlight switches itself on once per night (with the F hint); the player may
+# switch it off again, the next evening it comes back.
+func _auto_flashlight() -> void:
+	if not started or over or not day_night or not player or not player.alive: return
+	if intro and intro.active: return
+	var hour: float = day_night.clock_seconds / 3600.0
+	var night := hour >= 19.0 or hour < 5.0
+	if night and not _night_light_done:
+		_night_light_done = true
+		if not player.flashlight.visible:
+			player.flashlight.visible = true
+			Sfx.play(player, "flashlight", -12.0)
+		hud.message("Night has fallen. Flashlight on - toggle it with F.", 4.5)
+	elif not night:
+		_night_light_done = false
 
 # --autotest: start automatically, look around, save screenshots, quit (used by Claude for checks)
 # yaw 0 looks north (-Z), PI/2 west, -PI/2 east, PI south
