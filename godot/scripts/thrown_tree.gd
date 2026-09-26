@@ -1,5 +1,5 @@
 # A tree torn out and thrown by a titan that has lost an arm (26 Sep 2026, titan.gd phases): one of the
-# Meshy forest trees (MODELS, HEIGHT metres, picked from the throw's origin so host and clients agree)
+# green Meshy conifers of the forest (MODELS, HEIGHT metres, picked from the throw's origin so host and clients agree)
 # with a root ball of soil under its trunk tumbles along an arc from the giant's hand to the aimed point,
 # crushes whatever stands within RADIUS of the impact (players with a shove, gates, sandbag lines,
 # towers, the hut, even zombies) and then lies on the ground for a while before sinking away. The host
@@ -11,7 +11,7 @@ extends Node3D
 const RADIUS := 5.5
 const REST_SECONDS := 24.0
 const SPIN := 3.2
-const MODELS := ["tree_autumn_a", "tree_autumn_b"]
+const MODELS := ["fir", "spruce_hd"]   # Trees.SPECIES kinds with a Meshy model
 const HEIGHT := 11.5
 static var _scenes: Dictionary = {}
 
@@ -94,34 +94,22 @@ func setup(a: Vector3, b: Vector3, seconds: float, thrower: Titan, is_replica: b
 		_visual.add_child(crown)
 	global_position = a
 
-# One of the forest tree GLBs, HEIGHT metres tall with the foot of its trunk on the visual's origin.
+# One of the forest's own green conifers (Trees.model_mesh: the tinted, matte fir / spruce of the Meshy
+# stands, foot on the origin), scaled to HEIGHT metres. The autumn deciduous GLBs read as red bushes in
+# flight (26 Sep 2026), so the titan tears out the dark green firs instead.
 static func _tree_model(origin: Vector3) -> Node3D:
-	var name: String = MODELS[int(absf(origin.x * 7.3 + origin.z * 3.1)) % MODELS.size()]
-	if not _scenes.has(name):
-		var path := "res://assets/models/%s.glb" % name
-		_scenes[name] = load(path) if ResourceLoader.exists(path) else null
-	var scene: PackedScene = _scenes[name]
-	if scene == null: return null
-	var model: Node3D = scene.instantiate()
-	var bounds := AABB()
-	var first := true
-	for m in model.find_children("*", "MeshInstance3D", true, false):
-		var t := Transform3D.IDENTITY
-		var n: Node = m
-		while n != model and n is Node3D:
-			t = (n as Node3D).transform * t
-			n = n.get_parent()
-		var b: AABB = t * (m as MeshInstance3D).get_aabb()
-		bounds = b if first else bounds.merge(b)
-		first = false
-		(m as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-	if bounds.size.y <= 0.0:
-		model.free()
-		return null
-	var s := HEIGHT / bounds.size.y
-	model.scale = Vector3.ONE * s
-	model.position = Vector3(-bounds.get_center().x * s, -bounds.position.y * s, -bounds.get_center().z * s)
-	return model
+	var kind: String = MODELS[int(absf(origin.x * 7.3 + origin.z * 3.1)) % MODELS.size()]
+	var found: Array = Trees.model_mesh(kind)
+	if found.is_empty(): return null
+	var mesh: Mesh = found[0]
+	var fit: Transform3D = found[1]
+	var instance := MeshInstance3D.new()
+	instance.mesh = mesh
+	var k := HEIGHT / float(Trees.SPECIES[kind]["height"])
+	instance.transform = Transform3D(Basis.IDENTITY.scaled(Vector3.ONE * k), Vector3.ZERO) * fit
+	var holder := Node3D.new()
+	holder.add_child(instance)
+	return holder
 
 func _process(delta: float) -> void:
 	if landed:

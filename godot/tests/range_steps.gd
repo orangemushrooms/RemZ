@@ -61,7 +61,9 @@ func run() -> void:
 		# shot at this range is a dice roll by design. Fire aimed bursts instead: the point here
 		# is that "range" only starts the damage falloff and never shortens the 600 m hit ray.
 		weapons.ads = 1.0
-		for _shot in 8:
+		# up to 40 aimed shots: with the SMG's minimum cone roughly one in five lands at 181 m, and eight
+		# misses in a row did come up now and then (26 Sep 2026)
+		for _shot in 40:
 			weapons._aim_kick = Vector2.ZERO
 			weapons._bloom = 0.0
 			weapons.cur().cooldown = 0.0

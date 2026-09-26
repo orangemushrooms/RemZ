@@ -108,11 +108,29 @@ func run() -> void:
 	while t < 1.6:
 		await process_frame
 		t += root.get_process_delta_time() if root else 1.0 / 60.0
-	var lowest := INF
-	for index in titan.crawl_bones:
-		var joint: Vector3 = rig.to_global(rig.get_bone_global_pose(index).origin)
-		lowest = minf(lowest, joint.y - Map.ground_height(joint.x, joint.z))
-	check(lowest > -0.4 and lowest < 1.2, "Hands and knees rest on the terrain (lowest contact %.2f m above it)" % lowest)
+	# three seconds on all fours, every frame: the contact stays on the terrain and the giant never
+	# stands up into the idle or the roar (it has one leg left)
+	var worst := INF
+	var clips := {}
+	t = 0.0
+	while t < 3.0:
+		await process_frame
+		t += root.get_process_delta_time() if root else 1.0 / 60.0
+		var lowest := INF
+		for index in titan.crawl_bones:
+			var joint: Vector3 = rig.to_global(rig.get_bone_global_pose(index).origin)
+			lowest = minf(lowest, joint.y - Map.ground_height(joint.x, joint.z))
+		worst = minf(worst, lowest)
+		if titan.strike_phase == "walk": clips[titan.clip] = true
+	check(worst > -0.25 and worst < 1.2, "Hands and knees stay on the terrain for three seconds (lowest contact %.2f m above it)" % worst)
+	check(clips.keys() == ["crawl"], "While moving on all fours it only ever crawls (%s)" % str(clips.keys()))
+	titan.velocity = Vector3.ZERO
+	titan._ground_speed = 0.0
+	titan._stand_t = 1.0
+	titan._update_animation(0.1)
+	check(titan.clip == "crawl" and not titan._may_idle(), "Standing still it keeps crawling slowly instead of standing up to idle")
+	titan._roar("roar")
+	check(titan.clip == "crawl" and titan.strike_phase != "roar", "Its roar is voice only, no standing scream")
 	check(titan.blast_radius() < full_radius and titan.windup() < full_windup, "The slam becomes a shorter, quicker sweep")
 	check(Lang.text(game.hud.msg_label.text).contains("lost a leg"), "The leg loss is announced")
 	# ---- the replica mirrors the boss state

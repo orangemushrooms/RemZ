@@ -103,6 +103,11 @@ var panel: PanelContainer
 var title: Label
 var copy: Label
 var haze: ColorRect
+var bar: PartyBar
+var show_t := 2.0                # seconds to the next salvo of the party's own fireworks
+var show_rockets := 0            # statistics / tests
+const SHOW_SPOTS := [Vector2(-121, -186), Vector2(-95, -186), Vector2(-100, -176), Vector2(-116, -176)]
+const SHOW_KINDS := ["fw_ruby", "fw_aurora", "fw_gold"]
 var haze_material: ShaderMaterial
 
 func setup(game: Node) -> void:
@@ -112,6 +117,9 @@ func setup(game: Node) -> void:
 	_build_echo()
 	_build_weather()
 	_build_hud()
+	bar = PartyBar.new()
+	add_child(bar)
+	bar.setup(self)
 	scenery.hide()
 	_set_collisions(false)
 	panel.hide()
@@ -322,6 +330,7 @@ func _process(delta: float) -> void:
 		return
 	if not main.started or get_tree().paused: return
 	elapsed += delta
+	if not NetSession.is_client(): _update_show(delta)
 	if not NetSession.is_client():
 		if step == 0 and _team_near(DANCE, 12.0): step = 1
 		if step == COLOUR_RUN:
@@ -383,6 +392,17 @@ func _process(delta: float) -> void:
 
 # After the completion: a warm wake-up flash over the screen and a long, thick morning haze so the sun
 # shafts through the forest, both fading out on their own.
+# The party's own fireworks: a salvo every few seconds over the dance floor from the moment the team
+# arrives until the last track fades (host / solo; clients see them through the fireworks snapshot).
+func _update_show(delta: float) -> void:
+	if step < 1 or step > CLOSING or not main.fireworks: return
+	show_t -= delta
+	if show_t > 0.0: return
+	show_t = randf_range(2.2, 4.5) if step < DANCE_STEP else randf_range(0.9, 1.8)
+	var spot: Vector2 = SHOW_SPOTS[randi() % SHOW_SPOTS.size()]
+	if main.fireworks.launch_at(SHOW_KINDS[randi() % SHOW_KINDS.size()], Map.ground_pos(spot.x, spot.y) + Vector3.UP * 0.05):
+		show_rockets += 1
+
 func _update_morning(delta: float) -> void:
 	if _morning_left <= 0.0: return
 	_morning_left = maxf(0.0, _morning_left - delta)

@@ -169,8 +169,11 @@ func run() -> void:
 	check(peer.score == balance + 14 and NetSession.world.mushrooms[2].morchel == 0 and inv.mushrooms == stock_before, "Secret Vendor sells only the requesting peer's stock")
 	var snapshot: Dictionary = NetSession.world.snapshot()
 	check(snapshot.players[2].effects == peer.mushroom_effects and snapshot.players[2].mushrooms.morchel == 0, "Co-op snapshot contains effects and updated stock")
+	# a fatal hit puts the player down (26 Sep 2026), the second one while down bleeds them out
 	peer.damage(1000)
-	check(peer.mushroom_effects.is_empty(), "Death clears temporary mushroom effects")
+	check(peer.downed and not peer.mushroom_effects.is_empty(), "Going down keeps the running mushroom effects")
+	peer.damage(1000)
+	check(not peer.alive and peer.mushroom_effects.is_empty(), "Death clears temporary mushroom effects")
 	inv.mushrooms = inv.mushrooms.duplicate()
 	inv.mushrooms.morchel = 7
 	check(vendor.mushroom_stock(p).morchel == 7, "Sales UI reads inventory replaced by a client snapshot")

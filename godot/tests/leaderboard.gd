@@ -111,7 +111,8 @@ func run() -> void:
 	check(not p.alive and game.stats.players[2].deaths == 1, "Death counts once before team checks and corpse damage is ignored")
 	p.alive = true
 	p.hp = 50
-	p.damage(10000)
+	p.damage(10000)   # down ...
+	p.damage(10000)   # ... and bled out (26 Sep 2026: a fatal hit only puts a player down)
 	check(game.stats.players[2].deaths == 2, "Death after revival counts as a new death")
 	check(game.stats.leaderboard_rows()[0].id == 3, "Ranking breaks equal kills by titan kills")
 	var snap: Dictionary = net.world.snapshot()
@@ -172,7 +173,10 @@ func run() -> void:
 	await key(KEY_H, true)
 	check(game.weapons._melee_t > 0, "H triggers the existing quick melee attack")
 	await key(KEY_H, false)
-	for actor: Player in net.world.actors.values(): actor.damage(10000)
+	# down, then bled out: only a team with nobody standing and no self revive left is beaten
+	for actor: Player in net.world.actors.values():
+		actor.damage(10000)
+		actor.damage(10000)
 	await key(KEY_TAB, true)
 	check(game.over and game.leaderboard.panel.visible, "Final standings remain accessible after team defeat")
 	await key(KEY_TAB, false)

@@ -72,10 +72,18 @@ func run() -> void:
 	for entry in plan:
 		if entry.get("corn", false): corn_entries += 1
 	check(corn_entries == 3, "The stalkers are marked for the maize")
+	# 6 % of the regular horde: one plan of about thirty can come out empty by chance (about one in
+	# seven), ten plans in a row practically never
 	var spitters := 0
-	for entry in waves.plan(12):
-		if entry.type == "spitter": spitters += 1
-	check(spitters > 0, "Spitters take a share of the horde from wave 4 (%d in wave 12)" % spitters)
+	for attempt in 10:
+		for entry in waves.plan(12):
+			if entry.type == "spitter": spitters += 1
+	check(spitters > 0, "Spitters take a share of the horde from wave 4 (%d in ten plans of wave 12)" % spitters)
+	var early := 0
+	for attempt in 10:
+		for entry in waves.plan(3):
+			if entry.type == "spitter": early += 1
+	check(early == 0, "... and none before wave 4")
 	for n in [3, 4, 6, 7, 10]:
 		check(waves.preview_count(n) == waves.plan(n).size(), "The intermission preview counts wave %d exactly" % n)
 	game.weather.force("clear")

@@ -2333,6 +2333,8 @@ func _build_clutter() -> void:
 		_box_collider(feeder, Vector3(2.0, 2.3, 1.4))
 	_build_mushrooms()
 
+const PARTY_CAPS := 22
+
 func _build_mushrooms() -> void:
 	# Stratified placement covers the whole playable forest, including its interior.
 	# Zombie navigation excludes deep forest; players can still forage there.
@@ -2353,6 +2355,20 @@ func _build_mushrooms() -> void:
 				_mushroom(point.x, point.y, Inventory.Mushrooms.choose(random), random.randf_range(0.22, 0.4))
 				placed.append(point)
 				if placed.size() == 2: break
+	# Liberty caps crowd the Goa party site in Oberer Schorchen (26 Sep 2026): a fixed seed, so every
+	# peer places the same ones in the same order and the loot ids agree.
+	var party := RandomNumberGenerator.new()
+	party.seed = 5150
+	var caps := 0
+	for attempt in 400:
+		if caps >= PARTY_CAPS: break
+		var angle := party.randf() * TAU
+		var point := SecretNight.SITE + Vector2(cos(angle), sin(angle)) * party.randf_range(9.0, 38.0)
+		var size := party.randf_range(0.24, 0.34)
+		if point.distance_to(SecretNight.DANCE) < 11.0 or (absf(point.x - SecretNight.SITE.x) < 14.0 and point.y < -196.0): continue
+		if not _mushroom_ground_clear(point): continue
+		_mushroom(point.x, point.y, "kahlkopf", size)
+		caps += 1
 	# Reserve the same pickup ID on every peer, even in rounds without a rare find.
 	for item in loots:
 		if item is Loot and item.kind == "mushroom":
@@ -2822,8 +2838,12 @@ func _process(delta: float) -> void:
 		if _notice_open: hud.set_prompt("[E] Close note")
 		var secret_prompt := secret_night.prompt(player)
 		if not secret_prompt.is_empty(): hud.set_prompt(secret_prompt)
+		var bar_prompt: String = secret_night.bar.prompt(player) if secret_prompt.is_empty() and secret_night.bar else ""
+		if not bar_prompt.is_empty(): hud.set_prompt(bar_prompt)
 		if not secret_prompt.is_empty() and Input.is_action_just_pressed("interact"):
 			secret_night.request_interact()
+		elif not bar_prompt.is_empty() and Input.is_action_just_pressed("interact"):
+			secret_night.bar.open()
 		elif drone_station and Input.is_action_just_pressed("interact"):
 			drones.open()
 		elif _notice_open and Input.is_action_just_pressed("interact"):

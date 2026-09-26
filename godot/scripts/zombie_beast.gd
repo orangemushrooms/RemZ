@@ -69,6 +69,12 @@ func _mesh_bounds() -> AABB:
 		first = false
 	return merged
 
+func _model_rest_y() -> float:
+	return _base_y
+
+func _resets_model_pose() -> bool:
+	return false
+
 func play(name: String) -> void:
 	if name == "attack": _lunge = 0.32
 	super.play(name)

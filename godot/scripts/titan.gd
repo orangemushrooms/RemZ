@@ -141,7 +141,11 @@ func _process(delta: float) -> void:
 			if above <= 0.25 and _foot_heights[i] > 0.25: contact = true
 			_foot_heights[i] = above
 			lowest = minf(lowest, above)
-		model.position.y += clampf(0.08 - lowest, -height * 0.12, height * 0.12) * minf(1, delta * 12)
+		# walking, the correction is smoothed (the feet take turns); on all fours the lowest of toes, knees
+		# and hands changes from frame to frame, and a smoothed correction let the giant dip up to 0.8 m
+		# into the ground or float at the start of the crawl - it follows exactly instead
+		var follow := 1.0 if crawling and contact_bones == crawl_bones else minf(1, delta * 12)
+		model.position.y += clampf(0.08 - lowest, -height * 0.12, height * 0.12) * follow
 	var moved := Vector2(global_position.x - _last_position.x, global_position.z - _last_position.z).length()
 	_last_position = global_position
 	if replica: return # only the host creates footsteps; every peer hears the same event
@@ -225,6 +229,15 @@ func _begin_crawl() -> void:
 		anim.speed_scale = 0.6
 	if warning: warning.hide()
 
+# On all fours there is no standing idle and no standing roar: a still crawler slows its crawl instead.
+func _may_idle() -> bool:
+	return not (crawling and has_crawl_clip())
+
+func _fixed_gait_speed(name: String) -> float:
+	var base := super._fixed_gait_speed(name)
+	if name == "crawl": return base * clampf(_ground_speed / 1.6, 0.15, 1.0)
+	return base
+
 func has_crawl_clip() -> bool:
 	return anim != null and anim.has_animation("crawl")
 
@@ -270,6 +283,8 @@ func attack_lead() -> float:
 # Roar and rage: the scream clip roots the giant for its length, the strike loop resumes afterwards.
 func _roar(cue: String) -> void:
 	emit_cue(cue)
+	# the scream clip is a standing roar; on all fours only the voice carries it
+	if crawling and has_crawl_clip(): return
 	if not anim or not anim.has_animation("scream") or strike_phase != "walk": return
 	play("scream")
 	strike_phase = "roar"

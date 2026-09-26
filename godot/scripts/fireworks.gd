@@ -231,6 +231,21 @@ func ignite(p: Player, id: String) -> String:
 	next_id += 1
 	return ""
 
+# A show rocket that nobody carried (the Secret Night's salvos, 26 Sep 2026): host / solo only, no stock,
+# no placement checks; it joins `active`, so co-op clients see it through the snapshot like any other.
+func launch_at(id: String, origin: Vector3) -> bool:
+	if NetSession.is_client() or not DEFS.has(id) or is_battery(id) or not DEFS[id].rocket: return false
+	var alive_effects := 0
+	for effect in active.values():
+		if is_instance_valid(effect): alive_effects += 1
+	if alive_effects >= MAX_ACTIVE: return false
+	var effect = make_effect(id)
+	effect.configure(id, origin, origin, randi() & 0x7fffffff, 0.0, PackedVector3Array([origin]))
+	add_child(effect)
+	active[next_id] = effect
+	next_id += 1
+	return true
+
 func snapshot() -> Dictionary:
 	var live := {}
 	for id in active:

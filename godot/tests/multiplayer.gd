@@ -549,8 +549,13 @@ func host_run() -> void:
 	for label in ["c1", "c2", "c3"]: check_leaderboard(read_json("done-"+label), "Restarted " + label)
 	var orphan: DefenceTower = game.defences.create_tower(Map.ground_pos(60, 112), c3)
 	await command_clients("exit", ["c3"])
-	await wait_seconds(0.7)
-	check(NetSession.roster.size() == 3 and NetSession.world.actors.size() == 3, "Disconnected player is removed")
+	# the client process needs its own time to quit and close the connection (0.7 s was sometimes short)
+	var left := 0.0
+	while left < 10.0 and (NetSession.roster.size() != 3 or NetSession.world.actors.size() != 3):
+		await wait_seconds(0.1)
+		left += 0.1
+	await wait_seconds(0.2)
+	check(NetSession.roster.size() == 3 and NetSession.world.actors.size() == 3, "Disconnected player is removed (after %.1f s)" % left)
 	check(orphan.owner_peer == 1, "Host inherits towers when their builder disconnects")
 	test_step += 1
 	write_json("step", {"number": test_step, "action": "wait_host_left", "targets": ["c1", "c2"], "args": []})

@@ -197,6 +197,9 @@ func action(id: int, operation: String, args: Array) -> void:
 	match operation:
 		"secret_night":
 			if args.is_empty(): game.secret_night.interact(p)
+		"bar_order":
+			if args.size() == 1 and args[0] is String and args[0].length() < 32:
+				NetSession.feedback(id, "message", [game.secret_night.bar.buy(p, args[0]), 3.5])
 		"drone_launch":
 			if args.size() != 1 or not args[0] is String: return
 			var error: String = game.drones.launch(p,args[0])

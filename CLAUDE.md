@@ -460,8 +460,14 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   the stag into the ground. `_update_animation` lifts the body by sin(tilt) x half length (+ sin(roll) x half
   width) from `_mesh_bounds()`; the size variation of zombie.gd rescales the model after the fit, so
   `_refit_scale()` derives the resting height from the current scale. Dead beasts lie at half a body width.
-- `thrown_tree.gd` throws `tree_autumn_a` / `tree_autumn_b` (11.5 m, picked from the throw origin so host and
-  clients agree) with a soil root ball; the procedural trunk stays as fallback for a stripped build.
+  The real culprit (found in the second round): `Zombie._physics_process` put `model.position.y` back to 0
+  after every lean and flinch - for a centred beast that is half the body in the ground. The loop now uses
+  `_model_rest_y()` (0 for rigs, `_base_y` for beasts) and skips its lean / reset where
+  `_resets_model_pose()` is false (beasts pose themselves every tick). `--suite=batch28` measures the mesh's
+  lowest point against the feet while stag and dog really run and while they are hit.
+- `thrown_tree.gd` throws the forest's green Meshy conifers (`Trees.model_mesh("fir" / "spruce_hd")`: the same
+  tinted, matte meshes as the stands, 11.5 m, picked from the throw origin so host and clients agree) with a
+  soil root ball; the autumn deciduous GLBs read as red bushes. The procedural trunk stays as fallback.
 - Earthworms: hp 4400 / 6200, strike 70 / 88 with a shove, gates 240, towers 220, hut 340, exposed 5.5 s,
   recovery 2.8 s, the risen body turns after the player, a soil fountain while emerging / diving. The clips
   (`tools/prepare_earthworms.mjs`, re-run = both GLBs + import) carry a travelling serpentine wave, a whip on
@@ -482,6 +488,18 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
 - Numbers: one magazine more on every gun (DEFS reserve + mag, `reserve_limit` factor + 1, a bought gun comes
   with 3 spare magazines), MG-60 damage 80, graviton blast radius 11 m (edge 0.3), mortar 210 (+50 per tier),
   `DefenceTower.LIMIT` 40, spitter acid `structure` 24 per second (a whole pool leaves a timber gate standing).
+
+## Goa party round of 26 Sep 2026 (`--suite=batch28`, 25 checks; windowed `batch28_visual` -> `artifacts/batch28/`)
+- Liberty caps: `main._build_mushrooms` adds `PARTY_CAPS` 22 kahlkopf loots 9-38 m around `SecretNight.SITE`
+  (seed 5150, never on the dance floor or the stage, same order on every peer so the loot ids agree).
+- The bar (`party_bar.gd`, `SecretNight.bar`): while the party is active, E at the bar - whenever
+  `SecretNight.prompt` has nothing there - opens the drinks card (solo pauses like a shop, Esc closes without
+  the pause menu). Drinks live in `Mushrooms.DRINKS` (Goa Sunrise, Neon Mushroom Punch with a 15 s trip,
+  Forest Spirit Shot, Bass Booster, Moss Mojito, Clear Head = `hud.sober()`) and run through the same
+  `mushroom_effects` timers and `multiplier()` attributes (`Mushrooms.spec_of`); the card also sells four
+  Vendor fireworks through `Fireworks.buy`. `PartyBar.buy` is host / solo only; clients send "bar_order".
+- The party fires its own show: `SecretNight._update_show` launches a rocket every 2-4.5 s (every 1-1.8 s from
+  the last dance on) from `SHOW_SPOTS` via `Fireworks.launch_at` (no stock, joins `active`, so clients see it).
 
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,

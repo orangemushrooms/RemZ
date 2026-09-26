@@ -1019,7 +1019,7 @@ msgstr "+%d R aufgenommen"
 msgid "Supplies picked up"
 msgstr "Vorrat aufgenommen"
 
-#: scripts/coop_world.gd scripts/inventory.gd scripts/pings.gd
+#: scripts/coop_world.gd scripts/inventory.gd scripts/party_bar.gd scripts/pings.gd
 msgid "%s: %s"
 msgstr "%s: %s"
 
@@ -1699,7 +1699,7 @@ msgstr "Du bist ausser Gefecht."
 msgid "Firework bag too full for this pack."
 msgstr "Feuerwerktasche voll für dieses Paket."
 
-#: scripts/fireworks.gd scripts/progression.gd scripts/rare_market.gd
+#: scripts/fireworks.gd scripts/party_bar.gd scripts/progression.gd scripts/rare_market.gd
 msgid "Not enough Rem Dollars: %d R needed."
 msgstr "Zu wenig Rem Dollars: %d R benötigt."
 
@@ -3204,6 +3204,66 @@ msgid "Damage +50% · hallucinating"
 msgstr "Schaden +50 % · halluzinierend"
 
 #: scripts/mushrooms.gd
+msgid "Goa Sunrise"
+msgstr "Goa Sunrise"
+
+#: scripts/mushrooms.gd
+msgid "+30 health; 40 s running speed +25%"
+msgstr "+30 Leben; 40 s +25 % Lauftempo"
+
+#: scripts/mushrooms.gd
+msgid "Speed +25%"
+msgstr "Tempo +25 %"
+
+#: scripts/mushrooms.gd
+msgid "Neon Mushroom Punch"
+msgstr "Neon-Pilz-Punsch"
+
+#: scripts/mushrooms.gd
+msgid "15 s of neon visions, 30 s +40% weapon and melee damage"
+msgstr "15 s Neon-Visionen, 30 s +40 % Waffen- und Nahkampfschaden"
+
+#: scripts/mushrooms.gd
+msgid "Damage +40% · glowing"
+msgstr "Schaden +40 % · leuchtend"
+
+#: scripts/mushrooms.gd
+msgid "Forest Spirit Shot"
+msgstr "Waldgeist-Shot"
+
+#: scripts/mushrooms.gd
+msgid "+20 health; 45 s double health regeneration"
+msgstr "+20 Leben; 45 s doppelte Regeneration"
+
+#: scripts/mushrooms.gd
+msgid "Bass Booster"
+msgstr "Bass-Booster"
+
+#: scripts/mushrooms.gd
+msgid "30 s 30% faster reloads and 25% less spread"
+msgstr "30 s 30 % schneller nachladen und 25 % weniger Streuung"
+
+#: scripts/mushrooms.gd
+msgid "Reload −30% · spread −25%"
+msgstr "Nachladen −30 % · Streuung −25 %"
+
+#: scripts/mushrooms.gd
+msgid "Moss Mojito"
+msgstr "Moos-Mojito"
+
+#: scripts/mushrooms.gd
+msgid "+45 health · cold, green and suspiciously fizzy"
+msgstr "+45 Leben · kalt, grün und verdächtig sprudelnd"
+
+#: scripts/mushrooms.gd
+msgid "Clear Head"
+msgstr "Klarer Kopf"
+
+#: scripts/mushrooms.gd
+msgid "Water, mint and forest magic: ends every hallucination"
+msgstr "Wasser, Minze und Waldmagie: beendet jede Halluzination"
+
+#: scripts/mushrooms.gd
 msgid "%s · %s · %d s"
 msgstr "%s · %s · %d s"
 
@@ -3450,6 +3510,50 @@ msgstr "Beitritt zur Lobby nicht möglich (%s). Der Host hat sie vielleicht verl
 #: scripts/online_lobby.gd
 msgid "The lobby has no host any more."
 msgstr "Die Lobby hat keinen Host mehr."
+
+#: scripts/party_bar.gd
+msgid "GOA BAR · OBERER SCHORCHEN"
+msgstr "GOA-BAR · OBERER SCHORCHEN"
+
+#: scripts/party_bar.gd
+msgid "Back to the dance floor · Esc"
+msgstr "Zurück auf die Tanzfläche · Esc"
+
+#: scripts/party_bar.gd
+msgid "[E] Bar · drinks and fireworks"
+msgstr "[E] Bar · Drinks und Feuerwerk"
+
+#: scripts/party_bar.gd
+msgid "%s · %d R\n%s"
+msgstr "%s · %d R\n%s"
+
+#: scripts/party_bar.gd
+msgid "Firework · %s · %d R"
+msgstr "Feuerwerk · %s · %d R"
+
+#: scripts/party_bar.gd
+msgid "%d Rem Dollars · the DJ says: drink responsibly, dance irresponsibly."
+msgstr "%d Rem Dollars · der DJ sagt: verantwortungsvoll trinken, unvernünftig tanzen."
+
+#: scripts/party_bar.gd
+msgid "The host confirms the order."
+msgstr "Der Host bestätigt die Bestellung."
+
+#: scripts/party_bar.gd
+msgid "The bar is closed."
+msgstr "Die Bar ist geschlossen."
+
+#: scripts/party_bar.gd
+msgid "You cannot order right now."
+msgstr "Du kannst gerade nichts bestellen."
+
+#: scripts/party_bar.gd
+msgid "Walk up to the bar to order."
+msgstr "Geh an die Bar, um zu bestellen."
+
+#: scripts/party_bar.gd
+msgid "The bartender does not know that drink."
+msgstr "Diesen Drink kennt der Barkeeper nicht."
 
 #: scripts/pickup.gd
 msgid "No Rem Dollars to drop."

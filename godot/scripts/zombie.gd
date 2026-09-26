@@ -783,7 +783,7 @@ func _update_animation(delta: float) -> void:
 	if not alive or state != "walk": return
 	if _ground_speed < 0.12:
 		_stand_t += delta
-		if _stand_t > 0.35 and clip != "idle" and anim.has_animation("idle"):
+		if _stand_t > 0.35 and clip != "idle" and anim.has_animation("idle") and _may_idle():
 			clip = "idle"
 			anim.play("idle", 0.3)
 			anim.speed_scale = 0.9 + float(appearance_seed % 5) * 0.05
@@ -926,6 +926,20 @@ static func from_hit(hit: Dictionary) -> Zombie:
 	var collider: Object = hit.collider
 	if collider is Zombie: return collider
 	return collider.get_meta("zombie") as Zombie if collider.has_meta("zombie") else null
+
+# Whether a standing body may switch to the idle clip (a crawling titan has no leg to stand on).
+func _may_idle() -> bool:
+	return true
+
+# Height of the model node over the body's feet at rest: 0 for rigs (their origin is the feet); the
+# beasts' fitted meshes are centred, so they rest higher (zombie_beast.gd). The flinch lean and its
+# reset use it - resetting to 0 put every stag half into the ground (26 Sep 2026).
+func _model_rest_y() -> float:
+	return 0.0
+
+# Whether the loop may put the model's lean back to rest; a beast poses its own body every tick.
+func _resets_model_pose() -> bool:
+	return true
 
 func _fit_model() -> void:
 	# Meshy rigs are exported in metres at the height passed to the rigging step (1.7 m).
@@ -1295,16 +1309,17 @@ func _physics_process(delta: float) -> void:
 		if not is_on_floor():
 			velocity.y -= 20.0 * delta
 		move_and_slide()
-		if model and not clip.begins_with("hit"):
-			# rigs without a flinch clip lean back procedurally
+		if model and not clip.begins_with("hit") and _resets_model_pose():
+			# rigs without a flinch clip lean back procedurally (a beast poses its own body: leaning a
+			# centred animal back about its middle would sink its hind legs into the ground)
 			model.rotation.x = -0.4 * sin(t * PI)
-			model.position.y = 0.06 * sin(t * PI)
+			model.position.y = _model_rest_y() + 0.06 * sin(t * PI)
 		elif state == "hit" and anim and not anim.is_playing():
 			play("walk")   # the flinch is over while sustained fire keeps the body pinned: stand, do not freeze
 		return
-	if model and model.rotation.x != 0.0:
+	if model and model.rotation.x != 0.0 and _resets_model_pose():
 		model.rotation.x = 0.0
-		model.position.y = 0.0
+		model.position.y = _model_rest_y()
 	if state == "scream":
 		# rooted for the length of the scream, then back on the way
 		_scream_t -= delta

@@ -17,6 +17,22 @@ const DEFS := {
 	"kahlkopf": {"name": "Liberty Cap", "text": "+5 health; 25 s hallucinations, 30 s +50% weapon and melee damage", "heal": 5.0, "duration": 30.0, "damage": 1.5, "effect": "Damage +50% · hallucinating", "trip": 25.0, "sell": 20, "weight": 8, "color": Color("8a7a9a"), "cap": 0.07, "flat": 2.3},
 }
 
+# The Goa bar's drinks (party_bar.gd, 26 Sep 2026): bought, not found; they run through the same
+# mushroom_effects timers and multiplier() attributes as the mushrooms. "trip" seconds of hallucination,
+# "sober" ends one.
+const DRINKS := {
+	"goa_sunrise": {"name": "Goa Sunrise", "price": 30, "text": "+30 health; 40 s running speed +25%", "heal": 30.0, "duration": 40.0, "speed": 1.25, "effect": "Speed +25%", "color": Color("ff8a2a")},
+	"neon_punch": {"name": "Neon Mushroom Punch", "price": 45, "text": "15 s of neon visions, 30 s +40% weapon and melee damage", "heal": 0.0, "duration": 30.0, "damage": 1.4, "trip": 15.0, "effect": "Damage +40% · glowing", "color": Color("ff3fc0")},
+	"spirit_shot": {"name": "Forest Spirit Shot", "price": 35, "text": "+20 health; 45 s double health regeneration", "heal": 20.0, "duration": 45.0, "regen": 2.0, "effect": "Regeneration ×2", "color": Color("5dffb0")},
+	"bass_booster": {"name": "Bass Booster", "price": 50, "text": "30 s 30% faster reloads and 25% less spread", "heal": 0.0, "duration": 30.0, "reload": 0.7, "spread": 0.75, "effect": "Reload −30% · spread −25%", "color": Color("7a6bff")},
+	"moss_mojito": {"name": "Moss Mojito", "price": 25, "text": "+45 health · cold, green and suspiciously fizzy", "heal": 45.0, "color": Color("9be25a")},
+	"clear_head": {"name": "Clear Head", "price": 15, "text": "Water, mint and forest magic: ends every hallucination", "heal": 5.0, "sober": true, "color": Color("bdf6ff")},
+}
+
+# A mushroom or a drink by its effect key.
+static func spec_of(kind: String) -> Dictionary:
+	return DEFS[kind] if DEFS.has(kind) else DRINKS.get(kind, {})
+
 const GOLD_ROUND_CHANCE := 0.05
 static var _gold_shimmer: ShaderMaterial
 
@@ -49,8 +65,9 @@ static func choose(random: RandomNumberGenerator) -> String:
 static func multiplier(effects: Dictionary, attribute: String) -> float:
 	var result := 1.0
 	for kind in effects:
-		if float(effects[kind]) <= 0.0 or not DEFS.has(kind): continue
-		var value: float = DEFS[kind].get(attribute, 1.0)
+		var spec := spec_of(kind)
+		if float(effects[kind]) <= 0.0 or spec.is_empty(): continue
+		var value: float = spec.get(attribute, 1.0)
 		result = minf(result, value) if attribute in ["reload", "spread", "guard"] else maxf(result, value)
 	return result
 
@@ -62,8 +79,9 @@ static func tick(effects: Dictionary, delta: float) -> void:
 static func summary(effects: Dictionary) -> String:
 	var lines := PackedStringArray()
 	for kind in effects:
-		if DEFS.has(kind) and float(effects[kind]) > 0.0:
-			lines.append(Lang.t("%s · %s · %d s", [DEFS[kind].name, DEFS[kind].get("effect", ""), ceili(effects[kind])]))
+		var spec := spec_of(kind)
+		if not spec.is_empty() and float(effects[kind]) > 0.0:
+			lines.append(Lang.t("%s · %s · %d s", [spec.name, spec.get("effect", ""), ceili(effects[kind])]))
 	return "\n".join(lines)
 
 # Empty result means success; callers own HUD, sound and statistics.
