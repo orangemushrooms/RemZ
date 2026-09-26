@@ -24,7 +24,7 @@ PASS: A full pool leaves the gate standing (300 -> 144, 156 dealt)
 PASS: A stag stands on the meadow
 PASS: Standing, the lowest hoof rests on the terrain (0.00 m)
 PASS: Charging head-down, no hoof goes below the terrain (0.01 m, tilt -0.12)
-PASS: The dead stag lies on its flank, not in the ground (centre 0.34 m)
+PASS: The dead stag lies on its flank, not in the ground (centre 0.36 m)
 PASS: The tree carries a root ball and one model
 PASS: The model is a 11.5 m tree from the forest set (2 meshes)
 PASS: Titan, colossus and bloater carry the crawl clip

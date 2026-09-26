@@ -1,4 +1,3 @@
-started 00:08:50
-drones               OK exit=0 22s DRONES_DONE checks=84 failures=0  
-language_de          OK exit=0 23s LANGUAGE_DONE lang=de checks=89 failures=0  
-REGRESSIONS_DONE 00:09:13
+started 10:43:50
+compile_all          OK exit=0 5s COMPILE_ALL scripts=266 broken=0  
+REGRESSIONS_DONE 10:43:55

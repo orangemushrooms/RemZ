@@ -21,16 +21,19 @@ PASS: A tree on a gate crushes it (300 -> 82)
 PASS: Below 35 %% the left leg comes off and the titan crawls
 PASS: The leg's bones collapse into a stump
 PASS: The rig carries the crawl clip and knows its hands and knees
-PASS: It plays the crawl on hands and knees after the roar (clip crawl after 2.8 s)
+PASS: It plays the crawl on hands and knees after the roar (clip crawl after 0.0 s)
 PASS: The model is not tilted into the ground
 PASS: The crawl loops like a gait
-PASS: Hands and knees rest on the terrain (lowest contact -0.39 m above it)
+PASS: Hands and knees stay on the terrain for three seconds (lowest contact 0.03 m above it)
+PASS: While moving on all fours it only ever crawls (["crawl"])
+PASS: Standing still it keeps crawling slowly instead of standing up to idle
+PASS: Its roar is voice only, no standing scream
 PASS: The slam becomes a shorter, quicker sweep
 PASS: The leg loss is announced
 PASS: The boss state carries the lost limbs and the throw count
 PASS: A replica loses the same limbs and crawls
 PASS: ... with the same collapsed bones
-TITAN_PHASES_DONE checks=26 failures=0
+TITAN_PHASES_DONE checks=29 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

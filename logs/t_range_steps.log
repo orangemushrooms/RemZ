@@ -7,7 +7,7 @@ COOP_LOAD MAP_READY
 PASS: pistol hits a zombie at 60 m (hp 126 -> 92)
 PASS: pistol hits a zombie at 181 m (hp 126 -> 107)
 PASS: smg hits a zombie at 181 m (hp 126 -> 114)
-PASS: shotgun hits a zombie at 160 m (hp 126 -> 114)
+PASS: shotgun hits a zombie at 160 m (hp 126 -> 102)
 PASS: StepGrass bus exists with a low-pass filter
 PASS: StepSoft bus exists with a low-pass filter
 PASS: StepGravel bus exists with a low-pass filter

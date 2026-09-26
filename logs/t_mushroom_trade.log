@@ -51,14 +51,14 @@ PASS: Host applies remote player's mushroom consumption
 PASS: Remote player physics advances effect duration on the host
 PASS: Secret Vendor sells only the requesting peer's stock
 PASS: Co-op snapshot contains effects and updated stock
+PASS: Going down keeps the running mushroom effects
 PASS: Death clears temporary mushroom effects
 PASS: Sales UI reads inventory replaced by a client snapshot
 PASS: Sold last firearm falls back to pistol while holding melee
 PASS: knife actual hit damage doubles while mushroom effect is active
 PASS: pistol actual hit damage doubles while mushroom effect is active
 PASS: Vendor renders sale rows for all mushrooms and supplies
-MUSHROOM_TRADE_DONE checks=53 failures=0
+MUSHROOM_TRADE_DONE checks=54 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
-EXIT 0

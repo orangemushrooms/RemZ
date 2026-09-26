@@ -18,9 +18,10 @@ PASS: Screamers walk in from wave 6
 PASS: Helmets from wave 10, up to 45 %%
 PASS: No stalkers on a clear day
 PASS: Stalkers rise out of the maize in the fog
-PASS: Wave 7 in the fog: 2 dogs, 1 screamer, 1 stag, 3 stalkers ({ "zombie_dog": 2, "zombie_stag": 1, "screamer": 1, "stalker": 3, "brute": 4, "runner": 26, "shambler": 6, "soldier": 1, "spitter": 4 })
+PASS: Wave 7 in the fog: 2 dogs, 1 screamer, 1 stag, 3 stalkers ({ "zombie_dog": 2, "zombie_stag": 1, "screamer": 1, "stalker": 3, "shambler": 6, "runner": 17, "brute": 7, "spitter": 1, "soldier": 2, "nurse": 8 })
 PASS: The stalkers are marked for the maize
-PASS: Spitters take a share of the horde from wave 4 (3 in wave 12)
+PASS: Spitters take a share of the horde from wave 4 (55 in ten plans of wave 12)
+PASS: ... and none before wave 4
 PASS: The intermission preview counts wave 3 exactly
 PASS: The intermission preview counts wave 4 exactly
 PASS: The intermission preview counts wave 6 exactly
@@ -45,9 +46,9 @@ PASS: ... and drops it when the host says so
 PASS: Zombie snapshots carry the helmet fields
 PASS: A zombie stag spawns
 PASS: The stag is a rig-less beast
-PASS: The stag stands 1.75 m tall on the ground (bounds 1.81)
+PASS: The stag stands 1.75 m tall on the ground (bounds 1.66)
 PASS: The gallop follows the real displacement
-PASS: The stag charges a player in the open (after 0.4 s)
+PASS: The stag charges a player in the open (after 0.5 s)
 PASS: The charge rams the player (rams 1, hp 61)
 PASS: A dead beast falls onto its side
 PASS: A farm dog spawns
@@ -65,7 +66,7 @@ PASS: The cry is announced
 PASS: The radio calls the mark
 PASS: The HUD shows the mark
 PASS: The mark fades
-NEW_ZOMBIES_DONE checks=61 failures=0
+NEW_ZOMBIES_DONE checks=62 failures=0
 ERROR: Condition "p.d == 0" is true. Returning: Point2()
    at: unproject_position (scene/3d/camera_3d.cpp:495)
    GDScript backtrace (most recent call first):

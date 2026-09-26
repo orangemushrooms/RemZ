@@ -1,0 +1,4 @@
+compile_all          BAD exit=0 5s COMPILE_ALL scripts=266 broken=0  
+new_zombies          OK exit=0 30s NEW_ZOMBIES_DONE checks=62 failures=0  
+range_steps          OK exit=0 38s RANGE_STEPS_DONE checks=23 failures=0  
+REGRESSIONS_DONE

@@ -1,0 +1,74 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+CAMPSITE_COVER (1.0, 0.0, 0.0, 1.0) fountain=(-2.0, 0.327066, -13.0)
+PASS: Every mushroom still owns its visible model after map optimization
+PASS: Common mushroom varieties are available; rare collectibles are optional
+PASS: Most mushrooms are available more than 100 metres from the hut
+PASS: Mushrooms cover at least twenty distinct forest regions
+PASS: Mushrooms stay on playable forest floor outside roads, clearings and buildings
+MUSHROOM_DISTRIBUTION total=553 distant=379 regions=33
+PASS: Static scenery continues to use render batches
+PASS: steinpilz disappears in the same frame as collection
+PASS: steinpilz leaves no visible cap or stem
+PASS: steinpilz is added to inventory exactly once
+PASS: steinpilz pickup node is removed
+PASS: steinpilz model is removed with its pickup
+PASS: fliegenpilz disappears in the same frame as collection
+PASS: fliegenpilz leaves no visible cap or stem
+PASS: fliegenpilz is added to inventory exactly once
+PASS: fliegenpilz pickup node is removed
+PASS: fliegenpilz model is removed with its pickup
+PASS: parasol disappears in the same frame as collection
+PASS: parasol leaves no visible cap or stem
+PASS: parasol is added to inventory exactly once
+PASS: parasol pickup node is removed
+PASS: parasol model is removed with its pickup
+PASS: violetter_roetelritterling disappears in the same frame as collection
+PASS: violetter_roetelritterling leaves no visible cap or stem
+PASS: violetter_roetelritterling is added to inventory exactly once
+PASS: violetter_roetelritterling pickup node is removed
+PASS: violetter_roetelritterling model is removed with its pickup
+PASS: maronenroehrling disappears in the same frame as collection
+PASS: maronenroehrling leaves no visible cap or stem
+PASS: maronenroehrling is added to inventory exactly once
+PASS: maronenroehrling pickup node is removed
+PASS: maronenroehrling model is removed with its pickup
+PASS: reizker disappears in the same frame as collection
+PASS: reizker leaves no visible cap or stem
+PASS: reizker is added to inventory exactly once
+PASS: reizker pickup node is removed
+PASS: reizker model is removed with its pickup
+PASS: tintenpilz disappears in the same frame as collection
+PASS: tintenpilz leaves no visible cap or stem
+PASS: tintenpilz is added to inventory exactly once
+PASS: tintenpilz pickup node is removed
+PASS: tintenpilz model is removed with its pickup
+PASS: morchel disappears in the same frame as collection
+PASS: morchel leaves no visible cap or stem
+PASS: morchel is added to inventory exactly once
+PASS: morchel pickup node is removed
+PASS: morchel model is removed with its pickup
+PASS: pfifferling disappears in the same frame as collection
+PASS: pfifferling leaves no visible cap or stem
+PASS: pfifferling is added to inventory exactly once
+PASS: pfifferling pickup node is removed
+PASS: pfifferling model is removed with its pickup
+PASS: kahlkopf disappears in the same frame as collection
+PASS: kahlkopf leaves no visible cap or stem
+PASS: kahlkopf is added to inventory exactly once
+PASS: kahlkopf pickup node is removed
+PASS: kahlkopf model is removed with its pickup
+PASS: krause_glucke disappears in the same frame as collection
+PASS: krause_glucke leaves no visible cap or stem
+PASS: krause_glucke is added to inventory exactly once
+PASS: krause_glucke pickup node is removed
+PASS: krause_glucke model is removed with its pickup
+PASS: Collecting mushrooms leaves the other mushrooms intact
+CAMPSITE_PICKUPS_DONE checks=62 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

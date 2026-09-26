@@ -17,7 +17,7 @@ PASS: After the boss fight the combat loop comes back
 PASS: The next fight picks another song
 PASS: Never the same boss song twice in a row (200 picks)
 PASS: All four boss songs come up (4 of 4)
-PASS: A song running out hands over to another boss song (boss_fight_1 -> boss_fight_2)
+PASS: A song running out hands over to another boss song (boss_fight_4 -> boss_fight_3)
 PASS: The old song fades out while the new one fades in
 PASS: Game over is not a fight
 RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
@@ -30,7 +30,7 @@ PASS: The song stays while the titan lives
 PASS: When the titan falls the wave goes on with the combat loop
 PASS: A queued titan is a boss fight too, with a new song
 PASS: The cleared wave hands over to the pause track (morning)
-PASS: Wave 5 opens on a boss song (boss_fight_3)
+PASS: Wave 5 opens on a boss song (boss_fight_2)
 PASS: The boss wave keeps its song with no titan in sight
 PASS: After the boss wave the pause track returns (morning)
 BOSS_MUSIC_DONE checks=29 failures=0

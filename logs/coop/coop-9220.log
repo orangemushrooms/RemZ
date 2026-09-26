@@ -1,8 +1,3 @@
-2026-09-25T11:52:03 remz-dev-20260923-komplett BOOT exe=C:/Users/miche/Desktop/Godot.exe
-2026-09-25T11:52:03 remz-dev-20260923-komplett NETWORK_INITIALIZED
-2026-09-25T11:52:03 remz-dev-20260923-komplett EOS_PLATFORM_START
-2026-09-25T11:52:03 remz-dev-20260923-komplett EOS_PLATFORM_READY
-2026-09-25T11:52:03 remz-dev-20260923-komplett EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
-2026-09-25T11:52:04 remz-dev-20260923-komplett EOS_LOGIN_OK
-2026-09-25T11:52:04 remz-dev-20260923-komplett EOS_LOBBY_CREATED code=3CEQUD
-2026-09-25T11:52:04 remz-dev-20260923-komplett EOS_LOBBY_DESTROY
+2026-09-26T10:35:55 remz-dev-20260925-online BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-26T10:35:55 remz-dev-20260925-online NETWORK_INITIALIZED
+2026-09-26T10:36:21 remz-dev-20260925-online MAP_READY

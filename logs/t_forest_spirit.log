@@ -8,7 +8,7 @@ PASS: The Forest Spirit is a boss of its own kind
 PASS: Its model exists
 PASS: The local rig carries walk, attack, pulse, death and idle clips (["attack", "attack2", "death", "hit", "idle", "pulse", "scream", "walk"])
 PASS: The reduced mesh stays in budget (167449 triangles)
-PASS: Lesser-titan waves sometimes bring the Forest Spirit (16 of 60 plans)
+PASS: Lesser-titan waves sometimes bring the Forest Spirit (9 of 60 plans)
 PASS: ... but not every time
 PASS: The spirit enters from a lane like a titan
 PASS: Its arrival is announced

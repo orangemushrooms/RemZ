@@ -1,22 +1,2 @@
-2026-09-23T13:16:37 remz-dev-20260923-earthworm-quality BOOT exe=C:/Users/miche/Desktop/Godot.exe
-2026-09-23T13:16:37 remz-dev-20260923-earthworm-quality NETWORK_INITIALIZED
-2026-09-23T13:16:59 remz-dev-20260923-earthworm-quality MAP_READY
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality JOIN_BEGIN address=127.0.0.1 port=24736
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality JOIN_SOCKET result=0
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality TRANSPORT_CONNECTED sending_hello
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality PEER_CONNECTED id=1
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality PEER_CONNECTED id=698864028
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality WELCOME
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality INITIAL_RECEIVE parts=5
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality INITIAL_APPLY_BEGIN
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality STATE_STAGE structures
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality STATE_STAGE players
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality STATE_STAGE enemies
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality STATE_STAGE items
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality STATE_STAGE barricades
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality INITIAL_APPLY_DONE
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality ROUND_BEGIN intro=false
-2026-09-23T13:17:00 remz-dev-20260923-earthworm-quality ROUND_RUNNING players=3
-2026-09-23T13:17:01 remz-dev-20260923-earthworm-quality LEAVE_BEGIN phase=running reason=Sitzung verlassen.
-2026-09-23T13:17:01 remz-dev-20260923-earthworm-quality LEAVE_PEER_DETACHED
-2026-09-23T13:17:01 remz-dev-20260923-earthworm-quality LEAVE_PEER_CLOSED
+2026-09-26T10:15:26 remz-dev-20260925-online BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-26T10:15:26 remz-dev-20260925-online NETWORK_INITIALIZED

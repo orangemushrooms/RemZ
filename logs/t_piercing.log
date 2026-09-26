@@ -1,0 +1,51 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: pistol target 1 receives its penetration damage once
+PASS: pistol target 2 receives its penetration damage once
+PASS: pistol target 3 receives its penetration damage once
+PASS: pistol target 4 receives its penetration damage once
+PASS: pistol target 5 receives its penetration damage once
+PASS: pistol target 6 receives its penetration damage once
+PASS: pistol uses one bullet and counts one accuracy hit
+PASS: ak47 target 1 receives its penetration damage once
+PASS: ak47 target 2 receives its penetration damage once
+PASS: ak47 target 3 receives its penetration damage once
+PASS: ak47 target 4 receives its penetration damage once
+PASS: ak47 target 5 receives its penetration damage once
+PASS: ak47 target 6 receives its penetration damage once
+PASS: ak47 uses one bullet and counts one accuracy hit
+PASS: marksman target 1 receives its penetration damage once
+PASS: marksman target 2 receives its penetration damage once
+PASS: marksman target 3 receives its penetration damage once
+PASS: marksman target 4 receives its penetration damage once
+PASS: marksman target 5 receives its penetration damage once
+PASS: marksman target 6 receives its penetration damage once
+PASS: marksman uses one bullet and counts one accuracy hit
+PASS: titanbreaker target 1 receives its penetration damage once
+PASS: titanbreaker target 2 receives its penetration damage once
+PASS: titanbreaker target 3 receives its penetration damage once
+PASS: titanbreaker target 4 receives its penetration damage once
+PASS: titanbreaker target 5 receives its penetration damage once
+PASS: titanbreaker target 6 receives its penetration damage once
+PASS: titanbreaker uses one bullet and counts one accuracy hit
+PASS: lmg target 1 receives its penetration damage once
+PASS: lmg target 2 receives its penetration damage once
+PASS: lmg target 3 receives its penetration damage once
+PASS: lmg target 4 receives its penetration damage once
+PASS: lmg target 5 receives its penetration damage once
+PASS: lmg target 6 receives its penetration damage once
+PASS: lmg uses one bullet and counts one accuracy hit
+PASS: First headshot combines with training and mushroom bonus
+PASS: Next body hit does not inherit previous headshot multiplier
+PASS: Solid wall between zombies stops piercing
+PASS: Remote player's host fire command penetrates three zombies
+PASS: All penetrated targets retain the firing player's attribution
+PASS: Lethal first hit still continues through remaining targets
+PIERCING_DONE checks=41 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

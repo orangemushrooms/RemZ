@@ -1,0 +1,122 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: New game has two uncollected forest keys
+PASS: Garage, upstairs cabin and wood store have real doors
+PASS: Reachable pair of keys for seed 1
+PASS: Forest location and separation for seed 1
+PASS: Reachable pair of keys for seed 2
+PASS: Forest location and separation for seed 2
+PASS: Reachable pair of keys for seed 3
+PASS: Forest location and separation for seed 3
+PASS: Reachable pair of keys for seed 17
+PASS: Forest location and separation for seed 17
+PASS: Reachable pair of keys for seed 999
+PASS: Forest location and separation for seed 999
+PASS: Reachable pair of keys for seed 4242
+PASS: Forest location and separation for seed 4242
+PASS: Reachable pair of keys for seed 123456
+PASS: Forest location and separation for seed 123456
+PASS: Reachable pair of keys for seed 876543
+PASS: Forest location and separation for seed 876543
+PASS: Different seeds produce genuinely different search locations
+PASS: Garage door cannot open without its key
+PASS: Garage door physically blocks its aperture
+PASS: Hut door cannot open without its key
+PASS: Hut door physically blocks its aperture
+PASS: Woodshed door cannot open without its key
+PASS: Woodshed door physically blocks its aperture
+PASS: No long-distance key beacon
+PASS: Cannot collect a key remotely
+PASS: Proximity reveals the nearest key and arrow
+PASS: Arrow remains valid for a key behind the player
+PASS: Pickup respects walls
+PASS: E collects the key while leaving its stump in the world
+PASS: Each door requires the key for its own building
+PASS: Each door requires the key for its own building
+PASS: Each door requires the key for its own building
+PASS: Collected key removes proximity hint immediately
+PASS: A key cannot be collected twice
+PASS: No long-distance key beacon
+PASS: Cannot collect a key remotely
+PASS: Proximity reveals the nearest key and arrow
+PASS: Arrow remains valid for a key behind the player
+PASS: Pickup respects walls
+PASS: E collects the key while leaving its stump in the world
+PASS: Each door requires the key for its own building
+PASS: Each door requires the key for its own building
+PASS: Each door requires the key for its own building
+PASS: Collected key removes proximity hint immediately
+PASS: A key cannot be collected twice
+PASS: Garage door from local -x at 0.5 m has an interaction prompt
+PASS: Garage door from local -x at 0.5 m opens using the gameplay E handler
+PASS: Garage door from local -x at 0.5 m swings away and clears the doorway
+PASS: Garage door from local -x at 0.5 m also closes without stepping back
+PASS: Garage door from local -x at 0.5 m restores closed collision
+PASS: Garage door from local +x at 0.5 m has an interaction prompt
+PASS: Garage door from local +x at 0.5 m opens using the gameplay E handler
+PASS: Garage door from local +x at 0.5 m swings away and clears the doorway
+PASS: Garage door from local +x at 0.5 m also closes without stepping back
+PASS: Garage door from local +x at 0.5 m restores closed collision
+PASS: Hut door from local -x at 0.5 m has an interaction prompt
+PASS: Hut door from local -x at 0.5 m opens using the gameplay E handler
+PASS: Hut door from local -x at 0.5 m swings away and clears the doorway
+PASS: Hut door from local -x at 0.5 m also closes without stepping back
+PASS: Hut door from local -x at 0.5 m restores closed collision
+PASS: Hut door from local +x at 0.5 m has an interaction prompt
+PASS: Hut door from local +x at 0.5 m opens using the gameplay E handler
+PASS: Hut door from local +x at 0.5 m swings away and clears the doorway
+PASS: Hut door from local +x at 0.5 m also closes without stepping back
+PASS: Hut door from local +x at 0.5 m restores closed collision
+PASS: Woodshed door from local -x at 0.5 m has an interaction prompt
+PASS: Woodshed door from local -x at 0.5 m opens using the gameplay E handler
+PASS: Woodshed door from local -x at 0.5 m swings away and clears the doorway
+PASS: Woodshed door from local -x at 0.5 m also closes without stepping back
+PASS: Woodshed door from local -x at 0.5 m restores closed collision
+PASS: Woodshed door from local +x at 0.5 m has an interaction prompt
+PASS: Woodshed door from local +x at 0.5 m opens using the gameplay E handler
+PASS: Woodshed door from local +x at 0.5 m swings away and clears the doorway
+PASS: Woodshed door from local +x at 0.5 m also closes without stepping back
+PASS: Woodshed door from local +x at 0.5 m restores closed collision
+PASS: An actor on the opening side still blocks the wood-store gate
+PASS: Garage door can be reached from outside
+PASS: Garage door opens with its matching key
+PASS: Garage door opens a real traversable gap
+PASS: Garage door fits the full player capsule
+PASS: Garage door closes again using E
+PASS: Garage door restores collision after closing
+PASS: Garage door animation respects pause
+PASS: Garage door reverses when an actor enters the closing door
+PASS: Garage door is recognized as a defence by enemies
+PASS: Actual enemy AI attacks the closed door before the protected player
+PASS: Garage door yields to sustained attacks and prevents immediate reclosing
+PASS: Hut door can be reached from outside
+PASS: Hut door opens with its matching key
+PASS: Hut door opens a real traversable gap
+PASS: Hut door fits the full player capsule
+PASS: Hut door closes again using E
+PASS: Hut door restores collision after closing
+PASS: Hut door animation respects pause
+PASS: Hut door reverses when an actor enters the closing door
+PASS: Hut door is recognized as a defence by enemies
+PASS: Hut door yields to sustained attacks and prevents immediate reclosing
+PASS: Woodshed door can be reached from outside
+PASS: Woodshed door opens with its matching key
+PASS: Woodshed door opens a real traversable gap
+PASS: Woodshed door fits the full player capsule
+PASS: Woodshed door closes again using E
+PASS: Woodshed door restores collision after closing
+PASS: Woodshed door animation respects pause
+PASS: Woodshed door reverses when an actor enters the closing door
+PASS: Woodshed door is recognized as a defence by enemies
+PASS: Woodshed door yields to sustained attacks and prevents immediate reclosing
+PASS: Wave changes retain keys without respawning them
+PASS: Full inventory displays both permanent keys alongside equipment
+PASS: Full inventory fits the viewport
+DOORS_KEYS_DONE checks=112 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

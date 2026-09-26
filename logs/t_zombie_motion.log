@@ -90,24 +90,24 @@ PASS: zombie_jogger run clip is faster than its walk (2.70 > 1.04 m/s)
 PASS: zombie_jogger attack clip has its strike inside the clip (0.66 of 3.50 s)
 PASS: clip metrics measured for 26 skins
 PASS: shambler starts in its gait clip (walk2)
-PASS: natural speed of the gait in world units is known (1.51 m/s)
-PASS: speed_scale follows the displacement: 1.06 for 1.6 m/s (expected 1.06)
-PASS: a slower body slows its clip (0.35)
+PASS: natural speed of the gait in world units is known (1.39 m/s)
+PASS: speed_scale follows the displacement: 1.15 for 1.6 m/s (expected 1.15)
+PASS: a slower body slows its clip (0.36)
 PASS: standing still plays idle while the logical state stays walk
 PASS: moving again leaves idle for the gait (walk2)
-PASS: attack strike lands 0.35 s after the call (damage tick at 0.35)
 PASS: attack2 strike lands 0.35 s after the call (damage tick at 0.35)
-PASS: all 2 swing variants are used (["attack", "attack2"])
-PASS: hit plays a flinch clip (hit2)
+PASS: attack strike lands 0.35 s after the call (damage tick at 0.35)
+PASS: all 2 swing variants are used (["attack2", "attack"])
+PASS: hit plays a flinch clip (hit)
 PASS: a flinch holds its clip for 0.45 s before the gait resumes
 PASS: shambler swing is held 0.80 s of its 1.0 s cadence (strike at 0.35)
 PASS: soldier swing is held 0.80 s of its 0.9 s cadence (strike at 0.35)
 PASS: nurse swing is held 0.80 s of its 0.8 s cadence (strike at 0.35)
 PASS: runner swing is held 0.60 s of its 0.6 s cadence (strike at 0.35)
 PASS: scream state on every rig, clip when present (scream)
-PASS: at least two of 3 death variants are used (["death5", "death2", "death4"])
+PASS: at least two of 3 death variants are used (["death2", "death4", "death5"])
 PASS: a standing runner waits in its walk clip, its gait is the run
-PASS: sprinting runner keeps the run clip at 1.08
+PASS: sprinting runner keeps the run clip at 1.06
 PASS: a slowed runner walks instead of a slow-motion sprint (walk)
 PASS: 60 m away the rig updates every second tick
 PASS: manual mode still advances the clip

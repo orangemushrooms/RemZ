@@ -1,0 +1,63 @@
+language             OK exit=0 32s LANGUAGE_DONE lang=en checks=89 failures=0  
+language_de          OK exit=0 32s LANGUAGE_DONE lang=de checks=89 failures=0  
+cheat_menu           OK exit=0 30s CHEAT_MENU_DONE checks=32 failures=0  
+team_purse           OK exit=0 34s TEAM_PURSE_DONE checks=29 failures=0  
+perimeter            OK exit=0 106s PERIMETER_DONE checks=26 failures=0  
+menu_flow            OK exit=0 79s MENU_FLOW_DONE checks=11 failures=0  
+coop_snapshot_cost   OK exit=0 29s COOP_SNAPSHOT_COST_DONE checks=6 failures=0  
+network_packets      OK exit=0 3s NETWORK_PACKETS_DONE checks=14 failures=0  
+online_lobby         OK exit=0 25s ONLINE_LOBBY_DONE checks=43 failures=0  
+smoke                OK exit=0 56s SMOKE_DONE checks=83 failures=0  
+zombie_hitboxes      OK exit=0 12s ZOMBIE_HITBOXES_DONE checks=160 failures=0  
+horde_hit_precision  OK exit=0 15s HORDE_HIT_PRECISION_DONE checks=107 failures=0  
+day_night            OK exit=0 45s DAY_NIGHT_DONE checks=55 failures=0 rendered=false  
+titan_siege_gate     OK exit=0 29s TITAN_SIEGE_GATE_DONE checks=20 failures=0  
+boss_music           OK exit=0 30s BOSS_MUSIC_DONE checks=29 failures=0  
+secret_night         OK exit=0 36s SECRET_NIGHT_DONE checks=70 failures=0  
+hut_health           OK exit=0 33s HUT_HEALTH_DONE checks=40 failures=0  
+forest_finds         OK exit=0 35s FOREST_FINDS_DONE checks=56 failures=0  
+tower_planner        OK exit=0 33s TOWER_PLANNER_DONE checks=25 failures=0  
+barricades           OK exit=0 56s BARRICADES_DONE checks=44 failures=0  
+missing_models       OK exit=0 4s MISSING_MODELS_DONE checks=72 failures=0  
+weapon_mods          OK exit=0 32s WEAPON_MODS_DONE checks=52 failures=0  
+titan_variants       OK exit=0 32s TITAN_VARIANTS_DONE checks=65 failures=0  
+aggro                OK exit=0 30s AGGRO_DONE checks=17 failures=0  
+drones               OK exit=0 28s DRONES_DONE checks=84 failures=0  
+new_zombies          OK exit=0 33s NEW_ZOMBIES_DONE checks=61 failures=0  
+downed               OK exit=0 31s DOWNED_DONE checks=22 failures=0  
+weapon_specials      OK exit=0 54s WEAPON_SPECIALS_DONE checks=77 failures=0  
+new_weapons          OK exit=0 48s NEW_WEAPONS_DONE checks=254 failures=0  
+autorefill           OK exit=0 31s AUTOREFILL_DONE checks=27 failures=0  
+cornfield            OK exit=0 29s CORNFIELD_DONE checks=40 failures=0  
+hut_restock          OK exit=0 28s HUT_RESTOCK_DONE checks=17 failures=0  
+roof_defences        OK exit=0 31s ROOF_DEFENCES_DONE checks=95 failures=0  
+zombie_motion        OK exit=0 12s ZOMBIE_MOTION_DONE checks=91 failures=0  
+zombie_clip_audit    OK exit=0 7s ZOMBIE_CLIP_AUDIT_DONE checks=347 failures=0  
+sandbags             OK exit=0 30s SANDBAGS_DONE checks=43 failures=0  
+pings                OK exit=0 27s PINGS_DONE checks=19 failures=0  
+weather              OK exit=0 28s WEATHER_DONE checks=55 failures=0  
+forest_spirit        OK exit=0 37s FOREST_SPIRIT_DONE checks=23 failures=0  
+progression          OK exit=0 31s PROGRESSION_DONE checks=179 failures=0  
+weapon_attachments   OK exit=0 47s ATTACHMENTS_DONE checks=881 failures=0  
+range_steps          OK exit=0 48s RANGE_STEPS_DONE checks=23 failures=0  
+sound_files          OK exit=0 3s SOUND_FILES_DONE failures=0  
+batch27              OK exit=0 30s BATCH27_DONE checks=44 failures=0  
+batch28              OK exit=0 36s BATCH28_DONE checks=27 failures=0  
+titan_phases         BAD exit=1 37s TITAN_PHASES_DONE checks=26 failures=1 FAIL: Hands and knees rest on the terrain (lowest contact -0.40 m above it) 
+earthworms           OK exit=0 26s EARTHWORMS_DONE checks=48 failures=0  
+campsite_pickups     OK exit=0 27s CAMPSITE_PICKUPS_DONE checks=62 failures=0  
+cash_drops           OK exit=0 27s CASH_DROPS_DONE checks=22 failures=0  
+doors_keys           OK exit=0 56s DOORS_KEYS_DONE checks=112 failures=0  
+firework_batteries   OK exit=0 26s BATTERIES_DONE checks=40 failures=0  
+fireworks            OK exit=0 26s FIREWORKS_DONE checks=31 failures=0  
+hunting              OK exit=0 25s HUNTING_DONE checks=32 failures=0  
+inventory_filters    OK exit=0 26s INVENTORY_FILTERS_DONE checks=16 failures=0  
+leaderboard          BAD exit=1 26s LEADERBOARD_TEST_DONE checks=46 failures=2 ERROR: FAIL: Death after revival counts as a new death | ERROR: FAIL: Final standings remain accessible after team defeat 
+melee_weapons        OK exit=0 26s MELEE_WEAPONS_DONE checks=40 failures=0  
+mushroom_trade       BAD exit=1 27s MUSHROOM_TRADE_DONE checks=53 failures=1 FAIL: Death clears temporary mushroom effects 
+piercing             OK exit=0 26s PIERCING_DONE checks=41 failures=0  
+quickbar             OK exit=0 26s QUICKBAR_DONE checks=27 failures=0  
+rare_market          OK exit=0 28s RARE_MARKET_DONE checks=71 failures=0  
+vendor_tutorial      OK exit=0 23s VENDOR_TUTORIAL_DONE checks=11 failures=0  
+REGRESSIONS_DONE
+EXIT 0

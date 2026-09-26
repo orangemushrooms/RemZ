@@ -1,0 +1,43 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+COOP_LOAD HOST_CREATE port=24697
+COOP_HOST_READY port=24697
+COOP_LOAD HOST_READY
+PASS: The fixture hosts a round
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=2
+COOP_RUNNING players=2
+PASS: The running zombie_stag never dips below its feet (lowest 0.00 m)
+PASS: Hit four times, the zombie_stag stays on its feet (lowest 0.01 m)
+PASS: The running zombie_dog never dips below its feet (lowest 0.00 m)
+PASS: Hit four times, the zombie_dog stays on its feet (lowest 0.00 m)
+PASS: The thrown tree is one of the forest's green conifers
+PASS: ... 11.5 m tall
+PASS: Liberty caps crowd the party site (24 within 40 m)
+PASS: No bar before the party
+PASS: ... and no drinks
+PASS: During the party the bar serves ([E] Bar · drinks and fireworks)
+PASS: A Goa Sunrise costs 30, heals 30 and speeds you up (Goa Sunrise: +30 health; 40 s running speed +25%)
+PASS: The Bass Booster shortens reloads and tightens the spread
+PASS: The Neon Mushroom Punch trips and hits harder
+PASS: The Clear Head sobers you up
+PASS: Drinks show in the effect list
+PASS: No money, no drink
+PASS: The bar sells fireworks too
+PASS: Orders only at the bar
+PASS: The menu lists 6 drinks and 4 fireworks
+PASS: Close returns to the dance floor
+PASS: Esc closes the bar without opening the pause menu
+PASS: A teammate's order is paid and served by the host (65 R, 70 HP)
+PASS: The drink's effect travels to the teammate's client in the snapshot
+PASS: Unknown or malformed orders are refused
+PASS: A teammate far from the bar cannot order
+PASS: The party fires its own show (12 rockets in 20 s)
+BATCH28_DONE checks=27 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
