@@ -5,9 +5,12 @@ var checks := 0
 var failures := 0
 var began := Time.get_ticks_msec()
 var folder := "res://../artifacts/campaign-coop/"
+var online := false
 func _initialize() -> void:
 	for arg in OS.get_cmdline_user_args():
 		if arg.begins_with("--campaign-role="): role = arg.get_slice("=", 1)
+		if arg == "--campaign-online": online = true
+	if online: folder = "res://../artifacts/campaign-coop-eos/"
 	call_deferred("run")
 func _process(_delta: float) -> bool:
 	if Time.get_ticks_msec() - began > 210000:
@@ -18,8 +21,8 @@ func check(ok: bool, description: String) -> void:
 	checks += 1
 	if not ok: failures += 1
 	print("PASS: " if ok else "FAIL: ", description)
-func write(id: String) -> void:
-	FileAccess.open(folder + id, FileAccess.WRITE).store_string("ready")
+func write(id: String, value: String = "ready") -> void:
+	FileAccess.open(folder + id, FileAccess.WRITE).store_string(value)
 func wait_for(id: String) -> void:
 	while not FileAccess.file_exists(folder + id): await create_timer(0.1).timeout
 func run() -> void:
@@ -32,8 +35,13 @@ func run() -> void:
 	print("CAMPAIGN_COOP_DONE role=%s checks=%d failures=%d" % [role, checks, failures])
 	quit(1 if failures else 0)
 func host_run() -> void:
-	check(NetSession.host("Campaign host", 24762) == OK, "Co-op host opens")
-	write("ready")
+	var result: int
+	if online: result = await NetSession.host_online("Campaign host")
+	else: result = NetSession.host("Campaign host", 24762)
+	check(result == OK, "Co-op host opens")
+	if result != OK: return
+	if online: check(NetSession.is_online(), "Host uses the real EOS transport")
+	write("ready", NetSession.join_code if online else "ready")
 	while NetSession.roster.size() < 2 or false in NetSession.ready_peers.values(): await create_timer(0.1).timeout
 	game.hud.primary_action()
 	check(game.hud.map_selection.visible and NetSession.phase == "lobby", "Host chooses map before team launch")
@@ -53,7 +61,12 @@ func host_run() -> void:
 	await create_timer(0.8).timeout
 func client_run() -> void:
 	await wait_for("ready")
-	check(NetSession.join("127.0.0.1", "Campaign client", 24762) == OK, "Client joins")
+	var result: int
+	if online: result = await NetSession.join_online(FileAccess.get_file_as_string(folder + "ready").strip_edges(), "Campaign client")
+	else: result = NetSession.join("127.0.0.1", "Campaign client", 24762)
+	check(result == OK, "Client joins")
+	if result != OK: return
+	if online: check(NetSession.is_online(), "Client joins by code over EOS")
 	while not game.started or game.waves.completed < 24: await create_timer(0.1).timeout
 	check(not game.victory and game.campaign.best_wave("forest") == 24, "Client saves intermediate progress without claiming victory")
 	game.hud.show_map_selection()

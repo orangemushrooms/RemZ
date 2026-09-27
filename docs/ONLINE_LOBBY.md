@@ -54,7 +54,8 @@ sind transportunabhängig. `NetSession.transport` sagt, welcher Peer gerade trä
   UnreliableUnordered, unreliable_ordered -> ReliableOrdered (EOS kennt kein unreliable-ordered).
 - **Beenden:** Godot kehrt aus `quit()` nicht zurück, solange die erzeugte EOS-Plattform lebt (die SDK-Threads
   halten den Prozess). `Online._exit_tree()` schliesst deshalb den EOS-Peer, gibt die Lobby frei, tickt kurz und
-  ruft `EOS_Platform_Release` + `EOS_Shutdown`. `--suite=eos_exit_probe --probe=lobby` prüft, dass der Prozess
+  ruft `EOS_Platform_Release` + `EOS_Shutdown`. `NetSession._exit_tree()` deaktiviert zuvor die Sitzung, damit
+  späte Disconnect-Signale keine bereits abgebaute MultiplayerAPI ansprechen. `--suite=eos_exit_probe --probe=lobby` prüft, dass der Prozess
   danach endet (ohne den Handler hing er in jeder Sonde ausser `--probe=release`).
 
 ## Zugangsdaten und Build
@@ -84,6 +85,18 @@ EOS_CLIENT_SECRET=...
 - Portal: Produkt **RemZ**, Client **RemZ Windows** mit Policy **Peer2Peer** genügt. Der Device-ID-Login
   brauchte **keine** weitere Portaleinstellung (Live-Test 25. Sep 2026: `EOS_LOGIN_OK` mit `CreateUser` beim
   ersten Gerät). Die Sandbox ist "Live"; ein neues Client Secret erfordert nur eine neue `.env` + Export.
+- Vor jedem Upload prüft `tools/check_release_eos.py` die tatsächlich gepackte `eos.cfg`, die passende
+  Spielversion und die fünf Laufzeitdateien. Andere lokale Secrets dürfen nicht im Download vorkommen;
+  die Spielclient-Zugangsdaten dürfen nur im vorgesehenen Konfigurationseintrag liegen. Logs und temporäre
+  Exportdateien werden nicht veröffentlicht. Diese Paketprüfung ersetzt keine Rechteprüfung im Epic-Portal.
+- Bei einem Vergleich mit einem bereits heruntergeladenen Release prüft
+  `python tools/check_release_eos.py --published-build builds/published-eos-reference` zusätzlich, ob
+  Produkt, Sandbox, Deployment und Client-Zugangsdaten unverändert sind. Werte werden nie ausgegeben.
+- Die Trennung zwischen Spielclient und TrustedServer ist wichtig: Epics
+  [Lyra-Anleitung](https://dev.epicgames.com/documentation/en-us/unreal-engine/using-lyra-with-epic-online-services-in-unreal-engine)
+  konfiguriert Peer2Peer samt ClientId/ClientSecret im paketierten Spiel. Das
+  [offizielle P2P-Beispiel](https://github.com/EpicGames/EOS-Getting-Started/tree/main/OnlineSubsystemEOS)
+  benötigt dafür keinen eigenen Token-Server. TrustedServer- oder Kontozugangsdaten gehören nicht in den Client.
 
 ## Prüfen
 
@@ -94,6 +107,7 @@ EOS_CLIENT_SECRET=...
 | `powershell -ExecutionPolicy Bypass -File tools/test_online_coop.ps1` | zwei Godot-Prozesse auf diesem PC über das echte EOS-Backend (Client mit `--eos-fresh-device`): Beitritt per Code, Rundenstart, Snapshots, Bewegung, Ping, Verlassen |
 | `tools/test_online_coop.ps1 -ForceRelay` | beide Prozesse mit `--eos-force-relay` (EOS `ForceRelays`): der Pfad, auf den zwei strenge Router zurückfallen; 25. Sep 2026 bestanden, Ping 48 ms statt 21 ms direkt |
 | `tools/test_online_coop.ps1 -Packed` | dasselbe mit `builds/windows/RemZ.exe` über `--host-online` / `--join-code`; liest den Code und `ROUND_RUNNING players=2` aus den pro Zeile geschriebenen `builds/windows/logs/coop-<pid>.log` (Godots `--log-file` puffert bis zum Ende) |
+| `tools/test_campaign_coop.ps1 -Online -ForceRelay` | echte EOS-Lobby mit zwei Geräteidentitäten: Host-Kartenauswahl, Forest-Start, Zwischenstand nach Runde 24, gemeinsamer Sieg nach Runde 25 und Fortschritt bei beiden Spielern über Epic-Relay |
 | `builds/windows/RemZ.exe --headless -- --eos-check --smoke-test --no-foliage --no-music` | gepackter Build: `EOS_CHECK runtime= credentials= login= nat_type= lobby= search=` und `EOS_CHECK_DONE ok=true` |
 | `--suite=eos_exit_probe --probe=lobby` | der Prozess endet nach `quit()` trotz gelaufener Plattform |
 

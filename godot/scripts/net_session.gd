@@ -116,6 +116,13 @@ func _ready() -> void:
 	_fingerprint = context.finish().hex_encode()
 	trace_load("NETWORK_INITIALIZED")
 
+func _exit_tree() -> void:
+	# Online releases the EOS peer after this autoload has left the tree. Its
+	# disconnect callbacks must not refresh gameplay with a detached MultiplayerAPI.
+	enabled = false
+	online_pending = false
+	_closing = true
+
 func is_host() -> bool:
 	return enabled and multiplayer.is_server()
 

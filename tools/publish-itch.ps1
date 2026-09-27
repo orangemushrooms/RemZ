@@ -8,11 +8,13 @@ $build = Join-Path $repo 'builds/windows'
 $info = Get-Content (Join-Path $build 'BUILD-INFO.json') -Raw | ConvertFrom-Json
 if (-not (Test-Path -LiteralPath $butler)) { throw 'Butler fehlt unter builds/butler/butler.exe.' }
 if (-not (Test-Path -LiteralPath $identity)) { throw 'Zuerst Butler mit -i builds/butler/credentials login anmelden.' }
+& python (Join-Path $PSScriptRoot 'check_release_eos.py') --build $build
+if ($LASTEXITCODE -ne 0) { throw 'EOS-Release-Pruefung fehlgeschlagen; es wurde nichts hochgeladen.' }
 foreach ($file in $info.files) {
     $hash = (Get-FileHash -LiteralPath (Join-Path $build $file.name) -Algorithm SHA256).Hash
     if ($hash -ne $file.sha256) { throw "Build-Pruefsumme stimmt nicht: $($file.name). BUILD-INFO.json nach dem Export aktualisieren." }
 }
-$pushArgs = @('-i', $identity, 'push', $build, 'keknyan/remz:windows', '--ignore', 'logs', '--ignore', 'logs/**', '--userversion', $info.build, '--if-changed')
+$pushArgs = @('-i', $identity, 'push', $build, 'keknyan/remz:windows', '--ignore', 'logs', '--ignore', 'logs/**', '--ignore', '*.TMP', '--ignore', '**/*.TMP', '--ignore', '*.tmp', '--ignore', '**/*.tmp', '--userversion', $info.build, '--if-changed')
 if ($DryRun) { $pushArgs += '--dry-run' }
 & $butler @pushArgs
 if ($LASTEXITCODE -ne 0) { throw "Butler fehlgeschlagen (Exit $LASTEXITCODE)." }
