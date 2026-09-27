@@ -62,47 +62,50 @@ static func burst(parent: Node3D, at: Vector3, color: Color, radius: float) -> v
 	tween.chain().tween_interval(0.85)
 	tween.chain().tween_callback(root.queue_free)
 
-static func kettle(parent: Node3D, at: Vector3) -> Dictionary:
+static func kettle(parent: Node3D, at: Vector3, on_grill := false) -> Dictionary:
 	var root := Node3D.new()
 	root.name = "BrewingKettle"
 	root.add_to_group("render_dynamic")
 	parent.add_child(root)
 	root.global_position = at
+	if on_grill: root.scale = Vector3.ONE * 0.55
+	var rim_height := 0.46 if on_grill else 0.56
 	var iron := StandardMaterial3D.new()
 	iron.albedo_color = Color("272d32")
 	iron.metallic = 0.8
 	iron.roughness = 0.4
 	var bowl := SphereMesh.new()
 	bowl.radius = 0.37
-	bowl.height = 0.6
+	bowl.height = 0.42 if on_grill else 0.6
 	bowl.is_hemisphere = true
 	bowl.radial_segments = 24
 	bowl.rings = 12
-	var body := DefenceTower.piece(root, bowl, Vector3(0, 0.56, 0), iron)
+	var body := DefenceTower.piece(root, bowl, Vector3(0, rim_height, 0), iron)
 	body.rotation.z = PI
 	var rim := TorusMesh.new()
 	rim.inner_radius = 0.34
 	rim.outer_radius = 0.39
 	rim.rings = 24
 	rim.ring_segments = 8
-	DefenceTower.piece(root, rim, Vector3(0, 0.56, 0), iron)
+	DefenceTower.piece(root, rim, Vector3(0, rim_height, 0), iron)
 	var water := CylinderMesh.new()
 	water.top_radius = 0.335
 	water.bottom_radius = 0.335
 	water.height = 0.012
 	water.radial_segments = 24
 	# The hemisphere has a flat cap: place the liquid above it, inside the raised rim.
-	var liquid := DefenceTower.piece(root, water, Vector3(0, 0.567, 0), material(Color("d99442")))
+	var liquid := DefenceTower.piece(root, water, Vector3(0, rim_height + 0.007, 0), material(Color("d99442")))
 	for i in 3:
 		var angle := i * TAU / 3
 		var leg := CylinderMesh.new()
 		leg.top_radius = 0.023
 		leg.bottom_radius = 0.023
-		leg.height = 0.45
-		DefenceTower.piece(root, leg, Vector3(cos(angle) * 0.27, 0.23, sin(angle) * 0.27), iron)
+		leg.height = 0.06 if on_grill else 0.45
+		var foot_radius := 0.11 if on_grill else 0.27
+		DefenceTower.piece(root, leg, Vector3(cos(angle) * foot_radius, leg.height * 0.5, sin(angle) * foot_radius), iron)
 	var steam := motes(Color.WHITE, 18, 0.22)
 	steam.mesh.material.emission_enabled = false
-	steam.position.y = 0.57
+	steam.position.y = rim_height + 0.01
 	root.add_child(steam)
 	steam.emitting = false
 	return {"root": root, "liquid": liquid, "steam": steam}

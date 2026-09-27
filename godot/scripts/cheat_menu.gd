@@ -3,6 +3,7 @@ extends CanvasLayer
 var main: Node
 var is_open := false
 var panel: Control
+var box: PanelContainer
 var status: Label
 var skip_button: Button
 var points_button: Button
@@ -15,7 +16,9 @@ var weapon_buttons: Dictionary = {}   # weapon id -> Button
 var all_weapons_button: Button
 var weapon_note: Label
 var world_buttons: Array[Button] = []
-const SPAWN_KINDS := ["spitter", "screamer", "stalker", "bride", "zombie_dog", "zombie_stag", "forest_spirit", "armored", "titan"]
+var spawn_buttons: Dictionary = {}
+var spawn_scroll: ScrollContainer
+const KIND_NAMES := {"shambler": "Shambler", "runner": "Runner", "brute": "Brute", "nurse": "Nurse", "soldier": "Soldier", "titan": "Field titan"}
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -28,10 +31,7 @@ func _ready() -> void:
 	shade.color = Color(0, 0, 0, 0.65)
 	shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	panel.add_child(shade)
-	var center := CenterContainer.new()
-	center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	panel.add_child(center)
-	var box := PanelContainer.new()
+	box = PanelContainer.new()
 	var style := StyleBoxFlat.new()
 	style.bg_color = Hud.INK
 	style.border_color = Hud.GOLD
@@ -39,10 +39,13 @@ func _ready() -> void:
 	style.set_corner_radius_all(10)
 	style.set_content_margin_all(24)
 	box.add_theme_stylebox_override("panel", style)
-	center.add_child(box)
+	panel.add_child(box)
+	box.resized.connect(_layout)
+	get_viewport().size_changed.connect(_layout)
 	var items := VBoxContainer.new()
 	items.add_theme_constant_override("separation", 16)
 	box.add_child(items)
+	items.minimum_size_changed.connect(func(): box.call_deferred("reset_size"))
 	var title := Label.new()
 	title.text = "CHEAT MENU"
 	title.add_theme_font_size_override("font_size", 26)
@@ -125,21 +128,27 @@ func _ready() -> void:
 	var spawn_heading := Label.new()
 	spawn_heading.text = "Spawn 12 m ahead · host only"
 	world.add_child(spawn_heading)
-	var spawn_grid := GridContainer.new()
-	spawn_grid.columns = 2
-	spawn_grid.add_theme_constant_override("h_separation", 6)
-	spawn_grid.add_theme_constant_override("v_separation", 6)
-	world.add_child(spawn_grid)
-	for kind in SPAWN_KINDS:
-		var button := Button.new()
-		# the type's name is a msgid ("SPITTER"): the button translates it itself, so no capitalize() here
-		var caption := "Armored shambler" if kind == "armored" else ("Field titan" if kind == "titan" else str(Zombie.TYPES[kind].get("name", kind)))
-		button.text = caption
-		button.custom_minimum_size = Vector2(150, 34)
-		button.add_theme_font_size_override("font_size", 13)
-		button.pressed.connect(_spawn.bind(kind))
-		spawn_grid.add_child(button)
-		world_buttons.append(button)
+	spawn_scroll = ScrollContainer.new()
+	spawn_scroll.custom_minimum_size = Vector2(330, 260)
+	spawn_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	spawn_scroll.follow_focus = true
+	world.add_child(spawn_scroll)
+	var spawn_list := VBoxContainer.new()
+	spawn_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	spawn_list.add_theme_constant_override("separation", 6)
+	spawn_scroll.add_child(spawn_list)
+	# Read the complete gameplay catalogue so future enemy types appear here too.
+	for category in ["Infected", "Animals", "Bosses"]:
+		var label := Label.new()
+		label.text = category
+		label.add_theme_font_size_override("font_size", 14)
+		label.add_theme_color_override("font_color", Hud.GOLD)
+		spawn_list.add_child(label)
+		for kind: String in Zombie.TYPES:
+			var group := "Bosses" if Zombie.is_boss_kind(kind) or kind == "bride" else ("Animals" if Zombie.is_beast_kind(kind) else "Infected")
+			if group != category: continue
+			_add_spawn_button(spawn_list, kind)
+			if Zombie.can_be_armored(kind): _add_spawn_button(spawn_list, kind, true)
 	var down := Button.new()
 	down.text = "Knock me down"
 	down.custom_minimum_size.y = 34
@@ -181,6 +190,16 @@ func _ready() -> void:
 	back.text = "Close (Esc / Ctrl+Shift+D)"
 	back.pressed.connect(close)
 	items.add_child(back)
+	_layout.call_deferred()
+
+func _layout() -> void:
+	var viewport := get_viewport().get_visible_rect().size
+	var natural := box.get_combined_minimum_size().max(Vector2.ONE)
+	var available := (viewport - Vector2(32, 32)).max(Vector2.ONE)
+	var factor := minf(1.0, minf(available.x / natural.x, available.y / natural.y))
+	box.size = natural
+	box.scale = Vector2.ONE * factor
+	box.position = (viewport - natural * factor) * 0.5
 
 func open() -> void:
 	if not main.started or main.over or not main.player.alive or not main.player.active or main.get_tree().paused:
@@ -236,13 +255,27 @@ func _blood_moon() -> void:
 	cycle._update_moon()
 	world_note.text = "The blood moon is up."
 
-func _spawn(kind: String) -> void:
+static func _spawn_caption(kind: String, armored := false) -> String:
+	var caption: String = Zombie.TYPES[kind].get("name", KIND_NAMES.get(kind, kind.capitalize()))
+	return Lang.t("Armored: %s", [caption]) if armored else caption
+
+func _add_spawn_button(list: VBoxContainer, kind: String, armored := false) -> void:
+	var button := Button.new()
+	button.text = _spawn_caption(kind, armored)
+	button.custom_minimum_size.y = 34
+	button.add_theme_font_size_override("font_size", 14)
+	button.pressed.connect(_spawn.bind(kind, armored))
+	list.add_child(button)
+	spawn_buttons[("armored:" if armored else "") + kind] = button
+	world_buttons.append(button)
+
+func _spawn(kind: String, armored := false) -> void:
 	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return
+	if not Zombie.TYPES.has(kind) or (armored and not Zombie.can_be_armored(kind)): return
 	var ahead: Vector3 = main.player.global_position - main.player.global_basis.z * 12.0
-	var real_kind := "shambler" if kind == "armored" else kind
 	# skins with the "arise" clip (the 27 Sep 2026 batch) get up from the ground in front of the player
-	var spawned: bool = main.spawn_zombie(real_kind, Vector2(ahead.x, ahead.z), 1.0, "", 0.0, 1 if kind == "armored" else -1, true)
-	world_note.text = Lang.t("Spawned: %s", [kind]) if spawned else "No room to spawn here."
+	var spawned: bool = main.spawn_zombie(kind, Vector2(ahead.x, ahead.z), 1.0, "", 0.0, 1 if armored else 0, true)
+	world_note.text = Lang.t("Spawned: %s", [_spawn_caption(kind, armored)]) if spawned else "No room to spawn here."
 
 func _knock_down() -> void:
 	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return

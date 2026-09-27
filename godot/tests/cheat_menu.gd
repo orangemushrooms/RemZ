@@ -14,6 +14,16 @@ func check(condition: bool, description: String) -> void:
 	else:
 		print("PASS: " + description)
 
+func shot(menu: CanvasLayer, name: String) -> void:
+	if "--render-cheats" not in OS.get_cmdline_user_args(): return
+	for frame in 8: await process_frame
+	await RenderingServer.frame_post_draw
+	var folder := ProjectSettings.globalize_path("res://../artifacts/cheat-menu/")
+	DirAccess.make_dir_recursive_absolute(folder)
+	root.get_texture().get_image().save_png(folder + name + ".png")
+	var bounds: Rect2 = menu.box.get_global_rect()
+	check(root.get_visible_rect().encloses(bounds), "Cheat menu fits the viewport: " + name)
+
 func run() -> void:
 	var game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
@@ -85,6 +95,49 @@ func run() -> void:
 	for key: ForestKey in game.forest_keys.spawned:
 		if not key.taken: lying = true
 	check(not lying and menu.is_open and paused, "No hut key is left in the forest and the menu stays open")
+	# Every catalogue type and every legal helmet variant must be reachable from a real button.
+	check(Zombie.TYPES.keys().all(func(kind): return menu.spawn_buttons.has(kind)), "Every enemy type has a spawn button")
+	var armored_count := 0
+	for kind: String in Zombie.TYPES:
+		if Zombie.can_be_armored(kind): armored_count += 1
+	check(menu.spawn_buttons.size() == Zombie.TYPES.size() + armored_count, "All supported armored variants are included, with no duplicate entries")
+	if "--render-cheats" in OS.get_cmdline_user_args():
+		Lang.set_language("de")
+		await shot(menu, "enemies-top")
+		menu.spawn_scroll.ensure_control_visible(menu.spawn_buttons["forest_spirit"])
+		await shot(menu, "enemies-bosses")
+		var original_size := root.size
+		root.size = Vector2i(1280, 720)
+		await shot(menu, "enemies-720p")
+		root.size = original_size
+		Lang.set_language("en")
+	var original_position: Vector3 = game.player.global_position
+	game.player.global_position = Map.ground_pos(10, 110)
+	for key: String in menu.spawn_buttons:
+		var kind := key.trim_prefix("armored:")
+		var armored := key.begins_with("armored:")
+		var count_before: int = game.zombies_root.get_child_count()
+		menu.spawn_buttons[key].pressed.emit()
+		var created: bool = game.zombies_root.get_child_count() == count_before + 1
+		var enemy: Zombie = game.zombies_root.get_child(count_before) if created else null
+		var correct := created and enemy.net_kind == kind and enemy.armored == armored and ResourceLoader.exists(enemy.model_path)
+		if correct:
+			if Zombie.is_worm_kind(kind): correct = enemy is Earthworm
+			elif Zombie.is_titan_kind(kind): correct = enemy is Titan
+			elif kind == "forest_spirit": correct = enemy is ForestSpirit
+			elif Zombie.is_beast_kind(kind): correct = enemy is ZombieBeast
+		check(correct and menu.is_open and paused, "Spawn button creates the correct enemy and keeps the menu open: " + key)
+		if enemy:
+			await process_frame
+			enemy.queue_free()
+			await process_frame
+			await process_frame
+	check(game.alive_zombies() == 0, "Removing test spawns restores the live enemy count")
+	var children_before: int = game.zombies_root.get_child_count()
+	menu._spawn("missing_enemy")
+	menu._spawn("earthworm", true)
+	check(game.zombies_root.get_child_count() == children_before and game.alive_zombies() == 0, "Invalid types and unsupported armor cannot create enemies")
+	game.player.global_position = original_position
 	shortcut.echo = true
 	Input.parse_input_event(shortcut.duplicate())
 	check(menu.is_open, "Holding the shortcut does not repeatedly toggle the menu")
@@ -94,7 +147,7 @@ func run() -> void:
 	game.waves.start(1)
 	game.spawn_zombie("shambler", Vector2(30, 30), 1.0)
 	game.spawn_zombie("brute", Vector2(35, 30), 1.0)
-	var victims: Array = game.zombies_root.get_children()
+	var victims: Array = game.zombies_root.get_children().filter(func(node): return node is Zombie)
 	check(game.alive_zombies() == 2 and not game.waves.queue.is_empty(), "Wave has living enemies and pending spawns")
 	menu.open()
 	menu.skip_button.pressed.emit()

@@ -13,12 +13,13 @@ var menu: CanvasLayer
 func setup(scene: Node3D) -> void:
 	game = scene
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	# Kettles sit beside the embers, leaving the existing grill and its E action accessible.
-	stations.append(Map.ground_pos(Map.FIRE.x - 0.75, Map.FIRE.y - 0.45) + Vector3.UP * 0.38)
+	# Rest the compact pot on the left of the cooking grate, clear of its suspension
+	# wires and the stone surround. The right half stays available for venison.
+	stations.append(game.grill_position + Vector3(-0.18, -0.06, 0.16))
 	if not Map.SMALL_CAMPSITE.is_empty():
 		var site: Vector2 = Map.SMALL_CAMPSITE.pos
 		stations.append(Map.ground_pos(site.x + 0.7, site.y) + Vector3.UP * 0.15)
-	for at in stations: kettles.append(FX.kettle(self, at))
+	for i in stations.size(): kettles.append(FX.kettle(self, stations[i], i == 0))
 	preload("res://scripts/field_flowers.gd").build(game)
 	menu = preload("res://scripts/brewing_menu.gd").new()
 	add_child(menu)

@@ -715,6 +715,74 @@ msgstr "WALDHÜTTE REMETSCHWIL"
 msgid "NIGHT ON THE HEITERSBERG"
 msgstr "NACHT AM HEITERSBERG"
 
+#: scripts/boot_screen.gd
+msgid "Explore the forest to find the Secret Vendor. Once discovered, the trader is marked on your map."
+msgstr "Erkunde den Wald und finde den geheimen Händler. Sobald du ihn entdeckt hast, wird er auf deiner Karte markiert."
+
+#: scripts/boot_screen.gd
+msgid "Press M to enlarge the map. Keep track of the hut, paths and discovered traders."
+msgstr "Mit M vergrösserst du die Karte. Behalte die Hütte, Wege und entdeckten Händler im Blick."
+
+#: scripts/boot_screen.gd
+msgid "Collect field flowers with E. Take them to a campfire to brew useful drinks."
+msgstr "Sammle Blumen auf den Wiesen mit E. Am Lagerfeuer kannst du daraus nützliche Drinks brauen."
+
+#: scripts/boot_screen.gd
+msgid "Press C at a campfire to brew tea and drinks. Some recipes also need mushrooms."
+msgstr "Drücke am Lagerfeuer C, um Tee und Drinks zu brauen. Für manche Rezepte brauchst du zusätzlich Pilze."
+
+#: scripts/boot_screen.gd
+msgid "Meadow Tea restores 45 health. Keep a bottle ready for the next wave."
+msgstr "Wiesentee stellt 45 Lebenspunkte wieder her. Halte eine Flasche für die nächste Welle bereit."
+
+#: scripts/boot_screen.gd
+msgid "Collect mushrooms in the forest. Check their effects in your inventory before using them."
+msgstr "Sammle Pilze im Wald. Prüfe ihre Wirkung im Inventar, bevor du sie verwendest."
+
+#: scripts/boot_screen.gd
+msgid "Open your inventory with I to drink a brew. Right-click a drink to assign it to the quickbar."
+msgstr "Öffne mit I das Inventar, um einen Drink zu trinken. Per Rechtsklick legst du ihn auf einen Schnellzugriffsplatz."
+
+#: scripts/boot_screen.gd
+msgid "Weapon mods are sold by Mechanic and the Secret Vendor. Improve the weapon you use most."
+msgstr "Waffenmods gibt es bei Mechanic und beim geheimen Händler. Verbessere die Waffe, die du am häufigsten benutzt."
+
+#: scripts/boot_screen.gd
+msgid "The drone console is upstairs in the forest hut. Find its key first; the first drone unlocks at wave 5."
+msgstr "Die Drohnenkonsole steht im Obergeschoss der Waldhütte. Finde zuerst den Hüttenschlüssel; die erste Drohne wird ab Welle 5 freigeschaltet."
+
+#: scripts/boot_screen.gd
+msgid "Your body stays at the console while you fly a drone. Keep the hut defended."
+msgstr "Während du eine Drohne fliegst, bleibt dein Körper an der Konsole zurück. Sorge für eine gute Verteidigung der Hütte."
+
+#: scripts/boot_screen.gd
+msgid "Press T to build towers. At a tower, use F to repair and R to adjust its aim."
+msgstr "Mit T baust du Türme. Direkt am Turm reparierst du mit F und änderst mit R seine Ausrichtung."
+
+#: scripts/boot_screen.gd
+msgid "Repair the forest hut with E at its walls. If the hut falls, the round ends."
+msgstr "Repariere die Waldhütte mit E an ihren Wänden. Wird die Hütte zerstört, endet die Runde."
+
+#: scripts/boot_screen.gd
+msgid "Grill raw venison at the campfire with E. Grilled venison restores 35 health."
+msgstr "Grille rohes Wildfleisch am Lagerfeuer mit E. Gegrilltes Wildfleisch stellt 35 Lebenspunkte wieder her."
+
+#: scripts/boot_screen.gd
+msgid "Drinks can improve speed, protection or damage. Read the recipe before choosing your brew."
+msgstr "Drinks können Tempo, Schutz oder Schaden verbessern. Lies die Wirkung im Rezept, bevor du deinen Drink braust."
+
+#: scripts/boot_screen.gd
+msgid "In co-op, menus do not pause the fight. Cover teammates while they shop or brew."
+msgstr "Im Koop pausieren Menüs den Kampf nicht. Decke deine Mitspieler, während sie einkaufen oder brauen."
+
+#: scripts/boot_screen.gd
+msgid "Speak to traders with E. Turn in completed quests to receive rewards and unlock new equipment."
+msgstr "Sprich Händler mit E an. Gib erledigte Aufträge ab, um Belohnungen zu erhalten und neue Ausrüstung freizuschalten."
+
+#: scripts/boot_screen.gd
+msgid "TIP"
+msgstr "TIPP"
+
 #: scripts/brew_recipes.gd
 msgid "Corpse Bloom"
 msgstr "Leichenblüte"
@@ -908,6 +976,30 @@ msgid "Choose a recipe. Ingredients show owned / needed."
 msgstr "Wähle ein Rezept. Zutaten zeigen vorhanden / benötigt."
 
 #: scripts/cheat_menu.gd
+msgid "Field titan"
+msgstr "Feldtitan"
+
+#: scripts/cheat_menu.gd
+msgid "Shambler"
+msgstr "Schlurfer"
+
+#: scripts/cheat_menu.gd
+msgid "Runner"
+msgstr "Läufer"
+
+#: scripts/cheat_menu.gd
+msgid "Brute"
+msgstr "Brecher"
+
+#: scripts/cheat_menu.gd
+msgid "Nurse"
+msgstr "Krankenschwester"
+
+#: scripts/cheat_menu.gd
+msgid "Soldier"
+msgstr "Soldat"
+
+#: scripts/cheat_menu.gd
 msgid "CHEAT MENU"
 msgstr "CHEATMENÜ"
 
@@ -968,12 +1060,16 @@ msgid "Spawn 12 m ahead · host only"
 msgstr "12 m voraus erzeugen · nur Host"
 
 #: scripts/cheat_menu.gd
-msgid "Armored shambler"
-msgstr "Gepanzerter Schlurfer"
+msgid "Infected"
+msgstr "Infizierte"
 
 #: scripts/cheat_menu.gd
-msgid "Field titan"
-msgstr "Feldtitan"
+msgid "Animals"
+msgstr "Tiere"
+
+#: scripts/cheat_menu.gd
+msgid "Bosses"
+msgstr "Bosse"
 
 #: scripts/cheat_menu.gd
 msgid "Knock me down"
@@ -1002,6 +1098,10 @@ msgstr "Wetter fixiert: %s"
 #: scripts/cheat_menu.gd
 msgid "The blood moon is up."
 msgstr "Der Blutmond steht am Himmel."
+
+#: scripts/cheat_menu.gd
+msgid "Armored: %s"
+msgstr "Gepanzert: %s"
 
 #: scripts/cheat_menu.gd
 msgid "Spawned: %s"
@@ -2002,6 +2102,142 @@ msgstr "Holzlager"
 #: scripts/forest_keys.gd
 msgid "Key found: %s\nAll doors of this building can now be used. [I] Inventory"
 msgstr "Schlüssel gefunden: %s\nAlle Türen dieser Hütte sind jetzt bedienbar. [I] Inventar"
+
+#: scripts/fortune_wheels.gd
+msgid "NOTHING"
+msgstr "NIETE"
+
+#: scripts/fortune_wheels.gd
+msgid "AMMO"
+msgstr "MUNITION"
+
+#: scripts/fortune_wheels.gd
+msgid "FREE SPIN"
+msgstr "FREIDREH"
+
+#: scripts/fortune_wheels.gd
+msgid "WEAPON"
+msgstr "WAFFE"
+
+#: scripts/fortune_wheels.gd
+msgid "RARE"
+msgstr "SELTEN"
+
+#: scripts/fortune_wheels.gd
+msgid "EPIC"
+msgstr "EPISCH"
+
+#: scripts/fortune_wheels.gd
+msgid "LEGENDARY"
+msgstr "LEGENDÄR"
+
+#: scripts/fortune_wheels.gd
+msgid "WHEEL OF FORTUNE"
+msgstr "GLÜCKSRAD"
+
+#: scripts/fortune_wheels.gd
+msgid "%d R PER SPIN · WEAPONS · MUSHROOMS · AMMO"
+msgstr "%d R PRO DREH · WAFFEN · PILZE · MUNITION"
+
+#: scripts/fortune_wheels.gd
+msgid "The wheel is turning …"
+msgstr "Das Rad dreht sich …"
+
+#: scripts/fortune_wheels.gd
+msgid "Wheel of fortune · %d R per spin · not enough Rem Dollars"
+msgstr "Glücksrad · %d R pro Dreh · zu wenig Rem Dollar"
+
+#: scripts/fortune_wheels.gd
+msgid "[E] Spin the wheel of fortune · %d R\nWeapons, mushrooms, ammo and Rem Dollars"
+msgstr "[E] Glücksrad drehen · %d R\nWaffen, Pilze, Munition und Rem Dollar"
+
+#: scripts/fortune_wheels.gd
+msgid "The host spins the wheel."
+msgstr "Der Host dreht das Rad."
+
+#: scripts/fortune_wheels.gd
+msgid "There is no wheel here."
+msgstr "Hier steht kein Glücksrad."
+
+#: scripts/fortune_wheels.gd
+msgid "You cannot play right now."
+msgstr "Du kannst gerade nicht spielen."
+
+#: scripts/fortune_wheels.gd
+msgid "Step up to the wheel to spin it."
+msgstr "Tritt ans Rad, um es zu drehen."
+
+#: scripts/fortune_wheels.gd
+msgid "The wheel is still turning."
+msgstr "Das Rad dreht sich noch."
+
+#: scripts/fortune_wheels.gd
+msgid "Not enough Rem Dollars: %d R per spin."
+msgstr "Zu wenig Rem Dollar: %d R pro Dreh."
+
+#: scripts/fortune_wheels.gd
+msgid "Nothing this time. The wheel creaks to a halt."
+msgstr "Diesmal nichts. Das Rad knarrt und steht still."
+
+#: scripts/fortune_wheels.gd
+msgid "Won: %s · it is in your inventory."
+msgstr "Gewonnen: %s · liegt in deinem Inventar."
+
+#: scripts/fortune_wheels.gd
+msgid "All ammo pouches are full"
+msgstr "Alle Munitionstaschen sind voll"
+
+#: scripts/fortune_wheels.gd
+msgid "Won: ammo · +%d rounds for the %s"
+msgstr "Gewonnen: Munition · +%d Schuss · %s"
+
+#: scripts/fortune_wheels.gd
+msgid "Free spin! Your %d R are back."
+msgstr "Freidreh! Deine %d R sind zurück."
+
+#: scripts/fortune_wheels.gd
+msgid "Won: %d Rem Dollars!"
+msgstr "Gewonnen: %d Rem Dollar!"
+
+#: scripts/fortune_wheels.gd
+msgid "Grenade pouch full"
+msgstr "Granatentasche voll"
+
+#: scripts/fortune_wheels.gd
+msgid "Won: a grenade."
+msgstr "Gewonnen: eine Granate."
+
+#: scripts/fortune_wheels.gd
+msgid "Health already full"
+msgstr "Gesundheit bereits voll"
+
+#: scripts/fortune_wheels.gd
+msgid "Won: a medkit · +%d health"
+msgstr "Gewonnen: ein Medkit · +%d Gesundheit"
+
+#: scripts/fortune_wheels.gd
+msgid "You already own the %s and your ammo is full"
+msgstr "%s schon im Besitz und Munition voll"
+
+#: scripts/fortune_wheels.gd
+msgid "%s! You already own it: +%d rounds for the %s instead."
+msgstr "%s! Schon im Besitz: dafür +%d Schuss · %s."
+
+#: scripts/fortune_wheels.gd
+msgid "JACKPOT! You won the %s · select it in the inventory or with the mouse wheel"
+msgstr "JACKPOT! Gewonnen: %s · im Inventar oder mit dem Mausrad wählen"
+
+#: scripts/fortune_wheels.gd
+msgid "JACKPOT! You won the %s · magazine + 3 spare magazines"
+msgstr "JACKPOT! Gewonnen: %s · Magazin + 3 Ersatzmagazine"
+
+#: scripts/fortune_wheels.gd
+msgid "%s · your %d R are back."
+msgstr "%s · deine %d R sind zurück."
+
+#: scripts/fortune_wheels.gd
+msgid "%s won the %s at the wheel of fortune!"
+msgstr "%s hat am Glücksrad gewonnen: %s!"
 
 #: scripts/game_settings.gd
 msgid "Smooth"
@@ -3028,76 +3264,8 @@ msgid "Between the lines, added by hand:\n\nThey say there is a shop that bears 
 msgstr "Zwischen den Zeilen steht, von Hand ergänzt:\n\nMan sagt, es gebe einen Laden, der keinen Namen trägt.\nSeine Waren stehen auf keiner Liste. Sein Händler stellt keine Fragen.\nWer ihn findet, versteht, warum niemand von ihm spricht."
 
 #: scripts/main.gd
-msgid "Terrain on the Heitersberg"
-msgstr "Gelände am Heitersberg"
-
-#: scripts/main.gd
-msgid "Paths and roads"
-msgstr "Wege und Strassen"
-
-#: scripts/main.gd scripts/rare_market.gd
-msgid "Forest"
-msgstr "Wald"
-
-#: scripts/main.gd
-msgid "Forest hut and woodshed"
-msgstr "Waldhütte und Holzlager"
-
-#: scripts/main.gd
-msgid "Campsite"
-msgstr "Lagerplatz"
-
-#: scripts/main.gd
-msgid "Undergrowth"
-msgstr "Unterholz"
-
-#: scripts/main.gd
-msgid "Cornfield"
-msgstr "Maisfeld"
-
-#: scripts/main.gd
-msgid "Grass and leaves"
-msgstr "Gras und Laub"
-
-#: scripts/main.gd
-msgid "Equipment"
-msgstr "Ausrüstung"
-
-#: scripts/main.gd
-msgid "Gates, traders and quests"
-msgstr "Tore, Händler und Aufträge"
-
-#: scripts/main.gd
-msgid "Sounds of the forest"
-msgstr "Geräusche des Waldes"
-
-#: scripts/main.gd scripts/progression.gd
-msgid "Zombies"
-msgstr "Zombies"
-
-#: scripts/main.gd
-msgid "Zombie path network"
-msgstr "Wegnetz der Zombies"
-
-#: scripts/main.gd
-msgid "Keys and supplies"
-msgstr "Schlüssel und Vorräte"
-
-#: scripts/main.gd
-msgid "Preparing effects"
-msgstr "Effekte vorbereiten"
-
-#: scripts/main.gd
-msgid "Night is falling"
-msgstr "Die Nacht bricht herein"
-
-#: scripts/main.gd
 msgid "The forest hut on the Heitersberg is the last safe place. You wake up down on the Sennhofstrasse and first have to make your way up to the hut. Build barricades at the four approaches to raise the palisade ring piece by piece. Then they come: from the Sennhofstrasse along the Hut Path, across the meadow to the Meadow Gate, along the Village Path and down the North Forest Path. Upgrade the barriers in the gates (E), hold them, survive the waves and get yourself onto the high scores. The zombies also go for the forest hut itself: if it falls, the round is lost. Repair it with E at its wall."
 msgstr "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein. Die Zombies gehen auch auf die Waldhütte selbst los: fällt sie, ist die Runde verloren. Repariere sie mit E an ihrer Wand."
-
-#: scripts/main.gd
-msgid "Calculating the path network ..."
-msgstr "Wegnetz wird berechnet ..."
 
 #: scripts/main.gd
 msgid "The key locations could not be prepared. Please restart."
@@ -3143,10 +3311,6 @@ msgstr "Waldläufer .308"
 msgid "Woodshed door"
 msgstr "Holzlagertor"
 
-#: scripts/main.gd scripts/net_session.gd
-msgid "New round …"
-msgstr "Neue Runde …"
-
 #: scripts/main.gd
 msgid "MENU"
 msgstr "MENÜ"
@@ -3162,10 +3326,6 @@ msgstr "Verschnaufpause. Die Zombies warten, die Uhr steht."
 #: scripts/main.gd scripts/vendor_tutorial.gd
 msgid "Continue"
 msgstr "Weiter"
-
-#: scripts/main.gd scripts/net_session.gd
-msgid "Back to main menu …"
-msgstr "Zurück ins Hauptmenü …"
 
 #: scripts/main.gd
 msgid "BLOOD MOON\nThe horde runs faster tonight. Every kill counts double."
@@ -3258,10 +3418,6 @@ msgstr "[C] Drinks brauen · Blumen und Pilze"
 #: scripts/main.gd
 msgid "[T] Forest hut · towers and roof defenses"
 msgstr "[T] Waldhütte · Türme und Dachverteidigung"
-
-#: scripts/main.gd
-msgid "[T] Build menu · towers and defenses"
-msgstr "[T] Baumenü · Türme und Verteidigung"
 
 #: scripts/main.gd
 msgid "Night has fallen. Flashlight on - toggle it with F."
@@ -4224,6 +4380,10 @@ msgid "Drone Operations"
 msgstr "Drohneneinsätze"
 
 #: scripts/progression.gd
+msgid "Zombies"
+msgstr "Zombies"
+
+#: scripts/progression.gd
 msgid "Porcini mushrooms"
 msgstr "Steinpilze"
 
@@ -4824,6 +4984,10 @@ msgid "Buy · %d R"
 msgstr "Kaufen · %d R"
 
 #: scripts/progression.gd
+msgid "No sellable items in your inventory."
+msgstr "Du hast keine verkäuflichen Gegenstände im Inventar."
+
+#: scripts/progression.gd
 msgid "%s · %d in inventory"
 msgstr "%s · %d im Inventar"
 
@@ -5318,6 +5482,10 @@ msgstr "Südwald"
 #: scripts/rare_market.gd
 msgid "West Forest"
 msgstr "Westwald"
+
+#: scripts/rare_market.gd
+msgid "Forest"
+msgstr "Wald"
 
 #: scripts/rare_market.gd
 msgid "This rarity is not in stock right now."
@@ -6168,6 +6336,82 @@ msgid "FROST"
 msgstr "FROST"
 
 #. unused
+msgid "Calculating the path network ..."
+msgstr "Wegnetz wird berechnet ..."
+
+#. unused
+msgid "Terrain on the Heitersberg"
+msgstr "Gelände am Heitersberg"
+
+#. unused
+msgid "Paths and roads"
+msgstr "Wege und Strassen"
+
+#. unused
+msgid "Forest hut and woodshed"
+msgstr "Waldhütte und Holzlager"
+
+#. unused
+msgid "Campsite"
+msgstr "Lagerplatz"
+
+#. unused
+msgid "Undergrowth"
+msgstr "Unterholz"
+
+#. unused
+msgid "Cornfield"
+msgstr "Maisfeld"
+
+#. unused
+msgid "Grass and leaves"
+msgstr "Gras und Laub"
+
+#. unused
+msgid "Equipment"
+msgstr "Ausrüstung"
+
+#. unused
+msgid "Gates, traders and quests"
+msgstr "Tore, Händler und Aufträge"
+
+#. unused
+msgid "Sounds of the forest"
+msgstr "Geräusche des Waldes"
+
+#. unused
+msgid "Zombie path network"
+msgstr "Wegnetz der Zombies"
+
+#. unused
+msgid "Keys and supplies"
+msgstr "Schlüssel und Vorräte"
+
+#. unused
+msgid "Preparing effects"
+msgstr "Effekte vorbereiten"
+
+#. unused
+msgid "Night is falling"
+msgstr "Die Nacht bricht herein"
+
+#. unused
+msgid "New round …"
+msgstr "Neue Runde …"
+
+#. unused
+msgid "Back to main menu …"
+msgstr "Zurück ins Hauptmenü …"
+
+#. unused
+msgid "Armored shambler"
+msgstr "Gepanzerter Schlurfer"
+
+#. unused
+msgid "[T] Build menu · towers and defenses"
+msgstr "[T] Baumenü · Türme und Verteidigung"
+
+#. unused
 msgid "[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair"
 msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren"
 
@@ -6294,105 +6538,3 @@ msgstr "Verstärken erhöht die Haltbarkeit um %d TP und stellt die gesamte Lini
 #. unused
 msgid "The balanced night on the Heitersberg."
 msgstr "Die ausgewogene Nacht am Heitersberg."
-
-msgid "NOTHING"
-msgstr "NIETE"
-
-msgid "AMMO"
-msgstr "MUNITION"
-
-msgid "FREE SPIN"
-msgstr "FREIDREH"
-
-msgid "WEAPON"
-msgstr "WAFFE"
-
-msgid "RARE"
-msgstr "SELTEN"
-
-msgid "EPIC"
-msgstr "EPISCH"
-
-msgid "LEGENDARY"
-msgstr "LEGENDÄR"
-
-msgid "WHEEL OF FORTUNE"
-msgstr "GLÜCKSRAD"
-
-msgid "%d R PER SPIN · WEAPONS · MUSHROOMS · AMMO"
-msgstr "%d R PRO DREH · WAFFEN · PILZE · MUNITION"
-
-msgid "The wheel is turning …"
-msgstr "Das Rad dreht sich …"
-
-msgid "Wheel of fortune · %d R per spin · not enough Rem Dollars"
-msgstr "Glücksrad · %d R pro Dreh · zu wenig Rem Dollar"
-
-msgid "[E] Spin the wheel of fortune · %d R\nWeapons, mushrooms, ammo and Rem Dollars"
-msgstr "[E] Glücksrad drehen · %d R\nWaffen, Pilze, Munition und Rem Dollar"
-
-msgid "The host spins the wheel."
-msgstr "Der Host dreht das Rad."
-
-msgid "There is no wheel here."
-msgstr "Hier steht kein Glücksrad."
-
-msgid "You cannot play right now."
-msgstr "Du kannst gerade nicht spielen."
-
-msgid "Step up to the wheel to spin it."
-msgstr "Tritt ans Rad, um es zu drehen."
-
-msgid "The wheel is still turning."
-msgstr "Das Rad dreht sich noch."
-
-msgid "Not enough Rem Dollars: %d R per spin."
-msgstr "Zu wenig Rem Dollar: %d R pro Dreh."
-
-msgid "Nothing this time. The wheel creaks to a halt."
-msgstr "Diesmal nichts. Das Rad knarrt und steht still."
-
-msgid "Won: %s · it is in your inventory."
-msgstr "Gewonnen: %s · liegt in deinem Inventar."
-
-msgid "All ammo pouches are full"
-msgstr "Alle Munitionstaschen sind voll"
-
-msgid "Won: ammo · +%d rounds for the %s"
-msgstr "Gewonnen: Munition · +%d Schuss · %s"
-
-msgid "Free spin! Your %d R are back."
-msgstr "Freidreh! Deine %d R sind zurück."
-
-msgid "Won: %d Rem Dollars!"
-msgstr "Gewonnen: %d Rem Dollar!"
-
-msgid "Grenade pouch full"
-msgstr "Granatentasche voll"
-
-msgid "Won: a grenade."
-msgstr "Gewonnen: eine Granate."
-
-msgid "Health already full"
-msgstr "Gesundheit bereits voll"
-
-msgid "Won: a medkit · +%d health"
-msgstr "Gewonnen: ein Medkit · +%d Gesundheit"
-
-msgid "You already own the %s and your ammo is full"
-msgstr "%s schon im Besitz und Munition voll"
-
-msgid "%s! You already own it: +%d rounds for the %s instead."
-msgstr "%s! Schon im Besitz: dafür +%d Schuss · %s."
-
-msgid "JACKPOT! You won the %s · select it in the inventory or with the mouse wheel"
-msgstr "JACKPOT! Gewonnen: %s · im Inventar oder mit dem Mausrad wählen"
-
-msgid "JACKPOT! You won the %s · magazine + 3 spare magazines"
-msgstr "JACKPOT! Gewonnen: %s · Magazin + 3 Ersatzmagazine"
-
-msgid "%s · your %d R are back."
-msgstr "%s · deine %d R sind zurück."
-
-msgid "%s won the %s at the wheel of fortune!"
-msgstr "%s hat am Glücksrad gewonnen: %s!"

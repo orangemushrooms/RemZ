@@ -72,15 +72,13 @@ var _boot_t := Time.get_ticks_msec()
 var _boot_screen: BootScreen
 var _in_ready := false
 var _reloading := false
-# Build step -> [share of the loading bar, what the loading screen says meanwhile]
+# Build step -> progress. The loading screen shows gameplay tips independently.
 const BOOT_STEPS := {
-	"environment": [0.03, "Terrain on the Heitersberg"], "terrain": [0.14, "Paths and roads"],
-	"roads": [0.17, "Forest"], "forests": [0.24, "Forest hut and woodshed"], "buildings": [0.3, "Campsite"],
-	"campsite, pond, fence": [0.33, "Undergrowth"], "clutter": [0.4, "Cornfield"], "cornfield": [0.47, "Grass and leaves"],
-	"foliage": [0.5, "Equipment"], "  player, weapons": [0.62, "Gates, traders and quests"],
-	"  barricades .. progression": [0.66, "Sounds of the forest"], "  intro, cheats, music": [0.69, "Zombies"],
-	"prewarm + zombie models": [0.74, "Zombie path network"], "navigation bake": [0.86, "Keys and supplies"],
-	"navigation map, keys, cache": [0.9, "Preparing effects"], "render warm-up": [0.95, "Grass and leaves"],
+	"environment": 0.03, "terrain": 0.14, "roads": 0.17, "forests": 0.24, "buildings": 0.3,
+	"campsite, pond, fence": 0.33, "clutter": 0.4, "cornfield": 0.47, "foliage": 0.5,
+	"  player, weapons": 0.62, "  barricades .. progression": 0.66, "  intro, cheats, music": 0.69,
+	"prewarm + zombie models": 0.74, "navigation bake": 0.86,
+	"navigation map, keys, cache": 0.9, "render warm-up": 0.95,
 }
 
 # After every build step: --profile-boot prints how long it took (BOOT_STEP lines), and the loading
@@ -90,14 +88,14 @@ func _boot_mark(step: String) -> void:
 	if "--profile-boot" in _flags: print("BOOT_STEP %-24s %6d ms" % [step, now - _boot_t])
 	_boot_t = now
 	if _boot_screen and BOOT_STEPS.has(step):
-		_boot_screen.step(BOOT_STEPS[step][0], BOOT_STEPS[step][1], _in_ready)
+		_boot_screen.step(BOOT_STEPS[step], _in_ready)
 
 # Menu actions that rebuild the scene ("Hauptmenü", "Nochmal") cover the screen first, so the last
 # game frame never hangs there while the map is rebuilt; the new scene fades the cover out once ready.
-func _reload_scene(text: String) -> void:
+func _reload_scene() -> void:
 	if _reloading: return
 	_reloading = true
-	BootScreen.cover(get_tree(), text)
+	BootScreen.cover(get_tree())
 	await get_tree().process_frame
 	await get_tree().process_frame
 	get_tree().paused = false
@@ -117,7 +115,7 @@ func _ready() -> void:
 	if _boot_screen == null:
 		_boot_screen = BootScreen.new()
 		add_child(_boot_screen)
-		_boot_screen.step(0.0, "Night is falling")
+		_boot_screen.step(0.0)
 	_boot_mark("enter _ready")
 	# The game was called "Birkenhof Nacht" until 23 Sep 2026; bring its saves over once, before anything reads them.
 	if not "--trailer-run" in _flags:
@@ -312,7 +310,7 @@ func _ready() -> void:
 	preload("res://scripts/bullet_impacts.gd").prewarm()
 	Zombie.preload_models(self)
 	_boot_mark("prewarm + zombie models")
-	hud.show_overlay("REMETSCHWIL FOREST HUT", "The forest hut on the Heitersberg is the last safe place. You wake up down on the Sennhofstrasse and first have to make your way up to the hut. Build barricades at the four approaches to raise the palisade ring piece by piece. Then they come: from the Sennhofstrasse along the Hut Path, across the meadow to the Meadow Gate, along the Village Path and down the North Forest Path. Upgrade the barriers in the gates (E), hold them, survive the waves and get yourself onto the high scores. The zombies also go for the forest hut itself: if it falls, the round is lost. Repair it with E at its wall.", "Start game", "Calculating the path network ...", "start")
+	hud.show_overlay("REMETSCHWIL FOREST HUT", "The forest hut on the Heitersberg is the last safe place. You wake up down on the Sennhofstrasse and first have to make your way up to the hut. Build barricades at the four approaches to raise the palisade ring piece by piece. Then they come: from the Sennhofstrasse along the Hut Path, across the meadow to the Meadow Gate, along the Village Path and down the North Forest Path. Upgrade the barriers in the gates (E), hold them, survive the waves and get yourself onto the high scores. The zombies also go for the forest hut itself: if it falls, the round is lost. Repair it with E at its wall.", "Start game", "", "start")
 	hud.overlay_button.disabled = true
 	hud.set_loading(true)
 	_navigation_geometry.prepare(self, nav_region.navigation_mesh, perimeter)
@@ -2477,7 +2475,7 @@ func _on_start(play_intro: bool = true) -> void:
 			return
 	if over:
 		NetSession.restart_pending = true
-		_reload_scene("New round …")
+		_reload_scene()
 		return
 	get_tree().paused = false
 	hud.hide_overlay()
@@ -2509,7 +2507,7 @@ func _to_main_menu() -> void:
 	if NetSession.enabled:
 		NetSession.leave()
 		return
-	_reload_scene("Back to main menu …")
+	_reload_scene()
 
 func _game_over() -> void:
 	if NetSession.enabled:
@@ -2874,8 +2872,6 @@ func _process(delta: float) -> void:
 				actions.append(Lang.t("[C] Brew drinks · flowers and mushrooms"))
 			if defences.roof_access(player):
 				actions.append(Lang.t("[T] Forest hut · towers and roof defenses"))
-			elif not intro.showing_guidance():
-				actions.append(Lang.t("[T] Build menu · towers and defenses"))
 		hud.set_prompt("\n".join(actions))
 		if not secret_prompt.is_empty() and Input.is_action_just_pressed("interact"):
 			secret_night.request_interact()

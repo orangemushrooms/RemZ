@@ -21,17 +21,17 @@ func _ready() -> void:
 	auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	var background := StyleBoxFlat.new()
-	background.bg_color = Color(0.025, 0.045, 0.06, 0.96)
-	background.border_color = Color(0.92, 0.64, 0.27, 0.8)
+	background.bg_color = Color(0.025, 0.045, 0.06, 0.3)
+	background.border_color = Color(0.92, 0.64, 0.27, 0.24)
 	background.set_border_width_all(1)
-	background.border_width_left = 4
+	background.border_width_left = 2
 	background.set_corner_radius_all(8)
 	background.content_margin_left = 16
 	background.content_margin_right = 16
 	background.content_margin_top = 10
 	background.content_margin_bottom = 12
-	background.shadow_color = Color(0, 0, 0, 0.4)
-	background.shadow_size = 8
+	background.shadow_color = Color(0, 0, 0, 0.1)
+	background.shadow_size = 3
 	add_theme_stylebox_override("panel", background)
 	_box = VBoxContainer.new()
 	_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -89,7 +89,7 @@ func _update_row(index: int, key: String, action: String) -> void:
 		cap.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		cap.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		row.add_child(cap)
-		var key_label := _label("", 21, Color(0.04, 0.06, 0.08))
+		var key_label := _label("", 21, Color(0.04, 0.06, 0.08), false)
 		key_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		cap.add_child(key_label)
 		var label := _label("", 20, PAPER)
@@ -100,7 +100,7 @@ func _update_row(index: int, key: String, action: String) -> void:
 	var row: Dictionary = _rows[index]
 	var accent := Color(0.78, 0.64, 1.0) if key == "C" else Color(0.46, 0.87, 0.77) if key in ["T", "F"] else GOLD
 	var style := StyleBoxFlat.new()
-	style.bg_color = accent
+	style.bg_color = Color(accent, 0.8)
 	style.set_corner_radius_all(5)
 	style.content_margin_left = 8
 	style.content_margin_right = 8
@@ -138,11 +138,14 @@ func _fit() -> void:
 static func _clean(value: String) -> String:
 	return value.strip_edges().trim_suffix("·").strip_edges()
 
-static func _label(value: String, font_size: int, color: Color) -> Label:
+static func _label(value: String, font_size: int, color: Color, outlined := true) -> Label:
 	var label := Label.new()
 	label.text = value
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
 	label.add_theme_font_size_override("font_size", font_size)
 	label.add_theme_color_override("font_color", color)
+	if outlined:
+		label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.65))
+		label.add_theme_constant_override("outline_size", 2)
 	return label

@@ -10,7 +10,7 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 
 ## Steuerung
 
-**Aktionsanzeige:** Erreichbare Aktionen erscheinen über dem Schnellzugriff in einer dunklen Karte mit grossen, farbigen Tastenkacheln. Am Feuer bleiben Grillen (**E**), Drinks (**C**) und Bauen (**T**) zusammen sichtbar; an der Hütte Reparatur und Dachverteidigung. **T** bleibt ausserhalb der Einführung dauerhaft als Bauhinweis sichtbar. Mauern zeigen die nächste Aktion mit Preis, beschädigte Türme zusätzlich **F** zum Reparieren und **R** zum Ausrichten. Geöffnete Menüs blenden die Weltaktionen aus.
+**Aktionsanzeige:** Erreichbare Aktionen erscheinen über dem Schnellzugriff auf transparentem Hintergrund mit farbigen Tastenkacheln. Am Feuer bleiben Grillen (**E**) und Drinks (**C**) zusammen sichtbar; an der Hütte Reparatur und Dachverteidigung (**T**). Der allgemeine Bauhinweis entfällt beim Erkunden; **T** öffnet das Baumenü weiterhin überall. Mauern zeigen die nächste Aktion mit Preis, beschädigte Türme zusätzlich **F** zum Reparieren und **R** zum Ausrichten. Geöffnete Menüs blenden die Weltaktionen aus.
 
 **Blumen und Drinks:** Sechs Blumensorten wachsen auf den Feldern und Wiesen. Mit **E** sammeln, an beiden Lagerfeuern mit **C** das Braumenü öffnen. Acht Rezepte aus Blüten und optional Pilzen liefern Heilung, Tempo, Schutz, Präzision, Feuer-/Frostauren oder farbige Visionen. Vier Sekunden Brauzeit; fertige Drinks über Inventar oder Schnellzugriff trinken. [Rezepte und Details](../docs/BREWING.md).
 
@@ -48,6 +48,9 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | Tab halten | Leaderboard: Kills, Headshots, Deaths, Titan Kills, Assists, Punkte, Ping |
 | Escape | Pause / fortsetzen |
 | F11 | Vollbild umschalten |
+| Strg + Shift + D | Cheat-Menü: alle Gegnertypen und verfügbaren gepanzerten Varianten erzeugen (nur Solo/Host) |
+
+Der Ladebildschirm zeigt wechselnde Spieltipps statt technischer Ladeschritte. Die Hinweise behandeln Karte und geheimen Händler, Blumen und Pilze, Tee und Drinks, Waffenmods, Drohnen und Verteidigung. Ein Tipp bleibt etwa sieben Sekunden stehen; alle 16 Tipps erscheinen einmal, bevor sich die Auswahl wiederholt. Der Fortschrittsbalken bleibt erhalten.
 
 Die drei Kürbisse am Lager lassen sich mit Schusswaffen zerstören. Der erste zerschossene Kürbis schaltet den Erfolg **Kürbisknacker** frei (+25 Punkte, einmal pro Runde). Kürbislaternen erlöschen dabei; zerstörte Kürbisse bleiben auch für später beitretende Mitspieler zerstört.
 

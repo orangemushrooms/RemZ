@@ -20,6 +20,80 @@ func shot(id: String) -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png(folder + id + ".png")
 
+func sale_row(vendor: Progression, name: String) -> Array:
+	for row in vendor._row_nodes:
+		if Lang.text(row[0].text).begins_with(name): return row
+	return []
+
+func refresh_sales(vendor: Progression) -> void:
+	vendor._process(0.3)
+
+func check_sale_inventory(vendor: Progression, p: Player, w: Weapons, inv: Inventory) -> void:
+	for kind in inv.mushrooms: inv.mushrooms[kind] = 0
+	for kind in game.hunting.FOOD: game.hunting.stock(p.peer_id)[kind] = 0
+	w.grenades = 0
+	w.set_weapon("pistol")
+	for wid in w.unlocked:
+		w.unlocked[wid] = wid in ["pistol", "knife"]
+		w.state[wid].reserve = 0
+	vendor._render()
+	check(vendor._row_nodes.is_empty() and vendor.rows.get_child_count() == 1 and Lang.text(vendor.rows.get_child(0).text) == "No sellable items in your inventory.", "Empty sale inventory shows guidance instead of zero-stock or starter equipment rows")
+	await shot("vendor-sales-empty")
+	inv.mushrooms.morchel = 2
+	game.hunting.stock(p.peer_id).raw_meat = 1
+	w.grenades = 1
+	w.state.pistol.reserve = 12
+	w.unlock("revolver")
+	w.state.revolver.reserve = 0
+	refresh_sales(vendor)
+	check(vendor._row_nodes.size() == 5 and sale_row(vendor, "Grilled Venison").is_empty() and sale_row(vendor, Inventory.MUSHROOMS.goldroehrling.name).is_empty(), "Sale list contains only owned meat, mushroom, grenade, reserve ammo and sellable weapon")
+	await shot("vendor-sales-owned")
+	var morel := sale_row(vendor, Inventory.MUSHROOMS.morchel.name)
+	if not morel.is_empty(): morel[2].pressed.emit()
+	refresh_sales(vendor)
+	check(inv.mushrooms.morchel == 1 and sale_row(vendor, Inventory.MUSHROOMS.morchel.name)[2] == morel[2], "Selling part of a stack updates the count without replacing its button")
+	var meat := sale_row(vendor, "Raw Venison")
+	if not meat.is_empty(): meat[2].pressed.emit()
+	refresh_sales(vendor)
+	check(game.hunting.stock(p.peer_id).raw_meat == 0 and sale_row(vendor, "Raw Venison").is_empty() and vendor._row_nodes.size() == 4, "Last meat sale removes its row on the normal shop refresh")
+	var before := p.score
+	morel = sale_row(vendor, Inventory.MUSHROOMS.morchel.name)
+	if not morel.is_empty(): morel[2].pressed.emit()
+	refresh_sales(vendor)
+	check(inv.mushrooms.morchel == 0 and p.score == before + int(Inventory.MUSHROOMS.morchel.sell) and sale_row(vendor, Inventory.MUSHROOMS.morchel.name).is_empty(), "Moving a row after removal preserves its correct sale action and price")
+	inv.mushrooms.morchel = 1
+	refresh_sales(vendor)
+	inv.mushrooms = inv.mushrooms.duplicate()
+	inv.mushrooms.morchel = 0
+	inv.mushrooms.pfifferling = 1
+	refresh_sales(vendor)
+	check(sale_row(vendor, Inventory.MUSHROOMS.morchel.name).is_empty() and not sale_row(vendor, Inventory.MUSHROOMS.pfifferling.name).is_empty(), "Replacing client inventory refreshes item identities even when the number of sale rows stays equal")
+	before = p.score
+	var chanterelle := sale_row(vendor, Inventory.MUSHROOMS.pfifferling.name)
+	if not chanterelle.is_empty(): chanterelle[2].pressed.emit()
+	refresh_sales(vendor)
+	check(inv.mushrooms.pfifferling == 0 and p.score == before + int(Inventory.MUSHROOMS.pfifferling.sell), "Replaced inventory row sells the displayed item rather than its predecessor")
+	w.state.pistol.reserve = 11
+	refresh_sales(vendor)
+	check(sale_row(vendor, "Ammo · " + Weapons.DEFS.pistol.name).is_empty(), "Partial reserve magazines are omitted because they cannot be sold")
+	w.state.pistol.reserve = 12
+	refresh_sales(vendor)
+	var ammo := sale_row(vendor, "Ammo · " + Weapons.DEFS.pistol.name)
+	if not ammo.is_empty(): ammo[2].pressed.emit()
+	refresh_sales(vendor)
+	check(w.state.pistol.reserve == 0 and sale_row(vendor, "Ammo · " + Weapons.DEFS.pistol.name).is_empty(), "Selling the last spare magazine removes the ammo offer")
+	var grenade := sale_row(vendor, "Hand grenades")
+	if not grenade.is_empty(): grenade[2].pressed.emit()
+	refresh_sales(vendor)
+	check(w.grenades == 0 and sale_row(vendor, "Hand grenades").is_empty(), "Selling the last grenade removes the offer")
+	var weapon := sale_row(vendor, Weapons.DEFS.revolver.name)
+	if not weapon.is_empty(): weapon[2].pressed.emit()
+	refresh_sales(vendor)
+	check(not w.unlocked.revolver and vendor._row_nodes.is_empty(), "Selling the last eligible weapon restores the empty sale list")
+	game.hunting.stock(p.peer_id).cooked_meat = 1
+	refresh_sales(vendor)
+	check(vendor._row_nodes.size() == 1 and not sale_row(vendor, "Grilled Venison").is_empty(), "Newly received food reappears while the shop remains open")
+
 func run() -> void:
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
@@ -226,6 +300,7 @@ func run() -> void:
 	vendor._render()
 	check(vendor._tabs.Sell.visible and vendor.rows.get_child_count() >= 12, "Vendor renders sale rows for all mushrooms and supplies")
 	await shot("vendor-sales")
+	await check_sale_inventory(vendor, p, w, inv)
 	vendor.close()
 	print("MUSHROOM_TRADE_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

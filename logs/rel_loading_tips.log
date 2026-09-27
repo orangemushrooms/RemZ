@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Load progress changes without interrupting a readable tip
+PASS: A tip remains visible for the full reading interval
+PASS: Every tip appears before any repetition
+PASS: A new shuffled cycle does not repeat the previous tip
+PASS: A build step rotates overdue tips even without idle frames
+PASS: Scene reloads reuse the existing loading cover
+PASS: Every gameplay tip has a German translation
+PASS: The loading cover fades away when loading finishes
+LOADING_TIPS_DONE checks=8 failures=0

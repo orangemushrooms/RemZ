@@ -1,0 +1,26 @@
+  [████████████████████] 100% — SUCCEEDED (0s, poll #1)
+14:04:48 model fortune_wheel_v2
+TASK_CREATED: 01a0e2c0-e96b-760c-9e81-6dbf2a0026d3
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [█░░░░░░░░░░░░░░░░░░░] 9% — IN_PROGRESS (5s, poll #2)
+  [█████░░░░░░░░░░░░░░░] 25% — IN_PROGRESS (12.5s, poll #3)
+  [█████░░░░░░░░░░░░░░░] 27% — IN_PROGRESS (23.75s, poll #4)
+  [██████░░░░░░░░░░░░░░] 32% — IN_PROGRESS (40.625s, poll #5)
+  [███████░░░░░░░░░░░░░] 38% — IN_PROGRESS (65.9375s, poll #6)
+  [█████████░░░░░░░░░░░] 45% — IN_PROGRESS (95.9375s, poll #7)
+  [██████████████░░░░░░] 74% — IN_PROGRESS (125.9375s, poll #8)
+  [██████████████████░░] 93% — IN_PROGRESS (155.9375s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (185.9375s, poll #10)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\model.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\model.glb (11.9 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\thumb.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\thumb.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\view_back.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\view_back.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\view_front.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\view_front.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\view_left.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\view_left.png (0.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\view_right.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\fortune_wheel_v2\view_right.png (0.1 MB)
+14:07:59 DONE fortune_wheel_v2

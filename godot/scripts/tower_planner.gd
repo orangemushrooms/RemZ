@@ -149,8 +149,8 @@ func _build_ui() -> void:
 	column.add_child(back)
 	hint = _label("", 20, GOLD)
 	var hint_background := StyleBoxFlat.new()
-	hint_background.bg_color = Color(0.025, 0.045, 0.06, 0.96)
-	hint_background.border_color = GOLD
+	hint_background.bg_color = Color(0.025, 0.045, 0.06, 0.3)
+	hint_background.border_color = Color(GOLD, 0.24)
 	hint_background.set_border_width_all(1)
 	hint_background.set_corner_radius_all(8)
 	hint_background.content_margin_left = 20
@@ -158,6 +158,8 @@ func _build_ui() -> void:
 	hint_background.content_margin_top = 12
 	hint_background.content_margin_bottom = 12
 	hint.add_theme_stylebox_override("normal", hint_background)
+	hint.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.65))
+	hint.add_theme_constant_override("outline_size", 2)
 	hint.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	hint.offset_left = 410
 	hint.offset_right = -24

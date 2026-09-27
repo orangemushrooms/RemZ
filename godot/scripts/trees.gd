@@ -119,8 +119,10 @@ void fragment() {
 	vec3 wpos = (INV_VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	vec3 n = normalize(wpos - ccenter + vec3(0.0, 0.8, 0.0));
 	NORMAL = normalize((VIEW_MATRIX * vec4(n, 0.0)).xyz);
-	ROUGHNESS = mix(0.85, 0.4, wet);
-	SPECULAR = mix(0.15, 0.45, wet);
+	// Crown normals describe an entire cluster, not individual leaf surfaces.
+	// Keep rain reflections soft so those normals cannot form white, glassy lobes.
+	ROUGHNESS = mix(0.94, 0.86, wet);
+	SPECULAR = mix(0.04, 0.06, wet);
 	// sunlight through the leaf: the canopy glows when the sun is behind it
 	BACKLIGHT = col * 0.55;
 	AO = 0.55 + 0.45 * shade;

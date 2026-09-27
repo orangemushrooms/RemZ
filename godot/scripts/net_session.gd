@@ -624,7 +624,7 @@ func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> voi
 	status = "Returning to the main menu …"
 	changed.emit()
 	# The loading screen covers the rebuild and fades into the start menu (boot_screen.gd).
-	BootScreen.cover(get_tree(), "Back to main menu …")
+	BootScreen.cover(get_tree())
 	world = null
 	game = null
 	_message_after_load = reason
@@ -658,7 +658,7 @@ func _reload(session_epoch: int) -> void:
 	_snapshot_parts.clear()
 	world = null
 	game = null
-	BootScreen.cover(get_tree(), "New round …")
+	BootScreen.cover(get_tree())
 	get_tree().paused = false
 	get_tree().call_deferred("reload_current_scene")
 

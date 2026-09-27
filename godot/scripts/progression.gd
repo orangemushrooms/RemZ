@@ -670,6 +670,25 @@ func mushroom_stock(p: Player) -> Dictionary:
 static func ammo_sale_price(id: String) -> int:
 	return maxi(1, int((int(GOODS[id].ammo) if GOODS.has(id) else 12) * 0.2))
 
+# Only include stock that can actually be sold. These identities also key the
+# cached row layout so removing an item cannot leave another item's callback behind.
+func _sell_items(p: Player) -> Array[Array]:
+	var items: Array[Array] = []
+	var food: Dictionary = game.hunting.stock(p.peer_id)
+	for kind in game.hunting.FOOD:
+		if int(food.get(kind, 0)) > 0: items.append(["sell_meat", kind])
+	var mushrooms := mushroom_stock(p)
+	for kind in Inventory.MUSHROOMS:
+		if int(mushrooms.get(kind, 0)) > 0: items.append(["sell_mushroom", kind])
+	var w := weapon_for(p)
+	if w.grenades > 0: items.append(["sell_grenade", ""])
+	for wid in Weapons.ORDER:
+		if not w.unlocked.get(wid, false): continue
+		if not Weapons.is_melee(wid) and int(w.state[wid].reserve) >= int(Weapons.DEFS[wid].mag):
+			items.append(["sell_ammo", wid])
+		if GOODS.has(wid): items.append(["sell_weapon", wid])
+	return items
+
 func refill_quote(p: Player) -> Dictionary:
 	var w := weapon_for(p)
 	var order: Array = [w.ammo_weapon()]
@@ -1092,12 +1111,14 @@ func _build_ui() -> void:
 	tutorial.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	tutorial.add_theme_constant_override("line_spacing", 4)
 	var tutorial_style := StyleBoxFlat.new()
-	tutorial_style.bg_color = Color(0.025, 0.045, 0.06, 0.92)
-	tutorial_style.border_color = Hud.GOLD
-	tutorial_style.border_width_left = 3
+	tutorial_style.bg_color = Color(0.025, 0.045, 0.06, 0.3)
+	tutorial_style.border_color = Color(Hud.GOLD, 0.24)
+	tutorial_style.border_width_left = 2
 	tutorial_style.set_corner_radius_all(5)
 	tutorial_style.set_content_margin_all(12)
 	tutorial.add_theme_stylebox_override("normal", tutorial_style)
+	tutorial.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.65))
+	tutorial.add_theme_constant_override("outline_size", 2)
 	tutorial.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tutorial)
 	panel = Control.new()
@@ -1233,7 +1254,9 @@ func _render() -> void:
 		_tabs[tab].visible = tab in (["Quests"] if NPCS[shop].get("quests_only", false) else (["Quests", "Training", "Towers", "Mods"] if shop == "mechanic" else (["Trade", "Sell", "Quests", "Mods", "Skins"] if shop == "secret" else ["Trade", "Fireworks", "Sell", "Quests", "Skins"])))
 	var owners := []
 	for tower: DefenceTower in game.defences.towers.values(): owners.append([tower.tower_id, tower.owner_peer])
-	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners, _mod_weapon, rare_market.stock.keys(), local_data().claimed if page == "Quests" else {}])
+	var sale_items: Array[Array] = []
+	if page == "Sell": sale_items = _sell_items(game.player)
+	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners, _mod_weapon, rare_market.stock.keys(), local_data().claimed if page == "Quests" else {}, sale_items])
 	_building_layout = layout != _layout_key
 	_layout_key = layout
 	_row_index = 0
@@ -1272,22 +1295,22 @@ func _render() -> void:
 		"Sell":
 			var w: Weapons = game.weapons
 			var stock := mushroom_stock(p)
-			for kind in game.hunting.FOOD:
-				var spec: Dictionary = game.hunting.FOOD[kind]
-				var count := int(game.hunting.stock(p.peer_id).get(kind, 0))
-				_row(Lang.t("%s · %d in inventory", [spec.name, count]), spec.text, Lang.t("Sell 1 · %d R", [spec.sell]), request.bind("sell_meat", kind), count <= 0)
-			for kind in Inventory.MUSHROOMS:
-				var spec: Dictionary = Inventory.MUSHROOMS[kind]
-				var count := int(stock.get(kind, 0))
-				_row(Lang.t("%s · %d in inventory", [spec.name, count]), spec.text, Lang.t("Sell 1 · %d R", [spec.sell]), request.bind("sell_mushroom", kind), count <= 0)
-			_row(Lang.t("Hand grenades · %d in inventory", [w.grenades]), "Sell one grenade.", Lang.t("Sell 1 · %d R", [15]), request.bind("sell_grenade"), w.grenades <= 0)
-			for wid in Weapons.ORDER:
-				if not w.unlocked.get(wid, false): continue
-				if not Weapons.is_melee(wid):
-					var amount := int(Weapons.DEFS[wid].mag)
-					_row(Lang.t("Ammo · %s", [Weapons.DEFS[wid].name]), Lang.t("Sell %d rounds. Reserve: %d.", [amount, w.state[wid].reserve]), "+%d R" % ammo_sale_price(wid), request.bind("sell_ammo", wid), int(w.state[wid].reserve) < amount)
-				if GOODS.has(wid):
-					_row(Weapons.DEFS[wid].name, "Sell the weapon. Leftover ammo adds nothing to the price; sell the reserve separately first. Purchase permits are kept.", "+%d R" % int(int(GOODS[wid].price) * 0.35), request.bind("sell_weapon", wid))
+			if sale_items.is_empty(): _info("No sellable items in your inventory.")
+			for item in sale_items:
+				var action: String = item[0]
+				var id: String = item[1]
+				match action:
+					"sell_meat", "sell_mushroom":
+						var spec: Dictionary = game.hunting.FOOD[id] if action == "sell_meat" else Inventory.MUSHROOMS[id]
+						var count := int(game.hunting.stock(p.peer_id).get(id, 0)) if action == "sell_meat" else int(stock.get(id, 0))
+						_row(Lang.t("%s · %d in inventory", [spec.name, count]), spec.text, Lang.t("Sell 1 · %d R", [spec.sell]), request.bind(action, id))
+					"sell_grenade":
+						_row(Lang.t("Hand grenades · %d in inventory", [w.grenades]), "Sell one grenade.", Lang.t("Sell 1 · %d R", [15]), request.bind(action))
+					"sell_ammo":
+						var amount := int(Weapons.DEFS[id].mag)
+						_row(Lang.t("Ammo · %s", [Weapons.DEFS[id].name]), Lang.t("Sell %d rounds. Reserve: %d.", [amount, w.state[id].reserve]), "+%d R" % ammo_sale_price(id), request.bind(action, id))
+					"sell_weapon":
+						_row(Weapons.DEFS[id].name, "Sell the weapon. Leftover ammo adds nothing to the price; sell the reserve separately first. Purchase permits are kept.", "+%d R" % int(int(GOODS[id].price) * 0.35), request.bind(action, id))
 		"Quests":
 			if shop == "camp":
 				_row("Basics with Vendor", "Inventory, Rem Dollars, towers and barricades · read up for free.", "View introduction", _replay_vendor_guide)

@@ -60,8 +60,15 @@ func run() -> void:
 	p.score = 10000
 	p.global_position = Map.ground_pos(100, 100)
 	game._process(30.0)
-	check(prompt().contains("[T] Build menu"), "Build shortcut remains discoverable after the old 12-second limit")
-	await shot("01-build-shortcut")
+	check(prompt().is_empty() and not card.visible, "No persistent tower build prompt while exploring")
+	await shot("01-exploration")
+	var build_key := InputEventKey.new()
+	build_key.physical_keycode = KEY_T
+	build_key.pressed = true
+	game.defences._input(build_key)
+	check(game.defences.planner.is_open, "T still opens the build menu without a persistent prompt")
+	game.defences.planner.close()
+	game.defences.input_grace = 0
 	p.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y + 2.5)
 	p.camera.look_at(game.brewing.stations[0] + Vector3.UP * 0.6)
 	await settle()
@@ -121,7 +128,7 @@ func run() -> void:
 	p.camera.look_at(tower.global_position + Vector3.UP * 3)
 	await settle()
 	source = prompt()
-	check(source.contains("[E] Operate") and source.contains("[R]") and source.contains("[F] Repair tower · 35 R") and source.contains("[T]"), "Tower offers operation, alignment, repair cost and build menu together")
+	check(source.contains("[E] Operate") and source.contains("[R]") and source.contains("[F] Repair tower · 35 R") and not source.contains("[T]"), "Tower offers relevant operation, alignment and repair actions without a generic build prompt")
 	await shot("07-tower")
 	root.size = Vector2i(1280, 720) if capture else root.size
 	await shot("08-tower-720p")

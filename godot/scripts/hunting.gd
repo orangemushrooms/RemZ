@@ -43,7 +43,10 @@ func setup(scene: Node3D) -> void:
 	_build_grate()
 	grill_food = meat_model(true)
 	add_child(grill_food)
-	grill_food.global_position = game.grill_position
+	# Share the grate with the brewing pot on its left. Keep both food and pot clear
+	# of the rear suspension wires; the interaction point remains the grate centre.
+	grill_food.scale = Vector3(0.7, 0.7, 0.6)
+	grill_food.global_position = game.grill_position + Vector3(0.22, -0.019, 0.18)
 	grill_food.hide()
 
 func _build_grate() -> void:

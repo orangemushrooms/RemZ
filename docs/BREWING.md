@@ -1,6 +1,6 @@
 # Feldblumen und Lagerfeuer-Brauerei
 
-Auf den begehbaren Wiesen und Feldern wachsen 250 einzeln sammelbare Blumen in kleinen Gruppen. Alle sechs gelieferten Modelle werden verwendet: Leichenblüte, Glutlilie, Goldschafgarbe, Dämmerdistel, Purpurrose und Veilchenglocke. **E** sammelt eine Pflanze einmal pro Runde. Wege, Gebäude, Mais, Wasser und steile Hänge bleiben frei.
+Auf den begehbaren Wiesen und Feldern wachsen einzeln sammelbare Blumen in einer unregelmässigen Streuung: dichtere Stellen wechseln mit offenen Bereichen und einzelnen Pflanzen. Positionen folgen keinem Pflanzraster; Sorten, Ausrichtung und Grösse variieren, benachbarte Blumen halten mindestens 2,2 m Abstand. Ein fester Seed hält Positionen und Sammel-IDs im Koop identisch. Alle sechs gelieferten Modelle werden verwendet: Leichenblüte, Glutlilie, Goldschafgarbe, Dämmerdistel, Purpurrose und Veilchenglocke. **E** sammelt eine Pflanze einmal pro Runde. Wege, Gebäude, Mais, Wasser und steile Hänge bleiben frei.
 
 Am Hauptlagerfeuer und kleinen Waldlager öffnet **C** die Brauerei. Der bestehende Grill bleibt über **E** erreichbar. Rezepte zeigen vorhandene und benötigte Zutaten, Wirkung und Flaschenbestand. Eine Zubereitung dauert vier Sekunden, reserviert die Zutaten sofort und legt eine Flasche ins Inventar. Pro Spieler läuft eine Zubereitung; bis zu acht Flaschen je Sorte können getragen werden. Im Einzelspiel pausiert das Menü den Kampf, während der Drink fertig wird; im Koop läuft die Welt weiter. Schließen des Menüs unterbricht das Brauen nicht.
 

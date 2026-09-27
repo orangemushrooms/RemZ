@@ -1,0 +1,102 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: two wheels stand in the Holzlager
+ERROR: String formatting error: unsupported format character.
+   at: validated_evaluate (core/variant/variant_op.h:829)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/fortune_wheels.gd:51)
+PASS: the chances add up to 100 % (%.5f)
+PASS: a blank on 42.1 % of the spins
+PASS: every traded weapon is on the wheel, not the starting pistol and knife (17)
+PASS: the dearer the weapon, the rarer it is
+PASS: the minigun comes once in 3116 spins
+PASS: the graviton cannon is the rarest prize
+PASS: the axe comes once in 100 spins
+FORTUNE_ODDS weapon:hatchet 1.0000%
+FORTUNE_ODDS weapon:revolver 0.7551%
+FORTUNE_ODDS weapon:smg 0.3270%
+FORTUNE_ODDS weapon:shotgun 0.4105%
+FORTUNE_ODDS weapon:ak47 0.1284%
+FORTUNE_ODDS weapon:marksman 0.1555%
+FORTUNE_ODDS weapon:lmg 0.0596%
+FORTUNE_ODDS weapon:breacher 0.0450%
+FORTUNE_ODDS weapon:titanbreaker 0.0266%
+FORTUNE_ODDS weapon:flare_pistol 0.7551%
+FORTUNE_ODDS weapon:deagle 0.2041%
+FORTUNE_ODDS weapon:lever_rifle 0.1693%
+FORTUNE_ODDS weapon:mac10 0.1853%
+FORTUNE_ODDS weapon:cryo_smg 0.0907%
+FORTUNE_ODDS weapon:plasma_sniper 0.0414%
+FORTUNE_ODDS weapon:minigun 0.0321%
+FORTUNE_ODDS weapon:graviton_cannon 0.0195%
+FORTUNE_ODDS mushroom 21.0000%
+FORTUNE_ODDS ammo 13.0000%
+FORTUNE_ODDS free_spin 8.0000%
+FORTUNE_ODDS cash25 3.0000%
+FORTUNE_ODDS cash100 0.5000%
+FORTUNE_ODDS grenade 4.0000%
+FORTUNE_ODDS medkit 4.0000%
+FORTUNE_ODDS nothing 42.0949%
+FORTUNE_ROLL nothing expected 0.4209 seen 0.4216
+FORTUNE_ROLL mushroom expected 0.2100 seen 0.2100
+FORTUNE_ROLL ammo expected 0.1300 seen 0.1297
+FORTUNE_ROLL free_spin expected 0.0800 seen 0.0802
+FORTUNE_ROLL grenade expected 0.0400 seen 0.0392
+FORTUNE_ROLL weapon:hatchet expected 0.0100 seen 0.0108
+FORTUNE_ROLL weapon:ak47 expected 0.0013 seen 0.0013
+PASS: 200 000 rolls follow the table
+PASS: every weapon lands in its price tier
+PASS: the wheel stops on a segment of the drawn prize, for every kind
+PASS: a spin turns the wheel 3-5 times (3.0)
+FORTUNE_NEAR_MISS 6 of 12 blanks beside the jackpot
+PASS: the pegs push the flapper aside (0.50 rad)
+PASS: the Meshy stand is loaded
+PASS: the disc carries face, rim, pegs, marks (85 parts)
+PASS: the wheels stand on the shed floor (0.00)
+PASS: the wheels are inside the Holzlager (door 11.9 m away)
+PASS: the player stands at the first wheel
+PASS: the prompt offers the spin: [E] Spin the wheel of fortune · 10 R / Weapons, mushrooms, ammo and Rem Dollars
+PASS: a spin costs 10 R (990)
+PASS: the wheel turns and the prize waits
+PASS: a turning wheel takes no second stake
+PASS: while it turns the prompt offers nothing
+PASS: the prize is paid when the wheel stops: Nothing this time. The wheel creaks to a halt.
+PASS: no spin from across the shed
+PASS: no spin without 10 R
+PASS: a mushroom lands in the inventory
+PASS: ammo: two magazines for the gun in hand (24)
+PASS: a free spin gives the stake back
+PASS: 100 R are paid
+PASS: a grenade goes into the pouch
+PASS: a full pouch gets the stake back
+PASS: a medkit heals 60 (80)
+PASS: the minigun is won with three spare belts: JACKPOT! You won the Minigun M134 · magazine + 3 spare magazines
+PASS: a second minigun pays its ammo instead: Minigun M134! You already own it: +450 rounds for the Minigun M134 instead.
+PASS: a second axe pays ammo for a gun: Forest Axe! You already own it: +36 rounds for the Pistol instead.
+PASS: full pockets get the stake back: You already own the Minigun M134 and your ammo is full · your 10 R are back.
+PASS: a client picks up a running spin from the snapshot
+PASS: host and client wheel stop on the same segment
+PASS: the client shows the won weapon above the wheel
+ERROR: Condition "!is_inside_tree()" is true. Returning: Transform3D()
+   at: get_global_transform (scene/3d/node_3d.cpp:649)
+   GDScript backtrace (most recent call first):
+       [0] _prop (res://scripts/main.gd:899)
+       [1] _build_stand (res://scripts/fortune_wheel.gd:164)
+       [2] build (res://scripts/fortune_wheel.gd:137)
+       [3] run (res://tests/fortune_wheels.gd:200)
+ERROR: Condition "!is_inside_tree()" is true. Returning: Transform3D()
+   at: get_global_transform (scene/3d/node_3d.cpp:649)
+   GDScript backtrace (most recent call first):
+       [0] _prop (res://scripts/main.gd:899)
+       [1] _build_stand (res://scripts/fortune_wheel.gd:164)
+       [2] build (res://scripts/fortune_wheel.gd:137)
+       [3] run (res://tests/fortune_wheels.gd:200)
+PASS: a late joiner sees the wheel where it stopped
+FORTUNE_RESULT checks=41 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

@@ -31,6 +31,7 @@ func run() -> void:
 	game.weapons.set_process(false)
 	if "--render-brewing" in OS.get_cmdline_user_args():
 		Lang.set_language("de")
+		game.day_night.set_process(false)
 		game.day_night.set_time_hours(12)
 		await create_timer(2.5).timeout
 	var p: Player = game.player
@@ -50,6 +51,12 @@ func run() -> void:
 		p.global_position = Map.ground_pos(at.x, at.y + 2.4)
 		p.camera.look_at(Map.ground_pos(at.x, at.y) + Vector3.UP * 0.45)
 		await shot("field")
+		p.global_position = Map.ground_pos(-53, 109)
+		p.camera.look_at(Map.ground_pos(-78, 119) + Vector3.UP * 1.3)
+		await shot("field-wide")
+		p.global_position = Map.ground_pos(-188, -40)
+		p.camera.look_at(Map.ground_pos(-197, -64) + Vector3.UP * 1.3)
+		await shot("field-dense")
 	var plant: Loot
 	for item in game.loots:
 		if item is Loot and item.kind == "flower": plant = item; break
@@ -96,6 +103,19 @@ func run() -> void:
 	if "--render-brewing" in OS.get_cmdline_user_args():
 		brew.menu.close()
 		await shot("kettle")
+		# Inspect the pot's support and its clearance from meat, wires and masonry.
+		game.hunting.grill_food.show()
+		game.hunting.set_process(false)
+		p.global_position = Map.ground_pos(Map.FIRE.x - 1.8, Map.FIRE.y + 2.0)
+		p.camera.look_at(game.grill_position + Vector3.UP * 0.12)
+		await shot("kettle-with-grill")
+		p.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y - 2.2)
+		p.camera.look_at(game.grill_position + Vector3.UP * 0.12)
+		await shot("kettle-rear")
+		game.hunting.grill_food.hide()
+		game.hunting.set_process(true)
+		p.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y + 2.5)
+		p.camera.look_at(brew.stations[0] + Vector3.UP * 0.2)
 		brew.menu.open()
 	brew.advance_jobs(1.1)
 	check(bag.drinks.brew_meadow == 1 and brew.jobs.is_empty(), "Finished brew awards one bottle")

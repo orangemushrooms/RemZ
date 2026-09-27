@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+NAV_WAIT paused=false region_enabled=true server_enabled=true iteration=2 polygons=25293 map=RID(352187318272) registered_map=RID(352187318272)
+COOP_LOAD MAP_READY
+COOP_LOAD HOST_CREATE port=24694
+COOP_HOST_READY port=24694
+COOP_LOAD HOST_READY
+PASS: Snapshot cost fixture hosts a round
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=4
+COOP_RUNNING players=4
+PASS: Four players share the measured round
+SNAPSHOT_COST 4players_no_horde total=3.38ms (build 2.21, pack 0.57, zip 0.61) worst=7.43ms raw=43.0kB packed=6.6kB
+PASS: Full horde of 73 zombies stands in the measured snapshot
+SNAPSHOT_COST 4players_full_horde total=3.64ms (build 2.21, pack 0.64, zip 0.79) worst=4.89ms raw=58.7kB packed=9.5kB
+PASS: Full-horde snapshot tick stays under 4.0 ms (measured 3.64 ms)
+PASS: Worst snapshot tick stays under 8.0 ms (measured 4.89 ms)
+SNAPSHOT_COST cpu_share=3.6% of one second at 10 Hz
+PASS: Snapshot work stays under 10% of host CPU time (measured 3.6%)
+COOP_SNAPSHOT_COST_DONE checks=6 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

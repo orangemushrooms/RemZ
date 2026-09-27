@@ -189,8 +189,10 @@ void fragment() {
 	ALPHA_SCISSOR_THRESHOLD = 0.45;
 	float wet = clamp(remz_wetness, 0.0, 1.0);
 	ALBEDO *= mix(1.0, 0.62, wet);
-	ROUGHNESS = mix(0.85, 0.35, wet);
-	SPECULAR = mix(0.15, 0.5, wet);
+	// A card carries many leaves/blades: a smooth wet surface would reflect
+	// light across the whole card. Retain the wet colour with a subtle sheen.
+	ROUGHNESS = mix(0.94, 0.86, wet);
+	SPECULAR = mix(0.04, 0.06, wet);
 }
 """
 
