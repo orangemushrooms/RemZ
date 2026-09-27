@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 3 # 3 since 25 Sep 2026: application ping, per-row leaderboard, online lobby
-const BUILD := "remz-dev-20260925-online"
+const BUILD := "remz-dev-20260927-campaign"
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"

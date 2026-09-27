@@ -108,6 +108,13 @@ func _settings_switch() -> void:
 # ---------------------------------------------------------------- sweep
 func _sweep_menus() -> void:
 	var hud: Hud = game.hud
+	hud.show_map_selection()
+	await _frames(3)
+	await _sweep("campaign / Forest", hud.map_selection)
+	hud.map_selection.choose("core")
+	await _frames(3)
+	await _sweep("campaign / construction", hud.map_selection)
+	hud.hide_map_selection()
 	for id in ["briefing", "multiplayer", "difficulty", "controls", "settings", "records", "achievements"]:
 		hud.show_tab(id)
 		await _frames(2)

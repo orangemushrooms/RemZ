@@ -446,9 +446,25 @@ func _show_game_over() -> void:
 	game.over = true
 	game.player.active = false
 	var hut_fell: bool = game.hut != null and game.hut.destroyed
-	game.hud.show_overlay("HUT LOST" if hut_fell else "TEAM DOWN", "The forest hut has been destroyed. The host can start a new round." if hut_fell else "All players are down. The host can start a new round.", "New round" if NetSession.is_host() else "Waiting for host", "", "over")
-	game.hud.overlay_button.disabled = NetSession.is_client()
+	if game.victory:
+		game.campaign.record_wave(Campaign.ROUNDS, str(game.difficulty.name))
+		game.music.horde = 0.0
+		game.music.play("morning")
+		game.hud.show_overlay("REGION SECURED", "Forest secured. All 25 rounds survived. Your victory is saved on the campaign map.", "Map selection", "", "over")
+	else:
+		game.hud.show_overlay("HUT LOST" if hut_fell else "TEAM DOWN", "The forest hut has been destroyed. The host can start a new round." if hut_fell else "All players are down. The host can start a new round.", "New round" if NetSession.is_host() else "Waiting for host", "", "over")
+	game.hud.overlay_button.disabled = NetSession.is_client() and not game.victory
 	game.stats.finish(game.player.score, game.waves.completed, Lang.t("Co-op · %s", [game.difficulty.name]))
+
+func campaign_victory() -> void:
+	if not NetSession.is_host() or NetSession.phase != "running": return
+	NetSession.phase = "over"
+	game.over = true
+	NetSession._send_lobby()
+	NetSession._sequence += 1
+	for id in NetSession.ready_peers:
+		if id != 1 and NetSession.ready_peers[id]: NetSession.send_reliable_state(id, false)
+	_show_game_over()
 
 func _close_local_menus() -> void:
 	if game.drones.is_open: game.drones.close()
@@ -707,7 +723,7 @@ func snapshot() -> Dictionary:
 		"sandbags": sandbag_states, "purse": purse, "fortune": game.fortune.snapshot() if game.fortune else [],
 		"weather": game.weather.snapshot() if game.weather else [], "moon": [game.day_night.night_index],
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "mushroom_positions": mushroom_positions, "bars": bars, "intact": intact, "deer": animals,
-		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
+		"time": game.day_night.clock_seconds, "phase": NetSession.phase, "victory": game.victory, "region": game.campaign.selected_id,
 		"difficulty": game.settings.difficulty,
 		"wave": [game.waves.wave, game.waves.completed, game.waves.phase, game.waves.timer, game.waves.total, game.alive_zombies()+game.waves.queue.size(), game.waves.boss_fight],
 		"stats": [game.stats.kills, game.stats.headshots, game.stats.shots, game.stats.hits, game.stats.seconds, game.stats.best_streak, game.stats.grenades_thrown, game.stats.melee_hits, game.stats.barricades_built, game.stats.mushrooms_eaten, game.stats.damage_taken, game.stats.points_earned],
@@ -984,6 +1000,8 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.day_night.clock_seconds = data.time
 	game.waves.wave = data.wave[0]
 	game.waves.completed = data.wave[1]
+	if game.waves.completed > game.campaign.best_wave(game.campaign.selected_id):
+		game.campaign.record_wave(game.waves.completed, str(game.difficulty.name))
 	game.waves.phase = data.wave[2]
 	game.waves.timer = data.wave[3]
 	game.waves.total = data.wave[4]
@@ -1029,6 +1047,8 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	_update_local_life()
 	if data.phase == "over" and not game.over:
 		NetSession.phase = "over"
+		game.victory = bool(data.get("victory", false))
+		game.campaign.select(str(data.get("region", "forest")))
 		_show_game_over()
 
 func wave_started(_number: int) -> void:

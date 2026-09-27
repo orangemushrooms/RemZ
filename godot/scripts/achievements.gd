@@ -37,8 +37,9 @@ const DEFS := [
 	{ "id": "wave_10", "title": "Immortal", "text": "Survived wave 10", "counter": "waves", "target": 10, "reward": { "score": 200, "hp": 5, "ammo": true } },
 	{ "id": "wave_15", "title": "Rock in the Storm", "text": "Survived wave 15", "counter": "waves", "target": 15, "reward": { "score": 250 } },
 	{ "id": "wave_20", "title": "The Hut Still Stands", "text": "Survived wave 20", "counter": "waves", "target": 20, "reward": { "score": 350, "grenades": 2 } },
-	{ "id": "wave_30", "title": "Last Bastion", "text": "Survived wave 30", "counter": "waves", "target": 30, "reward": { "score": 600 } },
-	{ "id": "wave_40", "title": "Legend of the Heitersberg", "text": "Survived wave 40", "counter": "waves", "target": 40, "reward": { "score": 1000, "ammo": true } },
+	# Keep legacy IDs so previously unlocked achievements survive the 25-round campaign update.
+	{ "id": "wave_30", "title": "Last Bastion", "text": "Survived wave 24", "counter": "waves", "target": 24, "reward": { "score": 600 } },
+	{ "id": "wave_40", "title": "Legend of the Heitersberg", "text": "Secured Forest by surviving all 25 rounds", "counter": "waves", "target": 25, "reward": { "score": 1000, "ammo": true } },
 	{ "id": "flawless", "title": "Not a Scratch", "text": "Survived a wave without taking damage", "counter": "flawless", "target": 1, "reward": { "score": 30, "grenades": 1 } },
 	{ "id": "flawless_5", "title": "Untouchable", "text": "Survived 5 waves without player damage", "counter": "flawless", "target": 5, "reward": { "score": 100 } },
 	{ "id": "bar_1", "title": "Carpenter", "text": "First barricade built", "counter": "barricades", "target": 1, "reward": { "score": 15 } },

@@ -69,7 +69,7 @@ func setup(owner_hud: Hud) -> void:
 	players_label = hud._label("", 15)
 	add_child(players_label)
 	start_button = hud._menu_button("Start co-op", true)
-	start_button.pressed.connect(NetSession.start_game)
+	start_button.pressed.connect(func(): hud.show_map_selection())
 	add_child(start_button)
 	leave_button = hud._menu_button("Leave session", false)
 	leave_button.pressed.connect(func(): NetSession.leave())

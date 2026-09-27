@@ -5,6 +5,14 @@ ZIP vollständig in einen Ordner entpacken, dann RemZ.exe starten.
 RemZ.pck muss neben der EXE liegen. Godot muss nicht installiert werden.
 Zum Verteilen den vollständigen Inhalt dieses Ordners zippen.
 
+KAMPAGNE
+Spiel starten öffnet die animierte Gebietskarte. Forest startet die Waldhütte.
+Fünf weitere Gebiete sind grau als Under construction gesperrt.
+Jede Map geht 25 Runden; nach dem letzten Gegner wird das Gebiet gesichert.
+Beststand und Siege bleiben dauerhaft auf der Karte gespeichert.
+Im Koop wählt der Host das Gebiet. Den Abschluss erhält das ganze Team.
+Nach dem Sieg führt Kartenauswahl zurück zur Karte. Escape verlässt die Auswahl.
+
 SPRACHE
 Das Spiel startet auf Englisch. Für Deutsch: Settings > Language > Deutsch.
 Die Wahl wird gespeichert und gilt sofort.

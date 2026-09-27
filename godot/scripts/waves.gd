@@ -211,7 +211,7 @@ func plan(n: int) -> Array:
 	return q
 
 func start(n: int) -> void:
-	if NetSession.is_client(): return
+	if NetSession.is_client() or main.over or n < 1 or n > Campaign.ROUNDS or phase == "complete": return
 	if "secret_night" in main and main.secret_night:
 		if main.secret_night.active: return
 		if n == 5 and not main.secret_night.completed:
@@ -282,6 +282,7 @@ func skip_current_wave() -> bool:
 			zombie.die(Vector3.ZERO)
 	if phase == "spawning":
 		_complete_wave()
+	if main.over or phase == "complete": return true
 	start(wave + 1)
 	return true
 
@@ -335,6 +336,7 @@ func _process(delta: float) -> void:
 			_complete_wave()
 
 func _complete_wave() -> void:
+	if phase != "spawning" or main.over: return
 	boss_fight = false
 	if main.music:
 		main.music.horde = 0.0
@@ -351,6 +353,10 @@ func _complete_wave() -> void:
 	player.self_revives = 1
 	if player.downed and not NetSession.enabled: player.revive(player.max_hp * 0.5)
 	if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
+	main.campaign.record_wave(completed, str(main.difficulty.name))
+	if completed >= Campaign.ROUNDS:
+		main._campaign_victory()
+		return
 	hud.message(Lang.t("Wave %d survived\n+%d Rem Dollars, pistol reserve secured\nTraders and quests: Vendor & Mechanic · T: Tower", [wave, bonus]), 4.0)
 	Sfx.play(self, "menu", -6.0)
 

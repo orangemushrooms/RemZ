@@ -6645,3 +6645,107 @@ msgstr "[E] Glücksrad drehen · %d R\nWaffen, Pflanzen, Tränke, Munition und b
 
 msgid "GROVE"
 msgstr "HAIN"
+
+#: campaign map
+msgid "REMZ  /  CAMPAIGN"
+msgstr "REMZ  /  KAMPAGNE"
+
+#: campaign map
+msgid "REMZ"
+msgstr "REMZ"
+
+#: campaign map
+msgid "SELECT A REGION"
+msgstr "GEBIET WÄHLEN"
+
+#: campaign map
+msgid "‹  Back to main menu"
+msgstr "‹  Zurück zum Hauptmenü"
+
+#: campaign map
+msgid "%d / %d regions secured"
+msgstr "%d / %d Gebiete gesichert"
+
+#: campaign map
+msgid "Best run: %d / %d rounds"
+msgstr "Beste Runde: %d / %d überstanden"
+
+#: campaign map
+msgid "Under construction"
+msgstr "Under construction"
+
+#: campaign map
+msgid "UNDER CONSTRUCTION"
+msgstr "UNDER CONSTRUCTION"
+
+#: campaign map
+msgid "AVAILABLE  /  25 ROUNDS"
+msgstr "VERFÜGBAR  /  25 RUNDEN"
+
+#: campaign map
+msgid "REGION SECURED"
+msgstr "GEBIET GESICHERT"
+
+#: campaign map
+msgid "Defend the forest hut. Survive all 25 rounds to secure Forest."
+msgstr "Verteidige die Waldhütte. Überstehe alle 25 Runden, um Forest zu sichern."
+
+#: campaign map
+msgid "This region is under construction. It will join the campaign in a future update."
+msgstr "Dieses Gebiet wird noch gebaut. Es wird mit einem späteren Update Teil der Kampagne."
+
+#: campaign map
+msgid "Enter Forest  →"
+msgstr "Forest betreten  →"
+
+#: campaign map
+msgid "Replay Forest  →"
+msgstr "Forest erneut spielen  →"
+
+#: campaign map
+msgid "25 rounds per region. Every victory stays on your map."
+msgstr "25 Runden pro Gebiet. Jeder Sieg bleibt auf deiner Karte gespeichert."
+
+#: campaign map
+msgid "Forest secured. All 25 rounds survived. Your victory is saved on the campaign map."
+msgstr "Forest gesichert. Alle 25 Runden überstanden. Dein Sieg ist auf der Kampagnenkarte gespeichert."
+
+#: campaign map
+msgid "Map selection"
+msgstr "Kartenauswahl"
+
+#: campaign map
+msgid "Round %d / %d"
+msgstr "Runde %d / %d"
+
+#: campaign map
+msgid "Survived wave 24"
+msgstr "Welle 24 überstanden"
+
+#: campaign map
+msgid "Secured Forest by surviving all 25 rounds"
+msgstr "Forest durch Überstehen aller 25 Runden gesichert"
+
+#: campaign map
+msgid "FOREST"
+msgstr "FOREST"
+
+#: campaign map
+msgid "NORTH END"
+msgstr "NORTH END"
+
+#: campaign map
+msgid "CORE"
+msgstr "CORE"
+
+#: campaign map
+msgid "EAST END"
+msgstr "EAST END"
+
+#: campaign map
+msgid "THE PLANES"
+msgstr "THE PLANES"
+
+#: campaign map
+msgid "SUBURBS & LAKE"
+msgstr "SUBURBS & LAKE"

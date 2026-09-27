@@ -215,7 +215,9 @@ func _fullscreen() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
-		if main.progression and main.progression.is_open:
+		if main.hud and main.hud.map_selection and main.hud.map_selection.visible:
+			main.hud.hide_map_selection()
+		elif main.progression and main.progression.is_open:
 			main.progression.close()
 		elif main.barricade_menu and main.barricade_menu.is_open:
 			main.barricade_menu.close()

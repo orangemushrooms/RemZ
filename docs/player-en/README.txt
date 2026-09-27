@@ -5,6 +5,14 @@ Extract the whole ZIP into one folder, then start RemZ.exe.
 RemZ.pck must stay next to the EXE. Godot does not need to be installed.
 To pass the game on, zip the complete contents of this folder.
 
+CAMPAIGN
+Start game opens the animated region map. Forest launches the forest hut.
+Five other regions are greyed out and marked Under construction.
+Each map lasts 25 rounds; defeating the last enemy secures the region.
+Personal bests and victories remain saved on the campaign map.
+In co-op, the host selects the region and the entire team receives completion.
+After victory, Map selection returns to the map. Escape leaves the selection.
+
 LANGUAGE
 The game is in English. For German: Settings > Language > Deutsch.
 The choice is saved and switches the game immediately.

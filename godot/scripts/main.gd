@@ -42,6 +42,8 @@ var fire_light: OmniLight3D
 var grill_position := Vector3.ZERO
 var started := false
 var over := false
+var victory := false
+var campaign := Campaign.new()
 var _night_light_done := false      # the 19:00 flashlight hint fired for this night
 var near_bar = null
 var notice_board: Node3D
@@ -176,6 +178,8 @@ func _ready() -> void:
 	hud.game = self
 	add_child(hud)
 	hud.start_pressed.connect(_on_start)
+	hud.map_selected.connect(func(id: String):
+		if campaign.select(id): _on_start())
 	hud.main_menu_pressed.connect(_to_main_menu)
 	_boot_mark("  hud")
 	hud.set_difficulties(GameSettings.DIFFICULTIES, settings.difficulty, func(i: int):
@@ -428,6 +432,9 @@ func _navigation_baked() -> void:
 	hud.overlay_status.text = "Ready."
 	hud.set_loading(false)
 	NetSession.attach(self)
+	if get_tree().has_meta("open_campaign_map"):
+		get_tree().remove_meta("open_campaign_map")
+		hud.show_map_selection()
 	if NetSession.restart_pending and not NetSession.enabled:
 		# "Nochmal" after a death: straight into the next round, no start menu and no intro
 		NetSession.restart_pending = false
@@ -2470,6 +2477,10 @@ func should_play_intro() -> bool:
 func _on_start(play_intro: bool = true) -> void:
 	if not navigation_ready:
 		return
+	if victory:
+		get_tree().set_meta("open_campaign_map", true)
+		_to_main_menu()
+		return
 	if NetSession.enabled and not NetSession._applying:
 		if NetSession.phase == "over":
 			NetSession.restart()
@@ -2518,6 +2529,19 @@ func _game_over() -> void:
 		if NetSession.world: NetSession.world.check_team()
 		return
 	_end_round("YOU DIED", _survived_text())
+
+func _campaign_victory() -> void:
+	if over or NetSession.is_client(): return
+	victory = true
+	waves.phase = "complete"
+	waves.queue.clear()
+	campaign.record_wave(Campaign.ROUNDS, str(difficulty.name))
+	if NetSession.is_host():
+		NetSession.world.campaign_victory()
+		return
+	_end_round("REGION SECURED", "Forest secured. All 25 rounds survived. Your victory is saved on the campaign map.")
+	hud.overlay_button.text = "Map selection"
+	music.play("morning")
 
 # the Waldhütte fell: the round is lost even with everyone alive
 func _hut_lost() -> void:
@@ -2649,6 +2673,9 @@ func _survived_text() -> String:
 func _end_round(title: String, text: String) -> void:
 	if over: return
 	over = true
+	if defences: defences.cancel_placement()
+	for menu in [skills, inventory, barricade_menu, defences, progression, cheat_menu]:
+		if menu and menu.is_open: menu.close()
 	if drones: drones.shutdown()
 	player.active = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

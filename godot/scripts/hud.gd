@@ -6,6 +6,11 @@ extends CanvasLayer
 
 signal start_pressed
 signal main_menu_pressed
+signal map_selected(id: String)
+var menu_map: LiveMap
+var map_selection: MapSelection
+var _menu_detail: PanelContainer
+var _visible_tab := "briefing"
 
 const GOLD := Color(1.0, 0.7, 0.28)
 const PAPER := Color(0.93, 0.92, 0.88)
@@ -446,16 +451,20 @@ func _build_overlay() -> void:
 	overlay = Control.new()
 	overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(overlay)
+	menu_map = LiveMap.new()
+	menu_map.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(menu_map)
 	var dim := ColorRect.new()
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
-	dim.color = Color(0.01, 0.02, 0.03, 0.9)
+	dim.color = Color(0.01, 0.02, 0.03, 0.28)
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay.add_child(dim)
 	_card = PanelContainer.new()
 	_card.set_anchors_preset(Control.PRESET_CENTER)
 	_card.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_card.grow_vertical = Control.GROW_DIRECTION_BOTH
 	var cs := StyleBoxFlat.new()
-	cs.bg_color = INK
+	cs.bg_color = Color(0.025, 0.045, 0.04, 0.88)
 	cs.border_color = Color(1, 1, 1, 0.15)
 	cs.set_border_width_all(1)
 	cs.set_corner_radius_all(10)
@@ -492,7 +501,7 @@ func _build_overlay() -> void:
 	v.add_child(sub)
 	v.add_child(_spacer(6))
 	overlay_button = _menu_button("Start game", true)
-	overlay_button.pressed.connect(func(): Sfx.play(self, "click", -6.0); start_pressed.emit())
+	overlay_button.pressed.connect(primary_action)
 	v.add_child(overlay_button)
 	overlay_status = _label("", 12)
 	overlay_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -510,7 +519,11 @@ func _build_overlay() -> void:
 	for tab in [["briefing", "Briefing"], ["multiplayer", "Multiplayer"], ["difficulty", "Difficulty"], ["controls", "Controls"], ["settings", "Settings"], ["records", "High scores"], ["achievements", "Achievements"]]:
 		var b := _menu_button(tab[1], false)
 		var id: String = tab[0]
-		b.pressed.connect(func(): Sfx.play(self, "click", -8.0); show_tab(id))
+		b.pressed.connect(func():
+			Sfx.play(self, "click", -8.0)
+			if overlay_mode == "start" and _menu_detail.visible and _visible_tab == id:
+				_set_menu_compact(true)
+			else: show_tab(id))
 		v.add_child(b)
 		_tab_buttons[id] = b
 	difficulty_button = _tab_buttons["difficulty"]
@@ -519,10 +532,11 @@ func _build_overlay() -> void:
 
 	# right column: tab content
 	var right := PanelContainer.new()
+	_menu_detail = right
 	right.custom_minimum_size = Vector2(700, 600)
 	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var rs := StyleBoxFlat.new()
-	rs.bg_color = Color(0.03, 0.042, 0.055)
+	rs.bg_color = Color(0.025, 0.042, 0.035, 0.82)
 	rs.border_color = Color(1, 1, 1, 0.08)
 	rs.set_border_width_all(1)
 	rs.set_corner_radius_all(8)
@@ -560,6 +574,48 @@ func _build_overlay() -> void:
 	_achievements_box = _tabs["achievements"]
 	_summary_box = _tabs["summary"]
 	show_tab("briefing")
+	map_selection = MapSelection.new()
+	map_selection.campaign = game.campaign
+	map_selection.visible = false
+	overlay.add_child(map_selection)
+	map_selection.back_requested.connect(hide_map_selection)
+	map_selection.launch_requested.connect(func(id: String): map_selected.emit(id))
+	overlay.resized.connect(_fit_menu_card)
+
+func primary_action() -> void:
+	Sfx.play(self, "click", -6.0)
+	if overlay_mode == "start" and not game.started:
+		show_map_selection()
+	else:
+		start_pressed.emit()
+
+func show_map_selection() -> void:
+	if _loading or NetSession.is_client(): return
+	_card.hide()
+	menu_map.hide()
+	map_selection.refresh()
+	map_selection.show()
+	map_selection.modulate.a = 0.0
+	map_selection.create_tween().tween_property(map_selection, "modulate:a", 1.0, 0.22)
+	map_selection._rows[0].grab_focus()
+
+func hide_map_selection() -> void:
+	map_selection.hide()
+	menu_map.visible = overlay_mode == "start" or (game and game.victory)
+	_card.show()
+	overlay_button.grab_focus()
+
+func _set_menu_compact(compact: bool) -> void:
+	_menu_detail.visible = not compact
+	if compact:
+		for b: Button in _tab_buttons.values(): b.add_theme_stylebox_override("normal", _button_style(false, false))
+	_fit_menu_card.call_deferred()
+
+func _fit_menu_card() -> void:
+	if not is_instance_valid(_card): return
+	_card.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_card.size = _card.get_combined_minimum_size()
+	_card.position = Vector2((overlay.size.x - _card.size.x) * 0.5 if _menu_detail.visible else 48.0, maxf(16.0, (overlay.size.y - _card.size.y) * 0.5))
 
 func _menu_button_row(v: VBoxContainer) -> void:
 	_home_button = _menu_button("Back to main menu", false)
@@ -677,6 +733,8 @@ func set_difficulty_locked(locked: bool) -> void:
 func show_tab(id: String) -> void:
 	if not _tabs.has(id):
 		return
+	_visible_tab = id
+	_set_menu_compact(false)
 	if game and game.music and not game.started and not "--no-music" in game._flags:
 		if id == "multiplayer": game.music.play("lobby")
 		elif game.music.current == "lobby": game.music.play("title")
@@ -783,7 +841,11 @@ func show_overlay(title: String, text: String, button: String, status: String = 
 	if mode.is_empty():
 		mode = "over" if title == "YOU DIED" else ("pause" if title == "PAUSED" else "start")
 	overlay_mode = mode
+	if map_selection: hide_map_selection()
+	menu_map.visible = mode == "start" or (game and game.victory)
 	overlay_title.text = title
+	if mode == "start": overlay_title.text = "REMZ"
+	overlay_title.add_theme_font_size_override("font_size", 44 if mode == "start" else 30)
 	overlay_text.text = text
 	overlay_button.text = button
 	overlay_button.disabled = _loading
@@ -802,9 +864,11 @@ func show_overlay(title: String, text: String, button: String, status: String = 
 			show_tab("records")
 	else:
 		show_tab("briefing")
+	if mode == "start": _set_menu_compact(true)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func hide_overlay() -> void:
+	if map_selection: hide_map_selection()
 	overlay.visible = false
 	_root.visible = true
 
@@ -1185,7 +1249,7 @@ func set_ammo(now: int, reserve: int, weapon: String) -> void:
 	weapon_label.text = weapon
 
 func set_wave(n: int, info: String) -> void:
-	wave_label.text = Lang.t("Wave %d", [n])
+	wave_label.text = Lang.t("Round %d / %d", [mini(n, Campaign.ROUNDS), Campaign.ROUNDS])
 	wave_info.text = info
 
 # Waldhütte health under the wave bar: green when intact, orange when damaged, pulsing red under attack
