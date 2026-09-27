@@ -1,3 +1,8 @@
-started 10:43:50
-compile_all          OK exit=0 5s COMPILE_ALL scripts=266 broken=0  
-REGRESSIONS_DONE 10:43:55
+started 12:14:08
+batch29              OK exit=0 27s BATCH29_DONE checks=116 failures=0  
+forest_finds         OK exit=0 24s FOREST_FINDS_DONE checks=56 failures=0  
+menu_flow            OK exit=0 59s MENU_FLOW_DONE checks=11 failures=0  
+day_night            OK exit=0 35s DAY_NIGHT_DONE checks=55 failures=0 rendered=false  
+coop_intro_route     BAD exit=2 200s (no done line)  
+smoke                OK exit=0 56s SMOKE_DONE checks=83 failures=0  
+REGRESSIONS_DONE 12:20:50

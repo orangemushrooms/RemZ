@@ -1,0 +1,20 @@
+{
+  "id": "01a0e202-5397-7626-a394-e5579e21f1d9",
+  "type": "animate",
+  "name": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790498198648,
+  "progress": 100,
+  "started_at": 1790498198659,
+  "finished_at": 1790498216379,
+  "expires_at": 1790757416379,
+  "task_error": null,
+  "result": {
+    "animation_glb_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e202-5397-7626-a394-e5579e21f1d9/output/Animation_Fall_Dead_from_Abdominal_Injury_withSkin.glb?Expires=1790757416&Signature=Nm56Kz7RD9bqCnnJhcAoibyR8Bbo7E~t74zLPKeiK1GuaT6Pwr888rjJA6CuYAiFPjsf5GEfmyhtZlfa7wfdOpo~yfwoemwtvGLovUuo7oC1zhK~aBFeqjImW-sqxv3bzE9PJBRyX0xbIilSbQq0qiFQdHBQLmdrnr04eZSEEtl854c3x9qNSwHsAflgyjt3~HOsZ3rnfKISDGVX8lY03LWmst8T5YWwZciENoGdKWdEda0epQnKJRVUy7iAVn3yRogbG5BST5o7uMO0q3nEdFZfzfHaYphnlbJphVZawIlyJEWJGVzFCJVcwpmqKZjszYSSJSqjUlh7oWzpbOrT5w__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "animation_fbx_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e202-5397-7626-a394-e5579e21f1d9/output/Animation_Fall_Dead_from_Abdominal_Injury_withSkin.fbx?Expires=1790757416&Signature=XNnYWUySPv1Pd18eBMnWXYhlx1eYIGmFa6YDP6L93snFkSzPmPV5nJT0bmp1iP1SXaclx1dgBH~-s21bcQYj~Uwf7hwifNEgYeFKPHJI99yKjMMIxdU5kF7HYmouYm5JxrQ6ofwANQ~d1tstZabLrRW-8qNk5YTp9R8QW7aalfkSa6Wglv3iSxZOeAm7rNBxuoLux9bqeKJgUoPHCb5WTAXCij0pNmIfRCdTYLL2Tjz3Ht1DqcF9w4ivpMR-IkNGddfPVJ77I0yJbi9x9gUgS0F3-~LI0loIzYatZfNi9UwYi6q7V~TTTvGN94JrPsPPLmIUmP~GQeUwEUUQwlwoVA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "processed_usdz_url": "",
+    "processed_armature_fbx_url": "",
+    "processed_animation_fps_fbx_url": ""
+  },
+  "consumed_credits": 3
+}

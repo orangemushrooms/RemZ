@@ -1,0 +1,234 @@
+  + clip arise
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip scream
+  + clip walk
+  + clip walk2
+  base colour restored from model.glb (2048x2048)
+  pbr maps: restored (27266/27266 UVs)
+prune: Removed types... Texture (1)
+zombie_businessman_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_businessman.glb (4.00 MB, clips: arise, attack, attack2, death, death2, death3, death4, hit, hit2, idle, scream, walk, walk2; textures: texture_0:2048x2048, normal:2048x2048, metal_rough:2048x2048)
+game mesh: 31799 triangles, 31063 vertices after the MikkTSpace split
+bake: 2635774 texels, 0.01 % without high-poly data, 6.34 % clamped, mean detail angle 18.3 deg, 3.8 MB
+prune: Removed types... Accessor (73)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\stage_baked.glb (7.55 MB)
+arise    lowest -0.107..0.021 -> -0.107..0.020 (offset 0.000 .. -0.005 m)
+attack   lowest -0.004..0.021 -> -0.007..0.018 (offset -0.003 .. -0.003 m)
+attack2  lowest 0.057..0.097 -> -0.000..0.040 (offset -0.057 .. -0.057 m)
+death    lowest -0.098..0.123 -> -0.098..0.123 (offset -0.063 .. 0.000 m)
+death2   lowest -0.056..0.021 -> -0.056..0.021 (offset 0.008 .. 0.000 m)
+death3   lowest -0.061..0.081 -> -0.061..0.080 (offset -0.067 .. 0.000 m)
+death4   lowest -0.165..0.099 -> -0.165..0.101 (offset 0.002 .. 0.000 m)
+hit      lowest 0.005..0.066 -> -0.001..0.060 (offset -0.006 .. -0.006 m)
+hit2     lowest 0.079..0.096 -> -0.005..0.012 (offset -0.084 .. -0.084 m)
+idle     lowest -0.003..0.007 -> -0.002..0.008 (offset 0.001 .. 0.001 m)
+scream   lowest -0.008..0.002 -> -0.002..0.008 (offset 0.006 .. 0.006 m)
+walk     lowest 0.073..0.092 -> -0.002..0.017 (offset -0.075 .. -0.075 m)
+walk2    lowest 0.064..0.096 -> -0.016..0.016 (offset -0.079 .. -0.079 m)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\stage_grounded.glb (7.57 MB)
+11:26:33 zombie_businessman finished -> godot/assets/models/zombie_businessman.glb (run Godot --headless --import)
+  + clip arise
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip scream
+  + clip walk
+  + clip walk2
+  base colour restored from model.glb (2048x2048)
+  pbr maps: no source maps
+prune: Removed types... Texture (1)
+zombie_wanderer_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_wanderer.glb (2.31 MB, clips: arise, attack, attack2, death, death2, death3, death4, hit, hit2, idle, scream, walk, walk2; textures: texture_0:2048x2048)
+STRETCH before: edges 23858, >1.6x 2098, >2.5x 446, >4x 123, >8x 24
+  per clip (edges >2.5x / peak): arise 175/12.7 | attack 366/20.0 | attack2 331/20.8 | death 154/13.2 | death2 244/15.7 | death3 70/9.6 | death4 41/5.3 | hit 264/20.0 | hit2 201/17.7 | idle 55/6.9 | scream 160/10.7 | walk 33/8.5 | walk2 18/4.4
+  x20.8 attack2  (-0.24,0.79,0.14) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.24,0.78,0.14) [RightUpLeg:0.51 RightHand:0.45 Hips:0.04]
+  x17.4 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.23,0.78,0.15) [RightUpLeg:0.49 RightHand:0.48 Hips:0.03]
+  x17.1 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.23,0.79,0.15) [RightHand:0.56 RightUpLeg:0.41 Hips:0.03]
+FIX arm reach on 1447 points, conflicts resolved on 936 points
+SMOOTH 2783 points, cut 88 bridging triangles
+STRETCH after: edges 23701, >1.6x 682, >2.5x 116, >4x 21, >8x 2
+  per clip (edges >2.5x / peak): arise 65/6.2 | attack 56/7.4 | attack2 52/7.5 | death 53/8.2 | death2 51/6.9 | death3 21/5.4 | death4 29/4.3 | hit 49/7.6 | hit2 44/7.7 | idle 19/4.1 | scream 50/7.7 | walk 5/3.6 | walk2 3/3.2
+  x8.2 death  (0.14,1.28,0.09) [Spine01:0.54 LeftArm:0.24 Spine02:0.19 LeftShoulder:0.03]  (0.15,1.28,0.10) [Spine01:0.47 LeftArm:0.41 Spine02:0.09 LeftShoulder:0.03]
+  x8.2 death  (0.14,1.28,0.09) [Spine01:0.54 LeftArm:0.24 Spine02:0.19 LeftShoulder:0.03]  (0.15,1.28,0.10) [Spine01:0.47 LeftArm:0.41 Spine02:0.09 LeftShoulder:0.03]
+  x7.6 hit  (-0.15,1.20,0.16) [Spine01:0.40 RightArm:0.35 Spine02:0.20 Hips:0.05]  (-0.13,1.20,0.17) [Spine01:0.44 Spine02:0.39 Hips:0.11 RightArm:0.06]
+prune: Removed types... Accessor (73)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\stage_fixed.glb (2.30 MB)
+material factors: metallic 0 roughness 0.88
+game mesh: 10217 triangles, 17101 vertices after the MikkTSpace split
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\stage_baked.glb (2.30 MB)
+arise    lowest -0.090..0.017 -> -0.090..0.014 (offset 0.000 .. -0.003 m)
+attack   lowest 0.006..0.069 -> -0.017..0.046 (offset -0.023 .. -0.023 m)
+attack2  lowest 0.069..0.144 -> -0.004..0.071 (offset -0.073 .. -0.073 m)
+death    lowest -0.150..0.097 -> -0.150..0.097 (offset -0.092 .. 0.000 m)
+death2   lowest -0.122..0.029 -> -0.122..0.029 (offset -0.006 .. 0.000 m)
+death3   lowest -0.121..0.098 -> -0.121..0.098 (offset -0.076 .. 0.000 m)
+death4   lowest -0.230..0.116 -> -0.230..0.106 (offset -0.011 .. 0.000 m)
+hit      lowest 0.002..0.089 -> -0.018..0.068 (offset -0.021 .. -0.021 m)
+hit2     lowest 0.108..0.122 -> -0.001..0.013 (offset -0.109 .. -0.109 m)
+idle     lowest 0.013..0.026 -> -0.004..0.010 (offset -0.016 .. -0.016 m)
+scream   lowest 0.008..0.026 -> -0.001..0.017 (offset -0.008 .. -0.008 m)
+walk     lowest 0.064..0.118 -> -0.006..0.048 (offset -0.070 .. -0.070 m)
+walk2    lowest 0.002..0.027 -> -0.001..0.024 (offset -0.003 .. -0.003 m)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\stage_grounded.glb (2.32 MB)
+11:26:36 zombie_wanderer finished -> godot/assets/models/zombie_wanderer.glb (run Godot --headless --import)
+  + clip arise
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip run
+  + clip scream
+  + clip walk
+  base colour restored from model.glb (2048x2048)
+  pbr maps: restored (24318/24318 UVs)
+prune: Removed types... Texture (1)
+zombie_wastelander_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_wastelander.glb (3.46 MB, clips: arise, attack, attack2, death, death2, death3, death4, hit, hit2, idle, run, scream, walk; textures: texture_0:2048x2048, normal:2048x2048, metal_rough:2048x2048)
+game mesh: 32932 triangles, 25495 vertices after the MikkTSpace split
+bake: 2915910 texels, 0.00 % without high-poly data, 0.07 % clamped, mean detail angle 7.7 deg, 3.7 MB
+prune: Removed types... Accessor (73)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\stage_baked.glb (7.27 MB)
+arise    lowest -0.090..0.021 -> -0.090..0.014 (offset 0.000 .. -0.020 m)
+attack   lowest 0.002..0.022 -> -0.004..0.016 (offset -0.006 .. -0.006 m)
+attack2  lowest 0.064..0.089 -> -0.000..0.024 (offset -0.065 .. -0.065 m)
+death    lowest -0.039..0.119 -> -0.039..0.119 (offset -0.064 .. 0.000 m)
+death2   lowest -0.076..0.010 -> -0.076..0.011 (offset 0.009 .. 0.000 m)
+death3   lowest -0.065..0.081 -> -0.065..0.081 (offset -0.068 .. 0.000 m)
+death4   lowest -0.177..0.096 -> -0.177..0.094 (offset -0.003 .. 0.000 m)
+hit      lowest 0.078..0.092 -> -0.004..0.010 (offset -0.082 .. -0.082 m)
+hit2     lowest 0.012..0.014 -> -0.000..0.002 (offset -0.012 .. -0.012 m)
+idle     lowest 0.010..0.011 -> -0.000..0.001 (offset -0.010 .. -0.010 m)
+run      lowest -0.023..0.193 -> -0.030..0.185 (offset -0.007 .. -0.007 m)
+scream   lowest -0.004..0.008 -> -0.003..0.008 (offset 0.000 .. 0.000 m)
+walk     lowest 0.064..0.099 -> -0.005..0.030 (offset -0.069 .. -0.069 m)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\stage_grounded.glb (7.28 MB)
+11:26:46 zombie_wastelander finished -> godot/assets/models/zombie_wastelander.glb (run Godot --headless --import)
+  + clip arise
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip death5
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip run
+  + clip scream
+  + clip walk
+  + clip walk2
+  base colour restored from model.glb (2048x2048)
+  pbr maps: restored (35870/35870 UVs)
+prune: Removed types... Texture (1)
+zombie_wraith_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_wraith.glb (4.00 MB, clips: arise, attack, attack2, death, death2, death3, death4, death5, hit, hit2, idle, run, scream, walk, walk2; textures: texture_0:2048x2048, normal:2048x2048, metal_rough:2048x2048)
+STRETCH before: edges 65086, >1.6x 12302, >2.5x 3403, >4x 1247, >8x 408
+  per clip (edges >2.5x / peak): arise 1872/54.7 | attack 2238/61.0 | attack2 2155/52.6 | death 2000/76.8 | death2 2372/63.4 | death3 1099/35.8 | death4 1133/34.6 | death5 1419/65.1 | hit 2373/53.6 | hit2 2024/73.2 | idle 700/23.4 | run 1205/52.8 | scream 1312/34.7 | walk 322/21.5 | walk2 918/46.5
+  x76.8 death  (0.08,0.26,-0.19) [RightUpLeg:1.00 LeftUpLeg:0.00]  (0.09,0.26,-0.19) [RightUpLeg:0.41 LeftLeg:0.29 LeftHand:0.29 LeftUpLeg:0.01]
+  x73.2 hit2  (0.14,0.43,0.15) [LeftLeg:0.53 LeftHand:0.46 LeftUpLeg:0.01]  (0.14,0.43,0.13) [LeftHand:0.99 LeftUpLeg:0.01 LeftLeg:0.00]
+  x73.2 hit2  (0.14,0.43,0.15) [LeftLeg:0.53 LeftHand:0.46 LeftUpLeg:0.01]  (0.14,0.43,0.13) [LeftHand:0.99 LeftUpLeg:0.01 LeftLeg:0.00]
+FIX arm reach on 6749 points, conflicts resolved on 5164 points
+HAIR 7764 points follow head, neck and spine
+SKIRT 2041 points blended (hip joints 0.92 m, knees 0.53 m, hem 0.38 m)
+SMOOTH 14617 points, cut 240 bridging triangles
+STRETCH after: edges 64686, >1.6x 13380, >2.5x 4059, >4x 1284, >8x 205
+  per clip (edges >2.5x / peak): arise 1997/16.4 | attack 1702/15.8 | attack2 2358/28.9 | death 1390/17.6 | death2 1609/16.6 | death3 1705/28.3 | death4 1136/13.1 | death5 1118/12.8 | hit 1567/24.1 | hit2 1276/17.7 | idle 2194/28.4 | run 842/12.2 | scream 1150/16.5 | walk 599/14.8 | walk2 978/15.5
+  x28.9 attack2  (-0.09,1.46,-0.11) [Head:0.74 neck:0.24 RightShoulder:0.01 RightArm:0.00]  (-0.09,1.46,-0.11) [Head:0.52 neck:0.45 RightShoulder:0.02 RightArm:0.01]
+  x28.9 attack2  (-0.09,1.46,-0.11) [Head:0.74 neck:0.24 RightShoulder:0.01 RightArm:0.00]  (-0.09,1.46,-0.11) [Head:0.52 neck:0.45 RightShoulder:0.02 RightArm:0.01]
+  x22.6 hit  (-0.13,1.40,0.03) [RightShoulder:0.42 neck:0.25 RightArm:0.23 Head:0.10]  (-0.13,1.40,0.03) [neck:0.50 RightShoulder:0.27 RightArm:0.14 Spine:0.09]
+prune: Removed types... Accessor (73)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\stage_fixed.glb (3.99 MB)
+game mesh: 31053 triangles, 39050 vertices after the MikkTSpace split
+bake: 2643833 texels, 0.01 % without high-poly data, 4.24 % clamped, mean detail angle 23.9 deg, 5.5 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\stage_baked.glb (9.81 MB)
+arise    lowest -0.149..0.067 -> -0.149..0.067 (offset 0.000 .. 0.002 m)
+attack   lowest 0.108..0.171 -> -0.002..0.062 (offset -0.109 .. -0.109 m)
+attack2  lowest 0.076..0.150 -> -0.012..0.063 (offset -0.088 .. -0.088 m)
+death    lowest -0.239..0.123 -> -0.239..0.031 (offset -0.118 .. 0.000 m)
+death2   lowest -0.172..0.098 -> -0.172..0.093 (offset -0.040 .. 0.000 m)
+death3   lowest -0.120..0.125 -> -0.120..0.125 (offset -0.106 .. 0.000 m)
+death4   lowest -0.458..0.172 -> -0.474..0.125 (offset -0.053 .. 0.000 m)
+death5   lowest -0.245..0.131 -> -0.245..0.105 (offset -0.096 .. 0.000 m)
+hit      lowest 0.025..0.120 -> -0.005..0.089 (offset -0.030 .. -0.030 m)
+hit2     lowest 0.125..0.143 -> -0.002..0.016 (offset -0.127 .. -0.127 m)
+idle     lowest 0.047..0.058 -> -0.003..0.008 (offset -0.050 .. -0.050 m)
+run      lowest 0.044..0.217 -> -0.018..0.155 (offset -0.063 .. -0.063 m)
+scream   lowest -0.044..0.059 -> -0.009..0.093 (offset 0.035 .. 0.035 m)
+walk     lowest 0.036..0.054 -> -0.002..0.017 (offset -0.038 .. -0.038 m)
+walk2    lowest 0.101..0.155 -> -0.009..0.045 (offset -0.110 .. -0.110 m)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\stage_grounded.glb (9.83 MB)
+11:27:01 zombie_wraith finished -> godot/assets/models/zombie_wraith.glb (run Godot --headless --import)
+  + clip arise
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip death5
+  + clip death6
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip run
+  + clip scream
+  + clip walk
+  + clip walk2
+  base colour restored from model.glb (2048x2048)
+  pbr maps: restored (50735/50735 UVs)
+prune: Removed types... Texture (1)
+zombie_bride_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_bride.glb (6.34 MB, clips: arise, attack, attack2, death, death2, death3, death4, death5, death6, hit, hit2, idle, run, scream, walk, walk2; textures: texture_0:2048x2048, normal:2048x2048, metal_rough:2048x2048)
+STRETCH before: edges 83036, >1.6x 19545, >2.5x 5045, >4x 1487, >8x 453
+  per clip (edges >2.5x / peak): arise 3690/57.5 | attack 3568/44.2 | attack2 3296/45.8 | death 2840/52.2 | death2 3581/63.5 | death3 1949/54.8 | death4 2360/55.1 | death5 1966/43.5 | death6 2869/48.9 | hit 2698/47.8 | hit2 2791/53.1 | idle 1250/14.7 | run 2655/49.6 | scream 3109/61.9 | walk 1509/39.0 | walk2 1762/41.0
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+FIX arm reach on 9499 points, conflicts resolved on 6067 points
+HAIR 8522 points follow head, neck and spine
+SKIRT 2379 points blended (hip joints 0.89 m, knees 0.53 m, hem 0.14 m)
+SMOOTH 18026 points, cut 279 bridging triangles
+STRETCH after: edges 82479, >1.6x 23364, >2.5x 9335, >4x 3656, >8x 889
+  per clip (edges >2.5x / peak): arise 5641/60.3 | attack 5175/43.5 | attack2 6137/66.5 | death 3860/48.6 | death2 4724/30.6 | death3 4196/44.5 | death4 3778/39.2 | death5 3362/63.7 | death6 3818/34.7 | hit 3991/37.4 | hit2 3834/29.6 | idle 4774/45.6 | run 2967/72.0 | scream 3795/28.0 | walk 2183/29.0 | walk2 3590/39.1
+  x72.0 run  (-0.05,0.20,-0.26) [RightUpLeg:0.55 Hips:0.20 LeftUpLeg:0.19 RightLeg:0.06]  (-0.05,0.20,-0.26) [RightUpLeg:0.62 Hips:0.20 LeftUpLeg:0.11 RightLeg:0.08]
+  x44.5 death3  (-0.16,1.44,0.10) [Head:0.80 neck:0.12 RightArm:0.05 RightShoulder:0.03]  (-0.16,1.44,0.10) [Head:0.60 neck:0.35 RightArm:0.04 RightShoulder:0.02]
+  x43.8 arise  (0.03,0.25,0.07) [RightUpLeg:0.39 LeftUpLeg:0.37 Hips:0.21 RightLeg:0.03]  (0.03,0.25,0.07) [LeftUpLeg:0.48 RightUpLeg:0.28 Hips:0.20 LeftLeg:0.04]
+prune: Removed types... Accessor (73)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\stage_fixed.glb (6.34 MB)
+game mesh: 36741 triangles, 56114 vertices after the MikkTSpace split
+bake: 2186347 texels, 0.28 % without high-poly data, 4.85 % clamped, mean detail angle 26.7 deg, 5.7 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\stage_baked.glb (11.94 MB)
+arise    lowest -0.174..0.027 -> -0.174..0.027 (offset 0.000 .. 0.002 m)
+attack   lowest 0.091..0.144 -> -0.009..0.044 (offset -0.100 .. -0.100 m)
+attack2  lowest 0.052..0.122 -> -0.034..0.035 (offset -0.086 .. -0.086 m)
+death    lowest -0.124..0.081 -> -0.124..0.011 (offset -0.081 .. 0.000 m)
+death2   lowest -0.111..0.070 -> -0.111..0.069 (offset -0.021 .. 0.000 m)
+death3   lowest -0.494..0.111 -> -0.494..0.111 (offset -0.095 .. 0.000 m)
+death4   lowest -0.413..0.185 -> -0.427..0.146 (offset -0.044 .. 0.000 m)
+death5   lowest -0.309..0.110 -> -0.309..0.056 (offset -0.103 .. 0.000 m)
+death6   lowest -0.286..0.117 -> -0.286..0.078 (offset -0.108 .. 0.000 m)
+hit      lowest 0.018..0.083 -> -0.009..0.056 (offset -0.026 .. -0.026 m)
+hit2     lowest 0.014..0.036 -> -0.003..0.019 (offset -0.017 .. -0.017 m)
+idle     lowest 0.001..0.014 -> -0.004..0.009 (offset -0.005 .. -0.005 m)
+run      lowest 0.031..0.204 -> -0.019..0.153 (offset -0.051 .. -0.051 m)
+scream   lowest -0.034..0.033 -> -0.004..0.063 (offset 0.030 .. 0.030 m)
+walk     lowest 0.086..0.129 -> -0.011..0.033 (offset -0.097 .. -0.097 m)
+walk2    lowest 0.077..0.140 -> -0.006..0.057 (offset -0.083 .. -0.083 m)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\stage_grounded.glb (11.96 MB)
+11:27:23 zombie_bride finished -> godot/assets/models/zombie_bride.glb (run Godot --headless --import)
+EXIT 0

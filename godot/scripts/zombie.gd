@@ -13,8 +13,10 @@ const TYPES := {
 	"titan_ash": {"name": "ASH TITAN", "model": "zombie_titan", "hp": 3000.0, "speed": 3.6, "damage": 60.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
 	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 4200.0, "speed": 4.2, "damage": 70.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
 	"forest_spirit": {"name": "THE FOREST SPIRIT", "model": "zombie_forest_spirit", "hp": 1650.0, "speed": 3.0, "damage": 24.0, "reach": 2.5, "attack_time": 1.8, "score": 220, "height": 3.4, "boss": true, "tint": Color.WHITE},
-	"shambler": { "model": "zombie_shambler", "skins": ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma"], "hp": 120.0, "speed": 1.75, "damage": 15.0, "reach": 1.6, "attack_time": 1.0, "score": 10, "height": 1.8 },
-	"runner": { "model": "zombie_runner", "skins": ["zombie_runner", "zombie_jogger"], "hp": 75.0, "speed": 4.6, "damage": 11.0, "reach": 1.4, "attack_time": 0.6, "score": 15, "height": 1.7 },
+	# 27 Sep 2026: the user's own Meshy web models joined the skins (tools/new_zombies.py): the businessman and
+	# the decayed wanderer shamble, the risen wastelander runs, the ashen wraith stalks the maize.
+	"shambler": { "model": "zombie_shambler", "skins": ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma", "zombie_businessman", "zombie_wanderer"], "hp": 120.0, "speed": 1.75, "damage": 15.0, "reach": 1.6, "attack_time": 1.0, "score": 10, "height": 1.8 },
+	"runner": { "model": "zombie_runner", "skins": ["zombie_runner", "zombie_jogger", "zombie_wastelander"], "hp": 75.0, "speed": 4.6, "damage": 11.0, "reach": 1.4, "attack_time": 0.6, "score": 15, "height": 1.7 },
 	"brute":    { "model": "zombie_bloater", "fallback": "zombie_shambler", "hp": 420.0, "speed": 1.35, "damage": 34.0, "reach": 2.0, "attack_time": 1.5, "score": 40, "height": 2.3, "tint": Color(0.9, 0.85, 0.6) },
 	"nurse":    { "model": "zombie_nurse", "fallback": "zombie_runner", "hp": 95.0, "speed": 2.9, "damage": 13.0, "reach": 1.5, "attack_time": 0.85, "score": 15, "height": 1.7 },
 	"soldier":  { "model": "zombie_soldier", "skins": ["zombie_soldier", "zombie_forester"], "fallback": "zombie_shambler", "hp": 230.0, "speed": 2.1, "damage": 21.0, "reach": 1.6, "attack_time": 0.95, "score": 25, "height": 1.85 },
@@ -28,7 +30,12 @@ const TYPES := {
 		"ranged": {"range": 17.0, "min": 5.0, "cooldown": 4.2, "damage": 22.0, "structure": 24.0, "acid": 6.5, "speed": 15.0} },
 	"screamer": { "name": "SCREAMER", "model": "zombie_screamer", "fallback": "zombie_nurse", "hp": 150.0, "speed": 2.7, "damage": 12.0, "reach": 1.5, "attack_time": 0.9, "score": 45, "height": 1.72,
 		"screamer": {"range": 24.0, "cooldown": 22.0, "call": 3, "mark": 12.0, "call_radius": 70.0} },
-	"stalker":  { "name": "STALKER", "model": "zombie_stalker", "fallback": "zombie_jogger", "hp": 110.0, "speed": 3.4, "damage": 19.0, "reach": 1.5, "attack_time": 0.8, "score": 40, "height": 1.72, "stalker": true },
+	"stalker":  { "name": "STALKER", "model": "zombie_stalker", "skins": ["zombie_stalker", "zombie_wraith"], "fallback": "zombie_jogger", "hp": 110.0, "speed": 3.4, "damage": 19.0, "reach": 1.5, "attack_time": 0.8, "score": 40, "height": 1.72, "stalker": true },
+	# 27 Sep 2026: the wretched bride (the user's "Zombie Boss" model) leads every boss wave. She rises from
+	# the forest floor, limps in (runs once the waves are fast), slashes with her claws and wails like a
+	# screamer: her target is marked and the dead within call_radius hunt them (Waves.bride_count).
+	"bride":    { "name": "THE WRETCHED BRIDE", "model": "zombie_bride", "fallback": "zombie_screamer", "hp": 950.0, "speed": 2.1, "damage": 28.0, "reach": 1.8, "attack_time": 1.15, "score": 150, "height": 1.95,
+		"screamer": {"range": 28.0, "cooldown": 16.0, "call": 4, "mark": 14.0, "call_radius": 90.0} },
 	"zombie_dog": { "name": "FARM DOG", "model": "zombie_dog", "hp": 65.0, "speed": 7.2, "damage": 12.0, "reach": 1.5, "attack_time": 0.7, "score": 20, "height": 0.8,
 		"beast": {"length": 1.35, "lunge": 0.5} },
 	"zombie_stag": { "name": "ZOMBIE STAG", "model": "zombie_stag", "fallback": "stag", "hp": 400.0, "speed": 5.0, "damage": 24.0, "reach": 2.2, "attack_time": 2.2, "score": 70, "height": 1.75,
@@ -138,6 +145,13 @@ var _anim_tick := 0
 var _swing := 0
 var _scream_t := 0.0
 var _screamed := false
+# The spawn rise (27 Sep 2026): rigs that carry the Meshy library clip "arise" (lying face down, pushing up,
+# standing) get up from the ground when they enter away from the lanes - forest floor, maize, the secret
+# night (main.spawn_zombie(.., rise = true)). Rooted and shootable meanwhile; killed before they stand, they
+# sink back to the ground (the rise runs backwards). The logical state "arise" reaches co-op replicas.
+var rise_on_spawn := false
+var _rise_t := 0.0
+const RISE_SPEED := 1.1
 const ANIM_LOD_NEAR := 45.0
 const ANIM_LOD_FAR := 90.0
 const SCREAM_RANGE := 14.0
@@ -365,6 +379,7 @@ func _ready() -> void:
 			anim.speed_scale = 1.0
 			state = ""
 			play("walk")
+			if rise_on_spawn and anim.has_animation("arise"): play("arise")
 		# slight per-body variation of the decayed skin; the PBR textures carry the real colour now
 		var tint: Color = type.get("tint", Color.from_hsv(appearance.randf_range(0.02, 0.09), appearance.randf_range(0.0, 0.1), appearance.randf_range(0.82, 1.0)))
 		# The 50k-triangle rigs carry Godot's imported LODs; drop to the coarser ones a little earlier than the
@@ -461,7 +476,7 @@ static func _closest_unsigned_axis(rest: Basis, direction: Vector3) -> Vector3.A
 func _update_head_look(delta: float) -> void:
 	if not _head_look: return
 	var want := 0.0
-	if alive and is_instance_valid(player) and state != "scream" and frost_mul > 0.0:
+	if alive and is_instance_valid(player) and state != "scream" and state != "arise" and frost_mul > 0.0:
 		if _head_look_target != player:
 			_head_look_target = player
 			# the player's origin is at the feet: look at the head (camera pivot) when there is one
@@ -951,6 +966,13 @@ func _fit_model() -> void:
 func play(name: String) -> void:
 	if state == name and name != "attack" and name != "hit":
 		return
+	if name == "death" and state == "arise" and anim and anim.current_animation == "arise" \
+			and anim.current_animation_position < anim.get_animation("arise").length * 0.8:
+		# killed before it stands: the body sinks back onto the ground it rose from
+		state = "death"
+		clip = "arise"
+		anim.speed_scale = -1.8
+		return
 	var previous := state
 	state = name
 	if not anim: return
@@ -986,10 +1008,22 @@ func play(name: String) -> void:
 		"death":
 			anim.play(target, 0.15)
 			anim.speed_scale = 1.0
+		"arise":
+			# no blend: the body enters the world already lying on the ground
+			anim.play(target, 0.0)
+			anim.speed_scale = RISE_SPEED
+			anim.seek(0.0, true)
+			_rise_t = anim.get_animation(target).length / RISE_SPEED
+			# deferred: spawn_zombie and the co-op snapshot place the body only after add_child
+			if is_inside_tree(): _rise_growl.call_deferred()
 		_:
 			# back from a swing or flinch the arms travel a long way: blend it, do not snap
-			anim.play(target, (0.3 if previous in ["attack", "hit", "scream"] else 0.2) if name == "walk" else 0.25)
+			anim.play(target, (0.3 if previous in ["attack", "hit", "scream", "arise"] else 0.2) if name == "walk" else 0.25)
 			if name != "walk": anim.speed_scale = 1.0
+
+func _rise_growl() -> void:
+	if is_inside_tree() and alive and state == "arise":
+		Sfx.play_at(get_parent(), "growl", global_position, -7.0, randf_range(0.8, 0.95))
 
 # Length of the clip behind a logical state at its playback speed (0 when the rig has none).
 func clip_seconds(name: String) -> float:
@@ -1301,6 +1335,17 @@ func _physics_process(delta: float) -> void:
 			_shadow_near = int(near_player)
 			for mesh in _visual_meshes:
 				mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if near_player else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	if state == "arise":
+		# getting up from the ground: rooted until the clip is through, shots hurt it but do not shove it
+		_rise_t -= delta
+		_stagger = 0.0
+		velocity.x = 0.0
+		velocity.z = 0.0
+		agent.velocity = Vector3.ZERO
+		if not is_on_floor(): velocity.y -= 20.0 * delta
+		move_and_slide()
+		if _rise_t <= 0.0: play("walk")
+		return
 	if _stagger > 0.0:
 		_stagger -= delta
 		var t := _stagger / _stagger_len

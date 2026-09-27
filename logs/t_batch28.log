@@ -11,7 +11,7 @@ PASS: The fixture hosts a round
 COOP_LOAD ROUND_BEGIN intro=false
 COOP_LOAD ROUND_RUNNING players=2
 COOP_RUNNING players=2
-PASS: The running zombie_stag never dips below its feet (lowest 0.00 m)
+PASS: The running zombie_stag never dips below its feet (lowest 0.01 m)
 PASS: Hit four times, the zombie_stag stays on its feet (lowest 0.01 m)
 PASS: The running zombie_dog never dips below its feet (lowest 0.00 m)
 PASS: Hit four times, the zombie_dog stays on its feet (lowest 0.00 m)

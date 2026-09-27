@@ -82,7 +82,13 @@ func trim_corpses() -> void:
 # size of wave n without touching the random generator (shown during the intermission)
 func preview_count(n: int) -> int:
 	var count := regular_count(n)
-	return count + EncounterBalance.brute_count(n) + titan_count(n) + lesser_titan_count(n) + EncounterBalance.worm_count(n) + dog_count(n) + stag_count(n) + screamer_count(n) + stalker_count(n)
+	return count + EncounterBalance.brute_count(n) + titan_count(n) + lesser_titan_count(n) + EncounterBalance.worm_count(n) + dog_count(n) + stag_count(n) + screamer_count(n) + stalker_count(n) + bride_count(n)
+
+# 27 Sep 2026: the wretched bride leads every boss wave (every fifth), a second one from wave 20. She rises
+# from the forest floor beside a track (plan entry "forest", Zombie.rise_on_spawn).
+static func bride_count(n: int) -> int:
+	if n < 5 or n % 5 != 0: return 0
+	return mini(2, 1 + n / 20)
 
 # The special infected of 26 Sep 2026. Dogs run in from the village (wave 3), the zombie stag crosses the
 # fields (wave 5), screamers walk in with the horde (wave 6), stalkers rise out of the maize while the
@@ -157,6 +163,8 @@ func plan(n: int) -> Array:
 	var count := regular_count(n)
 	boss_wave = n % 5 == 0
 	if boss_wave:
+		for k in bride_count(n):
+			q.append({"type": "bride", "lane": ["north", "east"][k % 2], "forest": true})
 		for k in EncounterBalance.brute_count(n):
 			q.append({ "type": "brute", "lane": ["north", "south", "east", "west"][k % 4] })
 	for k in dog_count(n):
@@ -414,7 +422,8 @@ func _try_forest_spawn(kind: String, minimum_distance := SPAWN_DISTANCE) -> bool
 		if not main.get_world_3d().direct_space_state.intersect_shape(query, 1).is_empty(): continue
 		var path := NavigationServer3D.map_get_path(nav, point, destination, true)
 		if path.is_empty() or path[path.size() - 1].distance_to(destination) > 0.8: continue
-		if main.spawn_zombie(kind, projected, speed_mul, "", minimum_distance): return true
+		# the dead of the woods get up from the forest floor (rigs with the "arise" clip)
+		if main.spawn_zombie(kind, projected, speed_mul, "", minimum_distance, -1, true): return true
 	return false
 
 # A spot in the standing maize (cornfield.in_corn), at least SPAWN_DISTANCE from every player, on the
@@ -435,7 +444,7 @@ func _try_corn_spawn(kind: String) -> bool:
 		if Vector2(point.x, point.z).distance_to(candidate) > 1.5 or absf(point.y - ground.y) > 1.5: continue
 		var path := NavigationServer3D.map_get_path(nav, point, destination, true)
 		if path.is_empty() or path[path.size() - 1].distance_to(destination) > 0.8: continue
-		if main.spawn_zombie(kind, Vector2(point.x, point.z), speed_mul, "south", SPAWN_DISTANCE): return true
+		if main.spawn_zombie(kind, Vector2(point.x, point.z), speed_mul, "south", SPAWN_DISTANCE, -1, true): return true
 	return false
 
 func _forest_point_valid(point: Vector2) -> bool:

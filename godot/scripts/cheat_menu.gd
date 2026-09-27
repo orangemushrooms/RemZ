@@ -15,7 +15,7 @@ var weapon_buttons: Dictionary = {}   # weapon id -> Button
 var all_weapons_button: Button
 var weapon_note: Label
 var world_buttons: Array[Button] = []
-const SPAWN_KINDS := ["spitter", "screamer", "stalker", "zombie_dog", "zombie_stag", "forest_spirit", "armored", "titan"]
+const SPAWN_KINDS := ["spitter", "screamer", "stalker", "bride", "zombie_dog", "zombie_stag", "forest_spirit", "armored", "titan"]
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -240,7 +240,8 @@ func _spawn(kind: String) -> void:
 	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return
 	var ahead: Vector3 = main.player.global_position - main.player.global_basis.z * 12.0
 	var real_kind := "shambler" if kind == "armored" else kind
-	var spawned: bool = main.spawn_zombie(real_kind, Vector2(ahead.x, ahead.z), 1.0, "", 0.0, 1 if kind == "armored" else -1)
+	# skins with the "arise" clip (the 27 Sep 2026 batch) get up from the ground in front of the player
+	var spawned: bool = main.spawn_zombie(real_kind, Vector2(ahead.x, ahead.z), 1.0, "", 0.0, 1 if kind == "armored" else -1, true)
 	world_note.text = Lang.t("Spawned: %s", [kind]) if spawned else "No room to spawn here."
 
 func _knock_down() -> void:

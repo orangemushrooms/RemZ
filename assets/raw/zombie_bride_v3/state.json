@@ -1,0 +1,63 @@
+{
+  "rig1": {
+    "rig": "01a0e1ff-1ee9-746b-a21a-8fd7961aca80",
+    "anims": {
+      "death": "01a0e202-3c5d-740f-9eea-a7ae1c0e1d32",
+      "death2": "01a0e202-445c-717a-ad08-ec93427b35e1",
+      "death3": "01a0e202-4c3b-749d-84f5-6fda0adc5372",
+      "death4": "01a0e202-53d4-70ca-8c67-1357ee12df6d",
+      "walk": "01a0e202-5b0b-768e-83ce-a7bdf7a5572c",
+      "walk2": "01a0e202-629b-742c-9082-65e29a83388c",
+      "run": "01a0e202-6a04-7551-a243-e0a538328e8b",
+      "attack": "01a0e202-71a5-7319-9628-6c7b4127a77f",
+      "attack2": "01a0e202-c828-73d4-8a8a-387e20dfd973",
+      "hit": "01a0e202-cf7d-74a3-8c42-a8f01ba5b0a6",
+      "hit2": "01a0e202-d6dc-7480-bd3b-c3cdd4417f80",
+      "idle": "01a0e202-de79-7508-96e8-62d8c62e9faa",
+      "scream": "01a0e202-e6c8-7358-9ccc-de29a7ec9134",
+      "arise": "01a0e202-ee28-73a8-b7c4-289da711c31b",
+      "death5": "01a0e22e-a46e-7034-b684-3f47a4f7e433",
+      "death6": "01a0e22e-ac66-74e8-b2c8-a8a7aa191ba3"
+    }
+  },
+  "rig2": {
+    "rig": "01a0e236-5c66-7342-9217-1a97f98653da",
+    "anims": {
+      "death": "01a0e237-3778-767f-932f-d7080e8d0eab",
+      "death2": "01a0e237-3f04-731f-b7e3-d8c6be6b832e",
+      "death3": "01a0e237-466d-7003-9ddb-2dff2b9a036d",
+      "death4": "01a0e237-4dfe-7186-b12c-3d1b2aa54b0c",
+      "death5": "01a0e237-5538-77bc-b734-13c2fac3c45c",
+      "death6": "01a0e237-5c7b-775b-8ecf-f3c47d4be9a1",
+      "walk": "01a0e237-63ef-774a-ab98-cd700d25f835",
+      "walk2": "01a0e237-6b98-7188-a379-65e03ccb8d00",
+      "run": "01a0e237-730a-7637-810c-5a2d8b9b0973",
+      "attack": "01a0e237-7a54-7172-bd88-1dd35506f9ba",
+      "attack2": "01a0e237-81bd-7627-817b-68a42cbcad1a",
+      "hit": "01a0e237-8926-740b-a101-50dc6b2be2f0",
+      "hit2": "01a0e237-9050-7491-907f-375b31865f58",
+      "idle": "01a0e237-97dc-7689-be80-887041d0f73c",
+      "scream": "01a0e237-9ef6-7449-ad0a-c4229a02734d",
+      "arise": "01a0e237-a61a-7226-9bbd-b4ad003e9fa8"
+    }
+  },
+  "rig": "01a0e244-8b8f-73e9-b5d4-e7afd46d73ef",
+  "anims": {
+    "death": "01a0e245-9540-704f-9ae6-309e0bedbdbe",
+    "death2": "01a0e245-9cfb-7523-802d-4d87510bab23",
+    "death3": "01a0e245-a463-708a-9ffa-2e193c7fe33b",
+    "death4": "01a0e245-abad-7362-9e38-17db712f6a7e",
+    "death5": "01a0e245-b351-73aa-bc84-17ae9b57e200",
+    "death6": "01a0e245-ba97-72bc-9116-886811ed02db",
+    "walk": "01a0e245-c20d-703f-b60c-5b30f7c6b0e8",
+    "walk2": "01a0e245-c99f-74b8-8448-7ee97f229512",
+    "run": "01a0e245-d14a-7283-b091-5de16abca80b",
+    "attack": "01a0e245-d8d9-73e1-bf2e-a145ee1d269c",
+    "attack2": "01a0e245-e03d-7240-8601-62ebd6b5cc0b",
+    "hit": "01a0e245-e7ce-7530-8669-7c39a437b373",
+    "hit2": "01a0e245-ef2d-7039-a586-a988c1afd674",
+    "idle": "01a0e245-f6b1-778a-a33b-d6e49d5c5209",
+    "scream": "01a0e245-fe03-7157-8081-d93270642a39",
+    "arise": "01a0e246-0592-7563-aa42-15e83dee6a0c"
+  }
+}

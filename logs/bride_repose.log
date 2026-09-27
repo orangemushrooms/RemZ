@@ -1,0 +1,43 @@
+  + clip arise
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip death5
+  + clip death6
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip run
+  + clip scream
+  + clip walk
+  + clip walk2
+  base colour restored from model.glb (2048x2048)
+  pbr maps: restored (50735/50735 UVs)
+prune: Removed types... Texture (1)
+zombie_bride_rig1_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_bride_rig1.glb (6.34 MB, clips: arise, attack, attack2, death, death2, death3, death4, death5, death6, hit, hit2, idle, run, scream, walk, walk2; textures: texture_0:2048x2048, normal:2048x2048, metal_rough:2048x2048)
+STRETCH before: edges 83036, >1.6x 19545, >2.5x 5045, >4x 1487, >8x 453
+  per clip (edges >2.5x / peak): arise 3690/57.5 | attack 3568/44.2 | attack2 3296/45.8 | death 2840/52.2 | death2 3581/63.5 | death3 1949/54.8 | death4 2360/55.1 | death5 1966/43.5 | death6 2869/48.9 | hit 2698/47.8 | hit2 2791/53.1 | idle 1250/14.7 | run 2655/49.6 | scream 3109/61.9 | walk 1509/39.0 | walk2 1762/41.0
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+FIX arm reach on 9499 points, conflicts resolved on 6067 points
+HAIR 8761 points follow head, neck and spine
+SKIRT 2379 points blended (hip joints 0.89 m, knees 0.53 m, hem 0.14 m)
+SMOOTH 18093 points, cut 155 bridging triangles
+STRETCH after: edges 82722, >1.6x 24088, >2.5x 9872, >4x 3927, >8x 1038
+  per clip (edges >2.5x / peak): arise 6058/218.0 | attack 5635/209.8 | attack2 6558/170.1 | death 4124/221.4 | death2 5090/255.9 | death3 4474/213.1 | death4 4088/191.3 | death5 3604/183.7 | death6 4124/198.9 | hit 4356/168.8 | hit2 4212/193.8 | idle 5052/66.4 | run 3242/183.7 | scream 4127/236.1 | walk 2399/142.5 | walk2 3868/155.2
+  x255.9 death2  (0.14,1.16,-0.15) [Spine02:0.60 Hips:0.40]  (0.14,1.16,-0.15) [LeftArm:0.68 Spine01:0.20 LeftForeArm:0.11 Spine:0.00]
+  x165.5 death2  (0.14,1.16,-0.15) [Spine02:0.60 Hips:0.40]  (0.14,1.16,-0.15) [LeftArm:0.68 Spine01:0.20 LeftForeArm:0.11 Spine:0.00]
+  x76.6 death2  (0.13,1.14,-0.14) [LeftArm:0.65 LeftForeArm:0.21 Spine01:0.13 Spine:0.01]  (0.13,1.15,-0.14) [Spine02:0.51 Hips:0.44 Spine01:0.04 LeftUpLeg:0.02]
+prune: Removed types... Accessor (73)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_rig1_v3\stage_fixed.glb (6.34 MB)
+game mesh: 36865 triangles, 56244 vertices after the MikkTSpace split
+bake: 2207651 texels, 0.29 % without high-poly data, 4.82 % clamped, mean detail angle 26.7 deg, 5.7 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_rig1_v3\stage_baked.glb (11.98 MB)
+prune: Removed types... Accessor (1)
+C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_rig1_v3\stage_baked.glb -> C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\model.glb: arms out 40 deg, forearms straight, 10.79 MB
+prune: Removed types... Texture (2), Accessor (1)
+C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_rig1_v3\stage_baked.glb -> C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\rig_input.glb: arms out 40 deg, forearms straight, 3.09 MB

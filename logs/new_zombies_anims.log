@@ -1,0 +1,350 @@
+10:36:32 generating ['zombie_businessman', 'zombie_wanderer', 'zombie_wastelander', 'zombie_wraith', 'zombie_bride'] up to anims
+10:36:33 zombie_wraith anim death 184 01a0e202-3c5d-740d-a91c-7567550843c4
+10:36:33 zombie_businessman anim death 184 01a0e202-3c5d-75d0-a6e4-f9f6674c49a1
+10:36:33 zombie_wanderer anim death 184 01a0e202-3c5e-7274-94e2-471b915562d9
+10:36:33 zombie_bride anim death 184 01a0e202-3c5d-740f-9eea-a7ae1c0e1d32
+10:36:33 zombie_wastelander anim death 184 01a0e202-3c5f-7457-a499-6f74b126a14a
+10:36:35 zombie_wanderer anim death2 189 01a0e202-445b-749c-843d-c3da3072c67b
+10:36:35 zombie_businessman anim death2 189 01a0e202-4459-776e-8d49-e6a25a7d047d
+10:36:35 zombie_wastelander anim death2 189 01a0e202-44a4-7447-afc6-24b5da0ce918
+10:36:35 zombie_wraith anim death2 189 01a0e202-444d-72fd-bc1b-109aaae136b3
+10:36:35 zombie_bride anim death2 189 01a0e202-445c-717a-ad08-ec93427b35e1
+10:36:37 zombie_wanderer anim death3 185 01a0e202-4bce-7351-97f6-aefcc9fee5b7
+10:36:37 zombie_businessman anim death3 185 01a0e202-4c24-72cf-9a93-2522f42c800a
+10:36:37 zombie_wastelander anim death3 185 01a0e202-4c26-72e6-a16e-14a80b4a7858
+10:36:37 zombie_bride anim death3 185 01a0e202-4c3b-749d-84f5-6fda0adc5372
+10:36:37 zombie_wraith anim death3 185 01a0e202-4c25-720f-b24d-2edac90875db
+10:36:38 zombie_wanderer anim death4 188 01a0e202-52f2-7017-9706-a7936e857293
+10:36:39 zombie_businessman anim death4 188 01a0e202-5379-7442-8c77-ebe5aae02799
+10:36:39 zombie_wastelander anim death4 188 01a0e202-5397-7626-a394-e5579e21f1d9
+10:36:39 zombie_bride anim death4 188 01a0e202-53d4-70ca-8c67-1357ee12df6d
+10:36:39 zombie_wraith anim death4 188 01a0e202-546b-745e-a536-763878fb28aa
+10:36:40 zombie_wanderer anim walk 123 01a0e202-5a29-728d-adcd-85dabdc069d2
+10:36:40 zombie_businessman anim walk 112 01a0e202-5ae5-7141-92e6-173e36ee82e5
+10:36:41 zombie_bride anim walk 111 01a0e202-5b0b-768e-83ce-a7bdf7a5572c
+10:36:41 zombie_wastelander anim run 16 01a0e202-5afd-7209-aec1-6c82ac326b65
+10:36:41 zombie_wraith anim walk 553 01a0e202-5beb-705f-9609-56ad2204e34e
+10:36:42 zombie_wanderer anim walk2 553 01a0e202-612c-727c-a7e1-a761fbd88ff1
+10:36:42 zombie_businessman anim walk2 113 01a0e202-622e-7340-821d-b05b624bcdbb
+10:36:42 zombie_bride anim walk2 123 01a0e202-629b-742c-9082-65e29a83388c
+10:36:43 zombie_wastelander anim walk 123 01a0e202-62b8-730e-8b01-b44173acd686
+10:36:43 zombie_wraith anim walk2 123 01a0e202-6389-7336-af04-e01890640a8c
+10:36:44 zombie_wanderer anim attack 214 01a0e202-685e-719e-8cf8-01d5b7eee159
+10:36:44 zombie_businessman anim attack 214 01a0e202-695d-713c-acc3-044881fb8eef
+10:36:44 zombie_bride anim run 513 01a0e202-6a04-7551-a243-e0a538328e8b
+10:36:44 zombie_wastelander anim attack 214 01a0e202-6a37-72ab-bc76-b87c65a25d03
+10:36:45 zombie_wraith anim run 513 01a0e202-6ace-75fc-8a72-963016b9cb78
+10:36:46 zombie_wanderer anim attack2 221 01a0e202-6f75-70a6-b328-c489f9c264b4
+10:36:46 zombie_businessman anim attack2 221 01a0e202-70a1-7712-9568-bfa074b2a7e3
+10:36:46 zombie_wastelander anim attack2 221 01a0e202-71ca-7410-a281-303838dca0c2
+10:36:46 zombie_bride anim attack 221 01a0e202-71a5-7319-9628-6c7b4127a77f
+10:36:46 zombie_wraith anim attack 221 01a0e202-7248-7525-9bcf-752023c3b35c
+10:36:47 retry /openapi/v1/animations 429 {"message":"NoMorePendingTasks: Upgrade your plan to queue up more tasks. You can manage your plan on https://www.meshy.ai/settings/subscription"}
+10:36:48 zombie_businessman anim hit 178 01a0e202-77ee-734c-a15b-2d75e634a80a
+10:36:48 retry /openapi/v1/animations 429 {"message":"NoMorePendingTasks: Upgrade your plan to queue up more tasks. You can manage your plan on https://www.meshy.ai/settings/subscription"}
+10:36:48 retry /openapi/v1/animations 429 {"message":"NoMorePendingTasks: Upgrade your plan to queue up more tasks. You can manage your plan on https://www.meshy.ai/settings/subscription"}
+10:36:48 retry /openapi/v1/animations 429 {"message":"NoMorePendingTasks: Upgrade your plan to queue up more tasks. You can manage your plan on https://www.meshy.ai/settings/subscription"}
+10:36:50 retry /openapi/v1/animations 429 {"message":"NoMorePendingTasks: Upgrade your plan to queue up more tasks. You can manage your plan on https://www.meshy.ai/settings/subscription"}
+10:37:08 zombie_wanderer anim hit 178 01a0e202-c550-73b1-8760-cba3d94116c1
+10:37:08 zombie_wastelander anim hit 177 01a0e202-c7f5-7340-b256-62e7e9bd8975
+10:37:08 zombie_bride anim attack2 219 01a0e202-c828-73d4-8a8a-387e20dfd973
+10:37:09 zombie_wraith anim attack2 219 01a0e202-c85a-77a8-8ef7-f3b9737bb408
+10:37:10 zombie_wanderer anim hit2 177 01a0e202-cc6c-72cc-9894-e02f5a3bade3
+10:37:10 zombie_businessman anim hit2 177 01a0e202-ce25-744c-9c40-d5df53c9d308
+10:37:10 zombie_wastelander anim hit2 179 01a0e202-cf4d-73b6-aefb-74f4d4137bdb
+10:37:10 zombie_bride anim hit 178 01a0e202-cf7d-74a3-8c42-a8f01ba5b0a6
+10:37:10 zombie_wraith anim hit 178 01a0e202-cfb7-7274-820f-3f7c084100b7
+10:37:11 zombie_wanderer anim idle 0 01a0e202-d3a7-710f-b557-6a154226d7e7
+10:37:12 zombie_businessman anim idle 0 01a0e202-d544-75e9-a843-3ac4b7d76178
+10:37:12 zombie_wastelander anim idle 11 01a0e202-d6c3-73fa-9d40-c50b115a7092
+10:37:12 zombie_wraith anim hit2 177 01a0e202-d6fc-7537-b6d5-13a71e67420d
+10:37:12 zombie_bride anim hit2 391 01a0e202-d6dc-7480-bd3b-c3cdd4417f80
+10:37:13 zombie_wanderer anim scream 386 01a0e202-dafc-72cf-8a95-8014fd553f5f
+10:37:14 zombie_businessman anim scream 386 01a0e202-dcc2-744d-b06e-a06cd2e9f9d8
+10:37:14 zombie_wastelander anim scream 386 01a0e202-de0b-70db-b5aa-01ef4259cd96
+10:37:14 zombie_wraith anim idle 0 01a0e202-de60-75c9-a233-ce5e71f6a9b8
+10:37:14 zombie_bride anim idle 0 01a0e202-de79-7508-96e8-62d8c62e9faa
+10:37:15 zombie_wanderer anim arise 3 01a0e202-e23c-7272-83f8-14635a096bb2
+10:37:16 zombie_businessman anim arise 3 01a0e202-e504-7692-b8c0-7ab3edde74dd
+10:37:16 zombie_wraith anim scream 386 01a0e202-e5ac-752f-a433-f211773521cf
+10:37:16 zombie_wastelander anim arise 3 01a0e202-e5a6-7198-a212-43c8187c8c10
+10:37:16 zombie_bride anim scream 386 01a0e202-e6c8-7358-9ccc-de29a7ec9134
+10:37:17 zombie_wanderer anim_death SUCCEEDED 100%
+10:37:17 zombie_wanderer anim_death done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_death.glb...
+10:37:18 zombie_businessman anim_death SUCCEEDED 100%
+10:37:18 zombie_businessman anim_death done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_death.glb...
+10:37:18 zombie_wastelander anim_death SUCCEEDED 100%
+10:37:18 zombie_wastelander anim_death done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_death.glb...
+10:37:18 zombie_wraith anim arise 3 01a0e202-ed53-7614-966a-b66fc62fd308
+10:37:18 zombie_bride anim arise 3 01a0e202-ee28-73a8-b7c4-289da711c31b
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_death.glb (3.5 MB)
+10:37:19 zombie_businessman anim_death2 SUCCEEDED 100%
+10:37:19 zombie_businessman anim_death2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_death2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_death.glb (2.8 MB)
+10:37:20 zombie_wanderer anim_death2 SUCCEEDED 100%
+10:37:20 zombie_wanderer anim_death2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_death2.glb...
+10:37:20 zombie_wraith anim_death SUCCEEDED 100%
+10:37:20 zombie_wraith anim_death done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_death.glb...
+10:37:20 zombie_bride anim_death SUCCEEDED 100%
+10:37:20 zombie_bride anim_death done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_death2.glb (3.5 MB)
+10:37:20 zombie_businessman anim_death3 SUCCEEDED 100%
+10:37:20 zombie_businessman anim_death3 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_death3.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_death.glb (3.1 MB)
+10:37:20 zombie_wastelander anim_death2 SUCCEEDED 100%
+10:37:20 zombie_wastelander anim_death2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_death2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_death.glb (3.6 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_death3.glb (3.5 MB)
+10:37:22 zombie_wraith anim_death2 SUCCEEDED 100%
+10:37:22 zombie_wraith anim_death2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_death2.glb...
+10:37:22 zombie_businessman anim_death4 SUCCEEDED 100%
+10:37:22 zombie_businessman anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_death2.glb (2.8 MB)
+10:37:22 zombie_wanderer anim_death3 SUCCEEDED 100%
+10:37:22 zombie_wanderer anim_death3 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_death3.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_death2.glb (3.1 MB)
+10:37:23 zombie_wastelander anim_death3 SUCCEEDED 100%
+10:37:23 zombie_wastelander anim_death3 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_death3.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_death4.glb (3.5 MB)
+10:37:23 zombie_businessman anim_walk SUCCEEDED 100%
+10:37:23 zombie_businessman anim_walk done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_death2.glb (3.6 MB)
+10:37:23 zombie_wraith anim_death3 SUCCEEDED 100%
+10:37:23 zombie_wraith anim_death3 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_death3.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_death3.glb (3.1 MB)
+10:37:24 zombie_wastelander anim_death4 SUCCEEDED 100%
+10:37:24 zombie_wastelander anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_death3.glb (2.8 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_walk.glb (3.5 MB)
+10:37:24 zombie_wanderer anim_death4 SUCCEEDED 100%
+10:37:24 zombie_wanderer anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_death4.glb...
+10:37:25 zombie_businessman anim_walk2 SUCCEEDED 100%
+10:37:25 zombie_businessman anim_walk2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_walk2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_death3.glb (3.6 MB)
+10:37:25 zombie_wraith anim_death4 SUCCEEDED 100%
+10:37:25 zombie_wraith anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_death4.glb (3.1 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_death4.glb (2.8 MB)
+10:37:26 zombie_wastelander anim_run SUCCEEDED 100%
+10:37:26 zombie_wastelander anim_run done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_run.glb...
+10:37:26 zombie_wanderer anim_walk SUCCEEDED 100%
+10:37:26 zombie_wanderer anim_walk done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death.glb (4.7 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_death4.glb (3.6 MB)
+10:37:26 zombie_bride anim_death2 SUCCEEDED 100%
+10:37:26 zombie_bride anim_death2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death2.glb...
+10:37:26 zombie_wraith anim_walk SUCCEEDED 100%
+10:37:26 zombie_wraith anim_walk done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_walk2.glb (3.5 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_walk.glb (2.8 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_run.glb (3.1 MB)
+10:37:28 zombie_businessman anim_attack SUCCEEDED 100%
+10:37:28 zombie_businessman anim_attack done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_attack.glb...
+10:37:28 zombie_wastelander anim_walk SUCCEEDED 100%
+10:37:28 zombie_wastelander anim_walk done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_walk.glb...
+10:37:28 zombie_wanderer anim_walk2 SUCCEEDED 100%
+10:37:28 zombie_wanderer anim_walk2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_walk2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death2.glb (4.7 MB)
+10:37:29 zombie_bride anim_death3 SUCCEEDED 100%
+10:37:29 zombie_bride anim_death3 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death3.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_attack.glb (3.5 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_walk.glb (3.6 MB)
+10:37:30 zombie_businessman anim_attack2 SUCCEEDED 100%
+10:37:30 zombie_businessman anim_attack2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_attack2.glb...
+10:37:30 zombie_wraith anim_walk2 SUCCEEDED 100%
+10:37:30 zombie_wraith anim_walk2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_walk2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_walk.glb (3.1 MB)
+10:37:30 zombie_wastelander anim_attack SUCCEEDED 100%
+10:37:30 zombie_wastelander anim_attack done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_walk2.glb (2.8 MB)
+10:37:30 zombie_wanderer anim_attack SUCCEEDED 100%
+10:37:30 zombie_wanderer anim_attack done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death3.glb (4.7 MB)
+10:37:31 zombie_bride anim_death4 SUCCEEDED 100%
+10:37:31 zombie_bride anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_walk2.glb (3.6 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_attack.glb (3.1 MB)
+10:37:32 zombie_wraith anim_run SUCCEEDED 100%
+10:37:32 zombie_wraith anim_run done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_run.glb...
+10:37:32 zombie_wastelander anim_attack2 SUCCEEDED 100%
+10:37:32 zombie_wastelander anim_attack2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_attack2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_attack.glb (2.8 MB)
+10:37:32 zombie_wanderer anim_attack2 SUCCEEDED 100%
+10:37:32 zombie_wanderer anim_attack2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_attack2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_attack2.glb (3.5 MB)
+10:37:32 zombie_businessman anim_hit SUCCEEDED 100%
+10:37:32 zombie_businessman anim_hit done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_hit.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death4.glb (4.7 MB)
+10:37:33 zombie_bride anim_walk SUCCEEDED 100%
+10:37:33 zombie_bride anim_walk done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_attack2.glb (2.8 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_run.glb (3.6 MB)
+10:37:34 zombie_wanderer anim_hit SUCCEEDED 100%
+10:37:34 zombie_wanderer anim_hit done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_hit.glb...
+10:37:34 zombie_wraith anim_attack SUCCEEDED 100%
+10:37:34 zombie_wraith anim_attack done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_attack2.glb (3.1 MB)
+10:37:35 zombie_wastelander anim_hit SUCCEEDED 100%
+10:37:35 zombie_wastelander anim_hit done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_hit.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_hit.glb (3.5 MB)
+10:37:35 zombie_businessman anim_hit2 SUCCEEDED 100%
+10:37:35 zombie_businessman anim_hit2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_hit2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_hit.glb (2.8 MB)
+10:37:36 zombie_wanderer anim_hit2 SUCCEEDED 100%
+10:37:36 zombie_wanderer anim_hit2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_hit2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_attack.glb (3.6 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_walk.glb (4.8 MB)
+10:37:36 zombie_wraith anim_attack2 SUCCEEDED 100%
+10:37:36 zombie_wraith anim_attack2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_attack2.glb...
+10:37:36 zombie_bride anim_walk2 SUCCEEDED 100%
+10:37:36 zombie_bride anim_walk2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_walk2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_hit.glb (3.1 MB)
+10:37:37 zombie_wastelander anim_hit2 SUCCEEDED 100%
+10:37:37 zombie_wastelander anim_hit2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_hit2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_hit2.glb (2.8 MB)
+10:37:38 zombie_wanderer anim_idle SUCCEEDED 100%
+10:37:38 zombie_wanderer anim_idle done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_idle.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_hit2.glb (3.5 MB)
+10:37:38 zombie_businessman anim_idle SUCCEEDED 100%
+10:37:38 zombie_businessman anim_idle done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_idle.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_attack2.glb (3.6 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_walk2.glb (4.7 MB)
+10:37:38 zombie_wraith anim_hit SUCCEEDED 100%
+10:37:38 zombie_wraith anim_hit done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_hit.glb...
+10:37:38 zombie_bride anim_run SUCCEEDED 100%
+10:37:38 zombie_bride anim_run done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_run.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_hit2.glb (3.1 MB)
+10:37:39 zombie_wastelander anim_idle IN_PROGRESS 79%
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_idle.glb (2.8 MB)
+10:37:39 zombie_wanderer anim_scream SUCCEEDED 100%
+10:37:39 zombie_wanderer anim_scream done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_scream.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_hit.glb (3.6 MB)
+10:37:40 zombie_wraith anim_hit2 SUCCEEDED 100%
+10:37:40 zombie_wraith anim_hit2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_hit2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_idle.glb (3.5 MB)
+10:37:40 zombie_businessman anim_scream SUCCEEDED 100%
+10:37:40 zombie_businessman anim_scream done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_scream.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_run.glb (4.7 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_hit2.glb (3.6 MB)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_scream.glb (2.8 MB)
+10:37:41 zombie_bride anim_attack SUCCEEDED 100%
+10:37:41 zombie_bride anim_attack done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_attack.glb...
+10:37:41 zombie_wraith anim_idle IN_PROGRESS 79%
+10:37:41 zombie_wanderer anim_arise SUCCEEDED 100%
+10:37:41 zombie_wanderer anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_scream.glb (3.5 MB)
+10:37:42 zombie_businessman anim_arise SUCCEEDED 100%
+10:37:42 zombie_businessman anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\anim_arise.glb (2.8 MB)
+10:37:42 zombie_wanderer READY up to anims
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_attack.glb (4.7 MB)
+10:37:43 zombie_bride anim_attack2 SUCCEEDED 100%
+10:37:43 zombie_bride anim_attack2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_attack2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\anim_arise.glb (3.5 MB)
+10:37:43 zombie_businessman READY up to anims
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_attack2.glb (4.7 MB)
+10:37:44 zombie_bride anim_hit SUCCEEDED 100%
+10:37:44 zombie_bride anim_hit done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_hit.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_hit.glb (4.7 MB)
+10:37:45 zombie_bride anim_hit2 SUCCEEDED 100%
+10:37:45 zombie_bride anim_hit2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_hit2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_hit2.glb (4.7 MB)
+10:37:46 zombie_bride anim_idle SUCCEEDED 100%
+10:37:46 zombie_bride anim_idle done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_idle.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_idle.glb (4.7 MB)
+10:37:47 zombie_bride anim_scream SUCCEEDED 100%
+10:37:47 zombie_bride anim_scream done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_scream.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_scream.glb (4.7 MB)
+10:37:48 zombie_bride anim_arise SUCCEEDED 100%
+10:37:48 zombie_bride anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_arise.glb (4.7 MB)
+10:37:49 zombie_bride READY up to anims
+10:37:51 zombie_wastelander anim_idle SUCCEEDED 100%
+10:37:51 zombie_wastelander anim_idle done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_idle.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_idle.glb (3.1 MB)
+10:37:51 zombie_wastelander anim_scream SUCCEEDED 100%
+10:37:51 zombie_wastelander anim_scream done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_scream.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_scream.glb (3.1 MB)
+10:37:52 zombie_wastelander anim_arise SUCCEEDED 100%
+10:37:52 zombie_wastelander anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\anim_arise.glb (3.1 MB)
+10:37:53 zombie_wastelander READY up to anims
+10:37:53 zombie_wraith anim_idle SUCCEEDED 100%
+10:37:53 zombie_wraith anim_idle done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_idle.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_idle.glb (3.6 MB)
+10:37:54 zombie_wraith anim_scream SUCCEEDED 100%
+10:37:54 zombie_wraith anim_scream done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_scream.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_scream.glb (3.6 MB)
+10:37:55 zombie_wraith anim_arise SUCCEEDED 100%
+10:37:55 zombie_wraith anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\anim_arise.glb (3.6 MB)
+10:37:55 zombie_wraith READY up to anims
+Balance: {'balance': 518}
+NEW_ZOMBIES_DONE ok=5 failed=[]

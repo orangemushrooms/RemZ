@@ -3,62 +3,248 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
 RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+ERROR: Parameter "mem" is null.
+   at: alloc_static (core/os/memory.cpp:104)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Parameter "mem_new" is null.
+   at: _alloc_exact (./core/templates/cowdata.h:476)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed decoding WebP image.
+   at: _webp_unpack (modules/webp/webp_common.cpp:147)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Condition "img.is_null() || img->is_empty()" is true. Returning: Ref<Image>()
+   at: load_image_from_file (scene/resources/compressed_texture.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://.godot/imported/zombie_earthworm_ancient_Image_0.webp-a82fa8d4b4f7330c62fe266676633d0d.ctex.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://assets/models/zombie_earthworm_ancient_Image_0.webp.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Parameter "mem" is null.
+   at: alloc_static (core/os/memory.cpp:104)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Parameter "mem_new" is null.
+   at: _alloc_exact (./core/templates/cowdata.h:476)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed decoding WebP image.
+   at: _webp_unpack (modules/webp/webp_common.cpp:147)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Condition "img.is_null() || img->is_empty()" is true. Returning: Ref<Image>()
+   at: load_image_from_file (scene/resources/compressed_texture.cpp:343)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://.godot/imported/zombie_earthworm_ancient_Image_1.webp-ad78e98c93777fb4e69d306a487c2c99.ctex.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://assets/models/zombie_earthworm_ancient_Image_1.webp.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Can't load dependency: 'res://assets/models/zombie_earthworm_ancient_Image_0.webp'.
+   at: parse_variant (core/io/resource_format_binary.cpp:444)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://.godot/imported/zombie_earthworm_ancient.glb-020fbcbaa8fa0a140dda31d64b4254c8.scn.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://assets/models/zombie_earthworm_ancient.glb.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Parameter "mem" is null.
+   at: alloc_static (core/os/memory.cpp:104)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Parameter "mem_new" is null.
+   at: _alloc_exact (./core/templates/cowdata.h:476)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Expected Image data size of 4096x4096x1 (BPTC_RGBA with 12 mipmaps) = 22369648 bytes, got 0 bytes instead.
+   at: initialize_data (core/io/image.cpp:2455)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://.godot/imported/zombie_bloater_texture_0.webp-2d81d06b47d96768d32a1619f248f68a.bptc.ctex.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://assets/models/zombie_bloater_texture_0.webp.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Can't load dependency: 'res://assets/models/zombie_bloater_texture_0.webp'.
+   at: parse_variant (core/io/resource_format_binary.cpp:444)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://.godot/imported/zombie_bloater.glb-cbba51c119d0b7803f401b820e89a24c.scn.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://assets/models/zombie_bloater.glb.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Parameter "mem" is null.
+   at: alloc_static (core/os/memory.cpp:104)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Parameter "mem_new" is null.
+   at: _alloc_exact (./core/templates/cowdata.h:476)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Expected Image data size of 4096x4096x1 (BPTC_RGBA with 12 mipmaps) = 22369648 bytes, got 0 bytes instead.
+   at: initialize_data (core/io/image.cpp:2455)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://.godot/imported/zombie_titan_texture_0.webp-58b89bfb34b3264dbd1c090e4c8ac114.bptc.ctex.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://assets/models/zombie_titan_texture_0.webp.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Can't load dependency: 'res://assets/models/zombie_titan_texture_0.webp'.
+   at: parse_variant (core/io/resource_format_binary.cpp:444)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://.godot/imported/zombie_titan.glb-376152edd83c1471be73a5dcdf11d931.scn.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
+ERROR: Failed loading resource: res://assets/models/zombie_titan.glb.
+   at: _load (core/io/resource_loader.cpp:317)
+   GDScript backtrace (most recent call first):
+       [0] preload_models (res://scripts/zombie.gd:195)
+       [1] _ready (res://scripts/main.gd:313)
+       [2] run (res://tests/titan_siege_gate.gd:22)
 COOP_LOAD MAP_READY
 GATE 0 @ +0 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 0 from +0 deg
 GATE 0 @ +25 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#761534640082> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#767188561879> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 0 from +25 deg
 GATE 0 @ +45 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#761534640082> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#767188561879> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 0 from +45 deg
 GATE 0 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#761534640082> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#767188561879> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 0 from -25 deg
 GATE 0 @ -45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#761534640082> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#767188561879> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 0 from -45 deg
 GATE 1 @ +0 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 1 from +0 deg
 GATE 1 @ +25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#762692267998> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#768346189795> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 1 from +25 deg
 GATE 1 @ +45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#762692267998> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#768346189795> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 1 from +45 deg
 GATE 1 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#762692267998> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#768346189795> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 1 from -25 deg
 GATE 1 @ -45 deg: stand 14.1 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#762692267998> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#768346189795> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 1 from -45 deg
 GATE 2 @ +0 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 2 from +0 deg
 GATE 2 @ +25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#763346579456> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#769000501253> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 2 from +25 deg
 GATE 2 @ +45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#763346579456> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#769000501253> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 2 from +45 deg
 GATE 2 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#763346579456> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#769000501253> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 2 from -25 deg
 GATE 2 @ -45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#763346579456> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#769000501253> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 2 from -45 deg
 GATE 3 @ +0 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=true, damage=true
 PASS: Titan at reach damages gate 3 from +0 deg
 GATE 3 @ +25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#764369989688> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#770023911485> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 3 from +25 deg
 GATE 3 @ +45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#764369989688> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#770023911485> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 3 from +45 deg
 GATE 3 @ -25 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#764369989688> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#770023911485> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 3 from -25 deg
 GATE 3 @ -45 deg: stand 14.0 m out, slam lands 2.8 m short, blast 8.5, line_clear=false, damage=true
-   blocked by: PalisadeBody:<StaticBody3D#764369989688> groups=[&"perimeter_wall", &"navsource"]
+   blocked by: PalisadeBody:<StaticBody3D#770023911485> groups=[&"perimeter_wall", &"navsource"]
 PASS: Titan at reach damages gate 3 from -45 deg
 TITAN_SIEGE_GATE_DONE checks=20 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.

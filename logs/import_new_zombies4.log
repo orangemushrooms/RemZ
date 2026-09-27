@@ -1,0 +1,238 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started Projektinitialisierung (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Lese Dateistrucktur …[39m[0m
+[  16% ] [90m[1mfirst_scan_filesystem[22m | Globale Klassennamen laden …[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | Verifiziere GDExtensions…[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | Autoload-Skripte erzeugen …[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | Plugins initialisieren…[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | Dateiscan starten …[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | Started Globale Klassen registrieren … (5 steps)[39m[0m
+[   0% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  16% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  33% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  50% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[  66% ] [90m[1mupdate_scripts_classes[22m | [39m[0m
+[92m[ DONE ][39m [1mupdate_scripts_classes[22m
+[0m
+[   0% ] [90m[1m_update_scan_actions[22m | Started Aktionen scannen … (17 steps)[39m[0m
+[   0% ] [90m[1m_update_scan_actions[22m | field_flower_1.glb[39m[0m
+[   5% ] [90m[1m_update_scan_actions[22m | field_flower_2.glb[39m[0m
+[  11% ] [90m[1m_update_scan_actions[22m | field_flower_3.glb[39m[0m
+[  16% ] [90m[1m_update_scan_actions[22m | field_flower_4.glb[39m[0m
+[  22% ] [90m[1m_update_scan_actions[22m | field_flower_5.glb[39m[0m
+[  27% ] [90m[1m_update_scan_actions[22m | field_flower_6.glb[39m[0m
+[  33% ] [90m[1m_update_scan_actions[22m | Flower_1_corpse_flower_0927094351_texture.glb[39m[0m
+[  38% ] [90m[1m_update_scan_actions[22m | Flower_2_Carnal_flower_0927094354_texture.glb[39m[0m
+[  44% ] [90m[1m_update_scan_actions[22m | Flower_3_0927094413_texture.glb[39m[0m
+[  50% ] [90m[1m_update_scan_actions[22m | Flower_4_flower_0927094328_texture.glb[39m[0m
+[  55% ] [90m[1m_update_scan_actions[22m | Flower_5_flower_0927094308_texture.glb[39m[0m
+[  61% ] [90m[1m_update_scan_actions[22m | Flower_6_flower_0927094300_texture.glb[39m[0m
+[  66% ] [90m[1m_update_scan_actions[22m | zombie_bride.glb[39m[0m
+[  72% ] [90m[1m_update_scan_actions[22m | zombie_businessman.glb[39m[0m
+[  77% ] [90m[1m_update_scan_actions[22m | zombie_wanderer.glb[39m[0m
+[  83% ] [90m[1m_update_scan_actions[22m | zombie_wastelander.glb[39m[0m
+[  88% ] [90m[1m_update_scan_actions[22m | zombie_wraith.glb[39m[0m
+[92m[ DONE ][39m [1m_update_scan_actions[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started Assets (erneut) importieren (30 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   3% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   6% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   9% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  12% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  16% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  19% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  22% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  25% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  29% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  32% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  35% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  38% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  41% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  45% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  48% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  51% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  54% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  58% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  61% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  64% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  67% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  70% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  74% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  77% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  80% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  83% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  87% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  90% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[  93% ] [90m[1mreimport[22m | Dateien zum Neuimport vorbereiten …[39m[0m
+[   0% ] [90m[1mreimport[22m | Vor-Neuimport-Operationen ausführen …[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Started Szenen zum Neuladen vorbereiten (1 steps)[39m[0m
+[   0% ] [90m[1mpreload_reimporting_scene[22m | Szene [leer] wird analysiert[39m[0m
+[  50% ] [90m[1mpreload_reimporting_scene[22m | Vorbereitung abgeschlossen.[39m[0m
+[92m[ DONE ][39m [1mpreload_reimporting_scene[22m
+[0m
+[   0% ] [90m[1mreimport[22m | zombie_wraith_normal.webp[39m[0m
+[   3% ] [90m[1mreimport[22m | zombie_wraith_metal_rough.webp[39m[0m
+[   6% ] [90m[1mreimport[22m | zombie_wraith_texture_0.webp[39m[0m
+[   9% ] [90m[1mreimport[22m | zombie_wastelander_normal.webp[39m[0m
+[  12% ] [90m[1mreimport[22m | zombie_wastelander_metal_rough.webp[39m[0m
+[  12% ] [90m[1mreimport[22m | zombie_wastelander_metal_rough.webp[39m[0m
+[  12% ] [90m[1mreimport[22m | zombie_wastelander_metal_rough.webp[39m[0m
+[  12% ] [90m[1mreimport[22m | zombie_wastelander_metal_rough.webp[39m[0m
+[  16% ] [90m[1mreimport[22m | zombie_wastelander_texture_0.webp[39m[0m
+[  19% ] [90m[1mreimport[22m | zombie_wanderer_texture_0.webp[39m[0m
+[  22% ] [90m[1mreimport[22m | zombie_businessman_normal.webp[39m[0m
+[  25% ] [90m[1mreimport[22m | zombie_businessman_metal_rough.webp[39m[0m
+[  25% ] [90m[1mreimport[22m | zombie_businessman_metal_rough.webp[39m[0m
+[  25% ] [90m[1mreimport[22m | zombie_businessman_metal_rough.webp[39m[0m
+[  25% ] [90m[1mreimport[22m | zombie_businessman_metal_rough.webp[39m[0m
+[  25% ] [90m[1mreimport[22m | zombie_businessman_metal_rough.webp[39m[0m
+[  25% ] [90m[1mreimport[22m | zombie_businessman_metal_rough.webp[39m[0m
+[  25% ] [90m[1mreimport[22m | zombie_businessman_metal_rough.webp[39m[0m
+[  25% ] [90m[1mreimport[22m | zombie_businessman_metal_rough.webp[39m[0m
+[  25% ] [90m[1mreimport[22m | zombie_businessman_metal_rough.webp[39m[0m
+[  29% ] [90m[1mreimport[22m | zombie_businessman_texture_0.webp[39m[0m
+[  32% ] [90m[1mreimport[22m | zombie_bride_normal.webp[39m[0m
+[  32% ] [90m[1mreimport[22m | zombie_bride_normal.webp[39m[0m
+[  32% ] [90m[1mreimport[22m | zombie_bride_normal.webp[39m[0m
+[  35% ] [90m[1mreimport[22m | zombie_bride_metal_rough.webp[39m[0m
+[  38% ] [90m[1mreimport[22m | zombie_bride_texture_0.webp[39m[0m
+[  38% ] [90m[1mreimport[22m | zombie_bride_texture_0.webp[39m[0m
+[  41% ] [90m[1mreimport[22m | field_flower_1.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  45% ] [90m[1mreimport[22m | field_flower_2.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  48% ] [90m[1mreimport[22m | field_flower_3.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  51% ] [90m[1mreimport[22m | zombie_wraith.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  54% ] [90m[1mreimport[22m | field_flower_4.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  58% ] [90m[1mreimport[22m | field_flower_5.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  61% ] [90m[1mreimport[22m | field_flower_6.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  64% ] [90m[1mreimport[22m | zombie_wastelander.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  67% ] [90m[1mreimport[22m | Flower_1_corpse_flower_0927094351_texture.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  70% ] [90m[1mreimport[22m | zombie_wanderer.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  74% ] [90m[1mreimport[22m | Flower_2_Carnal_flower_0927094354_texture.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  77% ] [90m[1mreimport[22m | Flower_3_0927094413_texture.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  80% ] [90m[1mreimport[22m | Flower_4_flower_0927094328_texture.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  83% ] [90m[1mreimport[22m | zombie_businessman.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  87% ] [90m[1mreimport[22m | Flower_5_flower_0927094308_texture.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  90% ] [90m[1mreimport[22m | Flower_6_flower_0927094300_texture.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  93% ] [90m[1mreimport[22m | zombie_bride.glb[39m[0m
+[   0% ] [90m[1mimport[22m | Started Szene importieren (104 steps)[39m[0m
+[   0% ] [90m[1mimport[22m | Importiere Szene…[39m[0m
+[   1% ] [90m[1mimport[22m | Eigenes Skript wird ausgeführt …[39m[0m
+[  99% ] [90m[1mimport[22m | Speichern …[39m[0m
+[92m[ DONE ][39m [1mimport[22m
+[0m
+[  96% ] [90m[1mreimport[22m | Asset-Import fertigstellen …[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mreimport[22m | Started Assets (erneut) importieren (30 steps)[39m[0m
+[   0% ] [90m[1mreimport[22m | Nach-Neuimport-Operationen ausführen …[39m[0m
+[92m[ DONE ][39m [1mreimport[22m
+[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Started Editor laden (5 steps)[39m[0m
+[   0% ] [90m[1mloading_editor_layout[22m | Editor-Layout laden …[39m[0m
+[  16% ] [90m[1mloading_editor_layout[22m | Docks laden …[39m[0m
+[  33% ] [90m[1mloading_editor_layout[22m | Öffne Szenen neu…[39m[0m
+[  50% ] [90m[1mloading_editor_layout[22m | Zentrales Editor-Layout laden …[39m[0m
+[  66% ] [90m[1mloading_editor_layout[22m | Pluginfensterlayout laden …[39m[0m
+[  83% ] [90m[1mloading_editor_layout[22m | Editorlayout bereit.[39m[0m
+[92m[ DONE ][39m [1mloading_editor_layout[22m
+[0m

@@ -2964,6 +2964,10 @@ msgid "A screamer's cry echoes through the forest - %s is marked! The horde is c
 msgstr "Der Schrei eines Kreischers hallt durch den Wald - %s ist markiert! Die Horde kommt."
 
 #: scripts/main.gd
+msgid "The wretched bride wails - %s is marked! The dead answer her call."
+msgstr "Die unselige Braut klagt - %s ist markiert! Die Toten folgen ihrem Ruf."
+
+#: scripts/main.gd
 msgid "%s lost an arm - it is tearing out trees!"
 msgstr "%s hat einen Arm verloren - er reisst jetzt Bäume aus!"
 
@@ -2994,6 +2998,10 @@ msgstr "%s\nEin %d Meter grosser Titan nähert sich über die Wiese!"
 #: scripts/main.gd
 msgid "THE FOREST SPIRIT\nAn ancient horror awakens in the woods!"
 msgstr "DER WALDGEIST\nEin uralter Schrecken erwacht im Wald!"
+
+#: scripts/main.gd
+msgid "THE WRETCHED BRIDE\nHer wail calls the dead - put her down fast!"
+msgstr "DIE UNSELIGE BRAUT\nIhr Klagen ruft die Toten - bring sie schnell zur Strecke!"
 
 #: scripts/main.gd
 msgid "[T] Tower build menu · from 120 R"
@@ -5898,6 +5906,10 @@ msgstr "KREISCHER"
 #: scripts/zombie.gd
 msgid "STALKER"
 msgstr "SCHLEICHER"
+
+#: scripts/zombie.gd
+msgid "THE WRETCHED BRIDE"
+msgstr "DIE UNSELIGE BRAUT"
 
 #: scripts/zombie.gd
 msgid "FARM DOG"

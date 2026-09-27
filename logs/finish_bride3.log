@@ -1,0 +1,43 @@
+  + clip arise
+  + clip attack
+  + clip attack2
+  + clip death
+  + clip death2
+  + clip death3
+  + clip death4
+  + clip death5
+  + clip death6
+  + clip hit
+  + clip hit2
+  + clip idle
+  + clip run
+  + clip scream
+  + clip walk
+  + clip walk2
+  base colour restored from model.glb (2048x2048)
+  pbr maps: restored (50271/50271 UVs)
+prune: Removed types... Texture (1)
+zombie_bride_v3: rigged.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\zombie_bride.glb (6.93 MB, clips: arise, attack, attack2, death, death2, death3, death4, death5, death6, hit, hit2, idle, run, scream, walk, walk2; textures: texture_0:2048x2048, normal:2048x2048, metal_rough:2048x2048)
+aligned the posed mesh by 2.03, 0.00, 3.55 cm
+transfer: 57405 vertices - 57302 exact, 103 within 5 mm, 0 farther (worst 0.10 cm) -> C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\stage_fixed.glb (6.93 MB)
+game mesh: 36535 triangles, 55906 vertices after the MikkTSpace split
+prune: Removed types... Accessor (73)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\stage_baked.glb (7.70 MB)
+arise    lowest -0.196..0.005 -> -0.196..0.011 (offset 0.000 .. 0.013 m)
+attack   lowest 0.065..0.167 -> -0.017..0.086 (offset -0.082 .. -0.082 m)
+attack2  lowest 0.051..0.110 -> -0.026..0.034 (offset -0.076 .. -0.076 m)
+death    lowest -0.210..0.105 -> -0.210..0.000 (offset -0.105 .. 0.000 m)
+death2   lowest -0.153..0.080 -> -0.153..0.080 (offset -0.026 .. 0.000 m)
+death3   lowest -0.221..0.110 -> -0.221..0.110 (offset -0.093 .. 0.000 m)
+death4   lowest -0.463..0.165 -> -0.472..0.141 (offset -0.027 .. 0.000 m)
+death5   lowest -0.313..0.132 -> -0.313..0.084 (offset -0.102 .. 0.000 m)
+death6   lowest -0.293..0.127 -> -0.293..0.091 (offset -0.127 .. 0.000 m)
+hit      lowest 0.002..0.076 -> -0.009..0.064 (offset -0.012 .. -0.012 m)
+hit2     lowest 0.052..0.060 -> -0.001..0.006 (offset -0.054 .. -0.054 m)
+idle     lowest -0.004..0.016 -> -0.005..0.015 (offset -0.001 .. -0.001 m)
+run      lowest 0.013..0.195 -> -0.016..0.167 (offset -0.028 .. -0.028 m)
+scream   lowest -0.069..0.018 -> -0.004..0.083 (offset 0.065 .. 0.065 m)
+walk     lowest 0.083..0.129 -> -0.012..0.034 (offset -0.095 .. -0.095 m)
+walk2    lowest 0.075..0.131 -> -0.005..0.052 (offset -0.080 .. -0.080 m)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\stage_grounded.glb (7.72 MB)
+11:51:09 zombie_bride finished -> godot/assets/models/zombie_bride.glb (run Godot --headless --import)

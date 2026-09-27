@@ -1,0 +1,126 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: zombie_businessman exists
+PASS: zombie_businessman is a skin of the shambler
+PASS: zombie_wanderer exists
+PASS: zombie_wanderer is a skin of the shambler
+PASS: zombie_wastelander exists
+PASS: zombie_wastelander is a skin of the runner
+PASS: zombie_wraith exists
+PASS: zombie_wraith is a skin of the stalker
+PASS: zombie_bride exists
+PASS: zombie_bride is a skin of the bride
+PASS: The bride: own model, a screamer's wail, a common body (hit volumes, gore), no helmet
+PASS: zombie_businessman loads and is prepared
+PASS: zombie_businessman carries the Meshy bone names the game uses ([] missing)
+PASS: zombie_businessman has the full clip set with the rise ([] missing)
+PASS: zombie_businessman is a game mesh (31799 triangles, the sources had up to 2 M)
+PASS: zombie_businessman has base colour, baked normal map and ORM
+PASS: zombie_businessman walk has a measured pace (0.85 m/s)
+PASS: zombie_businessman attack strike measured at 0.66 s
+PASS: zombie_businessman has 4 usable falls
+PASS: zombie_businessman walk keeps the feet on the ground (lowest foot 0.006 m over rest)
+PASS: zombie_businessman idle keeps the feet on the ground (lowest foot 0.010 m over rest)
+PASS: zombie_businessman attack keeps the feet on the ground (lowest foot 0.000 m over rest)
+PASS: zombie_wanderer loads and is prepared
+PASS: zombie_wanderer carries the Meshy bone names the game uses ([] missing)
+PASS: zombie_wanderer has the full clip set with the rise ([] missing)
+PASS: zombie_wanderer is a game mesh (10258 triangles, the sources had up to 2 M)
+PASS: The wanderer is matte (no ORM map: metallic 0 instead of chrome) and does not glow
+PASS: zombie_wanderer walk has a measured pace (0.99 m/s)
+PASS: zombie_wanderer attack strike measured at 0.66 s
+PASS: zombie_wanderer has 4 usable falls
+PASS: zombie_wanderer walk keeps the feet on the ground (lowest foot -0.001 m over rest)
+PASS: zombie_wanderer idle keeps the feet on the ground (lowest foot 0.003 m over rest)
+PASS: zombie_wanderer attack keeps the feet on the ground (lowest foot -0.012 m over rest)
+PASS: zombie_wastelander loads and is prepared
+PASS: zombie_wastelander carries the Meshy bone names the game uses ([] missing)
+PASS: zombie_wastelander has the full clip set with the rise ([] missing)
+PASS: zombie_wastelander is a game mesh (32932 triangles, the sources had up to 2 M)
+PASS: zombie_wastelander has base colour, baked normal map and ORM
+PASS: zombie_wastelander walk has a measured pace (1.06 m/s)
+PASS: zombie_wastelander attack strike measured at 0.66 s
+PASS: zombie_wastelander has 4 usable falls
+PASS: zombie_wastelander walk keeps the feet on the ground (lowest foot -0.001 m over rest)
+PASS: zombie_wastelander idle keeps the feet on the ground (lowest foot 0.004 m over rest)
+PASS: zombie_wastelander attack keeps the feet on the ground (lowest foot 0.003 m over rest)
+PASS: zombie_wraith loads and is prepared
+PASS: zombie_wraith carries the Meshy bone names the game uses ([] missing)
+PASS: zombie_wraith has the full clip set with the rise ([] missing)
+PASS: zombie_wraith is a game mesh (31170 triangles, the sources had up to 2 M)
+PASS: zombie_wraith has base colour, baked normal map and ORM
+PASS: zombie_wraith walk has a measured pace (0.38 m/s)
+PASS: zombie_wraith attack strike measured at 1.11 s
+PASS: zombie_wraith has 4 usable falls
+PASS: zombie_wraith walk keeps the feet on the ground (lowest foot -0.001 m over rest)
+PASS: zombie_wraith idle keeps the feet on the ground (lowest foot 0.005 m over rest)
+PASS: zombie_wraith attack keeps the feet on the ground (lowest foot 0.002 m over rest)
+PASS: zombie_bride loads and is prepared
+PASS: zombie_bride carries the Meshy bone names the game uses ([] missing)
+PASS: zombie_bride has the full clip set with the rise ([] missing)
+PASS: zombie_bride is a game mesh (36535 triangles, the sources had up to 2 M)
+PASS: zombie_bride has base colour, baked normal map and ORM
+PASS: zombie_bride walk has a measured pace (0.56 m/s)
+PASS: zombie_bride attack strike measured at 1.11 s
+PASS: zombie_bride has 6 usable falls
+PASS: zombie_bride walk keeps the feet on the ground (lowest foot -0.008 m over rest)
+PASS: zombie_bride idle keeps the feet on the ground (lowest foot 0.014 m over rest)
+PASS: zombie_bride attack keeps the feet on the ground (lowest foot 0.009 m over rest)
+PASS: A businessman spawns rising, 20 m from the player
+PASS: It enters lying on the ground (state arise, clip arise)
+PASS: It gets up facing its prey
+PASS: Rooted while it gets up
+PASS: Standing after the clip it walks on (walk)
+PASS: A second one rises
+PASS: Shot before it stands, the body sinks back (the rise runs backwards)
+PASS: ... towards the lying pose (0.55 -> 0.18 s)
+PASS: A third one rises 4 m from the player
+PASS: No head tracking while it gets up
+PASS: An older skin spawns with rise requested
+PASS: ... and simply stands (no arise clip)
+PASS: A co-op replica of a rising body starts lying (snapshot state arise)
+PASS: ... and stands when the host's state moves on
+PASS: zombie_businessman spawns
+PASS: zombie_businessman is the model worn
+PASS: zombie_businessman uses baked shot volumes only (22 volumes, 0 fallback areas)
+PASS: zombie_businessman can lose head and limbs (5 parts)
+PASS: zombie_wanderer spawns
+PASS: zombie_wanderer is the model worn
+PASS: zombie_wanderer uses baked shot volumes only (22 volumes, 0 fallback areas)
+PASS: zombie_wanderer can lose head and limbs (5 parts)
+PASS: zombie_wastelander spawns
+PASS: zombie_wastelander is the model worn
+PASS: zombie_wastelander uses baked shot volumes only (22 volumes, 0 fallback areas)
+PASS: zombie_wastelander can lose head and limbs (5 parts)
+PASS: zombie_wraith spawns
+PASS: zombie_wraith is the model worn
+PASS: zombie_wraith uses baked shot volumes only (22 volumes, 0 fallback areas)
+PASS: zombie_wraith can lose head and limbs (5 parts)
+PASS: zombie_bride spawns
+PASS: zombie_bride is the model worn
+PASS: zombie_bride uses baked shot volumes only (19 volumes, 0 fallback areas)
+PASS: zombie_bride can lose head and limbs (5 parts)
+PASS: One bride leads every boss wave, two from wave 20
+PASS: Wave 5 plans 1 bride(s), rising in the forest
+PASS: The intermission preview counts wave 5 exactly
+PASS: Wave 10 plans 1 bride(s), rising in the forest
+PASS: The intermission preview counts wave 10 exactly
+PASS: Wave 20 plans 2 bride(s), rising in the forest
+PASS: The intermission preview counts wave 20 exactly
+PASS: No bride outside the boss waves
+PASS: The bride spawns 14 m from the player
+PASS: She wears her own model and 997 HP
+PASS: Her arrival is announced
+PASS: She stops and wails (after 0.0 s)
+PASS: The player is marked for the horde
+PASS: Four runners answer her call
+PASS: Her wail has its own message
+PASS: The wraith rises out of the maize as a shimmer
+BATCH29_DONE checks=116 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

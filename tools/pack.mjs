@@ -4,7 +4,7 @@
 //   - Meshy's rigging export keeps only the base colour: when model.glb (the refined PBR mesh) lies next to
 //     rigged.glb and rigging kept the UV atlas, its normal and metallic/roughness maps are restored
 //   - textures resized (base colour to --albedo-size, everything else to --size) and encoded as WebP
-// Usage: node tools/pack.mjs <name> [--size 1024] [--albedo-size 4096] [--quality 82] [--simplify 0.62] [--as <game name>] [--all]
+// Usage: node tools/pack.mjs <name> [--size 1024] [--albedo-size 4096] [--quality 82] [--simplify 0.62] [--restore-base] [--as <game name>] [--all]
 //   --simplify keeps that share of the triangles (meshoptimizer, seams and UVs preserved): the 50k Meshy rigs
 //   render at the cost of the old 31k ones while the 4k PBR maps keep the detail
 //   --as writes public/models/<game name>.glb (for a raw folder like zombie_shambler_v3 that replaces zombie_shambler)
@@ -30,6 +30,7 @@ const albedoSize = option('--albedo-size', size);
 const quality = option('--quality', 82);
 const simplifyRatio = option('--simplify', 0);
 const simplifyError = option('--simplify-error', 0.005);   // meshoptimizer error bound, larger = coarser
+const restoreBase = args.includes('--restore-base');
 const asIndex = args.indexOf('--as');
 const gameName = asIndex >= 0 ? args[asIndex + 1] : null;
 const consumed = new Set();
@@ -77,8 +78,21 @@ function uvSet(doc) {
 }
 
 // Meshy's rig export drops the normal and metallic/roughness maps of the refined mesh: put them back.
+// --restore-base also takes the base colour from model.glb: a rig made from a file upload (new_zombies.py
+// sends a 1024 px copy to keep the upload small) comes back with that small texture and an emissive copy.
 function restorePbr(doc, source, name) {
   const materials = doc.getRoot().listMaterials();
+  if (restoreBase && materials.length > 0) {
+    const originalUV = uvSet(source), rigUV = uvSet(doc);
+    let shared = 0;
+    for (const uv of rigUV) if (originalUV.has(uv)) shared++;
+    const base = source.getRoot().listMaterials()[0]?.getBaseColorTexture();
+    if (base && rigUV.size > 0 && shared / rigUV.size >= 0.99) {
+      const texture = doc.createTexture('texture_0').setImage(base.getImage()).setMimeType(base.getMimeType());
+      for (const material of materials) material.setBaseColorTexture(texture).setEmissiveTexture(null).setEmissiveFactor([0, 0, 0]);
+      console.log(`  base colour restored from model.glb (${base.getSize()?.join('x')})`);
+    } else console.log(`  base colour NOT restored (${shared}/${rigUV.size} UVs)`);
+  }
   if (materials.length === 0 || materials.some(m => m.getNormalTexture())) return 'kept';
   const original = source.getRoot().listMaterials()[0];
   if (!original || (!original.getNormalTexture() && !original.getMetallicRoughnessTexture())) return 'no source maps';

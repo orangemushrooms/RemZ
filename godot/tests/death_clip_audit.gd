@@ -3,7 +3,8 @@
 #   --suite=death_clip_audit   (headless)  -> DEATH_CLIP lines, used to pick a fall that matches the shot
 extends SceneTree
 
-const SKINS := ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma", "zombie_runner", "zombie_jogger", "zombie_nurse", "zombie_soldier", "zombie_forester", "zombie_bloater"]
+const SKINS := ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma", "zombie_runner", "zombie_jogger", "zombie_nurse", "zombie_soldier", "zombie_forester", "zombie_bloater",
+	"zombie_businessman", "zombie_wanderer", "zombie_wastelander", "zombie_wraith", "zombie_bride"]
 
 func _initialize() -> void:
 	call_deferred("run")

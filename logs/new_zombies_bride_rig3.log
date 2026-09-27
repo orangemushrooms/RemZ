@@ -1,0 +1,97 @@
+11:48:57 generating ['zombie_bride'] up to anims
+11:49:02 zombie_bride rig task 01a0e244-8b8f-73e9-b5d4-e7afd46d73ef (3.1 MB upload)
+11:49:02 zombie_bride rig IN_PROGRESS 1%
+11:49:14 zombie_bride rig IN_PROGRESS 36%
+11:49:26 zombie_bride rig IN_PROGRESS 68%
+11:49:38 zombie_bride rig IN_PROGRESS 90%
+11:50:03 zombie_bride rig SUCCEEDED 100%
+11:50:03 zombie_bride rig done, credits 5
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\rigged.glb (4.9 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\basic_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\basic_walking.glb (4.9 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\basic_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\basic_running.glb (4.9 MB)
+11:50:06 zombie_bride anim death 184 01a0e245-9540-704f-9ae6-309e0bedbdbe
+11:50:08 zombie_bride anim death2 189 01a0e245-9cfb-7523-802d-4d87510bab23
+11:50:10 zombie_bride anim death3 185 01a0e245-a463-708a-9ffa-2e193c7fe33b
+11:50:12 zombie_bride anim death4 188 01a0e245-abad-7362-9e38-17db712f6a7e
+11:50:14 zombie_bride anim death5 186 01a0e245-b351-73aa-bc84-17ae9b57e200
+11:50:16 zombie_bride anim death6 181 01a0e245-ba97-72bc-9116-886811ed02db
+11:50:17 zombie_bride anim walk 111 01a0e245-c20d-703f-b60c-5b30f7c6b0e8
+11:50:19 zombie_bride anim walk2 123 01a0e245-c99f-74b8-8448-7ee97f229512
+11:50:21 zombie_bride anim run 513 01a0e245-d14a-7283-b091-5de16abca80b
+11:50:23 zombie_bride anim attack 221 01a0e245-d8d9-73e1-bf2e-a145ee1d269c
+11:50:25 zombie_bride anim attack2 219 01a0e245-e03d-7240-8601-62ebd6b5cc0b
+11:50:27 zombie_bride anim hit 178 01a0e245-e7ce-7530-8669-7c39a437b373
+11:50:29 zombie_bride anim hit2 391 01a0e245-ef2d-7039-a586-a988c1afd674
+11:50:31 zombie_bride anim idle 0 01a0e245-f6b1-778a-a33b-d6e49d5c5209
+11:50:33 zombie_bride anim scream 386 01a0e245-fe03-7157-8081-d93270642a39
+11:50:35 zombie_bride anim arise 3 01a0e246-0592-7563-aa42-15e83dee6a0c
+11:50:36 zombie_bride anim_death SUCCEEDED 100%
+11:50:36 zombie_bride anim_death done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death.glb (4.9 MB)
+11:50:37 zombie_bride anim_death2 SUCCEEDED 100%
+11:50:37 zombie_bride anim_death2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death2.glb (4.9 MB)
+11:50:38 zombie_bride anim_death3 SUCCEEDED 100%
+11:50:38 zombie_bride anim_death3 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death3.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death3.glb (4.9 MB)
+11:50:39 zombie_bride anim_death4 SUCCEEDED 100%
+11:50:39 zombie_bride anim_death4 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death4.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death4.glb (4.9 MB)
+11:50:40 zombie_bride anim_death5 SUCCEEDED 100%
+11:50:40 zombie_bride anim_death5 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death5.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death5.glb (5.0 MB)
+11:50:41 zombie_bride anim_death6 SUCCEEDED 100%
+11:50:41 zombie_bride anim_death6 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death6.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_death6.glb (4.9 MB)
+11:50:42 zombie_bride anim_walk SUCCEEDED 100%
+11:50:42 zombie_bride anim_walk done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_walk.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_walk.glb (5.0 MB)
+11:50:43 zombie_bride anim_walk2 SUCCEEDED 100%
+11:50:43 zombie_bride anim_walk2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_walk2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_walk2.glb (4.9 MB)
+11:50:43 zombie_bride anim_run SUCCEEDED 100%
+11:50:43 zombie_bride anim_run done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_run.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_run.glb (4.9 MB)
+11:50:44 zombie_bride anim_attack SUCCEEDED 100%
+11:50:44 zombie_bride anim_attack done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_attack.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_attack.glb (4.9 MB)
+11:50:45 zombie_bride anim_attack2 SUCCEEDED 100%
+11:50:45 zombie_bride anim_attack2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_attack2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_attack2.glb (4.9 MB)
+11:50:46 zombie_bride anim_hit SUCCEEDED 100%
+11:50:46 zombie_bride anim_hit done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_hit.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_hit.glb (4.9 MB)
+11:50:47 zombie_bride anim_hit2 SUCCEEDED 100%
+11:50:47 zombie_bride anim_hit2 done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_hit2.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_hit2.glb (4.9 MB)
+11:50:48 zombie_bride anim_idle SUCCEEDED 100%
+11:50:48 zombie_bride anim_idle done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_idle.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_idle.glb (4.9 MB)
+11:50:49 zombie_bride anim_scream SUCCEEDED 100%
+11:50:49 zombie_bride anim_scream done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_scream.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_scream.glb (4.9 MB)
+11:50:50 zombie_bride anim_arise SUCCEEDED 100%
+11:50:50 zombie_bride anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\anim_arise.glb (4.9 MB)
+11:50:51 zombie_bride READY up to anims
+Balance: {'balance': 403}
+NEW_ZOMBIES_DONE ok=1 failed=[]

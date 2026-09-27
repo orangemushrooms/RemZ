@@ -290,8 +290,9 @@ func _spawn_ravers() -> void:
 	for i in RAVERS.size():
 		var angle := TAU * i / RAVERS.size() + 0.3
 		var point := DANCE + Vector2(cos(angle), sin(angle)) * 15.0
-		if not main.spawn_zombie(RAVERS[i], point, 1.0, "", 0.0):
-			main.spawn_zombie(RAVERS[i], DANCE + Vector2(cos(angle), sin(angle)) * 9.0, 1.0, "", 0.0)
+		# skins with the "arise" clip really rise: they get up from the ground around the floor
+		if not main.spawn_zombie(RAVERS[i], point, 1.0, "", 0.0, -1, true):
+			main.spawn_zombie(RAVERS[i], DANCE + Vector2(cos(angle), sin(angle)) * 9.0, 1.0, "", 0.0, -1, true)
 
 func _complete() -> void:
 	if not active or completed or step != WAKING or not echo_offered or NetSession.is_client(): return

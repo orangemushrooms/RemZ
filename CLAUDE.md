@@ -20,7 +20,7 @@ achievements as a union, high scores merged to the top 10, marker `legacy_import
   north. The user describes directions in the plan's frame ("Nordstrasse" = Sennhofstrasse, which really runs
   north-south on the east edge; "Wiese" is really south of the Weg zur Hütte; "Waldweg nach Hütte" comes from the
   north). Translate before touching positions.
-- Systems: waves (10 + 5 n zombies times the difficulty factor, boss wave every 5th with brutes, 27 m field
+- Systems: waves (10 + 5 n zombies times the difficulty factor, boss wave every 5th with brutes led by the wretched bride, 27 m field
   titans from wave 6 every third wave, `Waves.MAX_ACTIVE` 72; since 25 Sep 2026 the common horde gains +5 %
   health per wave (`EncounterBalance.horde_hp`, capped x2.2 - bosses keep `heavy_hp`), runners from wave 1,
   soldiers from wave 2, brutes from wave 3 with a growing share, speed +4.5 % per wave, 120 s intermission,
@@ -500,6 +500,59 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   Vendor fireworks through `Fireworks.buy`. `PartyBar.buy` is host / solo only; clients send "bar_order".
 - The party fires its own show: `SecretNight._update_show` launches a rocket every 2-4.5 s (every 1-1.8 s from
   the last dance on) from `SHOW_SPOTS` via `Fireworks.launch_at` (no stock, joins `active`, so clients see it).
+
+## The user's own Meshy web zombies (27 Sep 2026, `--suite=batch29 --smoke-test --no-intro --no-music --no-foliage`, 116 checks; windowed `batch29_visual` -> `artifacts/batch29/`)
+- Skins: `zombie_businessman` + `zombie_wanderer` (shambler), `zombie_wastelander` (runner), `zombie_wraith`
+  (stalker), `zombie_bride` = the new type `bride` "THE WRETCHED BRIDE": 950 HP, 1.95 m, claws 28, the
+  screamer's wail (`"screamer"` block: range 28, cooldown 16, 4 runners, mark 14 s, radius 90; `main.horde_call`
+  pitches her 0.74-0.82 and has her own message), one per boss wave from wave 5, two from wave 20
+  (`Waves.bride_count`, plan entry `"forest": true`), a spawn message, in the cheat menu; not a boss kind (baked
+  shot volumes, gore) and never armored.
+- The spawn rise: every new skin carries library clip 3 "Arise" (lying face down -> standing, 1.87 s).
+  `Zombie.rise_on_spawn` (set by `main.spawn_zombie(.., rise = true)`: forest spawns, maize spawns, the secret
+  night's ravers, the cheat menu) plays it as the logical state "arise": rooted, shots hurt but do not shove, no
+  head tracking, it gets up facing its prey; killed before 80 % it sinks back (the clip runs backwards at -1.8).
+  The state rides the co-op snapshot and a fresh replica starts lying (`coop_world` sets rise_on_spawn from
+  s[5]). Rigs without the clip spawn standing as before.
+- Pipeline `tools/new_zombies.py` (receipts in `assets/raw/<name>_v3/state.json`, the user's files as `source.glb`
+  / `web_<clip>.glb` beside them, gitignored). The web app's tasks are invisible to the API, so everything enters
+  as files: `decimate_glb.mjs` (meshoptimizer, UV atlas kept, emissive dropped - web exports carry a black one
+  or a copy of the base colour) to 33k / 40k triangles; the wanderer's web rig (Mixamo bone names, rotated bone
+  frames: API clips cannot be copied onto it) goes back to a static bind-pose mesh with `unskin_glb.mjs`; `rig`
+  uploads `rig_input.glb` (base colour 1024 only, 1-2 MB) as a data URI (Meshy re-centres it in x / z and drops
+  a few hundred triangles, the UVs stay); `anims` buys the clips of SPECS (`anim_contact_sheet.mjs` tiles the free
+  preview GIFs first); `finish` = `pack.mjs --restore-base` (2k base colour back from model.glb) -> `skin_fix.mjs
+  --fix` (arms-down rigs only) -> `bake_normals.mjs` -> `ground_clips.mjs` -> `godot/assets/models/`. Then the
+  headless import, the shambler's texture import params copied over (albedo BC7 high quality, normal RGTC - a
+  fresh headless import stores them uncompressed) and the shot volumes rebaked. About 340 credits for the five.
+- `skin_fix.mjs`: Meshy's rigger fuses what touches in the source pose. On the arms-down models the bride's back
+  hair took both upper arms (the swing tore it 45x), claws and knees traded hand / leg weights, long dresses took
+  one leg per half. Per welded point: arm influence only within `--arm-reach` bone radii of its own arm,
+  conflicts (hand + leg, left + right arm, leg + chest) go to the part whose bone is closer, `--hair <luma>` puts
+  dark points above the waist on head / neck / spine by height, `--skirt` blends the dress between pelvis and
+  thighs (part of the shins below the knee); then smoothing, and only true bridges are cut (hand / forearm to
+  anything else, leg to chest - cutting upper arm to waist opened holes under the arms). Its stretch report
+  misleads on dresses and against an A-pose rest: judge with `pose_sheet.mjs` / `glb_preview.mjs --anim --zoom`.
+  On the T- and A-pose rigs (businessman, wastelander) it made things worse, they keep Meshy's weights.
+- The bride's first rig (arms down, forearms 44 deg forward) lifted her upper arms 60-70 deg too high in every
+  clip (`tools/arm_pose.mjs` against the wraith in the same clip). `new_zombies.py bride_repose`: the repaired first
+  rig (`assets/raw/zombie_bride_rig1_v3`) -> bake -> `repose_glb.mjs --abduct 40 --straighten` -> A-pose upload
+  -> new rig; the finish moves the repaired weights over (`transfer_weights.mjs`, bounds-aligned position + UV
+  match) and keeps the normal map baked before the re-pose (`bake_normals.mjs --retangent`).
+  `zombie_bride_rig2_v3` is a superseded second rig. For her narrow shoulders 184 / 185 read as plank falls, so
+  she also carries 186 Strangled and Fall Forward and 181 Electrocuted Fall (the wraith 186).
+- `bake_normals.mjs`: the decimation keeps the atlas, so the high-poly detail transfers texel by texel in UV
+  space (high-poly object normals incl. its own map -> the game mesh's MikkTSpace frame, written with its
+  TANGENTs, z kept positive for RGTC). `batch29_visual` shows source | baked | unbaked under a grazing light:
+  identical folds, so the conventions hold in Godot. The wanderer has no high-poly: 10k triangles, base colour
+  only, metallic 0 (the export's metallic 1 without an ORM map rendered chrome).
+- `ground_clips.mjs`: Meshy retargets by hip height; the dress rigs stood 10-13 cm in the air in walk and attack.
+  Standing clips get one constant Hips offset (15th percentile of the lowest vertex -> 0), deaths only the
+  standing contact at the start (fading out: on the ground the lowest vertex is hair or a hem), the arise only
+  its end pose. The older skins float 6-8 cm in some clips (the Frankenstein walk); the same tool would fix them
+  (re-import only, the shot volumes keep their hashes).
+- Looking without a GPU: `glb_info.mjs` (meshes, maps, joints, clips), `glb_preview.mjs` (software raster, front /
+  side / back, `--anim --time`, `--zoom`, `--texture`), `pose_sheet.mjs` (clip moments of several GLBs in a sheet).
 
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,

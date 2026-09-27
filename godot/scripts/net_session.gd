@@ -759,8 +759,11 @@ func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 			if args.size() == 4 and args[0] is String and args[1] is String and args[2] is Vector3 and args[3] is String and game.pings:
 				game.pings.receive(args[0], args[1], args[2], args[3])
 		"screamer":
-			if args.size() == 1 and args[0] is Vector3 and args[0].is_finite():
-				Sfx.play_at(game.zombies_root, "screamer_call", args[0], -1.0, randf_range(0.95, 1.08), 14.0, 220.0)
+			if args.size() >= 1 and args[0] is Vector3 and args[0].is_finite():
+				# second argument: the host's pitch (the wretched bride wails deeper, main.horde_call)
+				var pitch: float = clampf(float(args[1]), 0.5, 1.5) if args.size() > 1 and (args[1] is float or args[1] is int) else randf_range(0.95, 1.08)
+				var deep := pitch < 0.9
+				Sfx.play_at(game.zombies_root, "screamer_call", args[0], 1.0 if deep else -1.0, pitch, 14.0, 260.0 if deep else 220.0)
 
 func weapon_fired(id: int, weapon: String, stab: bool = false) -> void:
 	if not is_host(): return

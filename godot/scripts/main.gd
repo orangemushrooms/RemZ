@@ -2576,12 +2576,16 @@ func horde_call(screamer: Zombie, target: Player) -> void:
 				best = d
 				lane = name
 	waves.reinforce("runner", int(spec.get("call", 3)), lane)
-	Sfx.play_at(zombies_root, "screamer_call", screamer.global_position + Vector3.UP * 1.5, -1.0, randf_range(0.95, 1.08), 14.0, 220.0)
+	# the wretched bride wails deeper than the screamers
+	var bride := screamer.net_kind == "bride"
+	var pitch := randf_range(0.74, 0.82) if bride else randf_range(0.95, 1.08)
+	Sfx.play_at(zombies_root, "screamer_call", screamer.global_position + Vector3.UP * 1.5, 1.0 if bride else -1.0, pitch, 14.0, 260.0 if bride else 220.0)
 	if NetSession.is_host():
 		for peer in NetSession.ready_peers:
-			if peer != 1 and NetSession.ready_peers[peer]: NetSession.feedback(peer, "screamer", [screamer.global_position + Vector3.UP * 1.5])
+			if peer != 1 and NetSession.ready_peers[peer]: NetSession.feedback(peer, "screamer", [screamer.global_position + Vector3.UP * 1.5, pitch])
 	var who: String = NetSession.roster.get(target.peer_id, NetSession.player_name) if NetSession.enabled else NetSession.player_name
-	broadcast_message(Lang.t("A screamer's cry echoes through the forest - %s is marked! The horde is coming.", [Lang.raw(who)]), 4.0)
+	var cry := Lang.t("The wretched bride wails - %s is marked! The dead answer her call.", [Lang.raw(who)]) if bride else Lang.t("A screamer's cry echoes through the forest - %s is marked! The horde is coming.", [Lang.raw(who)])
+	broadcast_message(cry, 4.0)
 	if pings: pings.callout("spotted:%d" % target.peer_id, "spotted", target.global_position, who)
 
 # the spitter's glob leaves the mouth (host): the arc for everyone, the pool when it lands
@@ -2647,7 +2651,8 @@ func _end_round(title: String, text: String) -> void:
 	hud.show_overlay(title, text, "Play again", "", "over")
 	hud.show_run_summary(stats, player.score, waves.completed, rank, str(difficulty["name"]))
 
-func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimum_distance := 0.0, armor_override := -1) -> bool:
+# rise: the body enters lying on the ground and gets up (Zombie.rise_on_spawn, rigs with the "arise" clip)
+func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimum_distance := 0.0, armor_override := -1, rise := false) -> bool:
 	if NetSession.is_client(): return false
 	var profile := Zombie.is_titan_kind(type) and "--profile-spawn" in _flags
 	var timings: Array = [Time.get_ticks_usec()] if profile else []
@@ -2674,6 +2679,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 	if minimum_distance > 0.0 and Zombie.is_worm_kind(type) and not Earthworm.surface_clear(self, perimeter, spawn): return false
 	var z: Zombie = ForestSpirit.new() if type == "forest_spirit" else (Earthworm.new() if Zombie.is_worm_kind(type) else (Titan.new() if Zombie.is_titan_kind(type) else (ZombieBeast.new() if Zombie.is_beast_kind(type) else Zombie.new())))
 	z.setup(type, player, defence_lines(), speed_mul, _zombie_killed)
+	z.rise_on_spawn = rise
 	# the mutation: from wave 10 a share of the common humanoids wears a helmet
 	if armor_override == 1 or (armor_override < 0 and Zombie.can_be_armored(type) and randf() < Waves.armor_chance(waves.wave)):
 		z.armored = true
@@ -2697,6 +2703,17 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 	zombies_root.add_child(z)
 	if profile: timings.append(Time.get_ticks_usec())
 	z.global_position = spawn + Vector3(0, 0.2, 0)
+	if z.state == "arise":
+		# it gets up facing its prey, so it does not turn on the spot once it stands
+		var prey: Node3D = player
+		if NetSession.enabled and NetSession.nearest_player(spawn): prey = NetSession.nearest_player(spawn)
+		z.rotation.y = atan2(prey.global_position.x - spawn.x, prey.global_position.z - spawn.z)
+	if type == "bride":
+		var message := Lang.t("THE WRETCHED BRIDE\nHer wail calls the dead - put her down fast!")
+		hud.message(message, 5.0)
+		if NetSession.is_host():
+			for peer in NetSession.ready_peers:
+				if peer != 1: NetSession.feedback(peer, "message", [message, 5.0])
 	_alive_count += 1
 	z.tree_exiting.connect(func():
 		if z.alive:

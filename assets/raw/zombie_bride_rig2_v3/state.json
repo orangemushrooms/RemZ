@@ -1,0 +1,22 @@
+{
+  "rig": "01a0e236-5c66-7342-9217-1a97f98653da",
+  "anims": {
+    "death": "01a0e237-3778-767f-932f-d7080e8d0eab",
+    "death2": "01a0e237-3f04-731f-b7e3-d8c6be6b832e",
+    "death3": "01a0e237-466d-7003-9ddb-2dff2b9a036d",
+    "death4": "01a0e237-4dfe-7186-b12c-3d1b2aa54b0c",
+    "death5": "01a0e237-5538-77bc-b734-13c2fac3c45c",
+    "death6": "01a0e237-5c7b-775b-8ecf-f3c47d4be9a1",
+    "walk": "01a0e237-63ef-774a-ab98-cd700d25f835",
+    "walk2": "01a0e237-6b98-7188-a379-65e03ccb8d00",
+    "run": "01a0e237-730a-7637-810c-5a2d8b9b0973",
+    "attack": "01a0e237-7a54-7172-bd88-1dd35506f9ba",
+    "attack2": "01a0e237-81bd-7627-817b-68a42cbcad1a",
+    "hit": "01a0e237-8926-740b-a101-50dc6b2be2f0",
+    "hit2": "01a0e237-9050-7491-907f-375b31865f58",
+    "idle": "01a0e237-97dc-7689-be80-887041d0f73c",
+    "scream": "01a0e237-9ef6-7449-ad0a-c4229a02734d",
+    "arise": "01a0e237-a61a-7226-9bbd-b4ad003e9fa8"
+  },
+  "note": "second rig of the bride (A-pose from the first fix with holes under the arms), superseded"
+}

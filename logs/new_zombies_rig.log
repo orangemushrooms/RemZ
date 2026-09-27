@@ -1,0 +1,70 @@
+10:33:07 generating ['zombie_businessman', 'zombie_wanderer', 'zombie_wastelander', 'zombie_wraith', 'zombie_bride'] up to rig
+10:33:12 zombie_wastelander rig task 01a0e1ff-1ec0-7143-90ae-1ae589aba121 (1.2 MB upload)
+10:33:12 zombie_wraith rig task 01a0e1ff-1e9d-7571-b590-01b484d793a2 (1.6 MB upload)
+10:33:12 zombie_wastelander rig IN_PROGRESS 1%
+10:33:12 zombie_businessman rig task 01a0e1ff-1e8e-7188-a29d-60e2ece27547 (1.3 MB upload)
+10:33:12 zombie_wraith rig IN_PROGRESS 1%
+10:33:12 zombie_bride rig task 01a0e1ff-1ee9-746b-a21a-8fd7961aca80 (2.3 MB upload)
+10:33:12 zombie_businessman rig IN_PROGRESS 1%
+10:33:12 zombie_bride rig IN_PROGRESS 1%
+10:33:13 zombie_wanderer rig task 01a0e1ff-1e23-751e-9ddc-39f337e2828d (0.9 MB upload)
+10:33:13 zombie_wanderer rig IN_PROGRESS 1%
+10:33:24 zombie_wastelander rig IN_PROGRESS 36%
+10:33:24 zombie_wraith rig IN_PROGRESS 36%
+10:33:25 zombie_businessman rig IN_PROGRESS 36%
+10:33:25 zombie_bride rig IN_PROGRESS 36%
+10:33:25 zombie_wanderer rig IN_PROGRESS 36%
+10:33:37 zombie_wastelander rig IN_PROGRESS 68%
+10:33:37 zombie_wraith rig IN_PROGRESS 68%
+10:33:37 zombie_businessman rig IN_PROGRESS 68%
+10:33:37 zombie_bride rig IN_PROGRESS 68%
+10:33:37 zombie_wanderer rig IN_PROGRESS 68%
+10:33:49 zombie_wastelander rig SUCCEEDED 100%
+10:33:49 zombie_wastelander rig done, credits 5
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\rigged.glb...
+10:33:49 zombie_wraith rig IN_PROGRESS 90%
+10:33:49 zombie_businessman rig SUCCEEDED 100%
+10:33:49 zombie_businessman rig done, credits 5
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\rigged.glb...
+10:33:49 zombie_bride rig IN_PROGRESS 90%
+10:33:49 zombie_wanderer rig SUCCEEDED 100%
+10:33:49 zombie_wanderer rig done, credits 5
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\rigged.glb (3.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\basic_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\basic_walking.glb (3.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\basic_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\rigged.glb (2.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\basic_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\rigged.glb (3.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\basic_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\basic_walking.glb (2.8 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\basic_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wastelander_v3\basic_running.glb (3.1 MB)
+10:33:52 zombie_wastelander READY up to rig
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wanderer_v3\basic_running.glb (2.8 MB)
+10:33:52 zombie_wanderer READY up to rig
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\basic_walking.glb (3.5 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\basic_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_businessman_v3\basic_running.glb (3.5 MB)
+10:33:53 zombie_businessman READY up to rig
+10:34:01 zombie_wraith rig SUCCEEDED 100%
+10:34:01 zombie_wraith rig done, credits 5
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\rigged.glb...
+10:34:01 zombie_bride rig SUCCEEDED 100%
+10:34:01 zombie_bride rig done, credits 5
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\rigged.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\rigged.glb (3.6 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\basic_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\rigged.glb (4.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\basic_walking.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\basic_walking.glb (3.6 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\basic_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\basic_walking.glb (4.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\basic_running.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bride_v3\basic_running.glb (4.7 MB)
+10:34:05 zombie_bride READY up to rig
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_wraith_v3\basic_running.glb (3.6 MB)
+10:34:05 zombie_wraith READY up to rig
+Balance: {'balance': 719}
+NEW_ZOMBIES_DONE ok=5 failed=[]

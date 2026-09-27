@@ -837,6 +837,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			z.model_path = s[9]
 			z.appearance_seed = s[10]
 			z.height = s[11]
+			z.rise_on_spawn = s[5] == "arise"      # a body the host is raising from the ground enters lying
 			game.zombies_root.add_child(z)
 			z.global_position = s[1]
 			zombies[id] = z

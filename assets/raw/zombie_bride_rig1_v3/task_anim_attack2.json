@@ -1,0 +1,20 @@
+{
+  "id": "01a0e202-c828-73d4-8a8a-387e20dfd973",
+  "type": "animate",
+  "name": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790498228475,
+  "progress": 100,
+  "started_at": 1790498228486,
+  "finished_at": 1790498244760,
+  "expires_at": 1790757444760,
+  "task_error": null,
+  "result": {
+    "animation_glb_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e202-c828-73d4-8a8a-387e20dfd973/output/Animation_Right_Hand_Sword_Slash_withSkin.glb?Expires=1790757444&Signature=Y1to5CwDerwlu9gKbeuwRIqpZ73rOfLzFoRq-NsMxtHHvkZ5KLVhAPbRkJNWPTrefxO6OqXuwmLuCw2U43Qmc6YL83JJ4etjYMb9SVR6FA33rGa7jCmF8~c~nYYRHC8gEYPnNh1rnD4lU3nGgGukiTbylKepIv6UXYdHcy9Xo4jIou2c5e~qXTNSXUPxZPWm~uYUAYvGQ4Qb11HP8QdlPdwidhkWFqbuGt~5AG2msa8KmkXHec-3owK~e0lQhZ8G1EhnV7nmRfblVspCU2kiv9rkt0ancxcvaLPiJiI2tHicVl65TJBUVtVjtz1hqnRW6XpEspu0RmZ0Oo-VvzmNiQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "animation_fbx_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e202-c828-73d4-8a8a-387e20dfd973/output/Animation_Right_Hand_Sword_Slash_withSkin.fbx?Expires=1790757444&Signature=QIhauQCnnINOviXAAV71MPO6vyMmoqXRubhK6QVQQN3~zZ-LPEsd8apK4KwTZ6jwwdITw~8~FN0K3mbabfIUyW7q7TaOGhhHEpGwlSyqGh2rb4IwHZcstimwnpeK3Y8RzT45cbdjioy6sYwbkP8GpYPc9dde15B-iKTSS9fCRP0UxKMiAPsbOfRznr8bmeQpAzvzEpb-PoGdgkX7nWjT0pLFOntZ1R8WBv1ady60hzdNuzM4Z36vQb9Zwwcc-042G7si8Ffh5LiL3V6s6Z-H1Dh6pKyVlZSB3I~m1ieOdVLzs4U2ETmpfIooB0egx6clrluY8Ck-Vw4GOUjhywAHFw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "processed_usdz_url": "",
+    "processed_armature_fbx_url": "",
+    "processed_animation_fps_fbx_url": ""
+  },
+  "consumed_credits": 3
+}

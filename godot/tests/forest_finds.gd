@@ -252,7 +252,10 @@ func run() -> void:
 	check(chunks >= 2, "Both arms fly off as chunks", str(chunks))
 	var rig3 := z3.model.find_child("Skeleton3D", true, false) as Skeleton3D
 	check(rig3.get_node_or_null("Stump_left_arm") != null, "A stump cap follows the shoulder joint")
+	# a skin that still carries the stiff plank clip 183 (the 27 Sep 2026 skins leave it out)
+	Zombie.force_skin = "zombie_shambler"
 	game.spawn_zombie("shambler", spawn + Vector2(6, 0), 1.0, "")
+	Zombie.force_skin = ""
 	var z4: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)
 	z4.last_hit_bone = "RightLeg"
 	z4.damage(z4.max_hp * 0.35, Vector3.FORWARD)
@@ -271,7 +274,8 @@ func run() -> void:
 		zz.rotation.y = 0.0
 		var from_front := -zz.global_basis.z          # a bullet flying against the rig's front
 		zz.die(from_front)
-		var m: Dictionary = metrics.get(zz.clip, {})
+		# every skin has its own clip set (death3 is the plank on the older rigs, a slow fall on the new ones)
+		var m: Dictionary = Zombie.clip_info(zz.model_path).get(zz.clip, {})
 		used[zz.clip] = true
 		if not m.is_empty() and (float(m.travel_z) < 0.0 or Zombie.is_crumple(m)): back_count += 1
 		if not m.is_empty() and Zombie.is_plank(m): plank_count += 1

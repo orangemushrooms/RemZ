@@ -127,6 +127,15 @@ PASS: zombie_stalker animated headshot during walk
 PASS: zombie_stalker animated headshot during attack
 PASS: zombie_stalker empty navigation capsule does not catch bullets
 PASS: zombie_stalker hitboxes follow model offsets and rotation
+PASS: zombie_bride has model-fitted hitboxes
+PASS: zombie_bride hitboxes scale with the model
+PASS: zombie_bride keeps movement collision separate from bullet hitboxes
+PASS: zombie_bride animated headshot during walk
+PASS: zombie_bride animated headshot during walk
+PASS: zombie_bride animated headshot during attack
+PASS: zombie_bride animated headshot during attack
+PASS: zombie_bride empty navigation capsule does not catch bullets
+PASS: zombie_bride hitboxes follow model offsets and rotation
 PASS: zombie_farmer has model-fitted hitboxes
 PASS: zombie_farmer hitboxes scale with the model
 PASS: zombie_farmer keeps movement collision separate from bullet hitboxes
@@ -148,6 +157,20 @@ PASS: zombie_grandma animated headshot during walk
 PASS: zombie_grandma animated headshot during attack
 PASS: zombie_grandma empty navigation capsule does not catch bullets
 PASS: zombie_grandma hitboxes follow model offsets and rotation
+PASS: zombie_businessman has model-fitted hitboxes
+PASS: zombie_businessman hitboxes scale with the model
+PASS: zombie_businessman keeps movement collision separate from bullet hitboxes
+PASS: zombie_businessman animated headshot during walk
+PASS: zombie_businessman animated headshot during attack
+PASS: zombie_businessman empty navigation capsule does not catch bullets
+PASS: zombie_businessman hitboxes follow model offsets and rotation
+PASS: zombie_wanderer has model-fitted hitboxes
+PASS: zombie_wanderer hitboxes scale with the model
+PASS: zombie_wanderer keeps movement collision separate from bullet hitboxes
+PASS: zombie_wanderer animated headshot during walk
+PASS: zombie_wanderer animated headshot during attack
+PASS: zombie_wanderer empty navigation capsule does not catch bullets
+PASS: zombie_wanderer hitboxes follow model offsets and rotation
 PASS: zombie_jogger has model-fitted hitboxes
 PASS: zombie_jogger hitboxes scale with the model
 PASS: zombie_jogger keeps movement collision separate from bullet hitboxes
@@ -155,6 +178,13 @@ PASS: zombie_jogger animated headshot during walk
 PASS: zombie_jogger animated headshot during attack
 PASS: zombie_jogger empty navigation capsule does not catch bullets
 PASS: zombie_jogger hitboxes follow model offsets and rotation
+PASS: zombie_wastelander has model-fitted hitboxes
+PASS: zombie_wastelander hitboxes scale with the model
+PASS: zombie_wastelander keeps movement collision separate from bullet hitboxes
+PASS: zombie_wastelander animated headshot during walk
+PASS: zombie_wastelander animated headshot during attack
+PASS: zombie_wastelander empty navigation capsule does not catch bullets
+PASS: zombie_wastelander hitboxes follow model offsets and rotation
 PASS: zombie_forester has model-fitted hitboxes
 PASS: zombie_forester hitboxes scale with the model
 PASS: zombie_forester keeps movement collision separate from bullet hitboxes
@@ -162,4 +192,12 @@ PASS: zombie_forester animated headshot during walk
 PASS: zombie_forester animated headshot during attack
 PASS: zombie_forester empty navigation capsule does not catch bullets
 PASS: zombie_forester hitboxes follow model offsets and rotation
-ZOMBIE_HITBOXES_DONE checks=160 failures=0
+PASS: zombie_wraith has model-fitted hitboxes
+PASS: zombie_wraith hitboxes scale with the model
+PASS: zombie_wraith keeps movement collision separate from bullet hitboxes
+PASS: zombie_wraith animated headshot during walk
+PASS: zombie_wraith animated headshot during attack
+PASS: zombie_wraith empty navigation capsule does not catch bullets
+PASS: zombie_wraith hitboxes follow model offsets and rotation
+ZOMBIE_HITBOXES_DONE checks=197 failures=0
+EXIT 0
