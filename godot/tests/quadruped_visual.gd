@@ -46,7 +46,7 @@ func run() -> void:
 			quit(1)
 			return
 	for clip in ["idle", "walk", "run", "graze"]:
-		for phase in [0.15, 0.55]:
+		for phase in [0.0, 0.25, 0.5, 0.75]:
 			for anim in animations:
 				anim.play(clip, 0)
 				anim.seek(anim.get_animation(clip).length * phase, true)

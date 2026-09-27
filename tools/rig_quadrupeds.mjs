@@ -19,7 +19,7 @@ for (const name of ['deer','stag','zombie_stag']) {
   const points=meshes.flatMap(m=>m.listPrimitives().flatMap(p=>{
     const a=p.getAttribute('POSITION');return Array.from({length:a.getCount()},(_,i)=>a.getElement(i,[]));
   }));
-  const bottom=Math.min(...points.map(p=>p[1])),hipY=name==='deer'?-.12:-.32;
+  const bottom=Math.min(...points.map(p=>p[1])),hipY=name==='deer'?-.08:-.18;
   const bones=[['Body',-1,[0,hipY,0]],['Neck',0,[0,.0,.30]],['Head',1,[0,.24,.47]]];
   const legs=[];
   for(const front of [true,false])for(const side of [-1,1]) {
@@ -45,7 +45,12 @@ for (const name of ['deer','stag','zombie_stag']) {
       const pos=prim.getAttribute('POSITION'),ids=new Uint16Array(pos.getCount()*4),weights=new Float32Array(pos.getCount()*4);
       for(let v=0;v<pos.getCount();v++) {
         const p=pos.getElement(v,[]),leg=legs.find(l=>l.side*p[0]>=0&&(l.front?p[2]>=-.08:p[2]<-.08));
-        const limb=1-smooth(hipY-.12,hipY+.16,p[1]);
+        // Keep the belly/rib cage on the body. A simple lower-half mask also
+        // assigned the belly between the legs to a hip and pulled it into spikes
+        // when the knees folded. Below the belly only the four legs remain.
+        const attachment=(1-smooth(.12,.30,Math.abs(p[2]-leg.hip[2])))*smooth(.015,.09,Math.abs(p[0]));
+        const lower=1-smooth(bottom+.32,bottom+.57,p[1]);
+        const limb=(1-smooth(hipY-.08,hipY+.12,p[1]))*(lower+(1-lower)*attachment);
         const knee=1-smooth(leg.knee[1]-.09,leg.knee[1]+.09,p[1]);
         const hoof=1-smooth(bottom+.08,bottom+.19,p[1]);
         const head=smooth(.04,.35,p[1])*smooth(.12,.4,p[2]);
@@ -59,24 +64,30 @@ for (const name of ['deer','stag','zombie_stag']) {
       prim.setAttribute('WEIGHTS_0',doc.createAccessor().setType('VEC4').setArray(weights).setBuffer(buffer));
     }
   }
-  for(const [clip,duration] of Object.entries({idle:4,walk:1.25,run:.65,graze:5,attack:.8})) {
+  // Wider strides and a folded return stroke make all four legs readable at
+  // flight speed. Keep these rates in sync with deer.gd / zombie.gd:
+  // walk .42/(.63*1.25), run 1.08/(.27*.72), in source-model units/second.
+  for(const [clip,duration] of Object.entries({idle:4,walk:1.25,run:.72,graze:5,attack:.8})) {
     const anim=doc.createAnimation(clip),times=Float32Array.from({length:61},(_,i)=>duration*i/60);
     const input=doc.createAccessor().setType('SCALAR').setArray(times).setBuffer(buffer);
     const tracks=bones.map(()=>[]),body=[];
     for(let f=0;f<times.length;f++) {
       const t=f/60,phase=t*Math.PI*2,moving=clip==='walk'||clip==='run',run=clip==='run';
-      const bob=moving?.012*Math.cos(phase*2):.004*Math.sin(phase);
+      const bob=moving?(run?.035:.012)*Math.cos(phase*2):.004*Math.sin(phase);
       body.push(0,hipY+bob,0);
       const angles=bones.map(()=>0);
       const dip=clip==='graze'?Math.pow(Math.sin(Math.PI*t),2):clip==='attack'?Math.pow(Math.sin(Math.PI*t),2):0;
       angles[1]=.035*Math.sin(phase)-dip*.48;angles[2]=-.025*Math.sin(phase)-dip*.30;
       if(moving)for(let k=0;k<legs.length;k++) {
         const l=legs[k],offset=run?[0,.10,.52,.62][k]:[0,.5,.75,.25][k];
-        const u=(t+offset)%1,stance=run?.28:.63,span=run?.95:.38;
+        const u=(t+offset)%1,stance=run?.27:.63,span=run?1.08:.42;
         let travel,lift;
-        if(u<stance){travel=span*(.5-u/stance);lift=0;}else{const swing=(u-stance)/(1-stance);travel=span*(-.5+smooth(0,1,swing));lift=(run?.24:.12)*Math.sin(swing*Math.PI)**2;}
-        const dy=l.foot[1]+lift-bob-l.hip[1],dz=l.foot[2]+travel-l.hip[2];
+        if(u<stance){travel=span*(.5-u/stance);lift=0;}else{const swing=(u-stance)/(1-stance);travel=span*(-.5+smooth(0,1,swing));lift=(run?(l.hip[1]-l.foot[1])*.55:.15)*Math.sin(swing*Math.PI)**2;}
+        let dy=l.foot[1]+lift-bob-l.hip[1],dz=l.foot[2]+travel-l.hip[2];
         const a=Math.hypot(...sub(l.knee,l.hip)),b=Math.hypot(...sub(l.foot,l.knee)),dist=clamp(Math.hypot(dy,dz),Math.abs(a-b)+.001,a+b-.001);
+        // Clamp the target itself as well as the cosine-law distance. Otherwise
+        // the lower joint aims beyond its reach and never fully folds on return.
+        const reach=dist/Math.max(Math.hypot(dy,dz),.001);dy*=reach;dz*=reach;
         const direction=Math.atan2(dz,-dy),bend=Math.acos(clamp((a*a+dist*dist-b*b)/(2*a*dist),-1,1));
         const upper=direction+(l.front?1:-1)*bend;
         const kneeY=-Math.cos(upper)*a,kneeZ=Math.sin(upper)*a,lower=Math.atan2(dz-kneeZ, -(dy-kneeY));

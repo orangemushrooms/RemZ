@@ -40,7 +40,7 @@ const TYPES := {
 	"zombie_dog": { "name": "FARM DOG", "model": "zombie_dog_animated", "fallback": "zombie_dog", "hp": 65.0, "speed": 7.2, "damage": 12.0, "reach": 1.5, "attack_time": 0.7, "score": 20, "height": 0.8,
 		"beast": {"length": 1.35, "lunge": 0.5, "walk_speed": 0.766129, "run_speed": 4.608295, "run_threshold": 1.8} },
 	"zombie_stag": { "name": "ZOMBIE STAG", "model": "zombie_stag_animated", "fallback": "stag", "hp": 400.0, "speed": 5.0, "damage": 24.0, "reach": 2.2, "attack_time": 2.2, "score": 70, "height": 1.75,
-		"beast": {"length": 2.5, "charge": 11.5, "ram": 34.0, "ram_structure": 110.0, "charge_range": 28.0, "cooldown": 6.0} },
+		"beast": {"length": 2.5, "charge": 11.5, "ram": 34.0, "ram_structure": 110.0, "charge_range": 28.0, "cooldown": 6.0, "walk_speed": Deer.WALK_SPEED, "run_speed": Deer.RUN_SPEED} },
 }
 # blood moon (day_night_cycle.gd): every zombie walks this much faster while the red moon is up
 static var horde_pace := 1.0

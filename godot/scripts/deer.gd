@@ -2,6 +2,11 @@
 class_name Deer
 extends CharacterBody3D
 
+# Ground distance during the planted part of the authored stride, divided by
+# its duration (tools/rig_quadrupeds.mjs); model.scale converts it to metres.
+const WALK_SPEED := 0.42 / (0.63 * 1.25)
+const RUN_SPEED := 1.08 / (0.27 * 0.72)
+
 var model: Node3D
 var player: Player
 var kind := "deer"
@@ -143,13 +148,17 @@ func _process(delta: float) -> void:
 	if NetSession.is_client() and net_position.is_finite():
 		global_position = global_position.lerp(net_position, 1.0 - exp(-delta * 14))
 		rotation.y = lerp_angle(rotation.y, net_rotation.y, 1.0 - exp(-delta * 14))
-	var moved := 0.0 if not _last_position.is_finite() else Vector2(global_position.x - _last_position.x, global_position.z - _last_position.z).length() / maxf(0.001, delta)
+	var distance := 0.0 if not _last_position.is_finite() else Vector2(global_position.x - _last_position.x, global_position.z - _last_position.z).length()
 	_last_position = global_position
-	_ground_speed = lerpf(_ground_speed, moved if moved < 25 else 0, 1.0 - exp(-delta * 8))
+	# Physics advances at 60 Hz, rendering may run at 144/240+ Hz. Dividing a
+	# normal physics step by a short render delta can exceed 25 m/s; that is
+	# not a teleport. Reject actual multi-metre jumps instead of frame speed.
+	var moved := distance / maxf(0.001, delta) if distance < 3.0 else 0.0
+	_ground_speed = lerpf(_ground_speed, moved, 1.0 - exp(-delta * 8)) if distance < 3.0 else 0.0
 	if animation:
 		var clip := "run" if _ground_speed > 2.5 else ("walk" if _ground_speed > 0.15 else "graze")
 		if animation.current_animation != clip: animation.play(clip, 0.28)
-		var natural := (5.22 if clip == "run" else 0.483) * model.scale.y
+		var natural := (RUN_SPEED if clip == "run" else WALK_SPEED) * model.scale.y
 		animation.speed_scale = clampf(_ground_speed / natural, 0.2, 2.8) if clip != "graze" else 0.8
 	# Follow the slope with a restrained body lean; individual hoof motion is skeletal.
 	var normal := Map.ground_normal(global_position.x, global_position.z)

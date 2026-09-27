@@ -52,6 +52,7 @@ func host_run() -> void:
 	game.waves.phase = "spawning"
 	game.waves._complete_wave()
 	await wait_for("round24")
+	await host_cervids()
 	game.spawn_zombie("zombie_dog", Vector2(13, 106), 1, "east")
 	var dog: ZombieBeast = game.zombies_root.get_children().back()
 	dog.set_physics_process(false)
@@ -96,6 +97,7 @@ func client_run() -> void:
 	game.hud.show_map_selection()
 	check(not game.hud.map_selection.visible, "Client cannot independently select a region")
 	write("round24")
+	await client_cervids()
 	var dog: ZombieBeast
 	while not dog:
 		for zombie in game.zombies_root.get_children():
@@ -141,3 +143,63 @@ func client_run() -> void:
 	check(game.hud.overlay.visible and not game.hud.overlay_button.disabled and Lang.text(game.hud.overlay_title.text) == "REGION SECURED", "Client sees victory with an enabled map return")
 	write("victory")
 	await wait_for("finish")
+
+func host_cervids() -> void:
+	var animals: Array = NetSession.world.deer.slice(0, 2)
+	for animal: Deer in animals:
+		animal.set_physics_process(false)
+		animal.state = "flee"
+	game.spawn_zombie("zombie_stag", Vector2(13, 106), 1, "east")
+	var stag: ZombieBeast = game.zombies_root.get_children().back()
+	stag.set_physics_process(false)
+	stag.agent.avoidance_enabled = false
+	stag._charge_t = 1.0
+	while not FileAccess.file_exists(folder + "cervids_running"):
+		for animal: Deer in animals:
+			animal.position.x += (10.8 if animal.kind == "stag" else 9.0) * 0.05
+			animal.position.y = Map.ground_height(animal.position.x, animal.position.z)
+		stag.position.x += 11.5 * 0.05
+		stag.position.y = Map.ground_height(stag.position.x, stag.position.z)
+		stag._update_animation(0.05)
+		await create_timer(0.05).timeout
+	for animal: Deer in animals: animal.state = "graze"
+	stag.die(Vector3.ZERO)
+	await wait_for("cervids_stopped")
+
+func leg_swing(model: Node3D) -> float:
+	# First finish the 0.28 s graze/run blend, then sample a complete cycle.
+	# A fixed frame count is too short when settings raise the render FPS.
+	await create_timer(0.35).timeout
+	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D
+	var joint := rig.find_bone("Knee3")
+	var first_pose := rig.get_bone_pose_rotation(joint)
+	var bend := 0.0
+	var elapsed := 0.0
+	while elapsed < 0.6:
+		await process_frame
+		elapsed += root.get_process_delta_time()
+		bend = maxf(bend, first_pose.angle_to(rig.get_bone_pose_rotation(joint)))
+	return bend
+
+func client_cervids() -> void:
+	var animals: Array = NetSession.world.deer.slice(0, 2)
+	for animal: Deer in animals:
+		while animal.state != "flee" or animal.animation.current_animation != "run": await process_frame
+		var bend := await leg_swing(animal.model)
+		check(animal._ground_speed > 3.0 and bend > 0.4, "EOS %s bends its legs while fleeing (speed %.2f, bend %.2f)" % [animal.kind, animal._ground_speed, bend])
+	var stag: ZombieBeast
+	while not stag:
+		for zombie in game.zombies_root.get_children():
+			if zombie is ZombieBeast and zombie.net_kind == "zombie_stag": stag = zombie
+		await process_frame
+	while stag.anim.current_animation != "run": await process_frame
+	var bend := await leg_swing(stag.model)
+	check(stag.replica and stag._ground_speed > 3.0 and bend > 0.4, "EOS zombie stag bends its legs while charging (speed %.2f, bend %.2f)" % [stag._ground_speed, bend])
+	write("cervids_running")
+	for animal: Deer in animals:
+		while animal.animation.current_animation != "graze": await process_frame
+		check(animal._ground_speed < 0.15, "EOS %s stops stepping when stationary" % animal.kind)
+	while stag.alive: await process_frame
+	await create_timer(0.6).timeout
+	check(not stag.anim.is_playing() and absf(stag.model.rotation.z) > 1.5, "EOS zombie stag stops its gait on death")
+	write("cervids_stopped")
