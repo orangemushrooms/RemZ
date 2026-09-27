@@ -56,6 +56,15 @@ var crawl_bones: Array[int] = []   # feet, hands and knees: whatever touches the
 var _last_position := Vector3.ZERO
 var _warning_center := Vector3.INF
 var _collapse_elapsed := 0.0
+var _loot_rng := RandomNumberGenerator.new()
+
+func _drop_loot() -> void:
+	if replica or NetSession.is_client(): return
+	super._drop_loot()
+	var reward := TitanLoot.roll(_loot_rng)
+	var angle := _loot_rng.randf() * TAU
+	var offset := Vector3(cos(angle), 0, sin(angle)) * 3.0
+	TitanLoot.spawn(get_tree().current_scene, global_position + offset, reward)
 
 func blast_radius() -> float:
 	return float(type.get("blast_radius", BLAST_RADIUS)) * (0.75 if crawling else 1.0)
@@ -67,6 +76,7 @@ func recovery(rage: bool) -> float:
 	return float(type.get("recovery", RECOVERY)) * (RAGE_RECOVERY / RECOVERY if rage else 1.0)
 
 func _ready() -> void:
+	_loot_rng.randomize()
 	super._ready()
 	if model:
 		model.scale = Vector3.ONE * height / 1.7

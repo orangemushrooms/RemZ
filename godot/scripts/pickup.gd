@@ -8,6 +8,9 @@ const CASH_BUNDLE := 100
 const MAX_CASH_DROPS := 128
 
 var kind := "ammo"      # "ammo" | "grenade" | "medkit"
+var item_id := ""       # authoritative equipment payload for weapon / relic drops
+var rarity := ""
+var beacon: LootBeacon
 var _t := 0.0
 var _mesh: Node3D
 var _light: OmniLight3D
@@ -37,6 +40,7 @@ static func throw_cash(player: Player) -> String:
 
 func setup(k: String) -> void:
 	kind = k
+	rarity = TitanLoot.rarity(kind, item_id)
 	collision_layer = 0
 	collision_mask = 4          # the player
 	monitorable = false
@@ -50,6 +54,28 @@ func setup(k: String) -> void:
 	add_child(_mesh)
 	var color := Color(0.9, 0.75, 0.3)
 	match kind:
+		"weapon", "relic":
+			if rarity.is_empty():
+				push_error("Invalid equipment drop: " + kind + ":" + item_id)
+				return
+			color = LootBeacon.COLORS[rarity]
+			if kind == "weapon":
+				_equipment_model()
+			else:
+				var relic := MeshInstance3D.new()
+				var gem := PrismMesh.new()
+				gem.size = Vector3(0.19, 0.28, 0.10)
+				relic.mesh = gem
+				var material := StandardMaterial3D.new()
+				material.albedo_color = color
+				material.metallic = 0.65
+				material.roughness = 0.25
+				relic.material_override = material
+				relic.position.y = 0.38
+				_mesh.add_child(relic)
+			beacon = LootBeacon.new()
+			beacon.setup(rarity, equipment_name())
+			add_child(beacon)
 		"cash":
 			add_to_group("cash_drops")
 			if not WorldModels.attach(_mesh, "cash_bundle", Vector3.ZERO, 0.30, 0):
@@ -81,7 +107,7 @@ func setup(k: String) -> void:
 	_light = OmniLight3D.new()
 	_light.light_color = color
 	_light.light_energy = 1.1
-	_light.omni_range = 2.2
+	_light.omni_range = 3.5 if not rarity.is_empty() else 2.2
 	_light.shadow_enabled = false
 	_light.position.y = 0.45
 	add_child(_light)
@@ -89,6 +115,21 @@ func setup(k: String) -> void:
 	add_to_group("render_dynamic")
 
 static var _scenes := {}
+
+func _equipment_model() -> void:
+	var holder := WorldModels.create(Weapons.DEFS[item_id].model)
+	if not holder:
+		_box(Vector3(0.5, 0.14, 0.25), Vector3(0, 0.3, 0), LootBeacon.COLORS[rarity])
+		return
+	# Imported guns use different axes and nested scales. Fit the complete model
+	# by its longest dimension, not a single local mesh's height or depth.
+	var bounds := Barricade._bounds(holder)
+	var factor := 0.85 / maxf(bounds.size[bounds.size.max_axis_index()], 0.001)
+	holder.scale *= factor
+	holder.position = -bounds.get_center() * factor + Vector3.UP * 0.38
+	_mesh.add_child(holder)
+	for mesh in holder.find_children("*", "MeshInstance3D", true, false):
+		mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 # Meshy model fitted to `height`, bottom on the ground; false when the GLB is not there
 func _model(name: String, height: float) -> bool:
@@ -123,9 +164,10 @@ func _process(delta: float) -> void:
 	_mesh.position.y = 0.06 + sin(_t * 2.4) * 0.04
 	_mesh.rotation.y += delta * 1.2
 	_light.light_energy = 0.9 + 0.35 * sin(_t * 3.1)
-	if kind != "cash" and _t > LIFETIME - 5.0:
+	var lifetime := TitanLoot.LIFETIME if not rarity.is_empty() else LIFETIME
+	if kind != "cash" and _t > lifetime - 5.0:
 		_mesh.visible = fmod(_t, 0.4) < 0.25
-	if kind != "cash" and _t > LIFETIME:
+	if kind != "cash" and _t > lifetime:
 		queue_free()
 
 func _physics_process(delta: float) -> void:
@@ -149,6 +191,8 @@ func _physics_process(delta: float) -> void:
 func can_collect(player: Player, weapons: Weapons) -> bool:
 	if _taken or not player.alive: return false
 	match kind:
+		"weapon": return not rarity.is_empty() and _t >= TitanLoot.COLLECT_DELAY and (not weapons.unlocked.get(item_id, false) or weapons.has_ammo_space(item_id))
+		"relic": return not rarity.is_empty() and _t >= TitanLoot.COLLECT_DELAY and not get_tree().current_scene.progression.rare_market.data(player.peer_id).owned.get(item_id, false)
 		"cash":
 			if amount <= 0 or _t < (2.0 if player.peer_id == owner_peer else 0.35): return false
 			var query := PhysicsRayQueryParameters3D.create(player.global_position + Vector3.UP * 0.8, global_position + Vector3.UP * 0.1, 1 | 8, [player.get_rid()])
@@ -156,6 +200,28 @@ func can_collect(player: Player, weapons: Weapons) -> bool:
 		"ammo": return weapons.has_ammo_space(weapons.ammo_weapon())
 		"grenade": return weapons.grenades < weapons.grenades_max
 		_: return player.hp < player.max_hp
+
+func equipment_name() -> String:
+	return str(Weapons.DEFS[item_id].name) if kind == "weapon" else str(Player.RareItems.DEFS[item_id].name)
+
+# Shared solo / host transaction, called only after can_collect(). No shop permit
+# is required for earned loot. Duplicates replenish ammo but never exceed its cap.
+func grant_equipment(player: Player, weapons: Weapons) -> String:
+	var game := get_tree().current_scene
+	if kind == "weapon":
+		if weapons.unlocked.get(item_id, false):
+			var before := int(weapons.state[item_id].reserve)
+			weapons.add_ammo(item_id, int(Weapons.DEFS[item_id].mag) * 3)
+			return Lang.t("Ammo: +%d %s", [int(weapons.state[item_id].reserve) - before, equipment_name()])
+		weapons.unlock(item_id)
+		weapons.state[item_id].ammo = weapons.state[item_id].def.mag
+		weapons.state[item_id].reserve = mini(weapons.reserve_limit(item_id), int(Weapons.DEFS[item_id].mag) * 3)
+		if game.achievements: game.achievements.event("weapons")
+	else:
+		var data: Dictionary = game.progression.rare_market.data(player.peer_id)
+		data.owned[item_id] = true
+	weapons.update_hud()
+	return Lang.t("%s found · select it in your inventory", [equipment_name()])
 
 func _on_body(body: Node3D) -> void:
 	if NetSession.enabled:
@@ -171,6 +237,7 @@ func _on_body(body: Node3D) -> void:
 	var hud: Hud = scene.hud
 	_taken = true
 	match kind:
+		"weapon", "relic": hud.message(grant_equipment(body, weapons), 3.5)
 		"cash":
 			body.add_score(amount)
 			hud.message(Lang.t("+%d R picked up", [amount]), 1.4)

@@ -79,6 +79,24 @@ func host_run() -> void:
 	await wait_for("tree_landed")
 	titan.die(Vector3.ZERO)
 	await wait_for("titan_dead")
+	var teammate := 0
+	for peer in NetSession.roster:
+		if int(peer) != 1: teammate = int(peer)
+	var receiver: Player = NetSession.world.actor(teammate)
+	var received_weapons: Weapons = NetSession.world.weapons[teammate]
+	received_weapons.unlocked["cryo_smg"] = false
+	game.progression.rare_market.data(teammate).owned.erase("hawk")
+	var epic := TitanLoot.spawn(game, receiver.global_position, {"kind": "weapon", "id": "cryo_smg"})
+	var legendary := TitanLoot.spawn(game, receiver.global_position, {"kind": "relic", "id": "hawk"})
+	for drop in [epic, legendary]:
+		drop.set_physics_process(false)
+		drop.monitoring = false # reserve collection until the client has inspected both visuals
+		drop._t = TitanLoot.COLLECT_DELAY
+	await wait_for("loot_visible")
+	NetSession.world.collect_drop(epic, teammate)
+	NetSession.world.collect_drop(legendary, teammate)
+	check(epic._taken and legendary._taken, "Host grants both rare drops to the remote teammate")
+	await wait_for("loot_collected")
 	game.waves.wave = 25
 	game.waves.phase = "spawning"
 	game.waves._complete_wave()
@@ -150,6 +168,23 @@ func client_run() -> void:
 		check(point.y - Map.ground_height(point.x, point.z) < titan.height * 0.16, "Client corpse rests on the terrain: " + bone)
 	check(not game.hud.menu_map._crows.playing and not game.hud.map_selection.atlas._crows.playing, "Client has no map crow playback during gameplay")
 	write("titan_dead")
+	var epic: Pickup
+	var legendary: Pickup
+	while not epic or not legendary:
+		for drop in NetSession.world.drops.values():
+			if not is_instance_valid(drop): continue # an ordinary supply may expire between snapshots
+			if drop.kind == "weapon" and drop.item_id == "cryo_smg": epic = drop
+			if drop.kind == "relic" and drop.item_id == "hawk": legendary = drop
+		await process_frame
+	check(epic.rarity == "epic" and epic.beacon.tier == "epic", "EOS client sees epic equipment with a violet light column")
+	check(legendary.rarity == "legendary" and legendary.beacon.tier == "legendary", "EOS client sees legendary equipment with a golden light column")
+	check(not game.weapons.unlocked.get("cryo_smg", false) and not game.progression.rare_market.data(game.player.peer_id).owned.get("hawk", false), "Replicated visuals alone never grant equipment")
+	write("loot_visible")
+	while not game.weapons.unlocked.get("cryo_smg", false) or not game.progression.rare_market.data(game.player.peer_id).owned.get("hawk", false): await process_frame
+	await create_timer(0.3).timeout
+	check(not is_instance_valid(epic) and not is_instance_valid(legendary), "Collected equipment and both beams disappear on the EOS client")
+	check(game.weapons.state.cryo_smg.reserve > 0, "EOS client receives usable ammunition with its weapon")
+	write("loot_collected")
 	while not game.over: await create_timer(0.1).timeout
 	check(game.victory and game.waves.phase == "complete", "Client receives successful outcome")
 	check(game.campaign.cleared("forest"), "Client records Forest completion locally")

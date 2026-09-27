@@ -373,14 +373,16 @@ func collect_drop(drop: Pickup, id: int) -> void:
 	var w: Weapons = weapons[id]
 	if not drop.can_collect(p, w): return
 	drop._taken = true
+	var message := Lang.t("+%d R picked up", [drop.amount]) if drop.kind == "cash" else "Supplies picked up"
 	match drop.kind:
+		"weapon", "relic": message = drop.grant_equipment(p, w)
 		"cash": p.add_score(drop.amount)
 		"ammo": w.add_ammo(w.ammo_weapon(), int(Weapons.DEFS[w.ammo_weapon()].mag))
 		"grenade": w.grenades = mini(w.grenades_max, w.grenades + 1)
 		_: p.hp = minf(p.max_hp, p.hp + 30.0)
 	w.update_hud()
 	p.hud.set_health(p.hp)
-	NetSession.feedback(id, "message", [Lang.t("+%d R picked up", [drop.amount]) if drop.kind == "cash" else "Supplies picked up", 1.4])
+	NetSession.feedback(id, "message", [message, 3.5 if not drop.rarity.is_empty() else 1.4])
 	Sfx.event(game, id, "pickup")
 	if drop.kind != "cash": game.achievements.event("drops")
 	drop.queue_free()
@@ -689,7 +691,7 @@ func snapshot() -> Dictionary:
 	var ds := {}
 	for child in game.get_children():
 		if child is Pickup and not child._taken:
-			ds[_entity_id(child)] = [child.kind, child.global_position, child._t, child.amount, child.owner_peer]
+			ds[_entity_id(child)] = [child.kind, child.global_position, child._t, child.amount, child.owner_peer, child.item_id]
 	var available: Array = []
 	var door_states := {}
 	var key_positions := {}
@@ -739,6 +741,7 @@ func _apply_drops(states: Dictionary) -> void:
 			var drop := Pickup.new()
 			drop.amount = int(states[id][3])
 			drop.owner_peer = int(states[id][4])
+			drop.item_id = str(states[id][5]) if states[id].size() > 5 else ""
 			drop.setup(states[id][0])
 			game.add_child(drop)
 			drops[id] = drop

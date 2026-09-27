@@ -6753,3 +6753,7 @@ msgstr "THE PLANES"
 #: campaign map
 msgid "SUBURBS & LAKE"
 msgstr "SUBURBS & LAKE"
+
+#: titan equipment drops
+msgid "%s found · select it in your inventory"
+msgstr "%s gefunden · im Inventar auswählen"
