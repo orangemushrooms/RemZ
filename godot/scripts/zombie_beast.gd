@@ -1,5 +1,5 @@
-# Animals of the horde: the farm dog and the zombie stag. The stag has a quadruped skeleton;
-# the static dog uses procedural motion. Both are fitted by height (Weapons._fit_height), with
+# Animals of the horde: the farm dog and the zombie stag use articulated quadruped skeletons.
+# Both are fitted by height (Weapons._fit_height), with
 # gait scaled by the real ground speed, a lean into turns, a lunge on
 # every bite, and a fall onto the side when they die. The dog runs the ordinary zombie loop (a fast melee
 # body with a short reach); the stag adds a charge through _special_move: from 6 to charge_range metres
@@ -76,8 +76,15 @@ func _resets_model_pose() -> bool:
 	return false
 
 func play(name: String) -> void:
-	if name == "attack": _lunge = 0.32
+	if name == "attack": _lunge = _bite_duration()
 	super.play(name)
+	# The dog's authored bite peaks at its 0.18 s damage tick. Humanoid hand
+	# metrics cannot measure a quadruped's head strike.
+	if name == "attack" and net_kind == "zombie_dog" and anim and anim.has_animation("attack"):
+		anim.speed_scale = 1.0
+
+func _bite_duration() -> float:
+	return 0.36 if net_kind == "zombie_dog" else 0.32
 
 func attack_lead() -> float:
 	return 0.18
@@ -101,16 +108,18 @@ func _update_animation(delta: float) -> void:
 	var pace: float = maxf(float(type.speed) * speed_mul, 0.1)
 	var stride := clampf(_ground_speed / pace, 0.0, 1.4)
 	if anim and alive:
-		var gait := "run" if _ground_speed > 2.8 else ("walk" if _ground_speed > 0.15 else "idle")
+		var gait := "run" if _ground_speed > float(type.beast.get("run_threshold", 2.8)) else ("walk" if _ground_speed > 0.15 else "idle")
 		if _lunge <= 0 and anim.current_animation != gait: anim.play(gait, 0.22)
-		if _lunge <= 0: anim.speed_scale = clampf(_ground_speed / ((5.22 if gait == "run" else 0.483) * model.scale.y), 0.2, 2.8) if gait != "idle" else 1.0
+		if _lunge <= 0:
+			var natural := float(type.beast.get("run_speed", 5.22)) if gait == "run" else float(type.beast.get("walk_speed", 0.483))
+			anim.speed_scale = clampf(_ground_speed / (natural * model.scale.y), 0.2, 2.8) if gait != "idle" else 1.0
 	_gallop += delta * (7.0 + 6.0 * stride)
 	var bob := 0.0 if anim else absf(sin(_gallop)) * 0.035 * stride * height
 	var pitch := 0.0 if anim else sin(_gallop) * 0.045 * stride
 	var lunge := 0.0
 	if _lunge > 0.0:
 		_lunge = maxf(0.0, _lunge - delta)
-		lunge = sin(clampf(1.0 - _lunge / 0.32, 0.0, 1.0) * PI)
+		lunge = sin(clampf(1.0 - _lunge / _bite_duration(), 0.0, 1.0) * PI)
 	if _charge_t > 0.0: pitch -= 0.12   # head down for the ram
 	var tilt := pitch - lunge * 0.22
 	model.position.z = lunge * float(type.beast.get("lunge", 0.4))

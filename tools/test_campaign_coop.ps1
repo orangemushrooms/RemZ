@@ -6,7 +6,7 @@ $repo = Split-Path -Parent $PSScriptRoot
 $env:APPDATA = Join-Path $repo '.test-user'
 $folder = Join-Path $repo $(if ($Online) { 'artifacts/campaign-coop-eos' } else { 'artifacts/campaign-coop' })
 New-Item -ItemType Directory -Force -Path $folder | Out-Null
-foreach ($name in @('ready','round24','titan_ready','titan_dead','victory','finish')) {
+foreach ($name in @('ready','round24','dog_running','dog_biting','dog_dead','titan_ready','titan_dead','victory','finish')) {
     $file = Join-Path $folder $name
     if (Test-Path -LiteralPath $file) { Remove-Item -LiteralPath $file }
 }

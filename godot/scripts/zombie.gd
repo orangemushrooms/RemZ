@@ -25,7 +25,7 @@ const TYPES := {
 	# min..range metres (acid_pool seconds of structure damage per second). "screamer": on sight it calls the
 	# horde: every zombie within call_radius hunts the marked player, "call" runners join the wave, the player
 	# is marked on every minimap for "mark" seconds. "stalker": spawns only in the maize (weather / night) and
-	# is invisible unless a flashlight beam is on it. "beast": rig-less Meshy animals moved by zombie_beast.gd
+	# is invisible unless a flashlight beam is on it. "beast": quadrupeds animated by zombie_beast.gd
 	# (the dog lunges, the stag charges and rams).
 	"spitter":  { "name": "SPITTER", "model": "zombie_spitter", "fallback": "zombie_bloater", "hp": 260.0, "speed": 1.5, "damage": 14.0, "reach": 1.8, "attack_time": 1.4, "score": 35, "height": 2.15,
 		"ranged": {"range": 17.0, "min": 5.0, "cooldown": 4.2, "damage": 22.0, "structure": 24.0, "acid": 6.5, "speed": 15.0} },
@@ -37,8 +37,8 @@ const TYPES := {
 	# screamer: her target is marked and the dead within call_radius hunt them (Waves.bride_count).
 	"bride":    { "name": "THE WRETCHED BRIDE", "model": "zombie_bride", "fallback": "zombie_screamer", "hp": 950.0, "speed": 2.1, "damage": 28.0, "reach": 1.8, "attack_time": 1.15, "score": 150, "height": 1.95,
 		"screamer": {"range": 28.0, "cooldown": 16.0, "call": 4, "mark": 14.0, "call_radius": 90.0} },
-	"zombie_dog": { "name": "FARM DOG", "model": "zombie_dog", "hp": 65.0, "speed": 7.2, "damage": 12.0, "reach": 1.5, "attack_time": 0.7, "score": 20, "height": 0.8,
-		"beast": {"length": 1.35, "lunge": 0.5} },
+	"zombie_dog": { "name": "FARM DOG", "model": "zombie_dog_animated", "fallback": "zombie_dog", "hp": 65.0, "speed": 7.2, "damage": 12.0, "reach": 1.5, "attack_time": 0.7, "score": 20, "height": 0.8,
+		"beast": {"length": 1.35, "lunge": 0.5, "walk_speed": 0.766129, "run_speed": 4.608295, "run_threshold": 1.8} },
 	"zombie_stag": { "name": "ZOMBIE STAG", "model": "zombie_stag_animated", "fallback": "stag", "hp": 400.0, "speed": 5.0, "damage": 24.0, "reach": 2.2, "attack_time": 2.2, "score": 70, "height": 1.75,
 		"beast": {"length": 2.5, "charge": 11.5, "ram": 34.0, "ram_structure": 110.0, "charge_range": 28.0, "cooldown": 6.0} },
 }

@@ -464,7 +464,7 @@ func _build_overlay() -> void:
 	_card.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	_card.grow_vertical = Control.GROW_DIRECTION_BOTH
 	var cs := StyleBoxFlat.new()
-	cs.bg_color = Color(0.025, 0.045, 0.04, 0.88)
+	cs.bg_color = Color(0.025, 0.045, 0.04, 0.72)
 	cs.border_color = Color(1, 1, 1, 0.15)
 	cs.set_border_width_all(1)
 	cs.set_corner_radius_all(10)
