@@ -707,13 +707,17 @@ msgstr "Türme"
 msgid "Defense advice at Mechanic. Right at a barricade, E builds or repairs the line."
 msgstr "Verteidigungsberatung bei Mechanic. Direkt an einer Barrikade baut oder repariert E die Linie."
 
-#: scripts/boot_screen.gd scripts/hud.gd scripts/main.gd
+#: scripts/hud.gd scripts/main.gd
 msgid "REMETSCHWIL FOREST HUT"
 msgstr "WALDHÜTTE REMETSCHWIL"
 
-#: scripts/boot_screen.gd scripts/hud.gd
+#: scripts/hud.gd
 msgid "NIGHT ON THE HEITERSBERG"
 msgstr "NACHT AM HEITERSBERG"
+
+#: scripts/boot_screen.gd
+msgid "SURVIVE. SCAVENGE. ADAPT."
+msgstr "ÜBERLEBEN. SAMMELN. ANPASSEN."
 
 #: scripts/boot_screen.gd
 msgid "Explore the forest to find the Secret Vendor. Once discovered, the trader is marked on your map."

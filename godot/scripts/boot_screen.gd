@@ -15,8 +15,9 @@ class_name BootScreen
 extends CanvasLayer
 
 const NODE_NAME := "BootScreen"
-const TITLE := "REMETSCHWIL FOREST HUT"
-const SUBTITLE := "NIGHT ON THE HEITERSBERG"
+const TITLE := "RemZ"
+const SUBTITLE := "SURVIVE. SCAVENGE. ADAPT."
+const TITLE_FONT_SIZE := 48
 const COLUMN := 420.0
 const GAP := 10.0
 const BAR_HEIGHT := 6.0
@@ -166,15 +167,15 @@ func _paint() -> void:
 		_paragraph_text = text
 		_paragraph_width = tip_width
 	var tip_height := maxf(font.get_height(TIP_FONT_SIZE) * 4, _tip_paragraph.get_size().y)
-	var column := font.get_height(30) + font.get_height(12) + font.get_height(14) + tip_height + BAR_HEIGHT + 4.0 * GAP
+	var column := font.get_height(TITLE_FONT_SIZE) + font.get_height(12) + font.get_height(14) + tip_height + BAR_HEIGHT + 4.0 * GAP
 	var crest := crest_rect(size, column)
 	var y := crest.end.y + CREST_GAP
 	RenderingServer.canvas_item_clear(_item)
 	RenderingServer.canvas_item_add_rect(_item, Rect2(Vector2.ZERO, size), Hud.INK)
 	if crest.size.y >= 1.0:
 		RenderingServer.canvas_item_add_texture_rect(_item, crest, CREST.get_rid())
-	font.draw_string(_item, Vector2(left, y + font.get_ascent(30)), Lang.text(TITLE), HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 30, Hud.GOLD)
-	y += font.get_height(30) + GAP
+	font.draw_string(_item, Vector2(left, y + font.get_ascent(TITLE_FONT_SIZE)), Lang.text(TITLE), HORIZONTAL_ALIGNMENT_CENTER, COLUMN, TITLE_FONT_SIZE, Hud.GOLD)
+	y += font.get_height(TITLE_FONT_SIZE) + GAP
 	font.draw_string(_item, Vector2(left, y + font.get_ascent(12)), Lang.text(SUBTITLE), HORIZONTAL_ALIGNMENT_CENTER, COLUMN, 12, Color(0.875, 0.875, 0.875, 0.6))
 	y += font.get_height(12) + GAP
 	_track.draw(_item, Rect2(left, y, COLUMN, BAR_HEIGHT))
