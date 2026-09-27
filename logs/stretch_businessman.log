@@ -1,0 +1,8 @@
+STRETCH before: edges 60663, >1.6x 2044, >2.5x 150, >4x 25, >8x 2
+  per clip (edges >2.5x / peak): arise 89/8.5 | attack 72/8.0 | attack2 64/6.1 | death 34/10.9 | death2 50/7.7 | death3 48/7.9 | death4 45/5.9 | hit 40/7.0 | hit2 22/8.2 | idle 22/7.5 | scream 47/9.4 | walk 16/4.6 | walk2 27/3.9
+  x10.9 death  (0.09,1.23,0.10) [Spine01:0.47 Spine02:0.44 LeftShoulder:0.05 Hips:0.04]  (0.09,1.24,0.10) [Spine01:0.47 Spine02:0.43 LeftShoulder:0.06 LeftArm:0.04]
+  x10.9 death  (0.09,1.23,0.10) [Spine01:0.47 Spine02:0.44 LeftShoulder:0.05 Hips:0.04]  (0.09,1.24,0.10) [Spine01:0.47 Spine02:0.43 LeftShoulder:0.06 LeftArm:0.04]
+  x7.9 death3  (0.09,1.22,0.11) [Spine02:0.48 Spine01:0.43 Hips:0.06 LeftArm:0.03]  (0.09,1.22,0.11) [Spine02:0.47 Spine01:0.44 Hips:0.06 LeftShoulder:0.03]
+  x7.9 death3  (0.09,1.22,0.11) [Spine02:0.48 Spine01:0.43 Hips:0.06 LeftArm:0.03]  (0.09,1.22,0.11) [Spine02:0.47 Spine01:0.44 Hips:0.06 LeftShoulder:0.03]
+  x7.5 idle  (0.03,1.49,-0.11) [neck:0.55 LeftShoulder:0.20 Spine:0.17 RightShoulder:0.07]  (0.03,1.49,-0.11) [neck:0.55 LeftShoulder:0.21 Spine:0.17 Head:0.07]
+  x7.5 idle  (0.03,1.49,-0.11) [neck:0.55 LeftShoulder:0.20 Spine:0.17 RightShoulder:0.07]  (0.03,1.49,-0.11) [neck:0.55 LeftShoulder:0.21 Spine:0.17 Head:0.07]

@@ -241,6 +241,12 @@ func _sweep_texts(screen: String, texts: Array) -> void:
 func _collect(node: Node, out: Array) -> void:
 	if node is CanvasItem and not node.is_visible_in_tree(): return
 	if node is Node3D and not node.is_visible_in_tree(): return
+	if node is InteractionPrompt:
+		# Keycaps split already-translated sentences into visual fragments. Validate
+		# their complete source messages, not fragments as new catalogue entries.
+		out.append(node.text)
+		out.append("AVAILABLE ACTIONS")
+		return
 	if node is Label or node is Button or node is Label3D or node is RichTextLabel:
 		if not node.text.is_empty(): out.append(node.text)
 	if node is OptionButton:

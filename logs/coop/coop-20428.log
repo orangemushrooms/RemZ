@@ -1,3 +1,7 @@
-2026-09-25T19:17:42 remz-dev-20260925-online BOOT exe=C:/Users/miche/Desktop/Godot.exe
-2026-09-25T19:17:42 remz-dev-20260925-online NETWORK_INITIALIZED
-2026-09-25T19:18:02 remz-dev-20260925-online MAP_READY
+2026-09-27T12:49:40 remz-dev-20260925-online BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T12:49:40 remz-dev-20260925-online NETWORK_INITIALIZED
+2026-09-27T12:50:08 remz-dev-20260925-online MAP_READY
+2026-09-27T12:50:08 remz-dev-20260925-online HOST_CREATE port=24697
+2026-09-27T12:50:08 remz-dev-20260925-online HOST_READY
+2026-09-27T12:50:08 remz-dev-20260925-online ROUND_BEGIN intro=false
+2026-09-27T12:50:08 remz-dev-20260925-online ROUND_RUNNING players=2

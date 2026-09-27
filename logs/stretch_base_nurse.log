@@ -1,0 +1,5 @@
+STRETCH before: edges 72474, >1.6x 1042, >2.5x 102, >4x 16, >8x 2
+  per clip (edges >2.5x / peak): attack 26/7.9 | attack2 20/5.6 | death 74/9.0 | death2 48/7.1 | death3 25/7.0 | death4 37/7.2 | death5 21/7.8 | hit 45/6.8 | hit2 17/5.5 | idle 27/6.1 | run 15/7.3 | scream 30/6.3 | walk 20/6.3
+  x9.0 death  (-0.08,1.25,-0.12) [RightShoulder:0.57 Spine01:0.30 Spine:0.07 Spine02:0.06]  (-0.08,1.25,-0.12) [RightShoulder:0.59 Spine01:0.28 Spine:0.07 RightArm:0.06]
+  x9.0 death  (-0.08,1.25,-0.12) [RightShoulder:0.57 Spine01:0.30 Spine:0.07 Spine02:0.06]  (-0.08,1.25,-0.12) [RightShoulder:0.59 Spine01:0.28 Spine:0.07 RightArm:0.06]
+  x7.2 death4  (-0.08,1.41,0.05) [Head:0.65 neck:0.19 RightShoulder:0.15 Spine:0.00]  (-0.08,1.40,0.05) [RightShoulder:0.51 Head:0.24 neck:0.23 Spine:0.01]

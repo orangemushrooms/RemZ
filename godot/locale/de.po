@@ -519,7 +519,7 @@ msgstr "WARNUNG: %s wird angegriffen!"
 msgid "Building is not possible right now."
 msgstr "Bauen ist momentan nicht möglich."
 
-#: scripts/barricade.gd scripts/defence_system.gd scripts/hunting.gd scripts/progression.gd
+#: scripts/barricade.gd scripts/brewing.gd scripts/defence_system.gd scripts/hunting.gd
 msgid "Unknown action."
 msgstr "Unbekannte Aktion."
 
@@ -544,16 +544,28 @@ msgid "Building area occupied. You or an enemy is standing in the line."
 msgstr "Baufläche belegt. Du oder ein Gegner stehen in der Linie."
 
 #: scripts/barricade.gd
-msgid "[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair"
-msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren"
+msgid "[E] Build %s · %d R"
+msgstr "[E] %s bauen · %d R"
 
 #: scripts/barricade.gd
-msgid "[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair  ·  Space: climb over"
-msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren  ·  Leertaste: drüberklettern"
+msgid "[E] Repair wall · %d R"
+msgstr "[E] Mauer reparieren · %d R"
 
 #: scripts/barricade.gd
-msgid "Tier %d · %s · %d/%d"
-msgstr "Stufe %d · %s · %d/%d"
+msgid "[E] Upgrade to %s · %d R"
+msgstr "[E] Aufwerten: %s · %d R"
+
+#: scripts/barricade.gd
+msgid "Wall fully upgraded"
+msgstr "Mauer vollständig aufgewertet"
+
+#: scripts/barricade.gd
+msgid "%s · Whole line: %.1f m"
+msgstr "%s · Ganze Sperrlinie: %.1f m"
+
+#: scripts/barricade.gd
+msgid "%s · Tier %d · %d/%d HP · Space: climb over"
+msgstr "%s · Stufe %d · %d/%d LP · Leertaste: übersteigen"
 
 #: scripts/barricade_menu.gd scripts/tower_planner.gd
 msgid "REMETSCHWIL SENNHOF   /   DEFENSE"
@@ -702,6 +714,198 @@ msgstr "WALDHÜTTE REMETSCHWIL"
 #: scripts/boot_screen.gd scripts/hud.gd
 msgid "NIGHT ON THE HEITERSBERG"
 msgstr "NACHT AM HEITERSBERG"
+
+#: scripts/brew_recipes.gd
+msgid "Corpse Bloom"
+msgstr "Leichenblüte"
+
+#: scripts/brew_recipes.gd
+msgid "Ember Lily"
+msgstr "Glutlilie"
+
+#: scripts/brew_recipes.gd
+msgid "Golden Yarrow"
+msgstr "Goldschafgarbe"
+
+#: scripts/brew_recipes.gd
+msgid "Dusk Thistle"
+msgstr "Dämmerdistel"
+
+#: scripts/brew_recipes.gd
+msgid "Crimson Rose"
+msgstr "Purpurrose"
+
+#: scripts/brew_recipes.gd
+msgid "Violet Bell"
+msgstr "Veilchenglocke"
+
+#: scripts/brew_recipes.gd
+msgid "Meadow Tea"
+msgstr "Wiesentee"
+
+#: scripts/brew_recipes.gd
+msgid "+45 health. Kept at full health."
+msgstr "+45 Leben. Bleibt bei voller Gesundheit im Inventar."
+
+#: scripts/brew_recipes.gd
+msgid "Roseguard Tonic"
+msgstr "Rosenschild-Tonikum"
+
+#: scripts/brew_recipes.gd
+msgid "+20 health; 45 s 20% less damage taken"
+msgstr "+20 Leben; 45 s lang 20% weniger erlittener Schaden"
+
+#: scripts/brew_recipes.gd
+msgid "Damage taken -20%"
+msgstr "Erlittener Schaden -20%"
+
+#: scripts/brew_recipes.gd
+msgid "Meadow Runner"
+msgstr "Wiesenläufer"
+
+#: scripts/brew_recipes.gd
+msgid "45 s +35% running speed"
+msgstr "45 s lang +35% Lauftempo"
+
+#: scripts/brew_recipes.gd
+msgid "Speed +35%"
+msgstr "Tempo +35%"
+
+#: scripts/brew_recipes.gd
+msgid "Emberheart"
+msgstr "Glutherz"
+
+#: scripts/brew_recipes.gd
+msgid "25 s +25% damage; every 3 s ignite visible zombies within 6 m"
+msgstr "25 s lang +25% Schaden; alle 3 s sichtbare Zombies im Umkreis von 6 m entzünden"
+
+#: scripts/brew_recipes.gd
+msgid "Damage +25% / fire aura"
+msgstr "Schaden +25% / Feueraura"
+
+#: scripts/brew_recipes.gd
+msgid "Winter Bloom"
+msgstr "Winterblüte"
+
+#: scripts/brew_recipes.gd
+msgid "25 s 20% less damage taken; every 3 s slow visible zombies within 7 m (bosses resist)"
+msgstr "25 s lang 20% weniger erlittener Schaden; alle 3 s sichtbare Zombies im Umkreis von 7 m verlangsamen (bei Bossen schwächer)"
+
+#: scripts/brew_recipes.gd
+msgid "Damage taken -20% / frost aura"
+msgstr "Erlittener Schaden -20% / Frostaura"
+
+#: scripts/brew_recipes.gd
+msgid "Moonpetal Dream"
+msgstr "Mondblütentraum"
+
+#: scripts/brew_recipes.gd
+msgid "35 s +65% damage and +20% speed; 12 s of colourful visions"
+msgstr "35 s lang +65% Schaden und +20% Tempo; 12 s farbenfrohe Visionen"
+
+#: scripts/brew_recipes.gd
+msgid "Damage +65% / speed +20%"
+msgstr "Schaden +65% / Tempo +20%"
+
+#: scripts/brew_recipes.gd
+msgid "Still Hand"
+msgstr "Ruhige Hand"
+
+#: scripts/brew_recipes.gd
+msgid "45 s 35% faster reloads and 40% less spread"
+msgstr "45 s lang 35% schneller nachladen und 40% weniger Streuung"
+
+#: scripts/brew_recipes.gd
+msgid "Reload -35% / spread -40%"
+msgstr "Nachladezeit -35% / Streuung -40%"
+
+#: scripts/brew_recipes.gd
+msgid "Springheart Cordial"
+msgstr "Frühlingsherz"
+
+#: scripts/brew_recipes.gd
+msgid "+60 health; 45 s triple health regeneration"
+msgstr "+60 Leben; 45 s dreifache Lebensregeneration"
+
+#: scripts/brew_recipes.gd
+msgid "Regeneration x3"
+msgstr "Regeneration ×3"
+
+#: scripts/brewing.gd
+msgid "You cannot brew or drink right now."
+msgstr "Du kannst gerade weder brauen noch trinken."
+
+#: scripts/brewing.gd
+msgid "Unknown recipe."
+msgstr "Unbekanntes Rezept."
+
+#: scripts/brewing.gd
+msgid "Go to a campfire to brew."
+msgstr "Geh zum Brauen an ein Lagerfeuer."
+
+#: scripts/brewing.gd
+msgid "Your drink is already brewing."
+msgstr "Dein Drink wird bereits gebraut."
+
+#: scripts/brewing.gd
+msgid "You already carry eight of this drink."
+msgstr "Du hast schon acht Flaschen dieses Drinks dabei."
+
+#: scripts/brewing.gd
+msgid "Ingredients missing. Gather flowers in the fields and mushrooms in the forest."
+msgstr "Zutaten fehlen. Sammle Blumen auf den Feldern und Pilze im Wald."
+
+#: scripts/brewing.gd
+msgid "Brewing %s / 4 seconds"
+msgstr "%s wird gebraut / 4 Sekunden"
+
+#: scripts/brewing.gd
+msgid "No such drink in your inventory."
+msgstr "Diesen Drink hast du nicht im Inventar."
+
+#: scripts/brewing.gd
+msgid "Health full - the drink stays in your inventory."
+msgstr "Gesundheit voll – der Drink bleibt im Inventar."
+
+#: scripts/brewing.gd scripts/coop_world.gd scripts/inventory.gd scripts/party_bar.gd
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: scripts/brewing.gd
+msgid "%s is ready! Drink it from inventory or the quick bar."
+msgstr "%s ist fertig! Über Inventar oder Schnellzugriff trinken."
+
+#: scripts/brewing_menu.gd
+msgid "CAMPFIRE BREWING"
+msgstr "LAGERFEUER-BRAUEREI"
+
+#: scripts/brewing_menu.gd
+msgid "Field flowers + forest mushrooms / one bottle per recipe / 4 seconds"
+msgstr "Feldblumen + Waldpilze / eine Flasche pro Rezept / 4 Sekunden"
+
+#: scripts/brewing_menu.gd
+msgid "Bottles go into your inventory (I). Identical effects refresh; the strongest bonus applies."
+msgstr "Flaschen landen im Inventar (I). Gleiche Effekte erneuern ihre Dauer; der stärkste Bonus zählt."
+
+#: scripts/brewing_menu.gd
+msgid "Back to the fire / C or Esc"
+msgstr "Zurück ans Feuer / C oder Esc"
+
+#: scripts/brewing_menu.gd scripts/progression.gd
+msgid "%s %d/%d"
+msgstr "%s %d/%d"
+
+#: scripts/brewing_menu.gd
+msgid "Brew\n%d / 8 bottles"
+msgstr "Brauen\n%d / 8 Flaschen"
+
+#: scripts/brewing_menu.gd
+msgid "%s / %d s remaining"
+msgstr "%s / noch %d s"
+
+#: scripts/brewing_menu.gd
+msgid "Choose a recipe. Ingredients show owned / needed."
+msgstr "Wähle ein Rezept. Zutaten zeigen vorhanden / benötigt."
 
 #: scripts/cheat_menu.gd
 msgid "CHEAT MENU"
@@ -1007,7 +1211,7 @@ msgstr "%s hat %d R in die Torkasse gelegt (%d R)"
 msgid "Team key found: %s"
 msgstr "Teamschlüssel gefunden: %s"
 
-#: scripts/coop_world.gd
+#: scripts/coop_world.gd scripts/loot.gd
 msgid "%s collected"
 msgstr "%s gesammelt"
 
@@ -1018,10 +1222,6 @@ msgstr "+%d R aufgenommen"
 #: scripts/coop_world.gd
 msgid "Supplies picked up"
 msgstr "Vorrat aufgenommen"
-
-#: scripts/coop_world.gd scripts/inventory.gd scripts/party_bar.gd scripts/pings.gd
-msgid "%s: %s"
-msgstr "%s: %s"
 
 #: scripts/coop_world.gd scripts/main.gd
 msgid "HUT LOST"
@@ -2471,6 +2671,10 @@ msgstr "Zu weit von der Hütte entfernt."
 msgid "[E] Repair forest hut · +%d HP · %d R\nHut %d / %d · Price tier: wave %d"
 msgstr "[E] Waldhütte reparieren · +%d HP · %d R\nHütte %d / %d · Preisstufe: Welle %d"
 
+#: scripts/interaction_prompt.gd
+msgid "AVAILABLE ACTIONS"
+msgstr "VERFÜGBARE AKTIONEN"
+
 #: scripts/intro.gd
 msgid "Find the forest hut.\nFollow the road and the direction arrow."
 msgstr "Finde die Waldhütte.\nFolge der Strasse und dem Richtungspfeil."
@@ -2654,6 +2858,18 @@ msgstr "Am Lager grillen"
 #: scripts/inventory.gd
 msgid "%s\nSale: %d R each at Vendor."
 msgstr "%s\nVerkauf: %d R pro Stück beim Vendor."
+
+#: scripts/inventory.gd
+msgid "Brewing ingredient. Gather with E in the fields; press C at a campfire to brew drinks."
+msgstr "Brauzutat. Mit E auf den Feldern sammeln; am Lagerfeuer C drücken, um Drinks zu brauen."
+
+#: scripts/inventory.gd
+msgid "%d owned / ingredient"
+msgstr "%d vorhanden / Zutat"
+
+#: scripts/inventory.gd
+msgid "%d owned / click: drink"
+msgstr "%d vorhanden / Klick: trinken"
 
 #: scripts/inventory.gd
 msgid "%d owned · sells for 1000 R"
@@ -3004,12 +3220,16 @@ msgid "THE WRETCHED BRIDE\nHer wail calls the dead - put her down fast!"
 msgstr "DIE UNSELIGE BRAUT\nIhr Klagen ruft die Toten - bring sie schnell zur Strecke!"
 
 #: scripts/main.gd
-msgid "[T] Tower build menu · from 120 R"
-msgstr "[T] Turmbaumenü · ab 120 R"
+msgid "[E] Drone control station"
+msgstr "[E] Drohnenkontrollzentrum"
 
 #: scripts/main.gd
-msgid "[T] Forest hut building menu · roof defenses"
-msgstr "[T] Waldhütten-Baumenü · Dachverteidigung"
+msgid "[E] Close note"
+msgstr "[E] Hinweis schliessen"
+
+#: scripts/main.gd
+msgid "[E] Read sign · A strange note"
+msgstr "[E] Schild lesen · Eine seltsame Notiz"
 
 #: scripts/main.gd
 msgid "[E] Revive %s · stay nearby for 3 seconds"
@@ -3020,20 +3240,28 @@ msgid "Tower occupied"
 msgstr "Turm besetzt"
 
 #: scripts/main.gd
-msgid "[E] Mount / operate · [R] Align · [F] Repair\nRange %d m · bright sector: automatic"
-msgstr "[E] Aufsteigen / Bedienen · [R] Ausrichten · [F] Reparieren\nReichweite %d m · heller Sektor: Automatik"
+msgid "[E] Operate %s\n%d/%d HP · Range %d m · bright sector: automatic"
+msgstr "[E] %s bedienen\n%d/%d LP · Reichweite %d m · Heller Sektor: Automatik"
 
 #: scripts/main.gd
-msgid "[E] Read sign · A strange note"
-msgstr "[E] Schild lesen · Eine seltsame Notiz"
+msgid "[R] Align tower"
+msgstr "[R] Turm ausrichten"
 
 #: scripts/main.gd
-msgid "[E] Drone control station"
-msgstr "[E] Drohnenkontrollzentrum"
+msgid "[F] Repair tower · %d R"
+msgstr "[F] Turm reparieren · %d R"
 
 #: scripts/main.gd
-msgid "[E] Close note"
-msgstr "[E] Hinweis schliessen"
+msgid "[C] Brew drinks · flowers and mushrooms"
+msgstr "[C] Drinks brauen · Blumen und Pilze"
+
+#: scripts/main.gd
+msgid "[T] Forest hut · towers and roof defenses"
+msgstr "[T] Waldhütte · Türme und Dachverteidigung"
+
+#: scripts/main.gd
+msgid "[T] Build menu · towers and defenses"
+msgstr "[T] Baumenü · Türme und Verteidigung"
 
 #: scripts/main.gd
 msgid "Night has fallen. Flashlight on - toggle it with F."
@@ -5156,12 +5384,20 @@ msgid "The sandbag line already stands."
 msgstr "Die Sandsacklinie steht bereits."
 
 #: scripts/sandbag_line.gd
-msgid "[E] Sandbag line behind %s  ·  build for %d R\nRises for free when the gate is breached  ·  Space: climb over"
-msgstr "[E] Sandsacklinie hinter %s  ·  bauen für %d R\nEntsteht gratis, wenn das Tor durchbrochen wird  ·  Leertaste: drüberklettern"
+msgid "[E] Build sandbag line · %d R\nBehind %s · Rises for free when the gate is breached"
+msgstr "[E] Sandsacklinie bauen · %d R\nHinter %s · Entsteht kostenlos, wenn das Tor fällt"
 
 #: scripts/sandbag_line.gd
-msgid "[E] Sandbag line behind %s  ·  %d/%d  ·  repair %d R\nSpace: climb over"
-msgstr "[E] Sandsacklinie hinter %s  ·  %d/%d  ·  reparieren %d R\nLeertaste: drüberklettern"
+msgid "[E] Repair sandbag line · %d R"
+msgstr "[E] Sandsacklinie reparieren · %d R"
+
+#: scripts/sandbag_line.gd
+msgid "Sandbag line intact"
+msgstr "Sandsacklinie intakt"
+
+#: scripts/sandbag_line.gd
+msgid "Behind %s · %d/%d HP · Space: climb over"
+msgstr "Hinter %s · %d/%d LP · Leertaste: übersteigen"
 
 #: scripts/secret_night.gd
 msgid "THE DISTANT SOUND"
@@ -5930,6 +6166,42 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair"
+msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren"
+
+#. unused
+msgid "[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair  ·  Space: climb over"
+msgstr "[E] %s  ·  %s\nGanze Linie: %.1f m  ·  E: bauen / reparieren  ·  Leertaste: drüberklettern"
+
+#. unused
+msgid "Tier %d · %s · %d/%d"
+msgstr "Stufe %d · %s · %d/%d"
+
+#. unused
+msgid "[T] Tower build menu · from 120 R"
+msgstr "[T] Turmbaumenü · ab 120 R"
+
+#. unused
+msgid "[T] Forest hut building menu · roof defenses"
+msgstr "[T] Waldhütten-Baumenü · Dachverteidigung"
+
+#. unused
+msgid "[E] Mount / operate · [R] Align · [F] Repair\nRange %d m · bright sector: automatic"
+msgstr "[E] Aufsteigen / Bedienen · [R] Ausrichten · [F] Reparieren\nReichweite %d m · heller Sektor: Automatik"
+
+#. unused
+msgid "[C] Campfire brewing / flowers and mushrooms"
+msgstr "[C] Am Lagerfeuer brauen / Blumen und Pilze"
+
+#. unused
+msgid "[E] Sandbag line behind %s  ·  build for %d R\nRises for free when the gate is breached  ·  Space: climb over"
+msgstr "[E] Sandsacklinie hinter %s  ·  bauen für %d R\nEntsteht gratis, wenn das Tor durchbrochen wird  ·  Leertaste: drüberklettern"
+
+#. unused
+msgid "[E] Sandbag line behind %s  ·  %d/%d  ·  repair %d R\nSpace: climb over"
+msgstr "[E] Sandsacklinie hinter %s  ·  %d/%d  ·  reparieren %d R\nLeertaste: drüberklettern"
 
 #. unused
 msgid "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team. E at the station, then Ready to fly. Space/Ctrl: climb/descend. R: return. Earlier flights this round count. Return to Mechanic for your reward."

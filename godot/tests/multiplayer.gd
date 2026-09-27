@@ -249,6 +249,34 @@ func host_run() -> void:
 	await command_clients("interact", ["c1", "c2"], [item_id])
 	await wait_seconds(0.6)
 	check(NetSession.world.mushrooms[c1][kind] + NetSession.world.mushrooms[c2][kind] == 1, "Contended pickup granted exactly once")
+	# Flowers use the same contested pickup path; brewing has private host-owned stocks.
+	var flower: Loot
+	for candidate in game.loots:
+		if is_instance_valid(candidate) and candidate is Loot and candidate.kind == "flower" and candidate.id == "golden_yarrow":
+			flower = candidate
+			break
+	await teleport(c1, flower.global_position + Vector3(0.8, 0.1, 0))
+	await teleport(c2, flower.global_position + Vector3(-0.8, 0.1, 0))
+	await command_clients("interact", ["c1", "c2"], [str(flower.get_meta("coop_id"))])
+	await wait_seconds(0.4)
+	var brew = game.brewing
+	check(int(brew.stock(c1).flowers.get("golden_yarrow", 0)) + int(brew.stock(c2).flowers.get("golden_yarrow", 0)) == 1, "Contended flower is granted exactly once")
+	brew.stock(c1).flowers.ember_lily = 2
+	NetSession.world.mushrooms[c1].reizker = 2
+	await teleport(c1, Map.ground_pos(Map.FIRE.x, Map.FIRE.y + 2.5))
+	await command_clients("brewing", ["c1"], ["brew", "brew_ember"])
+	check(brew.jobs.has(c1) and int(brew.stock(c1).flowers.ember_lily) == 1 and int(NetSession.world.mushrooms[c1].reizker) == 1, "Remote brewing reserves one flower and one mushroom on host")
+	await command_clients("brewing", ["c1"], ["brew", "brew_ember"])
+	check(int(brew.stock(c1).flowers.ember_lily) == 1, "Duplicate remote brew does not consume extra ingredients")
+	await wait_seconds(4.2)
+	await command_clients("inspect", ["c1", "c2"])
+	check(int(read_json("done-c1").brewing.drinks.get("brew_ember", 0)) == 1, "Finished drink reaches client inventory")
+	check(read_json("done-c2").brewing.drinks.is_empty(), "Other player receives no duplicate drink")
+	await command_clients("brewing", ["c1"], ["drink", "brew_ember"])
+	await command_clients("inspect", ["c1"])
+	check(float(NetSession.world.actor(c1).mushroom_effects.get("brew_ember", 0)) > 20 and int(read_json("done-c1").brewing.drinks.brew_ember) == 0, "Remote drink consumes once and activates host effect")
+	check(float(read_json("done-c1").effects.get("brew_ember", 0)) > 20, "Drink effect duration replicates to owner")
+	var flowers_remaining: int = read_json("done-c1").flower_count
 	# Shoot wildlife through a remote weapon command, then race for the same meat.
 	var hunt = game.hunting
 	var animal: Deer = hunt.animals[0]
@@ -425,6 +453,7 @@ func host_run() -> void:
 	check(joined.titan_cues.is_empty(), "Late join does not replay earlier titan roars or impacts")
 	check(not joined.gold_available, "Collected gold bolete remains absent for late joiners")
 	check(joined.hunted_dead >= 2 and joined.meat_drops >= 1, "Late join restores hunted animals and remaining meat")
+	check(int(joined.flower_count) == flowers_remaining, "Late join preserves harvested flowers")
 	check_leaderboard(joined, "Late join")
 	tower.damage(10000)
 	await wait_seconds(0.5)
@@ -718,8 +747,10 @@ func client_run() -> void:
 			_: NetSession.command(request.action, args)
 		await wait_seconds(0.2)
 		var open_doors := 0
+		var flower_count := 0
 		for item in game.loots:
 			if is_instance_valid(item) and item is Door and item.is_open: open_doors += 1
+			if is_instance_valid(item) and item is Loot and item.kind == "flower" and not item.taken: flower_count += 1
 		var zombie_count := 0
 		var titan_count := 0
 		var boss_phase := ""
@@ -746,6 +777,7 @@ func client_run() -> void:
 			tower_shots += tower.shots
 			tower_hp += tower.hp
 		write_json("done-"+role, {"step": step_seen, "players": NetSession.roster.size(), "avatars": NetSession.world.avatars.size(),
+			"brewing": game.brewing.stock(game.player.peer_id), "effects": game.player.mushroom_effects, "flower_count": flower_count,
 			"quest_notice": game.progression.notifications._current,
 			"gold_available": is_instance_valid(game.gold_mushroom) and not game.gold_mushroom.taken,
 			"gold_position": [game.gold_mushroom.global_position.x, game.gold_mushroom.global_position.y, game.gold_mushroom.global_position.z] if is_instance_valid(game.gold_mushroom) else [],

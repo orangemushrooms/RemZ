@@ -1,0 +1,16 @@
+STRETCH before: edges 56869, >1.6x 2173, >2.5x 220, >4x 46, >8x 6
+  per clip (edges >2.5x / peak): arise 85/10.2 | attack 148/12.1 | attack2 114/11.1 | death 88/10.0 | death2 82/7.8 | death3 51/7.8 | death4 57/11.1 | hit 81/7.9 | hit2 30/5.7 | idle 4/2.9 | run 117/10.7 | scream 74/8.9 | walk 21/4.4
+  x12.1 attack  (-0.16,1.06,0.06) [Hips:0.50 Spine02:0.38 Spine01:0.07 RightArm:0.05]  (-0.16,1.05,0.06) [Hips:0.51 Spine02:0.38 Spine01:0.07 RightUpLeg:0.05]
+  x11.1 death4  (-0.00,1.25,-0.17) [Spine02:0.51 RightShoulder:0.18 RightArm:0.17 LeftShoulder:0.15]  (0.01,1.25,-0.16) [Spine02:0.52 LeftShoulder:0.17 RightShoulder:0.16 LeftArm:0.15]
+  x11.1 death4  (-0.00,1.25,-0.17) [Spine02:0.51 RightShoulder:0.18 RightArm:0.17 LeftShoulder:0.15]  (0.01,1.25,-0.16) [Spine02:0.52 LeftShoulder:0.17 RightShoulder:0.16 LeftArm:0.15]
+  x10.0 attack  (-0.16,1.06,0.06) [Hips:0.50 Spine02:0.38 Spine01:0.07 RightArm:0.05]  (-0.16,1.05,0.06) [Hips:0.51 Spine02:0.38 Spine01:0.07 RightUpLeg:0.05]
+FIX arm reach on 3005 points, conflicts resolved on 2835 points
+SMOOTH 6835 points, cut 70 bridging triangles
+STRETCH after: edges 56771, >1.6x 2362, >2.5x 491, >4x 125, >8x 15
+  per clip (edges >2.5x / peak): arise 299/16.1 | attack 178/25.8 | attack2 223/27.0 | death 209/16.2 | death2 122/14.5 | death3 118/11.2 | death4 157/8.6 | hit 102/18.1 | hit2 78/16.6 | idle 17/6.3 | run 286/24.6 | scream 172/14.7 | walk 52/7.7
+  x27.0 attack2  (-0.19,1.21,0.04) [Spine01:0.37 RightArm:0.32 Spine02:0.26 Hips:0.06]  (-0.19,1.21,0.04) [Spine01:0.42 Spine02:0.40 RightArm:0.10 Hips:0.08]
+  x27.0 attack2  (-0.19,1.21,0.04) [Spine01:0.37 RightArm:0.32 Spine02:0.26 Hips:0.06]  (-0.19,1.21,0.04) [Spine01:0.42 Spine02:0.40 RightArm:0.10 Hips:0.08]
+  x13.1 arise  (-0.00,0.76,0.02) [Hips:0.44 LeftUpLeg:0.32 RightUpLeg:0.24]  (0.00,0.76,0.02) [LeftUpLeg:0.56 Hips:0.44]
+  x13.1 arise  (-0.00,0.76,0.02) [Hips:0.44 LeftUpLeg:0.32 RightUpLeg:0.24]  (0.00,0.76,0.02) [LeftUpLeg:0.56 Hips:0.44]
+prune: Removed types... Accessor (73)
+written artifacts/new_zombies/fixed/zombie_wastelander.glb (3.45 MB)

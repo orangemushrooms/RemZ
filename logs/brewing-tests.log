@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: Deterministic flower layout for all peers
+PASS: All six flowers distributed across fields (250 plants)
+PASS: Flowers avoid roads, buildings, forest, corn, pond and steep slopes
+PASS: Flower pickup uses supplied model
+PASS: Picking twice grants only one flower and removes visual
+PASS: Remote crafting rejected without spending ingredients
+PASS: Main campfire kettle reachable beside grill
+PASS: Existing E grill remains reachable
+PASS: Campfire advertises brewing key
+PASS: C opens menu and pauses solo combat
+PASS: Menu button reserves exact ingredients
+PASS: Repeated requests cannot overlap jobs
+PASS: No bottle before brewing finishes
+PASS: Finished brew awards one bottle
+PASS: Closing restores gameplay
+PASS: Missing flower never spends the mushroom
+PASS: Mixed recipe consumes flower and mushroom
+PASS: Bottle cap preserves ingredients
+PASS: Unknown recipes and actions rejected
+PASS: Full health preserves healing tea
+PASS: Quickbar drinks tea and heals 45
+PASS: Speed brew affects actual movement multiplier
+PASS: Repeat drink refreshes without stacking
+PASS: Rose tonic reduces real incoming damage
+PASS: Focus brew supports reload and precision
+PASS: Spring cordial heals and boosts regeneration
+PASS: Dream brew increases combat damage
+PASS: Mushroom and drink bonuses use strongest value
+PASS: All buffs expire cleanly
+PASS: Frost pulse slows nearby zombies
+PASS: Ember pulse ignites zombies through shared status system
+PASS: Aura cannot pass through walls
+PASS: Inventory contains flower ingredients and drink slots
+PASS: Snapshot restores independent stock copies
+PASS: Host dispatch consumes only requesting peer's ingredients
+PASS: Late-join snapshot includes running brews
+PASS: Host applies remote drinking exactly once
+PASS: Duplicate remote consumption cannot duplicate healing
+PASS: Downed player cannot brew
+BREWING_DONE checks=39 failures=0

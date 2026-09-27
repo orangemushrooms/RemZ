@@ -1,0 +1,8 @@
+STRETCH before: edges 83036, >1.6x 19457, >2.5x 5031, >4x 1486, >8x 452
+  per clip (edges >2.5x / peak): arise 3690/57.5 | attack 3568/44.2 | attack2 3296/45.8 | death 2840/52.2 | death2 3581/63.5 | death3 1949/54.8 | death4 2360/55.1 | hit 2698/47.8 | hit2 2791/53.1 | idle 1250/14.7 | run 2655/49.6 | scream 3109/61.9 | walk 1509/39.0 | walk2 1762/41.0
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+  x63.5 death2  (-0.01,1.21,-0.22) [RightArm:0.31 Spine02:0.29 Spine01:0.24 LeftArm:0.16]  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]
+  x54.5 death2  (-0.01,1.21,-0.23) [RightArm:0.32 Spine02:0.29 Spine01:0.24 Hips:0.16]  (-0.01,1.21,-0.22) [RightArm:0.32 Spine02:0.29 Spine01:0.24 LeftArm:0.15]
+  x45.8 attack2  (0.04,1.20,-0.21) [Spine02:0.31 LeftArm:0.30 Spine01:0.23 Hips:0.16]  (0.04,1.20,-0.21) [Spine02:0.31 LeftArm:0.29 Spine01:0.24 RightArm:0.16]

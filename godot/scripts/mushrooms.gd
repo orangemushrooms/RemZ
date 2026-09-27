@@ -31,7 +31,7 @@ const DRINKS := {
 
 # A mushroom or a drink by its effect key.
 static func spec_of(kind: String) -> Dictionary:
-	return DEFS[kind] if DEFS.has(kind) else DRINKS.get(kind, {})
+	return DEFS[kind] if DEFS.has(kind) else DRINKS.get(kind, preload("res://scripts/brew_recipes.gd").DRINKS.get(kind, {}))
 
 const GOLD_ROUND_CHANCE := 0.05
 static var _gold_shimmer: ShaderMaterial

@@ -86,6 +86,9 @@ func item_data(id: String) -> Dictionary:
 		var amount := int(game.hunting.stock(game.player.peer_id).cooked_meat)
 		# Health food can be bound like mushrooms.
 		return {"name": "Grilled Venison", "icon": id, "owned": amount > 0, "count": str(amount)}
+	if preload("res://scripts/brew_recipes.gd").DRINKS.has(id):
+		var amount := int(game.brewing.stock(game.player.peer_id).drinks.get(id, 0))
+		return {"name": game.brewing.Recipes.DRINKS[id].name, "icon": id, "owned": amount > 0, "count": str(amount)}
 	if Inventory.MUSHROOMS.has(id):
 		if Inventory.MUSHROOMS[id].get("collectible", false): return {}
 		var amount := int(game.inventory.mushrooms.get(id, 0))
@@ -105,6 +108,7 @@ func owned_items() -> Array[String]:
 	var result: Array[String] = []
 	var candidates: Array = Weapons.ORDER.duplicate()
 	candidates.append_array(Inventory.MUSHROOMS.keys())
+	candidates.append_array(preload("res://scripts/brew_recipes.gd").DRINKS.keys())
 	candidates.append_array(Fireworks.DEFS.keys())
 	candidates.append("grenade")
 	candidates.append("cooked_meat")
@@ -163,6 +167,7 @@ func activate(index: int) -> void:
 		game.fireworks.cancel()
 		game.weapons.set_weapon(id)
 	elif id == "cooked_meat": game.hunting.request("eat")
+	elif preload("res://scripts/brew_recipes.gd").DRINKS.has(id): game.brewing.request("drink", id)
 	elif Inventory.MUSHROOMS.has(id): game.inventory._eat(id)
 	elif Fireworks.DEFS.has(id): game.fireworks.select(id)
 	elif id == "grenade": game.weapons.throw_grenade()

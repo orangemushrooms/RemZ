@@ -91,7 +91,11 @@ func run() -> void:
 	check(Lang.text(line.action_error(player, "repair")).begins_with("You are"), "Repairing needs Rem Dollars")
 	player.score = SandbagLine.REPAIR_COST_SB
 	check(line.purchase(player, "repair") and line.hp == line.max_hp() and player.score == 0, "Repair refills the line for its price")
-	check(Lang.text(line.prompt_text()).contains("repair"), "The prompt offers the repair")
+	# the prompt offers only what E does: an intact line says so, a damaged one offers the repair
+	check(Lang.text(line.prompt_text()).contains("intact"), "An intact line offers no repair")
+	line.hp = line.max_hp() * 0.5
+	check(Lang.text(line.prompt_text()).contains("Repair"), "The prompt offers the repair of a damaged line")
+	line.hp = line.max_hp()
 	line.damage(1e6)
 	check(line.level == 0 and line.hp == 0.0 and Lang.text(game.hud.msg_label.text).contains("destroyed"), "A destroyed line falls back to a site")
 	check(Lang.text(line.action_error(player, "build")).begins_with("You are"), "Rebuilding needs Rem Dollars")

@@ -1,0 +1,26 @@
+STRETCH before: edges 65086, >1.6x 12290, >2.5x 3398, >4x 1247, >8x 407
+  per clip (edges >2.5x / peak): arise 1872/54.7 | attack 2238/61.0 | attack2 2155/52.6 | death 2000/76.8 | death2 2372/63.4 | death3 1099/35.8 | death4 1133/34.6 | hit 2373/53.6 | hit2 2024/73.2 | idle 700/23.4 | run 1205/52.8 | scream 1312/34.7 | walk 322/21.5 | walk2 918/46.5
+  x76.8 death  (0.08,0.26,-0.19) [RightUpLeg:1.00 LeftUpLeg:0.00]  (0.09,0.26,-0.19) [RightUpLeg:0.41 LeftLeg:0.29 LeftHand:0.29 LeftUpLeg:0.01]
+  x73.2 hit2  (0.14,0.43,0.15) [LeftLeg:0.53 LeftHand:0.46 LeftUpLeg:0.01]  (0.14,0.43,0.13) [LeftHand:0.99 LeftUpLeg:0.01 LeftLeg:0.00]
+  x73.2 hit2  (0.14,0.43,0.15) [LeftLeg:0.53 LeftHand:0.46 LeftUpLeg:0.01]  (0.14,0.43,0.13) [LeftHand:0.99 LeftUpLeg:0.01 LeftLeg:0.00]
+  x52.9 hit2  (0.13,0.40,0.16) [LeftLeg:0.90 LeftHand:0.10]  (0.14,0.38,0.15) [LeftHand:1.00]
+  x52.9 hit2  (0.13,0.40,0.16) [LeftLeg:0.90 LeftHand:0.10]  (0.14,0.38,0.15) [LeftHand:1.00]
+  x52.9 hit2  (0.19,0.43,0.06) [LeftHand:1.00]  (0.21,0.43,0.07) [LeftLeg:0.77 LeftHand:0.23]
+  x52.9 hit2  (0.19,0.43,0.06) [LeftHand:1.00]  (0.21,0.43,0.07) [LeftLeg:0.77 LeftHand:0.23]
+  x52.6 attack2  (0.07,0.25,-0.18) [RightUpLeg:0.77 RightLeg:0.11 RightHand:0.11]  (0.08,0.25,-0.18) [RightUpLeg:1.00]
+FIX arm reach on 8413 points, conflicts resolved on 4012 points
+HAIR 7764 points follow head, neck and spine
+SKIRT 2042 points blended (hip joints 0.92 m, knees 0.53 m, hem 0.38 m)
+SMOOTH 14629 points, cut 236 bridging triangles
+STRETCH after: edges 64691, >1.6x 13432, >2.5x 4084, >4x 1298, >8x 207
+  per clip (edges >2.5x / peak): arise 2033/16.4 | attack 1719/15.8 | attack2 2365/28.9 | death 1404/17.6 | death2 1621/16.6 | death3 1722/28.3 | death4 1152/13.1 | hit 1569/24.1 | hit2 1274/17.7 | idle 2209/28.4 | run 868/15.0 | scream 1170/16.5 | walk 602/14.8 | walk2 986/15.5
+  x28.9 attack2  (-0.09,1.46,-0.11) [Head:0.74 neck:0.24 RightShoulder:0.01 RightArm:0.00]  (-0.09,1.46,-0.11) [Head:0.52 neck:0.45 RightShoulder:0.02 RightArm:0.01]
+  x28.9 attack2  (-0.09,1.46,-0.11) [Head:0.74 neck:0.24 RightShoulder:0.01 RightArm:0.00]  (-0.09,1.46,-0.11) [Head:0.52 neck:0.45 RightShoulder:0.02 RightArm:0.01]
+  x22.6 hit  (-0.13,1.40,0.03) [RightShoulder:0.42 neck:0.25 RightArm:0.23 Head:0.10]  (-0.13,1.40,0.03) [neck:0.50 RightShoulder:0.27 RightArm:0.14 Spine:0.09]
+  x22.6 hit  (-0.13,1.40,0.03) [RightShoulder:0.42 neck:0.25 RightArm:0.23 Head:0.10]  (-0.13,1.40,0.03) [neck:0.50 RightShoulder:0.27 RightArm:0.14 Spine:0.09]
+  x17.7 hit2  (0.14,1.40,0.03) [neck:0.68 Spine:0.14 LeftShoulder:0.13 LeftArm:0.06]  (0.14,1.40,0.03) [neck:0.50 LeftShoulder:0.25 Spine:0.13 LeftArm:0.12]
+  x17.7 hit2  (0.14,1.40,0.03) [neck:0.68 Spine:0.14 LeftShoulder:0.13 LeftArm:0.06]  (0.14,1.40,0.03) [neck:0.50 LeftShoulder:0.25 Spine:0.13 LeftArm:0.12]
+  x17.0 attack2  (0.11,1.45,0.06) [neck:0.59 Head:0.35 Spine:0.06]  (0.11,1.45,0.06) [neck:0.50 Head:0.47 Spine:0.03]
+  x17.0 attack2  (0.11,1.45,0.06) [neck:0.59 Head:0.35 Spine:0.06]  (0.11,1.45,0.06) [neck:0.50 Head:0.47 Spine:0.03]
+prune: Removed types... Accessor (73)
+written artifacts/new_zombies/fixed/zombie_wraith.glb (3.88 MB)

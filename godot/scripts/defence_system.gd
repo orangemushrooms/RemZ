@@ -13,7 +13,7 @@ var build_position := Vector3.ZERO
 var build_error := ""
 var build_yaw := 0.0
 var rotating_id := 0
-var hint: Label
+var hint: InteractionPrompt
 var boss_panel: VBoxContainer
 var boss_name: Label
 var boss_bar: ProgressBar
@@ -40,20 +40,8 @@ func setup(main: Node) -> void:
 	game = main
 	layer = 9
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	hint = Label.new()
-	hint.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	hint.position = Vector2(-450, -285)
-	hint.size = Vector2(900, 180)
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	hint.add_theme_font_size_override("font_size", 19)
-	hint.add_theme_color_override("font_shadow_color", Color.BLACK)
-	hint.add_theme_constant_override("shadow_offset_x", 2)
-	hint.add_theme_constant_override("shadow_offset_y", 2)
-	hint.hide()
+	hint = InteractionPrompt.new()
 	add_child(hint)
-	var tower_icon := ItemIcons.view("tower", Vector2(96, 64))
-	hint.add_child(tower_icon)
-	tower_icon.position = Vector2(352, -70)
 	boss_panel = VBoxContainer.new()
 	add_child(boss_panel)
 	boss_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)

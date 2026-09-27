@@ -1,0 +1,58 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+ERROR: NavigationServer navigation map query failed because it was made before first map synchronization.
+	NavigationServer 'map_changed' signal can be used to receive update notifications.
+	NavigationServer 'map_get_iteration_id()' can be used to check if a map has finished its newest iteration.
+   at: get_closest_point_owner (modules/navigation_3d/nav_map_3d.cpp:219)
+   GDScript backtrace (most recent call first):
+       [0] _navigation_baked (res://scripts/main.gd:395)
+NAV_WAIT paused=false region_enabled=true server_enabled=true iteration=2 polygons=25293 map=RID(6519760355328) registered_map=RID(6519760355328)
+COOP_LOAD MAP_READY
+PASS: Deterministic flower layout for all peers
+PASS: All six flowers distributed across fields (250 plants)
+PASS: Flowers avoid roads, buildings, forest, corn, pond and steep slopes
+PASS: Flower pickup uses supplied model
+PASS: Picking twice grants only one flower and removes visual
+PASS: Remote crafting rejected without spending ingredients
+PASS: Small woodland campfire also supports brewing
+PASS: Main campfire kettle reachable beside grill
+PASS: Existing E grill remains reachable
+PASS: Campfire advertises brewing key
+PASS: C opens menu and pauses solo combat
+PASS: Menu button reserves exact ingredients
+PASS: Repeated requests cannot overlap jobs
+PASS: No bottle before brewing finishes
+PASS: Brewing menu keeps readable scale without runaway wrapped-label height
+PASS: Finished brew awards one bottle
+PASS: Closing restores gameplay
+PASS: Missing flower never spends the mushroom
+PASS: Mixed recipe consumes flower and mushroom
+PASS: Bottle cap preserves ingredients
+PASS: Unknown recipes and actions rejected
+PASS: Full health preserves healing tea
+PASS: Quickbar drinks tea and heals 45
+PASS: Speed brew affects actual movement multiplier
+PASS: Repeat drink refreshes without stacking
+PASS: Rose tonic reduces real incoming damage
+PASS: Focus brew supports reload and precision
+PASS: Spring cordial heals and boosts regeneration
+PASS: Dream brew increases combat damage
+PASS: Mushroom and drink bonuses use strongest value
+PASS: All buffs expire cleanly
+PASS: Frost pulse slows nearby zombies
+PASS: Ember pulse ignites zombies through shared status system
+PASS: Aura cannot pass through walls
+PASS: Inventory contains flower ingredients and drink slots
+PASS: Snapshot restores independent stock copies
+PASS: Host dispatch consumes only requesting peer's ingredients
+PASS: Late-join snapshot includes running brews
+PASS: Host applies remote drinking exactly once
+PASS: Duplicate remote consumption cannot duplicate healing
+PASS: Downed player cannot brew
+BREWING_DONE checks=41 failures=0

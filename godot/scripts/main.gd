@@ -13,6 +13,7 @@ var fill_light: DirectionalLight3D
 var skills: Skills
 var fireworks: Fireworks
 var hunting: Node3D
+var brewing: Node3D
 var quickbar: CanvasLayer
 var inventory: Inventory
 var cheat_menu: CanvasLayer
@@ -41,7 +42,6 @@ var started := false
 var over := false
 var _night_light_done := false      # the 19:00 flashlight hint fired for this night
 var near_bar = null
-var _tower_hint_remaining := 12.0
 var notice_board: Node3D
 var _notice_open := false
 const SECRET_SHOP_NOTICE := "Between the lines, added by hand:\n\nThey say there is a shop that bears no name.\nIts goods are on no list. Its trader asks no questions.\nWhoever finds it understands why no one speaks of it."
@@ -299,6 +299,9 @@ func _ready() -> void:
 	hunting = preload("res://scripts/hunting.gd").new()
 	add_child(hunting)
 	hunting.setup(self)
+	brewing = preload("res://scripts/brewing.gd").new()
+	add_child(brewing)
+	brewing.setup(self)
 	_boot_mark("systems (hud .. hunting)")
 	settings.add_controls(hud.settings_box, false)
 	player.regen_mul = float(difficulty["regen"])
@@ -2799,8 +2802,6 @@ func _process(delta: float) -> void:
 			hud.set_weather(label + (" · " if not label.is_empty() and not moon.is_empty() else "") + moon)
 		_weather_label_t -= delta
 	if player and player.active and not player.downed and not player.controlling_drone and drones.input_grace <= 0 and not player.mounted_tower and not defences.placing and defences.input_grace <= 0:
-		if not intro.showing_guidance():
-			_tower_hint_remaining = maxf(0.0, _tower_hint_remaining - delta)
 		var near = null
 		var nd := Barricade.BUILD_REACH
 		for b in defence_lines():
@@ -2841,22 +2842,36 @@ func _process(delta: float) -> void:
 		if hunt_interact: npc = ""
 		var drone_station := not downed and drones.nearby(player)
 		var reading_notice := _looking_at_notice() and not downed
-		var idle_prompt := "[T] Tower build menu · from 120 R" if _tower_hint_remaining > 0.0 and not intro.showing_guidance() else ""
 		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
-		if hut_fix: idle_prompt = hut.prompt_text()
-		if defences.roof_access(player):
-			var roof_hint := Lang.t("[T] Forest hut building menu · roof defenses")
-			idle_prompt = roof_hint if idle_prompt.is_empty() else Lang.t(idle_prompt) + "\n" + roof_hint
-		hud.set_prompt(Lang.t("[E] Revive %s · stay nearby for 3 seconds", [Lang.raw(NetSession.roster[downed])]) if downed else (loot.prompt_text() if loot else ("Tower occupied" if tower and tower.operator_peer else Lang.t("[E] Mount / operate · [R] Align · [F] Repair\nRange %d m · bright sector: automatic", [roundi(tower.attack_range())]) if tower else (near.prompt_text() if near else idle_prompt))))
-		if not npc.is_empty() and not downed: hud.set_prompt(progression.prompt(npc))
-		if hunt_interact: hud.set_prompt(hunting.prompt(player, meat_drop))
-		if reading_notice: hud.set_prompt("[E] Read sign · A strange note")
-		if drone_station: hud.set_prompt("[E] Drone control station")
-		if _notice_open: hud.set_prompt("[E] Close note")
 		var secret_prompt := secret_night.prompt(player)
-		if not secret_prompt.is_empty(): hud.set_prompt(secret_prompt)
 		var bar_prompt: String = secret_night.bar.prompt(player) if secret_prompt.is_empty() and secret_night.bar else ""
-		if not bar_prompt.is_empty(): hud.set_prompt(bar_prompt)
+		# One E target, in exactly the same priority order as the input dispatch below.
+		# Independent shortcuts are appended so a nearby station cannot erase them.
+		var actions: Array[String] = []
+		if not secret_prompt.is_empty(): actions.append(Lang.t(secret_prompt))
+		elif not bar_prompt.is_empty(): actions.append(Lang.t(bar_prompt))
+		elif drone_station: actions.append(Lang.t("[E] Drone control station"))
+		elif _notice_open: actions.append(Lang.t("[E] Close note"))
+		elif reading_notice: actions.append(Lang.t("[E] Read sign · A strange note"))
+		elif not npc.is_empty() and not downed: actions.append(Lang.t(progression.prompt(npc)))
+		elif downed: actions.append(Lang.t("[E] Revive %s · stay nearby for 3 seconds", [Lang.raw(NetSession.roster[downed])]))
+		elif loot: actions.append(Lang.t(loot.prompt_text()))
+		elif tower:
+			actions.append(Lang.t("Tower occupied") if tower.operator_peer else Lang.t("[E] Operate %s\n%d/%d HP · Range %d m · bright sector: automatic", [tower.spec().name, ceili(tower.hp), ceili(tower.max_hp()), roundi(tower.attack_range())]))
+		elif near: actions.append(near.prompt_text())
+		elif hunt_interact: actions.append(hunting.prompt(player, meat_drop))
+		elif hut_fix: actions.append(hut.prompt_text())
+		if not downed:
+			if tower and not tower.operator_peer:
+				actions.append(Lang.t("[R] Align tower"))
+				if tower.hp < tower.max_hp(): actions.append(Lang.t("[F] Repair tower · %d R", [DefenceTower.REPAIR_COST]))
+			if brewing.station_for(player) >= 0:
+				actions.append(Lang.t("[C] Brew drinks · flowers and mushrooms"))
+			if defences.roof_access(player):
+				actions.append(Lang.t("[T] Forest hut · towers and roof defenses"))
+			elif not intro.showing_guidance():
+				actions.append(Lang.t("[T] Build menu · towers and defenses"))
+		hud.set_prompt("\n".join(actions))
 		if not secret_prompt.is_empty() and Input.is_action_just_pressed("interact"):
 			secret_night.request_interact()
 		elif not bar_prompt.is_empty() and Input.is_action_just_pressed("interact"):

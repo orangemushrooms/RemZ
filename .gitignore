@@ -25,3 +25,6 @@ assets/raw/*_v3/view_*.png
 assets/raw/*_v3/thumb.png
 assets/raw/*_v3/preview_thumb.png
 godot/eos.cfg
+# the user's Meshy web originals of the field flowers (191 MB): tools/prepare_flowers.mjs reads them, the
+# game uses the derived field_flower_*.glb; excluded from the export as well
+godot/assets/models/Flower_*

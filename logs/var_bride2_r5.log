@@ -1,0 +1,16 @@
+STRETCH before: edges 83756, >1.6x 2318, >2.5x 1705, >4x 1174, >8x 512
+  per clip (edges >2.5x / peak): arise 1544/97.4 | attack 1259/57.9 | attack2 911/39.4 | death 1574/105.1 | death2 1315/93.9 | death3 1066/64.1 | death4 1274/101.3 | death5 1303/67.2 | death6 1451/95.4 | hit 811/37.3 | hit2 1303/87.2 | idle 1151/59.4 | run 1337/61.9 | scream 916/49.8 | walk 892/49.2 | walk2 1200/69.4
+  x105.1 death  (-0.14,0.67,-0.04) [LeftArm:0.99 RightLeg:0.01]  (-0.14,0.67,-0.03) [LeftArm:0.84 RightLeg:0.16]
+  x105.1 death  (-0.14,0.67,-0.04) [LeftArm:0.99 RightLeg:0.01]  (-0.14,0.67,-0.03) [LeftArm:0.84 RightLeg:0.16]
+  x104.2 death  (-0.15,0.67,-0.03) [LeftArm:0.83 RightLeg:0.17]  (-0.15,0.67,-0.03) [LeftArm:0.99 RightLeg:0.01]
+FIX arm reach on 11714 points, conflicts resolved on 0 points
+HAIR 7356 points follow head, neck and spine
+SKIRT 2578 points blended (hip joints 0.98 m, knees 0.58 m, hem 0.14 m)
+SMOOTH 17376 points, cut 379 bridging triangles
+STRETCH after: edges 82996, >1.6x 31715, >2.5x 15660, >4x 7239, >8x 1932
+  per clip (edges >2.5x / peak): arise 9832/51.8 | attack 8333/46.9 | attack2 8405/42.7 | death 9004/67.8 | death2 8036/46.1 | death3 7512/46.2 | death4 5730/43.7 | death5 6206/57.7 | death6 8030/61.2 | hit 7003/38.4 | hit2 9144/63.7 | idle 6275/30.5 | run 7947/48.6 | scream 7307/44.3 | walk 4025/26.8 | walk2 5550/32.1
+  x67.8 death  (0.13,1.26,0.19) [LeftArm:0.83 Spine01:0.08 Spine:0.08]  (0.13,1.26,0.19) [LeftArm:1.00]
+  x67.8 death  (0.13,1.26,0.19) [LeftArm:0.83 Spine01:0.08 Spine:0.08]  (0.13,1.26,0.19) [LeftArm:1.00]
+  x54.5 death  (0.12,1.18,0.19) [LeftArm:0.81 Spine01:0.19]  (0.11,1.18,0.19) [LeftArm:0.69 Spine01:0.30 Spine:0.00]
+prune: Removed types... Accessor (73)
+written artifacts/new_zombies/variants/bride2_r5.glb (6.91 MB)

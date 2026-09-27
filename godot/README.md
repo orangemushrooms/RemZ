@@ -10,6 +10,10 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 
 ## Steuerung
 
+**Aktionsanzeige:** Erreichbare Aktionen erscheinen über dem Schnellzugriff in einer dunklen Karte mit grossen, farbigen Tastenkacheln. Am Feuer bleiben Grillen (**E**), Drinks (**C**) und Bauen (**T**) zusammen sichtbar; an der Hütte Reparatur und Dachverteidigung. **T** bleibt ausserhalb der Einführung dauerhaft als Bauhinweis sichtbar. Mauern zeigen die nächste Aktion mit Preis, beschädigte Türme zusätzlich **F** zum Reparieren und **R** zum Ausrichten. Geöffnete Menüs blenden die Weltaktionen aus.
+
+**Blumen und Drinks:** Sechs Blumensorten wachsen auf den Feldern und Wiesen. Mit **E** sammeln, an beiden Lagerfeuern mit **C** das Braumenü öffnen. Acht Rezepte aus Blüten und optional Pilzen liefern Heilung, Tempo, Schutz, Präzision, Feuer-/Frostauren oder farbige Visionen. Vier Sekunden Brauzeit; fertige Drinks über Inventar oder Schnellzugriff trinken. [Rezepte und Details](../docs/BREWING.md).
+
 **Secret Nacht vor Wave 5:** Eine verpflichtende Goa-Sidequest unterbricht die Wellen. Folgt im Regen dem Bass in den Oberen Schorchen, aktiviert die drei Klangtotems, holt den Klarer-Kopf-Trank und erlebt gemeinsam den letzten Tanz. Danach klingen Musik und Regen aus, Lichter erlöschen und die Gäste verschwinden. Der Abschlussauftrag **„Das Echo der Nacht“** verlangt, das leuchtende Totem vor dem DJ-Pult mit E aufzunehmen und mit dem Team zur Feuerstelle zu bringen. Legt es mit E ins Feuer und wacht gemeinsam auf: 150 Rem Dollars pro Spieler und 20 Sekunden Vorbereitung auf Wave 5. [Ablauf und Song-Schnittstelle](../docs/SECRET_NIGHT.md).
 
 **Pilze im ganzen Wald:** Die zehn gewöhnlichen Sorten wachsen über die gesamte spielbare Waldfläche verteilt, auch weit abseits der Hütte und im tiefen Wald. Pro 18-Meter-Bereich werden bis zu zwei geeignete Fundstellen gewählt; Wege, Lichtungen, Gebäude, Wasser, Baumstämme und steile Hänge bleiben frei. Die Verteilung ist im Koop identisch und die Pilze bleiben einzeln einsammelbar.
@@ -53,7 +57,7 @@ Die drei Kürbisse am Lager lassen sich mit Schusswaffen zerstören. Der erste z
 
 Beide Hände folgen der jeweiligen Waffe beim Zielen, Rückstoß und Nachladen. Die Minimap unten rechts bildet die tatsächlichen Kartendaten ab. Norden bleibt auf der Karte oben; der Spielerpfeil und die Windrose reagieren auf die Blickrichtung. Rote Punkte zeigen Gegner. Sperrlinien sind rot (ungebaut), grün (gebaut) oder gelb (stark beschädigt).
 
-**E an einer Barrikade** baut die ganze Linie für 50 Punkte, verstärkt eine intakte Linie oder repariert eine beschädigte für 25 Punkte. Jede Stufe bringt 300 Strukturpunkte, bis zu 900. Material und Kollision folgen dem Gelände. Bauaktionen sind bis 6 m Abstand möglich; belegte Flächen verhindern den Neubau ohne Punkteabzug. Beratung und Turmausbau gibt es bei Mechanic.
+**E an einer Barrikade** baut die ganze Linie für 50 R (Holzpalisade, 300 LP), wertet eine intakte Linie für 120 R zur eisenbeschlagenen Mauer (800 LP) und für 220 R zum Stahlbollwerk (1600 LP) auf. Beschädigte Linien werden zuerst repariert: je nach Stufe für 25 / 50 / 90 R. Die Aktionsanzeige nennt jeweils die tatsächlich ausgelöste Aktion und ihren Preis. Material und Kollision folgen dem Gelände. Bauaktionen sind bis 6 m Abstand möglich; belegte Flächen verhindern den Neubau ohne Punkteabzug. Beratung und Turmausbau gibt es bei Mechanic.
 
 **Händler und Aufträge:** Vendor verkauft Waffen am Lagerfeuer, Mechanic bietet Training und Verteidigung, ein versteckter Händler im Wald führt seltene Waffen. Fünf Aufträge, neun Waffen und drei Lackierungen sind an verdiente Punkte und erreichte Ziele gebunden. Handel findet ausschliesslich beim NPC statt. Steuerung, Preise und Spielregeln: [Fortschritt und Händler](../docs/FORTSCHRITT.md).
 

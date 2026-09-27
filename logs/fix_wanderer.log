@@ -1,0 +1,24 @@
+STRETCH before: edges 23858, >1.6x 2098, >2.5x 446, >4x 123, >8x 24
+  per clip (edges >2.5x / peak): arise 175/12.7 | attack 366/20.0 | attack2 331/20.8 | death 154/13.2 | death2 244/15.7 | death3 70/9.6 | death4 41/5.3 | hit 264/20.0 | hit2 201/17.7 | idle 55/6.9 | scream 160/10.7 | walk 33/8.5 | walk2 18/4.4
+  x20.8 attack2  (-0.24,0.79,0.14) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.24,0.78,0.14) [RightUpLeg:0.51 RightHand:0.45 Hips:0.04]
+  x17.4 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.23,0.78,0.15) [RightUpLeg:0.49 RightHand:0.48 Hips:0.03]
+  x17.1 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.23,0.79,0.15) [RightHand:0.56 RightUpLeg:0.41 Hips:0.03]
+  x16.5 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.24,0.78,0.14) [RightUpLeg:0.51 RightHand:0.45 Hips:0.04]
+  x16.5 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.24,0.78,0.14) [RightUpLeg:0.51 RightHand:0.45 Hips:0.04]
+  x15.4 attack2  (-0.23,0.81,0.13) [RightHand:0.83 RightUpLeg:0.15 Hips:0.02]  (-0.22,0.82,0.14) [RightHand:0.57 RightUpLeg:0.38 Hips:0.05 RightForeArm:0.00]
+  x15.2 attack2  (-0.23,0.81,0.13) [RightHand:0.83 RightUpLeg:0.15 Hips:0.02]  (-0.22,0.80,0.14) [RightUpLeg:0.55 RightHand:0.39 Hips:0.05 RightForeArm:0.00]
+  x14.9 attack2  (-0.24,0.81,0.14) [RightHand:0.92 RightUpLeg:0.08 Hips:0.01]  (-0.23,0.79,0.13) [RightHand:0.54 RightUpLeg:0.43 Hips:0.04]
+FIX arm reach on 1447 points, conflicts resolved on 936 points
+SMOOTH 2783 points, cut 88 bridging triangles
+STRETCH after: edges 23701, >1.6x 682, >2.5x 116, >4x 21, >8x 2
+  per clip (edges >2.5x / peak): arise 65/6.2 | attack 56/7.4 | attack2 52/7.5 | death 53/8.2 | death2 51/6.9 | death3 21/5.4 | death4 29/4.3 | hit 49/7.6 | hit2 44/7.7 | idle 19/4.1 | scream 50/7.7 | walk 5/3.6 | walk2 3/3.2
+  x8.2 death  (0.14,1.28,0.09) [Spine01:0.54 LeftArm:0.24 Spine02:0.19 LeftShoulder:0.03]  (0.15,1.28,0.10) [Spine01:0.47 LeftArm:0.41 Spine02:0.09 LeftShoulder:0.03]
+  x8.2 death  (0.14,1.28,0.09) [Spine01:0.54 LeftArm:0.24 Spine02:0.19 LeftShoulder:0.03]  (0.15,1.28,0.10) [Spine01:0.47 LeftArm:0.41 Spine02:0.09 LeftShoulder:0.03]
+  x7.6 hit  (-0.15,1.20,0.16) [Spine01:0.40 RightArm:0.35 Spine02:0.20 Hips:0.05]  (-0.13,1.20,0.17) [Spine01:0.44 Spine02:0.39 Hips:0.11 RightArm:0.06]
+  x7.4 attack  (0.15,1.27,0.07) [Spine01:0.49 LeftArm:0.35 Spine02:0.14 Hips:0.02]  (0.15,1.27,0.07) [LeftArm:0.52 Spine01:0.48]
+  x7.4 attack  (0.15,1.27,0.07) [Spine01:0.49 LeftArm:0.35 Spine02:0.14 Hips:0.02]  (0.15,1.27,0.07) [LeftArm:0.52 Spine01:0.48]
+  x5.9 attack  (0.07,1.33,-0.12) [LeftShoulder:0.45 LeftArm:0.33 Spine02:0.12 Hips:0.10]  (0.08,1.31,-0.12) [LeftArm:0.58 LeftShoulder:0.37 neck:0.04 Spine:0.01]
+  x5.9 scream  (0.15,1.22,0.07) [Spine01:0.43 Spine02:0.26 LeftArm:0.21 Hips:0.10]  (0.16,1.21,0.06) [Spine02:0.35 Hips:0.30 Spine01:0.28 LeftUpLeg:0.08]
+  x5.7 arise  (0.20,0.64,0.01) [LeftUpLeg:0.90 Hips:0.10]  (0.20,0.64,0.01) [LeftUpLeg:1.00]
+prune: Removed types... Accessor (73)
+written artifacts/new_zombies/fixed/zombie_wanderer.glb (2.30 MB)

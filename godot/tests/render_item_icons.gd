@@ -35,6 +35,8 @@ func run() -> void:
 	# one render per tower kind for the Mechanic's upgrade rows (26 Sep 2026): --only=tower_flame,...
 	for kind in DefenceTower.TYPES: catalogue["tower_" + kind] = ""
 	for id in Weapons.ORDER: catalogue[id] = Weapons.DEFS[id].model
+	for id in preload("res://scripts/brew_recipes.gd").FLOWERS:
+		catalogue[id] = preload("res://scripts/brew_recipes.gd").FLOWERS[id].model
 	for id in Inventory.Mushrooms.DEFS:
 		if not catalogue.has(id): catalogue[id] = "mushroom_" + id
 	if "--missing-only" in OS.get_cmdline_user_args():

@@ -736,6 +736,9 @@ func feedback(id: int, kind: String, args: Array) -> void:
 func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 	if epoch != session_epoch or not is_instance_valid(game): return
 	match kind:
+		"brew_fx":
+			if args.size() == 3 and args[0] is Vector3 and args[1] is String and (args[2] is float or args[2] is int):
+				game.brewing.receive_burst(args[0], args[1], clampf(float(args[2]), 0.1, 7.0))
 		"quest_complete":
 			if args.size() == 1 and args[0] is String and Progression.QUESTS.has(args[0]):
 				game.progression.notifications.rewarded(args[0])

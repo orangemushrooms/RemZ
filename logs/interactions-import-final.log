@@ -1,0 +1,466 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+[   0% ] first_scan_filesystem | Started Projektinitialisierung (5 steps)
+[   0% ] first_scan_filesystem | Lese Dateistrucktur …
+[  16% ] first_scan_filesystem | Globale Klassennamen laden …
+[  33% ] first_scan_filesystem | Verifiziere GDExtensions…
+[  50% ] first_scan_filesystem | Autoload-Skripte erzeugen …
+[  66% ] first_scan_filesystem | Plugins initialisieren…
+[  83% ] first_scan_filesystem | Dateiscan starten …
+[ DONE ] first_scan_filesystem
+
+[   0% ] update_scripts_classes | Started Globale Klassen registrieren … (5 steps)
+[   0% ] update_scripts_classes | Inventory
+[  16% ] update_scripts_classes | 
+[  33% ] update_scripts_classes | Progression
+[  50% ] update_scripts_classes | TowerPlanner
+[  66% ] update_scripts_classes | 
+[ DONE ] update_scripts_classes
+
+[   0% ] _update_scan_actions | Started Aktionen scannen … (41 steps)
+[   0% ] _update_scan_actions | zombie_bloater.glb
+[   2% ] _update_scan_actions | zombie_bloater_metal_rough.webp
+[   4% ] _update_scan_actions | zombie_bloater_normal.webp
+[   7% ] _update_scan_actions | zombie_farmer.glb
+[   9% ] _update_scan_actions | zombie_farmer_metal_rough.webp
+[  11% ] _update_scan_actions | zombie_farmer_normal.webp
+[  14% ] _update_scan_actions | zombie_forester.glb
+[  16% ] _update_scan_actions | zombie_forester_metal_rough.webp
+[  19% ] _update_scan_actions | zombie_forester_normal.webp
+[  21% ] _update_scan_actions | zombie_grandma.glb
+[  23% ] _update_scan_actions | zombie_grandma_metal_rough.webp
+[  26% ] _update_scan_actions | zombie_grandma_normal.webp
+[  28% ] _update_scan_actions | zombie_hiker.glb
+[  30% ] _update_scan_actions | zombie_jogger.glb
+[  33% ] _update_scan_actions | zombie_jogger_metal_rough.webp
+[  35% ] _update_scan_actions | zombie_jogger_normal.webp
+[  38% ] _update_scan_actions | zombie_nurse.glb
+[  40% ] _update_scan_actions | zombie_nurse_metal_rough.webp
+[  42% ] _update_scan_actions | zombie_nurse_normal.webp
+[  45% ] _update_scan_actions | zombie_runner.glb
+[  47% ] _update_scan_actions | zombie_runner_metal_rough.webp
+[  50% ] _update_scan_actions | zombie_runner_normal.webp
+[  52% ] _update_scan_actions | zombie_runner_texture_0.webp
+[  54% ] _update_scan_actions | zombie_screamer.glb
+[  57% ] _update_scan_actions | zombie_screamer_metal_rough.webp
+[  59% ] _update_scan_actions | zombie_screamer_normal.webp
+[  61% ] _update_scan_actions | zombie_screamer_texture_0.webp
+[  64% ] _update_scan_actions | zombie_shambler.glb
+[  66% ] _update_scan_actions | zombie_shambler_metal_rough.webp
+[  69% ] _update_scan_actions | zombie_shambler_normal.webp
+[  71% ] _update_scan_actions | zombie_soldier.glb
+[  73% ] _update_scan_actions | zombie_soldier_metal_rough.webp
+[  76% ] _update_scan_actions | zombie_soldier_normal.webp
+[  78% ] _update_scan_actions | zombie_spitter.glb
+[  80% ] _update_scan_actions | zombie_spitter_metal_rough.webp
+[  83% ] _update_scan_actions | zombie_spitter_normal.webp
+[  85% ] _update_scan_actions | zombie_spitter_texture_0.webp
+[  88% ] _update_scan_actions | zombie_stalker.glb
+[  90% ] _update_scan_actions | zombie_stalker_metal_rough.webp
+[  92% ] _update_scan_actions | zombie_stalker_normal.webp
+[  95% ] _update_scan_actions | zombie_stalker_texture_0.webp
+[ DONE ] _update_scan_actions
+
+[   0% ] reimport | Started Assets (erneut) importieren (52 steps)
+[   0% ] reimport | Dateien zum Neuimport vorbereiten …
+[   1% ] reimport | Dateien zum Neuimport vorbereiten …
+[   3% ] reimport | Dateien zum Neuimport vorbereiten …
+[   5% ] reimport | Dateien zum Neuimport vorbereiten …
+[   7% ] reimport | Dateien zum Neuimport vorbereiten …
+[   9% ] reimport | Dateien zum Neuimport vorbereiten …
+[  11% ] reimport | Dateien zum Neuimport vorbereiten …
+[  13% ] reimport | Dateien zum Neuimport vorbereiten …
+[  15% ] reimport | Dateien zum Neuimport vorbereiten …
+[  16% ] reimport | Dateien zum Neuimport vorbereiten …
+[  18% ] reimport | Dateien zum Neuimport vorbereiten …
+[  20% ] reimport | Dateien zum Neuimport vorbereiten …
+[  22% ] reimport | Dateien zum Neuimport vorbereiten …
+[  24% ] reimport | Dateien zum Neuimport vorbereiten …
+[  26% ] reimport | Dateien zum Neuimport vorbereiten …
+[  28% ] reimport | Dateien zum Neuimport vorbereiten …
+[  30% ] reimport | Dateien zum Neuimport vorbereiten …
+[  32% ] reimport | Dateien zum Neuimport vorbereiten …
+[  33% ] reimport | Dateien zum Neuimport vorbereiten …
+[  35% ] reimport | Dateien zum Neuimport vorbereiten …
+[  37% ] reimport | Dateien zum Neuimport vorbereiten …
+[  39% ] reimport | Dateien zum Neuimport vorbereiten …
+[  41% ] reimport | Dateien zum Neuimport vorbereiten …
+[  43% ] reimport | Dateien zum Neuimport vorbereiten …
+[  45% ] reimport | Dateien zum Neuimport vorbereiten …
+[  47% ] reimport | Dateien zum Neuimport vorbereiten …
+[  49% ] reimport | Dateien zum Neuimport vorbereiten …
+[  50% ] reimport | Dateien zum Neuimport vorbereiten …
+[  52% ] reimport | Dateien zum Neuimport vorbereiten …
+[  54% ] reimport | Dateien zum Neuimport vorbereiten …
+[  56% ] reimport | Dateien zum Neuimport vorbereiten …
+[  58% ] reimport | Dateien zum Neuimport vorbereiten …
+[  60% ] reimport | Dateien zum Neuimport vorbereiten …
+[  62% ] reimport | Dateien zum Neuimport vorbereiten …
+[  64% ] reimport | Dateien zum Neuimport vorbereiten …
+[  66% ] reimport | Dateien zum Neuimport vorbereiten …
+[  67% ] reimport | Dateien zum Neuimport vorbereiten …
+[  69% ] reimport | Dateien zum Neuimport vorbereiten …
+[  71% ] reimport | Dateien zum Neuimport vorbereiten …
+[  73% ] reimport | Dateien zum Neuimport vorbereiten …
+[  75% ] reimport | Dateien zum Neuimport vorbereiten …
+[  77% ] reimport | Dateien zum Neuimport vorbereiten …
+[  79% ] reimport | Dateien zum Neuimport vorbereiten …
+[  81% ] reimport | Dateien zum Neuimport vorbereiten …
+[  83% ] reimport | Dateien zum Neuimport vorbereiten …
+[  84% ] reimport | Dateien zum Neuimport vorbereiten …
+[  86% ] reimport | Dateien zum Neuimport vorbereiten …
+[  88% ] reimport | Dateien zum Neuimport vorbereiten …
+[  90% ] reimport | Dateien zum Neuimport vorbereiten …
+[  92% ] reimport | Dateien zum Neuimport vorbereiten …
+[  94% ] reimport | Dateien zum Neuimport vorbereiten …
+[  96% ] reimport | Dateien zum Neuimport vorbereiten …
+[   0% ] reimport | Vor-Neuimport-Operationen ausführen …
+[   0% ] preload_reimporting_scene | Started Szenen zum Neuladen vorbereiten (1 steps)
+[   0% ] preload_reimporting_scene | Szene [leer] wird analysiert
+[  50% ] preload_reimporting_scene | Vorbereitung abgeschlossen.
+[ DONE ] preload_reimporting_scene
+
+[   0% ] reimport | zombie_jogger_normal.webp
+[   1% ] reimport | zombie_nurse_texture_0.webp
+[   3% ] reimport | zombie_nurse_metal_rough.webp
+[   5% ] reimport | zombie_nurse_normal.webp
+[   7% ] reimport | zombie_runner_texture_0.webp
+[   9% ] reimport | zombie_runner_metal_rough.webp
+[  11% ] reimport | zombie_runner_normal.webp
+[  13% ] reimport | zombie_screamer_texture_0.webp
+[  13% ] reimport | zombie_screamer_texture_0.webp
+[  15% ] reimport | zombie_screamer_metal_rough.webp
+[  16% ] reimport | zombie_screamer_normal.webp
+[  18% ] reimport | zombie_shambler_texture_0.webp
+[  18% ] reimport | zombie_shambler_texture_0.webp
+[  20% ] reimport | zombie_shambler_metal_rough.webp
+[  22% ] reimport | zombie_shambler_normal.webp
+[  22% ] reimport | zombie_shambler_normal.webp
+[  22% ] reimport | zombie_shambler_normal.webp
+[  24% ] reimport | zombie_soldier_texture_0.webp
+[  24% ] reimport | zombie_soldier_texture_0.webp
+[  26% ] reimport | zombie_soldier_metal_rough.webp
+[  26% ] reimport | zombie_soldier_metal_rough.webp
+[  26% ] reimport | zombie_soldier_metal_rough.webp
+[  26% ] reimport | zombie_soldier_metal_rough.webp
+[  28% ] reimport | zombie_soldier_normal.webp
+[  28% ] reimport | zombie_soldier_normal.webp
+[  28% ] reimport | zombie_soldier_normal.webp
+[  28% ] reimport | zombie_soldier_normal.webp
+[  28% ] reimport | zombie_soldier_normal.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  30% ] reimport | zombie_spitter_texture_0.webp
+[  32% ] reimport | zombie_spitter_metal_rough.webp
+[  33% ] reimport | zombie_spitter_normal.webp
+[  35% ] reimport | zombie_stalker_texture_0.webp
+[  37% ] reimport | zombie_stalker_metal_rough.webp
+[  39% ] reimport | zombie_stalker_normal.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  41% ] reimport | zombie_bloater_texture_0.webp
+[  43% ] reimport | zombie_bloater_metal_rough.webp
+[  43% ] reimport | zombie_bloater_metal_rough.webp
+[  43% ] reimport | zombie_bloater_metal_rough.webp
+[  43% ] reimport | zombie_bloater_metal_rough.webp
+[  43% ] reimport | zombie_bloater_metal_rough.webp
+[  43% ] reimport | zombie_bloater_metal_rough.webp
+[  43% ] reimport | zombie_bloater_metal_rough.webp
+[  43% ] reimport | zombie_bloater_metal_rough.webp
+[  43% ] reimport | zombie_bloater_metal_rough.webp
+[  45% ] reimport | zombie_bloater_normal.webp
+[  47% ] reimport | zombie_farmer_texture_0.webp
+[  49% ] reimport | zombie_farmer_metal_rough.webp
+[  50% ] reimport | zombie_farmer_normal.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  52% ] reimport | zombie_forester_texture_0.webp
+[  54% ] reimport | zombie_forester_metal_rough.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  56% ] reimport | zombie_forester_normal.webp
+[  58% ] reimport | zombie_grandma_texture_0.webp
+[  58% ] reimport | zombie_grandma_texture_0.webp
+[  58% ] reimport | zombie_grandma_texture_0.webp
+[  58% ] reimport | zombie_grandma_texture_0.webp
+[  58% ] reimport | zombie_grandma_texture_0.webp
+[  58% ] reimport | zombie_grandma_texture_0.webp
+[  58% ] reimport | zombie_grandma_texture_0.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  60% ] reimport | zombie_grandma_metal_rough.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  62% ] reimport | zombie_grandma_normal.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  64% ] reimport | zombie_jogger_metal_rough.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  66% ] reimport | zombie_jogger_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  67% ] reimport | zombie_hiker_texture_0.webp
+[  69% ] reimport | zombie_hiker_metal_rough.webp
+[  71% ] reimport | zombie_hiker_normal.webp
+[  71% ] reimport | zombie_hiker_normal.webp
+[  71% ] reimport | zombie_hiker_normal.webp
+[  71% ] reimport | zombie_hiker_normal.webp
+[  71% ] reimport | zombie_hiker_normal.webp
+[  71% ] reimport | zombie_hiker_normal.webp
+[  73% ] reimport | zombie_bloater.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  75% ] reimport | zombie_stalker.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  77% ] reimport | zombie_nurse.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  79% ] reimport | zombie_farmer.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  81% ] reimport | zombie_jogger.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  83% ] reimport | zombie_spitter.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  84% ] reimport | zombie_forester.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  86% ] reimport | zombie_soldier.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  88% ] reimport | zombie_runner.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  90% ] reimport | zombie_hiker.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  92% ] reimport | zombie_shambler.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  94% ] reimport | zombie_grandma.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  96% ] reimport | zombie_screamer.glb
+[   0% ] import | Started Szene importieren (104 steps)
+[   0% ] import | Importiere Szene…
+[   1% ] import | Eigenes Skript wird ausgeführt …
+[  99% ] import | Speichern …
+[ DONE ] import
+
+[  98% ] reimport | Asset-Import fertigstellen …
+[ DONE ] reimport
+
+[   0% ] reimport | Started Assets (erneut) importieren (52 steps)
+[   0% ] reimport | Nach-Neuimport-Operationen ausführen …
+[ DONE ] reimport
+
+[   0% ] loading_editor_layout | Started Editor laden (5 steps)
+[   0% ] loading_editor_layout | Editor-Layout laden …
+[  16% ] loading_editor_layout | Docks laden …
+[  33% ] loading_editor_layout | Öffne Szenen neu…
+[  50% ] loading_editor_layout | Zentrales Editor-Layout laden …
+[  66% ] loading_editor_layout | Pluginfensterlayout laden …
+[  83% ] loading_editor_layout | Editorlayout bereit.
+[ DONE ] loading_editor_layout
+

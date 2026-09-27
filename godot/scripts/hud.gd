@@ -33,6 +33,7 @@ var clock_rate: Label
 var clock_progress: ProgressBar
 var msg_label: Label
 var prompt_label: Label
+var prompt_card: InteractionPrompt
 var streak_label: Label
 var damage_rect: ColorRect
 var vignette: TextureRect
@@ -431,14 +432,12 @@ func _ready() -> void:
 	msg_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
 	msg_label.add_theme_constant_override("shadow_offset_y", 1)
 	root.add_child(msg_label)
+	# Keep the source label available to existing callers; the card renders its actions.
 	prompt_label = _label("", 15)
-	prompt_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	prompt_label.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	prompt_label.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	prompt_label.position.y = -170
-	prompt_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
-	prompt_label.add_theme_constant_override("shadow_offset_y", 1)
 	root.add_child(prompt_label)
+	prompt_label.hide()
+	prompt_card = InteractionPrompt.new()
+	root.add_child(prompt_card)
 
 	_build_overlay()
 
@@ -897,6 +896,7 @@ func _menu_button(text: String, primary: bool) -> Button:
 
 # ---------------------------------------------------------------- per frame
 func _process(delta: float) -> void:
+	_update_prompt()
 	if _pending_score >= 0:
 		_show_score(_pending_score)
 		_pending_score = -1
@@ -1213,6 +1213,18 @@ func message(text: String, seconds: float = 2.5) -> void:
 
 func set_prompt(text: String) -> void:
 	prompt_label.text = text
+	if text.is_empty(): prompt_card.hide()
+
+func _update_prompt() -> void:
+	if not prompt_card or not game or not game.player: return
+	var p: Player = game.player
+	prompt_card.visible = game.started and not game.over and p.active and p.alive and not p.downed and not p.controlling_drone and not get_tree().paused and not overlay.visible and not game.defences.placing and not prompt_label.text.is_empty()
+	if not prompt_card.visible: return
+	prompt_card.refresh(prompt_label.text)
+	var margin := 275.0 if game.intro and game.intro.showing_guidance() else 150.0
+	if prompt_card.bottom_margin != margin:
+		prompt_card.bottom_margin = margin
+		prompt_card._fit()
 
 func hitmarker(head: bool) -> void:
 	_hit_t = 0.12

@@ -195,6 +195,9 @@ func action(id: int, operation: String, args: Array) -> void:
 	var w: Weapons = weapons[id]
 	if p.controlling_drone and operation not in ["drone_control", "drone_recall", "drone_detonate"]: return
 	match operation:
+		"brewing":
+			if args.size() != 2 or not args[0] is String or not args[1] is String: return
+			NetSession.feedback(id, "message", [game.brewing.transact(p, args[0], args[1]), 3.0])
 		"secret_night":
 			if args.is_empty(): game.secret_night.interact(p)
 		"bar_order":
@@ -336,6 +339,10 @@ func collect_loot(id: int, key: String) -> void:
 		for peer in actors: NetSession.feedback(peer, "message", [Lang.t("Team key found: %s", [ForestKeys.KEYS[item.key_id]]), 3.0])
 	elif item.kind == "maze_cache":
 		if not item.grant_cache(p,w): return
+	elif item.kind == "flower":
+		if p.downed: return
+		game.brewing.add_flower(id, item.id)
+		NetSession.feedback(id, "message", [Lang.t("%s collected", [item.label]), 1.5])
 	elif item.kind == "mushroom":
 		mushrooms[id][item.id] = int(mushrooms[id].get(item.id, 0)) + 1
 		if item.id == "steinpilz": game.progression.event("edible_mushrooms")
@@ -687,7 +694,7 @@ func snapshot() -> Dictionary:
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
-	return {"maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": game.drones.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"brewing": game.brewing.snapshot(), "maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": game.drones.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"secret_night": game.secret_night.snapshot(),
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"sandbags": sandbag_states, "purse": purse,
@@ -726,6 +733,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.progression.apply_snapshot(data.get("progression", {}), initial)
 	game.fireworks.apply_snapshot(data.get("fireworks", {}))
 	game.hunting.apply_snapshot(data.get("hunting", {}))
+	game.brewing.apply_snapshot(data.get("brewing", {}))
 	game.secret_night.apply_snapshot(data.get("secret_night", {}))
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
 	if initial: game.hud._mark_difficulty(int(data.difficulty))

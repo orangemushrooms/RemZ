@@ -1,0 +1,18 @@
+STRETCH before: edges 65086, >1.6x 12290, >2.5x 3398, >4x 1247, >8x 407
+  per clip (edges >2.5x / peak): arise 1872/54.7 | attack 2238/61.0 | attack2 2155/52.6 | death 2000/76.8 | death2 2372/63.4 | death3 1099/35.8 | death4 1133/34.6 | hit 2373/53.6 | hit2 2024/73.2 | idle 700/23.4 | run 1205/52.8 | scream 1312/34.7 | walk 322/21.5 | walk2 918/46.5
+  x76.8 death  (0.08,0.26,-0.19) [RightUpLeg:1.00 LeftUpLeg:0.00]  (0.09,0.26,-0.19) [RightUpLeg:0.41 LeftLeg:0.29 LeftHand:0.29 LeftUpLeg:0.01]
+  x73.2 hit2  (0.14,0.43,0.15) [LeftLeg:0.53 LeftHand:0.46 LeftUpLeg:0.01]  (0.14,0.43,0.13) [LeftHand:0.99 LeftUpLeg:0.01 LeftLeg:0.00]
+  x73.2 hit2  (0.14,0.43,0.15) [LeftLeg:0.53 LeftHand:0.46 LeftUpLeg:0.01]  (0.14,0.43,0.13) [LeftHand:0.99 LeftUpLeg:0.01 LeftLeg:0.00]
+  x52.9 hit2  (0.13,0.40,0.16) [LeftLeg:0.90 LeftHand:0.10]  (0.14,0.38,0.15) [LeftHand:1.00]
+FIX arm reach on 6749 points, conflicts resolved on 5164 points
+HAIR 7764 points follow head, neck and spine
+SKIRT 2041 points blended (hip joints 0.92 m, knees 0.53 m, hem 0.38 m)
+SMOOTH 14617 points, cut 240 bridging triangles
+STRETCH after: edges 64686, >1.6x 13320, >2.5x 4054, >4x 1280, >8x 199
+  per clip (edges >2.5x / peak): arise 1997/16.4 | attack 1702/15.8 | attack2 2358/28.9 | death 1390/17.6 | death2 1609/16.6 | death3 1705/28.3 | death4 1136/13.1 | hit 1567/24.1 | hit2 1276/17.7 | idle 2194/28.4 | run 842/12.2 | scream 1150/16.5 | walk 599/14.8 | walk2 978/15.5
+  x28.9 attack2  (-0.09,1.46,-0.11) [Head:0.74 neck:0.24 RightShoulder:0.01 RightArm:0.00]  (-0.09,1.46,-0.11) [Head:0.52 neck:0.45 RightShoulder:0.02 RightArm:0.01]
+  x28.9 attack2  (-0.09,1.46,-0.11) [Head:0.74 neck:0.24 RightShoulder:0.01 RightArm:0.00]  (-0.09,1.46,-0.11) [Head:0.52 neck:0.45 RightShoulder:0.02 RightArm:0.01]
+  x22.6 hit  (-0.13,1.40,0.03) [RightShoulder:0.42 neck:0.25 RightArm:0.23 Head:0.10]  (-0.13,1.40,0.03) [neck:0.50 RightShoulder:0.27 RightArm:0.14 Spine:0.09]
+  x22.6 hit  (-0.13,1.40,0.03) [RightShoulder:0.42 neck:0.25 RightArm:0.23 Head:0.10]  (-0.13,1.40,0.03) [neck:0.50 RightShoulder:0.27 RightArm:0.14 Spine:0.09]
+prune: Removed types... Accessor (73)
+written artifacts/new_zombies/fixed/zombie_wraith.glb (3.88 MB)

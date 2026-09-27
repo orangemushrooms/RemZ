@@ -321,6 +321,19 @@ func _refresh() -> void:
 		_slot(spec.name, Lang.t("%d owned · %s", [count, "Eat" if kind == "cooked_meat" else "Grill at the camp"]), Color(0.72, 0.34, 0.2), Lang.t("%s\nSale: %d R each at Vendor.", [spec.text, spec.sell]), func():
 			if kind == "cooked_meat": main.hunting.request("eat")
 			else: info.text = spec.text, -1, kind, kind if kind == "cooked_meat" else "")
+	if main.brewing:
+		var supplies: Dictionary = main.brewing.stock(player.peer_id)
+		for kind in main.brewing.Recipes.FLOWERS:
+			var count := int(supplies.flowers.get(kind, 0))
+			if count <= 0: continue
+			var flower: Dictionary = main.brewing.Recipes.FLOWERS[kind]
+			var detail := "Brewing ingredient. Gather with E in the fields; press C at a campfire to brew drinks."
+			_slot(flower.name, Lang.t("%d owned / ingredient", [count]), flower.color, detail, func(): info.text = detail, -1, kind)
+		for kind in main.brewing.Recipes.DRINKS:
+			var count := int(supplies.drinks.get(kind, 0))
+			if count <= 0: continue
+			var drink: Dictionary = main.brewing.Recipes.DRINKS[kind]
+			_slot(drink.name, Lang.t("%d owned / click: drink", [count]), drink.color, drink.text, main.brewing.request.bind("drink", kind), -1, kind, kind)
 	for k in MUSHROOMS:
 		var n: int = mushrooms.get(k, 0)
 		if n <= 0: continue
@@ -428,7 +441,10 @@ func _process(delta: float) -> void:
 	var text := Mushrooms.summary(player.mushroom_effects)
 	effects_label.text = text
 	var quests: RichTextLabel = main.progression.tracker
-	effects_label.position.y = maxf(320.0, quests.position.y + quests.get_minimum_size().y + 16.0) if quests.visible else 320.0
+	var guidance: Label = main.progression.tutorial
+	var below_quests := quests.position.y + quests.get_minimum_size().y + 16.0 if quests.visible else 320.0
+	if guidance.visible: below_quests = maxf(below_quests, guidance.position.y + guidance.get_minimum_size().y + 16.0)
+	effects_label.position.y = maxf(320.0, below_quests)
 	effects_label.visible = main.started and not main.over and player.alive and player.active and not text.is_empty()
 	active_label.text = text
 	active_label.get_parent().visible = not text.is_empty()

@@ -35,11 +35,12 @@ PASS: The line has its own health and armour
 PASS: A hit is partly shrugged off and raises the alert
 PASS: The HUD arrows point at the attacked line
 PASS: The zombie between gate and line goes for the sandbags
-PASS: The sandbag line takes the zombie's hits (370 -> 356 after 1.6 s)
+PASS: The sandbag line takes the zombie's hits (370 -> 356 after 4.2 s)
 PASS: Space in front of the line finds it to climb over
 PASS: Repairing needs Rem Dollars
 PASS: Repair refills the line for its price
-PASS: The prompt offers the repair
+PASS: An intact line offers no repair
+PASS: The prompt offers the repair of a damaged line
 PASS: A destroyed line falls back to a site
 PASS: Rebuilding needs Rem Dollars
 PASS: The line can be rebuilt for its price
@@ -47,7 +48,7 @@ PASS: A standing line refuses a second build
 PASS: The co-op snapshot carries the sandbag lines
 PASS: The snapshot carries the gate fund
 PASS: A rebuilt gate leaves the sandbag line standing
-SANDBAGS_DONE checks=43 failures=0
+SANDBAGS_DONE checks=44 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

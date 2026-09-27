@@ -179,5 +179,6 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 	return true
 
 func prompt_text() -> String:
-	if level == 0: return Lang.t("[E] Sandbag line behind %s  ·  build for %d R\nRises for free when the gate is breached  ·  Space: climb over", [slot["name"], DEPLOY_COST])
-	return Lang.t("[E] Sandbag line behind %s  ·  %d/%d  ·  repair %d R\nSpace: climb over", [slot["name"], ceili(hp), int(max_hp()), REPAIR_COST_SB])
+	if level == 0: return Lang.t("[E] Build sandbag line · %d R\nBehind %s · Rises for free when the gate is breached", [DEPLOY_COST, slot["name"]])
+	var action := Lang.t("[E] Repair sandbag line · %d R", [REPAIR_COST_SB]) if hp < max_hp() else Lang.t("Sandbag line intact")
+	return action + "\n" + Lang.t("Behind %s · %d/%d HP · Space: climb over", [slot["name"], ceili(hp), int(max_hp())])

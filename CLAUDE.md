@@ -557,6 +557,14 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
 - Looking without a GPU: `glb_info.mjs` (meshes, maps, joints, clips), `glb_preview.mjs` (software raster, front /
   side / back, `--anim --time`, `--zoom`, `--texture`), `pose_sheet.mjs` (clip moments of several GLBs in a sheet).
 
+## Field flowers and campfire brewing (27 Sep 2026, Codex session; details in `docs/BREWING.md`)
+- 250 collectable flowers (six Meshy models, `field_flowers.gd`, derived `field_flower_*.glb` from
+  `tools/prepare_flowers.mjs`; the originals `godot/assets/models/Flower_*` are gitignored and export-excluded), C at
+  a campfire opens the brewing menu (`brewing.gd`, `brewing_menu.gd`, `brew_recipes.gd`, `brew_fx.gd`), eight
+  drinks, host-owned stocks in the co-op snapshot. `interaction_prompt.gd` builds the E / C prompts so they only
+  offer what the key does (a full sandbag line says "intact"). Suites: `brewing` (41), `interactions` (19, ends on
+  INTERACTIONS_RESULT); `multiplayer` runs through `tools/test_multiplayer.ps1` (host + 3 clients, 181 checks).
+
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,
   six-letter join code, anonymous Connect Device ID login, no Epic account, no port forwarding) and **Direct /

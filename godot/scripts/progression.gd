@@ -1086,16 +1086,18 @@ func _build_ui() -> void:
 	tracker.add_theme_constant_override("shadow_offset_y", 2)
 	tracker.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tracker)
-	tutorial = _label("", 18)
-	tutorial.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
-	tutorial.position = Vector2(-330, -240)
-	tutorial.size = Vector2(660, 70)
+	tutorial = _label("", 17)
+	tutorial.position = Vector2(26, 230)
+	tutorial.size = Vector2(390, 0)
 	tutorial.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	tutorial.add_theme_constant_override("line_spacing", 10)
-	tutorial.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	tutorial.add_theme_color_override("font_shadow_color", Color.BLACK)
-	tutorial.add_theme_constant_override("shadow_offset_x", 2)
-	tutorial.add_theme_constant_override("shadow_offset_y", 2)
+	tutorial.add_theme_constant_override("line_spacing", 4)
+	var tutorial_style := StyleBoxFlat.new()
+	tutorial_style.bg_color = Color(0.025, 0.045, 0.06, 0.92)
+	tutorial_style.border_color = Hud.GOLD
+	tutorial_style.border_width_left = 3
+	tutorial_style.set_corner_radius_all(5)
+	tutorial_style.set_content_margin_all(12)
+	tutorial.add_theme_stylebox_override("normal", tutorial_style)
 	tutorial.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(tutorial)
 	panel = Control.new()
@@ -1448,6 +1450,10 @@ func _process(delta: float) -> void:
 	notifications.visible = game.started and not game.over and not game.hud.overlay.visible and not guiding
 	tracker.visible = playing and _journal and not game.defences.placing and not guiding
 	tutorial.visible = playing and not game.defences.placing and not game.defences.is_open and not game.player.mounted_tower and not game.player.controlling_drone and not guiding
+	# Guidance belongs with quests, leaving the central action card unobstructed.
+	tutorial.position.y = tracker.position.y + tracker.get_minimum_size().y + 14.0 if tracker.visible else 154.0
+	tutorial.size.y = 0
+	if tutorial.text.is_empty(): tutorial.hide()
 	if tutorial.visible and local_data().claimed.get("arrival", false) and team.built == 0:
 		_tower_tutorial_remaining = maxf(0.0, _tower_tutorial_remaining - delta)
 	_refresh_time -= delta

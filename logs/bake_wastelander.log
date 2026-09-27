@@ -1,0 +1,4 @@
+game mesh: 32932 triangles, 25495 vertices after the MikkTSpace split
+bake: 2915910 texels, 0.00 % without high-poly data, 0.07 % clamped, mean detail angle 7.7 deg, 3.7 MB
+prune: Removed types... Accessor (73)
+written artifacts/new_zombies/final/zombie_wastelander.glb (7.27 MB)

@@ -481,8 +481,17 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 	return true
 
 func prompt_text() -> String:
-	if level == 0: return Lang.t("[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair", [slot["name"], "Building site", half_len * 2.0])
-	return Lang.t("[E] %s  ·  %s\nWhole line: %.1f m  ·  E: build / repair  ·  Space: climb over", [slot["name"], Lang.t("Tier %d · %s · %d/%d", [level, tier_name(), ceili(hp), int(max_hp())]), half_len * 2.0])
+	var action: String
+	if level == 0:
+		action = Lang.t("[E] Build %s · %d R", [tier(1).name, build_cost(1)])
+	elif hp < max_hp():
+		action = Lang.t("[E] Repair wall · %d R", [repair_cost(level)])
+	elif level < MAX_LEVEL:
+		action = Lang.t("[E] Upgrade to %s · %d R", [tier(level + 1).name, build_cost(level + 1)])
+	else:
+		action = Lang.t("Wall fully upgraded")
+	var detail := Lang.t("%s · Whole line: %.1f m", [slot["name"], half_len * 2.0]) if level == 0 else Lang.t("%s · Tier %d · %d/%d HP · Space: climb over", [slot["name"], level, ceili(hp), int(max_hp())])
+	return action + "\n" + detail
 
 func interact(player: Player) -> void:
 	# Scripted callers keep the original shortcut; the game opens the planner.

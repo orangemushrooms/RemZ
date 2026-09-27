@@ -1,0 +1,28 @@
+language_de          OK exit=0 40s LANGUAGE_DONE lang=de checks=89 failures=0  
+cheat_menu           OK exit=0 38s CHEAT_MENU_DONE checks=32 failures=0  
+team_purse           OK exit=0 39s TEAM_PURSE_DONE checks=29 failures=0  
+perimeter            OK exit=0 135s PERIMETER_DONE checks=26 failures=0  
+menu_flow            BAD exit=3221225501 108s (no done line)  
+coop_snapshot_cost   OK exit=0 75s COOP_SNAPSHOT_COST_DONE checks=6 failures=0  
+network_packets      OK exit=0 12s NETWORK_PACKETS_DONE checks=14 failures=0  
+online_lobby         OK exit=0 53s ONLINE_LOBBY_DONE checks=43 failures=0  
+smoke                OK exit=0 94s SMOKE_DONE checks=83 failures=0  SCRIPT ERROR: Out of bounds set index '0' (on base: 'PackedFloat32Array')
+day_night            BAD exit=3221225477 37s (no done line)  
+titan_siege_gate     OK exit=0 52s TITAN_SIEGE_GATE_DONE checks=20 failures=0  
+boss_music           OK exit=0 57s BOSS_MUSIC_DONE checks=29 failures=0  
+hut_health           OK exit=0 68s HUT_HEALTH_DONE checks=40 failures=0  
+forest_finds         BAD exit=1 62s FOREST_FINDS_DONE checks=56 failures=1 ERROR: FAIL: The stiff plank fall is never played (6) 
+tower_planner        OK exit=0 69s TOWER_PLANNER_DONE checks=25 failures=0  
+barricades           OK exit=0 72s BARRICADES_DONE checks=44 failures=0  
+missing_models       OK exit=0 6s MISSING_MODELS_DONE checks=72 failures=0  
+weapon_mods          OK exit=0 50s WEAPON_MODS_DONE checks=52 failures=0  
+earthworms           OK exit=0 45s EARTHWORMS_DONE checks=48 failures=0  
+titan_variants       OK exit=0 40s TITAN_VARIANTS_DONE checks=66 failures=0  
+aggro                OK exit=0 44s AGGRO_DONE checks=17 failures=0  
+coop_intro_route     BAD exit=2 222s (no done line)  
+batch27              OK exit=0 48s BATCH27_DONE checks=44 failures=0  
+batch28              OK exit=0 51s BATCH28_DONE checks=27 failures=0  
+army_waves           OK exit=0 37s ARMY_WAVES_DONE checks=55 failures=0  
+downed               OK exit=0 36s DOWNED_DONE checks=22 failures=0  
+weather              OK exit=0 31s WEATHER_DONE checks=55 failures=0  
+REGRESSIONS_DONE

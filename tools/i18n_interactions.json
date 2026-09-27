@@ -1,0 +1,19 @@
+{
+  "AVAILABLE ACTIONS": "VERFÜGBARE AKTIONEN",
+  "[E] Build %s · %d R": "[E] %s bauen · %d R",
+  "[E] Repair wall · %d R": "[E] Mauer reparieren · %d R",
+  "[E] Upgrade to %s · %d R": "[E] Aufwerten: %s · %d R",
+  "Wall fully upgraded": "Mauer vollständig aufgewertet",
+  "%s · Whole line: %.1f m": "%s · Ganze Sperrlinie: %.1f m",
+  "%s · Tier %d · %d/%d HP · Space: climb over": "%s · Stufe %d · %d/%d LP · Leertaste: übersteigen",
+  "[E] Build sandbag line · %d R\nBehind %s · Rises for free when the gate is breached": "[E] Sandsacklinie bauen · %d R\nHinter %s · Entsteht kostenlos, wenn das Tor fällt",
+  "[E] Repair sandbag line · %d R": "[E] Sandsacklinie reparieren · %d R",
+  "Sandbag line intact": "Sandsacklinie intakt",
+  "Behind %s · %d/%d HP · Space: climb over": "Hinter %s · %d/%d LP · Leertaste: übersteigen",
+  "[E] Operate %s\n%d/%d HP · Range %d m · bright sector: automatic": "[E] %s bedienen\n%d/%d LP · Reichweite %d m · Heller Sektor: Automatik",
+  "[R] Align tower": "[R] Turm ausrichten",
+  "[F] Repair tower · %d R": "[F] Turm reparieren · %d R",
+  "[C] Brew drinks · flowers and mushrooms": "[C] Drinks brauen · Blumen und Pilze",
+  "[T] Forest hut · towers and roof defenses": "[T] Waldhütte · Türme und Dachverteidigung",
+  "[T] Build menu · towers and defenses": "[T] Baumenü · Türme und Verteidigung"
+}

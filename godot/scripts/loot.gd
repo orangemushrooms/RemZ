@@ -63,7 +63,7 @@ func setup(k: String, weapon_id: String, text: String) -> void:
 	add_to_group("render_dynamic") # Every visible child must disappear with this pickup.
 
 func prompt_text() -> String:
-	return Lang.t("[E] Collect %s", [label]) if kind == "mushroom" else Lang.t("[E] Pick up %s", [label])
+	return Lang.t("[E] Collect %s", [label]) if kind in ["mushroom", "flower"] else Lang.t("[E] Pick up %s", [label])
 
 func take(weapons: Weapons, hud: Hud) -> void:
 	if NetSession.enabled:
@@ -77,7 +77,11 @@ func take(weapons: Weapons, hud: Hud) -> void:
 		hide()
 		if not renewable: queue_free()
 		return
-	if kind == "mushroom":
+	if kind == "flower":
+		get_tree().current_scene.brewing.add_flower(weapons.player.peer_id, id)
+		hud.message(Lang.t("%s collected", [label]), 1.5)
+		Sfx.event(get_tree().current_scene, weapons.player.peer_id, "mushroom_pickup")
+	elif kind == "mushroom":
 		get_tree().current_scene.inventory.add_mushroom(id)
 		if id == "steinpilz": get_tree().current_scene.progression.event("edible_mushrooms")
 		Sfx.event(get_tree().current_scene, weapons.player.peer_id, "mushroom_pickup")

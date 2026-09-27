@@ -1,0 +1,8 @@
+STRETCH before: edges 23858, >1.6x 2098, >2.5x 446, >4x 123, >8x 24
+  per clip (edges >2.5x / peak): arise 175/12.7 | attack 366/20.0 | attack2 331/20.8 | death 154/13.2 | death2 244/15.7 | death3 70/9.6 | death4 41/5.3 | hit 264/20.0 | hit2 201/17.7 | idle 55/6.9 | scream 160/10.7 | walk 33/8.5 | walk2 18/4.4
+  x20.8 attack2  (-0.24,0.79,0.14) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.24,0.78,0.14) [RightUpLeg:0.51 RightHand:0.45 Hips:0.04]
+  x17.4 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.23,0.78,0.15) [RightUpLeg:0.49 RightHand:0.48 Hips:0.03]
+  x17.1 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.23,0.79,0.15) [RightHand:0.56 RightUpLeg:0.41 Hips:0.03]
+  x16.5 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.24,0.78,0.14) [RightUpLeg:0.51 RightHand:0.45 Hips:0.04]
+  x16.5 attack2  (-0.24,0.79,0.15) [RightHand:0.73 RightUpLeg:0.25 Hips:0.02]  (-0.24,0.78,0.14) [RightUpLeg:0.51 RightHand:0.45 Hips:0.04]
+  x15.4 attack2  (-0.23,0.81,0.13) [RightHand:0.83 RightUpLeg:0.15 Hips:0.02]  (-0.22,0.82,0.14) [RightHand:0.57 RightUpLeg:0.38 Hips:0.05 RightForeArm:0.00]

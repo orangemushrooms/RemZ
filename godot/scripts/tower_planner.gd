@@ -147,15 +147,25 @@ func _build_ui() -> void:
 	var back := _button("Back to the game  [T / Esc]")
 	back.pressed.connect(close)
 	column.add_child(back)
-	hint = _label("", 14)
-	hint.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.9))
-	hint.add_theme_constant_override("shadow_offset_y", 2)
+	hint = _label("", 20, GOLD)
+	var hint_background := StyleBoxFlat.new()
+	hint_background.bg_color = Color(0.025, 0.045, 0.06, 0.96)
+	hint_background.border_color = GOLD
+	hint_background.set_border_width_all(1)
+	hint_background.set_corner_radius_all(8)
+	hint_background.content_margin_left = 20
+	hint_background.content_margin_right = 20
+	hint_background.content_margin_top = 12
+	hint_background.content_margin_bottom = 12
+	hint.add_theme_stylebox_override("normal", hint_background)
 	hint.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	hint.offset_left = 410
 	hint.offset_right = -24
-	hint.offset_top = -70
-	hint.offset_bottom = -20
+	hint.offset_top = -108
+	hint.offset_bottom = -24
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	panel.add_child(hint)
 
 func _build_roof_markers() -> void:

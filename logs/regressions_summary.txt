@@ -1,13 +1,6 @@
-started 12:36:46
-batch29              OK exit=0 35s BATCH29_DONE checks=142 failures=0  
-zombie_motion        OK exit=0 13s ZOMBIE_MOTION_DONE checks=107 failures=0  
-zombie_clip_audit    OK exit=0 7s ZOMBIE_CLIP_AUDIT_DONE checks=487 failures=0  
-zombie_hitboxes      OK exit=0 14s ZOMBIE_HITBOXES_DONE checks=197 failures=0  
-horde_hit_precision  OK exit=0 19s HORDE_HIT_PRECISION_DONE checks=137 failures=0  
-titan_phases         OK exit=0 41s TITAN_PHASES_DONE checks=29 failures=0  
-forest_finds         OK exit=0 27s FOREST_FINDS_DONE checks=56 failures=0  
-new_zombies          OK exit=0 36s NEW_ZOMBIES_DONE checks=62 failures=0  
-secret_night         OK exit=0 32s SECRET_NIGHT_DONE checks=70 failures=0  
-titan_variants       OK exit=0 34s TITAN_VARIANTS_DONE checks=67 failures=0  
-batch27              OK exit=0 34s BATCH27_DONE checks=44 failures=0  
-REGRESSIONS_DONE 12:39:12
+started 12:51:05
+sandbags             OK exit=0 38s SANDBAGS_DONE checks=44 failures=0  
+multiplayer          BAD exit=1 227s (no done line) ERROR: FAIL: Host plus three clients share the lobby 
+downed               OK exit=0 27s DOWNED_DONE checks=22 failures=0  
+pings                OK exit=0 24s PINGS_DONE checks=19 failures=0  
+REGRESSIONS_DONE 12:54:52
