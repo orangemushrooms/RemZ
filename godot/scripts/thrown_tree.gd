@@ -57,17 +57,7 @@ func setup(a: Vector3, b: Vector3, seconds: float, thrower: Titan, is_replica: b
 	_spin_axis = Vector3.UP.cross(dir.normalized()).normalized() if dir.length() > 0.1 else Vector3.RIGHT
 	_visual = Node3D.new()
 	add_child(_visual)
-	var roots := MeshInstance3D.new()
-	var ball := SphereMesh.new()
-	ball.radius = 1.3
-	ball.height = 2.0
-	ball.radial_segments = 10
-	ball.rings = 5
-	roots.mesh = ball
-	roots.material_override = _soil
-	roots.position.y = -0.7
-	roots.scale = Vector3(1.1, 0.75, 1.1)
-	_visual.add_child(roots)
+	_visual.add_child(TreeRootBall.make(a))
 	var model := _tree_model(a)
 	if model:
 		_visual.add_child(model)

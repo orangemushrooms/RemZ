@@ -75,6 +75,8 @@ func host_run() -> void:
 	titan.hp = titan.max_hp * 0.3
 	titan.damage(1.0, Vector3.ZERO)
 	await wait_for("titan_ready")
+	game.titan_throw(titan, Map.ground_pos(20, 126) + Vector3.UP * 14.0, Map.ground_pos(35, 126))
+	await wait_for("tree_landed")
 	titan.die(Vector3.ZERO)
 	await wait_for("titan_dead")
 	game.waves.wave = 25
@@ -129,6 +131,17 @@ func client_run() -> void:
 	await create_timer(0.6).timeout
 	check(titan.replica and titan.alive and titan.crawling, "Client receives the living titan's final phase")
 	write("titan_ready")
+	var thrown: ThrownTree
+	while not thrown:
+		for node in game.get_children():
+			if node is ThrownTree: thrown = node
+		await process_frame
+	var roots := thrown._visual.get_child(0) as MeshInstance3D
+	check(thrown.replica and roots.name == "TornRoots" and roots.mesh.get_surface_count() == 3, "EOS tree replica carries textured branched roots")
+	check(roots.get_meta("root_variant") == TreeRootBall.variant(thrown.from), "EOS throw origin selects matching deterministic root geometry")
+	while not thrown.landed: await process_frame
+	check(is_instance_valid(roots) and roots.visible, "EOS roots remain attached after the tree lands")
+	write("tree_landed")
 	while titan.alive: await process_frame
 	check(titan.anim.is_playing(), "Replicated death starts an active collapse")
 	await create_timer(2.8).timeout
