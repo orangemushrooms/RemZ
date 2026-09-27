@@ -53,6 +53,13 @@ func run() -> void:
 	await process_frame
 	var selection: MapSelection = game.hud.map_selection
 	check(selection.visible and not game.started and paused, "Start game opens the campaign map without starting the world")
+	for i in 3: await process_frame
+	check(selection.atlas.map_rect.position.is_zero_approx() and selection.atlas.map_rect.size.is_equal_approx(selection.atlas.size), "Selectable map fills its complete panel without side gutters")
+	check((selection.get_child(0) as ColorRect).color.a == 1.0 and selection.modulate.a == 1.0, "Opaque campaign backing hides world-space hut labels even during the entrance")
+	check(selection._join.get_global_rect().end.y < selection.size.y, "Forest entry button fits within the initial viewport")
+	selection.atlas._call_in = 0.0
+	selection.atlas._process(0.01)
+	check(selection.atlas._crows.playing and selection.atlas._crows.volume_db <= -26.0, "Visible paused map plays a quiet crow recording")
 	await shot("selection-forest")
 	for entry: Dictionary in Campaign.REGIONS:
 		var point: Vector2 = selection.atlas.map_rect.position + entry.anchor / Campaign.ART_SIZE * selection.atlas.map_rect.size
@@ -83,12 +90,14 @@ func run() -> void:
 	root.push_input(escape)
 	await process_frame
 	check(not selection.visible and game.hud._card.visible and not game.started, "Back returns to the menu")
+	check(not selection.atlas._crows.playing, "Hidden atlas stops its crow recording immediately")
 	game.hud.primary_action()
 	selection.choose("core")
 	selection._rows[0].focus_entered.emit()
 	check(not selection._join.disabled and selection._preview_id == "forest", "Keyboard focus previews the actionable Forest selection")
 	selection._join.pressed.emit()
 	check(game.started and game.player.active and not paused and not game.hud.overlay.visible, "Forest launches the existing hut level")
+	check(not selection.atlas._crows.playing and not game.hud.menu_map._crows.playing, "Map ambience stops when gameplay begins")
 	game.waves.set_process(false)
 	game.player.set_physics_process(false)
 	game.waves.wave = 24

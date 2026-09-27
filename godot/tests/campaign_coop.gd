@@ -52,6 +52,15 @@ func host_run() -> void:
 	game.waves.phase = "spawning"
 	game.waves._complete_wave()
 	await wait_for("round24")
+	game.spawn_zombie("titan", Vector2(13, 106), 1, "east")
+	var titan: Titan = game.zombies_root.get_children().back()
+	titan.set_physics_process(false)
+	titan.agent.avoidance_enabled = false
+	titan.hp = titan.max_hp * 0.3
+	titan.damage(1.0, Vector3.ZERO)
+	await wait_for("titan_ready")
+	titan.die(Vector3.ZERO)
+	await wait_for("titan_dead")
 	game.waves.wave = 25
 	game.waves.phase = "spawning"
 	game.waves._complete_wave()
@@ -72,6 +81,22 @@ func client_run() -> void:
 	game.hud.show_map_selection()
 	check(not game.hud.map_selection.visible, "Client cannot independently select a region")
 	write("round24")
+	var titan: Titan
+	while not titan:
+		for zombie in game.zombies_root.get_children():
+			if zombie is Titan and zombie.crawling: titan = zombie
+		await create_timer(0.1).timeout
+	await create_timer(0.6).timeout
+	check(titan.replica and titan.alive and titan.crawling, "Client receives the living titan's final phase")
+	write("titan_ready")
+	while titan.alive: await process_frame
+	check(titan.anim.is_playing(), "Replicated death starts an active collapse")
+	await create_timer(2.8).timeout
+	for bone: String in ["Hips", "Head"]:
+		var point := titan.skeleton.to_global(titan.skeleton.get_bone_global_pose(titan.skeleton.find_bone(bone)).origin)
+		check(point.y - Map.ground_height(point.x, point.z) < titan.height * 0.16, "Client corpse rests on the terrain: " + bone)
+	check(not game.hud.menu_map._crows.playing and not game.hud.map_selection.atlas._crows.playing, "Client has no map crow playback during gameplay")
+	write("titan_dead")
 	while not game.over: await create_timer(0.1).timeout
 	check(game.victory and game.waves.phase == "complete", "Client receives successful outcome")
 	check(game.campaign.cleared("forest"), "Client records Forest completion locally")

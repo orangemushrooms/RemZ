@@ -15,6 +15,9 @@ var _art: TextureRect
 var _regions: Array[Polygon2D] = []
 var _ink: Control
 var _fog: ColorRect
+var _crows: AudioStreamPlayer
+var _call_in := 2.5
+var _ambience_rng := RandomNumberGenerator.new()
 
 func _ready() -> void:
 	clip_contents = true
@@ -49,19 +52,26 @@ func _ready() -> void:
 	_ink.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_ink.draw.connect(_draw_details)
 	add_child(_ink)
+	_ambience_rng.randomize()
+	_crows = AudioStreamPlayer.new()
+	_crows.name = "MapCrows"
+	add_child(_crows)
+	visibility_changed.connect(_sync_ambience)
 	resized.connect(_layout)
 	mouse_exited.connect(func(): _hover(""))
 	_layout()
 
 func _layout() -> void:
 	if not _art: return
-	var ratio := minf(size.x / Campaign.ART_SIZE.x, size.y / Campaign.ART_SIZE.y) if interactive else maxf(size.x / Campaign.ART_SIZE.x, size.y / Campaign.ART_SIZE.y)
-	map_rect = Rect2((size - Campaign.ART_SIZE * ratio) * 0.5, Campaign.ART_SIZE * ratio)
+	var cover := maxf(size.x / Campaign.ART_SIZE.x, size.y / Campaign.ART_SIZE.y)
+	# The selectable atlas fills its panel without cropping any regions. All hit areas,
+	# outlines and markers use the same two-axis transform as the artwork.
+	map_rect = Rect2(Vector2.ZERO, size) if interactive else Rect2((size - Campaign.ART_SIZE * cover) * 0.5, Campaign.ART_SIZE * cover)
 	_art.position = map_rect.position
 	_art.size = map_rect.size
 	for polygon in _regions:
 		polygon.position = map_rect.position
-		polygon.scale = Vector2.ONE * ratio
+		polygon.scale = map_rect.size / Campaign.ART_SIZE
 	_ink.queue_redraw()
 
 func region_at(local: Vector2) -> String:
@@ -87,6 +97,13 @@ func _gui_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	if not is_visible_in_tree(): return
+	_call_in -= delta
+	if _call_in <= 0.0 and not _crows.playing:
+		_crows.stream = Sfx.get_stream("raven")
+		_crows.volume_db = _ambience_rng.randf_range(-30.0, -26.0)
+		_crows.pitch_scale = _ambience_rng.randf_range(0.92, 1.05)
+		_crows.play()
+		_call_in = _ambience_rng.randf_range(9.0, 17.0)
 	clock += minf(delta, 0.1)
 	_fog.material.set_shader_parameter("clock", clock)
 	if interactive:
@@ -97,20 +114,26 @@ func _process(delta: float) -> void:
 			mat.set_shader_parameter("brightness", lerpf(float(mat.get_shader_parameter("brightness")), bright, 1.0 - exp(-delta * 9.0)))
 	_ink.queue_redraw()
 
+func _sync_ambience() -> void:
+	if not is_visible_in_tree() and _crows:
+		_crows.stop()
+		_call_in = _ambience_rng.randf_range(2.5, 5.0)
+
 func _draw_details() -> void:
-	var ratio := map_rect.size.x / Campaign.ART_SIZE.x
+	var map_scale := map_rect.size / Campaign.ART_SIZE
+	var ratio := minf(map_scale.x, map_scale.y)
 	if ratio <= 0: return
 	if interactive:
 		for entry: Dictionary in Campaign.REGIONS:
 			var active: bool = entry.id == hovered or entry.id == selected
 			var points := PackedVector2Array()
-			for point: Vector2 in entry.outline: points.append(map_rect.position + point * ratio)
+			for point: Vector2 in entry.outline: points.append(map_rect.position + point * map_scale)
 			var colour := Color(0.58, 0.8, 0.69) if entry.available else Color(0.65, 0.67, 0.69)
 			if active:
 				_ink.draw_colored_polygon(points, Color(colour, 0.10 if entry.available else 0.16))
 			points.append(points[0])
 			_ink.draw_polyline(points, Color(colour, 0.9 if active else 0.28), 1.8 if active else 1.0, true)
-			var at: Vector2 = map_rect.position + entry.anchor * ratio
+			var at: Vector2 = map_rect.position + entry.anchor * map_scale
 			_ink.draw_circle(at, 5.0, colour if entry.available else Color(0.45, 0.47, 0.49))
 			if entry.available:
 				_ink.draw_arc(at, 10.0 + fmod(clock * 6.0, 15.0), 0, TAU, 48, Color(colour, (1.0 - fmod(clock * 0.4, 1.0)) * 0.7), 1.2, true)

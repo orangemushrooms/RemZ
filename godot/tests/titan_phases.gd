@@ -22,6 +22,10 @@ func bone_scale(titan: Zombie, bone_name: String) -> Vector3:
 	var bone := rig.find_bone(bone_name)
 	return rig.get_bone_pose_scale(bone) if bone >= 0 else Vector3.ONE
 
+func above_ground(titan: Titan, bone_name: String) -> float:
+	var joint := titan.skeleton.to_global(titan.skeleton.get_bone_global_pose(titan.skeleton.find_bone(bone_name)).origin)
+	return joint.y - Map.ground_height(joint.x, joint.z)
+
 func run() -> void:
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
@@ -147,5 +151,30 @@ func run() -> void:
 	replica.apply_boss_state(state, true)
 	check(replica.lost == titan.lost and replica.crawling, "A replica loses the same limbs and crawls")
 	check(bone_scale(replica, "RightArm").x < 0.01 and bone_scale(replica, "LeftLeg").x < 0.01, "... with the same collapsed bones")
+	# Let the replica's crawl settle before the final shot; both bodies must finish on the ground.
+	replica.net_position = replica.global_position
+	await create_timer(0.6).timeout
+	var hips_before := above_ground(titan, "Hips")
+	titan.die(Vector3.BACK)
+	replica.die(Vector3.ZERO)
+	check(titan.anim.is_playing() and replica.anim.is_playing(), "Host and replica animate the final fall instead of freezing")
+	var highest := 0.0
+	var timer := 0.0
+	while timer < 2.8:
+		await process_frame
+		timer += root.get_process_delta_time()
+		highest = maxf(highest, above_ground(titan, "Hips"))
+	# A sideways roll lifts the pelvis by the torso's thickness. It must still stay
+	# below standing hip height; an upright transition reaches roughly half the rig's height.
+	check(highest < titan.height * 0.4, "The dying crawler never stands back up (start %.2f peak %.2f)" % [hips_before, highest])
+	for corpse in [titan, replica]:
+		var hip := above_ground(corpse, "Hips")
+		var head := above_ground(corpse, "Head")
+		check(hip < corpse.height * 0.16 and head < corpse.height * 0.16, "Corpse lies on the ground (replica=%s hips=%.2f head=%.2f)" % [corpse.replica, hip, head])
+		check(not corpse.alive and corpse.collision_layer == 0, "Dead titan no longer blocks or attacks")
+		check(bone_scale(corpse, "RightArm").x < 0.01 and bone_scale(corpse, "LeftLeg").x < 0.01, "Final pose preserves the missing limbs")
+	var settled := above_ground(titan, "Hips")
+	await create_timer(0.4).timeout
+	check(absf(above_ground(titan, "Hips") - settled) < 0.05, "The corpse remains still after landing")
 	print("TITAN_PHASES_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

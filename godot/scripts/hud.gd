@@ -595,8 +595,9 @@ func show_map_selection() -> void:
 	menu_map.hide()
 	map_selection.refresh()
 	map_selection.show()
-	map_selection.modulate.a = 0.0
-	map_selection.create_tween().tween_property(map_selection, "modulate:a", 1.0, 0.22)
+	# Fade only the artwork: the opaque backing must cover world-space health labels immediately.
+	map_selection.atlas.modulate.a = 0.75
+	map_selection.create_tween().tween_property(map_selection.atlas, "modulate:a", 1.0, 0.22)
 	map_selection._rows[0].grab_focus()
 
 func hide_map_selection() -> void:

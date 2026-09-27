@@ -25,6 +25,9 @@ const THROW_RANGE := Vector2(14.0, 80.0)
 const THROW_WINDUP := 1.3
 const CRAWL_SPEED := 0.5
 const CRAWL_BONES := ["LeftToeBase", "RightToeBase", "LeftHand", "RightHand", "LeftLeg", "RightLeg"]
+const COLLAPSE_IMPACT := 1.7
+const COLLAPSE_LENGTH := 2.3
+const CORPSE_BONES := ["Hips", "Spine", "Spine1", "Spine2", "Head", "LeftForeArm", "LeftHand", "RightUpLeg", "RightLeg", "RightFoot", "RightToeBase"]
 var lost := 0
 var crawling := false
 var throw_serial := 0
@@ -52,6 +55,7 @@ var foot_bones: Array[int] = []
 var crawl_bones: Array[int] = []   # feet, hands and knees: whatever touches the ground on all fours
 var _last_position := Vector3.ZERO
 var _warning_center := Vector3.INF
+var _collapse_elapsed := 0.0
 
 func blast_radius() -> float:
 	return float(type.get("blast_radius", BLAST_RADIUS)) * (0.75 if crawling else 1.0)
@@ -126,7 +130,11 @@ func emit_cue(kind: String, origin: Vector3 = Vector3.INF) -> void:
 	NetSession.titan_cue(kind, point, height, appearance_seed, _cue_serial)
 
 func _process(delta: float) -> void:
-	if not alive: return
+	if not alive:
+		if clip == "crawl_death" and _collapse_elapsed < COLLAPSE_LENGTH + 0.2:
+			_collapse_elapsed += delta
+			_ground_corpse()
+		return
 	var contact := false
 	# Contact correction is essential at this scale: a small rig offset becomes
 	# a metre of floating feet when a human animation is applied to a giant. On all fours the
@@ -233,10 +241,9 @@ func _begin_crawl() -> void:
 func play(name: String) -> void:
 	if crawling and has_crawl_clip():
 		state = name
-		# Keep the grounded four-point pose through attacks and death. The upper-body
-		# strike is layered onto this clip; a standing clip would regrow the lost leg.
+		# Attacks stay on all fours; death collapses from the current pose onto the ground.
 		if name == "death":
-			anim.pause()
+			_play_crawl_death()
 			return
 		var target := "crawl_attack" if name == "attack" and anim.has_animation("crawl_attack") else "crawl"
 		if clip != target or name == "attack":
@@ -245,6 +252,92 @@ func play(name: String) -> void:
 		anim.speed_scale = 1.0 / windup() if target == "crawl_attack" else 0.6
 		return
 	super.play(name)
+
+func _play_crawl_death() -> void:
+	if clip == "crawl_death": return
+	# Use this rig's prone death pose, but never play the standing lead-in. Capture
+	# the live crawl/sweep so the killing shot cannot snap the giant back upright.
+	var ending := ""
+	var metrics := clip_info(model_path)
+	var closest := INF
+	var hips := skeleton.find_bone("Hips") if skeleton else -1
+	var end_turn := Quaternion.IDENTITY
+	var parent_basis := skeleton.global_basis if skeleton else Basis.IDENTITY
+	if hips >= 0 and skeleton.get_bone_parent(hips) >= 0:
+		parent_basis *= skeleton.get_bone_global_pose(skeleton.get_bone_parent(hips)).basis
+	var reverse := Quaternion((parent_basis.inverse() * Vector3.UP).normalized(), PI)
+	for candidate in anim.get_animation_list():
+		if not candidate.begins_with("death"): continue
+		var info: Dictionary = metrics.get(candidate, {})
+		if hips < 0 or is_plank(info): continue
+		# Orient a backward fall along the crawler's front. It then rolls sideways
+		# onto its back, rather than pitching upright to put the head behind the hips.
+		var turn := reverse if float(info.get("travel_z", 0.0)) < 0.0 else Quaternion.IDENTITY
+		var pose := anim.get_animation(candidate)
+		for track in pose.get_track_count():
+			if pose.track_get_type(track) != Animation.TYPE_ROTATION_3D or str(pose.track_get_path(track)).get_slice(":", 1) != "Hips": continue
+			# The final pose matters here; the standing lead-in is never played.
+			var angle := skeleton.get_bone_pose_rotation(hips).angle_to(turn * pose.rotation_track_interpolate(track, pose.length))
+			if angle < closest:
+				closest = angle
+				ending = candidate
+				end_turn = turn
+	if ending.is_empty(): ending = _death_clip()
+	if ending.is_empty() or not skeleton:
+		# Legacy rigs without a death clip still lower the unsupported body to the floor.
+		anim.pause()
+		create_tween().tween_property(model, "position:y", model.position.y - height * 0.18, COLLAPSE_IMPACT)
+		return
+	var source := anim.get_animation(ending)
+	var collapse := Animation.new()
+	collapse.length = COLLAPSE_LENGTH
+	collapse.loop_mode = Animation.LOOP_NONE
+	for track in source.get_track_count():
+		var kind := source.track_get_type(track)
+		# Limb-loss scales belong to the corpse too; never restore them from a clip.
+		if kind not in [Animation.TYPE_POSITION_3D, Animation.TYPE_ROTATION_3D]: continue
+		var path := source.track_get_path(track)
+		var bone := skeleton.find_bone(str(path).get_slice(":", 1))
+		if bone < 0: continue
+		var dest := collapse.add_track(kind)
+		collapse.track_set_path(dest, path)
+		if kind == Animation.TYPE_ROTATION_3D:
+			var start := skeleton.get_bone_pose_rotation(bone)
+			var finish := source.rotation_track_interpolate(track, source.length)
+			if bone == hips: finish = end_turn * finish
+			var keys := [[0.0, 0.0], [0.45, 0.08], [COLLAPSE_IMPACT, 1.0], [COLLAPSE_LENGTH, 1.0]]
+			if bone == hips:
+				keys = [[0.0, 0.0], [0.45, 0.18], [1.25, 0.88], [COLLAPSE_IMPACT, 1.0], [COLLAPSE_LENGTH, 1.0]]
+			elif skeleton.get_bone_name(bone) in ["RightUpLeg", "RightLeg", "RightFoot", "RightToeBase"]:
+				# Keep the knee folded while the torso rolls; extending it early would
+				# lever the whole giant upwards against the terrain before it drops.
+				keys = [[0.0, 0.0], [0.85, 0.0], [1.25, 0.25], [COLLAPSE_IMPACT, 1.0], [COLLAPSE_LENGTH, 1.0]]
+			for key in keys:
+				collapse.rotation_track_insert_key(dest, key[0], start.slerp(finish, key[1]))
+		else:
+			var start := skeleton.get_bone_pose_position(bone)
+			var finish := source.position_track_interpolate(track, source.length)
+			if skeleton.get_bone_name(bone) == "Hips":
+				finish.x = start.x
+				finish.z = start.z
+			for key in [[0.0, 0.0], [0.45, 0.08], [COLLAPSE_IMPACT, 1.0], [COLLAPSE_LENGTH, 1.0]]:
+				collapse.position_track_insert_key(dest, key[0], start.lerp(finish, key[1]))
+	anim.get_animation_library("").add_animation("crawl_death", collapse)
+	clip = "crawl_death"
+	anim.play(clip, 0.0)
+	anim.speed_scale = 1.0
+	_collapse_elapsed = 0.0
+
+func _ground_corpse() -> void:
+	if not skeleton or not model: return
+	var lowest := INF
+	for name: String in CORPSE_BONES:
+		var bone := skeleton.find_bone(name)
+		if bone < 0: continue
+		var joint := skeleton.to_global(skeleton.get_bone_global_pose(bone).origin)
+		lowest = minf(lowest, joint.y - Map.ground_height(joint.x, joint.z))
+	if is_finite(lowest):
+		model.position.y += height * 0.012 - lowest
 
 func _build_crawl_attack() -> void:
 	if not has_crawl_clip() or anim.has_animation("crawl_attack"): return
@@ -354,10 +447,10 @@ func die(direction: Vector3) -> void:
 	emit_cue("death")
 	super.die(direction)
 	warning.hide()
-	if anim: anim.speed_scale = 0.0 if crawling else 0.4
+	if anim: anim.speed_scale = 1.0 if crawling else 0.4
 	# The body lands after the death animation starts, not at the killing bullet.
 	if not replica:
-		get_tree().create_timer(1.7, false).timeout.connect(func():
+		get_tree().create_timer(COLLAPSE_IMPACT, false).timeout.connect(func():
 			if is_inside_tree(): emit_cue("collapse"))
 
 func _physics_process(delta: float) -> void:

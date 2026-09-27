@@ -137,7 +137,7 @@ func run() -> void:
 		var above := world_hip.y - Map.ground_height(world_hip.x, world_hip.z)
 		check(above <= crawl_height + titan.height * 0.025, "Attack stays at crawl height at %.1f s: %.2f / %.2f m" % [time, above, crawl_height])
 	titan.die(Vector3.ZERO)
-	check(titan.clip == "crawl_attack" and not titan.anim.is_playing(), "Crawler dies without standing up")
+	check(titan.clip == "crawl_death" and titan.anim.is_playing(), "Crawler actively collapses from its attack pose")
 	await clear_enemies()
 	for phase in [0, SecretNight.GUESTS, SecretNight.RETURN, SecretNight.WAKING]:
 		game.secret_night.completed = false
