@@ -155,6 +155,15 @@ SPECS = {
         anims=TITAN, polycount=60000),
 }
 
+# 27 Sep 2026: every human-sized skin also gets up from the ground when it spawns (Zombie.rise_on_spawn): library
+# clip 3 "Arise". It is merged into the game GLBs by tools/add_clips.mjs (the mesh stays bit-identical, so the baked
+# shot volumes keep their hashes) and grounded with tools/ground_clips.mjs, see CLAUDE.md.
+RISERS = ['zombie_shambler', 'zombie_farmer', 'zombie_hiker', 'zombie_grandma', 'zombie_runner', 'zombie_jogger',
+          'zombie_nurse', 'zombie_soldier', 'zombie_forester', 'zombie_bloater', 'zombie_spitter', 'zombie_screamer',
+          'zombie_stalker']
+for _name in RISERS:
+    SPECS[_name]['anims'] = dict(SPECS[_name]['anims'], arise=3)
+
 STAGES = ['design', 'model', 'rig', 'anims']
 
 

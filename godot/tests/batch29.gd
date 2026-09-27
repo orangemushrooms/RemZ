@@ -9,6 +9,9 @@ const SKINS := {"zombie_businessman": "shambler", "zombie_wanderer": "shambler",
 	"zombie_wraith": "stalker", "zombie_bride": "bride"}
 const CLIPS := ["walk", "attack", "attack2", "death", "death2", "death3", "death4", "hit", "hit2", "idle", "scream", "arise"]
 const RUNS := ["zombie_wastelander", "zombie_wraith", "zombie_bride"]
+# the older human-sized skins (tools/zombies_v3.py RISERS) got the rise and grounded clips the same day
+const OLDER := ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma", "zombie_runner", "zombie_jogger",
+	"zombie_nurse", "zombie_soldier", "zombie_forester", "zombie_bloater", "zombie_spitter", "zombie_screamer", "zombie_stalker"]
 const BONES := ["Hips", "Spine", "neck", "Head", "LeftArm", "LeftForeArm", "LeftHand", "RightHand", "LeftUpLeg", "LeftLeg", "LeftFoot", "RightFoot", "LeftToeBase", "RightToeBase"]
 
 var checks := 0
@@ -122,6 +125,19 @@ func run() -> void:
 		for clip in ["walk", "idle", "attack"]:
 			var gap := foot_gap(scene, clip)
 			check(gap < 0.06, "%s %s keeps the feet on the ground (lowest foot %.3f m over rest)" % [skin, clip, gap])
+	# ---- the older skins: the rise merged in (tools/add_clips.mjs), every clip grounded (tools/ground_clips.mjs)
+	for skin in OLDER:
+		var path := "res://assets/models/%s.glb" % skin
+		var scene: PackedScene = Zombie._scenes.get(path)
+		if scene == null:
+			check(false, "%s loads" % skin)
+			continue
+		var model: Node3D = scene.instantiate()
+		var anim := model.find_child("AnimationPlayer", true, false) as AnimationPlayer
+		check(anim != null and anim.has_animation("arise") and anim.has_animation("walk"), "%s can rise from the ground" % skin)
+		model.free()
+		var gap := foot_gap(scene, "walk")
+		check(gap < 0.06, "%s walk keeps the feet on the ground (lowest foot %.3f m over rest)" % [skin, gap])
 	# ---- the rise
 	var waves: Waves = game.waves
 	waves.phase = "spawning"
@@ -154,10 +170,10 @@ func run() -> void:
 	var close: Zombie = last_zombie()
 	await wait_seconds(0.6)
 	check(close.state == "arise" and (close._head_look == null or close._head_look.influence < 0.05), "No head tracking while it gets up")
-	# rigs without the clip spawn standing, as before
+	# lane spawns (no rise requested) walk in standing, even with the clip on the rig
 	Zombie.force_skin = "zombie_shambler"
-	check(game.spawn_zombie("shambler", open + Vector2(-4, -20), 1.0, "", 0.0, -1, true), "An older skin spawns with rise requested")
-	check(last_zombie().state == "walk", "... and simply stands (no arise clip)")
+	check(game.spawn_zombie("shambler", open + Vector2(-4, -20), 1.0), "An older skin spawns at a lane")
+	check(last_zombie().state == "walk", "... and walks in standing")
 	Zombie.force_skin = ""
 	clear_zombies()
 	# co-op: a replica created while the host raises the body enters lying too

@@ -70,6 +70,32 @@ PASS: zombie_bride has 6 usable falls
 PASS: zombie_bride walk keeps the feet on the ground (lowest foot -0.008 m over rest)
 PASS: zombie_bride idle keeps the feet on the ground (lowest foot 0.014 m over rest)
 PASS: zombie_bride attack keeps the feet on the ground (lowest foot 0.009 m over rest)
+PASS: zombie_shambler can rise from the ground
+PASS: zombie_shambler walk keeps the feet on the ground (lowest foot -0.000 m over rest)
+PASS: zombie_farmer can rise from the ground
+PASS: zombie_farmer walk keeps the feet on the ground (lowest foot 0.002 m over rest)
+PASS: zombie_hiker can rise from the ground
+PASS: zombie_hiker walk keeps the feet on the ground (lowest foot 0.000 m over rest)
+PASS: zombie_grandma can rise from the ground
+PASS: zombie_grandma walk keeps the feet on the ground (lowest foot -0.002 m over rest)
+PASS: zombie_runner can rise from the ground
+PASS: zombie_runner walk keeps the feet on the ground (lowest foot 0.000 m over rest)
+PASS: zombie_jogger can rise from the ground
+PASS: zombie_jogger walk keeps the feet on the ground (lowest foot 0.002 m over rest)
+PASS: zombie_nurse can rise from the ground
+PASS: zombie_nurse walk keeps the feet on the ground (lowest foot -0.003 m over rest)
+PASS: zombie_soldier can rise from the ground
+PASS: zombie_soldier walk keeps the feet on the ground (lowest foot 0.004 m over rest)
+PASS: zombie_forester can rise from the ground
+PASS: zombie_forester walk keeps the feet on the ground (lowest foot -0.002 m over rest)
+PASS: zombie_bloater can rise from the ground
+PASS: zombie_bloater walk keeps the feet on the ground (lowest foot -0.002 m over rest)
+PASS: zombie_spitter can rise from the ground
+PASS: zombie_spitter walk keeps the feet on the ground (lowest foot -0.006 m over rest)
+PASS: zombie_screamer can rise from the ground
+PASS: zombie_screamer walk keeps the feet on the ground (lowest foot -0.003 m over rest)
+PASS: zombie_stalker can rise from the ground
+PASS: zombie_stalker walk keeps the feet on the ground (lowest foot -0.005 m over rest)
 PASS: A businessman spawns rising, 20 m from the player
 PASS: It enters lying on the ground (state arise, clip arise)
 PASS: It gets up facing its prey
@@ -80,8 +106,8 @@ PASS: Shot before it stands, the body sinks back (the rise runs backwards)
 PASS: ... towards the lying pose (0.55 -> 0.18 s)
 PASS: A third one rises 4 m from the player
 PASS: No head tracking while it gets up
-PASS: An older skin spawns with rise requested
-PASS: ... and simply stands (no arise clip)
+PASS: An older skin spawns at a lane
+PASS: ... and walks in standing
 PASS: A co-op replica of a rising body starts lying (snapshot state arise)
 PASS: ... and stands when the host's state moves on
 PASS: zombie_businessman spawns
@@ -120,7 +146,7 @@ PASS: The player is marked for the horde
 PASS: Four runners answer her call
 PASS: Her wail has its own message
 PASS: The wraith rises out of the maize as a shimmer
-BATCH29_DONE checks=116 failures=0
+BATCH29_DONE checks=142 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

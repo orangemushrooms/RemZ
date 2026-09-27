@@ -200,4 +200,3 @@ PASS: zombie_wraith animated headshot during attack
 PASS: zombie_wraith empty navigation capsule does not catch bullets
 PASS: zombie_wraith hitboxes follow model offsets and rotation
 ZOMBIE_HITBOXES_DONE checks=197 failures=0
-EXIT 0

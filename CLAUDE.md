@@ -549,8 +549,11 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
 - `ground_clips.mjs`: Meshy retargets by hip height; the dress rigs stood 10-13 cm in the air in walk and attack.
   Standing clips get one constant Hips offset (15th percentile of the lowest vertex -> 0), deaths only the
   standing contact at the start (fading out: on the ground the lowest vertex is hair or a hem), the arise only
-  its end pose. The older skins float 6-8 cm in some clips (the Frankenstein walk); the same tool would fix them
-  (re-import only, the shot volumes keep their hashes).
+  its end pose. The same day the 13 older human-sized skins (`zombies_v3.RISERS`: the ten common ones plus
+  spitter, screamer, stalker; not the titans) got it too - they floated 6-8 cm in some clips (the Frankenstein
+  walk, the bloater's crawl sank 9 cm) - and their "arise" clip: `tools/add_clips.mjs` merges it into the finished
+  game GLB (refuses a clip whose skeleton differs; mesh bit-identical, shot volumes unchanged), then
+  `ground_clips.mjs`. batch29 checks every one of them (142 checks).
 - Looking without a GPU: `glb_info.mjs` (meshes, maps, joints, clips), `glb_preview.mjs` (software raster, front /
   side / back, `--anim --time`, `--zoom`, `--texture`), `pose_sheet.mjs` (clip moments of several GLBs in a sheet).
 

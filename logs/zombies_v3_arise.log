@@ -1,0 +1,108 @@
+12:26:02 generating ['zombie_shambler', 'zombie_farmer', 'zombie_hiker', 'zombie_grandma', 'zombie_runner', 'zombie_jogger', 'zombie_nurse', 'zombie_soldier', 'zombie_forester', 'zombie_bloater', 'zombie_spitter', 'zombie_screamer', 'zombie_stalker'] up to anims
+12:26:03 zombie_grandma anim arise 3 01a0e266-7ebf-74b8-85f4-ec948e87d853
+12:26:03 zombie_runner anim arise 3 01a0e266-7eb9-718f-9af5-ca44fa2d8d99
+12:26:03 zombie_farmer anim arise 3 01a0e266-7eb9-768d-827e-9c8479955eb4
+12:26:03 zombie_hiker anim arise 3 01a0e266-7ec2-7475-9700-4d47125b8e49
+12:26:03 zombie_shambler anim arise 3 01a0e266-7ebb-7382-8d79-05e1b93ede88
+12:26:05 zombie_grandma anim_arise IN_PROGRESS 10%
+12:26:05 zombie_runner anim_arise IN_PROGRESS 10%
+12:26:05 zombie_farmer anim_arise IN_PROGRESS 10%
+12:26:05 zombie_hiker anim_arise IN_PROGRESS 10%
+12:26:05 zombie_shambler anim_arise IN_PROGRESS 10%
+12:26:17 zombie_grandma anim_arise IN_PROGRESS 42%
+12:26:17 zombie_runner anim_arise IN_PROGRESS 42%
+12:26:17 zombie_farmer anim_arise IN_PROGRESS 42%
+12:26:17 zombie_hiker anim_arise IN_PROGRESS 42%
+12:26:17 zombie_shambler anim_arise IN_PROGRESS 42%
+12:26:29 zombie_grandma anim_arise SUCCEEDED 100%
+12:26:29 zombie_grandma anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma_v3\anim_arise.glb...
+12:26:29 zombie_runner anim_arise SUCCEEDED 100%
+12:26:29 zombie_runner anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v3\anim_arise.glb...
+12:26:29 zombie_farmer anim_arise SUCCEEDED 100%
+12:26:29 zombie_farmer anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer_v3\anim_arise.glb...
+12:26:29 zombie_hiker anim_arise SUCCEEDED 100%
+12:26:29 zombie_hiker anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker_v3\anim_arise.glb...
+12:26:29 zombie_shambler anim_arise SUCCEEDED 100%
+12:26:29 zombie_shambler anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_grandma_v3\anim_arise.glb (21.4 MB)
+12:26:40 zombie_grandma READY up to anims
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_farmer_v3\anim_arise.glb (20.5 MB)
+12:26:41 zombie_farmer READY up to anims
+12:26:41 zombie_jogger anim arise 3 01a0e267-130c-74d4-a09b-a4a2d54b2641
+12:26:42 zombie_nurse anim arise 3 01a0e267-1492-736c-9500-5f914c63eca0
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_hiker_v3\anim_arise.glb (25.6 MB)
+12:26:42 zombie_hiker READY up to anims
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_shambler_v3\anim_arise.glb (23.0 MB)
+12:26:42 zombie_shambler READY up to anims
+12:26:43 zombie_jogger anim_arise IN_PROGRESS 10%
+12:26:43 zombie_soldier anim arise 3 01a0e267-1ae4-73f2-9f8b-3a53b189a31c
+12:26:43 zombie_forester anim arise 3 01a0e267-1b2a-7179-be65-3c390d432089
+12:26:43 zombie_nurse anim_arise IN_PROGRESS 10%
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_runner_v3\anim_arise.glb (24.8 MB)
+12:26:44 zombie_runner READY up to anims
+12:26:45 zombie_soldier anim_arise IN_PROGRESS 10%
+12:26:45 zombie_forester anim_arise IN_PROGRESS 10%
+12:26:45 zombie_bloater anim arise 3 01a0e267-2200-70c1-8a58-e98094938a4d
+12:26:47 zombie_bloater anim_arise IN_PROGRESS 10%
+12:26:55 zombie_jogger anim_arise IN_PROGRESS 42%
+12:26:56 zombie_nurse anim_arise IN_PROGRESS 42%
+12:26:57 zombie_soldier anim_arise IN_PROGRESS 42%
+12:26:57 zombie_forester anim_arise IN_PROGRESS 42%
+12:26:59 zombie_bloater anim_arise IN_PROGRESS 42%
+12:27:08 zombie_jogger anim_arise SUCCEEDED 100%
+12:27:08 zombie_jogger anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger_v3\anim_arise.glb...
+12:27:08 zombie_nurse anim_arise SUCCEEDED 100%
+12:27:08 zombie_nurse anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v3\anim_arise.glb...
+12:27:09 zombie_soldier anim_arise SUCCEEDED 100%
+12:27:09 zombie_soldier anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v3\anim_arise.glb...
+12:27:10 zombie_forester anim_arise IN_PROGRESS 95%
+12:27:11 zombie_bloater anim_arise SUCCEEDED 100%
+12:27:11 zombie_bloater anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_bloater_v3\anim_arise.glb (21.6 MB)
+12:27:16 zombie_bloater READY up to anims
+12:27:17 zombie_spitter anim arise 3 01a0e267-9e61-760a-af5a-9aaa641fb7f5
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_soldier_v3\anim_arise.glb (25.3 MB)
+12:27:17 zombie_soldier READY up to anims
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_nurse_v3\anim_arise.glb (23.3 MB)
+12:27:18 zombie_nurse READY up to anims
+12:27:18 zombie_screamer anim arise 3 01a0e267-a3e9-7687-a3a8-bc59104f7c69
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_jogger_v3\anim_arise.glb (22.4 MB)
+12:27:19 zombie_jogger READY up to anims
+12:27:19 zombie_spitter anim_arise IN_PROGRESS 10%
+12:27:19 zombie_stalker anim arise 3 01a0e267-a5f7-7504-9493-81f06977074e
+12:27:20 zombie_screamer anim_arise IN_PROGRESS 10%
+12:27:21 zombie_stalker anim_arise IN_PROGRESS 10%
+12:27:22 zombie_forester anim_arise SUCCEEDED 100%
+12:27:22 zombie_forester anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_forester_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_forester_v3\anim_arise.glb (26.2 MB)
+12:27:26 zombie_forester READY up to anims
+12:27:31 zombie_spitter anim_arise IN_PROGRESS 42%
+12:27:32 zombie_screamer anim_arise IN_PROGRESS 42%
+12:27:33 zombie_stalker anim_arise IN_PROGRESS 42%
+12:27:43 zombie_spitter anim_arise SUCCEEDED 100%
+12:27:43 zombie_spitter anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_arise.glb...
+12:27:44 zombie_screamer anim_arise SUCCEEDED 100%
+12:27:44 zombie_screamer anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_arise.glb...
+12:27:45 zombie_stalker anim_arise SUCCEEDED 100%
+12:27:45 zombie_stalker anim_arise done, credits 3
+Downloading C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_arise.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_spitter_v3\anim_arise.glb (25.4 MB)
+12:27:46 zombie_spitter READY up to anims
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_stalker_v3\anim_arise.glb (21.6 MB)
+12:27:49 zombie_stalker READY up to anims
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\assets\raw\zombie_screamer_v3\anim_arise.glb (19.5 MB)
+12:27:51 zombie_screamer READY up to anims
+Balance: {'balance': 364}
+ZOMBIES_V3_DONE ok=13 failed=[]
