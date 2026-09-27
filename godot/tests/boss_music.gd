@@ -1,4 +1,4 @@
-# Boss songs (music.gd, waves.gd): one of the four at random for every boss fight, never the same
+# Menu loop boundaries and boss songs (music.gd, waves.gd): one of four songs per boss fight, never the same
 # twice in a row, handed over to another one when a fight outlasts its song, and back to the combat
 # loop when the boss falls / to the pause track when the wave is over.
 # Godot.exe --headless --path godot --script res://tests/run.gd -- --suite=boss_music --smoke-test --no-intro --no-foliage
@@ -32,8 +32,10 @@ func run() -> void:
 
 func _music_alone() -> void:
 	var music := Music.new()
+	music.process_mode = Node.PROCESS_MODE_ALWAYS
 	root.add_child(music)
 	await process_frame
+	await _title_loop(music)
 	for name: String in Music.BOSS_TRACKS:
 		var p: AudioStreamPlayer = music._players.get(name)
 		check(p != null and p.stream.resource_path == "res://assets/audio/music/%s.mp3" % name and p.stream.get_length() > 100.0, "Boss song loads: " + name)
@@ -73,6 +75,35 @@ func _music_alone() -> void:
 	check(not music.in_fight(), "Game over is not a fight")
 	music.queue_free()
 	await process_frame
+
+func _title_loop(music: Music) -> void:
+	music.play("title")
+	var song: AudioStreamPlayer = music._players["title"]
+	check(song.stream.resource_path == "res://assets/audio/sfx/Main_Menu_Music.mp3" and song.stream.loop, "Main menu uses the supplied MP3 with continuous playback")
+	# Cross an actual decoder loop boundary, including the silent tail. A fade
+	# must not accidentally stop the stream and prevent its next repetition.
+	paused = true
+	song.play(song.stream.get_length() - 6.0)
+	await create_timer(1.0).timeout
+	var before := song.volume_linear
+	check(song.playing and before > 0.15, "Menu music plays while the title screen pauses the world")
+	await create_timer(4.5).timeout
+	check(song.playing and song.volume_linear < before * 0.15, "Track ending fades almost to silence before looping")
+	await create_timer(3.5).timeout
+	check(song.playing and song.get_playback_position() < 4.5 and song.volume_linear > before * 0.8, "The next repetition fades back in without stopping at zero volume")
+	var position := song.get_playback_position()
+	music.play("title")
+	check(absf(song.get_playback_position() - position) < 0.1, "Repeated menu requests keep the current song position")
+	music.play("lobby")
+	await create_timer(2.0).timeout
+	check(not song.playing and music._players.lobby.playing, "Opening multiplayer fades into the existing lobby music")
+	music.play("title")
+	await create_timer(3.0).timeout
+	check(song.playing and song.volume_linear > 0.15 and not music._players.lobby.playing, "Returning from multiplayer resumes menu music with a fade-in")
+	music.stop_all()
+	await create_timer(2.0).timeout
+	check(not song.playing, "Starting the intro cleanly fades and stops menu music")
+	paused = false
 
 func _waves_drive_the_music() -> void:
 	var game = load("res://scenes/main.tscn").instantiate()

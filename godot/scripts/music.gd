@@ -2,7 +2,7 @@
 # the track follows the clock, so a round that runs into the day does not repeat the night loop.
 # A boss fight swaps the combat track for one of the four boss songs (fight()).
 # Tracks crossfade; an extra "horde" layer (distant zombie choir) is mixed in with the number of
-# zombies alive. Files live in assets/audio/music (from the user's sound library).
+# zombies alive. Tracks live in assets/audio/music unless they provide an explicit path.
 class_name Music
 extends Node
 
@@ -13,7 +13,7 @@ const DIR := "res://assets/audio/music/"
 # loudness; since 24 Sep 2026 they are a third quieter than that by ear (-5.85 dB = 10 * log2(2/3)). They do not loop: each one stops dead at full volume after 150 s, so
 # a longer fight hands over to another boss song instead of jumping back to the quiet intro.
 const TRACKS := {
-	"title": { "loop": true, "db": -10.0 },
+	"title": { "loop": true, "db": -10.0, "path": "res://assets/audio/sfx/Main_Menu_Music.mp3" },
 	"lobby": { "loop": true, "db": -10.0, "file": "Multiplayer_Lobby_Music" },
 	"night": { "loop": true, "db": -14.0 },
 	"morning": { "loop": true, "db": -13.0, "file": "survived_the_night" },
@@ -28,6 +28,8 @@ const TRACKS := {
 const BOSS_TRACKS := ["boss_fight_1", "boss_fight_2", "boss_fight_3", "boss_fight_4"]
 const BOSS_HANDOVER := 1.5     # seconds before a boss song ends that the next one fades in
 const FADE := 2.5
+const TITLE_FADE_IN := 2.5
+const TITLE_FADE_OUT := 5.0
 
 var _players: Dictionary = {}
 var _target: Dictionary = {}   # track -> linear volume target
@@ -44,7 +46,7 @@ func titan_duck(amount: float, duration: float) -> void:
 
 func _ready() -> void:
 	for name in TRACKS:
-		var path: String = DIR + str(TRACKS[name].get("file", name)) + ".mp3"
+		var path: String = TRACKS[name].get("path", DIR + str(TRACKS[name].get("file", name)) + ".mp3")
 		if not ResourceLoader.exists(path):
 			continue
 		var st: AudioStream = load(path)
@@ -113,12 +115,19 @@ func _process(delta: float) -> void:
 	_target["horde"] = clampf(horde, 0.0, 1.0) * db_to_linear(TRACKS["horde"]["db"]) if _target.has("horde") else 0.0
 	for n in _players:
 		var p: AudioStreamPlayer = _players[n]
-		var want: float = _target[n] * _titan_mix
+		var active: float = _target[n] * _titan_mix
 		var have: float = p.volume_linear
-		if want > 0.0 and not p.playing:
+		if active > 0.0 and not p.playing:
 			p.play()
+		var want := active
+		if n == "title" and p.playing:
+			# Keep the native MP3 loop running through silence. The gain envelope
+			# fades the ending away and brings the next pass in without a hard cut.
+			var position := p.get_playback_position()
+			var remaining := maxf(0.0, p.stream.get_length() - position)
+			want *= smoothstep(0.0, TITLE_FADE_IN, position) * smoothstep(0.0, TITLE_FADE_OUT, remaining)
 		var speed := delta / FADE
 		var v := move_toward(have, want, speed)
 		p.volume_linear = v
-		if v <= 0.001 and want <= 0.0 and p.playing:
+		if v <= 0.001 and active <= 0.0 and p.playing:
 			p.stop()
