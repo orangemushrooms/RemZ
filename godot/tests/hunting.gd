@@ -35,7 +35,7 @@ func run() -> void:
 	check(hunt.health[0] < hp, "Actual pistol ray damages an animal")
 	check(deer.state == "flee", "Wounded animal flees")
 	hunt.hit(deer, 999, 1)
-	check(hunt.health[0] == 0 and hunt.drops.size() == 1, "Death creates one meat drop")
+	check(hunt.health[0] == 0 and hunt.drops.size() == 1 and deer.animation != null and not deer.animation.is_playing(), "Death creates one meat drop and stops the animal's gait")
 	check(game.achievements.session_unlocked.has("hunter"), "First hunt unlocks Jaeger achievement")
 	check(game.stats.kills == 0, "Hunting does not inflate zombie kills")
 	hunt.hit(deer, 999, 1)
@@ -98,6 +98,14 @@ func run() -> void:
 	hunt.hit(area, 99, 1)
 	check(hunt.drops.has(8) and hunt.drops[8].amount == 1, "Bird drops one portion on the ground")
 	var saved: Dictionary = hunt.snapshot()
+	var survivor: Deer = hunt.animals[1]
+	survivor.set_physics_process(false)
+	var previous_pose := survivor.global_position
+	survivor.net_position = previous_pose
+	var moving: Dictionary = saved.duplicate(true)
+	moving.animals[1][0] = previous_pose + Vector3(1, 0, 1)
+	hunt.apply_snapshot(moving)
+	check(survivor.global_position.is_equal_approx(previous_pose) and survivor.net_position == moving.animals[1][0], "Animal snapshots update interpolation targets without snapping the visible pose")
 	hunt.stock(1).raw_meat = 99
 	hunt.drops.clear()
 	hunt.apply_snapshot(saved)

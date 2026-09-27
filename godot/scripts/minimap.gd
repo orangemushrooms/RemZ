@@ -325,6 +325,19 @@ func _draw_symbols(c: Control) -> void:
 		c.draw_circle(hut_point, 11.0 + pulse * 5.0, Color(1, 0.06, 0.02, 0.15 + pulse * 0.2))
 		c.draw_circle(hut_point, 7.0, Color(1, 0.12 + pulse * 0.18, 0.06), false, 2.5, true)
 	# Draw quest markers last so nearby enemies and players cannot cover them.
+	if "field_trials" in world and world.field_trials and world.field_trials.active:
+		var trials: FieldTrials = world.field_trials
+		if trials.secret >= 0:
+			var goal: Vector2 = FieldTrials.SECRETS[trials.secret].at
+			var marker := map_position(Map.ground_pos(goal.x, goal.y))
+			c.draw_circle(marker, 8, Color(0.65, 0.95, 0.55), false, 2, true)
+			c.draw_string(_font, marker + Vector2(10, 0), Lang.text("GROVE"), HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.65, 0.95, 0.55))
+		else:
+			var field := FieldTrials.FIELD
+			var points := PackedVector2Array()
+			for corner in [field.position, Vector2(field.end.x, field.position.y), field.end, Vector2(field.position.x, field.end.y), field.position]:
+				points.append(map_position(Map.ground_pos(corner.x, corner.y)))
+			c.draw_polyline(points, Color(1, 0.65, 0.2), 2, true)
 	if "secret_night" in world and world.secret_night and world.secret_night.active and world.secret_night.step >= SecretNight.ECHO:
 		# the party itself stays off the map: the sound and the glowing mushrooms lead the way
 		var goal: Vector2 = world.secret_night.target()

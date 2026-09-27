@@ -60,6 +60,7 @@ const STEPS := ["Follow the bass and the glowing mushrooms to Oberer Schorchen."
 var main: Node
 var active := false
 var completed := false
+var skipped := false
 var step := 0
 var tuned := 0
 var dance_time := 0.0
@@ -128,6 +129,7 @@ func setup(game: Node) -> void:
 func begin() -> void:
 	if active or completed: return
 	active = true
+	skipped = false
 	step = 0
 	tuned = 0
 	dance_time = 0.0
@@ -293,6 +295,9 @@ func _spawn_ravers() -> void:
 		# skins with the "arise" clip really rise: they get up from the ground around the floor
 		if not main.spawn_zombie(RAVERS[i], point, 1.0, "", 0.0, -1, true):
 			main.spawn_zombie(RAVERS[i], DANCE + Vector2(cos(angle), sin(angle)) * 9.0, 1.0, "", 0.0, -1, true)
+
+	for z in main.zombies_root.get_children():
+		if z is Zombie: z.set_meta("goa_guest", true)
 
 func _complete() -> void:
 	if not active or completed or step != WAKING or not echo_offered or NetSession.is_client(): return
@@ -504,13 +509,14 @@ func _exit_tree() -> void:
 	if index >= 0: AudioServer.remove_bus(index)
 
 func snapshot() -> Dictionary:
-	return {"active": active, "completed": completed, "step": step, "tuned": tuned, "dance": dance_time, "closing": closing_time, "waking": waking_time, "echo_collected": echo_collected, "echo_offered": echo_offered, "elapsed": elapsed, "clock": saved_clock, "harvest": harvest_mask, "run_round": run_round, "run_target": run_target, "run_time": run_time, "ravers": ravers_spawned}
+	return {"active": active, "completed": completed, "skipped": skipped, "step": step, "tuned": tuned, "dance": dance_time, "closing": closing_time, "waking": waking_time, "echo_collected": echo_collected, "echo_offered": echo_offered, "elapsed": elapsed, "clock": saved_clock, "harvest": harvest_mask, "run_round": run_round, "run_target": run_target, "run_time": run_time, "ravers": ravers_spawned}
 
 func apply_snapshot(data: Dictionary) -> void:
 	if data.is_empty(): return
 	var was_active := active
 	active = bool(data.get("active", false))
 	completed = bool(data.get("completed", false))
+	skipped = bool(data.get("skipped", false))
 	step = clampi(int(data.get("step", 0)), 0, WAKING)
 	tuned = clampi(int(data.get("tuned", 0)), 0, 3)
 	dance_time = float(data.get("dance", 0))
@@ -531,7 +537,7 @@ func apply_snapshot(data: Dictionary) -> void:
 		_update_ending(0.0)
 	if was_active and not active:
 		_leave_presentation()
-		if completed: _completion_message()
+		if completed and not skipped: _completion_message()
 
 func _material(colour: Color, glow := 0.0) -> StandardMaterial3D:
 	var m := StandardMaterial3D.new()
@@ -814,3 +820,22 @@ void fragment() {
 	copy.custom_minimum_size.x = 380
 	copy.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(copy)
+
+# Skip from every stage, including combat and the return journey, without granting rewards.
+func skip() -> bool:
+	if NetSession.is_client() or not active: return false
+	active = false
+	completed = true
+	skipped = true
+	_sober_everyone()
+	if bar and bar.is_open: bar.close()
+	for z in main.zombies_root.get_children():
+		if z is Zombie and z.get_meta("goa_guest", false): z.queue_free()
+	_leave_presentation()
+	_morning_left = MORNING_GLOW_SECONDS
+	_wake_left = WAKE_SECONDS
+	_update_morning(0.0)
+	main.waves.phase = "idle"
+	main.waves.timer = PREPARATION_SECONDS
+	main.music.play("morning")
+	return true

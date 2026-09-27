@@ -68,6 +68,8 @@ func run() -> void:
 	check(planner.is_open and d.is_open and not player.active and paused, "T opens the planner, pauses the round and takes the player out of the fight")
 	check(root.get_camera_3d() == planner.overview and planner.overview.projection == Camera3D.PROJECTION_ORTHOGONAL and planner.overview.rotation.x < -1.5, "The planner looks straight down from above the hut")
 	check(not game.hud.visible and planner.roof_markers.size() == 6 and planner.roof_markers[0].visible, "HUD hidden, six roof markers shown")
+	check(planner.player_avatar.visible and planner.player_avatar.global_position.is_equal_approx(player.global_position), "Planner shows the local survivor at the actual player position")
+	check(planner.player_marker.visible and not planner.player_marker.text.is_empty(), "Player position has a readable marker")
 	# the mouse hits the ground through the overview camera
 	var centre := get_root().get_visible_rect().size * 0.5
 	var point := planner.point_at(centre)
@@ -120,7 +122,7 @@ func run() -> void:
 	player.global_position = Map.ground_pos(Map.FIRE.x - 60, Map.FIRE.y + 60)
 	await physics_frame
 	planner.place_roof(0)
-	check(d.roof_tower(0) == null and Lang.text(planner.status.text).contains("forest hut"), "A roof slot from far away is refused with the reason")
+	check(d.roof_tower(0) == null and Lang.resolve(planner.status.text, "en").contains("forest hut"), "A roof slot from far away is refused with the reason")
 	player.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y + 14)
 	await physics_frame
 	planner.place_roof(0)
@@ -140,10 +142,16 @@ func run() -> void:
 	var far := Map.ground_pos(10, 120)
 	player.global_position = far
 	planner.open()
-	var far_view := Vector2(planner.overview.global_position.x, planner.overview.global_position.z)
-	check(planner.is_open and far_view.distance_to(Vector2(far.x, far.z)) < 1.0, "Away from the hut the planner opens over the player (%.1f m off)" % far_view.distance_to(Vector2(far.x, far.z)))
+	await process_frame
+	var player_screen := planner.overview.unproject_position(player.global_position)
+	var viewport_size := root.get_visible_rect().size
+	check(planner.is_open and player_screen.x > 400 and player_screen.x < viewport_size.x and player_screen.y > 0 and player_screen.y < viewport_size.y, "Away from the hut the actual player remains visible beside the menu", str(player_screen) + " viewport " + str(viewport_size))
+	await screenshot("meadow")
 	var meadow_spot := Map.ground_pos(18, 116)
 	check(d.placement_error(player, meadow_spot, "standard", true).is_empty(), "A tower on the meadow within reach can be placed from there")
 	planner.close()
 	print("TOWER_PLANNER_DONE checks=%d failures=%d" % [checks, failures])
+	game.queue_free()
+	await process_frame
+	await process_frame
 	quit(0 if failures == 0 else 1)

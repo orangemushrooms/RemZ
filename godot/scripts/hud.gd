@@ -1130,6 +1130,8 @@ func _draw_pings() -> void:
 	var size := pings_layer.size
 	for entry in game.pings.active:
 		var world: Vector3 = entry.position + Vector3.UP * 1.2
+		# A marker exactly in the camera plane has no perspective projection.
+		if absf(camera.to_local(world).z) < 0.001: continue
 		var behind := camera.is_position_behind(world)
 		var point := camera.unproject_position(world)
 		if behind: point = Vector2(size.x - point.x, size.y - point.y)

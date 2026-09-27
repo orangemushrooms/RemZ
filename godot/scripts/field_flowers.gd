@@ -1,8 +1,9 @@
 extends RefCounted
 
 const Recipes = preload("res://scripts/brew_recipes.gd")
-const MIN_SPACING := 2.2
-const CANDIDATE_AREA := 28.0
+const MIN_SPACING := 3.8
+const CANDIDATE_AREA := 76.0
+static var _natural_materials: Dictionary = {}
 
 static func clear_ground(game: Node3D, point: Vector2) -> bool:
 	if not Map.BOUNDS.grow(-3).has_point(point): return false
@@ -41,7 +42,7 @@ static func locations(game: Node3D) -> Array[Dictionary]:
 		if not occupied.has(cell): occupied[cell] = []
 		occupied[cell].append(at)
 		var kind: String = kinds[appearance.randi_range(0, kinds.size() - 1)]
-		result.append({"at": at, "kind": kind, "yaw": appearance.randf() * TAU, "size": appearance.randf_range(0.8, 1.2)})
+		result.append({"at": at, "kind": kind, "yaw": appearance.randf() * TAU, "size": appearance.randf_range(0.65, 0.95)})
 	return result
 
 static func _has_space(at: Vector2, occupied: Dictionary) -> bool:
@@ -67,6 +68,20 @@ static func build(game: Node3D) -> void:
 			# The violet source includes a tied base; bury it so only living foliage shows.
 			if entry.kind == "violet_bell": visual.position.y = -0.16 * entry.size
 			for mesh: MeshInstance3D in visual.find_children("*", "MeshInstance3D", true, false):
+				for surface in mesh.mesh.get_surface_count():
+					var source := mesh.get_active_material(surface) as StandardMaterial3D
+					if not source: continue
+					var key := source.get_instance_id()
+					if not _natural_materials.has(key):
+						var material := source.duplicate() as StandardMaterial3D
+						material.emission_enabled = false
+						material.shading_mode = BaseMaterial3D.SHADING_MODE_PER_PIXEL
+						material.albedo_color *= Color(0.54, 0.58, 0.5)
+						material.roughness = 0.95
+						material.metallic = 0.0
+						material.rim_enabled = false
+						_natural_materials[key] = material
+					mesh.set_surface_override_material(surface, _natural_materials[key])
 				mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 				mesh.visibility_range_end = 65.0
 		game.loots.append(loot)

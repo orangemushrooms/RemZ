@@ -92,7 +92,7 @@ func run() -> void:
 	player.score = SandbagLine.REPAIR_COST_SB
 	check(line.purchase(player, "repair") and line.hp == line.max_hp() and player.score == 0, "Repair refills the line for its price")
 	# the prompt offers only what E does: an intact line says so, a damaged one offers the repair
-	check(Lang.text(line.prompt_text()).contains("intact"), "An intact line offers no repair")
+	check(Lang.text(line.prompt_text()).contains("Upgrade"), "An intact line offers its next upgrade")
 	line.hp = line.max_hp() * 0.5
 	check(Lang.text(line.prompt_text()).contains("Repair"), "The prompt offers the repair of a damaged line")
 	line.hp = line.max_hp()
@@ -102,13 +102,21 @@ func run() -> void:
 	player.score = SandbagLine.DEPLOY_COST
 	player.global_position = Map.ground_pos(behind.x, behind.y) + Vector3.UP * 0.3
 	check(line.purchase(player, "build") and line.level == 1 and player.score == 0, "The line can be rebuilt for its price")
-	check(line.action_error(player, "build") == "The sandbag line already stands.", "A standing line refuses a second build")
+	check(not line.action_error(player, "build").is_empty(), "Upgrade needs sufficient money")
+	player.score = 400
+	check(line.purchase(player, "build") and line.level == 2 and line.hp == 1000.0 and player.score == 260, "Tier two upgrades health and charges 140 R")
+	check(line.purchase(player, "build") and line.level == 3 and line.hp == 2000.0 and player.score == 0, "Tier three upgrades health and charges 260 R")
+	check(not line.purchase(player, "build") and line.level == 3, "Maximum tier refuses further upgrades")
+	line.damage(100)
+	check(is_equal_approx(line.hp, 1940), "Fortified sandbags resist 40 percent damage")
+	player.score = 100
+	check(line.purchase(player, "repair") and line.hp == 2000 and player.score == 0, "Tier three repair uses its own cost")
 	# ---- the snapshot carries every line
 	var snapshot: Dictionary = NetSession.world.snapshot()
-	check(snapshot.has("sandbags") and snapshot.sandbags.size() == 4 and int(snapshot.sandbags[1][0]) == 1, "The co-op snapshot carries the sandbag lines")
+	check(snapshot.has("sandbags") and snapshot.sandbags.size() == 4 and int(snapshot.sandbags[1][0]) == 3, "The co-op snapshot carries the sandbag lines")
 	check(snapshot.has("purse") and int(snapshot.purse) == 0, "The snapshot carries the gate fund")
 	# ---- the gate rebuilt: the line stays
 	gate.build()
-	check(gate.level == 1 and line.level == 1, "A rebuilt gate leaves the sandbag line standing")
+	check(gate.level == 1 and line.level == 3, "A rebuilt gate leaves the sandbag line standing")
 	print("SANDBAGS_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

@@ -86,6 +86,7 @@ func _ready() -> void:
 	# a 27 m body moves in slow motion: the stride matching in Zombie scales the walk cycle by the model
 	# scale, so the feet of a giant cover real ground and the stride is what makes it look colossal
 	if anim: anim.speed_scale = clampf(8.1 / height, 0.3, 0.85)
+	_build_crawl_attack()
 	warning_material = Barricade._marker_material(type.get("warning_color", Color(1, 0.22, 0.045)), 0.8)
 	# Tactical warning stays legible through dense meadow grass.
 	warning_material.no_depth_test = true
@@ -222,12 +223,60 @@ func _begin_crawl() -> void:
 	crawling = true
 	_foot_heights.clear()
 	if model: model.rotation.x = 0.0
-	# the gait re-picks itself on the next walk tick (_gait -> "crawl"); a swing in progress finishes first
-	if anim and alive and state == "walk" and has_crawl_clip():
+	# Immediately leave any standing swing/roar, even when the leg is lost mid-attack.
+	if anim and alive and has_crawl_clip():
 		clip = "crawl"
 		anim.play("crawl", 0.35)
 		anim.speed_scale = 0.6
 	if warning: warning.hide()
+
+func play(name: String) -> void:
+	if crawling and has_crawl_clip():
+		state = name
+		# Keep the grounded four-point pose through attacks and death. The upper-body
+		# strike is layered onto this clip; a standing clip would regrow the lost leg.
+		if name == "death":
+			anim.pause()
+			return
+		var target := "crawl_attack" if name == "attack" and anim.has_animation("crawl_attack") else "crawl"
+		if clip != target or name == "attack":
+			clip = target
+			anim.play(target, 0.18)
+		anim.speed_scale = 1.0 / windup() if target == "crawl_attack" else 0.6
+		return
+	super.play(name)
+
+func _build_crawl_attack() -> void:
+	if not has_crawl_clip() or anim.has_animation("crawl_attack"): return
+	var source := anim.get_animation("crawl")
+	var attack := Animation.new()
+	attack.length = 1.65
+	# Hold a grounded crawl pose. Only the remaining arm, elbow and shoulder sweep;
+	# hips/knees never blend back to a standing rest pose. Impact is at t = 1 second.
+	for track in source.get_track_count():
+		var kind := source.track_get_type(track)
+		if kind not in [Animation.TYPE_POSITION_3D, Animation.TYPE_ROTATION_3D, Animation.TYPE_SCALE_3D]: continue
+		var path := source.track_get_path(track)
+		var dest := attack.add_track(kind)
+		attack.track_set_path(dest, path)
+		var sample := source.length * 0.2
+		if kind == Animation.TYPE_ROTATION_3D:
+			var base := source.rotation_track_interpolate(track, sample)
+			var bone := str(path).get_slice(":", 1)
+			for key in [[0.0, 0.0], [0.68, -0.45], [1.0, 0.65], [1.65, 0.0]]:
+				var turn := Quaternion.IDENTITY
+				if bone == "LeftArm": turn = Quaternion(Vector3.FORWARD, key[1])
+				elif bone == "LeftForeArm": turn = Quaternion(Vector3.RIGHT, key[1] * 0.5)
+				elif bone == "Spine2": turn = Quaternion(Vector3.UP, key[1] * 0.12)
+				attack.rotation_track_insert_key(dest, key[0], base * turn)
+		elif kind == Animation.TYPE_POSITION_3D:
+			attack.position_track_insert_key(dest, 0, source.position_track_interpolate(track, sample))
+		else:
+			attack.scale_track_insert_key(dest, 0, source.scale_track_interpolate(track, sample))
+	var library := anim.get_animation_library("").duplicate() as AnimationLibrary
+	anim.remove_animation_library("")
+	anim.add_animation_library("", library)
+	library.add_animation("crawl_attack", attack)
 
 # On all fours there is no standing idle and no standing roar: a still crawler slows its crawl instead.
 func _may_idle() -> bool:
@@ -253,7 +302,7 @@ func _natural_speed(name: String) -> float:
 	return super._natural_speed(name)
 
 func can_throw() -> bool:
-	return alive and (lost & LOST_ARM) != 0
+	return alive and not crawling and (lost & LOST_ARM) != 0
 
 # The throw: a wind-up, then the tree leaves the hand towards where the player will be.
 func _begin_throw(target: Player) -> void:
@@ -305,7 +354,7 @@ func die(direction: Vector3) -> void:
 	emit_cue("death")
 	super.die(direction)
 	warning.hide()
-	if anim: anim.speed_scale = 0.4
+	if anim: anim.speed_scale = 0.0 if crawling else 0.4
 	# The body lands after the death animation starts, not at the killing bullet.
 	if not replica:
 		get_tree().create_timer(1.7, false).timeout.connect(func():
@@ -313,6 +362,9 @@ func die(direction: Vector3) -> void:
 
 func _physics_process(delta: float) -> void:
 	update_rare_visual()
+	if not replica and alive and _reveal_t > 0:
+		_reveal_t = maxf(0, _reveal_t - delta)
+		if _reveal_t <= 0: _set_emission(_flash_t > 0)
 	if replica or not alive:
 		super._physics_process(delta)
 		update_warning()
@@ -358,7 +410,7 @@ func _physics_process(delta: float) -> void:
 				play("walk")
 		update_warning()
 		return
-	if lost & LOST_ARM:
+	if can_throw():
 		_throw_t -= delta
 		if _throw_t <= 0.0:
 			var to := player.global_position - global_position

@@ -260,6 +260,8 @@ func _physics_process(delta: float) -> void:
 		velocity.y = -1.0
 	move_and_slide()
 	_update_down(delta)
+	var scene := get_tree().current_scene
+	if scene and "field_trials" in scene and scene.field_trials: scene.field_trials.confine(self)
 	# keep inside the map
 	global_position.x = clampf(global_position.x, Map.BOUNDS.position.x, Map.BOUNDS.end.x)
 	global_position.z = clampf(global_position.z, Map.BOUNDS.position.y, Map.BOUNDS.end.y)

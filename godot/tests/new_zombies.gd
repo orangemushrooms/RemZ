@@ -1,5 +1,5 @@
 # The special infected (26 Sep 2026): the spitter's acid, the screamer's call and mark, the stalker's
-# cloak in the flashlight, the farm dog and the zombie stag as rig-less beasts, the helmet of the
+# cloak in the flashlight, the farm dog and the articulated zombie stag, the helmet of the
 # armored mutation, their place in the wave plan and their spawns out of the maize.
 #   Godot.exe --headless --path godot --script res://tests/run.gd -- --suite=new_zombies --smoke-test --no-intro --no-music --no-foliage
 extends SceneTree
@@ -159,7 +159,7 @@ func run() -> void:
 	# ---- the beasts: fit, gallop, the stag's charge, the dog's bite
 	check(game.spawn_zombie("zombie_stag", open, 1.0), "A zombie stag spawns")
 	var stag: Zombie = last_zombie()
-	check(stag is ZombieBeast and stag.model != null and stag.anim == null, "The stag is a rig-less beast")
+	check(stag is ZombieBeast and stag.model != null and stag.anim != null and stag.anim.has_animation("walk") and stag.anim.has_animation("run"), "The stag has articulated walk and run animations")
 	if stag:
 		var bounds := Barricade._bounds(stag.model)
 		check(absf(bounds.size.y - stag.height) < stag.height * 0.2 and absf(bounds.position.y) < 0.25, "The stag stands %.2f m tall on the ground (bounds %.2f)" % [stag.height, bounds.size.y])
@@ -182,7 +182,7 @@ func run() -> void:
 		check(stag.rams >= 1 or player.hp < hp_before, "The charge rams the player (rams %d, hp %.0f)" % [stag.rams, player.hp])
 		stag.die(Vector3.FORWARD)
 		await process_frame
-		check(not stag.alive and stag._fallen, "A dead beast falls onto its side")
+		check(not stag.alive and stag._fallen and not stag.anim.is_playing(), "A dead beast falls onto its side and stops its gait")
 	player.hp = player.max_hp
 	player.downed = false
 	clear_zombies()

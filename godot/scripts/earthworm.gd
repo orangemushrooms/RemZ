@@ -40,6 +40,7 @@ var _hitbox_enabled := true
 var _voice: AudioStreamPlayer3D
 var _crater: Node3D
 var _spray: CPUParticles3D
+var _burrow_speed := 0.0
 
 func radius() -> float:
 	return 6.0 if net_kind == "earthworm_ancient" else 4.8
@@ -151,6 +152,7 @@ func _set_phase(next: String, duration: float) -> void:
 	phase = next
 	phase_time = duration
 	phase_length = duration
+	if next == "burrow": _burrow_speed = 0.0
 	var clip := "walk"
 	match phase:
 		"burrow": clip = "burrow"
@@ -170,6 +172,11 @@ func _physics_process(delta: float) -> void:
 		if model: model.position.y = -burial_depth() - minf(height, dead_t * 0.18)
 		return
 	update_rare_visual()
+	# Worms have their own physics loop; expire the shared lightning reveal here too.
+	# Previously it stayed white forever unless the worm died.
+	if _reveal_t > 0.0:
+		_reveal_t = maxf(0.0, _reveal_t - delta)
+		if _reveal_t <= 0.0: _set_emission(_flash_t > 0.0)
 	if _flash_t > 0:
 		_flash_t -= delta
 		if _flash_t <= 0: _set_emission(false)
@@ -195,7 +202,10 @@ func _physics_process(delta: float) -> void:
 		if phase == "burrow":
 			var direction := destination - global_position
 			direction.y = 0
-			var step := minf(direction.length(), float(type.speed) * speed_mul * maxf(0.65, frost_mul) * delta)
+			var cruise := float(type.speed) * speed_mul * maxf(0.65, frost_mul)
+			var target_speed := minf(cruise, sqrt(direction.length() * 8.0))
+			_burrow_speed = move_toward(_burrow_speed, target_speed, delta * 5.0)
+			var step := minf(direction.length(), _burrow_speed * delta)
 			if direction.length() > 0.05:
 				global_position += direction.normalized() * step
 				global_position.y = Map.ground_height(global_position.x, global_position.z) + 0.05
@@ -229,6 +239,8 @@ func _advance_phase() -> void:
 			_set_phase("warning", WARNING_TIME)
 
 func safe_surface(point: Vector3) -> bool:
+	var scene := get_tree().current_scene
+	if scene and "field_trials" in scene and scene.field_trials and not scene.field_trials.permits(point): return false
 	return surface_clear(self, perimeter, point)
 
 static func surface_clear(context: Node3D, ring: Perimeter, point: Vector3) -> bool:
@@ -326,7 +338,9 @@ func _sync_visuals() -> void:
 	if model:
 		model.visible = exposed or not alive
 		var fraction := clampf(phase_time / maxf(0.01, phase_length), 0, 1)
-		model.position.y = -burial_depth() + (-height * fraction if phase == "emerge" else (-height * (1.0 - fraction) if phase == "dive" else 0.0))
+		# Ease in/out as the heavy body breaks the soil and sinks; no constant-speed lift.
+		var eased := smoothstep(0.0, 1.0, fraction)
+		model.position.y = -burial_depth() + (-height * eased if phase == "emerge" else (-height * (1.0 - eased) if phase == "dive" else 0.0))
 	if _crater: _crater.visible = phase != "burrow"
 	if _spray: _spray.emitting = alive and phase in ["emerge", "dive"]
 	if not warning: return

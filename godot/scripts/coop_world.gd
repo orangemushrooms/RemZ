@@ -166,6 +166,7 @@ func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bo
 	var max_distance := (Player.CROUCH_SPEED if p.crouching else Player.SPRINT_SPEED) * p.effective_speed_mul() * dt + 0.7
 	if Vector2(move.x, move.z).length() > max_distance or absf(move.y) > 16.0 * dt + 1.2: return
 	if not Map.BOUNDS.has_point(Vector2(position.x, position.z)): return
+	if game and game.field_trials and not game.field_trials.permits(position): return
 	# Sweep the same capsule against terrain, buildings and barricades.
 	# A floor contact must not discard the horizontal remainder of a step.
 	# In particular, down-slope movement often touches terrain before its end.
@@ -198,6 +199,8 @@ func action(id: int, operation: String, args: Array) -> void:
 		"brewing":
 			if args.size() != 2 or not args[0] is String or not args[1] is String: return
 			NetSession.feedback(id, "message", [game.brewing.transact(p, args[0], args[1]), 3.0])
+		"field_trial":
+			if args.is_empty(): game.field_trials.interact(p)
 		"secret_night":
 			if args.is_empty(): game.secret_night.interact(p)
 		"bar_order":
@@ -699,7 +702,7 @@ func snapshot() -> Dictionary:
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
 	return {"brewing": game.brewing.snapshot(), "maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": game.drones.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
-		"secret_night": game.secret_night.snapshot(),
+		"secret_night": game.secret_night.snapshot(), "field_trials": game.field_trials.snapshot(),
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"sandbags": sandbag_states, "purse": purse, "fortune": game.fortune.snapshot() if game.fortune else [],
 		"weather": game.weather.snapshot() if game.weather else [], "moon": [game.day_night.night_index],
@@ -739,6 +742,9 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.hunting.apply_snapshot(data.get("hunting", {}))
 	game.brewing.apply_snapshot(data.get("brewing", {}))
 	game.secret_night.apply_snapshot(data.get("secret_night", {}))
+	var previous_teleport: int = game.field_trials.teleport_serial
+	game.field_trials.apply_snapshot(data.get("field_trials", {}))
+	var trial_teleport: bool = previous_teleport != game.field_trials.teleport_serial
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
 	if initial: game.hud._mark_difficulty(int(data.difficulty))
 	if initial: NetSession.trace_load("STATE_STAGE players")
@@ -785,7 +791,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			avatars[id].set_skin(str(s.get("skins", {}).get(s.weapon, "")))
 		else:
 			var previous_position := p.global_position
-			p.global_position = movement_sync.reconcile(s.p, int(s.get("pose_ack", 0)), previous_position, initial or previous_tower!=p.mounted_tower)
+			p.global_position = movement_sync.reconcile(s.p, int(s.get("pose_ack", 0)), previous_position, initial or trial_teleport or previous_tower!=p.mounted_tower)
 			if p.mounted_tower and previous_tower!=p.mounted_tower:
 				p.recoil_offset = Vector2.ZERO
 				p.rotation.y = s.yaw
@@ -969,8 +975,11 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		if not id in data.intact and is_instance_valid(broken_nodes[id]): broken_nodes[id].shatter()
 	for i in mini(deer.size(), data.deer.size()):
 		if deer[i].get_meta("hunted_dead", false): continue
-		deer[i].global_position = data.deer[i][0]
-		deer[i].rotation = data.deer[i][1]
+		deer[i].net_position = data.deer[i][0]
+		deer[i].net_rotation = data.deer[i][1]
+		if initial:
+			deer[i].global_position = data.deer[i][0]
+			deer[i].rotation = data.deer[i][1]
 		deer[i].state = data.deer[i][2]
 	game.day_night.clock_seconds = data.time
 	game.waves.wave = data.wave[0]
@@ -988,6 +997,8 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	if game.secret_night.active:
 		current_wave = data.wave[0]
 		game.music.play("secret_night")
+	elif game.field_trials.active:
+		game.music.fight(game.field_trials.secret != 0)
 	elif current_wave != data.wave[0]:
 		current_wave = data.wave[0]
 		game.hud.message(Lang.t("Wave %d", [current_wave]), 2.0)

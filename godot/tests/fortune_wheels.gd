@@ -48,7 +48,7 @@ func run() -> void:
 	var odds := FortuneWheels.table()
 	var total := 0.0
 	for key in odds: total += float(odds[key])
-	check(absf(total - 1.0) < 0.0001, "the chances add up to 100 % (%.5f)" % total)
+	check(absf(total - 1.0) < 0.0001, "the chances add up to 100 %% (%.5f)" % total)
 	check(float(odds.nothing) > 0.3 and float(odds.nothing) < 0.5, "a blank on %.1f %% of the spins" % (float(odds.nothing) * 100.0))
 	var pool := FortuneWheels.weapon_pool()
 	check(pool.size() == Progression.GOODS.size() and not pool.has("pistol") and not pool.has("knife"), "every traded weapon is on the wheel, not the starting pistol and knife (%d)" % pool.size())
@@ -197,11 +197,24 @@ func run() -> void:
 	check(FortuneWheel.segment_at(other.angle) == 11 and FortuneWheel.segment_at(wheel.angle) == 11, "host and client wheel stop on the same segment")
 	check(other._pop_label.visible and other._pop_label.text == "AK-47", "the client shows the won weapon above the wheel")
 	var late := FortuneWheel.new()
-	late.build(f, 5)
 	f.add_child(late)
+	late.build(f, 5)
 	late.apply_snapshot(wheel.snapshot())
 	check(not late.spinning and FortuneWheel.segment_at(late.angle) == 11, "a late joiner sees the wheel where it stopped")
 	late.queue_free()
+	var original_language := Lang.current
+	for language in ["de", "en"]:
+		Lang.set_language(language)
+		await process_frame
+		var fits := true
+		var translated := true
+		for label: Label3D in wheel._marks:
+			var look: Dictionary = FortuneWheels.LOOK[label.get_meta("prize_kind")]
+			var width := ThemeDB.fallback_font.get_string_size(Lang.text(label.text), HORIZONTAL_ALIGNMENT_LEFT, -1, label.font_size).x * label.pixel_size
+			fits = fits and width <= wheel.radius * (0.30 if not str(look.icon).is_empty() else 0.57)
+			translated = translated and label.text == look.text and label.auto_translate_mode != Node.AUTO_TRANSLATE_MODE_DISABLED
+		check(fits and translated, "Wheel labels fit beside their icons after switching to " + language)
+	Lang.set_language(original_language)
 
 	if render: await _render(f)
 	_finish()

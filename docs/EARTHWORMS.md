@@ -37,12 +37,16 @@ stehen auf eigenen Wellen statt zusaetzlich zu allen schweren Gegnern zu erschei
 
 | Gegner | Basis-HP | Basisschaden | Groesse |
 | --- | ---: | ---: | ---: |
-| Erdwurm | 2600 | 48 | 14 m |
-| Grabmahr | 3800 | 62 | 19 m |
-| Jagdtitan | 1700 | 45 | 8 m |
-| Belagerungstitan | 3600 | 80 | 14 m |
-| Aschetitan | 3000 | 60 | 19 m |
-| Feldtitan | 4200 | 70 | 27 m |
+| Erdwurm | 4400 | 70 | 14 m |
+| Grabmahr | 6200 | 88 | 19 m |
+| Jagdtitan | 5100 | 45 | 8 m |
+| Belagerungstitan | 10800 | 80 | 14 m |
+| Aschetitan | 9000 | 60 | 19 m |
+| Feldtitan | 12600 | 70 | 27 m |
+| Urtitan | 18000 | 90 | 30 m |
+
+Die [Feld-Zwischenkaempfe](FIELD_TRIALS.md) vor Welle 10/15/20 verwenden eigene
+Gruppen. Vor Welle 20 kaempfen alle fuenf Titanen und beide Wuermer gleichzeitig.
 
 Schwierigkeit multipliziert HP/Schaden wie bisher. Boss-HP wachsen ab ihrer
 Einfuehrung um 4,5 Prozentpunkte je Welle bis maximal Faktor 2,6; pro weiterem

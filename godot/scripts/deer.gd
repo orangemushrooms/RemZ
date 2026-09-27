@@ -13,6 +13,13 @@ var _t := 0.0
 var _graze_target := Vector3.ZERO
 var _rng := RandomNumberGenerator.new()
 var _base_y := 0.0
+var animation: AnimationPlayer
+var _last_position := Vector3.INF
+var _ground_speed := 0.0
+var _graze_wait := 3.0
+var _avoid_cooldown := 0.0
+var net_position := Vector3.INF
+var net_rotation := Vector3.ZERO
 
 func setup(p: Player, k: String, scene: PackedScene, seed_v: int) -> void:
 	player = p
@@ -47,6 +54,12 @@ func setup(p: Player, k: String, scene: PackedScene, seed_v: int) -> void:
 		body.position.y = 0.9
 		model.add_child(body)
 	_base_y = model.position.y
+	animation = model.find_child("AnimationPlayer", true, false) as AnimationPlayer
+	if animation:
+		for clip in ["walk", "run", "graze", "idle"]:
+			if animation.has_animation(clip): animation.get_animation(clip).loop_mode = Animation.LOOP_LINEAR
+		animation.play("idle")
+		animation.seek(float(seed_v % 31) / 10.0)
 
 func _ready() -> void:
 	# setup runs before the animal is attached and positioned in the level.
@@ -57,6 +70,7 @@ func _set_graze_origin() -> void:
 
 func _physics_process(delta: float) -> void:
 	_t += delta
+	_avoid_cooldown = maxf(0, _avoid_cooldown - delta)
 	if NetSession.is_host():
 		var closest := NetSession.nearest_player(global_position)
 		if closest: player = closest
@@ -76,32 +90,39 @@ func _physics_process(delta: float) -> void:
 			# wander slowly between graze spots
 			var d := _graze_target - global_position
 			d.y = 0.0
-			if d.length() < 0.6 or _rng.randf() < 0.002:
-				_graze_target = global_position + Vector3(_rng.randf_range(-8, 8), 0, _rng.randf_range(-8, 8))
+			if d.length() < 0.6:
+				_graze_wait -= delta
+				if _graze_wait <= 0:
+					_graze_target = global_position + Vector3(_rng.randf_range(-8, 8), 0, _rng.randf_range(-8, 8))
+					_graze_wait = _rng.randf_range(3, 8)
 			var v := d.normalized() * 0.7 if d.length() > 0.6 else Vector3.ZERO
-			velocity.x = v.x
-			velocity.z = v.z
+			velocity.x = move_toward(velocity.x, v.x, delta * 3.0)
+			velocity.z = move_toward(velocity.z, v.z, delta * 3.0)
 			if v.length() > 0.1:
 				rotation.y = lerp_angle(rotation.y, atan2(-v.x, -v.z), delta * 2.0)
-			# head down / up grazing bob
-			model.rotation.x = 0.12 * sin(_t * 0.7)
 	else:
 		flee_t -= delta
+		if global_position.x < Map.BOUNDS.position.x + 10: flee_dir.x = absf(flee_dir.x)
+		if global_position.x > Map.BOUNDS.end.x - 10: flee_dir.x = -absf(flee_dir.x)
+		if global_position.z < Map.BOUNDS.position.y + 10: flee_dir.z = absf(flee_dir.z)
+		if global_position.z > Map.BOUNDS.end.y - 10: flee_dir.z = -absf(flee_dir.z)
+		flee_dir = flee_dir.normalized()
 		# steer around obstacles by drifting when blocked
-		if get_slide_collision_count() > 0:
-			flee_dir = flee_dir.rotated(Vector3.UP, _rng.randf_range(-1.2, 1.2)).normalized()
+		# Floor contact is present every frame: only steer at actual walls/trees.
+		if _avoid_cooldown <= 0:
+			for i in get_slide_collision_count():
+				var normal := get_slide_collision(i).get_normal()
+				if normal.y > 0.55: continue
+				flee_dir = (flee_dir.slide(normal) + normal * 0.7).normalized()
+				_avoid_cooldown = 0.7
+				break
 		var sp := speed * (1.2 if kind == "stag" else 1.0)
 		# accelerate smoothly, lean into turns, gentle stride bob (no hopping)
 		var want := Vector3(flee_dir.x * sp, 0, flee_dir.z * sp)
 		velocity.x = lerpf(velocity.x, want.x, minf(1.0, delta * 3.0))
 		velocity.z = lerpf(velocity.z, want.z, minf(1.0, delta * 3.0))
 		var target_yaw := atan2(-flee_dir.x, -flee_dir.z)
-		var turn := wrapf(target_yaw - rotation.y, -PI, PI)
 		rotation.y = lerp_angle(rotation.y, target_yaw, delta * 2.5)
-		model.rotation.z = lerpf(model.rotation.z, clampf(-turn * 0.25, -0.2, 0.2), delta * 4.0)
-		var stride := Vector2(velocity.x, velocity.z).length() / sp
-		model.position.y = _base_y + absf(sin(_t * 6.0)) * 0.05 * stride
-		model.rotation.x = sin(_t * 6.0) * 0.03 * stride
 		if flee_t <= 0.0 and dist > 55.0:
 			state = "graze"
 			model.position.y = _base_y
@@ -116,3 +137,22 @@ func _physics_process(delta: float) -> void:
 	var b := Map.BOUNDS
 	global_position.x = clampf(global_position.x, b.position.x + 5.0, b.end.x - 5.0)
 	global_position.z = clampf(global_position.z, b.position.y + 5.0, b.end.y - 5.0)
+
+func _process(delta: float) -> void:
+	if not model or not visible: return
+	if NetSession.is_client() and net_position.is_finite():
+		global_position = global_position.lerp(net_position, 1.0 - exp(-delta * 14))
+		rotation.y = lerp_angle(rotation.y, net_rotation.y, 1.0 - exp(-delta * 14))
+	var moved := 0.0 if not _last_position.is_finite() else Vector2(global_position.x - _last_position.x, global_position.z - _last_position.z).length() / maxf(0.001, delta)
+	_last_position = global_position
+	_ground_speed = lerpf(_ground_speed, moved if moved < 25 else 0, 1.0 - exp(-delta * 8))
+	if animation:
+		var clip := "run" if _ground_speed > 2.5 else ("walk" if _ground_speed > 0.15 else "graze")
+		if animation.current_animation != clip: animation.play(clip, 0.28)
+		var natural := (5.22 if clip == "run" else 0.483) * model.scale.y
+		animation.speed_scale = clampf(_ground_speed / natural, 0.2, 2.8) if clip != "graze" else 0.8
+	# Follow the slope with a restrained body lean; individual hoof motion is skeletal.
+	var normal := Map.ground_normal(global_position.x, global_position.z)
+	var forward := -global_basis.z
+	var pitch := atan2(normal.dot(forward), normal.y)
+	model.rotation.x = lerpf(model.rotation.x, clampf(pitch, -0.18, 0.18), 1.0 - exp(-delta * 5))

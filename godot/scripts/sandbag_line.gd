@@ -15,6 +15,9 @@ const COLLISION_HEIGHT := 1.25      # taller than the bags: blocks the zombies' 
 const DEPLOY_COST := 60
 const REPAIR_COST_SB := 40
 const ARMOR := 0.2
+const UPGRADE_HP := [0.0, SANDBAG_HP, 1000.0, 2000.0]
+const UPGRADE_COST := [DEPLOY_COST, 140, 260, 0]
+const REPAIRS := [0, REPAIR_COST_SB, 65, 100]
 static var _sandbag_scene: PackedScene
 static var _sandbag_loaded := false
 var gate: Barricade
@@ -45,19 +48,19 @@ func segment_scene(_tier_level: int) -> PackedScene:
 	return _sandbag_scene
 
 func max_hp() -> float:
-	return SANDBAG_HP if level > 0 else 0.0
+	return UPGRADE_HP[clampi(level, 0, 3)]
 
 func armor() -> float:
-	return ARMOR
+	return ARMOR + maxf(0, level - 1) * 0.1
 
 func hit_sound() -> String:
 	return "hit"
 
 func tier_name() -> String:
-	return "Sandbag line" if level > 0 else "Fallback site"
+	return ["Fallback site", "Sandbag line", "Reinforced sandbags", "Fortified sandbags"][clampi(level, 0, 3)]
 
 func next_cost() -> int:
-	return DEPLOY_COST if level == 0 else 0
+	return UPGRADE_COST[clampi(level, 0, 3)]
 
 func breach_message() -> String:
 	return Lang.t("Sandbag line behind %s destroyed!", [slot["name"]])
@@ -126,6 +129,13 @@ func _make_segment(_tier_level := 1) -> Node3D:
 	if _bag_material: instance.material_override = _bag_material
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	holder.add_child(instance)
+	# Added rear courses preserve the vault height while visibly deepening the position.
+	for depth in maxi(0, _tier_level - 1):
+		var reinforcement := MultiMeshInstance3D.new()
+		reinforcement.multimesh = multimesh
+		reinforcement.material_override = _bag_material
+		reinforcement.position.z = (depth + 1) * BAG_DEPTH * 0.85
+		holder.add_child(reinforcement)
 	return holder
 
 # a breached gate raises the line for free
@@ -139,8 +149,8 @@ func deploy() -> bool:
 	return true
 
 func build() -> bool:
-	if level > 0: return false
-	level = 1
+	if level >= 3: return false
+	level += 1
 	hp = max_hp()
 	rebuild()
 	var scene := get_tree().current_scene
@@ -154,14 +164,14 @@ func action_error(player: Player, action: String, require_reach := true) -> Stri
 		return "Unknown action."
 	if require_reach and distance_to_line(player.global_position) > BUILD_REACH:
 		return "Too far away. Move within 6 m of the line."
-	if action == "build" and level > 0:
-		return "The sandbag line already stands."
+	if action == "build" and level >= 3:
+		return "Maximum sandbag tier reached."
 	if action == "repair" and (level == 0 or hp >= max_hp()):
 		return "No repair needed."
-	var cost := REPAIR_COST_SB if action == "repair" else DEPLOY_COST
+	var cost: int = REPAIRS[level] if action == "repair" else next_cost()
 	if player.score + purse() < cost:
 		return Lang.t("You are %d Rem Dollars short.", [cost - player.score - purse()])
-	if action == "build" and placement_blocked(player):
+	if action == "build" and level == 0 and placement_blocked(player):
 		return "Building area occupied. You or an enemy is standing in the line."
 	return ""
 
@@ -170,7 +180,7 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 	if not error.is_empty():
 		hud.message(error, 2.0)
 		return false
-	var cost := REPAIR_COST_SB if action == "repair" else DEPLOY_COST
+	var cost: int = REPAIRS[level] if action == "repair" else next_cost()
 	var success := repair() if action == "repair" else build()
 	if not success: return false
 	spend(player, cost)
@@ -180,5 +190,5 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 
 func prompt_text() -> String:
 	if level == 0: return Lang.t("[E] Build sandbag line · %d R\nBehind %s · Rises for free when the gate is breached", [DEPLOY_COST, slot["name"]])
-	var action := Lang.t("[E] Repair sandbag line · %d R", [REPAIR_COST_SB]) if hp < max_hp() else Lang.t("Sandbag line intact")
+	var action := Lang.t("[E] Repair sandbag line · %d R", [REPAIRS[level]]) if hp < max_hp() else (Lang.t("[E] Upgrade sandbags · Tier %d · %d R", [level + 1, next_cost()]) if level < 3 else Lang.t("Maximum sandbag tier reached."))
 	return action + "\n" + Lang.t("Behind %s · %d/%d HP · Space: climb over", [slot["name"], ceili(hp), int(max_hp())])

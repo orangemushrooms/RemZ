@@ -83,6 +83,7 @@ const FILES := {
 	"hut_collapse": ["hut_collapse"],
 	"hut_under_attack": ["hut_under_attack"],
 	"growl": ["zombie_1", "zombie_2", "zombie_3", "zombie_4"],
+	"dog_growl": ["zombie_dog_growl"],
 	"barricade_break": ["barricade_break_1", "barricade_break_2", "barricade_break_3", "barricade_break_4"],
 	"wave": ["wave_start"],
 	# 26 Sep 2026: weather, callouts and the special infected (tools/build_weather_audio.py)

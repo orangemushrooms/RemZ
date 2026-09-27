@@ -7,6 +7,7 @@ var hud: Hud
 var weapons: Weapons
 var waves: Waves
 var secret_night: SecretNight
+var field_trials: FieldTrials
 var day_night: DayNightCycle
 var cornfield: Node3D
 var fill_light: DirectionalLight3D
@@ -301,6 +302,9 @@ func _ready() -> void:
 	brewing = preload("res://scripts/brewing.gd").new()
 	add_child(brewing)
 	brewing.setup(self)
+	field_trials = FieldTrials.new()
+	add_child(field_trials)
+	field_trials.setup(self)
 	_boot_mark("systems (hud .. hunting)")
 	settings.add_controls(hud.settings_box, false)
 	player.regen_mul = float(difficulty["regen"])
@@ -2438,7 +2442,7 @@ func _spawn_deer() -> void:
 		var pos: Vector2 = g[0]
 		var kind: String = g[1]
 		var d := Deer.new()
-		d.setup(player, kind, _scene(kind), 100 + i)
+		d.setup(player, kind, _scene(kind + "_animated"), 100 + i)
 		add_child(d)
 		d.global_position = Map.ground_pos(pos.x, pos.y) + Vector3(0, 0.3, 0)
 		d.rotation.y = rng.randf() * TAU
@@ -2844,13 +2848,15 @@ func _process(delta: float) -> void:
 		var drone_station := not downed and drones.nearby(player)
 		var reading_notice := _looking_at_notice() and not downed
 		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
+		var trial_prompt := field_trials.prompt(player)
 		var secret_prompt := secret_night.prompt(player)
 		var bar_prompt: String = secret_night.bar.prompt(player) if secret_prompt.is_empty() and secret_night.bar else ""
 		var fortune_prompt: String = fortune.prompt(player) if fortune and loot == null and secret_prompt.is_empty() and bar_prompt.is_empty() else ""
 		# One E target, in exactly the same priority order as the input dispatch below.
 		# Independent shortcuts are appended so a nearby station cannot erase them.
 		var actions: Array[String] = []
-		if not secret_prompt.is_empty(): actions.append(Lang.t(secret_prompt))
+		if not trial_prompt.is_empty(): actions.append(Lang.t(trial_prompt))
+		elif not secret_prompt.is_empty(): actions.append(Lang.t(secret_prompt))
 		elif not bar_prompt.is_empty(): actions.append(Lang.t(bar_prompt))
 		elif not fortune_prompt.is_empty(): actions.append(Lang.t(fortune_prompt))
 		elif drone_station: actions.append(Lang.t("[E] Drone control station"))
@@ -2873,7 +2879,10 @@ func _process(delta: float) -> void:
 			if defences.roof_access(player):
 				actions.append(Lang.t("[T] Forest hut · towers and roof defenses"))
 		hud.set_prompt("\n".join(actions))
-		if not secret_prompt.is_empty() and Input.is_action_just_pressed("interact"):
+		if not trial_prompt.is_empty() and Input.is_action_just_pressed("interact"):
+			if NetSession.enabled: NetSession.command("field_trial", [])
+			else: field_trials.interact(player)
+		elif not secret_prompt.is_empty() and Input.is_action_just_pressed("interact"):
 			secret_night.request_interact()
 		elif not bar_prompt.is_empty() and Input.is_action_just_pressed("interact"):
 			secret_night.bar.open()

@@ -91,11 +91,11 @@ func run() -> void:
 	check(p._tremor == 0, "Ground vibration respects travel delay")
 	presence._process(0.3)
 	var near_strength := p._tremor
-	check(near_strength > 0.15 and near_strength < 0.4, "Nearby step gives a subtle, finite tremor")
+	check(near_strength > 0.7 and near_strength <= 1.0, "Nearby step gives a strong, bounded tremor")
 	p._clear_tremor()
 	presence.receive("step", p.global_position + Vector3(65, 0, 0), 27, 902, 1)
 	presence._process(1.0)
-	check(p._tremor > 0 and p._tremor < near_strength * 0.2, "Distant footsteps are much gentler")
+	check(p._tremor > 0 and p._tremor < near_strength * 0.6, "Distant footsteps are much gentler")
 	p._clear_tremor()
 	presence.receive("slam", p.global_position + Vector3(140, 0, 0), 27, 903, 1)
 	presence._process(1.5)

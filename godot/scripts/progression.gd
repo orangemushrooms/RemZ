@@ -1470,6 +1470,7 @@ func _process(delta: float) -> void:
 	var playing: bool = game.started and not game.over and game.player.active and not game.hud.overlay.visible
 	var guiding: bool = game.intro != null and game.intro.showing_guidance()
 	if "secret_night" in game and game.secret_night and game.secret_night.active: guiding = true
+	if "field_trials" in game and game.field_trials and game.field_trials.active: guiding = true
 	notifications.visible = game.started and not game.over and not game.hud.overlay.visible and not guiding
 	tracker.visible = playing and _journal and not game.defences.placing and not guiding
 	tutorial.visible = playing and not game.defences.placing and not game.defences.is_open and not game.player.mounted_tower and not game.player.controlling_drone and not guiding

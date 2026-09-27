@@ -75,6 +75,12 @@ func _ready() -> void:
 	skip_button.custom_minimum_size.y = 44
 	skip_button.pressed.connect(_skip_wave)
 	general.add_child(skip_button)
+	var skip_event := Button.new()
+	skip_event.text = "Skip intermission / secret quest"
+	skip_event.custom_minimum_size.y = 44
+	skip_event.pressed.connect(_skip_event)
+	general.add_child(skip_event)
+	world_buttons.append(skip_event)
 	secret_toggle = CheckButton.new()
 	secret_toggle.text = "Show the Secret Vendor on the minimap"
 	secret_toggle.toggled.connect(func(value: bool): main.hud.minimap.reveal_secret = value)
@@ -371,3 +377,9 @@ func _input(event: InputEvent) -> void:
 		# Keep gameplay shortcuts out of this modal; GUI navigation still works.
 		if event.keycode not in [KEY_TAB, KEY_ENTER, KEY_KP_ENTER, KEY_SPACE, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT]:
 			get_viewport().set_input_as_handled()
+
+func _skip_event() -> void:
+	if not is_open or NetSession.is_client(): return
+	if not main.secret_night.active and not main.field_trials.active: return
+	close()
+	main.waves.skip_current_wave()

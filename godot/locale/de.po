@@ -6538,3 +6538,110 @@ msgstr "Verstärken erhöht die Haltbarkeit um %d TP und stellt die gesamte Lini
 #. unused
 msgid "The balanced night on the Heitersberg."
 msgstr "Die ausgewogene Nacht am Heitersberg."
+
+
+msgid "▼  YOU"
+msgstr "▼  DU"
+
+
+msgid "Reinforced sandbags"
+msgstr "Verstärkte Sandsäcke"
+
+
+msgid "Fortified sandbags"
+msgstr "Sandsackbollwerk"
+
+
+msgid "Maximum sandbag tier reached."
+msgstr "Höchste Sandsackstufe erreicht."
+
+
+msgid "[E] Upgrade sandbags · Tier %d · %d R"
+msgstr "[E] Sandsäcke ausbauen · Stufe %d · %d R"
+
+
+msgid "ELDER TITAN"
+msgstr "URTITAN"
+
+
+msgid "FIELD TRIAL"
+msgstr "FELDKAMPF"
+
+
+msgid "THE QUIET GROVE"
+msgstr "DER STILLE HAIN"
+
+
+msgid "ROOT MEMORY"
+msgstr "DAS GEDÄCHTNIS DER WURZELN"
+
+
+msgid "Skip intermission / secret quest"
+msgstr "Zwischenevent / Geheimquest überspringen"
+
+
+msgid "DAWN OF THE TITANS\nHold the field together. Defeat every boss to break the seal."
+msgstr "MORGENDÄMMERUNG DER TITANEN\nHaltet gemeinsam das Feld. Besiegt alle Bosse, um das Siegel zu brechen."
+
+
+msgid "DAWN OF THE TITANS · BEFORE WAVE %d\n%s"
+msgstr "MORGENDÄMMERUNG DER TITANEN · VOR WELLE %d\n%s"
+
+
+msgid "Arriving in %d s · Stay inside the amber boundary"
+msgstr "Ankunft in %d s · Bleibt innerhalb der goldenen Grenze"
+
+
+msgid "%d bosses remain · The field is sealed"
+msgstr "Noch %d Bosse · Das Feld ist versiegelt"
+
+
+msgid "Offer 3 × %s at the stone. [E]"
+msgstr "Opfert 3 × %s am Stein. [E]"
+
+
+msgid "Defend the grove · %d enemies remain"
+msgstr "Verteidigt den Hain · Noch %d Gegner"
+
+
+msgid "Return to the stone and claim the forest's gift. [E]"
+msgstr "Kehrt zum Stein zurück und holt das Geschenk des Waldes. [E]"
+
+
+msgid "TRIAL COMPLETE · +%d R per player\nThe path is open. Prepare for the next wave."
+msgstr "PRÜFUNG BESTANDEN · +%d R pro Spieler\nDer Weg ist frei. Bereitet euch auf die nächste Welle vor."
+
+
+msgid "[E] Offer flowers to the grove"
+msgstr "[E] Dem Hain Blumen opfern"
+
+
+msgid "[E] Claim the forest's gift"
+msgstr "[E] Geschenk des Waldes holen"
+
+
+msgid "[E] Read the hidden stone · %s"
+msgstr "[E] Den verborgenen Stein lesen · %s"
+
+
+msgid "%s\nThe stone whispers: bring three flowers, then guard the roots."
+msgstr "%s\nDer Stein flüstert: Bringt drei Blumen und beschützt dann die Wurzeln."
+
+
+msgid "Won: 3 × %s · it is in your inventory."
+msgstr "Gewonnen: 3 × %s · im Inventar."
+
+
+msgid "Potion bag full"
+msgstr "Trankvorrat voll"
+
+
+msgid "%d R · WEAPONS · PLANTS · POTIONS · CASH"
+msgstr "%d R · WAFFEN · PFLANZEN · TRÄNKE · GELD"
+
+
+msgid "[E] Spin the wheel of fortune · %d R\nWeapons, plants, potions, ammo and up to 1000 Rem Dollars"
+msgstr "[E] Glücksrad drehen · %d R\nWaffen, Pflanzen, Tränke, Munition und bis zu 1000 Rem Dollars"
+
+msgid "GROVE"
+msgstr "HAIN"

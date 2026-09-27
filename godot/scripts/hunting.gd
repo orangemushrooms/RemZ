@@ -106,6 +106,7 @@ func _die(id: int) -> void:
 	if animal is Deer:
 		animal.collision_layer = 0
 		animal.state = "dead"
+		if animal.animation: animal.animation.pause()
 	else:
 		animal.voice.stop()
 		for child in animal.get_children():
@@ -281,8 +282,11 @@ func apply_snapshot(data: Dictionary) -> void:
 		else:
 			a.visible = poses[i][2]
 			if a is Deer:
-				a.global_position = poses[i][0]
-				a.rotation = poses[i][1]
+				if not a.net_position.is_finite():
+					a.global_position = poses[i][0]
+					a.rotation = poses[i][1]
+				a.net_position = poses[i][0]
+				a.net_rotation = poses[i][1]
 			else:
 				if not a.remote_position.is_finite():
 					a.global_position = poses[i][0]

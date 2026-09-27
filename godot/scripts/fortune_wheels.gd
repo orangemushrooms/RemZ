@@ -1,14 +1,5 @@
-# The two wheels of fortune in the Holzlager (27 Sep 2026). E at a wheel pays COST Rem Dollars and spins it.
-# The host (or solo) draws the prize from the table below the moment the spin is paid, then lets the wheel
-# land on a segment of that prize; every peer animates the same curve from the snapshot, the prize is paid
-# when the wheel stands still. The painted wheel has 24 equal segments like a real fairground wheel - the
-# chances are the table's, not the painted widths (the gold segment is one of 24, a legendary weapon one in
-# about 1300 spins), and a blank now and then stops right beside the jackpot.
-#
-# Weapons: every weapon the traders sell (Progression.GOODS - all but the starting pistol and knife).
-# The chance falls with the shop price, weapon_chance() = WEAPON_TOP x (180 / price)^WEAPON_EXPONENT, so the
-# dearer the gun the rarer it is: the axe 1 %, the AK 0.13 %, the minigun one spin in ~3100, the graviton
-# cannon one in ~5100. A weapon the player already owns pays WEAPON_DUPLICATE_MAGS magazines of its ammo.
+# Host-owned wheels: 10 R per spin, delayed payout, replicated animation and a weighted prize table.
+# The 24 painted sectors represent categories; cash, plants, drinks and every traded weapon are prizes.
 class_name FortuneWheels
 extends Node3D
 
@@ -16,7 +7,7 @@ const COST := 10
 const REACH := 1.9
 const SPIN_SECONDS := Vector2(5.8, 7.6)
 const TURNS := Vector2i(3, 5)
-const WEAPON_TOP := 0.01
+const WEAPON_TOP := 0.013
 const WEAPON_EXPONENT := 1.4
 const WEAPON_BASE_PRICE := 180.0
 const WEAPON_DUPLICATE_MAGS := 3
@@ -25,17 +16,21 @@ const MEDKIT_HEAL := 60.0
 const NEAR_MISS := 0.18      # share of the blanks that stop on a segment beside the jackpot
 const TIERS := ["weapon_common", "weapon_rare", "weapon_epic", "weapon_legendary"]
 const TIER_PRICE := [500, 900, 2000]   # shop price limits between the tiers
-# Everything but the weapons and the blank; "nothing" takes what is left (about 42 %).
-const CHANCES := {"mushroom": 0.21, "ammo": 0.13, "free_spin": 0.08, "cash25": 0.03, "cash100": 0.005, "grenade": 0.04, "medkit": 0.04}
-# Clockwise from the top as painted; the jackpot (23) sits between a blank and the 100 R segment.
-const SEGMENTS := ["cash100", "nothing", "mushroom", "ammo", "nothing", "weapon_common", "mushroom", "free_spin",
-	"nothing", "grenade", "mushroom", "weapon_rare", "nothing", "ammo", "cash25", "mushroom",
-	"weapon_epic", "nothing", "medkit", "mushroom", "free_spin", "ammo", "nothing", "weapon_legendary"]
+# Everything but the weapons and the blank; "nothing" takes what is left (about 34 %).
+const CHANCES := {"mushroom": 0.16, "flower": 0.075, "potion": 0.045, "ammo": 0.13, "free_spin": 0.08, "cash25": 0.03, "cash100": 0.015, "cash500": 0.004, "cash1000": 0.001, "grenade": 0.04, "medkit": 0.04}
+# Clockwise from the top as painted; the jackpot (23) sits between a blank and the 1000 R segment.
+const SEGMENTS := ["cash1000", "nothing", "flower", "ammo", "cash500", "weapon_common", "mushroom", "free_spin",
+	"nothing", "grenade", "potion", "weapon_rare", "nothing", "ammo", "cash25", "flower",
+	"weapon_epic", "cash100", "medkit", "mushroom", "free_spin", "potion", "nothing", "weapon_legendary"]
 # Painted look per kind: colour (vintage fairground paint), icon from assets/ui/items, text (translated).
 # "gold" = gold leaf (metallic).
 const LOOK := {
 	"nothing": {"color": Color(0.53, 0.1, 0.09), "text": "NOTHING", "icon": ""},
 	"mushroom": {"color": Color(0.9, 0.84, 0.69), "text": "", "icon": "steinpilz"},
+	"flower": {"color": Color(0.38, 0.49, 0.3), "text": "", "icon": "golden_yarrow"},
+	"potion": {"color": Color(0.43, 0.27, 0.52), "text": "", "icon": "brew_rose"},
+	"cash500": {"color": Color(0.82, 0.63, 0.26), "text": "500 R", "icon": ""},
+	"cash1000": {"color": Color(0.95, 0.74, 0.3), "text": "1000 R", "icon": "", "gold": true},
 	"ammo": {"color": Color(0.26, 0.33, 0.2), "text": "AMMO", "icon": "ammo"},
 	"free_spin": {"color": Color(0.14, 0.43, 0.42), "text": "FREE SPIN", "icon": ""},
 	"cash25": {"color": Color(0.8, 0.56, 0.15), "text": "25 R", "icon": ""},
@@ -202,7 +197,7 @@ func _build_sign(hz: float) -> void:
 	title.position = board.position + Vector3(0, 0.08, 0.035)
 	add_child(title)
 	var price := Label3D.new()
-	price.text = Lang.t("%d R PER SPIN · WEAPONS · MUSHROOMS · AMMO", [COST])
+	price.text = Lang.t("%d R · WEAPONS · PLANTS · POTIONS · CASH", [COST])
 	price.font_size = 40
 	price.pixel_size = 0.0034
 	price.outline_size = 6
@@ -297,7 +292,7 @@ func prompt(p: Player) -> String:
 	if i < 0: return ""
 	if wheels[i].spinning or not pending[i].is_empty(): return "The wheel is turning …"
 	if p.score < COST: return Lang.t("Wheel of fortune · %d R per spin · not enough Rem Dollars", [COST])
-	return Lang.t("[E] Spin the wheel of fortune · %d R\nWeapons, mushrooms, ammo and Rem Dollars", [COST])
+	return Lang.t("[E] Spin the wheel of fortune · %d R\nWeapons, plants, potions, ammo and up to 1000 Rem Dollars", [COST])
 
 func request_spin(p: Player) -> void:
 	var i := nearest(p)
@@ -330,13 +325,29 @@ func spin(p: Player, index: int) -> String:
 static func _reveal_of(result: Dictionary) -> Array:
 	var kind: String = result.kind
 	if result.has("weapon"): return [result.weapon, Weapons.DEFS[result.weapon].name, kind]
-	return [LOOK[kind].icon if kind != "cash25" and kind != "cash100" else "cash", LOOK[kind].text, kind]
+	return ["cash" if kind.begins_with("cash") else LOOK[kind].icon, LOOK[kind].text, kind]
 
 # Host / solo: pay out one result. Returns the text for the winner.
 func grant(p: Player, result: Dictionary, wheel := -1) -> String:
 	var w: Weapons = main.progression.weapon_for(p)
 	var kind: String = result.kind
 	match kind:
+		"flower":
+			var kinds: Array = main.brewing.Recipes.FLOWERS.keys()
+			var flower: String = kinds[rng.randi_range(0, kinds.size() - 1)]
+			for i in 3: main.brewing.add_flower(p.peer_id, flower)
+			Sfx.event(main, p.peer_id, "pickup")
+			return Lang.t("Won: 3 × %s · it is in your inventory.", [main.brewing.Recipes.FLOWERS[flower].name])
+		"potion":
+			var drinks: Dictionary = main.brewing.stock(p.peer_id).drinks
+			var available: Array = []
+			for id in main.brewing.Recipes.DRINKS:
+				if int(drinks.get(id, 0)) < main.brewing.Recipes.DRINK_LIMIT: available.append(id)
+			if available.is_empty(): return _refund(p, "Potion bag full")
+			var id: String = available[rng.randi_range(0, available.size() - 1)]
+			drinks[id] = int(drinks.get(id, 0)) + 1
+			Sfx.event(main, p.peer_id, "pickup")
+			return Lang.t("Won: %s · it is in your inventory.", [main.brewing.Recipes.DRINKS[id].name])
 		"nothing":
 			return "Nothing this time. The wheel creaks to a halt."
 		"mushroom":
@@ -353,8 +364,8 @@ func grant(p: Player, result: Dictionary, wheel := -1) -> String:
 		"free_spin":
 			p.add_score(COST)
 			return Lang.t("Free spin! Your %d R are back.", [COST])
-		"cash25", "cash100":
-			var amount := 25 if kind == "cash25" else 100
+		"cash25", "cash100", "cash500", "cash1000":
+			var amount := int(kind.trim_prefix("cash"))
 			p.add_score(amount)
 			Sfx.event(main, p.peer_id, "purchase")
 			return Lang.t("Won: %d Rem Dollars!", [amount])

@@ -45,6 +45,9 @@ var _saved_viewmodel := true
 var _was_paused := false
 var _refresh_t := 0.0
 var _state: Array = []
+var player_avatar: Node3D
+var player_marker: Label
+static var _avatar_materials: Dictionary = {}
 
 func setup(system: Node) -> void:
 	defences = system
@@ -61,6 +64,13 @@ func setup(system: Node) -> void:
 	overview.cull_mask = player.camera.cull_mask
 	game.add_child(overview)
 	_build_ui()
+	player_marker = _label("▼  YOU", 18, GREEN)
+	player_marker.autowrap_mode = TextServer.AUTOWRAP_OFF
+	player_marker.custom_minimum_size = Vector2(110, 28)
+	player_marker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	player_marker.add_theme_color_override("font_outline_color", Color.BLACK)
+	player_marker.add_theme_constant_override("outline_size", 5)
+	panel.add_child(player_marker)
 
 static func _style(bg: Color, border := Color(0.2, 0.27, 0.25), pad := 14.0) -> StyleBoxFlat:
 	var box := StyleBoxFlat.new()
@@ -206,10 +216,43 @@ func open() -> void:
 	var centre: Vector3 = game.hut.center
 	if Vector2(player.global_position.x - centre.x, player.global_position.z - centre.z).length() > HUT_VIEW_RANGE:
 		centre = Map.ground_pos(player.global_position.x, player.global_position.z)
-	overview.size = VIEW_SIZE
-	overview.global_position = centre + Vector3.UP * 60.0
+	centre = centre.lerp(player.global_position, 0.5)
+	overview.size = maxf(VIEW_SIZE, centre.distance_to(player.global_position) * 2.8)
+	overview.global_position = centre + Vector3(-7, 60, 0)
 	overview.rotation = Vector3(-PI * 0.5, 0.0, 0.0)
 	overview.make_current()
+	if not player_avatar:
+		player_avatar = preload("res://scripts/coop_avatar.gd").new()
+		game.add_child(player_avatar)
+		player_avatar.setup(player, "", 0)
+		player_avatar.label.hide()
+		player_avatar.process_mode = Node.PROCESS_MODE_DISABLED
+		# The planner's survivor remains readable at night and under a hut roof.
+		for mesh: MeshInstance3D in player_avatar.find_children("*", "MeshInstance3D", true, false):
+			mesh.visibility_range_end = 0
+			mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+			for surface in mesh.mesh.get_surface_count():
+				var source := mesh.get_active_material(surface) as BaseMaterial3D
+				if not source: continue
+				var key := source.resource_path if not source.resource_path.is_empty() else str(source.get_instance_id())
+				if not _avatar_materials.has(key):
+					var material := source.duplicate() as BaseMaterial3D
+					material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+					material.no_depth_test = true
+					_avatar_materials[key] = material
+				mesh.set_surface_override_material(surface, _avatar_materials[key])
+		var ring := TorusMesh.new()
+		ring.inner_radius = 0.72
+		ring.outer_radius = 0.80
+		ring.rings = 24
+		ring.ring_segments = 6
+		var marker_material := Barricade._marker_material(GREEN, 0.6)
+		marker_material.no_depth_test = true
+		DefenceTower.piece(player_avatar, ring, Vector3.UP * 0.1, marker_material)
+	player_avatar.global_transform = player.global_transform
+	player_avatar._process(0.0)
+	player_avatar.show()
+	_update_player_marker()
 	if roof_markers.is_empty(): _build_roof_markers()
 	for marker in roof_markers: marker.show()
 	for crowns in get_tree().get_nodes_in_group("tree_crowns"): crowns.visible = false   # see the ground, not the canopy
@@ -224,6 +267,7 @@ func close() -> void:
 	defences.is_open = false
 	dragging = null
 	panel.hide()
+	if player_avatar: player_avatar.hide()
 	for marker in roof_markers: marker.hide()
 	for crowns in get_tree().get_nodes_in_group("tree_crowns"): crowns.visible = true
 	if defences.ghost: defences.ghost.hide()
@@ -378,6 +422,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	if not is_open: return
+	_update_player_marker()
 	if not player.alive or game.over:
 		close()
 		return
@@ -425,6 +470,13 @@ func _process(delta: float) -> void:
 		hint.text = Lang.t("Roof slot %d · %s · %d R · click to build", [slot + 1, spec.name, spec.cost])
 	else:
 		hint.text = Lang.t("%s · %d R · click to build · R / wheel to turn · +/- zoom", [spec.name, spec.cost]) if hover_valid else Lang.t("%s · %s", [spec.name, Lang.t(error)])
+
+func _update_player_marker() -> void:
+	if player_avatar: player_avatar.global_transform = player.global_transform
+	var point := overview.unproject_position(player.global_position + Vector3.UP * 2.2)
+	var screen := get_viewport().get_visible_rect().size
+	player_marker.position = Vector2(clampf(point.x - 55, 405, screen.x - 120), clampf(point.y - 45, 12, screen.y - 145))
+	player_marker.text = "▼  YOU"
 
 func _refresh() -> void:
 	var state := [game.waves.completed, player.score, defences.towers.size(), defences.selected_kind, Lang.current]

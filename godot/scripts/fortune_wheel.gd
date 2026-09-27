@@ -9,7 +9,7 @@ extends Node3D
 
 const SEGMENT_COUNT := 24
 const SEGMENT := TAU / SEGMENT_COUNT
-const STAND_HEIGHT := 1.9
+const STAND_HEIGHT := 2.2
 const FLAP_MAX := 0.5          # radians a peg pushes the flapper aside
 const FLAP_ZONE := 0.34        # share of a segment before the peg in which the flapper rides on it
 const EASE_POWER := 2.6        # friction: the wheel loses speed faster at the start than a pure brake
@@ -18,8 +18,8 @@ const EASE_POWER := 2.6        # friction: the wheel loses speed faster at the s
 # fit and STAND_YAW the face looks along +z. HUB is the centre of our face, 5 mm in front of the painted one
 # so that it hides it; the A-frame legs stay 5-10 cm in front of it, clear of the 5.5 cm pegs.
 const STAND_YAW := PI
-const HUB := Vector3(0.0, 1.246, 0.351)
-const RADIUS := 0.582
+const HUB := Vector3(0.0, 1.443, 0.407)
+const RADIUS := 0.674
 
 var wheels: FortuneWheels
 var index := 0
@@ -49,6 +49,7 @@ var _pop_label: Label3D
 var _pop_t := -1.0
 var _spot: SpotLight3D
 var _meshy_stand := false
+var _marks: Array[Label3D] = []
 
 static var _face_material: ShaderMaterial
 static var _brass: StandardMaterial3D
@@ -361,9 +362,9 @@ func _build_marks() -> void:
 			disc.add_child(icon)
 		if not str(look.text).is_empty():
 			var label := Label3D.new()
-			label.text = look.text
 			label.font_size = 56
-			label.pixel_size = 0.0011 * radius / 0.6
+			label.set_meta("prize_kind", kind)
+			_fit_mark(label)
 			label.outline_size = 4
 			label.modulate = Color(0.12, 0.07, 0.04) if dark else Color(0.98, 0.94, 0.84)
 			label.outline_modulate = Color(0, 0, 0, 0.0) if dark else Color(0.1, 0.03, 0.02, 0.8)
@@ -376,6 +377,19 @@ func _build_marks() -> void:
 			label.rotation.z = -theta + PI / 2.0
 			label.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			disc.add_child(label)
+			_marks.append(label)
+
+func _fit_mark(label: Label3D) -> void:
+	var look: Dictionary = FortuneWheels.LOOK[label.get_meta("prize_kind")]
+	label.text = look.text
+	# Fit the final translated word while leaving a gap before the weapon icon.
+	var measured := ThemeDB.fallback_font.get_string_size(Lang.text(label.text), HORIZONTAL_ALIGNMENT_LEFT, -1, 56).x
+	var max_width := radius * (0.30 if not str(look.icon).is_empty() else 0.57)
+	label.pixel_size = minf(0.0011 * radius / 0.6, max_width / maxf(1.0, measured + 8))
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_TRANSLATION_CHANGED:
+		for label in _marks: _fit_mark(label)
 
 func _build_flapper() -> void:
 	# a leather tongue hanging from the stand's iron hook into the pegs (the fallback stand gets a bracket)

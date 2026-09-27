@@ -217,6 +217,11 @@ func start(n: int) -> void:
 		if n == 5 and not main.secret_night.completed:
 			main.secret_night.begin()
 			return
+	if "field_trials" in main and main.field_trials:
+		if main.field_trials.active: return
+		if main.field_trials.due(n):
+			main.field_trials.begin(n)
+			return
 	if NetSession.is_host(): NetSession.world.wave_started(n)
 	wave = n
 	_heavy_spawn_t = 0.0
@@ -264,7 +269,11 @@ static func _boss_kind(kind: String) -> bool:
 	return Zombie.is_boss_kind(kind)
 
 func skip_current_wave() -> bool:
-	if "secret_night" in main and main.secret_night and main.secret_night.active: return false
+	if "secret_night" in main and main.secret_night and main.secret_night.active: return main.secret_night.skip()
+	if "field_trials" in main and main.field_trials and main.field_trials.active:
+		if NetSession.is_client(): return false
+		main.field_trials.finish(true)
+		return true
 	if NetSession.is_client() or not main.started or main.over:
 		return false
 	queue.clear()

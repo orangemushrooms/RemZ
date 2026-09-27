@@ -8,11 +8,12 @@ extends CharacterBody3D
 const TYPES := {
 	"earthworm": {"name": "THE EARTHWORM", "model": "zombie_earthworm", "hp": 4400.0, "speed": 8.0, "damage": 70.0, "reach": 9.0, "attack_time": 3.0, "score": 300, "height": 14.0, "worm": true, "tint": Color.WHITE},
 	"earthworm_ancient": {"name": "THE GRAVE WYRM", "model": "zombie_earthworm_ancient", "hp": 6200.0, "speed": 7.0, "damage": 88.0, "reach": 11.0, "attack_time": 3.4, "score": 420, "height": 19.0, "worm": true, "tint": Color.WHITE},
-	"titan_hunter": {"name": "HUNTER TITAN", "model": "zombie_colossus", "hp": 1700.0, "speed": 6.0, "damage": 45.0, "reach": 8.0, "attack_time": 3.0, "score": 230, "height": 8.0, "tint": Color(0.58, 0.83, 0.65), "giant": true, "blast_radius": 4.0, "windup": 1.7, "recovery": 1.1, "structure_mul": 0.65, "warning_color": Color(0.45, 1.0, 0.3)},
-	"titan_siege": {"name": "SIEGE TITAN", "model": "zombie_bloater", "hp": 3600.0, "speed": 2.6, "damage": 80.0, "reach": 10.0, "attack_time": 4.5, "score": 350, "height": 14.0, "tint": Color(0.7, 0.66, 0.51), "giant": true, "blast_radius": 6.0, "windup": 2.8, "recovery": 2.0, "structure_mul": 1.6, "warning_color": Color(1.0, 0.68, 0.1)},
-	"titan_ash": {"name": "ASH TITAN", "model": "zombie_titan", "hp": 3000.0, "speed": 3.6, "damage": 60.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
-	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 4200.0, "speed": 4.2, "damage": 70.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
-	"forest_spirit": {"name": "THE FOREST SPIRIT", "model": "zombie_forest_spirit", "hp": 1650.0, "speed": 3.0, "damage": 24.0, "reach": 2.5, "attack_time": 1.8, "score": 220, "height": 3.4, "boss": true, "tint": Color.WHITE},
+	"titan_hunter": {"name": "HUNTER TITAN", "model": "zombie_colossus", "hp": 5100.0, "speed": 6.0, "damage": 45.0, "reach": 8.0, "attack_time": 3.0, "score": 230, "height": 8.0, "tint": Color(0.58, 0.83, 0.65), "giant": true, "blast_radius": 4.0, "windup": 1.7, "recovery": 1.1, "structure_mul": 0.65, "warning_color": Color(0.45, 1.0, 0.3)},
+	"titan_siege": {"name": "SIEGE TITAN", "model": "zombie_bloater", "hp": 10800.0, "speed": 2.6, "damage": 80.0, "reach": 10.0, "attack_time": 4.5, "score": 350, "height": 14.0, "tint": Color(0.7, 0.66, 0.51), "giant": true, "blast_radius": 6.0, "windup": 2.8, "recovery": 2.0, "structure_mul": 1.6, "warning_color": Color(1.0, 0.68, 0.1)},
+	"titan_ash": {"name": "ASH TITAN", "model": "zombie_titan", "hp": 9000.0, "speed": 3.6, "damage": 60.0, "reach": 13.0, "attack_time": 4.5, "score": 320, "height": 19.0, "tint": Color(0.68, 0.46, 0.42), "giant": true, "blast_radius": 10.0, "windup": 3.2, "recovery": 2.0, "structure_mul": 1.0, "warning_color": Color(1.0, 0.25, 0.15)},
+	"titan": {"model": "zombie_titan", "skins": ["zombie_titan", "zombie_colossus"], "fallback": "zombie_bloater", "hp": 12600.0, "speed": 4.2, "damage": 70.0, "reach": 14.0, "attack_time": 4.0, "score": 400, "height": 27.0, "tint": Color(0.78, 0.8, 0.78), "giant": true},
+	"titan_elder": {"name": "ELDER TITAN", "model": "zombie_colossus", "hp": 18000.0, "speed": 3.2, "damage": 90.0, "reach": 15.0, "attack_time": 4.8, "score": 600, "height": 30.0, "tint": Color(0.48, 0.52, 0.46), "giant": true, "blast_radius": 9.5, "windup": 3.0, "recovery": 2.0},
+	"forest_spirit": {"name": "THE FOREST SPIRIT", "model": "zombie_forest_spirit", "hp": 6600.0, "speed": 3.0, "damage": 24.0, "reach": 2.5, "attack_time": 1.8, "score": 220, "height": 3.4, "boss": true, "tint": Color.WHITE},
 	# 27 Sep 2026: the user's own Meshy web models joined the skins (tools/new_zombies.py): the businessman and
 	# the decayed wanderer shamble, the risen wastelander runs, the ashen wraith stalks the maize.
 	"shambler": { "model": "zombie_shambler", "skins": ["zombie_shambler", "zombie_farmer", "zombie_hiker", "zombie_grandma", "zombie_businessman", "zombie_wanderer"], "hp": 120.0, "speed": 1.75, "damage": 15.0, "reach": 1.6, "attack_time": 1.0, "score": 10, "height": 1.8 },
@@ -38,7 +39,7 @@ const TYPES := {
 		"screamer": {"range": 28.0, "cooldown": 16.0, "call": 4, "mark": 14.0, "call_radius": 90.0} },
 	"zombie_dog": { "name": "FARM DOG", "model": "zombie_dog", "hp": 65.0, "speed": 7.2, "damage": 12.0, "reach": 1.5, "attack_time": 0.7, "score": 20, "height": 0.8,
 		"beast": {"length": 1.35, "lunge": 0.5} },
-	"zombie_stag": { "name": "ZOMBIE STAG", "model": "zombie_stag", "fallback": "stag", "hp": 400.0, "speed": 5.0, "damage": 24.0, "reach": 2.2, "attack_time": 2.2, "score": 70, "height": 1.75,
+	"zombie_stag": { "name": "ZOMBIE STAG", "model": "zombie_stag_animated", "fallback": "stag", "hp": 400.0, "speed": 5.0, "damage": 24.0, "reach": 2.2, "attack_time": 2.2, "score": 70, "height": 1.75,
 		"beast": {"length": 2.5, "charge": 11.5, "ram": 34.0, "ram_structure": 110.0, "charge_range": 28.0, "cooldown": 6.0} },
 }
 # blood moon (day_night_cycle.gd): every zombie walks this much faster while the red moon is up
@@ -1496,7 +1497,7 @@ func _physics_process(delta: float) -> void:
 	growl_t -= delta
 	if growl_t <= 0.0 and dist < 25.0:
 		growl_t = randf_range(4.0, 12.0)
-		Sfx.play_at(get_parent(), "growl", global_position, -5.0)
+		Sfx.play_at(get_parent(), "dog_growl" if net_kind == "zombie_dog" else "growl", global_position, -5.0)
 
 # Beasts (zombie_beast.gd) put their charge here; true = the move owned this tick.
 func _special_move(_delta: float) -> bool:

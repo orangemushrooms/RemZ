@@ -2,6 +2,8 @@
 
 Das aktuelle Spiel ist das Godot-Projekt in diesem Ordner. Der Three.js-Code im übergeordneten `src/` ist der ältere Browser-Prototyp.
 
+**Update 27. September 2026:** Titanen-Zwischenkämpfe vor Welle 10/15/20, zwei versteckte Waldquests, überspringbare Zwischenereignisse, ausbaubare Sandsäcke, stärkere Bosse, überarbeitete Tier-/Wurmbewegung, dezente Blumen, Spieleranzeige im Turmplaner und erweiterte Glücksradpreise. [Ablauf, Werte und Prüfungen](../docs/FIELD_TRIALS.md).
+
 ## Starten
 
 `project.godot` mit Godot 4.7.2 öffnen und F6/F5 drücken. Der Startknopf wird freigegeben, sobald das begehbare Wegnetz fertig ist.
@@ -72,15 +74,17 @@ Die Rückstoßabstimmung wurde nach dem Spieltest verstärkt: 60–100 % mehr Gr
 
 ## Verteidigung und Titanen
 
-**Titanen-Varianten:** Neben dem 27-m-Feldtitanen gibt es drei kleinere Typen mit vorhandenen Modellen in neuen Größen/Farben, eigenen Bossnamen, Hitboxen und Warnkreisen:
+**Titanen-Varianten:** Fünf Typen mit eigenen Größen, Farben, Bossnamen und Warnkreisen:
 
-| Typ | Größe | Basis-Leben | Schaden | Warnzeit / Radius | Erste Welle |
-| --- | --- | --- | --- | --- | --- |
-| Jagdtitan | 8 m | 2400 | 85 | 1,7 s / 4 m | 8 |
-| Belagerungstitan | 14 m | 6000 | 130 | 2,8 s / 6 m | 10 |
-| Aschetitan | 19 m | 4500 | 100 | 3,2 s / 10 m | 12 |
+| Typ | Größe | Basis-Leben | Basisschaden | Warnzeit / Radius |
+| --- | --- | --- | --- | --- |
+| Jagdtitan | 8 m | 5100 | 45 | 1,7 s / 4 m |
+| Belagerungstitan | 14 m | 10800 | 80 | 2,8 s / 6 m |
+| Aschetitan | 19 m | 9000 | 60 | 3,2 s / 10 m |
+| Feldtitan | 27 m | 12600 | 70 | 2,4 s / 8,5 m |
+| Urtitan | 30 m | 18000 | 90 | 3 s / 9,5 m |
 
-Der Jagdtitan bewegt sich schnell und schlägt häufiger zu. Der Belagerungstitan ist langsam und zäh; er verursacht 60 % mehr Gebäudeschaden als der Feldtitan. Der Aschetitan deckt eine besonders große Fläche ab, warnt dafür länger. Schwierigkeit, spätere Wellen und Koop skalieren Leben/Schaden wie beim Feldtitanen. Ab Welle 8 kommt pro Welle ein kleinerer Titan hinzu, ab 16 zwei, ab 24 drei; die Varianten wechseln. Die bisherigen Feldtitan-Wellen bleiben bestehen. **Höchstens vier lebende Titanen gleichzeitig**, innerhalb des allgemeinen Gegnerlimits; weitere warten in der Spawnliste. Alle kommen über offene Felder. Varianten zählen für Titanenquests, den Titanenbrecher-Bonus und Frostresistenz und werden mit ihrem eigenen Angriff im Koop synchronisiert. Prüfungen: `titan_variants`, `defence` und `titan_horror`.
+Der Jagdtitan bewegt sich schnell und schlägt häufiger zu. Der Belagerungstitan ist langsam und zäh; er verursacht 60 % mehr Gebäudeschaden als der Feldtitan. Der Aschetitan deckt eine besonders große Fläche ab, warnt dafür länger. Schwierigkeit, spätere Wellen und Koop skalieren Leben/Schaden zusätzlich. Reguläre Wellen begrenzen gleichzeitig aktive schwere Gegner auf zwei, ab Welle 24 auf drei. Die neuen Feld-Zwischenkämpfe vor Welle 10/15/20 haben eigene Gruppen: zwei Titanen, vier Titanen, schließlich alle fünf Titanen und beide Würmer gemeinsam. Varianten zählen für Titanenquests, den Titanenbrecher-Bonus und Frostresistenz und werden mit ihrem eigenen Angriff im Koop synchronisiert. Prüfungen: `titan_variants`, `titan_horror`, `field_update` und `field_coop`.
 
 **Armeewellen ab Welle 8:** Die reguläre Grundmenge steigt zusätzlich pro Welle um 20 Prozentpunkte: Welle 8 ×1,2, Welle 12 ×2, Welle 17 ×3, ab Welle 22 ×4. Auf Normal solo sind das beispielsweise 60 / 140 / 285 / 480 reguläre Zombies; Brocken-Bossgruppen und Titanen kommen wie bisher dazu. Schwierigkeit und Koop skalieren die Menge zusätzlich. Nach Erreichen von ×4 wächst die Grundmenge weiter mit der Wellennummer. Nachschub kommt bei guter Performance bis alle 0,12 s, höchstens ein neuer Gegner pro Frame. Maximal 72 lebende Gegner sind gleichzeitig aktiv; bei länger erhöhten Frame-Zeiten wird neuer Nachschub auf 56 beziehungsweise 40 aktive Gegner begrenzt und bei starker Last zusätzlich verlangsamt. Lebende Gegner verschwinden dadurch nicht. Alle 0,5 s werden alte Leichen samt Blut-Decals auf maximal 24 begrenzt; Titanen-Leichen haben Vorrang. Die Suche nach sicheren Wald-Spawns ist auf zwölf Kandidaten pro Versuch begrenzt und fällt bei Bedarf auf einen sicheren Zugang zurück. Prüfungen: `army_waves`, `spawn_safety`; optionaler gerenderter Lasttest mit `--army-benchmark`.
 

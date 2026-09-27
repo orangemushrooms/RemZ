@@ -35,7 +35,7 @@ func run() -> void:
 	check(night.active and game.waves.phase == "secret_night", "Wave 5 enters the mandatory sidequest")
 	check(game.waves.queue.is_empty() and game.waves.wave == 4, "Combat and wave event are deferred")
 	game.waves.start(6)
-	check(game.waves.wave == 4 and not game.waves.skip_current_wave(), "Direct start and cheat cannot bypass the quest")
+	check(game.waves.wave == 4 and night.active, "Direct wave start preserves the quest; explicit cheat skips are tested separately")
 	game.day_night.advance(120)
 	check(is_equal_approx(game.day_night.clock_seconds, 1800), "Time stays at night")
 	check(not night.interact(game.player), "Remote interactions are rejected")
