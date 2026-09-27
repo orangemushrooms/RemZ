@@ -565,6 +565,33 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   offer what the key does (a full sandbag line says "intact"). Suites: `brewing` (41), `interactions` (19, ends on
   INTERACTIONS_RESULT); `multiplayer` runs through `tools/test_multiplayer.ps1` (host + 3 clients, 181 checks).
 
+## Wheels of fortune in the Holzlager (27 Sep 2026, `--suite=fortune_wheels --smoke-test --no-intro --no-music --no-foliage`, 41 checks; windowed `--render-fortune` -> `artifacts/fortune/{hall,wheel,night,spin,win}.png`)
+- Two wheels against the north gable wall of the (key-locked) Holzlager, a prize booth between them and a marquee
+  sign with chasing bulbs. E pays `FortuneWheels.COST` 10 R. The host / solo draws the prize when the spin is
+  paid (`roll()` over `table()`), the wheel lands on a painted segment of that kind (`landing()`, 18 % of the
+  blanks stop right beside the jackpot) and `grant()` pays when it stands still. 24 equal painted segments
+  (`SEGMENTS`, `LOOK`); the odds are the table's, not the painted widths.
+- Weapons: every weapon of `Progression.GOODS` (all but pistol and knife), `weapon_chance` = 1 % x (180 / shop
+  price)^1.4 - axe 1 in 100, AK 1 in 780, minigun 1 in ~3100, graviton 1 in ~5100 - painted as four tier segments
+  (price < 500 / 900 / 2000). A weapon already owned pays 3 magazines of its ammo (a melee duplicate or full
+  pockets: ammo for another gun, else the 10 R back). Other prizes: mushroom 21 % (`Mushrooms.choose`), ammo 13 %
+  (2 magazines), free spin 8 %, 25 R 3 %, 100 R 0.5 %, grenade 4 %, medkit 4 % (+60), blank ~42 %.
+- Look: `fortune_wheel.glb` = Meshy stand (`tools/creature_models.py fortune_wheel_v2`: nano-banana sheet ->
+  image-to-3d 7.1, the text-to-3d attempt `fortune_wheel_stand` came back as a frame with a ship's wheel);
+  `node tools/fortune_wheel_fit.mjs <glb>` measures its painted disc (faces -z, centre y 0.295, r 0.577) and
+  `--cut` removes Meshy's flapper tongue (idempotent, rerun after a repack). `fortune_wheel.gd` mounts its own
+  procedural disc 5 mm in front (`HUB`, `RADIUS`, `STAND_YAW` PI): face shader with grain / chips / gold leaf,
+  brass separators, pegs and rim, icons from `assets/ui/items`, Label3D texts, a leather flapper on a damped
+  spring that every peg pushes aside, spot light, win glow and a billboard reveal of the prize.
+  `fortune_prize_counter.glb` is the booth. Sounds baked by `tools/build_fortune_audio.py` into
+  `assets/audio/sfx/fortune/` (tick_1..3, coin, win, jackpot, lose). Meshy cost: about 105 credits.
+- Co-op: command "fortune_spin" [wheel], snapshot "fortune" = per wheel `[serial, a0, a1, duration, elapsed,
+  reveal]`; clients replay the same ease-out curve (a late joiner sees the stopped wheel). Epic / legendary
+  wins are announced to the other players.
+- Pitfall: `RenderOptimizer.optimize` folds repeated static MeshInstance3D leaves into MultiMesh batches and frees
+  them - anything that moves or switches materials must sit under a node in the `render_dynamic` group
+  (the wheels lost their bulbs and pegs to it).
+
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,
   six-letter join code, anonymous Connect Device ID login, no Epic account, no port forwarding) and **Direct /

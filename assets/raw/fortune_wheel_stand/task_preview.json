@@ -1,0 +1,27 @@
+{
+  "id": "01a0e2bb-65a2-7329-b012-a25c0b8f8111",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 3330460390,
+  "prompt": "photorealistic game asset, antique fairground wheel of fortune floor stand without the wheel: a tall heavy wooden A-frame easel of dark stained oak, two splayed front legs and one rear brace leg on a wide plank base, carved uprights meeting at the top in a cast iron axle bracket with a short steel axle pointing forward, small leather flapper pointer mount on top of the bracket, brass corner fittings and rivets, worn varnish, scratches, 1.9 m tall, single object, no wheel disc, no text, no letters, no numbers",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790510328909,
+  "progress": 100,
+  "started_at": 1790510328918,
+  "finished_at": 1790510410381,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65a2-7329-b012-a25c0b8f8111/output/model.glb?Expires=4944067200&Signature=Tm0LzSn7KnBlsNhv3D62Y4~HJ5q4~FRwTkgTVIP9yrZIPuhDVibiy6iLHKVtm7DXu~ygpnzLDZ80lMAR7Ca5L-LknIJvXqQMNBDeFX0OMkP-6jxqhI33YHhjKtC4oBTFhDouR0lPSdMVAdyzpyvVWkBqqCjDD2QJqdeZ-6O0Vaqn6OaUAVNUiKjDtByT34xabEQi2MfIYt224efvgV~YncrftQE5yxUCOMxdzNP9R69ybmmIfq-8AbusFqQ8TQDv2PaRK52X~mNkBkIzVG10YwpRNvaDMLqhevGxAOw6dM7BTzBxVHcVaLW6qM80S2Wsm0BMpb4ZhMY9skH8cD30CQ__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65a2-7329-b012-a25c0b8f8111/output/model.fbx?Expires=4944067200&Signature=cyfr0jd4LDIQXgXirM3UUixDCnc2Ezj7y011QVt7hXM6VTee1UpX9AKcFlb98fXIq1IycrMtuaVenH~yvrZkJcoboJN0SzbBHfRXY6pcj8RGHYn5lSVz6Q-17dl-4imX-ISDqGJ5RkO~Slrtqbx8vS3t2QI5~Us4zbNQRVW~WkWk5~TYm1Zp488JjOHN28FMSIbVhnFgMX67x4pdw-2dQInsMfnLUE5rHaAMmcBskJGkCmQeKNl4ToKm4OI4SB2j~sC-mRwkoOL5UvLzjnXaH5s5XMcFZvpKIO9a2eiSOPlO-XAxTyxFNX6J-OZ4RGnaOMCRPd8N69EWaw2L88cGlw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65a2-7329-b012-a25c0b8f8111/output/model.usdz?Expires=4944067200&Signature=lTyNto9kSL60IIrk1h3SboaYbIB5hjPnVF7O-Q~Wg8FRUL59qPigq6bCZDh9oJzVM2vgbD080UpN~UNRvHB5iGZp3YO6Syq8heorc6VQNwDjOeh-T8dvEpioKAApQep6kkGMRjWpvedqzMnyiuxobU4WHonVN1VgQP-TtRaMZynnhZ~sT~3nede86Bb-XN9cIOmDNGdiqH9MvOjDiD1pisF6Y0WoXwISyCGxnz25nkSeHZVKipJV~eUex7zKc6hdZsQgH0j3cjcORluPCS34~OXbd8ArYl7tT809D4htsNoPKOULFyG~VMfh2~mgQUNrRX7UM2HqNU13FqCz1mINqg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65a2-7329-b012-a25c0b8f8111/output/model.obj?Expires=4944067200&Signature=kMHgyNcl1vvKEYFNw6iz4YDCLQtKGwicjD9GWCNCYFJcdRkxSdXOpewbuKFCYZpB6qQ2-xYecX3lbc86Dbm6cKSRkN5BPqqW6ptcAy6oOH747i0wZR4zsEJEcZ0brrWKvDm2IzUEYnX3oo-cm~2evqfFwQrttPFcQ6zHlvSM5GAdERctsGiXHCNkTa-bPHuRRz8aA20X0mpMGWloBi4uo0o4mymaXHenpUvpxS9b~-~3-qtqcv5HUZAL2CqwiV48LR7SiqT4oEeWKljG6~4j0Sf1wn0joIHU~jZMKmXUZacNbQ8XcBJ9PWDKtmm5i9R3yzDZzo6q43DVAKOe6aeQnw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65a2-7329-b012-a25c0b8f8111/output/model.stl?Expires=4944067200&Signature=ZtoOWQvUoy93x-6OJWRDj35n5w-7huTrcmBolsxQZgaVLqcWHDxohCBy-bVBH3mZfUS6o63vZa-CUeeENDseDhRTZJh6PDvq3SYaoYCtYx0isG9IcpzfTGGbssJMjQJacZyro4q9V14uBMrgHgczCv-Cd7y0ecn2wUyNtnNEcig4np-Gl06Hkn6~jg0DMgCxbD5MkLyi~JuWhGnsHwH4tZMu3WT2eKhgSALQKoP8BiRpWWFKqHCUuS8fnr91StJJKD~g5-UkCxx4u1vIm~W4O~r80UVARn758tpzeoCla88ephlwewgHEhSwP8e33wTA1aHefH7euWXWshDo3Z9PcQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65a2-7329-b012-a25c0b8f8111/output/preview.png?Expires=4944067200&Signature=fxSmAGu6f4Eoc6Iuh~Ts4yMIdnijAQjgutoLcWloIPvqj-oqdKZFB1N8I72gIsecr8r~rgKIYCi28xDVN6HIXKJQd8A0bWupVy3WFNtZIBwk-DoUQbGM-ClYX-~v45BHjN02SCLTaORNdppyEetxzQoA3b5Xuine~wVBnzlQgFDGr5zVbEs04XGRnRzT65bg32YNDtUtUQ7zGdSwB4-4Ry4bYCws0-As7agOrFtmmD9rnyItv06WzhXiE72gAOCYPEV4QnzY8JXs1LkZxcAZi7GDg3B6HLQwM2Hcx5ieqYODU9eQpKzLg4rGPn3xbC5xRIwUrgw5~b~ZiAg0tRpvFA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

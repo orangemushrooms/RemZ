@@ -362,5 +362,13 @@
   "tree_birch": {
     "prompt": "photorealistic game asset, mature silver birch tree, slender slightly curved white trunk with black horizontal fissures and peeling papery bark, several thin ascending branches, an airy open crown of fine drooping twigs with small triangular leaves turning golden yellow in early autumn, natural irregular silhouette, single tree, no ground, no base, no text",
     "texture_prompt": "realistic white birch bark with black lenticels and dark fissures, fine papery peel, small green and golden yellow autumn leaves, natural PBR, no cartoon, no text"
+  },
+  "fortune_wheel_stand": {
+    "prompt": "photorealistic game asset, antique fairground wheel of fortune floor stand without the wheel: a tall heavy wooden A-frame easel of dark stained oak, two splayed front legs and one rear brace leg on a wide plank base, carved uprights meeting at the top in a cast iron axle bracket with a short steel axle pointing forward, small leather flapper pointer mount on top of the bracket, brass corner fittings and rivets, worn varnish, scratches, 1.9 m tall, single object, no wheel disc, no text, no letters, no numbers",
+    "texture_prompt": "dark stained aged oak wood with visible grain and worn varnish, blackened cast iron, tarnished brass fittings and rivets, brown leather, realistic PBR, no text, no letters"
+  },
+  "fortune_prize_counter": {
+    "prompt": "photorealistic game asset, old fairground game booth prize counter, low wooden counter 2 m long with a thick worn oak top, front panel of vertical painted boards in faded red and cream stripes with brass trim, a small iron cash box and a brass hand bell on top, weathered and scratched, single object, no text, no letters, no numbers",
+    "texture_prompt": "worn oak counter top, faded red and cream painted boards with chipped paint, tarnished brass trim, dark iron cash box, realistic PBR, no text, no letters"
   }
 }

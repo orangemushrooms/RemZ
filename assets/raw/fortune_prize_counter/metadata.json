@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic game asset, old fairground game booth prize counter, low wooden counter 2 m long with a thick worn oak top, front panel of vertical painted boards in faded red and cream stripes with brass trim, a small iron cash box and a brass hand bell on top, weathered and scratched, single object, no text, no letters, no numbers",
+  "folder": "fortune_prize_counter",
+  "root_task_id": "01a0e2bd-3ec6-721e-9383-50706a5db461",
+  "created_at": "2026-09-27T14:02:59.021161",
+  "updated_at": "2026-09-27T14:02:59.021179",
+  "tasks": [
+    {
+      "task_id": "01a0e2bd-3ec6-721e-9383-50706a5db461",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-27T14:02:59.021177"
+    }
+  ]
+}

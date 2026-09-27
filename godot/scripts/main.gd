@@ -33,6 +33,7 @@ var perimeter: Perimeter                  # palisade ring, its gates are the bar
 var weather: Weather                      # rain, fog banks, thunderstorms (weather.gd)
 var pings: Pings                          # the team radio (pings.gd)
 var hut: HutHealth                        # Waldhütte health: attacked by zombies, repaired with E, lost at zero
+var fortune: FortuneWheels                 # the two wheels of fortune in the Holzlager (E, 10 R per spin)
 var loots: Array = []
 var gold_mushroom: Loot
 var nav_region: NavigationRegion3D
@@ -1681,9 +1682,11 @@ func _build_buildings() -> void:
 	hut = HutHealth.new()
 	add_child(hut)
 	hut.setup(self, hut_root, Map.BUILDINGS["waldhuette"]["size"])
-	_holzlager()
-	# firewood stacks at the south end of the Holzlager
+	var shed := _holzlager()
 	var hl: Dictionary = Map.BUILDINGS["holzlager"]
+	fortune = FortuneWheels.new()
+	fortune.setup(self, shed, float(hl["size"].x) / 2.0, float(hl["size"].y) / 2.0)
+	# firewood stacks at the south end of the Holzlager
 	var hp: Vector2 = hl["pos"]
 	for i in 3:
 		_place("woodpile", hp.x + 2.0 + i * 1.7, hp.y + 9.5, 1.2, 0.0, 1.0, 1.1)
@@ -2845,11 +2848,13 @@ func _process(delta: float) -> void:
 		var hut_fix: bool = hut != null and not downed and loot == null and tower == null and near == null and npc.is_empty() and hut.can_repair(player)
 		var secret_prompt := secret_night.prompt(player)
 		var bar_prompt: String = secret_night.bar.prompt(player) if secret_prompt.is_empty() and secret_night.bar else ""
+		var fortune_prompt: String = fortune.prompt(player) if fortune and loot == null and secret_prompt.is_empty() and bar_prompt.is_empty() else ""
 		# One E target, in exactly the same priority order as the input dispatch below.
 		# Independent shortcuts are appended so a nearby station cannot erase them.
 		var actions: Array[String] = []
 		if not secret_prompt.is_empty(): actions.append(Lang.t(secret_prompt))
 		elif not bar_prompt.is_empty(): actions.append(Lang.t(bar_prompt))
+		elif not fortune_prompt.is_empty(): actions.append(Lang.t(fortune_prompt))
 		elif drone_station: actions.append(Lang.t("[E] Drone control station"))
 		elif _notice_open: actions.append(Lang.t("[E] Close note"))
 		elif reading_notice: actions.append(Lang.t("[E] Read sign · A strange note"))
@@ -2876,6 +2881,8 @@ func _process(delta: float) -> void:
 			secret_night.request_interact()
 		elif not bar_prompt.is_empty() and Input.is_action_just_pressed("interact"):
 			secret_night.bar.open()
+		elif fortune_prompt.contains("[E]") and Input.is_action_just_pressed("interact"):
+			fortune.request_spin(player)
 		elif drone_station and Input.is_action_just_pressed("interact"):
 			drones.open()
 		elif _notice_open and Input.is_action_just_pressed("interact"):

@@ -1,0 +1,16 @@
+{
+  "id": "01a0e2bf-f46c-746f-947a-79ad6f2db4d5",
+  "type": "text-to-image",
+  "ai_model": "nano-banana-pro",
+  "prompt": "Photo of an antique fairground wheel of fortune on its own floor stand, seen from the front and slightly from the side: a tall sturdy easel stand of dark stained oak with two splayed front legs, a rear support leg and a wide plank foot, brass corner fittings, a round wheel about 1.4 m across mounted on a heavy cast iron hub at the top of the stand, the wheel face plain cream painted wood with a thin brass rim and small brass pegs, a leather flapper pointer on a bracket above the wheel, whole object centred with margin, plain uniform mid-grey studio background, soft even light, photorealistic, highly detailed, no light bulbs, no text, no letters, no numbers, no watermark.",
+  "status": "SUCCEEDED",
+  "progress": 100,
+  "created_at": 1790510625913,
+  "started_at": 1790510625921,
+  "finished_at": 1790510653614,
+  "expires_at": 1790769853614,
+  "image_urls": [
+    "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/uploads/image_01a0e2bf-f46c-746f-947a-79ad6f2db4d5_0.png?Expires=1790769853&Signature=mBtEG-RgdqpZW~WTzl0qHNslHM-I9dqO4dIY25SWErQ4RzqaqjjsGmeT6mtffKwbz-VH1wAN6a9bG5DKI-rmcnGaQrMiM9dLE-iZkz0Y1RndJwiYwYtfqsiYEgWFe5nSH8wk59Og03s-tHWy0cYMZ1R1PJkM1zkjewzjNqLI0-U576cqj-0pvZukwqI5VsCE3CSWH-Guh5ssHY8~udVbLpO1F8vXqVuQGCoy7~Fc2hSREcc7WtRs8XcRK44Ceh8qNmPUHVEd32wD5I7RVsc2N17Ey-nbq948WiISkBtrKbUaCl1n0f7yOLSzmfO1bqdQ2zuU7YXcQcZuP4lkiYrczg__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  ],
+  "consumed_credits": 9
+}

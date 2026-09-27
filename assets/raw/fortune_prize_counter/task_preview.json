@@ -1,0 +1,27 @@
+{
+  "id": "01a0e2bb-65ba-76a8-b349-d542db4b93ea",
+  "type": "text-to-3d-preview",
+  "mode": "preview",
+  "name": "",
+  "model_type": "standard",
+  "seed": 1965882670,
+  "prompt": "photorealistic game asset, old fairground game booth prize counter, low wooden counter 2 m long with a thick worn oak top, front panel of vertical painted boards in faded red and cream stripes with brass trim, a small iron cash box and a brass hand bell on top, weathered and scratched, single object, no text, no letters, no numbers",
+  "texture_prompt": "",
+  "texture_image_url": "",
+  "status": "SUCCEEDED",
+  "created_at": 1790510330883,
+  "progress": 100,
+  "started_at": 1790510330888,
+  "finished_at": 1790510440465,
+  "task_error": null,
+  "model_urls": {
+    "glb": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65ba-76a8-b349-d542db4b93ea/output/model.glb?Expires=4944067200&Signature=A2Ots0XMkQ-2z0F7kWN8jYA7LXb2uaON93o7F3-43OYyeZufYfOwAFJJk1C4uue8BL0O8shH-uNCH8361~NhrJ0ws~5vgreYWfycKEAPJ0gY8FJAzas3ihzcZKgtI2RU4QlLoP2Ma6Zwx6yE8XKrRj4ZsSUf8gholtOKMsuC76fjVZLVXlJwDeSKntskjUTxQQICXS4mBvGLaLQlA6sgS5Sp3fBhp99chhPS0-rcc7s9~symCoHg84uO3G204OJnvmaxSs4cTo1FImAtKWmrqf2xpbjQJa2Kg2H6UUO3uDF6-82y3zJ7Zg~IRCyVInwPYZnAjepLnKBLlLhwdZfQzg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "fbx": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65ba-76a8-b349-d542db4b93ea/output/model.fbx?Expires=4944067200&Signature=Vwo7VfCK20JAKD0zWrqIXEdExy0XSSdzkmAFNsW79iBqt288JeM~n5KGro4JZ3aJ4lfrHO7mXvSbXNbT7g~HvGqWxisDT0Xlo45SRXjU~x4oXYiwzQRlSoHewm4PUxnV-hlc7lsc7UFl1YsF2DCETk0BUn3Nxexn8dyNNS99Op~8SVQcSH0jFZZ8HrLLHIJUsT-PSkq3OzbGJizY1zMCaGdY7plrrTAFF6TxWOHTkBNgqQqHvZ1B2rfxGBXfVuUQP5GOqC1z4G07alKSbwV63TVrfYve7PZefC8Lzd6TBO96nCEIGZYwhHBkUkczd4fgf4slzwrg1Cr19ojLiMO2LA__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "usdz": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65ba-76a8-b349-d542db4b93ea/output/model.usdz?Expires=4944067200&Signature=YSrN5izmiY0QxOpwrsGa1unc3uwXqU3b4hqUAQFIhu8wNchpYe5UFH-aKJtXGrjxV9VtEvwo1LTbEo2v1E4cnmQHl1KhALLaxI~sLTExY9aOjoDLrKUwJt~dgZz7SSm6EZBNxap~1IVLFXaP5yLWTV2mcOHy3FtsEkODa5Z6Se9KycZNKhQDzs8Fs1A2Srh8ipN9HYeBBudtfi7L25STbldi~oVPqOKH52BLDjBuQVU9E~DxTu1c~W-b1zBUD6z~kpnVsS6bdo37mYJ1P5vvcWK47dNe6mf~YBp4kg1pAPLEAWbE3VXT6tVqWjNwONumGrda0u6GfJ~MRO4npGAxqg__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "obj": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65ba-76a8-b349-d542db4b93ea/output/model.obj?Expires=4944067200&Signature=k5ivV0m2yAX5iW~pCANqFFiXoeK3GAWAFC9ZXse1ty5qJxA5QtnRCYpgWOZ4u2o8rn8KqKLL6lpGbmLEtnWbAjpwN-Hfjr4l3k2DfgvWWMn11MtKcVJ2pOtxtUyNrlqh9IA3RWonQ1QXL0rhmPwi6anhKwKfS-Fe-PcTKL5yuf5gnK2oS0shppUTMIlQ1kFqvK8SOaEZYtpZ8XF0iE9DdijFQQf7z7Hl3BBcC9pEKgVhCTp1ZVTTgrTabk~mLLNT3Cf8V~r0YeVhkSu0yf6vRSmtvZGYW-0LoFXA6uJk0jehxwy4C4fmd8mZx9ii~ODEZcjVIPwxGYWrJUeG5AH68g__&Key-Pair-Id=K1VGYTHIYLM9UM",
+    "stl": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65ba-76a8-b349-d542db4b93ea/output/model.stl?Expires=4944067200&Signature=VA6siFs2h676m7yzSojg7AIRmhuLx4nSaEXyn2H5YnpvNivO3O7cEwJpYFZWC8bfUIkYDT2Tzg-i6MZnEsPWl0mW8S5pyvqesePVNJnK1aBiJgxvmFjeeomvt5fx~otle3SpHNbBuMG-pRr~E7uAqOjm4EHkBgllbdiKPxqyuRU~24pPNYv1eKCiQMKo-pd6ypld-2GCWTyukr~vu~fZDxQ51cpB3E29H2aJV3jf0aLJG5EKcF2bWlWIkJlqJcKkBLL1OxOed6tOWketCnrUjm6BLMfVK~guK-CzQ-ICbtCy1BFZztrcqwwAZ-9-buUtXp5gCzNlaAhFt3mCnyE8kQ__&Key-Pair-Id=K1VGYTHIYLM9UM"
+  },
+  "thumbnail_url": "https://assets.meshy.ai/9b8145ad-85a2-4ded-8360-71e09c2a4dfe/tasks/01a0e2bb-65ba-76a8-b349-d542db4b93ea/output/preview.png?Expires=4944067200&Signature=Z43KfSWAhFVIK~fkDNdp7nBWXJVDCteLDOKKb5rutSCdt8lJbTmZUDk9j-53926ph9zaZtcSANZ6BF98CtRcJorbpTu8j8I-khX6CJQR~IH7P-YGq~RAw6R67XULY1bGeImUy7gMRdR0jyNNE-W4Z~yZWPQyr~UpX4Ioeu1wrWt3E~mkPCH4AsqVoedk3RSrImind7qZxcdWjghuwTkMIZ3mKr1st8mklhfg95zOuKjIwQsXTht95Tqi4xsB3~X7H66-cbpyZEZ37BnuqR4E3OtMcHztkBKCksQTFCVMk1vjddpmFVHR4IudsVAml4xuGJE5A4RN1Wro5WIPw~B0xw__&Key-Pair-Id=K1VGYTHIYLM9UM",
+  "texture_urls": [],
+  "consumed_credits": 20
+}

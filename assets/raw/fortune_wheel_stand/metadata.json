@@ -1,0 +1,18 @@
+{
+  "project_name": "photorealistic game asset, antique fairground wheel of fortune floor stand without the wheel: a tall heavy wooden A-frame easel of dark stained oak, two splayed front legs and one rear brace leg on a wide plank base, carved uprights meeting at the top in a cast iron axle bracket with a short steel axle pointing forward, small leather flapper pointer mount on top of the bracket, brass corner fittings and rivets, worn varnish, scratches, 1.9 m tall, single object, no wheel disc, no text, no letters, no numbers",
+  "folder": "fortune_wheel_stand",
+  "root_task_id": "01a0e2bc-c0bc-72b2-b0aa-3340f69b88e2",
+  "created_at": "2026-09-27T14:02:26.871081",
+  "updated_at": "2026-09-27T14:02:26.871103",
+  "tasks": [
+    {
+      "task_id": "01a0e2bc-c0bc-72b2-b0aa-3340f69b88e2",
+      "task_type": "text-to-3d",
+      "stage": "refined",
+      "files": [
+        "model.glb"
+      ],
+      "created_at": "2026-09-27T14:02:26.871100"
+    }
+  ]
+}

@@ -203,6 +203,10 @@ func action(id: int, operation: String, args: Array) -> void:
 		"bar_order":
 			if args.size() == 1 and args[0] is String and args[0].length() < 32:
 				NetSession.feedback(id, "message", [game.secret_night.bar.buy(p, args[0]), 3.5])
+		"fortune_spin":
+			if args.size() == 1 and args[0] is int and game.fortune:
+				var answer: String = game.fortune.spin(p, args[0])
+				if not answer.is_empty(): NetSession.feedback(id, "message", [answer, 3.0])
 		"drone_launch":
 			if args.size() != 1 or not args[0] is String: return
 			var error: String = game.drones.launch(p,args[0])
@@ -697,7 +701,7 @@ func snapshot() -> Dictionary:
 	return {"brewing": game.brewing.snapshot(), "maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": game.drones.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"secret_night": game.secret_night.snapshot(),
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
-		"sandbags": sandbag_states, "purse": purse,
+		"sandbags": sandbag_states, "purse": purse, "fortune": game.fortune.snapshot() if game.fortune else [],
 		"weather": game.weather.snapshot() if game.weather else [], "moon": [game.day_night.night_index],
 		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "mushroom_positions": mushroom_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase,
@@ -958,6 +962,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			if rebuild_line: line.rebuild()
 			line.changed.emit()
 	purse = int(data.get("purse", 0))
+	if game.fortune and data.get("fortune", []) is Array: game.fortune.apply_snapshot(data.fortune)
 	if game.weather and data.get("weather", []) is Array and not data.weather.is_empty(): game.weather.apply_snapshot(data.weather, initial or not state_loaded)
 	if game.day_night and data.get("moon", []) is Array and not data.moon.is_empty(): game.day_night.apply_moon(int(data.moon[0]))
 	for id in broken_nodes:

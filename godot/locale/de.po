@@ -6294,3 +6294,105 @@ msgstr "Verstärken erhöht die Haltbarkeit um %d TP und stellt die gesamte Lini
 #. unused
 msgid "The balanced night on the Heitersberg."
 msgstr "Die ausgewogene Nacht am Heitersberg."
+
+msgid "NOTHING"
+msgstr "NIETE"
+
+msgid "AMMO"
+msgstr "MUNITION"
+
+msgid "FREE SPIN"
+msgstr "FREIDREH"
+
+msgid "WEAPON"
+msgstr "WAFFE"
+
+msgid "RARE"
+msgstr "SELTEN"
+
+msgid "EPIC"
+msgstr "EPISCH"
+
+msgid "LEGENDARY"
+msgstr "LEGENDÄR"
+
+msgid "WHEEL OF FORTUNE"
+msgstr "GLÜCKSRAD"
+
+msgid "%d R PER SPIN · WEAPONS · MUSHROOMS · AMMO"
+msgstr "%d R PRO DREH · WAFFEN · PILZE · MUNITION"
+
+msgid "The wheel is turning …"
+msgstr "Das Rad dreht sich …"
+
+msgid "Wheel of fortune · %d R per spin · not enough Rem Dollars"
+msgstr "Glücksrad · %d R pro Dreh · zu wenig Rem Dollar"
+
+msgid "[E] Spin the wheel of fortune · %d R\nWeapons, mushrooms, ammo and Rem Dollars"
+msgstr "[E] Glücksrad drehen · %d R\nWaffen, Pilze, Munition und Rem Dollar"
+
+msgid "The host spins the wheel."
+msgstr "Der Host dreht das Rad."
+
+msgid "There is no wheel here."
+msgstr "Hier steht kein Glücksrad."
+
+msgid "You cannot play right now."
+msgstr "Du kannst gerade nicht spielen."
+
+msgid "Step up to the wheel to spin it."
+msgstr "Tritt ans Rad, um es zu drehen."
+
+msgid "The wheel is still turning."
+msgstr "Das Rad dreht sich noch."
+
+msgid "Not enough Rem Dollars: %d R per spin."
+msgstr "Zu wenig Rem Dollar: %d R pro Dreh."
+
+msgid "Nothing this time. The wheel creaks to a halt."
+msgstr "Diesmal nichts. Das Rad knarrt und steht still."
+
+msgid "Won: %s · it is in your inventory."
+msgstr "Gewonnen: %s · liegt in deinem Inventar."
+
+msgid "All ammo pouches are full"
+msgstr "Alle Munitionstaschen sind voll"
+
+msgid "Won: ammo · +%d rounds for the %s"
+msgstr "Gewonnen: Munition · +%d Schuss · %s"
+
+msgid "Free spin! Your %d R are back."
+msgstr "Freidreh! Deine %d R sind zurück."
+
+msgid "Won: %d Rem Dollars!"
+msgstr "Gewonnen: %d Rem Dollar!"
+
+msgid "Grenade pouch full"
+msgstr "Granatentasche voll"
+
+msgid "Won: a grenade."
+msgstr "Gewonnen: eine Granate."
+
+msgid "Health already full"
+msgstr "Gesundheit bereits voll"
+
+msgid "Won: a medkit · +%d health"
+msgstr "Gewonnen: ein Medkit · +%d Gesundheit"
+
+msgid "You already own the %s and your ammo is full"
+msgstr "%s schon im Besitz und Munition voll"
+
+msgid "%s! You already own it: +%d rounds for the %s instead."
+msgstr "%s! Schon im Besitz: dafür +%d Schuss · %s."
+
+msgid "JACKPOT! You won the %s · select it in the inventory or with the mouse wheel"
+msgstr "JACKPOT! Gewonnen: %s · im Inventar oder mit dem Mausrad wählen"
+
+msgid "JACKPOT! You won the %s · magazine + 3 spare magazines"
+msgstr "JACKPOT! Gewonnen: %s · Magazin + 3 Ersatzmagazine"
+
+msgid "%s · your %d R are back."
+msgstr "%s · deine %d R sind zurück."
+
+msgid "%s won the %s at the wheel of fortune!"
+msgstr "%s hat am Glücksrad gewonnen: %s!"

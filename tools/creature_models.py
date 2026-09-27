@@ -43,6 +43,18 @@ JOBS = {
                   "hide dripping with dark blood, the ribcage and spine exposed on the flank, torn ears, glowing "
                   "yellow eyes, rotten muzzle with the teeth showing, mud on the legs." + STUDIO,
     },
+    # 27 Sep 2026: the wheels of fortune in the Holzlager. Only the stand is kept in sight - fortune_wheel.gd
+    # mounts its own procedural disc (segments, icons, pegs) in front of the painted one.
+    "fortune_wheel_v2": {
+        "kind": "image", "polycount": 30000,
+        "prompt": "Photo of an antique fairground wheel of fortune on its own floor stand, seen from the front and "
+                  "slightly from the side: a tall sturdy easel stand of dark stained oak with two splayed front legs, "
+                  "a rear support leg and a wide plank foot, brass corner fittings, a round wheel about 1.4 m across "
+                  "mounted on a heavy cast iron hub at the top of the stand, the wheel face plain cream painted wood "
+                  "with a thin brass rim and small brass pegs, a leather flapper pointer on a bracket above the wheel, "
+                  "whole object centred with margin, plain uniform mid-grey studio background, soft even light, "
+                  "photorealistic, highly detailed, no light bulbs, no text, no letters, no numbers, no watermark.",
+    },
     "zombie_helmet": {
         "kind": "text", "polycount": 8000,
         "prompt": "game asset, a weathered WW2 style steel combat helmet, rounded dome with a short brim and a leather "
