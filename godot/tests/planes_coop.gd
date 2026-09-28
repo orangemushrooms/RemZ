@@ -104,11 +104,13 @@ func host_economy() -> void:
 	game.waves.wave = 1
 	game.waves.completed = 1
 	await move_remote(p,Map.ground_pos(22,5))
+	var cash_before: int = p.score
+	var host_xp_before: int = CharacterProfile.data.classes[CharacterProfile.active_class()].total_xp
 	signal_file("quest")
 	await wait_file("quested")
-	check(game.progression.field_data(peer).claimed.get("bouquet",false) and p.score==160,"Host validates quest and pays its owner exactly once")
+	check(game.progression.field_data(peer).claimed.get("bouquet",false) and p.score==cash_before+120,"Host validates quest and pays its owner exactly once")
 	var other_xp: int = CharacterProfile.data.classes[CharacterProfile.active_class()].total_xp
-	check(other_xp==0,"Client quest does not grant host XP")
+	check(other_xp==host_xp_before,"Client quest does not grant host XP")
 	game._clear_combat()
 	game.waves.queue.clear(); game.waves.phase="spawning"; game.waves.wave=1
 	game.waves.complete_wave()
@@ -117,8 +119,15 @@ func host_economy() -> void:
 	p.downed = true; p.down_time = 25; p.self_revives = 0
 	signal_file("revive")
 	await create_timer(1).timeout
-	NetSession.command("revive",[peer])
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Input.action_press("interact")
+	await create_timer(0.7).timeout
+	Input.action_release("interact")
+	await create_timer(0.3).timeout
+	check(p.downed and NetSession.world.revive.is_empty(),"Releasing E cancels revival before the hold completes")
+	Input.action_press("interact")
 	await create_timer(4).timeout
+	Input.action_release("interact")
 	check(not p.downed and p.alive,"Host revives the client through the shared co-op system")
 	signal_file("revived")
 	await wait_file("verified")
@@ -131,6 +140,7 @@ func host_economy() -> void:
 	await wait_file("gathered")
 	check(game.nature._picked.has(plant),"Host harvests a client-selected wild plant")
 	check(game.progression.field_data(peer).counts.get("flowers",0)==7,"Duplicate collection grants only one flower")
+	check(not game.brewing.stock(peer).flowers.is_empty(),"Client harvest becomes a real brewing ingredient on host")
 	p.score = 1000
 	await move_remote(p,Map.ground_pos(-100,55))
 	var tower_site := Vector3.ZERO
@@ -145,12 +155,40 @@ func host_economy() -> void:
 	await wait_file("towered")
 	check(game.defences.towers.size()==1,"Client tower purchase creates one authoritative tower")
 	check(game.progression.field_data(peer).counts.get("built",0)==1,"Tower construction belongs to the builder's quests")
+	var tower: DefenceTower = game.defences.towers.values()[0]
+	var moved := Vector3.ZERO
+	for offset in [Vector2(5,0),Vector2(-5,0),Vector2(0,5),Vector2(0,-5)]:
+		var candidate := Map.ground_pos(tower.position.x+offset.x,tower.position.z+offset.y)
+		if game.defences.placement_error(p,candidate,tower.kind,true,tower.tower_id).is_empty(): moved=candidate; break
+	FileAccess.open(folder+"tower-move-site",FileAccess.WRITE).store_var(moved)
+	var tower_cash: int = p.score
+	signal_file("move-tower")
+	await wait_file("tower-moved")
+	check(moved!=Vector3.ZERO and tower.position.distance_to(moved)<0.01 and is_equal_approx(tower.rotation.y,0.7) and p.score==tower_cash,"Client relocates and rotates its tower without another purchase")
 	var target: Zombie = game.create_enemy("shambler",p.global_position+Vector3(8,0,0),1)
 	target.killer_peer=peer; target.killer_weapon="pistol"
 	target.die(Vector3.ZERO)
 	await create_timer(1).timeout
 	signal_file("kill")
 	await wait_file("killed")
+	game.shooting_range.key_owned = true
+	await move_remote(p,game.shooting_range.house.to_global(Vector3(-0.8,0,4.4)))
+	signal_file("range-door")
+	await wait_file("range-open")
+	check(game.shooting_range.opened,"Client opens the shared shooting house using the woodland key")
+	await move_remote(p,game.shooting_range.board.global_position-Vector3.UP*1.4)
+	signal_file("range-log")
+	await wait_file("range-quest")
+	check(game.shooting_range.data(peer).accepted and not game.shooting_range.data(1).accepted,"Sniper quest acceptance belongs to the client")
+	await move_remote(p,game.shooting_range.loot_nodes.marksman.global_position-Vector3.UP*0.8)
+	signal_file("range-loot")
+	await wait_file("range-equipped")
+	check(NetSession.world.weapons[peer].unlocked.marksman and game.shooting_range.picked.has("marksman"),"Range rifle is claimed once by the client")
+	await move_remote(p,game.shooting_range.house.to_global(Vector3(-6.4167,0,-1.6)))
+	NetSession.world.weapons[peer].spread_mul = 0.0
+	signal_file("range-shoot")
+	await wait_file("range-shot")
+	check(game.shooting_range.data(peer).hits.size()==1,"A networked sniper shot records the target for its shooter")
 	game._clear_combat()
 	game.waves.queue.clear(); game.waves.phase="spawning"; game.waves.wave=25
 	game.waves.complete_wave()
@@ -180,9 +218,10 @@ func client_economy() -> void:
 	check(game.barricades.size()==1 and game.progression.kit_stock.palisade==0,"Built wall and consumed kit replicate to client")
 	signal_file("built")
 	await wait_file("quest")
+	var cash_before: int = game.player.score
 	for i in 3: NetSession.command("planes",["quest_action",["bouquet","camp"]])
 	await create_timer(2).timeout
-	check(game.progression.claimed.get("bouquet",false) and game.player.score==160,"Client sees the completed field quest and reward")
+	check(game.progression.claimed.get("bouquet",false) and game.player.score==cash_before+120,"Client sees the completed field quest and reward")
 	check(CharacterProfile.data.quests.get("planes:bouquet",0)==1,"Client profile receives quest XP exactly once")
 	signal_file("quested")
 	await wait_file("revive")
@@ -197,6 +236,7 @@ func client_economy() -> void:
 	for i in 2: NetSession.command("planes",["collect_wild",[plant]])
 	await create_timer(2).timeout
 	check(game.nature._picked.has(plant) and game.progression.field_counts.get("flowers",0)==7,"Collected plant disappears for the client without duplicate rewards")
+	check(not game.brewing.stock(game.player.peer_id).flowers.is_empty(),"Real flower inventory reaches client")
 	signal_file("gathered")
 	await wait_file("tower")
 	var tower_site: Vector3 = FileAccess.open(folder+"tower-site",FileAccess.READ).get_var()
@@ -204,10 +244,40 @@ func client_economy() -> void:
 	await create_timer(2).timeout
 	check(game.defences.towers.size()==1,"Tower placement replicates to the client")
 	signal_file("towered")
+	await wait_file("move-tower")
+	var moved: Vector3 = FileAccess.open(folder+"tower-move-site",FileAccess.READ).get_var()
+	var tower: DefenceTower = game.defences.towers.values()[0]
+	NetSession.command("tower_move",[tower.tower_id,moved,0.7])
+	await create_timer(1).timeout
+	check(tower.position.distance_to(moved)<0.01 and is_equal_approx(tower.rotation.y,0.7),"Client receives the relocated tower position and orientation")
+	signal_file("tower-moved")
 	await wait_file("kill")
 	await create_timer(1).timeout
 	check(CharacterProfile.data.classes[CharacterProfile.active_class()].stats.kills==1,"Attributed kill awards XP to the client profile")
 	signal_file("killed")
+	await wait_file("range-door")
+	NetSession.command("range",["door"])
+	await create_timer(1).timeout
+	check(game.shooting_range.opened and game.shooting_range.door.collision_layer==0,"Client receives open door and shooting shutters")
+	signal_file("range-open")
+	await wait_file("range-log")
+	NetSession.command("range",["quest"])
+	await create_timer(1).timeout
+	check(game.shooting_range.data(game.player.peer_id).accepted,"Sniper challenge replicates to its owner")
+	signal_file("range-quest")
+	await wait_file("range-loot")
+	NetSession.command("range",["marksman"])
+	await create_timer(1).timeout
+	check(game.weapons.unlocked.marksman and not game.shooting_range.loot_nodes.marksman.visible,"Weapon pickup disappears and rifle reaches client inventory")
+	NetSession.command("weapon",["marksman"])
+	await create_timer(0.5).timeout
+	signal_file("range-equipped")
+	await wait_file("range-shoot")
+	var aim: Vector3 = (game.shooting_range.targets[0].global_position-game.player.camera.global_position).normalized()
+	NetSession.command("fire",["marksman",1.0,atan2(-aim.x,-aim.z),asin(aim.y)])
+	await create_timer(1).timeout
+	check(game.shooting_range.data(game.player.peer_id).hits.size()==1,"Client sees progress from its actual sniper shot")
+	signal_file("range-shot")
 	await wait_file("victory")
 	await create_timer(1).timeout
 	check(game.over and game.victory and CharacterProfile.data.classes[CharacterProfile.active_class()].stats.missions==1,"Client receives victory and mission XP")

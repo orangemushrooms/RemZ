@@ -2922,7 +2922,7 @@ func _process(delta: float) -> void:
 		elif _notice_open: actions.append(Lang.t("[E] Close note"))
 		elif reading_notice: actions.append(Lang.t("[E] Read sign · A strange note"))
 		elif not npc.is_empty() and not downed: actions.append(Lang.t(progression.prompt(npc)))
-		elif downed: actions.append(Lang.t("[E] Revive %s · stay nearby for 3 seconds", [Lang.raw(NetSession.roster[downed])]))
+		elif downed: actions.append(Lang.t("Hold E · Revive %s · 3 seconds", [Lang.raw(NetSession.roster[downed])]))
 		elif loot: actions.append(Lang.t(loot.prompt_text()))
 		elif tower:
 			actions.append(Lang.t("Tower occupied") if tower.operator_peer else Lang.t("[E] Operate %s\n%d/%d HP · Range %d m · bright sector: automatic", [tower.spec().name, ceili(tower.hp), ceili(tower.max_hp()), roundi(tower.attack_range())]))
@@ -2956,7 +2956,7 @@ func _process(delta: float) -> void:
 		elif not npc.is_empty() and not downed and Input.is_action_just_pressed("interact"):
 			progression.interact(npc)
 		elif downed and Input.is_action_just_pressed("interact"):
-			NetSession.command("revive", [downed])
+			NetSession.command("revive",[downed,true])
 		elif loot and Input.is_action_just_pressed("interact"):
 			var was_weapon: bool = loot is Loot and loot.kind == "weapon" and not weapons.unlocked.get(loot.id, false)
 			if loot is Door:

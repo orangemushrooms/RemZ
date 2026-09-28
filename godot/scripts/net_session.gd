@@ -4,8 +4,8 @@ signal changed
 
 const PORT := 24567
 const MAX_PLAYERS := 4
-const PROTOCOL := 6 # Region transfer and authoritative Planes economy/construction.
-const BUILD := "remz-dev-20260928-planes-coop"
+const PROTOCOL := 7 # Hold-to-revive, hunting/brewing and the shared shooting house.
+const BUILD := "remz-dev-20260928-planes-parity"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.

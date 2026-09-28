@@ -502,6 +502,7 @@ func host_run() -> void:
 	await command_clients("inspect", ["c2"])
 	check(read_json("done-c2").alive, "Revived client regains life state")
 	# bleeding out for real: the dead player can still be revived by hand (26 Sep 2026)
+	NetSession.world.actor(c2).revive_protection = 0 # Test actors have physics disabled.
 	NetSession.world.actor(c2).damage(10000.0)
 	NetSession.world.actor(c2).down_time = 0.0
 	NetSession.world.actor(c2)._update_down(0.1)
@@ -544,7 +545,9 @@ func host_run() -> void:
 	await command_clients("inspect", ["c2"])
 	check(read_json("done-c2").alive_zombies == Waves.MAX_ACTIVE - 1, "Zombie death reaches another client")
 	# Team defeat and an in-session restart.
-	for p: Player in NetSession.world.actors.values(): p.damage(10000)
+	for p: Player in NetSession.world.actors.values():
+		p.revive_protection = 0
+		p.damage(10000)
 	await wait_seconds(0.4)
 	check(not game.over, "Everyone down with a self revive left keeps the match alive")
 	for p: Player in NetSession.world.actors.values():
@@ -679,6 +682,10 @@ func client_run() -> void:
 			args[0] = int(args[0])
 			args[1] = float(args[1])
 		match request.action:
+			"revive":
+				Input.action_press("interact")
+				await wait_seconds(3.5)
+				Input.action_release("interact")
 			"tower_fire":
 				var aim := Vector3(args[0][0],args[0][1],args[0][2])
 				var direction: Vector3 = aim-game.player.camera.global_position
@@ -723,6 +730,8 @@ func client_run() -> void:
 				return
 			"shoot":
 				game.weapons.set_weapon("ak47")
+				# Equipping has a draw animation; firing in the same frame is rejected.
+				await wait_seconds(0.65)
 				game.player.camera.look_at(Vector3(args[0][0], args[0][1], args[0][2]))
 				game.weapons.ads = 1.0
 				game.weapons.try_fire()

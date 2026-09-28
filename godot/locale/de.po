@@ -7295,13 +7295,13 @@ msgid "Assault Trooper"
 msgstr "Sturmschütze"
 
 msgid "Gunslinger Mastery"
-msgstr "Gunslinger"
+msgstr "Revolvermeister"
 
 msgid "Elite Hunter"
-msgstr "Hunter"
+msgstr "Elitejäger"
 
 msgid "Untouchable Movement"
-msgstr "Untouchable"
+msgstr "Unantastbare Bewegung"
 
 msgid "Defeat your first zombie."
 msgstr "Töte deinen ersten Zombie."
@@ -7331,7 +7331,7 @@ msgid "Reach level 30 with all five classes."
 msgstr "Erreiche Level 30 mit allen fünf Klassen."
 
 msgid "Untouchable Survivor"
-msgstr "Untouchable"
+msgstr "Unantastbarer Überlebender"
 
 msgid "Complete an entire Hard or Nightmare mission without taking damage."
 msgstr "Schliesse eine gesamte Mission auf Schwer oder Albtraum ohne erlittenen Schaden ab."
@@ -7694,7 +7694,7 @@ msgstr "Finde die Waldhütte.\nFolge der goldenen Markierung entlang der Strasse
 msgid "Path to the forest hut · %d m"
 msgstr "Weg zur Waldhütte · %d m"
 
-msgid "Map boundary ? turn back"
+msgid "Map boundary · turn back"
 msgstr "Gebietsgrenze ? bitte umkehren"
 
 msgid "mushrooms"
@@ -7945,3 +7945,169 @@ msgstr "The Planes starten  →"
 
 msgid "The Planes is available in solo play."
 msgstr "The Planes ist im Einzelspiel verfügbar."
+
+
+msgid "Range Finder"
+msgstr "Ziel erfasst"
+
+msgid "Hit a Remetschwil shooting target"
+msgstr "Eine Remetschwiler Zieltafel treffen"
+
+msgid "Six at 300 Metres"
+msgstr "Sechs auf 300 Meter"
+
+msgid "Complete the shooting house sniper challenge"
+msgstr "Die Scharfschützenaufgabe im Schützenhaus abschliessen"
+
+msgid "Field Botanist"
+msgstr "Feldbotaniker"
+
+msgid "Gather 25 flowers and mushrooms in The Planes"
+msgstr "25 Blumen und Pilze auf The Planes sammeln"
+
+msgid "Open Ground"
+msgstr "Offenes Gelände"
+
+msgid "Survive wave 5 in The Planes"
+msgstr "Welle 5 auf The Planes überleben"
+
+msgid "Hold Your Ground"
+msgstr "Standhalten"
+
+msgid "Survive wave 15 in The Planes"
+msgstr "Welle 15 auf The Planes überleben"
+
+msgid "Master of The Planes"
+msgstr "Meister der Felder"
+
+msgid "Survive all 25 waves in The Planes"
+msgstr "Alle 25 Wellen auf The Planes überleben"
+
+msgid "Players: %d / 4"
+msgstr "Spieler: %d / 4"
+
+msgid "%s · %s · Level %d"
+msgstr "%s · %s · Stufe %d"
+
+msgid "Hold E · Revive %s"
+msgstr "E halten · %s wiederbeleben"
+
+msgid "MOVE %s · free"
+msgstr "%s VERSETZEN · kostenlos"
+
+msgid "Arcing shot · 12 m blast radius"
+msgstr "Steilfeuer · 12 m Explosionsradius"
+
+msgid "Opens the Schützenhaus. Look for the key on a stump in the woodland; new chances each night."
+msgstr "Öffnet das Schützenhaus. Suche den Schlüssel auf einem Baumstumpf im Wald; jede Nacht gibt es eine neue Chance."
+
+msgid "Key: Schützenhaus"
+msgstr "Schlüssel: Schützenhaus"
+
+msgid "Hold E · Revive %s · 3 seconds"
+msgstr "E halten · %s wiederbeleben · 3 Sekunden"
+
+msgid "[E] Place · [Wheel / R] Rotate · [Esc] Cancel"
+msgstr "[E] Aufstellen · [Mausrad / R] Drehen · [Esc] Abbrechen"
+
+msgid "Schützenhaus"
+msgstr "Schützenhaus"
+
+msgid "Back to The Planes · Esc"
+msgstr "Zurück zu The Planes · Esc"
+
+msgid "Survive until wave %d."
+msgstr "Überlebe bis Welle %d."
+
+msgid "%s kit"
+msgstr "%s-Bausatz"
+
+msgid "Carried: %d. Place with B; rotate with mouse wheel."
+msgstr "Im Inventar: %d. Mit B aufstellen; mit dem Mausrad drehen."
+
+msgid "Fortification #%d · tier %d"
+msgstr "Befestigung Nr. %d · Stufe %d"
+
+msgid "Upgrade palisades and sandbags here."
+msgstr "Palisaden und Sandsäcke hier verbessern."
+
+msgid "%s · Quests"
+msgstr "%s · Aufgaben"
+
+msgid "%s\n%d / %d · %d R · %d class XP"
+msgstr "%s\n%d / %d · %d R · %d Klassen-EP"
+
+msgid "[E] Grill venison · [C] Brew drinks"
+msgstr "[E] Wildfleisch grillen · [C] Getränke brauen"
+
+msgid "[E] Operate tower · [R] Align · [Y] Move · [F] Repair"
+msgstr "[E] Turm bedienen · [R] Ausrichten · [Y] Versetzen · [F] Reparieren"
+
+msgid "Choose your ground. Survive 25 waves. Return to each quest giver for rewards."
+msgstr "Wähle deinen Standort. Überlebe 25 Wellen. Hole deine Belohnungen beim jeweiligen Auftraggeber ab."
+
+msgid "Claimed"
+msgstr "Abgeholt"
+
+msgid "Not accepted"
+msgstr "Nicht angenommen"
+
+msgid "Find the woodland key, enter the Schützenhaus and shoot its six targets with a sniper. %d / 6 · 350 R"
+msgstr "Finde den Waldschlüssel, betrete das Schützenhaus und triff die sechs Zieltafeln mit einem Scharfschützengewehr. %d / 6 · 350 R"
+
+msgid "300 m challenge"
+msgstr "300-m-Aufgabe"
+
+msgid "Discover"
+msgstr "Entdecken"
+
+msgid "300 m challenge · %d / 6 targets"
+msgstr "300-m-Aufgabe · %d / 6 Zieltafeln"
+
+msgid "Collected: %s"
+msgstr "Aufgenommen: %s"
+
+msgid "Schützenhaus · Key"
+msgstr "Schützenhaus · Schlüssel"
+
+msgid "!  300 m CHALLENGE\n[E] Read shooting log"
+msgstr "!  300-m-AUFGABE\n[E] Schiessbuch lesen"
+
+msgid "[E] Take key · Schützenhaus"
+msgstr "[E] Schlüssel aufnehmen · Schützenhaus"
+
+msgid "[E] Open Schützenhaus"
+msgstr "[E] Schützenhaus öffnen"
+
+msgid "Schützenhaus locked · find the key in the woodland"
+msgstr "Schützenhaus verschlossen · finde den Schlüssel im Wald"
+
+msgid "[E] 300 m challenge · %d / 6 targets"
+msgstr "[E] 300-m-Aufgabe · %d / 6 Zieltafeln"
+
+msgid "[E] Collect ammunition cache"
+msgstr "[E] Munitionsvorrat aufnehmen"
+
+msgid "Find the Schützenhaus key in the woodland."
+msgstr "Finde den Schützenhausschlüssel im Wald."
+
+msgid "300 m challenge completed."
+msgstr "300-m-Aufgabe abgeschlossen."
+
+msgid "From inside the shooting house, hit all six targets with a sniper rifle. Return to this log for 350 R and class XP."
+msgstr "Triff vom Schützenhaus aus alle sechs Zieltafeln mit einem Scharfschützengewehr. Kehre für 350 R und Klassen-EP zu diesem Schiessbuch zurück."
+
+msgid "Hit all six targets from inside this house: %d / 6"
+msgstr "Triff alle sechs Zieltafeln aus diesem Gebäude: %d / 6"
+
+msgid "300 m challenge completed · +350 R and class XP"
+msgstr "300-m-Aufgabe abgeschlossen · +350 R und Klassen-EP"
+
+msgid "Schützenhaus unlocked."
+msgstr "Schützenhaus aufgeschlossen."
+
+msgid "Schützenhaus key"
+msgstr "Schützenhausschlüssel"
+
+msgid "Ammunition"
+msgstr "Munition"

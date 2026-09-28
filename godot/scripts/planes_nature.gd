@@ -49,10 +49,10 @@ func build(scene: Node3D) -> void:
 			var cell := Vector2i(floori(p.x/PICK_CELL),floori(p.y/PICK_CELL))
 			if not _pick_cells.has(cell): _pick_cells[cell] = []
 			_pick_cells[cell].append(plants.size())
-			plants.append({"at":p,"woodland":woodland,"group":instance.group,"instance":instance.index,"height":at.y})
+			plants.append({"species":id,"at":p,"woodland":woodland,"group":instance.group,"instance":instance.index,"height":at.y})
 	_flush()
 	# Small herds on open meadow near hedgerows, never inside a house or crop row.
-	for entry in [[Vector2(72,42),"stag"],[Vector2(82,50),"deer"],[Vector2(91,46),"deer"],[Vector2(-155,95),"deer"],[Vector2(-166,102),"deer"],[Vector2(240,-52),"stag"],[Vector2(250,-45),"deer"],[Vector2(260,-57),"deer"]]:
+	for entry in [[Vector2(72,42),"stag"],[Vector2(82,50),"deer"],[Vector2(91,46),"deer"],[Vector2(-155,95),"deer"],[Vector2(-166,102),"deer"],[Vector2(240,-52),"stag"],[Vector2(250,-45),"deer"],[Vector2(260,-57),"deer"],[Vector2(-180,65),"stag"],[Vector2(-188,74),"deer"],[Vector2(270,130),"stag"],[Vector2(280,135),"deer"],[Vector2(195,-110),"deer"],[Vector2(182,-120),"deer"]]:
 		var p := _meadow_near(entry[0],rng)
 		var animal := Deer.new()
 		animal.setup(game.player,entry[1],load("res://assets/models/%s_animated.glb" % entry[1]),7400+deer.size())
@@ -65,7 +65,7 @@ func build(scene: Node3D) -> void:
 	var spots := [Vector2(-90,8),Vector2(-104,36),Vector2(38,-16),Vector2(-60,45),Vector2(-120,95),Vector2(145,94),Vector2(184,220),Vector2(255,145),Vector2(-205,-55),Vector2(215,-55),Vector2(60,178),Vector2(-50,-120),Vector2(72,8),Vector2(220,-18)]
 	for i in game.birds.size():
 		var bird: Node3D = game.birds[i]
-		var p := _meadow_near(spots[i],rng)
+		var p := _meadow_near(spots[i%spots.size()]+Vector2(11,-8)*float(i/spots.size()),rng)
 		bird.home = Map.ground_pos(p.x,p.y)+Vector3.UP*(5 if bird.owl else 0.2)
 		bird.position = bird.home
 		if not bird.owl and i%3==0: bird.flying = 8.0
@@ -193,7 +193,24 @@ func _process(delta: float) -> void:
 func _update_distance() -> void:
 	if not game.player: return
 	for animal: Node3D in deer+game.birds:
+		if animal.get_meta("hunted_dead",false): continue
 		var near := animal.global_position.distance_squared_to(game.player.global_position)<180.0*180.0
+		if NetSession.is_host() and NetSession.world and not near:
+			for actor: Player in NetSession.world.actors.values():
+				if actor.alive and animal.global_position.distance_squared_to(actor.global_position)<180.0*180.0:
+					near = true
+					break
 		animal.process_mode = Node.PROCESS_MODE_INHERIT if near else Node.PROCESS_MODE_DISABLED
 		if animal is Deer or not animal.owl: animal.visible = near
 		elif not near: animal.hide()
+
+func ingredient(index: int) -> String:
+	if index<0 or index>=plants.size(): return ""
+	var model: String = plants[index].species
+	for id in FLOWERS:
+		if FLOWERS[id].model==model: return id
+	return {"mushroom_cluster":"steinpilz","mushroom_fly":"fliegenpilz","mushroom_pfifferling":"pfifferling","mushroom_maronenroehrling":"maronenroehrling","mushroom_parasol":"parasol"}.get(model,"steinpilz")
+
+func ingredient_name(index: int) -> String:
+	var id := ingredient(index)
+	return str(FLOWERS[id].name if FLOWERS.has(id) else Inventory.MUSHROOMS[id].name)

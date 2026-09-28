@@ -41,6 +41,9 @@ var _voice: AudioStreamPlayer3D
 var _crater: Node3D
 var _spray: CPUParticles3D
 var _burrow_speed := 0.0
+var _corpse_floor := 0.0
+var _fall_time := 0.0
+static var grounded_deaths := {}
 
 func radius() -> float:
 	return 6.0 if net_kind == "earthworm_ancient" else 4.8
@@ -69,6 +72,7 @@ func _ready() -> void:
 	collision_layer = 0
 	collision_mask = 0
 	if model: model.scale = Vector3.ONE * height / 1.7
+	_prepare_grounded_death()
 	if anim: anim.speed_scale = 1.0
 	warning_material = Barricade._marker_material(Color(1.0, 0.52, 0.12), 0.85)
 	warning_material.no_depth_test = true
@@ -128,6 +132,52 @@ func _ready() -> void:
 	_sync_visuals()
 	if not replica: call_deferred("_arrival")
 
+func _prepare_grounded_death() -> void:
+	if not anim or not anim.has_animation("death"): return
+	var rig := model.find_child("Skeleton3D",true,false) as Skeleton3D
+	if not rig: return
+	# With all joints horizontal, the original mesh's furthest Z vertex is
+	# its lowest point. Lift only enough for that surface to meet the soil.
+	var pivot := model.to_local(rig.to_global(rig.get_bone_global_rest(0).origin))*model.scale
+	_corpse_floor = Barricade._bounds(model).end.z-pivot.z-pivot.y-0.08
+	if not grounded_deaths.has(model_path):
+		var death: Animation = anim.get_animation("death").duplicate(true)
+		# glTF optimisation removes the originally constant root rotation track.
+		# Restore it: the falling pose must rotate the base as well as the neck.
+		for track in death.get_track_count():
+			if death.track_get_type(track)!=Animation.TYPE_ROTATION_3D: continue
+			var root_path := NodePath(str(death.track_get_path(track)).get_slice(":",0)+":"+rig.get_bone_name(0))
+			if death.find_track(root_path,Animation.TYPE_ROTATION_3D)<0:
+				var root_track := death.add_track(Animation.TYPE_ROTATION_3D)
+				death.track_set_path(root_track,root_path)
+				for sample in 33: death.track_insert_key(root_track,death.length*sample/32.0,Quaternion.IDENTITY)
+			break
+		for track in death.get_track_count():
+			if death.track_get_type(track)!=Animation.TYPE_ROTATION_3D: continue
+			var path := death.track_get_path(track)
+			if path.get_subname_count()==0: continue
+			var bone := str(path.get_subname(0))
+			if not (bone.begins_with("spine_") or bone.begins_with("head_maw_")): continue
+			var index := int(bone.get_slice("_",2 if bone.begins_with("head_maw_") else 1))
+			for key_index in death.track_get_key_count(track):
+				var p := death.track_get_key_time(track,key_index)/death.length
+				var q := _fallen_joint(float(index)/21.0,p)
+				if index>0: q = _fallen_joint(float(index-1)/21.0,p).inverse()*q
+				death.track_set_key_value(track,key_index,q)
+		grounded_deaths[model_path] = death
+	var library_name := anim.find_animation_library(anim.get_animation("death"))
+	var library: AnimationLibrary = anim.get_animation_library(library_name).duplicate()
+	library.remove_animation("death")
+	library.add_animation("death",grounded_deaths[model_path])
+	anim.remove_animation_library(library_name)
+	anim.add_animation_library(library_name,library)
+
+static func _fallen_joint(u: float, p: float) -> Quaternion:
+	var fall := smoothstep(0.0,0.82,p)
+	var bend := lerpf(0.18*smoothstep(0.12,1.0,u),PI*0.5,fall)
+	var twitch := 0.18*sin(p*22)*pow(1-p,2)*u
+	return Quaternion(Vector3.RIGHT,bend)*Quaternion(Vector3.FORWARD,twitch)
+
 func _arrival() -> void:
 	if not alive: return
 	strike_point = global_position
@@ -168,8 +218,10 @@ func _set_phase(next: String, duration: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	if not alive:
+		_fall_time += delta
 		super._physics_process(delta)
-		if model: model.position.y = -burial_depth() - minf(height, dead_t * 0.18)
+		if model:
+			model.position.y = lerpf(-burial_depth(),_corpse_floor,smoothstep(0.0,3.2*0.82,_fall_time))
 		return
 	update_rare_visual()
 	# Worms have their own physics loop; expire the shared lightning reveal here too.
@@ -335,8 +387,8 @@ func _sync_visuals() -> void:
 	if exposed != _hitbox_enabled:
 		_hitbox_enabled = exposed
 		for area in _hitboxes: area.collision_layer = HITBOX_LAYER if exposed else 0
-	if model:
-		model.visible = exposed or not alive
+	if model and alive:
+		model.visible = exposed
 		var fraction := clampf(phase_time / maxf(0.01, phase_length), 0, 1)
 		# Ease in/out as the heavy body breaks the soil and sinks; no constant-speed lift.
 		var eased := smoothstep(0.0, 1.0, fraction)

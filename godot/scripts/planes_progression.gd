@@ -19,7 +19,7 @@ var accepted := {}
 var claimed := {}
 var kit_stock := {"palisade":0,"sandbags":0}
 var discovered_secret := false
-var field_panel: PanelContainer
+var field_panel: Control
 var field_rows: VBoxContainer
 var collectibles: Array[Dictionary] = []
 var sample_time := 0.0
@@ -30,7 +30,7 @@ var _menu_signature := ""
 
 func setup(main: Node) -> void:
 	game = main
-	layer = 8
+	layer = 24
 	rare_market = load("res://scripts/rare_market.gd").new()
 	rare_market.game = game
 	add_child(rare_market)
@@ -43,40 +43,18 @@ func setup(main: Node) -> void:
 		npcs[id] = npc
 	var fire := Foliage.campfire(Map.ground_pos(18,11))
 	game.add_child(fire)
-	field_panel = PanelContainer.new()
-	add_child(field_panel)
-	field_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	field_panel.offset_left = -350; field_panel.offset_right = 350
-	field_panel.offset_top = -290; field_panel.offset_bottom = 290
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.025,0.045,0.04,0.98)
-	style.content_margin_left = 18
-	style.content_margin_right = 18
-	style.content_margin_top = 18
-	style.content_margin_bottom = 18
-	field_panel.add_theme_stylebox_override("panel",style)
-	var scroll := ScrollContainer.new()
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	field_panel.add_child(scroll)
-	field_rows = VBoxContainer.new()
-	field_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	field_rows.add_theme_constant_override("separation",9)
-	scroll.add_child(field_rows)
-	field_panel.hide()
-	tracker = RichTextLabel.new()
-	tracker.position = Vector2(28,110)
-	tracker.custom_minimum_size = Vector2(305,0)
-	tracker.size = Vector2(305,330)
-	tracker.fit_content = true
-	tracker.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	tracker.add_theme_font_size_override("normal_font_size",15)
-	tracker.add_theme_color_override("default_color",Color(0.95,0.86,0.65))
-	add_child(tracker)
+	_build_ui()
+	for button in panel.find_children("*","Button",true,false):
+		if Lang.text(button.text)=="Back to the forest · Esc": button.text = "Back to The Planes · Esc"
+	field_panel = panel
+	field_rows = rows
+	tutorial.hide()
 	_spawn_collectibles()
 
 func reset_run() -> void:
 	close()
 	field_people.clear()
+	people.clear()
 	field_counts.clear(); accepted.clear(); claimed.clear()
 	kit_stock = {"palisade":0,"sandbags":0}
 	discovered_secret = false
@@ -118,7 +96,8 @@ func open_field(id: String) -> void:
 		game.hud.message("Start survival from the pause menu to trade and build.",4)
 		return
 	if not close_enough(game.player,id): return
-	shop = id; is_open = true
+	shop = id; page = "Trade" if id!="mechanic" else "Training"; is_open = true
+	_greet(id)
 	if id=="secret": discovered_secret = true
 	game.player.active = false
 	game.player.velocity = Vector3.ZERO
@@ -149,55 +128,47 @@ func _field_row(text: String, action: Callable = Callable()) -> void:
 
 func refresh_field(message := "") -> void:
 	_menu_signature = menu_signature()
-	for child in field_rows.get_children():
-		field_rows.remove_child(child); child.queue_free()
-	_field_row(Lang.t("%s  |  %d R",[NPCS[shop].name,game.player.score]))
-	if not message.is_empty(): _field_row(Lang.text(message))
-	var tabs := HBoxContainer.new()
-	field_rows.add_child(tabs)
-	for tab in ["Trade","Quests"]:
-		var button := Button.new()
-		button.text = tab
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.pressed.connect(func(): page = tab; refresh_field())
-		tabs.add_child(button)
-	if page=="Trade":
-		if shop=="mechanic":
-			_field_row("Carry kits anywhere. B opens your kit inventory; R rotates, E places.")
+	status.text = message
+	_render()
+
+func lock_reason(_p: Player, id: String) -> String:
+	if not GOODS.has(id): return "Weapon not available."
+	return Lang.t("Survive until wave %d.",[GOODS[id].wave]) if game.waves.wave<int(GOODS[id].wave) else ""
+
+func chain_description(_peer: int, _chain: String, _steps := true) -> String: return ""
+
+func request(action: String, id := "", extra := "") -> void:
+	var result := request_action("trade",[shop,action,id,extra])
+	refresh_field(result)
+
+func _render() -> void:
+	if not SITES.has(shop): return
+	if shop=="mechanic" and page=="Training": _layout_key = ""
+	if page!="Quests":
+		super._render()
+		_tabs.Fireworks.hide()
+		_tabs.Skins.hide()
+		if shop=="mechanic" and page=="Training":
 			for id in ["palisade","sandbags"]:
-				_field_row(Lang.t("%s kit · %d R · carried: %d",[id,kit_price(id),kit_stock[id]]),func(): refresh_field(buy_kit(id)))
-			for spec in Skills.UPGRADES:
-				_field_row(Lang.t("%s | %d R",[spec.name,Skills.training_cost(spec,game.skills.levels.get(spec.id,0))]),func(): refresh_field(request_action("training",[spec.id])))
+				_row(Lang.t("%s kit",[id]),Lang.t("Carried: %d. Place with B; rotate with mouse wheel.",[kit_stock[id]]),"%d R" % kit_price(id),func(): refresh_field(buy_kit(id)),game.player.score<kit_price(id))
 			for index in game.barricades.size():
 				var bar: Barricade = game.barricades[index]
-				_field_row(Lang.t("Fortification #%d | tier %d | Upgrade",[index+1,bar.level]),func(): refresh_field(game.field_building.upgrade_bar(index)))
-			for id in game.defences.towers:
-				var tower: DefenceTower = game.defences.towers[id]
-				_field_row(Lang.t("%s #%d · Tier %d · Upgrade %d R",[tower.spec().name,id,tower.level,tower.upgrade_cost()]),func(): refresh_field(request_action("tower_upgrade",[id])))
-		else:
-			_field_row("Ammunition refill",func(): refresh_field(buy_supply("ammo")))
-			_field_row("Field dressing · 35 R",func(): refresh_field(buy_supply("health")))
-			_field_row("Grenade · 30 R",func(): refresh_field(buy_supply("grenade")))
-			for id in GOODS:
-				if GOODS[id].npc!=shop: continue
-				var owned: bool = game.weapons.unlocked.get(id,false)
-				_field_row(Lang.t("%s · %d R · wave %d%s",[Weapons.DEFS[id].name,GOODS[id].price,GOODS[id].wave," · owned" if owned else ""]),func(): refresh_field(buy_weapon(id)))
-		if shop in ["mechanic","secret"]:
-			var wid: String = game.weapons.current
-			_field_row(Lang.t("Weapon mods · %s",[Weapons.DEFS[wid].name]))
-			for id in Weapons.Mods.DEFS:
-				var spec: Dictionary = Weapons.Mods.DEFS[id]
-				if spec.npc==shop and Weapons.Mods.compatible(id,wid,Weapons.DEFS[wid]):
-					_field_row(Lang.t("%s · %d R · wave %d",[spec.name,spec.price,spec.level]),func(): refresh_field(request_action("mod",[shop,id,wid])))
-	else:
-		_field_row("QUESTS · accept, then return for the reward")
-		for id in FIELD_QUESTS:
-			var q: Dictionary = FIELD_QUESTS[id]
-			if q.npc!=shop: continue
-			var state := "claimed" if claimed.has(id) else "ready" if quest_ready(id) else "active" if accepted.has(id) else "accept"
-			var progress: int = game.waves.completed if q.goal=="waves" else int(field_counts.get(q.goal,0))
-			_field_row(Lang.t("%s · %s · %d/%d · %d R\n%s (wave %d)",[q.name,state,progress,q.count,q.reward,q.desc,q.wave]),func(): refresh_field(quest_action(id)))
-	_field_row("Close [Esc]",close)
+				_row(Lang.t("Fortification #%d · tier %d",[index+1,bar.level]),"Upgrade palisades and sandbags here.","Upgrade",func(): refresh_field(game.field_building.upgrade_bar(index)),bar.level>=3)
+		return
+	_building_layout = true
+	_layout_key = ""
+	_row_nodes.clear()
+	_row_index = 0
+	for child in rows.get_children(): rows.remove_child(child); child.queue_free()
+	for tab in _tabs: _tabs[tab].visible = tab in (["Quests","Training","Towers","Mods"] if shop=="mechanic" else ["Trade","Sell","Quests","Mods"])
+	title.text = Lang.t("%s · Quests",[NPCS[shop].name])
+	subtitle.text = NPCS[shop].line
+	_update_balance()
+	for id in FIELD_QUESTS:
+		var q: Dictionary = FIELD_QUESTS[id]
+		if q.npc!=shop: continue
+		var value: int = game.waves.completed if q.goal=="waves" else field_counts.get(q.goal,0)
+		_row(q.name,Lang.t("%s\n%d / %d · %d R · %d class XP",[q.desc,mini(value,q.count),q.count,q.reward,preload("res://scripts/character_classes.gd").quest_xp(q.reward)]),"Done" if claimed.has(id) else "Collect reward" if quest_ready(id) else "In progress" if accepted.has(id) else "Accept quest",func(): refresh_field(quest_action(id)),claimed.has(id) or (accepted.has(id) and not quest_ready(id)))
 
 func kit_price(id: String) -> int:
 	return SandbagLine.DEPLOY_COST if id=="sandbags" else Barricade.COST_BUILD
@@ -265,10 +236,13 @@ func quest_action(id: String) -> String:
 	if claimed.has(id): return "Reward already claimed."
 	if not accepted.has(id):
 		accepted[id] = true
+		Sfx.event(game,actor().peer_id,"quest_accept")
 		return "Quest accepted. Earlier progress this run counts."
 	if not quest_ready(id): return "Objectives not completed yet."
 	claimed[id] = true
+	Sfx.event(game,actor().peer_id,"quest_complete")
 	actor().add_score(int(FIELD_QUESTS[id].reward))
+	if actor()==game.player: show_gain(int(FIELD_QUESTS[id].reward))
 	if game.classes: game.classes.quest(actor().peer_id,"planes:"+id,int(FIELD_QUESTS[id].reward))
 	return "Quest completed. Reward received."
 
@@ -304,7 +278,7 @@ func collect(index: int) -> bool:
 	var item: Dictionary = collectibles[index]
 	if item.taken or actor().global_position.distance_to(Map.ground_pos(item.at.x,item.at.y))>2.5: return false
 	item.taken = true; item.node.hide(); event(item.kind)
-	actor().hud.message(Lang.t("Collected: %s (%d)",[item.kind,field_counts[item.kind]]),2)
+	grant_ingredient("steinpilz" if item.kind=="mushrooms" else "golden_yarrow")
 	return true
 
 func collect_wild(index: int) -> bool:
@@ -314,7 +288,7 @@ func collect_wild(index: int) -> bool:
 	var kind: String = game.nature.harvest(index,actor())
 	if kind.is_empty(): return false
 	event(kind)
-	actor().hud.message(Lang.t("Collected: %s (%d)",[kind,field_counts[kind]]),2)
+	grant_ingredient(game.nature.ingredient(index))
 	return true
 
 func sample_collectibles() -> void:
@@ -329,11 +303,12 @@ func sample_collectibles() -> void:
 
 func _process(delta: float) -> void:
 	if not game or not game.ready_for_exploration: return
+	_animate_gain(delta)
 	if is_open and (not game.player.alive or game.over): close()
 	sample_time -= delta
 	if sample_time>0: return
 	sample_time = 0.15
-	if NetSession.is_client() and is_open and not loadout_open and SITES.has(shop) and _menu_signature!=menu_signature(): refresh_field()
+	if is_open and not loadout_open and SITES.has(shop) and _menu_signature!=menu_signature(): refresh_field()
 	_update_tracker()
 	sample_collectibles()
 	for i in collectibles.size():
@@ -341,13 +316,20 @@ func _process(delta: float) -> void:
 		var quest := "forage" if item.kind=="mushrooms" else "bouquet"
 		item.marker.visible = accepted.has(quest) and not claimed.has(quest)
 	for id in npcs:
-		npcs[id].quest_marker.visible = game.survival_active and (id!="secret" or discovered_secret) and has_ready_quest(id)
+		npcs[id].quest_marker.visible = game.survival_active and (id!="secret" or discovered_secret) and (has_ready_quest(id) or has_available_quest(id))
+		npcs[id].quest_marker.text = "?" if has_ready_quest(id) else "!"
 	if not game.player.active or (game.defences and (game.defences.placing or game.player.mounted_tower)) or (game.field_building and game.field_building.placing): return
+	var meat: int = game.hunting.nearby_drop(game.player)
 	var id := nearest(game.player)
-	if not id.is_empty(): game.hud.set_prompt("[E] " + str(NPCS[id].name))
-	elif nearest_collectible>=0: game.hud.set_prompt("[E] Collect " + str(collectibles[nearest_collectible].kind))
-	elif nearest_wild_plant>=0: game.hud.set_prompt(Lang.t("[E] Collect %s",["mushrooms" if game.nature.plants[nearest_wild_plant].woodland else "flowers"]))
-	elif game.defences and game.defences.nearest(game.player): game.hud.set_prompt("[E] Operate tower · [R] Align · [F] Repair")
+	var range_id: String = game.shooting_range.nearby(game.player)
+	if NetSession.enabled and NetSession.world.nearby_downed_player(): return
+	if not range_id.is_empty(): game.hud.set_prompt(game.shooting_range.prompt(range_id))
+	elif meat>=0: game.hud.set_prompt(game.hunting.prompt(game.player,meat))
+	elif game.hunting.at_grill(game.player): game.hud.set_prompt("[E] Grill venison · [C] Brew drinks")
+	elif not id.is_empty(): game.hud.set_prompt("[E] " + str(NPCS[id].name))
+	elif nearest_collectible>=0: game.hud.set_prompt(Lang.t("[E] Collect %s",["Porcini" if collectibles[nearest_collectible].kind=="mushrooms" else "Golden Yarrow"]))
+	elif nearest_wild_plant>=0: game.hud.set_prompt(Lang.t("[E] Collect %s",[game.nature.ingredient_name(nearest_wild_plant)]))
+	elif game.defences and game.defences.nearest(game.player): game.hud.set_prompt("[E] Operate tower · [R] Align · [Y] Move · [F] Repair")
 	elif game.field_building and game.field_building.nearest_bar(): game.hud.set_prompt("[E] Repair fortification · [B] Building kits")
 	else: game.hud.set_prompt("")
 
@@ -361,9 +343,7 @@ func _unhandled_input(event_input: InputEvent) -> void:
 		if event_input.physical_keycode==KEY_Q:
 			_journal = not _journal
 			get_viewport().set_input_as_handled(); return
-		if event_input.physical_keycode==KEY_I:
-			show_loadout()
-			get_viewport().set_input_as_handled(); return
+
 	if event_input is InputEventKey and event_input.pressed and not event_input.echo and event_input.physical_keycode==KEY_J:
 		show_journal()
 		get_viewport().set_input_as_handled()
@@ -372,12 +352,17 @@ func _unhandled_input(event_input: InputEvent) -> void:
 		if NetSession.enabled and NetSession.world:
 			var downed: int = NetSession.world.nearby_downed_player()
 			if downed:
-				NetSession.command("revive",[downed])
+				NetSession.command("revive",[downed,true])
 				get_viewport().set_input_as_handled()
 				return
 		sample_collectibles()
 		var id := nearest(game.player)
-		if not id.is_empty(): open_field(id)
+		var meat: int = game.hunting.nearby_drop(game.player)
+		var range_id: String = game.shooting_range.nearby(game.player)
+		if not range_id.is_empty(): game.shooting_range.request(range_id)
+		elif meat>=0: game.hunting.request("collect",meat)
+		elif game.hunting.at_grill(game.player): game.hunting.request("cook")
+		elif not id.is_empty(): open_field(id)
 		elif nearest_collectible>=0: collect(nearest_collectible)
 		elif nearest_wild_plant>=0: collect_wild(nearest_wild_plant)
 		elif game.defences and game.defences.nearest(game.player): game.defences.request_mount(game.defences.nearest(game.player))
@@ -386,31 +371,31 @@ func _unhandled_input(event_input: InputEvent) -> void:
 
 func show_journal() -> void:
 	if not game.survival_active: return
-	for child in field_rows.get_children():
-		field_rows.remove_child(child); child.queue_free()
-	_field_row("FIELD JOURNAL")
-	_field_row("Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards.")
-	for id in accepted:
+	_building_layout = true
+	_layout_key = ""
+	_row_nodes.clear()
+	_row_index = 0
+	for child in rows.get_children(): rows.remove_child(child); child.queue_free()
+	for tab in _tabs.values(): tab.hide()
+	title.text = "FIELD JOURNAL"
+	subtitle.text = "Choose your ground. Survive 25 waves. Return to each quest giver for rewards."
+	status.text = ""
+	_update_balance()
+	for id in FIELD_QUESTS:
 		var q: Dictionary = FIELD_QUESTS[id]
 		var value: int = game.waves.completed if q.goal=="waves" else int(field_counts.get(q.goal,0))
-		_field_row(Lang.t("%s · %d/%d · %s\n%s",[q.name,value,q.count,"claimed" if claimed.has(id) else "ready" if quest_ready(id) else "active",q.desc]))
-	_field_row("Close [Esc]",close)
+		_row(q.name,Lang.t("%s\n%s · %d/%d · %d R",[q.desc,NPCS[q.npc].name,mini(value,q.count),q.count,q.reward]),"Claimed" if claimed.has(id) else "Ready" if quest_ready(id) else "Active" if accepted.has(id) else "Not accepted",Callable(),true)
+	var challenge: Dictionary = game.shooting_range.data(game.player.peer_id)
+	_row("300 m challenge",Lang.t("Find the woodland key, enter the Schützenhaus and shoot its six targets with a sniper. %d / 6 · 350 R",[challenge.hits.size()]),"Claimed" if challenge.claimed else "Active" if challenge.accepted else "Discover",Callable(),true)
 	is_open = true
+	loadout_open = true
 	game.player.active = false
 	game.player.velocity = Vector3.ZERO
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	field_panel.show()
 
 func show_loadout() -> void:
-	if not game.survival_active or not game.quickbar: return
-	show_journal()
-	loadout_open = true
-	for child in field_rows.get_children():
-		field_rows.remove_child(child); child.queue_free()
-	_field_row("Inventory")
-	for id in game.quickbar.owned_items():
-		_field_row(str(game.quickbar.item_data(id).name),func(): game.quickbar.offer_item(id))
-	_field_row("Close [Esc]",close)
+	game.inventory.open()
 
 func _update_tracker() -> void:
 	tracker.visible = game.survival_active and _journal and game.player.active and not game.over
@@ -424,6 +409,10 @@ func _update_tracker() -> void:
 		lines.append("%s  %d/%d" % [Lang.text(q.name),mini(count,q.count),q.count])
 		shown += 1
 		if shown>=3: break
+	var range_data: Dictionary = game.shooting_range.data(game.player.peer_id)
+	if range_data.accepted and not range_data.claimed:
+		lines.append(Lang.text("300 m challenge · %d / 6 targets") % [range_data.hits.size()])
+		shown += 1
 	if shown==0: lines.append(Lang.text("Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."))
 	lines.append(Lang.text("Field journal")+" [J]")
 	tracker.text = "\n\n".join(lines)
@@ -465,18 +454,22 @@ func request_action(operation: String, args: Array) -> String:
 
 func authoritative_action(p: Player, operation: String, args: Array) -> String:
 	if not p.alive or p.downed or game.over or not game.started: return "Action unavailable."
+	var before_score := p.score
 	var old := [field_counts,accepted,claimed,kit_stock,shop]
 	var state: Dictionary = field_data(p.peer_id)
 	field_counts = state.counts; accepted = state.accepted; claimed = state.claimed; kit_stock = state.kits
 	transaction_actor = p
 	var result := "Invalid request."
 	match operation:
+		"trade":
+			if args.size()==4 and args.all(func(v): return v is String) and SITES.has(args[0]) and args[1] in ["weapon","ammo","autorefill","medicine","grenade","training","mod","remove_mod","tower_upgrade","tower_sell","sell_meat","sell_mushroom","sell_grenade","sell_ammo","sell_weapon"]:
+				result = super.transact(p,args[0],args[1],args[2],args[3])
 		"buy_kit","buy_weapon","buy_supply","quest_action":
 			if args.size()==2 and args[0] is String and args[1] is String and SITES.has(args[1]):
 				shop = args[1]
 				result = call(operation,args[0])
 		"collect","collect_wild":
-			if args.size()==1 and args[0] is int: result = "Collected." if call(operation,args[0]) else "Nothing to collect here."
+			if args.size()==1 and args[0] is int: result = "" if call(operation,args[0]) else "Nothing to collect here."
 		"training":
 			if args.size()==1 and args[0] is String: result = game.skills.purchase(p,gear(),args[0])
 		"mod":
@@ -491,6 +484,7 @@ func authoritative_action(p: Player, operation: String, args: Array) -> String:
 			if args.size()==1 and args[0] is String: result = game.field_building.upgrade_id(args[0],p)
 	transaction_actor = null
 	field_counts = old[0]; accepted = old[1]; claimed = old[2]; kit_stock = old[3]; shop = old[4]
+	if p==game.player and is_open: show_gain(p.score-before_score)
 	return result
 
 func snapshot() -> Dictionary:
@@ -498,9 +492,10 @@ func snapshot() -> Dictionary:
 	var taken: Array = []
 	for i in collectibles.size():
 		if collectibles[i].taken: taken.append(i)
-	return {"people":field_people.duplicate(true),"taken":taken,"wild":game.nature._picked.keys(),"rare":rare_market.people.duplicate(true)}
+	return {"people":field_people.duplicate(true),"taken":taken,"wild":game.nature._picked.keys(),"rare":rare_market.people.duplicate(true),"standard":people.duplicate(true)}
 
 func apply_snapshot(state: Dictionary, _initial := false) -> void:
+	people = state.get("standard",{}).duplicate(true)
 	field_people = state.get("people",{}).duplicate(true)
 	var mine: Dictionary = field_people.get(NetSession.local_id(),{})
 	if not mine.is_empty():
@@ -509,3 +504,16 @@ func apply_snapshot(state: Dictionary, _initial := false) -> void:
 		if i>=0 and i<collectibles.size(): collectibles[i].taken = true; collectibles[i].node.hide()
 	for i in state.get("wild",[]): game.nature.hide_harvested(i)
 	rare_market.people = state.get("rare",{}).duplicate(true)
+
+func grant_ingredient(id: String) -> void:
+	var name: String
+	if game.brewing.Recipes.FLOWERS.has(id):
+		game.brewing.add_flower(actor().peer_id,id)
+		name = game.brewing.Recipes.FLOWERS[id].name
+	else:
+		var stock: Dictionary = mushroom_stock(actor())
+		stock[id] = int(stock.get(id,0))+1
+		name = Inventory.MUSHROOMS[id].name
+	Sfx.event(game,actor().peer_id,"mushroom_pickup")
+	actor().hud.message(Lang.t("Collected: %s",[name]),2.5)
+	game.achievements.event("planes_foraged")

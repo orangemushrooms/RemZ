@@ -13,7 +13,7 @@ func run() -> void:
 	var residential_clear := true
 	var clearance := INF
 	for building: Dictionary in Map.VILLAGE:
-		if building.get("kind","")=="shooting_targets": continue
+		if building.get("kind","")=="shooting_targets" or int(building.osm_id)==118083383: continue
 		for p in building.poly:
 			if Boundary.contains(Vector2(p[0],p[1])): residential_clear = false
 			clearance = minf(clearance,Boundary.closest(Vector2(p[0],p[1])).distance_to(Vector2(p[0],p[1])))

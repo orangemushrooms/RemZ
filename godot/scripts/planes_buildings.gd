@@ -11,6 +11,7 @@ func build() -> Node3D:
 	return result
 
 func _build_house(data: Dictionary, id: int) -> void:
+	if int(data.osm_id)==118083383: return # Playable surveyed shooting house.
 	id = int(data.get("appearance_index",id))
 	var points := PackedVector2Array()
 	for p in data.poly:

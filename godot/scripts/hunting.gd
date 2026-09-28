@@ -15,14 +15,19 @@ var drops := {}
 var jobs := {}
 var visuals := {}
 var grill_food: Node3D
+var spawn_transforms: Array[Transform3D] = []
+var death_tweens := {}
 
 func setup(scene: Node3D) -> void:
 	game = scene
 	for node in game.get_children():
 		if node is Deer: animals.append(node)
-	for bird in game.cornfield.birds: animals.append(bird)
+	if game.get("nature"):
+		for animal in game.nature.deer: animals.append(animal)
+	for bird in (game.birds if game.get("nature") else game.cornfield.birds): animals.append(bird)
 	for i in animals.size():
 		var animal := animals[i]
+		spawn_transforms.append(animal.transform)
 		health.append(90.0 if animal is Deer and animal.kind == "stag" else 60.0 if animal is Deer else 20.0)
 		if animal is Deer:
 			animal.set_meta("hunt_id", i)
@@ -112,10 +117,33 @@ func _die(id: int) -> void:
 		for child in animal.get_children():
 			if child is Area3D: child.collision_layer = 0
 	var tw := create_tween().set_parallel(true)
+	death_tweens[id] = tw
 	tw.tween_property(animal, "rotation:z", PI * 0.48, 0.45)
 	tw.tween_property(animal, "position:y", Map.ground_height(animal.global_position.x, animal.global_position.z) + 0.16, 0.65).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tw.chain().tween_interval(12.0)
 	tw.chain().tween_callback(animal.hide)
+
+func reset_run() -> void:
+	for tween in death_tweens.values():
+		if is_instance_valid(tween): tween.kill()
+	death_tweens.clear()
+	stocks.clear(); jobs.clear(); drops.clear()
+	for i in animals.size():
+		var animal := animals[i]
+		health[i] = 90.0 if animal is Deer and animal.kind=="stag" else 60.0 if animal is Deer else 20.0
+		if not animal.get_meta("hunted_dead",false): continue
+		animal.set_meta("hunted_dead",false)
+		animal.transform = spawn_transforms[i]
+		animal.show()
+		animal.set_process(true)
+		animal.set_physics_process(true)
+		if animal is Deer:
+			animal.collision_layer = 1
+			animal.state = "idle"
+		else:
+			for child in animal.get_children():
+				if child is Area3D: child.collision_layer = Zombie.HITBOX_LAYER
+	_sync_visuals()
 
 func blast(origin: Vector3, radius: float, damage: float, peer: int) -> void:
 	if NetSession.is_client(): return

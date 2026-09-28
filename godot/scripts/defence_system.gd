@@ -4,6 +4,7 @@ extends CanvasLayer
 var game: Node
 var towers: Dictionary = {}
 var next_id := 1
+var moving_tower := false
 var placing := false
 var input_grace := 0.0
 var is_open := false
@@ -194,6 +195,7 @@ func select_kind(kind: String) -> void:
 	_build_preview()
 	placing = true
 	rotating_id = 0
+	moving_tower = false
 	build_yaw = float(Map.BUILDINGS.waldhuette.yaw) + (PI if roof_slot >= 3 else 0.0) if roof_slot >= 0 else game.player.rotation.y
 	_focus_roof_preview()
 	game.hud.set_prompt("")
@@ -339,8 +341,9 @@ func placement_error(p: Player, point: Vector3, kind := "standard", planner := f
 
 # The planner drags a standing ground tower to a new spot: free, but only while nobody operates it and
 # the new site passes the same checks as a fresh build (its own footprint excluded).
-func relocate(p: Player, id: int, point: Vector3) -> String:
+func relocate(p: Player, id: int, point: Vector3, yaw: float = NAN) -> String:
 	if NetSession.is_client(): return "Only the host confirms construction."
+	if not is_nan(yaw) and not is_finite(yaw): return "Invalid orientation."
 	var tower: DefenceTower = towers.get(id)
 	if not is_instance_valid(tower) or not p.alive: return "Tower not found."
 	if tower.rooftop: return "Roof turrets stay on their slot."
@@ -349,6 +352,7 @@ func relocate(p: Player, id: int, point: Vector3) -> String:
 	var error := placement_error(p, target, tower.kind, true, id)
 	if not error.is_empty(): return error
 	tower.global_position = target
+	if not is_nan(yaw): tower.rotation.y = wrapf(yaw,-PI,PI)
 	tower.target = null
 	tower.aim_yaw = 0
 	Sfx.play_at(game, "build", target, -10)
@@ -613,6 +617,7 @@ func request_mount(tower: DefenceTower) -> void:
 func cancel_placement() -> void:
 	placing = false
 	rotating_id = 0
+	moving_tower = false
 	input_grace = 0.2
 	ghost.hide()
 	hint.hide()
@@ -670,6 +675,12 @@ func _input(event: InputEvent) -> void:
 				if NetSession.enabled: NetSession.command("tower_repair", [tower.tower_id])
 				else: game.hud.message(maintain(game.player, tower.tower_id, "repair"), 2)
 				get_viewport().set_input_as_handled()
+		elif event.physical_keycode == KEY_Y and game.player.active and not placing:
+			var tower := nearest(game.player)
+			if tower and not tower.rooftop:
+				begin_rotation(tower)
+				moving_tower = true
+				get_viewport().set_input_as_handled()
 		elif event.physical_keycode == KEY_R and game.player.active and not placing:
 			var tower := nearest(game.player)
 			if tower:
@@ -681,7 +692,10 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		elif placing and event.is_action_pressed("interact"):
 			if build_error.is_empty():
-				if rotating_id:
+				if rotating_id and moving_tower:
+					if NetSession.enabled: NetSession.command("tower_move",[rotating_id,build_position,build_yaw])
+					else: game.hud.message(relocate(game.player,rotating_id,build_position,build_yaw),2)
+				elif rotating_id:
 					if NetSession.enabled: NetSession.command("tower_rotate", [rotating_id, build_yaw])
 					else: game.hud.message(rotate_tower(game.player, rotating_id, build_yaw), 2)
 				elif NetSession.enabled: NetSession.command("tower_place", [build_position, build_yaw, selected_kind])
@@ -763,6 +777,9 @@ func _process(delta: float) -> void:
 					return
 				build_position = tower.global_position
 				build_error = "" if (tower.rooftop or game.player.global_position.distance_to(build_position) <= 6) and reachable(game.player, tower) else "Move closer to the tower."
+				if moving_tower:
+					build_position = Map.ground_pos(point.x,point.z)
+					build_error = placement_error(game.player,build_position,selected_kind,true,rotating_id)
 			else:
 				build_position = roof_position(roof_slot) if roof_slot >= 0 else Map.ground_pos(point.x, point.z)
 				build_error = placement_error(game.player, build_position, selected_kind)
@@ -772,6 +789,7 @@ func _process(delta: float) -> void:
 			ghost_material.albedo_color = Color(0.2, 0.95, 0.5, 0.28) if build_error.is_empty() else Color(1, 0.16, 0.08, 0.3)
 			var spec: Dictionary = DefenceTower.SPECS[selected_kind]
 			var head := Lang.t("ALIGN %s · free", [spec.name]) if rotating_id else Lang.t("%s · %d R", [spec.name,spec.cost])
+			if moving_tower: head = Lang.t("MOVE %s · free",[spec.name])
 			var detail := Lang.t("Max. %d m · bright sector: automatic (160°)\nManual: full circle · obstacles block", [roundi(preview_range())]) if build_error.is_empty() else build_error
 			if roof_slot >= 0 and build_error.is_empty():
 				detail = Lang.t("Roof slot %d · automatic (160°) · max. %d m\nObstacles block the line of fire", [roof_slot + 1, roundi(preview_range())])
@@ -808,6 +826,9 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		var fresh := not towers.has(id)
 		if fresh: create_tower(state[0], state[1], id, true, str(state[10]) if state.size()>10 else "standard")
 		var tower: DefenceTower = towers[id]
+		if not tower.global_position.is_equal_approx(state[0]):
+			tower.global_position = state[0]
+			tower.reset_physics_interpolation()
 		tower.owner_peer = state[1]
 		tower.level = state[2]
 		tower.hp = state[3]

@@ -29,12 +29,18 @@ func run() -> void:
 	for i in 3:
 		net.roster[i+2] = ["Luca", "Sarah", "Nico"][i]
 		net.ready_peers[i+2] = true
+		net.class_roster[i+2] = net.CharacterClasses.loadout(["assault","marksman","breacher"][i],12000+i*2000,[-1,-1,-1,-1,-1,-1])
+		net.class_roster[i+2].locked = true
 		net.world.add_player(i+2)
 	game.hud.show_tab("multiplayer")
 	net.changed.emit()
 	await capture("lobby-1600.png")
 	root.size = Vector2i(1280, 720)
 	await capture("lobby-1280.png")
+	if "--lobby-only" in OS.get_cmdline_user_args():
+		print("COOP_LOBBY_VISUAL_DONE 2")
+		quit(0)
+		return
 	root.size = Vector2i(1600, 900)
 	net._applying = true
 	game._on_start(false)

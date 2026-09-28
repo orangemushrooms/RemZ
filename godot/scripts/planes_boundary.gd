@@ -3,7 +3,7 @@ extends Node3D
 const OUTLINE := [Vector2(-320,280),Vector2(-320,-90),Vector2(-170,-170),
 	Vector2(-90,-190),Vector2(60,-200),Vector2(110,-310),Vector2(170,-300),
 	Vector2(300,-290),Vector2(370,-235),Vector2(395,-205),Vector2(440,-182),
-	Vector2(515,-182),Vector2(515,280)]
+	Vector2(515,-182),Vector2(515,280),Vector2(-100,280),Vector2(-100,320),Vector2(-145,320),Vector2(-145,280)]
 
 static func contains(p: Vector2) -> bool:
 	return Geometry2D.is_point_in_polygon(p,PackedVector2Array(OUTLINE))
@@ -43,10 +43,10 @@ func build() -> void:
 			var next := a.lerp(b,float(j+1)/steps)
 			var start := Map.ground_pos(p.x,p.y)
 			var end := Map.ground_pos(next.x,next.y)
-			posts.append(Transform3D(Basis.IDENTITY.scaled(Vector3(0.12,1.35,0.12)),start+Vector3.UP*0.675))
-			for height in [0.58,1.12]:
+			posts.append(Transform3D(Basis.IDENTITY.scaled(Vector3(0.09,1.15,0.09)),start+Vector3.UP*0.53))
+			for height in [0.35,0.68,1.02]:
 				var direction := end-start
-				var basis := Basis.looking_at(direction.normalized(),Vector3.UP).scaled(Vector3(0.035,0.035,direction.length()))
+				var basis := Basis.looking_at(direction.normalized(),Vector3.UP).scaled(Vector3(0.008,0.008,direction.length()))
 				rails.append(Transform3D(basis,(start+end)*0.5+Vector3.UP*height))
 	_batch(posts,Color(0.27,0.19,0.12))
 	_batch(rails,Color(0.37,0.34,0.26))
@@ -55,7 +55,9 @@ func _batch(transforms: Array[Transform3D], colour: Color) -> void:
 	var mesh := BoxMesh.new()
 	var material := StandardMaterial3D.new()
 	material.albedo_color = colour
-	material.roughness = 1.0
+	material.roughness = 0.9
+	if colour.r<0.3:
+		material.albedo_texture = load("res://assets/textures/ph_bark_oak_albedo.jpg")
 	mesh.material = material
 	var batch := MultiMesh.new()
 	batch.transform_format = MultiMesh.TRANSFORM_3D

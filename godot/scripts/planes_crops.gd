@@ -10,6 +10,8 @@ var meadow_meshes: Array[Mesh] = []
 var counts := {"corn":0,"wheat":0,"grass":0,"undergrowth":0,"woodland_grass":0}
 var wind: ShaderMaterial
 var _elapsed := 0.0
+var _lod_cursor := 0
+var _grass_cursor := 0
 var rustle: AudioStreamPlayer
 
 func sample(p: Vector2) -> Color:
@@ -193,28 +195,30 @@ func _batch(transforms: Array, mesh: Mesh, mat: Material, origin: Vector3) -> Mu
 	add_child(node)
 	return node
 
-func update_lod() -> void:
+func update_lod(budget := 1000000) -> void:
 	var p: Vector3 = game.player.global_position
-	for node in grass_batches:
+	for n in mini(budget,grass_batches.size()):
+		var node: MultiMeshInstance3D = grass_batches[_grass_cursor]
+		_grass_cursor = (_grass_cursor+1)%grass_batches.size()
 		if node.get_meta("kind")!="grass": continue
 		var distance := (node.position+Vector3(8,0,8)).distance_to(p)
 		var mesh: Mesh = meadow_meshes[0 if distance<30 else 1]
 		if node.multimesh.mesh!=mesh: node.multimesh.mesh = mesh
-	for node in batches:
+	for n in mini(budget,batches.size()):
+		var node: MultiMeshInstance3D = batches[_lod_cursor]
+		_lod_cursor = (_lod_cursor+1)%batches.size()
 		var distance := (node.position+Vector3(8,0,8)).distance_to(p)
 		var corn: bool = node.get_meta("kind")=="corn"
 		var lod := (0 if distance<24 else 1 if distance<62 else 2) if corn else (0 if distance<38 else 1)
 		var mesh: Mesh = corn_meshes[lod] if corn else wheat_meshes[lod]
 		if node.multimesh.mesh != mesh: node.multimesh.mesh = mesh
 		var density := 1.0 if distance<80 else 0.6 if distance<150 else 0.3
-		node.multimesh.visible_instance_count = ceili(node.multimesh.instance_count*density)
+		var visible_count := ceili(node.multimesh.instance_count*density)
+		if node.multimesh.visible_instance_count!=visible_count: node.multimesh.visible_instance_count = visible_count
 
 func _process(delta: float) -> void:
 	if not game or not game.player: return
-	_elapsed += delta
-	if _elapsed>0.3:
-		_elapsed = 0
-		update_lod()
+	update_lod(48)
 	if rustle:
 		var moving: bool = game.player.active and Vector2(game.player.velocity.x,game.player.velocity.z).length()>0.5
 		var inside := in_corn(Vector2(game.player.position.x,game.player.position.z))

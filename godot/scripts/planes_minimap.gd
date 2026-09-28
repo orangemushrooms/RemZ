@@ -113,7 +113,7 @@ func _draw_symbols(c: Control) -> void:
 	var at := Vector2(player.global_position.x,player.global_position.z)
 	if preload("res://scripts/planes_boundary.gd").closest(at).distance_to(at)<8.0:
 		c.draw_style_box(_panel_style(),Rect2(10,40,284,29))
-		c.draw_string(_font,Vector2(20,60),Lang.text("Map boundary ? turn back"),HORIZONTAL_ALIGNMENT_LEFT,264,14,Color(1.0,0.8,0.35))
+		c.draw_string(_font,Vector2(20,60),Lang.text("Map boundary · turn back"),HORIZONTAL_ALIGNMENT_LEFT,264,14,Color(1.0,0.8,0.35))
 	for enemy in game.zombies_root.get_children():
 		if enemy is Zombie and enemy.alive and enemy.visible_on_map():
 			c.draw_circle(map_position(enemy.global_position),2,Color(1.0,0.29,0.22))
@@ -130,6 +130,10 @@ func _draw_symbols(c: Control) -> void:
 			var quest := "forage" if item.kind=="mushrooms" else "bouquet"
 			if not item.taken and game.progression.accepted.has(quest) and not game.progression.claimed.has(quest):
 				c.draw_circle(_point(item.at),2,Color(0.9,0.5,1))
+	if game.get("shooting_range") and game.shooting_range.key_owned:
+		var house := map_position(game.shooting_range.house.global_position)
+		c.draw_circle(house,3.5,Hud.GOLD)
+		c.draw_string(_font,house+Vector2(5,-4),"Schützenhaus",HORIZONTAL_ALIGNMENT_LEFT,-1,10,Hud.GOLD)
 	if game.defences:
 		for tower in game.defences.towers.values(): c.draw_circle(map_position(tower.position),2.5,Color(0.4,0.85,1))
 	for bar: Barricade in game.barricades:

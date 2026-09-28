@@ -94,7 +94,7 @@ func item_data(id: String) -> Dictionary:
 		var amount := int(game.inventory.mushrooms.get(id, 0))
 		return {"name": Inventory.MUSHROOMS[id].name, "icon": id, "owned": amount > 0, "count": str(amount)}
 	if Fireworks.DEFS.has(id):
-		var amount := int(game.fireworks.stock(game.player.peer_id).get(id, 0))
+		var amount := int(game.fireworks.stock(game.player.peer_id).get(id, 0)) if game.get("fireworks") else 0
 		return {"name": Fireworks.DEFS[id].name, "icon": Fireworks.icon_id(id), "owned": amount > 0, "count": str(amount)}
 	if id == "grenade":
 		return {"name": "Grenades", "icon": id, "owned": game.weapons.grenades > 0, "count": str(game.weapons.grenades)}
@@ -106,11 +106,6 @@ func item_data(id: String) -> Dictionary:
 
 func owned_items() -> Array[String]:
 	var result: Array[String] = []
-	if game.get("field_building"):
-		for id in Weapons.ORDER:
-			if game.weapons.unlocked.get(id,false): result.append(id)
-		if game.weapons.grenades>0: result.append("grenade")
-		return result
 	var candidates: Array = Weapons.ORDER.duplicate()
 	candidates.append_array(Inventory.MUSHROOMS.keys())
 	candidates.append_array(preload("res://scripts/brew_recipes.gd").DRINKS.keys())

@@ -1,7 +1,7 @@
 extends Node
 ## Plain 25-wave survival. Free fortification and a merchant economy.
 signal wave_started(number: int)
-const KINDS := ["shambler","runner","nurse","soldier","brute"]
+const KINDS := ["shambler","runner","nurse","soldier","brute","bride","spitter","screamer","stalker","zombie_dog","zombie_stag","titan","titan_hunter","titan_siege","titan_ash","earthworm","earthworm_ancient","forest_spirit"]
 const MAX_ACTIVE := 24
 const MAX_CORPSES := 12
 var main: Node3D
@@ -23,16 +23,10 @@ func setup(game: Node3D) -> void:
 func plan(number: int) -> Array[String]:
 	var result: Array[String] = []
 	if number<1 or number>Campaign.ROUNDS: return result
-	var count := roundi((10+number*4)*float(main.difficulty.count))
-	if NetSession.enabled: count = roundi(count*(1.0+0.55*(NetSession.roster.size()-1)))
-	for i in count:
-		var kind := "shambler"
-		var r := rng.randf()
-		if r<minf(0.4,0.12+number*0.01): kind = "runner"
-		elif number>=3 and r>0.8: kind = "nurse"
-		elif number>=5 and r>0.65: kind = "soldier"
-		if number%5==0 and i<1+number/5: kind = "brute"
-		result.append(kind)
+	var forest := Waves.new()
+	forest.main = main
+	for entry in forest.plan(number): result.append(entry.type)
+	forest.free()
 	return result
 
 func start(number: int) -> void:
@@ -62,8 +56,12 @@ func _process(delta: float) -> void:
 	elif phase=="spawning":
 		spawn_t -= delta
 		if spawn_t<=0 and not queue.is_empty() and main.alive_zombies()<active_limit():
-			if main.spawn_enemy(queue[0],wave): queue.pop_front()
-			spawn_t = maxf(0.55,1.5-wave*0.04)
+			var heavy := 0
+			for enemy in main.zombies_root.get_children():
+				if enemy is Zombie and enemy.alive and Zombie.is_boss_kind(enemy.net_kind): heavy += 1
+			if not Zombie.is_boss_kind(queue[0]) or heavy<EncounterBalance.heavy_limit(wave):
+				if main.spawn_enemy(queue[0],wave): queue.pop_front()
+			spawn_t = maxf(0.28,1.5-wave*0.1)/Waves.army_multiplier(wave)
 		var alive: int = main.alive_zombies()
 		main.hud.set_wave(wave,Lang.t("%d left",[alive+queue.size()]))
 		main.hud.set_wave_progress(alive+queue.size(),total)
@@ -72,6 +70,7 @@ func _process(delta: float) -> void:
 func complete_wave() -> void:
 	if phase!="spawning" or not queue.is_empty() or main.alive_zombies()>0 or main.over: return
 	completed = wave
+	main.achievements.event("planes_waves",completed,true)
 	if main.classes: main.classes.wave(completed)
 	main.campaign.record_wave(completed,str(main.difficulty.name))
 	if completed==Campaign.ROUNDS:

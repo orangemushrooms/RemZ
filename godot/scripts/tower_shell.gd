@@ -36,18 +36,18 @@ func _physics_process(delta: float) -> void:
 func explode() -> void:
 	set_physics_process(false)
 	if authoritative and not NetSession.is_client():
-		if game.hunting: game.hunting.blast(global_position, 6.0, damage_amount, owner_peer)
+		if game.hunting: game.hunting.blast(global_position, 12.0, damage_amount, owner_peer)
 		for enemy in game.zombies_root.get_children():
 			if not enemy is Zombie or not enemy.alive: continue
 			var center: Vector3 = enemy.global_position+Vector3.UP*enemy.height*0.5
 			var distance := global_position.distance_to(center)
-			if distance>6: continue
+			if distance>12: continue
 			var ray := PhysicsRayQueryParameters3D.create(global_position+Vector3.UP*0.15,center,1|8,excluded)
 			if not get_world_3d().direct_space_state.intersect_ray(ray).is_empty(): continue
 			enemy.killer_peer = owner_peer
 			enemy.killer_weapon = "tower"
 			enemy.last_headshot = false
-			enemy.damage(damage_amount*lerpf(1,0.25,distance/6),(center-global_position).normalized())
+			enemy.damage(damage_amount*lerpf(1,0.25,distance/12),(center-global_position).normalized())
 	Sfx.play_at(game,"boom",global_position,-5)
 	preload("res://scripts/tower_effects.gd").explosion(game, global_position)
 	queue_free()

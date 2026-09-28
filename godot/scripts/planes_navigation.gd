@@ -25,7 +25,9 @@ static func prepare(game: Node3D) -> NavigationRegion3D:
 		var vertices := PackedVector3Array()
 		var indices := PackedInt32Array()
 		var ext := Map.BOUNDS.grow(-2)
-		var step := 4.0
+		# Match the shallow drainage dip beside the camp; a 4 m grid bridged
+		# over it and asked actors to climb walls absent from the nav surface.
+		var step := 2.0
 		var width := floori(ext.size.x/step)+1
 		var depth := floori(ext.size.y/step)+1
 		for j in depth:
@@ -47,7 +49,18 @@ static func prepare(game: Node3D) -> NavigationRegion3D:
 		arrays[Mesh.ARRAY_VERTEX] = vertices
 		arrays[Mesh.ARRAY_INDEX] = indices
 		source.add_mesh_array(arrays,Transform3D.IDENTITY)
+		if game.get("shooting_range"):
+			var range_house: Node3D = game.shooting_range.house
+			for body in range_house.get_children():
+				if not body is StaticBody3D or body==game.shooting_range.door or body in game.shooting_range.shutters: continue
+				var solid := false
+				for child in body.get_children():
+					if child is CollisionShape3D: solid = true
+				if solid:
+					for child in body.get_children():
+						if child is MeshInstance3D and child.mesh is PrimitiveMesh: source.add_mesh_array(child.mesh.get_mesh_arrays(),child.global_transform)
 		for building: Dictionary in Map.VILLAGE:
+			if int(building.osm_id)==118083383: continue
 			var polygon := PackedVector2Array()
 			for p in building.poly: polygon.append(Vector2(p[0],p[1]))
 			if polygon.size()>3 and polygon[0]==polygon[-1]: polygon.remove_at(polygon.size()-1)
@@ -74,6 +87,7 @@ static func prepare(game: Node3D) -> NavigationRegion3D:
 		while NavigationServer3D.map_get_closest_point_owner(region.get_navigation_map(),Vector3.ZERO)!=region.get_rid():
 			await game.get_tree().physics_frame
 	print("PLANES_NAV polygons=",cached.get_polygon_count())
+	if game.get("shooting_range"): game.shooting_range.connect_navigation()
 	return region
 
 static func _remove_overlapping_detail_triangles(mesh: NavigationMesh) -> void:

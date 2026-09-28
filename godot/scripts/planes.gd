@@ -28,6 +28,7 @@ var compass: Label
 var _building_cells: Dictionary = {}
 var _leaving := false
 var _wind: AudioStreamPlayer
+var _crickets: AudioStreamPlayer
 var boot: BootScreen
 var campaign := Campaign.new()
 var difficulty: Dictionary
@@ -52,6 +53,13 @@ var _alive_count := 0
 var navigation_ready := false
 var classes: Node
 var teleport: AssassinTeleport
+var achievements: Achievements
+var brewing: Node3D
+var fireworks: Node3D
+var forest_keys: Node3D
+var grill_position := Vector3.ZERO
+var ambience: Node
+var shooting_range: Node3D
 var hunting: Node3D
 var defences: DefenceSystem
 var barricades: Array = []
@@ -116,6 +124,8 @@ func _ready() -> void:
 	stats = RunStats.new()
 	add_child(stats)
 	stats.register_player(1,NetSession.player_name)
+	achievements = Achievements.new()
+	add_child(achievements)
 	inventory = Inventory.new()
 	add_child(inventory)
 	inventory.set_process(false)
@@ -131,6 +141,16 @@ func _ready() -> void:
 	progression = load("res://scripts/planes_progression.gd").new()
 	add_child(progression)
 	progression.setup(self)
+	grill_position = Map.ground_pos(18,11)+Vector3.UP*0.72
+	hunting = preload("res://scripts/hunting.gd").new()
+	add_child(hunting)
+	hunting.setup(self)
+	brewing = preload("res://scripts/brewing.gd").new()
+	add_child(brewing)
+	brewing.setup(self)
+	shooting_range = preload("res://scripts/planes_range.gd").new()
+	add_child(shooting_range)
+	shooting_range.setup(self)
 	music = Music.new()
 	add_child(music)
 	music.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -147,6 +167,13 @@ func _ready() -> void:
 	_wind.finished.connect(func(): _wind.play())
 	add_child(_wind)
 	_wind.play()
+	_crickets = AudioStreamPlayer.new()
+	var cricket_loop := Ambience.CRICKETS.duplicate() as AudioStreamMP3
+	cricket_loop.loop = true
+	_crickets.stream = cricket_loop
+	_crickets.volume_linear = 0
+	add_child(_crickets)
+	_crickets.play()
 	for child in get_children():
 		if child not in [ui,boot,hud,cheat_menu,music]: child.process_mode = Node.PROCESS_MODE_PAUSABLE
 	child_entered_tree.connect(func(child: Node): child.process_mode = Node.PROCESS_MODE_PAUSABLE)
@@ -223,11 +250,11 @@ func _environment() -> void:
 	add_child(fill_light)
 
 func _birds() -> void:
-	for i in 14:
+	for i in 24:
 		var bird := load("res://scripts/field_bird.gd").new() as Node3D
 		bird.game = self
 		bird.index = i
-		bird.owl = i>=12
+		bird.owl = i>=20
 		var at := Vector2(-94+(i%6)*18,28+(i/6)*18)
 		bird.home = Map.ground_pos(at.x,at.y)+Vector3.UP*(4 if bird.owl else 0.2)
 		bird.position = bird.home
@@ -256,6 +283,7 @@ func _interface() -> void:
 	title.position = Vector2(28,24)
 	title.add_theme_font_size_override("font_size",22)
 	ui.add_child(title)
+	title.hide()
 	var controls := Label.new()
 	controls.text = "WASD Walk · Shift Sprint · Space Jump · Ctrl Crouch · M Map · Esc Menu"
 	controls.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
@@ -264,9 +292,10 @@ func _interface() -> void:
 	controls.add_theme_constant_override("shadow_offset_x",1)
 	controls.add_theme_constant_override("shadow_offset_y",1)
 	ui.add_child(controls)
+	controls.hide()
 	compass = Label.new()
 	compass.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
-	compass.position = Vector2(-80,28)
+	compass.position = Vector2(-80,116)
 	compass.custom_minimum_size.x = 160
 	compass.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	ui.add_child(compass)
@@ -293,6 +322,8 @@ func set_menu(open: bool) -> void:
 	if cheat_menu.is_open: cheat_menu.close()
 	if open:
 		if progression and progression.is_open: progression.close()
+		if inventory and inventory.is_open: inventory.close()
+		if brewing and brewing.menu.is_open: brewing.menu.close()
 		if field_building: field_building.cancel()
 		if defences: defences.close()
 	player.active = not open and not over and (started or not NetSession.enabled)
@@ -327,7 +358,15 @@ func return_to_map(select_region := true) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not ready_for_exploration or preparing_survival: return
+	if event.is_action_pressed("next_wave") and waves and waves.phase=="idle" and player.active:
+		if NetSession.enabled: NetSession.command("next_wave",[])
+		else: waves.timer = minf(waves.timer,0.1)
+		get_viewport().set_input_as_handled()
 	if event.is_action_pressed("pause"):
+		if inventory and inventory.is_open:
+			inventory.close(); get_viewport().set_input_as_handled(); return
+		if brewing and brewing.menu.is_open:
+			brewing.menu.close(); get_viewport().set_input_as_handled(); return
 		if progression and progression.is_open:
 			progression.close()
 			get_viewport().set_input_as_handled()
@@ -350,6 +389,7 @@ func _process(_delta: float) -> void:
 	if not ready_for_exploration: return
 	if started and not over and not NetSession.is_client(): stats.tick(_delta)
 	_update_music()
+	_crickets.volume_linear = lerpf(_crickets.volume_linear,db_to_linear(Ambience.CRICKETS_VOLUME_DB)*Ambience.cricket_level_at(day_night.clock_seconds/3600),1-exp(-_delta/2))
 	if survival_active and not over and player.active:
 		if day_night.is_night() and not _night_flashlight:
 			player.flashlight.visible = true
@@ -389,6 +429,11 @@ func start_survival() -> void:
 		_combat_warmed = true
 	_clear_combat()
 	progression.reset_run()
+	inventory.mushrooms.clear()
+	hunting.reset_run()
+	brewing.stocks.clear()
+	brewing.jobs.clear()
+	shooting_range.reset_run()
 	if defences:
 		defences.close()
 		for tower in defences.towers.values(): tower.queue_free()
@@ -467,7 +512,16 @@ func start_survival() -> void:
 		quickbar = preload("res://scripts/quickbar.gd").new()
 		add_child(quickbar)
 		quickbar.setup(self)
-	quickbar.bindings.assign(["pistol","ak47","shotgun","smg","revolver","marksman","lmg","hatchet","grenade","knife"])
+	quickbar.bindings.assign(["pistol","","","","","","","","grenade","knife"])
+	# Retries reset run counters and toast timers; saved achievements stay loaded.
+	achievements.free()
+	achievements = Achievements.new()
+	add_child(achievements)
+	achievements.setup(player,weapons,hud,self)
+	inventory.setup(player,weapons,hud,self)
+	inventory.set_process(true)
+	inventory.set_process_unhandled_input(true)
+	inventory.process_mode = Node.PROCESS_MODE_ALWAYS
 	quickbar.refresh()
 	hud.show()
 	over = false
@@ -477,7 +531,9 @@ func start_survival() -> void:
 	player.alive = true
 	player.downed = false
 	player.self_revives = 1
+	player.revive_protection = 0.0
 	player.hp = player.max_hp
+	hud.set_score(player.score)
 	player.regen_timer = 0
 	player.regen_mul = float(difficulty.regen)
 	player.set_crouching(false,false)
@@ -564,9 +620,9 @@ func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 		if not living.is_empty(): focus = living[_spawn_rng.randi_range(0,living.size()-1)]
 	var nav := nav_region.get_navigation_map()
 	var target := NavigationServer3D.map_get_closest_point(nav,focus.position)
-	for attempt in 14:
+	for attempt in 4:
 		var angle := _spawn_rng.randf()*TAU
-		var distance := _spawn_rng.randf_range(32,52)
+		var distance := _spawn_rng.randf_range(60,85) if Zombie.is_boss_kind(kind) else _spawn_rng.randf_range(32,52)
 		var p := Vector2(focus.position.x,focus.position.z)+Vector2(cos(angle),sin(angle))*distance
 		if not Map.BOUNDS.grow(-4).has_point(p) or not preload("res://scripts/planes_boundary.gd").contains(p) or near_building(p): continue
 		var surface := Map.ground_pos(p.x,p.y)
@@ -585,12 +641,13 @@ func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 
 func create_enemy(kind: String, at: Vector3, wave_number: int, armored := false, rise := false) -> Zombie:
 	var enemy: Zombie = ForestSpirit.new() if kind=="forest_spirit" else Earthworm.new() if Zombie.is_worm_kind(kind) else Titan.new() if Zombie.is_titan_kind(kind) else ZombieBeast.new() if Zombie.is_beast_kind(kind) else Zombie.new()
-	enemy.setup(kind,player,barricades,minf(1.65,1+(wave_number-1)*0.025)*float(difficulty.speed),_enemy_killed)
+	var speed := (1.0+(wave_number-1)*0.045)*float(difficulty.speed)
+	enemy.setup(kind,player,barricades,EncounterBalance.heavy_speed(speed) if Zombie.is_boss_kind(kind) else speed,_enemy_killed)
 	enemy.armored = armored
 	enemy.rise_on_spawn = rise
-	enemy.hp *= (1.0+(wave_number-1)*0.055)*float(difficulty.hp)
+	enemy.hp *= (EncounterBalance.heavy_hp(wave_number,maxi(1,NetSession.roster.size()),Zombie.is_worm_kind(kind)) if Zombie.is_boss_kind(kind) else EncounterBalance.horde_hp(wave_number)*EncounterBalance.party_hp(maxi(1,NetSession.roster.size())))*float(difficulty.hp)
 	enemy.max_hp = enemy.hp
-	enemy.damage_mul = float(difficulty.dmg)
+	enemy.damage_mul = float(difficulty.dmg)*(EncounterBalance.heavy_damage(wave_number,Zombie.is_worm_kind(kind)) if Zombie.is_boss_kind(kind) else EncounterBalance.party_damage(maxi(1,NetSession.roster.size())))
 	enemy.position = at+Vector3.UP*0.15
 	zombies_root.add_child(enemy)
 	enemy.begin_hunt()
@@ -602,12 +659,23 @@ func _enemy_killed(enemy: Zombie) -> void:
 	stats.record_kill(enemy)
 	if waves: waves.trim_corpses.call_deferred()
 	_kills += 1
-	var reward := maxi(1,roundi(float(enemy.type.score)*float(difficulty.score)*0.6*(1.5 if enemy.last_headshot else 1.0)))
+	var streak := stats.streak()+1
+	var bonus := clampf((streak-2)*0.1,0,1)
+	var reward := maxi(1,roundi((1.0+bonus)*float(enemy.type.score)*float(difficulty.score)*0.6*(1.5 if enemy.last_headshot else 1.0)))
 	if enemy.killer_weapon == "tower": reward = maxi(1,reward/2)
 	var killer: Player = NetSession.world.actor(enemy.killer_peer) if NetSession.is_host() else player
 	if not killer: killer = player
 	killer.add_score(reward)
 	stats.kill(enemy.last_headshot,reward)
+	killer.hud.score_popup(reward,enemy.last_headshot)
+	if streak>=3: killer.hud.streak(streak,roundi(bonus*100))
+	achievements.event("kills")
+	achievements.event("best_streak",stats.best_streak,true)
+	if enemy.last_headshot: achievements.event("headshots")
+	if enemy.killer_weapon=="tower": achievements.event("tower_kills")
+	if enemy.killer_weapon=="melee" or Weapons.is_melee(enemy.killer_weapon): achievements.event("melee_kills")
+	if streak>=10: achievements.event("streak_10")
+	if Zombie.is_titan_kind(enemy.net_kind): achievements.event("titans")
 	progression.peer_event(killer.peer_id,"kills")
 	if enemy.last_headshot: progression.peer_event(killer.peer_id,"headshots")
 	if enemy.net_kind == "brute": progression.peer_event(killer.peer_id,"brutes")
@@ -624,8 +692,7 @@ func ensure_weapons() -> void:
 		weapons = Weapons.new()
 		add_child(weapons)
 		weapons.setup(player,hud,zombies_root)
-		weapons.unlocked.ak47 = true
-		weapons.unlocked.shotgun = true
+
 	weapons.process_mode = Node.PROCESS_MODE_PAUSABLE
 	weapons.viewmodel.show()
 	weapons.viewmodel.viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS

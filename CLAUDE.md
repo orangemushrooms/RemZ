@@ -43,6 +43,18 @@ achievements as a union, high scores merged to the top 10, marker `legacy_import
   tabbed card in `hud.gd` (Briefing, Multiplayer, Difficulty, Controls, Settings, High scores, Achievements, Summary).
 
 ## Code map (`godot/scripts/`)
+
+The Planes uses `planes.gd`, with the shared Forest HUD/inventory/trader controls,
+25-wave catalogue, achievements, brewing and hunting. See `docs/PLANES_PARITY.md`
+for the 28 September corrections and measured performance. `planes_range.gd`
+owns the real Schützenhaus footprint, random woodland key, loot, six target hitboxes
+and personal sniper quest. `planes_navigation.gd` adds a doorway link when it opens.
+`coop_revive_prompt.gd` renews host-timed three-second E holds; protocol 7 requires
+matching clients. Keep host/world-null guards during rematch scene preparation.
+Regressions: `planes_parity`, `planes_gameplay`, `planes_survival`, `downed`,
+`earthworms`, `tools/test_planes_coop.ps1` and `tools/test_multiplayer.ps1`.
+Run the four-peer harness separately from rendered tests to avoid exhausting RAM.
+
 `main.gd` builds the whole world in `_ready` (terrain from the heightmap, road ribbons, forest via `trees.gd`,
 deep-forest blocker, the two huts built from boxes with photo textures, campsite props, pasture fence, clutter,
 foliage) and wires the systems. `map.gd` loads `assets/map/` (see Map) and exposes `ground_height`, cover

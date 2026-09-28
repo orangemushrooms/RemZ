@@ -23,17 +23,27 @@ func build() -> void:
 		for surface in mesh.get_surface_count(): mesh.surface_set_material(surface,material)
 		branch_meshes.append(mesh)
 		source.free()
+	var source_mesh: Mesh = original[0]
+	var root_at := Vector3.ZERO
+	var roots := 0
+	for surface in source_mesh.get_surface_count():
+		for v: Vector3 in source_mesh.surface_get_arrays(surface)[Mesh.ARRAY_VERTEX]:
+			var p: Vector3 = original[1]*v
+			if p.y<bounds.position.y+bounds.size.y*0.025:
+				root_at += p; roots += 1
+	root_at /= maxi(1,roots)
+	root_at.y = bounds.position.y
 	var branches := {}
 	var crowns := {}
 	for i in Map._d.landscape_trees.size():
 		var tree: Array = Map._d.landscape_trees[i]
 		var p := Vector2(tree[0],tree[1])
 		var key := Vector2i(floori(p.x/CELL),floori(p.y/CELL))
-		var at := Map.ground_pos(p.x,p.y)
+		var at := Map.ground_pos(p.x,p.y)-Vector3.UP*0.3
 		var height := float(tree[3])
 		var k := height/bounds.size.y
 		var basis := Basis(Vector3.UP,deg_to_rad(tree[4])).scaled(Vector3(k*1.15,k,k*rng.randf_range(0.9,1.2)))
-		var fit: Transform3D = Transform3D(basis,at-basis*Vector3(bounds.get_center().x,bounds.position.y,bounds.get_center().z))*original[1]
+		var fit: Transform3D = Transform3D(basis,at-basis*root_at)*original[1]
 		if not branches.has(key): branches[key] = []; crowns[key] = []
 		branches[key].append(fit)
 		_crown(at,height,rng,crowns[key])
@@ -41,7 +51,8 @@ func build() -> void:
 		body.position = at
 		var cs := CollisionShape3D.new()
 		var cylinder := CylinderShape3D.new()
-		cylinder.radius = 0.28 if i<5 else 0.38
+		cylinder.radius = clampf(height*0.035,0.32,0.65)
+		body.add_to_group("planes_tree_trunks")
 		cylinder.height = height*0.58
 		cs.position.y = cylinder.height*0.5
 		cs.shape = cylinder

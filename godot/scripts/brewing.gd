@@ -20,7 +20,7 @@ func setup(scene: Node3D) -> void:
 		var site: Vector2 = Map.SMALL_CAMPSITE.pos
 		stations.append(Map.ground_pos(site.x + 0.7, site.y) + Vector3.UP * 0.15)
 	for i in stations.size(): kettles.append(FX.kettle(self, stations[i], i == 0))
-	preload("res://scripts/field_flowers.gd").build(game)
+	if not game.get("nature"): preload("res://scripts/field_flowers.gd").build(game)
 	menu = preload("res://scripts/brewing_menu.gd").new()
 	add_child(menu)
 	menu.setup(self)
@@ -115,7 +115,7 @@ func receive_burst(at: Vector3, kind: String, radius: float) -> void:
 	if Recipes.DRINKS.has(kind): FX.burst(self, at, Recipes.DRINKS[kind].color, radius)
 
 func tick_auras(delta: float) -> void:
-	if NetSession.is_client(): return
+	if NetSession.is_client() or (NetSession.enabled and not NetSession.world): return
 	var actors: Array = NetSession.world.actors.values() if NetSession.is_host() else [game.player]
 	var live := {}
 	for p: Player in actors:

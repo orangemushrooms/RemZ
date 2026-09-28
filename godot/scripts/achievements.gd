@@ -6,6 +6,12 @@ extends CanvasLayer
 const SAVE := "user://achievements.json"
 # id: title, text, counter, target, reward {score, grenades, ammo, hp}
 const DEFS := [
+	{"id":"planes_targets","title":"Range Finder","text":"Hit a Remetschwil shooting target","counter":"planes_targets","target":1,"reward":{"score":25}},
+	{"id":"planes_marksman","title":"Six at 300 Metres","text":"Complete the shooting house sniper challenge","counter":"planes_marksman","target":1,"reward":{"score":100}},
+	{"id":"planes_forager","title":"Field Botanist","text":"Gather 25 flowers and mushrooms in The Planes","counter":"planes_foraged","target":25,"reward":{"score":75}},
+	{"id":"planes_wave5","title":"Open Ground","text":"Survive wave 5 in The Planes","counter":"planes_waves","target":5,"reward":{"score":100}},
+	{"id":"planes_wave15","title":"Hold Your Ground","text":"Survive wave 15 in The Planes","counter":"planes_waves","target":15,"reward":{"score":250}},
+	{"id":"planes_wave25","title":"Master of The Planes","text":"Survive all 25 waves in The Planes","counter":"planes_waves","target":25,"reward":{"score":1000}},
 	{ "id": "hunter", "title": "Hunter", "text": "First wild animal hunted", "counter": "hunted", "target": 1, "reward": { "score": 25 } },
 	{ "id": "hunter_10", "title": "Huntsman", "text": "10 wild animals hunted", "counter": "hunted", "target": 10, "reward": { "score": 60 } },
 	{ "id": "pumpkin", "title": "Pumpkin Smasher", "text": "Shot a pumpkin to pieces", "counter": "pumpkins", "target": 1, "reward": { "score": 25 } },
@@ -258,6 +264,7 @@ func _process(_delta: float) -> void:
 	_explore(player.global_position)
 
 func _explore(p: Vector3) -> void:
+	if Map.active_region!="forest": return
 	if not counters.has("oak") and Vector2(p.x, p.z).distance_to(Map.LANDMARK_OAK) < 9.0:
 		event("oak")
 	if not counters.has("road") and p.x > 100.0:

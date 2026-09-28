@@ -50,12 +50,14 @@ func run() -> void:
 		root.get_texture().get_image().save_png(folder+"knife.png")
 	game.weapons.set_weapon("pistol")
 	await process_frame
-	check(game.hud.cross.get_global_rect().get_center().distance_to(root.get_visible_rect().get_center())<20 and game.hud.health_text.get_global_rect().position.y>root.size.y*0.6,"Combat HUD anchors the crosshair centrally and health above the bottom edge")
+	check(game.hud.crosshair_parts[0].get_global_rect().get_center().distance_to(root.get_visible_rect().get_center())<20 and game.hud.hp_bar.get_global_rect().position.y>root.size.y*0.6,"Combat HUD anchors the crosshair centrally and health above the bottom edge")
 	check(game.nav_region.navigation_mesh.get_polygon_count()>100,"Surveyed terrain has a connected navigation mesh")
 	check(game.progression!=null and game.defences!=null and game.barricades.is_empty(),"Field merchants and defence tools start without a predefined strongpoint")
 	check(game.weapons.unlocked.pistol and not game.weapons.unlocked.ak47 and game.player.score==150,"New survival run starts with pistol and 150 R")
 	game.weapons.unlock("ak47")
 	game.weapons.unlock("shotgun")
+	game.quickbar.bind_item(1,"ak47")
+	game.quickbar.bind_item(2,"shotgun")
 	if not game.survival_active:
 		quit(1)
 		return
@@ -148,6 +150,7 @@ func run() -> void:
 	grenade._explode()
 	check(not blast_target.alive,"Grenade explosion damages enemies without Forest subsystems")
 	await clear_enemies()
+	game.player.revive_protection = 0 # Test lethal damage after the revive grace.
 	game.player.damage(10000)
 	check(game.player.downed,"Lethal damage enters the downed state")
 	game.player.self_revive()
@@ -161,17 +164,25 @@ func run() -> void:
 		if game.waves.queue.is_empty():
 			transitions_ok = false
 			break
-		plans_ok = plans_ok and game.waves.total==roundi((10+number*4)*game.difficulty.count)
+		var reference := Waves.new()
+		reference.main = game
+		plans_ok = plans_ok and game.waves.total==reference.plan(number).size()
+		reference.free()
 		if number%5==0: plans_ok = plans_ok and game.waves.queue.has("brute")
 		game.waves.complete_wave()
 		transitions_ok = transitions_ok and game.waves.completed==number-1
-		var actor: Zombie = game.spawn_enemy(game.waves.queue[0],number)
+		var actor: Zombie
+		for attempt in 12:
+			actor = game.spawn_enemy(game.waves.queue[0],number)
+			if actor: break
+			await physics_frame
 		if not actor:
 			transitions_ok = false
 			break
 		game.waves.queue.clear()
 		game.waves.complete_wave()
 		transitions_ok = transitions_ok and game.waves.completed==number-1
+		if actor is Earthworm: actor._set_phase("exposed",5)
 		actor.damage(100000,Vector3.UP)
 		game.waves.complete_wave()
 		transitions_ok = transitions_ok and game.waves.completed==number
@@ -207,7 +218,7 @@ func run() -> void:
 	residual.sever("LeftArm",Vector3.RIGHT)
 	game.stop_survival()
 	await process_frame
-	check(not paused and game.player.active and not game.survival_active and game.waves==null and game.alive_zombies()==0 and not game.hud.health_text.visible and not game.hud.overlay.visible,"Return to exploration clears combat readouts while preserving shared pause menus")
+	check(not paused and game.player.active and not game.survival_active and game.waves==null and game.alive_zombies()==0 and not game.hud.hp_bar.is_visible_in_tree() and not game.hud.overlay.visible,"Return to exploration clears combat readouts while preserving shared pause menus")
 	check(game.weapons.viewmodel.viewport.render_target_update_mode==SubViewport.UPDATE_DISABLED,"Exploration stops the unused weapon render pass")
 	game._pause()
 	check(paused and game.menu.visible,"Focus-loss pause uses the Planes menu")

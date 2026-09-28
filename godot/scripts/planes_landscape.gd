@@ -75,6 +75,7 @@ func _tile(rect: Rect2, step: int, material: Material, skirt := false) -> void:
 
 func _building_collisions() -> void:
 	for building: Dictionary in Map.VILLAGE:
+		if int(building.osm_id)==118083383: continue
 		var poly := PackedVector2Array()
 		for p in building.poly: poly.append(Vector2(p[0],p[1]))
 		if poly.size()>3 and poly[0]==poly[-1]: poly.remove_at(poly.size()-1)
@@ -90,7 +91,9 @@ func _building_collisions() -> void:
 			var points := PackedVector3Array()
 			for p in part:
 				points.append(Vector3(p.x,base-4,p.y))
-				points.append(Vector3(p.x,base+float(building.get("collision_height",float(building.h)+2)),p.y))
+				# The old solid 2.3 m box covered the shootable panels themselves.
+				var top := 0.55 if building.get("kind","")=="shooting_targets" else float(building.get("collision_height",float(building.h)+2))
+				points.append(Vector3(p.x,base+top,p.y))
 			var shape := ConvexPolygonShape3D.new()
 			shape.points = points
 			var cs := CollisionShape3D.new()

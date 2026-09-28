@@ -14,7 +14,7 @@ const TYPES := ["standard", "flame", "mortar", "mg42", "tesla"]
 const SPECS := {
 	"standard": {"unlock_waves": 0, "name": "Sentinel", "cost": 120, "range": 26.0, "damage": 18.0, "rate": 0.22, "heat": 0.13, "health": 1.0, "info": "Precise bursts"},
 	"flame": {"unlock_waves": 2, "name": "Flamethrower", "cost": 260, "range": 14.0, "damage": 14.0, "rate": 0.12, "heat": 0.035, "health": 1.2, "info": "Cone of fire hits several enemies"},
-	"mortar": {"unlock_waves": 4, "name": "Mortar", "cost": 380, "range": 60.0, "damage": 210.0, "rate": 2.8, "heat": 0.2, "health": 1.4, "info": "Arcing shot · 6 m blast radius"},
+	"mortar": {"unlock_waves": 4, "name": "Mortar", "cost": 380, "range": 120.0, "damage": 210.0, "rate": 2.8, "heat": 0.2, "health": 1.4, "info": "Arcing shot · 12 m blast radius"},
 	"mg42": {"unlock_waves": 6, "name": "Heavy MG", "cost": 450, "range": 44.0, "damage": 27.0, "rate": 0.085, "heat": 0.055, "health": 1.6, "info": "High rate of fire · watch the heat"},
 	"tesla": {"unlock_waves": 8, "name": "Tesla Coil", "cost": 600, "range": 22.0, "damage": 75.0, "rate": 0.9, "heat": 0.16, "health": 1.8, "info": "Chain lightning jumps to nearby enemies"},
 }

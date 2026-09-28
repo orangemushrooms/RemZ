@@ -45,6 +45,9 @@ func prepare_intro() -> void:
 func setup(node: Node3D) -> void:
 	game = node
 	planes = game.get("field_building") != null
+	var revive_prompt := preload("res://scripts/coop_revive_prompt.gd").new()
+	game.hud.add_child(revive_prompt)
+	revive_prompt.setup(self)
 	var i := 0
 	for loot in game.loots:
 		if not is_instance_valid(loot): continue
@@ -259,8 +262,9 @@ func action(id: int, operation: String, args: Array) -> void:
 			var error: String = game.defences.rotate_tower(p, args[0], args[1], args.size() == 3 and bool(args[2]))
 			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"tower_move":
-			if args.size() != 2 or not args[0] is int or not args[1] is Vector3 or not args[1].is_finite(): return
-			var error: String = game.defences.relocate(p, args[0], args[1])
+			if args.size() not in [2,3] or not args[0] is int or not args[1] is Vector3 or not args[1].is_finite(): return
+			if args.size()==3 and (not args[2] is float or not is_finite(args[2])): return
+			var error: String = game.defences.relocate(p,args[0],args[1],args[2] if args.size()==3 else NAN)
 			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.0])
 		"tower_place":
 			if args.size() not in [1, 2, 3, 4] or not args[0] is Vector3 or not args[0].is_finite(): return
@@ -312,8 +316,14 @@ func action(id: int, operation: String, args: Array) -> void:
 		"eat":
 			if args.size() == 1 and args[0] is String: eat(id, args[0])
 		"revive":
-			if args.size() == 1 and args[0] is int and actors.has(args[0]) and args[0] != id and (not actor(args[0]).alive or actor(args[0]).downed):
-				revive[id] = {"target": args[0], "time": 0.0}
+			if args.size()!=2 or not args[0] is int or not args[1] is bool: return
+			if not args[1]:
+				if revive.has(id) and int(revive[id].target)==int(args[0]): revive.erase(id)
+				return
+			var target: Player = actor(args[0])
+			if not target or target==p or p.downed or not p.active or (target.alive and not target.downed) or p.position.distance_to(target.position)>2.5 or not _visible(p,target.position+Vector3.UP): return
+			if not revive.has(id) or int(revive[id].target)!=int(args[0]): revive[id] = {"target":args[0],"time":0.0}
+			revive[id].lease = 0.7
 		"self_revive":
 			# hold E while down: the host runs the clock of the hold
 			if args.size() != 1 or not args[0] is bool: return
@@ -516,6 +526,10 @@ func tick(delta: float) -> void:
 				if p.hold_self_revive(delta): revive.erase(id)
 				continue
 			if not p or not p.alive or p.downed or not target or (target.alive and not target.downed) or p.global_position.distance_to(target.global_position) > 2.5 or not _visible(p, target.global_position + Vector3.UP):
+				revive.erase(id)
+				continue
+			revive[id].lease = float(revive[id].get("lease",0))-delta
+			if revive[id].lease<=0 or not p.active:
 				revive.erase(id)
 				continue
 			revive[id].time += delta
@@ -734,7 +748,7 @@ func snapshot() -> Dictionary:
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
-	return {"field_building": game.field_building.snapshot() if planes else [], "brewing": (game.brewing.snapshot() if game.get("brewing") else {}), "maze_caches": maze_caches, "hunting": (game.hunting.snapshot() if game.get("hunting") else {}), "leaderboard": game.stats.players.duplicate(true), "fireworks": (game.fireworks.snapshot() if game.get("fireworks") else {}), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": (game.drones.snapshot() if game.get("drones") else {}), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"reviving":revive.duplicate(true), "shooting_range":game.shooting_range.snapshot() if planes else {}, "field_building": game.field_building.snapshot() if planes else [], "brewing": (game.brewing.snapshot() if game.get("brewing") else {}), "maze_caches": maze_caches, "hunting": (game.hunting.snapshot() if game.get("hunting") else {}), "leaderboard": game.stats.players.duplicate(true), "fireworks": (game.fireworks.snapshot() if game.get("fireworks") else {}), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": (game.drones.snapshot() if game.get("drones") else {}), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"secret_night": (game.secret_night.snapshot() if game.get("secret_night") else {}), "field_trials": (game.field_trials.snapshot() if game.get("field_trials") else {}),
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"sandbags": sandbag_states, "purse": purse, "fortune": game.fortune.snapshot() if game.fortune else [],
@@ -769,6 +783,8 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	for i in mini(pumpkin_states.size(), game.pumpkins.size()):
 		if pumpkin_states[i]: game.pumpkins[i].shatter(not initial)
 	if initial: NetSession.trace_load("STATE_STAGE structures")
+	if planes: game.shooting_range.apply_snapshot(data.get("shooting_range",{}))
+	if NetSession.is_client(): revive = data.get("reviving",{}).duplicate(true)
 	game.defences.apply_snapshot(data.get("towers", {}), initial)
 	if game.get("drones"): game.drones.apply_snapshot(data.get("drones", {}), initial)
 	game.progression.apply_snapshot(data.get("progression", {}), initial)
@@ -799,7 +815,9 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		if previous_tower!=p.mounted_tower:
 			p.set_crouching(p.mounted_tower!=0,false)
 			p.head.position.y = Player.CROUCH_EYE if p.mounted_tower else Player.EYE
+		var score_gain := int(s.score)-p.score
 		p.score = s.score
+		if id==NetSession.local_id() and not initial and game.progression.is_open and score_gain>0: game.progression.show_gain(score_gain)
 		p.speed_mul = s.speed
 		p.regen_mul = s.regen
 		p.mushroom_effects = s.get("effects", {}).duplicate()

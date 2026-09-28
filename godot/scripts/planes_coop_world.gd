@@ -32,19 +32,27 @@ func action(id: int, operation: String, args: Array) -> void:
 	if not p or not p.alive or p.downed:
 		if operation in ["self_revive","revive"]: super.action(id,operation,args)
 		return
+	if operation=="range":
+		if args.size()!=1 or not args[0] is String: return
+		NetSession.feedback(id,"message",[game.shooting_range.transact(p,args[0]),4.0])
+		NetSession._sequence += 1
+		if id!=1: NetSession.send_reliable_state(id,false)
+		return
 	if operation=="planes":
 		if args.size()!=2 or not args[0] is String or not args[1] is Array: return
 		var result: String = game.progression.authoritative_action(p,str(args[0]),args[1])
-		NetSession.feedback(id,"message",[result,2.5])
+		if not result.is_empty(): NetSession.feedback(id,"message",[result,2.5])
 		NetSession._sequence += 1
 		if id!=1: NetSession.send_reliable_state(id,false)
 		else: game.quickbar.refresh()
 		return
 	# Only systems present on this map may receive commands.
-	if operation not in ["teleport","fire","weapon","reload","melee","grenade","revive","self_revive","next_wave","tower_place","tower_rotate","tower_move","tower_mount","tower_exit","tower_control","tower_upgrade","tower_repair","tower_sell","drop_cash"]: return
+	if operation not in ["hunting","brewing","eat","teleport","fire","weapon","reload","melee","grenade","revive","self_revive","next_wave","tower_place","tower_rotate","tower_move","tower_mount","tower_exit","tower_control","tower_upgrade","tower_repair","tower_sell","drop_cash"]: return
 	super.action(id,operation,args)
 
 func _close_local_menus() -> void:
+	if game.inventory.is_open: game.inventory.close()
+	if game.brewing.menu.is_open: game.brewing.menu.close()
 	game.field_building.cancel()
 	game.defences.close()
 	game.progression.close()

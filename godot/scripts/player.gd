@@ -13,7 +13,7 @@ signal got_up
 const DOWN_SECONDS := 25.0
 const DOWN_SPEED := 0.4
 const SELF_REVIVE_HOLD := 4.0
-const SELF_REVIVE_HP := 40.0
+const SELF_REVIVE_HP := 65.0
 const HIT_BLEED := 0.12            # seconds of bleed-out lost per point of damage while down
 
 const WALK_SPEED := 4.4
@@ -96,6 +96,7 @@ var controlling_drone := 0
 var downed := false
 var spectating := false    # the camera follows a teammate (coop_world): WASD and the mouse are theirs
 var down_time := 0.0
+var revive_protection := 0.0
 var self_revives := 1              # self revives left this wave
 var revive_hold := 0.0             # seconds E has been held while down (local player)
 var marked_t := 0.0                # a screamer's mark: the whole horde knows where this player is
@@ -216,6 +217,7 @@ func _update_camera_motion(fraction: float) -> void:
 	camera.position += _camera_motion_offset
 
 func _physics_process(delta: float) -> void:
+	revive_protection = maxf(0,revive_protection-delta)
 	_restore_camera_motion()
 	_motion_ready = false
 	_motion_from = global_position
@@ -354,6 +356,8 @@ func go_down() -> void:
 	went_down.emit()
 
 func revive(new_hp: float) -> void:
+	revive_protection = 4.0
+	new_hp = maxf(new_hp,max_hp*0.65)
 	if not alive: alive = true
 	if not downed:
 		hp = maxf(hp, new_hp)
@@ -428,6 +432,7 @@ func _barricade_ahead() -> bool:
 	return not get_world_3d().direct_space_state.intersect_ray(q).is_empty()
 
 func damage(n: float, from: Vector3 = Vector3.INF) -> void:
+	if revive_protection>0: return
 	if NetSession.is_client():
 		return
 	if NetSession.enabled and NetSession.class_roster.has(peer_id) and not NetSession.class_roster[peer_id].get("locked", false): return
@@ -511,6 +516,7 @@ func _surface_step() -> String:
 	if field and field.in_corn(Vector2(x, z)):
 		return "corn"
 	if Map.in_building(x, z):
+		if Map.active_region=="planes": return "wood"
 		# the Waldhuette's upper room has a plank floor 2.65 m above the garage slab; everything else is concrete
 		var hut: Dictionary = Map.BUILDINGS["waldhuette"]
 		var hp: Vector2 = hut["pos"]

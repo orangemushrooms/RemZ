@@ -172,6 +172,32 @@ func run() -> void:
 	ancient._set_phase("burrow", 9)
 	game.waves.phase = "spawning"
 	check(game.waves.skip_current_wave() and not ancient.alive, "Skip-wave also completes with a fully underground worm")
+	for actor: Earthworm in [worm,ancient]:
+		actor._fade_t = 0 # Observe the fall before the next-wave corpse cleanup.
+		actor.anim.advance(actor.anim.get_animation("death").length)
+		for frame in 210: actor._physics_process(1.0/60.0)
+		var settled: Transform3D = actor.model.transform
+		for frame in 120: actor._physics_process(1.0/60.0)
+		check(actor.model.transform.is_equal_approx(settled),"Dead worm settles without endless sinking or extra root rotation: "+actor.net_kind)
+		var corpse_rig := actor.model.find_child("Skeleton3D",true,false) as Skeleton3D
+		corpse_rig.force_update_all_bone_transforms()
+		var corpse_head := corpse_rig.to_global(corpse_rig.get_bone_global_pose(corpse_rig.get_bone_count()-1).origin)
+		check(corpse_head.y-actor.position.y<actor.height*0.4,"Dead worm's head lies near the ground instead of remaining upright: "+actor.net_kind)
+		# Clients with decals disabled do not advance Zombie.dead_t. Their fall
+		# still has to finish using the worm's independent animation clock.
+		actor.replica = true
+		actor.net_position = actor.global_position
+		actor.net_yaw = actor.rotation.y
+		actor._pool_complete = true
+		actor.dead_t = 0.0
+		actor._fall_time = 0.0
+		actor.model.position.y = -actor.burial_depth()
+		for frame in 210: actor._physics_process(1.0/60.0)
+		check(actor.dead_t==0.0 and is_equal_approx(actor.model.position.y,actor._corpse_floor),"Client corpse settles even without blood decal updates: "+actor.net_kind)
+	if "--render-worms" in OS.get_cmdline_user_args():
+		game.player.camera.look_at(Map.ground_pos(3,126)+Vector3.UP*1.2)
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png(ProjectSettings.globalize_path("res://../artifacts/earthworms-death.png"))
 	game.waves.set_process(false)
 	var report_path := ProjectSettings.globalize_path("res://../artifacts/earthworm-balance.json")
 	DirAccess.make_dir_recursive_absolute(report_path.get_base_dir())

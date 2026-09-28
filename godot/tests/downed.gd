@@ -60,15 +60,22 @@ func run() -> void:
 	check(not game.hud.downed_panel.visible, "The down panel is gone")
 	# ---- the wave end restores the self revive and gets a downed player up
 	game.waves.wave = 1
+	game.waves.phase = "spawning"
 	game.waves._complete_wave()
 	check(player.self_revives == 1, "A cleared wave restores the self revive")
+	check(player.revive_protection>0,"Brief protection after standing up")
+	player.damage(500.0)
+	check(not player.downed,"Immediate follow-up hit cannot down the revived player")
+	player.revive_protection = 0 # Four-second grace elapsed.
 	player.damage(500.0)
 	check(player.downed, "Down again in the next wave (down %s alive %s hp %.1f)" % [str(player.downed), str(player.alive), player.hp])
 	game.waves.wave = 2
+	game.waves.phase = "spawning"
 	game.waves._complete_wave()
-	check(not player.downed and player.hp == player.max_hp * 0.5, "A wave cleared while down gets the player up with half health")
+	check(not player.downed and player.hp >= player.max_hp * 0.65, "A wave cleared while down gets the player up with at least 65 percent health")
 	# ---- without a self revive left the clock runs out into death
 	player.self_revives = 0
+	player.revive_protection = 0
 	player.damage(500.0)
 	check(player.downed and player.self_revives == 0, "Down with no self revive left")
 	Input.action_press("interact")

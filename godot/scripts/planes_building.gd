@@ -115,11 +115,11 @@ func placement_error(at: Vector3, angle: float, builder: Player = null) -> Strin
 		if npc.position.distance_to(at)<5: return "Keep the traders accessible."
 	if at.distance_to(Map.ground_pos(18,11))<3: return "Keep the campfire clear."
 	for bar in game.barricades:
-		if bar.distance_to_line(at)<1.8: return "Too close to another fortification."
+		if not Geometry2D.intersect_polygons(footprint(at,angle),footprint(bar.position,bar.rotation.y)).is_empty(): return "Too close to another fortification."
 	for tower in game.defences.towers.values():
 		if tower.position.distance_to(at)<3: return "Keep tower access clear."
 	var shape := BoxShape3D.new()
-	shape.size = Vector3(3.4,1.2,0.7)
+	shape.size = Vector3(3.1,1.2,0.46)
 	var query := PhysicsShapeQueryParameters3D.new()
 	query.shape = shape
 	query.transform = Transform3D(Basis(Vector3.UP,angle),at+Vector3.UP*0.9)
@@ -189,6 +189,9 @@ func upgrade_bar(index: int, builder: Player = null) -> String:
 	return "Fortification upgraded."
 
 func _unhandled_input(event: InputEvent) -> void:
+	if placing and event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
+		yaw += deg_to_rad(15)*(1 if event.button_index==MOUSE_BUTTON_WHEEL_UP else -1)
+		get_viewport().set_input_as_handled(); return
 	if not game or not game.survival_active or game.over or game.player.downed or game.player.mounted_tower: return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode==KEY_B and not game.progression.is_open and not game.defences.is_open and not game.defences.placing:
@@ -215,13 +218,13 @@ func _process(_delta: float) -> void:
 		error = "Look at nearby ground."
 		ghost.hide()
 	else:
-		point = hit.position
+		point = snap(hit.position)
 		error = placement_error(point,yaw)
 		ghost.position = point+Vector3.UP*0.7
 		ghost.rotation.y = yaw
 		ghost.show()
 		material.albedo_color = Color(0.2,1,0.55,0.35) if error.is_empty() else Color(1,0.2,0.15,0.35)
-	game.hud.set_prompt("[E] Place · [R] Rotate · [Esc] Cancel" if error.is_empty() else error)
+	game.hud.set_prompt("[E] Place · [Wheel / R] Rotate · [Esc] Cancel" if error.is_empty() else error)
 
 func upgrade_id(id: String, builder: Player) -> String:
 	for index in game.barricades.size():
@@ -252,3 +255,19 @@ func apply_snapshot(states: Array) -> void:
 		existing.erase(id)
 	for bar: Barricade in existing.values(): bar.queue_free()
 	game.barricades.assign(ordered)
+
+static func footprint(at: Vector3, angle: float) -> PackedVector2Array:
+	var result := PackedVector2Array()
+	for p in [Vector3(-1.55,0,-0.22),Vector3(1.55,0,-0.22),Vector3(1.55,0,0.22),Vector3(-1.55,0,0.22)]:
+		var q: Vector3 = at+p.rotated(Vector3.UP,angle)
+		result.append(Vector2(q.x,q.z))
+	return result
+
+func snap(at: Vector3) -> Vector3:
+	for bar: Barricade in game.barricades:
+		for side in [-1,1]:
+			var end := bar.position+Vector3(side*3.2,0,0).rotated(Vector3.UP,bar.rotation.y)
+			if Vector2(at.x,at.z).distance_to(Vector2(end.x,end.z))<0.7:
+				yaw = bar.rotation.y
+				return Map.ground_pos(end.x,end.z)
+	return at

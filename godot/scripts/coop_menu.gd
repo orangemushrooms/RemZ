@@ -25,6 +25,8 @@ var start_button: Button
 var state_label: Label
 var players_label: Label
 var hint_label: Label
+var roster_cards: VBoxContainer
+var roster_signature := ""
 var class_picker: OptionButton
 var lock_class_button: Button
 var hud: Hud
@@ -90,6 +92,9 @@ func setup(owner_hud: Hud) -> void:
 	add_child(state_label)
 	players_label = hud._label("", 15)
 	add_child(players_label)
+	roster_cards = VBoxContainer.new()
+	roster_cards.add_theme_constant_override("separation",4)
+	add_child(roster_cards)
 	start_button = hud._menu_button("Start co-op", true)
 	start_button.pressed.connect(func(): hud.show_map_selection())
 	add_child(start_button)
@@ -273,12 +278,7 @@ func refresh() -> void:
 	if NetSession.enabled and NetSession.transport == "eos" and not NetSession.join_code.is_empty(): code_edit.text = NetSession.join_code
 	state_label.text = NetSession.status if loaded else "Preparing the map …"
 	if loaded and playing and not NetSession.enabled: state_label.text = "Return to the main menu first to host or join a game."
-	var lines: Array[String] = []
-	for id in NetSession.roster:
-		var entry: Dictionary = NetSession.class_roster.get(id, {})
-		var class_id: String = entry.get("id", "gunslinger")
-		lines.append(Lang.t("%s · %s · Level %d · %s", [Lang.raw(NetSession.roster[id]), NetSession.CharacterClasses.CLASSES[class_id].name, int(entry.get("level", 1)), "LOCKED" if entry.get("locked", false) else "Choose class"]) + " · " + Lang.t("ready" if NetSession.ready_peers.get(id, false) else "loading …"))
-	players_label.text = Lang.t("Players: %d / 4\n%s", [lines.size(), "\n".join(lines)]) if NetSession.enabled else ""
+	refresh_roster_cards()
 	start_button.visible = NetSession.is_host() and NetSession.phase == "lobby"
 	start_button.disabled = not loaded or false in NetSession.ready_peers.values()
 	for entry in NetSession.class_roster.values():
@@ -298,3 +298,25 @@ func _process(delta: float) -> void:
 	if _refresh_t >= 0.5:
 		_refresh_t = 0.0
 		refresh()
+
+func refresh_roster_cards() -> void:
+	var signature := str([NetSession.enabled,NetSession.roster,NetSession.class_roster,NetSession.ready_peers])
+	if signature==roster_signature: return
+	roster_signature = signature
+	for child in roster_cards.get_children(): roster_cards.remove_child(child); child.queue_free()
+	players_label.text = Lang.t("Players: %d / 4",[NetSession.roster.size()]) if NetSession.enabled else ""
+	if not NetSession.enabled: return
+	for peer in NetSession.roster:
+		var entry: Dictionary = NetSession.class_roster.get(peer,{})
+		var id: String = entry.get("id","gunslinger")
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation",12)
+		roster_cards.add_child(row)
+		var icon := preload("res://scripts/class_icon.gd").new()
+		icon.class_id = id
+		icon.custom_minimum_size = Vector2(42,42)
+		row.add_child(icon)
+		var label := hud._label(Lang.t("%s · %s · Level %d",[Lang.raw(NetSession.roster[peer]),NetSession.CharacterClasses.CLASSES[id].name,int(entry.get("level",1))]),15)
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(label)
+		row.add_child(hud._label("READY" if entry.get("locked",false) and NetSession.ready_peers.get(peer,false) else "Choose class",13,Hud.GOLD))

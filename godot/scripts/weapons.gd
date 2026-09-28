@@ -34,7 +34,7 @@ const DEFS := {
 		"pos": Vector3(0.25, -0.27, -0.64), "ads": Vector3(0, -0.16, -0.46), "kick_pitch": 2.0, "kick_yaw": 1.4, "kick_back": 0.085, "recover": 7.0},
 	"breacher": {"name": "Nightbreaker 12", "model": "breacher", "height": 0.20, "mag": 8, "reserve": 24, "damage": 25.0, "rate": 0.5, "reload": 3.3, "pellets": 9, "spread": 0.075, "range": 25.0, "auto": false, "sfx": "shotgun", "sfx_db": -6.0,
 		"pos": Vector3(0.24, -0.24, -0.6), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 8.5, "kick_yaw": 2.2, "kick_back": 0.19, "recover": 4.8},
-	"titanbreaker": {"name": "Titanbreaker .50", "scope_zoom": 4.0, "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 12, "damage": 420.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
+	"titanbreaker": {"name": "Titanbreaker .50", "scope_zoom": 4.0, "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 12, "damage": 840.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
 		"pos": Vector3(0.24, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.48), "kick_pitch": 12.0, "kick_yaw": 1.6, "kick_back": 0.23, "recover": 3.2},
 	# --- Erweiterung September 2026: zwei Pistolen, zwei MPs, zwei Praezisionswaffen, zwei schwere ---
 	# Optionale Felder neben den 19 Pflichtfeldern: "special" (Mechanik, siehe weapon_specials.gd),
@@ -549,6 +549,10 @@ func try_fire() -> void:
 			if hit.collider is Breakable:
 				(hit.collider as Breakable).shatter()
 				scene.achievements.event("window")
+				break
+			if scene.get("shooting_range") and scene.shooting_range.hit(hit.collider,player.peer_id,current):
+				hud.hitmarker(false)
+				any_hit = true
 				break
 			if scene.get("hunting") and scene.hunting.hit(hit.collider, float(d.damage) * effective_damage_mul(), player.peer_id):
 				_blood(hit.position, dir)

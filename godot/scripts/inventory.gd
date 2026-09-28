@@ -251,6 +251,11 @@ func _slot(title: String, sub: String, color: Color, detail: String, on_click: C
 		b.add_child(bar)
 	grid.add_child(b)
 
+func _equip(id: String) -> void:
+	if main.get("fireworks"): main.fireworks.cancel()
+	weapons.set_weapon(id)
+	_refresh()
+
 func _refresh() -> void:
 	active_label.text = Mushrooms.summary(player.mushroom_effects)
 	active_label.visible = not active_label.text.is_empty()
@@ -270,7 +275,7 @@ func _refresh() -> void:
 		var st = main.stats
 		stats_label.text = Lang.t("This round: %d kills · %d headshots · accuracy %d%% · streak %d", [st.kills, st.headshots, int(round(st.accuracy() * 100.0)), st.best_streak])
 	_slot_category = 2
-	for id in Fireworks.DEFS:
+	for id in (Fireworks.DEFS if main.get("fireworks") else {}):
 		var spec: Dictionary = Fireworks.DEFS[id]
 		var amount: int = main.fireworks.stock(player.peer_id)[id]
 		if amount <= 0: continue
@@ -300,7 +305,7 @@ func _refresh() -> void:
 		if Weapons.is_melee(id):
 			var detail := Lang.t("%s · %d damage per hit · %.2f s between hits · %.2f m range. No ammo. Attack: left click or H.", [d.name, roundi(float(d.damage) * weapons.effective_damage_mul()), d.rate, d.range])
 			detail += "\n" + Lang.t("Right click: %d damage, %.2f s recovery, %.2f m range.", [roundi(float(d.stab_damage) * weapons.effective_damage_mul()), d.stab_rate, d.stab_range])
-			_slot(Lang.t("%s  ●", [d.name]) if eq else d.name, "Melee · Equip", Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45), detail, func(): main.fireworks.cancel(); weapons.set_weapon(id); _refresh(), 1.0, id, id)
+			_slot(Lang.t("%s  ●", [d.name]) if eq else d.name, "Melee · Equip", Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45), detail, func(): _equip(id), 1.0, id, id)
 			continue
 		var per_second := 1.0 / maxf(0.01, float(d["rate"]))
 		var dps := float(d["damage"]) * float(d["pellets"]) * per_second * weapons.effective_damage_mul()
@@ -310,7 +315,7 @@ func _refresh() -> void:
 		detail += "\n" + Weapons.Mods.summary(weapons.mod_loadout.get(id, {}))
 		if d.has("pierce_targets"): detail += "\n" + Weapons.piercing_description(id, d)
 		_slot(Lang.t("%s  ●", [d["name"]]) if eq else d["name"], Lang.t("%d / %d  ·  Equip", [s["ammo"], s["reserve"]]), Color(1.0, 0.7, 0.28) if eq else Color(0.5, 0.5, 0.45),
-			detail, func(): main.fireworks.cancel(); weapons.set_weapon(id); _refresh(), fill, id, id)
+			detail, func(): _equip(id), fill, id, id)
 	if weapons.grenades > 0:
 		_slot("Grenades", Lang.t("%d owned  ·  Key G", [weapons.grenades]), Color(0.4, 0.5, 0.35), Lang.t("Hand grenades: 2.6 s fuse, 7 m radius, 260 damage at the center. Throw with G. Pouch limit: %d. Restock at Vendor or from fallen zombies.", [weapons.grenades_max]), func(): pass, float(weapons.grenades) / maxf(1.0, weapons.grenades_max), "grenade", "grenade")
 	_slot_category = 3
@@ -354,6 +359,10 @@ func _refresh() -> void:
 			var detail := Lang.t("Key for the %s. Stays with you and opens every door of this hut.", [ForestKeys.KEYS[key_id]]) if found else Lang.t("Key for the %s. A rare find in the forest – not there in every run. Nearby, a hint and a direction arrow help.", [ForestKeys.KEYS[key_id]])
 			_slot(Lang.t("Key: %s", [ForestKeys.KEYS[key_id]]), "Found" if found else "Not found yet", Color(0.95, 0.73, 0.32) if found else Color(0.3, 0.3, 0.3), detail, func(): info.text = detail, -1, "key")
 
+	if main.get("shooting_range"):
+		var found: bool = main.shooting_range.key_owned
+		var detail := "Opens the Schützenhaus. Look for the key on a stump in the woodland; new chances each night."
+		_slot("Key: Schützenhaus", "Found" if found else "Not found yet", Color(0.95,0.73,0.32) if found else Color(0.3,0.3,0.3),detail,func(): info.text = detail,-1,"key")
 	_sort_slots()
 	empty_label.visible = grid.get_child_count() == 0
 	empty_label.text = "No items." if category_filter == 0 else Lang.t("No items in the %s category.", [CATEGORIES[category_filter]])
