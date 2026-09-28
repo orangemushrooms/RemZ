@@ -7,6 +7,8 @@ uniform sampler2D gravel : source_color, filter_linear_mipmap_anisotropic, repea
 uniform sampler2D soil : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform sampler2D litter : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform sampler2D gravel_normal : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D asphalt : source_color, filter_linear_mipmap_anisotropic, repeat_enable;
+uniform sampler2D asphalt_normal : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform vec2 origin;
 uniform vec2 size;
 varying vec2 world;
@@ -23,7 +25,7 @@ void fragment() {
  // Most pixels use just one layer. Keep the exact mask blends at borders,
  // but avoid fetching gravel, litter and soil over an ordinary meadow.
  vec3 earth = vec3(0.0);
- if (crop.r > 0.0 || crop.g > 0.0 || cover.r > 0.0 || crop.b > 0.0) {
+ if (crop.r > 0.0 || crop.g > 0.0 || cover.r > 0.0) {
   earth = textureGrad(soil,world*0.32,dx*0.32,dy*0.32).rgb;
  }
  vec3 grass = vec3(0.0);
@@ -48,9 +50,16 @@ void fragment() {
  }
  ALBEDO = mix(grass,woodland,cover.r);
  ALBEDO = mix(ALBEDO,stones,cover.b);
- ALBEDO = mix(ALBEDO,vec3(0.17,0.18,0.17)*(0.8+earth.r),crop.b);
+ vec3 road_normal = vec3(0.5,0.5,1.0);
+ if (crop.b > 0.0) {
+  vec3 road = textureGrad(asphalt,world*0.4,dx*0.4,dy*0.4).rgb;
+  float aggregate = dot(road,vec3(0.299,0.587,0.114));
+  ALBEDO = mix(ALBEDO,vec3(aggregate)*vec3(0.53,0.55,0.56),crop.b);
+  road_normal = textureGrad(asphalt_normal,world*0.4,dx*0.4,dy*0.4).rgb;
+ }
  ALBEDO *= mix(1.0,0.65,remz_wetness);
  NORMAL_MAP = mix(vec3(0.5,0.5,1.0),stone_normal,cover.b*0.55);
- ROUGHNESS = 0.94;
- SPECULAR = 0.15;
+ NORMAL_MAP = mix(NORMAL_MAP,mix(vec3(0.5,0.5,1.0),road_normal,0.22),crop.b);
+ ROUGHNESS = mix(0.94,mix(0.87,0.53,remz_wetness),crop.b);
+ SPECULAR = mix(0.15,0.25,crop.b);
 }

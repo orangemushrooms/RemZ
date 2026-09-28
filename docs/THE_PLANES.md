@@ -1,5 +1,18 @@
 # The Planes – Remetschwil
 
+### Sennhofstrasse surface correction
+
+The user confirmed the northern village-edge Sennhofstrasse, separate from the
+gravel track through the fields. Its cached OSM tertiary sections now use a
+6 m two-way asphalt carriageway (authored width; the source has no width tag).
+Terrain, crop exclusion and minimap share the widened road mask/data. Existing
+asphalt albedo and normal textures replace the former flat soil-tinted surface,
+with a restrained wet-weather response and no extra road meshes/draw calls.
+The field tracks retain gravel. Three trees in the widened eastern roadside are
+removed; all retained foreground tree positions and terrain heights are preserved.
+Rendered dry/wet views are in `artifacts/planes/road/`. Simultaneous gameplay in
+another RemZ process prevents a reliable FPS comparison for this small correction.
+
 ## Survival release, 28 September 2026
 
 Publication is now explicitly authorised. The historical publication holds below

@@ -12,7 +12,7 @@ func build() -> void:
 	mat.set_shader_parameter("origin", Map.extent().position)
 	mat.set_shader_parameter("size", Map.extent().size+Vector2.ONE)
 	mat.set_shader_parameter("litter",load("res://assets/textures/leaves_albedo.jpg"))
-	for pair in [["meadow","ph_meadow_albedo"],["gravel","ph_gravel_albedo"],["soil","ph_forestfloor_albedo"],["gravel_normal","ph_gravel_normal"]]:
+	for pair in [["meadow","ph_meadow_albedo"],["gravel","ph_gravel_albedo"],["soil","ph_forestfloor_albedo"],["gravel_normal","ph_gravel_normal"],["asphalt","ph_asphalt_albedo"],["asphalt_normal","ph_asphalt_normal"]]:
 		mat.set_shader_parameter(pair[0], load("res://assets/textures/%s.jpg" % pair[1]))
 	var ext := Map.extent()
 	for z in range(int(ext.position.y),int(ext.end.y),64):

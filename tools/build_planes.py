@@ -108,6 +108,12 @@ def main():
             gravel = tags["highway"] in ["track","path","footway"]
             width = 3.2 if tags["highway"]=="track" else 1.6 if gravel else 4.5
             if item["id"] == 54857308: width = 3.4
+            # The village-to-Sennhof through road is distinct from the narrow
+            # field tracks. Six metres is an authored two-way carriageway width,
+            # not a surveyed OSM width (the cached source has no width tag).
+            if tags.get("name") == "Sennhofstrasse" and tags["highway"] == "tertiary":
+                gravel = False
+                width = 6.0
             roads.append({"osm_id":item["id"],"name":tags.get("name","Feldweg" if gravel else "Strasse"),
                           "surface":"gravel" if gravel else "asphalt","width":width,"pts":poly})
         # User reference: omit the isolated generic house north of Sennhof in Planes only.
@@ -121,6 +127,8 @@ def main():
     annotate_target_stand(buildings)
     road_image = Image.new("L",(W*2,H*2))
     asphalt_image = Image.new("L",road_image.size)
+    # Preserve the established vegetation RNG sequence when widening a road.
+    tree_road_image = Image.new("L",road_image.size)
     for road in roads:
         target = asphalt_image if road["surface"]=="asphalt" else road_image
         draw = ImageDraw.Draw(target)
@@ -129,8 +137,14 @@ def main():
         draw.line(points,fill=255,width=width,joint="curve")
         for x,z in points:
             draw.ellipse((x-width/2,z-width/2,x+width/2,z+width/2),fill=255)
+        if road["surface"] == "asphalt":
+            seed_draw = ImageDraw.Draw(tree_road_image)
+            seed_draw.line(points,fill=255,width=9,joint="curve")
+            for x,z in points:
+                seed_draw.ellipse((x-4.5,z-4.5,x+4.5,z+4.5),fill=255)
     gravel = np.asarray(road_image.filter(ImageFilter.GaussianBlur(.65)))/255.
     asphalt = np.asarray(asphalt_image.filter(ImageFilter.GaussianBlur(.45)))/255.
+    tree_asphalt = np.asarray(tree_road_image.filter(ImageFilter.GaussianBlur(.45)))/255.
     wooded = np.zeros_like(gravel)
     for poly in HEDGES+woods: wooded = np.maximum(wooded,mask(poly))
     cover = np.stack([wooded*(1-gravel)*(1-asphalt),(1-wooded)*(1-gravel)*(1-asphalt),gravel],axis=2)
@@ -156,9 +170,10 @@ def main():
         for x in range(X0+4,X1,6):
             px,pz = x+rng.uniform(-2,2),z+rng.uniform(-2,2)
             i,j = int((px-X0)*2),int((pz-Z0)*2)
-            if wooded[j,i]<.5 or gravel[max(0,j-7):j+8,max(0,i-7):i+8].max()>.1 or asphalt[j,i]>.1:
+            if wooded[j,i]<.5 or gravel[max(0,j-7):j+8,max(0,i-7):i+8].max()>.1 or tree_asphalt[j,i]>.1:
                 continue
-            trees.append([round(px,2),round(pz,2),"tree_leaf",round(float(rng.uniform(11,18)),2),float(rng.uniform(0,360))])
+            tree = [round(px,2),round(pz,2),"tree_leaf",round(float(rng.uniform(11,18)),2),float(rng.uniform(0,360))]
+            if asphalt[j,i]<=.1: trees.append(tree)
     for item in elements:
         if item.get("tags",{}).get("natural")=="tree" and "lat" in item:
             x,z = local(item)
