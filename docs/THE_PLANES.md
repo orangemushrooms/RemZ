@@ -10,6 +10,13 @@ assignment. The clock pauses with gameplay; music continues as in Forest.
 `--suite=planes_atmosphere` covers these integrations; `--render-atmosphere`
 also saves noon and night screenshots.
 
+Class progression uses Forest's `class_progression.gd`, `character_hud.gd` and
+the existing `CharacterProfile` save. Kills, completed waves, mission completion,
+deaths and claimed field quests update the same selected class; field quest IDs
+use a `planes:` prefix. Retry resets reward guards, not the profile. Exploration
+stops the class session. `--suite=planes_xp` verifies leveling, duplicate reward
+guards, retry, isolated disk persistence and returning to Forest.
+
 ### Wild plants and eastern access
 
 Ordinary meadow flowers and woodland mushrooms can now be gathered with E within

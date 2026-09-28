@@ -101,7 +101,11 @@ func _ready() -> void:
 	refresh_mode()
 
 func _build_multiplayer_tab() -> void: pass
-func _build_character_widgets() -> void: pass
+func _build_character_widgets() -> void:
+	var character_hud = preload("res://scripts/character_hud.gd").new()
+	character_hud.name = "CharacterHud"
+	_root.add_child(character_hud)
+	character_hud.setup(self)
 
 func _build_briefing(box: VBoxContainer) -> void:
 	_briefing_box = box

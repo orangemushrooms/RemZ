@@ -69,6 +69,7 @@ func _process(delta: float) -> void:
 func complete_wave() -> void:
 	if phase!="spawning" or not queue.is_empty() or main.alive_zombies()>0 or main.over: return
 	completed = wave
+	if main.classes: main.classes.wave(completed)
 	main.campaign.record_wave(completed,str(main.difficulty.name))
 	if completed==Campaign.ROUNDS:
 		phase = "complete"

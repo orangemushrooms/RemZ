@@ -376,6 +376,13 @@ func start_survival() -> void:
 		skills = Skills.new()
 		add_child(skills)
 	skills.setup(player,weapons,hud,self)
+	# Reuse the persistent Forest profile and reward rules for every fresh run.
+	if classes: classes.free()
+	classes = preload("res://scripts/class_progression.gd").new()
+	add_child(classes)
+	classes.setup(self)
+	classes.begin()
+	player.set_meta("class_mission_from_start",true)
 	if waves: waves.queue_free()
 	waves = load("res://scripts/planes_waves.gd").new()
 	waves.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -439,6 +446,10 @@ func start_survival() -> void:
 
 func stop_survival() -> void:
 	if preparing_survival: return
+	if classes:
+		classes.finish()
+		classes.free()
+		classes = null
 	progression.close()
 	if field_building: field_building.reset_run()
 	if defences:
@@ -484,6 +495,10 @@ func discard_enemy(enemy: Node3D) -> void:
 
 func finish_survival(won: bool) -> void:
 	if over: return
+	if classes:
+		if not won: classes.died(player.peer_id)
+		classes.finish()
+		CharacterProfile.end_match()
 	over = true
 	victory = won
 	if hud: hud.message(Lang.t("THE PLANES SECURED · 25 / 25") if won else Lang.t("Run ended. Try again or continue exploring."),3600)
@@ -530,6 +545,7 @@ func create_enemy(kind: String, at: Vector3, wave_number: int, armored := false,
 	return enemy
 
 func _enemy_killed(enemy: Zombie) -> void:
+	if classes: classes.killed(enemy)
 	if waves: waves.trim_corpses.call_deferred()
 	_kills += 1
 	var reward := maxi(1,roundi(float(enemy.type.score)*float(difficulty.score)*0.6*(1.5 if enemy.last_headshot else 1.0)))

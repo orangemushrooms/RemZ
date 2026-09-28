@@ -252,6 +252,7 @@ func quest_action(id: String) -> String:
 	if not quest_ready(id): return "Objectives not completed yet."
 	claimed[id] = true
 	game.player.add_score(int(FIELD_QUESTS[id].reward))
+	if game.classes: game.classes.quest(game.player.peer_id,"planes:"+id,int(FIELD_QUESTS[id].reward))
 	return "Quest completed. Reward received."
 
 func _spawn_collectibles() -> void:
