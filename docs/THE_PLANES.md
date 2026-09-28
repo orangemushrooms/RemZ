@@ -163,3 +163,7 @@ Leistungsvergleich mit dem veröffentlichten Commit `9502472d5ef3`, RTX 3060 Ti,
 | Wiese nah | 132.58 | 130.14 | 8.18 |
 
 Alle Ansichten liegen innerhalb von rund ±2 % des bisherigen Stands. Das ist eine Stichprobe auf dieser Maschine, keine Garantie identischer FPS in jeder Situation. Auf Nutzerwunsch bleibt die Überarbeitung bis zur ausdrücklichen Veröffentlichungsfreigabe lokal.
+
+## Durchgehender Grasstreifen am Rigiweg
+
+Die Wiesenmaske der fotografierten Baumreihe reicht jetzt bis an die vermessene Wegmittellinie. Dadurch entf?llt der verbliebene schmale Weizenstreifen zwischen Wiese und Kiesweg (51 m? Maskenfl?che). `RIGIWEG_VERGE` in `tools/build_planes.py` erh?lt die Korrektur bei einem Neuaufbau. Der Rastervergleich best?tigt: Nur Weizen wurde entfernt; Mais- und Strassenmasken sind unver?ndert. Die Spielansicht Richtung Core wurde nach dem Neuimport kontrolliert (`artifacts/planes/verge/core.png`). Der aktuelle Aufbau enth?lt 14'628 Blumen und 503 Pilzgruppen; die Pflanzenverteilung folgt der korrigierten Feldmaske. Auch diese Korrektur bleibt bis zur Freigabe lokal.

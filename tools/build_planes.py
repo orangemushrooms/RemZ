@@ -46,6 +46,11 @@ HEDGES = [
     [[7,8],[29,-1],[54,-5],[135,-17],[154,-22],[215,-60],[289,-102],[296,-85],[234,-38],[195,-18],[143,14],[86,29],[32,31]],
     [[167,79],[172,60],[191,53],[238,51],[270,44],[283,56],[244,72],[194,84]],
 ]
+# Join the existing tree-row meadow all the way to the surveyed Rigiweg
+# centreline. The former parallel boundary left a narrow wheat strip between
+# the grass and gravel. Road masking still determines the gravel surface.
+RIGIWEG_VERGE = [[-131,12],[-188,-150],[-176.51,-161.69],
+                 [-170.18,-144],[-114.65,11.06],[-111.84,18.94]]
 
 
 def local(g):
@@ -133,7 +138,7 @@ def main():
     crops *= (1-np.asarray(asphalt_image.filter(ImageFilter.MaxFilter(11)))/255.)[:,:,None]
     crops *= (1-wooded)[:,:,None]
     # Grass ribbon around the photographed roadside tree row, west of Rigiweg.
-    verge = mask([[-131,12],[-188,-150],[-178,-152],[-120,10]])
+    verge = mask(RIGIWEG_VERGE)
     crops *= (1-verge)[:,:,None]
     crops[:,:,2] = asphalt
     Image.fromarray(np.uint8(crops*255)).save(OUT/"crops.png")
