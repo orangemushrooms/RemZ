@@ -66,6 +66,10 @@ func setup(main: Node) -> void:
 	planner = TowerPlanner.new()
 	add_child(planner)
 	planner.setup(self)
+	if Map.active_region == "planes":
+		site_picker.hide()
+		roof_repair.hide()
+		roof_align.hide()
 	_build_preview()
 	range_marker = preload("res://scripts/tower_range.gd").new()
 	game.add_child(range_marker)
@@ -257,15 +261,18 @@ func roof_position(slot: int) -> Vector3:
 	return game.hut.center + local.rotated(Vector3.UP, float(b.yaw))
 
 func roof_index(point: Vector3) -> int:
+	if Map.active_region == "planes": return -1
 	if not point.is_finite() or not game.hut: return -1
 	for i in 6:
 		if point.distance_to(roof_position(i)) < 0.05: return i
 	return -1
 
 func roof_access(p: Player) -> bool:
+	if Map.active_region == "planes": return false
 	return p.alive and not p.mounted_tower and game.hut != null and not game.hut.destroyed and game.hut.distance(p.global_position) <= HutHealth.REPAIR_REACH and absf(p.global_position.y - game.hut.center.y) < 8.0
 
 func roof_tower(slot: int) -> DefenceTower:
+	if Map.active_region == "planes": return null
 	if slot < 0: return null
 	for tower: DefenceTower in towers.values():
 		if is_instance_valid(tower) and tower.global_position.distance_to(roof_position(slot)) < 1.0: return tower
@@ -303,6 +310,7 @@ func placement_error(p: Player, point: Vector3, kind := "standard", planner := f
 	if planner:
 		if p.global_position.distance_to(point) > TowerPlanner.PLANNER_REACH: return Lang.t("Choose a building site no more than %d m away.", [int(TowerPlanner.PLANNER_REACH)])
 	elif p.global_position.distance_to(point) > 8.0: return "Choose a building site no more than 8 m away."
+	if Map.active_region == "planes" and not preload("res://scripts/planes_boundary.gd").contains(Vector2(point.x,point.z)): return "Outside the building area."
 	if not Map.BOUNDS.grow(-3).has_point(Vector2(point.x, point.z)): return "Outside the building area."
 	var ground := Map.ground_pos(point.x, point.z)
 	if absf(ground.y - point.y) > 0.25: return "The tower must stand on solid ground."
@@ -645,10 +653,12 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode == KEY_T and (game.player.active or is_open):
+			if game.get("field_building") and game.field_building.placing: game.field_building.cancel()
 			if placing: cancel_placement()
 			elif is_open: close()
 			else:
-				planner.open()
+				if planner: planner.open()
+				else: begin_building()
 			get_viewport().set_input_as_handled()
 		elif event.physical_keycode == KEY_R and placing:
 			build_yaw = wrapf(build_yaw + deg_to_rad(15) * (-1 if event.shift_pressed else 1), -PI, PI)

@@ -36,7 +36,7 @@ func _physics_process(delta: float) -> void:
 func explode() -> void:
 	set_physics_process(false)
 	if authoritative and not NetSession.is_client():
-		game.hunting.blast(global_position, 6.0, damage_amount, owner_peer)
+		if game.hunting: game.hunting.blast(global_position, 6.0, damage_amount, owner_peer)
 		for enemy in game.zombies_root.get_children():
 			if not enemy is Zombie or not enemy.alive: continue
 			var center: Vector3 = enemy.global_position+Vector3.UP*enemy.height*0.5

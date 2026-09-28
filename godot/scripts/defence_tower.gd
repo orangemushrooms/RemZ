@@ -419,7 +419,7 @@ func fire_at(aim: Vector3) -> void:
 	var z := Zombie.from_hit(hit)
 	if not z and kind in ["standard", "mg42"]:
 		preload("res://scripts/bullet_impacts.gd").hit(game, hit)
-	if kind != "mortar" and not hit.is_empty():
+	if kind != "mortar" and not hit.is_empty() and game.hunting:
 		game.hunting.hit(hit.collider, float(spec().damage) + (level - 1) * 7.0, operator_peer if operator_peer else owner_peer)
 	match kind:
 		"mortar":

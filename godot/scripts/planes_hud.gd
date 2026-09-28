@@ -33,6 +33,11 @@ func _ready() -> void:
 	flash_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	flash_panel.color = Color(0.5,0,0,0)
 	container.add_child(flash_panel)
+	prompt_label = Label.new()
+	prompt_label.hide()
+	container.add_child(prompt_label)
+	prompt_card = InteractionPrompt.new()
+	container.add_child(prompt_card)
 	set_health(100)
 	_build_overlay()
 	_tab_buttons["multiplayer"].hide()
@@ -77,7 +82,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	grid.add_theme_constant_override("h_separation",22)
 	grid.add_theme_constant_override("v_separation",8)
 	box.add_child(grid)
-	for pair in [["WASD","Move"],["Mouse","Look around"],["Shift","Sprint"],["Hold Ctrl","Crouch / aim more precisely"],["Space","Jump"],["Left click","Shoot / strike"],["Right click","Aim (ADS)"],["R","Reload"],["1 / 2 / 3","Pistol / AK-47 / Shotgun"],["Mouse wheel","Switch weapon"],["G","Throw grenade"],["H","Melee / rifle butt"],["Enter","Next wave now"],["M","Minimap large / small"],["F","Flashlight"],["Ctrl+Shift+D","CHEAT MENU"],["Esc","Pause / menu"],["F11","Fullscreen"]]:
+	for pair in [["WASD","Move"],["Mouse","Look around"],["Shift","Sprint"],["Hold Ctrl","Crouch / aim more precisely"],["Space","Jump"],["Left click","Shoot / strike"],["Right click","Aim (ADS)"],["R","Reload"],["1 / 2 / 3","Pistol / AK-47 / Shotgun"],["Mouse wheel","Switch weapon"],["G","Throw grenade"],["H","Melee / rifle butt"],["Enter","Next wave now"],["J","Field journal"],["B","Portable fortification kits"],["T","Tower planner"],["E","Trade / collect / repair"],["M","Minimap large / small"],["F","Flashlight"],["Ctrl+Shift+D","CHEAT MENU"],["Esc","Pause / menu"],["F11","Fullscreen"]]:
 		grid.add_child(_label(pair[0],14,GOLD))
 		grid.add_child(_label(pair[1],14))
 
@@ -118,9 +123,13 @@ func _process(delta: float) -> void:
 	fps_label.visible = game.settings.show_fps
 	fps_label.text = "%d FPS" % Engine.get_frames_per_second()
 	refresh_mode()
+	if game.defences: _update_prompt()
+	else:
+		prompt_card.visible = game.player.active and not prompt_label.text.is_empty()
+		if prompt_card.visible: prompt_card.refresh(prompt_label.text)
 	if game.player.downed:
 		status_text.text = Lang.t("Downed: hold E to revive")+"  %ds" % ceili(game.player.down_time)
-	else: status_text.text = Lang.t(game.weather.label()) if game.weather else ""
+	else: status_text.text = "%d R  |  " % game.player.score + (Lang.text(game.weather.label()) if game.weather else "")
 
 func refresh_mode() -> void:
 	var armed: bool = game.weapons!=null and game.weapons.process_mode!=Node.PROCESS_MODE_DISABLED

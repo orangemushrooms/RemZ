@@ -195,7 +195,7 @@ func run() -> void:
 	titan.shove(Vector3.RIGHT * 20)
 	check(titan._stagger == 0 and titan._knock == Vector3.ZERO, "Titan resists bullet stun-lock and melee knockback")
 	var state := titan.boss_state()
-	check(state.size() == 4 and state[2] == titan.strike_point and state[3] == titan.impact_serial, "Boss snapshot carries exact telegraph and impact event")
+	check(state.size() == 6 and state[2] == titan.strike_point and state[3] == titan.impact_serial and state[4] == titan.lost and state[5] == titan.throw_serial, "Boss snapshot carries exact telegraph and impact event")
 	titan.damage(100000, Vector3.ZERO)
 	check(not titan.alive and not titan.warning.visible and titan.collision_layer == 0, "Boss death releases collision and removes warning")
 	# Follow the real field approach all the way to the defended gate.

@@ -8,6 +8,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		if slots.has(event.physical_keycode):
 			game.weapons.set_weapon(slots[event.physical_keycode])
 			get_viewport().set_input_as_handled()
+	if game.weapons and active and event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
+		if (game.defences and game.defences.placing) or (game.field_building and game.field_building.placing): return
+		var owned: Array = []
+		for id in Weapons.ORDER:
+			if game.weapons.unlocked.get(id,false): owned.append(id)
+		if not owned.is_empty(): game.weapons.set_weapon(owned[posmod(owned.find(game.weapons.current)+(1 if event.button_index==MOUSE_BUTTON_WHEEL_DOWN else -1),owned.size())])
+		get_viewport().set_input_as_handled()
 	if event is InputEventMouseMotion or event.is_action("flashlight"):
 		super._unhandled_input(event)
 

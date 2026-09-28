@@ -7696,3 +7696,240 @@ msgstr "Weg zur Waldhütte · %d m"
 
 msgid "Map boundary ? turn back"
 msgstr "Gebietsgrenze ? bitte umkehren"
+
+msgid "mushrooms"
+msgstr "Pilze"
+
+msgid "flowers"
+msgstr "Blumen"
+
+msgid "sandbags"
+msgstr "Sandsäcke"
+
+msgid "active"
+msgstr "aktiv"
+
+msgid "palisade"
+msgstr "Palisade"
+
+msgid "Close [B / Esc] · Buy kits at Mechanic"
+msgstr "Schliessen [B / Esc] · Bausätze beim Mechanic kaufen"
+
+msgid "Building unavailable."
+msgstr "Bauen momentan nicht möglich."
+
+msgid "Fortification limit reached."
+msgstr "Befestigungslimit erreicht."
+
+msgid "Choose ground 2–8 m away."
+msgstr "Wähle Boden in 2–8 m Entfernung."
+
+msgid "Choose solid ground."
+msgstr "Wähle festen Boden."
+
+msgid "Outside the playable area."
+msgstr "Ausserhalb des Spielgebiets."
+
+msgid "Keep the traders accessible."
+msgstr "Halte den Zugang zu den Händlern frei."
+
+msgid "Keep the campfire clear."
+msgstr "Halte das Lagerfeuer frei."
+
+msgid "Too close to another fortification."
+msgstr "Zu nahe an einer anderen Befestigung."
+
+msgid "Keep tower access clear."
+msgstr "Halte den Turmzugang frei."
+
+msgid "No clear view of the site."
+msgstr "Keine freie Sicht auf den Bauplatz."
+
+msgid "Buy a kit at Mechanic first."
+msgstr "Kaufe zuerst einen Bausatz beim Mechanic."
+
+msgid "Go to Mechanic."
+msgstr "Gehe zum Mechanic."
+
+msgid "Survive wave 3 / 8 for stronger fortifications."
+msgstr "Überlebe Welle 3 / 8 für stärkere Befestigungen."
+
+msgid "Fortification upgraded."
+msgstr "Befestigung aufgerüstet."
+
+msgid "Look at nearby ground."
+msgstr "Schau auf den Boden in deiner Nähe."
+
+msgid "[E] Place · [R] Rotate · [Esc] Cancel"
+msgstr "[E] Platzieren · [R] Drehen · [Esc] Abbrechen"
+
+msgid "Portable fortification kits"
+msgstr "Mitführbare Befestigungsbausätze"
+
+msgid "Field journal"
+msgstr "Feldtagebuch"
+
+msgid "Trade / collect / repair"
+msgstr "Handeln / sammeln / reparieren"
+
+msgid "A place of your own"
+msgstr "Dein eigener Platz"
+
+msgid "Choose your ground. Buy and place two defence kits."
+msgstr "Wähle deinen Standort. Kaufe und platziere zwei Befestigungsbausätze."
+
+msgid "Colour in the fields"
+msgstr "Farbe auf den Feldern"
+
+msgid "Collect six marked wildflower bundles on the meadow paths."
+msgstr "Sammle sechs markierte Wildblumensträusse an den Wiesenwegen."
+
+msgid "Your first strongpoint"
+msgstr "Dein erster Stützpunkt"
+
+msgid "Place a tower using T. Towers can stand anywhere suitable."
+msgstr "Platziere mit T einen Turm. Du bestimmst den geeigneten Standort selbst."
+
+msgid "Open sky, steady hands"
+msgstr "Unter freiem Himmel"
+
+msgid "Defeat thirty zombies. The camp does not need defending."
+msgstr "Besiege dreissig Zombies. Das Lager muss nicht verteidigt werden."
+
+msgid "Under the canopy"
+msgstr "Unter den Baumkronen"
+
+msgid "Collect four marked mushroom baskets in the woodland."
+msgstr "Sammle vier markierte Pilzgruppen im Wald."
+
+msgid "Make it last"
+msgstr "Damit es hält"
+
+msgid "Repair three damaged fortifications."
+msgstr "Repariere drei beschädigte Befestigungen."
+
+msgid "Quiet work"
+msgstr "Ruhige Hand"
+
+msgid "Defeat twenty enemies with headshots."
+msgstr "Besiege zwanzig Gegner mit Kopfschüssen."
+
+msgid "Heavy footsteps"
+msgstr "Schwere Schritte"
+
+msgid "Defeat eight brutes across the survival waves."
+msgstr "Besiege im Verlauf der Wellen acht Brutes."
+
+msgid "The long harvest"
+msgstr "Die lange Ernte"
+
+msgid "Survive fifteen waves on your chosen ground."
+msgstr "Überlebe fünfzehn Wellen an deinem gewählten Standort."
+
+msgid "Start survival from the pause menu to trade and build."
+msgstr "Starte Überleben im Pausenmenü, um zu handeln und zu bauen."
+
+msgid "Carry kits anywhere. B opens your kit inventory; R rotates, E places."
+msgstr "Nimm Bausätze mit. B öffnet dein Bauinventar; R dreht, E platziert."
+
+msgid "%s kit · %d R · carried: %d"
+msgstr "%s-Bausatz · %d R · dabei: %d"
+
+msgid "Fortification #%d | tier %d | Upgrade"
+msgstr "Befestigung #%d | Stufe %d | Aufrüsten"
+
+msgid "%s #%d · Tier %d · Upgrade %d R"
+msgstr "%s #%d · Stufe %d · Aufrüstung %d R"
+
+msgid "Ammunition refill"
+msgstr "Munition nachfüllen"
+
+msgid "Field dressing · 35 R"
+msgstr "Wundverband · 35 R"
+
+msgid "Grenade · 30 R"
+msgstr "Granate · 30 R"
+
+msgid "%s · %d R · wave %d%s"
+msgstr "%s · %d R · Welle %d%s"
+
+msgid "QUESTS · accept, then return for the reward"
+msgstr "AUFTRÄGE · annehmen und für die Belohnung zurückkehren"
+
+msgid "claimed"
+msgstr "abgeholt"
+
+msgid "%s · %s · %d/%d · %d R\n%s (wave %d)"
+msgstr "%s · %s · %d/%d · %d R\n%s (Welle %d)"
+
+msgid "Maximum 40 fortifications and carried kits."
+msgstr "Maximal 40 Befestigungen und mitgeführte Bausätze."
+
+msgid "Kit packed. Press B at your chosen position."
+msgstr "Bausatz eingepackt. Drücke B an deinem gewählten Standort."
+
+msgid "Go to the trader."
+msgstr "Gehe zum Händler."
+
+msgid "Survive until the required wave."
+msgstr "Erreiche zuerst die benötigte Welle."
+
+msgid "Weapon purchased. Use the mouse wheel to equip."
+msgstr "Waffe gekauft. Mit dem Mausrad ausrüsten."
+
+msgid "Go to Vendor."
+msgstr "Gehe zum Vendor."
+
+msgid "No refill needed or insufficient funds."
+msgstr "Kein Nachschub nötig oder nicht genug Geld."
+
+msgid "Ammunition purchased."
+msgstr "Munition gekauft."
+
+msgid "Unknown supplies."
+msgstr "Unbekannter Nachschub."
+
+msgid "You can carry six grenades."
+msgstr "Du kannst sechs Granaten tragen."
+
+msgid "Supplies purchased."
+msgstr "Nachschub gekauft."
+
+msgid "Return to the quest giver."
+msgstr "Kehre zum Auftraggeber zurück."
+
+msgid "Reward already claimed."
+msgstr "Belohnung bereits abgeholt."
+
+msgid "Quest accepted. Earlier progress this run counts."
+msgstr "Auftrag angenommen. Bisherige Fortschritte dieser Runde zählen."
+
+msgid "Objectives not completed yet."
+msgstr "Aufgaben noch nicht abgeschlossen."
+
+msgid "Quest completed. Reward received."
+msgstr "Auftrag abgeschlossen. Belohnung erhalten."
+
+msgid "Collected: %s (%d)"
+msgstr "Gesammelt: %s (%d)"
+
+msgid "FIELD JOURNAL"
+msgstr "FELDTAGEBUCH"
+
+msgid "Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."
+msgstr "Vendor und Mechanic stehen an der Gabelung. Der Secret Vendor wartet im Wald. Nimm Aufträge persönlich an und kehre für die Belohnung zurück."
+
+msgid "%s · %d/%d · %s\n%s"
+msgstr "%s · %d/%d · %s\n%s"
+
+msgid "Wave %d survived. Supply pay received; visit Vendor to restock."
+msgstr "Welle %d überlebt. Versorgungsgeld erhalten; Nachschub gibt es beim Vendor."
+
+msgid "Survive 25 waves. Meet the traders at the fork. B: kits · T: towers · J: quests · Enter: next wave"
+msgstr "Überlebe 25 Wellen. Händler an der Gabelung. B: Bausätze · T: Türme · J: Aufträge · Enter: nächste Welle"
+
+msgid "Weapon mods · %s"
+msgstr "Waffenmods · %s"
+
+msgid "%s · %d R · wave %d"
+msgstr "%s · %d R · Welle %d"

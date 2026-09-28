@@ -894,6 +894,9 @@ func _handle_weapon_input(delta: float) -> void:
 	if "defences" in scene and scene.defences and (scene.defences.placing or scene.defences.input_grace > 0):
 		_reset_scope()
 		return
+	if scene.get("field_building") and scene.field_building.placing:
+		_reset_scope()
+		return
 	var s := cur()
 	var d: Dictionary = s["def"]
 	if d["auto"]:

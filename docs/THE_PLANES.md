@@ -1,5 +1,49 @@
 # The Planes – Remetschwil
 
+## Survival release, 28 September 2026
+
+Publication is now explicitly authorised. The historical publication holds below
+are superseded by the request for the complete survival release.
+
+Survive 25 waves anywhere within the field boundary; there is no hut health or
+fixed defence objective. Vendor, Mechanic and campfire occupy the grassy fork;
+the Secret Vendor is in the central woodland. E interacts, B opens carried wall
+kits, R rotates a placement, E confirms, T opens the shared tower planner and J
+shows accepted quests. Esc closes the current panel before opening pause.
+
+Start with a pistol, three grenades and 150 R. Palisades cost 50 R, sandbags 60 R;
+valid placements alone consume kits. Forty carried/placed fortifications are
+allowed. Terrain, boundary, slope, collisions, reach and merchant access are
+validated. Structures use Forest health, armour, repair and upgrade definitions.
+Turrets can be purchased in T away from merchants; upgrades require Mechanic.
+Training and weapon modifications use the shared catalogues and prices.
+
+Nine independent quests cover construction, flowers, mushrooms, kills, headshots,
+repairs, brutes and survival. Rewards are claimed once at their quest giver.
+Collectible markers appear after acceptance; all run state resets on retry.
+Advanced weapons retain wave gates but do not require Forest quest completion.
+
+Waves use difficulty-scaled counts of 10 + 4 × wave, increasingly mixed enemies
+and brutes every fifth wave. Initial preparation lasts 90 seconds, breaks 60;
+Enter starts early. Intermission pays 50 + 5 × wave R, heals 20 HP and grants
+one grenade every third wave, respecting pouch upgrades. Ammunition is purchased
+or collected. At most 24 enemies are active (16 under sustained slow frames),
+with 12 retained corpses. First-use turret and wall resources are warmed while
+loading. One redundant Recast detail face is removed before publishing navigation;
+the resulting mesh has no multiply owned edges.
+
+Validation: 345 scripts compile; 35 survival checks exercise all 25 accelerated
+wave transitions, death/retry and return to Forest; Forest defence passes 99
+checks. The gameplay suite passes 39 checks in the project and exported pack, covering purchases, actual zombie attacks on placed
+walls, repairs, quests, mods, training, sandbags, planner and reset. Rendered
+camp/shop captures and benchmark JSON are in `artifacts/planes/gameplay/`.
+
+On the test RTX 3060 Ti at 1920 × 1009, the fixed-view uncapped benchmark measured
+109.1 FPS without combat, 83.3 FPS with 40 towers, 40 walls and 24 enemies, and
+78.4 FPS with that load in a storm (p95 frame times 9.93 / 14.81 / 16.30 ms).
+These are measured scenarios, not a guarantee for every PC or every playthrough.
+The known Windows root certificate warning also appears in otherwise clean runs.
+
 In der Gebietsauswahl **The Planes erkunden** wählen. Die Region startet als eigenständige Erkundungsmap im Einzelspiel. Im Esc-Menü lässt sich zusätzlich ein Survival-Durchlauf mit 25 Wellen starten. Forest behält seinen Survivalablauf. Im Koop ist der Erkundungsstart gesperrt.
 
 WASD bewegt den Spieler; Shift sprintet, Leertaste springt, Strg duckt sich. M vergrössert die nordorientierte Karte wie in Forest und stellt sie beim nächsten Druck wieder kompakt dar. Escape öffnet ein Menü mit Fortsetzen, Survivalstart, drei Referenzblickrichtungen und Rückkehr zur Gebietsauswahl. Im Kampf pausiert dieses Menü auch Zombies, Wetter und Granaten; die Foto-Teleports sind dort gesperrt. Die Fotoansichten lassen sich damit ohne erneuten Fussmarsch vergleichen.

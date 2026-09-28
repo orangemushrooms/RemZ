@@ -41,6 +41,11 @@ var progression: Progression
 var stats: RunStats
 var classes: Node
 var hunting: Node3D
+var defences: DefenceSystem
+var barricades: Array = []
+var hut: Node3D
+var skills: Skills
+var field_building: Node
 var _menu_actions := {}
 var _spawn_rng := RandomNumberGenerator.new()
 var _nav_shape := CapsuleShape3D.new()
@@ -97,6 +102,9 @@ func _ready() -> void:
 	add_child(nature)
 	nature.build(self)
 	_interface()
+	progression = load("res://scripts/planes_progression.gd").new()
+	add_child(progression)
+	progression.setup(self)
 	weather = load("res://scripts/planes_weather.gd").new()
 	add_child(weather)
 	weather.setup(self)
@@ -244,6 +252,10 @@ func _interface() -> void:
 
 func set_menu(open: bool) -> void:
 	if cheat_menu.is_open: cheat_menu.close()
+	if open:
+		if progression and progression.is_open: progression.close()
+		if field_building: field_building.cancel()
+		if defences: defences.close()
 	player.active = not open and not over
 	player.velocity = Vector3.ZERO
 	get_tree().paused = open
@@ -274,6 +286,18 @@ func return_to_map(select_region := true) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not ready_for_exploration or preparing_survival: return
 	if event.is_action_pressed("pause"):
+		if progression and progression.is_open:
+			progression.close()
+			get_viewport().set_input_as_handled()
+			return
+		if field_building and (field_building.placing or field_building.kit_menu.visible):
+			field_building.cancel()
+			get_viewport().set_input_as_handled()
+			return
+		if defences and (defences.placing or defences.is_open):
+			defences.close()
+			get_viewport().set_input_as_handled()
+			return
 		set_menu(not menu.visible)
 		get_viewport().set_input_as_handled()
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -312,6 +336,37 @@ func start_survival() -> void:
 		await Zombie.prewarm_visuals(self,false)
 		_combat_warmed = true
 	_clear_combat()
+	progression.reset_run()
+	if defences:
+		defences.close()
+		for tower in defences.towers.values(): tower.queue_free()
+		defences.towers.clear()
+	else:
+		defences = DefenceSystem.new()
+		add_child(defences)
+		defences.setup(self)
+	if not field_building:
+		field_building = load("res://scripts/planes_building.gd").new()
+		add_child(field_building)
+		field_building.setup(self)
+	defences.process_mode = Node.PROCESS_MODE_PAUSABLE
+	field_building.reset_run()
+	player.score = 150
+	player.max_hp = 100
+	player.speed_mul = 1.0
+	weapons.damage_mul = 1.0
+	weapons.reload_mul = 1.0
+	weapons.spread_mul = 1.0
+	weapons.mod_owned.clear()
+	weapons.mod_loadout.clear()
+	for wid in weapons.state:
+		weapons.state[wid].def = Weapons.DEFS[wid].duplicate(true)
+		weapons.refresh_attachments(wid)
+	weapons.grenades_max = 6
+	if not skills:
+		skills = Skills.new()
+		add_child(skills)
+	skills.setup(player,weapons,hud,self)
 	if waves: waves.queue_free()
 	waves = load("res://scripts/planes_waves.gd").new()
 	waves.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -328,7 +383,8 @@ func start_survival() -> void:
 	weapons.process_mode = Node.PROCESS_MODE_PAUSABLE
 	weapons.viewmodel.show()
 	weapons.viewmodel.viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
-	weapons.set_weapon("ak47")
+	for id in weapons.unlocked: weapons.unlocked[id] = id == "pistol"
+	weapons.set_weapon("pistol")
 	weapons.refill_all()
 	weapons.grenades = 3
 	weapons.update_hud()
@@ -345,7 +401,7 @@ func start_survival() -> void:
 	player.regen_mul = float(difficulty.regen)
 	player.set_crouching(false,false)
 	hud.set_health(player.hp)
-	hud.message(Lang.t("25 waves · 1/2/3 weapons · R reload · G grenade · Enter starts the next wave"),8)
+	hud.message(Lang.t("Survive 25 waves. Meet the traders at the fork. B: kits · T: towers · J: quests · Enter: next wave"),12)
 	set_view(0)
 	await get_tree().physics_frame
 	player.active = true
@@ -356,6 +412,13 @@ func start_survival() -> void:
 
 func stop_survival() -> void:
 	if preparing_survival: return
+	progression.close()
+	if field_building: field_building.reset_run()
+	if defences:
+		defences.close()
+		for tower in defences.towers.values(): tower.queue_free()
+		defences.towers.clear()
+		defences.process_mode = Node.PROCESS_MODE_DISABLED
 	survival_active = false
 	over = false
 	victory = false
@@ -382,6 +445,7 @@ func _clear_combat() -> void:
 		discard_enemy(enemy)
 	for child in get_children():
 		if child is Grenade or child is Pickup: child.queue_free()
+		elif child.get_script()==preload("res://scripts/tower_shell.gd"): child.queue_free()
 
 func discard_enemy(enemy: Node3D) -> void:
 	if enemy is Zombie and is_instance_valid(enemy._pool): enemy._pool.queue_free()
@@ -424,7 +488,7 @@ func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 
 func create_enemy(kind: String, at: Vector3, wave_number: int, armored := false, rise := false) -> Zombie:
 	var enemy: Zombie = ForestSpirit.new() if kind=="forest_spirit" else Earthworm.new() if Zombie.is_worm_kind(kind) else Titan.new() if Zombie.is_titan_kind(kind) else ZombieBeast.new() if Zombie.is_beast_kind(kind) else Zombie.new()
-	enemy.setup(kind,player,[],minf(1.65,1+(wave_number-1)*0.025)*float(difficulty.speed),_enemy_killed)
+	enemy.setup(kind,player,barricades,minf(1.65,1+(wave_number-1)*0.025)*float(difficulty.speed),_enemy_killed)
 	enemy.armored = armored
 	enemy.rise_on_spawn = rise
 	enemy.hp *= (1.0+(wave_number-1)*0.055)*float(difficulty.hp)
@@ -438,8 +502,14 @@ func create_enemy(kind: String, at: Vector3, wave_number: int, armored := false,
 func _enemy_killed(enemy: Zombie) -> void:
 	if waves: waves.trim_corpses.call_deferred()
 	_kills += 1
-	# Predictable supplies keep later waves viable without shops or an economy.
-	if _kills%3==0:
+	var reward := maxi(1,roundi(float(enemy.type.score)*float(difficulty.score)*0.6*(1.5 if enemy.last_headshot else 1.0)))
+	if enemy.killer_weapon == "tower": reward = maxi(1,reward/2)
+	player.add_score(reward)
+	progression.event("kills")
+	if enemy.last_headshot: progression.event("headshots")
+	if enemy.net_kind == "brute": progression.event("brutes")
+	# Modest scavenged ammunition supplements merchant supplies.
+	if _kills%8==0:
 		var drop := Pickup.new()
 		drop.setup("ammo")
 		drop._light.visible = false

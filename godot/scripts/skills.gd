@@ -47,7 +47,7 @@ func purchase(p: Player, w: Weapons, id: String) -> String:
 		"hp":
 			p.max_hp += 25.0
 			p.hp = minf(p.max_hp, p.hp + 25.0)
-			if p == player: hud.hp_bar.max_value = p.max_hp
+			if p == player and hud.hp_bar: hud.hp_bar.max_value = p.max_hp
 			p.hud.set_health(p.hp)
 		"speed": p.speed_mul += 0.08
 		"regen": p.regen_mul += 0.6

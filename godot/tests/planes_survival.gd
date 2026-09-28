@@ -36,7 +36,10 @@ func run() -> void:
 	await process_frame
 	check(game.hud.cross.get_global_rect().get_center().distance_to(root.get_visible_rect().get_center())<20 and game.hud.health_text.get_global_rect().position.y>root.size.y*0.6,"Combat HUD anchors the crosshair centrally and health above the bottom edge")
 	check(game.nav_region.navigation_mesh.get_polygon_count()>100,"Surveyed terrain has a connected navigation mesh")
-	check(game.progression==null and game.get("defences")==null and get_nodes_in_group("barricade").is_empty(),"No quests, NPCs, towers or barricades are created")
+	check(game.progression!=null and game.defences!=null and game.barricades.is_empty(),"Field merchants and defence tools start without a predefined strongpoint")
+	check(game.weapons.unlocked.pistol and not game.weapons.unlocked.ak47 and game.player.score==150,"New survival run starts with pistol and 150 R")
+	game.weapons.unlock("ak47")
+	game.weapons.unlock("shotgun")
 	if not game.survival_active:
 		quit(1)
 		return

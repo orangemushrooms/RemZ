@@ -1,5 +1,5 @@
 extends Node
-## Plain 25-wave survival. Map-specific objectives will be designed separately.
+## Plain 25-wave survival. Free fortification and a merchant economy.
 signal wave_started(number: int)
 const KINDS := ["shambler","runner","nurse","soldier","brute"]
 const MAX_ACTIVE := 24
@@ -8,7 +8,7 @@ var main: Node3D
 var wave := 0
 var completed := 0
 var phase := "idle"
-var timer := 15.0
+var timer := 90.0
 var queue: Array[String] = []
 var total := 0
 var spawn_t := 0.0
@@ -73,15 +73,15 @@ func complete_wave() -> void:
 		main.finish_survival(true)
 		return
 	phase = "idle"
-	timer = 30.0
-	main.weapons.refill_all()
-	main.weapons.grenades = 3
+	timer = 60.0
+	main.player.add_score(50+5*wave)
+	if wave%3==0: main.weapons.grenades = mini(main.weapons.grenades_max,main.weapons.grenades+1)
 	main.weapons.update_hud()
-	main.player.hp = main.player.max_hp
+	main.player.hp = minf(main.player.max_hp,main.player.hp+20)
 	main.player.self_revives = 1
 	if main.player.downed: main.player.revive(main.player.max_hp)
 	main.hud.set_health(main.player.hp)
-	main.hud.message(Lang.t("Wave %d survived. Health and ammunition restored.",[wave]),4)
+	main.hud.message(Lang.t("Wave %d survived. Supply pay received; visit Vendor to restock.",[wave]),4)
 
 func trim_corpses() -> void:
 	var corpses: Array[Zombie] = []

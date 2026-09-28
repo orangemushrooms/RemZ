@@ -260,6 +260,7 @@ static func prewarm_visuals(game: Node3D, full_combat := true) -> void:
 		effects = load("res://scripts/combat_warmup.gd").populate(viewport, game)
 	else:
 		viewport.add_child(effects)
+		load("res://scripts/planes_building.gd").prewarm(effects, game)
 		Grenade.explosion_visuals(effects,Vector3(0,1,-2))
 		var ammo := Pickup.new()
 		ammo.setup("ammo")

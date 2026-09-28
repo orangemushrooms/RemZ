@@ -109,6 +109,23 @@ func _draw_symbols(c: Control) -> void:
 	for enemy in game.zombies_root.get_children():
 		if enemy is Zombie and enemy.alive and enemy.visible_on_map():
 			c.draw_circle(map_position(enemy.global_position),2,Color(1.0,0.29,0.22))
+	if game.progression:
+		for id in game.progression.npcs:
+			if id=="secret" and not game.progression.discovered_secret: continue
+			var npc = game.progression.npcs[id]
+			var marker := map_position(npc.position)
+			c.draw_circle(marker,3.2,Color(1.0,0.78,0.25))
+			c.draw_string_outline(_font,marker+Vector2(5,10 if id=="mechanic" else -4),"Vendor" if id=="camp" else "Mechanic" if id=="mechanic" else "Secret",HORIZONTAL_ALIGNMENT_LEFT,-1,10,3,Color.BLACK)
+			c.draw_string(_font,marker+Vector2(5,10 if id=="mechanic" else -4),"Vendor" if id=="camp" else "Mechanic" if id=="mechanic" else "Secret",HORIZONTAL_ALIGNMENT_LEFT,-1,10,Color(1,0.88,0.58))
+	if game.progression:
+		for item in game.progression.collectibles:
+			var quest := "forage" if item.kind=="mushrooms" else "bouquet"
+			if not item.taken and game.progression.accepted.has(quest) and not game.progression.claimed.has(quest):
+				c.draw_circle(_point(item.at),2,Color(0.9,0.5,1))
+	if game.defences:
+		for tower in game.defences.towers.values(): c.draw_circle(map_position(tower.position),2.5,Color(0.4,0.85,1))
+	for bar: Barricade in game.barricades:
+		c.draw_line(map_position(bar.point_at(-bar.half_len)),map_position(bar.point_at(bar.half_len)),Color(0.9,0.8,0.55),2)
 	var p := map_position(player.global_position).clamp(MAP_RECT.position+Vector2.ONE*8,MAP_RECT.end-Vector2.ONE*8)
 	var heading := Vector2(-sin(player.rotation.y),-cos(player.rotation.y))
 	var side := heading.orthogonal()

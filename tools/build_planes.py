@@ -176,6 +176,9 @@ def main():
             horizon_trees.append([round(px,2),round(pz,2),
                                   round(float(horizon_rng.uniform(16,24)),2),
                                   round(float(horizon_rng.uniform(0,360)),2)])
+    # Keep the field camp and its traders clear of tree trunks.
+    trees = [t for t in trees if all(math.hypot(t[0]-x,t[1]-z)>4.0
+             for x,z in [(22,3),(27,13),(18,11),(151,-7)])]
     data = {"region":"planes","origin_wgs84":[LAT,LON],"origin_lv95":[E0,N0],"altitude_m":base,
             "x0":X0,"z0":Z0,"w":W,"h":H,"skirt":{"x0":-1000,"z0":-900,"w":221,"h":161,"cell":10},
             "roads":roads,"buildings":{},"clearing":[],"fire":[0,0],"benches":[],"table":[0,0,0],

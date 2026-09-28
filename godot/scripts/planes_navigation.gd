@@ -65,6 +65,7 @@ static func prepare(game: Node3D) -> NavigationRegion3D:
 		var completed := [false]
 		NavigationServer3D.bake_from_source_geometry_data_async(mesh,source,func(): completed[0]=true)
 		while not completed[0]: await game.get_tree().process_frame
+		_remove_overlapping_detail_triangles(mesh)
 		cached = mesh
 	region.navigation_mesh = cached
 	# Empty-region iterations precede the asynchronous region + map builds.
@@ -74,3 +75,37 @@ static func prepare(game: Node3D) -> NavigationRegion3D:
 			await game.get_tree().physics_frame
 	print("PLANES_NAV polygons=",cached.get_polygon_count())
 	return region
+
+static func _remove_overlapping_detail_triangles(mesh: NavigationMesh) -> void:
+	# Recast's detail triangulation can add a redundant triangle across two
+	# already shared edges on this surveyed slope. Remove that overlapping face,
+	# retaining the surrounding connected triangles, before server registration.
+	var vertices := mesh.get_vertices()
+	var canonical := {}
+	var remap: Array[int] = []
+	for vertex in vertices:
+		if not canonical.has(vertex): canonical[vertex] = canonical.size()
+		remap.append(canonical[vertex])
+	var polygons: Array[PackedInt32Array] = []
+	var edges := {}
+	for i in mesh.get_polygon_count():
+		var polygon := mesh.get_polygon(i)
+		polygons.append(polygon)
+		for j in polygon.size():
+			var a := remap[polygon[j]]
+			var b := remap[polygon[(j+1)%polygon.size()]]
+			var edge := Vector2i(mini(a,b),maxi(a,b))
+			if not edges.has(edge): edges[edge] = []
+			edges[edge].append(i)
+	var conflicts := {}
+	for owners: Array in edges.values():
+		if owners.size()>2:
+			for i in owners: conflicts[i] = int(conflicts.get(i,0))+1
+	var removed := {}
+	for i in conflicts:
+		if conflicts[i]>=2 and polygons[i].size()==3: removed[i] = true
+	if removed.is_empty(): return
+	mesh.clear_polygons()
+	for i in polygons.size():
+		if not removed.has(i): mesh.add_polygon(polygons[i])
+	print("PLANES_NAV repaired_detail_faces=",removed.size())

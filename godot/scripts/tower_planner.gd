@@ -136,12 +136,13 @@ func _build_ui() -> void:
 		button.pressed.connect(select_kind.bind(kind))
 		column.add_child(button)
 		kind_buttons[kind] = button
-	column.add_child(_label("FOREST HUT ROOF", 12, GOLD))
+	if Map.active_region != "planes": column.add_child(_label("FOREST HUT ROOF", 12, GOLD))
 	var roof_row := GridContainer.new()
 	roof_row.columns = 3
 	roof_row.add_theme_constant_override("h_separation", 6)
 	roof_row.add_theme_constant_override("v_separation", 6)
 	column.add_child(roof_row)
+	roof_row.visible = Map.active_region != "planes"
 	for i in 6:
 		var button := _button("")
 		button.custom_minimum_size.y = 40
@@ -181,6 +182,7 @@ func _build_ui() -> void:
 	panel.add_child(hint)
 
 func _build_roof_markers() -> void:
+	if Map.active_region == "planes": return
 	for i in 6:
 		var marker := MeshInstance3D.new()
 		var ring := TorusMesh.new()
@@ -213,7 +215,7 @@ func open() -> void:
 	game.weapons.viewmodel.hide()
 	# the roof view when the player is at the hut; anywhere else the map opens over the player, so towers
 	# can be planned out on the meadow or at a gate too (PLANNER_REACH is measured from the player)
-	var centre: Vector3 = game.hut.center
+	var centre: Vector3 = game.hut.center if game.hut else player.global_position
 	if Vector2(player.global_position.x - centre.x, player.global_position.z - centre.z).length() > HUT_VIEW_RANGE:
 		centre = Map.ground_pos(player.global_position.x, player.global_position.z)
 	centre = centre.lerp(player.global_position, 0.5)
@@ -295,6 +297,7 @@ func select_kind(kind: String) -> void:
 
 # the roof slot a point snaps to (-1 = none): the six rings are the targets, not the roof tiles between them
 func roof_slot_near(point: Vector3) -> int:
+	if Map.active_region == "planes": return -1
 	if not point.is_finite(): return -1
 	var best := -1
 	var best_d := ROOF_SNAP
