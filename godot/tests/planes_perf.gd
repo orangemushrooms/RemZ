@@ -27,6 +27,9 @@ func run() -> void:
 	var views: Array = Map._d.views.duplicate(true)
 	views.append({"id":"grove","pos":[30,-7],"target":[135,-22]})
 	views.append({"id":"village","pos":[-180,-100],"target":[-260,-210]})
+	if "--planes-detail-views" in OS.get_cmdline_user_args():
+		views.append({"id":"woodland-detail","pos":[45,-5],"target":[60,8],"pitch":-0.18})
+		views.append({"id":"houses-detail","pos":[-274,-121],"target":[-319,-112]})
 	var report := {"label":label,"viewport":str(root.size),"adapter":RenderingServer.get_video_adapter_name(),"views":[]}
 	for view: Dictionary in views:
 		var p := Vector2(view.pos[0],view.pos[1])
@@ -34,8 +37,8 @@ func run() -> void:
 		game.player.position = Map.ground_pos(p.x,p.y)+Vector3.UP*0.08
 		game.player.velocity = Vector3.ZERO
 		game.player.rotation.y = atan2(-(target.x-p.x),-(target.y-p.y))
-		game.player.pitch = 0.015
-		game.player.head.rotation.x = 0.015
+		game.player.pitch = float(view.get("pitch",0.015))
+		game.player.head.rotation.x = game.player.pitch
 		game.player.reset_physics_interpolation()
 		game.cornfield.update_lod()
 		if combat:

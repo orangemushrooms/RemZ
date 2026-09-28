@@ -39,6 +39,19 @@ func run() -> void:
 	check(game.landscape.tree_count>100 and game.birds.size()==14,"Mapped groves and reused Meshy wildlife are built")
 	check(Map.cover(60,4).r>0.95 and Map.cover(60,4).b<0.01,"Woodland east of the fork is forest floor, not gravel")
 	check(game.cornfield.counts.grass>700000 and game.cornfield.counts.undergrowth>5000,"Meadows are denser and mapped woods have undergrowth")
+	var woodland_clear := true
+	var woodland_samples := 0
+	var grid_aligned := 0
+	for node: MultiMeshInstance3D in game.cornfield.grass_batches:
+		if node.get_meta("kind")!="undergrowth": continue
+		for at: Vector3 in node.get_meta("placement_samples"):
+			woodland_samples += 1
+			var local := at-node.position
+			if fposmod(local.x,1.5)<0.45 and fposmod(local.z,1.5)<0.45: grid_aligned += 1
+			var crop: Color = game.cornfield.sample(Vector2(at.x,at.z))
+			if Map.cover(at.x,at.z).r<0.65 or Map.gravel_weight(at.x,at.z)>0.05 or crop.r>0.5 or crop.g>0.5: woodland_clear = false
+	check(woodland_clear and woodland_samples>200,"Dense woodland placement stays off gravel and cultivated crops")
+	check(grid_aligned<float(woodland_samples)*0.2 and game.cornfield.counts.undergrowth>14000 and game.cornfield.counts.woodland_grass>15000,"Woodland is substantially denser with mixed grass and no repeated 1.5-m planting grid")
 	check(game.landscape.get_node("VillageBuildings").get_meta("exact_footprints",0)>500,"Village walls follow source polygons without overlapping bounding-box houses")
 	check(game.cornfield.counts.corn>10000 and game.cornfield.counts.wheat>10000,"Fields contain dense maize and grain")
 	check(game.birds[0].model_root!=null and game.birds[0].skeleton!=null,"Raven uses existing animated model")

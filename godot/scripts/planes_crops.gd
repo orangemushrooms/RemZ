@@ -6,7 +6,7 @@ var corn_meshes: Array[Mesh] = []
 var wheat_meshes: Array[Mesh] = []
 var batches: Array[MultiMeshInstance3D] = []
 var grass_batches: Array[MultiMeshInstance3D] = []
-var counts := {"corn":0,"wheat":0,"grass":0,"undergrowth":0}
+var counts := {"corn":0,"wheat":0,"grass":0,"undergrowth":0,"woodland_grass":0}
 var wind: ShaderMaterial
 var _elapsed := 0.0
 var rustle: AudioStreamPlayer
@@ -39,7 +39,11 @@ func build(main: Node) -> void:
 	grass_material.set_shader_parameter("meadow_distance_thinning",true)
 	var grass_mesh := Foliage._tuft_mesh(1.05,0.34)
 	var woodland_material := Foliage.sprite_material("res://assets/sprites/leaf_fern.png",Vector2.ONE,0.35,Color(0.4,0.57,0.26))
+	woodland_material.set_shader_parameter("meadow_distance_thinning",true)
 	var woodland_mesh := Foliage._tuft_mesh(1.25,0.75)
+	var patches := FastNoiseLite.new()
+	patches.seed = 70131
+	patches.frequency = 0.13
 	for z in range(int(ext.position.y),int(ext.end.y),CELL):
 		if game.boot: game.boot.step(0.48+0.35*(z-ext.position.y)/ext.size.y,true)
 		for x in range(int(ext.position.x),int(ext.end.x),CELL):
@@ -70,11 +74,18 @@ func build(main: Node) -> void:
 					elif kind=="wheat": wheat.append(xf)
 					elif kind=="undergrowth": undergrowth.append(xf)
 					else: grass.append(xf)
+			# Use an independent stream so denser woodland does not rearrange crops.
+			# The old sparse mask probes identify wooded cells; none are rendered.
+			if not undergrowth.is_empty():
+				undergrowth.clear()
+				_scatter_woodland(origin,patches,undergrowth,grass)
 			for spec in [["corn",corn,corn_meshes[2]],["wheat",wheat,wheat_meshes[1]],["grass",grass,grass_mesh],["undergrowth",undergrowth,woodland_mesh]]:
 				if spec[1].is_empty(): continue
 				var node := _batch(spec[1],spec[2],grass_material if spec[0]=="grass" else woodland_material if spec[0]=="undergrowth" else wind,origin)
 				if spec[0]=="undergrowth":
-					for i in node.multimesh.instance_count: node.multimesh.set_instance_custom_data(i,Color(0,0.78,0.7,0.1))
+					for i in node.multimesh.instance_count:
+						var custom := node.multimesh.get_instance_custom_data(i)
+						node.multimesh.set_instance_custom_data(i,Color(0,0.72+fposmod(i*0.754877,1.0)*0.28,0.5+fposmod(i*0.56984,1.0)*0.5,custom.a))
 				node.set_meta("kind",spec[0])
 				node.visibility_range_end = 65 if spec[0] in ["grass","undergrowth"] else 440
 				if spec[0] in ["grass","undergrowth"]: grass_batches.append(node)
@@ -86,6 +97,32 @@ func build(main: Node) -> void:
 	add_child(rustle)
 	rustle.play()
 	update_lod()
+
+func _scatter_woodland(origin: Vector3, patches: FastNoiseLite, ferns: Array[Transform3D], grass: Array[Transform3D]) -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(Vector2(origin.x,origin.z))+75197
+	# Independent continuous points, with broad dense patches and smaller gaps.
+	# There are no quantised rows or shared plant sizes, including at cell edges.
+	for attempt in CELL*CELL*4:
+		var p := Vector2(origin.x+rng.randf()*CELL,origin.z+rng.randf()*CELL)
+		if not Map.extent().has_point(p): continue
+		var cover := Map.cover(p.x,p.y)
+		if cover.r<0.65 or cover.b>0.05: continue
+		var crop := sample(p)
+		if crop.r>0.5 or crop.g>0.5 or game.near_building(p): continue
+		var density := clampf(0.7+patches.get_noise_2d(p.x,p.y)*0.9,0.28,0.98)
+		if rng.randf()>density: continue
+		var fern := rng.randf()<0.46
+		var width := rng.randf_range(0.65,1.25) if fern else rng.randf_range(0.8,1.5)
+		var height := rng.randf_range(0.4,1.05) if fern else rng.randf_range(0.65,1.35)
+		var normal := Map.ground_normal(p.x,p.y)
+		var basis := Basis(Quaternion(Vector3.UP,normal))*Basis(Vector3.UP,rng.randf()*TAU)
+		basis = basis.scaled_local(Vector3(width,height,width*rng.randf_range(0.8,1.15)))
+		var xf := Transform3D(basis,Map.ground_pos(p.x,p.y)-origin-Vector3.UP*0.025)
+		if fern: ferns.append(xf)
+		else:
+			grass.append(xf)
+			counts.woodland_grass += 1
 
 func _batch(transforms: Array, mesh: Mesh, mat: Material, origin: Vector3) -> MultiMeshInstance3D:
 	# Prefixes must cover the whole cell, not remove consecutive planted rows.

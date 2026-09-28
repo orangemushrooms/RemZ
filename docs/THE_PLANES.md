@@ -79,3 +79,23 @@ Geprüft: 333 Skripte kompiliert; 42 Kampagnenprüfungen; 24 Erkundungs-/Regions
 `powershell -NoProfile -ExecutionPolicy Bypass -File tools/test_planes.ps1 -Survival` prüft den Kampfbetrieb samt Rückkehr. `-Packaged -Survival` prüft den tatsächlichen Windows-Release inklusive Navigation und Laden der Gegner/Waffen; `-Packaged` prüft den friedlichen Einstieg.
 
 Die isolierte Testumgebung meldet beim Start einen nicht lesbaren Windows-Zertifikatsspeicher. Die Prüfung toleriert ausschliesslich diese Umgebungsfehlermeldung; andere Engine- und Skriptfehler lassen sie scheitern. Die Map bleibt Einzelspiel.
+
+## Fassaden und natürlicher Unterwuchs
+
+Nachbesserung vom 28. September: OSM-Grundrisse haben unterschiedliche Umlaufrichtungen. Dadurch lagen vorher bei 429 von 585 Gebäuden Fenster und Läden innen. Die Grundrisse werden jetzt vor dem Bau einheitlich ausgerichtet. Fensterläden, Eingänge, Dachgeschossfenster, Kamine, Sockel, Dachränder und Holzpartien unterscheiden wieder Wohnhäuser, Bauernhäuser, Scheunen und Schuppen. Diese architektonischen Details sind Annäherungen aus dem vorhandenen Baukastensystem; vermessen bleiben Grundrisse und Gelände. Dächer besitzen weiterhin genau eine Dachhaut. Die Texturkoordinaten folgen jeder Oberfläche, wodurch Dachziegel und Holz nicht mehr auf eine Linie gestaucht werden. Fenster verwenden weniger verdeckte Geometrie als zuvor.
+
+Der Wald erhält **18’921 Farne und 22’042 zusätzliche Grasbüschel** statt 7004 gleichmässig gesetzter Farne. Kontinuierliche Zufallspositionen, unterschiedliche Breiten/Höhen/Drehungen und über Zellgrenzen hinweg wechselnde Pflanzendichte ersetzen das 1,5-m-Raster. Eine feste Zufallsfolge hält die Landschaft bei jedem Besuch stabil. Die vorhandenen Gras-/Farntexturen werden weiterverwendet; Wege und Anbauflächen bleiben frei. Distanzabhängige Ausdünnung begrenzt die Renderkosten.
+
+Vergleich direkt mit der vorher veröffentlichten Version, ohne zweite laufende Spielinstanz; gleiche Hardware, Auflösung und Messmethode wie oben (`detail-baseline.json`, `detail-after.json`):
+
+| Ansicht | Vorher FPS | Nachher FPS | Nachher p95 ms |
+|---|---:|---:|---:|
+| Sennhof | 83.27 | 90.11 | 11.53 |
+| Gabelung | 95.51 | 102.63 | 10.21 |
+| Core | 100.87 | 108.59 | 9.69 |
+| Gehölz | 116.55 | 121.08 | 8.78 |
+| Dorf | 160.92 | 169.84 | 6.42 |
+
+In diesen fünf Ansichten kein gemessener FPS-Rückgang. `--suite=planes_buildings` prüft die tatsächlich erzeugten Fensterflächen und Dach-UVs an einem konkaven Grundriss in beiden Umlaufrichtungen. Die Erkundungssuite prüft zusätzlich Vegetationsdichte, Abstand vom früheren Raster sowie freie Wege und Felder. `--planes-detail-views` ergänzt im Grafiktest Nahansichten von Wald und Häusern.
+
+Aktueller Belastungstest mit 24 Gegnern aus Welle 25 und Gewitter: 77–127 FPS in den fünf Vergleichsansichten, p95 8,83–13,27 ms (`detail-storm.json`). Die zusätzliche Wald-Nahansicht erreicht 94 FPS. 334 Skripte kompilieren; vier Geometrieprüfungen und 26 Erkundungs-/Regionswechselprüfungen bestehen.
