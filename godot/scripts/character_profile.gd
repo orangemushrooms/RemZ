@@ -4,7 +4,7 @@ signal changed
 signal xp_gained(amount: int, reason: String)
 signal level_gained(class_id: String, level: int)
 const Classes = preload("res://scripts/character_classes.gd")
-const VERSION := 1
+const VERSION := 2 # Slower XP curve; old profiles retain their level and fractional progress.
 const STAT_KEYS := ["kills", "headshots", "headshot_kills", "deaths", "boss_kills", "missions", "waves", "best_streak", "seconds", "multiplayer_kills", "multiplayer_missions"]
 var profile_id := "local"
 var data: Dictionary = {}
@@ -60,7 +60,10 @@ static func sanitize(raw: Dictionary) -> Dictionary:
 		for id in Classes.ORDER:
 			var entry: Variant = stored.get(id)
 			if not entry is Dictionary: continue
-			result.classes[id].total_xp = int(number(entry.get("total_xp", 0)))
+			var total := number(entry.get("total_xp", 0))
+			if int(number(raw.get("version", 1))) < 2:
+				total = minf(1000000000000.0, int(total) * 11 / 10)
+			result.classes[id].total_xp = int(total)
 			result.classes[id].choices = Classes.valid_choices(id, Classes.level_for(result.classes[id].total_xp), entry.get("choices", []))
 			var stats: Variant = entry.get("stats")
 			if stats is Dictionary:
@@ -85,6 +88,7 @@ func load_profile(id: String) -> bool:
 	if not id.is_valid_identifier() or context != "main": return false
 	if dirty and not save(): return false
 	var candidate := empty_profile()
+	var migrated := false
 	save_error = ""
 	if persist:
 		var raw: Variant = null
@@ -97,14 +101,17 @@ func load_profile(id: String) -> bool:
 					return false
 				raw = parsed
 				break
-		if raw is Dictionary: candidate = sanitize(raw)
+		if raw is Dictionary:
+			migrated = int(number(raw.get("version", 1))) < VERSION
+			candidate = sanitize(raw)
 		elif FileAccess.file_exists(path_for(id)) or FileAccess.file_exists(path_for(id) + ".bak"):
 			save_error = "The profile could not be read. The original files have been kept."
 			return false
 	profile_id = id
 	data = candidate
 	if persist: _save_selection()
-	dirty = false
+	dirty = migrated
+	if migrated: save()
 	changed.emit()
 	return true
 

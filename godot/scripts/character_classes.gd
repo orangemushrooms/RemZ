@@ -11,9 +11,9 @@ const ACHIEVEMENTS := [
 	["master_of_arms", "Master of Arms", "Reach level 30 with all five classes.", 5000],
 	["untouchable", "Untouchable Survivor", "Complete an entire Hard or Nightmare mission without taking damage.", 2000]
 ]
-const XP_STEPS := [1000, 1500, 2000, 2500, 3000, 3800, 4600, 5400, 6200, 7000,
-	8200, 9400, 10600, 11800, 13000, 14600, 16200, 17800, 19400, 21000,
-	23200, 25400, 27600, 29800, 32000, 36500, 41000, 45500, 50000]
+const XP_STEPS := [1100, 1650, 2200, 2750, 3300, 4180, 5060, 5940, 6820, 7700,
+	9020, 10340, 11660, 12980, 14300, 16060, 17820, 19580, 21340, 23100,
+	25520, 27940, 30360, 32780, 35200, 40150, 45100, 50050, 55000]
 const CLASSES := {
 	"gunslinger": {"name": "Gunslinger", "role": "Mobility and precision with pistols and revolvers.", "color": Color("e5b660"), "weapons": ["pistol", "revolver", "deagle", "flare_pistol"], "talents": [
 		[["quick_hands", "Quick Hands", "Pistols reload 20% faster."], ["steady_hand", "Steady Hand", "15% less pistol recoil."]],

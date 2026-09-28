@@ -3,6 +3,8 @@ extends Control
 const Classes = preload("res://scripts/character_classes.gd")
 var class_id := "gunslinger":
 	set(value): class_id = value; queue_redraw()
+var decorated := true
+var symbol := ""
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -12,7 +14,25 @@ func _draw() -> void:
 	var colour: Color = Classes.CLASSES.get(class_id, Classes.CLASSES.gunslinger).color
 	var scale_factor := minf(size.x, size.y) / 100.0
 	draw_set_transform(size * 0.5, 0.0, Vector2.ONE * scale_factor)
-	draw_arc(Vector2.ZERO, 44, 0, TAU, 64, Color(colour, 0.25), 1.5, true)
+	if decorated:
+		draw_circle(Vector2.ZERO, 46, Color("101b16"))
+		draw_arc(Vector2.ZERO, 46, 0, TAU, 96, Color(colour, 0.3), 1, true)
+		draw_arc(Vector2.ZERO, 39, -PI*0.8, PI*0.8, 80, Color(colour, 0.55), 1, true)
+		for i in 40:
+			var axis := Vector2.from_angle(i * TAU / 40)
+			draw_line(axis * (42 if i % 5 else 40), axis * 44, Color(colour, 0.65 if i % 5 == 0 else 0.2), 1, true)
+		for side in [-1, 1]:
+			draw_polyline(PackedVector2Array([Vector2(side*35,-38),Vector2(side*48,-25),Vector2(side*48,24),Vector2(side*35,38)]), Color(colour,0.3), 1, true)
+	if not symbol.is_empty():
+		match symbol:
+			"lock":
+				draw_arc(Vector2(0,-10), 17, PI, TAU, 32, colour, 5, true)
+				draw_rect(Rect2(-26,-11,52,43), colour, false, 4)
+				draw_circle(Vector2(0,5), 5, colour)
+				draw_line(Vector2(0,8),Vector2(0,19),colour,4,true)
+			"check": draw_polyline(PackedVector2Array([Vector2(-26,0),Vector2(-8,19),Vector2(29,-24)]),colour,6,true)
+			"diamond": draw_polyline(PackedVector2Array([Vector2(0,-26),Vector2(26,0),Vector2(0,26),Vector2(-26,0),Vector2(0,-26)]),Color(colour,0.65),3,true)
+		return
 	match class_id:
 		"gunslinger":
 			for flip in [-1.0, 1.0]:

@@ -14,11 +14,23 @@ func check(ok: bool, description: String) -> void:
 	print("PASS: " if ok else "FAIL: ", description)
 func shot(name: String) -> void:
 	if not "--class-visual" in OS.get_cmdline_user_args(): return
-	for i in 8: await process_frame
+	await create_timer(0.4).timeout
 	await RenderingServer.frame_post_draw
 	var folder := ProjectSettings.globalize_path("res://../artifacts/classes")
 	DirAccess.make_dir_recursive_absolute(folder)
 	root.get_texture().get_image().save_png(folder.path_join(name + ".png"))
+
+func click(control: Control) -> void:
+	await process_frame
+	await process_frame
+	var point := control.get_global_rect().get_center()
+	for down in [true, false]:
+		var event := InputEventMouseButton.new()
+		event.position = point
+		event.button_index = MOUSE_BUTTON_LEFT
+		event.pressed = down
+		root.push_input(event, true)
+	await process_frame
 
 func run() -> void:
 	CharacterProfile.data = CharacterProfile.empty_profile("Test survivor")
@@ -28,6 +40,38 @@ func run() -> void:
 	while not game.navigation_ready: await process_frame
 	var menu: Control = game.hud.overlay.get_node("CharacterMenu")
 	check(CharacterProfile.can_edit(), "Character editing is available after boot")
+	await create_timer(1.0).timeout
+	check(root.get_visible_rect().encloses(menu.summary.get_global_rect()), "The full summary, including profile controls, fits the viewport")
+	menu._open_profiles()
+	await shot("profiles-en")
+	menu.notice.hide()
+	menu.open_page("skills")
+	var locked: Button = menu._talent_buttons["0:0"]
+	check(not locked.disabled, "Locked talents stay interactive so a click can explain the requirement")
+	await click(locked)
+	check(menu.notice.visible and CharacterProfile.data.classes.gunslinger.choices[0] == -1, "Clicking a locked talent shows a notice without equipping it")
+	check(Lang.text(menu._requirement(0)).contains("7 700") and Lang.text(menu._requirement(0)).contains("level 5"), "The notice names the required class level and exact missing XP")
+	check(root.get_visible_rect().encloses(menu.modal.get_global_rect()) and menu.modal.get_global_rect().encloses(menu._scroll.get_global_rect()), "The talent screen and its scrolling region fit the viewport")
+	await shot("locked-en")
+	Lang.set_language("de")
+	await shot("locked-de")
+	await click(menu.notice_body.find_children("*", "Button", true, false).back())
+	check(not menu.notice.visible, "The notice closes through its real acknowledgement button")
+	menu.close()
+	Lang.set_language("en")
+	menu.open_page("classes")
+	for id in ["marksman", "gunslinger"]:
+		for pick: Button in menu.body.find_children("*", "Button", true, false):
+			if pick.get_meta("gallery_class", "") == id:
+				await click(pick)
+				break
+		check(CharacterProfile.selected() == id, "Clicking the gallery card selects " + id)
+	await shot("gallery-en")
+	Lang.set_language("de")
+	await shot("gallery-de")
+	check(root.get_visible_rect().encloses(menu.modal.get_global_rect()), "The translated class gallery fits the viewport")
+	Lang.set_language("en")
+	menu.close()
 	CharacterProfile.add_xp(Classes.threshold(21), "test")
 	CharacterProfile.choose_skill("gunslinger", 0, 0)
 	CharacterProfile.choose_skill("gunslinger", 1, 0)
@@ -35,13 +79,34 @@ func run() -> void:
 	CharacterProfile.choose_skill("gunslinger", 3, 0)
 	await shot("main-en")
 	menu.open_page("skills")
-	check(menu.modal.visible and not game.hud._card.visible, "Main menu opens the dedicated three-column talent view")
+	check(menu.modal.visible and not game.hud._card.visible, "Main menu opens the dedicated talent dossier")
+	await click(menu._talent_buttons["0:1"])
+	check(CharacterProfile.data.classes.gunslinger.choices[0] == 1 and not menu.notice.visible, "An unlocked talent card equips the alternative immediately")
+	await click(menu._talent_buttons["0:0"])
 	await shot("skills-en")
 	Lang.set_language("de")
 	await shot("skills-de")
 	menu.page = "progress"
 	menu._render_page()
 	await shot("progress-de")
+	if "--class-visual" in OS.get_cmdline_user_args():
+		root.mode = Window.MODE_WINDOWED
+		root.size = Vector2i(1280, 720)
+		await create_timer(0.4).timeout
+		menu._set_page("skills")
+		await shot("skills-720-de")
+		check(root.get_visible_rect().encloses(menu.modal.get_global_rect()), "The dossier remains within the smaller 1280 by 720 window")
+		menu._scroll.scroll_vertical = 10000
+		await create_timer(0.3).timeout
+		await click(menu._talent_buttons["5:1"])
+		check(menu.notice.visible and CharacterProfile.data.classes.gunslinger.choices[5] == -1, "The final locked tier can be scrolled to and clicked at 720p")
+		await shot("locked-720-de")
+		menu.notice.hide()
+		menu._set_page("classes")
+		await shot("gallery-720-de")
+		check(root.get_visible_rect().encloses(menu.modal.get_global_rect()), "The class gallery remains within the smaller window")
+		menu.close()
+		await shot("main-720-de")
 	menu.close()
 	Lang.set_language("en")
 	game.hud.show_tab("multiplayer")

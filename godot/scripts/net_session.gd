@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 4 # Persistent classes and frozen lobby loadouts.
-const BUILD := "remz-dev-20260927-character-classes"
+const BUILD := "remz-dev-20260928-character-dossier"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.

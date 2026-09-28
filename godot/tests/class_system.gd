@@ -39,6 +39,20 @@ func perk(id: String) -> RefCounted:
 func run() -> void:
 	check(not CharacterProfile.persist, "Automated runs never load or save the real character")
 	check(Classes.XP_STEPS.size() == 29, "Exactly 29 level transitions")
+	check(Classes.XP_STEPS[0] == 1100 and Classes.XP_STEPS[28] == 55000, "Levelling is only ten percent slower")
+	for old_level in range(1, 31):
+		var old := Profile.empty_profile("Existing survivor")
+		old.version = 1
+		var old_threshold := Classes.threshold(old_level) * 10 / 11
+		var partial := int(Classes.XP_STEPS[old_level - 1]) * 5 / 11 if old_level < 30 else 123
+		old.classes.marksman.total_xp = old_threshold + partial
+		old.classes.marksman.choices = Classes.valid_choices("marksman", old_level, [1,0,1,0,1,0])
+		var migrated := Profile.sanitize(old)
+		check(Classes.level_for(migrated.classes.marksman.total_xp) == old_level and migrated.classes.marksman.choices == old.classes.marksman.choices, "Version-one level %d and talent choices survive the gentler curve" % old_level)
+		check(Profile.sanitize(migrated) == migrated, "Migration is applied only once at level %d" % old_level)
+		if old_level < 30:
+			var progress := Classes.progress(migrated.classes.marksman.total_xp)
+			check(absf(float(progress.xp) / progress.required - 0.5) < 0.001, "Existing progress within level %d is preserved" % old_level)
 	for level in range(2, 31):
 		var threshold := Classes.threshold(level)
 		check(Classes.level_for(threshold - 1) == level - 1 and Classes.level_for(threshold) == level, "XP boundary %d" % level)
@@ -99,6 +113,16 @@ func run() -> void:
 	check(copy.load_profile("local") and copy.data.classes.assassin.total_xp == 500, "Corrupt current file recovers the valid backup")
 	copy.dirty = true
 	check(copy.save(), "Recovered profile can be saved again")
+	var legacy := Profile.empty_profile("Earlier save")
+	legacy.version = 1
+	legacy.classes.gunslinger.total_xp = 8250 # Level 5, half way to level 6 on the old curve.
+	legacy.classes.gunslinger.choices[0] = 1
+	FileAccess.open(copy.path_for("legacy"), FileAccess.WRITE).store_string(JSON.stringify(legacy))
+	check(copy.load_profile("legacy") and copy.level("gunslinger") == 5 and copy.data.classes.gunslinger.choices[0] == 1, "A real version-one file loads with its level and selected talent")
+	check(Profile.read_json(copy.path_for("legacy")).version == 2 and not copy.dirty, "Loading an old file persists its migration immediately")
+	check(Profile.read_json(copy.path_for("legacy") + ".bak").version == 1, "The original version-one file is retained as backup")
+	var migrated_xp: int = copy.data.classes.gunslinger.total_xp
+	check(copy.load_profile("legacy") and copy.data.classes.gunslinger.total_xp == migrated_xp, "A second disk load never scales XP again")
 	var bad := Profile.sanitize({"selected": "invalid", "classes": {"gunslinger": {"total_xp": -7, "choices": [1,1,1,1,1,1], "stats": {"kills": "oops", "seconds": NAN}}}})
 	check(bad.classes.gunslinger.total_xp == 0 and bad.classes.gunslinger.stats.seconds == 0 and bad.classes.gunslinger.choices == [-1,-1,-1,-1,-1,-1], "Malformed save fields are safely normalised")
 	profile.persist = false

@@ -1,6 +1,6 @@
 # Charakterklassen und dauerhafter Fortschritt
 
-Im Hauptmenü zeigt die rechte Karte die gewählte Klasse, ihr Level und den XP-Fortschritt. **Klasse wechseln**, **Klassen-Skills** und **Klassenfortschritt** öffnen die Klassenansicht. Links stehen alle fünf Klassen, in der Mitte das Klassensymbol und rechts die Talente beziehungsweise Statistiken. Gesperrte Talente bleiben sichtbar.
+Im Hauptmenü zeigt das Überlebenden-Dossier die gewählte Klasse, ihr Level und den XP-Fortschritt. **Klasse wechseln** öffnet eine Galerie mit fünf Klassenkarten. **Klassen-Skills** und **Klassenfortschritt** zeigen die Klassenauswahl mit Dossier links und Talentkarten beziehungsweise Statistiken rechts. Eigene Klassensiegel, Barlow-Schriften, dezente Höhenlinien und Waldsilhouetten prägen die Oberfläche. Gesperrte Talente bleiben anklickbar: Ein Hinweis nennt das benötigte Klassenlevel und die exakt fehlenden XP. Die Talentwahl selbst verbraucht keine XP.
 
 Jede Klasse besitzt eigene XP und Level 1–30. Auf Level 5, 10, 15, 20, 25 und 30 wird jeweils ein Talentpaar freigeschaltet. Ein Talent muss bewusst gewählt werden; pro Paar wirkt höchstens eines. Änderungen sind im Hauptmenü kostenlos. Während eines Matches bleibt der gewählte Build fest, auch bei einem Levelaufstieg. Sämtliche Waffen bleiben für jede Klasse verwendbar.
 
@@ -18,7 +18,7 @@ Die Tarnung des Assassin reduziert die unmittelbare Spielerpriorität gewöhnlic
 
 ## Profile
 
-Die rechte Hauptmenükarte enthält eine Profilauswahl und ein Feld zum Erstellen weiterer lokaler Profile. Der Anzeigename ist vom Dateinamen getrennt: neue Profile erhalten eine stabile zufällige ID. Ein anderer Multiplayer-Anzeigename verändert das aktive Profil nicht.
+Die Profil-Schaltfläche unten im Dossier öffnet die Auswahl und das Erstellen weiterer lokaler Profile. Der Anzeigename ist vom Dateinamen getrennt: neue Profile erhalten eine stabile zufällige ID. Ein anderer Multiplayer-Anzeigename verändert das aktive Profil nicht.
 
 Gespeichert wird im Ordner `profiles` neben der exportierten EXE, im Editor im Repository unter `profiles`. Kann der Ordner nicht erstellt werden, wird `user://profiles` verwendet. Die Profilauswahl liegt in `user://character.cfg`. Beim Übertragen auf einen anderen Rechner den Profilordner mitnehmen.
 
@@ -44,7 +44,7 @@ Automatische Testläufe verwenden ein eigenes Profil im Arbeitsspeicher. Die Spe
 
 Die persönlichen Profilerfolge **First Blood**, **Exterminator**, **Perfect Aim**, **Veteran**, **Master of Arms** und **Untouchable** geben einmalig 250 / 5000 / 1000 / 2500 / 5000 / 2000 XP. Perfect Aim zählt Kopfschüsse auch dann, wenn das Ziel überlebt. Untouchable verlangt eine gesamte schwere oder Albtraum-Mission ohne erlittenen Schaden; ein später Matchbeitritt reicht dafür nicht.
 
-Die benötigten XP steigen von 1000 für Level 1 → 2 bis 50.000 für Level 29 → 30. Die vorgegebenen Zwischenwerte 3000 / 7000 / 13.000 / 21.000 / 32.000 sind enthalten. Ab Level 30 werden Gesamt-XP weiterhin gezählt, ohne zusätzliche Talentstufen. Die Werte sind eine erste spielbare Abstimmung und zentral anpassbar.
+Die benötigten XP steigen von 1100 für Level 1 → 2 bis 55.000 für Level 29 → 30. Gegenüber der ersten Fassung sind sämtliche Levelkosten um lediglich 10 % erhöht; alle XP-Belohnungen bleiben gleich. Bestehende Profile werden beim Laden einmalig auf Format 2 umgestellt: Ihre XP werden im selben Verhältnis angepasst, sodass Level, freigeschaltete Talente und anteiliger Level-Fortschritt erhalten bleiben (Rundung unter 1 XP). Die vorherige Datei bleibt als Sicherung erhalten. Ab Level 30 werden Gesamt-XP weiterhin gezählt, ohne zusätzliche Talentstufen.
 
 ## Mehrspieler
 
@@ -64,7 +64,7 @@ Für automatisierte Starts gibt es ausdrücklich `--class-auto-lock`. `--charact
 - `character_profile.gd`: Autoload für lokale Identitäten, Statistik und robuste Speicherung.
 - `class_combat.gd`: Ein eingefrorener Build und eigene Effektzustände pro Spieler.
 - `class_progression.gd`: Verbindung zu Kills, Quests, Erfolgen, Wellen und Koop-Belohnungen.
-- `character_menu.gd`, `character_hud.gd`, `class_icon.gd`: Menüs, HUD und skalierbare Klassensymbole.
+- `character_menu.gd`, `character_style.gd`, `character_surface.gd`, `character_hud.gd`, `class_icon.gd`: Dossier, Typografie, prozedurale Hintergründe, HUD und skalierbare Klassensiegel.
 
 ```powershell
 & C:/Users/miche/Desktop/Godot.exe --headless --path godot --script res://tests/run.gd -- --suite=class_system
@@ -72,4 +72,4 @@ Für automatisierte Starts gibt es ausdrücklich `--class-auto-lock`. `--charact
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/test_class_coop.ps1
 ```
 
-`class_system` prüft XP-Grenzen, Levelcap, Profile, beschädigte Dateien und Talentbedingungen. `class_integration` prüft das vollständige Spiel mit Menüs, realen Nachlade- und Magazinwerten, Kills, Belohnungen und Lobby-Sperren. Mit `--class-visual` in einem gerenderten Lauf entstehen Bilder unter `artifacts/classes`. `class_coop` startet zwei getrennte Prozesse und prüft persönliche Belohnungen, einmalige Erfolge, Host-Validierung und gemeinsame Missionsabschlüsse.
+`class_system` prüft XP-Grenzen, Levelcap, Profile, beschädigte Dateien, die einmalige Migration alter Spielstände und Talentbedingungen. `class_integration` prüft das vollständige Spiel mit echten Mausklicks auf Talentkarten, Hinweisen, realen Nachlade- und Magazinwerten, Kills, Belohnungen und Lobby-Sperren. Mit `--class-visual` entstehen gerenderte Bilder auf Deutsch und Englisch unter `artifacts/classes`; der Lauf prüft auch die Bedienung bei 1280 × 720. `class_coop` startet zwei getrennte Prozesse und prüft persönliche Belohnungen, einmalige Erfolge, Host-Validierung und gemeinsame Missionsabschlüsse. Die Sprachprüfung erfasst Galerie, Talentanforderungen, Profile und Fortschrittsansicht.

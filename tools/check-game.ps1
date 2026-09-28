@@ -102,4 +102,8 @@ if ($Mode -in @('ExportWindows', 'ExportPack')) {
     Copy-Item -LiteralPath (Join-Path $project 'assets/viewmodel/VALVE-LICENSE.txt') -Destination (Join-Path $workspace 'builds/windows/VALVE-LICENSE.txt')
     Copy-Item -LiteralPath (Join-Path $project 'assets/viewmodel/SOURCES.md') -Destination (Join-Path $workspace 'builds/windows/HAND-ASSETS.md')
     Copy-Item -LiteralPath (Join-Path $project 'assets/sky/SOURCES.md') -Destination (Join-Path $workspace 'builds/windows/HORIZON-ASSETS.md')
+    foreach ($license in @('Barlow-OFL.txt', 'BarlowCondensed-OFL.txt')) {
+        Copy-Item -LiteralPath (Join-Path $project ('assets/fonts/' + $license)) -Destination (Join-Path $workspace ('builds/windows/' + $license))
+    }
+    Copy-Item -LiteralPath (Join-Path $project 'assets/fonts/SOURCES.md') -Destination (Join-Path $workspace 'builds/windows/FONT-ASSETS.md')
 }

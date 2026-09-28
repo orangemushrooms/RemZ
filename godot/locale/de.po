@@ -7371,3 +7371,102 @@ msgstr "Alle Ziele erreicht!\nBei %s abgeben · %d R · %d Klassen-XP"
 
 msgid "Deaths"
 msgstr "Tode"
+
+msgid "Survivor dossier"
+msgstr "Überlebendenakte"
+
+msgid "REMZ · Survivor dossier"
+msgstr "REMZ · Überlebendenakte"
+
+msgid "Class level"
+msgstr "Klassenlevel"
+
+msgid "%s / %s XP"
+msgstr "%s / %s XP"
+
+msgid "%s XP to next level"
+msgstr "%s XP bis zum nächsten Level"
+
+msgid "Maximum level"
+msgstr "Maximales Level"
+
+msgid "Choose your speciality"
+msgstr "Wähle deine Spezialisierung"
+
+msgid "Shape your playstyle"
+msgstr "Gestalte deinen Spielstil"
+
+msgid "Your record in the field"
+msgstr "Deine Einsatzerfolge"
+
+msgid "Profile · %s"
+msgstr "Profil · %s"
+
+msgid "Build your survivor"
+msgstr "Entwickle deinen Charakter"
+
+msgid "One talent per tier. Change your choices freely in the main menu."
+msgstr "Ein Talent pro Stufe. Deine Auswahl lässt sich im Hauptmenü jederzeit ändern."
+
+msgid "REMZ / 01"
+msgstr "REMZ / 01"
+
+msgid "Class roster"
+msgstr "Klassenübersicht"
+
+msgid "Every class can use every weapon. Your talents define how you fight."
+msgstr "Jede Klasse kann jede Waffe nutzen. Deine Talente bestimmen, wie du kämpfst."
+
+msgid "Discipline %02d"
+msgstr "Spezialisierung %02d"
+
+msgid "Select %s"
+msgstr "%s auswählen"
+
+msgid "Six talent tiers. Two choices at each milestone. Your build, your approach."
+msgstr "Sechs Talentstufen. Zwei Möglichkeiten an jedem Meilenstein. Dein Build, dein Spielstil."
+
+msgid "Edit selected build"
+msgstr "Aktiven Build bearbeiten"
+
+msgid "Class selected: %s"
+msgstr "Klasse ausgewählt: %s"
+
+msgid "%d / 6 talents equipped"
+msgstr "%d / 6 Talente ausgerüstet"
+
+msgid "Ready to choose"
+msgstr "Bereit zur Auswahl"
+
+msgid "Talent equipped"
+msgstr "Talent ausgerüstet"
+
+msgid "Equip %s"
+msgstr "%s ausrüsten"
+
+msgid "Requires %s level %d. You are level %d.\nEarn %s more class XP to unlock this tier."
+msgstr "Benötigt %s auf Level %d. Du bist auf Level %d.\nDir fehlen noch %s Klassen-XP bis zu dieser Talentstufe."
+
+msgid "Talent equipped: %s"
+msgstr "Talent ausgerüstet: %s"
+
+msgid "Lifetime class statistics"
+msgstr "Dauerhafte Klassenstatistik"
+
+msgid "Multiplayer: %s kills · %s missions"
+msgstr "Mehrspieler: %s Kills · %s Missionen"
+
+msgid "Profile achievements"
+msgstr "Profil-Erfolge"
+
+msgid "%s XP"
+msgstr "%s XP"
+
+msgid "Talent locked"
+msgstr "Talent gesperrt"
+
+msgid "Earn XP through combat, quests and completed waves. Choosing a talent does not spend XP."
+msgstr "Verdiene XP durch Kämpfe, Aufträge und überstandene Wellen. Bei der Talentwahl werden keine XP ausgegeben."
+
+msgid "Understood"
+msgstr "Verstanden"
