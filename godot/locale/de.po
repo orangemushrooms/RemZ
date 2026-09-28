@@ -7634,3 +7634,42 @@ msgstr "Zurück zur Gebietsauswahl"
 
 msgid "Survival: 25 rounds. Exploration regions can be visited freely."
 msgstr "Survival: 25 Runden. Erkundungsgebiete sind frei begehbar."
+
+msgid "Choose a region on the map or in the list."
+msgstr "Wähle ein Gebiet auf der Karte oder in der Liste."
+
+msgid "Select a region"
+msgstr "Gebiet auswählen"
+
+msgid "EXPLORATION / SURVIVAL"
+msgstr "ERKUNDUNG / SURVIVAL"
+
+msgid "Explore the fields of Remetschwil. Press Esc to start a 25-wave survival run."
+msgstr "Erkunde die Felder von Remetschwil. Mit Esc kannst du einen Survival-Durchlauf mit 25 Wellen starten."
+
+msgid "Start 25-wave survival"
+msgstr "Survival mit 25 Wellen starten"
+
+msgid "Back to exploration"
+msgstr "Zurück zur Erkundung"
+
+msgid "25 waves · 1/2/3 weapons · R reload · G grenade · Enter starts the next wave"
+msgstr "25 Wellen · 1/2/3 Waffen · R Nachladen · G Granate · Enter startet die nächste Welle"
+
+msgid "THE PLANES SECURED · 25 / 25"
+msgstr "THE PLANES GESICHERT · 25 / 25"
+
+msgid "Run ended. Try again or continue exploring."
+msgstr "Durchlauf beendet. Starte erneut oder erkunde die Gegend weiter."
+
+msgid "Start in %d s · Enter: start now"
+msgstr "Start in %d s · Enter: sofort starten"
+
+msgid "Wave %d survived. Health and ammunition restored."
+msgstr "Welle %d überlebt. Gesundheit und Munition aufgefüllt."
+
+msgid "Downed: hold E to revive"
+msgstr "Am Boden: E zum Wiederbeleben halten"
+
+msgid "Health: %d"
+msgstr "Gesundheit: %d"

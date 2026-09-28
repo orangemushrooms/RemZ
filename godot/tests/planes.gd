@@ -18,8 +18,6 @@ func check(ok: bool, message: String) -> void:
 func run() -> void:
 	var campaign := Campaign.new()
 	check(campaign.select("planes"),"Planes is selectable")
-	campaign.record_wave(25,"Normal")
-	check(not campaign.cleared("planes") and campaign.best_wave("planes")==0,"Exploration cannot award a campaign victory")
 	Map.use_region("forest"); Map._ensure()
 	var forest_roads := Map.ROADS.size()
 	var forest_height := Map.ground_height(0,0)
@@ -35,9 +33,13 @@ func run() -> void:
 	root.add_child(game)
 	current_scene = game
 	while not game.ready_for_exploration: await process_frame
+	check(not game.survival_active and game.waves==null and game.campaign.best_wave("planes")==0,"Exploration starts without enemies, waves or awarded campaign progress")
 	for i in 8: await physics_frame
 	check(game.player.is_on_floor(),"Explorer settles on terrain at the photo viewpoint")
 	check(game.landscape.tree_count>100 and game.birds.size()==14,"Mapped groves and reused Meshy wildlife are built")
+	check(Map.cover(60,4).r>0.95 and Map.cover(60,4).b<0.01,"Woodland east of the fork is forest floor, not gravel")
+	check(game.cornfield.counts.grass>700000 and game.cornfield.counts.undergrowth>5000,"Meadows are denser and mapped woods have undergrowth")
+	check(game.landscape.get_node("VillageBuildings").get_meta("exact_footprints",0)>500,"Village walls follow source polygons without overlapping bounding-box houses")
 	check(game.cornfield.counts.corn>10000 and game.cornfield.counts.wheat>10000,"Fields contain dense maize and grain")
 	check(game.birds[0].model_root!=null and game.birds[0].skeleton!=null,"Raven uses existing animated model")
 	check(game.player._surface_step()=="gravel","Junction has gravel footsteps")

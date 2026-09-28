@@ -10,8 +10,8 @@ var _description: Label
 var _progress: Label
 var _join: Button
 var _rows: Array[Button] = []
-var _selected := "forest"
-var _preview_id := "forest"
+var _selected := ""
+var _preview_id := ""
 var _entry: VBoxContainer
 
 func _ready() -> void:
@@ -66,7 +66,7 @@ func _ready() -> void:
 	_description.custom_minimum_size = Vector2(290, 88)
 	_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_entry.add_child(_description)
-	_join = _button("Enter Forest  →")
+	_join = _button("Select a region")
 	_join.custom_minimum_size.y = 48
 	_join.pressed.connect(func(): choose(_preview_id))
 	_entry.add_child(_join)
@@ -85,8 +85,10 @@ func _ready() -> void:
 	refresh()
 
 func refresh() -> void:
-	_selected = campaign.selected_id
+	# Opening the atlas never chooses a region on the player's behalf.
+	_selected = ""
 	atlas.selected = _selected
+	atlas._hover("")
 	_progress.text = Lang.t("%d / %d regions secured", [campaign.cleared_count(), Campaign.REGIONS.size()])
 	for i in _rows.size():
 		var entry: Dictionary = Campaign.REGIONS[i]
@@ -106,7 +108,14 @@ func choose(id: String) -> void:
 func _preview(id: String) -> void:
 	if not _title: return
 	var entry := Campaign.region(id)
-	if entry.is_empty(): return
+	if entry.is_empty():
+		_preview_id = ""
+		_title.text = "SELECT A REGION"
+		_status.text = ""
+		_description.text = "Choose a region on the map or in the list."
+		_join.text = "Select a region"
+		_join.disabled = true
+		return
 	_preview_id = id
 	_title.text = entry.title
 	_status.text = "REGION SECURED" if campaign.cleared(id) else ("AVAILABLE  /  25 ROUNDS" if entry.available else "UNDER CONSTRUCTION")
@@ -115,8 +124,8 @@ func _preview(id: String) -> void:
 	_join.text = "Replay Forest  →" if campaign.cleared(id) else ("Enter Forest  →" if entry.available else "Under construction")
 	_join.disabled = not entry.available or NetSession.is_client()
 	if entry.get("exploration", false):
-		_status.text = "EXPLORATION"
-		_description.text = "Explore the fields of Remetschwil. Follow Rigiweg towards the village or walk uphill towards Sennhof."
+		_status.text = "EXPLORATION / SURVIVAL"
+		_description.text = "Explore the fields of Remetschwil. Press Esc to start a 25-wave survival run."
 		_join.text = "Explore The Planes  →"
 		_join.disabled = NetSession.enabled
 		if NetSession.enabled: _description.text = "The Planes exploration is available in solo play."

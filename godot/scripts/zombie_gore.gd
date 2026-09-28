@@ -200,12 +200,18 @@ static func sever(zombie: Node3D, rig: Skeleton3D, part_instance: MeshInstance3D
 	# the wound spurts for a couple of seconds: the weapons' pooled bursts at the joint
 	var scene := zombie.get_tree().current_scene
 	if "weapons" in scene and scene.weapons and scene.weapons.has_method("_blood"):
+		var actor_ref: WeakRef = weakref(zombie)
+		var rig_ref: WeakRef = weakref(rig)
+		var scene_ref: WeakRef = weakref(scene)
 		for i in 4:
-			var spurt := zombie.get_tree().create_timer(0.25 + i * 0.45)
+			var spurt := zombie.get_tree().create_timer(0.25 + i * 0.45,false)
 			spurt.timeout.connect(func():
-				if not is_instance_valid(zombie) or not is_instance_valid(rig): return
-				var at: Vector3 = rig.global_transform * rig.get_bone_global_pose(root).origin if root >= 0 else zombie.global_position
-				scene.weapons._blood(at, Vector3(randf_range(-0.4, 0.4), 1.0, randf_range(-0.4, 0.4)).normalized()))
+				var actor = actor_ref.get_ref()
+				var skeleton = rig_ref.get_ref()
+				var world = scene_ref.get_ref()
+				if not actor or not skeleton or not world: return
+				var at: Vector3 = skeleton.global_transform * skeleton.get_bone_global_pose(root).origin if root >= 0 else actor.global_position
+				world.weapons._blood(at, Vector3(randf_range(-0.4, 0.4), 1.0, randf_range(-0.4, 0.4)).normalized()))
 	if not fly or root < 0: return
 	# the chunk: the part's rest-pose geometry on a tumbling body, joint at the body origin
 	var chunk := RigidBody3D.new()
@@ -252,7 +258,7 @@ static func sever(zombie: Node3D, rig: Skeleton3D, part_instance: MeshInstance3D
 	var push := (Vector3(direction.x, 0.0, direction.z).normalized() if direction.length() > 0.01 else Vector3.UP) * randf_range(2.5, 4.0) + Vector3.UP * randf_range(2.0, 3.5)
 	chunk.linear_velocity = push
 	chunk.angular_velocity = Vector3(randf_range(-9.0, 9.0), randf_range(-9.0, 9.0), randf_range(-9.0, 9.0))
-	var timer := zombie.get_tree().create_timer(CHUNK_FREEZE)
-	timer.timeout.connect(func(): if is_instance_valid(chunk): chunk.freeze = true)
-	var cleanup := zombie.get_tree().create_timer(CHUNK_SECONDS)
-	cleanup.timeout.connect(func(): if is_instance_valid(chunk): chunk.queue_free())
+	var timer := zombie.get_tree().create_timer(CHUNK_FREEZE,false)
+	timer.timeout.connect(chunk.set_deferred.bind("freeze",true))
+	var cleanup := zombie.get_tree().create_timer(CHUNK_SECONDS,false)
+	cleanup.timeout.connect(chunk.queue_free)

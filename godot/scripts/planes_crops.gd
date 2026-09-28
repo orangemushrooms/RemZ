@@ -6,7 +6,7 @@ var corn_meshes: Array[Mesh] = []
 var wheat_meshes: Array[Mesh] = []
 var batches: Array[MultiMeshInstance3D] = []
 var grass_batches: Array[MultiMeshInstance3D] = []
-var counts := {"corn":0,"wheat":0,"grass":0}
+var counts := {"corn":0,"wheat":0,"grass":0,"undergrowth":0}
 var wind: ShaderMaterial
 var _elapsed := 0.0
 var rustle: AudioStreamPlayer
@@ -18,6 +18,9 @@ func sample(p: Vector2) -> Color:
 
 func in_corn(p: Vector2) -> bool:
 	return sample(p).r>0.5
+
+func scare(origin: Vector3) -> void:
+	for bird in game.birds: bird.scare(origin)
 
 func build(main: Node) -> void:
 	game = main
@@ -32,8 +35,11 @@ func build(main: Node) -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 9404384
 	var ext := Map.extent()
-	var grass_material := Foliage.sprite_material("res://assets/sprites/grass.png",Vector2(4,1),1.0,Color(0.65,0.82,0.46))
-	var grass_mesh := Foliage._tuft_mesh(0.52,0.19)
+	var grass_material := Foliage.sprite_material("res://assets/sprites/grass.png",Vector2(4,1),1.0,Color(0.55,0.72,0.37))
+	grass_material.set_shader_parameter("meadow_distance_thinning",true)
+	var grass_mesh := Foliage._tuft_mesh(1.05,0.34)
+	var woodland_material := Foliage.sprite_material("res://assets/sprites/leaf_fern.png",Vector2.ONE,0.35,Color(0.4,0.57,0.26))
+	var woodland_mesh := Foliage._tuft_mesh(1.25,0.75)
 	for z in range(int(ext.position.y),int(ext.end.y),CELL):
 		if game.boot: game.boot.step(0.48+0.35*(z-ext.position.y)/ext.size.y,true)
 		for x in range(int(ext.position.x),int(ext.end.x),CELL):
@@ -41,31 +47,37 @@ func build(main: Node) -> void:
 			var corn: Array[Transform3D] = []
 			var wheat: Array[Transform3D] = []
 			var grass: Array[Transform3D] = []
+			var undergrowth: Array[Transform3D] = []
 			for j in CELL*2:
 				for i in CELL*2:
 					var p := Vector2(x+i*0.5+rng.randf_range(0.05,0.4),z+j*0.5+rng.randf_range(0.05,0.4))
 					if not ext.has_point(p): continue
 					var crop := sample(p)
-					if Map.cover(p.x,p.y).b>0.05: continue
+					var cover := Map.cover(p.x,p.y)
+					if cover.b>0.05: continue
 					if game.near_building(p): continue
-					var kind := "corn" if crop.r>0.5 else "wheat" if crop.g>0.5 else "grass"
+					var kind := "corn" if crop.r>0.5 else "wheat" if crop.g>0.5 else "undergrowth" if cover.r>0.65 else "grass"
 					if kind=="grass":
-						if i%2==1 or j%2==1: continue
-						if Map.cover(p.x,p.y).g<0.92 or crop.b>0.1: continue
+						if i%2==1: continue
+						if cover.g<0.92 or crop.b>0.1: continue
 						# Low meadow tufts; skip mapped settlement footprints and their yards.
 						if game.near_building(p): continue
+					if kind=="undergrowth" and (i%3!=0 or j%3!=0): continue
 					var scale := rng.randf_range(0.84,1.1)
 					var at := Map.ground_pos(p.x,p.y)-origin
 					var xf := Transform3D(Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3.ONE*scale),at)
 					if kind=="corn": corn.append(xf)
 					elif kind=="wheat": wheat.append(xf)
+					elif kind=="undergrowth": undergrowth.append(xf)
 					else: grass.append(xf)
-			for spec in [["corn",corn,corn_meshes[2]],["wheat",wheat,wheat_meshes[1]],["grass",grass,grass_mesh]]:
+			for spec in [["corn",corn,corn_meshes[2]],["wheat",wheat,wheat_meshes[1]],["grass",grass,grass_mesh],["undergrowth",undergrowth,woodland_mesh]]:
 				if spec[1].is_empty(): continue
-				var node := _batch(spec[1],spec[2],grass_material if spec[0]=="grass" else wind,origin)
+				var node := _batch(spec[1],spec[2],grass_material if spec[0]=="grass" else woodland_material if spec[0]=="undergrowth" else wind,origin)
+				if spec[0]=="undergrowth":
+					for i in node.multimesh.instance_count: node.multimesh.set_instance_custom_data(i,Color(0,0.78,0.7,0.1))
 				node.set_meta("kind",spec[0])
-				node.visibility_range_end = 65 if spec[0]=="grass" else 440
-				if spec[0]=="grass": grass_batches.append(node)
+				node.visibility_range_end = 65 if spec[0] in ["grass","undergrowth"] else 440
+				if spec[0] in ["grass","undergrowth"]: grass_batches.append(node)
 				else: batches.append(node)
 				counts[spec[0]] += spec[1].size()
 	rustle = AudioStreamPlayer.new()
@@ -76,6 +88,16 @@ func build(main: Node) -> void:
 	update_lod()
 
 func _batch(transforms: Array, mesh: Mesh, mat: Material, origin: Vector3) -> MultiMeshInstance3D:
+	# Prefixes must cover the whole cell, not remove consecutive planted rows.
+	# This lets distant crops use fewer subpixel stalks without bare rectangular gaps.
+	if mat==wind:
+		var order := RandomNumberGenerator.new()
+		order.seed = hash(Vector2(origin.x,origin.z))
+		for i in range(transforms.size()-1,0,-1):
+			var j := order.randi_range(0,i)
+			var swap: Transform3D = transforms[i]
+			transforms[i] = transforms[j]
+			transforms[j] = swap
 	var mm := MultiMesh.new()
 	mm.transform_format = MultiMesh.TRANSFORM_3D
 	mm.use_custom_data = true
@@ -86,7 +108,7 @@ func _batch(transforms: Array, mesh: Mesh, mat: Material, origin: Vector3) -> Mu
 	for i in transforms.size():
 		mm.set_instance_transform(i,transforms[i])
 		if i%37==0: samples.append(origin+transforms[i].origin)
-		mm.set_instance_custom_data(i,Color(i%4,0.85+(i%9)*0.025,1.0,0.3))
+		mm.set_instance_custom_data(i,Color(i%4,0.85+(i%9)*0.025,1.0,fposmod(i*0.618034,1.0)))
 		var b: AABB = transforms[i]*AABB(Vector3(-0.8,0,-0.8),Vector3(1.6,3.3,1.6))
 		bounds = b if i==0 else bounds.merge(b)
 	mm.custom_aabb = bounds
@@ -109,6 +131,8 @@ func update_lod() -> void:
 		var lod := (0 if distance<24 else 1 if distance<62 else 2) if corn else (0 if distance<38 else 1)
 		var mesh: Mesh = corn_meshes[lod] if corn else wheat_meshes[lod]
 		if node.multimesh.mesh != mesh: node.multimesh.mesh = mesh
+		var density := 1.0 if distance<80 else 0.6 if distance<150 else 0.3
+		node.multimesh.visible_instance_count = ceili(node.multimesh.instance_count*density)
 
 func _process(delta: float) -> void:
 	if not game or not game.player: return

@@ -1,9 +1,10 @@
 extends Control
 var game: Node
+var style := _style()
 func point(p: Vector2) -> Vector2:
 	return Vector2(8,24)+(p-Map.extent().position)/Map.extent().size*(size-Vector2(16,32))
 func _draw() -> void:
-	draw_style_box(_style(),Rect2(Vector2.ZERO,size))
+	draw_style_box(style,Rect2(Vector2.ZERO,size))
 	draw_string(ThemeDB.fallback_font,Vector2(10,16),"N ↑    THE PLANES",HORIZONTAL_ALIGNMENT_LEFT,-1,12,Color(0.8,0.86,0.76))
 	for field: Dictionary in Map._d.fields:
 		var polygon := PackedVector2Array()
@@ -14,6 +15,9 @@ func _draw() -> void:
 			if not Map.extent().has_point(road.pts[i]) or not Map.extent().has_point(road.pts[i+1]): continue
 			draw_line(point(road.pts[i]),point(road.pts[i+1]),Color(0.8,0.8,0.68),1.2,true)
 	var at := point(Vector2(game.player.position.x,game.player.position.z))
+	if game.get("survival_active"):
+		for enemy in game.zombies_root.get_children():
+			if enemy is Zombie and enemy.alive: draw_circle(point(Vector2(enemy.position.x,enemy.position.z)),2,Color(1,0.3,0.2))
 	var dir := Vector2(-sin(game.player.rotation.y),-cos(game.player.rotation.y))
 	draw_circle(at,3,Color(0.9,1,0.82))
 	draw_line(at,at+dir*12,Color(0.9,1,0.82),2,true)

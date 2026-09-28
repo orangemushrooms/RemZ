@@ -53,6 +53,7 @@ func run() -> void:
 	await process_frame
 	var selection: MapSelection = game.hud.map_selection
 	check(selection.visible and not game.started and paused, "Start game opens the campaign map without starting the world")
+	check(selection._selected.is_empty() and selection._preview_id.is_empty() and selection.atlas.selected.is_empty() and not selection._rows[0].has_focus() and selection._join.disabled,"Initial opening neither highlights nor focuses Forest")
 	for i in 3: await process_frame
 	check(selection.atlas.map_rect.position.is_zero_approx() and selection.atlas.map_rect.size.is_equal_approx(selection.atlas.size), "Selectable map fills its complete panel without side gutters")
 	check((selection.get_child(0) as ColorRect).color.a == 1.0 and selection.modulate.a == 1.0, "Opaque campaign backing hides world-space hut labels even during the entrance")
@@ -67,7 +68,7 @@ func run() -> void:
 	selection.choose("core")
 	check(not game.started and selection._join.disabled, "Locked region is inspectable but cannot launch")
 	selection.refresh()
-	check(selection._selected == "forest" and selection._preview_id == "forest" and not selection._join.disabled, "Reopening selection restores the playable region and matching action")
+	check(selection._selected.is_empty() and selection._preview_id.is_empty() and selection.atlas.selected.is_empty() and selection._join.disabled, "Reopening selection has no default region or launch action")
 	selection.choose("core")
 	selection.atlas._hover("core")
 	await shot("selection-locked")

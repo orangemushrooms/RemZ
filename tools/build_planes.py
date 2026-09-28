@@ -127,8 +127,8 @@ def main():
     for x,z,height in [(-123,2,10),(-136,-29,10.5),(-147,-61,9),(-159,-86,10),(-169,-117,9.2)]:
         trees.append([x,z,"tree_leaf",height,float(rng.uniform(0,360))])
     # Deterministic groups restricted to actual mapped groves, keeping roads free.
-    for z in range(Z0+4,Z1,7):
-        for x in range(X0+4,X1,7):
+    for z in range(Z0+4,Z1,6):
+        for x in range(X0+4,X1,6):
             px,pz = x+rng.uniform(-2,2),z+rng.uniform(-2,2)
             i,j = int((px-X0)*2),int((pz-Z0)*2)
             if wooded[j,i]<.5 or gravel[max(0,j-7):j+8,max(0,i-7):i+8].max()>.1 or asphalt[j,i]>.1:

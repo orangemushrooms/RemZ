@@ -51,7 +51,8 @@ func run() -> void:
 		weapon.unlock(id)
 		weapon.set_weapon(id)
 		weapon.cur().cooldown = 0.0
-		weapon._process(0.1)
+		# Finish the actual weapon-switch lock before testing a fired shot.
+		weapon._process(0.5)
 		var count := fx.emitted_puffs
 		var pitch_before := weapon.kick_pitch
 		weapon.try_fire()
@@ -74,6 +75,7 @@ func run() -> void:
 		check(fx.active_smoke_count() == 0 and absf(holder.rotation.x) < 0.0001, id + " smoke dissipates and recoil settles")
 	# A cooldown, empty magazine or reload must not create extra visual shots.
 	weapon.set_weapon("pistol")
+	weapon._process(0.5)
 	weapon.cur().cooldown = 0.0
 	weapon.try_fire()
 	var emitted := fx.emitted_puffs
@@ -119,6 +121,7 @@ func run() -> void:
 	weapon.set_process(false)
 	# Check a late frame cannot swallow a newly fired flash.
 	weapon.set_weapon("smg")
+	weapon._process(0.5)
 	weapon.cur().ammo = 10
 	weapon.cur().cooldown = 0.0
 	Input.action_press("fire")

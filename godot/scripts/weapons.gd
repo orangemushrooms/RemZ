@@ -463,7 +463,7 @@ func try_fire() -> void:
 	var shot_spread := effective_spread()
 	player.class_combat.begin_shot(int(s.ammo) == int(d.mag))
 	var field = get_tree().current_scene.get("cornfield")
-	if field: field.scare(player.global_position)
+	if field and field.has_method("scare"): field.scare(player.global_position)
 	s["ammo"] -= 1
 	# The rotary gun's barrels have to come up to speed: its interval shrinks as the spin rises.
 	var rate_factor: float = specials.rate_multiplier(self, current) if specials else 1.0
@@ -471,7 +471,8 @@ func try_fire() -> void:
 	recoil = 1.0
 	# A weapon with its own element colours itself - it does not consume the bought rounds, so it
 	# must not wear their colour either.
-	var shot_mode: String = get_tree().current_scene.progression.rare_market.round_mode(player)
+	var progression = get_tree().current_scene.get("progression")
+	var shot_mode: String = progression.rare_market.round_mode(player) if progression else ""
 	if specials: shot_mode = specials.flash_mode(current, shot_mode)
 	if not server_proxy:
 		Sfx.play(self, d["sfx"], float(d.get("sfx_db", -6.0)), float(d.get("sfx_pitch", 1.0)))
@@ -511,10 +512,10 @@ func try_fire() -> void:
 	var stats: RunStats = scene.stats if "stats" in scene else null
 	if stats:
 		stats.shots += 1
-	var rare = scene.progression.rare_market
+	var rare = scene.progression.rare_market if scene.get("progression") else null
 	# A weapon with its own element leaves the bought rounds alone; bought rounds still win when
 	# both are present, because the player paid for them.
-	var special_round: String = "" if d.has("element") else rare.consume_round(player)
+	var special_round: String = "" if d.has("element") or rare==null else rare.consume_round(player)
 	var trace_mode := "cryo" if current == "cryo_smg" else ("plasma" if current == "plasma_sniper" else special_round)
 	var any_hit := false
 	# Barricade boxes block movement across the entire line, including visible gaps.
@@ -549,7 +550,7 @@ func try_fire() -> void:
 				(hit.collider as Breakable).shatter()
 				scene.achievements.event("window")
 				break
-			if scene.hunting.hit(hit.collider, float(d.damage) * effective_damage_mul(), player.peer_id):
+			if scene.get("hunting") and scene.hunting.hit(hit.collider, float(d.damage) * effective_damage_mul(), player.peer_id):
 				_blood(hit.position, dir)
 				hud.hitmarker(false)
 				any_hit = true
@@ -581,7 +582,7 @@ func try_fire() -> void:
 				elif headshot: dealt *= 2.2
 				z.damage(dealt, dir)
 				player.class_combat.after_hit(current, z, player)
-				rare.hit(z, special_round, player.peer_id, current)
+				if rare: rare.hit(z, special_round, player.peer_id, current)
 				if specials: specials.on_hit(self, current, z, dir, player.peer_id)
 				_blood(hit.position, dir)
 				hud.hitmarker(headshot)
@@ -628,7 +629,7 @@ func melee(stab: bool = false) -> void:
 		q.hit_from_inside = true
 		q.exclude = [player.get_rid()]
 		var hit := Zombie.cast_ray(self, q)
-		if not hit.is_empty() and get_tree().current_scene.hunting.hit(hit.collider, (float(spec.stab_damage) if _melee_stab else float(spec.damage) if armed else 45.0) * effective_damage_mul(), player.peer_id):
+		if not hit.is_empty() and get_tree().current_scene.get("hunting") and get_tree().current_scene.hunting.hit(hit.collider, (float(spec.stab_damage) if _melee_stab else float(spec.damage) if armed else 45.0) * effective_damage_mul(), player.peer_id):
 			_blood(hit.position, forward)
 			hit_any = true
 			break

@@ -13,7 +13,7 @@ const REGIONS := [
 		"outline": [Vector2(93,450),Vector2(139,413),Vector2(156,453),Vector2(177,452),Vector2(207,460),Vector2(264,462),Vector2(319,453),Vector2(348,434),Vector2(425,463),Vector2(435,507),Vector2(439,610),Vector2(414,631),Vector2(238,704),Vector2(195,645),Vector2(177,602),Vector2(151,585),Vector2(136,506)]},
 	{"id": "east_end", "title": "EAST END", "available": false, "anchor": Vector2(466, 469),
 		"outline": [Vector2(425,463),Vector2(442,419),Vector2(465,410),Vector2(480,421),Vector2(497,442),Vector2(529,432),Vector2(516,452),Vector2(520,574),Vector2(510,590),Vector2(491,606),Vector2(483,626),Vector2(466,633),Vector2(439,610),Vector2(435,507)]},
-	{"id": "planes", "title": "THE PLANES", "available": true, "exploration": true, "scene": "res://scenes/planes.tscn", "anchor": Vector2(490, 743),
+	{"id": "planes", "title": "THE PLANES", "available": true, "exploration": true, "survival": true, "scene": "res://scenes/planes.tscn", "anchor": Vector2(490, 743),
 		"outline": [Vector2(259,868),Vector2(279,797),Vector2(306,751),Vector2(341,732),Vector2(366,709),Vector2(414,690),Vector2(459,680),Vector2(471,666),Vector2(521,650),Vector2(538,658),Vector2(584,650),Vector2(602,654),Vector2(616,667),Vector2(661,683),Vector2(680,706),Vector2(703,721),Vector2(731,854),Vector2(427,986),Vector2(413,965),Vector2(367,988),Vector2(350,981),Vector2(285,901),Vector2(265,890)]},
 	{"id": "suburbs_lake", "title": "SUBURBS & LAKE", "available": false, "anchor": Vector2(1006, 571),
 		"outline": [Vector2(703,721),Vector2(681,705),Vector2(685,661),Vector2(839,606),Vector2(874,594),Vector2(940,494),Vector2(1014,394),Vector2(1030,412),Vector2(1050,415),Vector2(1075,433),Vector2(1104,423),Vector2(1130,482),Vector2(1150,506),Vector2(1173,518),Vector2(1172,575),Vector2(1205,694),Vector2(1193,726),Vector2(1203,756),Vector2(1222,775),Vector2(1235,853),Vector2(1162,840),Vector2(1138,793),Vector2(1067,771),Vector2(1018,783),Vector2(1000,750),Vector2(991,718),Vector2(896,751),Vector2(774,786),Vector2(721,805)]},
@@ -54,7 +54,7 @@ func cleared_count() -> int:
 
 func record_wave(number: int, difficulty: String) -> void:
 	if not region(selected_id).get("available", false): return
-	if region(selected_id).get("exploration", false): return
+	if region(selected_id).get("exploration", false) and not region(selected_id).get("survival",false): return
 	var entry: Dictionary = progress.get(selected_id, {})
 	entry.best_wave = maxi(best_wave(selected_id), clampi(number, 0, ROUNDS))
 	if number >= ROUNDS:

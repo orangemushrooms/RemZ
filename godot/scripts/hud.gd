@@ -620,7 +620,9 @@ func show_map_selection() -> void:
 	# Fade only the artwork: the opaque backing must cover world-space health labels immediately.
 	map_selection.atlas.modulate.a = 0.75
 	map_selection.create_tween().tween_property(map_selection.atlas, "modulate:a", 1.0, 0.22)
-	map_selection._rows[0].grab_focus()
+	# A keyboard focus on Forest also selected its preview and green styling.
+	# Let the player's first click or Tab choose the initial region.
+	get_viewport().gui_release_focus()
 
 func hide_map_selection() -> void:
 	map_selection.hide()

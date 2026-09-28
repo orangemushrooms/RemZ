@@ -189,9 +189,11 @@ static func _load_volume_library() -> void:
 			planes.assign(baked.planes)
 			baked.planes = planes
 
-static func preload_models(host: Node = null) -> void:
+static func preload_models(host: Node = null, kinds: Array = []) -> void:
 	_load_volume_library()
-	for spec: Dictionary in TYPES.values():
+	for kind: String in TYPES:
+		if not kinds.is_empty() and not kind in kinds: continue
+		var spec: Dictionary = TYPES[kind]
 		for name in skin_names(spec):
 			var path := "res://assets/models/%s.glb" % name
 			if not _scenes.has(path):
@@ -214,7 +216,7 @@ static func clip_info(path: String) -> Dictionary:
 
 # Submit the real skinned/material variants while the loading screen is still
 # up. Loading a GLB alone does not prepare its first visible GPU draw/pipeline.
-static func prewarm_visuals(game: Node3D) -> void:
+static func prewarm_visuals(game: Node3D, full_combat := true) -> void:
 	if DisplayServer.get_name() == "headless": return
 	var viewport := SubViewport.new()
 	viewport.name = "ZombieRenderWarmup"
@@ -252,10 +254,25 @@ static func prewarm_visuals(game: Node3D) -> void:
 				material.emission = Color.BLACK
 				mesh.set_surface_override_material(surface, material)
 		index += 1
-	var effects: Node3D = load("res://scripts/combat_warmup.gd").populate(viewport, game)
+	var effects := Node3D.new()
+	if full_combat:
+		effects.free()
+		effects = load("res://scripts/combat_warmup.gd").populate(viewport, game)
+	else:
+		viewport.add_child(effects)
+		Grenade.explosion_visuals(effects,Vector3(0,1,-2))
+		var ammo := Pickup.new()
+		ammo.setup("ammo")
+		effects.add_child(ammo)
+		ammo.set_process(false)
+		ammo.position = Vector3(0,1,0)
 	for frame in 8:
 		await RenderingServer.frame_post_draw
 		if not is_instance_valid(game) or not is_instance_valid(viewport): return
+	if not full_combat:
+		viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
+		viewport.process_mode = Node.PROCESS_MODE_DISABLED
+		return
 	# Frost uses a separate skinned shader variant, including each model's vertex
 	# layout. Compile it here as well, before special ammunition can hit a horde.
 	var frost := ShaderMaterial.new()
@@ -613,7 +630,9 @@ func drop_helmet(dir: Vector3) -> void:
 		chunk.linear_velocity = push
 		chunk.angular_velocity = Vector3(randf_range(-8, 8), randf_range(-8, 8), randf_range(-8, 8))
 		var cleanup := get_tree().create_timer(12.0)
-		cleanup.timeout.connect(func(): if is_instance_valid(chunk): chunk.queue_free())
+		# A bound object callback disconnects when the scene/chunk is freed.
+		# Capturing it in a lambda survives scene changes and logs freed captures.
+		cleanup.timeout.connect(chunk.queue_free)
 	_helmet.queue_free()
 	_helmet = null
 

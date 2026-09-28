@@ -11,6 +11,7 @@ func build() -> void:
 	mat.set_shader_parameter("crop_map", load("res://assets/planes/crops.png"))
 	mat.set_shader_parameter("origin", Map.extent().position)
 	mat.set_shader_parameter("size", Map.extent().size+Vector2.ONE)
+	mat.set_shader_parameter("litter",load("res://assets/textures/leaves_albedo.jpg"))
 	for pair in [["meadow","ph_meadow_albedo"],["gravel","ph_gravel_albedo"],["soil","ph_forestfloor_albedo"],["gravel_normal","ph_gravel_normal"]]:
 		mat.set_shader_parameter(pair[0], load("res://assets/textures/%s.jpg" % pair[1]))
 	var ext := Map.extent()
@@ -37,7 +38,7 @@ func build() -> void:
 	collision.position = Vector3(ext.get_center().x,0,ext.get_center().y)
 	body.add_child(collision)
 	add_child(body)
-	add_child(load("res://scripts/village_buildings.gd").new().build())
+	add_child(load("res://scripts/planes_buildings.gd").new().build())
 	_building_collisions()
 	_trees()
 	_signs()
@@ -73,77 +74,32 @@ func _building_collisions() -> void:
 	for building: Dictionary in Map.VILLAGE:
 		var poly := PackedVector2Array()
 		for p in building.poly: poly.append(Vector2(p[0],p[1]))
+		if poly.size()>3 and poly[0]==poly[-1]: poly.remove_at(poly.size()-1)
 		if poly.size()<3: continue
-		var points := PackedVector3Array()
 		var center := Vector2.ZERO
 		for p in poly: center += p
 		center /= poly.size()
 		if not Map.BOUNDS.has_point(center): continue
 		var base := Map.ground_height(center.x,center.y)
-		for p in poly:
-			points.append(Vector3(p.x,base-4,p.y))
-			points.append(Vector3(p.x,base+float(building.h)+2,p.y))
-		var shape := ConvexPolygonShape3D.new()
-		shape.points = points
-		var cs := CollisionShape3D.new()
-		cs.shape = shape
 		var body := StaticBody3D.new()
 		body.name = "Building_%s" % building.osm_id
-		body.add_child(cs)
+		for part in Geometry2D.decompose_polygon_in_convex(poly):
+			var points := PackedVector3Array()
+			for p in part:
+				points.append(Vector3(p.x,base-4,p.y))
+				points.append(Vector3(p.x,base+float(building.h)+2,p.y))
+			var shape := ConvexPolygonShape3D.new()
+			shape.points = points
+			var cs := CollisionShape3D.new()
+			cs.shape = shape
+			body.add_child(cs)
 		add_child(body)
 
 func _trees() -> void:
-	# Reuse the detailed Meshy broadleaf; a local summer material keeps Forest intact.
-	var template: Node3D = load("res://assets/models/tree_autumn_a.glb").instantiate()
-	var bounds := Barricade._bounds(template)
-	var batches: Dictionary = {}
-	for tree: Array in Map._d.landscape_trees:
-		var p := Vector2(tree[0],tree[1])
-		var scale := float(tree[3])/bounds.size.y
-		var yaw := Basis(Vector3.UP,deg_to_rad(tree[4]))
-		var fit := Transform3D(yaw.scaled(Vector3.ONE*scale),Map.ground_pos(p.x,p.y))
-		fit.origin -= fit.basis*Vector3(bounds.get_center().x,bounds.position.y,bounds.get_center().z)
-		var key := Vector2i(floori(p.x/48),floori(p.y/48))
-		if not batches.has(key): batches[key] = []
-		batches[key].append(fit)
-		var body := StaticBody3D.new()
-		body.position = Map.ground_pos(p.x,p.y)
-		var cs := CollisionShape3D.new()
-		var cylinder := CylinderShape3D.new()
-		cylinder.radius = 0.23 if tree_count<5 else 0.35
-		cylinder.height = float(tree[3])*0.6
-		cs.position.y = cylinder.height*0.5
-		cs.shape = cylinder
-		body.add_child(cs)
-		add_child(body)
-		tree_count += 1
-	for mi: MeshInstance3D in template.find_children("*","MeshInstance3D",true,false):
-		var mesh: Mesh = mi.mesh.duplicate()
-		for surface in mesh.get_surface_count():
-			var original: BaseMaterial3D = mesh.surface_get_material(surface)
-			if not original: continue
-			var summer := ShaderMaterial.new()
-			summer.shader = load("res://shaders/planes_tree.gdshader")
-			summer.set_shader_parameter("albedo",original.albedo_texture)
-			summer.set_shader_parameter("base",mi.mesh.get_aabb().position.y)
-			summer.set_shader_parameter("height",mi.mesh.get_aabb().size.y)
-			mesh.surface_set_material(surface,summer)
-		var local := mi.transform
-		var parent := mi.get_parent()
-		while parent is Node3D:
-			local = parent.transform*local
-			parent = parent.get_parent()
-		for key: Vector2i in batches:
-			var mm := MultiMesh.new()
-			mm.transform_format = MultiMesh.TRANSFORM_3D
-			mm.mesh = mesh
-			mm.instance_count = batches[key].size()
-			for i in mm.instance_count: mm.set_instance_transform(i,batches[key][i]*local)
-			var instance := MultiMeshInstance3D.new()
-			instance.multimesh = mm
-			instance.name = "MeshyTree_%d_%d" % [key.x,key.y]
-			add_child(instance)
-	template.free()
+	var forest = load("res://scripts/planes_trees.gd").new()
+	add_child(forest)
+	forest.build()
+	tree_count = forest.count
 
 func _signs() -> void:
 	# The two small markers visible at the maize corner in photos 4/5.

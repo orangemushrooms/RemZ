@@ -8,7 +8,7 @@ const REGION_SHADER = preload("res://scripts/campaign_region.gdshader")
 var interactive := false
 var campaign: Campaign
 var hovered := ""
-var selected := "forest"
+var selected := ""
 var clock := 0.0
 var map_rect := Rect2()
 var _art: TextureRect
@@ -35,8 +35,8 @@ func _ready() -> void:
 			polygon.texture = ART
 			var mat := ShaderMaterial.new()
 			mat.shader = REGION_SHADER
-			mat.set_shader_parameter("saturation", 1.0 if entry.available else 0.0)
-			mat.set_shader_parameter("brightness", 1.16 if entry.available else 0.67)
+			mat.set_shader_parameter("saturation", 0.15 if entry.available else 0.0)
+			mat.set_shader_parameter("brightness", 0.85 if entry.available else 0.67)
 			polygon.material = mat
 			add_child(polygon)
 			_regions.append(polygon)
@@ -109,8 +109,10 @@ func _process(delta: float) -> void:
 	if interactive:
 		for i in _regions.size():
 			var entry: Dictionary = Campaign.REGIONS[i]
-			var bright := (1.35 if hovered == entry.id else 1.13) if entry.available else (0.98 if hovered == entry.id else 0.67)
+			var active: bool = hovered == entry.id or selected == entry.id
+			var bright := (1.35 if active else 0.85) if entry.available else (0.98 if active else 0.67)
 			var mat := _regions[i].material as ShaderMaterial
+			mat.set_shader_parameter("saturation", 1.0 if active and entry.available else (0.15 if entry.available else 0.0))
 			mat.set_shader_parameter("brightness", lerpf(float(mat.get_shader_parameter("brightness")), bright, 1.0 - exp(-delta * 9.0)))
 	_ink.queue_redraw()
 
