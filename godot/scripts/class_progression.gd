@@ -31,6 +31,7 @@ func apply_build(actor: Node, weapons: Node, build: Dictionary) -> void:
 
 func _process(delta: float) -> void:
 	if not game or not game.started or game.over: return
+	if NetSession.enabled and not NetSession.world: return
 	var actors: Array = NetSession.world.actors.values() if NetSession.is_host() and NetSession.world else [game.player]
 	for actor in actors:
 		if not is_instance_valid(actor) or not actor.alive: continue

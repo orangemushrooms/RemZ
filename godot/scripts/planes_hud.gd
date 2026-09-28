@@ -83,9 +83,45 @@ func _ready() -> void:
 	weather_label.visible = false
 	clock.add_child(weather_label)
 
+	downed_panel = PanelContainer.new()
+	container.add_child(downed_panel)
+	downed_panel.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	downed_panel.offset_left = -260
+	downed_panel.offset_right = 260
+	downed_panel.offset_top = -286
+	downed_panel.offset_bottom = -196
+	downed_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var down_style := StyleBoxFlat.new()
+	down_style.bg_color = Color(0.14, 0.01, 0.01, 0.92)
+	down_style.border_color = Color(1, 0.2, 0.15)
+	down_style.set_border_width_all(2)
+	down_style.set_corner_radius_all(8)
+	down_style.set_content_margin_all(10)
+	downed_panel.add_theme_stylebox_override("panel", down_style)
+	var down_box := VBoxContainer.new()
+	down_box.add_theme_constant_override("separation", 4)
+	downed_panel.add_child(down_box)
+	downed_text = _label("", 16, Color(1, 0.35, 0.3))
+	downed_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	down_box.add_child(downed_text)
+	bleed_bar = ProgressBar.new()
+	bleed_bar.custom_minimum_size = Vector2(480, 6)
+	bleed_bar.max_value = 1.0
+	bleed_bar.show_percentage = false
+	bleed_bar.add_theme_stylebox_override("fill", _flat(Color(0.9, 0.12, 0.1), 3))
+	bleed_bar.add_theme_stylebox_override("background", _flat(Color(1, 1, 1, 0.12), 3))
+	down_box.add_child(bleed_bar)
+	hold_bar = ProgressBar.new()
+	hold_bar.custom_minimum_size = Vector2(480, 6)
+	hold_bar.max_value = 1.0
+	hold_bar.show_percentage = false
+	hold_bar.add_theme_stylebox_override("fill", _flat(GOLD, 3))
+	hold_bar.add_theme_stylebox_override("background", _flat(Color(1, 1, 1, 0.12), 3))
+	down_box.add_child(hold_bar)
+	downed_panel.hide()
 	set_health(100)
 	_build_overlay()
-	_tab_buttons["multiplayer"].hide()
+
 	_tab_buttons["achievements"].hide()
 	game.settings.add_controls(settings_box, false)
 	set_difficulties(GameSettings.DIFFICULTIES,game.settings.difficulty,func(index: int):
@@ -93,14 +129,28 @@ func _ready() -> void:
 		game.difficulty = GameSettings.DIFFICULTIES[index]
 		game.settings._changed())
 	start_pressed.connect(func():
-		if game.over and game.survival_active: game.start_survival()
+		if NetSession.enabled:
+			if game.over and NetSession.is_host(): NetSession.restart()
+			elif not game.started: NetSession.start_game()
+			elif not game.over: game.set_menu(false)
+		elif game.over and game.survival_active: game.start_survival()
 		elif game.over: game.stop_survival()
 		else: game.set_menu(false))
 	main_menu_pressed.connect(game.return_to_map.bind(false))
+	map_selected.connect(func(id: String):
+		if NetSession.enabled:
+			if id=="planes": NetSession.start_game()
+			else: NetSession.select_region(id)
+		else: game.start_survival())
 	overlay.hide()
 	refresh_mode()
 
-func _build_multiplayer_tab() -> void: pass
+func _build_multiplayer_tab() -> void: super._build_multiplayer_tab()
+func _fill_pause_stats() -> void:
+	if not game.waves:
+		if _pause_stats: _pause_stats.text = ""
+		return
+	super._fill_pause_stats()
 func _build_character_widgets() -> void:
 	var character_hud = preload("res://scripts/character_hud.gd").new()
 	character_hud.name = "CharacterHud"
@@ -115,6 +165,9 @@ func _build_briefing(box: VBoxContainer) -> void:
 	_pause_stats = _label("",14,MUTED)
 	box.add_child(_pause_stats)
 	box.add_child(_heading("THE PLANES"))
+	var coop := _menu_button("Multiplayer",false)
+	coop.pressed.connect(game.open_coop_lobby)
+	box.add_child(coop)
 	for spec in [["Start 25-wave survival",4],["Back to exploration",5],["Map selection",3]]:
 		var action: int = spec[1]
 		var button := _menu_button(spec[0],false)
@@ -173,6 +226,8 @@ func _process(delta: float) -> void:
 	fps_label.text = "%d FPS" % Engine.get_frames_per_second()
 	refresh_mode()
 	weather_label.text = game.weather.label() if game.weather else ""
+	var watching: String = NetSession.world.spectating_name() if NetSession.enabled and NetSession.world else ""
+	set_downed(game.player.downed or not watching.is_empty(),game.player.down_time,game.player.hold_fraction(),game.player.self_revives>0,NetSession.enabled,watching,not game.player.alive)
 	weather_label.visible = not weather_label.text.is_empty()
 	if game.defences: _update_prompt()
 	else:
@@ -184,7 +239,7 @@ func _process(delta: float) -> void:
 
 func refresh_mode() -> void:
 	var armed: bool = game.weapons!=null and game.weapons.process_mode!=Node.PROCESS_MODE_DISABLED
-	cross.visible = armed and game.player.active and game.player.alive
+	cross.visible = armed and game.player.active and game.player.alive and not game.player.downed and not game.player.spectating
 	for label in [health_text,ammo_label,weapon_label]: label.visible = armed
 	hp_bar.visible = armed
 	wave_label.visible = game.survival_active

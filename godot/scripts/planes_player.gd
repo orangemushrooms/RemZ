@@ -2,8 +2,7 @@ extends Player
 ## Share the tested walking, crouch, jump, collision and footstep controller.
 ## The shared survival loadout includes the field knife.
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion or event.is_action("flashlight"):
-		super._unhandled_input(event)
+	super._unhandled_input(event)
 
 func _physics_process(delta: float) -> void:
 	super._physics_process(delta)

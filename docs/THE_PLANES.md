@@ -1,5 +1,27 @@
 # The Planes – Remetschwil
 
+### Multiplayer
+
+The Planes shares Forest's four-player ENet/EOS transport, movement validation,
+combat replication, revives, spectating and reliable class-XP rewards. A host can
+select The Planes from the existing co-op campaign screen; the whole lobby loads
+the region together. The Planes pause menu also opens a fresh co-op lobby.
+Clients joining a Planes host from Forest automatically load the correct scene.
+Late joins receive existing towers, field fortifications, harvested plants,
+weather, clock and wave state. Rematches reset the world while retaining profiles.
+
+The host validates all field trades, harvesting and placement. Kit inventories,
+quest acceptance, progress and rewards belong to individual players. Construction
+uses the same terrain, distance, merchant-clearance and collision rules as solo;
+replicated wall IDs keep upgrades stable when other walls break. Wave counts use
+Forest's 55% increase per additional player, retaining the Planes active-enemy cap.
+Pausing opens only the local menu during co-op. Protocol 6 requires matching builds.
+
+Run `tools/test_planes_coop.ps1` for the two-process economy/combat/rematch suite,
+add `-Online` for actual EOS accounts/transport, or `-LateJoin` for a four-process
+Forest-to-Planes lobby transfer, late joins and disconnect handling. All test
+profiles and save files are isolated. Push and publication remain on hold.
+
 ### Forest atmosphere and HUD
 
 The survival mode now uses Forest music (day/night, combat, boss and game-over),

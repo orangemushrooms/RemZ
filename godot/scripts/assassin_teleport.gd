@@ -170,6 +170,7 @@ func destination(actor: Player, requested: Vector2) -> Dictionary:
 func safe_point(actor: Player, requested: Vector2, reach: float) -> Dictionary:
 	var failed := {"error": "That landing is blocked or unsafe."}
 	if not requested.is_finite() or not Map.BOUNDS.grow(-0.6).has_point(requested): return failed
+	if game.get("field_building") and not preload("res://scripts/planes_boundary.gd").contains(requested): return failed
 	if not game.navigation_ready or not game.nav_region: return failed
 	var nav: RID = game.nav_region.get_navigation_map()
 	if NavigationServer3D.map_get_iteration_id(nav) == 0: return failed

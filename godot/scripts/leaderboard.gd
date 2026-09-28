@@ -86,7 +86,7 @@ func _row(values: Array, heading := false, local := false) -> PanelContainer:
 	return row
 
 func _allowed() -> bool:
-	if not game or not game.started: return false
+	if not game or not game.started or not game.waves: return false
 	var focus := get_viewport().gui_get_focus_owner()
 	if focus is LineEdit or focus is TextEdit: return false
 	return game.player.active or game.over or not game.player.alive or game.hud.overlay.visible

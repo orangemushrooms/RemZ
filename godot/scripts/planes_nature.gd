@@ -156,11 +156,18 @@ func nearest_plant(at: Vector3) -> int:
 					distance = d; nearest = index
 	return nearest
 
-func harvest(index: int) -> String:
+func harvest(index: int, collector: Player = null) -> String:
+	if not collector: collector = game.player
 	if index<0 or index>=plants.size() or _picked.has(index): return ""
-	if not game.survival_active or game.over or not game.player.active or not game.player.alive or game.player.downed: return ""
+	if not game.survival_active or game.over or not collector.active or not collector.alive or collector.downed: return ""
 	var plant: Dictionary = plants[index]
-	if game.player.position.distance_to(Vector3(plant.at.x,plant.height,plant.at.y))>2.5: return ""
+	if collector.position.distance_to(Vector3(plant.at.x,plant.height,plant.at.y))>2.5: return ""
+	hide_harvested(index)
+	return "mushrooms" if plant.woodland else "flowers"
+
+func hide_harvested(index: int) -> void:
+	if index<0 or index>=plants.size() or _picked.has(index): return
+	var plant: Dictionary = plants[index]
 	var original: Array[Transform3D] = []
 	for mm: MultiMesh in _plant_batches[plant.group]:
 		var xf := mm.get_instance_transform(plant.instance)
@@ -168,7 +175,6 @@ func harvest(index: int) -> String:
 		xf.basis = Basis.IDENTITY.scaled(Vector3.ZERO)
 		mm.set_instance_transform(plant.instance,xf)
 	_picked[index] = original
-	return "mushrooms" if plant.woodland else "flowers"
 
 func reset_harvest() -> void:
 	for index in _picked:

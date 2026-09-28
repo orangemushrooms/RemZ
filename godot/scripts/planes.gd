@@ -1,5 +1,5 @@
 extends Node3D
-## Starts a solo 25-wave survival run; exploration is an optional secondary mode.
+## Starts a 25-wave survival run; exploration is an optional secondary mode.
 var exploration_only := false
 var player: Player
 var weapons: Weapons
@@ -42,7 +42,16 @@ var secret_night: SecretNight
 var fill_light: DirectionalLight3D
 var progression: Progression
 var stats: RunStats
+var inventory: Inventory
+var loots: Array = []
+var sandbags: Array = []
+var pumpkins: Array = []
+var field_trials: Node
+var fortune: Node
+var _alive_count := 0
+var navigation_ready := false
 var classes: Node
+var teleport: AssassinTeleport
 var hunting: Node3D
 var defences: DefenceSystem
 var barricades: Array = []
@@ -56,9 +65,6 @@ var _kills := 0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	if NetSession.enabled:
-		get_tree().change_scene_to_file.call_deferred("res://scenes/main.tscn")
-		return
 	boot = BootScreen.find(get_tree())
 	if not boot:
 		boot = BootScreen.new()
@@ -99,12 +105,29 @@ func _ready() -> void:
 	_spawn_rng.seed = 935728
 	_nav_shape.radius = 0.65
 	_nav_shape.height = 2.5
-	player.died.connect(func(): finish_survival(false))
+	player.died.connect(func():
+		if NetSession.enabled:
+			if NetSession.is_host():
+				stats.record_death(player.peer_id)
+				NetSession.world.check_team()
+		else: finish_survival(false))
+	player.went_down.connect(func():
+		if NetSession.is_host() and NetSession.world: NetSession.world.check_team())
+	stats = RunStats.new()
+	add_child(stats)
+	stats.register_player(1,NetSession.player_name)
+	inventory = Inventory.new()
+	add_child(inventory)
+	inventory.set_process(false)
+	inventory.set_process_unhandled_input(false)
 	_birds()
 	nature = load("res://scripts/planes_nature.gd").new()
 	add_child(nature)
 	nature.build(self)
 	_interface()
+	var leaderboard = preload("res://scripts/leaderboard.gd").new()
+	add_child(leaderboard)
+	leaderboard.setup(self)
 	progression = load("res://scripts/planes_progression.gd").new()
 	add_child(progression)
 	progression.setup(self)
@@ -138,6 +161,19 @@ func _ready() -> void:
 	else:
 		await start_survival()
 	ready_for_exploration = true
+	navigation_ready = nav_region != null
+	var launch_coop := Array(_flags).any(func(flag): return flag in ["--host","--host-online","--planes-lobby"] or flag.begins_with("--join=") or flag.begins_with("--join-code="))
+	if NetSession.enabled or get_tree().get_meta("planes_lobby",false) or launch_coop:
+		get_tree().remove_meta("planes_lobby")
+		started = false
+		player.active = false
+		waves.set_process(false)
+		day_night.set_process(false)
+		classes.set_process(false)
+		CharacterProfile.end_match()
+		set_menu(true)
+		hud.show_tab("multiplayer")
+	NetSession.attach(self)
 	print("PLANES_READY trees=%d birds=%d crops=%s" % [landscape.tree_count,birds.size(),cornfield.counts])
 
 func _index_buildings() -> void:
@@ -259,9 +295,9 @@ func set_menu(open: bool) -> void:
 		if progression and progression.is_open: progression.close()
 		if field_building: field_building.cancel()
 		if defences: defences.close()
-	player.active = not open and not over
+	player.active = not open and not over and (started or not NetSession.enabled)
 	player.velocity = Vector3.ZERO
-	get_tree().paused = open
+	get_tree().paused = open and not NetSession.enabled
 	if open:
 		hud.show_overlay("REGION SECURED" if victory else "YOU DIED" if over else "PAUSED",
 			"THE PLANES / REMETSCHWIL", "Play again" if over else "Continue", "", "over" if over else "pause")
@@ -276,6 +312,9 @@ func _pause() -> void:
 	if ready_for_exploration and not preparing_survival: set_menu(true)
 
 func return_to_map(select_region := true) -> void:
+	if NetSession.enabled:
+		NetSession.leave()
+		return
 	if _leaving: return
 	_leaving = true
 	player.active = false
@@ -309,6 +348,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	if not ready_for_exploration: return
+	if started and not over and not NetSession.is_client(): stats.tick(_delta)
 	_update_music()
 	if survival_active and not over and player.active:
 		if day_night.is_night() and not _night_flashlight:
@@ -320,6 +360,9 @@ func _process(_delta: float) -> void:
 	compass.text = "%s  %03d°" % [dirs[roundi(heading/45)%8],heading]
 
 func start_survival() -> void:
+	if NetSession.enabled and ready_for_exploration:
+		if over and NetSession.is_host(): NetSession.restart()
+		return
 	if preparing_survival or (survival_active and not over) or _leaving: return
 	preparing_survival = true
 	set_menu(false)
@@ -381,8 +424,12 @@ func start_survival() -> void:
 	classes = preload("res://scripts/class_progression.gd").new()
 	add_child(classes)
 	classes.setup(self)
-	classes.begin()
+	if not NetSession.enabled: classes.begin()
 	player.set_meta("class_mission_from_start",true)
+	if not teleport:
+		teleport = AssassinTeleport.new()
+		add_child(teleport)
+		teleport.setup(self)
 	if waves: waves.queue_free()
 	waves = load("res://scripts/planes_waves.gd").new()
 	waves.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -445,7 +492,7 @@ func start_survival() -> void:
 	print("PLANES_SURVIVAL_READY")
 
 func stop_survival() -> void:
-	if preparing_survival: return
+	if preparing_survival or NetSession.enabled: return
 	if classes:
 		classes.finish()
 		classes.free()
@@ -496,7 +543,7 @@ func discard_enemy(enemy: Node3D) -> void:
 func finish_survival(won: bool) -> void:
 	if over: return
 	if classes:
-		if not won: classes.died(player.peer_id)
+		if not won: stats.record_death(player.peer_id)
 		classes.finish()
 		CharacterProfile.end_match()
 	over = true
@@ -511,16 +558,21 @@ func alive_zombies() -> int:
 	return count
 
 func spawn_enemy(kind: String, wave_number: int) -> Zombie:
+	var focus: Player = player
+	if NetSession.is_host():
+		var living: Array = NetSession.world.actors.values().filter(func(p): return p.alive and not p.downed)
+		if not living.is_empty(): focus = living[_spawn_rng.randi_range(0,living.size()-1)]
 	var nav := nav_region.get_navigation_map()
-	var target := NavigationServer3D.map_get_closest_point(nav,player.position)
+	var target := NavigationServer3D.map_get_closest_point(nav,focus.position)
 	for attempt in 14:
 		var angle := _spawn_rng.randf()*TAU
 		var distance := _spawn_rng.randf_range(32,52)
-		var p := Vector2(player.position.x,player.position.z)+Vector2(cos(angle),sin(angle))*distance
+		var p := Vector2(focus.position.x,focus.position.z)+Vector2(cos(angle),sin(angle))*distance
 		if not Map.BOUNDS.grow(-4).has_point(p) or not preload("res://scripts/planes_boundary.gd").contains(p) or near_building(p): continue
 		var surface := Map.ground_pos(p.x,p.y)
 		var at := NavigationServer3D.map_get_closest_point(nav,surface)
-		if at.distance_to(surface)>1.5 or at.distance_to(player.position)<28: continue
+		if at.distance_to(surface)>1.5 or at.distance_to(focus.position)<28: continue
+		if NetSession.is_host() and NetSession.world.actors.values().any(func(actor): return actor.alive and actor.position.distance_to(at)<28): continue
 		var query := PhysicsShapeQueryParameters3D.new()
 		query.shape = _nav_shape
 		query.transform.origin = at+Vector3.UP*1.5
@@ -545,15 +597,20 @@ func create_enemy(kind: String, at: Vector3, wave_number: int, armored := false,
 	return enemy
 
 func _enemy_killed(enemy: Zombie) -> void:
+	if NetSession.is_client(): return
 	if classes: classes.killed(enemy)
+	stats.record_kill(enemy)
 	if waves: waves.trim_corpses.call_deferred()
 	_kills += 1
 	var reward := maxi(1,roundi(float(enemy.type.score)*float(difficulty.score)*0.6*(1.5 if enemy.last_headshot else 1.0)))
 	if enemy.killer_weapon == "tower": reward = maxi(1,reward/2)
-	player.add_score(reward)
-	progression.event("kills")
-	if enemy.last_headshot: progression.event("headshots")
-	if enemy.net_kind == "brute": progression.event("brutes")
+	var killer: Player = NetSession.world.actor(enemy.killer_peer) if NetSession.is_host() else player
+	if not killer: killer = player
+	killer.add_score(reward)
+	stats.kill(enemy.last_headshot,reward)
+	progression.peer_event(killer.peer_id,"kills")
+	if enemy.last_headshot: progression.peer_event(killer.peer_id,"headshots")
+	if enemy.net_kind == "brute": progression.peer_event(killer.peer_id,"brutes")
 	# Modest scavenged ammunition supplements merchant supplies.
 	if _kills%8==0:
 		var drop := Pickup.new()
@@ -604,3 +661,29 @@ func _update_music() -> void:
 	else:
 		music.horde = 0.0
 		music.play(music.intermission_track(day_night.clock_seconds/3600.0))
+
+func should_play_intro() -> bool: return false
+
+func _on_start(_play_intro := false) -> void:
+	if NetSession.enabled and not NetSession._applying:
+		NetSession.start_game()
+		return
+	started = false
+	classes.begin()
+	started = true
+	classes.set_process(true)
+	waves.set_process(not NetSession.is_client())
+	day_night.set_process(not NetSession.is_client())
+	set_menu(false)
+
+func open_coop_lobby() -> void:
+	if NetSession.enabled:
+		hud.show_tab("multiplayer")
+		return
+	get_tree().set_meta("planes_lobby",true)
+	BootScreen.cover(get_tree())
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+func player_down(_actor: Player) -> void:
+	if NetSession.is_host(): NetSession.world.check_team()

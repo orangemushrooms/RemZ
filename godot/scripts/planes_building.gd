@@ -100,10 +100,11 @@ func cancel() -> void:
 		game.player.active = true
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-func placement_error(at: Vector3, angle: float) -> String:
+func placement_error(at: Vector3, angle: float, builder: Player = null) -> String:
+	if not builder: builder = game.player
 	if not at.is_finite() or not is_finite(angle) or not game.survival_active: return "Building unavailable."
 	if game.barricades.size()>=40: return "Fortification limit reached."
-	var distance: float = game.player.position.distance_to(at)
+	var distance: float = builder.position.distance_to(at)
 	if distance<2 or distance>8: return "Choose ground 2–8 m away."
 	if absf(Map.ground_height(at.x,at.z)-at.y)>0.2: return "Choose solid ground."
 	for offset in [Vector3(-1.8,0,-0.6),Vector3(1.8,0,-0.6),Vector3(-1.8,0,0.6),Vector3(1.8,0,0.6)]:
@@ -124,13 +125,17 @@ func placement_error(at: Vector3, angle: float) -> String:
 	query.transform = Transform3D(Basis(Vector3.UP,angle),at+Vector3.UP*0.9)
 	query.collision_mask = 1|2|8
 	if not game.get_world_3d().direct_space_state.intersect_shape(query,1).is_empty(): return "Building site occupied."
-	var ray := PhysicsRayQueryParameters3D.create(game.player.position+Vector3.UP*1.7,at+Vector3.UP,1|8,[game.player.get_rid()])
+	var ray := PhysicsRayQueryParameters3D.create(builder.position+Vector3.UP*1.7,at+Vector3.UP,1|8,[builder.get_rid()])
 	if not game.get_world_3d().direct_space_state.intersect_ray(ray).is_empty(): return "No clear view of the site."
 	return ""
 
-func place(id: String, at: Vector3, angle: float) -> String:
+func place(id: String, at: Vector3, angle: float, builder: Player = null) -> String:
+	if not builder: builder = game.player
 	if not game.progression.kit_stock.has(id) or game.progression.kit_stock[id]<=0: return "Buy a kit at Mechanic first."
-	var reason := placement_error(at,angle)
+	if NetSession.is_client():
+		NetSession.command("planes",["place",[id,at,angle]])
+		return ""
+	var reason := placement_error(at,angle,builder)
 	if not reason.is_empty(): return reason
 	var bar: Barricade = SandbagLine.new() if id=="sandbags" else Barricade.new()
 	bar.setup({"id":"field_%d" % Time.get_ticks_usec(),"name":id,"pos":Vector2(at.x,at.z),"yaw":angle,"segments":1},game.hud)
@@ -145,33 +150,42 @@ func place(id: String, at: Vector3, angle: float) -> String:
 	Sfx.play_at(game,"build",at,-8)
 	return ""
 
-func nearest_bar() -> Barricade:
+func nearest_bar(builder: Player = null) -> Barricade:
+	if not builder: builder = game.player
 	var result: Barricade
 	var distance := 3.0
 	for bar: Barricade in game.barricades:
-		var d := bar.distance_to_line(game.player.position)
+		var d := bar.distance_to_line(builder.position)
 		if d<distance:
 			distance = d; result = bar
 	return result
 
-func repair_nearest() -> void:
-	var bar := nearest_bar()
+func repair_nearest(builder: Player = null) -> void:
+	if not builder: builder = game.player
+	if NetSession.is_client():
+		NetSession.command("planes",["repair",[]])
+		return
+	var bar := nearest_bar(builder)
 	if not bar or bar.hp>=bar.max_hp(): return
 	var cost: int = SandbagLine.REPAIRS[bar.level] if bar is SandbagLine else Barricade.repair_cost(bar.level)
-	if game.player.score<cost:
+	if builder.score<cost:
 		game.hud.message("Not enough Rem Dollars.",2); return
 	if bar.repair():
-		game.player.add_score(-cost)
+		builder.add_score(-cost)
 		game.progression.event("repairs")
 
-func upgrade_bar(index: int) -> String:
-	if not game.progression.close_enough(game.player,"mechanic") or index<0 or index>=game.barricades.size(): return "Go to Mechanic."
+func upgrade_bar(index: int, builder: Player = null) -> String:
+	if not builder: builder = game.player
+	if not game.progression.close_enough(builder,"mechanic") or index<0 or index>=game.barricades.size(): return "Go to Mechanic."
 	var bar: Barricade = game.barricades[index]
+	if NetSession.is_client():
+		NetSession.command("planes",["upgrade_bar",[str(bar.slot.id)]])
+		return "Request sent to host."
 	if bar.level>=3: return "Maximum tier reached."
 	if game.waves.completed<(3 if bar.level==1 else 8): return "Survive wave 3 / 8 for stronger fortifications."
 	var cost: int = SandbagLine.UPGRADE_COST[bar.level] if bar is SandbagLine else Barricade.build_cost(bar.level+1)
-	if game.player.score<cost: return "Not enough Rem Dollars."
-	if bar.build(): game.player.add_score(-cost)
+	if builder.score<cost: return "Not enough Rem Dollars."
+	if bar.build(): builder.add_score(-cost)
 	return "Fortification upgraded."
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -208,3 +222,33 @@ func _process(_delta: float) -> void:
 		ghost.show()
 		material.albedo_color = Color(0.2,1,0.55,0.35) if error.is_empty() else Color(1,0.2,0.15,0.35)
 	game.hud.set_prompt("[E] Place · [R] Rotate · [Esc] Cancel" if error.is_empty() else error)
+
+func upgrade_id(id: String, builder: Player) -> String:
+	for index in game.barricades.size():
+		if str(game.barricades[index].slot.id)==id: return upgrade_bar(index,builder)
+	return "Fortification not found."
+
+func snapshot() -> Array:
+	var result: Array = []
+	for bar: Barricade in game.barricades:
+		result.append({"slot":bar.slot.duplicate(true),"sandbags":bar is SandbagLine,"level":bar.level,"hp":bar.hp})
+	return result
+
+func apply_snapshot(states: Array) -> void:
+	var existing := {}
+	for bar: Barricade in game.barricades: existing[str(bar.slot.id)] = bar
+	var ordered: Array = []
+	for entry: Dictionary in states:
+		var id := str(entry.slot.id)
+		var bar: Barricade = existing.get(id)
+		if not bar:
+			bar = SandbagLine.new() if entry.sandbags else Barricade.new()
+			bar.setup(entry.slot,game.hud)
+			game.add_child(bar)
+			bar.level = int(entry.level)
+			bar.hp = float(entry.hp)
+			bar.rebuild()
+		ordered.append(bar)
+		existing.erase(id)
+	for bar: Barricade in existing.values(): bar.queue_free()
+	game.barricades.assign(ordered)

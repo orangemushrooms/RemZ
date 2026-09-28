@@ -4,8 +4,8 @@ signal changed
 
 const PORT := 24567
 const MAX_PLAYERS := 4
-const PROTOCOL := 5 # Assassin teleport selection and authoritative relocation serials.
-const BUILD := "remz-dev-20260928-assassin-teleport"
+const PROTOCOL := 6 # Region transfer and authoritative Planes economy/construction.
+const BUILD := "remz-dev-20260928-planes-coop"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.
@@ -98,7 +98,7 @@ func _ready() -> void:
 	context.update(var_to_bytes(Zombie.TYPES))
 	context.update(var_to_bytes(Weapons.DEFS))
 	context.update(var_to_bytes(Weapons.Mods.DEFS))
-	context.update("aim-ballistics-v14-forest-mushrooms".to_utf8_buffer())
+	context.update("aim-ballistics-v15-planes-coop".to_utf8_buffer())
 	context.update(var_to_bytes([Waves.ARMY_START, Waves.ARMY_STEP, Waves.ARMY_MAX, Waves.MAX_ACTIVE, Waves.MAX_CORPSES, Waves.MAX_TITANS]))
 	context.update(var_to_bytes(Player.RareItems.DEFS))
 	context.update(var_to_bytes(Progression.NPCS))
@@ -119,6 +119,7 @@ func _ready() -> void:
 	# the editor and refuse every connection. The BUILD constant above already separates releases.
 	for file in ["map.json", "heightmap.f32"]:
 		context.update(FileAccess.get_file_as_bytes("res://assets/map/" + file))
+		context.update(FileAccess.get_file_as_bytes("res://assets/planes/" + file))
 	_fingerprint = context.finish().hex_encode()
 	trace_load("NETWORK_INITIALIZED")
 
@@ -152,7 +153,7 @@ func local_id() -> int:
 func attach(node: Node3D) -> void:
 	trace_load("MAP_READY")
 	game = node
-	world = preload("res://scripts/coop_world.gd").new()
+	world = preload("res://scripts/planes_coop_world.gd").new() if game.get("field_building") else preload("res://scripts/coop_world.gd").new()
 	world.setup(game)
 	game.player.peer_id = local_id()
 	if enabled:
@@ -450,6 +451,8 @@ func _connected() -> void:
 
 func _peer_connected(id: int) -> void:
 	trace_load("PEER_CONNECTED id=%d" % id)
+	var enet := multiplayer.multiplayer_peer as ENetMultiplayerPeer
+	if enet and (is_host() or id==1) and enet.get_peer(id): enet.get_peer(id).set_timeout(32,180000,300000)
 	if is_host():
 		_rates[id] = {"deadline": _elapsed + 12.0, "tokens": 80.0, "time": _elapsed}
 
@@ -478,9 +481,9 @@ func _hello(version: int, fingerprint: String, display_name: String, builds: Dic
 	roster[id] = clean_name(display_name)
 	print("COOP_PEER_ACCEPTED count=", roster.size())
 	ready_peers[id] = false
-	_rates[id].deadline = _elapsed + 120.0
+	_rates[id].deadline = _elapsed + 300.0
 	world.add_player(id)
-	_welcome.rpc_id(id, epoch, roster, phase, game.settings.difficulty)
+	_welcome.rpc_id(id, epoch, roster, phase, game.settings.difficulty, game.campaign.selected_id)
 	_send_lobby()
 
 @rpc("authority", "call_remote", "reliable", 0)
@@ -488,7 +491,7 @@ func _rejected(reason: String) -> void:
 	leave(reason)
 
 @rpc("authority", "call_remote", "reliable", 0)
-func _welcome(session_epoch: int, players: Dictionary, session_phase: String, difficulty_index: int) -> void:
+func _welcome(session_epoch: int, players: Dictionary, session_phase: String, difficulty_index: int, region: String = "forest") -> void:
 	if not is_client(): return
 	trace_load("WELCOME")
 	epoch = session_epoch
@@ -499,6 +502,13 @@ func _welcome(session_epoch: int, players: Dictionary, session_phase: String, di
 	_snapshot_parts.clear()
 	_initial_parts.clear()
 	_initial_received = -1
+	if region != game.campaign.selected_id and region in ["planes","forest"]:
+		BootScreen.cover(get_tree())
+		world = null
+		game = null
+		get_tree().paused = false
+		get_tree().change_scene_to_file.call_deferred("res://scenes/planes.tscn" if region=="planes" else "res://scenes/main.tscn")
+		return
 	game.player.peer_id = local_id()
 	game.difficulty = GameSettings.DIFFICULTIES[clampi(difficulty_index, 0, GameSettings.DIFFICULTIES.size()-1)]
 	world.make_client()
@@ -516,7 +526,7 @@ func _level_ready(session_epoch: int) -> void:
 		return
 	if ready_peers.get(id, false) or _loading_peers.has(id): return
 	_loading_peers[id] = true
-	_rates[id].deadline = _elapsed + 120.0
+	_rates[id].deadline = _elapsed + 300.0
 	_sequence += 1
 	send_reliable_state(id, true, true)
 
@@ -577,6 +587,8 @@ func _state_ready(session_epoch: int) -> void:
 	_loading_peers.erase(id)
 	ready_peers[id] = true
 	trace_load("CLIENT_READY peer=%d" % id)
+	var enet := multiplayer.multiplayer_peer as ENetMultiplayerPeer
+	if enet and enet.get_peer(id): enet.get_peer(id).set_timeout(32,5000,30000)
 	if phase == "running" and class_roster.get(id, {}).get("locked", false):
 		_begin.rpc_id(id, epoch, false) # Late joins keep the replicated team position.
 	_send_lobby()
@@ -630,6 +642,7 @@ func start_game() -> void:
 func _begin(session_epoch: int, play_intro: bool = false) -> void:
 	if epoch != session_epoch: return
 	trace_load("ROUND_BEGIN intro=%s" % play_intro)
+	set_loading_timeout(false)
 	phase = "running"
 	_applying = true
 	game._on_start(play_intro)
@@ -670,7 +683,7 @@ func leave(reason := "Left the session.") -> void:
 		changed.emit()
 		return
 	trace_load("LEAVE_BEGIN phase=%s reason=%s" % [phase, Lang.resolve(reason, "en")])
-	var reuse_map: bool = is_instance_valid(game) and not game.started and world != null and not world.state_loaded and _initial_received < 0
+	var reuse_map: bool = is_instance_valid(game) and not game.get("field_building") and not game.started and world != null and not world.state_loaded and _initial_received < 0
 	_closing = true
 	enabled = false
 	phase = "offline"
@@ -723,7 +736,7 @@ func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> voi
 		game.day_night.set_process(true)
 		game.achievements.set_process(true)
 		for animal in world.deer: animal.set_physics_process(true)
-		world = preload("res://scripts/coop_world.gd").new()
+		world = preload("res://scripts/planes_coop_world.gd").new() if game.get("field_building") else preload("res://scripts/coop_world.gd").new()
 		world.setup(game)
 		get_tree().paused = true
 		game.hud.show_tab("multiplayer")
@@ -748,7 +761,7 @@ func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> voi
 	await get_tree().process_frame
 	trace_load("LEAVE_RELOAD")
 	_closing = false
-	get_tree().call_deferred("reload_current_scene")
+	get_tree().call_deferred("change_scene_to_file","res://scenes/main.tscn")
 
 func restart() -> void:
 	if not is_host() or phase != "over": return
@@ -757,8 +770,37 @@ func restart() -> void:
 	_reload.rpc(epoch)
 	_reload(epoch)
 
+func select_region(region: String) -> void:
+	if not is_host() or phase!="lobby" or region not in ["planes","forest"]: return
+	epoch += 1
+	_auto_start = roster.size()
+	_load_region.rpc(epoch,region)
+	_load_region(epoch,region)
+
+@rpc("authority", "call_remote", "reliable", 0)
+func _load_region(session_epoch: int, region: String) -> void:
+	set_loading_timeout(true)
+	if region not in ["planes","forest"]: return
+	epoch = session_epoch
+	phase = "lobby"
+	ready_peers.clear()
+	_loading_peers.clear()
+	_initial_parts.clear()
+	_initial_received = -1
+	_command_seq = 0
+	_commands.clear()
+	_received_sequence = -1
+	_snapshot_parts.clear()
+	for id in _rates: _rates[id].deadline = _elapsed+300.0
+	world = null
+	game = null
+	BootScreen.cover(get_tree())
+	get_tree().paused = false
+	get_tree().change_scene_to_file.call_deferred("res://scenes/planes.tscn" if region=="planes" else "res://scenes/main.tscn")
+
 @rpc("authority", "call_remote", "reliable", 0)
 func _reload(session_epoch: int) -> void:
+	set_loading_timeout(true)
 	epoch = session_epoch
 	_round_restart = true
 	phase = "lobby"
@@ -767,7 +809,7 @@ func _reload(session_epoch: int) -> void:
 	_initial_parts.clear()
 	_initial_received = -1
 	_command_seq = 0
-	for id in _rates: _rates[id].deadline = _elapsed + 120.0
+	for id in _rates: _rates[id].deadline = _elapsed + 300.0
 	_commands.clear()
 	_received_sequence = -1
 	_snapshot_parts.clear()
@@ -1071,6 +1113,7 @@ func _process(delta: float) -> void:
 					_leaderboard_live.rpc(epoch, {id: game.stats.players[id]})
 		for id in _rates.keys():
 			if not ready_peers.get(id, false) and _elapsed > float(_rates[id].deadline):
+				trace_load("LOADING_TIMEOUT peer=%d" % id)
 				multiplayer.multiplayer_peer.disconnect_peer(id)
 		if _auto_start > 0 and phase == "lobby" and roster.size() >= _auto_start and ready_peers.size() == roster.size() and not false in ready_peers.values() and roster.keys().all(func(id): return class_roster.get(id, {}).get("locked", false)):
 			_auto_start = 0
@@ -1100,3 +1143,11 @@ func _process(delta: float) -> void:
 			_pose_t = 0.0
 			var pose_sequence: int = world.movement_sync.record(game.player.global_position)
 			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity, pose_sequence, game.player.crouching, game.weapons.ads, game.player.teleport_serial)
+
+func set_loading_timeout(loading: bool) -> void:
+	var enet := multiplayer.multiplayer_peer as ENetMultiplayerPeer
+	if not enet: return
+	for id in multiplayer.get_peers():
+		if not is_host() and id!=1: continue
+		var peer := enet.get_peer(id)
+		if peer: peer.set_timeout(32,180000 if loading else 5000,300000 if loading else 30000)

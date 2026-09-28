@@ -158,7 +158,7 @@ func _process(delta: float) -> void:
 	check_time -= delta
 	if check_time <= 0:
 		check_time = 0.3
-		var players: Array = NetSession.world.actors.values() if NetSession.enabled else [game.player]
+		var players: Array = NetSession.world.actors.values() if NetSession.enabled and NetSession.world else [game.player]
 		for p: Player in players:
 			if p.alive and global_position.distance_to(p.global_position)<7: scare(p.global_position)
 	call_time -= delta

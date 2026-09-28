@@ -11,6 +11,7 @@ var phase := "idle"
 var timer := 90.0
 var queue: Array[String] = []
 var total := 0
+var boss_fight := false
 var spawn_t := 0.0
 var frame_time := 1.0/60.0
 var rng := RandomNumberGenerator.new()
@@ -23,6 +24,7 @@ func plan(number: int) -> Array[String]:
 	var result: Array[String] = []
 	if number<1 or number>Campaign.ROUNDS: return result
 	var count := roundi((10+number*4)*float(main.difficulty.count))
+	if NetSession.enabled: count = roundi(count*(1.0+0.55*(NetSession.roster.size()-1)))
 	for i in count:
 		var kind := "shambler"
 		var r := rng.randf()
@@ -36,6 +38,7 @@ func plan(number: int) -> Array[String]:
 func start(number: int) -> void:
 	if main.over or not main.survival_active or number<1 or number>Campaign.ROUNDS or phase=="complete": return
 	wave = number
+	boss_fight = number%5==0
 	queue = plan(number)
 	total = queue.size()
 	phase = "spawning"
@@ -48,11 +51,11 @@ func active_limit() -> int:
 	return 16 if frame_time>0.022 else MAX_ACTIVE
 
 func _process(delta: float) -> void:
-	if not main or not main.survival_active or main.over or not main.player.active: return
+	if not main or not main.started or NetSession.is_client() or not main.survival_active or main.over or (not NetSession.enabled and not main.player.active): return
 	frame_time = lerpf(frame_time,minf(delta,0.1),minf(1,delta))
 	if phase=="idle":
 		timer -= delta
-		if Input.is_action_just_pressed("next_wave"): timer = minf(timer,0.1)
+		if Input.is_action_just_pressed("next_wave") and not NetSession.is_client(): timer = minf(timer,0.1)
 		main.hud.set_wave(wave+1,Lang.t("Start in %d s · Enter: start now",[maxi(0,ceili(timer))]))
 		main.hud.set_wave_progress(0,0)
 		if timer<=0: start(wave+1)
@@ -73,17 +76,23 @@ func complete_wave() -> void:
 	main.campaign.record_wave(completed,str(main.difficulty.name))
 	if completed==Campaign.ROUNDS:
 		phase = "complete"
-		main.finish_survival(true)
+		if NetSession.is_host():
+			main.victory = true
+			NetSession.world.campaign_victory()
+		else: main.finish_survival(true)
 		return
 	phase = "idle"
 	timer = 60.0
-	main.player.add_score(50+5*wave)
-	if wave%3==0: main.weapons.grenades = mini(main.weapons.grenades_max,main.weapons.grenades+1)
-	main.weapons.update_hud()
-	main.player.hp = minf(main.player.max_hp,main.player.hp+20)
-	main.player.self_revives = 1
-	if main.player.downed: main.player.revive(main.player.max_hp)
-	main.hud.set_health(main.player.hp)
+	var players: Array = NetSession.world.actors.values() if NetSession.is_host() else [main.player]
+	for actor: Player in players:
+		var gear: Weapons = NetSession.world.weapons[actor.peer_id] if NetSession.is_host() else main.weapons
+		actor.add_score(50+5*wave)
+		if wave%3==0: gear.grenades = mini(gear.grenades_max,gear.grenades+1)
+		gear.update_hud()
+		actor.hp = minf(actor.max_hp,actor.hp+20)
+		actor.self_revives = 1
+		if actor.downed or not actor.alive: actor.revive(actor.max_hp)
+		actor.hud.set_health(actor.hp)
 	main.hud.message(Lang.t("Wave %d survived. Supply pay received; visit Vendor to restock.",[wave]),4)
 
 func trim_corpses() -> void:

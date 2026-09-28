@@ -1,6 +1,7 @@
 extends RefCounted
 
 var game: Node3D
+var planes := false
 var actors: Dictionary = {}
 var weapons: Dictionary = {}
 var avatars: Dictionary = {}
@@ -43,6 +44,7 @@ func prepare_intro() -> void:
 
 func setup(node: Node3D) -> void:
 	game = node
+	planes = game.get("field_building") != null
 	var i := 0
 	for loot in game.loots:
 		if not is_instance_valid(loot): continue
@@ -70,7 +72,7 @@ func add_player(id: int) -> void:
 		levels[id] = game.skills.levels
 		mushrooms[id] = game.inventory.mushrooms
 	else:
-		p = Player.new()
+		p = preload("res://scripts/planes_player.gd").new() if planes else Player.new()
 		p.remote_actor = true
 		p.peer_id = id
 		p.name = "CoopPlayer_%d" % id
@@ -117,7 +119,7 @@ func spawn_position(index: int) -> Vector3:
 	return NavigationServer3D.map_get_closest_point(nav, point) + Vector3.UP * 0.3
 
 func remove_player(id: int) -> void:
-	if NetSession.is_host() and actor(id): game.drones.recall(actor(id))
+	if NetSession.is_host() and actor(id) and game.get("drones"): game.drones.recall(actor(id))
 	if NetSession.is_host() and game.stats.players.has(id):
 		if is_instance_valid(actor(id)): game.stats.update_live(id, actor(id).score, -1)
 		game.stats.players[id].connected = false
@@ -139,7 +141,7 @@ func sync_roster() -> void:
 func make_client() -> void:
 	game.waves.set_process(false)
 	game.day_night.set_process(false)
-	game.achievements.set_process(false)
+	if game.get("achievements"): game.achievements.set_process(false)
 	for animal in deer: animal.set_physics_process(false)
 	game.player.regen_timer = 99999.0
 
@@ -394,7 +396,7 @@ func collect_drop(drop: Pickup, id: int) -> void:
 	p.hud.set_health(p.hp)
 	NetSession.feedback(id, "message", [message, 3.5 if not drop.rarity.is_empty() else 1.4])
 	Sfx.event(game, id, "pickup")
-	if drop.kind != "cash": game.achievements.event("drops")
+	if drop.kind != "cash" and game.get("achievements"): game.achievements.event("drops")
 	drop.queue_free()
 
 func buy_upgrade(id: int, key: String) -> void:
@@ -455,7 +457,7 @@ func hut_lost() -> void:
 func _show_game_over() -> void:
 	if game.classes: game.classes.finish()
 	_close_local_menus()
-	game.drones.shutdown()
+	if game.get("drones"): game.drones.shutdown()
 	game.over = true
 	game.player.active = false
 	var hut_fell: bool = game.hut != null and game.hut.destroyed
@@ -732,17 +734,17 @@ func snapshot() -> Dictionary:
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
-	return {"brewing": game.brewing.snapshot(), "maze_caches": maze_caches, "hunting": game.hunting.snapshot(), "leaderboard": game.stats.players.duplicate(true), "fireworks": game.fireworks.snapshot(), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": game.drones.snapshot(), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
-		"secret_night": game.secret_night.snapshot(), "field_trials": game.field_trials.snapshot(),
+	return {"field_building": game.field_building.snapshot() if planes else [], "brewing": (game.brewing.snapshot() if game.get("brewing") else {}), "maze_caches": maze_caches, "hunting": (game.hunting.snapshot() if game.get("hunting") else {}), "leaderboard": game.stats.players.duplicate(true), "fireworks": (game.fireworks.snapshot() if game.get("fireworks") else {}), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": (game.drones.snapshot() if game.get("drones") else {}), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+		"secret_night": (game.secret_night.snapshot() if game.get("secret_night") else {}), "field_trials": (game.field_trials.snapshot() if game.get("field_trials") else {}),
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"sandbags": sandbag_states, "purse": purse, "fortune": game.fortune.snapshot() if game.fortune else [],
 		"weather": game.weather.snapshot() if game.weather else [], "moon": [game.day_night.night_index],
-		"keys": game.forest_keys.owned.duplicate(), "key_positions": key_positions, "mushroom_positions": mushroom_positions, "bars": bars, "intact": intact, "deer": animals,
+		"keys": (game.forest_keys.owned.duplicate() if not planes else {}), "key_positions": key_positions, "mushroom_positions": mushroom_positions, "bars": bars, "intact": intact, "deer": animals,
 		"time": game.day_night.clock_seconds, "phase": NetSession.phase, "victory": game.victory, "region": game.campaign.selected_id,
 		"difficulty": game.settings.difficulty,
 		"wave": [game.waves.wave, game.waves.completed, game.waves.phase, game.waves.timer, game.waves.total, game.alive_zombies()+game.waves.queue.size(), game.waves.boss_fight],
 		"stats": [game.stats.kills, game.stats.headshots, game.stats.shots, game.stats.hits, game.stats.seconds, game.stats.best_streak, game.stats.grenades_thrown, game.stats.melee_hits, game.stats.barricades_built, game.stats.mushrooms_eaten, game.stats.damage_taken, game.stats.points_earned],
-		"achievements": [game.achievements.counters.duplicate(), game.achievements.session_unlocked.duplicate()]}
+		"achievements": [game.achievements.counters.duplicate(), game.achievements.session_unlocked.duplicate()] if game.get("achievements") else [{},{}]}
 
 func _apply_drops(states: Dictionary) -> void:
 	for id in drops.keys():
@@ -768,15 +770,15 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		if pumpkin_states[i]: game.pumpkins[i].shatter(not initial)
 	if initial: NetSession.trace_load("STATE_STAGE structures")
 	game.defences.apply_snapshot(data.get("towers", {}), initial)
-	game.drones.apply_snapshot(data.get("drones", {}), initial)
+	if game.get("drones"): game.drones.apply_snapshot(data.get("drones", {}), initial)
 	game.progression.apply_snapshot(data.get("progression", {}), initial)
-	game.fireworks.apply_snapshot(data.get("fireworks", {}))
-	game.hunting.apply_snapshot(data.get("hunting", {}))
-	game.brewing.apply_snapshot(data.get("brewing", {}))
-	game.secret_night.apply_snapshot(data.get("secret_night", {}))
-	var previous_teleport: int = game.field_trials.teleport_serial
-	game.field_trials.apply_snapshot(data.get("field_trials", {}))
-	var trial_teleport: bool = previous_teleport != game.field_trials.teleport_serial
+	if game.get("fireworks"): game.fireworks.apply_snapshot(data.get("fireworks", {}))
+	if game.get("hunting"): game.hunting.apply_snapshot(data.get("hunting", {}))
+	if game.get("brewing"): game.brewing.apply_snapshot(data.get("brewing", {}))
+	if game.get("secret_night"): game.secret_night.apply_snapshot(data.get("secret_night", {}))
+	var previous_teleport: int = game.field_trials.teleport_serial if game.get("field_trials") else 0
+	if game.get("field_trials"): game.field_trials.apply_snapshot(data.get("field_trials", {}))
+	var trial_teleport: bool = game.get("field_trials") != null and previous_teleport != game.field_trials.teleport_serial
 	game.difficulty = GameSettings.DIFFICULTIES[int(data.difficulty)]
 	if initial: game.hud._mark_difficulty(int(data.difficulty))
 	if initial: NetSession.trace_load("STATE_STAGE players")
@@ -936,9 +938,10 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		grenades[id].rotation = data.grenades[id][1]
 	_apply_drops(data.drops)
 	if initial: NetSession.trace_load("STATE_STAGE items")
-	var keys_changed: bool = game.forest_keys.owned != data["keys"]
-	game.forest_keys.owned = data["keys"].duplicate()
-	if keys_changed and game.inventory.is_open: game.inventory._refresh()
+	if not planes:
+		var keys_changed: bool = game.forest_keys.owned != data["keys"]
+		game.forest_keys.owned = data["keys"].duplicate()
+		if keys_changed and game.inventory.is_open: game.inventory._refresh()
 	for key in loot_nodes:
 		var node = loot_nodes[key]
 		if not is_instance_valid(node): continue
@@ -973,6 +976,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			node.global_position = data.key_positions[key]
 			node.taken = false
 			node.pickup_visual.show()
+	if planes: game.field_building.apply_snapshot(data.get("field_building", []))
 	if initial: NetSession.trace_load("STATE_STAGE barricades")
 	for i in game.barricades.size():
 		var b: Barricade = game.barricades[i]
@@ -1039,10 +1043,10 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		game.hud.set_wave(data.wave[0] if data.wave[2] != "idle" else data.wave[0]+1, Lang.t("%d left", [data.wave[5]]) if data.wave[2] != "idle" else Lang.t("Starts in %d s · the host starts the next wave", [ceili(data.wave[3])]))
 	game.hud.set_wave_progress(data.wave[5], data.wave[4])
 	# The host decides when a boss fight starts and ends; the song itself is picked here.
-	if game.secret_night.active:
+	if game.get("secret_night") and game.secret_night.active:
 		current_wave = data.wave[0]
 		game.music.play("secret_night")
-	elif game.field_trials.active:
+	elif game.get("field_trials") and game.field_trials.active:
 		game.music.fight(game.field_trials.secret != 0)
 	elif current_wave != data.wave[0]:
 		current_wave = data.wave[0]
@@ -1066,10 +1070,11 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.stats.mushrooms_eaten = data.stats[9]
 	game.stats.damage_taken = data.stats[10]
 	game.stats.points_earned = data.stats[11]
-	game.achievements.counters = data.achievements[0].duplicate()
-	var previous_achievements: int = game.achievements.unlocked.size()
-	game.achievements.unlocked.merge(data.achievements[1], true)
-	if game.achievements.unlocked.size() != previous_achievements: game.achievements._save()
+	if game.get("achievements"):
+		game.achievements.counters = data.achievements[0].duplicate()
+		var previous_achievements: int = game.achievements.unlocked.size()
+		game.achievements.unlocked.merge(data.achievements[1], true)
+		if game.achievements.unlocked.size() != previous_achievements: game.achievements._save()
 	state_loaded = true
 	_update_local_life()
 	if data.phase == "over" and not game.over:

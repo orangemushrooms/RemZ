@@ -102,6 +102,14 @@ func _draw_cartography() -> void:
 func _draw_symbols(c: Control) -> void:
 	if not is_instance_valid(player): return
 	_draw_compass(c)
+	if NetSession.enabled and NetSession.world:
+		for peer in NetSession.world.actors:
+			if peer==NetSession.local_id(): continue
+			var teammate: Player = NetSession.world.actor(peer)
+			var point := map_position(teammate.global_position)
+			var colour := Color(1,0.35,0.25) if teammate.downed or not teammate.alive else Color(0.3,0.85,1)
+			c.draw_circle(point,3.5,colour)
+			c.draw_string(_font,point+Vector2(5,-4),str(NetSession.roster.get(peer,"Player")),HORIZONTAL_ALIGNMENT_LEFT,85,10,colour)
 	var at := Vector2(player.global_position.x,player.global_position.z)
 	if preload("res://scripts/planes_boundary.gd").closest(at).distance_to(at)<8.0:
 		c.draw_style_box(_panel_style(),Rect2(10,40,284,29))

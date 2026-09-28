@@ -2491,7 +2491,10 @@ func should_play_intro() -> bool:
 	return true
 
 func _enter_planes() -> void:
-	if NetSession.enabled or _reloading: return
+	if NetSession.enabled:
+		NetSession.select_region("planes")
+		return
+	if _reloading: return
 	_reloading = true
 	BootScreen.cover(get_tree())
 	await get_tree().process_frame

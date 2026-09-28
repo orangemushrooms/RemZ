@@ -380,7 +380,8 @@ func purchase(p: Player, point: Vector3, yaw := 0.0, kind := "standard", planner
 	p.add_score(-int(DefenceTower.SPECS[kind].cost))
 	var tower := create_tower(roof_position(roof_index(point)) if roof_index(point) >= 0 else Map.ground_pos(point.x, point.z), p.peer_id,0,false,kind)
 	tower.rotation.y = wrapf(yaw, -PI, PI)
-	game.progression.event("built")
+	if game.get("field_building"): game.progression.peer_event(p.peer_id,"built")
+	else: game.progression.event("built")
 	Sfx.play_at(game, "build", point, -8)
 	return ""
 

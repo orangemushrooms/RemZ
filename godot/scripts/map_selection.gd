@@ -100,7 +100,7 @@ func choose(id: String) -> void:
 	_selected = id
 	atlas.selected = id
 	_preview(id)
-	if NetSession.is_client() or (NetSession.enabled and Campaign.region(id).get("exploration", false)): return
+	if NetSession.is_client(): return
 	if campaign.select(id):
 		Sfx.play(self, "click", -6.0)
 		launch_requested.emit(id)
@@ -127,8 +127,7 @@ func _preview(id: String) -> void:
 		_status.text = "SURVIVAL / 25 ROUNDS"
 		_description.text = "Survive 25 waves in the fields. Choose where to build your defences."
 		_join.text = "Enter The Planes  →"
-		_join.disabled = NetSession.enabled
-		if NetSession.enabled: _description.text = "The Planes is available in solo play."
+		_join.disabled = NetSession.is_client()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("pause"):

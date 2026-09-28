@@ -21,7 +21,7 @@ func scheduled_state(_clock: float) -> String:
 	return "clear"
 
 func _process(delta: float) -> void:
-	if not main or not main.started or main.over or not main.player.active: return
+	if not main or not main.started or main.over or (not NetSession.enabled and not main.player.active): return
 	elapsed += delta
 	super._process(delta)
 

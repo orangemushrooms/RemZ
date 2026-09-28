@@ -12,6 +12,8 @@ const FIELD_QUESTS := {
 	"brutes":{"npc":"secret","name":"Heavy footsteps","desc":"Defeat eight brutes across the survival waves.","goal":"brutes","count":8,"reward":260,"wave":10},
 	"veteran":{"npc":"camp","name":"The long harvest","desc":"Survive fifteen waves on your chosen ground.","goal":"waves","count":15,"reward":300,"wave":15}
 }
+var field_people := {}
+var transaction_actor: Player
 var field_counts := {}
 var accepted := {}
 var claimed := {}
@@ -24,6 +26,7 @@ var sample_time := 0.0
 var nearest_collectible := -1
 var nearest_wild_plant := -1
 var loadout_open := false
+var _menu_signature := ""
 
 func setup(main: Node) -> void:
 	game = main
@@ -73,6 +76,7 @@ func setup(main: Node) -> void:
 
 func reset_run() -> void:
 	close()
+	field_people.clear()
 	field_counts.clear(); accepted.clear(); claimed.clear()
 	kit_stock = {"palisade":0,"sandbags":0}
 	discovered_secret = false
@@ -144,6 +148,7 @@ func _field_row(text: String, action: Callable = Callable()) -> void:
 		field_rows.add_child(label)
 
 func refresh_field(message := "") -> void:
+	_menu_signature = menu_signature()
 	for child in field_rows.get_children():
 		field_rows.remove_child(child); child.queue_free()
 	_field_row(Lang.t("%s  |  %d R",[NPCS[shop].name,game.player.score]))
@@ -162,13 +167,13 @@ func refresh_field(message := "") -> void:
 			for id in ["palisade","sandbags"]:
 				_field_row(Lang.t("%s kit · %d R · carried: %d",[id,kit_price(id),kit_stock[id]]),func(): refresh_field(buy_kit(id)))
 			for spec in Skills.UPGRADES:
-				_field_row(Lang.t("%s | %d R",[spec.name,Skills.training_cost(spec,game.skills.levels.get(spec.id,0))]),func(): refresh_field(game.skills.purchase(game.player,game.weapons,spec.id)))
+				_field_row(Lang.t("%s | %d R",[spec.name,Skills.training_cost(spec,game.skills.levels.get(spec.id,0))]),func(): refresh_field(request_action("training",[spec.id])))
 			for index in game.barricades.size():
 				var bar: Barricade = game.barricades[index]
 				_field_row(Lang.t("Fortification #%d | tier %d | Upgrade",[index+1,bar.level]),func(): refresh_field(game.field_building.upgrade_bar(index)))
 			for id in game.defences.towers:
 				var tower: DefenceTower = game.defences.towers[id]
-				_field_row(Lang.t("%s #%d · Tier %d · Upgrade %d R",[tower.spec().name,id,tower.level,tower.upgrade_cost()]),func(): refresh_field(game.defences.maintain(game.player,id,"upgrade",true)))
+				_field_row(Lang.t("%s #%d · Tier %d · Upgrade %d R",[tower.spec().name,id,tower.level,tower.upgrade_cost()]),func(): refresh_field(request_action("tower_upgrade",[id])))
 		else:
 			_field_row("Ammunition refill",func(): refresh_field(buy_supply("ammo")))
 			_field_row("Field dressing · 35 R",func(): refresh_field(buy_supply("health")))
@@ -183,7 +188,7 @@ func refresh_field(message := "") -> void:
 			for id in Weapons.Mods.DEFS:
 				var spec: Dictionary = Weapons.Mods.DEFS[id]
 				if spec.npc==shop and Weapons.Mods.compatible(id,wid,Weapons.DEFS[wid]):
-					_field_row(Lang.t("%s · %d R · wave %d",[spec.name,spec.price,spec.level]),func(): refresh_field(trade_mod(game.player,shop,id,wid)))
+					_field_row(Lang.t("%s · %d R · wave %d",[spec.name,spec.price,spec.level]),func(): refresh_field(request_action("mod",[shop,id,wid])))
 	else:
 		_field_row("QUESTS · accept, then return for the reward")
 		for id in FIELD_QUESTS:
@@ -198,61 +203,73 @@ func kit_price(id: String) -> int:
 	return SandbagLine.DEPLOY_COST if id=="sandbags" else Barricade.COST_BUILD
 
 func buy_kit(id: String) -> String:
+	if NetSession.is_client():
+		NetSession.command("planes",["buy_kit",[id,shop]])
+		return "Request sent to host."
 	if not game.survival_active: return "Building unavailable."
-	if not kit_stock.has(id) or not close_enough(game.player,"mechanic"): return "Go to Mechanic."
+	if not kit_stock.has(id) or not close_enough(actor(),"mechanic"): return "Go to Mechanic."
 	if kit_stock.palisade+kit_stock.sandbags+game.barricades.size()>=40: return "Maximum 40 fortifications and carried kits."
-	if game.player.score<kit_price(id): return "Not enough Rem Dollars."
-	game.player.add_score(-kit_price(id)); kit_stock[id] += 1
+	if actor().score<kit_price(id): return "Not enough Rem Dollars."
+	actor().add_score(-kit_price(id)); kit_stock[id] += 1
 	return "Kit packed. Press B at your chosen position."
 
 func buy_weapon(id: String) -> String:
+	if NetSession.is_client():
+		NetSession.command("planes",["buy_weapon",[id,shop]])
+		return "Request sent to host."
 	if not game.survival_active: return "Building unavailable."
-	if not GOODS.has(id) or not close_enough(game.player,GOODS[id].npc): return "Go to the trader."
-	if game.weapons.unlocked.get(id,false): return "You already own this weapon."
+	if not GOODS.has(id) or not close_enough(actor(),GOODS[id].npc): return "Go to the trader."
+	if gear().unlocked.get(id,false): return "You already own this weapon."
 	if game.waves.wave<int(GOODS[id].wave): return "Survive until the required wave."
-	if game.player.score<int(GOODS[id].price): return "Not enough Rem Dollars."
-	game.player.add_score(-int(GOODS[id].price))
-	game.weapons.unlock(id)
-	game.weapons.state[id].ammo = int(Weapons.DEFS[id].mag)
-	game.weapons.state[id].reserve = int(Weapons.DEFS[id].mag)*3
+	if actor().score<int(GOODS[id].price): return "Not enough Rem Dollars."
+	actor().add_score(-int(GOODS[id].price))
+	gear().unlock(id)
+	gear().state[id].ammo = int(Weapons.DEFS[id].mag)
+	gear().state[id].reserve = int(Weapons.DEFS[id].mag)*3
 	return "Weapon purchased. Use the mouse wheel to equip."
 
 func buy_supply(id: String) -> String:
+	if NetSession.is_client():
+		NetSession.command("planes",["buy_supply",[id,shop]])
+		return "Request sent to host."
 	if not game.survival_active: return "Building unavailable."
-	if not close_enough(game.player,shop) or shop not in ["camp","secret"]: return "Go to Vendor."
+	if not close_enough(actor(),shop) or shop not in ["camp","secret"]: return "Go to Vendor."
 	if id=="ammo":
-		var quote := refill_quote(game.player)
+		var quote := refill_quote(actor())
 		if int(quote.rounds)==0: return "No refill needed or insufficient funds."
-		game.player.add_score(-int(quote.cost))
+		actor().add_score(-int(quote.cost))
 		for wid in quote.items:
-			game.weapons.state[wid].ammo += int(quote.items[wid][0])
-			game.weapons.state[wid].reserve += int(quote.items[wid][1])
-		game.weapons.update_hud()
+			gear().state[wid].ammo += int(quote.items[wid][0])
+			gear().state[wid].reserve += int(quote.items[wid][1])
+		gear().update_hud()
 		return "Ammunition purchased."
 	var price := 35 if id=="health" else 30
 	if id not in ["health","grenade"]: return "Unknown supplies."
-	if id=="health" and game.player.hp>=game.player.max_hp: return "Health already full."
-	if id=="grenade" and game.weapons.grenades>=game.weapons.grenades_max: return "Grenade pouch full."
-	if game.player.score<price: return "Not enough Rem Dollars."
-	game.player.add_score(-price)
+	if id=="health" and actor().hp>=actor().max_hp: return "Health already full."
+	if id=="grenade" and gear().grenades>=gear().grenades_max: return "Grenade pouch full."
+	if actor().score<price: return "Not enough Rem Dollars."
+	actor().add_score(-price)
 	if id=="health":
-		game.player.hp = minf(game.player.max_hp,game.player.hp+50)
-		game.hud.set_health(game.player.hp)
-	else: game.weapons.grenades += 1
-	game.weapons.update_hud()
+		actor().hp = minf(actor().max_hp,actor().hp+50)
+		actor().hud.set_health(actor().hp)
+	else: gear().grenades += 1
+	gear().update_hud()
 	return "Supplies purchased."
 
 func quest_action(id: String) -> String:
+	if NetSession.is_client():
+		NetSession.command("planes",["quest_action",[id,shop]])
+		return "Request sent to host."
 	if not game.survival_active: return "Building unavailable."
-	if not FIELD_QUESTS.has(id) or not close_enough(game.player,FIELD_QUESTS[id].npc): return "Return to the quest giver."
+	if not FIELD_QUESTS.has(id) or not close_enough(actor(),FIELD_QUESTS[id].npc): return "Return to the quest giver."
 	if claimed.has(id): return "Reward already claimed."
 	if not accepted.has(id):
 		accepted[id] = true
 		return "Quest accepted. Earlier progress this run counts."
 	if not quest_ready(id): return "Objectives not completed yet."
 	claimed[id] = true
-	game.player.add_score(int(FIELD_QUESTS[id].reward))
-	if game.classes: game.classes.quest(game.player.peer_id,"planes:"+id,int(FIELD_QUESTS[id].reward))
+	actor().add_score(int(FIELD_QUESTS[id].reward))
+	if game.classes: game.classes.quest(actor().peer_id,"planes:"+id,int(FIELD_QUESTS[id].reward))
 	return "Quest completed. Reward received."
 
 func _spawn_collectibles() -> void:
@@ -280,18 +297,24 @@ func _spawn_collectibles() -> void:
 		collectibles.append({"node":node,"kind":"mushrooms" if i>=10 else "flowers","taken":false,"at":p,"marker":marker})
 
 func collect(index: int) -> bool:
+	if NetSession.is_client():
+		NetSession.command("planes",["collect",[index]])
+		return false
 	if index<0 or index>=collectibles.size() or not game.survival_active: return false
 	var item: Dictionary = collectibles[index]
-	if item.taken or game.player.global_position.distance_to(Map.ground_pos(item.at.x,item.at.y))>2.5: return false
+	if item.taken or actor().global_position.distance_to(Map.ground_pos(item.at.x,item.at.y))>2.5: return false
 	item.taken = true; item.node.hide(); event(item.kind)
-	game.hud.message(Lang.t("Collected: %s (%d)",[item.kind,field_counts[item.kind]]),2)
+	actor().hud.message(Lang.t("Collected: %s (%d)",[item.kind,field_counts[item.kind]]),2)
 	return true
 
 func collect_wild(index: int) -> bool:
-	var kind: String = game.nature.harvest(index)
+	if NetSession.is_client():
+		NetSession.command("planes",["collect_wild",[index]])
+		return false
+	var kind: String = game.nature.harvest(index,actor())
 	if kind.is_empty(): return false
 	event(kind)
-	game.hud.message(Lang.t("Collected: %s (%d)",[kind,field_counts[kind]]),2)
+	actor().hud.message(Lang.t("Collected: %s (%d)",[kind,field_counts[kind]]),2)
 	return true
 
 func sample_collectibles() -> void:
@@ -310,6 +333,7 @@ func _process(delta: float) -> void:
 	sample_time -= delta
 	if sample_time>0: return
 	sample_time = 0.15
+	if NetSession.is_client() and is_open and not loadout_open and SITES.has(shop) and _menu_signature!=menu_signature(): refresh_field()
 	_update_tracker()
 	sample_collectibles()
 	for i in collectibles.size():
@@ -345,6 +369,12 @@ func _unhandled_input(event_input: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if event_input.is_action_pressed("interact"):
+		if NetSession.enabled and NetSession.world:
+			var downed: int = NetSession.world.nearby_downed_player()
+			if downed:
+				NetSession.command("revive",[downed])
+				get_viewport().set_input_as_handled()
+				return
 		sample_collectibles()
 		var id := nearest(game.player)
 		if not id.is_empty(): open_field(id)
@@ -399,7 +429,83 @@ func _update_tracker() -> void:
 	tracker.text = "\n\n".join(lines)
 
 func mod_lock_reason(p: Player, id: String, wid: String) -> String:
-	if not Weapons.Mods.DEFS.has(id) or not game.weapons.unlocked.get(wid,false): return "Weapon not available."
+	var equipment: Weapons = NetSession.world.weapons[p.peer_id] if NetSession.is_host() else game.weapons
+	if not Weapons.Mods.DEFS.has(id) or not equipment.unlocked.get(wid,false): return "Weapon not available."
 	if not Weapons.Mods.compatible(id,wid,Weapons.DEFS[wid]): return "Not compatible with this weapon."
 	if game.waves.wave<int(Weapons.Mods.DEFS[id].level): return "Survive until the required wave."
 	return ""
+
+func actor() -> Player:
+	return transaction_actor if transaction_actor else game.player
+
+func menu_signature() -> String:
+	return str([shop,page,game.player.score,kit_stock,accepted,claimed,field_counts,game.skills.levels if game.skills else {},game.weapons.unlocked if game.weapons else {}])
+
+func gear() -> Weapons:
+	return NetSession.world.weapons[actor().peer_id] if NetSession.is_host() else game.weapons
+
+func field_data(peer: int) -> Dictionary:
+	if not field_people.has(peer):
+		field_people[peer] = {"counts":{},"accepted":{},"claimed":{},"kits":{"palisade":0,"sandbags":0}}
+	if peer==NetSession.local_id():
+		field_people[peer] = {"counts":field_counts,"accepted":accepted,"claimed":claimed,"kits":kit_stock}
+	return field_people[peer]
+
+func peer_event(peer: int, kind: String) -> void:
+	if not NetSession.enabled or peer==NetSession.local_id(): event(kind)
+	else:
+		var state: Dictionary = field_data(peer)
+		state.counts[kind] = int(state.counts.get(kind,0))+1
+
+func request_action(operation: String, args: Array) -> String:
+	if NetSession.enabled:
+		NetSession.command("planes",[operation,args])
+		return "Request sent to host."
+	return authoritative_action(game.player,operation,args)
+
+func authoritative_action(p: Player, operation: String, args: Array) -> String:
+	if not p.alive or p.downed or game.over or not game.started: return "Action unavailable."
+	var old := [field_counts,accepted,claimed,kit_stock,shop]
+	var state: Dictionary = field_data(p.peer_id)
+	field_counts = state.counts; accepted = state.accepted; claimed = state.claimed; kit_stock = state.kits
+	transaction_actor = p
+	var result := "Invalid request."
+	match operation:
+		"buy_kit","buy_weapon","buy_supply","quest_action":
+			if args.size()==2 and args[0] is String and args[1] is String and SITES.has(args[1]):
+				shop = args[1]
+				result = call(operation,args[0])
+		"collect","collect_wild":
+			if args.size()==1 and args[0] is int: result = "Collected." if call(operation,args[0]) else "Nothing to collect here."
+		"training":
+			if args.size()==1 and args[0] is String: result = game.skills.purchase(p,gear(),args[0])
+		"mod":
+			if args.size()==3 and args[0] is String and args[1] is String and args[2] is String: result = trade_mod(p,args[0],args[1],args[2])
+		"tower_upgrade":
+			if args.size()==1 and args[0] is int: result = game.defences.maintain(p,args[0],"upgrade",true)
+		"place":
+			if args.size()==3 and args[0] is String and args[1] is Vector3 and args[2] is float: result = game.field_building.place(args[0],args[1],args[2],p)
+		"repair":
+			if args.is_empty(): game.field_building.repair_nearest(p); result = ""
+		"upgrade_bar":
+			if args.size()==1 and args[0] is String: result = game.field_building.upgrade_id(args[0],p)
+	transaction_actor = null
+	field_counts = old[0]; accepted = old[1]; claimed = old[2]; kit_stock = old[3]; shop = old[4]
+	return result
+
+func snapshot() -> Dictionary:
+	field_data(NetSession.local_id())
+	var taken: Array = []
+	for i in collectibles.size():
+		if collectibles[i].taken: taken.append(i)
+	return {"people":field_people.duplicate(true),"taken":taken,"wild":game.nature._picked.keys(),"rare":rare_market.people.duplicate(true)}
+
+func apply_snapshot(state: Dictionary, _initial := false) -> void:
+	field_people = state.get("people",{}).duplicate(true)
+	var mine: Dictionary = field_people.get(NetSession.local_id(),{})
+	if not mine.is_empty():
+		field_counts = mine.counts; accepted = mine.accepted; claimed = mine.claimed; kit_stock = mine.kits
+	for i in state.get("taken",[]):
+		if i>=0 and i<collectibles.size(): collectibles[i].taken = true; collectibles[i].node.hide()
+	for i in state.get("wild",[]): game.nature.hide_harvested(i)
+	rare_market.people = state.get("rare",{}).duplicate(true)
