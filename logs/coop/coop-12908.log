@@ -1,0 +1,24 @@
+2026-09-27T19:19:45 remz-dev-20260927-deer-gait BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T19:19:45 remz-dev-20260927-deer-gait NETWORK_INITIALIZED
+2026-09-27T19:20:22 remz-dev-20260927-deer-gait MAP_READY
+2026-09-27T19:20:22 remz-dev-20260927-deer-gait ONLINE_HOST_BEGIN
+2026-09-27T19:20:22 remz-dev-20260927-deer-gait EOS_PLATFORM_START
+2026-09-27T19:20:22 remz-dev-20260927-deer-gait EOS_PLATFORM_READY
+2026-09-27T19:20:22 remz-dev-20260927-deer-gait EOS_RELAY_CONTROL forced
+2026-09-27T19:20:22 remz-dev-20260927-deer-gait EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+2026-09-27T19:20:23 remz-dev-20260927-deer-gait EOS_LOGIN_OK
+2026-09-27T19:20:24 remz-dev-20260927-deer-gait EOS_LOBBY_CREATED code=JAHFCE
+2026-09-27T19:20:24 remz-dev-20260927-deer-gait ONLINE_HOST_READY ONLINE_CODE=JAHFCE
+2026-09-27T19:20:28 remz-dev-20260927-deer-gait EOS_P2P_ACCEPTED
+2026-09-27T19:20:30 remz-dev-20260927-deer-gait PEER_CONNECTED id=1927069808
+2026-09-27T19:20:30 remz-dev-20260927-deer-gait INITIAL_SEND peer=1927069808 raw=28828 bytes=5253 parts=6
+2026-09-27T19:20:30 remz-dev-20260927-deer-gait CLIENT_READY peer=1927069808
+2026-09-27T19:20:30 remz-dev-20260927-deer-gait ROUND_START_SEND players=2
+2026-09-27T19:20:30 remz-dev-20260927-deer-gait STATE_SEND peer=1927069808 raw=28828 bytes=5254 parts=6
+2026-09-27T19:20:30 remz-dev-20260927-deer-gait ROUND_BEGIN intro=false
+2026-09-27T19:20:30 remz-dev-20260927-deer-gait ROUND_RUNNING players=2
+2026-09-27T19:20:32 remz-dev-20260927-deer-gait EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.006079s] TickIntervalThreshold=[40ms] MaxTickInterval=[183ms] MaxExecutionTime=[1ms] TicksCount=[1420] ExpectedTicksCount=[1420]
+2026-09-27T19:20:40 remz-dev-20260927-deer-gait STATE_SEND peer=1927069808 raw=30320 bytes=5928 parts=7
+2026-09-27T19:20:40 remz-dev-20260927-deer-gait PEER_DISCONNECTED id=1927069808
+2026-09-27T19:20:41 remz-dev-20260927-deer-gait EOS_LOBBY_DESTROY
+2026-09-27T19:20:41 remz-dev-20260927-deer-gait EOS LogEOSP2P: Leave all connections due to P2P network shutdown

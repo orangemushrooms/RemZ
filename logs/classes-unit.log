@@ -1,0 +1,232 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Automated runs never load or save the real character
+PASS: Exactly 29 level transitions
+PASS: XP boundary 2
+PASS: XP boundary 3
+PASS: XP boundary 4
+PASS: XP boundary 5
+PASS: XP boundary 6
+PASS: XP boundary 7
+PASS: XP boundary 8
+PASS: XP boundary 9
+PASS: XP boundary 10
+PASS: XP boundary 11
+PASS: XP boundary 12
+PASS: XP boundary 13
+PASS: XP boundary 14
+PASS: XP boundary 15
+PASS: XP boundary 16
+PASS: XP boundary 17
+PASS: XP boundary 18
+PASS: XP boundary 19
+PASS: XP boundary 20
+PASS: XP boundary 21
+PASS: XP boundary 22
+PASS: XP boundary 23
+PASS: XP boundary 24
+PASS: XP boundary 25
+PASS: XP boundary 26
+PASS: XP boundary 27
+PASS: XP boundary 28
+PASS: XP boundary 29
+PASS: XP boundary 30
+PASS: Level cap keeps lifetime XP without extra tiers
+PASS: gunslinger has six talent pairs
+PASS: Exactly two options per tier
+PASS: Stable unique talent: quick_hands
+PASS: Stable unique talent: steady_hand
+PASS: Exactly two options per tier
+PASS: Stable unique talent: duelist
+PASS: Stable unique talent: quick_swap
+PASS: Exactly two options per tier
+PASS: Stable unique talent: bounty
+PASS: Stable unique talent: fan_hammer
+PASS: Exactly two options per tier
+PASS: Stable unique talent: sidestep
+PASS: Stable unique talent: ice_cold
+PASS: Exactly two options per tier
+PASS: Stable unique talent: high_noon
+PASS: Stable unique talent: executioner
+PASS: Exactly two options per tier
+PASS: Stable unique talent: deadeye
+PASS: Stable unique talent: gunslinger
+PASS: assault has six talent pairs
+PASS: Exactly two options per tier
+PASS: Stable unique talent: tactical_reload
+PASS: Stable unique talent: ammo_discipline
+PASS: Exactly two options per tier
+PASS: Stable unique talent: burst
+PASS: Stable unique talent: suppression
+PASS: Exactly two options per tier
+PASS: Stable unique talent: frontline
+PASS: Stable unique talent: combat_drill
+PASS: Exactly two options per tier
+PASS: Stable unique talent: armor_breaker
+PASS: Stable unique talent: crowd_control
+PASS: Exactly two options per tier
+PASS: Stable unique talent: combat_momentum
+PASS: Stable unique talent: veteran
+PASS: Exactly two options per tier
+PASS: Stable unique talent: weapons_expert
+PASS: Stable unique talent: last_stand
+PASS: breacher has six talent pairs
+PASS: Exactly two options per tier
+PASS: Stable unique talent: large_caliber
+PASS: Stable unique talent: speed_loader
+PASS: Exactly two options per tier
+PASS: Stable unique talent: penetration
+PASS: Stable unique talent: tight_spread
+PASS: Exactly two options per tier
+PASS: Stable unique talent: knockback
+PASS: Stable unique talent: bloodbath
+PASS: Exactly two options per tier
+PASS: Stable unique talent: breaching
+PASS: Stable unique talent: crowd_breaker
+PASS: Exactly two options per tier
+PASS: Stable unique talent: no_mercy
+PASS: Stable unique talent: stand_ground
+PASS: Exactly two options per tier
+PASS: Stable unique talent: juggernaut
+PASS: Stable unique talent: boomstick
+PASS: marksman has six talent pairs
+PASS: Exactly two options per tier
+PASS: Stable unique talent: firm_stance
+PASS: Stable unique talent: fast_focus
+PASS: Exactly two options per tier
+PASS: Stable unique talent: weak_spot
+PASS: Stable unique talent: piercing
+PASS: Exactly two options per tier
+PASS: Stable unique talent: hunter
+PASS: Stable unique talent: one_shot
+PASS: Exactly two options per tier
+PASS: Stable unique talent: breath_control
+PASS: Stable unique talent: quickscope
+PASS: Exactly two options per tier
+PASS: Stable unique talent: kill_chain
+PASS: Stable unique talent: big_game
+PASS: Exactly two options per tier
+PASS: Stable unique talent: perfect_shot
+PASS: Stable unique talent: rhythm
+PASS: assassin has six talent pairs
+PASS: Exactly two options per tier
+PASS: Stable unique talent: light_footed
+PASS: Stable unique talent: ghost_step
+PASS: Exactly two options per tier
+PASS: Stable unique talent: opportunist
+PASS: Stable unique talent: escape_artist
+PASS: Exactly two options per tier
+PASS: Stable unique talent: weapon_master
+PASS: Stable unique talent: silent_killer
+PASS: Exactly two options per tier
+PASS: Stable unique talent: shadow
+PASS: Stable unique talent: momentum
+PASS: Exactly two options per tier
+PASS: Stable unique talent: assassination
+PASS: Stable unique talent: untouchable
+PASS: Exactly two options per tier
+PASS: Stable unique talent: master_assassin
+PASS: Stable unique talent: predator
+PASS: All sixty passive talents are defined
+PASS: Out-of-range network levels rejected
+PASS: Non-finite network levels rejected
+PASS: Fractional levels rejected
+PASS: Locked talents are removed from hostile loadouts
+PASS: Only the selected class receives XP, including multiple level-ups
+PASS: A tier can be freely respecced and keeps one selection
+PASS: Locked tiers cannot be activated
+PASS: Skills are locked in the multiplayer menu before connecting
+PASS: Lobby edits go through the host, never the local skill API
+PASS: Class and talent changes rejected during matches
+PASS: Achievement XP is granted once across the profile
+PASS: Per-class kill and multiplayer statistics
+PASS: Changing classes preserves earlier progress
+PASS: Quest XP belongs to the played class
+PASS: Favourite class follows lifetime play time
+PASS: Profile writes atomically into the game folder
+PASS: A replacement preserves the previous valid save
+PASS: Profile survives a fresh process-style reload
+PASS: Corrupt current file recovers the valid backup
+PASS: Recovered profile can be saved again
+PASS: Malformed save fields are safely normalised
+PASS: quick_hands affects reload
+PASS: steady_hand affects recoil
+PASS: quick_swap affects switch
+PASS: fan_hammer affects bloom
+PASS: tactical_reload affects reload
+PASS: ammo_discipline affects magazine
+PASS: burst affects spread
+PASS: speed_loader affects reload
+PASS: tight_spread affects spread
+PASS: fast_focus affects ads
+PASS: light_footed affects speed
+PASS: ghost_step affects detection
+PASS: weapon_master affects reload
+PASS: master_assassin affects switch
+PASS: weapons_expert affects recoil
+PASS: Firm Stance reduces aimed sway
+PASS: Last Stand requires low health
+PASS: Veteran requires a low magazine
+PASS: Pistol specialisation never improves a shotgun
+PASS: bounty changes actual damage under its trigger
+PASS: gunslinger changes actual damage under its trigger
+PASS: large_caliber changes actual damage under its trigger
+PASS: weak_spot changes actual damage under its trigger
+PASS: one_shot changes actual damage under its trigger
+PASS: no_mercy changes actual damage under its trigger
+PASS: crowd_control changes actual damage under its trigger
+PASS: silent_killer changes actual damage under its trigger
+PASS: assassination changes actual damage under its trigger
+PASS: First-hit bonus cannot be reused on the same enemy
+PASS: Duelist builds damage on repeated hits
+PASS: Boomstick recognises the full magazine before ammo is spent
+PASS: Deadeye builds a headshot chain
+PASS: A miss ends Deadeye
+PASS: Repeated assault hits apply suppression
+PASS: Knockback applies a physical shove
+PASS: Both penetration talents extend bullet traversal
+PASS: sidestep grants its kill buff
+PASS: sidestep buff expires
+PASS: high_noon grants its kill buff
+PASS: high_noon buff expires
+PASS: frontline grants its kill buff
+PASS: frontline buff expires
+PASS: combat_drill grants its kill buff
+PASS: combat_drill buff expires
+PASS: combat_momentum grants its kill buff
+PASS: combat_momentum buff expires
+PASS: juggernaut grants its kill buff
+PASS: juggernaut buff expires
+PASS: momentum grants its kill buff
+PASS: momentum buff expires
+PASS: Heavy damage triggers Escape Artist
+PASS: Shadow reduces detection after a quiet interval
+PASS: Firing immediately ends Shadow
+PASS: Untouchable rewards a damage-free interval
+PASS: Taking damage ends Untouchable
+PASS: Predator is ready outside direct combat
+PASS: Predator is consumed by the next shot
+PASS: Ice Cold applies its headshot recoil buff
+PASS: Executioner requires a wounded target
+PASS: Armor Breaker rewards armoured targets
+PASS: Breaching rewards armour
+PASS: Hunter rewards special targets
+PASS: Big Game Hunter rewards bosses
+PASS: Shotgun penetration cannot pass through bosses
+PASS: Bloodbath is triggered by a close kill
+PASS: Crowd Breaker detects a clustered group
+PASS: Stand Your Ground detects surrounding enemies
+PASS: Breath Control reaches its precision cap
+PASS: Quickscope rewards a prompt aimed headshot
+PASS: Quickscope expires outside its timing window
+PASS: Kill Chain is spent on one precision hit
+PASS: Perfect Shot rewards a clean four-second interval
+PASS: Perfect Shot cannot stack on one shot
+PASS: Marksman's Rhythm is capped at five hits
+PASS: A miss clears Marksman's Rhythm
+PASS: Opportunist only rewards another player's target
+CLASS_SYSTEM_DONE checks=225 failures=0

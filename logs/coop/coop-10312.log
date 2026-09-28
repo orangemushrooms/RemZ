@@ -1,0 +1,9 @@
+2026-09-27T16:19:01 remz-dev-20260927-campaign BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T16:19:01 remz-dev-20260927-campaign NETWORK_INITIALIZED
+2026-09-27T16:19:40 remz-dev-20260927-campaign MAP_READY
+2026-09-27T16:19:57 remz-dev-20260927-campaign MAP_READY
+2026-09-27T16:19:57 remz-dev-20260927-campaign HOST_CREATE port=24761
+2026-09-27T16:19:57 remz-dev-20260927-campaign HOST_READY
+2026-09-27T16:19:57 remz-dev-20260927-campaign ROUND_START_SEND players=1
+2026-09-27T16:19:57 remz-dev-20260927-campaign ROUND_BEGIN intro=false
+2026-09-27T16:19:57 remz-dev-20260927-campaign ROUND_RUNNING players=1

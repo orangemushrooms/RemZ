@@ -1,0 +1,37 @@
+2026-09-27T19:17:43 remz-dev-20260927-deer-gait BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T19:17:44 remz-dev-20260927-deer-gait NETWORK_INITIALIZED
+2026-09-27T19:18:20 remz-dev-20260927-deer-gait MAP_READY
+2026-09-27T19:18:22 remz-dev-20260927-deer-gait ONLINE_JOIN_BEGIN code=NRJ79D
+2026-09-27T19:18:22 remz-dev-20260927-deer-gait EOS_PLATFORM_START
+2026-09-27T19:18:22 remz-dev-20260927-deer-gait EOS_PLATFORM_READY
+2026-09-27T19:18:22 remz-dev-20260927-deer-gait EOS_RELAY_CONTROL forced
+2026-09-27T19:18:23 remz-dev-20260927-deer-gait EOS_LOGIN_OK
+2026-09-27T19:18:27 remz-dev-20260927-deer-gait EOS_LOBBY_SEARCH_EMPTY code=NRJ79D results=0
+2026-09-27T19:18:29 remz-dev-20260927-deer-gait EOS_LOBBY_FOUND code=NRJ79D
+2026-09-27T19:18:29 remz-dev-20260927-deer-gait EOS_LOBBY_JOINED code=NRJ79D
+2026-09-27T19:18:31 remz-dev-20260927-deer-gait TRANSPORT_CONNECTED sending_hello
+2026-09-27T19:18:31 remz-dev-20260927-deer-gait PEER_CONNECTED id=1
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait WELCOME
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait INITIAL_RECEIVE parts=6
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait INITIAL_APPLY_BEGIN
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE structures
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE players
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE enemies
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE items
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE barricades
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait INITIAL_APPLY_DONE
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.000278s] TickIntervalThreshold=[40ms] MaxTickInterval=[121ms] MaxExecutionTime=[1ms] TicksCount=[1429] ExpectedTicksCount=[1429]
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_RECEIVE parts=6
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE structures
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE players
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE enemies
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE items
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_STAGE barricades
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait STATE_APPLY_DONE sequence=2
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait ROUND_BEGIN intro=false
+2026-09-27T19:18:32 remz-dev-20260927-deer-gait ROUND_RUNNING players=2
+2026-09-27T19:18:40 remz-dev-20260927-deer-gait STATE_RECEIVE parts=7
+2026-09-27T19:18:40 remz-dev-20260927-deer-gait STATE_APPLY_DONE sequence=75
+2026-09-27T19:18:40 remz-dev-20260927-deer-gait PEER_DISCONNECTED id=1
+2026-09-27T19:18:40 remz-dev-20260927-deer-gait EOS_LOBBY_LEAVE
+2026-09-27T19:18:40 remz-dev-20260927-deer-gait EOS LogEOSP2P: Leave all connections due to P2P network shutdown

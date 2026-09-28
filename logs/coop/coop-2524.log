@@ -1,0 +1,24 @@
+2026-09-27T19:54:16 remz-dev-20260927-titan-loot BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T19:54:16 remz-dev-20260927-titan-loot NETWORK_INITIALIZED
+2026-09-27T19:55:04 remz-dev-20260927-titan-loot MAP_READY
+2026-09-27T19:55:04 remz-dev-20260927-titan-loot ONLINE_HOST_BEGIN
+2026-09-27T19:55:04 remz-dev-20260927-titan-loot EOS_PLATFORM_START
+2026-09-27T19:55:04 remz-dev-20260927-titan-loot EOS_PLATFORM_READY
+2026-09-27T19:55:04 remz-dev-20260927-titan-loot EOS_RELAY_CONTROL forced
+2026-09-27T19:55:04 remz-dev-20260927-titan-loot EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+2026-09-27T19:55:05 remz-dev-20260927-titan-loot EOS_LOGIN_OK
+2026-09-27T19:55:06 remz-dev-20260927-titan-loot EOS_LOBBY_CREATED code=ZQKH5G
+2026-09-27T19:55:06 remz-dev-20260927-titan-loot ONLINE_HOST_READY ONLINE_CODE=ZQKH5G
+2026-09-27T19:55:13 remz-dev-20260927-titan-loot EOS_P2P_ACCEPTED
+2026-09-27T19:55:15 remz-dev-20260927-titan-loot PEER_CONNECTED id=1458284339
+2026-09-27T19:55:15 remz-dev-20260927-titan-loot INITIAL_SEND peer=1458284339 raw=28700 bytes=5178 parts=6
+2026-09-27T19:55:15 remz-dev-20260927-titan-loot CLIENT_READY peer=1458284339
+2026-09-27T19:55:15 remz-dev-20260927-titan-loot ROUND_START_SEND players=2
+2026-09-27T19:55:15 remz-dev-20260927-titan-loot STATE_SEND peer=1458284339 raw=28700 bytes=5178 parts=6
+2026-09-27T19:55:15 remz-dev-20260927-titan-loot ROUND_BEGIN intro=false
+2026-09-27T19:55:15 remz-dev-20260927-titan-loot ROUND_RUNNING players=2
+2026-09-27T19:55:24 remz-dev-20260927-titan-loot EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.001576s] TickIntervalThreshold=[40ms] MaxTickInterval=[797ms] MaxExecutionTime=[1ms] TicksCount=[1311] ExpectedTicksCount=[1311]
+2026-09-27T19:55:28 remz-dev-20260927-titan-loot STATE_SEND peer=1458284339 raw=30632 bytes=6017 parts=7
+2026-09-27T19:55:28 remz-dev-20260927-titan-loot PEER_DISCONNECTED id=1458284339
+2026-09-27T19:55:29 remz-dev-20260927-titan-loot EOS_LOBBY_DESTROY
+2026-09-27T19:55:29 remz-dev-20260927-titan-loot EOS LogEOSP2P: Leave all connections due to P2P network shutdown

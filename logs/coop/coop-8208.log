@@ -1,0 +1,23 @@
+2026-09-27T16:57:43 remz-dev-20260927-campaign BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T16:57:43 remz-dev-20260927-campaign NETWORK_INITIALIZED
+2026-09-27T16:58:20 remz-dev-20260927-campaign MAP_READY
+2026-09-27T16:58:20 remz-dev-20260927-campaign ONLINE_HOST_BEGIN
+2026-09-27T16:58:20 remz-dev-20260927-campaign EOS_PLATFORM_START
+2026-09-27T16:58:20 remz-dev-20260927-campaign EOS_PLATFORM_READY
+2026-09-27T16:58:20 remz-dev-20260927-campaign EOS_RELAY_CONTROL forced
+2026-09-27T16:58:20 remz-dev-20260927-campaign EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+2026-09-27T16:58:21 remz-dev-20260927-campaign EOS_LOGIN_OK
+2026-09-27T16:58:22 remz-dev-20260927-campaign EOS_LOBBY_CREATED code=QWARCP
+2026-09-27T16:58:22 remz-dev-20260927-campaign ONLINE_HOST_READY ONLINE_CODE=QWARCP
+2026-09-27T16:58:29 remz-dev-20260927-campaign EOS_P2P_ACCEPTED
+2026-09-27T16:58:31 remz-dev-20260927-campaign PEER_CONNECTED id=2029513141
+2026-09-27T16:58:31 remz-dev-20260927-campaign INITIAL_SEND peer=2029513141 raw=28828 bytes=5254 parts=6
+2026-09-27T16:58:31 remz-dev-20260927-campaign CLIENT_READY peer=2029513141
+2026-09-27T16:58:31 remz-dev-20260927-campaign ROUND_START_SEND players=2
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_SEND peer=2029513141 raw=28828 bytes=5254 parts=6
+2026-09-27T16:58:31 remz-dev-20260927-campaign ROUND_BEGIN intro=false
+2026-09-27T16:58:31 remz-dev-20260927-campaign ROUND_RUNNING players=2
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_SEND peer=2029513141 raw=29268 bytes=5430 parts=7
+2026-09-27T16:58:32 remz-dev-20260927-campaign PEER_DISCONNECTED id=2029513141
+2026-09-27T16:58:32 remz-dev-20260927-campaign EOS_LOBBY_DESTROY
+2026-09-27T16:58:33 remz-dev-20260927-campaign EOS LogEOSP2P: Leave all connections due to P2P network shutdown

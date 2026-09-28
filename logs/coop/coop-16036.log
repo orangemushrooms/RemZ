@@ -1,0 +1,23 @@
+2026-09-27T18:14:47 remz-dev-20260927-campaign-polish BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T18:14:47 remz-dev-20260927-campaign-polish NETWORK_INITIALIZED
+2026-09-27T18:15:19 remz-dev-20260927-campaign-polish MAP_READY
+2026-09-27T18:15:19 remz-dev-20260927-campaign-polish ONLINE_HOST_BEGIN
+2026-09-27T18:15:19 remz-dev-20260927-campaign-polish EOS_PLATFORM_START
+2026-09-27T18:15:19 remz-dev-20260927-campaign-polish EOS_PLATFORM_READY
+2026-09-27T18:15:19 remz-dev-20260927-campaign-polish EOS_RELAY_CONTROL forced
+2026-09-27T18:15:19 remz-dev-20260927-campaign-polish EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+2026-09-27T18:15:20 remz-dev-20260927-campaign-polish EOS_LOGIN_OK
+2026-09-27T18:15:21 remz-dev-20260927-campaign-polish EOS_LOBBY_CREATED code=6X4YMU
+2026-09-27T18:15:21 remz-dev-20260927-campaign-polish ONLINE_HOST_READY ONLINE_CODE=6X4YMU
+2026-09-27T18:15:28 remz-dev-20260927-campaign-polish EOS_P2P_ACCEPTED
+2026-09-27T18:15:29 remz-dev-20260927-campaign-polish PEER_CONNECTED id=698311799
+2026-09-27T18:15:30 remz-dev-20260927-campaign-polish INITIAL_SEND peer=698311799 raw=28700 bytes=5178 parts=6
+2026-09-27T18:15:30 remz-dev-20260927-campaign-polish CLIENT_READY peer=698311799
+2026-09-27T18:15:30 remz-dev-20260927-campaign-polish ROUND_START_SEND players=2
+2026-09-27T18:15:30 remz-dev-20260927-campaign-polish STATE_SEND peer=698311799 raw=28700 bytes=5179 parts=6
+2026-09-27T18:15:30 remz-dev-20260927-campaign-polish ROUND_BEGIN intro=false
+2026-09-27T18:15:30 remz-dev-20260927-campaign-polish ROUND_RUNNING players=2
+2026-09-27T18:15:34 remz-dev-20260927-campaign-polish STATE_SEND peer=698311799 raw=29768 bytes=5701 parts=7
+2026-09-27T18:15:34 remz-dev-20260927-campaign-polish PEER_DISCONNECTED id=698311799
+2026-09-27T18:15:35 remz-dev-20260927-campaign-polish EOS_LOBBY_DESTROY
+2026-09-27T18:15:35 remz-dev-20260927-campaign-polish EOS LogEOSP2P: Leave all connections due to P2P network shutdown

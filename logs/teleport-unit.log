@@ -1,0 +1,42 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Teleport is locked at level 14
+PASS: Level 15 explicitly unlocks Forward
+PASS: Selecting Map replaces Forward
+PASS: Only one recognised mode may be selected
+PASS: Teleport selection is frozen during a round
+PASS: Teleport cannot be changed in a connected lobby
+PASS: Selected mode survives save sanitisation
+PASS: Migration preserves all old XP and passive talents
+PASS: Existing players explicitly choose their new ability; migration is idempotent
+PASS: Network loadouts cannot unlock the ability early
+PASS: Other classes cannot claim Teleport
+PASS: Malformed network mode is discarded
+PASS: Host refuses a locked teleport
+PASS: Forward travels 8 metres in facing direction and ignores a forged map target
+PASS: Teleport clears momentum and starts its cooldown and serial
+PASS: Cooldown prevents repeated teleport commands
+PASS: Cooldown becomes ready after elapsed gameplay time
+PASS: Forward follows horizontal facing
+PASS: Forward stops safely in front of a wall
+PASS: Blocked forward cast consumes no cooldown
+PASS: Map teleports to the selected position with its longer cooldown
+PASS: Map range rejects distant points without consuming cooldown
+PASS: Non-finite coordinates are rejected
+PASS: No-op teleport is rejected
+PASS: Occupied landing is rejected
+PASS: Cannot teleport inside an enemy
+PASS: Cannot escape a sealed field trial
+PASS: Teleport blocked while downed
+PASS: Teleport blocked while spectating
+PASS: Cannot teleport while mounted
+PASS: Cannot teleport while piloting a drone
+PASS: Dead actors cannot teleport
+PASS: Finished rounds cannot teleport
+PASS: Delayed pre-teleport poses cannot rewind the host
+PASS: Acknowledged post-teleport movement resumes normally
+ASSASSIN_TELEPORT_DONE checks=35 failures=0

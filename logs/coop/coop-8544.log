@@ -1,0 +1,37 @@
+2026-09-27T19:51:24 remz-dev-20260927-titan-loot BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T19:51:24 remz-dev-20260927-titan-loot NETWORK_INITIALIZED
+2026-09-27T19:52:08 remz-dev-20260927-titan-loot MAP_READY
+2026-09-27T19:52:12 remz-dev-20260927-titan-loot ONLINE_JOIN_BEGIN code=ZRMN86
+2026-09-27T19:52:12 remz-dev-20260927-titan-loot EOS_PLATFORM_START
+2026-09-27T19:52:12 remz-dev-20260927-titan-loot EOS_PLATFORM_READY
+2026-09-27T19:52:12 remz-dev-20260927-titan-loot EOS_RELAY_CONTROL forced
+2026-09-27T19:52:14 remz-dev-20260927-titan-loot EOS_LOGIN_OK
+2026-09-27T19:52:17 remz-dev-20260927-titan-loot EOS_LOBBY_SEARCH_EMPTY code=ZRMN86 results=0
+2026-09-27T19:52:19 remz-dev-20260927-titan-loot EOS_LOBBY_FOUND code=ZRMN86
+2026-09-27T19:52:20 remz-dev-20260927-titan-loot EOS_LOBBY_JOINED code=ZRMN86
+2026-09-27T19:52:22 remz-dev-20260927-titan-loot EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.003063s] TickIntervalThreshold=[40ms] MaxTickInterval=[1023ms] MaxExecutionTime=[1ms] TicksCount=[1282] ExpectedTicksCount=[1282]
+2026-09-27T19:52:22 remz-dev-20260927-titan-loot TRANSPORT_CONNECTED sending_hello
+2026-09-27T19:52:22 remz-dev-20260927-titan-loot PEER_CONNECTED id=1
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot WELCOME
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot INITIAL_RECEIVE parts=6
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot INITIAL_APPLY_BEGIN
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE structures
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE players
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE enemies
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE items
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE barricades
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot INITIAL_APPLY_DONE
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_RECEIVE parts=6
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE structures
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE players
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE enemies
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE items
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_STAGE barricades
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot STATE_APPLY_DONE sequence=2
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot ROUND_BEGIN intro=false
+2026-09-27T19:52:23 remz-dev-20260927-titan-loot ROUND_RUNNING players=2
+2026-09-27T19:52:32 remz-dev-20260927-titan-loot EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.000115s] TickIntervalThreshold=[40ms] MaxTickInterval=[231ms] MaxExecutionTime=[1ms] TicksCount=[1267] ExpectedTicksCount=[1267]
+2026-09-27T19:52:42 remz-dev-20260927-titan-loot EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.004517s] TickIntervalThreshold=[40ms] MaxTickInterval=[107ms] MaxExecutionTime=[2ms] TicksCount=[1405] ExpectedTicksCount=[1405]
+2026-09-27T19:53:17 remz-dev-20260927-titan-loot PEER_DISCONNECTED id=1
+2026-09-27T19:53:17 remz-dev-20260927-titan-loot EOS_LOBBY_LEAVE
+2026-09-27T19:53:17 remz-dev-20260927-titan-loot EOS LogEOSP2P: Leave all connections due to P2P network shutdown

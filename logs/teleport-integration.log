@@ -1,0 +1,49 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: Character editing is available after boot
+PASS: The full summary, including profile controls, fits the viewport
+PASS: Locked talents stay interactive so a click can explain the requirement
+PASS: Clicking a locked talent shows a notice without equipping it
+PASS: The notice names the required class level and exact missing XP
+PASS: The talent screen and its scrolling region fit the viewport
+PASS: The notice closes through its real acknowledgement button
+PASS: Clicking the gallery card selects marksman
+PASS: Clicking the gallery card selects gunslinger
+PASS: The translated class gallery fits the viewport
+PASS: Main menu opens the dedicated talent dossier
+PASS: An unlocked talent card equips the alternative immediately
+PASS: Multiplayer menu rejects talent changes before connection
+PASS: Skill screen cannot be opened from multiplayer
+PASS: Solo starts with the chosen passive build
+PASS: Quick Hands changes the actual reload timer
+PASS: A real zombie death updates the local class profile
+PASS: A pistol headshot kill includes Bounty XP
+PASS: Sidestep affects real player movement after a kill
+PASS: A quest completion cannot grant XP twice in the same match
+PASS: A wave reward is applied once
+PASS: Running matches keep the class and talent build frozen
+PASS: Class magazine bonuses do not compound when refreshed
+PASS: Magazine mods and class talents combine
+PASS: Reload fills the enlarged magazine
+PASS: Finishing a match flushes the profile
+COOP_LOAD HOST_CREATE port=24773
+COOP_HOST_READY port=24773
+COOP_LOAD HOST_READY
+PASS: Host opens a class lobby
+PASS: Host cannot start with an unconfirmed class
+PASS: Class can be changed before locking
+PASS: Explicit class confirmation is accepted
+PASS: Class changes are rejected after locking
+COOP_LOAD ROUND_START_SEND players=1
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=1
+COOP_RUNNING players=1
+PASS: Locked class starts the co-op match
+PASS: Host death updates the played class
+CLASS_INTEGRATION_DONE checks=33 failures=0

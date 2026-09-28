@@ -1,0 +1,37 @@
+2026-09-27T19:03:26 remz-dev-20260927-farm-dog-rig BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T19:03:26 remz-dev-20260927-farm-dog-rig NETWORK_INITIALIZED
+2026-09-27T19:03:58 remz-dev-20260927-farm-dog-rig MAP_READY
+2026-09-27T19:04:03 remz-dev-20260927-farm-dog-rig ONLINE_JOIN_BEGIN code=R3PXX9
+2026-09-27T19:04:03 remz-dev-20260927-farm-dog-rig EOS_PLATFORM_START
+2026-09-27T19:04:03 remz-dev-20260927-farm-dog-rig EOS_PLATFORM_READY
+2026-09-27T19:04:03 remz-dev-20260927-farm-dog-rig EOS_RELAY_CONTROL forced
+2026-09-27T19:04:04 remz-dev-20260927-farm-dog-rig EOS_LOGIN_OK
+2026-09-27T19:04:08 remz-dev-20260927-farm-dog-rig EOS_LOBBY_SEARCH_EMPTY code=R3PXX9 results=0
+2026-09-27T19:04:10 remz-dev-20260927-farm-dog-rig EOS_LOBBY_FOUND code=R3PXX9
+2026-09-27T19:04:11 remz-dev-20260927-farm-dog-rig EOS_LOBBY_JOINED code=R3PXX9
+2026-09-27T19:04:12 remz-dev-20260927-farm-dog-rig TRANSPORT_CONNECTED sending_hello
+2026-09-27T19:04:12 remz-dev-20260927-farm-dog-rig PEER_CONNECTED id=1
+2026-09-27T19:04:12 remz-dev-20260927-farm-dog-rig WELCOME
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig INITIAL_RECEIVE parts=6
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig INITIAL_APPLY_BEGIN
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE structures
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE players
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE enemies
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE items
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE barricades
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig INITIAL_APPLY_DONE
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_RECEIVE parts=6
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE structures
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE players
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE enemies
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE items
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_STAGE barricades
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig STATE_APPLY_DONE sequence=2
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig ROUND_BEGIN intro=false
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig ROUND_RUNNING players=2
+2026-09-27T19:04:13 remz-dev-20260927-farm-dog-rig EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.005146s] TickIntervalThreshold=[40ms] MaxTickInterval=[50ms] MaxExecutionTime=[1ms] TicksCount=[1273] ExpectedTicksCount=[1273]
+2026-09-27T19:04:18 remz-dev-20260927-farm-dog-rig STATE_RECEIVE parts=7
+2026-09-27T19:04:18 remz-dev-20260927-farm-dog-rig STATE_APPLY_DONE sequence=55
+2026-09-27T19:04:18 remz-dev-20260927-farm-dog-rig PEER_DISCONNECTED id=1
+2026-09-27T19:04:18 remz-dev-20260927-farm-dog-rig EOS_LOBBY_LEAVE
+2026-09-27T19:04:19 remz-dev-20260927-farm-dog-rig EOS LogEOSP2P: Leave all connections due to P2P network shutdown

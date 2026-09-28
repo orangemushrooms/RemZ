@@ -1,0 +1,37 @@
+2026-09-27T16:57:43 remz-dev-20260927-campaign BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T16:57:43 remz-dev-20260927-campaign NETWORK_INITIALIZED
+2026-09-27T16:58:20 remz-dev-20260927-campaign MAP_READY
+2026-09-27T16:58:22 remz-dev-20260927-campaign ONLINE_JOIN_BEGIN code=QWARCP
+2026-09-27T16:58:22 remz-dev-20260927-campaign EOS_PLATFORM_START
+2026-09-27T16:58:22 remz-dev-20260927-campaign EOS_PLATFORM_READY
+2026-09-27T16:58:22 remz-dev-20260927-campaign EOS_RELAY_CONTROL forced
+2026-09-27T16:58:23 remz-dev-20260927-campaign EOS_LOGIN_OK
+2026-09-27T16:58:26 remz-dev-20260927-campaign EOS_LOBBY_SEARCH_EMPTY code=QWARCP results=0
+2026-09-27T16:58:28 remz-dev-20260927-campaign EOS_LOBBY_FOUND code=QWARCP
+2026-09-27T16:58:29 remz-dev-20260927-campaign EOS_LOBBY_JOINED code=QWARCP
+2026-09-27T16:58:31 remz-dev-20260927-campaign TRANSPORT_CONNECTED sending_hello
+2026-09-27T16:58:31 remz-dev-20260927-campaign PEER_CONNECTED id=1
+2026-09-27T16:58:31 remz-dev-20260927-campaign WELCOME
+2026-09-27T16:58:31 remz-dev-20260927-campaign INITIAL_RECEIVE parts=6
+2026-09-27T16:58:31 remz-dev-20260927-campaign INITIAL_APPLY_BEGIN
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE structures
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE players
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE enemies
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE items
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE barricades
+2026-09-27T16:58:31 remz-dev-20260927-campaign INITIAL_APPLY_DONE
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_RECEIVE parts=6
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE structures
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE players
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE enemies
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE items
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_STAGE barricades
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_APPLY_DONE sequence=2
+2026-09-27T16:58:31 remz-dev-20260927-campaign ROUND_BEGIN intro=false
+2026-09-27T16:58:31 remz-dev-20260927-campaign ROUND_RUNNING players=2
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_RECEIVE parts=7
+2026-09-27T16:58:31 remz-dev-20260927-campaign STATE_APPLY_DONE sequence=6
+2026-09-27T16:58:31 remz-dev-20260927-campaign PEER_DISCONNECTED id=1
+2026-09-27T16:58:31 remz-dev-20260927-campaign EOS_LOBBY_LEAVE
+2026-09-27T16:58:32 remz-dev-20260927-campaign EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[10.021268s] TickIntervalThreshold=[40ms] MaxTickInterval=[50ms] MaxExecutionTime=[1ms] TicksCount=[1419] ExpectedTicksCount=[1419]
+2026-09-27T16:58:32 remz-dev-20260927-campaign EOS LogEOSP2P: Leave all connections due to P2P network shutdown

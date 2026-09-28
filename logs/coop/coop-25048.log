@@ -1,0 +1,19 @@
+2026-09-27T16:59:54 remz-dev-20260927-campaign BOOT exe=C:/Users/miche/Desktop/Godot.exe
+2026-09-27T16:59:54 remz-dev-20260927-campaign NETWORK_INITIALIZED
+2026-09-27T17:00:17 remz-dev-20260927-campaign MAP_READY
+2026-09-27T17:00:17 remz-dev-20260927-campaign HOST_CREATE port=24701
+2026-09-27T17:00:17 remz-dev-20260927-campaign HOST_READY
+2026-09-27T17:00:17 remz-dev-20260927-campaign LEAVE_BEGIN phase=lobby reason=Left the session.
+2026-09-27T17:00:17 remz-dev-20260927-campaign LEAVE_PEER_DETACHED
+2026-09-27T17:00:17 remz-dev-20260927-campaign LEAVE_PEER_CLOSED
+2026-09-27T17:00:17 remz-dev-20260927-campaign LEAVE_DONE reused_loaded_map
+2026-09-27T17:00:17 remz-dev-20260927-campaign ONLINE_CANCELLED
+2026-09-27T17:00:17 remz-dev-20260927-campaign HOST_CREATE port=24701
+2026-09-27T17:00:17 remz-dev-20260927-campaign HOST_READY
+2026-09-27T17:00:17 remz-dev-20260927-campaign LEAVE_BEGIN phase=lobby reason=Left the session.
+2026-09-27T17:00:17 remz-dev-20260927-campaign LEAVE_PEER_DETACHED
+2026-09-27T17:00:17 remz-dev-20260927-campaign LEAVE_PEER_CLOSED
+2026-09-27T17:00:17 remz-dev-20260927-campaign LEAVE_DONE reused_loaded_map
+2026-09-27T17:00:17 remz-dev-20260927-campaign PEER_CONNECTED id=2
+2026-09-27T17:00:17 remz-dev-20260927-campaign PEER_DISCONNECTED id=2
+2026-09-27T17:00:17 remz-dev-20260927-campaign PEER_CONNECTED id=2
