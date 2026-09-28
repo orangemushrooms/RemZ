@@ -16,6 +16,8 @@ var birds: Array[Node3D] = []
 var menu: Control
 var cheat_menu: CanvasLayer
 var nature: Node3D
+var quickbar: CanvasLayer
+var _night_flashlight := false
 var music: Node
 var _flags := OS.get_cmdline_user_args()
 var _preparing_navigation := false
@@ -106,6 +108,9 @@ func _ready() -> void:
 	progression = load("res://scripts/planes_progression.gd").new()
 	add_child(progression)
 	progression.setup(self)
+	music = Music.new()
+	add_child(music)
+	music.process_mode = Node.PROCESS_MODE_ALWAYS
 	weather = load("res://scripts/planes_weather.gd").new()
 	add_child(weather)
 	weather.setup(self)
@@ -120,7 +125,7 @@ func _ready() -> void:
 	add_child(_wind)
 	_wind.play()
 	for child in get_children():
-		if child not in [ui,boot,hud,cheat_menu]: child.process_mode = Node.PROCESS_MODE_PAUSABLE
+		if child not in [ui,boot,hud,cheat_menu,music]: child.process_mode = Node.PROCESS_MODE_PAUSABLE
 	child_entered_tree.connect(func(child: Node): child.process_mode = Node.PROCESS_MODE_PAUSABLE)
 	await get_tree().physics_frame
 	await get_tree().physics_frame
@@ -155,16 +160,7 @@ func _environment() -> void:
 	RenderingServer.global_shader_parameter_set("remz_wetness",0.0)
 	var environment := Environment.new()
 	environment.background_mode = Environment.BG_SKY
-	var sky := Sky.new()
-	var material := ProceduralSkyMaterial.new()
-	material.sky_top_color = Color(0.15,0.39,0.78)
-	material.sky_horizon_color = Color(0.66,0.79,0.89)
-	material.sky_curve = 0.35
-	material.ground_horizon_color = material.sky_horizon_color
-	material.ground_bottom_color = Color(0.2,0.27,0.15)
-	material.sun_angle_max = 4
-	sky.sky_material = material
-	environment.sky = sky
+	AlpineAtmosphere.apply(environment)
 	environment.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 	environment.ambient_light_energy = 0.7
 	environment.tonemap_mode = Environment.TONE_MAPPER_FILMIC
@@ -185,6 +181,10 @@ func _environment() -> void:
 	add_child(sun)
 	settings.env = environment
 	settings.sun = sun
+	fill_light = DirectionalLight3D.new()
+	fill_light.rotation_degrees = Vector3(-35,145,0)
+	fill_light.shadow_enabled = false
+	add_child(fill_light)
 
 func _birds() -> void:
 	for i in 14:
@@ -223,7 +223,7 @@ func _interface() -> void:
 	var controls := Label.new()
 	controls.text = "WASD Walk · Shift Sprint · Space Jump · Ctrl Crouch · M Map · Esc Menu"
 	controls.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
-	controls.position = Vector2(28,-40)
+	controls.position = Vector2(28,-145)
 	controls.add_theme_color_override("font_shadow_color",Color.BLACK)
 	controls.add_theme_constant_override("shadow_offset_x",1)
 	controls.add_theme_constant_override("shadow_offset_y",1)
@@ -309,6 +309,12 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	if not ready_for_exploration: return
+	_update_music()
+	if survival_active and not over and player.active:
+		if day_night.is_night() and not _night_flashlight:
+			player.flashlight.visible = true
+			_night_flashlight = true
+		elif not day_night.is_night(): _night_flashlight = false
 	var heading := fposmod(-rad_to_deg(player.rotation.y),360)
 	var dirs := ["N","NE","E","SE","S","SW","W","NW"]
 	compass.text = "%s  %03d°" % [dirs[roundi(heading/45)%8],heading]
@@ -375,6 +381,18 @@ func start_survival() -> void:
 	waves.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(waves)
 	waves.setup(self)
+	day_night.night_index = 0
+	day_night.blood_moon_active = false
+	Zombie.horde_pace = 1.0
+	for entry in day_night._lamps:
+		if is_instance_valid(entry.light): entry.light.light_energy = entry.energy
+	day_night.weather_dim = 1.0
+	day_night.overcast = 0.0
+	day_night._lamps.clear()
+	day_night._flames.clear()
+	day_night.setup(self,fill_light)
+	day_night.set_process(true)
+	_night_flashlight = false
 	if not weather:
 		weather = load("res://scripts/planes_weather.gd").new()
 		weather.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -391,6 +409,12 @@ func start_survival() -> void:
 	weapons.refill_all()
 	weapons.grenades = 3
 	weapons.update_hud()
+	if not quickbar:
+		quickbar = preload("res://scripts/quickbar.gd").new()
+		add_child(quickbar)
+		quickbar.setup(self)
+	quickbar.bindings.assign(["pistol","ak47","shotgun","smg","revolver","marksman","lmg","hatchet","grenade","knife"])
+	quickbar.refresh()
 	hud.show()
 	over = false
 	victory = false
@@ -422,6 +446,9 @@ func stop_survival() -> void:
 		for tower in defences.towers.values(): tower.queue_free()
 		defences.towers.clear()
 		defences.process_mode = Node.PROCESS_MODE_DISABLED
+	day_night.set_process(false)
+	day_night.set_time_hours(12.0)
+	Zombie.horde_pace = 1.0
 	survival_active = false
 	over = false
 	victory = false
@@ -549,3 +576,15 @@ func spawn_zombie(kind: String, p: Vector2, _speed: float, _lane := "", _distanc
 	Zombie.preload_models(self,[kind])
 	create_enemy(kind,at,maxi(1,waves.wave if waves else 1),armor==1,rise)
 	return true
+
+func _update_music() -> void:
+	if not music or "--no-music" in _flags: return
+	if over:
+		music.horde = 0.0
+		music.play("morning" if victory else "gameover")
+	elif survival_active and waves and waves.phase=="spawning":
+		music.fight(waves.wave%5==0)
+		music.horde = clampf(float(alive_zombies())/24.0,0,1)
+	else:
+		music.horde = 0.0
+		music.play(music.intermission_track(day_night.clock_seconds/3600.0))

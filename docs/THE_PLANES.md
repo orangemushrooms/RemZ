@@ -1,5 +1,15 @@
 # The Planes – Remetschwil
 
+### Forest atmosphere and HUD
+
+The survival mode now uses Forest music (day/night, combat, boss and game-over),
+the shared day-night sky and clock, and the ten-slot Forest quickbar (1-9, 0).
+Weather dims the shared lighting instead of overriding it with daytime values.
+Q toggles the quest tracker, J opens the field journal, and I opens equipment
+assignment. The clock pauses with gameplay; music continues as in Forest.
+`--suite=planes_atmosphere` covers these integrations; `--render-atmosphere`
+also saves noon and night screenshots.
+
 ### Wild plants and eastern access
 
 Ordinary meadow flowers and woodland mushrooms can now be gathered with E within

@@ -54,6 +54,7 @@ func _process(delta: float) -> void:
 		timer -= delta
 		if Input.is_action_just_pressed("next_wave"): timer = minf(timer,0.1)
 		main.hud.set_wave(wave+1,Lang.t("Start in %d s · Enter: start now",[maxi(0,ceili(timer))]))
+		main.hud.set_wave_progress(0,0)
 		if timer<=0: start(wave+1)
 	elif phase=="spawning":
 		spawn_t -= delta
@@ -62,6 +63,7 @@ func _process(delta: float) -> void:
 			spawn_t = maxf(0.55,1.5-wave*0.04)
 		var alive: int = main.alive_zombies()
 		main.hud.set_wave(wave,Lang.t("%d left",[alive+queue.size()]))
+		main.hud.set_wave_progress(alive+queue.size(),total)
 		if queue.is_empty() and alive==0: complete_wave()
 
 func complete_wave() -> void:

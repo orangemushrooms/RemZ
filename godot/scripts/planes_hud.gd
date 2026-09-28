@@ -16,16 +16,34 @@ func _ready() -> void:
 	container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_root = container
 	health_text = _text(container,Vector2(28,-112),Control.PRESET_BOTTOM_LEFT,20)
+	hp_bar = ProgressBar.new()
+	container.add_child(hp_bar)
+	hp_bar.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+	hp_bar.position = Vector2(28,-124)
+	hp_bar.size = Vector2(180,10)
+	hp_bar.show_percentage = false
+	hp_bar.max_value = 100
+	hp_bar.add_theme_stylebox_override("fill",_flat(Color(0.7,0.07,0.1),4))
+	hp_bar.add_theme_stylebox_override("background",_flat(Color(1,1,1,0.12),4))
 	ammo_label = _text(container,Vector2(28,-86),Control.PRESET_BOTTOM_LEFT,20)
 	weapon_label = _text(container,Vector2(28,-62),Control.PRESET_BOTTOM_LEFT,14)
 	wave_label = _text(container,Vector2(-135,60),Control.PRESET_CENTER_TOP,23)
 	wave_info = _text(container,Vector2(-135,88),Control.PRESET_CENTER_TOP,17)
+	wave_bar = ProgressBar.new()
+	container.add_child(wave_bar)
+	wave_bar.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	wave_bar.position = Vector2(-135,114)
+	wave_bar.size = Vector2(220,4)
+	wave_bar.max_value = 1.0
+	wave_bar.show_percentage = false
+	wave_bar.add_theme_stylebox_override("fill",_flat(Color(0.85,0.3,0.22),2))
+	wave_bar.add_theme_stylebox_override("background",_flat(Color(1,1,1,0.1),2))
 	msg_label = _text(container,Vector2(-340,130),Control.PRESET_CENTER_TOP,18)
 	msg_label.custom_minimum_size.x = 680
 	msg_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	msg_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	status_text = _text(container,Vector2(28,56),Control.PRESET_TOP_LEFT,16)
-	fps_label = _text(container,Vector2(-120,28),Control.PRESET_TOP_RIGHT,14)
+	fps_label = _text(container,Vector2(-120,158),Control.PRESET_TOP_RIGHT,14)
 	cross = _text(container,Vector2(-6,-12),Control.PRESET_CENTER,20)
 	cross.text = "+"
 	flash_panel = ColorRect.new()
@@ -38,6 +56,33 @@ func _ready() -> void:
 	container.add_child(prompt_label)
 	prompt_card = InteractionPrompt.new()
 	container.add_child(prompt_card)
+	# world clock
+	var clock := _panel(container, Control.PRESET_TOP_RIGHT, Vector2(-16, 16))
+	clock.custom_minimum_size.x = 156
+	clock.add_child(_label("LOCAL TIME", 10))
+	var clock_row := HBoxContainer.new()
+	clock_row.add_theme_constant_override("separation", 16)
+	clock.add_child(clock_row)
+	clock_label = _label("06:00", 30)
+	clock_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	clock_row.add_child(clock_label)
+	clock_phase = _label("Morning", 13)
+	clock_phase.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	clock_row.add_child(clock_phase)
+	clock_progress = ProgressBar.new()
+	clock_progress.custom_minimum_size.y = 3
+	clock_progress.max_value = 24.0 * 3600.0
+	clock_progress.show_percentage = false
+	clock_progress.add_theme_stylebox_override("background", _flat(Color(1.0, 1.0, 1.0, 0.1), 0))
+	clock_progress.add_theme_stylebox_override("fill", _flat(Color(0.94, 0.67, 0.34), 0))
+	clock.add_child(clock_progress)
+	clock_rate = _label(Lang.t("%d× · game time", [96]), 11)
+	clock_rate.modulate.a = 0.6
+	clock.add_child(clock_rate)
+	weather_label = _label("", 12, Color(0.75, 0.85, 1.0))
+	weather_label.visible = false
+	clock.add_child(weather_label)
+
 	set_health(100)
 	_build_overlay()
 	_tab_buttons["multiplayer"].hide()
@@ -82,7 +127,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	grid.add_theme_constant_override("h_separation",22)
 	grid.add_theme_constant_override("v_separation",8)
 	box.add_child(grid)
-	for pair in [["WASD","Move"],["Mouse","Look around"],["Shift","Sprint"],["Hold Ctrl","Crouch / aim more precisely"],["Space","Jump"],["Left click","Shoot / strike"],["Right click","Aim (ADS)"],["R","Reload"],["1 / 2 / 3","Pistol / AK-47 / Shotgun"],["Mouse wheel","Switch weapon"],["G","Throw grenade"],["H","Melee / rifle butt"],["Enter","Next wave now"],["J","Field journal"],["B","Portable fortification kits"],["T","Tower planner"],["E","Trade / collect / repair"],["M","Minimap large / small"],["F","Flashlight"],["Ctrl+Shift+D","CHEAT MENU"],["Esc","Pause / menu"],["F11","Fullscreen"]]:
+	for pair in [["WASD","Move"],["Mouse","Look around"],["Shift","Sprint"],["Hold Ctrl","Crouch / aim more precisely"],["Space","Jump"],["Left click","Shoot / strike"],["Right click","Aim (ADS)"],["R","Reload"],["1 - 9 / 0","Quick slots"],["Mouse wheel","Switch weapon"],["G","Throw grenade"],["H","Melee / rifle butt"],["Enter","Next wave now"],["Q","Quests"],["J","Field journal"],["I","Inventory"],["B","Portable fortification kits"],["T","Tower planner"],["E","Trade / collect / repair"],["M","Minimap large / small"],["F","Flashlight"],["Ctrl+Shift+D","CHEAT MENU"],["Esc","Pause / menu"],["F11","Fullscreen"]]:
 		grid.add_child(_label(pair[0],14,GOLD))
 		grid.add_child(_label(pair[1],14))
 
@@ -123,6 +168,8 @@ func _process(delta: float) -> void:
 	fps_label.visible = game.settings.show_fps
 	fps_label.text = "%d FPS" % Engine.get_frames_per_second()
 	refresh_mode()
+	weather_label.text = game.weather.label() if game.weather else ""
+	weather_label.visible = not weather_label.text.is_empty()
 	if game.defences: _update_prompt()
 	else:
 		prompt_card.visible = game.player.active and not prompt_label.text.is_empty()
@@ -135,13 +182,16 @@ func refresh_mode() -> void:
 	var armed: bool = game.weapons!=null and game.weapons.process_mode!=Node.PROCESS_MODE_DISABLED
 	cross.visible = armed and game.player.active and game.player.alive
 	for label in [health_text,ammo_label,weapon_label]: label.visible = armed
+	hp_bar.visible = armed
 	wave_label.visible = game.survival_active
 	wave_info.visible = game.survival_active
 
 func set_health(value: float) -> void:
 	health_text.text = Lang.t("Health: %d",[maxi(0,ceili(value))])
+	hp_bar.value = value
 func set_score(_value: int) -> void: pass
-func set_wave_progress(_remaining: int, _total: int) -> void: pass
+func set_wave_progress(remaining: int, total: int) -> void:
+	super.set_wave_progress(remaining,total)
 func set_reload(remaining: float, _duration: float) -> void:
 	if remaining>0: ammo_label.text = Lang.t("Reloading ...")
 func set_charge(_text: String, _value: float, _colour: Color = Color.WHITE) -> void: pass

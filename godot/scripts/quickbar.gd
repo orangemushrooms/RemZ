@@ -63,9 +63,9 @@ func setup(scene: Node) -> void:
 		count.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		content.add_child(count)
 		button.pressed.connect(func():
-			if game.inventory.is_open: show_picker(index))
+			if inventory_open(): show_picker(index))
 		button.gui_input.connect(func(event: InputEvent):
-			if game.inventory.is_open and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+			if inventory_open() and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 				bindings[index] = ""
 				refresh()
 				button.accept_event())
@@ -106,6 +106,11 @@ func item_data(id: String) -> Dictionary:
 
 func owned_items() -> Array[String]:
 	var result: Array[String] = []
+	if game.get("field_building"):
+		for id in Weapons.ORDER:
+			if game.weapons.unlocked.get(id,false): result.append(id)
+		if game.weapons.grenades>0: result.append("grenade")
+		return result
 	var candidates: Array = Weapons.ORDER.duplicate()
 	candidates.append_array(Inventory.MUSHROOMS.keys())
 	candidates.append_array(preload("res://scripts/brew_recipes.gd").DRINKS.keys())
@@ -124,7 +129,7 @@ func bind_item(index: int, id: String) -> void:
 	refresh()
 
 func offer_item(id: String) -> void:
-	if not game.inventory.is_open or not item_data(id).get("owned", false): return
+	if not inventory_open() or not item_data(id).get("owned", false): return
 	pending_item = id
 	picker.clear()
 	picker.set_meta("slot", -1)
@@ -156,7 +161,7 @@ func _pick(index: int) -> void:
 func activate(index: int) -> void:
 	if index < 0 or index >= SLOT_COUNT: return
 	if not game.started or game.over or not game.player.alive or not game.player.active or get_tree().paused: return
-	if game.defences.placing: return
+	if game.defences.placing or (game.get("field_building") and game.field_building.placing): return
 	var id := bindings[index]
 	var data := item_data(id)
 	if data.is_empty(): return
@@ -164,7 +169,7 @@ func activate(index: int) -> void:
 		game.hud.message(Lang.t("%s: not in inventory", [data.name]), 1.5)
 		return
 	if Weapons.DEFS.has(id):
-		game.fireworks.cancel()
+		if game.get("fireworks"): game.fireworks.cancel()
 		game.weapons.set_weapon(id)
 	elif id == "cooked_meat": game.hunting.request("eat")
 	elif preload("res://scripts/brew_recipes.gd").DRINKS.has(id): game.brewing.request("drink", id)
@@ -183,7 +188,8 @@ func refresh() -> void:
 		icons[index].visible = not data.is_empty()
 		if not data.is_empty(): icons[index].texture = ItemIcons.texture(data.icon)
 		counts[index].text = str(data.get("count", ""))
-		var active: bool = (game.fireworks.armed and game.fireworks.selected == id) or (not game.fireworks.armed and game.weapons.current == id)
+		var firework_armed: bool = game.get("fireworks")!=null and game.fireworks.armed
+		var active: bool = (firework_armed and game.fireworks.selected == id) or (not firework_armed and game.weapons.current == id)
 		buttons[index].modulate = Color.WHITE if data.get("owned", false) else Color(0.55, 0.55, 0.55)
 		buttons[index].self_modulate = Color(1, 0.8, 0.4) if active else Color.WHITE
 		buttons[index].tooltip_text = Lang.t("%s\nInventory: click to assign, right click to clear", [data.get("name", "Empty")])
@@ -198,7 +204,7 @@ func refresh() -> void:
 
 func _process(delta: float) -> void:
 	if not game: return
-	bar.visible = game.started and not game.over and game.player.alive and not game.player.mounted_tower and not game.player.controlling_drone and (game.player.active or game.inventory.is_open)
+	bar.visible = game.started and not game.over and game.player.alive and not game.player.mounted_tower and not game.player.controlling_drone and (game.player.active or inventory_open())
 	if not bar.visible:
 		picker.hide()
 		return
@@ -219,3 +225,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not game.player.active or game.player.mounted_tower or game.player.controlling_drone or get_tree().paused: return
 	activate(9 if key == KEY_0 else key - KEY_1)
 	get_viewport().set_input_as_handled()
+
+func inventory_open() -> bool:
+	if game.get("field_building"): return bool(game.progression.get("loadout_open"))
+	return game.inventory.is_open

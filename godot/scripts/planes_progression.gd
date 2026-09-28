@@ -23,6 +23,7 @@ var collectibles: Array[Dictionary] = []
 var sample_time := 0.0
 var nearest_collectible := -1
 var nearest_wild_plant := -1
+var loadout_open := false
 
 func setup(main: Node) -> void:
 	game = main
@@ -59,6 +60,15 @@ func setup(main: Node) -> void:
 	field_rows.add_theme_constant_override("separation",9)
 	scroll.add_child(field_rows)
 	field_panel.hide()
+	tracker = RichTextLabel.new()
+	tracker.position = Vector2(28,110)
+	tracker.custom_minimum_size = Vector2(305,0)
+	tracker.size = Vector2(305,330)
+	tracker.fit_content = true
+	tracker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tracker.add_theme_font_size_override("normal_font_size",15)
+	tracker.add_theme_color_override("default_color",Color(0.95,0.86,0.65))
+	add_child(tracker)
 	_spawn_collectibles()
 
 func reset_run() -> void:
@@ -114,6 +124,7 @@ func open_field(id: String) -> void:
 
 func close() -> void:
 	is_open = false
+	loadout_open = false
 	if field_panel: field_panel.hide()
 	if game and game.player and not game.over and not get_tree().paused:
 		game.player.active = true
@@ -298,6 +309,7 @@ func _process(delta: float) -> void:
 	sample_time -= delta
 	if sample_time>0: return
 	sample_time = 0.15
+	_update_tracker()
 	sample_collectibles()
 	for i in collectibles.size():
 		var item: Dictionary = collectibles[i]
@@ -315,9 +327,18 @@ func _process(delta: float) -> void:
 	else: game.hud.set_prompt("")
 
 func _unhandled_input(event_input: InputEvent) -> void:
+	if loadout_open and event_input is InputEventKey and event_input.pressed and event_input.physical_keycode==KEY_I:
+		close(); get_viewport().set_input_as_handled(); return
 	if not game or not game.ready_for_exploration or not game.player.active or game.player.downed: return
 	if game.defences and (game.defences.placing or game.player.mounted_tower): return
 	if game.field_building and game.field_building.placing: return
+	if event_input is InputEventKey and event_input.pressed and not event_input.echo:
+		if event_input.physical_keycode==KEY_Q:
+			_journal = not _journal
+			get_viewport().set_input_as_handled(); return
+		if event_input.physical_keycode==KEY_I:
+			show_loadout()
+			get_viewport().set_input_as_handled(); return
 	if event_input is InputEventKey and event_input.pressed and not event_input.echo and event_input.physical_keycode==KEY_J:
 		show_journal()
 		get_viewport().set_input_as_handled()
@@ -348,6 +369,33 @@ func show_journal() -> void:
 	game.player.velocity = Vector3.ZERO
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	field_panel.show()
+
+func show_loadout() -> void:
+	if not game.survival_active or not game.quickbar: return
+	show_journal()
+	loadout_open = true
+	for child in field_rows.get_children():
+		field_rows.remove_child(child); child.queue_free()
+	_field_row("Inventory")
+	for id in game.quickbar.owned_items():
+		_field_row(str(game.quickbar.item_data(id).name),func(): game.quickbar.offer_item(id))
+	_field_row("Close [Esc]",close)
+
+func _update_tracker() -> void:
+	tracker.visible = game.survival_active and _journal and game.player.active and not game.over
+	if not tracker.visible: return
+	var lines: Array[String] = [Lang.text("QUESTS · Q on/off")]
+	var shown := 0
+	for id in accepted:
+		if claimed.has(id): continue
+		var q: Dictionary = FIELD_QUESTS[id]
+		var count: int = game.waves.completed if q.goal=="waves" else int(field_counts.get(q.goal,0))
+		lines.append("%s  %d/%d" % [Lang.text(q.name),mini(count,q.count),q.count])
+		shown += 1
+		if shown>=3: break
+	if shown==0: lines.append(Lang.text("Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."))
+	lines.append(Lang.text("Field journal")+" [J]")
+	tracker.text = "\n\n".join(lines)
 
 func mod_lock_reason(p: Player, id: String, wid: String) -> String:
 	if not Weapons.Mods.DEFS.has(id) or not game.weapons.unlocked.get(wid,false): return "Weapon not available."

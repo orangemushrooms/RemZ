@@ -1,12 +1,10 @@
 extends Weather
-## Share rain, wetness, thunder and lightning; retain the site's summer sky.
-var summer_sky: ProceduralSkyMaterial
+## Share rain, wetness, thunder and lightning with the Forest day-night lighting.
 var elapsed := 0.0
 
 func setup(game: Node) -> void:
 	main = game
 	_env = main.settings.env
-	summer_sky = _env.sky.sky_material
 	_rng.seed = 83447
 	_build_rain()
 	# Open fields use distance fog; no extra volumetric fog pass.
@@ -33,16 +31,8 @@ func _apply_environment(delta: float) -> void:
 	elif state=="rain": fog = lerpf(fog,0.0015,intensity)
 	elif state=="storm": fog = lerpf(fog,0.003,intensity)
 	_env.fog_density = lerpf(_env.fog_density,fog,minf(1,delta))
-	var dim := float(DIM[state])*intensity
-	var sunlight := 1.65*(1.0-dim)
-	var ambient := 0.7*(1.0-dim*0.45)
-	if not is_equal_approx(main.settings.sun.light_energy,sunlight): main.settings.sun.light_energy = sunlight
-	if not is_equal_approx(_env.ambient_light_energy,ambient): _env.ambient_light_energy = ambient
-	# Reassigning an unchanged sky colour invalidates its radiance cache.
-	var top := Color(0.15,0.39,0.78).lerp(Color(0.24,0.28,0.32),float(OVERCAST[state])*intensity)
-	var horizon := Color(0.66,0.79,0.89).lerp(Color(0.4,0.44,0.47),float(OVERCAST[state])*intensity)
-	if not summer_sky.sky_top_color.is_equal_approx(top): summer_sky.sky_top_color = top
-	if not summer_sky.sky_horizon_color.is_equal_approx(horizon): summer_sky.sky_horizon_color = horizon
+	main.day_night.weather_dim = 1.0-float(DIM[state])*intensity
+	main.day_night.overcast = float(OVERCAST[state])*intensity
 
 func _update_flash(delta: float) -> void:
 	if _flash_t<=0:
