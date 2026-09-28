@@ -27,6 +27,7 @@ func run() -> void:
 	CharacterProfile.data.selected = "gunslinger" if role == "host" else "assassin"
 	CharacterProfile.data.classes.assassin.total_xp = Classes.threshold(30)
 	CharacterProfile.data.classes.assassin.choices = [0,1,0,1,1,0]
+	CharacterProfile.data.classes.assassin.teleport = "map"
 	game = load("res://scenes/main.tscn").instantiate()
 	root.add_child(game)
 	current_scene = game
@@ -58,6 +59,7 @@ func host_run() -> void:
 	game.waves.set_process(false)
 	var p: Player = NetSession.world.actor(client)
 	check(p.class_combat.has("light_footed") and p.effective_speed_mul() > 1.1, "Host simulates the remote Assassin's movement bonuses")
+	check(AssassinTeleport.mode_for(p) == "map", "The client's exclusive teleport choice reaches the host")
 	await wait_for("running")
 	await create_timer(0.4).timeout
 	check(NetSession.class_roster[client].id == "assassin", "A client cannot change its class after match start")
@@ -79,6 +81,7 @@ func host_run() -> void:
 	check(not CharacterProfile.data.quests.has("coop_test_quest"), "Remote quest XP never reaches the host's profile")
 	write("rewards")
 	await wait_for("verified")
+	await teleport_host(p)
 	write("rejoin")
 	while NetSession.roster.size() > 1: await create_timer(0.1).timeout
 	while NetSession.roster.size() < 2 or false in NetSession.ready_peers.values(): await create_timer(0.1).timeout
@@ -124,6 +127,7 @@ func client_run() -> void:
 	check(CharacterProfile.data.classes.gunslinger.total_xp == 0, "Other client classes receive no XP")
 	check(CharacterProfile.data.cosmetics.get("pistol:forest", false), "A purchased cosmetic is stored in the client's own profile")
 	write("verified")
+	await teleport_client()
 	await wait_for("rejoin")
 	NetSession.leave()
 	await scene_changed
@@ -142,3 +146,37 @@ func client_run() -> void:
 	check(CharacterProfile.data.classes.assassin.stats.multiplayer_missions == 1, "Client persists its own multiplayer mission completion")
 	write("victory")
 	await wait_for("done")
+
+func teleport_host(actor: Player) -> void:
+	var landing := {}
+	for distance in [6.0, 12.0, 20.0, 30.0]:
+		for angle in 16:
+			var target: Vector2 = Vector2(actor.position.x, actor.position.z) + Vector2.RIGHT.rotated(angle * TAU / 16.0) * float(distance)
+			landing = game.teleport.destination(actor, target)
+			if landing.has("point"): break
+		if landing.has("point"): break
+	check(landing.has("point"), "The real terrain has a navigable teleport landing")
+	if not landing.has("point"): quit(1); return
+	var target: Vector3 = landing.point
+	FileAccess.open(folder.path_join("teleport-target.json"), FileAccess.WRITE).store_string(JSON.stringify([target.x,target.z]))
+	write("teleport-target")
+	await wait_for("teleport-landed")
+	check(actor.teleport_serial == 1 and actor.position.distance_to(target) < 1.0, "Host authorises the remote teleport exactly once")
+	check(actor.teleport_cooldown > 0.0, "Host owns the remote teleport cooldown")
+	write("teleport-host-checked")
+	await wait_for("teleport-verified")
+	check(actor.teleport_serial == 1, "A second client command cannot bypass cooldown")
+
+func teleport_client() -> void:
+	await wait_for("teleport-target")
+	var target: Array = JSON.parse_string(FileAccess.get_file_as_string(folder.path_join("teleport-target.json")))
+	NetSession.command("teleport", [Vector2(target[0],target[1]), game.player.rotation.y, game.player.pitch])
+	while game.player.teleport_serial == 0: await create_timer(0.05).timeout
+	check(Vector2(game.player.position.x,game.player.position.z).distance_to(Vector2(target[0],target[1])) < 1.0, "Client snaps to the host's accepted map point")
+	check(game.player.teleport_cooldown > 0.0, "Client receives the authoritative cooldown")
+	write("teleport-landed")
+	await wait_for("teleport-host-checked")
+	NetSession.command("teleport", [Vector2(target[0]+4,target[1]), game.player.rotation.y, game.player.pitch])
+	await create_timer(0.6).timeout
+	check(game.player.teleport_serial == 1 and Vector2(game.player.position.x,game.player.position.z).distance_to(Vector2(target[0],target[1])) < 1.0, "Client stays at the landing after stale poses and rejected repeat casts")
+	write("teleport-verified")

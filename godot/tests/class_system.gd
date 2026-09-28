@@ -119,7 +119,7 @@ func run() -> void:
 	legacy.classes.gunslinger.choices[0] = 1
 	FileAccess.open(copy.path_for("legacy"), FileAccess.WRITE).store_string(JSON.stringify(legacy))
 	check(copy.load_profile("legacy") and copy.level("gunslinger") == 5 and copy.data.classes.gunslinger.choices[0] == 1, "A real version-one file loads with its level and selected talent")
-	check(Profile.read_json(copy.path_for("legacy")).version == 2 and not copy.dirty, "Loading an old file persists its migration immediately")
+	check(Profile.read_json(copy.path_for("legacy")).version == Profile.VERSION and not copy.dirty, "Loading an old file persists its migration immediately")
 	check(Profile.read_json(copy.path_for("legacy") + ".bak").version == 1, "The original version-one file is retained as backup")
 	var migrated_xp: int = copy.data.classes.gunslinger.total_xp
 	check(copy.load_profile("legacy") and copy.data.classes.gunslinger.total_xp == migrated_xp, "A second disk load never scales XP again")

@@ -182,6 +182,11 @@ ping={
 ]
 }
 
+class_ability={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":74)]
+}
+
 [layer_names]
 
 3d_physics/layer_1="world"

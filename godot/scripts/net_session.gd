@@ -4,8 +4,8 @@ signal changed
 
 const PORT := 24567
 const MAX_PLAYERS := 4
-const PROTOCOL := 4 # Persistent classes and frozen lobby loadouts.
-const BUILD := "remz-dev-20260928-character-dossier"
+const PROTOCOL := 5 # Assassin teleport selection and authoritative relocation serials.
+const BUILD := "remz-dev-20260928-assassin-teleport"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.
@@ -805,14 +805,14 @@ func _accept(id: int, session_epoch: int) -> bool:
 	return true
 
 @rpc("any_peer", "call_remote", "unreliable_ordered", 1)
-func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, sequence: int = 0, crouching: bool = false, aiming: float = 0.0) -> void:
+func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, sequence: int = 0, crouching: bool = false, aiming: float = 0.0, teleport_seen: int = 0) -> void:
 	var id := multiplayer.get_remote_sender_id()
 	if not _accept(id, session_epoch) or phase != "running": return
 	if not class_roster.get(id, {}).get("locked", false): return
 	if not position.is_finite() or not motion.is_finite() or not is_finite(yaw) or not is_finite(pitch): return
 	if sequence <= 0: return
 	if is_finite(aiming) and world.weapons.has(id): world.weapons[id].ads = clampf(aiming, 0.0, 1.0)
-	world.move_player(id, position, yaw, pitch, light, motion, _elapsed, sequence, crouching)
+	world.move_player(id, position, yaw, pitch, light, motion, _elapsed, sequence, crouching, teleport_seen)
 
 @rpc("authority", "call_remote", "unreliable", 2)
 func _snapshot_part(session_epoch: int, sequence: int, part: int, count: int, raw_size: int, bytes: PackedByteArray) -> void:
@@ -1099,4 +1099,4 @@ func _process(delta: float) -> void:
 		if _pose_t >= 0.05 and game.player.alive:
 			_pose_t = 0.0
 			var pose_sequence: int = world.movement_sync.record(game.player.global_position)
-			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity, pose_sequence, game.player.crouching, game.weapons.ads)
+			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity, pose_sequence, game.player.crouching, game.weapons.ads, game.player.teleport_serial)

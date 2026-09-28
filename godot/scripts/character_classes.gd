@@ -2,6 +2,11 @@ extends RefCounted
 ## Stable IDs are shared by saves, the lobby and combat. Balancing lives here and in class_combat.gd.
 const MAX_LEVEL := 30
 const TIERS := [5, 10, 15, 20, 25, 30]
+const TELEPORT_LEVEL := 15
+const TELEPORTS := [
+	["forward", "Teleport: Forward", "J teleports up to 8 metres ahead. Cooldown: 12 seconds."],
+	["map", "Teleport: Map", "J opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds."]
+]
 const ORDER := ["gunslinger", "assault", "breacher", "marksman", "assassin"]
 const ACHIEVEMENTS := [
 	["first_blood", "First Blood", "Defeat your first zombie.", 250],
@@ -84,10 +89,13 @@ static func valid_choices(id: String, level: int, choices: Variant) -> Array:
 		if (choices[i] is int or choices[i] is float) and is_finite(float(choices[i])) and (float(choices[i]) == 0.0 or float(choices[i]) == 1.0) and level >= TIERS[i]: result[i] = int(choices[i])
 	return result
 
-static func loadout(id: String, total: int, choices: Array) -> Dictionary:
+static func teleport_choice(id: String, level: int, value: Variant) -> String:
+	return value if id == "assassin" and level >= TELEPORT_LEVEL and value is String and value in ["forward", "map"] else ""
+
+static func loadout(id: String, total: int, choices: Array, teleport: String = "") -> Dictionary:
 	if not CLASSES.has(id): id = ORDER[0]
 	var level := level_for(total)
-	return {"id": id, "level": level, "choices": valid_choices(id, level, choices)}
+	return {"id": id, "level": level, "choices": valid_choices(id, level, choices), "teleport": teleport_choice(id, level, teleport)}
 
 static func sanitize_loadout(data: Variant) -> Dictionary:
 	if not data is Dictionary: return {}
@@ -95,4 +103,4 @@ static func sanitize_loadout(data: Variant) -> Dictionary:
 	var level: Variant = data.get("level")
 	if not id is String or not CLASSES.has(id) or not (level is int or level is float): return {}
 	if not is_finite(float(level)) or float(level) != floor(float(level)) or level < 1 or level > MAX_LEVEL: return {}
-	return {"id": id, "level": int(level), "choices": valid_choices(id, int(level), data.get("choices", []))}
+	return {"id": id, "level": int(level), "choices": valid_choices(id, int(level), data.get("choices", [])), "teleport": teleport_choice(id, int(level), data.get("teleport", ""))}

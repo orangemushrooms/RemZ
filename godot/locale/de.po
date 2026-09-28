@@ -7470,3 +7470,89 @@ msgstr "Verdiene XP durch Kämpfe, Aufträge und überstandene Wellen. Bei der T
 
 msgid "Understood"
 msgstr "Verstanden"
+
+# Assassin Teleport
+
+msgid "Teleport"
+msgstr "Teleport"
+
+msgid "Teleport: Forward"
+msgstr "Teleport: Vorwärts"
+
+msgid "Teleport: Map"
+msgstr "Teleport: Karte"
+
+msgid "J teleports up to 8 metres ahead. Cooldown: 12 seconds."
+msgstr "J teleportiert dich bis zu 8 Meter nach vorne. Abklingzeit: 12 Sekunden."
+
+msgid "J opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds."
+msgstr "J öffnet die Karte. Klicke auf einen freien Punkt innerhalb von 40 Metern. Abklingzeit: 30 Sekunden."
+
+msgid "TELEPORT / LEVEL 15"
+msgstr "TELEPORT / LEVEL 15"
+
+msgid "Choose one teleport mode for the round. Your passive talents remain available."
+msgstr "Wähle eine Teleport-Variante für die Runde. Deine passiven Talente bleiben verfügbar."
+
+msgid "Teleport mode equipped. Press J during the round."
+msgstr "Teleport-Variante gewählt. Drücke J während der Runde."
+
+msgid "Select"
+msgstr "Auswählen"
+
+msgid "TELEPORT / MAP"
+msgstr "TELEPORT / KARTE"
+
+msgid "Choose a safe point within 40 metres. The round keeps running."
+msgstr "Wähle einen freien Punkt innerhalb von 40 Metern. Die Runde läuft weiter."
+
+msgid "Cancel (Esc / right click)"
+msgstr "Abbrechen (Esc / Rechtsklick)"
+
+msgid "Choose a Teleport mode in Class skills at Assassin level 15."
+msgstr "Wähle ab Assassin-Level 15 eine Teleport-Variante unter Klassen-Skills."
+
+msgid "Teleport is unavailable right now."
+msgstr "Teleport ist momentan nicht verfügbar."
+
+msgid "Teleport is unavailable during the intro."
+msgstr "Während des Intros ist Teleport nicht verfügbar."
+
+msgid "Teleport is recharging."
+msgstr "Teleport lädt noch auf."
+
+msgid "Left click: teleport / Esc: cancel"
+msgstr "Linksklick: teleportieren / Esc: abbrechen"
+
+msgid "Choose a point on the map."
+msgstr "Wähle einen Punkt auf der Karte."
+
+msgid "Choose a safe point on the map."
+msgstr "Wähle einen freien Punkt auf der Karte."
+
+msgid "That point is beyond the 40 metre range."
+msgstr "Dieser Punkt liegt ausserhalb der Reichweite von 40 Metern."
+
+msgid "There is no safe landing ahead."
+msgstr "Vor dir gibt es keinen sicheren Landepunkt."
+
+msgid "That landing is blocked or unsafe."
+msgstr "Dieser Landepunkt ist blockiert oder unsicher."
+
+msgid "Choose a point a little further away."
+msgstr "Wähle einen etwas weiter entfernten Punkt."
+
+msgid "Teleport: %.1f s"
+msgstr "Teleport: %.1f s"
+
+msgid "J / Teleport: Map"
+msgstr "J / Teleport: Karte"
+
+msgid "J / Teleport: Forward"
+msgstr "J / Teleport: Vorwärts"
+
+msgid "N / 40 m range"
+msgstr "N / 40 m Reichweite"
+
+msgid "J: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round."
+msgstr "J: Assassin-Teleport (Level 15). Wähle vor der Runde unter Klassen-Skills Vorwärts oder Karte."

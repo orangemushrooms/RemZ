@@ -16,6 +16,17 @@ Alle 60 Talente haben Kampfeffekte. Dazu gehören echte Nachlade-, Magazin-, Str
 
 Die Tarnung des Assassin reduziert die unmittelbare Spielerpriorität gewöhnlicher Gegner und ihre Wahrnehmungsdistanz. Ein verborgener Spieler zieht die gewöhnlichen Zombies nicht weiter direkt an; sie bewegen sich weiter zur Hütte. Schüsse verraten den Spieler kurzzeitig, markierte Spieler bleiben sichtbar. Elitegegner und Bosse sind davon ausgenommen. Positionierungsboni sind bedingt und ersetzen keine dauerhafte Waffenspezialisierung.
 
+## Assassin: Teleport ab Level 15
+
+Unter **Klassen-Skills** wählst du zusätzlich genau eine Teleport-Variante für die nächste Runde. Die sechs passiven Talentpaare bleiben erhalten. Bestehende Profile behalten sämtliche XP und Talente; der neue Teleport muss bewusst gewählt werden.
+
+| Variante | Bedienung | Reichweite | Abklingzeit |
+| --- | --- | --- | --- |
+| Vorwärts | J | Bis zu 8 Meter in Blickrichtung, stoppt vor Wänden | 12 Sekunden |
+| Karte | J, dann Linksklick auf einen freien Kartenpunkt | 40 Meter | 30 Sekunden |
+
+Esc, Rechtsklick, J oder Abbrechen schliessen die Zielkarte ohne Abklingzeit. Während der Zielwahl läuft die Runde weiter. Blockierte, besetzte, zu steile oder unerreichbare Landepunkte sind ausgeschlossen; Feldprüfungsgrenzen gelten weiter. Während des Intros, am Boden, als Zuschauer, im Geschützturm oder beim Drohnenflug ist Teleport gesperrt. Die HUD-Anzeige nennt die gewählte Variante und die restliche Abklingzeit. Im Koop prüft der Host jeden Teleport. Alle Mitspieler benötigen den gleichen Build.
+
 ## Profile
 
 Die Profil-Schaltfläche unten im Dossier öffnet die Auswahl und das Erstellen weiterer lokaler Profile. Der Anzeigename ist vom Dateinamen getrennt: neue Profile erhalten eine stabile zufällige ID. Ein anderer Multiplayer-Anzeigename verändert das aktive Profil nicht.
@@ -46,13 +57,15 @@ Die persönlichen Profilerfolge **First Blood**, **Exterminator**, **Perfect Aim
 
 Die benötigten XP steigen von 1100 für Level 1 → 2 bis 55.000 für Level 29 → 30. Gegenüber der ersten Fassung sind sämtliche Levelkosten um lediglich 10 % erhöht; alle XP-Belohnungen bleiben gleich. Bestehende Profile werden beim Laden einmalig auf Format 2 umgestellt: Ihre XP werden im selben Verhältnis angepasst, sodass Level, freigeschaltete Talente und anteiliger Level-Fortschritt erhalten bleiben (Rundung unter 1 XP). Die vorherige Datei bleibt als Sicherung erhalten. Ab Level 30 werden Gesamt-XP weiterhin gezählt, ohne zusätzliche Talentstufen.
 
+Profilformat 3 ergänzt die Teleport-Auswahl. Profile im Format 2 behalten ihre XP und passiven Talente unverändert; die neue aktive Fähigkeit ist zunächst nicht gewählt.
+
 ## Mehrspieler
 
 Im Multiplayer-Menü kann die Klasse gewählt, aber kein Talent geändert werden. **Klasse bestätigen** sperrt die Auswahl. Namen, Klassen, Klassenlevel, Bestätigung und Ladezustand werden für das gesamte Team angezeigt. Der Host kann erst starten, wenn alle Spieler fertig geladen und ihre Klasse bestätigt haben. Bei einem späteren Beitritt muss die Klasse ebenfalls bestätigt werden, bevor der Spieler aktiv wird.
 
 Beim Beitritt werden die fünf vorbereiteten Builds übertragen. Der Host akzeptiert nur bekannte Klassen, Level 1–30 und freigeschaltete Talententscheidungen. Nach dem Sperren akzeptiert er keine Klassenwechsel oder neue Talententscheidungen. Treffer, passive Kampfeffekte und XP-Ereignisse werden vom Host berechnet. Persönliche Belohnungen werden zuverlässig an den betreffenden Client geschickt; Teamziele gehen an die bestätigten Teilnehmer. Wiederholte Quest-, Wellen- und Belohnungsereignisse werden abgefangen.
 
-Profile sind lokale Spielstände, keine zentral zertifizierten Onlinekonten. Die Validierung begrenzt Klassen und Talente auf gültige Werte; sie ist kein Schutz vor absichtlich bearbeiteten lokalen Spielständen. Netzwerkprotokoll 4 verlangt auf allen Rechnern denselben neuen Build.
+Profile sind lokale Spielstände, keine zentral zertifizierten Onlinekonten. Die Validierung begrenzt Klassen und Talente auf gültige Werte; sie ist kein Schutz vor absichtlich bearbeiteten lokalen Spielständen. Netzwerkprotokoll 5 verlangt auf allen Rechnern denselben neuen Build.
 
 Für automatisierte Starts gibt es ausdrücklich `--class-auto-lock`. `--character-profile=<ID>` wählt ein vorhandenes lokales Profil anhand seines Dateinamens ohne `.json`. Reguläre Spieler bestätigen ihre Klasse im Menü.
 

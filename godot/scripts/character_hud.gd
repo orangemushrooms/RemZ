@@ -5,6 +5,7 @@ var title: Label
 var bar: ProgressBar
 var notice: Label
 var level_notice: Label
+var ability: Label
 var _toast_time := 0.0
 var _level_time := 0.0
 
@@ -23,6 +24,8 @@ func setup(owner_hud: Node) -> void:
 	bar.custom_minimum_size = Vector2(285, 5)
 	bar.show_percentage = false
 	add_child(bar)
+	ability = hud._label("", 13, Color("b6a0d8"))
+	add_child(ability)
 	notice = hud._label("", 13, Hud.GOLD)
 	add_child(notice)
 	level_notice = hud._label("", 19, Hud.GOLD)
@@ -60,3 +63,8 @@ func _process(delta: float) -> void:
 	_level_time = maxf(0.0, _level_time - delta)
 	notice.visible = _toast_time > 0.0
 	level_notice.visible = visible and _level_time > 0.0
+	var actor: Player = hud.game.player
+	var mode := AssassinTeleport.mode_for(actor) if actor else ""
+	ability.visible = not mode.is_empty()
+	if ability.visible:
+		ability.text = Lang.t("Teleport: %.1f s", [actor.teleport_cooldown]) if actor.teleport_cooldown > 0 else Lang.t("J / Teleport: Map") if mode == "map" else Lang.t("J / Teleport: Forward")

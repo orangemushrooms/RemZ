@@ -155,7 +155,7 @@ func nearest_player(position: Vector3) -> Player:
 			nearest = p
 	return nearest
 
-func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, now: float, sequence: int = 0, crouching: bool = false) -> void:
+func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, now: float, sequence: int = 0, crouching: bool = false, teleport_seen: int = 0) -> void:
 	if sequence > 0:
 		if sequence <= int(pose_acks.get(id, 0)): return
 		pose_acks[id] = sequence
@@ -163,6 +163,8 @@ func move_player(id: int, position: Vector3, yaw: float, pitch: float, light: bo
 	var p: Player = actor(id)
 	if not p or not p.alive: return
 	if p.mounted_tower or p.controlling_drone: return
+	# Discard poses sent before the client received the authoritative teleport.
+	if teleport_seen != p.teleport_serial: return
 	var dt := clampf(now - float(pose_times.get(id, now)), 0.01, 0.5)
 	pose_times[id] = now
 	p.set_crouching(crouching)
@@ -200,6 +202,10 @@ func action(id: int, operation: String, args: Array) -> void:
 	var w: Weapons = weapons[id]
 	if p.controlling_drone and operation not in ["drone_control", "drone_recall", "drone_detonate"]: return
 	match operation:
+		"teleport":
+			if args.size() != 3 or not args[0] is Vector2 or not args[0].is_finite() or not _aim(p, args, 1): return
+			var error: String = game.teleport.perform(p, args[0])
+			if not error.is_empty(): NetSession.feedback(id, "message", [error, 2.5])
 		"brewing":
 			if args.size() != 2 or not args[0] is String or not args[1] is String: return
 			NetSession.feedback(id, "message", [game.brewing.transact(p, args[0], args[1]), 3.0])
@@ -677,6 +683,7 @@ func snapshot() -> Dictionary:
 			if not extra.is_empty(): specials[wid] = extra
 		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity, "crouch": p.crouching, "tower": p.mounted_tower, "drone": p.controlling_drone,
 			"down": [p.downed, p.down_time, p.self_revives, p.marked_t, p.revive_hold],
+			"teleport": [p.teleport_serial, p.teleport_cooldown],
 			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul, "effects": p.mushroom_effects.duplicate(),
 			"relic": p.relic, "light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(), "mod_owned": w.mod_owned.duplicate(true), "mod_loadout": w.mod_loadout.duplicate(true),
 			"grenades": w.grenades, "grenades_max": w.grenades_max, "mods": [w.damage_mul, w.reload_mul, w.spread_mul],
@@ -776,6 +783,10 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		add_player(id)
 		var p: Player = actor(id)
 		var s: Dictionary = data.players[id]
+		var blink: Array = s.get("teleport", [0, 0.0])
+		var teleported := int(blink[0]) != p.teleport_serial
+		p.teleport_serial = int(blink[0])
+		p.teleport_cooldown = maxf(0.0, float(blink[1]))
 		p.hp = s.hp
 		p.max_hp = s.max_hp
 		p.alive = s.alive
@@ -808,14 +819,21 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 			p.velocity = s.v
 			p.pitch = s.pitch
 			p.flashlight.visible = s.light
-			if initial: p.global_position = s.p
+			if initial or teleported:
+				p.global_position = s.p
+				p.reset_physics_interpolation()
 			move_targets[id] = [s.p, s.yaw]
 			avatars[id].set_weapon(s.weapon)
 			avatars[id].set_mods(s.get("mod_loadout", {}).get(s.weapon, {}))
 			avatars[id].set_skin(str(s.get("skins", {}).get(s.weapon, "")))
 		else:
 			var previous_position := p.global_position
-			p.global_position = movement_sync.reconcile(s.p, int(s.get("pose_ack", 0)), previous_position, initial or trial_teleport or previous_tower!=p.mounted_tower)
+			p.global_position = movement_sync.reconcile(s.p, int(s.get("pose_ack", 0)), previous_position, initial or trial_teleport or teleported or previous_tower!=p.mounted_tower)
+			if teleported:
+				p.velocity = Vector3.ZERO
+				p._shove = Vector3.ZERO
+				p.reset_physics_interpolation()
+				if not initial: game.teleport.local_effect()
 			if p.mounted_tower and previous_tower!=p.mounted_tower:
 				p.recoil_offset = Vector2.ZERO
 				p.rotation.y = s.yaw

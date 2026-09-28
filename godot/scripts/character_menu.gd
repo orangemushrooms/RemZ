@@ -374,6 +374,7 @@ func _select_gallery(id: String) -> void:
 	if CharacterProfile.select_class(id): _feedback(Lang.t("Class selected: %s", [Classes.CLASSES[id].name]))
 
 func _render_skills(parent: Node) -> void:
+	if selected == "assassin": _render_teleport(parent)
 	var level := CharacterProfile.level(selected)
 	var title_row := _row(parent)
 	label(title_row, Classes.CLASSES[selected].name, 31, _accent(), true)
@@ -413,6 +414,29 @@ func _render_skills(parent: Node) -> void:
 			top.add_child(marker)
 			label(top, Lang.t("%s", [talent[1]]), 23, Palette.MUTED if locked else Palette.PAPER, true)
 			label(card.content, talent[2], 15, Palette.MUTED if locked else Color("c3cbbd"))
+
+func _render_teleport(parent: Node) -> void:
+	_eyebrow(parent, "TELEPORT / LEVEL 15", _accent())
+	label(parent, "Choose one teleport mode for the round. Your passive talents remain available.", 15, Palette.MUTED)
+	var locked := CharacterProfile.level("assassin") < Classes.TELEPORT_LEVEL
+	var row := _row(parent, 12)
+	for option in Classes.TELEPORTS:
+		var mode: String = option[0]
+		var active: bool = CharacterProfile.data.classes.assassin.get("teleport", "") == mode
+		var card := _interactive(row, _pick_teleport.bind(mode), _accent(), active, locked)
+		card.panel.custom_minimum_size.y = 120
+		card.button.set_meta("teleport_mode", mode)
+		card.button.tooltip_text = _requirement(2) if locked else Lang.t("Equip %s", [option[1]])
+		label(card.content, option[1], 23, Palette.MUTED if locked else Palette.PAPER, true)
+		label(card.content, option[2], 15, Palette.MUTED)
+		label(card.content, "Locked" if locked else "Talent equipped" if active else "Select", 13, _accent())
+	_line(parent)
+
+func _pick_teleport(mode: String) -> void:
+	if CharacterProfile.level("assassin") < Classes.TELEPORT_LEVEL:
+		_feedback(_requirement(2))
+	elif CharacterProfile.choose_teleport(mode):
+		_feedback(Lang.t("Teleport mode equipped. Press J during the round."))
 
 func _requirement(tier: int) -> String:
 	var required: int = Classes.TIERS[tier]

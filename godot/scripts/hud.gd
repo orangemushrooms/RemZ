@@ -50,6 +50,7 @@ var overlay_button: Button
 var overlay_status: Label
 var overlay_content: VBoxContainer
 var overlay_logo: TextureRect
+var overlay_wordmark: TextureRect
 var overlay_mode := "start"
 var loading_bar: ProgressBar
 var fps_label: Label
@@ -490,6 +491,14 @@ func _build_overlay() -> void:
 	overlay_logo.custom_minimum_size = Vector2(0, 130)
 	overlay_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(overlay_logo)
+	overlay_wordmark = TextureRect.new()
+	overlay_wordmark.texture = preload("res://assets/ui/remz_logo_v3.png")
+	overlay_wordmark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	overlay_wordmark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	overlay_wordmark.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	overlay_wordmark.custom_minimum_size = Vector2(0, 114)
+	overlay_wordmark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	v.add_child(overlay_wordmark)
 	overlay_title = _label("REMETSCHWIL FOREST HUT", 30)
 	overlay_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	overlay_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -667,6 +676,7 @@ func _build_briefing(box: VBoxContainer) -> void:
 		box.add_child(row)
 
 func _build_controls(box: VBoxContainer) -> void:
+	box.add_child(_label("J: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round.", 13, MUTED))
 	var grid := GridContainer.new()
 	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 22)
@@ -865,6 +875,8 @@ func show_overlay(title: String, text: String, button: String, status: String = 
 	overlay_button.disabled = _loading
 	overlay_status.text = status
 	overlay_logo.visible = mode == "start"
+	overlay_wordmark.visible = mode == "start"
+	overlay_title.visible = mode != "start"
 	_home_button.visible = mode != "start"
 	_quit_button.visible = true
 	set_difficulty_locked(mode != "start")

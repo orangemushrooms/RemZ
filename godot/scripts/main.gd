@@ -13,6 +13,7 @@ var cornfield: Node3D
 var fill_light: DirectionalLight3D
 var skills: Skills
 var classes: Node
+var teleport: AssassinTeleport
 var fireworks: Fireworks
 var hunting: Node3D
 var brewing: Node3D
@@ -207,6 +208,9 @@ func _ready() -> void:
 	classes = preload("res://scripts/class_progression.gd").new()
 	add_child(classes)
 	classes.setup(self)
+	teleport = AssassinTeleport.new()
+	add_child(teleport)
+	teleport.setup(self)
 	_boot_mark("  player, weapons")
 	for s in Map.BARRICADES:
 		var b := Barricade.new()
@@ -2514,6 +2518,7 @@ func _on_start(play_intro: bool = true) -> void:
 	started = true
 
 func _pause() -> void:
+	if teleport: teleport.close()
 	if cheat_menu and cheat_menu.is_open: cheat_menu.close()
 	if progression and progression.is_open: progression.close()
 	if not started or over:

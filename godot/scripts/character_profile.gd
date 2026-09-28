@@ -4,7 +4,7 @@ signal changed
 signal xp_gained(amount: int, reason: String)
 signal level_gained(class_id: String, level: int)
 const Classes = preload("res://scripts/character_classes.gd")
-const VERSION := 2 # Slower XP curve; old profiles retain their level and fractional progress.
+const VERSION := 3 # Adds an explicit Assassin teleport choice; existing XP and talents stay intact.
 const STAT_KEYS := ["kills", "headshots", "headshot_kills", "deaths", "boss_kills", "missions", "waves", "best_streak", "seconds", "multiplayer_kills", "multiplayer_missions"]
 var profile_id := "local"
 var data: Dictionary = {}
@@ -43,7 +43,7 @@ static func empty_profile(name: String = "Player") -> Dictionary:
 	for id in Classes.ORDER:
 		var stats := {}
 		for key in STAT_KEYS: stats[key] = 0
-		classes[id] = {"total_xp": 0, "choices": [-1, -1, -1, -1, -1, -1], "stats": stats}
+		classes[id] = {"total_xp": 0, "choices": [-1, -1, -1, -1, -1, -1], "teleport": "", "stats": stats}
 	return {"version": VERSION, "name": name, "selected": "gunslinger", "classes": classes,
 		"quests": {}, "achievements": {}, "cosmetics": {}, "total_kills": 0}
 
@@ -65,6 +65,7 @@ static func sanitize(raw: Dictionary) -> Dictionary:
 				total = minf(1000000000000.0, int(total) * 11 / 10)
 			result.classes[id].total_xp = int(total)
 			result.classes[id].choices = Classes.valid_choices(id, Classes.level_for(result.classes[id].total_xp), entry.get("choices", []))
+			result.classes[id].teleport = Classes.teleport_choice(id, Classes.level_for(result.classes[id].total_xp), entry.get("teleport", ""))
 			var stats: Variant = entry.get("stats")
 			if stats is Dictionary:
 				for key in STAT_KEYS: result.classes[id].stats[key] = number(stats.get(key, 0))
@@ -167,6 +168,14 @@ func choose_skill(id: String, tier: int, choice: int) -> bool:
 func selected() -> String:
 	return str(data.get("selected", "gunslinger"))
 
+func choose_teleport(mode: String) -> bool:
+	if not can_edit() or Classes.teleport_choice("assassin", level("assassin"), mode).is_empty(): return false
+	data.classes.assassin.teleport = mode
+	dirty = true
+	save()
+	changed.emit()
+	return true
+
 func active_class() -> String:
 	return match_class if not match_class.is_empty() else selected()
 
@@ -175,7 +184,7 @@ func level(id: String) -> int:
 
 func loadout(id: String = "") -> Dictionary:
 	if id.is_empty(): id = selected()
-	return Classes.loadout(id, int(data.classes[id].total_xp), data.classes[id].choices)
+	return Classes.loadout(id, int(data.classes[id].total_xp), data.classes[id].choices, str(data.classes[id].get("teleport", "")))
 
 func begin_match(id: String) -> void:
 	match_class = id if Classes.CLASSES.has(id) else selected()
