@@ -7685,3 +7685,11 @@ msgstr "Pistole / AK-47 / Schrotflinte"
 #: scripts/planes_hud.gd
 msgid "Reload"
 msgstr "Nachladen"
+
+#: scripts/intro.gd
+msgid "Find the forest hut.\nFollow the gold marker along the road."
+msgstr "Finde die Waldhütte.\nFolge der goldenen Markierung entlang der Strasse."
+
+#: scripts/intro.gd
+msgid "Path to the forest hut · %d m"
+msgstr "Weg zur Waldhütte · %d m"

@@ -493,10 +493,11 @@ func _close_local_menus() -> void:
 func tick(delta: float) -> void:
 	if NetSession.is_host():
 		intro_lock = maxf(0.0, intro_lock - delta)
-		# Any teammate can reach the junction; only the host releases wave one.
+		# Any teammate can cross the approach, including field shortcuts.
+		# Only the host releases wave one, after the opening card.
 		if intro_lock == 0.0 and game.waves.phase == "intro" and game.waves.wave == 0:
 			for p: Player in actors.values():
-				if p.alive and game.intro.distance_to_road(p.global_position) < 5.0:
+				if p.alive and game.intro.reached_approach(p.global_position):
 					game.waves.start(1)
 					break
 		for id in avatars:

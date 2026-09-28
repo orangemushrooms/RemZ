@@ -1,7 +1,7 @@
 # Opening sequence: KONM Games card with the intro track, then the player wakes up in dense fog at the
 # far end of the Sennhofstrasse. A typewriter briefing and a direction arrow lead along the road to the
 # Weg zur Hütte; the fog lifts and the intro track fades the closer the player gets to the hut. Reaching
-# the Weg zur Hütte releases the first wave (main connects road_reached to the waves).
+# the hut approach releases the first wave, including shortcuts across the field.
 class_name Intro
 extends Node
 
@@ -18,10 +18,13 @@ const FOG_DENSE := 0.045                      # exponential fog density when wak
 const VFOG_DENSE := 0.03
 const MUSIC_DB := -6.0
 const TYPE_SPEED := 32.0                      # characters per second
-const BRIEFING := "Find the forest hut.\nFollow the road and the direction arrow."
+const BRIEFING := "Find the forest hut.\nFollow the gold marker along the road."
 const BRIEFING_ROAD := "They heard you.\nGet to the forest hut, hold the barricades!"
 # the arrow follows the road: junction, along the Weg zur Hütte, the fork, the hut
 const WAYPOINTS := [Vector2(124.0, 21.0), Vector2(70.0, 41.0), Vector2(30.0, 54.5), Vector2(7.0, 61.0), Vector2(4.0, -4.0)]
+# A broad entrance line perpendicular to the direction from spawn to the hut.
+# Check its destination side, so shortcuts and large movement steps cannot miss it.
+const APPROACH_DISTANCE := 50.0
 
 var main: Node
 var player: Player
@@ -35,6 +38,8 @@ var _logo: TextureRect
 var _text: Label
 var _arrow: Control
 var _dist_label: Label
+var _target_marker: Control
+var _target_label: Label
 var _music: AudioStreamPlayer
 var _fog_base := 0.0
 var _vfog_base := 0.0
@@ -123,6 +128,21 @@ func setup(m: Node, p: Player, e: Environment) -> void:
 	_dist_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_dist_label.visible = false
 	_layer.add_child(_dist_label)
+	_target_marker = Control.new()
+	_target_marker.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_target_marker.draw.connect(_draw_target_marker)
+	_target_marker.hide()
+	_layer.add_child(_target_marker)
+	_target_label = Label.new()
+	_target_label.position = Vector2(-150,32)
+	_target_label.size = Vector2(300,50)
+	_target_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_target_label.add_theme_font_size_override("font_size",18)
+	_target_label.add_theme_color_override("font_color",Color(1.0,0.8,0.35))
+	_target_label.add_theme_color_override("font_outline_color",Color(0.03,0.025,0.01))
+	_target_label.add_theme_constant_override("outline_size",6)
+	_target_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_target_marker.add_child(_target_label)
 	_music = AudioStreamPlayer.new()
 	var mp := "res://assets/audio/music/intro.mp3"
 	if ResourceLoader.exists(mp):
@@ -149,6 +169,12 @@ func begin(keep_position: bool = false) -> void:
 	active = true
 	phase = "logo"
 	_t = 0.0
+	_wp = 0
+	_road_done = false
+	_briefing = BRIEFING
+	_typed = 0.0
+	_text.modulate.a = 1.0
+	_target_marker.hide()
 	_fog_base = env.fog_density
 	_vfog_base = env.volumetric_fog_density
 	_sky_affect_base = env.fog_sky_affect
@@ -206,6 +232,24 @@ func _path_progress() -> float:
 
 func _dist_to_road() -> float:
 	return distance_to_road(player.global_position)
+
+func reached_approach(at: Vector3) -> bool:
+	var point := Vector2(at.x,at.z)
+	var towards_hut: Vector2 = (WAYPOINTS.back()-START).normalized()
+	return (point-START).dot(towards_hut)>=APPROACH_DISTANCE or distance_to_road(at)<5.0
+
+func _release_road() -> void:
+	if _road_done: return
+	_road_done = true
+	var point := Vector2(player.global_position.x,player.global_position.z)
+	# A shortcut must not send the player back to the junction; someone still
+	# on the road (or a waiting teammate) should keep their nearest route point.
+	while _wp<WAYPOINTS.size()-1 and point.distance_to(WAYPOINTS[_wp+1])<point.distance_to(WAYPOINTS[_wp]):
+		_wp += 1
+	_briefing = BRIEFING_ROAD
+	_typed = 0.0
+	_text.text = ""
+	road_reached.emit()
 
 func distance_to_road(at: Vector3) -> float:
 	var p := Vector2(at.x, at.z)
@@ -269,12 +313,8 @@ func _process(delta: float) -> void:
 					_music.stop()
 			else:
 				_music.volume_db = base_db
-			if not _road_done and _dist_to_road() < 5.0:
-				_road_done = true
-				_briefing = BRIEFING_ROAD
-				_typed = 0.0
-				_text.text = ""
-				road_reached.emit()
+			if not _road_done and player.alive and (reached_approach(player.global_position) or main.waves.wave>0):
+				_release_road()
 			if prog > 0.93:
 				_end()
 		_:
@@ -298,7 +338,16 @@ func _update_guidance() -> void:
 	_arrow.visible = true
 	_dist_label.visible = true
 	var target: Vector2 = WAYPOINTS[_wp]
-	_dist_label.text = "%d m" % int(p.distance_to(WAYPOINTS[WAYPOINTS.size() - 1]))
+	var distance := int(p.distance_to(target))
+	_dist_label.text = "%d m" % distance
+	_target_label.text = Lang.t("Path to the forest hut · %d m",[distance])
+	var world_target := Map.ground_pos(target.x,target.y)+Vector3.UP*1.5
+	_target_marker.visible = not player.camera.is_position_behind(world_target)
+	if _target_marker.visible:
+		var screen := player.camera.unproject_position(world_target)
+		_target_marker.visible = get_viewport().get_visible_rect().grow(-80).has_point(screen)
+		_target_marker.position = screen
+		_target_marker.queue_redraw()
 	# arrow angle relative to the view direction (0 = straight ahead)
 	var to := Vector3(target.x - p.x, 0.0, target.y - p.y)
 	var local: Vector3 = player.global_transform.basis.inverse() * to
@@ -308,12 +357,20 @@ func _update_guidance() -> void:
 func _draw_arrow() -> void:
 	var a: float = _arrow.get_meta("angle", 0.0)
 	var pts := PackedVector2Array()
-	for v in [Vector2(0, -22), Vector2(14, 10), Vector2(0, 3), Vector2(-14, 10)]:
+	for v in [Vector2(0, -30), Vector2(20, 14), Vector2(0, 5), Vector2(-20, 14)]:
 		pts.append((v as Vector2).rotated(a))
 	_arrow.draw_colored_polygon(pts, Color(1.0, 0.72, 0.3, 0.95))
 	var outline := pts.duplicate()
 	outline.append(pts[0])
 	_arrow.draw_polyline(outline, Color(0, 0, 0, 0.7), 2.0, true)
+
+func _draw_target_marker() -> void:
+	var gold := Color(1.0,0.76,0.25)
+	var radius := 24.0+sin(_t*3.0)*3.0
+	_target_marker.draw_circle(Vector2.ZERO,radius+4,Color(0.025,0.02,0.01,0.75))
+	_target_marker.draw_arc(Vector2.ZERO,radius,0,TAU,32,gold,3,true)
+	_target_marker.draw_colored_polygon(PackedVector2Array([Vector2(0,-13),Vector2(11,0),Vector2(0,13),Vector2(-11,0)]),gold)
+	_target_marker.draw_line(Vector2(0,radius+3),Vector2(0,radius+10),gold,3,true)
 
 func _end() -> void:
 	active = false
@@ -325,6 +382,7 @@ func _end() -> void:
 	_music.stop()
 	_arrow.visible = false
 	_dist_label.visible = false
+	_target_marker.hide()
 	var tw := create_tween()
 	tw.tween_property(_text, "modulate:a", 0.0, 1.5)
 	tw.tween_callback(_text.hide)
