@@ -22,6 +22,7 @@ func run() -> void:
 	for p in [Vector2(-107,18),Vector2(0,0),Vector2(175,218),Vector2(250,100)]:
 		check(Boundary.contains(p),"Junction, fields and target stand remain accessible: %s" % p)
 	var game = load("res://scenes/planes.tscn").instantiate()
+	game.exploration_only = true
 	root.add_child(game)
 	current_scene = game
 	while not game.ready_for_exploration: await process_frame

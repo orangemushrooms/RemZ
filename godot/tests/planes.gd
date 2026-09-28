@@ -30,6 +30,7 @@ func run() -> void:
 	Map.use_region("forest"); Map._ensure()
 	check(Map.ROADS.size()==forest_roads and is_equal_approx(Map.ground_height(0,0),forest_height) and Map.BUILDINGS.has("waldhuette"),"Returning to Forest restores original data without duplicated roads")
 	game = load("res://scenes/planes.tscn").instantiate()
+	game.exploration_only = true
 	root.add_child(game)
 	current_scene = game
 	while not game.ready_for_exploration: await process_frame

@@ -57,7 +57,7 @@ On the test RTX 3060 Ti at 1920 × 1009, the fixed-view uncapped benchmark measu
 These are measured scenarios, not a guarantee for every PC or every playthrough.
 The known Windows root certificate warning also appears in otherwise clean runs.
 
-In der Gebietsauswahl **The Planes erkunden** wählen. Die Region startet als eigenständige Erkundungsmap im Einzelspiel. Im Esc-Menü lässt sich zusätzlich ein Survival-Durchlauf mit 25 Wellen starten. Forest behält seinen Survivalablauf. Im Koop ist der Erkundungsstart gesperrt.
+In der Gebietsauswahl **The Planes starten** wählen. Die Region startet nach dem Laden direkt als 25-Wellen-Survival mit Pistole, Feldmesser und 150 R. Das Mausrad wechselt wie in Forest zwischen freigeschalteten Waffen. Das Esc-Menü bietet weiterhin den optionalen Erkundungsmodus. Im Koop ist Planes gesperrt.
 
 WASD bewegt den Spieler; Shift sprintet, Leertaste springt, Strg duckt sich. M vergrössert die nordorientierte Karte wie in Forest und stellt sie beim nächsten Druck wieder kompakt dar. Escape öffnet ein Menü mit Fortsetzen, Survivalstart, drei Referenzblickrichtungen und Rückkehr zur Gebietsauswahl. Im Kampf pausiert dieses Menü auch Zombies, Wetter und Granaten; die Foto-Teleports sind dort gesperrt. Die Fotoansichten lassen sich damit ohne erneuten Fussmarsch vergleichen.
 

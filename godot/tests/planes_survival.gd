@@ -30,9 +30,25 @@ func run() -> void:
 	root.add_child(game)
 	current_scene = game
 	while not game.ready_for_exploration: await process_frame
-	check(not game.survival_active and game.weapons==null,"Entry remains peaceful exploration")
-	await game.start_survival()
-	check(game.survival_active and game.player.active and game.waves!=null,"Survival starts explicitly after loading")
+	check(game.survival_active and game.weapons!=null,"Entry starts survival automatically")
+	check(game.player.active and game.waves!=null and not game.menu.visible and not paused and game.boot==null,"Loading ends directly in a playable round without a view menu")
+	check(game.weapons.unlocked.knife,"Field knife is available from the start")
+	var wheel := InputEventMouseButton.new()
+	wheel.button_index = MOUSE_BUTTON_WHEEL_UP
+	wheel.pressed = true
+	Input.parse_input_event(wheel)
+	await process_frame
+	await process_frame
+	wheel.pressed = false
+	Input.parse_input_event(wheel)
+	check(game.weapons.current=="knife" and game.weapons.viewmodel.visible,"Mouse wheel equips the visible field knife")
+	if "--render-entry" in OS.get_cmdline_user_args():
+		await create_timer(1.0).timeout
+		await RenderingServer.frame_post_draw
+		var folder := ProjectSettings.globalize_path("res://../artifacts/planes/entry/")
+		DirAccess.make_dir_recursive_absolute(folder)
+		root.get_texture().get_image().save_png(folder+"knife.png")
+	game.weapons.set_weapon("pistol")
 	await process_frame
 	check(game.hud.cross.get_global_rect().get_center().distance_to(root.get_visible_rect().get_center())<20 and game.hud.health_text.get_global_rect().position.y>root.size.y*0.6,"Combat HUD anchors the crosshair centrally and health above the bottom edge")
 	check(game.nav_region.navigation_mesh.get_polygon_count()>100,"Surveyed terrain has a connected navigation mesh")
@@ -97,6 +113,19 @@ func run() -> void:
 	check(game.weapons.cur().ammo==game.weapons.cur().def.mag,"Reload restores the magazine")
 	game.player.camera.rotation = Vector3.ZERO
 	await clear_enemies()
+	game.weapons.set_weapon("knife")
+	var knife_at: Vector3 = game.player.position-game.player.camera.global_basis.z*2.5
+	var knife_target: Zombie = game.create_enemy("soldier",Map.ground_pos(knife_at.x,knife_at.z),1)
+	knife_target.set_physics_process(false)
+	for i in 5: await physics_frame
+	game.player.camera.look_at(knife_target.position+Vector3.UP*1.1)
+	await create_timer(0.6).timeout
+	var knife_hp := knife_target.hp
+	game.weapons.melee(true)
+	check(knife_target.hp<knife_hp and knife_target.killer_weapon=="knife","Field knife stab damages a real enemy")
+	game.player.camera.rotation = Vector3.ZERO
+	await clear_enemies()
+	game.weapons.set_weapon("pistol")
 	# Pause must freeze live world state, including grenades attached to the root.
 	game.weapons.throw_grenade()
 	await physics_frame
@@ -155,6 +184,7 @@ func run() -> void:
 	await game.start_survival()
 	game.waves.set_process(false)
 	check(not game.over and not game.victory and game.alive_zombies()==0 and game.waves.wave==0,"Retry resets enemies, equipment and the wave controller")
+	check(game.weapons.unlocked.knife,"Retry preserves the starting knife")
 	for spec in [[0,"clear"],[270,"fog"],[450,"rain"],[690,"storm"],[840,"clear"]]:
 		game.weather.elapsed = spec[0]
 		check(game.weather.scheduled_state(0)==spec[1],"Weather schedule: "+str(spec[1]))

@@ -1,5 +1,6 @@
 extends Node3D
-## Solo exploration and an explicitly started 25-wave survival run.
+## Starts a solo 25-wave survival run; exploration is an optional secondary mode.
+var exploration_only := false
 var player: Player
 var weapons: Weapons
 var hud: Hud
@@ -124,13 +125,15 @@ func _ready() -> void:
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	started = true
-	player.active = true
+	if exploration_only or "--planes-explore" in _flags:
+		player.active = true
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		boot.close()
+		boot = null
+	else:
+		await start_survival()
 	ready_for_exploration = true
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	boot.close()
-	boot = null
 	print("PLANES_READY trees=%d birds=%d crops=%s" % [landscape.tree_count,birds.size(),cornfield.counts])
-	if "--planes-survival" in OS.get_cmdline_user_args(): start_survival.call_deferred()
 
 func _index_buildings() -> void:
 	for building: Dictionary in Map.VILLAGE:
@@ -315,7 +318,7 @@ func start_survival() -> void:
 	preparing_survival = true
 	set_menu(false)
 	player.active = false
-	boot = BootScreen.cover(get_tree())
+	if not boot: boot = BootScreen.cover(get_tree())
 	boot.step(0.1)
 	await get_tree().process_frame
 	await ensure_navigation()
@@ -383,7 +386,7 @@ func start_survival() -> void:
 	weapons.process_mode = Node.PROCESS_MODE_PAUSABLE
 	weapons.viewmodel.show()
 	weapons.viewmodel.viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
-	for id in weapons.unlocked: weapons.unlocked[id] = id == "pistol"
+	for id in weapons.unlocked: weapons.unlocked[id] = id in ["pistol", "knife"]
 	weapons.set_weapon("pistol")
 	weapons.refill_all()
 	weapons.grenades = 3

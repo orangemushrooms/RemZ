@@ -93,7 +93,7 @@ func refresh() -> void:
 	for i in _rows.size():
 		var entry: Dictionary = Campaign.REGIONS[i]
 		_rows[i].text = ("✓  " if campaign.cleared(entry.id) else ("●  " if entry.available else "–  ")) + Lang.t(entry.title)
-		_rows[i].tooltip_text = Lang.t("Explore the fields of Remetschwil.") if entry.get("exploration", false) else (Lang.t("Under construction") if not entry.available else Lang.t("Best run: %d / %d rounds", [campaign.best_wave(entry.id), Campaign.ROUNDS]))
+		_rows[i].tooltip_text = Lang.t("Explore the fields of Remetschwil.") if entry.get("exploration", false) and not entry.get("survival", false) else (Lang.t("Under construction") if not entry.available else Lang.t("Best run: %d / %d rounds", [campaign.best_wave(entry.id), Campaign.ROUNDS]))
 	_preview(_selected)
 
 func choose(id: String) -> void:
@@ -124,11 +124,11 @@ func _preview(id: String) -> void:
 	_join.text = "Replay Forest  →" if campaign.cleared(id) else ("Enter Forest  →" if entry.available else "Under construction")
 	_join.disabled = not entry.available or NetSession.is_client()
 	if entry.get("exploration", false):
-		_status.text = "EXPLORATION / SURVIVAL"
-		_description.text = "Explore the fields of Remetschwil. Press Esc to start a 25-wave survival run."
-		_join.text = "Explore The Planes  →"
+		_status.text = "SURVIVAL / 25 ROUNDS"
+		_description.text = "Survive 25 waves in the fields. Choose where to build your defences."
+		_join.text = "Enter The Planes  →"
 		_join.disabled = NetSession.enabled
-		if NetSession.enabled: _description.text = "The Planes exploration is available in solo play."
+		if NetSession.enabled: _description.text = "The Planes is available in solo play."
 
 func _unhandled_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("pause"):

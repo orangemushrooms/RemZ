@@ -7,6 +7,7 @@ func _process(_delta: float) -> bool:
 	return false
 func run() -> void:
 	game = load("res://scenes/planes.tscn").instantiate()
+	game.exploration_only = true
 	root.add_child(game)
 	current_scene = game
 	while not game.ready_for_exploration: await process_frame

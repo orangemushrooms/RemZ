@@ -7933,3 +7933,15 @@ msgstr "Waffenmods · %s"
 
 msgid "%s · %d R · wave %d"
 msgstr "%s · %d R · Welle %d"
+
+msgid "SURVIVAL / 25 ROUNDS"
+msgstr "SURVIVAL / 25 WELLEN"
+
+msgid "Survive 25 waves in the fields. Choose where to build your defences."
+msgstr "Überlebe 25 Wellen auf den Feldern. Wähle selbst, wo du deine Verteidigung aufbaust."
+
+msgid "Enter The Planes  →"
+msgstr "The Planes starten  →"
+
+msgid "The Planes is available in solo play."
+msgstr "The Planes ist im Einzelspiel verfügbar."
