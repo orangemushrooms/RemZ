@@ -7693,3 +7693,6 @@ msgstr "Finde die Waldhütte.\nFolge der goldenen Markierung entlang der Strasse
 #: scripts/intro.gd
 msgid "Path to the forest hut · %d m"
 msgstr "Weg zur Waldhütte · %d m"
+
+msgid "Map boundary ? turn back"
+msgstr "Gebietsgrenze ? bitte umkehren"

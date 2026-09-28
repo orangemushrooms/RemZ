@@ -1,0 +1,67 @@
+extends Node3D
+## One shared outline for movement, navigation, spawning and cartography.
+const OUTLINE := [Vector2(-320,280),Vector2(-320,-90),Vector2(-170,-170),
+	Vector2(-90,-190),Vector2(60,-200),Vector2(110,-310),Vector2(170,-300),
+	Vector2(265,-160),Vector2(370,-90),Vector2(490,-75),Vector2(490,280)]
+
+static func contains(p: Vector2) -> bool:
+	return Geometry2D.is_point_in_polygon(p,PackedVector2Array(OUTLINE))
+
+static func closest(p: Vector2) -> Vector2:
+	var result: Vector2 = OUTLINE[0]
+	var distance := INF
+	for i in OUTLINE.size():
+		var q := Geometry2D.get_closest_point_to_segment(p,OUTLINE[i],OUTLINE[(i+1)%OUTLINE.size()])
+		if q.distance_squared_to(p)<distance:
+			distance = q.distance_squared_to(p)
+			result = q
+	return result
+
+static func confine(actor: Node3D) -> void:
+	var p := Vector2(actor.position.x,actor.position.z)
+	if contains(p): return
+	var q := closest(p)
+	var outward := (p-q).normalized()
+	actor.position.x = q.x-outward.x*0.02
+	actor.position.z = q.y-outward.y*0.02
+	var horizontal := Vector2(actor.velocity.x,actor.velocity.z)
+	horizontal -= outward*maxf(0.0,horizontal.dot(outward))
+	actor.velocity.x = horizontal.x
+	actor.velocity.z = horizontal.y
+
+func build() -> void:
+	name = "FieldBoundary"
+	var posts: Array[Transform3D] = []
+	var rails: Array[Transform3D] = []
+	for i in OUTLINE.size():
+		var a: Vector2 = OUTLINE[i]
+		var b: Vector2 = OUTLINE[(i+1)%OUTLINE.size()]
+		var steps := ceili(a.distance_to(b)/4.0)
+		for j in steps:
+			var p := a.lerp(b,float(j)/steps)
+			var next := a.lerp(b,float(j+1)/steps)
+			var start := Map.ground_pos(p.x,p.y)
+			var end := Map.ground_pos(next.x,next.y)
+			posts.append(Transform3D(Basis.IDENTITY.scaled(Vector3(0.12,1.35,0.12)),start+Vector3.UP*0.675))
+			for height in [0.58,1.12]:
+				var direction := end-start
+				var basis := Basis.looking_at(direction.normalized(),Vector3.UP).scaled(Vector3(0.035,0.035,direction.length()))
+				rails.append(Transform3D(basis,(start+end)*0.5+Vector3.UP*height))
+	_batch(posts,Color(0.27,0.19,0.12))
+	_batch(rails,Color(0.37,0.34,0.26))
+
+func _batch(transforms: Array[Transform3D], colour: Color) -> void:
+	var mesh := BoxMesh.new()
+	var material := StandardMaterial3D.new()
+	material.albedo_color = colour
+	material.roughness = 1.0
+	mesh.material = material
+	var batch := MultiMesh.new()
+	batch.transform_format = MultiMesh.TRANSFORM_3D
+	batch.mesh = mesh
+	batch.instance_count = transforms.size()
+	for i in transforms.size(): batch.set_instance_transform(i,transforms[i])
+	var instance := MultiMeshInstance3D.new()
+	instance.multimesh = batch
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	add_child(instance)

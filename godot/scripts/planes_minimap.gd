@@ -82,6 +82,11 @@ func _draw_cartography() -> void:
 		c.draw_colored_polygon(polygon,Color(0.72,0.46,0.3))
 		polygon.append(polygon[0])
 		c.draw_polyline(polygon,Color(0.94,0.79,0.56),0.8,true)
+	var boundary := PackedVector2Array()
+	for p in preload("res://scripts/planes_boundary.gd").OUTLINE: boundary.append(_point(p))
+	boundary.append(boundary[0])
+	c.draw_polyline(boundary,Color(0.08,0.08,0.05),3.5,true)
+	c.draw_polyline(boundary,Color(1.0,0.74,0.25),1.8,true)
 	# A few geographic labels remain readable on the compact map.
 	for label in [["Rigiweg",Vector2(-116,-127)],["Sennhof",Vector2(310,-150)],["Remetschwil",Vector2(-290,-280)]]:
 		var at := _point(label[1])
@@ -97,6 +102,10 @@ func _draw_cartography() -> void:
 func _draw_symbols(c: Control) -> void:
 	if not is_instance_valid(player): return
 	_draw_compass(c)
+	var at := Vector2(player.global_position.x,player.global_position.z)
+	if preload("res://scripts/planes_boundary.gd").closest(at).distance_to(at)<8.0:
+		c.draw_style_box(_panel_style(),Rect2(10,40,284,29))
+		c.draw_string(_font,Vector2(20,60),Lang.text("Map boundary ? turn back"),HORIZONTAL_ALIGNMENT_LEFT,264,14,Color(1.0,0.8,0.35))
 	for enemy in game.zombies_root.get_children():
 		if enemy is Zombie and enemy.alive and enemy.visible_on_map():
 			c.draw_circle(map_position(enemy.global_position),2,Color(1.0,0.29,0.22))

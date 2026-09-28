@@ -193,3 +193,27 @@ the backdrop; 19 additional visible draw calls and 33,286 reported primitives.
 This is a small measurable render cost, not a claim of zero GPU overhead. Final
 runtime log: `logs/planes-north-lod.log`, no script/render errors (only the known
 Windows root certificate warning).
+
+
+### Playable field boundary (local, awaiting publication approval)
+
+`planes_boundary.gd` owns the field outline. Residential buildings remain scenery
+outside it, with at least 10 m clearance from their footprint vertices. The
+shooting target stand, junction and central fields remain inside. The shared
+outline drives the visible pasture fence, cached golden minimap line, player
+confinement, navigation source triangles and accepted enemy spawn positions.
+The nearby map warning supports English and German.
+
+The Planes player applies confinement after normal movement at any elevation,
+removing only outward horizontal velocity so movement along the edge still works.
+This covers sprinting, jumping, knockback and teleports; Forest's controller and
+boundary remain unchanged. The fence is scenery, not a buildable barricade. Two
+static MultiMeshes without shadow passes draw its posts and wire; there are no
+per-post physics bodies or frame callbacks.
+
+Validation: `--suite=planes_boundary --render-boundary` checks excluded homes,
+clearance, retained destinations, the real player controller at three elevations,
+continuous sprinting into the fence, outside cheat spawns and corner overshoots.
+Screenshots are in `artifacts/planes/boundary/`. The existing survival suite checks
+navigation and all 25 accelerated wave transitions against the reduced area.
+No publish or push.

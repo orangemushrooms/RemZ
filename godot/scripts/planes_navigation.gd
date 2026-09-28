@@ -35,6 +35,11 @@ static func prepare(game: Node3D) -> NavigationRegion3D:
 		for j in depth-1:
 			for i in width-1:
 				var a := j*width+i
+				var inside := true
+				for vertex in [a,a+1,a+width,a+width+1]:
+					var p := vertices[vertex]
+					if not preload("res://scripts/planes_boundary.gd").contains(Vector2(p.x,p.z)): inside = false
+				if not inside: continue
 				indices.append_array(PackedInt32Array([a,a+1,a+width,a+1,a+width+1,a+width]))
 		# add_mesh_array converts Godot clockwise faces to Recast's winding.
 		var arrays := []

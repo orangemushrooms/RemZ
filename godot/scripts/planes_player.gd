@@ -10,3 +10,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 	if event is InputEventMouseMotion or event.is_action("flashlight"):
 		super._unhandled_input(event)
+
+func _physics_process(delta: float) -> void:
+	super._physics_process(delta)
+	if not active or not alive: return
+	preload("res://scripts/planes_boundary.gd").confine(self)
+	_motion_to = global_position

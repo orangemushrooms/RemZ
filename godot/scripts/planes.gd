@@ -408,7 +408,7 @@ func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 		var angle := _spawn_rng.randf()*TAU
 		var distance := _spawn_rng.randf_range(32,52)
 		var p := Vector2(player.position.x,player.position.z)+Vector2(cos(angle),sin(angle))*distance
-		if not Map.BOUNDS.grow(-4).has_point(p) or near_building(p): continue
+		if not Map.BOUNDS.grow(-4).has_point(p) or not preload("res://scripts/planes_boundary.gd").contains(p) or near_building(p): continue
 		var surface := Map.ground_pos(p.x,p.y)
 		var at := NavigationServer3D.map_get_closest_point(nav,surface)
 		if at.distance_to(surface)>1.5 or at.distance_to(player.position)<28: continue
@@ -465,7 +465,7 @@ func ensure_navigation() -> void:
 	_preparing_navigation = false
 
 func spawn_zombie(kind: String, p: Vector2, _speed: float, _lane := "", _distance := 0.0, armor := -1, rise := false) -> bool:
-	if not Map.BOUNDS.grow(-5).has_point(p) or near_building(p) or zombies_root.get_child_count()>=36: return false
+	if not Map.BOUNDS.grow(-5).has_point(p) or not preload("res://scripts/planes_boundary.gd").contains(p) or near_building(p) or zombies_root.get_child_count()>=36: return false
 	await ensure_navigation()
 	if over or _leaving or zombies_root.get_child_count()>=36: return false
 	var ground := Map.ground_pos(p.x,p.y)

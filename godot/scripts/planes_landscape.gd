@@ -42,6 +42,9 @@ func build() -> void:
 	_building_collisions()
 	_trees()
 	_signs()
+	var boundary = load("res://scripts/planes_boundary.gd").new()
+	add_child(boundary)
+	boundary.build()
 
 func _tile(rect: Rect2, step: int, material: Material, skirt := false) -> void:
 	var st := SurfaceTool.new()
