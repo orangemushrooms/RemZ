@@ -29,7 +29,7 @@ func run() -> void:
 	check(not state.persist, "Test campaign does not read or overwrite player progress")
 	check(Campaign.REGIONS.size() == 6 and state.select("forest"), "Six regions; Forest is playable")
 	for region: Dictionary in Campaign.REGIONS:
-		if region.id != "forest": check(not state.select(region.id), "Construction region cannot launch: " + region.id)
+		if not region.available: check(not state.select(region.id), "Construction region cannot launch: " + region.id)
 	check(not state.select("unknown") and state.selected_id == "forest", "Invalid selection preserves current map")
 	state.record_wave(24, "Normal")
 	check(state.best_wave("forest") == 24 and not state.cleared("forest"), "Twenty-four rounds do not clear a region")

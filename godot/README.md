@@ -8,7 +8,7 @@ Das aktuelle Spiel ist das Godot-Projekt in diesem Ordner. Der Three.js-Code im 
 
 ## Starten
 
-**Kampagne:** „Spiel starten“ öffnet die animierte Gebietskarte mit Nebel und Vogelschwärmen. Forest startet die Waldhütte; fünf weitere Gebiete sind grau als „Under construction“ gesperrt. Jede Map umfasst 25 Runden. Nach dem letzten Gegner von Runde 25 wird der Sieg dauerhaft auf der Karte vermerkt. Im Koop wählt der Host die Map; der Abschluss wird bei jedem Mitspieler gespeichert. [Ablauf und Erweiterung](../docs/CAMPAIGN.md).
+**Kampagne:** „Spiel starten“ öffnet die animierte Gebietskarte mit Nebel und Vogelschwärmen. Forest startet die Waldhütte mit 25 Runden. **The Planes** ist als eigenständige Erkundungsmap von Remetschwil im Einzelspiel zugänglich: echte Höhen- und Wegdaten, Mais- und Getreidefelder, Gehölze und die bestehenden Vögel. Escape bietet drei Referenzblickrichtungen und die Rückkehr zur Gebietsauswahl. Die übrigen vier Gebiete bleiben gesperrt. [The Planes: Geodaten und Steuerung](../docs/THE_PLANES.md). Nach dem letzten Gegner von Forest-Runde 25 wird der Sieg dauerhaft auf der Karte vermerkt. Im Koop wählt der Host die Survival-Map; der Abschluss wird bei jedem Mitspieler gespeichert. [Ablauf und Erweiterung](../docs/CAMPAIGN.md).
 
 `project.godot` mit Godot 4.7.2 öffnen und F6/F5 drücken. Der Startknopf wird freigegeben, sobald das begehbare Wegnetz fertig ist.
 

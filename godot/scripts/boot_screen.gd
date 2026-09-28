@@ -67,6 +67,12 @@ var _paragraph_width := 0.0
 # The screen for a menu action that is about to rebuild the scene; reused when one is already up.
 static func cover(tree: SceneTree) -> BootScreen:
 	var screen := find(tree)
+	# A rapid second scene change can arrive during the previous cover's fade.
+	# Its tween will free it; never hand that dying cover to the new scene.
+	if screen and screen._closing:
+		screen.name = "ClosingBootScreen"
+		screen.queue_free()
+		screen = null
 	if screen == null:
 		screen = BootScreen.new()
 		screen.name = NODE_NAME

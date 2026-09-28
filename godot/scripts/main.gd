@@ -111,6 +111,10 @@ func _close_boot_screen() -> void:
 	_boot_screen = null
 
 func _ready() -> void:
+	if "--explore-planes" in OS.get_cmdline_user_args() and not get_tree().has_meta("planes_direct_launch"):
+		get_tree().set_meta("planes_direct_launch",true)
+		get_tree().change_scene_to_file.call_deferred("res://scenes/planes.tscn")
+		return
 	rng.seed = 4242
 	_autotest = "--autotest" in OS.get_cmdline_user_args()
 	_flags = OS.get_cmdline_user_args()
@@ -130,6 +134,7 @@ func _ready() -> void:
 	difficulty = GameSettings.DIFFICULTIES[settings.difficulty]
 	stats = RunStats.new()
 	add_child(stats)
+	Map.use_region("forest")
 	Map._ensure()
 	Progression.clear_space()
 	_build_environment()
@@ -181,7 +186,10 @@ func _ready() -> void:
 	add_child(hud)
 	hud.start_pressed.connect(_on_start)
 	hud.map_selected.connect(func(id: String):
-		if campaign.select(id): _on_start())
+		if not campaign.select(id): return
+		if id == "planes":
+			_enter_planes()
+		else: _on_start())
 	hud.main_menu_pressed.connect(_to_main_menu)
 	_boot_mark("  hud")
 	hud.set_difficulties(GameSettings.DIFFICULTIES, settings.difficulty, func(i: int):
@@ -406,7 +414,7 @@ func _navigation_baked() -> void:
 	# Republish every 10 s and give up only after two minutes; the loading screen stays up.
 	var deadline := Time.get_ticks_msec() + (300000 if "--trailer-run" in _flags else 120000)
 	var diagnostic_at := Time.get_ticks_msec() + 10000
-	while not NavigationServer3D.map_get_closest_point_owner(nav_map, start).is_valid() and Time.get_ticks_msec() < deadline:
+	while Time.get_ticks_msec() < deadline and (NavigationServer3D.map_get_iteration_id(nav_map)==0 or not NavigationServer3D.map_get_closest_point_owner(nav_map, start).is_valid()):
 		if Time.get_ticks_msec() >= diagnostic_at:
 			print("NAV_WAIT paused=", get_tree().paused, " region_enabled=", nav_region.enabled, " server_enabled=", NavigationServer3D.region_get_enabled(nav_region.get_rid()), " iteration=", NavigationServer3D.map_get_iteration_id(nav_map), " polygons=", nav_region.navigation_mesh.get_polygon_count(), " map=", nav_map, " registered_map=", NavigationServer3D.region_get_map(nav_region.get_rid()))
 			NavigationServer3D.region_set_map(nav_region.get_rid(), nav_map)
@@ -2481,6 +2489,15 @@ func should_play_intro() -> bool:
 		if flag in ["--no-intro", "--benchmark", "--smoke-test", "--shot-ui"] or flag.begins_with("--view=") or flag.begins_with("--views="):
 			return false
 	return true
+
+func _enter_planes() -> void:
+	if NetSession.enabled or _reloading: return
+	_reloading = true
+	BootScreen.cover(get_tree())
+	await get_tree().process_frame
+	await get_tree().process_frame
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://scenes/planes.tscn")
 
 func _on_start(play_intro: bool = true) -> void:
 	if not navigation_ready:

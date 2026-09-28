@@ -7595,3 +7595,42 @@ msgstr "Lerne die Survival-Grundlagen: schwächere Zombies, kleinere Wellen, rei
 
 msgid "The standard survival challenge: stronger hordes with every wave. Plan your supplies and defenses."
 msgstr "Die normale Survival-Herausforderung: Mit jeder Welle werden die Horden stärker. Plane Vorräte und Verteidigung."
+
+msgid "EXPLORATION"
+msgstr "ERKUNDUNG"
+
+msgid "Explore the fields of Remetschwil."
+msgstr "Erkunde die Felder von Remetschwil."
+
+msgid "Explore the fields of Remetschwil. Follow Rigiweg towards the village or walk uphill towards Sennhof."
+msgstr "Erkunde die Felder von Remetschwil. Folge dem Rigiweg Richtung Dorf oder gehe bergauf Richtung Sennhof."
+
+msgid "Explore The Planes  →"
+msgstr "The Planes erkunden  →"
+
+msgid "The Planes exploration is available in solo play."
+msgstr "The Planes kann im Einzelspiel erkundet werden."
+
+msgid "WASD Walk · Shift Sprint · Space Jump · Ctrl Crouch · M Map · Esc Menu"
+msgstr "WASD Gehen · Shift Sprinten · Leertaste Springen · Strg Ducken · M Karte · Esc Menü"
+
+msgid "THE PLANES · EXPLORATION"
+msgstr "THE PLANES · ERKUNDUNG"
+
+msgid "Continue exploring"
+msgstr "Weiter erkunden"
+
+msgid "View towards Sennhof"
+msgstr "Blick Richtung Sennhof"
+
+msgid "View of the junction"
+msgstr "Blick auf die Weggabelung"
+
+msgid "View towards Core"
+msgstr "Blick Richtung Core"
+
+msgid "Back to region selection"
+msgstr "Zurück zur Gebietsauswahl"
+
+msgid "Survival: 25 rounds. Exploration regions can be visited freely."
+msgstr "Survival: 25 Runden. Erkundungsgebiete sind frei begehbar."

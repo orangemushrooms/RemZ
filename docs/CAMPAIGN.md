@@ -1,6 +1,6 @@
 # Kampagnenkarte
 
-„Spiel starten“ öffnet die animierte Karte aus `godot/assets/Map.png`. Forest ist spielbar und startet die bestehende Waldhütte inklusive Intro, Schwierigkeit, Händlern und Zwischenereignissen. North End, Core, East End, The Planes und Suburbs & Lake sind entsättigt, reagieren mit grauer Hervorhebung auf die Maus und bleiben als „Under construction“ gesperrt. Alle Gebiete sind auch über die linke Liste per Tastatur erreichbar. Escape führt zurück.
+„Spiel starten“ öffnet die animierte Karte aus `godot/assets/Map.png`. Forest startet die bestehende Waldhütte inklusive Intro, Schwierigkeit, Händlern und Zwischenereignissen. **The Planes** öffnet eine eigene, frei begehbare Erkundungsmap in Remetschwil (vorerst nur Einzelspiel, keine Wellen und kein Kampagnenabschluss). [Geodaten, Steuerung und Prüfungen](THE_PLANES.md). North End, Core, East End und Suburbs & Lake bleiben als „Under construction“ gesperrt. Alle Gebiete sind auch über die linke Liste per Tastatur erreichbar. Escape führt zurück.
 
 Karte und Hauptmenü verwenden gegenläufige Nebelschichten mit langsam verformten Schwaden und drei kleine Vogelschwärme. Die Auswahl füllt die verfügbare Kartenfläche ohne Seitenlücken; Trefferflächen und Umrisse folgen derselben Skalierung. Der deckende Hintergrund verdeckt auch die Hüttenanzeige in der Spielwelt. Die kompaktere Seitenleiste hält den Startknopf sichtbar und lässt sich bei kleinen Fenstern per Maus oder Tastatur scrollen.
 
@@ -12,7 +12,7 @@ Im Koop wählt der Host Forest vor dem gemeinsamen Start. Zwischenstände und Si
 
 ## Weitere Gebiete ergänzen
 
-`scripts/campaign.gd` definiert stabile IDs, Titel, Verfügbarkeit, Szenenreferenzen, Markierungen und Polygonumrisse im Koordinatensystem des Originalbilds (1312 × 1199). Neue Level müssen zunächst mit dem Spielaufbau und dem Koop-Ladevorgang verbunden werden; danach lässt sich das betreffende Gebiet freischalten. Aktuell führt ausschließlich Forest zum vorhandenen Level. Die IDs im Speicherformat bleiben auch bei neuen Karten unverändert. Das gemeinsame Rundenlimit steht in `Campaign.ROUNDS`.
+`scripts/campaign.gd` definiert stabile IDs, Titel, Verfügbarkeit, Szenenreferenzen, Markierungen und Polygonumrisse im Koordinatensystem des Originalbilds (1312 × 1199). `exploration: true` kennzeichnet die eigenständige Planes-Erkundung und verhindert Wellenfortschritt. Neue Survival-Level müssen mit Spielaufbau und Koop-Ladevorgang verbunden werden. Die IDs im Speicherformat bleiben auch bei neuen Karten unverändert. Das gemeinsame Survival-Rundenlimit steht in `Campaign.ROUNDS`.
 
 ## Prüfungen
 

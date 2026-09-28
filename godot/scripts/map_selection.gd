@@ -70,7 +70,7 @@ func _ready() -> void:
 	_join.custom_minimum_size.y = 48
 	_join.pressed.connect(func(): choose(_preview_id))
 	_entry.add_child(_join)
-	var hint := _label("25 rounds per region. Every victory stays on your map.", 13, Color(0.5,0.58,0.54))
+	var hint := _label("Survival: 25 rounds. Exploration regions can be visited freely.", 13, Color(0.5,0.58,0.54))
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	hint.custom_minimum_size.x = 290
 	_entry.add_child(hint)
@@ -91,13 +91,14 @@ func refresh() -> void:
 	for i in _rows.size():
 		var entry: Dictionary = Campaign.REGIONS[i]
 		_rows[i].text = ("✓  " if campaign.cleared(entry.id) else ("●  " if entry.available else "–  ")) + Lang.t(entry.title)
-		_rows[i].tooltip_text = Lang.t("Under construction") if not entry.available else Lang.t("Best run: %d / %d rounds", [campaign.best_wave(entry.id), Campaign.ROUNDS])
+		_rows[i].tooltip_text = Lang.t("Explore the fields of Remetschwil.") if entry.get("exploration", false) else (Lang.t("Under construction") if not entry.available else Lang.t("Best run: %d / %d rounds", [campaign.best_wave(entry.id), Campaign.ROUNDS]))
 	_preview(_selected)
 
 func choose(id: String) -> void:
 	_selected = id
 	atlas.selected = id
 	_preview(id)
+	if NetSession.is_client() or (NetSession.enabled and Campaign.region(id).get("exploration", false)): return
 	if campaign.select(id):
 		Sfx.play(self, "click", -6.0)
 		launch_requested.emit(id)
@@ -113,6 +114,12 @@ func _preview(id: String) -> void:
 	_description.text = Lang.t("Defend the forest hut. Survive all 25 rounds to secure Forest.") + "\n\n" + Lang.t("Best run: %d / %d rounds", [campaign.best_wave(id), Campaign.ROUNDS]) if entry.available else "This region is under construction. It will join the campaign in a future update."
 	_join.text = "Replay Forest  →" if campaign.cleared(id) else ("Enter Forest  →" if entry.available else "Under construction")
 	_join.disabled = not entry.available or NetSession.is_client()
+	if entry.get("exploration", false):
+		_status.text = "EXPLORATION"
+		_description.text = "Explore the fields of Remetschwil. Follow Rigiweg towards the village or walk uphill towards Sennhof."
+		_join.text = "Explore The Planes  →"
+		_join.disabled = NetSession.enabled
+		if NetSession.enabled: _description.text = "The Planes exploration is available in solo play."
 
 func _unhandled_input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("pause"):

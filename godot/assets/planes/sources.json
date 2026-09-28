@@ -1,0 +1,67 @@
+{
+  "origin_wgs84": [
+    47.404384449011665,
+    8.335047115511859
+  ],
+  "origin_lv95": [
+    2667663.52169074,
+    1250782.416285866
+  ],
+  "dem": {
+    "2666-1249": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2666-1249/swissalti3d_2021_2666-1249_2_2056_5728.tif",
+    "2666-1250": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2666-1250/swissalti3d_2021_2666-1250_2_2056_5728.tif",
+    "2666-1251": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2666-1251/swissalti3d_2021_2666-1251_2_2056_5728.tif",
+    "2667-1249": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2667-1249/swissalti3d_2021_2667-1249_2_2056_5728.tif",
+    "2667-1250": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2667-1250/swissalti3d_2021_2667-1250_2_2056_5728.tif",
+    "2667-1251": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2667-1251/swissalti3d_2021_2667-1251_2_2056_5728.tif",
+    "2668-1249": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2668-1249/swissalti3d_2021_2668-1249_2_2056_5728.tif",
+    "2668-1250": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2668-1250/swissalti3d_2021_2668-1250_2_2056_5728.tif",
+    "2668-1251": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2668-1251/swissalti3d_2021_2668-1251_2_2056_5728.tif"
+  },
+  "fine_dem": {
+    "2667-1250": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2667-1250/swissalti3d_2021_2667-1250_0.5_2056_5728.tif",
+    "2667-1251": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2667-1251/swissalti3d_2021_2667-1251_0.5_2056_5728.tif",
+    "2668-1250": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2668-1250/swissalti3d_2021_2668-1250_0.5_2056_5728.tif",
+    "2668-1251": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2021_2668-1251/swissalti3d_2021_2668-1251_0.5_2056_5728.tif"
+  },
+  "dem_resolution_m": 0.5,
+  "aerial_extent": [
+    -650,
+    -650,
+    850,
+    650
+  ],
+  "extent": [
+    -360,
+    -370,
+    530,
+    330
+  ],
+  "aerial": "https://wms.geo.admin.ch/?LAYERS=ch.swisstopo.swissimage",
+  "osm": "https://www.openstreetmap.org/copyright",
+  "google_reference": "https://www.google.com/maps?q=47.404384449011665,8.335047115511859",
+  "base_height_m": 570.7215576171875,
+  "height_range_m": [
+    526.3814086914062,
+    665.4127197265625
+  ],
+  "raster_m": 1,
+  "source_resolution_m": 0.5,
+  "fetched": "2026-09-28",
+  "sha256": {
+    "dem_2666-1249.tif": "a63b36791e1522cb4923a731431bd72c641122e82cef42e9823c516a43a942bc",
+    "dem_2666-1250.tif": "2ceefb2231ad4f29b37e68eb1b5ebc823f9ff4f4aae33515933ecc39fa49e2f3",
+    "dem_2666-1251.tif": "675f218ce299376cabe773491f7ae5de88a600e6cdeef31f8b11f3e584784dd0",
+    "dem_2667-1249.tif": "211c968d6aff2eced2dc76159244b80b8923b371780fd5ae10ba6277cbfcfd47",
+    "dem_2667-1250.tif": "bca5b29f83e15dc42d1f36c3778c23e1b555b79ebfc2dcfbb7352aed39550ae1",
+    "dem_2667-1251.tif": "ae4e2ed103d33410cc0ab850b2032aa5c72f93e4cf0a88dd9d3c4021962a53bc",
+    "dem_2668-1249.tif": "4a9109351e0f0bc861646f1e4af055d286950c4d35d174db90ac426272751f2d",
+    "dem_2668-1250.tif": "ebd4e6e2b3b47f5e1d3f5e42f68c35a118fc100c5685bf0c3ab7f76f60aee9ce",
+    "dem_2668-1251.tif": "fc0d4d7f64522acd535535e5d51705af3ed84e565e08422c7f3dbb06568e03e4",
+    "fine_2667-1250.tif": "5ffa823ba37214461729753138c29a41ab898a2a96f45335f1eb702efb7458f7",
+    "fine_2667-1251.tif": "dface2a37b67515e6a5b552d55adc3afae0b6bef5ede4b9b89713b1a382ad2ef",
+    "fine_2668-1250.tif": "62a8bd7a4402d88453422f2c20a91653999b2d391f10d79d0dad13bb32d236da",
+    "fine_2668-1251.tif": "5a8d874e11f275ff5c34777def376693eaa5954818b40be5bf47c41ccf96a106"
+  },
+  "interpretation": "Crop species/season from user photographs; parcel outlines and groves traced from SWISSIMAGE. Buildings use OSM footprints with representative existing facades. Tree heights and widths are estimates."
+}

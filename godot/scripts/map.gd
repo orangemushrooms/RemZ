@@ -4,6 +4,8 @@
 class_name Map
 
 const DIR := "res://assets/map/"
+static var data_dir := DIR
+static var active_region := "forest"
 # What the game calls the four gates. map.json keeps the local names (Weg zur Hütte, Wiesentor, Weg Richtung
 # Dorf, Waldweg Nord) for build_map.py; these English names are translated back to them in German.
 const GATE_NAMES := {"ne": "Hut Path", "e": "Meadow Gate", "s": "Village Path", "w": "North Forest Path"}
@@ -48,18 +50,30 @@ static var BOUNDS := Rect2()
 static var BARRICADES: Array = []
 static var SPAWNS: Dictionary = {}
 
+static func use_region(id: String) -> void:
+	assert(id in ["forest", "planes"])
+	if active_region == id: return
+	active_region = id
+	data_dir = "res://assets/planes/" if id == "planes" else DIR
+	_loaded = false
+	_d = {}
+	ROADS = []; BUILDINGS = {}; CLEARING = PackedVector2Array()
+	BENCHES = []; SMALL_CAMPSITE = {}; POND = {}; FENCE = []
+	TREES = []; SHRUBS = []; BORDER_TREES = []; VILLAGE = []; FERNS = []; LOGS = []
+	BARRICADES = []; SPAWNS = {}
+
 static func _ensure() -> void:
 	if _loaded:
 		return
 	_loaded = true
-	_d = JSON.parse_string(FileAccess.get_file_as_string(DIR + "map.json"))
+	_d = JSON.parse_string(FileAccess.get_file_as_string(data_dir + "map.json"))
 	_x0 = _d["x0"]; _z0 = _d["z0"]; _w = int(_d["w"]); _hh = int(_d["h"])
-	_h = FileAccess.get_file_as_bytes(DIR + "heightmap.f32").to_float32_array()
+	_h = FileAccess.get_file_as_bytes(data_dir + "heightmap.f32").to_float32_array()
 	var sk: Dictionary = _d["skirt"]
 	_skx0 = sk["x0"]; _skz0 = sk["z0"]; _skw = int(sk["w"]); _skh = int(sk["h"]); _skc = sk["cell"]
-	_sk = FileAccess.get_file_as_bytes(DIR + "skirt.f32").to_float32_array()
+	_sk = FileAccess.get_file_as_bytes(data_dir + "skirt.f32").to_float32_array()
 	# Resource loading also works from an exported PCK, where PNGs are remapped.
-	var ground_texture: Texture2D = load(DIR + "ground.png")
+	var ground_texture: Texture2D = load(data_dir + "ground.png")
 	_ground = ground_texture.get_image()
 	if _ground.is_compressed():
 		_ground.decompress()
