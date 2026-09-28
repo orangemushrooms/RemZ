@@ -2,7 +2,8 @@ extends Node3D
 ## One shared outline for movement, navigation, spawning and cartography.
 const OUTLINE := [Vector2(-320,280),Vector2(-320,-90),Vector2(-170,-170),
 	Vector2(-90,-190),Vector2(60,-200),Vector2(110,-310),Vector2(170,-300),
-	Vector2(265,-160),Vector2(370,-90),Vector2(490,-75),Vector2(490,280)]
+	Vector2(300,-290),Vector2(370,-235),Vector2(395,-205),Vector2(440,-182),
+	Vector2(515,-182),Vector2(515,280)]
 
 static func contains(p: Vector2) -> bool:
 	return Geometry2D.is_point_in_polygon(p,PackedVector2Array(OUTLINE))

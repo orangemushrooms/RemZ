@@ -11,6 +11,10 @@ var counts := {"flowers":0,"mushrooms":0,"deer":0,"stags":0}
 var _templates := {}
 var _groups := {}
 var _clock := 0.0
+const PICK_CELL := 8.0
+var _pick_cells := {}
+var _plant_batches := {}
+var _picked := {}
 
 func clear_ground(p: Vector2, woodland := false) -> bool:
 	if not Map.BOUNDS.grow(-8).has_point(p) or game.near_building(p): return false
@@ -40,9 +44,12 @@ func build(scene: Node3D) -> void:
 			var at := Map.ground_pos(p.x,p.y)
 			if id=="field_flower_6": at.y -= 0.12*size
 			var xf := Transform3D(Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3.ONE*size),at)
-			_add_plant(id,height,xf,woodland)
+			var instance := _add_plant(id,height,xf,woodland)
 			counts["mushrooms" if woodland else "flowers"] += 1
-			plants.append({"at":p,"woodland":woodland})
+			var cell := Vector2i(floori(p.x/PICK_CELL),floori(p.y/PICK_CELL))
+			if not _pick_cells.has(cell): _pick_cells[cell] = []
+			_pick_cells[cell].append(plants.size())
+			plants.append({"at":p,"woodland":woodland,"group":instance.group,"instance":instance.index,"height":at.y})
 	_flush()
 	# Small herds on open meadow near hedgerows, never inside a house or crop row.
 	for entry in [[Vector2(72,42),"stag"],[Vector2(82,50),"deer"],[Vector2(91,46),"deer"],[Vector2(-155,95),"deer"],[Vector2(-166,102),"deer"],[Vector2(240,-52),"stag"],[Vector2(250,-45),"deer"],[Vector2(260,-57),"deer"]]:
@@ -105,7 +112,7 @@ func _collect(node: Node, parent_xf: Transform3D, parts: Array, woodland: bool) 
 		parts.append({"mesh":mesh,"xf":xf})
 	for child in node.get_children(): _collect(child,xf,parts,woodland)
 
-func _add_plant(id: String, height: float, xf: Transform3D, woodland: bool) -> void:
+func _add_plant(id: String, height: float, xf: Transform3D, woodland: bool) -> Dictionary:
 	var cell := Vector2i(floori(xf.origin.x/CELL),floori(xf.origin.z/CELL))
 	var key := "%s:%d:%d" % [id,cell.x,cell.y]
 	if not _groups.has(key):
@@ -113,9 +120,12 @@ func _add_plant(id: String, height: float, xf: Transform3D, woodland: bool) -> v
 	var group: Dictionary = _groups[key]
 	xf.origin -= group.origin
 	group.instances.append(xf)
+	return {"group":key,"index":group.instances.size()-1}
 
 func _flush() -> void:
-	for group: Dictionary in _groups.values():
+	for key in _groups:
+		var group: Dictionary = _groups[key]
+		_plant_batches[key] = []
 		for part: Dictionary in group.parts:
 			var mm := MultiMesh.new()
 			mm.transform_format = MultiMesh.TRANSFORM_3D
@@ -124,12 +134,49 @@ func _flush() -> void:
 			for i in mm.instance_count: mm.set_instance_transform(i,group.instances[i]*part.xf)
 			var batch := MultiMeshInstance3D.new()
 			batch.multimesh = mm
+			_plant_batches[key].append(mm)
 			batch.position = group.origin
 			batch.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			batch.visibility_range_end = 38 if group.woodland else 58
 			add_child(batch)
 			batches.append(batch)
 	_groups.clear()
+
+func nearest_plant(at: Vector3) -> int:
+	var cell := Vector2i(floori(at.x/PICK_CELL),floori(at.z/PICK_CELL))
+	var nearest := -1
+	var distance := 2.5*2.5
+	for z in range(cell.y-1,cell.y+2):
+		for x in range(cell.x-1,cell.x+2):
+			for index: int in _pick_cells.get(Vector2i(x,z),[]):
+				if _picked.has(index): continue
+				var plant: Dictionary = plants[index]
+				var d := at.distance_squared_to(Vector3(plant.at.x,plant.height,plant.at.y))
+				if d<distance:
+					distance = d; nearest = index
+	return nearest
+
+func harvest(index: int) -> String:
+	if index<0 or index>=plants.size() or _picked.has(index): return ""
+	if not game.survival_active or game.over or not game.player.active or not game.player.alive or game.player.downed: return ""
+	var plant: Dictionary = plants[index]
+	if game.player.position.distance_to(Vector3(plant.at.x,plant.height,plant.at.y))>2.5: return ""
+	var original: Array[Transform3D] = []
+	for mm: MultiMesh in _plant_batches[plant.group]:
+		var xf := mm.get_instance_transform(plant.instance)
+		original.append(xf)
+		xf.basis = Basis.IDENTITY.scaled(Vector3.ZERO)
+		mm.set_instance_transform(plant.instance,xf)
+	_picked[index] = original
+	return "mushrooms" if plant.woodland else "flowers"
+
+func reset_harvest() -> void:
+	for index in _picked:
+		var plant: Dictionary = plants[index]
+		var meshes: Array = _plant_batches[plant.group]
+		for part in meshes.size():
+			meshes[part].set_instance_transform(plant.instance,_picked[index][part])
+	_picked.clear()
 
 func _process(delta: float) -> void:
 	_clock -= delta

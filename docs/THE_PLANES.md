@@ -1,5 +1,19 @@
 # The Planes – Remetschwil
 
+### Wild plants and eastern access
+
+Ordinary meadow flowers and woodland mushrooms can now be gathered with E within
+2.5 m, as well as the marked quest bundles. Gathering removes the existing plant
+instance and counts towards the corresponding quest; a plant cannot be gathered
+twice in the same run. Retry restores it. An 8 m spatial index restricts proximity
+queries to nearby cells; no individual plant physics bodies or frame callbacks
+are added, and the existing MultiMesh batches are retained.
+
+The eastern boundary extends uphill through (300,-290), (370,-235), (395,-205),
+(440,-182) to x=515. Fence, player confinement, minimap, construction and navigation
+use this same outline. Residential buildings still have at least 10 m clearance.
+The navigation check additionally verifies a route into the new uphill area.
+
 ### Sennhofstrasse surface correction
 
 The user confirmed the northern village-edge Sennhofstrasse, separate from the

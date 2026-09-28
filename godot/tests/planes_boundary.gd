@@ -19,6 +19,8 @@ func run() -> void:
 			clearance = minf(clearance,Boundary.closest(Vector2(p[0],p[1])).distance_to(Vector2(p[0],p[1])))
 	check(residential_clear,"Residential footprints are outside the playable outline")
 	check(clearance>=10.0,"At least ten metres clearance before every building")
+	for p in [Vector2(310,-225),Vector2(400,-165),Vector2(505,50)]:
+		check(Boundary.contains(p),"Eastern uphill extension is accessible: %s" % p)
 	for p in [Vector2(-107,18),Vector2(0,0),Vector2(175,218),Vector2(250,100)]:
 		check(Boundary.contains(p),"Junction, fields and target stand remain accessible: %s" % p)
 	var game = load("res://scenes/planes.tscn").instantiate()

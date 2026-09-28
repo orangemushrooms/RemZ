@@ -19,4 +19,9 @@ func run() -> void:
 		if not path.is_empty() and path[-1].distance_to(target)<1.5: connected+=1
 		print("NAV_SAMPLE ",i," deviation=",at.distance_to(p)," path=",path.size())
 	print("NAV_CHECK connected=",connected)
-	quit(0 if connected==24 else 1)
+	var uphill := Map.ground_pos(310,-225)
+	var uphill_at := NavigationServer3D.map_get_closest_point(map,uphill)
+	var uphill_path := NavigationServer3D.map_get_path(map,target,uphill_at,true)
+	var uphill_ok := uphill_at.distance_to(uphill)<3 and not uphill_path.is_empty() and uphill_path[-1].distance_to(uphill_at)<1.5
+	print("NAV_UPHILL connected=",uphill_ok)
+	quit(0 if connected==24 and uphill_ok else 1)

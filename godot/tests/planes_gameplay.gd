@@ -90,6 +90,32 @@ func run() -> void:
 	var item: Dictionary = economy.collectibles[0]
 	go(item.at)
 	check(economy.collect(0) and not economy.collect(0) and economy.field_counts.flowers==1,"A flower bundle is collected once and disappears")
+	var gathered: Array[int] = []
+	for woodland in [false,true]:
+		var picked := -1
+		for index in game.nature.plants.size():
+			var plant: Dictionary = game.nature.plants[index]
+			if plant.woodland!=woodland or not preload("res://scripts/planes_boundary.gd").contains(plant.at): continue
+			go(plant.at)
+			economy.sample_collectibles()
+			if economy.nearest(game.player).is_empty() and economy.nearest_collectible<0 and economy.nearest_wild_plant==index:
+				picked = index; break
+		check(picked>=0,"An ordinary wild plant is reachable: woodland=%s" % woodland)
+		if picked<0: continue
+		var kind := "mushrooms" if woodland else "flowers"
+		var previous: int = economy.field_counts.get(kind,0)
+		var key := InputEventKey.new()
+		key.physical_keycode = KEY_E; key.keycode = KEY_E; key.pressed = true
+		root.push_input(key)
+		key.pressed = false; root.push_input(key)
+		check(economy.field_counts.get(kind,0)==previous+1 and game.nature._picked.has(picked),"E gathers ordinary %s and advances quest progress" % kind)
+		check(not economy.collect_wild(picked),"Picked wild plant cannot be collected twice")
+		var plant: Dictionary = game.nature.plants[picked]
+		var mm: MultiMesh = game.nature._plant_batches[plant.group][0]
+		# The headless dummy renderer always returns identity for MultiMesh transforms.
+		if DisplayServer.get_name()!="headless":
+			check(is_zero_approx(mm.get_instance_transform(plant.instance).basis.determinant()),"Harvest hides the existing plant instance")
+		gathered.append(picked)
 	go(economy.SITES.mechanic+Vector2(0,2))
 	game.waves.completed = 5
 	check(construction.upgrade_bar(0)=="Fortification upgraded." and bar.level==2,"Mechanic upgrades placed palisades after the wave gate")
@@ -158,5 +184,9 @@ func run() -> void:
 	await game.start_survival()
 	check(game.barricades.is_empty() and game.defences.towers.is_empty() and economy.claimed.is_empty() and economy.kit_stock.palisade==0,"Retry removes structures, quests and carried kits")
 	check(game.player.score==150 and not game.weapons.unlocked.lmg and not economy.collectibles[0].taken,"Retry resets economy and replenishes collectibles")
+	for index in gathered:
+		var plant: Dictionary = game.nature.plants[index]
+		var mm: MultiMesh = game.nature._plant_batches[plant.group][0]
+		check(not game.nature._picked.has(index) and not is_zero_approx(mm.get_instance_transform(plant.instance).basis.determinant()),"Retry restores harvested wild plants")
 	print("PLANES_GAMEPLAY_DONE checks=%d failures=%d" % [checks,failures])
 	quit(1 if failures else 0)

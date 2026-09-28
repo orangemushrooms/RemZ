@@ -22,6 +22,7 @@ var field_rows: VBoxContainer
 var collectibles: Array[Dictionary] = []
 var sample_time := 0.0
 var nearest_collectible := -1
+var nearest_wild_plant := -1
 
 func setup(main: Node) -> void:
 	game = main
@@ -65,6 +66,7 @@ func reset_run() -> void:
 	field_counts.clear(); accepted.clear(); claimed.clear()
 	kit_stock = {"palisade":0,"sandbags":0}
 	discovered_secret = false
+	if game.nature: game.nature.reset_harvest()
 	rare_market.people.clear()
 	for item in collectibles:
 		item.taken = false
@@ -273,24 +275,41 @@ func collect(index: int) -> bool:
 	game.hud.message(Lang.t("Collected: %s (%d)",[item.kind,field_counts[item.kind]]),2)
 	return true
 
+func collect_wild(index: int) -> bool:
+	var kind: String = game.nature.harvest(index)
+	if kind.is_empty(): return false
+	event(kind)
+	game.hud.message(Lang.t("Collected: %s (%d)",[kind,field_counts[kind]]),2)
+	return true
+
+func sample_collectibles() -> void:
+	nearest_collectible = -1
+	var distance := 2.5
+	for i in collectibles.size():
+		var item: Dictionary = collectibles[i]
+		var d: float = game.player.position.distance_to(Map.ground_pos(item.at.x,item.at.y))
+		if not item.taken and d<distance:
+			distance = d; nearest_collectible = i
+	nearest_wild_plant = game.nature.nearest_plant(game.player.position) if game.nature else -1
+
 func _process(delta: float) -> void:
 	if not game or not game.ready_for_exploration: return
 	if is_open and (not game.player.alive or game.over): close()
 	sample_time -= delta
 	if sample_time>0: return
 	sample_time = 0.15
-	nearest_collectible = -1
+	sample_collectibles()
 	for i in collectibles.size():
 		var item: Dictionary = collectibles[i]
 		var quest := "forage" if item.kind=="mushrooms" else "bouquet"
 		item.marker.visible = accepted.has(quest) and not claimed.has(quest)
-		if not item.taken and game.player.position.distance_to(Map.ground_pos(item.at.x,item.at.y))<2.5: nearest_collectible = i
 	for id in npcs:
 		npcs[id].quest_marker.visible = game.survival_active and (id!="secret" or discovered_secret) and has_ready_quest(id)
 	if not game.player.active or (game.defences and (game.defences.placing or game.player.mounted_tower)) or (game.field_building and game.field_building.placing): return
 	var id := nearest(game.player)
 	if not id.is_empty(): game.hud.set_prompt("[E] " + str(NPCS[id].name))
 	elif nearest_collectible>=0: game.hud.set_prompt("[E] Collect " + str(collectibles[nearest_collectible].kind))
+	elif nearest_wild_plant>=0: game.hud.set_prompt(Lang.t("[E] Collect %s",["mushrooms" if game.nature.plants[nearest_wild_plant].woodland else "flowers"]))
 	elif game.defences and game.defences.nearest(game.player): game.hud.set_prompt("[E] Operate tower · [R] Align · [F] Repair")
 	elif game.field_building and game.field_building.nearest_bar(): game.hud.set_prompt("[E] Repair fortification · [B] Building kits")
 	else: game.hud.set_prompt("")
@@ -304,9 +323,11 @@ func _unhandled_input(event_input: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if event_input.is_action_pressed("interact"):
+		sample_collectibles()
 		var id := nearest(game.player)
 		if not id.is_empty(): open_field(id)
 		elif nearest_collectible>=0: collect(nearest_collectible)
+		elif nearest_wild_plant>=0: collect_wild(nearest_wild_plant)
 		elif game.defences and game.defences.nearest(game.player): game.defences.request_mount(game.defences.nearest(game.player))
 		elif game.field_building: game.field_building.repair_nearest()
 		get_viewport().set_input_as_handled()
