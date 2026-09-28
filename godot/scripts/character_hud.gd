@@ -67,4 +67,4 @@ func _process(delta: float) -> void:
 	var mode := AssassinTeleport.mode_for(actor) if actor else ""
 	ability.visible = not mode.is_empty()
 	if ability.visible:
-		ability.text = Lang.t("Teleport: %.1f s", [actor.teleport_cooldown]) if actor.teleport_cooldown > 0 else Lang.t("J / Teleport: Map") if mode == "map" else Lang.t("J / Teleport: Forward")
+		ability.text = Lang.t("Teleport: %.1f s", [actor.teleport_cooldown]) if actor.teleport_cooldown > 0 else Lang.t("V / Teleport: Map") if mode == "map" else Lang.t("V / Teleport: Forward")

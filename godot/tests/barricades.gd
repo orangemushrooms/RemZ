@@ -52,7 +52,7 @@ func run() -> void:
 	check(bar.level == 0 and bar.visual.get_child_count() == 0, "Unbuilt line has no physical models")
 	check(not bar.purchase(player, "build") and player.score == 0 and bar.level == 0, "Unaffordable line creates nothing and charges nothing")
 	player.add_score(600)
-	# V no longer opens the planner: it now points at the Mechanic, and E builds or repairs a line
+	# J no longer opens the planner: it now points at the Mechanic, and E builds or repairs a line
 	# in place (barricade_menu._unhandled_input). The planner screen itself is what this suite
 	# covers, so open it directly instead of through the retired shortcut.
 	menu.open(bar)

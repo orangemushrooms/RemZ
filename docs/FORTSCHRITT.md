@@ -50,7 +50,7 @@ Die Werkzeugkiste der Lieferung liegt in jeder Runde an einem anderen, zufällig
 
 Der Wächter kostet 120 R, Flammenwerfer 260 R, Mörser 380 R, Schweres MG 450 R und Teslaspule 600 R. Das Team kann höchstens sechs Türme bauen. Beim Wächter gelten Reichweiten 26 / 32 / 38 m und Struktur 240 / 400 / 600. Freie Schussbahn, Streuung, Schwenkzeit und Überhitzung bleiben relevant. Turmabschüsse bringen dem Erbauer die Hälfte des normalen Abschusswertes. Lebende Mitspieler erhalten zusätzlich einen Unterstützungsanteil von 25 % des vergebenen Abschusswertes.
 
-Eine Barrikade wird direkt an der Linie mit **E** gebaut, verstärkt oder bei Schäden repariert. **V** verweist auf Verteidigungsberatung bei Mechanic. Die bestehende Palisade und ihre vier Zugänge bleiben Teil der Verteidigung.
+Eine Barrikade wird direkt an der Linie mit **E** gebaut, verstärkt oder bei Schäden repariert. **J** verweist auf Verteidigungsberatung bei Mechanic. Die bestehende Palisade und ihre vier Zugänge bleiben Teil der Verteidigung.
 
 ## Waffen verdienen
 

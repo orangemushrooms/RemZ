@@ -4,8 +4,8 @@ const MAX_LEVEL := 30
 const TIERS := [5, 10, 15, 20, 25, 30]
 const TELEPORT_LEVEL := 15
 const TELEPORTS := [
-	["forward", "Teleport: Forward", "J teleports up to 8 metres ahead. Cooldown: 12 seconds."],
-	["map", "Teleport: Map", "J opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds."]
+	["forward", "Teleport: Forward", "V teleports up to 8 metres ahead. Cooldown: 12 seconds."],
+	["map", "Teleport: Map", "V opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds."]
 ]
 const ORDER := ["gunslinger", "assault", "breacher", "marksman", "assassin"]
 const ACHIEVEMENTS := [

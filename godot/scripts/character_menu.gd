@@ -436,7 +436,7 @@ func _pick_teleport(mode: String) -> void:
 	if CharacterProfile.level("assassin") < Classes.TELEPORT_LEVEL:
 		_feedback(_requirement(2))
 	elif CharacterProfile.choose_teleport(mode):
-		_feedback(Lang.t("Teleport mode equipped. Press J during the round."))
+		_feedback(Lang.t("Teleport mode equipped. Press V during the round."))
 
 func _requirement(tier: int) -> String:
 	var required: int = Classes.TIERS[tier]

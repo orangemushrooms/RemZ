@@ -86,11 +86,11 @@ func run() -> void:
 	game.teleport.setup(game)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	var trigger := InputEventKey.new()
-	trigger.physical_keycode = KEY_J
-	trigger.keycode = KEY_J
+	trigger.physical_keycode = KEY_V
+	trigger.keycode = KEY_V
 	trigger.pressed = true
 	root.push_input(trigger, true)
-	check(game.teleport.is_open, "J opens the map through the configured input action")
+	check(game.teleport.is_open, "V opens the map through the configured input action")
 	await shot("target-map-de")
 	check(game.teleport.is_open and not game.player.active and Input.mouse_mode == Input.MOUSE_MODE_VISIBLE, "Map targeting releases the cursor and suspends local controls")
 	check(root.get_visible_rect().encloses(game.teleport.map_view.get_global_rect()), "Target map fits at 720p")

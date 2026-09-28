@@ -604,12 +604,12 @@ msgid "Red shows the planned line. Green shows the built barrier.\nAll segments 
 msgstr "Rot zeigt die geplante Linie. Grün zeigt die gebaute Sperre.\nAlle Segmente werden zusammen gesetzt, verstärkt oder repariert."
 
 #: scripts/barricade_menu.gd
-msgid "1–4  Choose building site     ·     R  Repair     ·     V / Esc  Back     ·     Co-op keeps running while you plan"
-msgstr "1–4  Bauplatz wählen     ·     R  Reparieren     ·     V / Esc  Zurück     ·     Koop läuft während der Planung weiter"
+msgid "1–4  Choose building site     ·     R  Repair     ·     J / Esc  Back     ·     Co-op keeps running while you plan"
+msgstr "1–4  Bauplatz wählen     ·     R  Reparieren     ·     J / Esc  Zurück     ·     Koop läuft während der Planung weiter"
 
 #: scripts/barricade_menu.gd
-msgid "1–4  Choose building site     ·     R  Repair     ·     V / Esc  Back     ·     The game is paused while you plan"
-msgstr "1–4  Bauplatz wählen     ·     R  Reparieren     ·     V / Esc  Zurück     ·     Spiel pausiert während der Planung"
+msgid "1–4  Choose building site     ·     R  Repair     ·     J / Esc  Back     ·     The game is paused while you plan"
+msgstr "1–4  Bauplatz wählen     ·     R  Reparieren     ·     J / Esc  Zurück     ·     Spiel pausiert während der Planung"
 
 #: scripts/barricade_menu.gd
 msgid "Team gate fund  ·  %d R"
@@ -7482,11 +7482,11 @@ msgstr "Teleport: Vorwärts"
 msgid "Teleport: Map"
 msgstr "Teleport: Karte"
 
-msgid "J teleports up to 8 metres ahead. Cooldown: 12 seconds."
-msgstr "J teleportiert dich bis zu 8 Meter nach vorne. Abklingzeit: 12 Sekunden."
+msgid "V teleports up to 8 metres ahead. Cooldown: 12 seconds."
+msgstr "V teleportiert dich bis zu 8 Meter nach vorne. Abklingzeit: 12 Sekunden."
 
-msgid "J opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds."
-msgstr "J öffnet die Karte. Klicke auf einen freien Punkt innerhalb von 40 Metern. Abklingzeit: 30 Sekunden."
+msgid "V opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds."
+msgstr "V öffnet die Karte. Klicke auf einen freien Punkt innerhalb von 40 Metern. Abklingzeit: 30 Sekunden."
 
 msgid "TELEPORT / LEVEL 15"
 msgstr "TELEPORT / LEVEL 15"
@@ -7494,8 +7494,8 @@ msgstr "TELEPORT / LEVEL 15"
 msgid "Choose one teleport mode for the round. Your passive talents remain available."
 msgstr "Wähle eine Teleport-Variante für die Runde. Deine passiven Talente bleiben verfügbar."
 
-msgid "Teleport mode equipped. Press J during the round."
-msgstr "Teleport-Variante gewählt. Drücke J während der Runde."
+msgid "Teleport mode equipped. Press V during the round."
+msgstr "Teleport-Variante gewählt. Drücke V während der Runde."
 
 msgid "Select"
 msgstr "Auswählen"
@@ -7545,14 +7545,14 @@ msgstr "Wähle einen etwas weiter entfernten Punkt."
 msgid "Teleport: %.1f s"
 msgstr "Teleport: %.1f s"
 
-msgid "J / Teleport: Map"
-msgstr "J / Teleport: Karte"
+msgid "V / Teleport: Map"
+msgstr "V / Teleport: Karte"
 
-msgid "J / Teleport: Forward"
-msgstr "J / Teleport: Vorwärts"
+msgid "V / Teleport: Forward"
+msgstr "V / Teleport: Vorwärts"
 
 msgid "N / 40 m range"
 msgstr "N / 40 m Reichweite"
 
-msgid "J: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round."
-msgstr "J: Assassin-Teleport (Level 15). Wähle vor der Runde unter Klassen-Skills Vorwärts oder Karte."
+msgid "V: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round."
+msgstr "V: Assassin-Teleport (Level 15). Wähle vor der Runde unter Klassen-Skills Vorwärts oder Karte."

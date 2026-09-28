@@ -33,7 +33,7 @@ If you run into connection problems, first check Hamachi's online status, the ho
 - No damage from shooting teammates. Your own grenades can still hurt you.
 - At 0 health, a player stays down. A living teammate presses **E** nearby and stays within 2.5 meters with a clear view for three seconds. Moving away or dying cancels the revive. It restores 50 health.
 - After a wave is survived, players who were down come back too. The round only ends once the whole team is down. The host can start a new round; the group stays connected.
-- **In co-op, trader conversations, Esc and I do not pause the world.** You can still be attacked while you use a menu. Q toggles the quest tracker, V points you to defense advice at Mechanic.
+- **In co-op, trader conversations, Esc and I do not pause the world.** You can still be attacked while you use a menu. Q toggles the quest tracker, J points you to defense advice at Mechanic.
 - Free slots can be filled during the round. After a dropped connection you can join again; your personal supplies start over, the shared world state is kept.
 - If the host leaves the session, the teammates return to the main menu with a message. There is no automatic host migration and no saving of a running co-op round.
 

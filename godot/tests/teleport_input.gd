@@ -37,9 +37,9 @@ func run() -> void:
 	game.waves.set_process(false)
 	game.player.set_physics_process(false)
 	check(AssassinTeleport.mode_for(game.player) == "map", "Starting a round equips the saved map mode")
-	key(KEY_J)
+	key(KEY_V)
 	for i in 4: await process_frame
-	check(game.teleport.is_open and not game.player.active, "J opens map targeting through the actual input action")
+	check(game.teleport.is_open and not game.player.active, "V opens map targeting through the actual input action")
 	key(KEY_ESCAPE)
 	check(not game.teleport.is_open and game.player.active and not paused, "Escape closes targeting without opening the pause menu")
 	var landing := {}
@@ -52,7 +52,7 @@ func run() -> void:
 	check(landing.has("point"), "A safe map target exists on the actual level")
 	if not landing.has("point"): quit(1); return
 	var goal: Vector3 = landing.point
-	key(KEY_J)
+	key(KEY_V)
 	for i in 4: await process_frame
 	var local: Vector2 = game.teleport.map_view.pixel(Vector2(goal.x,goal.z))
 	var click := InputEventMouseButton.new()
@@ -67,8 +67,8 @@ func run() -> void:
 	check(not game.teleport.is_open and game.player.teleport_serial == 1, "Clicking the actual map performs one teleport and closes targeting")
 	check(game.player.position.distance_to(goal) < 1.0 and game.player.active, "The player lands at the chosen map point with controls restored")
 	check(game.player.teleport_cooldown > 29.0, "Successful map input starts the 30-second cooldown")
-	key(KEY_J)
-	check(not game.teleport.is_open and game.player.teleport_serial == 1, "J cannot reopen targeting while recharging")
+	key(KEY_V)
+	check(not game.teleport.is_open and game.player.teleport_serial == 1, "V cannot reopen targeting while recharging")
 	game.teleport.set_physics_process(false)
 	game.player.teleport_cooldown = 5.0
 	paused = true

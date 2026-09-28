@@ -2,11 +2,11 @@
   "Teleport": "Teleport",
   "Teleport: Forward": "Teleport: Vorwärts",
   "Teleport: Map": "Teleport: Karte",
-  "J teleports up to 8 metres ahead. Cooldown: 12 seconds.": "J teleportiert dich bis zu 8 Meter nach vorne. Abklingzeit: 12 Sekunden.",
-  "J opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds.": "J öffnet die Karte. Klicke auf einen freien Punkt innerhalb von 40 Metern. Abklingzeit: 30 Sekunden.",
+  "V teleports up to 8 metres ahead. Cooldown: 12 seconds.": "V teleportiert dich bis zu 8 Meter nach vorne. Abklingzeit: 12 Sekunden.",
+  "V opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds.": "V öffnet die Karte. Klicke auf einen freien Punkt innerhalb von 40 Metern. Abklingzeit: 30 Sekunden.",
   "TELEPORT / LEVEL 15": "TELEPORT / LEVEL 15",
   "Choose one teleport mode for the round. Your passive talents remain available.": "Wähle eine Teleport-Variante für die Runde. Deine passiven Talente bleiben verfügbar.",
-  "Teleport mode equipped. Press J during the round.": "Teleport-Variante gewählt. Drücke J während der Runde.",
+  "Teleport mode equipped. Press V during the round.": "Teleport-Variante gewählt. Drücke V während der Runde.",
   "Select": "Auswählen",
   "TELEPORT / MAP": "TELEPORT / KARTE",
   "Choose a safe point within 40 metres. The round keeps running.": "Wähle einen freien Punkt innerhalb von 40 Metern. Die Runde läuft weiter.",
@@ -23,8 +23,8 @@
   "That landing is blocked or unsafe.": "Dieser Landepunkt ist blockiert oder unsicher.",
   "Choose a point a little further away.": "Wähle einen etwas weiter entfernten Punkt.",
   "Teleport: %.1f s": "Teleport: %.1f s",
-  "J / Teleport: Map": "J / Teleport: Karte",
-  "J / Teleport: Forward": "J / Teleport: Vorwärts",
+  "V / Teleport: Map": "V / Teleport: Karte",
+  "V / Teleport: Forward": "V / Teleport: Vorwärts",
   "N / 40 m range": "N / 40 m Reichweite",
-  "J: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round.": "J: Assassin-Teleport (Level 15). Wähle vor der Runde unter Klassen-Skills Vorwärts oder Karte."
+  "V: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round.": "V: Assassin-Teleport (Level 15). Wähle vor der Runde unter Klassen-Skills Vorwärts oder Karte."
 }

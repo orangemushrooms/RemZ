@@ -4,10 +4,10 @@ From Assassin level 15, select one additional active ability in **Class skills**
 
 | Mode | Activation | Range | Cooldown |
 | --- | --- | --- | --- |
-| Forward | J | Up to 8 m along horizontal facing; stops before walls | 12 s |
-| Map | J, then left-click a point on the local map | 40 m | 30 s |
+| Forward | V | Up to 8 m along horizontal facing; stops before walls | 12 s |
+| Map | V, then left-click a point on the local map | 40 m | 30 s |
 
-The map keeps the round running. Escape, right-click, J, or Cancel closes it without spending cooldown. Blocked, occupied, disconnected, steep and out-of-bounds landings are rejected. Field-trial boundaries remain enforced. Teleport is unavailable while downed, dead, spectating, mounted, piloting a drone or during the intro. The HUD shows the chosen mode and remaining cooldown.
+The map keeps the round running. Escape, right-click, V, or Cancel closes it without spending cooldown. Blocked, occupied, disconnected, steep and out-of-bounds landings are rejected. Field-trial boundaries remain enforced. Teleport is unavailable while downed, dead, spectating, mounted, piloting a drone or during the intro. The HUD shows the chosen mode and remaining cooldown.
 
 In co-op the host validates the frozen loadout, range, cooldown, navigation and capsule clearance. Snapshots carry the relocation serial and cooldown. Client poses must acknowledge the current serial, so in-flight movement from before a teleport cannot undo it. Protocol 5 / `remz-dev-20260928-assassin-teleport` requires matching builds.
 

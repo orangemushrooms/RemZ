@@ -676,7 +676,7 @@ func _build_briefing(box: VBoxContainer) -> void:
 		box.add_child(row)
 
 func _build_controls(box: VBoxContainer) -> void:
-	box.add_child(_label("J: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round.", 13, MUTED))
+	box.add_child(_label("V: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round.", 13, MUTED))
 	var grid := GridContainer.new()
 	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 22)
@@ -684,7 +684,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	box.add_child(grid)
 	for pair in [["WASD", "Move"], ["Mouse", "Look around"], ["Shift", "Sprint"], ["Hold Ctrl", "Crouch / aim more precisely"], ["Space", "Jump"],
 			["Left click", "Shoot / strike"], ["Right click", "Aim (ADS)"], ["R", "Reload / align tower"], ["1–9 / 0", "Quick bar: slots 1–10"], ["Mouse wheel", "Switch weapon"],
-			["G", "Throw grenade"], ["E", "NPC / barricade / mount tower / repair hut"], ["V", "Defense planning with Mechanic"], ["T", "Build turret · at the hut also on the roof · E confirms"], ["E · drone station", "Fly a drone (hut, upper floor) · RMB rocket · R self-destruct · Esc recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
+			["G", "Throw grenade"], ["E", "NPC / barricade / mount tower / repair hut"], ["J", "Defense planning with Mechanic"], ["T", "Build turret · at the hut also on the roof · E confirms"], ["E · drone station", "Fly a drone (hut, upper floor) · RMB rocket · R self-destruct · Esc recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
 			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"],
 			["X / middle mouse", "Callout: ping what you look at (gate, hut, enemy, spot)"], ["Hold E (down)", "Get back up once per wave · teammates revive with E"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
 		var k := _label(pair[0], 14, GOLD)

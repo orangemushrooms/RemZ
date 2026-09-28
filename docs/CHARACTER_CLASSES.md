@@ -22,10 +22,10 @@ Unter **Klassen-Skills** wählst du zusätzlich genau eine Teleport-Variante fü
 
 | Variante | Bedienung | Reichweite | Abklingzeit |
 | --- | --- | --- | --- |
-| Vorwärts | J | Bis zu 8 Meter in Blickrichtung, stoppt vor Wänden | 12 Sekunden |
-| Karte | J, dann Linksklick auf einen freien Kartenpunkt | 40 Meter | 30 Sekunden |
+| Vorwärts | V | Bis zu 8 Meter in Blickrichtung, stoppt vor Wänden | 12 Sekunden |
+| Karte | V, dann Linksklick auf einen freien Kartenpunkt | 40 Meter | 30 Sekunden |
 
-Esc, Rechtsklick, J oder Abbrechen schliessen die Zielkarte ohne Abklingzeit. Während der Zielwahl läuft die Runde weiter. Blockierte, besetzte, zu steile oder unerreichbare Landepunkte sind ausgeschlossen; Feldprüfungsgrenzen gelten weiter. Während des Intros, am Boden, als Zuschauer, im Geschützturm oder beim Drohnenflug ist Teleport gesperrt. Die HUD-Anzeige nennt die gewählte Variante und die restliche Abklingzeit. Im Koop prüft der Host jeden Teleport. Alle Mitspieler benötigen den gleichen Build.
+Esc, Rechtsklick, V oder Abbrechen schliessen die Zielkarte ohne Abklingzeit. Während der Zielwahl läuft die Runde weiter. Blockierte, besetzte, zu steile oder unerreichbare Landepunkte sind ausgeschlossen; Feldprüfungsgrenzen gelten weiter. Während des Intros, am Boden, als Zuschauer, im Geschützturm oder beim Drohnenflug ist Teleport gesperrt. Die HUD-Anzeige nennt die gewählte Variante und die restliche Abklingzeit. Im Koop prüft der Host jeden Teleport. Alle Mitspieler benötigen den gleichen Build.
 
 ## Profile
 

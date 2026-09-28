@@ -50,7 +50,7 @@ The toolbox for the delivery lies in a different, random spot every round; once 
 
 The Sentinel costs 120 R, the Flamethrower 260 R, the Mortar 380 R, the Heavy MG 450 R and the Tesla Coil 600 R. The team can build no more than six towers. The Sentinel has ranges of 26 / 32 / 38 m and structure of 240 / 400 / 600. A clear line of fire, spread, turning time and overheating still matter. Tower kills earn the builder half the normal kill value. Living teammates also receive a support share of 25% of the kill value awarded.
 
-A barricade is built, reinforced or, when damaged, repaired right at the line with **E**. **V** points you to defense advice at Mechanic. The existing palisade and its four approaches remain part of the defense.
+A barricade is built, reinforced or, when damaged, repaired right at the line with **E**. **J** points you to defense advice at Mechanic. The existing palisade and its four approaches remain part of the defense.
 
 ## Earning weapons
 

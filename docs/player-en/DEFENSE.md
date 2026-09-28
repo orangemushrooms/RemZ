@@ -1,6 +1,6 @@
 # Defense and field titans
 
-**E** builds or reinforces right at a barricade line; if the line is damaged, E repairs it. A whole line costs 50 Rem Dollars, a repair 25. Three tiers with 300 / 600 / 900 hit points; reinforcing also reduces the damage the line takes. **V** points you to defense advice at Mechanic. Traders, the introduction and quests: [Progression](PROGRESSION.md).
+**E** builds or reinforces right at a barricade line; if the line is damaged, E repairs it. A whole line costs 50 Rem Dollars, a repair 25. Three tiers with 300 / 600 / 900 hit points; reinforcing also reduces the damage the line takes. **J** points you to defense advice at Mechanic. Traders, the introduction and quests: [Progression](PROGRESSION.md).
 
 Zombies attack a built line when it blocks their way to the hut. They keep their breach target while they step aside. Enemies from the four approach directions take the matching fortified approach into account. Once it is destroyed, they continue the chase. A line protects its approach; enemies that are already behind it remain dangerous.
 
