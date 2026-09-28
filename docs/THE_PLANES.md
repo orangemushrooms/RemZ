@@ -167,3 +167,29 @@ Alle Ansichten liegen innerhalb von rund ±2 % des bisherigen Stands. Das ist ei
 ## Durchgehender Grasstreifen am Rigiweg
 
 Die Wiesenmaske der fotografierten Baumreihe reicht jetzt bis an die vermessene Wegmittellinie. Dadurch entf?llt der verbliebene schmale Weizenstreifen zwischen Wiese und Kiesweg (51 m? Maskenfl?che). `RIGIWEG_VERGE` in `tools/build_planes.py` erh?lt die Korrektur bei einem Neuaufbau. Der Rastervergleich best?tigt: Nur Weizen wurde entfernt; Mais- und Strassenmasken sind unver?ndert. Die Spielansicht Richtung Core wurde nach dem Neuimport kontrolliert (`artifacts/planes/verge/core.png`). Der aktuelle Aufbau enth?lt 14'628 Blumen und 503 Pilzgruppen; die Pflanzenverteilung folgt der korrigierten Feldmaske. Auch diese Korrektur bleibt bis zur Freigabe lokal.
+
+
+### Northern skyline correction (local, awaiting publication approval)
+
+The isolated generic house north of Sennhof (OSM 36785520) is omitted from
+Planes at the user's request. The actual Forest map and its hut are unchanged.
+Building appearance indices are retained explicitly so removing this footprint
+does not change the facades of the remaining 584 buildings. Source OSM text is
+now read as UTF-8, correcting previously garbled road names on Windows.
+
+The photo-directed northeast backdrop contains 204 deterministically scattered
+16?24 m trees beyond the playable boundary, grounded on the existing DEM skirt.
+These are visual estimates, not surveyed individual tree locations. Existing
+Meshy distance meshes are instanced in 128 m cells, without collision, processing
+or shadow passes. Their LOD bias avoids a second destructive simplification of
+the already reduced meshes. All foreground tree, crop and nature counts remain
+unchanged. Data comparison verifies the removed footprint and retained appearance
+indices; the Vulkan northeast view is checked in `artifacts/planes/north/view.png`.
+No release or push is authorised yet.
+
+The close northern test view holds the configured 144 FPS. An uncapped same-scene
+A/B probe (two 180-frame samples each) measured 1.75 ms with / 1.61 ms without
+the backdrop; 19 additional visible draw calls and 33,286 reported primitives.
+This is a small measurable render cost, not a claim of zero GPU overhead. Final
+runtime log: `logs/planes-north-lod.log`, no script/render errors (only the known
+Windows root certificate warning).

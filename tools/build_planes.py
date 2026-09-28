@@ -95,7 +95,7 @@ def main():
     heights.astype("<f4").tofile(OUT/"heightmap.f32")
     sx, sz = np.meshgrid(np.arange(-1000,1201,10),np.arange(-900,701,10))
     (dem.sample(sx,sz)-base).astype("<f4").tofile(OUT/"skirt.f32")
-    elements = json.loads((GEO/"osm.json").read_text())["elements"]
+    elements = json.loads((GEO/"osm.json").read_text(encoding="utf-8"))["elements"]
     roads, buildings, woods = [], [], []
     for item in elements:
         tags = item.get("tags",{})
@@ -110,10 +110,14 @@ def main():
             if item["id"] == 54857308: width = 3.4
             roads.append({"osm_id":item["id"],"name":tags.get("name","Feldweg" if gravel else "Strasse"),
                           "surface":"gravel" if gravel else "asphalt","width":width,"pts":poly})
+        # User reference: omit the isolated generic house north of Sennhof in Planes only.
         if "building" in tags:
             buildings.append({"osm_id":item["id"],"poly":poly,"h":float(tags.get("building:levels",2))*2.8})
         if tags.get("landuse")=="forest" or tags.get("natural")=="wood":
             woods.append(poly)
+    for index, building in enumerate(buildings):
+        building["appearance_index"] = index
+    buildings = [b for b in buildings if b["osm_id"] != 36785520]
     annotate_target_stand(buildings)
     road_image = Image.new("L",(W*2,H*2))
     asphalt_image = Image.new("L",road_image.size)
@@ -160,18 +164,30 @@ def main():
             x,z = local(item)
             if X0<x<X1 and Z0<z<Z1 and math.hypot(x+121,z-2)>14:
                 trees.append([x,z,"tree_leaf",float(rng.uniform(8,13)),float(rng.uniform(0,360))])
+    # Photo-directed northeast skyline, outside the playable fields. Separate RNG
+    # preserves every existing foreground tree and plant placement.
+    horizon_rng = np.random.default_rng(478336)
+    horizon_trees = []
+    for x in range(230, 931, 14):
+        front = -540 + (x-230)*0.20
+        for row in range(4):
+            px = float(x+horizon_rng.uniform(-6,6))
+            pz = float(front-row*16+horizon_rng.uniform(-7,7))
+            horizon_trees.append([round(px,2),round(pz,2),
+                                  round(float(horizon_rng.uniform(16,24)),2),
+                                  round(float(horizon_rng.uniform(0,360)),2)])
     data = {"region":"planes","origin_wgs84":[LAT,LON],"origin_lv95":[E0,N0],"altitude_m":base,
             "x0":X0,"z0":Z0,"w":W,"h":H,"skirt":{"x0":-1000,"z0":-900,"w":221,"h":161,"cell":10},
             "roads":roads,"buildings":{},"clearing":[],"fire":[0,0],"benches":[],"table":[0,0,0],
             "fountain":[0,0,0],"bin":[0,0],"signpost":[0,0],"log_seat":[0,0,0],"landmark_oak":[-121,2],
             "fence":[],"trees":[],"shrubs":[],"village":buildings,"player_start":[-107,18],
             "bounds":[X0+8,Z0+8,X1-X0-16,Z1-Z0-16],"barricades":[],"spawns":{},
-            "fields":FIELDS,"groves":HEDGES,"landscape_trees":trees,
+            "fields":FIELDS,"groves":HEDGES,"landscape_trees":trees,"horizon_trees":horizon_trees,
             "views":[{"id":"sennhof","pos":[-97,15],"target":[110,-17]},
                      {"id":"junction","pos":[-115,24],"target":[-25,-35]},
                      {"id":"core","pos":[-110,16],"target":[-163,-148]}]}
     (OUT/"map.json").write_text(json.dumps(data,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
-    sources = json.loads((GEO/"sources.json").read_text())
+    sources = json.loads((GEO/"sources.json").read_text(encoding="utf-8"))
     sources.update({"base_height_m":base,"height_range_m":[float(heights.min()+base),float(heights.max()+base)],
                     "raster_m":1,"source_resolution_m":0.5,"fetched":"2026-09-28",
                     "sha256":{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(GEO.glob("*.tif"))},

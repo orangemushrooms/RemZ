@@ -99,6 +99,9 @@ func _trees() -> void:
 	var forest = load("res://scripts/planes_trees.gd").new()
 	add_child(forest)
 	forest.build()
+	var horizon = load("res://scripts/planes_horizon.gd").new()
+	add_child(horizon)
+	horizon.build()
 	tree_count = forest.count
 
 func _signs() -> void:

@@ -11,6 +11,7 @@ func build() -> Node3D:
 	return result
 
 func _build_house(data: Dictionary, id: int) -> void:
+	id = int(data.get("appearance_index",id))
 	var points := PackedVector2Array()
 	for p in data.poly:
 		var at := Vector2(p[0],p[1])
