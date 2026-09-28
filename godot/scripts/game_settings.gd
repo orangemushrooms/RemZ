@@ -7,8 +7,8 @@ const LIMITS := [0, 60, 100, 120, 144, 165, 240]
 # hp / dmg: zombie health and damage, count: zombies per wave, speed: zombie speed, drop: supply drop chance,
 # score: points per kill, regen: player regeneration
 const DIFFICULTIES := [
-	{ "name": "Easy", "desc": "For getting to know the hut: weaker zombies, smaller waves, plenty of supplies.", "hp": 0.9, "dmg": 0.85, "count": 0.85, "speed": 1.0, "drop": 1.4, "score": 0.8, "regen": 1.3 },
-	{ "name": "Normal", "desc": "The night on the Heitersberg: hordes that grow tougher every wave, no mercy at the gates.", "hp": 1.05, "dmg": 1.15, "count": 0.9, "speed": 1.02, "drop": 1.1, "score": 1.0, "regen": 1.1 },
+	{ "name": "Easy", "desc": "Learn the survival basics: weaker zombies, smaller waves, plenty of supplies.", "hp": 0.9, "dmg": 0.85, "count": 0.85, "speed": 1.0, "drop": 1.4, "score": 0.8, "regen": 1.3 },
+	{ "name": "Normal", "desc": "The standard survival challenge: stronger hordes with every wave. Plan your supplies and defenses.", "hp": 1.05, "dmg": 1.15, "count": 0.9, "speed": 1.02, "drop": 1.1, "score": 1.0, "regen": 1.1 },
 	{ "name": "Hard", "desc": "Tougher and faster hordes, fewer supplies, 30% more Rem Dollars.", "hp": 1.6, "dmg": 1.75, "count": 1.3, "speed": 1.12, "drop": 0.75, "score": 1.3, "regen": 0.75 },
 	{ "name": "Nightmare", "desc": "Huge waves, brutal hits, barely any regeneration. 70% more Rem Dollars for the high scores.", "hp": 2.0, "dmg": 2.3, "count": 1.6, "speed": 1.2, "drop": 0.55, "score": 1.7, "regen": 0.45 },
 ]
@@ -217,6 +217,8 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		if main.hud and main.hud.map_selection and main.hud.map_selection.visible:
 			main.hud.hide_map_selection()
+		elif main.hud and main.hud.overlay.visible and main.hud.overlay_mode == "start":
+			main.hud.return_to_menu_home()
 		elif main.progression and main.progression.is_open:
 			main.progression.close()
 		elif main.barricade_menu and main.barricade_menu.is_open:

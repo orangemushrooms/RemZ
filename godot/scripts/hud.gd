@@ -11,6 +11,9 @@ var menu_map: LiveMap
 var map_selection: MapSelection
 var _menu_detail: PanelContainer
 var _visible_tab := "briefing"
+var _detail_back: Button
+
+const SURVIVAL_BRIEFING := "REMZ is a zombie survival game for solo players and co-op teams. Choose an available region on the campaign map, select your class and talents, and survive 25 waves to secure the region. Explore, complete quests, collect supplies and improve your equipment between attacks. Learn each map's routes and defend its objectives. Your campaign victories and class progress carry over to future rounds."
 
 const GOLD := Color(1.0, 0.7, 0.28)
 const PAPER := Color(0.93, 0.92, 0.88)
@@ -499,15 +502,11 @@ func _build_overlay() -> void:
 	overlay_wordmark.custom_minimum_size = Vector2(0, 114)
 	overlay_wordmark.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	v.add_child(overlay_wordmark)
-	overlay_title = _label("REMETSCHWIL FOREST HUT", 30)
+	overlay_title = _label("REMZ", 30)
 	overlay_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	overlay_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	overlay_title.add_theme_color_override("font_color", GOLD)
 	v.add_child(overlay_title)
-	var sub := _label("NIGHT ON THE HEITERSBERG", 12)
-	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	sub.modulate.a = 0.6
-	v.add_child(sub)
 	v.add_child(_spacer(6))
 	overlay_button = _menu_button("Start game", true)
 	overlay_button.pressed.connect(primary_action)
@@ -531,7 +530,7 @@ func _build_overlay() -> void:
 		b.pressed.connect(func():
 			Sfx.play(self, "click", -8.0)
 			if overlay_mode == "start" and _menu_detail.visible and _visible_tab == id:
-				_set_menu_compact(true)
+				return_to_menu_home()
 			else: show_tab(id))
 		v.add_child(b)
 		_tab_buttons[id] = b
@@ -555,9 +554,16 @@ func _build_overlay() -> void:
 	var rv := VBoxContainer.new()
 	rv.add_theme_constant_override("separation", 10)
 	right.add_child(rv)
+	var detail_header := HBoxContainer.new()
+	rv.add_child(detail_header)
 	_tab_title = _label("BRIEFING", 13)
+	_tab_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_tab_title.add_theme_color_override("font_color", GOLD)
-	rv.add_child(_tab_title)
+	detail_header.add_child(_tab_title)
+	_detail_back = _menu_button("Back to main menu", false)
+	_detail_back.tooltip_text = "Esc"
+	_detail_back.pressed.connect(return_to_menu_home)
+	detail_header.add_child(_detail_back)
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -629,6 +635,14 @@ func _set_menu_compact(compact: bool) -> void:
 		for b: Button in _tab_buttons.values(): b.add_theme_stylebox_override("normal", _button_style(false, false))
 	_fit_menu_card.call_deferred()
 
+func return_to_menu_home() -> void:
+	if overlay_mode != "start": return
+	Sfx.play(self, "click", -8.0)
+	_set_menu_compact(true)
+	if game.music and game.music.current == "lobby" and not "--no-music" in game._flags:
+		game.music.play("title")
+	overlay_button.grab_focus()
+
 func _fit_menu_card() -> void:
 	if not is_instance_valid(_card): return
 	_card.set_anchors_preset(Control.PRESET_TOP_LEFT)
@@ -658,12 +672,14 @@ func _build_briefing(box: VBoxContainer) -> void:
 	box.add_child(_pause_stats)
 	box.add_child(_heading("HOW TO SURVIVE"))
 	for tip in [
-		"Four approaches lead to the hut: the Hut Path (north-east), the Meadow Gate (east), the Village Path (south) and the North Forest Path. E builds or repairs right at the line; building costs 50 Rem Dollars. Mechanic advises you on defense.",
+		"Start game opens the campaign map. Choose an available region; regions marked under construction cannot be entered yet. Survive all 25 waves to save a victory for that region.",
+		"Choose your class and talents in the main menu. Classes gain XP across rounds and unlock new talents. The Assassin can choose a teleport mode from level 15 and activate it with V.",
 		"Headshots deal 2.2 times the damage. Kills in quick succession build a streak worth up to 100% bonus points.",
 		"Fallen zombies drop ammo, grenades and bandage packs. Just walk through them.",
-		"Vendor sells weapons at the campfire. Complete quests and survive waves to unlock his stock. A secret trader waits in the forest.",
-		"Porcini heal, fly agarics briefly double your damage. Eat both from the inventory (I).",
-		"T opens the tower preview. R/mouse wheel rotates, E confirms. At a tower: E mounts it, R re-aims it, F repairs it. Upgrades at Mechanic. Q shows your quests. Hold Tab for the leaderboard.",
+		"Explore the map and visit traders for weapons, supplies and upgrades. Complete quests and survive waves to unlock more equipment. Q shows your quests; I opens your inventory.",
+		"Use the breaks between waves to reload, heal and improve your defenses. E interacts with traders and builds or repairs barricades. T previews a turret; E confirms its placement.",
+		"Follow the objectives and warnings for your current map. Protect any defense objective: losing it can end the round even if you are still alive.",
+		"In co-op, share supplies, mark threats with X or the middle mouse button, and revive downed teammates with E. Menus do not pause a co-op round.",
 	]:
 		var row := HBoxContainer.new()
 		row.add_theme_constant_override("separation", 10)
@@ -684,9 +700,9 @@ func _build_controls(box: VBoxContainer) -> void:
 	box.add_child(grid)
 	for pair in [["WASD", "Move"], ["Mouse", "Look around"], ["Shift", "Sprint"], ["Hold Ctrl", "Crouch / aim more precisely"], ["Space", "Jump"],
 			["Left click", "Shoot / strike"], ["Right click", "Aim (ADS)"], ["R", "Reload / align tower"], ["1–9 / 0", "Quick bar: slots 1–10"], ["Mouse wheel", "Switch weapon"],
-			["G", "Throw grenade"], ["E", "NPC / barricade / mount tower / repair hut"], ["J", "Defense planning with Mechanic"], ["T", "Build turret · at the hut also on the roof · E confirms"], ["E · drone station", "Fly a drone (hut, upper floor) · RMB rocket · R self-destruct · Esc recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
+			["G", "Throw grenade"], ["E", "Interact / build / repair / mount turret"], ["J", "Defense planning with Mechanic"], ["T", "Preview turret · E confirms placement"], ["E · drone station", "Fly a drone · RMB rocket · R self-destruct · Esc recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
 			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"],
-			["X / middle mouse", "Callout: ping what you look at (gate, hut, enemy, spot)"], ["Hold E (down)", "Get back up once per wave · teammates revive with E"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
+			["X / middle mouse", "Callout: mark an enemy, defense or location"], ["Hold E (down)", "Get back up once per wave · teammates revive with E"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
 		var k := _label(pair[0], 14, GOLD)
 		k.custom_minimum_size.x = 110
 		grid.add_child(k)
@@ -865,6 +881,7 @@ func show_overlay(title: String, text: String, button: String, status: String = 
 	if mode.is_empty():
 		mode = "over" if title == "YOU DIED" else ("pause" if title == "PAUSED" else "start")
 	overlay_mode = mode
+	_detail_back.visible = mode == "start"
 	if map_selection: hide_map_selection()
 	menu_map.visible = mode == "start" or (game and game.victory)
 	overlay_title.text = title

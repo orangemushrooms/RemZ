@@ -326,7 +326,7 @@ func _ready() -> void:
 	preload("res://scripts/bullet_impacts.gd").prewarm()
 	Zombie.preload_models(self)
 	_boot_mark("prewarm + zombie models")
-	hud.show_overlay("REMETSCHWIL FOREST HUT", "The forest hut on the Heitersberg is the last safe place. You wake up down on the Sennhofstrasse and first have to make your way up to the hut. Build barricades at the four approaches to raise the palisade ring piece by piece. Then they come: from the Sennhofstrasse along the Hut Path, across the meadow to the Meadow Gate, along the Village Path and down the North Forest Path. Upgrade the barriers in the gates (E), hold them, survive the waves and get yourself onto the high scores. The zombies also go for the forest hut itself: if it falls, the round is lost. Repair it with E at its wall.", "Start game", "", "start")
+	hud.show_overlay("REMZ", Hud.SURVIVAL_BRIEFING, "Start game", "", "start")
 	hud.overlay_button.disabled = true
 	hud.set_loading(true)
 	_navigation_geometry.prepare(self, nav_region.navigation_mesh, perimeter)
