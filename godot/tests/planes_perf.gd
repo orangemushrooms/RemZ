@@ -30,6 +30,8 @@ func run() -> void:
 	if "--planes-detail-views" in OS.get_cmdline_user_args():
 		views.append({"id":"woodland-detail","pos":[45,-5],"target":[60,8],"pitch":-0.18})
 		views.append({"id":"houses-detail","pos":[-274,-121],"target":[-319,-112]})
+		views.append({"id":"canopy-detail","pos":[30,-7],"target":[80,-7],"pitch":0.4})
+		views.append({"id":"meadow-detail","pos":[150,100],"target":[160,20],"pitch":-0.2})
 	var report := {"label":label,"viewport":str(root.size),"adapter":RenderingServer.get_video_adapter_name(),"views":[]}
 	for view: Dictionary in views:
 		var p := Vector2(view.pos[0],view.pos[1])

@@ -2,7 +2,7 @@
 
 In der Gebietsauswahl **The Planes erkunden** wählen. Die Region startet als eigenständige Erkundungsmap im Einzelspiel. Im Esc-Menü lässt sich zusätzlich ein Survival-Durchlauf mit 25 Wellen starten. Forest behält seinen Survivalablauf. Im Koop ist der Erkundungsstart gesperrt.
 
-WASD bewegt den Spieler; Shift sprintet, Leertaste springt, Strg duckt sich. M blendet die nordorientierte Karte ein oder aus. Escape öffnet ein Menü mit Fortsetzen, Survivalstart, drei Referenzblickrichtungen und Rückkehr zur Gebietsauswahl. Im Kampf pausiert dieses Menü auch Zombies, Wetter und Granaten; die Foto-Teleports sind dort gesperrt. Die Fotoansichten lassen sich damit ohne erneuten Fussmarsch vergleichen.
+WASD bewegt den Spieler; Shift sprintet, Leertaste springt, Strg duckt sich. M vergrössert die nordorientierte Karte wie in Forest und stellt sie beim nächsten Druck wieder kompakt dar. Escape öffnet ein Menü mit Fortsetzen, Survivalstart, drei Referenzblickrichtungen und Rückkehr zur Gebietsauswahl. Im Kampf pausiert dieses Menü auch Zombies, Wetter und Granaten; die Foto-Teleports sind dort gesperrt. Die Fotoansichten lassen sich damit ohne erneuten Fussmarsch vergleichen.
 
 ## Geografische Grundlage
 
@@ -19,7 +19,7 @@ Quellen-URLs, Rasterauflösungen und SHA-256-Prüfsummen stehen in `godot/assets
 
 Die sommerliche Mais-/Getreidebelegung folgt den Fotos; sie ist keine Aussage zur heutigen Fruchtfolge. Parzellengrenzen, die Baumreihe westlich am Rigiweg und die beiden Gehölzgruppen wurden mit dem Luftbild abgeglichen. Baumhöhen, Kronenformen und Gebäudefassaden sind angenähert. Die Dorfkulisse nutzt vorhandene Fassadenbausteine auf OSM-Grundrissen. Die kleinen Markierungen an der Maisecke sind geometrisch angedeutet; unlesbare Beschriftungen wurden nicht erfunden. Eine vermessene, fotogrammetrische 1:1-Reproduktion sämtlicher sichtbarer Objekte ist damit nicht erreicht.
 
-Mais verwendet unverändert die vorhandenen `assets/cornfield/corn_*.res` mit Wind und drei Detailstufen. Diese vorhandenen Maisressourcen sind im Projekt erzeugte Meshes. Raben/Eulen verwenden die vorhandenen Meshy-Modelle `raven_real.glb` / `owl_real.glb`, bestehende Animationen und Rufe; Eulen bleiben in der sommerlichen Mittagsansicht verborgen. Gehölze nutzen die vorhandenen Meshy-Modelle `tree_autumn_a.glb` und `tree_autumn_b.glb` mit einem eigenen sommergrünen Material; das Original bleibt unverändert. Gras nutzt den vorhandenen Atlas. Da kein Getreidemodell vorhanden ist, ergänzt ein natives, instanziertes Halmen-/Ährenmesh die Bibliothek. Es wurden keine neuen Meshy-Generierungen beauftragt.
+Mais verwendet unverändert die vorhandenen `assets/cornfield/corn_*.res` mit Wind und drei Detailstufen. Diese vorhandenen Maisressourcen sind im Projekt erzeugte Meshes. Raben/Eulen verwenden die vorhandenen Meshy-Modelle `raven_real.glb` / `owl_real.glb`, bestehende Animationen und Rufe; Eulen bleiben in der sommerlichen Mittagsansicht verborgen. Gehölze verwenden inzwischen das bestehende Meshy-Astgerüst `tree_birch.glb` mit kleinen Blattgruppen aus dem vorhandenen Buchenatlas; die früheren geschlossenen Kronen aus `tree_autumn_a/b.glb` werden in Planes nicht mehr verwendet. Die Originalmodelle bleiben unverändert. Gras nutzt den vorhandenen Atlas. Da kein Getreidemodell vorhanden ist, ergänzt ein natives, instanziertes Halmen-/Ährenmesh die Bibliothek. Es wurden keine neuen Meshy-Generierungen beauftragt.
 
 Terrain, Pflanzen und Weltkoordinaten verwenden dieselben Höhen. Pflanzen sind räumlich gebündelt; Nah-/Fernmeshes werden kameranah gewechselt. Wege bleiben frei. Bäume besitzen Stammkollision, Häuser blockierende Grundrisskörper, Gelände einen Höhenfeld-Collider. Die Erkundung verwendet den bestehenden Spielercontroller einschliesslich Schritten auf Kies, Gras und Mais.
 
@@ -99,3 +99,29 @@ Vergleich direkt mit der vorher veröffentlichten Version, ohne zweite laufende 
 In diesen fünf Ansichten kein gemessener FPS-Rückgang. `--suite=planes_buildings` prüft die tatsächlich erzeugten Fensterflächen und Dach-UVs an einem konkaven Grundriss in beiden Umlaufrichtungen. Die Erkundungssuite prüft zusätzlich Vegetationsdichte, Abstand vom früheren Raster sowie freie Wege und Felder. `--planes-detail-views` ergänzt im Grafiktest Nahansichten von Wald und Häusern.
 
 Aktueller Belastungstest mit 24 Gegnern aus Welle 25 und Gewitter: 77–127 FPS in den fünf Vergleichsansichten, p95 8,83–13,27 ms (`detail-storm.json`). Die zusätzliche Wald-Nahansicht erreicht 94 FPS. 334 Skripte kompilieren; vier Geometrieprüfungen und 26 Erkundungs-/Regionswechselprüfungen bestehen.
+
+## Offene Baumkronen, dichtere Wiesen und Forest-Minimap
+
+Die nächste Überarbeitung vom 28. September ersetzt die geschlossenen, kantigen Kronenvolumen durch das vorhandene Meshy-Astgerüst mit neun unregelmässigen Blattgruppen pro Baum. 420 kleine Blattkarten ersetzen die massiven Kronenflächen. Lokale Mipmaps stabilisieren entfernte Blätter, separate reduzierte Schattenkarten begrenzen die Schattenkosten. Astgerüste wechseln zwischen 3486 und 663 Dreiecken; `node tools/planes_branch_lods.mjs` erzeugt beide Modelle reproduzierbar aus `tree_birch.glb`. Alle 401 Standorte und die Stammkollisionen bleiben erhalten.
+
+In der Nähe ersetzen vier versetzte, gemeinsam zufällig gedrehte Kleinbüschel jede bisherige Wieseninstanz. Jede Karte wiederholt das vorhandene Grasbild mit schmaleren Halmen. Die Gesamtzahl der Instanzen und Draw Calls steigt dadurch nicht. Ab 30 m Zellabstand genügt eine vereinfachte gekreuzte Karte; distanzabhängige Ausdünnung bleibt aktiv. Ein eigenes Grasmaterial verhindert schwarze Rückseiten. Es verändert weder den Atlas noch die Forest-Materialien.
+
+Die Planes-Minimap erbt Layout, Massstab, Kompass und M-Vergrösserung von Forest. Sie zeigt Höhen-Schattierung, Gehölze, Felder, Strassen und reale Gebäudegrundrisse, dazu Ortsnamen, Blickkegel, einen deutlichen Spielerpfeil und Gegner im Survival. Die statische Karte wird einmal in einer Textur gerendert; nur dynamische Symbole aktualisieren sich zehnmal pro Sekunde. Sie bleibt beim Vergrössern innerhalb des Fensters und kann während des Gehens benutzt werden. Die Legende ist auch deutsch verfügbar.
+
+Geprüft: 334 Skripte kompilieren, 1993 Übersetzungseinträge ohne Fehler. Der gerenderte Erkundungstest einschliesslich tatsächlicher M-Tastendrücke, 720p-Layout, sichtbarem Kartencache und Rückkehr nach Forest besteht mit **33 Prüfungen**. Die Grafikprüfung umfasst nun zusätzlich Nahansichten der Baumkronen und einer Wiese. Die tatsächliche Windows-EXE erreicht sowohl `PLANES_READY` als auch `PLANES_SURVIVAL_READY`.
+
+Zusätzliche Einsparungen: 48-m-Baumgruppen verringern die Zahl der Draw Calls; lokal erzeugte Gras-Mipmaps stabilisieren feine Halme. Der Boden-Shader liest nur Texturen von tatsächlich beteiligten Materialschichten, ohne die Maskenübergänge zu verändern. Ein Rendervergleich des bisherigen und optimierten Bodenmaterials an drei Positionen, jeweils trocken und nass, besteht in allen sechs Fällen. Explizite Texturgradienten erhalten die Filterung auch an Maskenkanten. Die Prüfung isoliert den Boden und deaktiviert bewegte Schatten sowie zeitliches Antialiasing; Kontrollaufnahmen ohne Shaderwechsel sind identisch. Unter 0,011 % der Farbkanäle unterscheiden sich um mehr als zwei 8-Bit-Stufen (`logs/planes-terrain-parity.log`).
+
+Abschliessender Vergleich mit dem veröffentlichten Commit `fc7b26b763ea`, auf derselben RTX 3060 Ti bei High, 1920 × 1009, ohne FPS-Limit und ohne zweite Spielinstanz. Die alte Fassung wurde zum Gegencheck erneut gemessen; ihre vier Landschafts-/UI-Skripte wurden dabei als temporäres Ressourcenpaket geladen. Unveränderte Quelldaten und Modelle sowie dieselben Kameras, drei Sekunden Aufwärmzeit und 200 Frames pro Ansicht sorgen für Vergleichbarkeit. Messdaten: `canopy-baseline-repeat.json` / `canopy-verified.json` in `artifacts/planes/performance/`.
+
+| Ansicht | Vorher FPS | Nachher FPS | Nachher p95 ms |
+|---|---:|---:|---:|
+| Sennhof | 90.44 | 90.95 | 11.47 |
+| Gabelung | 102.35 | 101.35 | 10.29 |
+| Core | 110.19 | 109.38 | 9.63 |
+| Gehölz | 122.24 | 162.70 | 6.60 |
+| Dorf | 169.45 | 169.93 | 6.35 |
+| Wald nah | 110.78 | 148.47 | 7.13 |
+| Wiese nah | 120.48 | 133.87 | 7.89 |
+
+Die Waldansichten gewinnen rund 33–34 %, die dichtere Wiesen-Nahansicht rund 11 %. Die übrigen Ansichten liegen innerhalb von ±1 % des Ausgangsniveaus. Dies sind Stichproben auf dieser Maschine, keine Garantie absolut identischer FPS in jeder Situation. Ein separater Test dieser Überarbeitung mit 24 Gegnern aus Welle 25 und Gewitter erreichte 77–129 FPS (`canopy-storm.json`, vor den abschliessenden Boden-/Mipmap-Optimierungen).

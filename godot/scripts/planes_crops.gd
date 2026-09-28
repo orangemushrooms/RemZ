@@ -6,6 +6,7 @@ var corn_meshes: Array[Mesh] = []
 var wheat_meshes: Array[Mesh] = []
 var batches: Array[MultiMeshInstance3D] = []
 var grass_batches: Array[MultiMeshInstance3D] = []
+var meadow_meshes: Array[Mesh] = []
 var counts := {"corn":0,"wheat":0,"grass":0,"undergrowth":0,"woodland_grass":0}
 var wind: ShaderMaterial
 var _elapsed := 0.0
@@ -36,8 +37,17 @@ func build(main: Node) -> void:
 	rng.seed = 9404384
 	var ext := Map.extent()
 	var grass_material := Foliage.sprite_material("res://assets/sprites/grass.png",Vector2(4,1),1.0,Color(0.55,0.72,0.37))
+	# Repeat each existing atlas cell inside a wider card: twice as many finer
+	# blades fill the ground without adding geometry or altering Forest's material.
+	grass_material.shader = preload("res://shaders/planes_meadow.gdshader")
+	# Local mipmaps keep the extra thin blades stable and cheaper in the distance.
+	var grass_image: Image = load("res://assets/sprites/grass.png").get_image()
+	if grass_image.is_compressed(): grass_image.decompress()
+	grass_image.generate_mipmaps()
+	grass_material.set_shader_parameter("atlas",ImageTexture.create_from_image(grass_image))
 	grass_material.set_shader_parameter("meadow_distance_thinning",true)
-	var grass_mesh := Foliage._tuft_mesh(1.05,0.34)
+	meadow_meshes = [_meadow_mesh(),_meadow_mesh(true)]
+	var grass_mesh := meadow_meshes[0]
 	var woodland_material := Foliage.sprite_material("res://assets/sprites/leaf_fern.png",Vector2.ONE,0.35,Color(0.4,0.57,0.26))
 	woodland_material.set_shader_parameter("meadow_distance_thinning",true)
 	var woodland_mesh := Foliage._tuft_mesh(1.25,0.75)
@@ -97,6 +107,29 @@ func build(main: Node) -> void:
 	add_child(rustle)
 	rustle.play()
 	update_lod()
+	set_meta("meadow_tufts_per_instance",4)
+
+func _meadow_mesh(far: bool = false) -> ArrayMesh:
+	# Four finer tufts fill each old one-metre gap. Their offsets rotate with each
+	# randomly oriented instance; all blades remain one shared mesh and draw call.
+	var st := SurfaceTool.new()
+	st.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 73129
+	for clump in (1 if far else 4):
+		var angle := clump*TAU/4+0.3
+		var center := Vector3.ZERO if far else Vector3(cos(angle)*0.35,0,sin(angle)*0.35)
+		var h := rng.randf_range(0.21,0.3)
+		for card in 2:
+			var yaw := card*PI/2+rng.randf_range(-0.3,0.3)
+			var side := Vector3(cos(yaw),0,sin(yaw))*0.42
+			var vertices := [center-side,center+side,center+side+Vector3.UP*h,center-side+Vector3.UP*h]
+			var uv := [Vector2(0,1),Vector2(1,1),Vector2(1,0),Vector2(0,0)]
+			for i in [0,1,2,0,2,3]:
+				st.set_normal(Vector3.UP)
+				st.set_uv(uv[i])
+				st.add_vertex(vertices[i])
+	return st.commit()
 
 func _scatter_woodland(origin: Vector3, patches: FastNoiseLite, ferns: Array[Transform3D], grass: Array[Transform3D]) -> void:
 	var rng := RandomNumberGenerator.new()
@@ -162,6 +195,11 @@ func _batch(transforms: Array, mesh: Mesh, mat: Material, origin: Vector3) -> Mu
 
 func update_lod() -> void:
 	var p: Vector3 = game.player.global_position
+	for node in grass_batches:
+		if node.get_meta("kind")!="grass": continue
+		var distance := (node.position+Vector3(8,0,8)).distance_to(p)
+		var mesh: Mesh = meadow_meshes[0 if distance<30 else 1]
+		if node.multimesh.mesh!=mesh: node.multimesh.mesh = mesh
 	for node in batches:
 		var distance := (node.position+Vector3(8,0,8)).distance_to(p)
 		var corn: bool = node.get_meta("kind")=="corn"

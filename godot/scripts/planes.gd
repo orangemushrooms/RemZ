@@ -212,10 +212,11 @@ func _interface() -> void:
 	ui.add_child(compass)
 	minimap = load("res://scripts/planes_minimap.gd").new()
 	minimap.game = self
-	minimap.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
-	minimap.position = Vector2(-272,-228)
-	minimap.size = Vector2(244,190)
-	ui.add_child(minimap)
+	var map_layer := Control.new()
+	map_layer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	map_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	ui.add_child(map_layer)
+	map_layer.add_child(minimap)
 	menu = PanelContainer.new()
 	menu.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
 	menu.position = Vector2(-205,-245)
@@ -280,7 +281,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		set_menu(not menu.visible)
 		get_viewport().set_input_as_handled()
 	if event is InputEventKey and event.pressed and not event.echo:
-		if event.keycode==KEY_M: minimap.visible = not minimap.visible
 		if event.keycode==KEY_F11:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED if DisplayServer.window_get_mode()==DisplayServer.WINDOW_MODE_FULLSCREEN else DisplayServer.WINDOW_MODE_FULLSCREEN)
 
@@ -289,7 +289,6 @@ func _process(_delta: float) -> void:
 	var heading := fposmod(-rad_to_deg(player.rotation.y),360)
 	var dirs := ["N","NE","E","SE","S","SW","W","NW"]
 	compass.text = "%s  %03d°" % [dirs[roundi(heading/45)%8],heading]
-	minimap.queue_redraw()
 
 func start_survival() -> void:
 	if preparing_survival or (survival_active and not over) or _leaving: return

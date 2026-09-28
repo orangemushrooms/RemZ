@@ -7673,3 +7673,7 @@ msgstr "Am Boden: E zum Wiederbeleben halten"
 
 msgid "Health: %d"
 msgstr "Gesundheit: %d"
+
+#: scripts/planes_minimap.gd
+msgid "▲ You   • Enemies   M Map size"
+msgstr "▲ Du   • Gegner   M Kartengrösse"

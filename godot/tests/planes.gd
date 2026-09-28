@@ -36,6 +36,32 @@ func run() -> void:
 	check(not game.survival_active and game.waves==null and game.campaign.best_wave("planes")==0,"Exploration starts without enemies, waves or awarded campaign progress")
 	for i in 8: await physics_frame
 	check(game.player.is_on_floor(),"Explorer settles on terrain at the photo viewpoint")
+	var map: Minimap = game.minimap
+	var north := map.map_position(Vector3(0,0,-100))
+	var east := map.map_position(Vector3(100,0,0))
+	var datum := map.map_position(Vector3.ZERO)
+	check(north.y<datum.y and east.x>datum.x and absf(north.distance_to(datum)-east.distance_to(datum))<0.001,"Minimap preserves north and equal east/north distances")
+	check(map.visible and not map.expanded and map.get_node_or_null("MapClip/Symbols")!=null,"Forest-style minimap starts compact with a separate live marker layer")
+	var map_key := InputEventKey.new()
+	map_key.keycode = KEY_M
+	map_key.physical_keycode = KEY_M
+	map_key.pressed = true
+	root.push_input(map_key)
+	await process_frame
+	check(map.expanded and map.visible and game.player.active,"M expands the map without hiding it or stopping exploration")
+	var previous_size := root.size
+	root.size = Vector2i(1280,720)
+	for i in 3: await process_frame
+	# Control coordinates follow the project's stretched canvas, not physical window pixels.
+	check(map.get_viewport_rect().encloses(map.get_global_rect()),"Expanded map remains fully inside a 720p viewport")
+	root.size = previous_size
+	map_key.pressed = false
+	root.push_input(map_key)
+	map_key.pressed = true
+	root.push_input(map_key)
+	await process_frame
+	check(not map.expanded and map.visible,"A second M press restores the compact map")
+	check(Lang.resolve(map.LEGEND,"de").contains("Kartengrösse"),"Map legend includes its German translation")
 	check(game.landscape.tree_count>100 and game.birds.size()==14,"Mapped groves and reused Meshy wildlife are built")
 	check(Map.cover(60,4).r>0.95 and Map.cover(60,4).b<0.01,"Woodland east of the fork is forest floor, not gravel")
 	check(game.cornfield.counts.grass>700000 and game.cornfield.counts.undergrowth>5000,"Meadows are denser and mapped woods have undergrowth")
@@ -86,6 +112,15 @@ func run() -> void:
 	if "--render-planes" in OS.get_cmdline_user_args():
 		var folder := ProjectSettings.globalize_path("res://../artifacts/planes/")
 		DirAccess.make_dir_recursive_absolute(folder)
+		map.expanded = true
+		map._update_layout()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var cache: Image = map._map_cache.get_texture().get_image()
+		check(cache.get_pixel(100,160).a>0.9,"Cached cartography renders opaque terrain behind live markers")
+		root.get_texture().get_image().save_png(folder+"minimap-expanded.png")
+		map.expanded = false
+		map._update_layout()
 		for i in 3:
 			game.set_view(i)
 			for frame in 20: await physics_frame
