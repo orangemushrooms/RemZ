@@ -25,6 +25,7 @@ func run() -> void:
 	p.velocity = Vector3.ZERO
 	w.unlocked.smg = true
 	w.set_weapon("smg")
+	w._tick_ammo(0.3) # Complete the draw; the burst below tests aim, not switching.
 	w.ads = 0
 	var hip := w.effective_spread()
 	w.ads = 1

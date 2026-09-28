@@ -42,7 +42,7 @@ func host_run() -> void:
 	if result != OK: return
 	if online: check(NetSession.is_online(), "Host uses the real EOS transport")
 	write("ready", NetSession.join_code if online else "ready")
-	while NetSession.roster.size() < 2 or false in NetSession.ready_peers.values(): await create_timer(0.1).timeout
+	while NetSession.roster.size() < 2 or false in NetSession.ready_peers.values() or NetSession.class_roster.values().any(func(build): return not build.locked): await create_timer(0.1).timeout
 	game.hud.primary_action()
 	check(game.hud.map_selection.visible and NetSession.phase == "lobby", "Host chooses map before team launch")
 	game.hud.map_selection.choose("forest")

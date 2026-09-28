@@ -354,6 +354,7 @@ func _complete_wave() -> void:
 	if player.downed and not NetSession.enabled: player.revive(player.max_hp * 0.5)
 	if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
 	main.campaign.record_wave(completed, str(main.difficulty.name))
+	if main.classes: main.classes.wave(completed)
 	if completed >= Campaign.ROUNDS:
 		main._campaign_victory()
 		return

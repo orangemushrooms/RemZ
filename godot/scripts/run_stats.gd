@@ -53,6 +53,8 @@ func record_kill(zombie: Zombie) -> void:
 
 func record_death(id: int) -> void:
 	if not NetSession.is_client() and players.has(id): players[id].deaths += 1
+	var scene := get_tree().current_scene
+	if scene and scene.get("classes"): scene.classes.died(id)
 
 var downs := 0    # times a player went down (26 Sep 2026)
 

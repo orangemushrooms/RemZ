@@ -130,7 +130,7 @@ func host_run() -> void:
 	write_json("host-ready", {"port": test_port})
 	var deadline := Time.get_ticks_msec() + 180000
 	while Time.get_ticks_msec() < deadline:
-		if NetSession.roster.size() == 4 and not false in NetSession.ready_peers.values(): break
+		if NetSession.roster.size() == 4 and not false in NetSession.ready_peers.values() and NetSession.class_roster.values().all(func(build): return build.locked): break
 		await wait_seconds(0.2)
 	check(NetSession.roster.size() == 4, "Host plus three clients share the lobby")
 	if NetSession.roster.size() != 4:

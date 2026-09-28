@@ -1,0 +1,62 @@
+extends VBoxContainer
+const Classes = preload("res://scripts/character_classes.gd")
+var hud: Node
+var title: Label
+var bar: ProgressBar
+var notice: Label
+var level_notice: Label
+var _toast_time := 0.0
+var _level_time := 0.0
+
+func setup(owner_hud: Node) -> void:
+	hud = owner_hud
+	set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	offset_left = 30
+	offset_top = -225
+	offset_right = 315
+	offset_bottom = -160
+	custom_minimum_size.x = 285
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	title = hud._label("", 13)
+	add_child(title)
+	bar = ProgressBar.new()
+	bar.custom_minimum_size = Vector2(285, 5)
+	bar.show_percentage = false
+	add_child(bar)
+	notice = hud._label("", 13, Hud.GOLD)
+	add_child(notice)
+	level_notice = hud._label("", 19, Hud.GOLD)
+	level_notice.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	level_notice.position = Vector2(-240, 240)
+	level_notice.custom_minimum_size = Vector2(480, 0)
+	level_notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	level_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hud._root.add_child(level_notice)
+	CharacterProfile.changed.connect(refresh)
+	CharacterProfile.xp_gained.connect(func(amount: int, reason: String):
+		notice.text = Lang.t("+%d XP · %s", [amount, reason])
+		_toast_time = 3.0)
+	CharacterProfile.level_gained.connect(func(id: String, level: int):
+		if not hud.game.started: return
+		level_notice.text = Lang.t("LEVEL UP\n%s · LEVEL %d", [Classes.CLASSES[id].name, level])
+		if level in Classes.TIERS: level_notice.text += "\n" + Lang.t("New talent available in the main menu.")
+		_level_time = 6.0)
+	refresh()
+
+func refresh() -> void:
+	var id := CharacterProfile.active_class()
+	if CharacterProfile.data.is_empty(): return
+	var progress := Classes.progress(int(CharacterProfile.data.classes[id].total_xp))
+	title.text = Lang.t("%s · LVL %d · %d%%", [Classes.CLASSES[id].name, progress.level, roundi(float(progress.xp) / progress.required * 100) if progress.required > 0 else 100])
+	title.add_theme_color_override("font_color", Classes.CLASSES[id].color)
+	bar.max_value = maxi(1, progress.required)
+	bar.value = progress.xp if progress.required > 0 else 1
+	bar.add_theme_stylebox_override("fill", hud._flat(Classes.CLASSES[id].color, 2))
+	bar.add_theme_stylebox_override("background", hud._flat(Color(0, 0, 0, 0.4), 2))
+
+func _process(delta: float) -> void:
+	visible = hud.game.started and not hud.overlay.visible and not hud.game.over
+	_toast_time = maxf(0.0, _toast_time - delta)
+	_level_time = maxf(0.0, _level_time - delta)
+	notice.visible = _toast_time > 0.0
+	level_notice.visible = visible and _level_time > 0.0

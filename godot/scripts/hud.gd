@@ -581,6 +581,13 @@ func _build_overlay() -> void:
 	map_selection.back_requested.connect(hide_map_selection)
 	map_selection.launch_requested.connect(func(id: String): map_selected.emit(id))
 	overlay.resized.connect(_fit_menu_card)
+	var character_menu = preload("res://scripts/character_menu.gd").new()
+	character_menu.name = "CharacterMenu"
+	overlay.add_child(character_menu)
+	character_menu.setup(self)
+	var character_hud = preload("res://scripts/character_hud.gd").new()
+	_root.add_child(character_hud)
+	character_hud.setup(self)
 
 func primary_action() -> void:
 	Sfx.play(self, "click", -6.0)
@@ -607,6 +614,7 @@ func hide_map_selection() -> void:
 	overlay_button.grab_focus()
 
 func _set_menu_compact(compact: bool) -> void:
+	if compact and not game.started and not NetSession.enabled: CharacterProfile.context = "main"
 	_menu_detail.visible = not compact
 	if compact:
 		for b: Button in _tab_buttons.values(): b.add_theme_stylebox_override("normal", _button_style(false, false))
@@ -735,6 +743,8 @@ func show_tab(id: String) -> void:
 	if not _tabs.has(id):
 		return
 	_visible_tab = id
+	if not game.started and not NetSession.enabled:
+		CharacterProfile.context = "multiplayer" if id == "multiplayer" else "main"
 	_set_menu_compact(false)
 	if game and game.music and not game.started and not "--no-music" in game._flags:
 		if id == "multiplayer": game.music.play("lobby")
@@ -786,6 +796,9 @@ func _fill_achievements() -> void:
 	var info := _label(Lang.t("%s unlocked. Achievements stay saved; progress and rewards count per round. In multiplayer you reach the goals together as a team.", [a.progress_text()]), 13, MUTED)
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_achievements_box.add_child(info)
+	var xp_info := _label("Rem Dollars and supplies are awarded per round. Class XP for each achievement is awarded only once per character profile.", 13, MUTED)
+	xp_info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_achievements_box.add_child(xp_info)
 	var grid := GridContainer.new()
 	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 14)

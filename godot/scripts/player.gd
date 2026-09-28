@@ -49,6 +49,7 @@ var _tremor_duration := 1.0
 var _tremor_phase := 0.0
 var _gravity := 20.0
 var speed_mul := 1.0
+var class_combat = preload("res://scripts/class_combat.gd").new()
 var regen_mul := 1.0
 var mushroom_effects: Dictionary = {}
 var relic := ""
@@ -77,7 +78,8 @@ func effective_speed_mul() -> float:
 		if scene and "weapons" in scene and scene.weapons and scene.weapons.player == self: weapons_node = scene.weapons
 	if weapons_node and weapons_node.specials:
 		burden = weapons_node.specials.movement_multiplier(weapons_node)
-	return speed_mul * mushroom_multiplier("speed") * relic_multiplier("speed") * burden
+	var class_speed: float = class_combat.modifier("speed", weapons_node.current if weapons_node else "", weapons_node.ads if weapons_node else 0.0, hp < max_hp * 0.3)
+	return speed_mul * mushroom_multiplier("speed") * relic_multiplier("speed") * burden * class_speed
 var recoil_offset := Vector2.ZERO   # (pitch, yaw) radians of visual recoil still settling
 var mouse_sensitivity := 1.0
 var _step_t := 0.0
@@ -426,10 +428,13 @@ func _barricade_ahead() -> bool:
 func damage(n: float, from: Vector3 = Vector3.INF) -> void:
 	if NetSession.is_client():
 		return
+	if NetSession.enabled and NetSession.class_roster.has(peer_id) and not NetSession.class_roster[peer_id].get("locked", false): return
 	if not alive:
 		return
-	n *= mushroom_multiplier("guard") * relic_multiplier("guard")
+	n *= mushroom_multiplier("guard") * relic_multiplier("guard") * class_combat.modifier("guard")
+	class_combat.hurt(n)
 	var scene := get_tree().current_scene
+	if scene.get("classes"): scene.classes.hurt(peer_id, n)
 	if "achievements" in scene and scene.achievements:
 		scene.achievements.player_hurt()
 	if "stats" in scene and scene.stats:
@@ -481,7 +486,7 @@ func _footsteps(delta: float, moving: bool, sprint: bool) -> void:
 		if _step_t <= 0.0:
 			_step_t = 0.48
 			_step_side = -_step_side
-			Sfx.footstep(self, _surface_step(), -13.0 if not sprint else -10.0, 1.0 + 0.05 * _step_side)
+			Sfx.footstep(self, _surface_step(), (-13.0 if not sprint else -10.0) - (8.0 if class_combat.has("ghost_step") else 0.0), 1.0 + 0.05 * _step_side)
 	else:
 		_step_t = minf(_step_t, 0.12)
 	_heartbeat(delta)

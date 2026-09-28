@@ -15,6 +15,7 @@ func check(ok: bool, description: String) -> void:
 func prepare(w: Weapons, id: String) -> void:
 	w.unlock(id)
 	w.set_weapon(id)
+	w._tick_ammo(0.3) # Complete the weapon draw before exercising bullet traversal.
 	w.spread_mul = 0.0
 	w.cur().cooldown = 0.0
 	w.cur().reloading = 0.0

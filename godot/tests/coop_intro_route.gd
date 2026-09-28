@@ -30,7 +30,10 @@ func run() -> void:
 	else:
 		net.join("127.0.0.1", role, 24695)
 	note("LOBBY")
-	while net.phase != "running": await process_frame
+	while net.phase != "running":
+		if net.ready_peers.get(net.local_id(), false) and net.class_roster.has(net.local_id()) and not net.class_roster[net.local_id()].locked:
+			net.choose_class(CharacterProfile.selected(), true)
+		await process_frame
 	note("RUNNING intro=%s" % game.intro.active)
 	var walking := "--route-walk" in OS.get_cmdline_user_args()
 	var shooting := "--route-shoot" in OS.get_cmdline_user_args()

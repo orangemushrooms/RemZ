@@ -58,6 +58,7 @@ func run() -> void:
 	# coop host solo: start, die, Neue Runde
 	var err: int = NetSession.host("Host", 24599)
 	check(err == OK, "Hosting a coop session works (%d)" % err)
+	NetSession.choose_class(CharacterProfile.selected(), true)
 	await process_frame
 	NetSession.start_game()
 	await physics_frame; await physics_frame

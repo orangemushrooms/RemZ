@@ -2,6 +2,8 @@
 
 Das aktuelle Spiel ist das Godot-Projekt in diesem Ordner. Der Three.js-Code im übergeordneten `src/` ist der ältere Browser-Prototyp.
 
+**Dauerhafte Charakterklassen:** Revolverheld, Sturmschütze, Brecher, Marksman und Assassin besitzen jeweils 30 Level und sechs passive Talentpaare. Die rechte Hauptmenükarte öffnet Klassenwahl, Skills und Fortschritt. Kills, Quests, Erfolge und Wellen geben Klassen-XP; im Koop muss jeder Spieler seine Klasse bestätigen. Profile werden automatisch im Spielordner gespeichert. [Bedienung, Werte, Speicherung und Tests](../docs/CHARACTER_CLASSES.md).
+
 **Update 27. September 2026:** Titanen-Zwischenkämpfe vor Welle 10/15/20, zwei versteckte Waldquests, überspringbare Zwischenereignisse, ausbaubare Sandsäcke, stärkere Bosse, überarbeitete Tier-/Wurmbewegung, dezente Blumen, Spieleranzeige im Turmplaner und erweiterte Glücksradpreise. [Ablauf, Werte und Prüfungen](../docs/FIELD_TRIALS.md).
 
 ## Starten

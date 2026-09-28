@@ -25,6 +25,8 @@ var start_button: Button
 var state_label: Label
 var players_label: Label
 var hint_label: Label
+var class_picker: OptionButton
+var lock_class_button: Button
 var hud: Hud
 var mode := "online"
 var _refresh_t := 0.0
@@ -48,6 +50,26 @@ func setup(owner_hud: Hud) -> void:
 	name_edit.max_length = 24
 	name_edit.custom_minimum_size.x = 350
 	name_row.add_child(name_edit)
+	var class_row := HBoxContainer.new()
+	add_child(class_row)
+	class_picker = OptionButton.new()
+	class_picker.custom_minimum_size = Vector2(240, 38)
+	class_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for id in NetSession.CharacterClasses.ORDER:
+		class_picker.add_item(Lang.t("%s · Lv %d", [NetSession.CharacterClasses.CLASSES[id].name, CharacterProfile.level(id)]))
+	class_picker.item_selected.connect(func(index: int):
+		var id: String = NetSession.CharacterClasses.ORDER[index]
+		if NetSession.enabled: NetSession.choose_class(id)
+		else: CharacterProfile.select_class(id)
+		refresh())
+	class_row.add_child(class_picker)
+	lock_class_button = hud._menu_button("Lock in class", true)
+	lock_class_button.pressed.connect(func():
+		NetSession.choose_class(NetSession.CharacterClasses.ORDER[class_picker.selected], true))
+	class_row.add_child(lock_class_button)
+	var skill_note := hud._label("Choose your class here. Skills can only be changed in the main menu. A locked class stays fixed for the match.", 12, Hud.MUTED)
+	skill_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	add_child(skill_note)
 	mode_tabs = TabBar.new()
 	mode_tabs.add_tab("Online lobby")
 	mode_tabs.add_tab("Direct / LAN / Hamachi")
@@ -218,6 +240,15 @@ func refresh() -> void:
 	var loaded: bool = hud.game and hud.game.navigation_ready
 	var playing: bool = hud.game and hud.game.started
 	var busy: bool = NetSession._closing or NetSession.enabled or NetSession.online_pending or not loaded or playing
+	var build: Dictionary = NetSession.class_roster.get(NetSession.local_id(), CharacterProfile.loadout())
+	var locked: bool = bool(build.get("locked", false))
+	class_picker.select(NetSession.CharacterClasses.ORDER.find(str(build.id)))
+	class_picker.disabled = locked or playing or NetSession.online_pending or NetSession.phase == "connecting"
+	for i in NetSession.CharacterClasses.ORDER.size():
+		var cls: String = NetSession.CharacterClasses.ORDER[i]
+		class_picker.set_item_text(i, Lang.t("%s · Lv %d", [NetSession.CharacterClasses.CLASSES[cls].name, CharacterProfile.level(cls)]))
+	lock_class_button.text = "Class locked" if locked else "Lock in class"
+	lock_class_button.disabled = not NetSession.enabled or locked or playing or not NetSession.ready_peers.get(NetSession.local_id(), false)
 	host_button.disabled = busy
 	join_button.disabled = busy
 	create_button.disabled = busy or not Online.available()
@@ -244,10 +275,14 @@ func refresh() -> void:
 	if loaded and playing and not NetSession.enabled: state_label.text = "Return to the main menu first to host or join a game."
 	var lines: Array[String] = []
 	for id in NetSession.roster:
-		lines.append(Lang.t("● %s%s  ·  %s", [Lang.raw(NetSession.roster[id]), Lang.raw(" (Host)" if id == 1 else ""), "ready" if NetSession.ready_peers.get(id, false) else "loading …"]))
+		var entry: Dictionary = NetSession.class_roster.get(id, {})
+		var class_id: String = entry.get("id", "gunslinger")
+		lines.append(Lang.t("%s · %s · Level %d · %s", [Lang.raw(NetSession.roster[id]), NetSession.CharacterClasses.CLASSES[class_id].name, int(entry.get("level", 1)), "LOCKED" if entry.get("locked", false) else "Choose class"]) + " · " + Lang.t("ready" if NetSession.ready_peers.get(id, false) else "loading …"))
 	players_label.text = Lang.t("Players: %d / 4\n%s", [lines.size(), "\n".join(lines)]) if NetSession.enabled else ""
 	start_button.visible = NetSession.is_host() and NetSession.phase == "lobby"
 	start_button.disabled = not loaded or false in NetSession.ready_peers.values()
+	for entry in NetSession.class_roster.values():
+		if not entry.get("locked", false): start_button.disabled = true
 	leave_button.visible = NetSession.enabled or NetSession.online_pending
 	leave_button.text = "Cancel" if NetSession.online_pending and not NetSession.enabled else "Leave session"
 	if NetSession.enabled and loaded and not playing:

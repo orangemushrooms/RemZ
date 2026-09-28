@@ -77,6 +77,8 @@ var growl_t := 0.0
 var dead_t := 0.0
 var speed_mul := 1.0
 var frost_mul := 1.0
+var class_slow_time := 0.0
+var _class_unseen := false
 var rare_status := ""
 var _rare_marker: Label3D
 var _rare_particles: CPUParticles3D
@@ -1299,7 +1301,14 @@ func _physics_process(delta: float) -> void:
 	if marked: player = marked
 	elif NetSession.enabled:
 		var target_player := NetSession.nearest_player(global_position)
+		if target_player and class_concealed(target_player) and NetSession.is_host():
+			var nearest_visible := INF
+			for candidate: Player in NetSession.world.actors.values():
+				if not candidate.alive or not candidate.active or class_concealed(candidate): continue
+				var distance := global_position.distance_squared_to(candidate.global_position)
+				if distance < nearest_visible: nearest_visible = distance; target_player = candidate
 		if target_player: player = target_player
+	_class_unseen = not marked and is_instance_valid(player) and class_concealed(player)
 	if not alive:
 		dead_t += delta
 		if _pool and not _pool_complete:
@@ -1400,6 +1409,8 @@ func _physics_process(delta: float) -> void:
 		bar = _decision_target
 	if player_priority and not bar is AttackDrone: bar = null
 	var target: Vector3 = bar.attack_point(p) if bar else player.global_position
+	if _class_unseen and not bar and is_instance_valid(hut) and hut.hp > 0:
+		target = hut.attack_point(p)
 	agent.target_desired_distance = 0.25 if bar else 1.0
 	var to_target := target - p
 	to_target.y = 0.0
@@ -1465,10 +1476,10 @@ func _physics_process(delta: float) -> void:
 			var next := agent.get_next_path_position()
 			var mv := next - p
 			mv.y = 0.0
-			if hunting and bar == null and _can_hit(null):
+			if hunting and bar == null and not _class_unseen and _can_hit(null):
 				# An open approach must not stall at an obsolete or finished path.
 				mv = to_player
-			var sp: float = type["speed"] * speed_mul * frost_mul * horde_pace
+			var sp: float = type["speed"] * speed_mul * frost_mul * horde_pace * (0.85 if class_slow_time > 0.0 else 1.0)
 			var want: Vector3 = mv.normalized() * sp if mv.length() > 0.05 else Vector3.ZERO
 			if agent.avoidance_enabled:
 				agent.set_velocity(want)
@@ -1614,7 +1625,7 @@ func begin_hunt() -> void:
 	_repath = 0.0
 
 func _update_hunt(delta: float) -> void:
-	if not hunting: return
+	if not hunting or _class_unseen: return
 	_hunt_refresh -= delta
 	if _hunt_refresh <= 0.0:
 		_hunt_refresh = 1.0
@@ -1634,7 +1645,14 @@ func _blocks_hunt(bar: Barricade, path: PackedVector3Array) -> bool:
 		previous = point
 	return false
 
+func class_concealed(candidate: Player) -> bool:
+	if net_kind not in ["shambler", "runner"] or armored or candidate.marked_t > 0.0: return false
+	var detection: float = candidate.class_combat.modifier("detection")
+	if detection >= 1.0 or candidate.class_combat.time_since_attack < 2.0: return false
+	return global_position.distance_squared_to(candidate.global_position) > pow(40.0 * detection, 2)
+
 func _nearby_player_priority(delta: float) -> bool:
+	class_slow_time = maxf(0.0, class_slow_time - delta)
 	_aggro_check -= delta
 	if _aggro_check <= 0.0 or (is_instance_valid(_aggro_target) and not _aggro_target.alive):
 		_aggro_check = 0.2
@@ -1644,8 +1662,10 @@ func _nearby_player_priority(delta: float) -> bool:
 		var nearest := INF
 		for candidate: Player in candidates:
 			if not is_instance_valid(candidate) or not candidate.alive: continue
+			if NetSession.enabled and NetSession.class_roster.has(candidate.peer_id) and not NetSession.class_roster[candidate.peer_id].get("locked", false): continue
 			var distance := global_position.distance_to(candidate.global_position)
 			var radius := AGGRO_RELEASE_RANGE if candidate == previous else AGGRO_RANGE
+			if not is_boss_kind(net_kind): radius *= candidate.class_combat.modifier("detection")
 			if distance > radius or distance >= nearest: continue
 			# Check at ground level even for titans: seeing over a wall must not bypass it.
 			var query := PhysicsRayQueryParameters3D.create(global_position + Vector3.UP, candidate.global_position + Vector3.UP, 1 | 8, [get_rid()])

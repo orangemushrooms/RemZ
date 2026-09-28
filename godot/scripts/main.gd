@@ -12,6 +12,7 @@ var day_night: DayNightCycle
 var cornfield: Node3D
 var fill_light: DirectionalLight3D
 var skills: Skills
+var classes: Node
 var fireworks: Fireworks
 var hunting: Node3D
 var brewing: Node3D
@@ -203,6 +204,9 @@ func _ready() -> void:
 	weapons = Weapons.new()
 	add_child(weapons)
 	weapons.setup(player, hud, zombies_root)
+	classes = preload("res://scripts/class_progression.gd").new()
+	add_child(classes)
+	classes.setup(self)
 	_boot_mark("  player, weapons")
 	for s in Map.BARRICADES:
 		var b := Barricade.new()
@@ -2497,6 +2501,7 @@ func _on_start(play_intro: bool = true) -> void:
 	player.active = player.alive and not (intro.active and intro.phase == "logo")
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED if player.active else Input.MOUSE_MODE_VISIBLE
 	if not started:
+		classes.begin()
 		# The host supplies the decision to clients, including late joins.
 		var show_intro := play_intro if NetSession.enabled else play_intro and should_play_intro()
 		if not show_intro:
@@ -2672,6 +2677,7 @@ func _survived_text() -> String:
 
 func _end_round(title: String, text: String) -> void:
 	if over: return
+	classes.finish()
 	over = true
 	if defences: defences.cancel_placement()
 	for menu in [skills, inventory, barricade_menu, defences, progression, cheat_menu]:
@@ -2761,6 +2767,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 const KILL_VALUE := 0.6
 
 func _zombie_killed(zombie: Zombie) -> void:
+	if classes: classes.killed(zombie)
 	stats.record_kill(zombie)
 	_alive_count = maxi(0, _alive_count - 1)
 	# points: base value x difficulty x KILL_VALUE, plus up to +100 % for a kill streak (from the third kill within 4 s)

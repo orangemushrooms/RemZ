@@ -1,6 +1,7 @@
 .env
 Meshy Key
 .test-user/
+profiles/
 logs/*-headless.log
 logs/*-render.log
 logs/import-check.log

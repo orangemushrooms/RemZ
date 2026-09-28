@@ -240,6 +240,8 @@ func setup(main: Node) -> void:
 
 func data(peer: int) -> Dictionary:
 	if not people.has(peer): people[peer] = {"accepted": {}, "accepted_wave": {}, "claimed": {}, "skins": {}, "discovered": false}
+	var cosmetics: Dictionary = NetSession.cosmetic_profiles.get(peer, {}) if NetSession.enabled else (CharacterProfile.data.get("cosmetics", {}) if peer == 1 else {})
+	people[peer].skins.merge(cosmetics, true)
 	return people[peer]
 
 func local_data() -> Dictionary:
@@ -879,14 +881,15 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 			if not complete(id, p.peer_id): return Lang.t("Quest not completed yet. %s", [quest_progress(id, p.peer_id)])
 			d.claimed[id] = true
 			p.add_score(int(q.reward))
+			if game.classes: game.classes.quest(p.peer_id, id, int(q.reward))
 			if NetSession.enabled:
 				NetSession.feedback(p.peer_id, "quest_complete", [id])
 			else:
 				notifications.rewarded(id)
 			var chain := quest_chain(id)
 			if not chain.is_empty() and chain_complete(p.peer_id, chain) and not chain_unlocks(chain).is_empty():
-				return Lang.t("Quest line %s completed · +%d R · Purchase permit: %s", [QUEST_CHAINS[chain].name, q.reward, chain_unlocks(chain)])
-			return Lang.t("Quest completed · +%d R · %s", [q.reward, q.name])
+				return Lang.t("Quest line %s completed · +%d R · +%d class XP · Purchase permit: %s", [QUEST_CHAINS[chain].name, q.reward, preload("res://scripts/character_classes.gd").quest_xp(int(q.reward)), chain_unlocks(chain)])
+			return Lang.t("Quest completed · +%d R · +%d class XP · %s", [q.reward, preload("res://scripts/character_classes.gd").quest_xp(int(q.reward)), q.name])
 		"weapon":
 			if not GOODS.has(id) or GOODS[id].npc != npc: return "This weapon is not offered here."
 			if w.unlocked.get(id, false): return "You already own this weapon."
@@ -928,14 +931,15 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 		"skin":
 			if not SKINS.has(id) or SKINS[id].npc != npc or not w.unlocked.get(extra, false): return "Finish not available."
 			var s: Dictionary = SKINS[id]
-			var missing := prerequisite_reason(p.peer_id, s.quest)
-			if not missing.is_empty(): return missing
 			var key := extra + ":" + id
+			var missing := prerequisite_reason(p.peer_id, s.quest)
+			if not d.skins.get(key, false) and not missing.is_empty(): return missing
 			if not d.skins.get(key, false):
 				if p.score < int(s.price): return "Not enough Rem Dollars."
 				p.add_score(-int(s.price))
 				d.skins[key] = true
 			w.apply_skin(extra, id)
+			if game.classes: game.classes.cosmetic(p.peer_id, key)
 			Sfx.event(self, p.peer_id, "purchase")
 			return Lang.t("Finish applied: %s", [s.name])
 		"stock_skin":
@@ -1332,7 +1336,7 @@ func _render() -> void:
 					if id == "arrival" and not claimed and not locked and not _arrival_guide_read: text = "Start tutorial"
 					var details: String = Lang.t(q.desc)
 					var chain := quest_chain(id)
-					var heading: String = Lang.t("%s · Level %d · %d R", [q.name, q.min_level, q.reward])
+					var heading: String = Lang.t("%s · Level %d · %d R · %d class XP", [q.name, q.min_level, q.reward, preload("res://scripts/character_classes.gd").quest_xp(int(q.reward))])
 					if not chain.is_empty():
 						heading = Lang.t("%s · %d/%d · %s", [QUEST_CHAINS[chain].name, QUEST_CHAINS[chain].quests.find(id) + 1, QUEST_CHAINS[chain].quests.size(), heading])
 						details += "\n" + chain_description(p.peer_id, chain, false)
@@ -1413,7 +1417,7 @@ func _render() -> void:
 				var spec: Dictionary = SKINS[id]
 				if spec.npc != shop: continue
 				var owned: bool = d.skins.get(wid + ":" + id, false)
-				var allowed := has_claim(p.peer_id, spec.quest)
+				var allowed := owned or has_claim(p.peer_id, spec.quest)
 				_row(spec.name, Lang.t(spec.desc) + ("" if allowed else "\n" + prerequisite_reason(p.peer_id, spec.quest)), "Apply" if owned else Lang.t("Buy · %d R", [spec.price]), request.bind("skin", id, wid), not allowed or (not owned and p.score < int(spec.price)))
 			_row("Original finish", "Switch back to the original material for free.", "Apply", request.bind("stock_skin", wid))
 

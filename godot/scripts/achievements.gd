@@ -183,6 +183,7 @@ func progress_text() -> String:
 	return Lang.t("%d / %d achievements", [unlocked.size(), DEFS.size()])
 
 func _unlock(d: Dictionary) -> void:
+	if main.get("classes"): main.classes.achievement(str(d.id), int(d.reward.get("score", 0)))
 	session_unlocked[d["id"]] = true
 	var fresh: bool = not unlocked.has(d["id"])
 	unlocked[d["id"]] = true

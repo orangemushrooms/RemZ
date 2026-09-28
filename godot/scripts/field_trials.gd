@@ -208,6 +208,7 @@ func finish(skipped := false) -> void:
 			if is_instance_valid(z): z.queue_free()
 	else:
 		var reward: int = next_wave * 35 if secret < 0 else SECRETS[secret].reward
+		if main.get("classes"): main.classes.objective("field_%d_%d" % [secret, next_wave], maxi(750, reward * 2))
 		for p: Player in actors():
 			p.add_score(reward)
 			if secret >= 0:

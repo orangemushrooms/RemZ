@@ -6757,3 +6757,617 @@ msgstr "SUBURBS & LAKE"
 #: titan equipment drops
 msgid "%s found · select it in your inventory"
 msgstr "%s gefunden · im Inventar auswählen"
+
+# Persistent character classes
+
+msgid "%s"
+msgstr "%s"
+
+msgid "Gunslinger"
+msgstr "Revolverheld"
+
+msgid "Breacher"
+msgstr "Brecher"
+
+msgid "Assassin"
+msgstr "Assassin"
+
+msgid "Mobility and precision with pistols and revolvers."
+msgstr "Mobilität und Präzision mit Pistolen und Revolvern."
+
+msgid "Controlled sustained fire and reliable crowd control with assault rifles."
+msgstr "Kontrolliertes Dauerfeuer und zuverlässige Gruppenkontrolle mit Sturmgewehren."
+
+msgid "Shotguns, close quarters and powerful penetration."
+msgstr "Schrotflinten, Nahbereich und hohe Durchschlagskraft."
+
+msgid "Precision rifles, critical hits and dangerous elite targets."
+msgstr "Präzisionsgewehre, kritische Treffer und gefährliche Elitegegner."
+
+msgid "Speed, stealth and positioning. Flexible with every weapon."
+msgstr "Tempo, Tarnung und Positionierung. Flexibel mit jeder Waffe."
+
+msgid "Pistols reload 20% faster."
+msgstr "Pistolen werden 20% schneller nachgeladen."
+
+msgid "15% less pistol recoil."
+msgstr "15% weniger Rückstoss mit Pistolen."
+
+msgid "Duelist"
+msgstr "Duellant"
+
+msgid "Repeated pistol hits on one target add 5% damage per hit, up to 25%, for 3 seconds."
+msgstr "Wiederholte Pistolentreffer auf dasselbe Ziel erhöhen den Schaden pro Treffer um 5%, bis 25%, für 3 Sekunden."
+
+msgid "Quick Draw"
+msgstr "Schneller Wechsel"
+
+msgid "Switching to or from a pistol is 50% faster."
+msgstr "Waffenwechsel zu oder von einer Pistole erfolgen 50% schneller."
+
+msgid "Bounty"
+msgstr "Kopfgeld"
+
+msgid "Pistol headshots deal 15% more damage. Headshot kills grant 5 extra XP."
+msgstr "Pistolen-Kopfschüsse verursachen 15% mehr Schaden. Kopfschuss-Kills geben 5 zusätzliche XP."
+
+msgid "Fan the Hammer"
+msgstr "Fan the Hammer"
+
+msgid "Pistol shots build 40% less spread."
+msgstr "Pistolenschüsse bauen 40% weniger zusätzliche Streuung auf."
+
+msgid "Sidestep"
+msgstr "Ausweichschritt"
+
+msgid "Pistol kills grant 15% movement speed for 3 seconds."
+msgstr "Pistolen-Kills geben für 3 Sekunden 15% mehr Bewegungstempo."
+
+msgid "Ice Cold"
+msgstr "Eiskalt"
+
+msgid "Pistol headshots reduce recoil by 30% for 3 seconds."
+msgstr "Pistolen-Kopfschüsse reduzieren den Rückstoss für 3 Sekunden um 30%."
+
+msgid "High Noon"
+msgstr "High Noon"
+
+msgid "Pistol headshot kills reduce reload time by 8% for 5 seconds, up to 3 stacks."
+msgstr "Pistolen-Kopfschuss-Kills verkürzen die Nachladezeit für 5 Sekunden um 8%, bis zu 3 Stapel."
+
+msgid "Executioner"
+msgstr "Executioner"
+
+msgid "Pistols deal 25% more damage to targets below 30% health."
+msgstr "Pistolen verursachen 25% mehr Schaden gegen Ziele mit weniger als 30% Leben."
+
+msgid "Deadeye"
+msgstr "Deadeye"
+
+msgid "Consecutive pistol headshots add 8% critical damage, up to 40%. A miss or body hit resets the chain."
+msgstr "Aufeinanderfolgende Pistolen-Kopfschüsse erhöhen kritischen Schaden um je 8%, bis 40%. Ein Fehl- oder Körpertreffer beendet die Serie."
+
+msgid "10% more pistol damage and 15% faster movement while aiming a pistol."
+msgstr "10% mehr Pistolenschaden und 15% mehr Bewegungstempo beim Zielen mit Pistolen."
+
+msgid "Tactical Reload"
+msgstr "Taktisches Nachladen"
+
+msgid "Assault rifles reload 18% faster."
+msgstr "Sturmgewehre werden 18% schneller nachgeladen."
+
+msgid "Ammo Discipline"
+msgstr "Munitionsdisziplin"
+
+msgid "15% larger assault rifle magazines."
+msgstr "15% grössere Sturmgewehrmagazine."
+
+msgid "Controlled Burst"
+msgstr "Feuerstoss"
+
+msgid "The first 3 shots of an assault rifle burst have 25% less spread."
+msgstr "Die ersten 3 Schüsse eines Sturmgewehr-Feuerstosses haben 25% weniger Streuung."
+
+msgid "Suppressing Fire"
+msgstr "Unterdrückungsfeuer"
+
+msgid "Repeated assault rifle hits slow common enemies by 15% for 2 seconds."
+msgstr "Wiederholte Sturmgewehrtreffer verlangsamen gewöhnliche Gegner für 2 Sekunden um 15%."
+
+msgid "Frontline"
+msgstr "Frontsoldat"
+
+msgid "Assault rifle kills reduce recoil by 25% for 4 seconds."
+msgstr "Sturmgewehr-Kills reduzieren den Rückstoss für 4 Sekunden um 25%."
+
+msgid "Combat Drill"
+msgstr "Gefechtsroutine"
+
+msgid "Assault rifle kills reduce reload time by 25% for 4 seconds."
+msgstr "Sturmgewehr-Kills verkürzen die Nachladezeit für 4 Sekunden um 25%."
+
+msgid "Armor Breaker"
+msgstr "Panzerbrecher"
+
+msgid "Assault rifles deal 25% more damage against armoured enemies."
+msgstr "Sturmgewehre verursachen 25% mehr Schaden gegen gepanzerte Gegner."
+
+msgid "Crowd Control"
+msgstr "Crowd Control"
+
+msgid "Assault rifles deal 12% more damage against common zombies."
+msgstr "Sturmgewehre verursachen 12% mehr Schaden gegen gewöhnliche Zombies."
+
+msgid "Combat Momentum"
+msgstr "Combat Momentum"
+
+msgid "Assault rifle kills increase fire rate by 6% for 4 seconds, up to 3 stacks."
+msgstr "Sturmgewehr-Kills erhöhen die Feuerrate für 4 Sekunden um 6%, bis zu 3 Stapel."
+
+msgid "Veteran"
+msgstr "Veteran"
+
+msgid "Assault rifles reload 30% faster with a quarter magazine or less."
+msgstr "Sturmgewehre werden mit höchstens einem Viertel des Magazins 30% schneller nachgeladen."
+
+msgid "Weapons Expert"
+msgstr "Weapons Expert"
+
+msgid "Assault rifles gain 10% less recoil, 10% faster reloads and 10% larger magazines."
+msgstr "Sturmgewehre erhalten 10% weniger Rückstoss, 10% kürzere Nachladezeiten und 10% grössere Magazine."
+
+msgid "Last Stand"
+msgstr "Last Stand"
+
+msgid "Below 30% health: 20% less recoil, 20% faster reloads and 10% more movement speed."
+msgstr "Unter 30% Leben: 20% weniger Rückstoss, 20% kürzere Nachladezeiten und 10% mehr Bewegungstempo."
+
+msgid "Large Calibre"
+msgstr "Grosskaliber"
+
+msgid "Shotguns deal 12% more damage."
+msgstr "Schrotflinten verursachen 12% mehr Schaden."
+
+msgid "Speed Loader"
+msgstr "Schnelllader"
+
+msgid "Shotguns reload 20% faster."
+msgstr "Schrotflinten werden 20% schneller nachgeladen."
+
+msgid "Penetration"
+msgstr "Durchschlag"
+
+msgid "Shotgun pellets penetrate one additional common enemy."
+msgstr "Schrotkugeln durchschlagen einen zusätzlichen gewöhnlichen Gegner."
+
+msgid "Spread Control"
+msgstr "Streuungskontrolle"
+
+msgid "25% less shotgun spread."
+msgstr "25% weniger Schrotflintenstreuung."
+
+msgid "Knockback"
+msgstr "Knockback"
+
+msgid "Shotgun hits shove common zombies back more strongly."
+msgstr "Schrotflintentreffer stossen gewöhnliche Zombies stärker zurück."
+
+msgid "Bloodbath"
+msgstr "Blutbad"
+
+msgid "Shotgun kills within 5 metres grant 15% shotgun damage for 4 seconds."
+msgstr "Schrotflinten-Kills innerhalb von 5 Metern geben für 4 Sekunden 15% mehr Schrotflintenschaden."
+
+msgid "Breaching"
+msgstr "Breaching"
+
+msgid "Shotguns deal 25% more damage against armoured and large enemies."
+msgstr "Schrotflinten verursachen 25% mehr Schaden gegen gepanzerte und grosse Gegner."
+
+msgid "Crowd Breaker"
+msgstr "Crowd Breaker"
+
+msgid "20% more shotgun damage when 3 enemies stand within 5 metres of the target."
+msgstr "20% mehr Schrotflintenschaden, wenn 3 Gegner im Umkreis von 5 Metern um das Ziel stehen."
+
+msgid "No Mercy"
+msgstr "Keine Gnade"
+
+msgid "Shotgun hits within 4 metres deal 20% more damage."
+msgstr "Schrotflintentreffer innerhalb von 4 Metern verursachen 20% mehr Schaden."
+
+msgid "Stand Your Ground"
+msgstr "Stand Your Ground"
+
+msgid "15% less damage taken while at least 3 enemies are within 6 metres."
+msgstr "15% weniger erlittener Schaden, solange mindestens 3 Gegner innerhalb von 6 Metern stehen."
+
+msgid "Juggernaut"
+msgstr "Juggernaut"
+
+msgid "Shotgun kills grant 20% damage resistance for 4 seconds."
+msgstr "Schrotflinten-Kills geben für 4 Sekunden 20% Schadensresistenz."
+
+msgid "Boomstick"
+msgstr "Boomstick"
+
+msgid "The first shotgun blast from a full magazine deals 35% more damage."
+msgstr "Der erste Schrotflintenschuss aus einem vollen Magazin verursacht 35% mehr Schaden."
+
+msgid "Firm Stance"
+msgstr "Fester Stand"
+
+msgid "50% less weapon sway while aiming a precision rifle."
+msgstr "50% weniger Waffenbewegung beim Zielen mit Präzisionsgewehren."
+
+msgid "Fast Focus"
+msgstr "Schneller Fokus"
+
+msgid "Aim a precision rifle 30% faster."
+msgstr "Mit Präzisionsgewehren 30% schneller anvisieren."
+
+msgid "Weak Spot"
+msgstr "Schwachstelle"
+
+msgid "Precision rifle headshots deal 20% more damage."
+msgstr "Kopfschüsse mit Präzisionsgewehren verursachen 20% mehr Schaden."
+
+msgid "Piercing Shot"
+msgstr "Durchschuss"
+
+msgid "Precision rifle shots penetrate one additional enemy."
+msgstr "Präzisionsgewehrschüsse durchschlagen einen zusätzlichen Gegner."
+
+msgid "Precision rifles deal 20% more damage against special enemies."
+msgstr "Präzisionsgewehre verursachen 20% mehr Schaden gegen Spezialgegner."
+
+msgid "One Shot"
+msgstr "One Shot"
+
+msgid "The first precision rifle hit on each target deals 20% more damage."
+msgstr "Der erste Präzisionsgewehrtreffer auf jedes Ziel verursacht 20% mehr Schaden."
+
+msgid "Breath Control"
+msgstr "Atemkontrolle"
+
+msgid "Aiming a precision rifle steadily reduces spread by up to 40% over 3 seconds."
+msgstr "Ruhiges Zielen mit einem Präzisionsgewehr reduziert die Streuung über 3 Sekunden um bis zu 40%."
+
+msgid "Quickscope"
+msgstr "Quickscope"
+
+msgid "Precision headshots within 0.6 seconds of aiming deal 20% more damage."
+msgstr "Präzisions-Kopfschüsse innerhalb von 0,6 Sekunden nach dem Anvisieren verursachen 20% mehr Schaden."
+
+msgid "Kill Chain"
+msgstr "Kill Chain"
+
+msgid "A precision headshot kill boosts the next precision hit by 25% for 5 seconds."
+msgstr "Ein Präzisions-Kopfschuss-Kill verstärkt den nächsten Präzisionstreffer innerhalb von 5 Sekunden um 25%."
+
+msgid "Big Game Hunter"
+msgstr "Big Game Hunter"
+
+msgid "Precision rifles deal 30% more damage against elites and bosses."
+msgstr "Präzisionsgewehre verursachen 30% mehr Schaden gegen Elite- und Bossgegner."
+
+msgid "Perfect Shot"
+msgstr "Perfect Shot"
+
+msgid "After 4 seconds without a miss, the next precision headshot deals 50% more damage. Resets on use."
+msgstr "Nach 4 Sekunden ohne Fehlschuss verursacht der nächste Präzisions-Kopfschuss 50% mehr Schaden. Setzt sich bei Verwendung zurück."
+
+msgid "Marksman's Rhythm"
+msgstr "Marksman's Rhythm"
+
+msgid "Consecutive precision hits reduce reload time and aim time by 5%, up to 25%. A miss resets the chain."
+msgstr "Aufeinanderfolgende Präzisionstreffer verkürzen Nachlade- und Zielzeit um je 5%, bis 25%. Ein Fehlschuss beendet die Serie."
+
+msgid "Light Footed"
+msgstr "Leichtfüssig"
+
+msgid "10% faster movement."
+msgstr "10% mehr Bewegungstempo."
+
+msgid "Ghost Step"
+msgstr "Ghost Step"
+
+msgid "Quieter footsteps and 20% less detection range for common enemies."
+msgstr "Leisere Schritte und 20% geringere Wahrnehmungsreichweite gewöhnlicher Gegner."
+
+msgid "Opportunist"
+msgstr "Opportunist"
+
+msgid "15% more damage against enemies attacking another player."
+msgstr "15% mehr Schaden gegen Gegner, die einen anderen Spieler angreifen."
+
+msgid "Escape Artist"
+msgstr "Escape Artist"
+
+msgid "Taking at least 25 damage grants 20% movement speed for 3 seconds."
+msgstr "Mindestens 25 erlittener Schaden gibt für 3 Sekunden 20% mehr Bewegungstempo."
+
+msgid "Weapon Master"
+msgstr "Weapon Master"
+
+msgid "10% faster reloads and 25% faster weapon switches."
+msgstr "10% kürzere Nachladezeiten und 25% schnellere Waffenwechsel."
+
+msgid "Silent Killer"
+msgstr "Silent Killer"
+
+msgid "Attacks from behind deal 20% more damage."
+msgstr "Angriffe aus dem Rücken verursachen 20% mehr Schaden."
+
+msgid "Shadow"
+msgstr "Shadow"
+
+msgid "After 4 seconds without attacking, common enemies detect you from 35% less distance."
+msgstr "Nach 4 Sekunden ohne Angriff sinkt die Wahrnehmungsreichweite gewöhnlicher Gegner um 35%."
+
+msgid "Momentum"
+msgstr "Momentum"
+
+msgid "Weapon kills grant 15% movement speed for 4 seconds."
+msgstr "Waffen-Kills geben für 4 Sekunden 15% mehr Bewegungstempo."
+
+msgid "Assassination"
+msgstr "Assassination"
+
+msgid "The first hit from behind or against an unaware target deals 35% more damage."
+msgstr "Der erste Treffer aus dem Rücken oder gegen ein unaufmerksames Ziel verursacht 35% mehr Schaden."
+
+msgid "After 8 seconds without taking damage, gain 12% movement speed until hit."
+msgstr "Nach 8 Sekunden ohne erlittenen Schaden erhältst du bis zum nächsten Treffer 12% mehr Bewegungstempo."
+
+msgid "Master Assassin"
+msgstr "Master Assassin"
+
+msgid "5% faster movement, 20% faster weapon switches and 15% less detection range."
+msgstr "5% mehr Bewegungstempo, 20% schnellere Waffenwechsel und 15% geringere Wahrnehmungsreichweite."
+
+msgid "Predator"
+msgstr "Predator"
+
+msgid "After 5 seconds without attacking or taking damage, the next attack has 50% less spread and 25% more headshot damage."
+msgstr "Nach 5 Sekunden ohne Angriff oder erlittenen Schaden hat der nächste Angriff 50% weniger Streuung und 25% mehr Kopfschussschaden."
+
+msgid "YOUR CHARACTER"
+msgstr "DEIN CHARAKTER"
+
+msgid "LEVEL %d"
+msgstr "LEVEL %d"
+
+msgid "%d / %d XP · %d to next level"
+msgstr "%d / %d XP · %d bis zum nächsten Level"
+
+msgid "MAX LEVEL · %d total XP"
+msgstr "MAXIMALES LEVEL · %d Gesamt-XP"
+
+msgid "Change class"
+msgstr "Klasse wechseln"
+
+msgid "Class skills"
+msgstr "Klassen-Skills"
+
+msgid "Class progress"
+msgstr "Klassenfortschritt"
+
+msgid "Local character profile"
+msgstr "Lokales Charakterprofil"
+
+msgid "New profile name"
+msgstr "Neuer Profilname"
+
+msgid "Create profile"
+msgstr "Profil erstellen"
+
+msgid "CHARACTER · CLASSES & PROGRESS"
+msgstr "CHARAKTER · KLASSEN UND FORTSCHRITT"
+
+msgid "Classes"
+msgstr "Klassen"
+
+msgid "%s · Lv %d"
+msgstr "%s · Lv %d"
+
+msgid "Selected class"
+msgstr "Ausgewählte Klasse"
+
+msgid "Select class"
+msgstr "Klasse auswählen"
+
+msgid "Builds can be changed freely in the main menu. One passive talent per tier. All weapons remain usable."
+msgstr "Builds lassen sich im Hauptmenü jederzeit ändern. Ein passives Talent pro Stufe. Alle Waffen bleiben nutzbar."
+
+msgid "LEVEL %d · %s"
+msgstr "LEVEL %d · %s"
+
+msgid "Choose one talent"
+msgstr "Ein Talent auswählen"
+
+msgid "%s %s"
+msgstr "%s %s"
+
+msgid "LIFETIME CLASS STATISTICS"
+msgstr "DAUERHAFTE KLASSENSTATISTIK"
+
+msgid "%dh %dm"
+msgstr "%dh %dm"
+
+msgid "Best kill streak"
+msgstr "Höchste Killserie"
+
+msgid "Completed missions"
+msgstr "Abgeschlossene Missionen"
+
+msgid "Boss kills"
+msgstr "Bosskills"
+
+msgid "Waves survived"
+msgstr "Überstandene Wellen"
+
+msgid "Multiplayer kills"
+msgstr "Mehrspieler-Kills"
+
+msgid "Multiplayer missions"
+msgstr "Mehrspieler-Missionen"
+
+msgid "NEXT UNLOCK · LEVEL %d\nA new passive talent tier"
+msgstr "NÄCHSTE FREISCHALTUNG · LEVEL %d\nEine neue passive Talentstufe"
+
+msgid "All six talent tiers unlocked"
+msgstr "Alle sechs Talentstufen freigeschaltet"
+
+msgid "Profile: %d total kills · %d quests completed · %d achievements\nFavourite class: %s"
+msgstr "Profil: %d Kills insgesamt · %d abgeschlossene Quests · %d Erfolge\nBevorzugte Klasse: %s"
+
+msgid "+%d XP · %s"
+msgstr "+%d XP · %s"
+
+msgid "LEVEL UP\n%s · LEVEL %d"
+msgstr "LEVELAUFSTIEG\n%s · LEVEL %d"
+
+msgid "New talent available in the main menu."
+msgstr "Neues Talent im Hauptmenü verfügbar."
+
+msgid "%s · LVL %d · %d%%"
+msgstr "%s · LVL %d · %d%%"
+
+msgid "Achievement completed"
+msgstr "Erfolg freigeschaltet"
+
+msgid "Quest completed"
+msgstr "Quest abgeschlossen"
+
+msgid "Boss kill"
+msgstr "Bosskill"
+
+msgid "Elite kill"
+msgstr "Elite-Kill"
+
+msgid "Zombie kill"
+msgstr "Zombie-Kill"
+
+msgid "Wave survived"
+msgstr "Welle überstanden"
+
+msgid "Mission completed"
+msgstr "Mission abgeschlossen"
+
+msgid "Team objective completed"
+msgstr "Teamziel abgeschlossen"
+
+msgid "Lock in class"
+msgstr "Klasse bestätigen"
+
+msgid "Class locked"
+msgstr "Klasse bestätigt"
+
+msgid "Choose your class here. Skills can only be changed in the main menu. A locked class stays fixed for the match."
+msgstr "Wähle hier deine Klasse. Skills können nur im Hauptmenü geändert werden. Eine bestätigte Klasse bleibt für das Match festgelegt."
+
+msgid "%s · %s · Level %d · %s"
+msgstr "%s · %s · Level %d · %s"
+
+msgid "LOCKED"
+msgstr "BESTÄTIGT"
+
+msgid "Choose class"
+msgstr "Klasse wählen"
+
+msgid "Select a valid character class before joining."
+msgstr "Wähle vor dem Beitritt eine gültige Charakterklasse."
+
+msgid "Every player must lock in a class before the match starts."
+msgstr "Alle Spieler müssen ihre Klasse vor dem Match bestätigen."
+
+msgid "This profile needs a newer version of RemZ."
+msgstr "Dieses Profil benötigt eine neuere Version von RemZ."
+
+msgid "The profile could not be read. The original files have been kept."
+msgstr "Das Profil konnte nicht gelesen werden. Die Originaldateien wurden beibehalten."
+
+msgid "Progress could not be saved. Check free space and write access to the profile folder."
+msgstr "Fortschritt konnte nicht gespeichert werden. Prüfe freien Speicherplatz und Schreibrechte für den Profilordner."
+
+msgid "Assault Trooper"
+msgstr "Sturmschütze"
+
+msgid "Gunslinger Mastery"
+msgstr "Gunslinger"
+
+msgid "Elite Hunter"
+msgstr "Hunter"
+
+msgid "Untouchable Movement"
+msgstr "Untouchable"
+
+msgid "Defeat your first zombie."
+msgstr "Töte deinen ersten Zombie."
+
+msgid "Exterminator"
+msgstr "Exterminator"
+
+msgid "Defeat 10,000 zombies across all classes."
+msgstr "Töte insgesamt 10.000 Zombies mit allen Klassen."
+
+msgid "Perfect Aim"
+msgstr "Perfect Aim"
+
+msgid "Score 100 headshot kills across all classes."
+msgstr "Erziele insgesamt 100 Kopfschuss-Kills mit allen Klassen."
+
+msgid "Class Veteran"
+msgstr "Veteran"
+
+msgid "Reach level 30 with one class."
+msgstr "Erreiche Level 30 mit einer Klasse."
+
+msgid "Master of Arms"
+msgstr "Master of Arms"
+
+msgid "Reach level 30 with all five classes."
+msgstr "Erreiche Level 30 mit allen fünf Klassen."
+
+msgid "Untouchable Survivor"
+msgstr "Untouchable"
+
+msgid "Complete an entire Hard or Nightmare mission without taking damage."
+msgstr "Schliesse eine gesamte Mission auf Schwer oder Albtraum ohne erlittenen Schaden ab."
+
+msgid "PROFILE ACHIEVEMENTS"
+msgstr "PROFIL-ERFOLGE"
+
+msgid "%s · %s · %d XP"
+msgstr "%s · %s · %d XP"
+
+msgid "%d cosmetic unlocks"
+msgstr "%d kosmetische Freischaltungen"
+
+msgid "Rem Dollars and supplies are awarded per round. Class XP for each achievement is awarded only once per character profile."
+msgstr "Rem Dollars und Vorräte werden pro Runde vergeben. Klassen-XP für jeden Erfolg gibt es nur einmal pro Charakterprofil."
+
+msgid "Class confirmed. Waiting for the team."
+msgstr "Klasse bestätigt. Warte auf das Team."
+
+msgid "Score 100 headshots across all classes."
+msgstr "Erziele insgesamt 100 Kopfschüsse mit allen Klassen."
+
+msgid "Quest line %s completed · +%d R · +%d class XP · Purchase permit: %s"
+msgstr "Auftragsreihe %s abgeschlossen · +%d R · +%d Klassen-XP · Kauferlaubnis: %s"
+
+msgid "Quest completed · +%d R · +%d class XP · %s"
+msgstr "Auftrag abgeschlossen · +%d R · +%d Klassen-XP · %s"
+
+msgid "%s · Level %d · %d R · %d class XP"
+msgstr "%s · Level %d · %d R · %d Klassen-XP"
+
+msgid "+%d Rem Dollars · +%d class XP"
+msgstr "+%d Rem Dollars · +%d Klassen-XP"
+
+msgid "All goals reached!\nTurn in to %s · %d R · %d class XP"
+msgstr "Alle Ziele erreicht!\nBei %s abgeben · %d R · %d Klassen-XP"
+
+msgid "Deaths"
+msgstr "Tode"

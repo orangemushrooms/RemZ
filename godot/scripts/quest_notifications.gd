@@ -143,9 +143,9 @@ func _next() -> void:
 	if progress:
 		_detail.text = " · ".join(_current.goals)
 	elif _current.kind == "complete":
-		_detail.text = Lang.t("+%d Rem Dollars · reward received", [int(quest.reward)])
+		_detail.text = Lang.t("+%d Rem Dollars · +%d class XP", [int(quest.reward), preload("res://scripts/character_classes.gd").quest_xp(int(quest.reward))])
 	else:
-		_detail.text = Lang.t("All goals reached!\nTurn in to %s · %d R", [Progression.NPCS[quest.npc].name, quest.reward])
+		_detail.text = Lang.t("All goals reached!\nTurn in to %s · %d R · %d class XP", [Progression.NPCS[quest.npc].name, quest.reward, preload("res://scripts/character_classes.gd").quest_xp(int(quest.reward))])
 	_style.border_color = color
 	_heading.add_theme_color_override("font_color", color)
 	_symbol.add_theme_color_override("font_color", color)

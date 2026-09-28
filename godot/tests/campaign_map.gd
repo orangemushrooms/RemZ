@@ -137,6 +137,7 @@ func run() -> void:
 	game.hud.hide_map_selection()
 	# The same snapshot path used by live co-op clients must retain a successful outcome.
 	check(NetSession.host("CampaignHost", 24761) == OK, "Campaign co-op host opens")
+	NetSession.choose_class(CharacterProfile.selected(), true)
 	game.hud.primary_action()
 	var click := InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT

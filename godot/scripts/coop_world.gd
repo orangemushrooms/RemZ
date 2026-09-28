@@ -101,6 +101,9 @@ func add_player(id: int) -> void:
 	p.peer_id = id
 	actors[id] = p
 	weapons[id] = w
+	if game.get("classes") and NetSession.class_roster.has(id):
+		game.classes.apply_build(p, w, NetSession.class_roster[id])
+	if NetSession.is_host() and NetSession.class_roster.has(id) and not NetSession.class_roster[id].get("locked", false): p.active = false
 	pose_times[id] = NetSession._elapsed
 	game.progression.data(id)
 	if NetSession.is_host(): game.stats.register_player(id, NetSession.roster.get(id, "Player"))
@@ -145,6 +148,7 @@ func nearest_player(position: Vector3) -> Player:
 	var distance := INF
 	for p: Player in actors.values():
 		if not is_instance_valid(p) or not p.alive: continue
+		if NetSession.class_roster.has(p.peer_id) and not NetSession.class_roster[p.peer_id].get("locked", false): continue
 		var d := p.global_position.distance_squared_to(position)
 		if d < distance:
 			distance = d
@@ -443,6 +447,7 @@ func hut_lost() -> void:
 	_show_game_over()
 
 func _show_game_over() -> void:
+	if game.classes: game.classes.finish()
 	_close_local_menus()
 	game.drones.shutdown()
 	game.over = true

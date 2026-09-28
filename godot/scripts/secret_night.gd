@@ -305,6 +305,7 @@ func _complete() -> void:
 	completed = true
 	var actors: Array = NetSession.world.actors.values() if NetSession.is_host() else [main.player]
 	for p: Player in actors: p.add_score(REWARD)
+	if main.get("classes"): main.classes.objective("secret_night", 1000)
 	_leave_presentation()
 	main.waves.phase = "idle"
 	main.waves.timer = PREPARATION_SECONDS

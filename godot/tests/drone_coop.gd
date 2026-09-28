@@ -7,7 +7,7 @@ func _initialize() -> void:
 func host_run() -> void:
 	check(NetSession.host("Host",test_port)==OK,"Drone host opens ENet socket")
 	write_json("host-ready",{"port":test_port})
-	while NetSession.roster.size()<2 or false in NetSession.ready_peers.values(): await wait_seconds(0.1)
+	while NetSession.roster.size()<2 or false in NetSession.ready_peers.values() or NetSession.class_roster.values().any(func(build): return not build.locked): await wait_seconds(0.1)
 	NetSession.start_game()
 	game.waves.set_process(false)
 	game.waves.timer = 10000

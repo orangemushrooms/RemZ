@@ -10,7 +10,7 @@ try {
         $arguments = @('--path', 'godot', '--log-file', ('"' + $log + '"'))
         if ($role -eq 'host') { $arguments += '--headless' }
         else { $arguments += @('--windowed', '--resolution', '640x360', '--max-fps', '30') }
-        $arguments += @('--', '--port=24698', "--name=$role", '--smoke-test', '--no-foliage', '--no-music')
+        $arguments += @('--', '--port=24698', "--name=$role", '--smoke-test', '--class-auto-lock', '--no-foliage', '--no-music')
         if ($role -eq 'host') { $arguments += @('--host', '--coop-auto-start=2') }
         else { $arguments += '--join=127.0.0.1' }
         $runs += Start-Process -FilePath $GodotBinary -WorkingDirectory $workspace -ArgumentList $arguments -WindowStyle Hidden -PassThru

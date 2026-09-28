@@ -115,6 +115,17 @@ func _sweep_menus() -> void:
 	await _frames(3)
 	await _sweep("campaign / construction", hud.map_selection)
 	hud.hide_map_selection()
+	var character_menu: Control = hud.overlay.get_node("CharacterMenu")
+	for id in preload("res://scripts/character_classes.gd").ORDER:
+		character_menu.open_page("skills")
+		character_menu.selected = id
+		character_menu._render_page()
+		await _frames(2)
+		await _sweep("class talents / " + id, character_menu.modal)
+		character_menu.close()
+	character_menu.open_page("progress")
+	await _sweep("class progress", character_menu.modal)
+	character_menu.close()
 	for id in ["briefing", "multiplayer", "difficulty", "controls", "settings", "records", "achievements"]:
 		hud.show_tab(id)
 		await _frames(2)

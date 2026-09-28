@@ -11,7 +11,7 @@ $runs = @()
 try {
     foreach ($role in @('host','c1','c2')) {
         $argsForGodot = @('--headless','--max-fps','120','--path','godot','--log-file',(Join-Path $artifacts "$role.log"),
-            '--script','res://tests/run.gd','--','--suite=drone_coop','--smoke-test','--no-intro','--no-music','--no-foliage',
+            '--script','res://tests/run.gd','--','--suite=drone_coop','--smoke-test', '--class-auto-lock','--no-intro','--no-music','--no-foliage',
             "--coop-role=$role", "--coop-port=$Port")
         $process = Start-Process -FilePath $GodotBinary -WorkingDirectory $workspace -ArgumentList $argsForGodot -WindowStyle Hidden -PassThru
         $runs += $process

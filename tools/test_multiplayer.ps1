@@ -16,7 +16,7 @@ try {
     foreach ($role in @('host', 'c1', 'c2', 'c3')) {
         $logPath = Join-Path $artifacts "$role.log"
         $arguments = @('--headless', '--max-fps', '120', '--path', 'godot', '--log-file', ('"' + $logPath + '"'),
-            '--script', 'res://tests/run.gd', '--', '--suite=multiplayer', '--smoke-test', '--no-foliage',
+            '--script', 'res://tests/run.gd', '--', '--suite=multiplayer', '--smoke-test', '--class-auto-lock', '--no-foliage',
             "--coop-role=$role", "--coop-port=$Port")
         if ($Intro) { $arguments += '--test-coop-intro' }
         $process = Start-Process -FilePath $GodotBinary -WorkingDirectory $workspace -ArgumentList $arguments -WindowStyle Hidden -PassThru

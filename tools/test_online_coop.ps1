@@ -29,7 +29,7 @@ try {
         $clientLog = Join-Path $folder 'packed-client.log'
         foreach ($log in @($hostLog, $clientLog)) { if (Test-Path -LiteralPath $log) { Remove-Item -LiteralPath $log } }
         $hostArgs = @('--headless', '--log-file', ('"' + $hostLog + '"'), '--',
-            '--host-online', '--coop-auto-start=2', '--name=PackedHost', '--smoke-test', '--no-foliage', '--no-music', '--eos-cache=host')
+            '--host-online', '--coop-auto-start=2', '--name=PackedHost', '--smoke-test', '--class-auto-lock', '--no-foliage', '--no-music', '--eos-cache=host')
         if ($ForceRelay) { $hostArgs += '--eos-force-relay' }
         $hostProcess = Start-Process -FilePath $binary -WorkingDirectory (Split-Path $binary) -ArgumentList $hostArgs -WindowStyle Hidden -PassThru
         $runs += $hostProcess
@@ -47,7 +47,7 @@ try {
         if (-not $code) { throw "Packed host published no join code within 150 s. See $hostTrace" }
         Write-Host "Host lobby code: $code"
         $clientArgs = @('--headless', '--log-file', ('"' + $clientLog + '"'), '--',
-            "--join-code=$code", '--name=PackedClient', '--smoke-test', '--no-foliage', '--no-music', '--eos-fresh-device', '--eos-cache=client')
+            "--join-code=$code", '--name=PackedClient', '--smoke-test', '--class-auto-lock', '--no-foliage', '--no-music', '--eos-fresh-device', '--eos-cache=client')
         if ($ForceRelay) { $clientArgs += '--eos-force-relay' }
         $clientProcess = Start-Process -FilePath $binary -WorkingDirectory (Split-Path $binary) -ArgumentList $clientArgs -WindowStyle Hidden -PassThru
         $runs += $clientProcess
@@ -69,7 +69,7 @@ try {
     foreach ($role in @('host', 'client')) {
         $logPath = Join-Path $folder "$role.log"
         $arguments = @('--headless', '--max-fps', '120', '--path', 'godot', '--log-file', ('"' + $logPath + '"'),
-            '--script', 'res://tests/run.gd', '--', '--suite=online_coop', '--smoke-test', '--no-intro', '--no-music', '--no-foliage',
+            '--script', 'res://tests/run.gd', '--', '--suite=online_coop', '--smoke-test', '--class-auto-lock', '--no-intro', '--no-music', '--no-foliage',
             "--online-role=$role", "--eos-cache=$role")
         if ($role -eq 'client') { $arguments += '--eos-fresh-device' }
         if ($ForceRelay) { $arguments += '--eos-force-relay' }

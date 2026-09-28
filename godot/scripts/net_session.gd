@@ -4,8 +4,12 @@ signal changed
 
 const PORT := 24567
 const MAX_PLAYERS := 4
-const PROTOCOL := 3 # 3 since 25 Sep 2026: application ping, per-row leaderboard, online lobby
-const BUILD := "remz-dev-20260927-titan-loot"
+const PROTOCOL := 4 # Persistent classes and frozen lobby loadouts.
+const BUILD := "remz-dev-20260927-character-classes"
+const CharacterClasses = preload("res://scripts/character_classes.gd")
+var class_roster: Dictionary = {}
+var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.
+var cosmetic_profiles: Dictionary = {}
 const SNAPSHOT_CHUNK := 900 # Small enough for the additional Hamachi tunnel headers.
 var enabled := false
 var phase := "offline"
@@ -32,6 +36,8 @@ func trace_load(message: String) -> void:
 	print("COOP_LOAD ", message)
 	if diagnostic_path.is_empty():
 		var local_folder := ProjectSettings.globalize_path("res://../logs/coop") if OS.has_feature("editor") else OS.get_executable_path().get_base_dir().path_join("logs")
+		for arg in OS.get_cmdline_user_args():
+			if arg.begins_with("--suite="): local_folder = ProjectSettings.globalize_path("res://../artifacts/coop-test")
 		if "--trailer-run" in OS.get_cmdline_user_args():
 			for arg in OS.get_cmdline_user_args():
 				if arg.begins_with("--trailer-folder="): local_folder = arg.trim_prefix("--trailer-folder=")
@@ -151,6 +157,7 @@ func attach(node: Node3D) -> void:
 	game.player.peer_id = local_id()
 	if enabled:
 		if is_host():
+			if class_roster.has(1): class_roster[1].level = CharacterProfile.level(str(class_roster[1].id))
 			ready_peers[1] = true
 			world.add_player(1)
 			for id in roster:
@@ -159,6 +166,7 @@ func attach(node: Node3D) -> void:
 			_send_lobby()
 		else:
 			world.make_client()
+			if class_roster.has(local_id()): _class_level.rpc_id(1, epoch, CharacterProfile.level(str(class_roster[local_id()].id)))
 			_level_ready.rpc_id(1, epoch)
 	if not _message_after_load.is_empty():
 		status = _message_after_load
@@ -332,6 +340,11 @@ func _activate_host(peer: MultiplayerPeer, kind: String, display_name: String) -
 	epoch += 1
 	player_name = display_name
 	roster = {1: player_name}
+	class_profiles = {1: local_class_profiles()}
+	cosmetic_profiles = {1: validate_cosmetics(CharacterProfile.data.cosmetics)}
+	class_roster = {1: CharacterProfile.loadout()}
+	class_roster[1].locked = false
+	CharacterProfile.context = "lobby"
 	game.stats.players.clear()
 	ready_peers = {1: true}
 	_pings.clear()
@@ -343,6 +356,10 @@ func _activate_client(peer: MultiplayerPeer, kind: String, display_name: String,
 	transport = kind
 	enabled = true
 	phase = "connecting"
+	CharacterProfile.context = "lobby"
+	class_roster.clear()
+	class_profiles.clear()
+	cosmetic_profiles.clear()
 	game.stats.players.clear()
 	_command_seq = 0
 	_received_sequence = -1
@@ -356,12 +373,80 @@ static func clean_name(value: String) -> String:
 	value = value.strip_edges().replace("\n", " ").replace("\r", " ").replace("\t", " ").left(24)
 	return "Player" if value.is_empty() else value
 
+func local_class_profiles() -> Dictionary:
+	var builds := {}
+	for id in CharacterClasses.ORDER: builds[id] = CharacterProfile.loadout(id)
+	return builds
+
+static func validate_class_profiles(values: Dictionary) -> Dictionary:
+	if values.size() != 5: return {}
+	var result := {}
+	for id in CharacterClasses.ORDER:
+		var build := CharacterClasses.sanitize_loadout(values.get(id))
+		if build.is_empty() or build.id != id: return {}
+		result[id] = build
+	return result
+
+static func validate_cosmetics(values: Dictionary) -> Dictionary:
+	var result := {}
+	for weapon in Weapons.ORDER:
+		for skin in Progression.SKINS:
+			var key: String = weapon + ":" + skin
+			if values.get(key, false) == true: result[key] = true
+	return result
+
+func can_choose_class(id: int) -> bool:
+	return enabled and class_profiles.has(id) and not class_roster.get(id, {}).get("locked", false) and (phase == "lobby" or (phase == "running" and ready_peers.get(id, false) and world and world.actor(id) and not world.actor(id).active))
+
+func choose_class(id: String, lock_in: bool = false) -> bool:
+	if not enabled or not CharacterClasses.CLASSES.has(id): return false
+	if is_host(): return _set_class(1, id, lock_in)
+	if class_roster.get(local_id(), {}).get("locked", false): return false
+	_class_choice.rpc_id(1, epoch, id, lock_in)
+	return true
+
+func _set_class(peer: int, id: String, lock_in: bool) -> bool:
+	if not is_host() or not can_choose_class(peer) or not class_profiles[peer].has(id): return false
+	class_roster[peer] = class_profiles[peer][id].duplicate(true)
+	class_roster[peer].locked = lock_in
+	if peer == local_id(): _remember_class(id)
+	if lock_in: status = "Class confirmed. Waiting for the team."
+	if world and world.actor(peer) and game.classes:
+		game.classes.apply_build(world.actor(peer), world.weapons[peer], class_roster[peer])
+	_send_lobby()
+	if phase == "running" and lock_in and ready_peers.get(peer, false):
+		world.actor(peer).active = true
+		_begin.rpc_id(peer, epoch, false)
+	return true
+
+func _remember_class(id: String) -> void:
+	if CharacterProfile.selected() == id: return
+	CharacterProfile.data.selected = id
+	CharacterProfile.dirty = true
+	CharacterProfile.save()
+	CharacterProfile.changed.emit()
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _class_choice(session_epoch: int, id: String, lock_in: bool) -> void:
+	var peer := multiplayer.get_remote_sender_id()
+	if not _accept(peer, session_epoch): return
+	_set_class(peer, id, lock_in)
+
+@rpc("any_peer", "call_remote", "reliable", 0)
+func _class_level(session_epoch: int, level: int) -> void:
+	var peer := multiplayer.get_remote_sender_id()
+	# A rematch may refresh the displayed level, but keeps the same class and frozen choices.
+	if not is_host() or epoch != session_epoch or phase != "lobby" or not _round_restart or not class_roster.has(peer): return
+	if level < int(class_roster[peer].level) or level > 30: return
+	class_roster[peer].level = level
+	_send_lobby()
+
 func _connected() -> void:
 	if not enabled or phase != "connecting": return
 	trace_load("TRANSPORT_CONNECTED sending_hello")
 	_hello_t = 0.0
 	_connect_t = 12.0
-	_hello.rpc_id(1, PROTOCOL, _fingerprint, player_name)
+	_hello.rpc_id(1, PROTOCOL, _fingerprint, player_name, local_class_profiles(), CharacterProfile.selected(), validate_cosmetics(CharacterProfile.data.cosmetics))
 
 func _peer_connected(id: int) -> void:
 	trace_load("PEER_CONNECTED id=%d" % id)
@@ -369,7 +454,7 @@ func _peer_connected(id: int) -> void:
 		_rates[id] = {"deadline": _elapsed + 12.0, "tokens": 80.0, "time": _elapsed}
 
 @rpc("any_peer", "call_remote", "reliable", 0)
-func _hello(version: int, fingerprint: String, display_name: String) -> void:
+func _hello(version: int, fingerprint: String, display_name: String, builds: Dictionary = {}, selected_class: String = "gunslinger", cosmetics: Dictionary = {}) -> void:
 	if not is_host(): return
 	var id := multiplayer.get_remote_sender_id()
 	if roster.has(id): return
@@ -382,6 +467,14 @@ func _hello(version: int, fingerprint: String, display_name: String) -> void:
 	if roster.size() >= MAX_PLAYERS:
 		_rejected.rpc_id(id, "This session is full (4/4 players).")
 		return
+	var accepted := validate_class_profiles(builds)
+	if accepted.is_empty() or not accepted.has(selected_class):
+		_rejected.rpc_id(id, "Select a valid character class before joining.")
+		return
+	class_profiles[id] = accepted
+	cosmetic_profiles[id] = validate_cosmetics(cosmetics)
+	class_roster[id] = accepted[selected_class].duplicate(true)
+	class_roster[id].locked = false
 	roster[id] = clean_name(display_name)
 	print("COOP_PEER_ACCEPTED count=", roster.size())
 	ready_peers[id] = false
@@ -484,21 +577,25 @@ func _state_ready(session_epoch: int) -> void:
 	_loading_peers.erase(id)
 	ready_peers[id] = true
 	trace_load("CLIENT_READY peer=%d" % id)
-	if phase == "running":
+	if phase == "running" and class_roster.get(id, {}).get("locked", false):
 		_begin.rpc_id(id, epoch, false) # Late joins keep the replicated team position.
 	_send_lobby()
 
 func _send_lobby() -> void:
 	if not is_host(): return
-	_lobby.rpc(epoch, roster, ready_peers, phase)
+	_lobby.rpc(epoch, roster, ready_peers, phase, class_roster)
 	changed.emit()
 
 @rpc("authority", "call_remote", "reliable", 0)
-func _lobby(session_epoch: int, players: Dictionary, ready: Dictionary, session_phase: String) -> void:
+func _lobby(session_epoch: int, players: Dictionary, ready: Dictionary, session_phase: String, classes: Dictionary = {}) -> void:
 	if session_epoch != epoch: return
 	roster = players
 	ready_peers = ready
 	phase = session_phase
+	class_roster = classes.duplicate(true)
+	if game and not game.started and game.get("classes") and class_roster.has(local_id()):
+		_remember_class(str(class_roster[local_id()].id))
+		game.classes.apply_build(game.player, game.weapons, class_roster[local_id()])
 	if is_client() and phase == "lobby" and ready_peers.get(local_id(), false):
 		status = "Ready · waiting for the host"
 	if world:
@@ -508,6 +605,10 @@ func _lobby(session_epoch: int, players: Dictionary, ready: Dictionary, session_
 func start_game() -> void:
 	if not is_host() or phase != "lobby" or not game.navigation_ready: return
 	for id in roster:
+		if not class_roster.get(id, {}).get("locked", false):
+			status = "Every player must lock in a class before the match starts."
+			changed.emit()
+			return
 		if not ready_peers.get(id, false):
 			status = "A player is still loading."
 			changed.emit()
@@ -542,6 +643,9 @@ func _peer_disconnected(id: int) -> void:
 	trace_load("PEER_DISCONNECTED id=%d" % id)
 	if not enabled: return
 	roster.erase(id)
+	class_roster.erase(id)
+	class_profiles.erase(id)
+	cosmetic_profiles.erase(id)
 	ready_peers.erase(id)
 	_loading_peers.erase(id)
 	_commands.erase(id)
@@ -596,6 +700,10 @@ func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> voi
 	_command_seq = 0
 	_connect_t = 0.0
 	roster.clear()
+	class_roster.clear()
+	class_profiles.clear()
+	cosmetic_profiles.clear()
+	CharacterProfile.end_match()
 	ready_peers.clear()
 	_loading_peers.clear()
 	_initial_parts.clear()
@@ -681,6 +789,7 @@ func command(operation: String, args: Array = []) -> void:
 func _action(session_epoch: int, sequence: int, operation: String, args: Array) -> void:
 	var id := multiplayer.get_remote_sender_id()
 	if not _accept(id, session_epoch) or phase != "running" or args.size() > 8 or operation.length() > 24: return
+	if not class_roster.get(id, {}).get("locked", false): return
 	if sequence <= int(_commands.get(id, -1)): return
 	_commands[id] = sequence
 	world.action(id, operation, args)
@@ -696,11 +805,13 @@ func _accept(id: int, session_epoch: int) -> bool:
 	return true
 
 @rpc("any_peer", "call_remote", "unreliable_ordered", 1)
-func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, sequence: int = 0, crouching: bool = false) -> void:
+func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, sequence: int = 0, crouching: bool = false, aiming: float = 0.0) -> void:
 	var id := multiplayer.get_remote_sender_id()
 	if not _accept(id, session_epoch) or phase != "running": return
+	if not class_roster.get(id, {}).get("locked", false): return
 	if not position.is_finite() or not motion.is_finite() or not is_finite(yaw) or not is_finite(pitch): return
 	if sequence <= 0: return
+	if is_finite(aiming) and world.weapons.has(id): world.weapons[id].ads = clampf(aiming, 0.0, 1.0)
 	world.move_player(id, position, yaw, pitch, light, motion, _elapsed, sequence, crouching)
 
 @rpc("authority", "call_remote", "unreliable", 2)
@@ -743,6 +854,11 @@ func feedback(id: int, kind: String, args: Array) -> void:
 func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 	if epoch != session_epoch or not is_instance_valid(game): return
 	match kind:
+		"class_reward":
+			if args.size() == 3 and args[0] is int and args[1] is String and args[2] is Array and game.get("classes"):
+				game.classes.receive(args[0], args[1], args[2])
+		"class_combat":
+			if is_client() and args.size() == 1 and args[0] is Dictionary: game.player.class_combat.apply_runtime(args[0])
 		"brew_fx":
 			if args.size() == 3 and args[0] is Vector3 and args[1] is String and (args[2] is float or args[2] is int):
 				game.brewing.receive_burst(args[0], args[1], clampf(float(args[2]), 0.1, 7.0))
@@ -928,6 +1044,8 @@ func _leaderboard_live(session_epoch: int, rows: Dictionary) -> void:
 func _process(delta: float) -> void:
 	_elapsed += delta
 	if not enabled: return
+	if "--class-auto-lock" in OS.get_cmdline_user_args() and ready_peers.get(local_id(), false) and class_roster.has(local_id()) and not class_roster[local_id()].get("locked", false):
+		choose_class(str(class_roster[local_id()].id), true)
 	if _connect_t > 0.0:
 		_connect_t -= delta
 		if _connect_t <= 0.0:
@@ -954,7 +1072,7 @@ func _process(delta: float) -> void:
 		for id in _rates.keys():
 			if not ready_peers.get(id, false) and _elapsed > float(_rates[id].deadline):
 				multiplayer.multiplayer_peer.disconnect_peer(id)
-		if _auto_start > 0 and phase == "lobby" and roster.size() >= _auto_start and ready_peers.size() == roster.size() and not false in ready_peers.values():
+		if _auto_start > 0 and phase == "lobby" and roster.size() >= _auto_start and ready_peers.size() == roster.size() and not false in ready_peers.values() and roster.keys().all(func(id): return class_roster.get(id, {}).get("locked", false)):
 			_auto_start = 0
 			start_game()
 	elif is_instance_valid(game) and world and game.navigation_ready and phase == "lobby" and not ready_peers.get(local_id(), false):
@@ -981,4 +1099,4 @@ func _process(delta: float) -> void:
 		if _pose_t >= 0.05 and game.player.alive:
 			_pose_t = 0.0
 			var pose_sequence: int = world.movement_sync.record(game.player.global_position)
-			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity, pose_sequence, game.player.crouching)
+			_pose.rpc_id(1, epoch, game.player.global_position, game.player.rotation.y, game.player.pitch, game.player.flashlight.visible, game.player.velocity, pose_sequence, game.player.crouching, game.weapons.ads)

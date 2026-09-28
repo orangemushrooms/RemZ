@@ -120,6 +120,7 @@ var _grenade_scene: PackedScene
 var _blood_pool: Array[GPUParticles3D] = []
 var _blood_next := 0
 var _melee_t := 0.0
+var _switch_t := 0.0
 var _melee_anim := 0.0
 var _melee_stab := false
 var _melee_duration := 0.42
@@ -254,7 +255,19 @@ func effective_damage_mul() -> float:
 	return damage_mul * player.mushroom_multiplier("damage") * player.relic_multiplier("damage")
 
 func effective_reload_mul() -> float:
-	return reload_mul * player.mushroom_multiplier("reload") * player.relic_multiplier("reload")
+	return reload_mul * player.mushroom_multiplier("reload") * player.relic_multiplier("reload") * class_modifier("reload")
+
+func class_modifier(attribute: String) -> float:
+	return player.class_combat.modifier(attribute, current, ads, player.hp < player.max_hp * 0.3, int(cur().ammo) <= int(cur().def.mag) / 4, _shots_in_burst)
+
+func refresh_class_magazines() -> void:
+	for id in state:
+		var definition := Mods.definition(DEFS[id], mod_loadout.get(id, {}))
+		definition.mag = maxi(1, roundi(float(definition.mag) * player.class_combat.modifier("magazine", id)))
+		var overflow := maxi(0, int(state[id].ammo) - int(definition.mag))
+		state[id].ammo -= overflow
+		state[id].reserve += overflow
+		state[id].def = definition
 
 static func is_melee(id: String) -> bool:
 	return DEFS.get(id, {}).get("melee", false)
@@ -269,6 +282,7 @@ func set_weapon(id: String) -> void:
 		hud.message(Lang.t("Buy the %s from the weapon trader", [DEFS[id]["name"]]), 1.4)
 		return
 	if current != id:
+		_switch_t = 0.25 * minf(player.class_combat.modifier("switch", current), player.class_combat.modifier("switch", id))
 		Sfx.stop_fire_loop(self)
 		if is_inside_tree(): Sfx.play(self, "weapon_switch", -10.0)
 		_aim_kick = Vector2.ZERO
@@ -340,7 +354,9 @@ func mod_definition(id: String, slot: String, mod_id: String) -> Dictionary:
 	var loadout: Dictionary = mod_loadout.get(id, {}).duplicate()
 	if mod_id.is_empty(): loadout.erase(slot)
 	else: loadout[slot] = mod_id
-	return Mods.definition(DEFS[id], loadout)
+	var definition := Mods.definition(DEFS[id], loadout)
+	definition.mag = maxi(1, roundi(float(definition.mag) * player.class_combat.modifier("magazine", id)))
+	return definition
 
 func equip_mod(id: String, slot: String, mod_id: String) -> void:
 	var definition := mod_definition(id, slot, mod_id)
@@ -361,6 +377,7 @@ func apply_mod_snapshot(owned: Dictionary, loadout: Dictionary) -> void:
 	mod_loadout = loadout.duplicate(true)
 	for wid in state:
 		state[wid].def = Mods.definition(DEFS[wid], mod_loadout.get(wid, {}))
+		state[wid].def.mag = maxi(1, roundi(float(state[wid].def.mag) * player.class_combat.modifier("magazine", wid)))
 		refresh_attachments(wid)
 
 # Every path that changes a loadout - shop, snapshot from the host, test code - ends up here.
@@ -406,7 +423,7 @@ func reload() -> void:
 func effective_spread() -> float:
 	var d: Dictionary = cur().def
 	if is_melee(current): return 0.0
-	return Aim.spread(float(d.spread), ads, Vector2(player.velocity.x, player.velocity.z).length(), player.velocity.y, _bloom, spread_mul * player.mushroom_multiplier("spread") * player.relic_multiplier("spread") * player.stance_precision())
+	return Aim.spread(float(d.spread), ads, Vector2(player.velocity.x, player.velocity.z).length(), player.velocity.y, _bloom, spread_mul * player.mushroom_multiplier("spread") * player.relic_multiplier("spread") * player.stance_precision()) * class_modifier("spread")
 
 func aim_direction() -> Vector3:
 	# Scoped fire follows the optic centre; hip/iron sights also show free recoil.
@@ -432,7 +449,7 @@ func try_fire() -> void:
 		melee()
 		return
 	var s := cur()
-	if s["cooldown"] > 0.0 or s["reloading"] > 0.0:
+	if s["cooldown"] > 0.0 or s["reloading"] > 0.0 or _switch_t > 0.0:
 		return
 	if specials and specials.blocks_fire(self, current):
 		return
@@ -444,12 +461,13 @@ func try_fire() -> void:
 	var d: Dictionary = s["def"]
 	var shot_direction := aim_direction()
 	var shot_spread := effective_spread()
+	player.class_combat.begin_shot(int(s.ammo) == int(d.mag))
 	var field = get_tree().current_scene.get("cornfield")
 	if field: field.scare(player.global_position)
 	s["ammo"] -= 1
 	# The rotary gun's barrels have to come up to speed: its interval shrinks as the spin rises.
 	var rate_factor: float = specials.rate_multiplier(self, current) if specials else 1.0
-	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"]) * rate_factor
+	s["cooldown"] = maxf(s["cooldown"], -float(d["rate"])) + float(d["rate"]) * rate_factor * class_modifier("rate")
 	recoil = 1.0
 	# A weapon with its own element colours itself - it does not consume the bought rounds, so it
 	# must not wear their colour either.
@@ -464,7 +482,7 @@ func try_fire() -> void:
 	_shots_in_burst += 1
 	_burst_t = 0.32
 	var climb := minf(1.0 + _shots_in_burst * 0.16, 2.4)
-	var aim_f := (1.0 - ads * 0.25) * player.relic_multiplier("recoil")
+	var aim_f := (1.0 - ads * 0.25) * player.relic_multiplier("recoil") * class_modifier("recoil")
 	var impulse := Vector3(deg_to_rad(float(d["kick_pitch"]) * 2.2 + 1.0), deg_to_rad(1.0 if _shots_in_burst % 2 == 0 else -1.0), float(d["kick_back"]) * 0.90) * aim_f
 	_model_kick += impulse * 0.25
 	_model_velocity += impulse * (22.0 + float(d["recover"])) * 1.7
@@ -478,7 +496,7 @@ func try_fire() -> void:
 	# A heavy weapon may throw the aim further than the standard ceiling allows.
 	var kick_cap: Vector2 = d.get("kick_cap", Vector2(0.16, 0.10))
 	_aim_kick = _aim_kick.clamp(Vector2(-kick_cap.x * 0.31, -kick_cap.y), kick_cap)
-	_bloom = minf(1.0, _bloom + float(d.get("bloom_gain", 0.14 if d.auto else 0.22)))
+	_bloom = minf(1.0, _bloom + float(d.get("bloom_gain", 0.14 if d.auto else 0.22)) * class_modifier("bloom"))
 	player.wobble = maxf(player.wobble, 0.35)
 	if NetSession.is_client():
 		NetSession.command("fire", [current, ads, camera.global_rotation.y, camera.global_rotation.x])
@@ -553,14 +571,16 @@ func try_fire() -> void:
 				var falloff := 1.0 - 0.45 * clampf((dist - float(d["range"])) / (2.0 * float(d["range"])), 0.0, 1.0)
 				var titan_bonus := float(d.get("titan_multiplier", 1.0)) if Zombie.is_boss_kind(z.net_kind) else 1.0
 				var dealt := float(d["damage"]) * effective_damage_mul() * titan_bonus * falloff * pow(float(d.get("pierce_retention", 1.0)), victims)
-				if headshot and z.helmet_hp > 0.0:
+				var helmet_hit: bool = headshot and z.helmet_hp > 0.0
+				if helmet_hit:
 					# the mutation's helmet rings: the helmet takes the round, the head is spared
-					dealt = z.hit_helmet(dealt, dir)
 					headshot = false
 					z.last_headshot = false
-				elif headshot:
-					dealt *= 2.2
+				dealt *= player.class_combat.damage_multiplier(current, z, headshot, player, zombies_root)
+				if helmet_hit: dealt = z.hit_helmet(dealt, dir)
+				elif headshot: dealt *= 2.2
 				z.damage(dealt, dir)
+				player.class_combat.after_hit(current, z, player)
 				rare.hit(z, special_round, player.peer_id, current)
 				if specials: specials.on_hit(self, current, z, dir, player.peer_id)
 				_blood(hit.position, dir)
@@ -569,17 +589,21 @@ func try_fire() -> void:
 				if headshot and get_tree().current_scene.get("achievements"):
 					get_tree().current_scene.achievements.event("headshots")
 				victims += 1
-				if victims >= int(d.get("pierce_targets", 1)): break
+				if victims >= int(d.get("pierce_targets", 1)) + player.class_combat.extra_penetration(current, z): break
 		if specials: specials.on_impact(self, current, impact, player.peer_id)
 	if any_hit and stats:
 		stats.hits += 1
+	player.class_combat.end_shot(current, any_hit)
+	if player.class_combat._shot_head and scene.get("classes"): scene.classes.headshot(player.peer_id)
+	if NetSession.is_host(): NetSession.feedback(player.peer_id, "class_combat", [player.class_combat.runtime_snapshot()])
 	update_hud()
 
 # H uses the equipped blade/axe, or a gun-butt strike while holding a firearm.
 func melee(stab: bool = false) -> void:
-	if not player.active or not player.alive or player.mounted_tower or player.controlling_drone or player.spectating or _melee_t > 0.0:
+	if not player.active or not player.alive or player.mounted_tower or player.controlling_drone or player.spectating or _melee_t > 0.0 or _switch_t > 0.0:
 		return
 	var armed := is_melee(current)
+	player.class_combat.begin_shot(false)
 	var spec: Dictionary = cur()["def"]
 	_melee_stab = stab and armed
 	_melee_t = float(spec.stab_rate) if _melee_stab else float(spec.rate) if armed else 0.65
@@ -613,11 +637,12 @@ func melee(stab: bool = false) -> void:
 			z.last_headshot = false
 			z.killer_weapon = current if armed else "melee"
 			z.killer_peer = player.peer_id
-			z.damage((float(spec.stab_damage) if _melee_stab else float(spec.damage) if armed else 45.0) * effective_damage_mul(), forward)
+			z.damage((float(spec.stab_damage) if _melee_stab else float(spec.damage) if armed else 45.0) * effective_damage_mul() * player.class_combat.damage_multiplier(current if armed else "melee", z, false, player, zombies_root), forward)
 			z.shove(forward * (float(spec.shove) if armed else 4.5))
 			_blood(hit.position, forward)
 			hit_any = true
 			break
+	player.class_combat.end_shot(current, hit_any)
 	if hit_any:
 		hud.hitmarker(false)
 		Sfx.play(self, "hit", -4.0, 0.8)
@@ -832,6 +857,7 @@ func _process(delta: float) -> void:
 	_handle_weapon_input(delta)
 
 func _tick_ammo(delta: float) -> void:
+	_switch_t = maxf(0.0, _switch_t - delta)
 	_aim_kick *= exp(-delta * Aim.KICK_RECOVERY)
 	if _burst_t <= 0.0: _bloom = maxf(0.0, _bloom - delta * Aim.BLOOM_RECOVERY)
 	_burst_t -= delta
@@ -899,7 +925,7 @@ func _handle_weapon_input(delta: float) -> void:
 	d = s["def"]
 	# aim down sights
 	var want_ads := 1.0 if not is_melee(current) and Input.is_action_pressed("aim") and s["reloading"] <= 0.0 else 0.0
-	ads = lerpf(ads, want_ads, minf(1.0, delta * 10.0))
+	ads = lerpf(ads, want_ads, minf(1.0, delta * 10.0 * class_modifier("ads")))
 	camera.fov = lerpf(75.0, aimed_fov(), ads)
 	var scoped: bool = d.has("scope_zoom") and ads >= 0.85 and want_ads > 0.0
 	viewmodel.set_scoped(scoped, float(d.get("scope_zoom", 1.0)), str(d.get("scope_style", "mil")))
@@ -922,7 +948,7 @@ func _handle_weapon_input(delta: float) -> void:
 	var moving := Vector2(player.velocity.x, player.velocity.z).length() > 0.5
 	var n: Node3D = s["node"]
 	var base_pos: Vector3 = (d["pos"] as Vector3).lerp(s["aim_position"], ads)
-	var sway_amp := 1.0 - ads * 0.8
+	var sway_amp := (1.0 - ads * 0.8) * class_modifier("sway")
 	n.position = base_pos + Vector3(sin(sway_t * 5.0) * (0.008 if moving else 0.002) * sway_amp, sin(sway_t * 10.0) * (0.005 if moving else 0.0015) * sway_amp + (-0.12 if s["reloading"] > 0.0 else 0.0), _model_kick.z)
 	# melee: the gun lunges forward and rolls, then springs back
 	var lunge := sin(clampf(_melee_anim, 0.0, 1.0) * PI)

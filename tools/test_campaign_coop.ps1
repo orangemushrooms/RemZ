@@ -14,7 +14,7 @@ $runs = @()
 try {
     foreach ($role in @('host','client')) {
         $arguments = @('--headless','--max-fps','60','--path','godot','--log-file',('"' + (Join-Path $folder ($role + '.log')) + '"'),
-            '--script','res://tests/run.gd','--','--suite=campaign_coop','--smoke-test','--no-intro','--no-music','--no-foliage',"--campaign-role=$role")
+            '--script','res://tests/run.gd','--','--suite=campaign_coop','--smoke-test', '--class-auto-lock','--no-intro','--no-music','--no-foliage',"--campaign-role=$role")
         if ($Online) {
             $arguments += @('--campaign-online', "--eos-cache=campaign-$role")
             if ($role -eq 'client') { $arguments += '--eos-fresh-device' }

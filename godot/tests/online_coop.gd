@@ -71,7 +71,7 @@ func host_run() -> void:
 		return
 	write_json("code", {"code": net.join_code})
 	print("ONLINE_CODE=", net.join_code)
-	check(await wait_for(func(): return net.roster.size() == 2 and not false in net.ready_peers.values(), 150.0), "The client joins by code over EOS P2P and loads the map")
+	check(await wait_for(func(): return net.roster.size() == 2 and not false in net.ready_peers.values() and net.class_roster.values().all(func(build): return build.locked), 150.0), "The client joins by code over EOS P2P and loads the map")
 	if net.roster.size() != 2:
 		write_json("step", {"action": "abort"})
 		print("ONLINE_COOP_DONE checks=%d failures=%d" % [checks, failures])
