@@ -125,3 +125,11 @@ Abschliessender Vergleich mit dem veröffentlichten Commit `fc7b26b763ea`, auf d
 | Wiese nah | 120.48 | 133.87 | 7.89 |
 
 Die Waldansichten gewinnen rund 33–34 %, die dichtere Wiesen-Nahansicht rund 11 %. Die übrigen Ansichten liegen innerhalb von ±1 % des Ausgangsniveaus. Dies sind Stichproben auf dieser Maschine, keine Garantie absolut identischer FPS in jeder Situation. Ein separater Test dieser Überarbeitung mit 24 Gegnern aus Welle 25 und Gewitter erreichte 77–129 FPS (`canopy-storm.json`, vor den abschliessenden Boden-/Mipmap-Optimierungen).
+
+## Scheibenstand am südlichen Feld
+
+Der vom Nutzer identifizierte Grundriss OSM 1558294553 bei lokal (176,2 / 218,3) ist die Zielanlage des Schützenhauses an der Hauptstrasse (OSM 118083383). Die bisherige Ableitung als generisches Gebäude war falsch; die Quelle enthält zusätzlich `layer=-1`. `annotate_target_stand()` in `tools/build_planes.py` erhält die Korrektur auch bei einem erneuten Datenaufbau.
+
+An derselben Stelle steht jetzt ein niedriger Betonstand mit sechs Scheiben und rückwärtigen Schutzplatten. Die Ausrichtung folgt dem Grundriss des Schützenhauses hangabwärts. Die [SG Remetschwil](https://sgremetschwil.ch/startseite/ueber-den-verein/schiessanlage-anfahrt/) bestätigt sechs Ziele und 300 m Schiessdistanz; ihre Fotos dienen als zusätzliche Referenz. Bauhöhe (maximal 2,3 m über dem örtlichen Bezugsboden) und kleine Bauteile sind angenähert. Die Minimap zeigt ein Scheibensymbol; der hohe ehemalige Gebäudekörper blockiert weder Bewegung noch Schüsse oberhalb des neuen Standes. Der Ort erhält damit keine eigene Spielmechanik.
+
+Der Stand verwendet vorhandene Materialien und statisch zusammengefasste Geometrie: 348 statt 358 Dreiecke und nur zwei Materialgruppen. `planes_buildings` prüft Klassifizierung, sechs korrekt ausgerichtete Scheiben, Bauhöhe und Geometriebudget zusätzlich zu den Fassadenprüfungen (8/8 bestanden). `planes` prüft reale Raycast-Kollisionen an allen Scheiben und freien Raum über dem Stand (32/32 im gerenderten Durchlauf bestanden); `--render-targets` speichert eine Nahansicht und den Blick vom Feldweg unter `artifacts/planes/`.

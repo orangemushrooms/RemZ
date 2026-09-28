@@ -2,10 +2,12 @@ extends "res://scripts/village_buildings.gd"
 ## Exact OSM wall polygons. Adjacent footprints must not become overlapping
 ## rotated bounding boxes; roofs are single surfaces without stacked slabs.
 var footprints: Array[PackedVector2Array] = []
+var target_panels: Array[Transform3D] = []
 
 func build() -> Node3D:
 	var result := super.build()
 	result.set_meta("exact_footprints",footprints.size())
+	result.set_meta("target_panels",target_panels)
 	return result
 
 func _build_house(data: Dictionary, id: int) -> void:
@@ -30,6 +32,10 @@ func _build_house(data: Dictionary, id: int) -> void:
 		if old==points: return
 	footprints.append(points)
 	_frame = Transform3D(Basis(Vector3.UP,-direction.angle()),Map.ground_pos(center.x,center.y))
+	if data.get("kind","")=="shooting_targets":
+		var towards := Vector2(data.facing[0],data.facing[1])-center
+		if Vector2(_frame.basis.z.x,_frame.basis.z.z).dot(towards)<0:
+			_frame.basis = _frame.basis.rotated(Vector3.UP,PI)
 	_cell = Vector2i(floori(center.x/CELL_SIZE),floori(center.y/CELL_SIZE))
 	_rng.seed = 81013+id*7919
 	_building_count += 1
@@ -45,6 +51,9 @@ func _build_house(data: Dictionary, id: int) -> void:
 		high_x = maxf(high_x,local.x)
 		half_width = maxf(half_width,absf(local.z))
 		base = minf(base,local.y-0.3)
+	if data.get("kind","")=="shooting_targets":
+		_build_target_stand(data,low_x,high_x,half_width,base)
+		return
 	var area := 0.0
 	for i in polygon.size(): area += polygon[i].cross(polygon[(i+1)%polygon.size()])*0.5
 	var shed := area<60.0
@@ -132,6 +141,32 @@ func _build_house(data: Dictionary, id: int) -> void:
 			_box("plaster",Vector3(0.65,1.55,0.7),Vector3(p.x,y+0.3,p.y),colour*0.72)
 			_box("trim",Vector3(0.82,0.14,0.87),Vector3(p.x,y+1.1,p.y),Color(0.22,0.21,0.19))
 			break
+
+func _build_target_stand(data: Dictionary, low_x: float, high_x: float, depth: float, base: float) -> void:
+	# Low concrete trench/stop-butt on the surveyed footprint, facing downhill.
+	# Target details are an interpretation of the club photo, not a survey.
+	var width := high_x-low_x
+	var mid := (low_x+high_x)*0.5
+	var concrete := Color(0.62,0.62,0.56)
+	var steel := Color(0.17,0.18,0.16)
+	var front := maxf(0.25,depth-0.22)
+	_box("plaster",Vector3(width,0.55-base,depth*2),Vector3(mid,(base+0.55)*0.5,0),concrete)
+	_box("trim",Vector3(width-0.18,1.52,0.16),Vector3(mid,1.31,front-0.18),steel)
+	_box("plaster",Vector3(width+0.08,0.15,0.42),Vector3(mid,0.58,depth-0.18),concrete.lightened(0.12))
+	for x in [low_x+0.09,high_x-0.09]:
+		_box("plaster",Vector3(0.18,1.58,0.38),Vector3(x,1.33,front-0.09),concrete)
+	_box("trim",Vector3(width,0.12,0.3),Vector3(mid,2.14,front-0.08),steel)
+	for i in int(data.target_count):
+		var x := lerpf(low_x+0.95,high_x-0.95,(i+0.5)/float(data.target_count))
+		var face := Transform3D(Basis.IDENTITY,Vector3(x,1.34,front))
+		_box("trim",Vector3(1.38,1.42,0.09),face.origin,Color(0.12,0.13,0.12))
+		_panel(face,Vector2.ZERO,Vector2(1.2,1.24),0.065,"trim",Color(0.91,0.90,0.83))
+		var center := Vector3(0,0,0.085)
+		for segment in 32:
+			var a := TAU*segment/32.0
+			var b := TAU*(segment+1)/32.0
+			_triangle("trim",[face*center,face*(center+Vector3(cos(a),sin(a),0)*0.33),face*(center+Vector3(cos(b),sin(b),0)*0.33)],Vector3.BACK,Color(0.025,0.03,0.025))
+		target_panels.append(_frame*face)
 
 func _wall(a: Vector2, b: Vector2, base: float, height: float, rise: float, width: float, material: String, colour: Color) -> void:
 	var edge := b-a

@@ -17,6 +17,21 @@ OUT = ROOT / "godot/assets/planes"
 X0, Z0, X1, Z1 = EXTENT
 W, H = X1-X0+1, Z1-Z0+1
 
+# User-identified underground target stand; the club confirms six 300 m targets.
+# Preserve this correction on every geodata rebuild, instead of inventing housing
+# from OSM's generic building=yes tag (this footprint also has layer=-1).
+TARGET_STAND_OSM = 1558294553
+SHOOTING_HOUSE_OSM = 118083383
+
+
+def annotate_target_stand(buildings):
+    house = next(b for b in buildings if b["osm_id"] == SHOOTING_HOUSE_OSM)
+    points = house["poly"][:-1] if house["poly"][0] == house["poly"][-1] else house["poly"]
+    facing = [round(sum(p[k] for p in points)/len(points), 3) for k in [0, 1]]
+    stand = next(b for b in buildings if b["osm_id"] == TARGET_STAND_OSM)
+    stand.update(kind="shooting_targets", h=2.3, collision_height=2.3, layer=-1,
+                 target_count=6, facing=facing, facing_osm_id=SHOOTING_HOUSE_OSM)
+
 # Parcel outlines traced in LV95 against the downloaded orthophoto; crop TYPES
 # follow the user's summer Street View references (crops rotate between years).
 FIELDS = [
@@ -94,6 +109,7 @@ def main():
             buildings.append({"osm_id":item["id"],"poly":poly,"h":float(tags.get("building:levels",2))*2.8})
         if tags.get("landuse")=="forest" or tags.get("natural")=="wood":
             woods.append(poly)
+    annotate_target_stand(buildings)
     road_image = Image.new("L",(W*2,H*2))
     asphalt_image = Image.new("L",road_image.size)
     for road in roads:

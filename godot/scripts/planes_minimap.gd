@@ -72,6 +72,13 @@ func _draw_cartography() -> void:
 		var polygon := PackedVector2Array()
 		for p in building.poly: polygon.append(_point(Vector2(p[0],p[1])))
 		if polygon[0].is_equal_approx(polygon[-1]): polygon.remove_at(polygon.size()-1)
+		if building.get("kind","")=="shooting_targets":
+			c.draw_colored_polygon(polygon,Color(0.48,0.51,0.46))
+			var center := Vector2.ZERO
+			for p in polygon: center += p/polygon.size()
+			c.draw_circle(center,2.8,Color(0.94,0.91,0.77))
+			c.draw_circle(center,1.5,Color(0.08,0.10,0.08))
+			continue
 		c.draw_colored_polygon(polygon,Color(0.72,0.46,0.3))
 		polygon.append(polygon[0])
 		c.draw_polyline(polygon,Color(0.94,0.79,0.56),0.8,true)

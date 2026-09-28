@@ -90,6 +90,19 @@ func run() -> void:
 		var hit := space.intersect_ray(query)
 		ray_ok = ray_ok and not hit.is_empty() and absf(hit.position.y-expected)<0.2
 	check(ray_ok,"Road collision follows the surveyed slope at six separated locations")
+	var target_faces: Array = game.landscape.get_node("VillageBuildings").get_meta("target_panels",[])
+	var targets_block := target_faces.size()==6
+	for face: Transform3D in target_faces:
+		var normal := face.basis.z
+		var query := PhysicsRayQueryParameters3D.create(face.origin+normal*3,face.origin-normal*3,1)
+		var hit := space.intersect_ray(query)
+		targets_block = targets_block and not hit.is_empty() and str(hit.collider.name)=="Building_1558294553"
+		if hit.is_empty() or str(hit.collider.name)!="Building_1558294553":
+			print("TARGET_RAY unexpected collider=",str(hit.collider.name) if not hit.is_empty() else "none")
+	check(targets_block,"All six target faces have solid stand collision")
+	var overhead := Map.ground_pos(176.175,218.3225)+Vector3.UP*3.3
+	var above := space.intersect_ray(PhysicsRayQueryParameters3D.create(overhead+Vector3.LEFT*5,overhead+Vector3.RIGHT*5,1))
+	check(above.is_empty(),"No invisible former house collider remains above the low target stand")
 	var crops_clear := true
 	for node: MultiMeshInstance3D in game.cornfield.batches:
 		# The headless Dummy renderer does not preserve MultiMesh transforms.
@@ -132,6 +145,21 @@ func run() -> void:
 		await process_frame
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(folder+"menu.png")
+	if "--render-targets" in OS.get_cmdline_user_args():
+		game.set_menu(false)
+		var folder := ProjectSettings.globalize_path("res://../artifacts/planes/")
+		DirAccess.make_dir_recursive_absolute(folder)
+		for view in [{"id":"targets-front","pos":Vector2(154,225),"look":Vector2(176.175,218.3225)}, {"id":"targets-road","pos":Vector2(55.86,228.91),"look":Vector2(275,340)}]:
+			game.player.position = Map.ground_pos(view.pos.x,view.pos.y)+Vector3.UP*0.08
+			game.player.velocity = Vector3.ZERO
+			var direction: Vector2 = view.look-view.pos
+			game.player.rotation.y = atan2(-direction.x,-direction.y)
+			game.player.pitch = 0.03 if view.id=="targets-front" else 0.0
+			game.player.head.rotation.x = game.player.pitch
+			game.player.reset_physics_interpolation()
+			await create_timer(2.0).timeout
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png(folder+view.id+".png")
 	if "--planes-roundtrip" in OS.get_cmdline_user_args():
 		game.return_to_map()
 		await process_frame

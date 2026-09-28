@@ -82,12 +82,12 @@ func _building_collisions() -> void:
 		if not Map.BOUNDS.has_point(center): continue
 		var base := Map.ground_height(center.x,center.y)
 		var body := StaticBody3D.new()
-		body.name = "Building_%s" % building.osm_id
+		body.name = "Building_%d" % int(building.osm_id)
 		for part in Geometry2D.decompose_polygon_in_convex(poly):
 			var points := PackedVector3Array()
 			for p in part:
 				points.append(Vector3(p.x,base-4,p.y))
-				points.append(Vector3(p.x,base+float(building.h)+2,p.y))
+				points.append(Vector3(p.x,base+float(building.get("collision_height",float(building.h)+2)),p.y))
 			var shape := ConvexPolygonShape3D.new()
 			shape.points = points
 			var cs := CollisionShape3D.new()
