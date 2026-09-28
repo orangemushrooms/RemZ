@@ -34,10 +34,15 @@ func _apply_environment(delta: float) -> void:
 	elif state=="storm": fog = lerpf(fog,0.003,intensity)
 	_env.fog_density = lerpf(_env.fog_density,fog,minf(1,delta))
 	var dim := float(DIM[state])*intensity
-	main.settings.sun.light_energy = 1.65*(1.0-dim)
-	_env.ambient_light_energy = 0.7*(1.0-dim*0.45)
-	summer_sky.sky_top_color = Color(0.15,0.39,0.78).lerp(Color(0.24,0.28,0.32),float(OVERCAST[state])*intensity)
-	summer_sky.sky_horizon_color = Color(0.66,0.79,0.89).lerp(Color(0.4,0.44,0.47),float(OVERCAST[state])*intensity)
+	var sunlight := 1.65*(1.0-dim)
+	var ambient := 0.7*(1.0-dim*0.45)
+	if not is_equal_approx(main.settings.sun.light_energy,sunlight): main.settings.sun.light_energy = sunlight
+	if not is_equal_approx(_env.ambient_light_energy,ambient): _env.ambient_light_energy = ambient
+	# Reassigning an unchanged sky colour invalidates its radiance cache.
+	var top := Color(0.15,0.39,0.78).lerp(Color(0.24,0.28,0.32),float(OVERCAST[state])*intensity)
+	var horizon := Color(0.66,0.79,0.89).lerp(Color(0.4,0.44,0.47),float(OVERCAST[state])*intensity)
+	if not summer_sky.sky_top_color.is_equal_approx(top): summer_sky.sky_top_color = top
+	if not summer_sky.sky_horizon_color.is_equal_approx(horizon): summer_sky.sky_horizon_color = horizon
 
 func _update_flash(delta: float) -> void:
 	if _flash_t<=0:

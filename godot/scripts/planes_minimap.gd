@@ -97,10 +97,9 @@ func _draw_cartography() -> void:
 func _draw_symbols(c: Control) -> void:
 	if not is_instance_valid(player): return
 	_draw_compass(c)
-	if game.survival_active:
-		for enemy in game.zombies_root.get_children():
-			if enemy is Zombie and enemy.alive and enemy.visible_on_map():
-				c.draw_circle(map_position(enemy.global_position),2,Color(1.0,0.29,0.22))
+	for enemy in game.zombies_root.get_children():
+		if enemy is Zombie and enemy.alive and enemy.visible_on_map():
+			c.draw_circle(map_position(enemy.global_position),2,Color(1.0,0.29,0.22))
 	var p := map_position(player.global_position).clamp(MAP_RECT.position+Vector2.ONE*8,MAP_RECT.end-Vector2.ONE*8)
 	var heading := Vector2(-sin(player.rotation.y),-cos(player.rotation.y))
 	var side := heading.orthogonal()

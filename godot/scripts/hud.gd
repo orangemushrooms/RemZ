@@ -580,9 +580,7 @@ func _build_overlay() -> void:
 		_tabs[id] = box
 	_build_briefing(_tabs["briefing"])
 	_build_controls(_tabs["controls"])
-	var coop_menu = preload("res://scripts/coop_menu.gd").new()
-	_tabs["multiplayer"].add_child(coop_menu)
-	coop_menu.setup(self)
+	_build_multiplayer_tab()
 	settings_box = _tabs["settings"]
 	settings_box.add_child(_label("Changes apply immediately and are saved.", 12, MUTED))
 	_records_box = _tabs["records"]
@@ -596,6 +594,14 @@ func _build_overlay() -> void:
 	map_selection.back_requested.connect(hide_map_selection)
 	map_selection.launch_requested.connect(func(id: String): map_selected.emit(id))
 	overlay.resized.connect(_fit_menu_card)
+	_build_character_widgets()
+
+func _build_multiplayer_tab() -> void:
+	var coop_menu = preload("res://scripts/coop_menu.gd").new()
+	_tabs["multiplayer"].add_child(coop_menu)
+	coop_menu.setup(self)
+
+func _build_character_widgets() -> void:
 	var character_menu = preload("res://scripts/character_menu.gd").new()
 	character_menu.name = "CharacterMenu"
 	overlay.add_child(character_menu)

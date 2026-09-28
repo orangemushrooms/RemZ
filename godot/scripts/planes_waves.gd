@@ -89,5 +89,11 @@ func trim_corpses() -> void:
 		if enemy is Zombie and not enemy.alive and not enemy.is_queued_for_deletion(): corpses.append(enemy)
 	corpses.sort_custom(func(a: Zombie,b: Zombie): return a.dead_t>b.dead_t)
 	for i in maxi(0,corpses.size()-MAX_CORPSES):
-		if is_instance_valid(corpses[i]._pool): corpses[i]._pool.queue_free()
-		corpses[i].queue_free()
+		main.discard_enemy(corpses[i])
+
+func skip_current_wave() -> void:
+	if not main.survival_active or main.over: return
+	queue.clear()
+	main._clear_combat()
+	if phase=="spawning": complete_wave()
+	if not main.over and phase!="complete": start(wave+1)

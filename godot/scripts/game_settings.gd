@@ -101,7 +101,7 @@ func apply() -> void:
 	if env:
 		env.ssao_enabled = profile > 0 and not "--no-ssao" in _flags
 		env.ssil_enabled = profile == 2 and not "--no-ssil" in _flags
-		env.volumetric_fog_enabled = profile > 0 and not "--no-vfog" in _flags
+		env.volumetric_fog_enabled = profile > 0 and not "--no-vfog" in _flags and Map.active_region != "planes"
 		# sharper sky reflections on wet gunmetal and the pond; the incremental bake keeps it free
 		if env.sky: env.sky.radiance_size = Sky.RADIANCE_SIZE_256 if profile == 2 and _gfx("radiance") else Sky.RADIANCE_SIZE_128
 	if sun:

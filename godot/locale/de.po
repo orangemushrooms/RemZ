@@ -7677,3 +7677,11 @@ msgstr "Gesundheit: %d"
 #: scripts/planes_minimap.gd
 msgid "▲ You   • Enemies   M Map size"
 msgstr "▲ Du   • Gegner   M Kartengrösse"
+
+#: scripts/planes_hud.gd
+msgid "Pistol / AK-47 / Shotgun"
+msgstr "Pistole / AK-47 / Schrotflinte"
+
+#: scripts/planes_hud.gd
+msgid "Reload"
+msgstr "Nachladen"

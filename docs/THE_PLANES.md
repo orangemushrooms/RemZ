@@ -133,3 +133,33 @@ Der vom Nutzer identifizierte Grundriss OSM 1558294553 bei lokal (176,2 / 218,3)
 An derselben Stelle steht jetzt ein niedriger Betonstand mit sechs Scheiben und rückwärtigen Schutzplatten. Die Ausrichtung folgt dem Grundriss des Schützenhauses hangabwärts. Die [SG Remetschwil](https://sgremetschwil.ch/startseite/ueber-den-verein/schiessanlage-anfahrt/) bestätigt sechs Ziele und 300 m Schiessdistanz; ihre Fotos dienen als zusätzliche Referenz. Bauhöhe (maximal 2,3 m über dem örtlichen Bezugsboden) und kleine Bauteile sind angenähert. Die Minimap zeigt ein Scheibensymbol; der hohe ehemalige Gebäudekörper blockiert weder Bewegung noch Schüsse oberhalb des neuen Standes. Der Ort erhält damit keine eigene Spielmechanik.
 
 Der Stand verwendet vorhandene Materialien und statisch zusammengefasste Geometrie: 348 statt 358 Dreiecke und nur zwei Materialgruppen. `planes_buildings` prüft Klassifizierung, sechs korrekt ausgerichtete Scheiben, Bauhöhe und Geometriebudget zusätzlich zu den Fassadenprüfungen (8/8 bestanden). `planes` prüft reale Raycast-Kollisionen an allen Scheiben und freien Raum über dem Stand (32/32 im gerenderten Durchlauf bestanden); `--render-targets` speichert eine Nahansicht und den Blick vom Feldweg unter `artifacts/planes/`.
+
+## Gemeinsame Menüs und Naturdetails (lokaler Arbeitsstand)
+
+Escape verwendet jetzt denselben Pausenmenü-Aufbau wie Forest: Weiter, Briefing, Schwierigkeit, Steuerung, Einstellungen und Hauptmenü. Einstellungen wirken sofort; die Schwierigkeit ist während einer laufenden Survival-Runde gesperrt. Die Gebietsauswahl und der Wechsel zwischen Erkunden und Survival stehen im Briefing. Das separate Menü mit Fotostandpunkt-Teleports entfällt. Die Menüs passen auch in 1280 × 720.
+
+Ctrl+Shift+D öffnet das gemeinsame Cheat-Menü auch beim Erkunden: Geld, sämtliche Waffen mit Munition, Wetter und Gegner-Spawns; im Survival-Modus zusätzlich Wellen überspringen. Navigation und Waffen werden bei Bedarf geladen. Ziele der Waldhüttenkarte (Hüttenschlüssel, Händler, Geheimquests) werden hier nicht angeboten. Die beiden HUD-Build-Hooks in `hud.gd` lassen Forest seine vorhandenen Multiplayer- und Charakteransichten behalten.
+
+`planes_nature.gd` platziert 14'655 Blumen und 504 Pilzgruppen auf geeignetem Untergrund, mit vorhandenen Meshy-Modellen und zufälligen Gruppen, Grössen und Drehungen. Bewirtschaftete Felder, Wege und Gebäude bleiben frei. Statische MultiMeshes teilen sich Geometrie und Materialien, gruppiert in 48-m-Zellen; Sichtweiten sind 58 m für Blumen und 38 m für Pilze, ohne zusätzliche Schattenwürfe. Die Pflanzen sind Landschaftsdetails. Die 14 vorhandenen Raben/Eulen verteilen sich auf mehrere Weg- und Waldränder. Sechs Rehe und zwei Hirsche übernehmen Forests Skelettanimationen sowie Weiden und Flucht; jenseits von 180 m pausiert die Tiersimulation.
+
+`node tools/planes_plant_lods.mjs` erzeugt elf Landschaftsvarianten aus den vorhandenen Meshy-Modellen. Farben stammen aus deren eigenen Texturen; doppelte Flächen und UV-Nähte werden vor der Reduktion bereinigt. Die Blumen benötigen 1154–1198 Dreiecke statt bis zu 96'055, die Pilze 666–700. Zusammen belegen die abgeleiteten GLBs rund 340 kB. Die detaillierten Forest-/Inventarmodelle bleiben unverändert. Konstante Wetterwerte lösen keine unnötige Neuberechnung des Himmels mehr aus.
+
+`planes_life` prüft Geländezuordnung, Wildtiere, echte Menü-Tastatureingaben, Waffen-/Wetter-/Gegner-Cheats, Wellenwechsel und die Rückkehr zum Erkunden. `--render-life` legt Nahansichten und Menübilder unter `artifacts/planes/life/` ab. `planes_cleanup` prüft wiederholtes Entfernen gepanzerter Gegner: ihre Geometrie wird gelöst, solange die instanzbezogenen Materialien noch leben, um ungültige Materialreferenzen im Godot-Renderer zu verhindern.
+
+Bestanden: 337 Skripte kompilieren, 32 Erkundungsprüfungen, 25 Natur-/Menüprüfungen, 34 Survivalprüfungen einschliesslich aller 25 beschleunigten Wellenübergänge und 60 Cheat-Menüprüfungen der Waldhüttenkarte. Die drei Prüfungen der Gegnerbereinigung bestehen sowohl headless als auch mit Vulkan; die gemeinsame Korrektur in `Zombie._exit_tree()` deckt auch Forest und normale Leichenentfernung ab. Die Übersetzungsprüfung meldet 1995 Einträge ohne Fehler. Nach der Modell- und Wetteroptimierung wurden Natur-/Menü- und Survivalprüfung erneut erfolgreich ausgeführt und die Pflanzenfarben in Nahaufnahmen kontrolliert.
+
+Leistungsvergleich mit dem veröffentlichten Commit `9502472d5ef3`, RTX 3060 Ti, High, 1920 × 1009, ohne zweite Spielinstanz, gleiche Kameras und je 200 Messframes nach drei Sekunden Aufwärmen: `artifacts/planes/performance/life-baseline-clean.json` / `life-final.json`. Die bisherigen Skripte wurden aus dem Commit als temporäres Ressourcenpaket geladen. Der frühere Versuch `life-before` mit gleichzeitig laufender RemZ-Instanz wird verworfen.
+
+| Ansicht | Vorher FPS | Nachher FPS | Nachher p95 ms |
+|---|---:|---:|---:|
+| Sennhof | 89.68 | 90.31 | 11.56 |
+| Gabelung | 101.65 | 102.53 | 10.13 |
+| Core | 108.36 | 107.26 | 9.75 |
+| Gehölz | 161.31 | 160.03 | 6.77 |
+| Dorf | 169.44 | 167.16 | 6.47 |
+| Wald nah | 144.66 | 143.52 | 7.46 |
+| Häuser nah | 332.20 | 329.98 | 3.60 |
+| Baumkronen nah | 157.76 | 158.38 | 6.77 |
+| Wiese nah | 132.58 | 130.14 | 8.18 |
+
+Alle Ansichten liegen innerhalb von rund ±2 % des bisherigen Stands. Das ist eine Stichprobe auf dieser Maschine, keine Garantie identischer FPS in jeder Situation. Auf Nutzerwunsch bleibt die Überarbeitung bis zur ausdrücklichen Veröffentlichungsfreigabe lokal.

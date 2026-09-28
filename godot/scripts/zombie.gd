@@ -447,6 +447,11 @@ func _ready() -> void:
 	_anim_last_pos = global_position
 	agent.max_speed = float(type["speed"]) * speed_mul * 1.45   # headroom for the blood moon pace
 
+func _exit_tree() -> void:
+	# In 4.7 an armored rig can leave a material dependency queued after its
+	# private helmet materials are released. Detach geometry while they live.
+	for mesh: MeshInstance3D in find_children("*","MeshInstance3D",true,false): mesh.mesh = null
+
 func _build_head_look() -> void:
 	if bool(type.get("giant", false)) or bool(type.get("worm", false)) or "--no-headlook" in OS.get_cmdline_user_args(): return
 	var rig := model.find_child("Skeleton3D", true, false) as Skeleton3D

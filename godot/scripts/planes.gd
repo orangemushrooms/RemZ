@@ -12,7 +12,13 @@ var started := false
 var over := false
 var ready_for_exploration := false
 var birds: Array[Node3D] = []
-var menu: PanelContainer
+var menu: Control
+var cheat_menu: CanvasLayer
+var nature: Node3D
+var music: Node
+var _flags := OS.get_cmdline_user_args()
+var _preparing_navigation := false
+var _combat_warmed := false
 var ui: CanvasLayer
 var minimap: Control
 var compass: Label
@@ -87,7 +93,14 @@ func _ready() -> void:
 	_nav_shape.height = 2.5
 	player.died.connect(func(): finish_survival(false))
 	_birds()
+	nature = load("res://scripts/planes_nature.gd").new()
+	add_child(nature)
+	nature.build(self)
 	_interface()
+	weather = load("res://scripts/planes_weather.gd").new()
+	add_child(weather)
+	weather.setup(self)
+	weather.force("clear")
 	settings.apply()
 	# Summer reference lighting: no Forest-specific morning fog or weather schedule.
 	settings.env.volumetric_fog_enabled = false
@@ -98,7 +111,7 @@ func _ready() -> void:
 	add_child(_wind)
 	_wind.play()
 	for child in get_children():
-		if child!=ui and child!=boot: child.process_mode = Node.PROCESS_MODE_PAUSABLE
+		if child not in [ui,boot,hud,cheat_menu]: child.process_mode = Node.PROCESS_MODE_PAUSABLE
 	child_entered_tree.connect(func(child: Node): child.process_mode = Node.PROCESS_MODE_PAUSABLE)
 	await get_tree().physics_frame
 	await get_tree().physics_frame
@@ -217,58 +230,41 @@ func _interface() -> void:
 	map_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ui.add_child(map_layer)
 	map_layer.add_child(minimap)
-	menu = PanelContainer.new()
-	menu.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
-	menu.position = Vector2(-205,-245)
-	menu.custom_minimum_size = Vector2(410,440)
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.025,0.045,0.035,0.97)
-	style.set_content_margin_all(24)
-	menu.add_theme_stylebox_override("panel",style)
-	ui.add_child(menu)
-	var column := VBoxContainer.new()
-	column.add_theme_constant_override("separation",12)
-	menu.add_child(column)
-	var label := Label.new()
-	label.text = "THE PLANES"
-	label.add_theme_font_size_override("font_size",22)
-	column.add_child(label)
-	for spec in [["Continue",-1],["Start 25-wave survival",4],["View towards Sennhof",0],["View of the junction",1],["View towards Core",2],["Back to exploration",5],["Back to region selection",3]]:
-		var button := Button.new()
-		button.text = spec[0]
-		button.custom_minimum_size.y = 38
-		var action: int = spec[1]
-		button.pressed.connect(func():
-			if action==3: return_to_map()
-			elif action==4: start_survival()
-			elif action==5: stop_survival()
-			else:
-				if action>=0: set_view(action)
-				set_menu(false))
-		column.add_child(button)
-		_menu_actions[action] = button
-	menu.hide()
+	hud = load("res://scripts/planes_hud.gd").new()
+	hud.game = self
+	hud.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(hud)
+	player.hud = hud
+	hud.minimap = minimap
+	menu = hud.overlay
+	cheat_menu = load("res://scripts/cheat_menu.gd").new()
+	cheat_menu.main = self
+	cheat_menu.forest_features = false
+	add_child(cheat_menu)
 
 func set_menu(open: bool) -> void:
-	menu.visible = open
+	if cheat_menu.is_open: cheat_menu.close()
 	player.active = not open and not over
 	player.velocity = Vector3.ZERO
 	get_tree().paused = open
-	_menu_actions[-1].disabled = over
-	_menu_actions[4].disabled = survival_active and not over
-	_menu_actions[5].visible = survival_active or over
-	for action in [0,1,2]: _menu_actions[action].disabled = survival_active
+	if open:
+		hud.show_overlay("REGION SECURED" if victory else "YOU DIED" if over else "PAUSED",
+			"THE PLANES / REMETSCHWIL", "Play again" if over else "Continue", "", "over" if over else "pause")
+		hud.set_difficulty_locked(survival_active and not over)
+		_menu_actions[4].disabled = survival_active and not over
+		_menu_actions[5].visible = survival_active or over
+		hud.overlay_button.grab_focus()
+	else: hud.hide_overlay()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if open else Input.MOUSE_MODE_CAPTURED
-	if open: menu.get_child(0).get_child(1).grab_focus()
 
 func _pause() -> void:
 	if ready_for_exploration and not preparing_survival: set_menu(true)
 
-func return_to_map() -> void:
+func return_to_map(select_region := true) -> void:
 	if _leaving: return
 	_leaving = true
 	player.active = false
-	get_tree().set_meta("open_campaign_map",true)
+	get_tree().set_meta("open_campaign_map",select_region)
 	BootScreen.cover(get_tree())
 	await get_tree().process_frame
 	await get_tree().process_frame
@@ -298,8 +294,7 @@ func start_survival() -> void:
 	boot = BootScreen.cover(get_tree())
 	boot.step(0.1)
 	await get_tree().process_frame
-	if not nav_region:
-		nav_region = await load("res://scripts/planes_navigation.gd").prepare(self)
+	await ensure_navigation()
 	if nav_region.navigation_mesh.get_polygon_count()==0:
 		preparing_survival = false
 		boot.close()
@@ -310,21 +305,12 @@ func start_survival() -> void:
 		push_error("Planes navigation could not be prepared")
 		return
 	boot.step(0.4,true)
-	if not weapons:
-		hud = load("res://scripts/planes_hud.gd").new()
-		hud.game = self
-		hud.process_mode = Node.PROCESS_MODE_PAUSABLE
-		add_child(hud)
-		player.hud = hud
-		weapons = Weapons.new()
-		weapons.process_mode = Node.PROCESS_MODE_PAUSABLE
-		add_child(weapons)
-		weapons.setup(player,hud,zombies_root)
-		weapons.unlocked.ak47 = true
-		weapons.unlocked.shotgun = true
-		boot.step(0.6,true)
+	ensure_weapons()
+	boot.step(0.6,true)
+	if not _combat_warmed:
 		Zombie.preload_models(self,load("res://scripts/planes_waves.gd").KINDS)
 		await Zombie.prewarm_visuals(self,false)
+		_combat_warmed = true
 	_clear_combat()
 	if waves: waves.queue_free()
 	waves = load("res://scripts/planes_waves.gd").new()
@@ -382,7 +368,9 @@ func stop_survival() -> void:
 		weapons.viewmodel.hide()
 		weapons.viewmodel.viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
 		weapons._reset_scope()
-	if hud: hud.hide()
+	if hud:
+		hud.hide_overlay()
+		hud.refresh_mode()
 	player.alive = true
 	player.downed = false
 	player.hp = player.max_hp
@@ -391,13 +379,17 @@ func stop_survival() -> void:
 
 func _clear_combat() -> void:
 	for enemy in zombies_root.get_children():
-		if enemy is Zombie and is_instance_valid(enemy._pool): enemy._pool.queue_free()
-		enemy.queue_free()
+		discard_enemy(enemy)
 	for child in get_children():
 		if child is Grenade or child is Pickup: child.queue_free()
 
+func discard_enemy(enemy: Node3D) -> void:
+	if enemy is Zombie and is_instance_valid(enemy._pool): enemy._pool.queue_free()
+	zombies_root.remove_child(enemy)
+	enemy.queue_free()
+
 func finish_survival(won: bool) -> void:
-	if not survival_active or over: return
+	if over: return
 	over = true
 	victory = won
 	if hud: hud.message(Lang.t("THE PLANES SECURED · 25 / 25") if won else Lang.t("Run ended. Try again or continue exploring."),3600)
@@ -430,9 +422,11 @@ func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 		return create_enemy(kind,at,wave_number)
 	return null
 
-func create_enemy(kind: String, at: Vector3, wave_number: int) -> Zombie:
-	var enemy := Zombie.new()
+func create_enemy(kind: String, at: Vector3, wave_number: int, armored := false, rise := false) -> Zombie:
+	var enemy: Zombie = ForestSpirit.new() if kind=="forest_spirit" else Earthworm.new() if Zombie.is_worm_kind(kind) else Titan.new() if Zombie.is_titan_kind(kind) else ZombieBeast.new() if Zombie.is_beast_kind(kind) else Zombie.new()
 	enemy.setup(kind,player,[],minf(1.65,1+(wave_number-1)*0.025)*float(difficulty.speed),_enemy_killed)
+	enemy.armored = armored
+	enemy.rise_on_spawn = rise
 	enemy.hp *= (1.0+(wave_number-1)*0.055)*float(difficulty.hp)
 	enemy.max_hp = enemy.hp
 	enemy.damage_mul = float(difficulty.dmg)
@@ -451,3 +445,34 @@ func _enemy_killed(enemy: Zombie) -> void:
 		drop._light.visible = false
 		add_child(drop)
 		drop.position = Map.ground_pos(enemy.position.x,enemy.position.z)
+
+func ensure_weapons() -> void:
+	if not weapons:
+		weapons = Weapons.new()
+		add_child(weapons)
+		weapons.setup(player,hud,zombies_root)
+		weapons.unlocked.ak47 = true
+		weapons.unlocked.shotgun = true
+	weapons.process_mode = Node.PROCESS_MODE_PAUSABLE
+	weapons.viewmodel.show()
+	weapons.viewmodel.viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+
+func ensure_navigation() -> void:
+	while _preparing_navigation: await get_tree().process_frame
+	if nav_region: return
+	_preparing_navigation = true
+	nav_region = await load("res://scripts/planes_navigation.gd").prepare(self)
+	_preparing_navigation = false
+
+func spawn_zombie(kind: String, p: Vector2, _speed: float, _lane := "", _distance := 0.0, armor := -1, rise := false) -> bool:
+	if not Map.BOUNDS.grow(-5).has_point(p) or near_building(p) or zombies_root.get_child_count()>=36: return false
+	await ensure_navigation()
+	if over or _leaving or zombies_root.get_child_count()>=36: return false
+	var ground := Map.ground_pos(p.x,p.y)
+	var at := NavigationServer3D.map_get_closest_point(nav_region.get_navigation_map(),ground)
+	if at.distance_to(ground)>2: return false
+	# Cheat entry may precede survival's normal preload. Prepare the shared rig,
+	# gore surfaces and clip metrics before its first live instance is created.
+	Zombie.preload_models(self,[kind])
+	create_enemy(kind,at,maxi(1,waves.wave if waves else 1),armor==1,rise)
+	return true

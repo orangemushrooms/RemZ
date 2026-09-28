@@ -174,7 +174,7 @@ func run() -> void:
 	residual.sever("LeftArm",Vector3.RIGHT)
 	game.stop_survival()
 	await process_frame
-	check(not paused and game.player.active and not game.survival_active and game.waves==null and game.alive_zombies()==0 and not game.hud.visible,"Return to exploration clears combat and resumes movement")
+	check(not paused and game.player.active and not game.survival_active and game.waves==null and game.alive_zombies()==0 and not game.hud.health_text.visible and not game.hud.overlay.visible,"Return to exploration clears combat readouts while preserving shared pause menus")
 	check(game.weapons.viewmodel.viewport.render_target_update_mode==SubViewport.UPDATE_DISABLED,"Exploration stops the unused weapon render pass")
 	game._pause()
 	check(paused and game.menu.visible,"Focus-loss pause uses the Planes menu")
