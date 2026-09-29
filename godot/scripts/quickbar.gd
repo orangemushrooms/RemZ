@@ -222,5 +222,4 @@ func _unhandled_input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 func inventory_open() -> bool:
-	if game.get("field_building"): return bool(game.progression.get("loadout_open"))
 	return game.inventory.is_open

@@ -44,16 +44,19 @@ func run() -> void:
 	go(Map.ground_pos(22,5))
 	economy.open_field("camp")
 	check(economy.is_open and economy.page=="Trade" and economy._tabs.Sell.visible,"Vendor uses Forest trading and selling tabs")
+	check(is_instance_valid(economy._greeting) and economy._greeting.playing,"Vendor greeting audio starts when approached")
 	await capture("vendor")
 	economy.close()
 	go(Map.ground_pos(27,15))
 	economy.open_field("mechanic")
 	check(economy.is_open and economy.page=="Training" and economy.rows.get_child_count()>2,"Mechanic offers training and defence kits")
+	check(is_instance_valid(economy._greeting) and economy._greeting.playing,"Mechanic greeting audio starts when approached")
 	await capture("mechanic")
 	economy.close()
 	var old_flowers: int = game.brewing.stock(game.player.peer_id).flowers.get("golden_yarrow",0)
 	go(Map.ground_pos(economy.collectibles[0].at.x,economy.collectibles[0].at.y))
 	check(economy.collect(0) and int(game.brewing.stock(game.player.peer_id).flowers.get("golden_yarrow",0))==old_flowers+1,"Picking a named flower supplies real brewing inventory")
+	check(Sfx._voices.get("mushroom_pickup",[]).any(func(voice): return is_instance_valid(voice) and voice.playing),"Plant pickup plays its collection sound")
 	var animal: Node3D = game.hunting.animals[0]
 	animal.show()
 	check(game.hunting.hit(animal,200,game.player.peer_id) and game.hunting.health[0]==0 and game.hunting.drops.has(0),"Shooting a deer leaves collectable meat")
@@ -212,5 +215,39 @@ func run() -> void:
 			await physics_frame
 		check(zombie.position.distance_to(game.player.position)<3,"Zombie traverses the camp depression: %s" % pair[0])
 		game.discard_enemy(zombie)
+	# Hit the actual bird collision volume rather than calling the deer path.
+	var bird: Node3D = game.birds[0]
+	bird.set_process(false)
+	bird.position = Map.ground_pos(-120,110)+Vector3.UP*2
+	bird.show()
+	go(Map.ground_pos(-120,114))
+	await physics_frame
+	await physics_frame
+	var bird_center := bird.global_position+Vector3.UP*0.22
+	var bird_ray := PhysicsRayQueryParameters3D.create(bird_center+Vector3(0,0,2),bird_center-Vector3(0,0,2),Zombie.HITBOX_LAYER)
+	bird_ray.collide_with_areas = true
+	var bird_hit := game.get_world_3d().direct_space_state.intersect_ray(bird_ray)
+	check(not bird_hit.is_empty() and game.hunting.hit(bird_hit.collider,100,game.player.peer_id) and bird.get_meta("hunted_dead",false),"A physical shot ray hits and kills a crow")
+	# An enemy beyond the old 6 m radius is hit; one beyond 12 m is not.
+	go(Map.ground_pos(-220,158))
+	var near_blast: Zombie = game.create_enemy("shambler",Map.ground_pos(-211,140),1)
+	var far_blast: Zombie = game.create_enemy("shambler",Map.ground_pos(-205,140),1)
+	for enemy in [near_blast,far_blast]:
+		enemy.hp = 5000; enemy.max_hp = 5000; enemy.set_physics_process(false)
+	var shell := preload("res://scripts/tower_shell.gd").new()
+	shell.game = game
+	shell.start = Map.ground_pos(-220,140)+Vector3.UP*3
+	game.add_child(shell)
+	shell.set_physics_process(false)
+	await physics_frame
+	shell.explode()
+	check(near_blast.hp<5000 and far_blast.hp==5000,"Mortar explosion damages an enemy at 9 m and excludes one at 15 m")
+	game.discard_enemy(near_blast); game.discard_enemy(far_blast)
+	game.waves.phase = "idle"; game.waves.timer = 60.0
+	var enter := InputEventKey.new()
+	enter.physical_keycode = KEY_ENTER; enter.keycode = KEY_ENTER; enter.pressed = true
+	root.push_input(enter)
+	check(game.waves.timer<=0.1,"Enter shortens the actual intermission timer")
+	enter.pressed = false; root.push_input(enter)
 	print("PLANES_PARITY checks=%d failures=%d" % [checks,failures])
 	quit(1 if failures else 0)

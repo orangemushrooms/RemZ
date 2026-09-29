@@ -92,7 +92,7 @@ The German catalogue check passed with 2,136 entries and zero problems.
 The Forest transport test deliberately attempts to bind a second host to an occupied
 port; its expected ENet error is followed by the passing rejection assertion.
 
-Same-machine rendered performance comparison (RTX 3060 Ti, 1280×720, uncapped,
+Same-machine rendered performance comparison (RTX 3060 Ti, uncapped,
 same scene route/settings; no second user game running):
 
 | Scene | Previous FPS | Updated FPS | Previous p99 frame | Updated p99 frame |
@@ -102,7 +102,64 @@ same scene route/settings; no second user game running):
 | Same fortifications in a storm | 70.92 | 83.79 | 30.41 ms | 17.09 ms |
 
 These are measured samples, not a guarantee of identical results on other hardware
-or of zero stalls in every possible match. Online EOS transport was verified for the
-previous published release; this batch's multiplayer regression uses real local
-ENet peers. The known Windows certificate-store warning is separate from game script
-errors and remains present in this test environment.
+or of zero stalls in every possible match. The known Windows certificate-store
+warning is separate from game script errors and remains present in sandboxed tests.
+
+## Release recheck, 29 September
+
+The extended input and online checks found three remaining issues and fixed them:
+
+- Quickbar editing still queried the former Planes loadout panel. It now follows
+  the shared inventory, so the bar remains visible, clicking a slot opens its item
+  picker and assigning an owned item works. The quest journal is not an inventory.
+- Read-only journal rows passed an empty action to the shared menu renderer. Such
+  rows now omit the button signal connection, avoiding errors on every journal open.
+- EOS does not support Godot's `unreliable_ordered` movement mode and substituted
+  reliable delivery, queuing obsolete poses and logging warnings every movement tick.
+  Poses now use supported unreliable delivery. Host-side sequence checks reject
+  old/duplicate packets before they alter movement or aim state.
+
+The current EOS session passed 51 assertions against Epic's real service, including
+construction, inventory, hold/cancel revive, moved towers, a physical sniper shot,
+victory and rematch. Its logs contain no engine/script errors or transport warnings.
+Four-player Planes transfer, late join and disconnect passed 14 assertions.
+Music/night ambience/inventory interactions passed 19, persistent XP and milestone
+achievements passed 19, economy/building passed 47 and the 25-wave lifecycle passed
+39. The packet/online UI suite passed 44 checks and movement reconciliation passed
+14, including delayed, lost and out-of-order updates.
+
+The complete four-player Forest regression was repeated after the transport change:
+181 checks passed, including reconnects, late-join state, ownership transfer and
+returning to the menu when the host leaves.
+
+The Windows release-template harness passed 56 interaction checks, including a
+physical crow shot, the enlarged mortar blast and Enter input. Rendered atmosphere,
+music and inventory checks passed 19; all 39 survival lifecycle checks passed too.
+Captures confirm the actual window was
+1920×1009: the maximized project window overrides the requested 1280×720 size.
+The retained earlier source captures have that same size, too.
+
+The release-template performance sample at that actual resolution measured:
+
+| Scene | FPS | p99 frame |
+|---|---:|---:|
+| Quiet field | 121.44 | 8.75 ms |
+| 40 towers, 40 walls, 24 enemies | 92.20 | 15.65 ms |
+| Same fortifications in a storm | 93.00 | 14.73 ms |
+
+These samples use the Smooth profile, 600 measured frames per scene after warmup.
+They do not establish performance for every PC, graphics profile or network.
+
+The final distributable `builds/windows/RemZ.exe` was tested separately with two
+normal game profiles, Epic authentication and forced relay routing. Both peers
+loaded Planes and reached `ROUND_RUNNING players=2`; both exited normally. The
+complete, flushed runtime logs contain no script or engine errors. The client also
+returned to the menu after the host's scheduled exit. The disposable profile is
+under `.test-user/packed-online`, separate from the player's saved progress.
+
+The release audit verified the packaged EOS configuration, native runtime DLLs
+and absence of unrelated secrets. The packaged online harness now requires complete
+nonempty logs and a bounded normal exit, so buffered or truncated logs cannot pass.
+
+The release lobby identifies itself as **Co-op 2026.09.29-P**. Network compatibility
+is `remz-dev-20260929-planes-parity`, protocol **7**; all players must update together.

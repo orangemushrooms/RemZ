@@ -10,6 +10,7 @@ const EOS_MAX_PACKET := 1170 - 6 # EOS_P2P_MAX_PACKET_SIZE minus the EOSGMultipl
 class CapturePeer extends MultiplayerPeerExtension:
 	var sizes: Array[int] = []
 	var labels: Array[String] = []
+	var modes: Dictionary = {}
 	var label := ""
 	var target := 0
 	var channel := 0
@@ -17,6 +18,7 @@ class CapturePeer extends MultiplayerPeerExtension:
 	func _put_packet_script(buffer: PackedByteArray) -> Error:
 		sizes.append(buffer.size())
 		labels.append(label)
+		modes[label] = mode
 		return OK
 	func _get_packet_script() -> PackedByteArray: return PackedByteArray()
 	func _get_available_packet_count() -> int: return 0
@@ -190,7 +192,10 @@ func _packet_sizes(net: Node) -> void:
 	net._titan_cue.rpc_id(2, big_epoch, "slam_warning", Vector3(1000, 20, 1000), 27.5, 4, 999999)
 	capture.label = "_shot"
 	net._shot.rpc(big_epoch, 2, "graviton_cannon", [-8.0, 1.0, 0.5, "plasma"])
+	capture.label = "_pose"
+	net._pose.rpc_id(2,big_epoch,Vector3.ONE,0.0,0.0,false,Vector3.ZERO,123,false,0.0,0)
 	await process_frame
+	check(capture.modes.get("_pose")==MultiplayerPeer.TRANSFER_MODE_UNRELIABLE,"Movement uses EOS-supported unreliable transport with application sequence ordering")
 	check(capture.sizes.size() >= 9, "Every RPC shape reached the transport (%d packets)" % capture.sizes.size())
 	var largest := 0
 	var largest_label := ""

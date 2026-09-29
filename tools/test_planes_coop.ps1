@@ -24,6 +24,7 @@ try {
     }
     $deadline = (Get-Date).AddMinutes(11)
     while (@($runs | Where-Object { -not $_.Process.HasExited }).Count) {
+        if (@($runs | Where-Object { $_.Process.HasExited -and $_.Process.ExitCode -ne 0 }).Count) { throw 'A Planes multiplayer peer failed; stopping the remaining test peers.' }
         if ((Get-Date) -gt $deadline) { throw 'Planes multiplayer test timed out.' }
         Start-Sleep -Seconds 2
     }

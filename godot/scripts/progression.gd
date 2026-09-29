@@ -1238,7 +1238,7 @@ func _row(heading: String, details: String, button_text: String, action: Callabl
 	button.text = button_text
 	button.custom_minimum_size = Vector2(205, 45)
 	button.disabled = disabled
-	button.pressed.connect(action)
+	if action.is_valid(): button.pressed.connect(action)
 	box.add_child(button)
 	rows.add_child(HSeparator.new())
 	_row_nodes.append([heading_label, desc, button, icon, warning])

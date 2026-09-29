@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 7 # Hold-to-revive, hunting/brewing and the shared shooting house.
-const BUILD := "remz-dev-20260928-planes-parity"
+const BUILD := "remz-dev-20260929-planes-parity"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.
@@ -846,13 +846,16 @@ func _accept(id: int, session_epoch: int) -> bool:
 	budget.tokens -= 1.0
 	return true
 
-@rpc("any_peer", "call_remote", "unreliable_ordered", 1)
+# Both transports support unreliable delivery. EOS turns unreliable_ordered
+# into reliable packets, queueing obsolete movement and warning on every pose.
+# The application's pose sequence rejects stale packets on either transport.
+@rpc("any_peer", "call_remote", "unreliable", 1)
 func _pose(session_epoch: int, position: Vector3, yaw: float, pitch: float, light: bool, motion: Vector3, sequence: int = 0, crouching: bool = false, aiming: float = 0.0, teleport_seen: int = 0) -> void:
 	var id := multiplayer.get_remote_sender_id()
 	if not _accept(id, session_epoch) or phase != "running": return
 	if not class_roster.get(id, {}).get("locked", false): return
 	if not position.is_finite() or not motion.is_finite() or not is_finite(yaw) or not is_finite(pitch): return
-	if sequence <= 0: return
+	if sequence <= int(world.pose_acks.get(id, 0)): return
 	if is_finite(aiming) and world.weapons.has(id): world.weapons[id].ads = clampf(aiming, 0.0, 1.0)
 	world.move_player(id, position, yaw, pitch, light, motion, _elapsed, sequence, crouching, teleport_seen)
 

@@ -29,7 +29,7 @@ try {
     if (-not $run.WaitForExit(240000)) { $run.Kill(); throw 'Planes test timeout.' }
     $run.Refresh()
     $content = Get-Content -LiteralPath $log -Raw
-    $expected = if ($Survival) { $(if ($Packaged) { 'PLANES_SURVIVAL_READY' } else { 'PLANES_SURVIVAL_DONE checks=\d+ failures=0' }) } elseif ($Packaged) { 'PLANES_READY trees=\d+ birds=14 crops=' } else { 'PLANES_DONE checks=\d+ failures=0' }
+    $expected = if ($Survival) { $(if ($Packaged) { 'PLANES_SURVIVAL_READY' } else { 'PLANES_SURVIVAL_DONE checks=\d+ failures=0' }) } elseif ($Packaged) { 'PLANES_READY trees=\d+ birds=24 crops=' } else { 'PLANES_DONE checks=\d+ failures=0' }
     if ($run.ExitCode -ne 0 -or $content -match 'SCRIPT ERROR|FAIL:' -or $content -notmatch $expected) { throw "Planes test failed: $log" }
     # The restricted desktop may deny certificate-store enumeration even for this offline map.
     $unexpected = ($content -split "`n") | Where-Object { $_ -match '^ERROR:' -and $_ -notmatch 'Failed to read the root certificate store' }

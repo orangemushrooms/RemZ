@@ -13,6 +13,7 @@ func run() -> void:
 	CharacterProfile.data = CharacterProfile.empty_profile("Planes XP test")
 	CharacterProfile.data.classes.gunslinger.total_xp = Classes.threshold(5)-10
 	CharacterProfile.data.achievements.first_blood = true
+	CharacterProfile.data.achievements["world:first_blood"] = true
 	var initial := xp()
 	game = load("res://scenes/planes.tscn").instantiate()
 	root.add_child(game); current_scene = game
@@ -45,7 +46,9 @@ func run() -> void:
 	before = xp()
 	game.waves.wave = 25; game.waves.phase = "spawning"
 	game.waves.complete_wave()
-	check(xp()==before+700+2000 and CharacterProfile.data.classes.gunslinger.stats.missions==1,"Wave 25 awards completion XP and records the mission")
+	# Jumping straight from wave one also earns the new 5/15/25 milestones.
+	check(xp()==before+700+2000+250+500+2000 and CharacterProfile.data.classes.gunslinger.stats.missions==1,"Wave 25 awards wave, mission and Planes achievement XP exactly once")
+	check(CharacterProfile.data.achievements.has("world:planes_wave5") and CharacterProfile.data.achievements.has("world:planes_wave15") and CharacterProfile.data.achievements.has("world:planes_wave25"),"Planes milestone achievements persist in the shared character profile")
 	before = xp()
 	await game.start_survival()
 	game.waves.set_process(false)
