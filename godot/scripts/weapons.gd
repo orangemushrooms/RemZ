@@ -737,34 +737,57 @@ static func _make_splat_texture() -> ImageTexture:
 			img.set_pixel(x, y, Color(0.4, 0.02, 0.02, alpha))
 	return ImageTexture.create_from_image(img)
 
+static func _make_blood_streak_texture() -> ImageTexture:
+	# A tapered, slightly uneven droplet reads as a short liquid streak when
+	# BILLBOARD_PARTICLES aligns its long axis with the particle's velocity.
+	var n := 64
+	var img := Image.create(n, n, false, Image.FORMAT_RGBA8)
+	for y in n:
+		var v := (float(y) + 0.5) / float(n)
+		var longitudinal := (v - 0.52) / 0.47
+		var taper := pow(maxf(0.0, 1.0 - longitudinal * longitudinal), 0.65)
+		var width := (0.065 + 0.33 * v) * taper
+		for x in n:
+			var u := (float(x) + 0.5) / float(n) - 0.5
+			var wobble := 0.018 * sin(v * 26.0) + 0.01 * sin(v * 57.0)
+			var edge := absf(u - wobble) / maxf(width, 0.001)
+			var alpha := clampf((1.0 - edge) * 8.0, 0.0, 1.0)
+			alpha *= clampf((1.0 - absf(longitudinal)) * 18.0, 0.0, 1.0)
+			var highlight := clampf((0.17 - absf(u + width * 0.28)) * 3.0, 0.0, 0.16)
+			img.set_pixel(x, y, Color(0.7 + highlight, 0.56 + highlight, 0.53 + highlight, alpha))
+	img.generate_mipmaps()
+	return ImageTexture.create_from_image(img)
+
 func _prepare_blood_pool() -> void:
+	var streak := _make_blood_streak_texture()
 	var dot := Foliage._soft_dot()
-	# droplets: small billboards, dark red, fall with gravity and shrink
+	# A compact directional spray: elongated droplets with a quick falloff.
 	var mat := ParticleProcessMaterial.new()
-	mat.spread = 32.0
-	mat.initial_velocity_min = 3.0
-	mat.initial_velocity_max = 9.0
+	mat.spread = 27.0
+	mat.initial_velocity_min = 2.5
+	mat.initial_velocity_max = 6.5
 	mat.gravity = Vector3(0, -12.0, 0)
-	mat.scale_min = 0.5
-	mat.scale_max = 1.4
+	mat.scale_min = 0.45
+	mat.scale_max = 1.25
 	mat.damping_min = 1.0
-	mat.damping_max = 3.0
+	mat.damping_max = 2.5
 	var sc := Curve.new()
 	sc.add_point(Vector2(0, 1.0))
-	sc.add_point(Vector2(1, 0.4))
+	sc.add_point(Vector2(0.45, 0.8))
+	sc.add_point(Vector2(1, 0.05))
 	var sct := CurveTexture.new()
 	sct.curve = sc
 	mat.scale_curve = sct
 	var grad := Gradient.new()
-	grad.set_color(0, Color(0.55, 0.04, 0.03, 1.0))
-	grad.set_color(1, Color(0.25, 0.01, 0.01, 0.0))
+	grad.set_color(0, Color(0.46, 0.025, 0.018, 0.95))
+	grad.set_color(1, Color(0.17, 0.008, 0.006, 0.0))
 	var gt := GradientTexture1D.new()
 	gt.gradient = grad
 	mat.color_ramp = gt
 	var quad := QuadMesh.new()
-	quad.size = Vector2(0.07, 0.07)
+	quad.size = Vector2(0.065, 0.18)
 	var qm := StandardMaterial3D.new()
-	qm.albedo_texture = dot
+	qm.albedo_texture = streak
 	qm.vertex_color_use_as_albedo = true
 	qm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	qm.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
@@ -772,29 +795,31 @@ func _prepare_blood_pool() -> void:
 	quad.material = qm
 	# mist: a few big soft puffs that hang for a moment
 	var mm := ParticleProcessMaterial.new()
-	mm.spread = 50.0
-	mm.initial_velocity_min = 0.6
-	mm.initial_velocity_max = 2.0
+	mm.spread = 38.0
+	mm.initial_velocity_min = 0.5
+	mm.initial_velocity_max = 1.4
 	mm.gravity = Vector3(0, -1.0, 0)
 	mm.scale_min = 1.0
-	mm.scale_max = 2.5
+	mm.scale_max = 1.8
 	mm.damping_min = 2.0
 	mm.damping_max = 4.0
 	var mg := Gradient.new()
-	mg.set_color(0, Color(0.45, 0.03, 0.02, 0.55))
-	mg.set_color(1, Color(0.3, 0.02, 0.02, 0.0))
+	mg.set_color(0, Color(0.28, 0.018, 0.012, 0.24))
+	mg.set_color(1, Color(0.2, 0.012, 0.008, 0.0))
 	var mgt := GradientTexture1D.new()
 	mgt.gradient = mg
 	mm.color_ramp = mgt
 	var mq := QuadMesh.new()
-	mq.size = Vector2(0.25, 0.25)
-	mq.material = qm
+	mq.size = Vector2(0.22, 0.22)
+	var mist_mat := qm.duplicate() as StandardMaterial3D
+	mist_mat.albedo_texture = dot
+	mq.material = mist_mat
 	for i in 16:
 		var p := GPUParticles3D.new()
 		p.process_material = mat.duplicate()
 		p.draw_pass_1 = quad
-		p.amount = 48
-		p.lifetime = 0.9
+		p.amount = 24
+		p.lifetime = 0.65
 		p.one_shot = true
 		p.explosiveness = 0.95
 		p.emitting = false
@@ -805,8 +830,8 @@ func _prepare_blood_pool() -> void:
 		var m := GPUParticles3D.new()
 		m.process_material = mm.duplicate()
 		m.draw_pass_1 = mq
-		m.amount = 10
-		m.lifetime = 0.5
+		m.amount = 6
+		m.lifetime = 0.4
 		m.one_shot = true
 		m.explosiveness = 1.0
 		m.emitting = false

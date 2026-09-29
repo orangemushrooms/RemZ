@@ -112,6 +112,7 @@ func run() -> void:
 	weapon.unlock("smg")
 	for fps in [30, 60, 144]:
 		weapon.set_weapon("smg")
+		weapon._switch_t = 0.0 # Measure firing cadence after the equip animation, at every frame rate.
 		weapon.cur().ammo = 100
 		weapon.cur().cooldown = 0.0
 		Input.action_press("fire")

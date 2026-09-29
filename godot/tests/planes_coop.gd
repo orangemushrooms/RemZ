@@ -46,6 +46,17 @@ func run() -> void:
 	check(game.campaign.selected_id=="planes" and NetSession.world.actors.size()==2,"Both peers enter Planes with two players")
 	await create_timer(2).timeout
 	check(not paused and game.player.active,"Co-op starts without pausing the world")
+	check(root.gui_get_focus_owner()==null and not game.hud.overlay.visible,"Co-op releases hidden lobby keyboard focus at round start")
+	var first_step: Vector3 = game.player.global_position
+	var walk_key := InputEventKey.new()
+	walk_key.physical_keycode = KEY_W
+	walk_key.pressed = true
+	Input.parse_input_event(walk_key)
+	for frame in 60: await physics_frame
+	walk_key.pressed = false
+	Input.parse_input_event(walk_key)
+	var moved: Vector3 = game.player.global_position
+	check(Vector2(first_step.x,first_step.z).distance_to(Vector2(moved.x,moved.z))>=1.0,"Local player can walk immediately after the co-op round starts")
 	if online: check(NetSession.transport=="eos","Session uses the real EOS transport")
 	if host:
 		game.waves.set_process(false)
@@ -85,7 +96,7 @@ func host_economy() -> void:
 	await move_remote(p,Map.ground_pos(27,15))
 	signal_file("shop")
 	await wait_file("bought")
-	check(p.score==40 and game.player.score==150,"Client purchases debit only the buyer")
+	check(p.score==65 and game.player.score==150,"Client purchases debit only the buyer")
 	check(game.progression.field_data(peer).kits.palisade==1 and game.progression.kit_stock.palisade==0,"Purchased kits belong to the requesting player")
 	await move_remote(p,Map.ground_pos(-70,60))
 	var site := Vector3.ZERO
@@ -100,6 +111,7 @@ func host_economy() -> void:
 	await wait_file("built")
 	check(game.barricades.size()==1 and game.progression.field_data(peer).kits.palisade==0,"Host creates one wall and consumes one kit despite duplicate requests")
 	check(game.progression.field_data(peer).counts.get("built_wall",0)==1,"Construction advances the builder's quest progress")
+	game.progression.field_data(peer).claimed.welcome = true
 	game.progression.field_data(peer).counts.flowers = 6
 	game.waves.wave = 1
 	game.waves.completed = 1
@@ -141,6 +153,15 @@ func host_economy() -> void:
 	check(game.nature._picked.has(plant),"Host harvests a client-selected wild plant")
 	check(game.progression.field_data(peer).counts.get("flowers",0)==7,"Duplicate collection grants only one flower")
 	check(not game.brewing.stock(peer).flowers.is_empty(),"Client harvest becomes a real brewing ingredient on host")
+	var flower_id: String = game.nature.ingredient(plant)
+	var flower_before: int = int(game.brewing.stock(peer).flowers.get(flower_id,0))
+	NetSession.world.mushrooms[peer].steinpilz = 1
+	var sale_cash: int = p.score
+	await move_remote(p,game.progression.npcs.camp.global_position)
+	FileAccess.open(folder+"flower-sale-id",FileAccess.WRITE).store_var(flower_id)
+	signal_file("flower-sale")
+	await wait_file("flower-sold")
+	check(int(game.brewing.stock(peer).flowers.get(flower_id,0))==flower_before-1 and int(NetSession.world.mushrooms[peer].steinpilz)==0 and p.score==sale_cash+game.progression.FLOWER_SELL_PRICE+Inventory.MUSHROOMS.steinpilz.sell,"Host validates client flower and mushroom sales and pays once")
 	p.score = 1000
 	await move_remote(p,Map.ground_pos(-100,55))
 	var tower_site := Vector3.ZERO
@@ -208,7 +229,7 @@ func client_economy() -> void:
 	NetSession.command("planes",["buy_kit",["palisade","mechanic"]])
 	NetSession.command("planes",["buy_kit",["sandbags","mechanic"]])
 	await create_timer(2).timeout
-	check(game.progression.kit_stock.palisade==1 and game.progression.kit_stock.sandbags==1 and game.player.score==40,"Client receives its purchased inventory and balance")
+	check(game.progression.kit_stock.palisade==1 and game.progression.kit_stock.sandbags==1 and game.player.score==65,"Client receives its purchased inventory and balance")
 	signal_file("bought")
 	await wait_file("build")
 	var site: Vector3 = FileAccess.open(folder+"site",FileAccess.READ).get_var()
@@ -238,6 +259,15 @@ func client_economy() -> void:
 	check(game.nature._picked.has(plant) and game.progression.field_counts.get("flowers",0)==7,"Collected plant disappears for the client without duplicate rewards")
 	check(not game.brewing.stock(game.player.peer_id).flowers.is_empty(),"Real flower inventory reaches client")
 	signal_file("gathered")
+	await wait_file("flower-sale")
+	var flower_id: String = FileAccess.open(folder+"flower-sale-id",FileAccess.READ).get_var()
+	var flower_before: int = int(game.brewing.stock(game.player.peer_id).flowers.get(flower_id,0))
+	var sale_cash: int = game.player.score
+	NetSession.command("planes",["trade",["camp","sell_flower",flower_id,""]])
+	NetSession.command("planes",["trade",["camp","sell_mushroom","steinpilz",""]])
+	await create_timer(2).timeout
+	check(int(game.brewing.stock(game.player.peer_id).flowers.get(flower_id,0))==flower_before-1 and int(game.inventory.mushrooms.get("steinpilz",0))==0 and game.player.score==sale_cash+game.progression.FLOWER_SELL_PRICE+Inventory.MUSHROOMS.steinpilz.sell,"Client sees sold plant, sold mushroom and both payments")
+	signal_file("flower-sold")
 	await wait_file("tower")
 	var tower_site: Vector3 = FileAccess.open(folder+"tower-site",FileAccess.READ).get_var()
 	NetSession.command("tower_place",[tower_site,0.0,"standard",false])

@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 7 # Hold-to-revive, hunting/brewing and the shared shooting house.
-const BUILD := "remz-dev-20260929-planes-parity"
+const BUILD := "remz-dev-20260929-planes-refinements"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.
@@ -913,6 +913,10 @@ func _feedback(session_epoch: int, kind: String, args: Array) -> void:
 		"sfx":
 			if args.size() == 1 and args[0] is String and Sfx.EVENTS.has(args[0]):
 				Sfx.play(game, args[0], Sfx.EVENTS[args[0]])
+		"repair_fx":
+			if args.size() == 1 and args[0] is Vector3 and args[0].is_finite():
+				Sfx.play_at(game, "build", args[0], -6.0)
+				game.hud.action_popup("REPAIRED")
 		"trade":
 			game.progression.status.text = str(args[0])
 			if args.size() > 1: game.progression.show_gain(int(args[1]))

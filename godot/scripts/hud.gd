@@ -1371,6 +1371,24 @@ func _show_score_popup(points: int, head: bool) -> void:
 	l.position = Vector2(30 + randf_range(-6.0, 6.0), -8 + randf_range(-4.0, 4.0))
 	_popups.append([l, 1.1])
 
+func action_popup(text: String) -> void:
+	var l: Label
+	if not _popup_pool.is_empty(): l = _popup_pool.pop_back()
+	elif _popups.size() >= 6: l = _popups.pop_front()[0]
+	else:
+		l = _label("", 17, GOLD)
+		_root.add_child(l)
+	l.text = Lang.t(text)
+	l.add_theme_font_size_override("font_size", 18)
+	l.add_theme_color_override("font_color", GOLD)
+	l.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.8))
+	l.add_theme_constant_override("shadow_offset_y", 1)
+	l.modulate.a = 1.0
+	l.show()
+	l.set_anchors_preset(Control.PRESET_CENTER)
+	l.position = Vector2(30, -24)
+	_popups.append([l, 1.2])
+
 func streak(n: int, bonus_percent: int) -> void:
 	_pending_streak = Vector2i(n, bonus_percent)
 

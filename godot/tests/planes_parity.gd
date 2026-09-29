@@ -49,8 +49,11 @@ func run() -> void:
 	economy.close()
 	go(Map.ground_pos(27,15))
 	economy.open_field("mechanic")
-	check(economy.is_open and economy.page=="Training" and economy.rows.get_child_count()>2,"Mechanic offers training and defence kits")
+	check(economy.is_open and economy.page=="Quests" and economy._tabs.Barricades.visible,"Mechanic opens quests and offers a separate barricade tab")
 	check(is_instance_valid(economy._greeting) and economy._greeting.playing,"Mechanic greeting audio starts when approached")
+	economy.page = "Barricades"
+	economy.refresh_field()
+	check(economy._row_nodes.size()==2,"Barricade tab displays both build kits")
 	await capture("mechanic")
 	economy.close()
 	var old_flowers: int = game.brewing.stock(game.player.peer_id).flowers.get("golden_yarrow",0)

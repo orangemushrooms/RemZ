@@ -19,6 +19,11 @@ func run() -> void:
 			clearance = minf(clearance,Boundary.closest(Vector2(p[0],p[1])).distance_to(Vector2(p[0],p[1])))
 	check(residential_clear,"Residential footprints are outside the playable outline")
 	check(clearance>=10.0,"At least ten metres clearance before every building")
+	for p in [Vector2(-210,305),Vector2(-122,309),Vector2(0,300)]:
+		check(Boundary.contains(p),"Southern boundary runs continuously beyond the shooting house: %s" % p)
+	check(not Boundary.contains(Vector2(-122,340)),"Southern edge still confines the player beyond the shooting house")
+	check(Boundary.southwest_road(Vector2(-137.5,311)) and not Boundary.fence_piece_allowed(Vector2(-136,320),Vector2(-132,320)),"Main road is paved through the southwest boundary and the fence has a gap")
+	check(Boundary.fence_piece_allowed(Vector2(-180,320),Vector2(-176,320)),"Fence continues on the fields outside the road opening")
 	for p in [Vector2(310,-225),Vector2(400,-165),Vector2(505,50)]:
 		check(Boundary.contains(p),"Eastern uphill extension is accessible: %s" % p)
 	for p in [Vector2(-107,18),Vector2(0,0),Vector2(175,218),Vector2(250,100)]:
@@ -28,6 +33,8 @@ func run() -> void:
 	root.add_child(game)
 	current_scene = game
 	while not game.ready_for_exploration: await process_frame
+	for p in [Vector2(-199,220),Vector2(-172,260),Vector2(-137.5,311)]:
+		check(game.cornfield.sample(p).b>0.9,"Main-road surface masks out grass and crops: %s" % p)
 	game.set_menu(false)
 	for height in [0.1,3.0,25.0]:
 		game.player.position = Map.ground_pos(-45,-275)+Vector3.UP*height

@@ -3,6 +3,7 @@ extends Minimap
 var game: Node
 var _map_cache: SubViewport
 const LEGEND := "▲ You   • Enemies   M Map size"
+const TOWER_MARKER_COLOR := Color(1.0,0.48,0.12)
 
 func _ready() -> void:
 	super._ready()
@@ -135,7 +136,7 @@ func _draw_symbols(c: Control) -> void:
 		c.draw_circle(house,3.5,Hud.GOLD)
 		c.draw_string(_font,house+Vector2(5,-4),"Schützenhaus",HORIZONTAL_ALIGNMENT_LEFT,-1,10,Hud.GOLD)
 	if game.defences:
-		for tower in game.defences.towers.values(): c.draw_circle(map_position(tower.position),2.5,Color(0.4,0.85,1))
+		for tower in game.defences.towers.values(): c.draw_circle(map_position(tower.position),2.5,TOWER_MARKER_COLOR)
 	for bar: Barricade in game.barricades:
 		c.draw_line(map_position(bar.point_at(-bar.half_len)),map_position(bar.point_at(bar.half_len)),Color(0.9,0.8,0.55),2)
 	var p := map_position(player.global_position).clamp(MAP_RECT.position+Vector2.ONE*8,MAP_RECT.end-Vector2.ONE*8)

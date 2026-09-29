@@ -192,6 +192,12 @@ func reset_run() -> void:
 	if not NetSession.is_client(): roll_key()
 	refresh()
 
+func grant_key() -> bool:
+	if key_owned: return false
+	key_owned = true
+	refresh()
+	return true
+
 func roll_key() -> void:
 	if key_owned or key_spawned: return
 	var rng := RandomNumberGenerator.new()

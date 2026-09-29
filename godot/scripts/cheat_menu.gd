@@ -96,11 +96,11 @@ func _ready() -> void:
 	gold_toggle.toggled.connect(_toggle_gold)
 	general.add_child(gold_toggle)
 	keys_button = Button.new()
-	keys_button.text = "Get the keys to both huts"
+	keys_button.text = "Get the keys to both huts" if forest_features else "Get Schützenhaus key"
 	keys_button.custom_minimum_size.y = 40
 	keys_button.pressed.connect(_give_keys)
 	general.add_child(keys_button)
-	for control in [secret_toggle,wanderer_toggle,gold_toggle,keys_button]: control.visible = forest_features
+	for control in [secret_toggle,wanderer_toggle,gold_toggle]: control.visible = forest_features
 	world_note = Label.new()
 	world_note.add_theme_color_override("font_color", Hud.GOLD)
 	general.add_child(world_note)
@@ -312,6 +312,13 @@ func _toggle_gold(value: bool) -> void:
 # Both hut keys at once, for the whole team. Host / solo only, like the other cheats.
 func _give_keys() -> void:
 	if not is_open or NetSession.is_client() or main.over or not main.player.alive: return
+	if not forest_features:
+		if not main.shooting_range.grant_key():
+			world_note.text = "You already have the Schützenhaus key."
+			return
+		Sfx.play(self, "key_pickup", -6.0)
+		world_note.text = "Schützenhaus key received. The shooting house can now be opened."
+		return
 	var received: Array = main.forest_keys.grant_all()
 	Sfx.play(self, "key_pickup", -6.0)
 	world_note.text = "You already have both hut keys." if received.is_empty() else "Keys received: Forest Hut and Woodshed. All their doors can now be used."

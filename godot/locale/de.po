@@ -691,6 +691,10 @@ msgstr "Bereit zum Verstärken der gesamten Linie."
 msgid "Whole line repaired."
 msgstr "Gesamte Linie repariert."
 
+#: scripts/hud.gd
+msgid "REPAIRED"
+msgstr "REPARIERT"
+
 #: scripts/barricade_menu.gd
 msgid "Whole line built. Approach secured."
 msgstr "Gesamte Linie gebaut. Zugang gesichert."

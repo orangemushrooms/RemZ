@@ -336,7 +336,11 @@ func set_menu(open: bool) -> void:
 		_menu_actions[4].disabled = survival_active and not over
 		_menu_actions[5].visible = survival_active or over
 		hud.overlay_button.grab_focus()
-	else: hud.hide_overlay()
+	else:
+		hud.hide_overlay()
+		# hide_overlay() restores focus to its menu button before hiding it.
+		# A hidden menu must not keep keyboard focus once gameplay resumes.
+		get_viewport().gui_release_focus()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if open else Input.MOUSE_MODE_CAPTURED
 
 func _pause() -> void:
@@ -541,10 +545,12 @@ func start_survival() -> void:
 	hud.message(Lang.t("Survive 25 waves. Meet the traders at the fork. B: kits · T: towers · J: quests · Enter: next wave"),12)
 	set_view(0)
 	await get_tree().physics_frame
-	player.active = true
 	preparing_survival = false
 	boot.close()
 	boot = null
+	# Setup can change input and UI state after the initial set_menu(false).
+	# Apply the playable state at the actual end of the loading transition.
+	set_menu(false)
 	print("PLANES_SURVIVAL_READY")
 
 func stop_survival() -> void:
@@ -613,6 +619,32 @@ func alive_zombies() -> int:
 		if enemy is Zombie and enemy.alive: count += 1
 	return count
 
+func _clear_of_trees(p: Vector2, radius: float) -> bool:
+	var limit := radius * radius
+	for tree: Array in Map._d.landscape_trees:
+		var dx: float = p.x - float(tree[0])
+		var dz: float = p.y - float(tree[1])
+		if dx * dx + dz * dz < limit: return false
+	return true
+
+func _titan_entry_clear(path: PackedVector3Array, start: Vector3) -> bool:
+	# The common navmesh is baked for human-sized enemies. A giant needs a
+	# wider first corridor or its body collides with trunks before it can move.
+	var previous := Vector2(start.x, start.z)
+	var remaining := 18.0
+	for point in path:
+		var next := Vector2(point.x, point.z)
+		var length := previous.distance_to(next)
+		var covered := minf(length, remaining)
+		var samples := maxi(1, ceili(covered / 2.0))
+		for i in samples + 1:
+			var sample := previous.lerp(next, float(i) / float(samples) * (covered / length if length > 0.001 else 0.0))
+			if not _clear_of_trees(sample, 2.5): return false
+		remaining -= covered
+		if remaining <= 0.0: break
+		previous = next
+	return true
+
 func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 	var focus: Player = player
 	if NetSession.is_host():
@@ -620,14 +652,17 @@ func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 		if not living.is_empty(): focus = living[_spawn_rng.randi_range(0,living.size()-1)]
 	var nav := nav_region.get_navigation_map()
 	var target := NavigationServer3D.map_get_closest_point(nav,focus.position)
-	for attempt in 4:
+	var titan := Zombie.is_titan_kind(kind)
+	for attempt in (24 if titan else 4):
 		var angle := _spawn_rng.randf()*TAU
 		var distance := _spawn_rng.randf_range(60,85) if Zombie.is_boss_kind(kind) else _spawn_rng.randf_range(32,52)
 		var p := Vector2(focus.position.x,focus.position.z)+Vector2(cos(angle),sin(angle))*distance
 		if not Map.BOUNDS.grow(-4).has_point(p) or not preload("res://scripts/planes_boundary.gd").contains(p) or near_building(p): continue
+		if titan and not _clear_of_trees(p, 6.0): continue
 		var surface := Map.ground_pos(p.x,p.y)
 		var at := NavigationServer3D.map_get_closest_point(nav,surface)
 		if at.distance_to(surface)>1.5 or at.distance_to(focus.position)<28: continue
+		if titan and not _clear_of_trees(Vector2(at.x, at.z), 6.0): continue
 		if NetSession.is_host() and NetSession.world.actors.values().any(func(actor): return actor.alive and actor.position.distance_to(at)<28): continue
 		var query := PhysicsShapeQueryParameters3D.new()
 		query.shape = _nav_shape
@@ -636,6 +671,7 @@ func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 		if not get_world_3d().direct_space_state.intersect_shape(query,1).is_empty(): continue
 		var path := NavigationServer3D.map_get_path(nav,at,target,true)
 		if path.is_empty() or path[-1].distance_to(target)>1.5: continue
+		if titan and not _titan_entry_clear(path, at): continue
 		return create_enemy(kind,at,wave_number)
 	return null
 

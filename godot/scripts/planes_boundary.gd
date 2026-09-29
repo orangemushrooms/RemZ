@@ -1,9 +1,20 @@
 extends Node3D
 ## One shared outline for movement, navigation, spawning and cartography.
-const OUTLINE := [Vector2(-320,280),Vector2(-320,-90),Vector2(-170,-170),
+const OUTLINE := [Vector2(-335,320),Vector2(-335,100),Vector2(-320,80),Vector2(-320,-90),Vector2(-170,-170),
 	Vector2(-90,-190),Vector2(60,-200),Vector2(110,-310),Vector2(170,-300),
 	Vector2(300,-290),Vector2(370,-235),Vector2(395,-205),Vector2(440,-182),
-	Vector2(515,-182),Vector2(515,280),Vector2(-100,280),Vector2(-100,320),Vector2(-145,320),Vector2(-145,280)]
+	Vector2(515,-182),Vector2(515,280),Vector2(200,290),Vector2(-60,320)]
+const MAIN_ROAD_START := Vector2(-228.5,176.0)
+const MAIN_ROAD_END := Vector2(-122.0,334.0)
+
+static func southwest_road(p: Vector2, half_width := 7.2) -> bool:
+	if p.x < -240.0 or p.x > -110.0 or p.y < 165.0 or p.y > 335.0: return false
+	var segment := MAIN_ROAD_END-MAIN_ROAD_START
+	var along := clampf((p-MAIN_ROAD_START).dot(segment)/segment.length_squared(),0.0,1.0)
+	return p.distance_squared_to(MAIN_ROAD_START+segment*along)<half_width*half_width
+
+static func fence_piece_allowed(a: Vector2, b: Vector2) -> bool:
+	return not southwest_road(a,8.5) and not southwest_road(b,8.5) and not southwest_road((a+b)*0.5,8.5)
 
 static func contains(p: Vector2) -> bool:
 	return Geometry2D.is_point_in_polygon(p,PackedVector2Array(OUTLINE))
@@ -41,6 +52,7 @@ func build() -> void:
 		for j in steps:
 			var p := a.lerp(b,float(j)/steps)
 			var next := a.lerp(b,float(j+1)/steps)
+			if not fence_piece_allowed(p,next): continue
 			var start := Map.ground_pos(p.x,p.y)
 			var end := Map.ground_pos(next.x,next.y)
 			posts.append(Transform3D(Basis.IDENTITY.scaled(Vector3(0.09,1.15,0.09)),start+Vector3.UP*0.53))

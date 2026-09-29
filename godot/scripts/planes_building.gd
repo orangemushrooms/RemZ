@@ -124,6 +124,10 @@ func placement_error(at: Vector3, angle: float, builder: Player = null) -> Strin
 	query.shape = shape
 	query.transform = Transform3D(Basis(Vector3.UP,angle),at+Vector3.UP*0.9)
 	query.collision_mask = 1|2|8
+	# Adjacent wall collision boxes overlap slightly to close visual seams. The
+	# polygon test above already rejects real fortification overlap.
+	for bar in game.barricades:
+		query.exclude.append(bar.body.get_rid())
 	if not game.get_world_3d().direct_space_state.intersect_shape(query,1).is_empty(): return "Building site occupied."
 	var ray := PhysicsRayQueryParameters3D.create(builder.position+Vector3.UP*1.7,at+Vector3.UP,1|8,[builder.get_rid()])
 	if not game.get_world_3d().direct_space_state.intersect_ray(ray).is_empty(): return "No clear view of the site."
@@ -173,11 +177,16 @@ func repair_nearest(builder: Player = null) -> void:
 	if bar.repair():
 		builder.add_score(-cost)
 		game.progression.event("repairs")
+		if NetSession.enabled: NetSession.feedback(builder.peer_id, "repair_fx", [bar.center])
+		else:
+			Sfx.play_at(game, "build", bar.center, -6.0)
+			game.hud.action_popup("REPAIRED")
 
 func upgrade_bar(index: int, builder: Player = null) -> String:
 	if not builder: builder = game.player
-	if not game.progression.close_enough(builder,"mechanic") or index<0 or index>=game.barricades.size(): return "Go to Mechanic."
+	if index<0 or index>=game.barricades.size(): return "Fortification not found."
 	var bar: Barricade = game.barricades[index]
+	if not builder.alive or builder.downed or bar.distance_to_line(builder.position)>3.0: return "Move closer to the fortification."
 	if NetSession.is_client():
 		NetSession.command("planes",["upgrade_bar",[str(bar.slot.id)]])
 		return "Request sent to host."
@@ -187,6 +196,11 @@ func upgrade_bar(index: int, builder: Player = null) -> String:
 	if builder.score<cost: return "Not enough Rem Dollars."
 	if bar.build(): builder.add_score(-cost)
 	return "Fortification upgraded."
+
+func upgrade_nearest(builder: Player = null) -> String:
+	var bar := nearest_bar(builder)
+	if not bar: return "Move closer to the fortification."
+	return upgrade_id(str(bar.slot.id),builder if builder else game.player)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if placing and event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
@@ -204,13 +218,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			yaw += deg_to_rad(15); get_viewport().set_input_as_handled()
 		elif placing and event.is_action_pressed("interact"):
 			var reason := place(kind,point,yaw) if error.is_empty() else error
-			if reason.is_empty(): cancel()
+			if reason.is_empty():
+				if game.progression.kit_stock[kind]<=0: cancel()
 			else: game.hud.message(reason,2)
 			get_viewport().set_input_as_handled()
 
 func _process(_delta: float) -> void:
 	if not placing: return
 	if game.over or not game.player.alive: cancel(); return
+	if game.progression.kit_stock[kind]<=0: cancel(); return
 	var camera: Camera3D = game.player.camera
 	var query := PhysicsRayQueryParameters3D.create(camera.global_position,camera.global_position-camera.global_basis.z*12,1,[game.player.get_rid()])
 	var hit: Dictionary = game.get_world_3d().direct_space_state.intersect_ray(query)
@@ -264,10 +280,16 @@ static func footprint(at: Vector3, angle: float) -> PackedVector2Array:
 	return result
 
 func snap(at: Vector3) -> Vector3:
+	var nearest := 1.7
+	var snapped := at
+	var alignment := yaw
 	for bar: Barricade in game.barricades:
 		for side in [-1,1]:
-			var end := bar.position+Vector3(side*3.2,0,0).rotated(Vector3.UP,bar.rotation.y)
-			if Vector2(at.x,at.z).distance_to(Vector2(end.x,end.z))<0.7:
-				yaw = bar.rotation.y
-				return Map.ground_pos(end.x,end.z)
-	return at
+			var next_center := bar.position+Vector3(side*Barricade.SEGMENT_LENGTH,0,0).rotated(Vector3.UP,bar.rotation.y)
+			var distance := Vector2(at.x,at.z).distance_to(Vector2(next_center.x,next_center.z))
+			if distance<nearest:
+				nearest = distance
+				alignment = bar.rotation.y
+				snapped = Map.ground_pos(next_center.x,next_center.z)
+	yaw = alignment
+	return snapped

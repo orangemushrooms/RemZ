@@ -1,4 +1,5 @@
 extends Node3D
+const Boundary = preload("res://scripts/planes_boundary.gd")
 const CELL := 16
 var game: Node
 var crop_image: Image
@@ -16,6 +17,7 @@ var rustle: AudioStreamPlayer
 
 func sample(p: Vector2) -> Color:
 	if not Map.extent().has_point(p): return Color.BLACK
+	if Boundary.southwest_road(p): return Color(0,0,1)
 	var uv := (p-Map.extent().position)/(Map.extent().size+Vector2.ONE)
 	return crop_image.get_pixel(clampi(int(uv.x*crop_image.get_width()),0,crop_image.get_width()-1),clampi(int(uv.y*crop_image.get_height()),0,crop_image.get_height()-1))
 
@@ -68,6 +70,7 @@ func build(main: Node) -> void:
 				for i in CELL*2:
 					var p := Vector2(x+i*0.5+rng.randf_range(0.05,0.4),z+j*0.5+rng.randf_range(0.05,0.4))
 					if not ext.has_point(p): continue
+					if Boundary.southwest_road(p): continue
 					var crop := sample(p)
 					var cover := Map.cover(p.x,p.y)
 					if cover.b>0.05: continue
@@ -144,7 +147,7 @@ func _scatter_woodland(origin: Vector3, patches: FastNoiseLite, ferns: Array[Tra
 		var cover := Map.cover(p.x,p.y)
 		if cover.r<0.65 or cover.b>0.05: continue
 		var crop := sample(p)
-		if crop.r>0.5 or crop.g>0.5 or game.near_building(p): continue
+		if crop.r>0.5 or crop.g>0.5 or crop.b>0.1 or game.near_building(p): continue
 		var density := clampf(0.7+patches.get_noise_2d(p.x,p.y)*0.9,0.28,0.98)
 		if rng.randf()>density: continue
 		var fern := rng.randf()<0.46

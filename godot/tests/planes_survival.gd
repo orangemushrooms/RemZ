@@ -81,6 +81,23 @@ func run() -> void:
 		if enemy: spawns_ok = spawns_ok and enemy.position.distance_to(game.player.position)>27
 	check(spawns_ok,"Enemies spawn on reachable terrain at least 28 m away")
 	await clear_enemies()
+	var titan_spawns_ok := true
+	for i in 3:
+		var giant: Zombie = game.spawn_enemy("titan",5)
+		if not giant:
+			titan_spawns_ok = false
+			continue
+		var nearest_tree := INF
+		for tree: Array in Map._d.landscape_trees:
+			nearest_tree = minf(nearest_tree,Vector2(giant.position.x-float(tree[0]),giant.position.z-float(tree[1])).length())
+		titan_spawns_ok = titan_spawns_ok and nearest_tree >= 6.0
+	check(titan_spawns_ok,"Field titans spawn outside dense trees with room for their collision capsule")
+	var giant: Zombie = game.zombies_root.get_child(0) if game.zombies_root.get_child_count()>0 else null
+	if giant:
+		var titan_start: Vector3 = giant.position
+		for frame in 420: await physics_frame
+		check(giant.position.distance_to(titan_start)>5.0,"A field titan leaves its spawn and advances toward the player")
+	await clear_enemies()
 	# A real actor must descend the surveyed route and damage the player.
 	var at: Vector3 = game.player.position+Vector3(8,0,0)
 	at = Map.ground_pos(at.x,at.z)

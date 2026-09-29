@@ -36,6 +36,7 @@ func run() -> void:
 	game.waves.complete_wave()
 	check(xp()==before+220,"Completed wave cannot award XP twice")
 	game.progression.accepted.bouquet = true
+	game.progression.claimed.welcome = true
 	game.progression.field_counts.flowers = 6
 	game.player.position = game.progression.npcs.camp.position
 	before = xp()

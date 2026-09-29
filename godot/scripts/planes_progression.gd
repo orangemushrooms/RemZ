@@ -1,22 +1,24 @@
 extends Progression
 ## A run-local economy. Forest catalogues supply prices; field quests have no hut dependencies.
 const SITES := {"camp":Vector2(22,3),"mechanic":Vector2(27,13),"secret":Vector2(151,-7)}
+const FLOWER_SELL_PRICE := 5
 const FIELD_QUESTS := {
 	"welcome":{"npc":"camp","name":"A place of your own","desc":"Choose your ground. Buy and place two defence kits.","goal":"built_wall","count":2,"reward":90,"wave":0},
-	"bouquet":{"npc":"camp","name":"Colour in the fields","desc":"Collect six marked wildflower bundles on the meadow paths.","goal":"flowers","count":6,"reward":120,"wave":1},
-	"engineer":{"npc":"mechanic","name":"Your first strongpoint","desc":"Place a tower using T. Towers can stand anywhere suitable.","goal":"built","count":1,"reward":100,"wave":1},
-	"watch":{"npc":"camp","name":"Open sky, steady hands","desc":"Defeat thirty zombies. The camp does not need defending.","goal":"kills","count":30,"reward":120,"wave":2},
-	"forage":{"npc":"secret","name":"Under the canopy","desc":"Collect four marked mushroom baskets in the woodland.","goal":"mushrooms","count":4,"reward":160,"wave":3},
-	"repair":{"npc":"mechanic","name":"Make it last","desc":"Repair three damaged fortifications.","goal":"repairs","count":3,"reward":150,"wave":4},
-	"precision":{"npc":"secret","name":"Quiet work","desc":"Defeat twenty enemies with headshots.","goal":"headshots","count":20,"reward":200,"wave":5},
-	"brutes":{"npc":"secret","name":"Heavy footsteps","desc":"Defeat eight brutes across the survival waves.","goal":"brutes","count":8,"reward":260,"wave":10},
-	"veteran":{"npc":"camp","name":"The long harvest","desc":"Survive fifteen waves on your chosen ground.","goal":"waves","count":15,"reward":300,"wave":15}
+	"bouquet":{"npc":"camp","name":"Colour in the fields","desc":"Collect six marked wildflower bundles on the meadow paths.","goal":"flowers","count":6,"reward":120,"wave":1,"requires":"welcome"},
+	"engineer":{"npc":"mechanic","name":"Your first strongpoint","desc":"Place a tower using T. Towers can stand anywhere suitable.","goal":"built","count":1,"reward":100,"wave":1,"requires":"welcome"},
+	"watch":{"npc":"camp","name":"Open sky, steady hands","desc":"Defeat thirty zombies. The camp does not need defending.","goal":"kills","count":30,"reward":120,"wave":2,"requires":"bouquet","after":1},
+	"forage":{"npc":"secret","name":"Under the canopy","desc":"Collect four marked mushroom baskets in the woodland.","goal":"mushrooms","count":4,"reward":160,"wave":3,"requires":"bouquet"},
+	"repair":{"npc":"mechanic","name":"Make it last","desc":"Repair three damaged fortifications.","goal":"repairs","count":3,"reward":150,"wave":4,"requires":"engineer","after":1},
+	"precision":{"npc":"secret","name":"Quiet work","desc":"Defeat twenty enemies with headshots.","goal":"headshots","count":20,"reward":200,"wave":5,"requires":"forage","after":1},
+	"brutes":{"npc":"secret","name":"Heavy footsteps","desc":"Defeat eight brutes across the survival waves.","goal":"brutes","count":8,"reward":260,"wave":10,"requires":"precision","after":1},
+	"veteran":{"npc":"camp","name":"The long harvest","desc":"Survive fifteen waves on your chosen ground.","goal":"waves","count":15,"reward":300,"wave":15,"requires":"watch","after":1}
 }
 var field_people := {}
 var transaction_actor: Player
 var field_counts := {}
 var accepted := {}
 var claimed := {}
+var accepted_waves := {}
 var kit_stock := {"palisade":0,"sandbags":0}
 var discovered_secret := false
 var field_panel: Control
@@ -44,6 +46,12 @@ func setup(main: Node) -> void:
 	var fire := Foliage.campfire(Map.ground_pos(18,11))
 	game.add_child(fire)
 	_build_ui()
+	var barricades_tab := Button.new()
+	barricades_tab.text = "Barricades"
+	barricades_tab.custom_minimum_size = Vector2(160,38)
+	barricades_tab.pressed.connect(func(): page = "Barricades"; _render())
+	_tabs.Training.get_parent().add_child(barricades_tab)
+	_tabs["Barricades"] = barricades_tab
 	for button in panel.find_children("*","Button",true,false):
 		if Lang.text(button.text)=="Back to the forest · Esc": button.text = "Back to The Planes · Esc"
 	field_panel = panel
@@ -55,7 +63,7 @@ func reset_run() -> void:
 	close()
 	field_people.clear()
 	people.clear()
-	field_counts.clear(); accepted.clear(); claimed.clear()
+	field_counts.clear(); accepted.clear(); claimed.clear(); accepted_waves.clear()
 	kit_stock = {"palisade":0,"sandbags":0}
 	discovered_secret = false
 	if game.nature: game.nature.reset_harvest()
@@ -77,7 +85,7 @@ func event(kind: String) -> void:
 
 func has_available_quest(npc_id: String) -> bool:
 	for id in FIELD_QUESTS:
-		if FIELD_QUESTS[id].npc==npc_id and not accepted.has(id) and not claimed.has(id): return true
+		if FIELD_QUESTS[id].npc==npc_id and not accepted.has(id) and not claimed.has(id) and field_quest_lock_reason(id).is_empty(): return true
 	return false
 
 func has_ready_quest(npc_id: String) -> bool:
@@ -89,14 +97,45 @@ func quest_ready(id: String) -> bool:
 	if not accepted.has(id): return false
 	var q: Dictionary = FIELD_QUESTS[id]
 	var wave: int = game.waves.completed if game.waves else 0
-	return wave>=int(q.wave) and int(field_counts.get(q.goal,0) if q.goal!="waves" else wave)>=int(q.count)
+	return field_quest_lock_reason(id).is_empty() and wave>=int(accepted_waves.get(id,wave))+int(q.get("after",0)) and int(field_counts.get(q.goal,0) if q.goal!="waves" else wave)>=int(q.count)
+
+func field_quest_lock_reason(id: String) -> String:
+	if not FIELD_QUESTS.has(id): return "Unknown quest."
+	var q: Dictionary = FIELD_QUESTS[id]
+	var required: String = q.get("requires","")
+	if not required.is_empty() and not claimed.has(required):
+		return Lang.t("Complete %s first.",[FIELD_QUESTS[required].name])
+	var wave: int = game.waves.completed if game.waves else 0
+	if wave<int(q.wave): return Lang.t("Mission level %d required. Survive wave %d first.",[int(q.wave)+1,q.wave])
+	return ""
+
+func field_quest_progress(id: String) -> String:
+	var q: Dictionary = FIELD_QUESTS[id]
+	var wave: int = game.waves.completed if game.waves else 0
+	var count: int = wave if q.goal=="waves" else int(field_counts.get(q.goal,0))
+	var done: bool = claimed.has(id) or count>=int(q.count)
+	var lines: Array[String] = [_field_step(Lang.t("%s %d/%d",[q.desc,mini(count,int(q.count)),int(q.count)]),done)]
+	if accepted.has(id) and int(q.get("after",0))>0:
+		var required: int = int(accepted_waves.get(id,wave))+int(q.after)
+		lines.append(_field_step(Lang.t("After accepting: survive through wave %d (%d/%d)",[required,mini(wave,required),required]),claimed.has(id) or wave>=required))
+	return "\n".join(lines)
+
+func _field_step(label: String, done: bool) -> String:
+	return "[color=#79df96]✓ %s[/color]" % label if done else "□ %s" % label
+
+func _range_progress(data: Dictionary) -> String:
+	return "\n".join([
+		_field_step(Lang.t("Find the Schützenhaus key in the woodland"),game.shooting_range.key_owned or game.shooting_range.opened),
+		_field_step(Lang.t("Enter the Schützenhaus"),game.shooting_range.opened),
+		_field_step(Lang.t("From inside, hit six targets with a sniper %d/6",[data.hits.size()]),data.claimed or data.hits.size()>=6)
+	])
 
 func open_field(id: String) -> void:
 	if not game.survival_active:
 		game.hud.message("Start survival from the pause menu to trade and build.",4)
 		return
 	if not close_enough(game.player,id): return
-	shop = id; page = "Trade" if id!="mechanic" else "Training"; is_open = true
+	shop = id; page = "Quests" if id=="mechanic" else "Trade"; is_open = true
 	_greet(id)
 	if id=="secret": discovered_secret = true
 	game.player.active = false
@@ -141,37 +180,47 @@ func request(action: String, id := "", extra := "") -> void:
 	var result := request_action("trade",[shop,action,id,extra])
 	refresh_field(result)
 
+func request_kit(id: String) -> void:
+	refresh_field(buy_kit(id))
+
 func _render() -> void:
 	if not SITES.has(shop): return
-	if shop=="mechanic" and page=="Training": _layout_key = ""
-	if page!="Quests":
+	if page!="Quests" and page!="Barricades":
 		super._render()
 		_tabs.Fireworks.hide()
 		_tabs.Skins.hide()
-		if shop=="mechanic" and page=="Training":
-			for id in ["palisade","sandbags"]:
-				_row(Lang.t("%s kit",[id]),Lang.t("Carried: %d. Place with B; rotate with mouse wheel.",[kit_stock[id]]),"%d R" % kit_price(id),func(): refresh_field(buy_kit(id)),game.player.score<kit_price(id))
-			for index in game.barricades.size():
-				var bar: Barricade = game.barricades[index]
-				_row(Lang.t("Fortification #%d · tier %d",[index+1,bar.level]),"Upgrade palisades and sandbags here.","Upgrade",func(): refresh_field(game.field_building.upgrade_bar(index)),bar.level>=3)
+		_tabs.Barricades.visible = shop=="mechanic"
+		if page=="Sell" and shop in ["camp","secret"]:
+			var flowers: Dictionary = game.brewing.stock(game.player.peer_id).flowers
+			for id in game.brewing.Recipes.FLOWERS:
+				var count := int(flowers.get(id,0))
+				if count<=0: continue
+				var spec: Dictionary = game.brewing.Recipes.FLOWERS[id]
+				_row(Lang.t("%s · %d in inventory",[spec.name,count]),"Brewing ingredient. Sell one flower.",Lang.t("Sell 1 · %d R",[FLOWER_SELL_PRICE]),request.bind("sell_flower",id))
 		return
 	_building_layout = true
 	_layout_key = ""
 	_row_nodes.clear()
 	_row_index = 0
 	for child in rows.get_children(): rows.remove_child(child); child.queue_free()
-	for tab in _tabs: _tabs[tab].visible = tab in (["Quests","Training","Towers","Mods"] if shop=="mechanic" else ["Trade","Sell","Quests","Mods"])
-	title.text = Lang.t("%s · Quests",[NPCS[shop].name])
+	for tab in _tabs: _tabs[tab].visible = tab in (["Quests","Training","Barricades","Towers","Mods"] if shop=="mechanic" else ["Trade","Sell","Quests","Mods"])
+	title.text = Lang.t("%s · %s",[NPCS[shop].name,page])
 	subtitle.text = NPCS[shop].line
 	_update_balance()
+	if page=="Barricades":
+		for id in ["palisade","sandbags"]:
+			var name := "Timber palisade kit" if id=="palisade" else "Sandbag wall kit"
+			_row(name,Lang.t("Carried: %d. Place with B; rotate with mouse wheel. Upgrade at the built wall with U.",[kit_stock[id]]),"%d R" % kit_price(id),request_kit.bind(id),game.player.score<kit_price(id))
+		return
 	for id in FIELD_QUESTS:
 		var q: Dictionary = FIELD_QUESTS[id]
 		if q.npc!=shop: continue
-		var value: int = game.waves.completed if q.goal=="waves" else field_counts.get(q.goal,0)
-		_row(q.name,Lang.t("%s\n%d / %d · %d R · %d class XP",[q.desc,mini(value,q.count),q.count,q.reward,preload("res://scripts/character_classes.gd").quest_xp(q.reward)]),"Done" if claimed.has(id) else "Collect reward" if quest_ready(id) else "In progress" if accepted.has(id) else "Accept quest",func(): refresh_field(quest_action(id)),claimed.has(id) or (accepted.has(id) and not quest_ready(id)))
+		var blocked := field_quest_lock_reason(id)
+		var details := field_quest_progress(id)+Lang.t("\nMission level %d - %d R - %d class XP",[int(q.wave)+1,q.reward,preload("res://scripts/character_classes.gd").quest_xp(q.reward)])
+		_row(q.name,details,"Done" if claimed.has(id) else "Locked" if not blocked.is_empty() else "Collect reward" if quest_ready(id) else "In progress" if accepted.has(id) else "Accept quest",func(): refresh_field(quest_action(id)),claimed.has(id) or not blocked.is_empty() or (accepted.has(id) and not quest_ready(id)),blocked if not claimed.has(id) else "",true)
 
 func kit_price(id: String) -> int:
-	return SandbagLine.DEPLOY_COST if id=="sandbags" else Barricade.COST_BUILD
+	return SandbagLine.DEPLOY_COST if id=="sandbags" else Barricade.COST_BUILD / 2
 
 func buy_kit(id: String) -> String:
 	if NetSession.is_client():
@@ -234,11 +283,17 @@ func quest_action(id: String) -> String:
 	if not game.survival_active: return "Building unavailable."
 	if not FIELD_QUESTS.has(id) or not close_enough(actor(),FIELD_QUESTS[id].npc): return "Return to the quest giver."
 	if claimed.has(id): return "Reward already claimed."
+	var blocked := field_quest_lock_reason(id)
+	if not blocked.is_empty(): return blocked
 	if not accepted.has(id):
 		accepted[id] = true
+		accepted_waves[id] = game.waves.completed
 		Sfx.event(game,actor().peer_id,"quest_accept")
 		return "Quest accepted. Earlier progress this run counts."
-	if not quest_ready(id): return "Objectives not completed yet."
+	if not quest_ready(id):
+		var wait_wave := int(accepted_waves.get(id,game.waves.completed))+int(FIELD_QUESTS[id].get("after",0))
+		if game.waves.completed<wait_wave: return Lang.t("Survive through wave %d after accepting.",[wait_wave])
+		return "Objectives not completed yet."
 	claimed[id] = true
 	Sfx.event(game,actor().peer_id,"quest_complete")
 	actor().add_score(int(FIELD_QUESTS[id].reward))
@@ -330,7 +385,7 @@ func _process(delta: float) -> void:
 	elif nearest_collectible>=0: game.hud.set_prompt(Lang.t("[E] Collect %s",["Porcini" if collectibles[nearest_collectible].kind=="mushrooms" else "Golden Yarrow"]))
 	elif nearest_wild_plant>=0: game.hud.set_prompt(Lang.t("[E] Collect %s",[game.nature.ingredient_name(nearest_wild_plant)]))
 	elif game.defences and game.defences.nearest(game.player): game.hud.set_prompt("[E] Operate tower · [R] Align · [Y] Move · [F] Repair")
-	elif game.field_building and game.field_building.nearest_bar(): game.hud.set_prompt("[E] Repair fortification · [B] Building kits")
+	elif game.field_building and game.field_building.nearest_bar(): game.hud.set_prompt("[E] Repair fortification · [U] Upgrade here · [B] Building kits")
 	else: game.hud.set_prompt("")
 
 func _unhandled_input(event_input: InputEvent) -> void:
@@ -342,6 +397,9 @@ func _unhandled_input(event_input: InputEvent) -> void:
 	if event_input is InputEventKey and event_input.pressed and not event_input.echo:
 		if event_input.physical_keycode==KEY_Q:
 			_journal = not _journal
+			get_viewport().set_input_as_handled(); return
+		if event_input.physical_keycode==KEY_U and game.field_building and game.field_building.nearest_bar():
+			game.hud.message(game.field_building.upgrade_nearest(),3)
 			get_viewport().set_input_as_handled(); return
 
 	if event_input is InputEventKey and event_input.pressed and not event_input.echo and event_input.physical_keycode==KEY_J:
@@ -383,10 +441,11 @@ func show_journal() -> void:
 	_update_balance()
 	for id in FIELD_QUESTS:
 		var q: Dictionary = FIELD_QUESTS[id]
-		var value: int = game.waves.completed if q.goal=="waves" else int(field_counts.get(q.goal,0))
-		_row(q.name,Lang.t("%s\n%s · %d/%d · %d R",[q.desc,NPCS[q.npc].name,mini(value,q.count),q.count,q.reward]),"Claimed" if claimed.has(id) else "Ready" if quest_ready(id) else "Active" if accepted.has(id) else "Not accepted",Callable(),true)
+		var blocked := field_quest_lock_reason(id)
+		var details := field_quest_progress(id)+Lang.t("\n%s - Level %d - %d R",[NPCS[q.npc].name,int(q.wave)+1,q.reward])
+		_row(q.name,details,"Claimed" if claimed.has(id) else "Locked" if not blocked.is_empty() else "Ready" if quest_ready(id) else "Active" if accepted.has(id) else "Not accepted",Callable(),true,blocked if not claimed.has(id) else "",true)
 	var challenge: Dictionary = game.shooting_range.data(game.player.peer_id)
-	_row("300 m challenge",Lang.t("Find the woodland key, enter the Schützenhaus and shoot its six targets with a sniper. %d / 6 · 350 R",[challenge.hits.size()]),"Claimed" if challenge.claimed else "Active" if challenge.accepted else "Discover",Callable(),true)
+	_row("300 m challenge",_range_progress(challenge)+"\n350 R","Claimed" if challenge.claimed else "Active" if challenge.accepted else "Discover",Callable(),true,"",true)
 	is_open = true
 	loadout_open = true
 	game.player.active = false
@@ -400,22 +459,24 @@ func show_loadout() -> void:
 func _update_tracker() -> void:
 	tracker.visible = game.survival_active and _journal and game.player.active and not game.over
 	if not tracker.visible: return
-	var lines: Array[String] = [Lang.text("QUESTS · Q on/off")]
+	var lines: Array[String] = [Lang.t("QUESTS - Q on/off")]
 	var shown := 0
 	for id in accepted:
 		if claimed.has(id): continue
 		var q: Dictionary = FIELD_QUESTS[id]
-		var count: int = game.waves.completed if q.goal=="waves" else int(field_counts.get(q.goal,0))
-		lines.append("%s  %d/%d" % [Lang.text(q.name),mini(count,q.count),q.count])
+		var entry := "[b]%s[/b]\n%s" % [Lang.t(q.name),field_quest_progress(id)]
+		if quest_ready(id): entry += "\n[color=#ffd479]%s[/color]" % Lang.t("Ready to turn in to %s - %d R",[NPCS[q.npc].name,q.reward])
+		lines.append(entry)
 		shown += 1
 		if shown>=3: break
 	var range_data: Dictionary = game.shooting_range.data(game.player.peer_id)
 	if range_data.accepted and not range_data.claimed:
-		lines.append(Lang.text("300 m challenge · %d / 6 targets") % [range_data.hits.size()])
+		lines.append("[b]%s[/b]\n%s" % [Lang.t("300 m challenge"),_range_progress(range_data)])
 		shown += 1
-	if shown==0: lines.append(Lang.text("Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."))
-	lines.append(Lang.text("Field journal")+" [J]")
+	if shown==0: lines.append(Lang.t("Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."))
+	lines.append(Lang.t("Field journal")+" [J]")
 	tracker.text = "\n\n".join(lines)
+	tracker.size.y = 0
 
 func mod_lock_reason(p: Player, id: String, wid: String) -> String:
 	var equipment: Weapons = NetSession.world.weapons[p.peer_id] if NetSession.is_host() else game.weapons
@@ -428,16 +489,33 @@ func actor() -> Player:
 	return transaction_actor if transaction_actor else game.player
 
 func menu_signature() -> String:
-	return str([shop,page,game.player.score,kit_stock,accepted,claimed,field_counts,game.skills.levels if game.skills else {},game.weapons.unlocked if game.weapons else {}])
+	return str([shop,page,game.player.score,kit_stock,accepted,claimed,accepted_waves,field_counts,game.brewing.stock(game.player.peer_id).flowers,mushroom_stock(game.player),game.waves.completed if game.waves else 0,game.skills.levels if game.skills else {},game.weapons.unlocked if game.weapons else {}])
+
+func _sell_items(p: Player) -> Array[Array]:
+	var items: Array[Array] = super._sell_items(p)
+	for id in game.brewing.Recipes.FLOWERS:
+		if int(game.brewing.stock(p.peer_id).flowers.get(id,0))>0: items.append(["sell_flower",id])
+	return items
+
+func sell(p: Player, npc: String, action: String, id: String) -> String:
+	if action!="sell_flower": return super.sell(p,npc,action,id)
+	if npc not in ["camp","secret"]: return "You can sell to Vendor and Secret Vendor."
+	if not game.brewing.Recipes.FLOWERS.has(id): return "Unknown flower."
+	var flowers: Dictionary = game.brewing.stock(p.peer_id).flowers
+	if int(flowers.get(id,0))<=0: return "You don't have this flower."
+	flowers[id] -= 1
+	p.add_score(FLOWER_SELL_PRICE)
+	Sfx.event(self,p.peer_id,"purchase")
+	return Lang.t("Sold: %s · +%d R",[game.brewing.Recipes.FLOWERS[id].name,FLOWER_SELL_PRICE])
 
 func gear() -> Weapons:
 	return NetSession.world.weapons[actor().peer_id] if NetSession.is_host() else game.weapons
 
 func field_data(peer: int) -> Dictionary:
 	if not field_people.has(peer):
-		field_people[peer] = {"counts":{},"accepted":{},"claimed":{},"kits":{"palisade":0,"sandbags":0}}
+		field_people[peer] = {"counts":{},"accepted":{},"claimed":{},"accepted_waves":{},"kits":{"palisade":0,"sandbags":0}}
 	if peer==NetSession.local_id():
-		field_people[peer] = {"counts":field_counts,"accepted":accepted,"claimed":claimed,"kits":kit_stock}
+		field_people[peer] = {"counts":field_counts,"accepted":accepted,"claimed":claimed,"accepted_waves":accepted_waves,"kits":kit_stock}
 	return field_people[peer]
 
 func peer_event(peer: int, kind: String) -> void:
@@ -455,14 +533,14 @@ func request_action(operation: String, args: Array) -> String:
 func authoritative_action(p: Player, operation: String, args: Array) -> String:
 	if not p.alive or p.downed or game.over or not game.started: return "Action unavailable."
 	var before_score := p.score
-	var old := [field_counts,accepted,claimed,kit_stock,shop]
+	var old := [field_counts,accepted,claimed,accepted_waves,kit_stock,shop]
 	var state: Dictionary = field_data(p.peer_id)
-	field_counts = state.counts; accepted = state.accepted; claimed = state.claimed; kit_stock = state.kits
+	field_counts = state.counts; accepted = state.accepted; claimed = state.claimed; accepted_waves = state.accepted_waves; kit_stock = state.kits
 	transaction_actor = p
 	var result := "Invalid request."
 	match operation:
 		"trade":
-			if args.size()==4 and args.all(func(v): return v is String) and SITES.has(args[0]) and args[1] in ["weapon","ammo","autorefill","medicine","grenade","training","mod","remove_mod","tower_upgrade","tower_sell","sell_meat","sell_mushroom","sell_grenade","sell_ammo","sell_weapon"]:
+			if args.size()==4 and args.all(func(v): return v is String) and SITES.has(args[0]) and args[1] in ["weapon","ammo","autorefill","medicine","grenade","training","mod","remove_mod","tower_upgrade","tower_sell","sell_meat","sell_mushroom","sell_flower","sell_grenade","sell_ammo","sell_weapon"]:
 				result = super.transact(p,args[0],args[1],args[2],args[3])
 		"buy_kit","buy_weapon","buy_supply","quest_action":
 			if args.size()==2 and args[0] is String and args[1] is String and SITES.has(args[1]):
@@ -483,7 +561,7 @@ func authoritative_action(p: Player, operation: String, args: Array) -> String:
 		"upgrade_bar":
 			if args.size()==1 and args[0] is String: result = game.field_building.upgrade_id(args[0],p)
 	transaction_actor = null
-	field_counts = old[0]; accepted = old[1]; claimed = old[2]; kit_stock = old[3]; shop = old[4]
+	field_counts = old[0]; accepted = old[1]; claimed = old[2]; accepted_waves = old[3]; kit_stock = old[4]; shop = old[5]
 	if p==game.player and is_open: show_gain(p.score-before_score)
 	return result
 
@@ -499,7 +577,7 @@ func apply_snapshot(state: Dictionary, _initial := false) -> void:
 	field_people = state.get("people",{}).duplicate(true)
 	var mine: Dictionary = field_people.get(NetSession.local_id(),{})
 	if not mine.is_empty():
-		field_counts = mine.counts; accepted = mine.accepted; claimed = mine.claimed; kit_stock = mine.kits
+		field_counts = mine.counts; accepted = mine.accepted; claimed = mine.claimed; accepted_waves = mine.get("accepted_waves",{}); kit_stock = mine.kits
 	for i in state.get("taken",[]):
 		if i>=0 and i<collectibles.size(): collectibles[i].taken = true; collectibles[i].node.hide()
 	for i in state.get("wild",[]): game.nature.hide_harvested(i)

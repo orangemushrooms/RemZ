@@ -477,7 +477,12 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 		return false
 	spend(player, cost)
 	Sfx.play(self, "confirm", -8.0)
-	Sfx.play_at(get_parent(), "build", center, -6.0)
+	if action == "repair":
+		if NetSession.enabled: NetSession.feedback(player.peer_id, "repair_fx", [center])
+		else:
+			Sfx.play_at(get_parent(), "build", center, -6.0)
+			hud.action_popup("REPAIRED")
+	else: Sfx.play_at(get_parent(), "build", center, -6.0)
 	return true
 
 func prompt_text() -> String:

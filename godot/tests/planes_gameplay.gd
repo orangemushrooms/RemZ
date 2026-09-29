@@ -25,12 +25,17 @@ func run() -> void:
 	var economy = game.progression
 	var construction = game.field_building
 	check(game.player.score==150 and not game.weapons.unlocked.ak47,"Pistol economy starts without free advanced weapons")
+	var pistol_speed: float = game.player.effective_speed_mul()
+	game.weapons.set_weapon("knife")
+	check(is_equal_approx(game.player.effective_speed_mul(),pistol_speed*Player.KNIFE_SPEED_MULTIPLIER),"Knife raises Planes walking and sprinting speed by ten percent")
+	game.weapons.set_weapon("pistol")
+	check(is_equal_approx(game.player.effective_speed_mul(),pistol_speed),"Switching back to a firearm restores the normal movement speed")
 	game.player.score = 10000
 	check(not economy.buy_kit("palisade").is_empty() and economy.kit_stock.palisade==0,"Remote kit purchase is rejected")
 	go(economy.SITES.mechanic+Vector2(0,2))
 	var money: int = game.player.score
 	economy.buy_kit("palisade"); economy.buy_kit("sandbags")
-	check(game.player.score==money-110 and economy.kit_stock.palisade==1 and economy.kit_stock.sandbags==1,"Mechanic sells portable kits at Forest prices")
+	check(game.player.score==money-85 and economy.kit_stock.palisade==1 and economy.kit_stock.sandbags==1,"Mechanic sells palisades at half price and sandbags at their regular price")
 	go(Vector2(-70,60))
 	var site := Vector3.ZERO
 	for x in range(-78,-61,2):
@@ -46,6 +51,11 @@ func run() -> void:
 	var bar: Barricade = game.barricades[0]
 	check(bar.level==1 and bar.hp==300 and bar.body.collision_layer==8,"Placed palisade has Forest health and zombie collision")
 	go(Vector2(site.x,site.z+4))
+	var next_center: Vector3 = Map.ground_pos(site.x+Barricade.SEGMENT_LENGTH,site.z)
+	var joined: Vector3 = construction.snap(next_center+Vector3(-1.5,0,0.2))
+	check(joined.distance_to(next_center)<0.05 and is_equal_approx(construction.yaw,bar.rotation.y),"Next wall snaps flush when aiming near the existing endpoint")
+	check(construction.placement_error(joined,construction.yaw).is_empty(),"Adjacent wall is not rejected by the existing wall collider")
+	go(Vector2(site.x,site.z+4))
 	var enemy: Zombie = game.create_enemy("runner",Map.ground_pos(site.x,site.z-5),1)
 	check(enemy.barricades.has(bar),"Live zombies see freely placed fortifications")
 	for frame in 360:
@@ -58,6 +68,7 @@ func run() -> void:
 	money = game.player.score
 	construction.repair_nearest()
 	check(bar.hp==bar.max_hp() and game.player.score==money-25,"Repair restores health and charges Forest price")
+	check(game.hud._popups.any(func(entry: Array): return Lang.text(entry[0].text) == "REPAIRED"),"Repair shows a gold confirmation near the crosshair")
 	construction.repair_nearest()
 	check(game.player.score==money-25,"Full-health repair does not charge again")
 	go(economy.SITES.camp+Vector2(0,2))
@@ -118,7 +129,13 @@ func run() -> void:
 		gathered.append(picked)
 	go(economy.SITES.mechanic+Vector2(0,2))
 	game.waves.completed = 5
-	check(construction.upgrade_bar(0)=="Fortification upgraded." and bar.level==2,"Mechanic upgrades placed palisades after the wave gate")
+	check(construction.upgrade_bar(0)=="Move closer to the fortification." and bar.level==1,"Mechanic cannot upgrade a distant palisade")
+	go(Vector2(site.x,site.z+2))
+	var upgrade_key := InputEventKey.new()
+	upgrade_key.physical_keycode = KEY_U; upgrade_key.keycode = KEY_U; upgrade_key.pressed = true
+	money = game.player.score
+	economy._unhandled_input(upgrade_key)
+	check(bar.level==2 and game.player.score==money-Barricade.build_cost(2),"U upgrades the nearby palisade and charges the correct amount")
 	go(Vector2(-100,55))
 	var tower_site := Vector3.ZERO
 	for x in range(-108,-91,2):
@@ -151,6 +168,10 @@ func run() -> void:
 			if construction.placement_error(candidate,0).is_empty(): bag_site = candidate; break
 		if bag_site!=Vector3.ZERO: break
 	check(bag_site!=Vector3.ZERO and construction.place("sandbags",bag_site,0).is_empty() and game.barricades[-1] is SandbagLine,"Sandbag kits build a real defensive line")
+	go(Vector2(bag_site.x,bag_site.z+4))
+	var bag_neighbor: Vector3 = Map.ground_pos(bag_site.x+Barricade.SEGMENT_LENGTH,bag_site.z)
+	var bag_joined: Vector3 = construction.snap(bag_neighbor+Vector3(-1.5,0,0.2))
+	check(bag_joined.distance_to(bag_neighbor)<0.05 and construction.placement_error(bag_joined,construction.yaw).is_empty(),"Sandbag line also snaps flush and allows an adjacent build")
 	go(economy.SITES.camp+Vector2(0,2))
 	game.weapons.grenades = 6
 	economy.buy_supply("grenade")
@@ -167,6 +188,19 @@ func run() -> void:
 	check(construction.kit_menu.visible and not game.player.active,"B menu lists carried kits")
 	construction.cancel()
 	check(game.player.active and not construction.placing,"Cancelling the kit menu preserves control and inventory")
+	economy.kit_stock.palisade = 2
+	go(Vector2(site.x,site.z+4))
+	construction.begin("palisade")
+	construction.point = Map.ground_pos(site.x+Barricade.SEGMENT_LENGTH,site.z)
+	construction.error = ""
+	var place_key := InputEventKey.new()
+	place_key.physical_keycode = KEY_E; place_key.keycode = KEY_E; place_key.pressed = true
+	construction._unhandled_input(place_key)
+	check(construction.placing and economy.kit_stock.palisade==1,"Placement stays active while another matching kit is carried")
+	construction.point = Map.ground_pos(site.x+Barricade.SEGMENT_LENGTH*2.0,site.z)
+	construction.error = ""
+	construction._unhandled_input(place_key)
+	check(not construction.placing and economy.kit_stock.palisade==0,"Placement closes after the final matching kit is built")
 	if "--render-gameplay" in OS.get_cmdline_user_args():
 		go(Vector2(5,23)); game.player.rotation.y = -0.6
 		game.player.pitch = 0.0; game.player.head.rotation.x = 0.0

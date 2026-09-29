@@ -18,6 +18,15 @@ void fragment() {
  vec2 uv = (world-origin+vec2(0.25))/size;
  vec3 cover = texture(cover_map,uv).rgb;
  vec3 crop = texture(crop_map,uv).rgb;
+ // The two mapped lanes of the southwest main road are one paved carriageway.
+ // Fill their photographed centre strip without adding geometry or draw calls.
+ if (world.x > -240.0 && world.x < -110.0 && world.y > 165.0 && world.y < 335.0) {
+  vec2 a = vec2(-228.5,176.0);
+  vec2 segment = vec2(106.5,158.0);
+  float along = clamp(dot(world-a,segment)/dot(segment,segment),0.0,1.0);
+  float distance_to_road = length(world-a-segment*along);
+  crop.b = max(crop.b,1.0-smoothstep(6.4,7.2,distance_to_road));
+ }
  // Hoist gradients out of the mask branches: neighbouring pixels at a path
  // edge must retain the same mip/anisotropic filtering as the full shader.
  vec2 dx = dFdx(world);

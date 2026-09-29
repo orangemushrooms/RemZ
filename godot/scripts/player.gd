@@ -18,6 +18,7 @@ const HIT_BLEED := 0.12            # seconds of bleed-out lost per point of dama
 
 const WALK_SPEED := 4.4
 const SPRINT_SPEED := 7.2
+const KNIFE_SPEED_MULTIPLIER := 1.1
 const VAULT_SPEED := 9.4              # clears a 1.55 m barricade with 0.6 m to spare at gravity 20
 const CROUCH_SPEED := 2.2
 const CROUCH_EYE := 1.05
@@ -79,7 +80,8 @@ func effective_speed_mul() -> float:
 	if weapons_node and weapons_node.specials:
 		burden = weapons_node.specials.movement_multiplier(weapons_node)
 	var class_speed: float = class_combat.modifier("speed", weapons_node.current if weapons_node else "", weapons_node.ads if weapons_node else 0.0, hp < max_hp * 0.3)
-	return speed_mul * mushroom_multiplier("speed") * relic_multiplier("speed") * burden * class_speed
+	var knife_speed := KNIFE_SPEED_MULTIPLIER if weapons_node and weapons_node.current=="knife" and not downed else 1.0
+	return speed_mul * mushroom_multiplier("speed") * relic_multiplier("speed") * burden * class_speed * knife_speed
 var recoil_offset := Vector2.ZERO   # (pitch, yaw) radians of visual recoil still settling
 var mouse_sensitivity := 1.0
 var _step_t := 0.0
