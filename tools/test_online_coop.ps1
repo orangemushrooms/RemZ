@@ -29,6 +29,10 @@ try {
         $profileFolder = Join-Path $env:APPDATA 'Godot/app_userdata/RemZ'
         New-Item -ItemType Directory -Force -Path $profileFolder | Out-Null
         Set-Content -LiteralPath (Join-Path $profileFolder 'settings.cfg') -Encoding ASCII -Value "[video]`nfps_limit=60`nvsync=false`nprofile=0"
+        # Character saves are portable by default, next to RemZ.exe. Redirect them
+        # explicitly as well, otherwise a test profile would enter the release folder.
+        $characterFolder = (Join-Path $env:APPDATA 'characters').Replace('\', '/')
+        [IO.File]::WriteAllText((Join-Path $profileFolder 'character.cfg'), "[profile]`ndirectory=`"$characterFolder`"`nid=`"packed_host`"`n", [Text.UTF8Encoding]::new($false))
         # Godot buffers --log-file output until exit; the per-line flushed diagnostics file next to the exe
         # (logs/coop-<pid>.log, NetSession.trace_load) is what the checks read while both processes run.
         $binary = if ($GameBinary) { (Resolve-Path -LiteralPath $GameBinary).Path } else { Join-Path $workspace 'builds/windows/RemZ.exe' }
@@ -38,7 +42,7 @@ try {
         foreach ($log in @($hostLog, $clientLog)) { if (Test-Path -LiteralPath $log) { Remove-Item -LiteralPath $log } }
         # A bounded, normal shutdown flushes the release engine's buffered log.
         $hostArgs = @('--headless', '--max-fps', '60', '--quit-after', '4800', '--log-file', ('"' + $hostLog + '"'), '--',
-            '--host-online', '--coop-auto-start=2', '--name=PackedHost', '--class-auto-lock', '--no-foliage', '--no-music', '--eos-cache=host')
+            '--host-online', '--coop-auto-start=2', '--name=PackedHost', '--character-profile=packed_host', '--class-auto-lock', '--no-foliage', '--no-music', '--eos-cache=host')
         if ($ForceRelay) { $hostArgs += '--eos-force-relay' }
         if ($Region -eq 'planes') { $hostArgs += '--explore-planes' }
         $hostProcess = Start-Process -FilePath $binary -WorkingDirectory (Split-Path $binary) -ArgumentList $hostArgs -WindowStyle Hidden -PassThru
@@ -57,7 +61,7 @@ try {
         if (-not $code) { throw "Packed host published no join code within 150 s. See $hostTrace" }
         Write-Host "Host lobby code: $code"
         $clientArgs = @('--headless', '--max-fps', '60', '--quit-after', '4800', '--log-file', ('"' + $clientLog + '"'), '--',
-            "--join-code=$code", '--name=PackedClient', '--class-auto-lock', '--no-foliage', '--no-music', '--eos-fresh-device', '--eos-cache=client')
+            "--join-code=$code", '--name=PackedClient', '--character-profile=packed_client', '--class-auto-lock', '--no-foliage', '--no-music', '--eos-fresh-device', '--eos-cache=client')
         if ($ForceRelay) { $clientArgs += '--eos-force-relay' }
         if ($Region -eq 'planes') { $clientArgs += '--explore-planes' }
         $clientProcess = Start-Process -FilePath $binary -WorkingDirectory (Split-Path $binary) -ArgumentList $clientArgs -WindowStyle Hidden -PassThru
