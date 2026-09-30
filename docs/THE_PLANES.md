@@ -88,6 +88,9 @@ Nine independent quests cover construction, flowers, mushrooms, kills, headshots
 repairs, brutes and survival. Rewards are claimed once at their quest giver.
 Collectible markers appear after acceptance; all run state resets on retry.
 Advanced weapons retain wave gates but do not require Forest quest completion.
+The six class weapons of 30 Sep 2026 (SIG P226, Nighthawk .45, AR-15, Tommy gun, SPAS-12,
+sawed-off) come through the same `Progression.GOODS` table, so they are on sale here at the
+Vendor from waves 1-4 at Forest prices; `--suite=class_weapons` covers the catalogue.
 
 Waves use difficulty-scaled counts of 10 + 4 × wave, increasingly mixed enemies
 and brutes every fifth wave. Initial preparation lasts 90 seconds, breaks 60;

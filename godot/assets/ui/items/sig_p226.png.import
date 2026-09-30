@@ -2,19 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ckk3hw6perjmf"
-path="res://.godot/imported/Sawed_Off_Double_Barreled_2.jpg-f3f4414801494365b735d581de69b2a1.ctex"
+uid="uid://bt1thlhju16rm"
+path="res://.godot/imported/sig_p226.png-95eaf3432714843040295ed2bd711475.ctex"
 metadata={
 "vram_texture": false
-}
-generator_parameters={
-"md5": "4d24f22da878ac2b938c0a7a2b9ef1f1"
 }
 
 [deps]
 
-source_file="res://assets/Sawed_Off_Double_Barreled_2.jpg"
-dest_files=["res://.godot/imported/Sawed_Off_Double_Barreled_2.jpg-f3f4414801494365b735d581de69b2a1.ctex"]
+source_file="res://assets/ui/items/sig_p226.png"
+dest_files=["res://.godot/imported/sig_p226.png-95eaf3432714843040295ed2bd711475.ctex"]
 
 [params]
 
@@ -26,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

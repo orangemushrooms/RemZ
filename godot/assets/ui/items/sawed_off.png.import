@@ -2,19 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://duc286pqoso3c"
-path="res://.godot/imported/Nighthawk_2.jpg-48fa3a8e191cb4041cc6abb9b3feabb6.ctex"
+uid="uid://br78ih2em1gbm"
+path="res://.godot/imported/sawed_off.png-42f8a609acad6734f94c2aa4a9aec362.ctex"
 metadata={
 "vram_texture": false
-}
-generator_parameters={
-"md5": "8f9bfb9080b81fe4e41de883f59a4ecb"
 }
 
 [deps]
 
-source_file="res://assets/Nighthawk_2.jpg"
-dest_files=["res://.godot/imported/Nighthawk_2.jpg-48fa3a8e191cb4041cc6abb9b3feabb6.ctex"]
+source_file="res://assets/ui/items/sawed_off.png"
+dest_files=["res://.godot/imported/sawed_off.png-42f8a609acad6734f94c2aa4a9aec362.ctex"]
 
 [params]
 
@@ -26,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

@@ -33,6 +33,7 @@ func run() -> void:
 		check(stream.mix_rate == 44100 and stream.get_length() > 0.5, id + " keeps the supplied recording and its tail")
 		w.unlock(id)
 		w.set_weapon(id)
+		w._switch_t = 0.0   # the class system's 0.25 s draw delay (29 Sep 2026) would swallow the shot
 		var state := w.cur()
 		state.ammo = int(state.def.mag)
 		state.cooldown = 0.0
@@ -48,6 +49,7 @@ func run() -> void:
 	check(Sfx.get_stream("graviton") != Sfx.get_stream("graviton_impact"), "Graviton impact does not replay its muzzle recording")
 	check(not w.get_node("MinigunFire").voice.playing, "Switching to the graviton stops the old minigun voice")
 	w.set_weapon("minigun")
+	w._switch_t = 0.0
 	w.cur().cooldown = 0.0
 	w.try_fire()
 	var sustained = w.get_node("MinigunFire")

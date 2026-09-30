@@ -37,6 +37,7 @@ func run() -> void:
 	w.set_process(false)
 	check(w.unlocked.knife and not w.unlocked.hatchet, "Messer starts unlocked; axe is earned")
 	w.set_weapon("hatchet")
+	w._switch_t = 0.0   # the class system's 0.25 s draw delay (29 Sep 2026) blocks melee() right after a switch
 	check(w.current == "pistol", "Locked axe cannot be equipped")
 	p.global_position = game.progression.npcs.camp.global_position + Vector3(0, 0, 1)
 	p.score = 500
@@ -50,11 +51,12 @@ func run() -> void:
 	game.achievements.hide()
 	for id in ["knife", "hatchet"]:
 		w.set_weapon(id)
+		w._switch_t = 0.0
 		w._handle_weapon_input(0.016)
 		check(w.current == id and w.cur().node.visible, id + " equips its own visible model")
 		check(game.hud.ammo_label.text.contains("Melee"), id + " has a melee HUD")
 		w.reload()
-		check(w.cur().reloading == 0 and w.cur().ammo == 0, id + " never reloads or uses ammunition")
+		check(w.cur().reloading == 0 and w.cur().ammo == 0, id + " never reloads or uses ammunition (reloading %s, ammo %s)" % [str(w.cur().reloading), str(w.cur().ammo)])
 		await shot(id)
 		w._melee_t = 0.0
 		w.melee()
@@ -67,6 +69,7 @@ func run() -> void:
 			w._handle_weapon_input(float(w.cur().def.stab_rate)*0.5)
 			await shot(id+"-heavy")
 	w.set_weapon("knife")
+	w._switch_t = 0.0
 	game.inventory._refresh()
 	check(w.ammo_weapon() == "pistol", "Ammunition pickups while holding melee supply the last firearm")
 	w.state.pistol.reserve = w.reserve_limit("pistol")
@@ -92,6 +95,7 @@ func run() -> void:
 	await settle()
 	for id in ["knife", "hatchet"]:
 		w.set_weapon(id)
+		w._switch_t = 0.0
 		z.hp = 1000
 		w._melee_t = 0
 		var shots_before: int = game.stats.shots
@@ -102,10 +106,13 @@ func run() -> void:
 		w.melee()
 		check(z.hp == after, id + " H and left-click share a cooldown")
 		w.set_weapon("pistol")
+		w._switch_t = 0.0
 		w.set_weapon(id)
+		w._switch_t = 0.0
 		w.try_fire()
 		check(z.hp == after, id + " weapon switching cannot bypass cooldown")
 	w.set_weapon("hatchet")
+	w._switch_t = 0.0
 	w._melee_t = 0
 	z.hp = 1000
 	Input.action_press("aim")
@@ -117,6 +124,7 @@ func run() -> void:
 	w.try_fire()
 	check(z.hp==axe_hp,"Light attack cannot bypass heavy axe cooldown")
 	w.set_weapon("knife")
+	w._switch_t = 0.0
 	w._melee_t = 0
 	z.hp = 1000
 	w.melee(true)
@@ -167,6 +175,7 @@ func run() -> void:
 	remote.rotation = Vector3.ZERO
 	remote.head.rotation = Vector3.ZERO
 	proxy.set_weapon("knife")
+	proxy._switch_t = 0.0
 	proxy.try_fire()
 	check(z.hp < hp and z.killer_peer == 2 and z.killer_weapon == "knife", "Host applies remote melee damage with the correct owner")
 	proxy._melee_t = 0
@@ -178,6 +187,7 @@ func run() -> void:
 	check(not NetSession.world.avatars[2].flash.visible, "Remote melee swings have no muzzle flash")
 	proxy.unlocked.hatchet = true
 	proxy.set_weapon("hatchet")
+	proxy._switch_t = 0.0
 	proxy._melee_t = 0
 	z.hp = 1000
 	NetSession.world.action(2,"melee",[0.0,0.0,true])

@@ -2,6 +2,7 @@ extends SceneTree
 
 class DifficultyStub extends Node:
 	var difficulty: Dictionary = GameSettings.DIFFICULTIES[1]
+	var day_night = null   # waves.gd asks the main scene for the clock (blood moon, 26 Sep 2026); the stub has none
 
 func _initialize() -> void:
 	call_deferred("run")

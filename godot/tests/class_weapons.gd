@@ -88,7 +88,7 @@ func run() -> void:
 		check(WeaponAttachments.MAGAZINE.has(model), id + ": Magazinart fuer die Mods bekannt")
 		check(Sfx.FILES.has(str(Weapons.DEFS[id].sfx)), id + ": Schusssound '%s' registriert" % Weapons.DEFS[id].sfx)
 		check(ResourceLoader.exists("res://assets/ui/items/%s.png" % id), id + ": Inventar-Icon vorhanden")
-	check(ResourceLoader.exists("res://assets/ui/items/knife.png"), "knife: Inventar-Icon vorhanden")
+	check(ResourceLoader.exists("res://assets/ui/items/knife.svg") or ResourceLoader.exists("res://assets/ui/items/knife.png"), "knife: Inventar-Icon vorhanden (die Nahkampfwaffen tragen SVGs)")
 	# the replaced models really are the new web exports: the pipeline writes a state.json receipt
 	for id in ["pistol", "smg", "deagle", "knife_real"]:
 		var receipt := "res://../assets/raw/%s_web/state.json" % id

@@ -604,6 +604,41 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   them - anything that moves or switches materials must sit under a node in the `render_dynamic` group
   (the wheels lost their bulbs and pegs to it).
 
+## Class weapons from the user's Meshy web models (30 Sep 2026, `--suite=class_weapons --smoke-test --no-intro --no-music --no-foliage`, 217 checks; windowed `--render-weapons` -> `artifacts/class-weapons/<id>-{hip,ads,shot}.png`)
+- Six new weapons, ids = model names, one pair per weapon class (`CharacterClasses.CLASSES[..].weapons`):
+  gunslinger `sig_p226` (15 rds, 300 R, wave 1) + `nighthawk` (.45, 8 rds, 520 R, wave 3); assault `ar15`
+  (5.56 full auto, 640 R, wave 3) + `tommy_gun` (50-round drum, 700 R, wave 4); breacher `sawed_off` (2 shells,
+  380 R, wave 2) + `spas12` (8 shells semi-auto, 820 R, wave 4). All at the Vendor, quests arrival / watch /
+  night_shift / line; everything but pistols and shotguns fires full auto (the user's rule). The Planes shop is
+  `Progression.GOODS` with the wave gates only (`planes_progression.gd extends Progression`), so both maps carry
+  them. `ORDER` groups them beside their families; `HANDGUNS` has the two pistols; `MAGAZINE`: tommy_gun and
+  sawed_off show no magazine mod (drum / break action), spas12 is tube fed; suppressor and Phantom fit the SIG,
+  the Nighthawk and the AR-15.
+- Four models replaced in place: `pistol` (with red dot and light, height 0.11 -> 0.14), `smg` (MP5, 0.17),
+  `deagle`, `knife_real`. Sources: the user's web exports live in `assets/raw/<model>_web/source.glb`
+  (gitignored, 2-43 MB; receipts `state.json` tracked). `python tools/web_weapons.py [stage] [--only a,b]`:
+  `decimate_glb.mjs` (pistols 36k with `--error 0.3`; the million-triangle web pistols stop at 80-96k
+  whatever the error, their thousands of UV islands lock every edge - `--prune` (meshopt Prune) did not help,
+  accepted) -> `albedo_orm.mjs` (metal/roughness map from the albedo for the three base-colour-only exports
+  AR-15 / SPAS-12 / Tommy gun and, `"orm": "force"`, for the Nighthawk whose Meshy map said metallic 0) ->
+  `bake_normals.mjs --high source.glb` (the Nighthawk `--geometry-only`: its Meshy normal map averages
+  127,127,173 and baked at 50 deg mean deviation) -> `reframe_glb.mjs` (knife only: blade +Y, 0.37 m, origin at
+  the guard, the frame melee_models.gd mounts without fitting) -> `pack.mjs` (2k WebP) -> `godot/assets/models/`.
+  After the headless import `python tools/weapon_texture_imports.py` sets BC7 / RGTC flags (a fresh import
+  leaves the WebPs uncompressed), then `node tools/weapon_geometry.mjs --all-weapons --bake
+  godot/scripts/weapon_mount_data.gd` (the tool now has `BORE_OVERRIDES`: the pistol's weapon light under the
+  barrel pulled the median bore 1 cm low; its first positional argument used to be dropped without `--json`).
+- Sounds: the user's eight recordings are raw files in `input/audio/weapons/` (never imported);
+  `python tools/build_class_weapon_audio.py` bakes `sfx/weapons/{mp5,tommy_gun,ar15,sig_p226,nighthawk,
+  titanbreaker,spas12,sawed_off}.wav` (see `docs/WEAPON_AUDIO.md`): one round cut out of the MP5 / Tommy
+  bursts between the envelope valleys around the second shot plus the burst's own after-tail and a short
+  synthetic room; single shots trimmed at their onset; SPAS-12 and sawed-off (soft distant recordings) get a
+  synthetic crack and sub thump in front. It prints the `sfx_db` that levels each clip against its family's old
+  clip. `Sfx.FILES.smg` now plays `weapons/mp5` (`smg.mp3` deleted), the Titanbreaker its own recording instead
+  of the revolver at pitch 0.72.
+- Tests touched by the class system's 0.25 s draw delay (`Weapons._switch_t`, 29 Sep): `new_weapons`,
+  `weapon_attachments` and `class_weapons` zero it before a test shot.
+
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,
   six-letter join code, anonymous Connect Device ID login, no Epic account, no port forwarding) and **Direct /

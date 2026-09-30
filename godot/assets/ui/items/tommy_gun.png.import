@@ -2,19 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://depyfpd8ngvjt"
-path="res://.godot/imported/Sawed_Off_Double_Barreled_0.jpg-b17788e945e10264e3d3f90baa10622f.ctex"
+uid="uid://ctsl0trlap4i0"
+path="res://.godot/imported/tommy_gun.png-4cb56575b8b75aff650bba972b7ce88e.ctex"
 metadata={
 "vram_texture": false
-}
-generator_parameters={
-"md5": "85886edb5d6bcab0b48165f9b2f54dcd"
 }
 
 [deps]
 
-source_file="res://assets/Sawed_Off_Double_Barreled_0.jpg"
-dest_files=["res://.godot/imported/Sawed_Off_Double_Barreled_0.jpg-b17788e945e10264e3d3f90baa10622f.ctex"]
+source_file="res://assets/ui/items/tommy_gun.png"
+dest_files=["res://.godot/imported/tommy_gun.png-4cb56575b8b75aff650bba972b7ce88e.ctex"]
 
 [params]
 
@@ -26,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
