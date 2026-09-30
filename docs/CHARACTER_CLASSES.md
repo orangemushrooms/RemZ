@@ -27,6 +27,18 @@ Unter **Klassen-Skills** wählst du zusätzlich genau eine Teleport-Variante fü
 
 Esc, Rechtsklick, V oder Abbrechen schliessen die Zielkarte ohne Abklingzeit. Während der Zielwahl läuft die Runde weiter. Blockierte, besetzte, zu steile oder unerreichbare Landepunkte sind ausgeschlossen; Feldprüfungsgrenzen gelten weiter. Während des Intros, am Boden, als Zuschauer, im Geschützturm oder beim Drohnenflug ist Teleport gesperrt. Die HUD-Anzeige nennt die gewählte Variante und die restliche Abklingzeit. Im Koop prüft der Host jeden Teleport. Alle Mitspieler benötigen den gleichen Build.
 
+## Balance-Update vom 30. September 2026
+
+Auf allen Maps steigt der direkte Schaden passender Klassenwaffen pro Level nach Level 1 um 2 %, bis zu +58 % auf Level 30. Beim Assassin gilt das für alle Waffen; Türme, Drohnen und geworfene Sprengmittel erhalten diesen Bonus nicht. Die beim Rundenstart gewählte Klasse und ihre Talente bleiben während der Runde fest.
+
+- Revolverheld: High Noon gewährt bis zu fünf Stapel mit je 12 % kürzerer Nachladezeit und 15 % höherer Feuerrate. Executioner verursacht an Zielen mit höchstens halbem Leben 2,5-fachen Schaden. Deadeye erreicht 3-fachen Kopfschussschaden; Revolvermeister gewährt +50 % Schaden und +25 % Feuerrate.
+- Sturmschütze: Combat Momentum erreicht +75 % Feuerrate. Veteran gewährt +20 % Schaden und 65 % kürzere Nachladezeit bei niedrigem Magazinstand. Weapons Expert verbessert Schaden, Rückstoss, Nachladen und Magazin. Last Stand verstärkt unter halbem Leben Schaden, Schutz, Nachladen und Bewegung mit einem Sturmgewehr.
+- Brecher: No Mercy gewährt +75 % Schaden innerhalb von 7 Metern. Stand Your Ground reduziert Schaden bei mindestens zwei nahen Gegnern um 40 %. Juggernaut schützt dauerhaft und nach Schrotflinten-Kills zusätzlich; Boomstick verdreifacht die komplette erste Schrotladung aus einem vollen Magazin.
+- Marksman: Kill Chain verdoppelt alle Treffer des nächsten Präzisionsschusses nach einem Kopfschusskill; Big Game Hunter verdoppelt Schaden an Eliten und Bossen. Perfect Shot lädt in zwei Sekunden und verursacht 3,5-fachen Kopfschussschaden an jedem durchschlagenen Ziel. Rhythm erreicht +60 % Schaden und Feuerrate, halbierte Nachladezeit und doppeltes Zieltempo.
+- Assassin: Assassination verdreifacht den ersten Angriff von hinten oder auf ahnungslose Ziele, einschliesslich aller Schrotpellets. Untouchable gewährt nach vier Sekunden ohne Schaden +30 % Tempo und 20 % Schutz. Master Assassin verstärkt Bewegung, Tarnung, Waffenwechsel und Nahkampf und halbiert Teleport-Abklingzeiten auf 6 / 15 Sekunden. Predator verstärkt nach drei ruhigen Sekunden den nächsten Angriff um 150 %, auch im Nahkampf.
+
+Das HUD zeigt Bereitschaft, Stapel und Laufzeiten relevanter Talente. Firm Stance verbessert auch die tatsächliche Zielstreuung; Nachladetalente verkürzen die Plasma-Kühlpause. Opportunist wirkt auch gegen ahnungslose Gegner im Solo-Spiel. Die vollständigen Bedingungen stehen auf den Talentkarten.
+
 ## Profile
 
 Die Profil-Schaltfläche unten im Dossier öffnet die Auswahl und das Erstellen weiterer lokaler Profile. Der Anzeigename ist vom Dateinamen getrennt: neue Profile erhalten eine stabile zufällige ID. Ein anderer Multiplayer-Anzeigename verändert das aktive Profil nicht.

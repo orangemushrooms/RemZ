@@ -6,6 +6,8 @@ var bar: ProgressBar
 var notice: Label
 var level_notice: Label
 var ability: Label
+var talent_status: Label
+var _status_time := 0.0
 var _toast_time := 0.0
 var _level_time := 0.0
 
@@ -26,6 +28,8 @@ func setup(owner_hud: Node) -> void:
 	add_child(bar)
 	ability = hud._label("", 13, Color("b6a0d8"))
 	add_child(ability)
+	talent_status = hud._label("",13,Hud.GOLD)
+	add_child(talent_status)
 	notice = hud._label("", 13, Hud.GOLD)
 	add_child(notice)
 	level_notice = hud._label("", 19, Hud.GOLD)
@@ -64,6 +68,12 @@ func _process(delta: float) -> void:
 	notice.visible = _toast_time > 0.0
 	level_notice.visible = visible and _level_time > 0.0
 	var actor: Player = hud.game.player
+	_status_time -= delta
+	if actor and _status_time<=0.0:
+		_status_time = 0.1
+		var equipped := actor.equipped_weapons()
+		talent_status.text = actor.class_combat.status(equipped.current if equipped else "",actor.hp<actor.max_hp*Classes.LAST_STAND_HEALTH)
+		talent_status.visible = not talent_status.text.is_empty()
 	var mode := AssassinTeleport.mode_for(actor) if actor else ""
 	ability.visible = not mode.is_empty()
 	if ability.visible:

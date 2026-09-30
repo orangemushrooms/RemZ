@@ -333,9 +333,13 @@ func placement_error(p: Player, point: Vector3, kind := "standard", planner := f
 	q.shape = shape
 	q.transform.origin = ground + Vector3.UP * 2.0
 	q.collision_mask = 1 | 2 | 4 | 8 | 16
+	var excluded: Array[RID] = [p.get_rid()]
+	var moving: DefenceTower = towers.get(ignore_id)
+	if is_instance_valid(moving): excluded.append(moving.body.get_rid())
+	q.exclude = excluded
 	if not game.get_world_3d().direct_space_state.intersect_shape(q, 1).is_empty(): return "Building site occupied."
 	if planner: return ""
-	var ray := PhysicsRayQueryParameters3D.create(p.global_position + Vector3.UP * 1.7, ground + Vector3.UP, 1 | 8, [p.get_rid()])
+	var ray := PhysicsRayQueryParameters3D.create(p.global_position + Vector3.UP * 1.7, ground + Vector3.UP, 1 | 8, excluded)
 	if not game.get_world_3d().direct_space_state.intersect_ray(ray).is_empty(): return "No clear view of the building site."
 	return ""
 
@@ -675,7 +679,7 @@ func _input(event: InputEvent) -> void:
 				if NetSession.enabled: NetSession.command("tower_repair", [tower.tower_id])
 				else: game.hud.message(maintain(game.player, tower.tower_id, "repair"), 2)
 				get_viewport().set_input_as_handled()
-		elif event.physical_keycode == KEY_Y and game.player.active and not placing:
+		elif (event.keycode == KEY_Y or (event.keycode == 0 and event.physical_keycode == KEY_Y)) and game.player.active and not placing:
 			var tower := nearest(game.player)
 			if tower and not tower.rooftop:
 				begin_rotation(tower)
@@ -768,6 +772,7 @@ func _process(delta: float) -> void:
 			var camera: Camera3D = game.player.camera
 			var from := camera.global_position
 			var ray := PhysicsRayQueryParameters3D.create(from, from - camera.global_basis.z * 10, 1)
+			if moving_tower and towers.has(rotating_id): ray.exclude = [game.player.get_rid(),towers[rotating_id].body.get_rid()]
 			var hit: Dictionary = game.get_world_3d().direct_space_state.intersect_ray(ray)
 			var point: Vector3 = hit.position if not hit.is_empty() else from - camera.global_basis.z * 6
 			if rotating_id:

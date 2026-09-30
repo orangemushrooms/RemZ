@@ -376,6 +376,7 @@ func _select_gallery(id: String) -> void:
 func _render_skills(parent: Node) -> void:
 	if selected == "assassin": _render_teleport(parent)
 	var level := CharacterProfile.level(selected)
+	label(parent, Lang.t("Class mastery: +%d%% weapon damage. +2%% per class level after level 1; applies to class weapons, or all weapons for Assassin.",[roundi((level-1)*Classes.MASTERY_PER_LEVEL*100)]),15,Palette.MUTED)
 	var title_row := _row(parent)
 	label(title_row, Classes.CLASSES[selected].name, 31, _accent(), true)
 	var count := 0

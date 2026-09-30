@@ -70,7 +70,7 @@ func build(main: Node) -> void:
 				for i in CELL*2:
 					var p := Vector2(x+i*0.5+rng.randf_range(0.05,0.4),z+j*0.5+rng.randf_range(0.05,0.4))
 					if not ext.has_point(p): continue
-					if Boundary.southwest_road(p): continue
+					if Boundary.southwest_road(p,Boundary.MAIN_ROAD_HALF_WIDTH+Boundary.ROAD_PLANT_CLEARANCE): continue
 					var crop := sample(p)
 					var cover := Map.cover(p.x,p.y)
 					if cover.b>0.05: continue

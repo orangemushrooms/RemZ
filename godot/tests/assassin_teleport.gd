@@ -108,6 +108,10 @@ func run() -> void:
 	check(not ability.perform(actor, Vector2.ZERO).is_empty() and actor.position == landed, "Cooldown prevents repeated teleport commands")
 	ability._physics_process(12.1)
 	check(actor.teleport_cooldown == 0.0, "Cooldown becomes ready after elapsed gameplay time")
+	for mode in ["forward","map"]:
+		configure(actor,mode,30)
+		actor.class_combat.configure(Classes.loadout("assassin",Classes.threshold(30),[-1,-1,-1,-1,-1,0],mode))
+		check(ability.perform(actor,Vector2(25,0)).is_empty() and actor.teleport_cooldown==(6.0 if mode=="forward" else 15.0),"Master Assassin halves the actual %s teleport cooldown" % mode)
 	configure(actor, "forward")
 	actor.rotation.y = -PI * 0.5
 	check(ability.perform(actor, Vector2.ZERO).is_empty() and is_equal_approx(actor.position.x, 8.0), "Forward follows horizontal facing")

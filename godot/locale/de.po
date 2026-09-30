@@ -8115,3 +8115,120 @@ msgstr "Schützenhausschlüssel"
 
 msgid "Ammunition"
 msgstr "Munition"
+
+msgid "[E] Reset score · Lane %d"
+msgstr "[E] Punkte zurücksetzen · Bahn %d"
+
+msgid "Score reset · Lane %d"
+msgstr "Punkte zurückgesetzt · Bahn %d"
+
+msgid "[E] Place · [Wheel / R] Rotate · [Shift] Free placement · [Esc] Cancel"
+msgstr "[E] Bauen · [Mausrad / R] Drehen · [Shift] Frei platzieren · [Esc] Abbrechen"
+
+msgid "LANE %d\nSCORE %d\nHITS %d · LAST %d\n[E] Reset"
+msgstr "BAHN %d\nPUNKTE %d\nTREFFER %d · LETZTER %d\n[E] Reset"
+
+
+msgid "Pistol headshot kills grant 12% faster reloads and 15% faster fire rate per stack for 10 seconds. Up to 5 stacks."
+msgstr "Pistolen-Kopfschusskills geben pro Stapel 12% kürzere Nachladezeit und 15% höhere Feuerrate für 10 Sekunden. Bis zu 5 Stapel."
+
+
+msgid "Pistols deal 150% more damage to targets at or below 50% health."
+msgstr "Pistolen verursachen 150% mehr Schaden an Zielen mit höchstens 50% Leben."
+
+
+msgid "Pistol headshots deal 50% more damage. Consecutive headshots add 30% each, up to 200% total bonus. A miss or body hit resets the chain."
+msgstr "Pistolen-Kopfschüsse verursachen 50% mehr Schaden. Aufeinanderfolgende Kopfschüsse geben je 30% mehr, bis zu 200% Gesamtbonus. Fehlschüsse oder Körpertreffer setzen die Serie zurück."
+
+
+msgid "50% more pistol damage, 25% faster pistol fire rate and 40% faster movement while aiming a pistol."
+msgstr "50% mehr Pistolenschaden, 25% höhere Pistolen-Feuerrate und 40% mehr Bewegungstempo beim Zielen mit Pistolen."
+
+
+msgid "Assault rifle kills increase fire rate by 15% for 10 seconds, up to 5 stacks (+75%)."
+msgstr "Sturmgewehr-Kills erhöhen die Feuerrate für 10 Sekunden um je 15%, bis zu 5 Stapel (+75%)."
+
+
+msgid "Assault rifles deal 20% more damage and reload 65% faster with a quarter magazine or less."
+msgstr "Sturmgewehre verursachen 20% mehr Schaden und laden bei höchstens einem Viertel Magazin 65% schneller nach."
+
+
+msgid "Assault rifles gain 35% damage, 45% less recoil, 40% faster reloads and 60% larger magazines."
+msgstr "Sturmgewehre erhalten 35% mehr Schaden, 45% weniger Rückstoß, 40% kürzere Nachladezeit und 60% größere Magazine."
+
+
+msgid "Below 50% health with an assault rifle: 75% more damage, 40% damage resistance, 60% less recoil, 60% faster reloads and 25% more movement speed."
+msgstr "Unter 50% Leben mit einem Sturmgewehr: 75% mehr Schaden, 40% Schadensresistenz, 60% weniger Rückstoß, 60% kürzere Nachladezeit und 25% mehr Bewegungstempo."
+
+
+msgid "Shotgun hits within 7 metres deal 75% more damage."
+msgstr "Schrotflintentreffer innerhalb von 7 Metern verursachen 75% mehr Schaden."
+
+
+msgid "40% less damage taken while at least 2 enemies are within 8 metres."
+msgstr "40% weniger erlittener Schaden, solange mindestens 2 Gegner innerhalb von 8 Metern sind."
+
+
+msgid "Always take 15% less damage. Shotgun kills halve the remaining damage for 8 seconds (57.5% total resistance). Class resistance is capped at 75%."
+msgstr "Dauerhaft 15% weniger erlittener Schaden. Schrotflinten-Kills halbieren für 8 Sekunden den verbleibenden Schaden (insgesamt 57,5% Resistenz). Klassenresistenz ist auf 75% begrenzt."
+
+
+msgid "The first shotgun blast from a full magazine deals triple damage, including every pellet. Other blasts deal 35% more damage."
+msgstr "Der erste Schrotflintenschuss aus einem vollen Magazin verursacht dreifachen Schaden, mit jedem Pellet. Weitere Schüsse verursachen 35% mehr Schaden."
+
+
+msgid "A precision headshot kill doubles every hit of the next precision shot for 8 seconds. Another headshot kill renews the bonus."
+msgstr "Ein Präzisions-Kopfschusskill verdoppelt für 8 Sekunden alle Treffer des nächsten Präzisionsschusses. Ein weiterer Kopfschusskill erneuert den Bonus."
+
+
+msgid "Precision rifles deal 100% more damage against elites and bosses."
+msgstr "Präzisionsgewehre verursachen 100% mehr Schaden an Elitegegnern und Bossen."
+
+
+msgid "After 2 seconds without a miss, the next precision shot deals 250% more headshot damage to every pierced target. Recharges after use."
+msgstr "Nach 2 Sekunden ohne Fehlschuss verursacht der nächste Präzisionsschuss 250% mehr Kopfschussschaden an jedem durchschlagenen Ziel. Lädt sich nach Benutzung neu auf."
+
+
+msgid "Consecutive precision hits grant up to 60% damage, 60% fire rate, 50% faster reloads and twice as fast aiming at 5 hits. A miss resets the chain."
+msgstr "Aufeinanderfolgende Präzisionstreffer geben bei 5 Treffern bis zu 60% mehr Schaden, 60% höhere Feuerrate, 50% kürzere Nachladezeit und doppelt so schnelles Zielen. Fehlschüsse setzen die Serie zurück."
+
+
+msgid "15% more damage against unaware enemies or enemies attacking another player."
+msgstr "15% mehr Schaden an ahnungslosen Gegnern oder Gegnern, die einen anderen Spieler angreifen."
+
+
+msgid "The first attack against each target deals triple damage from behind or while the target is unaware. Includes all pellets of that attack."
+msgstr "Der erste Angriff auf jedes Ziel verursacht von hinten oder gegen ahnungslose Ziele dreifachen Schaden. Gilt für alle Pellets dieses Angriffs."
+
+
+msgid "After 4 seconds without taking damage, gain 30% movement speed and 20% damage resistance until hit."
+msgstr "Nach 4 Sekunden ohne erlittenen Schaden: 30% mehr Bewegungstempo und 20% Schadensresistenz bis zum nächsten Treffer."
+
+
+msgid "20% faster movement, 60% faster weapon switches, 45% less detection range, 75% more melee damage and halved teleport cooldowns."
+msgstr "20% mehr Bewegungstempo, 60% schnellere Waffenwechsel, 45% weniger Entdeckungsreichweite, 75% mehr Nahkampfschaden und halbierte Teleport-Abklingzeiten."
+
+
+msgid "After 3 seconds without attacking or taking damage, the next attack deals 150% more damage with 80% less spread. Also works with melee and every shotgun pellet."
+msgstr "Nach 3 Sekunden ohne Angriff oder erlittenen Schaden verursacht der nächste Angriff 150% mehr Schaden bei 80% weniger Streuung. Gilt auch für Nahkampf und jedes Schrotpellet."
+
+msgid "Class mastery: +%d%% weapon damage. +2%% per class level after level 1; applies to class weapons, or all weapons for Assassin."
+msgstr "Klassenmeisterschaft: +%d%% Waffenschaden. +2%% pro Klassenlevel nach Level 1; gilt für Klassenwaffen, beim Assassin für alle Waffen."
+
+msgid "50% less weapon sway and spread while aiming a precision rifle."
+msgstr "50% weniger Waffenschwanken und Streuung beim Zielen mit einem Präzisionsgewehr."
+
+msgid "%s · READY"
+msgstr "%s · BEREIT"
+
+msgid "%s · ACTIVE"
+msgstr "%s · AKTIV"
+
+msgid "%s · %.1f s"
+msgstr "%s · %.1f s"
+
+msgid "%s · x%d · %.1f s"
+msgstr "%s · x%d · %.1f s"
+
+msgid "%s · %d / 5"
+msgstr "%s · %d / 5"

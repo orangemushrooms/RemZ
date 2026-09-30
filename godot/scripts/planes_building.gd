@@ -4,6 +4,7 @@ var game: Node
 var placing := false
 var kind := "palisade"
 var yaw := 0.0
+var auto_align := true
 var point := Vector3.ZERO
 var error := ""
 var ghost: MeshInstance3D
@@ -89,6 +90,7 @@ func begin(id: String) -> void:
 	game.player.active = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	yaw = game.player.rotation.y
+	auto_align = true
 	placing = true
 	ghost.show()
 
@@ -114,22 +116,28 @@ func placement_error(at: Vector3, angle: float, builder: Player = null) -> Strin
 	for npc in game.progression.npcs.values():
 		if npc.position.distance_to(at)<5: return "Keep the traders accessible."
 	if at.distance_to(Map.ground_pos(18,11))<3: return "Keep the campfire clear."
-	for bar in game.barricades:
-		if not Geometry2D.intersect_polygons(footprint(at,angle),footprint(bar.position,bar.rotation.y)).is_empty(): return "Too close to another fortification."
+	if overlaps_wall(at,angle): return "Too close to another fortification."
 	for tower in game.defences.towers.values():
 		if tower.position.distance_to(at)<3: return "Keep tower access clear."
 	var shape := BoxShape3D.new()
-	shape.size = Vector3(3.1,1.2,0.46)
+	shape.size = Vector3(3.1,1.2,0.8)
 	var query := PhysicsShapeQueryParameters3D.new()
 	query.shape = shape
 	query.transform = Transform3D(Basis(Vector3.UP,angle),at+Vector3.UP*0.9)
 	query.collision_mask = 1|2|8
 	# Adjacent wall collision boxes overlap slightly to close visual seams. The
 	# polygon test above already rejects real fortification overlap.
+	var excluded: Array[RID] = [builder.get_rid()]
 	for bar in game.barricades:
-		query.exclude.append(bar.body.get_rid())
+		excluded.append(bar.body.get_rid())
+	# Terrain is validated at the footprint corners above. A level query box
+	# must not reject an otherwise buildable slope under a terrain-following wall.
+	var site_excluded: Array[RID] = excluded.duplicate()
+	for ground in get_tree().get_nodes_in_group("terrain_ground"):
+		if ground is CollisionObject3D: site_excluded.append(ground.get_rid())
+	query.exclude = site_excluded
 	if not game.get_world_3d().direct_space_state.intersect_shape(query,1).is_empty(): return "Building site occupied."
-	var ray := PhysicsRayQueryParameters3D.create(builder.position+Vector3.UP*1.7,at+Vector3.UP,1|8,[builder.get_rid()])
+	var ray := PhysicsRayQueryParameters3D.create(builder.position+Vector3.UP*1.7,at+Vector3.UP,1|8,excluded)
 	if not game.get_world_3d().direct_space_state.intersect_ray(ray).is_empty(): return "No clear view of the site."
 	return ""
 
@@ -205,6 +213,7 @@ func upgrade_nearest(builder: Player = null) -> String:
 func _unhandled_input(event: InputEvent) -> void:
 	if placing and event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
 		yaw += deg_to_rad(15)*(1 if event.button_index==MOUSE_BUTTON_WHEEL_UP else -1)
+		auto_align = false
 		get_viewport().set_input_as_handled(); return
 	if not game or not game.survival_active or game.over or game.player.downed or game.player.mounted_tower: return
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -215,7 +224,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.physical_keycode==KEY_ESCAPE and (placing or kit_menu.visible):
 			cancel(); get_viewport().set_input_as_handled()
 		elif placing and event.physical_keycode==KEY_R:
-			yaw += deg_to_rad(15); get_viewport().set_input_as_handled()
+			yaw += deg_to_rad(15)*(-1 if event.shift_pressed else 1)
+			auto_align = false
+			get_viewport().set_input_as_handled()
 		elif placing and event.is_action_pressed("interact"):
 			var reason := place(kind,point,yaw) if error.is_empty() else error
 			if reason.is_empty():
@@ -234,13 +245,13 @@ func _process(_delta: float) -> void:
 		error = "Look at nearby ground."
 		ghost.hide()
 	else:
-		point = snap(hit.position)
+		point = Map.ground_pos(hit.position.x,hit.position.z) if Input.is_key_pressed(KEY_SHIFT) else snap(hit.position)
 		error = placement_error(point,yaw)
 		ghost.position = point+Vector3.UP*0.7
 		ghost.rotation.y = yaw
 		ghost.show()
 		material.albedo_color = Color(0.2,1,0.55,0.35) if error.is_empty() else Color(1,0.2,0.15,0.35)
-	game.hud.set_prompt("[E] Place · [Wheel / R] Rotate · [Esc] Cancel" if error.is_empty() else error)
+	game.hud.set_prompt("[E] Place · [Wheel / R] Rotate · [Shift] Free placement · [Esc] Cancel" if error.is_empty() else error)
 
 func upgrade_id(id: String, builder: Player) -> String:
 	for index in game.barricades.size():
@@ -274,10 +285,17 @@ func apply_snapshot(states: Array) -> void:
 
 static func footprint(at: Vector3, angle: float) -> PackedVector2Array:
 	var result := PackedVector2Array()
-	for p in [Vector3(-1.55,0,-0.22),Vector3(1.55,0,-0.22),Vector3(1.55,0,0.22),Vector3(-1.55,0,0.22)]:
+	for p in [Vector3(-1.55,0,-0.4),Vector3(1.55,0,-0.4),Vector3(1.55,0,0.4),Vector3(-1.55,0,0.4)]:
 		var q: Vector3 = at+p.rotated(Vector3.UP,angle)
 		result.append(Vector2(q.x,q.z))
 	return result
+
+func overlaps_wall(at: Vector3, angle: float) -> bool:
+	var proposed := footprint(at,angle)
+	for bar: Barricade in game.barricades:
+		if Vector2(at.x,at.z).distance_squared_to(Vector2(bar.position.x,bar.position.z))>pow(bar.half_len+2.1,2): continue
+		if not Geometry2D.intersect_polygons(proposed,footprint(bar.position,bar.rotation.y)).is_empty(): return true
+	return false
 
 func snap(at: Vector3) -> Vector3:
 	var nearest := 1.7
@@ -285,11 +303,19 @@ func snap(at: Vector3) -> Vector3:
 	var alignment := yaw
 	for bar: Barricade in game.barricades:
 		for side in [-1,1]:
-			var next_center := bar.position+Vector3(side*Barricade.SEGMENT_LENGTH,0,0).rotated(Vector3.UP,bar.rotation.y)
+			var angle: float = bar.rotation.y if auto_align else yaw
+			var relative := angle-bar.rotation.y
+			# Support distance of the rotated new wall: straight runs join flush;
+			# deliberate corners stay outside the existing footprint.
+			var reach := bar.half_len+absf(cos(relative))*1.6+absf(sin(relative))*0.45
+			var next_center := bar.position+Vector3(side*reach,0,0).rotated(Vector3.UP,bar.rotation.y)
 			var distance := Vector2(at.x,at.z).distance_to(Vector2(next_center.x,next_center.z))
 			if distance<nearest:
+				# Internal joints of a chain are already occupied. Never pull the
+				# preview back onto one when the next free endpoint is in reach.
+				if overlaps_wall(next_center,angle): continue
 				nearest = distance
-				alignment = bar.rotation.y
+				alignment = angle
 				snapped = Map.ground_pos(next_center.x,next_center.z)
 	yaw = alignment
 	return snapped

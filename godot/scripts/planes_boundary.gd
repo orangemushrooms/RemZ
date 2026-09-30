@@ -6,9 +6,11 @@ const OUTLINE := [Vector2(-335,320),Vector2(-335,100),Vector2(-320,80),Vector2(-
 	Vector2(515,-182),Vector2(515,280),Vector2(200,290),Vector2(-60,320)]
 const MAIN_ROAD_START := Vector2(-228.5,176.0)
 const MAIN_ROAD_END := Vector2(-122.0,334.0)
+const MAIN_ROAD_HALF_WIDTH := 7.2
+const ROAD_PLANT_CLEARANCE := 1.2
 
-static func southwest_road(p: Vector2, half_width := 7.2) -> bool:
-	if p.x < -240.0 or p.x > -110.0 or p.y < 165.0 or p.y > 335.0: return false
+static func southwest_road(p: Vector2, half_width := MAIN_ROAD_HALF_WIDTH) -> bool:
+	if not Rect2(MAIN_ROAD_START,MAIN_ROAD_END-MAIN_ROAD_START).grow(half_width).has_point(p): return false
 	var segment := MAIN_ROAD_END-MAIN_ROAD_START
 	var along := clampf((p-MAIN_ROAD_START).dot(segment)/segment.length_squared(),0.0,1.0)
 	return p.distance_squared_to(MAIN_ROAD_START+segment*along)<half_width*half_width
@@ -58,7 +60,7 @@ func build() -> void:
 			posts.append(Transform3D(Basis.IDENTITY.scaled(Vector3(0.09,1.15,0.09)),start+Vector3.UP*0.53))
 			for height in [0.35,0.68,1.02]:
 				var direction := end-start
-				var basis := Basis.looking_at(direction.normalized(),Vector3.UP).scaled(Vector3(0.008,0.008,direction.length()))
+				var basis := Basis.looking_at(direction.normalized(),Vector3.UP).scaled_local(Vector3(0.008,0.008,direction.length()))
 				rails.append(Transform3D(basis,(start+end)*0.5+Vector3.UP*height))
 	_batch(posts,Color(0.27,0.19,0.12))
 	_batch(rails,Color(0.37,0.34,0.26))

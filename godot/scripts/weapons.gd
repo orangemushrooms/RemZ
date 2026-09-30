@@ -258,7 +258,7 @@ func effective_reload_mul() -> float:
 	return reload_mul * player.mushroom_multiplier("reload") * player.relic_multiplier("reload") * class_modifier("reload")
 
 func class_modifier(attribute: String) -> float:
-	return player.class_combat.modifier(attribute, current, ads, player.hp < player.max_hp * 0.3, int(cur().ammo) <= int(cur().def.mag) / 4, _shots_in_burst)
+	return player.class_combat.modifier(attribute, current, ads, player.hp < player.max_hp * preload("res://scripts/character_classes.gd").LAST_STAND_HEALTH, int(cur().ammo) <= int(cur().def.mag) / 4, _shots_in_burst)
 
 func refresh_class_magazines() -> void:
 	for id in state:
@@ -550,7 +550,7 @@ func try_fire() -> void:
 				(hit.collider as Breakable).shatter()
 				scene.achievements.event("window")
 				break
-			if scene.get("shooting_range") and scene.shooting_range.hit(hit.collider,player.peer_id,current):
+			if scene.get("shooting_range") and scene.shooting_range.hit(hit.collider,player.peer_id,current,hit.position):
 				hud.hitmarker(false)
 				any_hit = true
 				break
@@ -648,6 +648,7 @@ func melee(stab: bool = false) -> void:
 			hit_any = true
 			break
 	player.class_combat.end_shot(current, hit_any)
+	if NetSession.is_host(): NetSession.feedback(player.peer_id, "class_combat", [player.class_combat.runtime_snapshot()])
 	if hit_any:
 		hud.hitmarker(false)
 		Sfx.play(self, "hit", -4.0, 0.8)

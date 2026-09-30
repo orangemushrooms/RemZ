@@ -36,6 +36,7 @@ func run() -> void:
 	var money: int = game.player.score
 	economy.buy_kit("palisade"); economy.buy_kit("sandbags")
 	check(game.player.score==money-85 and economy.kit_stock.palisade==1 and economy.kit_stock.sandbags==1,"Mechanic sells palisades at half price and sandbags at their regular price")
+	check(Sfx._voices.get("purchase",[]).any(func(voice): return is_instance_valid(voice) and voice.playing),"Successful kit purchases play the purchase sound")
 	go(Vector2(-70,60))
 	var site := Vector3.ZERO
 	for x in range(-78,-61,2):
@@ -49,6 +50,8 @@ func run() -> void:
 	check(economy.kit_stock.palisade==0 and game.barricades.size()==1,"Successful construction consumes exactly one kit")
 	check(not construction.place("palisade",site,0).is_empty() and game.barricades.size()==1,"Empty inventory cannot duplicate fortifications")
 	var bar: Barricade = game.barricades[0]
+	await physics_frame
+	await physics_frame
 	check(bar.level==1 and bar.hp==300 and bar.body.collision_layer==8,"Placed palisade has Forest health and zombie collision")
 	go(Vector2(site.x,site.z+4))
 	var next_center: Vector3 = Map.ground_pos(site.x+Barricade.SEGMENT_LENGTH,site.z)

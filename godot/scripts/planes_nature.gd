@@ -17,6 +17,8 @@ var _plant_batches := {}
 var _picked := {}
 
 func clear_ground(p: Vector2, woodland := false) -> bool:
+	var boundary = preload("res://scripts/planes_boundary.gd")
+	if boundary.southwest_road(p,boundary.MAIN_ROAD_HALF_WIDTH+boundary.ROAD_PLANT_CLEARANCE): return false
 	if not Map.BOUNDS.grow(-8).has_point(p) or game.near_building(p): return false
 	var cover := Map.cover(p.x,p.y)
 	var crops: Color = game.cornfield.sample(p)

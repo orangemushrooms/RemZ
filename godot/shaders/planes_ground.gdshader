@@ -11,6 +11,9 @@ uniform sampler2D asphalt : source_color, filter_linear_mipmap_anisotropic, repe
 uniform sampler2D asphalt_normal : hint_normal, filter_linear_mipmap_anisotropic, repeat_enable;
 uniform vec2 origin;
 uniform vec2 size;
+uniform vec2 main_road_start;
+uniform vec2 main_road_end;
+uniform float main_road_half_width;
 varying vec2 world;
 global uniform float remz_wetness;
 void vertex() { world = VERTEX.xz; }
@@ -20,12 +23,12 @@ void fragment() {
  vec3 crop = texture(crop_map,uv).rgb;
  // The two mapped lanes of the southwest main road are one paved carriageway.
  // Fill their photographed centre strip without adding geometry or draw calls.
- if (world.x > -240.0 && world.x < -110.0 && world.y > 165.0 && world.y < 335.0) {
-  vec2 a = vec2(-228.5,176.0);
-  vec2 segment = vec2(106.5,158.0);
+ {
+  vec2 a = main_road_start;
+  vec2 segment = main_road_end-main_road_start;
   float along = clamp(dot(world-a,segment)/dot(segment,segment),0.0,1.0);
   float distance_to_road = length(world-a-segment*along);
-  crop.b = max(crop.b,1.0-smoothstep(6.4,7.2,distance_to_road));
+  crop.b = max(crop.b,1.0-smoothstep(main_road_half_width-0.8,main_road_half_width,distance_to_road));
  }
  // Hoist gradients out of the mask branches: neighbouring pixels at a path
  // edge must retain the same mip/anisotropic filtering as the full shader.

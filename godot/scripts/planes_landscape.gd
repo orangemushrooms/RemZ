@@ -7,6 +7,10 @@ var tree_models: Dictionary = {}
 func build() -> void:
 	var mat := ShaderMaterial.new()
 	mat.shader = load("res://shaders/planes_ground.gdshader")
+	var outline = preload("res://scripts/planes_boundary.gd")
+	mat.set_shader_parameter("main_road_start",outline.MAIN_ROAD_START)
+	mat.set_shader_parameter("main_road_end",outline.MAIN_ROAD_END)
+	mat.set_shader_parameter("main_road_half_width",outline.MAIN_ROAD_HALF_WIDTH)
 	mat.set_shader_parameter("cover_map", load("res://assets/planes/ground.png"))
 	mat.set_shader_parameter("crop_map", load("res://assets/planes/crops.png"))
 	mat.set_shader_parameter("origin", Map.extent().position)

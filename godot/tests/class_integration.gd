@@ -157,7 +157,7 @@ func run() -> void:
 	w.refresh_class_magazines()
 	var magazine: int = w.state.ak47.def.mag
 	w.refresh_class_magazines()
-	check(magazine == 38 and w.state.ak47.def.mag == magazine, "Class magazine bonuses do not compound when refreshed")
+	check(magazine == 55 and w.state.ak47.def.mag == magazine, "Class magazine bonuses do not compound when refreshed")
 	w.equip_mod("ak47", Weapons.Mods.DEFS.extended.slot, "extended")
 	check(w.state.ak47.def.mag > magazine, "Magazine mods and class talents combine")
 	w.unlocked.ak47 = true

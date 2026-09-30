@@ -64,9 +64,7 @@ const Mushrooms = preload("res://scripts/mushrooms.gd")
 func mushroom_multiplier(attribute: String) -> float:
 	return Mushrooms.multiplier(mushroom_effects, attribute)
 
-func effective_speed_mul() -> float:
-	# A minigun weighs what a minigun weighs: carrying it is slow, firing it roots you in place.
-	var burden := 1.0
+func equipped_weapons() -> Weapons:
 	# A teammate the host simulates carries their weapon as a child of themselves; the local player's
 	# weapon hangs on the scene. Both have to feel the same weight.
 	var weapons_node: Weapons = null
@@ -77,9 +75,15 @@ func effective_speed_mul() -> float:
 	if weapons_node == null:
 		var scene := get_tree().current_scene
 		if scene and "weapons" in scene and scene.weapons and scene.weapons.player == self: weapons_node = scene.weapons
+	return weapons_node
+
+func effective_speed_mul() -> float:
+	# A minigun weighs what a minigun weighs: carrying it is slow, firing it roots you in place.
+	var burden := 1.0
+	var weapons_node := equipped_weapons()
 	if weapons_node and weapons_node.specials:
 		burden = weapons_node.specials.movement_multiplier(weapons_node)
-	var class_speed: float = class_combat.modifier("speed", weapons_node.current if weapons_node else "", weapons_node.ads if weapons_node else 0.0, hp < max_hp * 0.3)
+	var class_speed: float = class_combat.modifier("speed", weapons_node.current if weapons_node else "", weapons_node.ads if weapons_node else 0.0, hp < max_hp * preload("res://scripts/character_classes.gd").LAST_STAND_HEALTH)
 	var knife_speed := KNIFE_SPEED_MULTIPLIER if weapons_node and weapons_node.current=="knife" and not downed else 1.0
 	return speed_mul * mushroom_multiplier("speed") * relic_multiplier("speed") * burden * class_speed * knife_speed
 var recoil_offset := Vector2.ZERO   # (pitch, yaw) radians of visual recoil still settling
@@ -440,7 +444,8 @@ func damage(n: float, from: Vector3 = Vector3.INF) -> void:
 	if NetSession.enabled and NetSession.class_roster.has(peer_id) and not NetSession.class_roster[peer_id].get("locked", false): return
 	if not alive:
 		return
-	n *= mushroom_multiplier("guard") * relic_multiplier("guard") * class_combat.modifier("guard")
+	var weapons_node := equipped_weapons()
+	n *= mushroom_multiplier("guard") * relic_multiplier("guard") * class_combat.modifier("guard",weapons_node.current if weapons_node else "",0.0,hp < max_hp * preload("res://scripts/character_classes.gd").LAST_STAND_HEALTH)
 	class_combat.hurt(n)
 	var scene := get_tree().current_scene
 	if scene.get("classes"): scene.classes.hurt(peer_id, n)

@@ -119,11 +119,14 @@ func _vent(w, id: String, st: Dictionary) -> void:
 	# the only drawback this weapon has from 3.6 s to 0.6 s.
 	var s := spec(id)
 	var base := float(st["def"]["reload"])
-	var bar := base * clampf(float(w.effective_reload_mul()), float(s.get("vent_floor", 0.6)), 1.2)
+	# Training keeps its floor; class talents must also shorten the heat lock,
+	# otherwise Rhythm/Weapon Master change the bar but never the actual vent.
+	var class_reload: float = w.player.class_combat.modifier("reload",id,w.ads,w.player.hp<w.player.max_hp*preload("res://scripts/character_classes.gd").LAST_STAND_HEALTH,int(st.ammo)<=int(st.def.mag)/4)
+	var bar := base * clampf(float(w.effective_reload_mul())/class_reload, float(s.get("vent_floor", 0.6)), 1.2)*class_reload
 	# The lock hangs on the heat, the bar on this number: without the second term the trigger would
 	# stay dead for up to two more seconds after the bar had emptied, with nothing on screen saying so.
 	var physical := float(s.get("idle", 0.6)) + (float(st.get("heat", 1.0)) - float(s.get("cold", 0.15))) / maxf(0.01, float(s.get("cool", 0.22)))
-	st["reloading"] = maxf(bar, physical)
+	st["reloading"] = maxf(bar, physical*class_reload)
 	st["vent"] = true
 	# Cells still in the weapon go back into the pack; venting costs time, not ammunition. No clamp
 	# against reserve_limit here: a full weapon carries mag + limit, and the reload that ends the

@@ -210,6 +210,7 @@ func host_economy() -> void:
 	signal_file("range-shoot")
 	await wait_file("range-shot")
 	check(game.shooting_range.data(peer).hits.size()==1,"A networked sniper shot records the target for its shooter")
+	check(game.shooting_range.lane_scores.any(func(lane): return lane.score>0 and lane.hits==1),"Networked impact awards accuracy points on the host")
 	game._clear_combat()
 	game.waves.queue.clear(); game.waves.phase="spawning"; game.waves.wave=25
 	game.waves.complete_wave()
@@ -307,6 +308,7 @@ func client_economy() -> void:
 	NetSession.command("fire",["marksman",1.0,atan2(-aim.x,-aim.z),asin(aim.y)])
 	await create_timer(1).timeout
 	check(game.shooting_range.data(game.player.peer_id).hits.size()==1,"Client sees progress from its actual sniper shot")
+	check(game.shooting_range.lane_scores.any(func(lane): return lane.score>0 and lane.hits==1),"Client receives lane accuracy score from its actual sniper shot")
 	signal_file("range-shot")
 	await wait_file("victory")
 	await create_timer(1).timeout

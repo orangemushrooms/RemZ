@@ -210,6 +210,7 @@ func perform(actor: Player, requested: Vector2) -> String:
 	actor._shove = Vector3.ZERO
 	actor.reset_physics_interpolation()
 	actor.teleport_cooldown = MAP_COOLDOWN if mode_for(actor) == "map" else FORWARD_COOLDOWN
+	if actor.class_combat.has("master_assassin"): actor.teleport_cooldown *= 0.5
 	actor.teleport_serial += 1
 	if actor == game.player: local_effect()
 	return ""

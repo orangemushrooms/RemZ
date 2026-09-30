@@ -20,6 +20,8 @@ var targets: Array[Area3D] = []
 var board: Label3D
 var last_night := -1
 var entrance_link: NavigationLink3D
+var monitors: Array[Label3D] = []
+var lane_scores: Array[Dictionary] = []
 
 func setup(scene: Node3D) -> void:
 	game = scene
@@ -52,6 +54,11 @@ func setup(scene: Node3D) -> void:
 			add_child(target)
 			target.transform = frame.translated_local(Vector3(0,0,0.1))
 			targets.append(target)
+	# Number lanes left-to-right as seen from inside the house, independently
+	# of the survey polygon's winding and target construction order.
+	var ordered := targets.duplicate()
+	ordered.sort_custom(func(a: Area3D,b: Area3D): return house.to_local(a.global_position).x < house.to_local(b.global_position).x)
+	for i in ordered.size(): ordered[i].set_meta("range_lane",i)
 	key = ForestKey.new()
 	add_child(key)
 	key.key_id = "shooting_house"
@@ -126,8 +133,18 @@ func _build_house() -> void:
 		shutters.append(_piece(Vector3(2.39,1.3,0.12),Vector3(x,1.45,-3.3),timber))
 		_piece(Vector3(1.65,0.1,1.35),Vector3(x,0.8,-2.4),timber)
 		for side in [-0.62,0.62]: _piece(Vector3(0.08,0.75,0.08),Vector3(x+side,0.375,-2),trim,false)
-		var monitor := _piece(Vector3(0.34,0.24,0.04),Vector3(x+0.7,1.0,-2.9),DefenceTower.material(Color(0.05,0.13,0.1)),false)
+		var monitor := _piece(Vector3(0.5,0.34,0.04),Vector3(x+0.6,1.05,-2.9),DefenceTower.material(Color(0.015,0.035,0.025)),false)
 		monitor.rotation.x = -0.2
+		var display := Label3D.new()
+		monitor.add_child(display)
+		display.position.z = 0.023
+		display.font_size = 24
+		display.pixel_size = 0.0017
+		display.outline_size = 0
+		display.modulate = Color(0.45,1.0,0.7)
+		display.no_depth_test = false
+		display.visibility_range_end = 20
+		monitors.append(display)
 	# Pitched tile roof and solid gables, no overlapping facade shells.
 	for side in [-1,1]:
 		var panel := _piece(Vector3(16.3,0.16,4.0),Vector3(0,3.35,side*1.68),roof)
@@ -187,6 +204,9 @@ func _build_house() -> void:
 
 func reset_run() -> void:
 	people.clear(); picked.clear()
+	lane_scores.clear()
+	for i in 6: lane_scores.append({"score":0,"hits":0,"last":0})
+	refresh_scores()
 	key_owned = false; opened = false; key_spawned = false; last_night = -1
 	for node in loot_nodes.values(): node.show()
 	if not NetSession.is_client(): roll_key()
@@ -222,6 +242,11 @@ func data(peer: int) -> Dictionary:
 
 func nearby(p: Player) -> String:
 	if not p.alive or p.downed: return ""
+	if opened:
+		var eye := p.global_position+Vector3.UP*Player.EYE
+		for i in monitors.size():
+			var offset := monitors[i].global_position-eye
+			if offset.length()<1.8 and (-p.head.global_basis.z).dot(offset.normalized())>0.55: return "score_%d" % i
 	if key_spawned and not key_owned and key.can_interact(p): return "key"
 	if p.global_position.distance_to(door.global_position)<3: return "door"
 	if not opened: return ""
@@ -231,6 +256,7 @@ func nearby(p: Player) -> String:
 	return ""
 
 func prompt(id: String) -> String:
+	if id.begins_with("score_"): return Lang.t("[E] Reset score · Lane %d",[int(id.trim_prefix("score_"))+1])
 	if id=="key": return "[E] Take key · Schützenhaus"
 	if id=="door": return "[E] Open Schützenhaus" if key_owned else "Schützenhaus locked · find the key in the woodland"
 	if id=="quest":
@@ -244,6 +270,12 @@ func request(id: String) -> void:
 
 func transact(p: Player, id: String) -> String:
 	if NetSession.is_client() or game.over or not game.started or nearby(p)!=id: return "Move closer."
+	if id.begins_with("score_"):
+		var lane := int(id.trim_prefix("score_"))
+		if lane<0 or lane>=lane_scores.size(): return "Move closer."
+		lane_scores[lane] = {"score":0,"hits":0,"last":0}
+		refresh_scores()
+		return Lang.t("Score reset · Lane %d",[lane+1])
 	var w: Weapons = NetSession.world.weapons[p.peer_id] if NetSession.is_host() else game.weapons
 	match id:
 		"key": key_owned = true; Sfx.event(game,p.peer_id,"pickup")
@@ -279,18 +311,31 @@ func transact(p: Player, id: String) -> String:
 	refresh()
 	return "Schützenhaus unlocked." if id=="door" else Lang.t("Collected: %s",["Schützenhaus key" if id=="key" else "Ammunition" if id=="ammo" else Weapons.DEFS[id].name])
 
-func hit(collider: Object, peer: int, weapon: String) -> bool:
+func hit(collider: Object, peer: int, weapon: String, impact := Vector3.INF) -> bool:
 	if NetSession.is_client() or not collider.has_meta("range_target"): return false
 	var id := int(collider.get_meta("range_target"))
 	var p: Player = NetSession.world.actor(peer) if NetSession.is_host() else game.player
 	if not p: return false
 	game.achievements.event("planes_targets")
 	var at := house.to_local(p.global_position)
+	if opened and absf(at.x)<7.6 and absf(at.z)<3.4 and at.y>=-0.2 and at.y<2.4 and impact.is_finite():
+		var lane := int(collider.get_meta("range_lane",id))
+		var local: Vector3 = collider.to_local(impact)
+		var points := clampi(10-floori(Vector2(local.x,local.y).length()/0.06),1,10)
+		lane_scores[lane].score += points
+		lane_scores[lane].hits += 1
+		lane_scores[lane].last = points
+		refresh_scores()
 	var d := data(peer)
 	if opened and d.accepted and not d.claimed and weapon in ["marksman","titanbreaker","plasma_sniper"] and absf(at.x)<7.6 and absf(at.z)<3.4 and at.y>=-0.2 and at.y<2.4 and not id in d.hits:
 		d.hits.append(id)
 		p.hud.message(Lang.t("300 m challenge · %d / 6 targets",[d.hits.size()]),3)
 	return true
+
+func refresh_scores() -> void:
+	for i in mini(monitors.size(),lane_scores.size()):
+		var score := lane_scores[i]
+		monitors[i].text = Lang.t("LANE %d\nSCORE %d\nHITS %d · LAST %d\n[E] Reset",[i+1,score.score,score.hits,score.last])
 
 func refresh() -> void:
 	if entrance_link: entrance_link.enabled = opened
@@ -326,10 +371,13 @@ func _process(_delta: float) -> void:
 		last_night = game.day_night.night_index
 
 func snapshot() -> Dictionary:
-	return {"key_spawned":key_spawned,"key_owned":key_owned,"at":key.position,"opened":opened,"people":people.duplicate(true),"picked":picked.duplicate()}
+	return {"key_spawned":key_spawned,"key_owned":key_owned,"at":key.position,"opened":opened,"people":people.duplicate(true),"picked":picked.duplicate(),"scores":lane_scores.duplicate(true)}
 
 func apply_snapshot(s: Dictionary) -> void:
 	if s.is_empty(): return
 	key_spawned = s.key_spawned; key_owned = s.key_owned; key.position = s.at
 	opened = s.opened; people = s.people.duplicate(true); picked = s.picked.duplicate()
+	if s.has("scores"):
+		lane_scores.assign(s.scores.duplicate(true))
+		refresh_scores()
 	refresh()

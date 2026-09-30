@@ -73,6 +73,8 @@ var _kills := 0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# A scene entered from a paused menu must be able to finish its physics waits.
+	get_tree().paused = false
 	boot = BootScreen.find(get_tree())
 	if not boot:
 		boot = BootScreen.new()
@@ -181,8 +183,7 @@ func _ready() -> void:
 	await get_tree().physics_frame
 	started = true
 	if exploration_only or "--planes-explore" in _flags:
-		player.active = true
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		set_menu(false)
 		boot.close()
 		boot = null
 	else:

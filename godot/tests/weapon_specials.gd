@@ -38,6 +38,8 @@ func equip(w: Weapons, id: String) -> Dictionary:
 
 func fire_once(w: Weapons) -> void:
 	w.cur().cooldown = 0.0
+	# This fixture disables weapon processing; explicitly finish the equip animation.
+	w._switch_t = 0.0
 	# No _process runs in this suite, so the recoil from the previous shot would never settle and
 	# later shots in a burst would sail over the target.
 	w._aim_kick = Vector2.ZERO

@@ -231,6 +231,7 @@ func buy_kit(id: String) -> String:
 	if kit_stock.palisade+kit_stock.sandbags+game.barricades.size()>=40: return "Maximum 40 fortifications and carried kits."
 	if actor().score<kit_price(id): return "Not enough Rem Dollars."
 	actor().add_score(-kit_price(id)); kit_stock[id] += 1
+	Sfx.event(game,actor().peer_id,"purchase")
 	return "Kit packed. Press B at your chosen position."
 
 func buy_weapon(id: String) -> String:
