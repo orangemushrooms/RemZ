@@ -23,10 +23,17 @@ const GRIPS := {
 	"lever_rifle": Vector4(0.38, 0.63, 0.52, 0.30),
 	"minigun": Vector4(0.42, 0.80, 0.58, 0.34),
 	"graviton_cannon": Vector4(0.36, 0.72, 0.44, 0.33),
+	# The class weapons of 30 Sep 2026 (the user's web models; judged in artifacts/class-weapons/).
+	"sig_p226": Vector4(0.28, 0.80, 0.23, 0.72),
+	"nighthawk": Vector4(0.27, 0.82, 0.22, 0.74),
+	"ar15": Vector4(0.36, 0.62, 0.66, 0.30),
+	"tommy_gun": Vector4(0.38, 0.60, 0.30, 0.28),
+	"spas12": Vector4(0.42, 0.66, 0.60, 0.30),
+	"sawed_off": Vector4(0.40, 0.72, 0.62, 0.32),
 }
 # Weapons held in one fist with the support palm wrapped underneath instead of on a fore-end.
 # coop_avatar.gd poses the world avatar from the same list, so both never disagree.
-const HANDGUNS := ["pistol", "revolver", "deagle", "flare_pistol"]
+const HANDGUNS := ["pistol", "revolver", "deagle", "flare_pistol", "sig_p226", "nighthawk"]
 var support: Node3D
 var trigger_grip := Vector3.ZERO
 var support_grip := Vector3.ZERO

@@ -1,0 +1,33 @@
+== deagle
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\deagle_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\deagle_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\deagle_web\source.glb --size 2048
+game mesh: 85421 triangles, 97353 vertices after the MikkTSpace split
+bake: 2437954 texels, 0.15 % without high-poly data, 1.34 % clamped, mean detail angle 17.3 deg, 4.8 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\deagle_web\stage_baked.glb (14.67 MB)
+  bake: done
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\pack.mjs deagle_web_pack --size 2048 --albedo-size 2048 --quality 88 --as deagle
+deagle_web_pack: model.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\deagle.glb (6.99 MB, clips: none; textures: tex:2048x2048, tex:2048x2048, normal:2048x2048)
+  pack: done
+  installed godot\assets\models\deagle.glb (6.99 MB)
+  install: done
+== pistol
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\pistol_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\pistol_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\pistol_web\source.glb --size 2048
+game mesh: 95530 triangles, 97115 vertices after the MikkTSpace split
+bake: 2412903 texels, 0.14 % without high-poly data, 0.72 % clamped, mean detail angle 15.4 deg, 4.9 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\pistol_web\stage_baked.glb (15.86 MB)
+  bake: done
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\pack.mjs pistol_web_pack --size 2048 --albedo-size 2048 --quality 88 --as pistol
+pistol_web_pack: model.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\pistol.glb (7.49 MB, clips: none; textures: tex:2048x2048, tex:2048x2048, normal:2048x2048)
+  pack: done
+  installed godot\assets\models\pistol.glb (7.49 MB)
+  install: done
+== nighthawk
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\nighthawk_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\nighthawk_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\nighthawk_web\source.glb --size 2048
+game mesh: 79414 triangles, 104075 vertices after the MikkTSpace split
+bake: 1948301 texels, 0.07 % without high-poly data, 35.33 % clamped, mean detail angle 50.6 deg, 2.7 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\nighthawk_web\stage_baked.glb (9.92 MB)
+  bake: done
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\pack.mjs nighthawk_web_pack --size 2048 --albedo-size 2048 --quality 88 --as nighthawk
+nighthawk_web_pack: model.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\nighthawk.glb (6.48 MB, clips: none; textures: tex:2048x2048, tex:2048x2048, normal:2048x2048)
+  pack: done
+  installed godot\assets\models\nighthawk.glb (6.48 MB)
+  install: done

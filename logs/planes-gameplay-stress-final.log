@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14628, "mushrooms": 503, "deer": 6, "stags": 2 } batches=1253
+PLANES_READY trees=396 birds=14 crops={ "corn": 238551, "wheat": 412660, "grass": 797296, "undergrowth": 18921, "woodland_grass": 22042 }
+PLANES_NAV repaired_detail_faces=1
+PLANES_NAV polygons=8641
+PLANES_SURVIVAL_READY
+FIELD_PERF {"draws":1538,"fps":109.100470259394,"mean_ms":9.16586333333334,"p95_ms":9.928,"p99_ms":10.571,"phase":"quiet"}
+FIELD_PERF {"draws":2357,"fps":83.3053450514334,"mean_ms":12.0040316666667,"p95_ms":14.806,"p99_ms":17.381,"phase":"fortified"}
+FIELD_PERF {"draws":2362,"fps":78.3615334725209,"mean_ms":12.7613633333333,"p95_ms":16.296,"p99_ms":17.674,"phase":"storm"}
+FIELD_PERF_DONE

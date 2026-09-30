@@ -1,0 +1,23 @@
+{
+  "model": "nighthawk",
+  "bake": {
+    "high": "source.glb",
+    "size": 2048,
+    "geometry_only": true,
+    "at": "2026-09-30 17:51"
+  },
+  "pack": {
+    "size": 2048,
+    "quality": 88,
+    "at": "2026-09-30 17:51"
+  },
+  "install": {
+    "file": "godot/assets/models/nighthawk.glb",
+    "bytes": 6810828,
+    "at": "2026-09-30 17:51"
+  },
+  "orm": {
+    "from": "albedo",
+    "at": "2026-09-30 17:51"
+  }
+}

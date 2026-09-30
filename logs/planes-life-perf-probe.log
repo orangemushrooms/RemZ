@@ -1,0 +1,31 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+SCRIPT ERROR: Compile Error: Identifier not found: NetSession
+   at: GDScript::reload (res://scripts/zombie.gd:659)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+   at: GDScript::reload (res://../artifacts/planes/life-baseline/probe.gd:0)
+ERROR: Failed to load script "res://../artifacts/planes/life-baseline/probe.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+SCRIPT ERROR: Invalid call. Nonexistent function 'skin_names' in base 'GDScript'.
+   at: _ready (res://scripts/net_session.gd:115)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/net_session.gd:115)
+PLANES_NATURE { "flowers": 14655, "mushrooms": 504, "deer": 6, "stags": 2 } batches=2039
+SCRIPT ERROR: Invalid call. Nonexistent function 'is_boss_kind' in base 'GDScript'.
+   at: _ready (res://scripts/cheat_menu.gd:158)
+   GDScript backtrace (most recent call first):
+       [0] _ready (res://scripts/cheat_menu.gd:158)
+       [1] _interface (res://scripts/planes.gd:243)
+       [2] _ready (res://scripts/planes.gd:99)
+PLANES_READY trees=401 birds=14 crops={ "corn": 238551, "wheat": 412858, "grass": 797186, "undergrowth": 18921, "woodland_grass": 22042 }
+PLANES_PERF {"draws":362,"fps":207.859586691998,"id":"all","mean_ms":4.81094,"median_ms":4.687,"p95_ms":5.299,"primitives":694924}
+PLANES_PERF {"draws":362,"fps":211.685684861404,"id":"no-weather","mean_ms":4.723985,"median_ms":4.585,"p95_ms":5.297,"primitives":694924}
+PLANES_PERF {"draws":343,"fps":312.85195845326,"id":"no-plants","mean_ms":3.1964,"median_ms":3.119,"p95_ms":3.786,"primitives":228364}
+PLANES_PERF {"draws":362,"fps":204.084131642428,"id":"no-animals","mean_ms":4.89994,"median_ms":4.798,"p95_ms":5.438,"primitives":694924}
+PLANES_PERF {"draws":362,"fps":203.188226461406,"id":"no-hud","mean_ms":4.921545,"median_ms":4.809,"p95_ms":5.42,"primitives":694924}
+PLANES_PERF {"draws":362,"fps":208.354819924138,"id":"all-repeat","mean_ms":4.799505,"median_ms":4.685,"p95_ms":5.248,"primitives":694924}
+PLANES_PERF_DONE life-probe

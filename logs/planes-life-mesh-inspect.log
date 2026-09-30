@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+field_flower_1 tris=59303 transparency=0 shading=1 cull=2 grow=false proximity=false
+field_flower_2 tris=96055 transparency=0 shading=1 cull=2 grow=false proximity=false
+field_flower_3 tris=6500 transparency=0 shading=1 cull=2 grow=false proximity=false
+field_flower_4 tris=87743 transparency=0 shading=1 cull=2 grow=false proximity=false
+field_flower_5 tris=6500 transparency=0 shading=1 cull=2 grow=false proximity=false
+field_flower_6 tris=43366 transparency=0 shading=1 cull=2 grow=false proximity=false

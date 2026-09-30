@@ -18,11 +18,13 @@ const DEFS := {
 		"pos": Vector3(0.29, -0.23, -0.57), "ads": Vector3(0.29, -0.23, -0.57), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 8.0},
 	"hatchet": {"name": "Forest Axe", "model": "hatchet_real", "melee": true, "height": 0.57, "stab_damage": 225.0, "stab_rate": 1.45, "stab_range": 5.0, "mag": 0, "reserve": 0, "damage": 125.0, "rate": 0.95, "reload": 1.0, "pellets": 1, "spread": 0.0, "range": 2.35, "auto": false, "sfx": "melee", "shove": 7.0,
 		"pos": Vector3(0.28, -0.30, -0.65), "ads": Vector3(0.28, -0.30, -0.65), "kick_pitch": 0.0, "kick_yaw": 0.0, "kick_back": 0.0, "recover": 5.0},
-	"pistol":   { "name": "Pistol", "model": "pistol", "height": 0.11, "mag": 12, "reserve": 84, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
+	# 30 Sep 2026: pistol, MP5, Desert Eagle and the knife wear the user's own Meshy web models
+	# (tools/web_weapons.py); the pistol grew from 0.11 to 0.14 m with its red dot and light.
+	"pistol":   { "name": "Pistol", "model": "pistol", "height": 0.14, "mag": 12, "reserve": 84, "damage": 34.0, "rate": 0.16, "reload": 1.1, "pellets": 1, "spread": 0.012, "range": 60.0, "auto": false, "sfx": "pistol", "sfx_db": 2.0,
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 2.6, "kick_yaw": 0.75, "kick_back": 0.08, "recover": 7.0 },
 	"revolver": { "name": "Revolver", "model": "revolver", "height": 0.13, "mag": 6, "reserve": 36, "damage": 95.0, "rate": 0.45, "reload": 2.2, "pellets": 1, "spread": 0.008, "range": 80.0, "auto": false, "sfx": "revolver", "sfx_db": -11.0,
 				  "pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 6.8, "kick_yaw": 1.6, "kick_back": 0.15, "recover": 5.5 },
-	"smg":      { "name": "MP5", "model": "smg", "height": 0.16, "mag": 30, "reserve": 150, "damage": 22.0, "rate": 0.075, "reload": 1.6, "pellets": 1, "spread": 0.03, "range": 45.0, "auto": true, "sfx": "smg", "sfx_db": 0.0,
+	"smg":      { "name": "MP5", "model": "smg", "height": 0.17, "mag": 30, "reserve": 150, "damage": 22.0, "rate": 0.075, "reload": 1.6, "pellets": 1, "spread": 0.03, "range": 45.0, "auto": true, "sfx": "smg", "sfx_db": -3.5,
 				  "pos": Vector3(0.24, -0.22, -0.55), "ads": Vector3(0.0, -0.135, -0.4), "kick_pitch": 1.35, "kick_yaw": 0.65, "kick_back": 0.055, "recover": 9.0 },
 	"ak47":     { "name": "AK-47", "model": "ak47", "height": 0.18, "mag": 30, "reserve": 120, "damage": 42.0, "rate": 0.1, "reload": 2.0, "pellets": 1, "spread": 0.022, "range": 90.0, "auto": true, "sfx": "ak47", "sfx_db": -17.0,
 				  "pos": Vector3(0.24, -0.23, -0.58), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 2.2, "kick_yaw": 1.05, "kick_back": 0.085, "recover": 7.5 },
@@ -34,7 +36,7 @@ const DEFS := {
 		"pos": Vector3(0.25, -0.27, -0.64), "ads": Vector3(0, -0.16, -0.46), "kick_pitch": 2.0, "kick_yaw": 1.4, "kick_back": 0.085, "recover": 7.0},
 	"breacher": {"name": "Nightbreaker 12", "model": "breacher", "height": 0.20, "mag": 8, "reserve": 24, "damage": 25.0, "rate": 0.5, "reload": 3.3, "pellets": 9, "spread": 0.075, "range": 25.0, "auto": false, "sfx": "shotgun", "sfx_db": -6.0,
 		"pos": Vector3(0.24, -0.24, -0.6), "ads": Vector3(0, -0.15, -0.46), "kick_pitch": 8.5, "kick_yaw": 2.2, "kick_back": 0.19, "recover": 4.8},
-	"titanbreaker": {"name": "Titanbreaker .50", "scope_zoom": 4.0, "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 12, "damage": 840.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "revolver", "sfx_db": -6.0, "sfx_pitch": 0.72, "titan_multiplier": 1.75,
+	"titanbreaker": {"name": "Titanbreaker .50", "scope_zoom": 4.0, "model": "titanbreaker", "pierce_targets": 5, "pierce_retention": 0.8, "height": 0.23, "mag": 4, "reserve": 12, "damage": 840.0, "rate": 1.9, "reload": 4.2, "pellets": 1, "spread": 0.003, "range": 180.0, "auto": false, "sfx": "titanbreaker", "sfx_db": -2.0, "titan_multiplier": 1.75,
 		"pos": Vector3(0.24, -0.26, -0.68), "ads": Vector3(0, -0.16, -0.48), "kick_pitch": 12.0, "kick_yaw": 1.6, "kick_back": 0.23, "recover": 3.2},
 	# --- Erweiterung September 2026: zwei Pistolen, zwei MPs, zwei Praezisionswaffen, zwei schwere ---
 	# Optionale Felder neben den 19 Pflichtfeldern: "special" (Mechanik, siehe weapon_specials.gd),
@@ -72,9 +74,26 @@ const DEFS := {
 		"mod_block": ["suppressor", "ghost", "compensator", "match_barrel", "extended", "endless"],
 		"kick_cap": Vector2(0.30, 0.10), "kick_model_cap": Vector3(0.52, 0.07, 0.22),
 		"pos": Vector3(0.22, -0.25, -0.62), "ads": Vector3(0.05, -0.18, -0.52), "kick_pitch": 14.0, "kick_yaw": 1.2, "kick_back": 0.30, "recover": 2.4},
+	# --- Klassenwaffen, 30 Sep 2026: zwei Pistolen fuer den Revolverhelden, zwei Vollautomaten fuer den
+	# Sturmschuetzen, zwei Flinten fuer den Brecher. Modelle und Aufnahmen vom Nutzer (assets/raw/<id>_web,
+	# input/audio/weapons), ids = Modellnamen. Alles ausser Flinten und Pistolen schiesst vollautomatisch.
+	"sig_p226": {"name": "SIG P226", "model": "sig_p226", "height": 0.14, "mag": 15, "reserve": 90, "reserve_factor": 6, "damage": 42.0, "rate": 0.14, "reload": 1.3, "pellets": 1, "spread": 0.010, "range": 65.0, "auto": false, "sfx": "sig_p226", "sfx_db": -5.5,
+		"pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 3.0, "kick_yaw": 0.8, "kick_back": 0.09, "recover": 7.0},
+	"nighthawk": {"name": "Nighthawk .45", "model": "nighthawk", "height": 0.14, "mag": 8, "reserve": 56, "reserve_factor": 7, "damage": 70.0, "rate": 0.20, "reload": 1.5, "pellets": 1, "spread": 0.007, "range": 70.0, "auto": false, "sfx": "nighthawk", "sfx_db": -6.0, "flash_scale": 1.15,
+		"pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 4.8, "kick_yaw": 1.2, "kick_back": 0.13, "recover": 6.0},
+	"ar15": {"name": "AR-15", "model": "ar15", "height": 0.24, "mag": 30, "reserve": 150, "damage": 36.0, "rate": 0.09, "reload": 1.8, "pellets": 1, "spread": 0.016, "range": 95.0, "auto": true, "sfx": "ar15", "sfx_db": -9.5,
+		"pos": Vector3(0.24, -0.23, -0.58), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 1.6, "kick_yaw": 0.8, "kick_back": 0.07, "recover": 8.5},
+	"tommy_gun": {"name": "Tommy Gun", "model": "tommy_gun", "height": 0.20, "mag": 50, "reserve": 200, "damage": 30.0, "rate": 0.086, "reload": 2.8, "pellets": 1, "spread": 0.028, "range": 42.0, "auto": true, "sfx": "tommy_gun", "sfx_db": -1.7, "flash_scale": 1.1,
+		"pos": Vector3(0.24, -0.23, -0.57), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 1.5, "kick_yaw": 0.9, "kick_back": 0.06, "recover": 8.5},
+	"spas12": {"name": "SPAS-12", "model": "spas12", "height": 0.15, "mag": 8, "reserve": 40, "damage": 24.0, "rate": 0.55, "reload": 3.0, "pellets": 9, "spread": 0.065, "range": 27.0, "auto": false, "sfx": "spas12", "sfx_db": -3.5, "flash_scale": 1.2,
+		"pos": Vector3(0.22, -0.24, -0.6), "ads": Vector3(0.0, -0.15, -0.45), "kick_pitch": 7.5, "kick_yaw": 1.9, "kick_back": 0.18, "recover": 4.8},
+	"sawed_off": {"name": "Sawed-Off Shotgun", "model": "sawed_off", "height": 0.13, "mag": 2, "reserve": 40, "reserve_factor": 30, "damage": 30.0, "rate": 0.32, "reload": 1.7, "pellets": 10, "spread": 0.11, "range": 16.0, "auto": false, "sfx": "sawed_off", "sfx_db": 2.0, "flash_scale": 1.4,
+		"mod_block": ["extended", "endless"],
+		"pos": Vector3(0.24, -0.23, -0.55), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 10.0, "kick_yaw": 2.6, "kick_back": 0.22, "recover": 4.0},
 }
-const ORDER := ["pistol", "deagle", "revolver", "flare_pistol", "smg", "mac10", "cryo_smg", "ak47", "shotgun",
-	"breacher", "lever_rifle", "marksman", "plasma_sniper", "lmg", "minigun", "titanbreaker", "graviton_cannon", "knife", "hatchet"]
+const ORDER := ["pistol", "sig_p226", "nighthawk", "deagle", "revolver", "flare_pistol", "smg", "tommy_gun", "mac10", "cryo_smg",
+	"ar15", "ak47", "sawed_off", "shotgun", "spas12", "breacher", "lever_rifle", "marksman", "plasma_sniper", "lmg", "minigun",
+	"titanbreaker", "graviton_cannon", "knife", "hatchet"]
 const HIT_RAY_LENGTH := 600.0   # longer than the map diagonal
 
 static func piercing_description(id: String, effective: Dictionary = {}) -> String:

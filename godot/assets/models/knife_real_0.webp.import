@@ -10,7 +10,7 @@ metadata={
 "vram_texture": true
 }
 generator_parameters={
-"md5": "548fdb3d31461ad23ca66f78ce7b2097"
+"md5": "7c5e08f140e5500393becf2cb4c6ddac"
 }
 
 [deps]
@@ -21,7 +21,7 @@ dest_files=["res://.godot/imported/knife_real_0.webp-6776f5f0394c6fdcfd0603cfe63
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0

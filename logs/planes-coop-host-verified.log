@@ -1,0 +1,50 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 6, "stags": 2 } batches=1252
+PLANES_NAV repaired_detail_faces=2
+PLANES_NAV polygons=9124
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=14 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+COOP_LOAD HOST_CREATE port=24731
+COOP_HOST_READY port=24731
+COOP_LOAD HOST_READY
+PASS: Host opens the Planes lobby
+COOP_LOAD PEER_CONNECTED id=2075277087
+COOP_PEER_ACCEPTED count=2
+COOP_LOAD INITIAL_SEND peer=2075277087 raw=8372 bytes=1777 parts=2
+COOP_LOAD CLIENT_READY peer=2075277087
+COOP_LOAD ROUND_START_SEND players=2
+COOP_LOAD STATE_SEND peer=2075277087 raw=8372 bytes=1779 parts=2
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=2
+COOP_RUNNING players=2
+PASS: Both peers enter Planes with two players
+PASS: Co-op starts without pausing the world
+PASS: Host retains the connected teammate
+COOP_LOAD STATE_SEND peer=2075277087 raw=8604 bytes=1913 parts=3
+COOP_LOAD STATE_SEND peer=2075277087 raw=8604 bytes=1942 parts=3
+COOP_LOAD STATE_SEND peer=2075277087 raw=8604 bytes=1943 parts=3
+PASS: Client purchases debit only the buyer
+PASS: Purchased kits belong to the requesting player
+COOP_LOAD STATE_SEND peer=2075277087 raw=8604 bytes=1941 parts=3
+PASS: Remote actor has a valid field build site
+COOP_LOAD STATE_SEND peer=2075277087 raw=8892 bytes=2041 parts=3
+COOP_LOAD STATE_SEND peer=2075277087 raw=8892 bytes=2039 parts=3
+PASS: Host creates one wall and consumes one kit despite duplicate requests
+PASS: Construction advances the builder's quest progress
+COOP_LOAD STATE_SEND peer=2075277087 raw=8916 bytes=2050 parts=3
+COOP_LOAD STATE_SEND peer=2075277087 raw=8936 bytes=2058 parts=3
+COOP_LOAD STATE_SEND peer=2075277087 raw=8936 bytes=2058 parts=3
+COOP_LOAD STATE_SEND peer=2075277087 raw=8936 bytes=2058 parts=3
+FAIL: Host validates quest and pays its owner exactly once
+PASS: Client quest does not grant host XP
+PASS: Shared wave completes on the host
+COOP_LOAD STATE_SEND peer=2075277087 raw=8704 bytes=1933 parts=3
+PASS: Host revives the client through the shared co-op system
+COOP_LOAD PEER_DISCONNECTED id=2075277087
+PLANES_COOP_DONE host=true checks=13 failures=1

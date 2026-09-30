@@ -1,0 +1,155 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: pistol flashes and illuminates both hands and world
+PASS: pistol emits muzzle smoke
+PASS: pistol applies upward camera recoil
+PASS: pistol kicks upward and backward
+PASS: pistol flash follows the recoiling muzzle
+PASS: pistol sends shot impulse to the sleeve
+PASS: pistol smoke outlasts the flash
+PASS: pistol smoke dissipates and recoil settles
+PASS: deagle flashes and illuminates both hands and world
+PASS: deagle emits muzzle smoke
+PASS: deagle applies upward camera recoil
+PASS: deagle kicks upward and backward
+PASS: deagle flash follows the recoiling muzzle
+PASS: deagle sends shot impulse to the sleeve
+PASS: deagle smoke outlasts the flash
+PASS: deagle smoke dissipates and recoil settles
+PASS: revolver flashes and illuminates both hands and world
+PASS: revolver emits muzzle smoke
+PASS: revolver applies upward camera recoil
+PASS: revolver kicks upward and backward
+PASS: revolver flash follows the recoiling muzzle
+PASS: revolver sends shot impulse to the sleeve
+PASS: revolver smoke outlasts the flash
+PASS: revolver smoke dissipates and recoil settles
+PASS: flare_pistol flashes and illuminates both hands and world
+PASS: flare_pistol emits muzzle smoke
+PASS: flare_pistol applies upward camera recoil
+PASS: flare_pistol kicks upward and backward
+PASS: flare_pistol flash follows the recoiling muzzle
+PASS: flare_pistol sends shot impulse to the sleeve
+PASS: flare_pistol smoke outlasts the flash
+PASS: flare_pistol smoke dissipates and recoil settles
+PASS: smg flashes and illuminates both hands and world
+PASS: smg emits muzzle smoke
+PASS: smg applies upward camera recoil
+PASS: smg kicks upward and backward
+PASS: smg flash follows the recoiling muzzle
+PASS: smg sends shot impulse to the sleeve
+PASS: smg smoke outlasts the flash
+PASS: smg smoke dissipates and recoil settles
+PASS: mac10 flashes and illuminates both hands and world
+PASS: mac10 emits muzzle smoke
+PASS: mac10 applies upward camera recoil
+PASS: mac10 kicks upward and backward
+PASS: mac10 flash follows the recoiling muzzle
+PASS: mac10 sends shot impulse to the sleeve
+PASS: mac10 smoke outlasts the flash
+PASS: mac10 smoke dissipates and recoil settles
+PASS: cryo_smg flashes and illuminates both hands and world
+PASS: cryo_smg emits muzzle smoke
+PASS: cryo_smg applies upward camera recoil
+PASS: cryo_smg kicks upward and backward
+PASS: cryo_smg flash follows the recoiling muzzle
+PASS: cryo_smg sends shot impulse to the sleeve
+PASS: cryo_smg smoke outlasts the flash
+PASS: cryo_smg smoke dissipates and recoil settles
+PASS: ak47 flashes and illuminates both hands and world
+PASS: ak47 emits muzzle smoke
+PASS: ak47 applies upward camera recoil
+PASS: ak47 kicks upward and backward
+PASS: ak47 flash follows the recoiling muzzle
+PASS: ak47 sends shot impulse to the sleeve
+PASS: ak47 smoke outlasts the flash
+PASS: ak47 smoke dissipates and recoil settles
+PASS: shotgun flashes and illuminates both hands and world
+PASS: shotgun emits muzzle smoke
+PASS: shotgun applies upward camera recoil
+PASS: shotgun kicks upward and backward
+PASS: shotgun flash follows the recoiling muzzle
+PASS: shotgun sends shot impulse to the sleeve
+PASS: shotgun smoke outlasts the flash
+PASS: shotgun smoke dissipates and recoil settles
+PASS: breacher flashes and illuminates both hands and world
+PASS: breacher emits muzzle smoke
+PASS: breacher applies upward camera recoil
+PASS: breacher kicks upward and backward
+PASS: breacher flash follows the recoiling muzzle
+PASS: breacher sends shot impulse to the sleeve
+PASS: breacher smoke outlasts the flash
+PASS: breacher smoke dissipates and recoil settles
+PASS: lever_rifle flashes and illuminates both hands and world
+PASS: lever_rifle emits muzzle smoke
+PASS: lever_rifle applies upward camera recoil
+PASS: lever_rifle kicks upward and backward
+PASS: lever_rifle flash follows the recoiling muzzle
+PASS: lever_rifle sends shot impulse to the sleeve
+PASS: lever_rifle smoke outlasts the flash
+PASS: lever_rifle smoke dissipates and recoil settles
+PASS: marksman flashes and illuminates both hands and world
+PASS: marksman emits muzzle smoke
+PASS: marksman applies upward camera recoil
+PASS: marksman kicks upward and backward
+PASS: marksman flash follows the recoiling muzzle
+PASS: marksman sends shot impulse to the sleeve
+PASS: marksman smoke outlasts the flash
+PASS: marksman smoke dissipates and recoil settles
+PASS: plasma_sniper flashes and illuminates both hands and world
+PASS: plasma_sniper emits muzzle smoke
+PASS: plasma_sniper applies upward camera recoil
+PASS: plasma_sniper kicks upward and backward
+PASS: plasma_sniper flash follows the recoiling muzzle
+PASS: plasma_sniper sends shot impulse to the sleeve
+PASS: plasma_sniper smoke outlasts the flash
+PASS: plasma_sniper smoke dissipates and recoil settles
+PASS: lmg flashes and illuminates both hands and world
+PASS: lmg emits muzzle smoke
+PASS: lmg applies upward camera recoil
+PASS: lmg kicks upward and backward
+PASS: lmg flash follows the recoiling muzzle
+PASS: lmg sends shot impulse to the sleeve
+PASS: lmg smoke outlasts the flash
+PASS: lmg smoke dissipates and recoil settles
+PASS: minigun flashes and illuminates both hands and world
+PASS: minigun emits muzzle smoke
+PASS: minigun applies upward camera recoil
+PASS: minigun kicks upward and backward
+PASS: minigun flash follows the recoiling muzzle
+PASS: minigun sends shot impulse to the sleeve
+PASS: minigun smoke outlasts the flash
+PASS: minigun smoke dissipates and recoil settles
+PASS: titanbreaker flashes and illuminates both hands and world
+PASS: titanbreaker emits muzzle smoke
+PASS: titanbreaker applies upward camera recoil
+PASS: titanbreaker kicks upward and backward
+PASS: titanbreaker flash follows the recoiling muzzle
+PASS: titanbreaker sends shot impulse to the sleeve
+PASS: titanbreaker smoke outlasts the flash
+PASS: titanbreaker smoke dissipates and recoil settles
+PASS: graviton_cannon flashes and illuminates both hands and world
+PASS: graviton_cannon emits muzzle smoke
+PASS: graviton_cannon applies upward camera recoil
+PASS: graviton_cannon kicks upward and backward
+PASS: graviton_cannon flash follows the recoiling muzzle
+PASS: graviton_cannon sends shot impulse to the sleeve
+PASS: graviton_cannon smoke outlasts the flash
+PASS: graviton_cannon smoke dissipates and recoil settles
+PASS: Cooldown blocks extra flash/smoke bursts
+PASS: Empty magazine emits no fire or smoke
+PASS: Reload blocks fire and smoke
+PASS: Sustained automatic fire keeps the smoke pool bounded
+PASS: Automatic recoil stays bounded
+PASS: Weapon switch clears flash, barrel trail and model recoil
+PASS: Walking produces independent sleeve movement
+PASS: Pause freezes smoke, flash and cloth animation
+PASS: A slow frame still presents each new muzzle flash
+PASS: Flash stays on the muzzle while aiming down sights
+EFFECTS_DONE checks=146 failures=0

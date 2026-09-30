@@ -1,0 +1,543 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: pistol flashes and illuminates both hands and world
+PASS: pistol emits muzzle smoke
+PASS: pistol applies upward camera recoil
+PASS: pistol kicks upward and backward
+PASS: pistol flash follows the recoiling muzzle
+PASS: pistol sends shot impulse to the sleeve
+PASS: pistol smoke outlasts the flash
+PASS: pistol smoke dissipates and recoil settles
+ERROR: FAIL: deagle flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: deagle emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: deagle applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: deagle kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: deagle flash follows the recoiling muzzle
+ERROR: FAIL: deagle sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: deagle smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: deagle smoke dissipates and recoil settles
+ERROR: FAIL: revolver flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: revolver emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: revolver applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: revolver kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: revolver flash follows the recoiling muzzle
+ERROR: FAIL: revolver sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: revolver smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: revolver smoke dissipates and recoil settles
+ERROR: FAIL: flare_pistol flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: flare_pistol emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: flare_pistol applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: flare_pistol kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: flare_pistol flash follows the recoiling muzzle
+ERROR: FAIL: flare_pistol sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: flare_pistol smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: flare_pistol smoke dissipates and recoil settles
+ERROR: FAIL: smg flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: smg emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: smg applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: smg kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: smg flash follows the recoiling muzzle
+ERROR: FAIL: smg sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: smg smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: smg smoke dissipates and recoil settles
+ERROR: FAIL: mac10 flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: mac10 emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: mac10 applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: mac10 kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: mac10 flash follows the recoiling muzzle
+ERROR: FAIL: mac10 sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: mac10 smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: mac10 smoke dissipates and recoil settles
+ERROR: FAIL: cryo_smg flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: cryo_smg emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: cryo_smg applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: cryo_smg kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: cryo_smg flash follows the recoiling muzzle
+ERROR: FAIL: cryo_smg sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: cryo_smg smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: cryo_smg smoke dissipates and recoil settles
+ERROR: FAIL: ak47 flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: ak47 emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: ak47 applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: ak47 kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: ak47 flash follows the recoiling muzzle
+ERROR: FAIL: ak47 sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: ak47 smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: ak47 smoke dissipates and recoil settles
+ERROR: FAIL: shotgun flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: shotgun emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: shotgun applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: shotgun kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: shotgun flash follows the recoiling muzzle
+ERROR: FAIL: shotgun sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: shotgun smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: shotgun smoke dissipates and recoil settles
+ERROR: FAIL: breacher flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: breacher emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: breacher applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: breacher kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: breacher flash follows the recoiling muzzle
+ERROR: FAIL: breacher sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: breacher smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: breacher smoke dissipates and recoil settles
+ERROR: FAIL: lever_rifle flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: lever_rifle emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: lever_rifle applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: lever_rifle kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: lever_rifle flash follows the recoiling muzzle
+ERROR: FAIL: lever_rifle sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: lever_rifle smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: lever_rifle smoke dissipates and recoil settles
+ERROR: FAIL: marksman flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: marksman emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: marksman applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: marksman kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: marksman flash follows the recoiling muzzle
+ERROR: FAIL: marksman sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: marksman smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: marksman smoke dissipates and recoil settles
+ERROR: FAIL: plasma_sniper flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: plasma_sniper emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: plasma_sniper applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: plasma_sniper kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: plasma_sniper flash follows the recoiling muzzle
+ERROR: FAIL: plasma_sniper sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: plasma_sniper smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: plasma_sniper smoke dissipates and recoil settles
+ERROR: FAIL: lmg flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: lmg emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: lmg applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: lmg kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: lmg flash follows the recoiling muzzle
+ERROR: FAIL: lmg sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: lmg smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: lmg smoke dissipates and recoil settles
+ERROR: FAIL: minigun flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: minigun emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: minigun applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: minigun kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: minigun flash follows the recoiling muzzle
+ERROR: FAIL: minigun sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: minigun smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: minigun smoke dissipates and recoil settles
+ERROR: FAIL: titanbreaker flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: titanbreaker emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: titanbreaker applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: titanbreaker kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: titanbreaker flash follows the recoiling muzzle
+ERROR: FAIL: titanbreaker sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: titanbreaker smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: titanbreaker smoke dissipates and recoil settles
+ERROR: FAIL: graviton_cannon flashes and illuminates both hands and world
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:58)
+ERROR: FAIL: graviton_cannon emits muzzle smoke
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:59)
+ERROR: FAIL: graviton_cannon applies upward camera recoil
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:60)
+ERROR: FAIL: graviton_cannon kicks upward and backward
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:63)
+PASS: graviton_cannon flash follows the recoiling muzzle
+ERROR: FAIL: graviton_cannon sends shot impulse to the sleeve
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:66)
+ERROR: FAIL: graviton_cannon smoke outlasts the flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:70)
+PASS: graviton_cannon smoke dissipates and recoil settles
+PASS: Cooldown blocks extra flash/smoke bursts
+PASS: Empty magazine emits no fire or smoke
+PASS: Reload blocks fire and smoke
+PASS: Sustained automatic fire keeps the smoke pool bounded
+PASS: Automatic recoil stays bounded
+PASS: Weapon switch clears flash, barrel trail and model recoil
+PASS: Walking produces independent sleeve movement
+PASS: Pause freezes smoke, flash and cloth animation
+ERROR: FAIL: A slow frame still presents each new muzzle flash
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_effects.gd:24)
+       [1] run (res://tests/weapon_effects.gd:127)
+PASS: Flash stays on the muzzle while aiming down sights
+EFFECTS_DONE checks=146 failures=97

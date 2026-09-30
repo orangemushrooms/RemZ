@@ -6,11 +6,13 @@ Jede Klasse besitzt eigene XP und Level 1–30. Auf Level 5, 10, 15, 20, 25 und 
 
 | Klasse | Spezialisierung im vorhandenen Waffenbestand |
 | --- | --- |
-| Revolverheld | Pistole, Revolver, Desert Eagle, Leuchtpistole |
-| Sturmschütze | AK-47 und MG-60 |
-| Brecher | Schrotflinte und Nightbreaker 12 |
+| Revolverheld | Pistole, Revolver, Desert Eagle, Leuchtpistole, SIG P226, Nighthawk .45 |
+| Sturmschütze | AK-47, MG-60, AR-15 und Tommy Gun |
+| Brecher | Schrotflinte, Nightbreaker 12, SPAS-12 und Abgesägte Flinte |
 | Marksman | Ranger .308, Lever Action, Plasma Rifle und Titanenbrecher |
 | Assassin | Alle Waffen; Vorteile durch Tempo, Tarnung und Positionierung |
+
+Seit dem 30. September 2026 hat jede Waffenklasse eigene Neuzugänge aus den Meshy-Web-Modellen des Nutzers (`tools/web_weapons.py`): Revolverheld SIG P226 und Nighthawk .45, Sturmschütze AR-15 und Tommy Gun, Brecher SPAS-12 und Abgesägte Flinte. Alle beim Vendor ab Welle 1 bis 4 kaufbar; `--suite=class_weapons` prüft Kataloge, Klassenzugehörigkeit, Aufnahmen und Modelle.
 
 Alle 60 Talente haben Kampfeffekte. Dazu gehören echte Nachlade-, Magazin-, Streuungs-, Rückstoss-, Durchschlags- und Bewegungseffekte sowie bedingte Schadensboni. Waffenwechsel benötigen regulär 0,25 Sekunden; passende Talente verkürzen die Zeit. Händlertraining, Mods, Pilze und Talismane kombinieren sich mit Klassenboni. Magazinvergrösserungen erzeugen keine kostenlose Munition.
 

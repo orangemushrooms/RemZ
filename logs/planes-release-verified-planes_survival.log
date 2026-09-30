@@ -1,0 +1,64 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 10, "stags": 4 } batches=1252
+PLANES_NAV polygons=9852
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=24 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+PASS: Entry starts survival automatically
+PASS: Loading ends directly in a playable round without a view menu
+PASS: Field knife is available from the start
+PASS: Mouse wheel equips the visible field knife
+PASS: Combat HUD anchors the crosshair centrally and health above the bottom edge
+PASS: Surveyed terrain has a connected navigation mesh
+PASS: Field merchants and defence tools start without a predefined strongpoint
+PASS: New survival run starts with pistol and 150 R
+PASS: Physical keys 1, 2 and 3 select the available guns
+SPAWN 0 (-64.22832, -7.046213, 19.10772)
+SPAWN 1 (-85.26332, -9.55994, -32.685)
+SPAWN 2 (-139.1176, -15.83377, 27.26523)
+SPAWN 3 (-140.1223, -15.51984, 8.828592)
+SPAWN 4 (-98.00054, -11.58565, -20.79872)
+SPAWN 5 (-132.4666, -13.9381, -21.65868)
+SPAWN 6 (-134.0471, -14.5696, 1.122701)
+SPAWN 7 (-90.09098, -8.444602, 58.48242)
+SPAWN 8 (-58.28169, -6.189724, 24.83671)
+SPAWN 9 (-69.7606, -8.661582, -6.711708)
+PASS: Enemies spawn on reachable terrain at least 28 m away
+PASS: Zombie pathfinding advances towards the player
+PASS: A zombie reaches and damages the player
+PASS: Actual firearm ray hits an enemy and consumes ammunition
+PASS: Reload restores the magazine
+PASS: Field knife stab damages a real enemy
+PASS: Escape pauses grenades, weather and the wave countdown
+PASS: Escape resumes the survival run
+PASS: Grenade explosion damages enemies without Forest subsystems
+PASS: Lethal damage enters the downed state
+PASS: Self revive returns to combat
+PASS: All 25 wave plans scale correctly with a brute wave every fifth round
+PASS: Waves wait for queued and living enemies; all 25 completion transitions work
+PASS: Wave 25 ends the run and records only Planes as secured
+PASS: There is no wave 26 or Forest progress leakage
+PLANES_SURVIVAL_READY
+PASS: Retry resets enemies, equipment and the wave controller
+PASS: Retry preserves the starting knife
+PASS: Weather schedule: clear
+PASS: Weather schedule: fog
+PASS: Weather schedule: rain
+PASS: Weather schedule: storm
+PASS: Weather schedule: clear
+PASS: Rain particles and wet ground become active
+PASS: Storm produces lightning and a queued thunder cue
+PASS: Clear weather fades out rain
+PASS: Bleeding out ends and pauses the run
+PASS: Return to exploration clears combat readouts while preserving shared pause menus
+PASS: Exploration stops the unused weapon render pass
+PASS: Focus-loss pause uses the Planes menu
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: Leaving a completed survival session restores Forest and an unselected campaign map
+PLANES_SURVIVAL_DONE checks=39 failures=0

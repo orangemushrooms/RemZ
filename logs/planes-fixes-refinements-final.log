@@ -1,0 +1,44 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14525, "mushrooms": 456, "deer": 10, "stags": 4 } batches=1257
+PLANES_NAV repaired_detail_faces=1
+PLANES_NAV polygons=10859
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=24 crops={ "corn": 238551, "wheat": 412659, "grass": 792477, "undergrowth": 18765, "woodland_grass": 21835 }
+PASS: Paused scene entry finishes with immediate player control
+PASS: Movement works before opening any menu
+PASS: First wall builds on field terrain
+PASS: Flush wall stays valid after physics registers its neighbour
+PASS: Mixed palisade/sandbag chain builds flush
+PASS: Actual overlapping walls are rejected
+PASS: Chain snapping skips occupied internal joints and chooses its free end
+PASS: Snapping preserves deliberate rotation and allows a clear corner
+PASS: Buildings and other solid obstacles still block construction
+PASS: Movement test starts at a valid tower site
+PASS: Printed Y on a German keyboard starts tower movement
+PASS: Tower moves inside its former footprint without colliding with itself: 
+PASS: An occupied tower cannot be moved
+PASS: All six lanes have score displays
+PASS: Bullseye awards 10 on lane 0
+PASS: Outer hit awards fewer points on lane 0
+PASS: Bullseye awards 10 on lane 1
+PASS: Outer hit awards fewer points on lane 1
+PASS: Bullseye awards 10 on lane 2
+PASS: Outer hit awards fewer points on lane 2
+PASS: Bullseye awards 10 on lane 3
+PASS: Outer hit awards fewer points on lane 3
+PASS: Bullseye awards 10 on lane 4
+PASS: Outer hit awards fewer points on lane 4
+PASS: Bullseye awards 10 on lane 5
+PASS: Outer hit awards fewer points on lane 5
+PASS: Co-op snapshot restores independent lane scores
+PASS: Aiming at a nearby screen selects its reset interaction
+PASS: E resets only the selected lane
+PASS: Distant score reset is rejected
+PASS: Main road has no sampled crop, grass or flower placements
+PLANES_REFINEMENTS_DONE checks=31 failures=0

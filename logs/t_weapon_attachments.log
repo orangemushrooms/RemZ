@@ -24,11 +24,11 @@ PASS: Tube fed weapons ship a magazine tube
 PASS: pistol builds an attachment mount
 PASS: pistol + suppressor mounts a model
 PASS: pistol + suppressor keeps a believable calibre (r=0.0135 m)
-PASS: pistol + suppressor keeps a believable length (0.129 m)
+PASS: pistol + suppressor keeps a believable length (0.160 m)
 PASS: pistol + suppressor does not float away from the weapon
 PASS: pistol + suppressor runs down the bore (1.0000)
 PASS: pistol + suppressor points away from the shooter
-PASS: pistol + suppressor sits flush on the muzzle (overlap 0.0266 m)
+PASS: pistol + suppressor sits flush on the muzzle (overlap 0.0316 m)
 PASS: pistol + suppressor never grows back into the receiver
 PASS: pistol + suppressor stays clear of the support hand
 PASS: pistol + suppressor moves the muzzle flash to its own front
@@ -36,19 +36,19 @@ PASS: pistol + suppressor pushes the muzzle forward, never backward
 PASS: pistol + suppressor disappears again when the mod is removed
 PASS: pistol + compensator mounts a model
 PASS: pistol + compensator keeps a believable calibre (r=0.0110 m)
-PASS: pistol + compensator keeps a believable length (0.047 m)
+PASS: pistol + compensator keeps a believable length (0.060 m)
 PASS: pistol + compensator does not float away from the weapon
 PASS: pistol + compensator runs down the bore (1.0000)
 PASS: pistol + compensator points away from the shooter
-PASS: pistol + compensator sits flush on the muzzle (overlap 0.0154 m)
+PASS: pistol + compensator sits flush on the muzzle (overlap 0.0180 m)
 PASS: pistol + compensator never grows back into the receiver
 PASS: pistol + compensator stays clear of the support hand
 PASS: pistol + compensator moves the muzzle flash to its own front
 PASS: pistol + compensator pushes the muzzle forward, never backward
 PASS: pistol + compensator disappears again when the mod is removed
 PASS: pistol + extended mounts a model
-PASS: pistol + extended keeps a believable calibre (r=0.0103 m)
-PASS: pistol + extended keeps a believable length (0.095 m)
+PASS: pistol + extended keeps a believable calibre (r=0.0131 m)
+PASS: pistol + extended keeps a believable length (0.121 m)
 PASS: pistol + extended does not float away from the weapon
 PASS: pistol + extended hangs feed lips up
 PASS: pistol + extended reaches below the weapon
@@ -56,38 +56,38 @@ PASS: pistol + extended stays in line with the magazine well
 PASS: pistol + extended disappears again when the mod is removed
 PASS: pistol + quick_action mounts a model
 PASS: pistol + quick_action keeps a believable calibre (r=0.0060 m)
-PASS: pistol + quick_action keeps a believable length (0.047 m)
+PASS: pistol + quick_action keeps a believable length (0.060 m)
 PASS: pistol + quick_action does not float away from the weapon
 PASS: pistol + quick_action sits on the shooter's side of the receiver
 PASS: pistol + quick_action stays back on the receiver, not out front
 PASS: pistol + quick_action disappears again when the mod is removed
 PASS: pistol + match_barrel mounts a model
 PASS: pistol + match_barrel keeps a believable calibre (r=0.0075 m)
-PASS: pistol + match_barrel keeps a believable length (0.063 m)
+PASS: pistol + match_barrel keeps a believable length (0.080 m)
 PASS: pistol + match_barrel does not float away from the weapon
 PASS: pistol + match_barrel runs down the bore (1.0000)
 PASS: pistol + match_barrel points away from the shooter
-PASS: pistol + match_barrel sits flush on the muzzle (overlap 0.0425 m)
+PASS: pistol + match_barrel sits flush on the muzzle (overlap 0.0525 m)
 PASS: pistol + match_barrel never grows back into the receiver
 PASS: pistol + match_barrel stays clear of the support hand
 PASS: pistol + match_barrel moves the muzzle flash to its own front
 PASS: pistol + match_barrel pushes the muzzle forward, never backward
 PASS: pistol + match_barrel disappears again when the mod is removed
 PASS: pistol + ghost mounts a model
-PASS: pistol + ghost keeps a believable calibre (r=0.0124 m)
-PASS: pistol + ghost keeps a believable length (0.123 m)
+PASS: pistol + ghost keeps a believable calibre (r=0.0125 m)
+PASS: pistol + ghost keeps a believable length (0.138 m)
 PASS: pistol + ghost does not float away from the weapon
 PASS: pistol + ghost runs down the bore (1.0000)
 PASS: pistol + ghost points away from the shooter
-PASS: pistol + ghost sits flush on the muzzle (overlap 0.0232 m)
+PASS: pistol + ghost sits flush on the muzzle (overlap 0.0254 m)
 PASS: pistol + ghost never grows back into the receiver
 PASS: pistol + ghost stays clear of the support hand
 PASS: pistol + ghost moves the muzzle flash to its own front
 PASS: pistol + ghost pushes the muzzle forward, never backward
 PASS: pistol + ghost disappears again when the mod is removed
 PASS: pistol + endless mounts a model
-PASS: pistol + endless keeps a believable calibre (r=0.0134 m)
-PASS: pistol + endless keeps a believable length (0.015 m)
+PASS: pistol + endless keeps a believable calibre (r=0.0170 m)
+PASS: pistol + endless keeps a believable length (0.019 m)
 PASS: pistol + endless does not float away from the weapon
 PASS: pistol + endless hangs feed lips up
 PASS: pistol + endless reaches below the weapon
@@ -96,6 +96,86 @@ PASS: pistol + endless disappears again when the mod is removed
 PASS: pistol keeps both grips exactly where they were
 PASS: pistol keeps its bounds and sight line
 PASS: pistol returns to its bare muzzle once the mods are off
+PASS: sig_p226 builds an attachment mount
+PASS: sig_p226 + suppressor mounts a model
+PASS: sig_p226 + suppressor keeps a believable calibre (r=0.0135 m)
+PASS: sig_p226 + suppressor keeps a believable length (0.160 m)
+PASS: sig_p226 + suppressor does not float away from the weapon
+PASS: sig_p226 + suppressor runs down the bore (1.0000)
+PASS: sig_p226 + suppressor points away from the shooter
+PASS: sig_p226 + suppressor sits flush on the muzzle (overlap 0.0316 m)
+PASS: sig_p226 + suppressor never grows back into the receiver
+PASS: sig_p226 + suppressor stays clear of the support hand
+PASS: sig_p226 + suppressor moves the muzzle flash to its own front
+PASS: sig_p226 + suppressor pushes the muzzle forward, never backward
+PASS: sig_p226 + suppressor disappears again when the mod is removed
+PASS: sig_p226 + compensator mounts a model
+PASS: sig_p226 + compensator keeps a believable calibre (r=0.0114 m)
+PASS: sig_p226 + compensator keeps a believable length (0.059 m)
+PASS: sig_p226 + compensator does not float away from the weapon
+PASS: sig_p226 + compensator runs down the bore (1.0000)
+PASS: sig_p226 + compensator points away from the shooter
+PASS: sig_p226 + compensator sits flush on the muzzle (overlap 0.0177 m)
+PASS: sig_p226 + compensator never grows back into the receiver
+PASS: sig_p226 + compensator stays clear of the support hand
+PASS: sig_p226 + compensator moves the muzzle flash to its own front
+PASS: sig_p226 + compensator pushes the muzzle forward, never backward
+PASS: sig_p226 + compensator disappears again when the mod is removed
+PASS: sig_p226 + extended mounts a model
+PASS: sig_p226 + extended keeps a believable calibre (r=0.0142 m)
+PASS: sig_p226 + extended keeps a believable length (0.131 m)
+PASS: sig_p226 + extended does not float away from the weapon
+PASS: sig_p226 + extended hangs feed lips up
+PASS: sig_p226 + extended reaches below the weapon
+PASS: sig_p226 + extended stays in line with the magazine well
+PASS: sig_p226 + extended disappears again when the mod is removed
+PASS: sig_p226 + quick_action mounts a model
+PASS: sig_p226 + quick_action keeps a believable calibre (r=0.0071 m)
+PASS: sig_p226 + quick_action keeps a believable length (0.059 m)
+PASS: sig_p226 + quick_action does not float away from the weapon
+PASS: sig_p226 + quick_action sits on the shooter's side of the receiver
+PASS: sig_p226 + quick_action stays back on the receiver, not out front
+PASS: sig_p226 + quick_action disappears again when the mod is removed
+PASS: sig_p226 + match_barrel mounts a model
+PASS: sig_p226 + match_barrel keeps a believable calibre (r=0.0095 m)
+PASS: sig_p226 + match_barrel keeps a believable length (0.078 m)
+PASS: sig_p226 + match_barrel does not float away from the weapon
+PASS: sig_p226 + match_barrel runs down the bore (1.0000)
+PASS: sig_p226 + match_barrel points away from the shooter
+PASS: sig_p226 + match_barrel sits flush on the muzzle (overlap 0.0514 m)
+PASS: sig_p226 + match_barrel never grows back into the receiver
+PASS: sig_p226 + match_barrel stays clear of the support hand
+PASS: sig_p226 + match_barrel moves the muzzle flash to its own front
+PASS: sig_p226 + match_barrel pushes the muzzle forward, never backward
+PASS: sig_p226 + match_barrel disappears again when the mod is removed
+PASS: sig_p226 + ghost mounts a model
+PASS: sig_p226 + ghost keeps a believable calibre (r=0.0125 m)
+PASS: sig_p226 + ghost keeps a believable length (0.138 m)
+PASS: sig_p226 + ghost does not float away from the weapon
+PASS: sig_p226 + ghost runs down the bore (1.0000)
+PASS: sig_p226 + ghost points away from the shooter
+PASS: sig_p226 + ghost sits flush on the muzzle (overlap 0.0254 m)
+PASS: sig_p226 + ghost never grows back into the receiver
+PASS: sig_p226 + ghost stays clear of the support hand
+PASS: sig_p226 + ghost moves the muzzle flash to its own front
+PASS: sig_p226 + ghost pushes the muzzle forward, never backward
+PASS: sig_p226 + ghost disappears again when the mod is removed
+PASS: sig_p226 + endless mounts a model
+PASS: sig_p226 + endless keeps a believable calibre (r=0.0166 m)
+PASS: sig_p226 + endless keeps a believable length (0.019 m)
+PASS: sig_p226 + endless does not float away from the weapon
+PASS: sig_p226 + endless hangs feed lips up
+PASS: sig_p226 + endless reaches below the weapon
+PASS: sig_p226 + endless stays in line with the magazine well
+PASS: sig_p226 + endless disappears again when the mod is removed
+PASS: sig_p226 keeps both grips exactly where they were
+PASS: sig_p226 keeps its bounds and sight line
+PASS: sig_p226 returns to its bare muzzle once the mods are off
+ERROR: FAIL: nighthawk builds an attachment mount
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/weapon_attachments.gd:33)
+       [1] run (res://tests/weapon_attachments.gd:70)
 PASS: deagle builds an attachment mount
 PASS: deagle + suppressor mounts a model
 PASS: deagle + suppressor keeps a believable calibre (r=0.0135 m)
@@ -229,8 +309,8 @@ PASS: smg + compensator moves the muzzle flash to its own front
 PASS: smg + compensator pushes the muzzle forward, never backward
 PASS: smg + compensator disappears again when the mod is removed
 PASS: smg + extended mounts a model
-PASS: smg + extended keeps a believable calibre (r=0.0088 m)
-PASS: smg + extended keeps a believable length (0.081 m)
+PASS: smg + extended keeps a believable calibre (r=0.0119 m)
+PASS: smg + extended keeps a believable length (0.110 m)
 PASS: smg + extended does not float away from the weapon
 PASS: smg + extended hangs feed lips up
 PASS: smg + extended reaches below the weapon
@@ -245,11 +325,11 @@ PASS: smg + quick_action stays back on the receiver, not out front
 PASS: smg + quick_action disappears again when the mod is removed
 PASS: smg + match_barrel mounts a model
 PASS: smg + match_barrel keeps a believable calibre (r=0.0075 m)
-PASS: smg + match_barrel keeps a believable length (0.154 m)
+PASS: smg + match_barrel keeps a believable length (0.185 m)
 PASS: smg + match_barrel does not float away from the weapon
 PASS: smg + match_barrel runs down the bore (1.0000)
 PASS: smg + match_barrel points away from the shooter
-PASS: smg + match_barrel sits flush on the muzzle (overlap 0.0951 m)
+PASS: smg + match_barrel sits flush on the muzzle (overlap 0.1136 m)
 PASS: smg + match_barrel never grows back into the receiver
 PASS: smg + match_barrel stays clear of the support hand
 PASS: smg + match_barrel moves the muzzle flash to its own front
@@ -268,8 +348,8 @@ PASS: smg + ghost moves the muzzle flash to its own front
 PASS: smg + ghost pushes the muzzle forward, never backward
 PASS: smg + ghost disappears again when the mod is removed
 PASS: smg + endless mounts a model
-PASS: smg + endless keeps a believable calibre (r=0.0327 m)
-PASS: smg + endless keeps a believable length (0.037 m)
+PASS: smg + endless keeps a believable calibre (r=0.0394 m)
+PASS: smg + endless keeps a believable length (0.045 m)
 PASS: smg + endless does not float away from the weapon
 PASS: smg + endless hangs feed lips up
 PASS: smg + endless reaches below the weapon
@@ -278,6 +358,43 @@ PASS: smg + endless disappears again when the mod is removed
 PASS: smg keeps both grips exactly where they were
 PASS: smg keeps its bounds and sight line
 PASS: smg returns to its bare muzzle once the mods are off
+PASS: tommy_gun builds an attachment mount
+PASS: tommy_gun + compensator mounts a model
+PASS: tommy_gun + compensator keeps a believable calibre (r=0.0113 m)
+PASS: tommy_gun + compensator keeps a believable length (0.088 m)
+PASS: tommy_gun + compensator does not float away from the weapon
+PASS: tommy_gun + compensator runs down the bore (1.0000)
+PASS: tommy_gun + compensator points away from the shooter
+PASS: tommy_gun + compensator sits flush on the muzzle (overlap 0.0235 m)
+PASS: tommy_gun + compensator never grows back into the receiver
+PASS: tommy_gun + compensator stays clear of the support hand
+PASS: tommy_gun + compensator moves the muzzle flash to its own front
+PASS: tommy_gun + compensator pushes the muzzle forward, never backward
+PASS: tommy_gun + compensator disappears again when the mod is removed
+PASS: tommy_gun + extended shows nothing where a magazine would be wrong
+PASS: tommy_gun + quick_action mounts a model
+PASS: tommy_gun + quick_action keeps a believable calibre (r=0.0070 m)
+PASS: tommy_gun + quick_action keeps a believable length (0.117 m)
+PASS: tommy_gun + quick_action does not float away from the weapon
+PASS: tommy_gun + quick_action sits on the shooter's side of the receiver
+PASS: tommy_gun + quick_action stays back on the receiver, not out front
+PASS: tommy_gun + quick_action disappears again when the mod is removed
+PASS: tommy_gun + match_barrel mounts a model
+PASS: tommy_gun + match_barrel keeps a believable calibre (r=0.0094 m)
+PASS: tommy_gun + match_barrel keeps a believable length (0.230 m)
+PASS: tommy_gun + match_barrel does not float away from the weapon
+PASS: tommy_gun + match_barrel runs down the bore (1.0000)
+PASS: tommy_gun + match_barrel points away from the shooter
+PASS: tommy_gun + match_barrel sits flush on the muzzle (overlap 0.1394 m)
+PASS: tommy_gun + match_barrel never grows back into the receiver
+PASS: tommy_gun + match_barrel stays clear of the support hand
+PASS: tommy_gun + match_barrel moves the muzzle flash to its own front
+PASS: tommy_gun + match_barrel pushes the muzzle forward, never backward
+PASS: tommy_gun + match_barrel disappears again when the mod is removed
+PASS: tommy_gun + endless shows nothing where a magazine would be wrong
+PASS: tommy_gun keeps both grips exactly where they were
+PASS: tommy_gun keeps its bounds and sight line
+PASS: tommy_gun returns to its bare muzzle once the mods are off
 PASS: mac10 builds an attachment mount
 PASS: mac10 + extended mounts a model
 PASS: mac10 + extended keeps a believable calibre (r=0.0149 m)
@@ -348,6 +465,81 @@ PASS: cryo_smg + endless disappears again when the mod is removed
 PASS: cryo_smg keeps both grips exactly where they were
 PASS: cryo_smg keeps its bounds and sight line
 PASS: cryo_smg returns to its bare muzzle once the mods are off
+PASS: ar15 builds an attachment mount
+PASS: ar15 + suppressor mounts a model
+PASS: ar15 + suppressor keeps a believable calibre (r=0.0135 m)
+PASS: ar15 + suppressor keeps a believable length (0.160 m)
+PASS: ar15 + suppressor does not float away from the weapon
+PASS: ar15 + suppressor runs down the bore (1.0000)
+PASS: ar15 + suppressor points away from the shooter
+PASS: ar15 + suppressor sits flush on the muzzle (overlap 0.0316 m)
+PASS: ar15 + suppressor never grows back into the receiver
+PASS: ar15 + suppressor stays clear of the support hand
+PASS: ar15 + suppressor moves the muzzle flash to its own front
+PASS: ar15 + suppressor pushes the muzzle forward, never backward
+PASS: ar15 + suppressor disappears again when the mod is removed
+PASS: ar15 + compensator mounts a model
+PASS: ar15 + compensator keeps a believable calibre (r=0.0110 m)
+PASS: ar15 + compensator keeps a believable length (0.085 m)
+PASS: ar15 + compensator does not float away from the weapon
+PASS: ar15 + compensator runs down the bore (1.0000)
+PASS: ar15 + compensator points away from the shooter
+PASS: ar15 + compensator sits flush on the muzzle (overlap 0.0230 m)
+PASS: ar15 + compensator never grows back into the receiver
+PASS: ar15 + compensator stays clear of the support hand
+PASS: ar15 + compensator moves the muzzle flash to its own front
+PASS: ar15 + compensator pushes the muzzle forward, never backward
+PASS: ar15 + compensator disappears again when the mod is removed
+PASS: ar15 + extended mounts a model
+PASS: ar15 + extended keeps a believable calibre (r=0.0144 m)
+PASS: ar15 + extended keeps a believable length (0.132 m)
+PASS: ar15 + extended does not float away from the weapon
+PASS: ar15 + extended hangs feed lips up
+PASS: ar15 + extended reaches below the weapon
+PASS: ar15 + extended stays in line with the magazine well
+PASS: ar15 + extended disappears again when the mod is removed
+PASS: ar15 + quick_action mounts a model
+PASS: ar15 + quick_action keeps a believable calibre (r=0.0060 m)
+PASS: ar15 + quick_action keeps a believable length (0.100 m)
+PASS: ar15 + quick_action does not float away from the weapon
+PASS: ar15 + quick_action sits on the shooter's side of the receiver
+PASS: ar15 + quick_action stays back on the receiver, not out front
+PASS: ar15 + quick_action disappears again when the mod is removed
+PASS: ar15 + match_barrel mounts a model
+PASS: ar15 + match_barrel keeps a believable calibre (r=0.0075 m)
+PASS: ar15 + match_barrel keeps a believable length (0.229 m)
+PASS: ar15 + match_barrel does not float away from the weapon
+PASS: ar15 + match_barrel runs down the bore (1.0000)
+PASS: ar15 + match_barrel points away from the shooter
+PASS: ar15 + match_barrel sits flush on the muzzle (overlap 0.1387 m)
+PASS: ar15 + match_barrel never grows back into the receiver
+PASS: ar15 + match_barrel stays clear of the support hand
+PASS: ar15 + match_barrel moves the muzzle flash to its own front
+PASS: ar15 + match_barrel pushes the muzzle forward, never backward
+PASS: ar15 + match_barrel disappears again when the mod is removed
+PASS: ar15 + ghost mounts a model
+PASS: ar15 + ghost keeps a believable calibre (r=0.0125 m)
+PASS: ar15 + ghost keeps a believable length (0.138 m)
+PASS: ar15 + ghost does not float away from the weapon
+PASS: ar15 + ghost runs down the bore (1.0000)
+PASS: ar15 + ghost points away from the shooter
+PASS: ar15 + ghost sits flush on the muzzle (overlap 0.0254 m)
+PASS: ar15 + ghost never grows back into the receiver
+PASS: ar15 + ghost stays clear of the support hand
+PASS: ar15 + ghost moves the muzzle flash to its own front
+PASS: ar15 + ghost pushes the muzzle forward, never backward
+PASS: ar15 + ghost disappears again when the mod is removed
+PASS: ar15 + endless mounts a model
+PASS: ar15 + endless keeps a believable calibre (r=0.0450 m)
+PASS: ar15 + endless keeps a believable length (0.051 m)
+PASS: ar15 + endless does not float away from the weapon
+PASS: ar15 + endless hangs feed lips up
+PASS: ar15 + endless reaches below the weapon
+PASS: ar15 + endless stays in line with the magazine well
+PASS: ar15 + endless disappears again when the mod is removed
+PASS: ar15 keeps both grips exactly where they were
+PASS: ar15 keeps its bounds and sight line
+PASS: ar15 returns to its bare muzzle once the mods are off
 PASS: ak47 builds an attachment mount
 PASS: ak47 + suppressor mounts a model
 PASS: ak47 + suppressor keeps a believable calibre (r=0.0135 m)
@@ -423,6 +615,41 @@ PASS: ak47 + endless disappears again when the mod is removed
 PASS: ak47 keeps both grips exactly where they were
 PASS: ak47 keeps its bounds and sight line
 PASS: ak47 returns to its bare muzzle once the mods are off
+PASS: sawed_off builds an attachment mount
+PASS: sawed_off + compensator mounts a model
+PASS: sawed_off + compensator keeps a believable calibre (r=0.0136 m)
+PASS: sawed_off + compensator keeps a believable length (0.105 m)
+PASS: sawed_off + compensator does not float away from the weapon
+PASS: sawed_off + compensator runs down the bore (1.0000)
+PASS: sawed_off + compensator points away from the shooter
+PASS: sawed_off + compensator sits flush on the muzzle (overlap 0.0270 m)
+PASS: sawed_off + compensator never grows back into the receiver
+PASS: sawed_off + compensator stays clear of the support hand
+PASS: sawed_off + compensator moves the muzzle flash to its own front
+PASS: sawed_off + compensator pushes the muzzle forward, never backward
+PASS: sawed_off + compensator disappears again when the mod is removed
+PASS: sawed_off + quick_action mounts a model
+PASS: sawed_off + quick_action keeps a believable calibre (r=0.0085 m)
+PASS: sawed_off + quick_action keeps a believable length (0.124 m)
+PASS: sawed_off + quick_action does not float away from the weapon
+PASS: sawed_off + quick_action sits on the shooter's side of the receiver
+PASS: sawed_off + quick_action stays back on the receiver, not out front
+PASS: sawed_off + quick_action disappears again when the mod is removed
+PASS: sawed_off + match_barrel mounts a model
+PASS: sawed_off + match_barrel keeps a believable calibre (r=0.0113 m)
+PASS: sawed_off + match_barrel keeps a believable length (0.165 m)
+PASS: sawed_off + match_barrel does not float away from the weapon
+PASS: sawed_off + match_barrel runs down the bore (1.0000)
+PASS: sawed_off + match_barrel points away from the shooter
+PASS: sawed_off + match_barrel sits flush on the muzzle (overlap 0.1017 m)
+PASS: sawed_off + match_barrel never grows back into the receiver
+PASS: sawed_off + match_barrel stays clear of the support hand
+PASS: sawed_off + match_barrel moves the muzzle flash to its own front
+PASS: sawed_off + match_barrel pushes the muzzle forward, never backward
+PASS: sawed_off + match_barrel disappears again when the mod is removed
+PASS: sawed_off keeps both grips exactly where they were
+PASS: sawed_off keeps its bounds and sight line
+PASS: sawed_off returns to its bare muzzle once the mods are off
 PASS: shotgun builds an attachment mount
 PASS: shotgun + compensator mounts a model
 PASS: shotgun + compensator keeps a believable calibre (r=0.0128 m)
@@ -472,6 +699,55 @@ PASS: shotgun + endless disappears again when the mod is removed
 PASS: shotgun keeps both grips exactly where they were
 PASS: shotgun keeps its bounds and sight line
 PASS: shotgun returns to its bare muzzle once the mods are off
+PASS: spas12 builds an attachment mount
+PASS: spas12 + compensator mounts a model
+PASS: spas12 + compensator keeps a believable calibre (r=0.0177 m)
+PASS: spas12 + compensator keeps a believable length (0.137 m)
+PASS: spas12 + compensator does not float away from the weapon
+PASS: spas12 + compensator runs down the bore (1.0000)
+PASS: spas12 + compensator points away from the shooter
+PASS: spas12 + compensator sits flush on the muzzle (overlap 0.0333 m)
+PASS: spas12 + compensator never grows back into the receiver
+PASS: spas12 + compensator stays clear of the support hand
+PASS: spas12 + compensator moves the muzzle flash to its own front
+PASS: spas12 + compensator pushes the muzzle forward, never backward
+PASS: spas12 + compensator disappears again when the mod is removed
+PASS: spas12 + extended mounts a model
+PASS: spas12 + extended keeps a believable calibre (r=0.0095 m)
+PASS: spas12 + extended keeps a believable length (0.222 m)
+PASS: spas12 + extended does not float away from the weapon
+PASS: spas12 + extended runs under the barrel
+PASS: spas12 + extended lies along the barrel
+PASS: spas12 + extended disappears again when the mod is removed
+PASS: spas12 + quick_action mounts a model
+PASS: spas12 + quick_action keeps a believable calibre (r=0.0110 m)
+PASS: spas12 + quick_action keeps a believable length (0.169 m)
+PASS: spas12 + quick_action does not float away from the weapon
+PASS: spas12 + quick_action sits on the shooter's side of the receiver
+PASS: spas12 + quick_action stays back on the receiver, not out front
+PASS: spas12 + quick_action disappears again when the mod is removed
+PASS: spas12 + match_barrel mounts a model
+PASS: spas12 + match_barrel keeps a believable calibre (r=0.0146 m)
+PASS: spas12 + match_barrel keeps a believable length (0.225 m)
+PASS: spas12 + match_barrel does not float away from the weapon
+PASS: spas12 + match_barrel runs down the bore (1.0000)
+PASS: spas12 + match_barrel points away from the shooter
+PASS: spas12 + match_barrel sits flush on the muzzle (overlap 0.1366 m)
+PASS: spas12 + match_barrel never grows back into the receiver
+PASS: spas12 + match_barrel stays clear of the support hand
+PASS: spas12 + match_barrel moves the muzzle flash to its own front
+PASS: spas12 + match_barrel pushes the muzzle forward, never backward
+PASS: spas12 + match_barrel disappears again when the mod is removed
+PASS: spas12 + endless mounts a model
+PASS: spas12 + endless keeps a believable calibre (r=0.0095 m)
+PASS: spas12 + endless keeps a believable length (0.328 m)
+PASS: spas12 + endless does not float away from the weapon
+PASS: spas12 + endless runs under the barrel
+PASS: spas12 + endless lies along the barrel
+PASS: spas12 + endless disappears again when the mod is removed
+PASS: spas12 keeps both grips exactly where they were
+PASS: spas12 keeps its bounds and sight line
+PASS: spas12 returns to its bare muzzle once the mods are off
 PASS: breacher builds an attachment mount
 PASS: breacher + compensator mounts a model
 PASS: breacher + compensator keeps a believable calibre (r=0.0124 m)
@@ -882,10 +1158,18 @@ PASS: graviton_cannon returns to its bare muzzle once the mods are off
 PASS: Suppressor threads onto the match barrel, not onto the bare bore
 PASS: All four slots show at once
 PASS: The stacked muzzle sits at the front of the can
-PASS: A tracer starts at the suppressor, not inside the barrel
-PASS: A co-op snapshot mounts the mod on the client
-PASS: Clearing the snapshot takes it off again
-ATTACHMENTS_DONE checks=881 failures=0
+ERROR: Can't take value from empty array.
+   at: back (core/variant/array.cpp:360)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/weapon_attachments.gd:158)
+SCRIPT ERROR: Invalid call. Nonexistent function '_process' in base 'Nil'.
+   at: run (res://tests/weapon_attachments.gd:163)
+   GDScript backtrace (most recent call first):
+       [0] run (res://tests/weapon_attachments.gd:163)
+ERROR: ATTACHMENTS_TIMEOUT
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://tests/weapon_attachments.gd:24)
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

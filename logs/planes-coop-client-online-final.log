@@ -1,0 +1,12 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 6, "stags": 2 } batches=1252
+PLANES_NAV repaired_detail_faces=2
+PLANES_NAV polygons=9124
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=14 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }

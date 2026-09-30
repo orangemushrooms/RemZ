@@ -1,0 +1,8 @@
+A multiplayer test process failed. See C:\Users\miche\Desktop\Developement\RemZ\artifacts\multiplayer
+In C:\Users\miche\Desktop\Developement\RemZ\tools\test_multiplayer.ps1:30 Zeichen:36
++ ... nt -gt 0) { throw "A multiplayer test process failed. See $artifacts" ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (A multiplayer t...cts\multiplayer:String) [], RuntimeException
+    + FullyQualifiedErrorId : A multiplayer test process failed. See C:\Users\miche\Desktop\Developement\RemZ\artifact 
+   s\multiplayer
+ 

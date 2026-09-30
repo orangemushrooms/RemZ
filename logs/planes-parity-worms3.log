@@ -1,0 +1,62 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: 120 wave plans: exact previews, field-only worms, no worms before 12, no titan pile-ups
+PASS: Worm escalation: one at 12, two at 24, three at 40
+PASS: Very late and four-player boss scaling remains bounded
+PASS: Earthworm_1 is the imported non-looping user recording
+PASS: Earthworm_2 is the imported non-looping user recording
+PASS: Earthworm_3 is the imported non-looping user recording
+PASS: First worm spawns on the actual field
+PASS: Wave 12 normal worm has intended size, HP and bounded speed
+PASS: Spawn plays exactly one supplied worm recording
+PASS: Field entrance (10.0, 126.0) finds a real safe approach to the defended camp
+PASS: Field entrance (-110.0, 108.0) finds a real safe approach to the defended camp
+PASS: Field entrance (-42.0, 126.0) finds a real safe approach to the defended camp
+PASS: Arrival warns before revealing the worm
+PASS: Worm has animated body hit zones, not a humanoid capsule
+PASS: Rig includes walk
+PASS: Rig includes burrow
+PASS: Rig includes emerge
+PASS: Rig includes attack
+PASS: Rig includes recovery
+PASS: Rig includes dive
+PASS: Rig includes death
+PASS: Fully underground worm cannot take invisible hits
+PASS: Arrival transitions to visible emergence
+PASS: Exposed worm takes damage without automatic-fire stun lock
+PASS: Each attack cycle leaves a generous shooting window (5.5 s exposed, 10.9 s above ground)
+PASS: Real ballistic ray intersects the exposed animated worm
+PASS: Automatic tower can acquire the exposed body
+PASS: Burrowing disables ballistic hits and automatic tower targeting
+PASS: Attack clip deforms the actual skinned head
+PASS: Attack marker is locked; it cannot chase a dodging player
+PASS: Player outside the marked radius takes no damage
+PASS: Player inside unoccluded impact takes exactly one intended hit
+PASS: Worm cannot surface inside the camp
+PASS: Worm cannot tunnel through the camp
+PASS: Underground body actually travels through the field
+PASS: Moving earth trail reveals buried travel
+PASS: Burrow timeout always produces a new full emergence warning
+PASS: Late join reconstructs attack target and remaining warning time
+PASS: Late join does not replay past roar/impact effects
+PASS: Repeated snapshots do not duplicate audio
+PASS: Replica cannot author damage
+PASS: Ancient variant is larger and tougher with a distinct attack footprint
+PASS: Ancient uses its own Meshy model and rig
+PASS: Heavy reinforcements respect separation cooldown
+PASS: Worm death scores exactly once and releases the wave counter
+PASS: Dead worm cannot be scored again
+PASS: Skip-wave also completes with a fully underground worm
+PASS: Dead worm settles without endless sinking or extra root rotation: earthworm
+WORM_SETTLED earthworm floor=1.70419280052185 model=(0.0, 1.704193, 0.0) world=(14.0, -3.995126, 122.0) bounds=[P: (-1.888173, 1.704193, -2.69134), S: (3.776346, 14.0, 5.38268)]
+PASS: Dead worm settles without endless sinking or extra root rotation: earthworm_ancient
+WORM_SETTLED earthworm_ancient floor=4.1434522998333 model=(0.0, 4.143452, 0.0) world=(-9.0, -5.792509, 132.0) bounds=[P: (-2.137461, 4.143452, -4.604279), S: (4.274922, 19.0, 9.208557)]
+PASS: Balance report directory exists in editor and exported test harness
+EARTHWORMS_DONE checks=50 failures=0

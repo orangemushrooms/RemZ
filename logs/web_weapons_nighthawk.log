@@ -1,0 +1,12 @@
+== nighthawk
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\nighthawk_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\nighthawk_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\nighthawk_web\source.glb --size 2048 --geometry-only
+game mesh: 79414 triangles, 104075 vertices after the MikkTSpace split
+bake: 1948301 texels, 0.07 % without high-poly data, 0.38 % clamped, mean detail angle 12.5 deg, 2.4 MB
+prune: Removed types... Texture (1)
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\nighthawk_web\stage_baked.glb (9.37 MB)
+  bake: done
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\pack.mjs nighthawk_web_pack --size 2048 --albedo-size 2048 --quality 88 --as nighthawk
+nighthawk_web_pack: model.glb -> C:\Users\miche\Desktop\Developement\RemZ\public\models\nighthawk.glb (6.50 MB, clips: none; textures: tex:2048x2048, metal_rough:2048x2048, normal:2048x2048)
+  pack: done
+  installed godot\assets\models\nighthawk.glb (6.50 MB)
+  install: done

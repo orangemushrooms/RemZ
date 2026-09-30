@@ -1,0 +1,21 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_READY trees=401 birds=14 crops={ "corn": 238551, "wheat": 412858, "grass": 797186, "undergrowth": 18921, "woodland_grass": 22042 }
+TERRAIN_CONTROL sennhof ratio=0.0
+TERRAIN_PARITY view=sennhof wet=0.0 changed=0.00010478609184 max=10
+TERRAIN_CONTROL junction ratio=0.0
+TERRAIN_PARITY view=junction wet=0.0 changed=0.00005884539148 max=9
+TERRAIN_CONTROL core ratio=0.0
+TERRAIN_PARITY view=core wet=0.0 changed=0.00004938195133 max=7
+TERRAIN_CONTROL sennhof ratio=0.0
+TERRAIN_PARITY view=sennhof wet=1.0 changed=0.00006245870499 max=8
+TERRAIN_CONTROL junction ratio=0.0
+TERRAIN_PARITY view=junction wet=1.0 changed=0.00003974644863 max=8
+TERRAIN_CONTROL core ratio=0.0
+TERRAIN_PARITY view=core wet=1.0 changed=0.00002580938223 max=7
+TERRAIN_PARITY_DONE failures=0

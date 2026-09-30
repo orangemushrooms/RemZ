@@ -1,0 +1,8 @@
+Multiplayer test failed: C:\Users\miche\Desktop\Developement\RemZ\artifacts\planes-coop\client.log
+In C:\Users\miche\Desktop\Developement\RemZ\tools\test_planes_coop.ps1:32 Zeichen:139
++ ... _DONE .*failures=0') { throw "Multiplayer test failed: $($run.Log)" }
++                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Multiplayer tes...coop\client.log:String) [], RuntimeException
+    + FullyQualifiedErrorId : Multiplayer test failed: C:\Users\miche\Desktop\Developement\RemZ\artifacts\planes-coop\ 
+   client.log
+ 

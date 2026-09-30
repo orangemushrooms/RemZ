@@ -29,3 +29,6 @@ godot/eos.cfg
 # the user's Meshy web originals of the field flowers (191 MB): tools/prepare_flowers.mjs reads them, the
 # game uses the derived field_flower_*.glb; excluded from the export as well
 godot/assets/models/Flower_*
+# the user's Meshy web weapon exports of 30 Sep 2026 (2-43 MB each): tools/web_weapons.py derives the game
+# GLBs from assets/raw/<model>_web/source.glb; the receipts stay tracked
+assets/raw/*_web/*.glb

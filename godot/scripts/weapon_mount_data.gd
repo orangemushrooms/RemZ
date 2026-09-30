@@ -9,10 +9,10 @@ extends RefCounted
 # bore: muzzle centre. mag: lowest point of the magazine. receiver: thickest cross section.
 const WEAPONS := {
 	"pistol": {
-		"bore": Vector3(-0.95059, 0.32299, -0.00367), "bore_radius": 0.04457,
-		"length": 1.89953, "height": 1.32768, "width": 0.31725,
-		"mag": Vector3(0.47052, -0.66447, -0.01631), "mag_width": 0.26568,
-		"receiver": Vector3(0.59278, -0.21754, -0.01352), "receiver_top": 0.66322, "receiver_width": 0.24473,
+		"bore": Vector3(-0.95073, 0.41, 0.00293), "bore_radius": 0.05,
+		"length": 1.89892, "height": 1.36172, "width": 0.39822,
+		"mag": Vector3(0.53507, -0.68109, 0.00388), "mag_width": 0.18563,
+		"receiver": Vector3(0.4339, -0.04643, -0.00879), "receiver_top": 0.68064, "receiver_width": 0.27014,
 	},
 	"revolver": {
 		"bore": Vector3(-0.95078, 0.35694, 0.00063), "bore_radius": 0.04775,
@@ -21,10 +21,10 @@ const WEAPONS := {
 		"receiver": Vector3(0.51334, 0.03065, 0.00657), "receiver_top": 0.50263, "receiver_width": 0.19423,
 	},
 	"smg": {
-		"bore": Vector3(-0.95084, 0.1931, 0.00151), "bore_radius": 0.02707,
-		"length": 1.89961, "height": 0.79109, "width": 0.22627,
-		"mag": Vector3(-0.099, -0.3933, -0.00401), "mag_width": 0.05887,
-		"receiver": Vector3(-0.19891, 0.16442, -0.01763), "receiver_top": 0.39779, "receiver_width": 0.10796,
+		"bore": Vector3(-0.95078, 0.18318, 0.00032), "bore_radius": 0.02348,
+		"length": 1.89938, "height": 0.69638, "width": 0.14938,
+		"mag": Vector3(-0.36994, -0.35005, -0.01384), "mag_width": 0.06602,
+		"receiver": Vector3(0.19676, 0.15933, 0.01425), "receiver_top": 0.34633, "receiver_width": 0.09923,
 	},
 	"ak47": {
 		"bore": Vector3(-0.95079, 0.17655, 0.02487), "bore_radius": 0.01916,
@@ -63,10 +63,10 @@ const WEAPONS := {
 		"receiver": Vector3(0.19638, 0.06412, -0.02679), "receiver_top": 0.26028, "receiver_width": 0.08104,
 	},
 	"deagle": {
-		"bore": Vector3(-0.95046, 0.23114, 0.00645), "bore_radius": 0.04621,
-		"length": 1.89847, "height": 0.84183, "width": 0.22304,
-		"mag": Vector3(0.2558, -0.42248, -0.01665), "mag_width": 0.04986,
-		"receiver": Vector3(0.75026, 0.02191, 0.01597), "receiver_top": 0.41935, "receiver_width": 0.19318,
+		"bore": Vector3(-0.95066, 0.39607, -0.00038), "bore_radius": 0.10983,
+		"length": 1.89811, "height": 1.09078, "width": 0.36474,
+		"mag": Vector3(0.40696, -0.54888, -0.0186), "mag_width": 0.15205,
+		"receiver": Vector3(0.51246, 0.2135, 0.04169), "receiver_top": 0.5419, "receiver_width": 0.24997,
 	},
 	"flare_pistol": {
 		"bore": Vector3(-0.9507, 0.36244, -0.00686), "bore_radius": 0.10084,
@@ -109,6 +109,42 @@ const WEAPONS := {
 		"length": 1.89886, "height": 0.77688, "width": 0.46687,
 		"mag": Vector3(0.01863, -0.38878, 0.00309), "mag_width": 0.06695,
 		"receiver": Vector3(0.2759, 0.1005, 0.00402), "receiver_top": 0.38809, "receiver_width": 0.34095,
+	},
+	"sig_p226": {
+		"bore": Vector3(-0.95671, 0.54321, 0.00169), "bore_radius": 0.07715,
+		"length": 1.91156, "height": 1.36813, "width": 0.35406,
+		"mag": Vector3(0.55296, -0.68569, 0.024), "mag_width": 0.23521,
+		"receiver": Vector3(0.51678, 0.37398, 0.02167), "receiver_top": 0.68244, "receiver_width": 0.26771,
+	},
+	"nighthawk": {
+		"bore": Vector3(-0.95176, 0.4296, 0.00665), "bore_radius": 0.05879,
+		"length": 1.90272, "height": 1.27151, "width": 0.36628,
+		"mag": Vector3(0.6953, -0.63421, 0.05731), "mag_width": 0.23307,
+		"receiver": Vector3(0.75277, -0.21687, 0.03195), "receiver_top": 0.6373, "receiver_width": 0.27203,
+	},
+	"ar15": {
+		"bore": Vector3(-1.00205, 0.18919, 0.00102), "bore_radius": 0.01971,
+		"length": 2.00145, "height": 0.83971, "width": 0.25062,
+		"mag": Vector3(-0.20078, -0.41985, -0.00117), "mag_width": 0.06787,
+		"receiver": Vector3(-0.2932, 0.13705, -0.02054), "receiver_top": 0.41986, "receiver_width": 0.13346,
+	},
+	"tommy_gun": {
+		"bore": Vector3(-1.00064, 0.26363, -0.00355), "bore_radius": 0.02722,
+		"length": 2.00055, "height": 0.6959, "width": 0.61299,
+		"mag": Vector3(-0.17724, -0.34347, -0.00687), "mag_width": 0.26543,
+		"receiver": Vector3(-0.1254, 0.05453, 0.00819), "receiver_top": 0.35243, "receiver_width": 0.45962,
+	},
+	"spas12": {
+		"bore": Vector3(-0.95203, 0.12205, 0.00195), "bore_radius": 0.04128,
+		"length": 1.90401, "height": 0.50738, "width": 0.16329,
+		"mag": Vector3(-0.18253, -0.25239, 0.00098), "mag_width": 0.11732,
+		"receiver": Vector3(0.83298, -0.11328, 0.01881), "receiver_top": 0.25499, "receiver_width": 0.08531,
+	},
+	"sawed_off": {
+		"bore": Vector3(-0.9505, 0.20168, -0.00227), "bore_radius": 0.04325,
+		"length": 1.89911, "height": 0.59861, "width": 0.22126,
+		"mag": Vector3(-0.00016, -0.30375, -0.01026), "mag_width": 0.15768,
+		"receiver": Vector3(0.35513, 0.04294, 0.00472), "receiver_top": 0.29486, "receiver_width": 0.14514,
 	},
 }
 

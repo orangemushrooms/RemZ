@@ -1,0 +1,56 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 10, "stags": 4 } batches=1252
+PLANES_NAV polygons=9852
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=24 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+PASS: Forest reticle is active
+PASS: Fresh quickbar contains only owned starter items
+PASS: Fourteen deer/stags and twenty-four birds are huntable
+PASS: Camp has a cooking grate and brewing pot
+PASS: Vendor uses Forest trading and selling tabs
+PASS: Mechanic offers training and defence kits
+PASS: Picking a named flower supplies real brewing inventory
+PASS: Shooting a deer leaves collectable meat
+PASS: Meat is added to the hunter's inventory
+PASS: All six surveyed targets have individual hit volumes
+PASS: Playable boundary includes shooting house
+PASS: Generic solid building proxy is removed
+PASS: Shooting house is locked before finding a key
+PASS: Key opens the physical door and shooting shutters
+PASS: Shooting log starts personal sniper challenge
+PASS: House contains one marksman
+PASS: House contains one titanbreaker
+PASS: House contains one shotgun
+RANGE_RAY 0 distance=311.035888671875 collider=Building_1558294553:<StaticBody3D#332943855069> at=(173.1217, 17.44636, 212.7781)
+PASS: Non-sniper hit does not count for target 0
+RANGE_RAY 1 distance=311.012756347656 collider=Building_1558294553:<StaticBody3D#332943855069> at=(173.8719, 17.4464, 215.1456)
+PASS: Non-sniper hit does not count for target 1
+RANGE_RAY 2 distance=310.989624023438 collider=Building_1558294553:<StaticBody3D#332943855069> at=(174.6221, 17.44646, 217.5131)
+PASS: Non-sniper hit does not count for target 2
+RANGE_RAY 3 distance=310.966522216797 collider=Building_1558294553:<StaticBody3D#332943855069> at=(175.3722, 17.4465, 219.8805)
+PASS: Non-sniper hit does not count for target 3
+RANGE_RAY 4 distance=310.943450927734 collider=Building_1558294553:<StaticBody3D#332943855069> at=(176.1225, 17.44655, 222.248)
+PASS: Non-sniper hit does not count for target 4
+RANGE_RAY 5 distance=310.92041015625 collider=Building_1558294553:<StaticBody3D#332943855069> at=(176.8727, 17.4466, 224.6154)
+PASS: Non-sniper hit does not count for target 5
+FAIL: All six targets are visible through shooting ports without terrain/wall obstruction
+PASS: Six unique sniper targets complete challenge
+PASS: Challenge pays money and persistent class XP
+PASS: Challenge reward cannot be duplicated
+PASS: Wave 6 includes its Forest boss encounter
+PASS: Wave 12 includes its Forest boss encounter
+PASS: Wave 15 includes its Forest boss encounter
+PASS: Wave 24 includes its Forest boss encounter
+PASS: Wave 25 includes its Forest boss encounter
+PASS: Titanbreaker base damage doubled
+PASS: Mortar range doubled
+PASS: Revive restores substantial health and protects briefly from another hit
+PASS: Zombie traverses the camp depression: (5.0, 28.0)
+PASS: Zombie traverses the camp depression: (30.0, 25.0)
+PLANES_PARITY checks=38 failures=1

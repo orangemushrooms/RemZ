@@ -8,6 +8,54 @@ msgstr ""
 
 
 #: scripts/achievements.gd
+msgid "Range Finder"
+msgstr "Ziel erfasst"
+
+#: scripts/achievements.gd
+msgid "Hit a Remetschwil shooting target"
+msgstr "Eine Remetschwiler Zieltafel treffen"
+
+#: scripts/achievements.gd
+msgid "Six at 300 Metres"
+msgstr "Sechs auf 300 Meter"
+
+#: scripts/achievements.gd
+msgid "Complete the shooting house sniper challenge"
+msgstr "Die Scharfschützenaufgabe im Schützenhaus abschliessen"
+
+#: scripts/achievements.gd
+msgid "Field Botanist"
+msgstr "Feldbotaniker"
+
+#: scripts/achievements.gd
+msgid "Gather 25 flowers and mushrooms in The Planes"
+msgstr "25 Blumen und Pilze auf The Planes sammeln"
+
+#: scripts/achievements.gd
+msgid "Open Ground"
+msgstr "Offenes Gelände"
+
+#: scripts/achievements.gd
+msgid "Survive wave 5 in The Planes"
+msgstr "Welle 5 auf The Planes überleben"
+
+#: scripts/achievements.gd
+msgid "Hold Your Ground"
+msgstr "Standhalten"
+
+#: scripts/achievements.gd
+msgid "Survive wave 15 in The Planes"
+msgstr "Welle 15 auf The Planes überleben"
+
+#: scripts/achievements.gd
+msgid "Master of The Planes"
+msgstr "Meister der Felder"
+
+#: scripts/achievements.gd
+msgid "Survive all 25 waves in The Planes"
+msgstr "Alle 25 Wellen auf The Planes überleben"
+
+#: scripts/achievements.gd
 msgid "Hunter"
 msgstr "Jäger"
 
@@ -31,7 +79,7 @@ msgstr "Kürbisknacker"
 msgid "Shot a pumpkin to pieces"
 msgstr "Einen Kürbis zerschossen"
 
-#: scripts/achievements.gd
+#: scripts/achievements.gd scripts/character_classes.gd
 msgid "First Blood"
 msgstr "Erstes Blut"
 
@@ -119,7 +167,7 @@ msgstr "Kopfjäger"
 msgid "50 headshots"
 msgstr "50 Kopfschüsse"
 
-#: scripts/achievements.gd scripts/skills.gd
+#: scripts/achievements.gd scripts/character_classes.gd scripts/skills.gd
 msgid "Steady Hand"
 msgstr "Ruhige Hand"
 
@@ -260,16 +308,16 @@ msgid "Last Bastion"
 msgstr "Letzte Bastion"
 
 #: scripts/achievements.gd
-msgid "Survived wave 30"
-msgstr "Welle 30 überstanden"
+msgid "Survived wave 24"
+msgstr "Welle 24 überstanden"
 
 #: scripts/achievements.gd
 msgid "Legend of the Heitersberg"
 msgstr "Legende des Heitersbergs"
 
 #: scripts/achievements.gd
-msgid "Survived wave 40"
-msgstr "Welle 40 überstanden"
+msgid "Secured Forest by surviving all 25 rounds"
+msgstr "Forest durch Überstehen aller 25 Runden gesichert"
 
 #: scripts/achievements.gd
 msgid "Not a Scratch"
@@ -350,6 +398,10 @@ msgstr "Pilzsammler"
 #: scripts/achievements.gd
 msgid "First mushroom collected"
 msgstr "Ersten Pilz gesammelt"
+
+#: scripts/achievements.gd scripts/coop_world.gd scripts/inventory.gd scripts/planes_minimap.gd
+msgid "mushrooms"
+msgstr "Pilze"
 
 #: scripts/achievements.gd
 msgid "Mushroom Connoisseur"
@@ -479,6 +531,66 @@ msgstr "Teamerfolg: %s"
 msgid "(unlocked before)"
 msgstr "(schon einmal erreicht)"
 
+#: scripts/assassin_teleport.gd
+msgid "TELEPORT / MAP"
+msgstr "TELEPORT / KARTE"
+
+#: scripts/assassin_teleport.gd
+msgid "Choose a safe point within 40 metres. The round keeps running."
+msgstr "Wähle einen freien Punkt innerhalb von 40 Metern. Die Runde läuft weiter."
+
+#: scripts/assassin_teleport.gd
+msgid "Cancel (Esc / right click)"
+msgstr "Abbrechen (Esc / Rechtsklick)"
+
+#: scripts/assassin_teleport.gd
+msgid "Choose a Teleport mode in Class skills at Assassin level 15."
+msgstr "Wähle ab Assassin-Level 15 eine Teleport-Variante unter Klassen-Skills."
+
+#: scripts/assassin_teleport.gd
+msgid "Teleport is unavailable right now."
+msgstr "Teleport ist momentan nicht verfügbar."
+
+#: scripts/assassin_teleport.gd
+msgid "Teleport is unavailable during the intro."
+msgstr "Während des Intros ist Teleport nicht verfügbar."
+
+#: scripts/assassin_teleport.gd
+msgid "Teleport is recharging."
+msgstr "Teleport lädt noch auf."
+
+#: scripts/assassin_teleport.gd
+msgid "Left click: teleport / Esc: cancel"
+msgstr "Linksklick: teleportieren / Esc: abbrechen"
+
+#: scripts/assassin_teleport.gd
+msgid "Choose a point on the map."
+msgstr "Wähle einen Punkt auf der Karte."
+
+#: scripts/assassin_teleport.gd
+msgid "Choose a safe point on the map."
+msgstr "Wähle einen freien Punkt auf der Karte."
+
+#: scripts/assassin_teleport.gd
+msgid "That point is beyond the 40 metre range."
+msgstr "Dieser Punkt liegt ausserhalb der Reichweite von 40 Metern."
+
+#: scripts/assassin_teleport.gd
+msgid "There is no safe landing ahead."
+msgstr "Vor dir gibt es keinen sicheren Landepunkt."
+
+#: scripts/assassin_teleport.gd
+msgid "That landing is blocked or unsafe."
+msgstr "Dieser Landepunkt ist blockiert oder unsicher."
+
+#: scripts/assassin_teleport.gd
+msgid "Choose a point a little further away."
+msgstr "Wähle einen etwas weiter entfernten Punkt."
+
+#: scripts/assassin_teleport.gd
+msgid "Teleport"
+msgstr "Teleport"
+
 #: scripts/attack_drone.gd
 msgid "Kestrel Scout"
 msgstr "Kestrel-Aufklärer"
@@ -542,6 +654,10 @@ msgstr "Es fehlen %d Rem Dollars."
 #: scripts/barricade.gd scripts/sandbag_line.gd
 msgid "Building area occupied. You or an enemy is standing in the line."
 msgstr "Baufläche belegt. Du oder ein Gegner stehen in der Linie."
+
+#: scripts/barricade.gd scripts/net_session.gd scripts/planes_building.gd scripts/sandbag_line.gd
+msgid "REPAIRED"
+msgstr "REPARIERT"
 
 #: scripts/barricade.gd
 msgid "[E] Build %s · %d R"
@@ -691,10 +807,6 @@ msgstr "Bereit zum Verstärken der gesamten Linie."
 msgid "Whole line repaired."
 msgstr "Gesamte Linie repariert."
 
-#: scripts/hud.gd
-msgid "REPAIRED"
-msgstr "REPARIERT"
-
 #: scripts/barricade_menu.gd
 msgid "Whole line built. Approach secured."
 msgstr "Gesamte Linie gebaut. Zugang gesichert."
@@ -703,21 +815,13 @@ msgstr "Gesamte Linie gebaut. Zugang gesichert."
 msgid "Whole line reinforced to tier %d."
 msgstr "Gesamte Linie auf Stufe %d verstärkt."
 
-#: scripts/barricade_menu.gd scripts/progression.gd
+#: scripts/barricade_menu.gd scripts/planes_progression.gd scripts/progression.gd
 msgid "Towers"
 msgstr "Türme"
 
 #: scripts/barricade_menu.gd
 msgid "Defense advice at Mechanic. Right at a barricade, E builds or repairs the line."
 msgstr "Verteidigungsberatung bei Mechanic. Direkt an einer Barrikade baut oder repariert E die Linie."
-
-#: scripts/hud.gd scripts/main.gd
-msgid "REMETSCHWIL FOREST HUT"
-msgstr "WALDHÜTTE REMETSCHWIL"
-
-#: scripts/hud.gd
-msgid "NIGHT ON THE HEITERSBERG"
-msgstr "NACHT AM HEITERSBERG"
 
 #: scripts/boot_screen.gd
 msgid "SURVIVE. SCAVENGE. ADAPT."
@@ -799,7 +903,7 @@ msgstr "Leichenblüte"
 msgid "Ember Lily"
 msgstr "Glutlilie"
 
-#: scripts/brew_recipes.gd
+#: scripts/brew_recipes.gd scripts/planes_progression.gd
 msgid "Golden Yarrow"
 msgstr "Goldschafgarbe"
 
@@ -907,6 +1011,10 @@ msgstr "+60 Leben; 45 s dreifache Lebensregeneration"
 msgid "Regeneration x3"
 msgstr "Regeneration ×3"
 
+#: scripts/brewing.gd scripts/planes_nature.gd scripts/planes_progression.gd
+msgid "flowers"
+msgstr "Blumen"
+
 #: scripts/brewing.gd
 msgid "You cannot brew or drink right now."
 msgstr "Du kannst gerade weder brauen noch trinken."
@@ -967,7 +1075,7 @@ msgstr "Flaschen landen im Inventar (I). Gleiche Effekte erneuern ihre Dauer; de
 msgid "Back to the fire / C or Esc"
 msgstr "Zurück ans Feuer / C oder Esc"
 
-#: scripts/brewing_menu.gd scripts/progression.gd
+#: scripts/brewing_menu.gd scripts/planes_progression.gd scripts/progression.gd
 msgid "%s %d/%d"
 msgstr "%s %d/%d"
 
@@ -982,6 +1090,910 @@ msgstr "%s / noch %d s"
 #: scripts/brewing_menu.gd
 msgid "Choose a recipe. Ingredients show owned / needed."
 msgstr "Wähle ein Rezept. Zutaten zeigen vorhanden / benötigt."
+
+#: scripts/campaign.gd
+msgid "FOREST"
+msgstr "FOREST"
+
+#: scripts/campaign.gd
+msgid "NORTH END"
+msgstr "NORTH END"
+
+#: scripts/campaign.gd
+msgid "CORE"
+msgstr "CORE"
+
+#: scripts/campaign.gd
+msgid "EAST END"
+msgstr "EAST END"
+
+#: scripts/campaign.gd scripts/planes_hud.gd
+msgid "THE PLANES"
+msgstr "THE PLANES"
+
+#: scripts/campaign.gd
+msgid "SUBURBS & LAKE"
+msgstr "SUBURBS & LAKE"
+
+#: scripts/character_classes.gd
+msgid "Teleport: Forward"
+msgstr "Teleport: Vorwärts"
+
+#: scripts/character_classes.gd
+msgid "V teleports up to 8 metres ahead. Cooldown: 12 seconds."
+msgstr "V teleportiert dich bis zu 8 Meter nach vorne. Abklingzeit: 12 Sekunden."
+
+#: scripts/character_classes.gd
+msgid "Teleport: Map"
+msgstr "Teleport: Karte"
+
+#: scripts/character_classes.gd
+msgid "V opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds."
+msgstr "V öffnet die Karte. Klicke auf einen freien Punkt innerhalb von 40 Metern. Abklingzeit: 30 Sekunden."
+
+#: scripts/character_classes.gd
+msgid "Defeat your first zombie."
+msgstr "Töte deinen ersten Zombie."
+
+#: scripts/character_classes.gd
+msgid "Exterminator"
+msgstr "Exterminator"
+
+#: scripts/character_classes.gd
+msgid "Defeat 10,000 zombies across all classes."
+msgstr "Töte insgesamt 10.000 Zombies mit allen Klassen."
+
+#: scripts/character_classes.gd
+msgid "Perfect Aim"
+msgstr "Perfect Aim"
+
+#: scripts/character_classes.gd
+msgid "Score 100 headshots across all classes."
+msgstr "Erziele insgesamt 100 Kopfschüsse mit allen Klassen."
+
+#: scripts/character_classes.gd
+msgid "Class Veteran"
+msgstr "Veteran"
+
+#: scripts/character_classes.gd
+msgid "Reach level 30 with one class."
+msgstr "Erreiche Level 30 mit einer Klasse."
+
+#: scripts/character_classes.gd
+msgid "Master of Arms"
+msgstr "Master of Arms"
+
+#: scripts/character_classes.gd
+msgid "Reach level 30 with all five classes."
+msgstr "Erreiche Level 30 mit allen fünf Klassen."
+
+#: scripts/character_classes.gd
+msgid "Untouchable Survivor"
+msgstr "Unantastbarer Überlebender"
+
+#: scripts/character_classes.gd
+msgid "Complete an entire Hard or Nightmare mission without taking damage."
+msgstr "Schliesse eine gesamte Mission auf Schwer oder Albtraum ohne erlittenen Schaden ab."
+
+#: scripts/character_classes.gd
+msgid "Gunslinger"
+msgstr "Revolverheld"
+
+#: scripts/character_classes.gd
+msgid "Mobility and precision with pistols and revolvers."
+msgstr "Mobilität und Präzision mit Pistolen und Revolvern."
+
+#: scripts/character_classes.gd scripts/skills.gd
+msgid "Quick Hands"
+msgstr "Schnelle Hände"
+
+#: scripts/character_classes.gd
+msgid "Pistols reload 20% faster."
+msgstr "Pistolen werden 20% schneller nachgeladen."
+
+#: scripts/character_classes.gd
+msgid "15% less pistol recoil."
+msgstr "15% weniger Rückstoss mit Pistolen."
+
+#: scripts/character_classes.gd
+msgid "Duelist"
+msgstr "Duellant"
+
+#: scripts/character_classes.gd
+msgid "Repeated pistol hits on one target add 5% damage per hit, up to 25%, for 3 seconds."
+msgstr "Wiederholte Pistolentreffer auf dasselbe Ziel erhöhen den Schaden pro Treffer um 5%, bis 25%, für 3 Sekunden."
+
+#: scripts/character_classes.gd
+msgid "Quick Draw"
+msgstr "Schneller Wechsel"
+
+#: scripts/character_classes.gd
+msgid "Switching to or from a pistol is 50% faster."
+msgstr "Waffenwechsel zu oder von einer Pistole erfolgen 50% schneller."
+
+#: scripts/character_classes.gd
+msgid "Bounty"
+msgstr "Kopfgeld"
+
+#: scripts/character_classes.gd
+msgid "Pistol headshots deal 15% more damage. Headshot kills grant 5 extra XP."
+msgstr "Pistolen-Kopfschüsse verursachen 15% mehr Schaden. Kopfschuss-Kills geben 5 zusätzliche XP."
+
+#: scripts/character_classes.gd
+msgid "Fan the Hammer"
+msgstr "Fan the Hammer"
+
+#: scripts/character_classes.gd
+msgid "Pistol shots build 40% less spread."
+msgstr "Pistolenschüsse bauen 40% weniger zusätzliche Streuung auf."
+
+#: scripts/character_classes.gd
+msgid "Sidestep"
+msgstr "Ausweichschritt"
+
+#: scripts/character_classes.gd
+msgid "Pistol kills grant 15% movement speed for 3 seconds."
+msgstr "Pistolen-Kills geben für 3 Sekunden 15% mehr Bewegungstempo."
+
+#: scripts/character_classes.gd
+msgid "Ice Cold"
+msgstr "Eiskalt"
+
+#: scripts/character_classes.gd
+msgid "Pistol headshots reduce recoil by 30% for 3 seconds."
+msgstr "Pistolen-Kopfschüsse reduzieren den Rückstoss für 3 Sekunden um 30%."
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "High Noon"
+msgstr "High Noon"
+
+#: scripts/character_classes.gd
+msgid "Executioner"
+msgstr "Executioner"
+
+#: scripts/character_classes.gd
+msgid "Pistol headshot kills grant 12% faster reloads and 15% faster fire rate per stack for 10 seconds. Up to 5 stacks."
+msgstr "Pistolen-Kopfschusskills geben pro Stapel 12% kürzere Nachladezeit und 15% höhere Feuerrate für 10 Sekunden. Bis zu 5 Stapel."
+
+#: scripts/character_classes.gd
+msgid "Pistols deal 150% more damage to targets at or below 50% health."
+msgstr "Pistolen verursachen 150% mehr Schaden an Zielen mit höchstens 50% Leben."
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "Deadeye"
+msgstr "Deadeye"
+
+#: scripts/character_classes.gd
+msgid "Gunslinger Mastery"
+msgstr "Revolvermeister"
+
+#: scripts/character_classes.gd
+msgid "Pistol headshots deal 50% more damage. Consecutive headshots add 30% each, up to 200% total bonus. A miss or body hit resets the chain."
+msgstr "Pistolen-Kopfschüsse verursachen 50% mehr Schaden. Aufeinanderfolgende Kopfschüsse geben je 30% mehr, bis zu 200% Gesamtbonus. Fehlschüsse oder Körpertreffer setzen die Serie zurück."
+
+#: scripts/character_classes.gd
+msgid "50% more pistol damage, 25% faster pistol fire rate and 40% faster movement while aiming a pistol."
+msgstr "50% mehr Pistolenschaden, 25% höhere Pistolen-Feuerrate und 40% mehr Bewegungstempo beim Zielen mit Pistolen."
+
+#: scripts/character_classes.gd
+msgid "Controlled sustained fire and reliable crowd control with assault rifles."
+msgstr "Kontrolliertes Dauerfeuer und zuverlässige Gruppenkontrolle mit Sturmgewehren."
+
+#: scripts/character_classes.gd
+msgid "Assault Trooper"
+msgstr "Sturmschütze"
+
+#: scripts/character_classes.gd
+msgid "Tactical Reload"
+msgstr "Taktisches Nachladen"
+
+#: scripts/character_classes.gd
+msgid "Assault rifles reload 18% faster."
+msgstr "Sturmgewehre werden 18% schneller nachgeladen."
+
+#: scripts/character_classes.gd
+msgid "Ammo Discipline"
+msgstr "Munitionsdisziplin"
+
+#: scripts/character_classes.gd
+msgid "15% larger assault rifle magazines."
+msgstr "15% grössere Sturmgewehrmagazine."
+
+#: scripts/character_classes.gd
+msgid "Controlled Burst"
+msgstr "Feuerstoss"
+
+#: scripts/character_classes.gd
+msgid "The first 3 shots of an assault rifle burst have 25% less spread."
+msgstr "Die ersten 3 Schüsse eines Sturmgewehr-Feuerstosses haben 25% weniger Streuung."
+
+#: scripts/character_classes.gd
+msgid "Suppressing Fire"
+msgstr "Unterdrückungsfeuer"
+
+#: scripts/character_classes.gd
+msgid "Repeated assault rifle hits slow common enemies by 15% for 2 seconds."
+msgstr "Wiederholte Sturmgewehrtreffer verlangsamen gewöhnliche Gegner für 2 Sekunden um 15%."
+
+#: scripts/character_classes.gd
+msgid "Frontline"
+msgstr "Frontsoldat"
+
+#: scripts/character_classes.gd
+msgid "Assault rifle kills reduce recoil by 25% for 4 seconds."
+msgstr "Sturmgewehr-Kills reduzieren den Rückstoss für 4 Sekunden um 25%."
+
+#: scripts/character_classes.gd
+msgid "Combat Drill"
+msgstr "Gefechtsroutine"
+
+#: scripts/character_classes.gd
+msgid "Assault rifle kills reduce reload time by 25% for 4 seconds."
+msgstr "Sturmgewehr-Kills verkürzen die Nachladezeit für 4 Sekunden um 25%."
+
+#: scripts/character_classes.gd
+msgid "Armor Breaker"
+msgstr "Panzerbrecher"
+
+#: scripts/character_classes.gd
+msgid "Assault rifles deal 25% more damage against armoured enemies."
+msgstr "Sturmgewehre verursachen 25% mehr Schaden gegen gepanzerte Gegner."
+
+#: scripts/character_classes.gd
+msgid "Crowd Control"
+msgstr "Crowd Control"
+
+#: scripts/character_classes.gd
+msgid "Assault rifles deal 12% more damage against common zombies."
+msgstr "Sturmgewehre verursachen 12% mehr Schaden gegen gewöhnliche Zombies."
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "Combat Momentum"
+msgstr "Combat Momentum"
+
+#: scripts/character_classes.gd
+msgid "Veteran"
+msgstr "Veteran"
+
+#: scripts/character_classes.gd
+msgid "Assault rifle kills increase fire rate by 15% for 10 seconds, up to 5 stacks (+75%)."
+msgstr "Sturmgewehr-Kills erhöhen die Feuerrate für 10 Sekunden um je 15%, bis zu 5 Stapel (+75%)."
+
+#: scripts/character_classes.gd
+msgid "Assault rifles deal 20% more damage and reload 65% faster with a quarter magazine or less."
+msgstr "Sturmgewehre verursachen 20% mehr Schaden und laden bei höchstens einem Viertel Magazin 65% schneller nach."
+
+#: scripts/character_classes.gd
+msgid "Weapons Expert"
+msgstr "Weapons Expert"
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "Last Stand"
+msgstr "Last Stand"
+
+#: scripts/character_classes.gd
+msgid "Assault rifles gain 35% damage, 45% less recoil, 40% faster reloads and 60% larger magazines."
+msgstr "Sturmgewehre erhalten 35% mehr Schaden, 45% weniger Rückstoß, 40% kürzere Nachladezeit und 60% größere Magazine."
+
+#: scripts/character_classes.gd
+msgid "Below 50% health with an assault rifle: 75% more damage, 40% damage resistance, 60% less recoil, 60% faster reloads and 25% more movement speed."
+msgstr "Unter 50% Leben mit einem Sturmgewehr: 75% mehr Schaden, 40% Schadensresistenz, 60% weniger Rückstoß, 60% kürzere Nachladezeit und 25% mehr Bewegungstempo."
+
+#: scripts/character_classes.gd
+msgid "Breacher"
+msgstr "Brecher"
+
+#: scripts/character_classes.gd
+msgid "Shotguns, close quarters and powerful penetration."
+msgstr "Schrotflinten, Nahbereich und hohe Durchschlagskraft."
+
+#: scripts/character_classes.gd
+msgid "Large Calibre"
+msgstr "Grosskaliber"
+
+#: scripts/character_classes.gd
+msgid "Shotguns deal 12% more damage."
+msgstr "Schrotflinten verursachen 12% mehr Schaden."
+
+#: scripts/character_classes.gd
+msgid "Speed Loader"
+msgstr "Schnelllader"
+
+#: scripts/character_classes.gd
+msgid "Shotguns reload 20% faster."
+msgstr "Schrotflinten werden 20% schneller nachgeladen."
+
+#: scripts/character_classes.gd
+msgid "Penetration"
+msgstr "Durchschlag"
+
+#: scripts/character_classes.gd
+msgid "Shotgun pellets penetrate one additional common enemy."
+msgstr "Schrotkugeln durchschlagen einen zusätzlichen gewöhnlichen Gegner."
+
+#: scripts/character_classes.gd
+msgid "Spread Control"
+msgstr "Streuungskontrolle"
+
+#: scripts/character_classes.gd
+msgid "25% less shotgun spread."
+msgstr "25% weniger Schrotflintenstreuung."
+
+#: scripts/character_classes.gd
+msgid "Knockback"
+msgstr "Knockback"
+
+#: scripts/character_classes.gd
+msgid "Shotgun hits shove common zombies back more strongly."
+msgstr "Schrotflintentreffer stossen gewöhnliche Zombies stärker zurück."
+
+#: scripts/character_classes.gd
+msgid "Bloodbath"
+msgstr "Blutbad"
+
+#: scripts/character_classes.gd
+msgid "Shotgun kills within 5 metres grant 15% shotgun damage for 4 seconds."
+msgstr "Schrotflinten-Kills innerhalb von 5 Metern geben für 4 Sekunden 15% mehr Schrotflintenschaden."
+
+#: scripts/character_classes.gd
+msgid "Breaching"
+msgstr "Breaching"
+
+#: scripts/character_classes.gd
+msgid "Shotguns deal 25% more damage against armoured and large enemies."
+msgstr "Schrotflinten verursachen 25% mehr Schaden gegen gepanzerte und grosse Gegner."
+
+#: scripts/character_classes.gd
+msgid "Crowd Breaker"
+msgstr "Crowd Breaker"
+
+#: scripts/character_classes.gd
+msgid "20% more shotgun damage when 3 enemies stand within 5 metres of the target."
+msgstr "20% mehr Schrotflintenschaden, wenn 3 Gegner im Umkreis von 5 Metern um das Ziel stehen."
+
+#: scripts/character_classes.gd
+msgid "No Mercy"
+msgstr "Keine Gnade"
+
+#: scripts/character_classes.gd
+msgid "Stand Your Ground"
+msgstr "Stand Your Ground"
+
+#: scripts/character_classes.gd
+msgid "Shotgun hits within 7 metres deal 75% more damage."
+msgstr "Schrotflintentreffer innerhalb von 7 Metern verursachen 75% mehr Schaden."
+
+#: scripts/character_classes.gd
+msgid "40% less damage taken while at least 2 enemies are within 8 metres."
+msgstr "40% weniger erlittener Schaden, solange mindestens 2 Gegner innerhalb von 8 Metern sind."
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "Juggernaut"
+msgstr "Juggernaut"
+
+#: scripts/character_classes.gd
+msgid "Boomstick"
+msgstr "Boomstick"
+
+#: scripts/character_classes.gd
+msgid "Always take 15% less damage. Shotgun kills halve the remaining damage for 8 seconds (57.5% total resistance). Class resistance is capped at 75%."
+msgstr "Dauerhaft 15% weniger erlittener Schaden. Schrotflinten-Kills halbieren für 8 Sekunden den verbleibenden Schaden (insgesamt 57,5% Resistenz). Klassenresistenz ist auf 75% begrenzt."
+
+#: scripts/character_classes.gd
+msgid "The first shotgun blast from a full magazine deals triple damage, including every pellet. Other blasts deal 35% more damage."
+msgstr "Der erste Schrotflintenschuss aus einem vollen Magazin verursacht dreifachen Schaden, mit jedem Pellet. Weitere Schüsse verursachen 35% mehr Schaden."
+
+#: scripts/character_classes.gd scripts/progression.gd
+msgid "Marksman"
+msgstr "Marksman"
+
+#: scripts/character_classes.gd
+msgid "Precision rifles, critical hits and dangerous elite targets."
+msgstr "Präzisionsgewehre, kritische Treffer und gefährliche Elitegegner."
+
+#: scripts/character_classes.gd
+msgid "Firm Stance"
+msgstr "Fester Stand"
+
+#: scripts/character_classes.gd
+msgid "Fast Focus"
+msgstr "Schneller Fokus"
+
+#: scripts/character_classes.gd
+msgid "Aim a precision rifle 30% faster."
+msgstr "Mit Präzisionsgewehren 30% schneller anvisieren."
+
+#: scripts/character_classes.gd
+msgid "50% less weapon sway and spread while aiming a precision rifle."
+msgstr "50% weniger Waffenschwanken und Streuung beim Zielen mit einem Präzisionsgewehr."
+
+#: scripts/character_classes.gd
+msgid "Weak Spot"
+msgstr "Schwachstelle"
+
+#: scripts/character_classes.gd
+msgid "Precision rifle headshots deal 20% more damage."
+msgstr "Kopfschüsse mit Präzisionsgewehren verursachen 20% mehr Schaden."
+
+#: scripts/character_classes.gd
+msgid "Piercing Shot"
+msgstr "Durchschuss"
+
+#: scripts/character_classes.gd
+msgid "Precision rifle shots penetrate one additional enemy."
+msgstr "Präzisionsgewehrschüsse durchschlagen einen zusätzlichen Gegner."
+
+#: scripts/character_classes.gd
+msgid "Precision rifles deal 20% more damage against special enemies."
+msgstr "Präzisionsgewehre verursachen 20% mehr Schaden gegen Spezialgegner."
+
+#: scripts/character_classes.gd
+msgid "One Shot"
+msgstr "One Shot"
+
+#: scripts/character_classes.gd
+msgid "The first precision rifle hit on each target deals 20% more damage."
+msgstr "Der erste Präzisionsgewehrtreffer auf jedes Ziel verursacht 20% mehr Schaden."
+
+#: scripts/character_classes.gd
+msgid "Elite Hunter"
+msgstr "Elitejäger"
+
+#: scripts/character_classes.gd
+msgid "Breath Control"
+msgstr "Atemkontrolle"
+
+#: scripts/character_classes.gd
+msgid "Aiming a precision rifle steadily reduces spread by up to 40% over 3 seconds."
+msgstr "Ruhiges Zielen mit einem Präzisionsgewehr reduziert die Streuung über 3 Sekunden um bis zu 40%."
+
+#: scripts/character_classes.gd
+msgid "Quickscope"
+msgstr "Quickscope"
+
+#: scripts/character_classes.gd
+msgid "Precision headshots within 0.6 seconds of aiming deal 20% more damage."
+msgstr "Präzisions-Kopfschüsse innerhalb von 0,6 Sekunden nach dem Anvisieren verursachen 20% mehr Schaden."
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "Kill Chain"
+msgstr "Kill Chain"
+
+#: scripts/character_classes.gd
+msgid "Big Game Hunter"
+msgstr "Big Game Hunter"
+
+#: scripts/character_classes.gd
+msgid "A precision headshot kill doubles every hit of the next precision shot for 8 seconds. Another headshot kill renews the bonus."
+msgstr "Ein Präzisions-Kopfschusskill verdoppelt für 8 Sekunden alle Treffer des nächsten Präzisionsschusses. Ein weiterer Kopfschusskill erneuert den Bonus."
+
+#: scripts/character_classes.gd
+msgid "Precision rifles deal 100% more damage against elites and bosses."
+msgstr "Präzisionsgewehre verursachen 100% mehr Schaden an Elitegegnern und Bossen."
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "Perfect Shot"
+msgstr "Perfect Shot"
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "Marksman's Rhythm"
+msgstr "Marksman's Rhythm"
+
+#: scripts/character_classes.gd
+msgid "After 2 seconds without a miss, the next precision shot deals 250% more headshot damage to every pierced target. Recharges after use."
+msgstr "Nach 2 Sekunden ohne Fehlschuss verursacht der nächste Präzisionsschuss 250% mehr Kopfschussschaden an jedem durchschlagenen Ziel. Lädt sich nach Benutzung neu auf."
+
+#: scripts/character_classes.gd
+msgid "Consecutive precision hits grant up to 60% damage, 60% fire rate, 50% faster reloads and twice as fast aiming at 5 hits. A miss resets the chain."
+msgstr "Aufeinanderfolgende Präzisionstreffer geben bei 5 Treffern bis zu 60% mehr Schaden, 60% höhere Feuerrate, 50% kürzere Nachladezeit und doppelt so schnelles Zielen. Fehlschüsse setzen die Serie zurück."
+
+#: scripts/character_classes.gd
+msgid "Assassin"
+msgstr "Assassin"
+
+#: scripts/character_classes.gd
+msgid "Speed, stealth and positioning. Flexible with every weapon."
+msgstr "Tempo, Tarnung und Positionierung. Flexibel mit jeder Waffe."
+
+#: scripts/character_classes.gd
+msgid "Light Footed"
+msgstr "Leichtfüssig"
+
+#: scripts/character_classes.gd
+msgid "10% faster movement."
+msgstr "10% mehr Bewegungstempo."
+
+#: scripts/character_classes.gd
+msgid "Ghost Step"
+msgstr "Ghost Step"
+
+#: scripts/character_classes.gd
+msgid "Quieter footsteps and 20% less detection range for common enemies."
+msgstr "Leisere Schritte und 20% geringere Wahrnehmungsreichweite gewöhnlicher Gegner."
+
+#: scripts/character_classes.gd
+msgid "Opportunist"
+msgstr "Opportunist"
+
+#: scripts/character_classes.gd
+msgid "Escape Artist"
+msgstr "Escape Artist"
+
+#: scripts/character_classes.gd
+msgid "Taking at least 25 damage grants 20% movement speed for 3 seconds."
+msgstr "Mindestens 25 erlittener Schaden gibt für 3 Sekunden 20% mehr Bewegungstempo."
+
+#: scripts/character_classes.gd
+msgid "15% more damage against unaware enemies or enemies attacking another player."
+msgstr "15% mehr Schaden an ahnungslosen Gegnern oder Gegnern, die einen anderen Spieler angreifen."
+
+#: scripts/character_classes.gd
+msgid "Weapon Master"
+msgstr "Weapon Master"
+
+#: scripts/character_classes.gd
+msgid "10% faster reloads and 25% faster weapon switches."
+msgstr "10% kürzere Nachladezeiten und 25% schnellere Waffenwechsel."
+
+#: scripts/character_classes.gd
+msgid "Silent Killer"
+msgstr "Silent Killer"
+
+#: scripts/character_classes.gd
+msgid "Attacks from behind deal 20% more damage."
+msgstr "Angriffe aus dem Rücken verursachen 20% mehr Schaden."
+
+#: scripts/character_classes.gd
+msgid "Shadow"
+msgstr "Shadow"
+
+#: scripts/character_classes.gd
+msgid "After 4 seconds without attacking, common enemies detect you from 35% less distance."
+msgstr "Nach 4 Sekunden ohne Angriff sinkt die Wahrnehmungsreichweite gewöhnlicher Gegner um 35%."
+
+#: scripts/character_classes.gd
+msgid "Momentum"
+msgstr "Momentum"
+
+#: scripts/character_classes.gd
+msgid "Weapon kills grant 15% movement speed for 4 seconds."
+msgstr "Waffen-Kills geben für 4 Sekunden 15% mehr Bewegungstempo."
+
+#: scripts/character_classes.gd
+msgid "Assassination"
+msgstr "Assassination"
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "Untouchable Movement"
+msgstr "Unantastbare Bewegung"
+
+#: scripts/character_classes.gd
+msgid "The first attack against each target deals triple damage from behind or while the target is unaware. Includes all pellets of that attack."
+msgstr "Der erste Angriff auf jedes Ziel verursacht von hinten oder gegen ahnungslose Ziele dreifachen Schaden. Gilt für alle Pellets dieses Angriffs."
+
+#: scripts/character_classes.gd
+msgid "After 4 seconds without taking damage, gain 30% movement speed and 20% damage resistance until hit."
+msgstr "Nach 4 Sekunden ohne erlittenen Schaden: 30% mehr Bewegungstempo und 20% Schadensresistenz bis zum nächsten Treffer."
+
+#: scripts/character_classes.gd
+msgid "Master Assassin"
+msgstr "Master Assassin"
+
+#: scripts/character_classes.gd scripts/class_combat.gd
+msgid "Predator"
+msgstr "Predator"
+
+#: scripts/character_classes.gd
+msgid "20% faster movement, 60% faster weapon switches, 45% less detection range, 75% more melee damage and halved teleport cooldowns."
+msgstr "20% mehr Bewegungstempo, 60% schnellere Waffenwechsel, 45% weniger Entdeckungsreichweite, 75% mehr Nahkampfschaden und halbierte Teleport-Abklingzeiten."
+
+#: scripts/character_classes.gd
+msgid "After 3 seconds without attacking or taking damage, the next attack deals 150% more damage with 80% less spread. Also works with melee and every shotgun pellet."
+msgstr "Nach 3 Sekunden ohne Angriff oder erlittenen Schaden verursacht der nächste Angriff 150% mehr Schaden bei 80% weniger Streuung. Gilt auch für Nahkampf und jedes Schrotpellet."
+
+#: scripts/character_hud.gd
+msgid "+%d XP · %s"
+msgstr "+%d XP · %s"
+
+#: scripts/character_hud.gd
+msgid "LEVEL UP\n%s · LEVEL %d"
+msgstr "LEVELAUFSTIEG\n%s · LEVEL %d"
+
+#: scripts/character_hud.gd
+msgid "New talent available in the main menu."
+msgstr "Neues Talent im Hauptmenü verfügbar."
+
+#: scripts/character_hud.gd
+msgid "%s · LVL %d · %d%%"
+msgstr "%s · LVL %d · %d%%"
+
+#: scripts/character_hud.gd
+msgid "Teleport: %.1f s"
+msgstr "Teleport: %.1f s"
+
+#: scripts/character_hud.gd
+msgid "V / Teleport: Map"
+msgstr "V / Teleport: Karte"
+
+#: scripts/character_hud.gd
+msgid "V / Teleport: Forward"
+msgstr "V / Teleport: Vorwärts"
+
+#: scripts/character_menu.gd
+msgid "Class level"
+msgstr "Klassenlevel"
+
+#: scripts/character_menu.gd
+msgid "%s / %s XP"
+msgstr "%s / %s XP"
+
+#: scripts/character_menu.gd
+msgid "Maximum level"
+msgstr "Maximales Level"
+
+#: scripts/character_menu.gd
+msgid "%s XP to next level"
+msgstr "%s XP bis zum nächsten Level"
+
+#: scripts/character_menu.gd
+msgid "Survivor dossier"
+msgstr "Überlebendenakte"
+
+#: scripts/character_menu.gd
+msgid "Change class"
+msgstr "Klasse wechseln"
+
+#: scripts/character_menu.gd
+msgid "Choose your speciality"
+msgstr "Wähle deine Spezialisierung"
+
+#: scripts/character_menu.gd
+msgid "Class skills"
+msgstr "Klassen-Skills"
+
+#: scripts/character_menu.gd
+msgid "Shape your playstyle"
+msgstr "Gestalte deinen Spielstil"
+
+#: scripts/character_menu.gd
+msgid "Class progress"
+msgstr "Klassenfortschritt"
+
+#: scripts/character_menu.gd
+msgid "Your record in the field"
+msgstr "Deine Einsatzerfolge"
+
+#: scripts/character_menu.gd
+msgid "Profile · %s"
+msgstr "Profil · %s"
+
+#: scripts/character_menu.gd
+msgid "REMZ · Survivor dossier"
+msgstr "REMZ · Überlebendenakte"
+
+#: scripts/character_menu.gd
+msgid "Build your survivor"
+msgstr "Entwickle deinen Charakter"
+
+#: scripts/character_menu.gd
+msgid "Classes"
+msgstr "Klassen"
+
+#: scripts/character_menu.gd scripts/vendor_tutorial.gd
+msgid "Back"
+msgstr "Zurück"
+
+#: scripts/character_menu.gd
+msgid "One talent per tier. Change your choices freely in the main menu."
+msgstr "Ein Talent pro Stufe. Deine Auswahl lässt sich im Hauptmenü jederzeit ändern."
+
+#: scripts/character_menu.gd
+msgid "REMZ / 01"
+msgstr "REMZ / 01"
+
+#: scripts/character_menu.gd
+msgid "Class roster"
+msgstr "Klassenübersicht"
+
+#: scripts/character_menu.gd
+msgid "Selected class"
+msgstr "Ausgewählte Klasse"
+
+#: scripts/character_menu.gd
+msgid "Select class"
+msgstr "Klasse auswählen"
+
+#: scripts/character_menu.gd
+msgid "Discipline %02d"
+msgstr "Spezialisierung %02d"
+
+#: scripts/character_menu.gd
+msgid "Select %s"
+msgstr "%s auswählen"
+
+#: scripts/character_menu.gd
+msgid "Six talent tiers. Two choices at each milestone. Your build, your approach."
+msgstr "Sechs Talentstufen. Zwei Möglichkeiten an jedem Meilenstein. Dein Build, dein Spielstil."
+
+#: scripts/character_menu.gd
+msgid "Edit selected build"
+msgstr "Aktiven Build bearbeiten"
+
+#: scripts/character_menu.gd
+msgid "Class selected: %s"
+msgstr "Klasse ausgewählt: %s"
+
+#: scripts/character_menu.gd
+msgid "Class mastery: +%d%% weapon damage. +2%% per class level after level 1; applies to class weapons, or all weapons for Assassin."
+msgstr "Klassenmeisterschaft: +%d%% Waffenschaden. +2%% pro Klassenlevel nach Level 1; gilt für Klassenwaffen, beim Assassin für alle Waffen."
+
+#: scripts/character_menu.gd
+msgid "%d / 6 talents equipped"
+msgstr "%d / 6 Talente ausgerüstet"
+
+#: scripts/character_menu.gd
+msgid "LEVEL %d"
+msgstr "LEVEL %d"
+
+#: scripts/character_menu.gd scripts/planes_progression.gd scripts/progression.gd
+msgid "Locked"
+msgstr "Gesperrt"
+
+#: scripts/character_menu.gd
+msgid "Ready to choose"
+msgstr "Bereit zur Auswahl"
+
+#: scripts/character_menu.gd
+msgid "Talent equipped"
+msgstr "Talent ausgerüstet"
+
+#: scripts/character_menu.gd
+msgid "Equip %s"
+msgstr "%s ausrüsten"
+
+#: scripts/character_menu.gd scripts/coop_avatar.gd scripts/leaderboard.gd scripts/pings.gd
+msgid "%s"
+msgstr "%s"
+
+#: scripts/character_menu.gd
+msgid "TELEPORT / LEVEL 15"
+msgstr "TELEPORT / LEVEL 15"
+
+#: scripts/character_menu.gd
+msgid "Choose one teleport mode for the round. Your passive talents remain available."
+msgstr "Wähle eine Teleport-Variante für die Runde. Deine passiven Talente bleiben verfügbar."
+
+#: scripts/character_menu.gd
+msgid "Select"
+msgstr "Auswählen"
+
+#: scripts/character_menu.gd
+msgid "Teleport mode equipped. Press V during the round."
+msgstr "Teleport-Variante gewählt. Drücke V während der Runde."
+
+#: scripts/character_menu.gd
+msgid "Requires %s level %d. You are level %d.\nEarn %s more class XP to unlock this tier."
+msgstr "Benötigt %s auf Level %d. Du bist auf Level %d.\nDir fehlen noch %s Klassen-XP bis zu dieser Talentstufe."
+
+#: scripts/character_menu.gd
+msgid "Talent equipped: %s"
+msgstr "Talent ausgerüstet: %s"
+
+#: scripts/character_menu.gd
+msgid "Lifetime class statistics"
+msgstr "Dauerhafte Klassenstatistik"
+
+#: scripts/character_menu.gd scripts/hud.gd
+msgid "Kills"
+msgstr "Abschüsse"
+
+#: scripts/character_menu.gd scripts/hud.gd
+msgid "Headshots"
+msgstr "Kopfschüsse"
+
+#: scripts/character_menu.gd scripts/hud.gd
+msgid "Play time"
+msgstr "Spielzeit"
+
+#: scripts/character_menu.gd
+msgid "%dh %dm"
+msgstr "%dh %dm"
+
+#: scripts/character_menu.gd
+msgid "Best kill streak"
+msgstr "Höchste Killserie"
+
+#: scripts/character_menu.gd
+msgid "Completed missions"
+msgstr "Abgeschlossene Missionen"
+
+#: scripts/character_menu.gd
+msgid "Boss kills"
+msgstr "Bosskills"
+
+#: scripts/character_menu.gd
+msgid "Waves survived"
+msgstr "Überstandene Wellen"
+
+#: scripts/character_menu.gd
+msgid "Deaths"
+msgstr "Tode"
+
+#: scripts/character_menu.gd
+msgid "Multiplayer: %s kills · %s missions"
+msgstr "Mehrspieler: %s Kills · %s Missionen"
+
+#: scripts/character_menu.gd
+msgid "NEXT UNLOCK · LEVEL %d\nA new passive talent tier"
+msgstr "NÄCHSTE FREISCHALTUNG · LEVEL %d\nEine neue passive Talentstufe"
+
+#: scripts/character_menu.gd
+msgid "All six talent tiers unlocked"
+msgstr "Alle sechs Talentstufen freigeschaltet"
+
+#: scripts/character_menu.gd
+msgid "Profile achievements"
+msgstr "Profil-Erfolge"
+
+#: scripts/character_menu.gd
+msgid "%s XP"
+msgstr "%s XP"
+
+#: scripts/character_menu.gd
+msgid "Profile: %d total kills · %d quests completed · %d achievements\nFavourite class: %s"
+msgstr "Profil: %d Kills insgesamt · %d abgeschlossene Quests · %d Erfolge\nBevorzugte Klasse: %s"
+
+#: scripts/character_menu.gd
+msgid "%d cosmetic unlocks"
+msgstr "%d kosmetische Freischaltungen"
+
+#: scripts/character_menu.gd
+msgid "Talent locked"
+msgstr "Talent gesperrt"
+
+#: scripts/character_menu.gd
+msgid "Earn XP through combat, quests and completed waves. Choosing a talent does not spend XP."
+msgstr "Verdiene XP durch Kämpfe, Aufträge und überstandene Wellen. Bei der Talentwahl werden keine XP ausgegeben."
+
+#: scripts/character_menu.gd
+msgid "Understood"
+msgstr "Verstanden"
+
+#: scripts/character_menu.gd
+msgid "Local character profile"
+msgstr "Lokales Charakterprofil"
+
+#: scripts/character_menu.gd
+msgid "New profile name"
+msgstr "Neuer Profilname"
+
+#: scripts/character_menu.gd
+msgid "Create profile"
+msgstr "Profil erstellen"
+
+#: scripts/character_profile.gd scripts/coop_avatar.gd scripts/coop_menu.gd scripts/coop_world.gd
+msgid "Player"
+msgstr "Spieler"
+
+#: scripts/character_profile.gd
+msgid "This profile needs a newer version of RemZ."
+msgstr "Dieses Profil benötigt eine neuere Version von RemZ."
+
+#: scripts/character_profile.gd
+msgid "The profile could not be read. The original files have been kept."
+msgstr "Das Profil konnte nicht gelesen werden. Die Originaldateien wurden beibehalten."
+
+#: scripts/character_profile.gd
+msgid "Achievement completed"
+msgstr "Erfolg freigeschaltet"
+
+#: scripts/character_profile.gd
+msgid "Quest completed"
+msgstr "Quest abgeschlossen"
+
+#: scripts/character_profile.gd
+msgid "Progress could not be saved. Check free space and write access to the profile folder."
+msgstr "Fortschritt konnte nicht gespeichert werden. Prüfe freien Speicherplatz und Schreibrechte für den Profilordner."
 
 #: scripts/cheat_menu.gd
 msgid "Field titan"
@@ -1007,7 +2019,7 @@ msgstr "Krankenschwester"
 msgid "Soldier"
 msgstr "Soldat"
 
-#: scripts/cheat_menu.gd
+#: scripts/cheat_menu.gd scripts/planes_hud.gd
 msgid "CHEAT MENU"
 msgstr "CHEATMENÜ"
 
@@ -1018,6 +2030,10 @@ msgstr "Alle Zombies sterben. Die nächste Welle startet sofort."
 #: scripts/cheat_menu.gd
 msgid "Skip wave"
 msgstr "Welle überspringen"
+
+#: scripts/cheat_menu.gd
+msgid "Skip intermission / secret quest"
+msgstr "Zwischenevent / Geheimquest überspringen"
 
 #: scripts/cheat_menu.gd
 msgid "Show the Secret Vendor on the minimap"
@@ -1179,9 +2195,49 @@ msgstr "Im Besitz · %d + %d Schuss · auffüllen"
 msgid "Unlock with %d + %d rounds"
 msgstr "Freischalten mit %d + %d Schuss"
 
-#: scripts/coop_avatar.gd scripts/coop_menu.gd scripts/coop_world.gd scripts/net_session.gd
-msgid "Player"
-msgstr "Spieler"
+#: scripts/class_combat.gd
+msgid "%s · READY"
+msgstr "%s · BEREIT"
+
+#: scripts/class_combat.gd
+msgid "%s · %.1f s"
+msgstr "%s · %.1f s"
+
+#: scripts/class_combat.gd
+msgid "%s · %d / 5"
+msgstr "%s · %d / 5"
+
+#: scripts/class_combat.gd
+msgid "%s · ACTIVE"
+msgstr "%s · AKTIV"
+
+#: scripts/class_combat.gd
+msgid "%s · x%d · %.1f s"
+msgstr "%s · x%d · %.1f s"
+
+#: scripts/class_progression.gd
+msgid "Boss kill"
+msgstr "Bosskill"
+
+#: scripts/class_progression.gd
+msgid "Elite kill"
+msgstr "Elite-Kill"
+
+#: scripts/class_progression.gd
+msgid "Zombie kill"
+msgstr "Zombie-Kill"
+
+#: scripts/class_progression.gd
+msgid "Wave survived"
+msgstr "Welle überstanden"
+
+#: scripts/class_progression.gd
+msgid "Mission completed"
+msgstr "Mission abgeschlossen"
+
+#: scripts/class_progression.gd
+msgid "Team objective completed"
+msgstr "Teamziel abgeschlossen"
 
 #: scripts/coop_avatar.gd
 msgid "%s\nRevive [E]"
@@ -1194,6 +2250,18 @@ msgstr "KOOP · 1 BIS 4 SPIELER"
 #: scripts/coop_menu.gd
 msgid "Your name"
 msgstr "Dein Name"
+
+#: scripts/coop_menu.gd
+msgid "%s · Lv %d"
+msgstr "%s · Lv %d"
+
+#: scripts/coop_menu.gd
+msgid "Lock in class"
+msgstr "Klasse bestätigen"
+
+#: scripts/coop_menu.gd
+msgid "Choose your class here. Skills can only be changed in the main menu. A locked class stays fixed for the match."
+msgstr "Wähle hier deine Klasse. Skills können nur im Hauptmenü geändert werden. Eine bestätigte Klasse bleibt für das Match festgelegt."
 
 #: scripts/coop_menu.gd
 msgid "Online lobby"
@@ -1210,10 +2278,6 @@ msgstr "Koop starten"
 #: scripts/coop_menu.gd
 msgid "Leave session"
 msgstr "Sitzung verlassen"
-
-#: scripts/coop_menu.gd
-msgid "Version: Co-op 2026.09.25-O"
-msgstr "Version: Koop 2026.09.25-O"
 
 #: scripts/coop_menu.gd
 msgid "Open logs"
@@ -1280,6 +2344,10 @@ msgid "Your IPv4 addresses: %s\nWindows Firewall: allow RemZ on the Hamachi / pr
 msgstr "Deine IPv4-Adressen: %s\nWindows-Firewall: RemZ für das Hamachi-/private Netzwerk zulassen. Host und Mitspieler müssen denselben Port und dieselbe Spielversion nutzen.\nKoop: kein Beschuss unter Freunden. Mit E wiederbeleben (3 s in der Nähe). Menüs halten die gemeinsame Welt nicht an."
 
 #: scripts/coop_menu.gd
+msgid "Class locked"
+msgstr "Klasse bestätigt"
+
+#: scripts/coop_menu.gd
 msgid "Copied!"
 msgstr "Kopiert!"
 
@@ -1291,25 +2359,29 @@ msgstr "Die Karte wird vorbereitet …"
 msgid "Return to the main menu first to host or join a game."
 msgstr "Zum Erstellen oder Beitreten zuerst ins Hauptmenü zurückkehren."
 
-#: scripts/coop_menu.gd scripts/online_lobby.gd scripts/progression.gd scripts/quest_notifications.gd
-msgid "ready"
-msgstr "bereit"
-
-#: scripts/coop_menu.gd
-msgid "loading …"
-msgstr "lädt …"
-
-#: scripts/coop_menu.gd
-msgid "Players: %d / 4\n%s"
-msgstr "Spieler: %d / 4\n%s"
-
 #: scripts/coop_menu.gd
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: scripts/coop_menu.gd scripts/coop_world.gd
+#: scripts/coop_menu.gd scripts/coop_world.gd scripts/planes_coop_world.gd
 msgid "Waiting for host"
 msgstr "Warte auf Host"
+
+#: scripts/coop_menu.gd
+msgid "Players: %d / 4"
+msgstr "Spieler: %d / 4"
+
+#: scripts/coop_menu.gd
+msgid "%s · %s · Level %d"
+msgstr "%s · %s · Stufe %d"
+
+#: scripts/coop_menu.gd
+msgid "Choose class"
+msgstr "Klasse wählen"
+
+#: scripts/coop_revive_prompt.gd
+msgid "Hold E · Revive %s"
+msgstr "E halten · %s wiederbeleben"
 
 #: scripts/coop_world.gd
 msgid "%s put %d R into the gate fund (%d R)"
@@ -1331,11 +2403,23 @@ msgstr "+%d R aufgenommen"
 msgid "Supplies picked up"
 msgstr "Vorrat aufgenommen"
 
+#: scripts/coop_world.gd scripts/main.gd scripts/map_selection.gd scripts/planes.gd
+msgid "REGION SECURED"
+msgstr "GEBIET GESICHERT"
+
+#: scripts/coop_world.gd scripts/main.gd
+msgid "Forest secured. All 25 rounds survived. Your victory is saved on the campaign map."
+msgstr "Forest gesichert. Alle 25 Runden überstanden. Dein Sieg ist auf der Kampagnenkarte gespeichert."
+
+#: scripts/coop_world.gd scripts/main.gd scripts/planes_hud.gd
+msgid "Map selection"
+msgstr "Kartenauswahl"
+
 #: scripts/coop_world.gd scripts/main.gd
 msgid "HUT LOST"
 msgstr "HÜTTE VERLOREN"
 
-#: scripts/coop_world.gd
+#: scripts/coop_world.gd scripts/planes_coop_world.gd
 msgid "TEAM DOWN"
 msgstr "TEAM AUSGESCHIEDEN"
 
@@ -1347,7 +2431,7 @@ msgstr "Die Waldhütte ist zerstört. Der Host kann eine neue Runde starten."
 msgid "All players are down. The host can start a new round."
 msgstr "Alle Spieler sind ausgeschieden. Der Host kann eine neue Runde starten."
 
-#: scripts/coop_world.gd
+#: scripts/coop_world.gd scripts/planes_coop_world.gd
 msgid "New round"
 msgstr "Neue Runde"
 
@@ -1366,6 +2450,10 @@ msgstr "Wiederbelebt!"
 #: scripts/coop_world.gd scripts/hud.gd scripts/main.gd scripts/pings.gd
 msgid "down"
 msgstr "am Boden"
+
+#: scripts/coop_world.gd scripts/hud.gd scripts/item_icons.gd scripts/minimap.gd
+msgid "sandbags"
+msgstr "Sandsäcke"
 
 #: scripts/coop_world.gd scripts/main.gd
 msgid "YOU ARE DOWN - hold E to get back up"
@@ -1387,7 +2475,7 @@ msgstr "Sandsacklinie hinter %s errichtet - zurückfallen und halten!"
 msgid "Reach the Hut Path"
 msgstr "Erreiche den Weg zur Hütte"
 
-#: scripts/coop_world.gd scripts/waves.gd
+#: scripts/coop_world.gd scripts/planes_waves.gd scripts/waves.gd
 msgid "%d left"
 msgstr "%d übrig"
 
@@ -1395,7 +2483,7 @@ msgstr "%d übrig"
 msgid "Starts in %d s · the host starts the next wave"
 msgstr "Start in %d s · Host startet die nächste Welle"
 
-#: scripts/coop_world.gd scripts/hud.gd scripts/waves.gd
+#: scripts/coop_world.gd scripts/hud.gd scripts/planes_waves.gd scripts/waves.gd
 msgid "Wave %d"
 msgstr "Welle %d"
 
@@ -1527,7 +2615,7 @@ msgstr "Maximal 40 Türme im Team."
 msgid "%s: %d Rem Dollars needed."
 msgstr "%s: %d Rem Dollars benötigt."
 
-#: scripts/defence_system.gd
+#: scripts/defence_system.gd scripts/planes_building.gd
 msgid "Maximum tier reached."
 msgstr "Maximale Stufe erreicht."
 
@@ -1535,7 +2623,7 @@ msgstr "Maximale Stufe erreicht."
 msgid "The tower is being operated right now."
 msgstr "Der Turm wird gerade bedient."
 
-#: scripts/defence_system.gd scripts/progression.gd scripts/skills.gd
+#: scripts/defence_system.gd scripts/planes_building.gd scripts/planes_progression.gd scripts/progression.gd
 msgid "Not enough Rem Dollars."
 msgstr "Zu wenig Rem Dollars."
 
@@ -1595,7 +2683,7 @@ msgstr "Abstand zum Gebäude halten."
 msgid "No tower can stand at the pond."
 msgstr "Am Teich kann kein Turm stehen."
 
-#: scripts/defence_system.gd
+#: scripts/defence_system.gd scripts/planes_building.gd
 msgid "Ground too steep."
 msgstr "Boden zu steil."
 
@@ -1611,7 +2699,7 @@ msgstr "Barrikadenlinie freihalten."
 msgid "Don't build where you are standing."
 msgstr "Nicht auf deinem Standort bauen."
 
-#: scripts/defence_system.gd
+#: scripts/defence_system.gd scripts/planes_building.gd
 msgid "Building site occupied."
 msgstr "Bauplatz belegt."
 
@@ -1623,6 +2711,10 @@ msgstr "Keine freie Sicht zum Bauplatz."
 msgid "Only the host confirms construction."
 msgstr "Nur der Host bestätigt Bauten."
 
+#: scripts/defence_system.gd
+msgid "Invalid orientation."
+msgstr "Ungültige Ausrichtung."
+
 #: scripts/defence_system.gd scripts/tower_planner.gd
 msgid "Tower not found."
 msgstr "Turm nicht vorhanden."
@@ -1630,10 +2722,6 @@ msgstr "Turm nicht vorhanden."
 #: scripts/defence_system.gd
 msgid "Roof turrets stay on their slot."
 msgstr "Dachgeschütze bleiben auf ihrem Platz."
-
-#: scripts/defence_system.gd
-msgid "Invalid orientation."
-msgstr "Ungültige Ausrichtung."
 
 #: scripts/defence_system.gd
 msgid "The tower no longer exists."
@@ -1736,6 +2824,10 @@ msgid "%s · %d R"
 msgstr "%s · %d R"
 
 #: scripts/defence_system.gd
+msgid "MOVE %s · free"
+msgstr "%s VERSETZEN · kostenlos"
+
+#: scripts/defence_system.gd
 msgid "Max. %d m · bright sector: automatic (160°)\nManual: full circle · obstacles block"
 msgstr "Max. %d m · heller Sektor: Automatik (160°)\nManuell: ganzer Kreis · Hindernisse blockieren"
 
@@ -1776,8 +2868,8 @@ msgid "Mortar"
 msgstr "Mörser"
 
 #: scripts/defence_tower.gd
-msgid "Arcing shot · 6 m blast radius"
-msgstr "Bogenschuss · 6 m Explosionsradius"
+msgid "Arcing shot · 12 m blast radius"
+msgstr "Steilfeuer · 12 m Explosionsradius"
 
 #: scripts/defence_tower.gd
 msgid "Heavy MG"
@@ -1946,6 +3038,70 @@ msgstr "TITANEN"
 #: scripts/encounter_balance.gd scripts/waves.gd
 msgid "HORDE"
 msgstr "HORDE"
+
+#: scripts/field_trials.gd
+msgid "THE QUIET GROVE"
+msgstr "DER STILLE HAIN"
+
+#: scripts/field_trials.gd
+msgid "ROOT MEMORY"
+msgstr "DAS GEDÄCHTNIS DER WURZELN"
+
+#: scripts/field_trials.gd
+msgid "DAWN OF THE TITANS\nHold the field together. Defeat every boss to break the seal."
+msgstr "MORGENDÄMMERUNG DER TITANEN\nHaltet gemeinsam das Feld. Besiegt alle Bosse, um das Siegel zu brechen."
+
+#: scripts/field_trials.gd
+msgid "DAWN OF THE TITANS · BEFORE WAVE %d\n%s"
+msgstr "MORGENDÄMMERUNG DER TITANEN · VOR WELLE %d\n%s"
+
+#: scripts/field_trials.gd
+msgid "Arriving in %d s · Stay inside the amber boundary"
+msgstr "Ankunft in %d s · Bleibt innerhalb der goldenen Grenze"
+
+#: scripts/field_trials.gd
+msgid "%d bosses remain · The field is sealed"
+msgstr "Noch %d Bosse · Das Feld ist versiegelt"
+
+#: scripts/field_trials.gd
+msgid "FIELD TRIAL"
+msgstr "FELDKAMPF"
+
+#: scripts/field_trials.gd
+msgid "Offer 3 × %s at the stone. [E]"
+msgstr "Opfert 3 × %s am Stein. [E]"
+
+#: scripts/field_trials.gd
+msgid "Defend the grove · %d enemies remain"
+msgstr "Verteidigt den Hain · Noch %d Gegner"
+
+#: scripts/field_trials.gd
+msgid "Return to the stone and claim the forest's gift. [E]"
+msgstr "Kehrt zum Stein zurück und holt das Geschenk des Waldes. [E]"
+
+#: scripts/field_trials.gd
+msgid "TRIAL COMPLETE · +%d R per player\nThe path is open. Prepare for the next wave."
+msgstr "PRÜFUNG BESTANDEN · +%d R pro Spieler\nDer Weg ist frei. Bereitet euch auf die nächste Welle vor."
+
+#: scripts/field_trials.gd
+msgid "[E] Offer flowers to the grove"
+msgstr "[E] Dem Hain Blumen opfern"
+
+#: scripts/field_trials.gd
+msgid "[E] Claim the forest's gift"
+msgstr "[E] Geschenk des Waldes holen"
+
+#: scripts/field_trials.gd
+msgid "[E] Read the hidden stone · %s"
+msgstr "[E] Den verborgenen Stein lesen · %s"
+
+#: scripts/field_trials.gd
+msgid "%s\nThe stone whispers: bring three flowers, then guard the roots."
+msgstr "%s\nDer Stein flüstert: Bringt drei Blumen und beschützt dann die Wurzeln."
+
+#: scripts/field_trials.gd scripts/fireworks.gd scripts/rare_market.gd scripts/secret_night.gd
+msgid "active"
+msgstr "aktiv"
 
 #: scripts/fireworks.gd
 msgid "Star Festival · Battery"
@@ -2144,8 +3300,8 @@ msgid "WHEEL OF FORTUNE"
 msgstr "GLÜCKSRAD"
 
 #: scripts/fortune_wheels.gd
-msgid "%d R PER SPIN · WEAPONS · MUSHROOMS · AMMO"
-msgstr "%d R PRO DREH · WAFFEN · PILZE · MUNITION"
+msgid "%d R · WEAPONS · PLANTS · POTIONS · CASH"
+msgstr "%d R · WAFFEN · PFLANZEN · TRÄNKE · GELD"
 
 #: scripts/fortune_wheels.gd
 msgid "The wheel is turning …"
@@ -2156,8 +3312,8 @@ msgid "Wheel of fortune · %d R per spin · not enough Rem Dollars"
 msgstr "Glücksrad · %d R pro Dreh · zu wenig Rem Dollar"
 
 #: scripts/fortune_wheels.gd
-msgid "[E] Spin the wheel of fortune · %d R\nWeapons, mushrooms, ammo and Rem Dollars"
-msgstr "[E] Glücksrad drehen · %d R\nWaffen, Pilze, Munition und Rem Dollar"
+msgid "[E] Spin the wheel of fortune · %d R\nWeapons, plants, potions, ammo and up to 1000 Rem Dollars"
+msgstr "[E] Glücksrad drehen · %d R\nWaffen, Pflanzen, Tränke, Munition und bis zu 1000 Rem Dollars"
 
 #: scripts/fortune_wheels.gd
 msgid "The host spins the wheel."
@@ -2184,12 +3340,20 @@ msgid "Not enough Rem Dollars: %d R per spin."
 msgstr "Zu wenig Rem Dollar: %d R pro Dreh."
 
 #: scripts/fortune_wheels.gd
-msgid "Nothing this time. The wheel creaks to a halt."
-msgstr "Diesmal nichts. Das Rad knarrt und steht still."
+msgid "Won: 3 × %s · it is in your inventory."
+msgstr "Gewonnen: 3 × %s · im Inventar."
+
+#: scripts/fortune_wheels.gd
+msgid "Potion bag full"
+msgstr "Trankvorrat voll"
 
 #: scripts/fortune_wheels.gd
 msgid "Won: %s · it is in your inventory."
 msgstr "Gewonnen: %s · liegt in deinem Inventar."
+
+#: scripts/fortune_wheels.gd
+msgid "Nothing this time. The wheel creaks to a halt."
+msgstr "Diesmal nichts. Das Rad knarrt und steht still."
 
 #: scripts/fortune_wheels.gd
 msgid "All ammo pouches are full"
@@ -2264,16 +3428,16 @@ msgid "Easy"
 msgstr "Leicht"
 
 #: scripts/game_settings.gd
-msgid "For getting to know the hut: weaker zombies, smaller waves, plenty of supplies."
-msgstr "Zum Kennenlernen der Hütte: schwächere Zombies, kleinere Wellen, viele Vorräte."
+msgid "Learn the survival basics: weaker zombies, smaller waves, plenty of supplies."
+msgstr "Lerne die Survival-Grundlagen: schwächere Zombies, kleinere Wellen, reichlich Vorräte."
 
 #: scripts/game_settings.gd
 msgid "Normal"
 msgstr "Normal"
 
 #: scripts/game_settings.gd
-msgid "The night on the Heitersberg: hordes that grow tougher every wave, no mercy at the gates."
-msgstr "Die Nacht auf dem Heitersberg: Horden, die mit jeder Welle zäher werden, keine Gnade an den Toren."
+msgid "The standard survival challenge: stronger hordes with every wave. Plan your supplies and defenses."
+msgstr "Die normale Survival-Herausforderung: Mit jeder Welle werden die Horden stärker. Plane Vorräte und Verteidigung."
 
 #: scripts/game_settings.gd
 msgid "Hard"
@@ -2340,6 +3504,10 @@ msgid "Quit game"
 msgstr "Spiel beenden"
 
 #: scripts/hud.gd
+msgid "REMZ is a zombie survival game for solo players and co-op teams. Choose an available region on the campaign map, select your class and talents, and survive 25 waves to secure the region. Explore, complete quests, collect supplies and improve your equipment between attacks. Learn each map's routes and defend its objectives. Your campaign victories and class progress carry over to future rounds."
+msgstr "REMZ ist ein Zombie-Survival-Spiel für Einzelspieler und Koop-Teams. Wähle eine verfügbare Region auf der Kampagnenkarte, lege deine Klasse und Talente fest und überlebe 25 Wellen, um die Region zu sichern. Erkunde die Umgebung, erfülle Aufträge, sammle Vorräte und verbessere zwischen den Angriffen deine Ausrüstung. Lerne die Wege jeder Map kennen und verteidige ihre Ziele. Kampagnensiege und Klassenfortschritt bleiben für kommende Runden erhalten."
+
+#: scripts/hud.gd
 msgid "Play time %s"
 msgstr "Spielzeit %s"
 
@@ -2355,7 +3523,7 @@ msgstr "Leben"
 msgid "Pistol"
 msgstr "Pistole"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_progression.gd
 msgid "Ready"
 msgstr "Bereit"
 
@@ -2374,6 +3542,10 @@ msgstr "%d× · Spielzeit"
 #: scripts/hud.gd
 msgid "SPOTTED - the horde knows where you are!"
 msgstr "ENTDECKT - die Horde weiss, wo du bist!"
+
+#: scripts/hud.gd scripts/main.gd
+msgid "REMZ"
+msgstr "REMZ"
 
 #: scripts/hud.gd scripts/main.gd
 msgid "Start game"
@@ -2403,7 +3575,7 @@ msgstr "Bestenliste"
 msgid "Achievements"
 msgstr "Erfolge"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Multiplayer"
 msgstr "Mehrspieler"
 
@@ -2412,20 +3584,28 @@ msgid "BRIEFING"
 msgstr "BRIEFING"
 
 #: scripts/hud.gd
-msgid "Changes apply immediately and are saved."
-msgstr "Änderungen werden sofort übernommen und gespeichert."
-
-#: scripts/hud.gd
 msgid "Back to main menu"
 msgstr "Zurück ins Hauptmenü"
+
+#: scripts/hud.gd scripts/planes_hud.gd
+msgid "Esc"
+msgstr "Esc"
+
+#: scripts/hud.gd
+msgid "Changes apply immediately and are saved."
+msgstr "Änderungen werden sofort übernommen und gespeichert."
 
 #: scripts/hud.gd
 msgid "HOW TO SURVIVE"
 msgstr "SO ÜBERLEBST DU"
 
 #: scripts/hud.gd
-msgid "Four approaches lead to the hut: the Hut Path (north-east), the Meadow Gate (east), the Village Path (south) and the North Forest Path. E builds or repairs right at the line; building costs 50 Rem Dollars. Mechanic advises you on defense."
-msgstr "Vier Zugänge führen zur Hütte: Weg zur Hütte (Nordost), Wiesentor (Ost), Weg Richtung Dorf (Süd) und Waldweg Nord. E baut oder repariert direkt an der Linie; Bauen kostet 50 Rem Dollars. Mechanic berät dich zur Verteidigung."
+msgid "Start game opens the campaign map. Choose an available region; regions marked under construction cannot be entered yet. Survive all 25 waves to save a victory for that region."
+msgstr "Spiel starten öffnet die Kampagnenkarte. Wähle eine verfügbare Region; als im Bau markierte Regionen sind noch nicht spielbar. Überlebe alle 25 Wellen, um einen Sieg für diese Region zu speichern."
+
+#: scripts/hud.gd
+msgid "Choose your class and talents in the main menu. Classes gain XP across rounds and unlock new talents. The Assassin can choose a teleport mode from level 15 and activate it with V."
+msgstr "Wähle deine Klasse und Talente im Hauptmenü. Klassen sammeln über mehrere Runden XP und schalten neue Talente frei. Der Assassin kann ab Level 15 eine Teleport-Variante wählen und mit V aktivieren."
 
 #: scripts/hud.gd
 msgid "Headshots deal 2.2 times the damage. Kills in quick succession build a streak worth up to 100% bonus points."
@@ -2436,66 +3616,74 @@ msgid "Fallen zombies drop ammo, grenades and bandage packs. Just walk through t
 msgstr "Gefallene Zombies lassen Munition, Granaten und Verbandspäckli fallen. Einfach hindurchlaufen."
 
 #: scripts/hud.gd
-msgid "Vendor sells weapons at the campfire. Complete quests and survive waves to unlock his stock. A secret trader waits in the forest."
-msgstr "Vendor verkauft Waffen am Lagerfeuer. Erfülle Aufträge und überstehe Wellen, um sein Angebot freizuschalten. Ein geheimer Händler wartet im Wald."
+msgid "Explore the map and visit traders for weapons, supplies and upgrades. Complete quests and survive waves to unlock more equipment. Q shows your quests; I opens your inventory."
+msgstr "Erkunde die Map und besuche Händler für Waffen, Vorräte und Verbesserungen. Erfülle Aufträge und überlebe Wellen, um weitere Ausrüstung freizuschalten. Q zeigt deine Aufträge; I öffnet dein Inventar."
 
 #: scripts/hud.gd
-msgid "Porcini heal, fly agarics briefly double your damage. Eat both from the inventory (I)."
-msgstr "Steinpilze heilen, Fliegenpilze verdoppeln kurz den Schaden. Beides im Inventar (I) essen."
+msgid "Use the breaks between waves to reload, heal and improve your defenses. E interacts with traders and builds or repairs barricades. T previews a turret; E confirms its placement."
+msgstr "Nutze die Pausen zwischen den Wellen zum Nachladen, Heilen und Verstärken deiner Verteidigung. E spricht Händler an und baut oder repariert Barrikaden. T zeigt die Turmvorschau; E bestätigt die Platzierung."
 
 #: scripts/hud.gd
-msgid "T opens the tower preview. R/mouse wheel rotates, E confirms. At a tower: E mounts it, R re-aims it, F repairs it. Upgrades at Mechanic. Q shows your quests. Hold Tab for the leaderboard."
-msgstr "T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm: E steigt auf, R richtet neu aus, F repariert. Ausbau bei Mechanic. Q zeigt deine Aufträge. Halte Tab für das Leaderboard."
+msgid "Follow the objectives and warnings for your current map. Protect any defense objective: losing it can end the round even if you are still alive."
+msgstr "Beachte die Ziele und Warnungen deiner aktuellen Map. Schütze die Verteidigungsziele: Ihr Verlust kann die Runde beenden, auch wenn du noch lebst."
 
 #: scripts/hud.gd
+msgid "In co-op, share supplies, mark threats with X or the middle mouse button, and revive downed teammates with E. Menus do not pause a co-op round."
+msgstr "Teilt im Koop eure Vorräte, markiert Gefahren mit X oder der mittleren Maustaste und belebt gefallene Mitspieler mit E wieder. Menüs halten eine Koop-Runde nicht an."
+
+#: scripts/hud.gd
+msgid "V: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round."
+msgstr "V: Assassin-Teleport (Level 15). Wähle vor der Runde unter Klassen-Skills Vorwärts oder Karte."
+
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Move"
 msgstr "Bewegen"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Mouse"
 msgstr "Maus"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Look around"
 msgstr "Umsehen"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Shift"
 msgstr "Shift"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Sprint"
 msgstr "Sprinten"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Hold Ctrl"
 msgstr "Strg halten"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Crouch / aim more precisely"
 msgstr "Ducken / genauer zielen"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Space"
 msgstr "Leertaste"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Jump"
 msgstr "Springen"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Left click"
 msgstr "Linksklick"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Shoot / strike"
 msgstr "Schiessen / Zuschlagen"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Right click"
 msgstr "Rechtsklick"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Aim (ADS)"
 msgstr "Zielen (ADS)"
 
@@ -2507,27 +3695,23 @@ msgstr "Nachladen / Turm ausrichten"
 msgid "Quick bar: slots 1–10"
 msgstr "Schnellzugriff: Plätze 1–10"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Mouse wheel"
 msgstr "Mausrad"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Switch weapon"
 msgstr "Waffe wechseln"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Throw grenade"
 msgstr "Granate werfen"
-
-#: scripts/hud.gd
-msgid "NPC / barricade / mount tower / repair hut"
-msgstr "NPC / Barrikade / Turm besteigen / Hütte reparieren"
 
 #: scripts/hud.gd
 msgid "Defense planning with Mechanic"
 msgstr "Verteidigungsberatung bei Mechanic"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Inventory"
 msgstr "Inventar"
 
@@ -2536,16 +3720,20 @@ msgid "Drop 100 Rem Dollars"
 msgstr "100 Rem Dollars abwerfen"
 
 #: scripts/hud.gd
-msgid "Build turret · at the hut also on the roof · E confirms"
-msgstr "Turm bauen · an der Hütte auch aufs Dach · E bestätigt"
-
-#: scripts/hud.gd
 msgid "E · drone station"
 msgstr "E · Drohnenstation"
 
 #: scripts/hud.gd
-msgid "Fly a drone (hut, upper floor) · RMB rocket · R self-destruct · Esc recall"
-msgstr "Drohne fliegen (Hütte, Obergeschoss) · RMT Rakete · R Selbstzerstörung · Esc zurückrufen"
+msgid "Interact / build / repair / mount turret"
+msgstr "Interagieren / bauen / reparieren / Turm besteigen"
+
+#: scripts/hud.gd
+msgid "Preview turret · E confirms placement"
+msgstr "Turmvorschau · E bestätigt die Platzierung"
+
+#: scripts/hud.gd
+msgid "Fly a drone · RMB rocket · R self-destruct · Esc recall"
+msgstr "Drohne fliegen · Rechtsklick Rakete · R Selbstzerstörung · Esc zurückrufen"
 
 #: scripts/hud.gd
 msgid "Hold Tab"
@@ -2559,35 +3747,31 @@ msgstr "Leaderboard dieser Runde"
 msgid "Quest tracker on/off"
 msgstr "Auftragsanzeige ein/aus"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Minimap large / small"
 msgstr "Minimap gross / klein"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Flashlight"
 msgstr "Taschenlampe"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Melee / rifle butt"
 msgstr "Nahkampf / Kolbenschlag"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Enter"
 msgstr "Enter"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Next wave now"
 msgstr "Nächste Welle sofort"
 
-#: scripts/hud.gd
-msgid "Esc"
-msgstr "Esc"
-
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Pause / menu"
 msgstr "Pause / Menü"
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "Fullscreen"
 msgstr "Vollbild"
 
@@ -2596,16 +3780,16 @@ msgid "X / middle mouse"
 msgstr "X / mittlere Maustaste"
 
 #: scripts/hud.gd
-msgid "Callout: ping what you look at (gate, hut, enemy, spot)"
-msgstr "Funkspruch: markiert, was du anschaust (Tor, Hütte, Gegner, Stelle)"
-
-#: scripts/hud.gd
 msgid "Hold E (down)"
 msgstr "E halten (am Boden)"
 
 #: scripts/hud.gd
 msgid "Get back up once per wave · teammates revive with E"
 msgstr "Einmal pro Welle wieder aufstehen · Teamkollegen beleben mit E wieder"
+
+#: scripts/hud.gd
+msgid "Callout: mark an enemy, defense or location"
+msgstr "Markieren: Gegner, Verteidigung oder Position"
 
 #: scripts/hud.gd
 msgid "TIPS"
@@ -2668,10 +3852,6 @@ msgid "Wave"
 msgstr "Welle"
 
 #: scripts/hud.gd
-msgid "Kills"
-msgstr "Abschüsse"
-
-#: scripts/hud.gd
 msgid "Heads"
 msgstr "Kopf"
 
@@ -2687,7 +3867,7 @@ msgstr "Zeit"
 msgid "Mode · Date"
 msgstr "Modus · Datum"
 
-#: scripts/hud.gd scripts/progression.gd scripts/tower_planner.gd
+#: scripts/hud.gd scripts/planes_progression.gd scripts/progression.gd scripts/tower_planner.gd
 msgid "%s · %s"
 msgstr "%s · %s"
 
@@ -2698,6 +3878,10 @@ msgstr "Keine Erfolge verfügbar."
 #: scripts/hud.gd
 msgid "%s unlocked. Achievements stay saved; progress and rewards count per round. In multiplayer you reach the goals together as a team."
 msgstr "%s freigeschaltet. Erfolge bleiben gespeichert; Fortschritt und Belohnungen zählen pro Runde. Im Mehrspieler erreicht ihr die Ziele gemeinsam als Team."
+
+#: scripts/hud.gd
+msgid "Rem Dollars and supplies are awarded per round. Class XP for each achievement is awarded only once per character profile."
+msgstr "Rem Dollars und Vorräte werden pro Runde vergeben. Klassen-XP für jeden Erfolg gibt es nur einmal pro Charakterprofil."
 
 #: scripts/hud.gd
 msgid "%s · Round: %d/%d"
@@ -2720,10 +3904,6 @@ msgid "Rank %d in the high scores"
 msgstr "Platz %d in der Bestenliste"
 
 #: scripts/hud.gd
-msgid "Headshots"
-msgstr "Kopfschüsse"
-
-#: scripts/hud.gd
 msgid "Accuracy"
 msgstr "Treffgenauigkeit"
 
@@ -2743,15 +3923,11 @@ msgstr "Granaten"
 msgid "Barricades built"
 msgstr "Barrikaden gebaut"
 
-#: scripts/hud.gd
-msgid "Play time"
-msgstr "Spielzeit"
-
-#: scripts/hud.gd scripts/main.gd
+#: scripts/hud.gd scripts/main.gd scripts/planes.gd
 msgid "PAUSED"
 msgstr "PAUSE"
 
-#: scripts/hud.gd scripts/main.gd
+#: scripts/hud.gd scripts/main.gd scripts/planes.gd
 msgid "YOU DIED"
 msgstr "GESTORBEN"
 
@@ -2794,6 +3970,10 @@ msgstr "ein Teamkollege kann dich mit E wiederbeleben"
 #: scripts/hud.gd
 msgid "Watching %s  ·  LMB / RMB: next teammate"
 msgstr "Du siehst %s zu  ·  LMT / RMT: nächster Mitspieler"
+
+#: scripts/hud.gd
+msgid "Round %d / %d"
+msgstr "Runde %d / %d"
 
 #: scripts/hud.gd
 msgid "HUT %d / %d"
@@ -2920,12 +4100,16 @@ msgid "AVAILABLE ACTIONS"
 msgstr "VERFÜGBARE AKTIONEN"
 
 #: scripts/intro.gd
-msgid "Find the forest hut.\nFollow the road and the direction arrow."
-msgstr "Finde die Waldhütte.\nFolge der Strasse und dem Richtungspfeil."
+msgid "Find the forest hut.\nFollow the gold marker along the road."
+msgstr "Finde die Waldhütte.\nFolge der goldenen Markierung entlang der Strasse."
 
 #: scripts/intro.gd
 msgid "They heard you.\nGet to the forest hut, hold the barricades!"
 msgstr "Sie haben dich gehört.\nZur Waldhütte, halte die Barrikaden!"
+
+#: scripts/intro.gd
+msgid "Path to the forest hut · %d m"
+msgstr "Weg zur Waldhütte · %d m"
 
 #: scripts/inventory.gd
 msgid "All"
@@ -3003,7 +4187,7 @@ msgstr "%s\n\nANWENDUNG\nAuswählen schliesst das Inventar. Linksklick: anzünde
 msgid "%d owned · Select"
 msgstr "%d Stück · Auswählen"
 
-#: scripts/inventory.gd
+#: scripts/inventory.gd scripts/planes_progression.gd
 msgid "Active"
 msgstr "Aktiv"
 
@@ -3148,12 +4332,24 @@ msgid "Not found yet"
 msgstr "Noch nicht gefunden"
 
 #: scripts/inventory.gd
+msgid "Opens the Schützenhaus. Look for the key on a stump in the woodland; new chances each night."
+msgstr "Öffnet das Schützenhaus. Suche den Schlüssel auf einem Baumstumpf im Wald; jede Nacht gibt es eine neue Chance."
+
+#: scripts/inventory.gd
+msgid "Key: Schützenhaus"
+msgstr "Schlüssel: Schützenhaus"
+
+#: scripts/inventory.gd
 msgid "No items."
 msgstr "Keine Gegenstände vorhanden."
 
 #: scripts/inventory.gd
 msgid "No items in the %s category."
 msgstr "Keine Gegenstände in der Kategorie %s."
+
+#: scripts/item_icons.gd scripts/planes_building.gd scripts/planes_progression.gd
+msgid "palisade"
+msgstr "Palisade"
 
 #: scripts/key_hint.gd
 msgid "KEY NEARBY"
@@ -3251,7 +4447,7 @@ msgstr "Munitionsreserve voll"
 msgid "Supplies: %d magazine(s) for %s"
 msgstr "Vorräte: %d Magazin(e) für %s"
 
-#: scripts/loot.gd
+#: scripts/loot.gd scripts/planes_progression.gd scripts/planes_range.gd
 msgid "[E] Collect %s"
 msgstr "[E] %s sammeln"
 
@@ -3270,10 +4466,6 @@ msgstr "Granaten voll"
 #: scripts/main.gd
 msgid "Between the lines, added by hand:\n\nThey say there is a shop that bears no name.\nIts goods are on no list. Its trader asks no questions.\nWhoever finds it understands why no one speaks of it."
 msgstr "Zwischen den Zeilen steht, von Hand ergänzt:\n\nMan sagt, es gebe einen Laden, der keinen Namen trägt.\nSeine Waren stehen auf keiner Liste. Sein Händler stellt keine Fragen.\nWer ihn findet, versteht, warum niemand von ihm spricht."
-
-#: scripts/main.gd
-msgid "The forest hut on the Heitersberg is the last safe place. You wake up down on the Sennhofstrasse and first have to make your way up to the hut. Build barricades at the four approaches to raise the palisade ring piece by piece. Then they come: from the Sennhofstrasse along the Hut Path, across the meadow to the Meadow Gate, along the Village Path and down the North Forest Path. Upgrade the barriers in the gates (E), hold them, survive the waves and get yourself onto the high scores. The zombies also go for the forest hut itself: if it falls, the round is lost. Repair it with E at its wall."
-msgstr "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein. Die Zombies gehen auch auf die Waldhütte selbst los: fällt sie, ist die Runde verloren. Repariere sie mit E an ihrer Wand."
 
 #: scripts/main.gd
 msgid "The key locations could not be prepared. Please restart."
@@ -3331,7 +4523,7 @@ msgstr "Koop läuft weiter. Dein Spieler bleibt in der Welt."
 msgid "Catch your breath. The zombies wait, the clock stands still."
 msgstr "Verschnaufpause. Die Zombies warten, die Uhr steht."
 
-#: scripts/main.gd scripts/vendor_tutorial.gd
+#: scripts/main.gd scripts/planes.gd scripts/vendor_tutorial.gd
 msgid "Continue"
 msgstr "Weiter"
 
@@ -3367,7 +4559,7 @@ msgstr "Du hast %d Welle überstanden mit %d Rem Dollars."
 msgid "You survived %d waves with %d Rem Dollars."
 msgstr "Du hast %d Wellen überstanden mit %d Rem Dollars."
 
-#: scripts/main.gd
+#: scripts/main.gd scripts/planes.gd
 msgid "Play again"
 msgstr "Nochmal"
 
@@ -3400,8 +4592,8 @@ msgid "[E] Read sign · A strange note"
 msgstr "[E] Schild lesen · Eine seltsame Notiz"
 
 #: scripts/main.gd
-msgid "[E] Revive %s · stay nearby for 3 seconds"
-msgstr "[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben"
+msgid "Hold E · Revive %s · 3 seconds"
+msgstr "E halten · %s wiederbeleben · 3 Sekunden"
 
 #: scripts/main.gd
 msgid "Tower occupied"
@@ -3447,6 +4639,82 @@ msgstr "Weg Richtung Dorf"
 msgid "North Forest Path"
 msgstr "Waldweg Nord"
 
+#: scripts/map_selection.gd
+msgid "‹  Back to main menu"
+msgstr "‹  Zurück zum Hauptmenü"
+
+#: scripts/map_selection.gd
+msgid "REMZ  /  CAMPAIGN"
+msgstr "REMZ  /  KAMPAGNE"
+
+#: scripts/map_selection.gd
+msgid "SELECT A REGION"
+msgstr "GEBIET WÄHLEN"
+
+#: scripts/map_selection.gd
+msgid "Select a region"
+msgstr "Gebiet auswählen"
+
+#: scripts/map_selection.gd
+msgid "Survival: 25 rounds. Exploration regions can be visited freely."
+msgstr "Survival: 25 Runden. Erkundungsgebiete sind frei begehbar."
+
+#: scripts/map_selection.gd
+msgid "%d / %d regions secured"
+msgstr "%d / %d Gebiete gesichert"
+
+#: scripts/map_selection.gd
+msgid "Best run: %d / %d rounds"
+msgstr "Beste Runde: %d / %d überstanden"
+
+#: scripts/map_selection.gd
+msgid "Under construction"
+msgstr "Under construction"
+
+#: scripts/map_selection.gd
+msgid "Explore the fields of Remetschwil."
+msgstr "Erkunde die Felder von Remetschwil."
+
+#: scripts/map_selection.gd
+msgid "Choose a region on the map or in the list."
+msgstr "Wähle ein Gebiet auf der Karte oder in der Liste."
+
+#: scripts/map_selection.gd
+msgid "UNDER CONSTRUCTION"
+msgstr "UNDER CONSTRUCTION"
+
+#: scripts/map_selection.gd
+msgid "AVAILABLE  /  25 ROUNDS"
+msgstr "VERFÜGBAR  /  25 RUNDEN"
+
+#: scripts/map_selection.gd
+msgid "Defend the forest hut. Survive all 25 rounds to secure Forest."
+msgstr "Verteidige die Waldhütte. Überstehe alle 25 Runden, um Forest zu sichern."
+
+#: scripts/map_selection.gd
+msgid "This region is under construction. It will join the campaign in a future update."
+msgstr "Dieses Gebiet wird noch gebaut. Es wird mit einem späteren Update Teil der Kampagne."
+
+#: scripts/map_selection.gd
+msgid "Enter Forest  →"
+msgstr "Forest betreten  →"
+
+#: scripts/map_selection.gd
+msgid "Replay Forest  →"
+msgstr "Forest erneut spielen  →"
+
+#: scripts/map_selection.gd
+msgid "SURVIVAL / 25 ROUNDS"
+msgstr "SURVIVAL / 25 WELLEN"
+
+#: scripts/map_selection.gd
+msgid "Survive 25 waves in the fields. Choose where to build your defences."
+msgstr "Überlebe 25 Wellen auf den Feldern. Wähle selbst, wo du deine Verteidigung aufbaust."
+
+#: scripts/map_selection.gd
+msgid "Enter The Planes  →"
+msgstr "The Planes starten  →"
+
 #: scripts/minimap.gd
 msgid "Hut"
 msgstr "Hütte"
@@ -3468,6 +4736,10 @@ msgid "Golden Bolete"
 msgstr "Goldröhrling"
 
 #: scripts/minimap.gd
+msgid "GROVE"
+msgstr "HAIN"
+
+#: scripts/minimap.gd
 msgid "HOMEWARD"
 msgstr "HEIMWEG"
 
@@ -3483,7 +4755,7 @@ msgstr "GOA"
 msgid "Extremely rare find to sell · 1000 Rem Dollars at the Vendor. Not for eating."
 msgstr "Extrem seltener Verkaufsfund · 1000 Rem Dollars beim Vendor. Nicht zum Essen."
 
-#: scripts/mushrooms.gd
+#: scripts/mushrooms.gd scripts/planes_progression.gd
 msgid "Porcini"
 msgstr "Steinpilz"
 
@@ -3776,6 +5048,10 @@ msgid "The online service is not reachable right now."
 msgstr "Der Online-Dienst ist gerade nicht erreichbar."
 
 #: scripts/net_session.gd
+msgid "Class confirmed. Waiting for the team."
+msgstr "Klasse bestätigt. Warte auf das Team."
+
+#: scripts/net_session.gd
 msgid "The host is still loading the map. Please try joining again in a moment."
 msgstr "Der Host lädt gerade die Karte. Bitte gleich noch einmal beitreten."
 
@@ -3786,6 +5062,10 @@ msgstr "Andere Spielversion oder Karte. Host und Mitspieler brauchen denselben R
 #: scripts/net_session.gd
 msgid "This session is full (4/4 players)."
 msgstr "Diese Sitzung ist voll (4/4 Spieler)."
+
+#: scripts/net_session.gd
+msgid "Select a valid character class before joining."
+msgstr "Wähle vor dem Beitritt eine gültige Charakterklasse."
 
 #: scripts/net_session.gd
 msgid "Connected · waiting for the host"
@@ -3802,6 +5082,10 @@ msgstr "Spielstand und Mitspieler werden vorbereitet …"
 #: scripts/net_session.gd
 msgid "Ready · waiting for the host"
 msgstr "Bereit · warte auf den Host"
+
+#: scripts/net_session.gd
+msgid "Every player must lock in a class before the match starts."
+msgstr "Alle Spieler müssen ihre Klasse vor dem Match bestätigen."
 
 #: scripts/net_session.gd
 msgid "A player is still loading."
@@ -3835,6 +5119,10 @@ msgstr "Die Online-Lobby ist in diesem Build nicht eingerichtet (keine EOS-Zugan
 msgid "The online sign-in is still running. Please wait a moment."
 msgstr "Die Online-Anmeldung läuft noch. Bitte einen Moment warten."
 
+#: scripts/online_lobby.gd scripts/progression.gd scripts/quest_notifications.gd
+msgid "ready"
+msgstr "bereit"
+
 #: scripts/online_lobby.gd
 msgid "The online service could not be started. Check your internet connection and try again."
 msgstr "Der Online-Dienst konnte nicht gestartet werden. Prüfe die Internetverbindung und versuche es erneut."
@@ -3846,6 +5134,10 @@ msgstr "Abgebrochen."
 #: scripts/online_lobby.gd
 msgid "The online service did not answer. Check your internet connection and try again."
 msgstr "Der Online-Dienst hat nicht geantwortet. Prüfe die Internetverbindung und versuche es erneut."
+
+#: scripts/online_lobby.gd
+msgid "%s %s"
+msgstr "%s %s"
 
 #: scripts/online_lobby.gd
 msgid "The online sign-in failed (%s). Try again in a moment."
@@ -3972,6 +5264,10 @@ msgid "Ammo: +%d %s"
 msgstr "Munition: +%d %s"
 
 #: scripts/pickup.gd
+msgid "%s found · select it in your inventory"
+msgstr "%s gefunden · im Inventar auswählen"
+
+#: scripts/pickup.gd
 msgid "+1 grenade"
 msgstr "+1 Granate"
 
@@ -4031,6 +5327,486 @@ msgstr "Titan im Anmarsch!"
 msgid "Blood moon! They are faster - kills count double."
 msgstr "Blutmond! Sie sind schneller - Abschüsse zählen doppelt."
 
+#: scripts/planes.gd scripts/progression.gd
+msgid "Zombies"
+msgstr "Zombies"
+
+#: scripts/planes.gd
+msgid "WASD Walk · Shift Sprint · Space Jump · Ctrl Crouch · M Map · Esc Menu"
+msgstr "WASD Gehen · Shift Sprinten · Leertaste Springen · Strg Ducken · M Karte · Esc Menü"
+
+#: scripts/planes.gd
+msgid "Survive 25 waves. Meet the traders at the fork. B: kits · T: towers · J: quests · Enter: next wave"
+msgstr "Überlebe 25 Wellen. Händler an der Gabelung. B: Bausätze · T: Türme · J: Aufträge · Enter: nächste Welle"
+
+#: scripts/planes.gd
+msgid "THE PLANES SECURED · 25 / 25"
+msgstr "THE PLANES GESICHERT · 25 / 25"
+
+#: scripts/planes.gd
+msgid "Run ended. Try again or continue exploring."
+msgstr "Durchlauf beendet. Starte erneut oder erkunde die Gegend weiter."
+
+#: scripts/planes_building.gd
+msgid "Close [B / Esc] · Buy kits at Mechanic"
+msgstr "Schliessen [B / Esc] · Bausätze beim Mechanic kaufen"
+
+#: scripts/planes_building.gd
+msgid "Choose solid ground."
+msgstr "Wähle festen Boden."
+
+#: scripts/planes_building.gd scripts/planes_progression.gd
+msgid "Building unavailable."
+msgstr "Bauen momentan nicht möglich."
+
+#: scripts/planes_building.gd
+msgid "Fortification limit reached."
+msgstr "Befestigungslimit erreicht."
+
+#: scripts/planes_building.gd
+msgid "Choose ground 2–8 m away."
+msgstr "Wähle Boden in 2–8 m Entfernung."
+
+#: scripts/planes_building.gd
+msgid "Outside the playable area."
+msgstr "Ausserhalb des Spielgebiets."
+
+#: scripts/planes_building.gd
+msgid "Keep the traders accessible."
+msgstr "Halte den Zugang zu den Händlern frei."
+
+#: scripts/planes_building.gd
+msgid "Keep the campfire clear."
+msgstr "Halte das Lagerfeuer frei."
+
+#: scripts/planes_building.gd
+msgid "Too close to another fortification."
+msgstr "Zu nahe an einer anderen Befestigung."
+
+#: scripts/planes_building.gd
+msgid "Keep tower access clear."
+msgstr "Halte den Turmzugang frei."
+
+#: scripts/planes_building.gd
+msgid "No clear view of the site."
+msgstr "Keine freie Sicht auf den Bauplatz."
+
+#: scripts/planes_building.gd
+msgid "Buy a kit at Mechanic first."
+msgstr "Kaufe zuerst einen Bausatz beim Mechanic."
+
+#: scripts/planes_building.gd
+msgid "Survive wave 3 / 8 for stronger fortifications."
+msgstr "Überlebe Welle 3 / 8 für stärkere Befestigungen."
+
+#: scripts/planes_building.gd
+msgid "Fortification upgraded."
+msgstr "Befestigung aufgerüstet."
+
+#: scripts/planes_building.gd
+msgid "Look at nearby ground."
+msgstr "Schau auf den Boden in deiner Nähe."
+
+#: scripts/planes_building.gd
+msgid "[E] Place · [Wheel / R] Rotate · [Shift] Free placement · [Esc] Cancel"
+msgstr "[E] Bauen · [Mausrad / R] Drehen · [Shift] Frei platzieren · [Esc] Abbrechen"
+
+#: scripts/planes_hud.gd
+msgid "Start 25-wave survival"
+msgstr "Survival mit 25 Wellen starten"
+
+#: scripts/planes_hud.gd
+msgid "Back to exploration"
+msgstr "Zurück zur Erkundung"
+
+#: scripts/planes_hud.gd scripts/planes_progression.gd scripts/progression.gd
+msgid "Quests"
+msgstr "Aufträge"
+
+#: scripts/planes_hud.gd
+msgid "Reload"
+msgstr "Nachladen"
+
+#: scripts/planes_hud.gd
+msgid "Portable fortification kits"
+msgstr "Mitführbare Befestigungsbausätze"
+
+#: scripts/planes_hud.gd scripts/planes_progression.gd
+msgid "Field journal"
+msgstr "Feldtagebuch"
+
+#: scripts/planes_hud.gd
+msgid "Trade / collect / repair"
+msgstr "Handeln / sammeln / reparieren"
+
+#: scripts/planes_minimap.gd
+msgid "▲ You   • Enemies   M Map size"
+msgstr "▲ Du   • Gegner   M Kartengrösse"
+
+#: scripts/planes_minimap.gd
+msgid "Map boundary · turn back"
+msgstr "Gebietsgrenze ? bitte umkehren"
+
+#: scripts/planes_minimap.gd scripts/progression.gd
+msgid "Vendor"
+msgstr "Vendor"
+
+#: scripts/planes_minimap.gd scripts/progression.gd
+msgid "Mechanic"
+msgstr "Mechanic"
+
+#: scripts/planes_minimap.gd
+msgid "Schützenhaus"
+msgstr "Schützenhaus"
+
+#: scripts/planes_progression.gd
+msgid "A place of your own"
+msgstr "Dein eigener Platz"
+
+#: scripts/planes_progression.gd
+msgid "Choose your ground. Buy and place two defence kits."
+msgstr "Wähle deinen Standort. Kaufe und platziere zwei Befestigungsbausätze."
+
+#: scripts/planes_progression.gd
+msgid "Colour in the fields"
+msgstr "Farbe auf den Feldern"
+
+#: scripts/planes_progression.gd
+msgid "Collect six marked wildflower bundles on the meadow paths."
+msgstr "Sammle sechs markierte Wildblumensträusse an den Wiesenwegen."
+
+#: scripts/planes_progression.gd
+msgid "Your first strongpoint"
+msgstr "Dein erster Stützpunkt"
+
+#: scripts/planes_progression.gd
+msgid "Place a tower using T. Towers can stand anywhere suitable."
+msgstr "Platziere mit T einen Turm. Du bestimmst den geeigneten Standort selbst."
+
+#: scripts/planes_progression.gd
+msgid "Open sky, steady hands"
+msgstr "Unter freiem Himmel"
+
+#: scripts/planes_progression.gd
+msgid "Defeat thirty zombies. The camp does not need defending."
+msgstr "Besiege dreissig Zombies. Das Lager muss nicht verteidigt werden."
+
+#: scripts/planes_progression.gd
+msgid "Under the canopy"
+msgstr "Unter den Baumkronen"
+
+#: scripts/planes_progression.gd
+msgid "Collect four marked mushroom baskets in the woodland."
+msgstr "Sammle vier markierte Pilzgruppen im Wald."
+
+#: scripts/planes_progression.gd
+msgid "Make it last"
+msgstr "Damit es hält"
+
+#: scripts/planes_progression.gd
+msgid "Repair three damaged fortifications."
+msgstr "Repariere drei beschädigte Befestigungen."
+
+#: scripts/planes_progression.gd
+msgid "Quiet work"
+msgstr "Ruhige Hand"
+
+#: scripts/planes_progression.gd
+msgid "Defeat twenty enemies with headshots."
+msgstr "Besiege zwanzig Gegner mit Kopfschüssen."
+
+#: scripts/planes_progression.gd
+msgid "Heavy footsteps"
+msgstr "Schwere Schritte"
+
+#: scripts/planes_progression.gd
+msgid "Defeat eight brutes across the survival waves."
+msgstr "Besiege im Verlauf der Wellen acht Brutes."
+
+#: scripts/planes_progression.gd
+msgid "The long harvest"
+msgstr "Die lange Ernte"
+
+#: scripts/planes_progression.gd
+msgid "Survive fifteen waves on your chosen ground."
+msgstr "Überlebe fünfzehn Wellen an deinem gewählten Standort."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Back to the forest · Esc"
+msgstr "Zurück in den Wald · Esc"
+
+#: scripts/planes_progression.gd
+msgid "Back to The Planes · Esc"
+msgstr "Zurück zu The Planes · Esc"
+
+#: scripts/planes_progression.gd
+msgid "Start survival from the pause menu to trade and build."
+msgstr "Starte Überleben im Pausenmenü, um zu handeln und zu bauen."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Trade"
+msgstr "Handel"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Weapon not available."
+msgstr "Waffe nicht verfügbar."
+
+#: scripts/planes_progression.gd
+msgid "Survive until wave %d."
+msgstr "Überlebe bis Welle %d."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Sell"
+msgstr "Verkaufen"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "%s · %d in inventory"
+msgstr "%s · %d im Inventar"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Sell 1 · %d R"
+msgstr "1 verkaufen · %d R"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Training"
+msgstr "Training"
+
+#: scripts/planes_progression.gd scripts/progression.gd scripts/weapon_attachments.gd
+msgid "Mods"
+msgstr "Mods"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Done"
+msgstr "Erledigt"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Collect reward"
+msgstr "Belohnung abholen"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "In progress"
+msgstr "In Arbeit"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Accept quest"
+msgstr "Auftrag annehmen"
+
+#: scripts/planes_progression.gd
+msgid "Go to Mechanic."
+msgstr "Gehe zum Mechanic."
+
+#: scripts/planes_progression.gd
+msgid "Maximum 40 fortifications and carried kits."
+msgstr "Maximal 40 Befestigungen und mitgeführte Bausätze."
+
+#: scripts/planes_progression.gd
+msgid "Kit packed. Press B at your chosen position."
+msgstr "Bausatz eingepackt. Drücke B an deinem gewählten Standort."
+
+#: scripts/planes_progression.gd
+msgid "Go to the trader."
+msgstr "Gehe zum Händler."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "You already own this weapon."
+msgstr "Diese Waffe besitzt du bereits."
+
+#: scripts/planes_progression.gd
+msgid "Survive until the required wave."
+msgstr "Erreiche zuerst die benötigte Welle."
+
+#: scripts/planes_progression.gd
+msgid "Weapon purchased. Use the mouse wheel to equip."
+msgstr "Waffe gekauft. Mit dem Mausrad ausrüsten."
+
+#: scripts/planes_progression.gd
+msgid "Go to Vendor."
+msgstr "Gehe zum Vendor."
+
+#: scripts/planes_progression.gd
+msgid "No refill needed or insufficient funds."
+msgstr "Kein Nachschub nötig oder nicht genug Geld."
+
+#: scripts/planes_progression.gd
+msgid "Ammunition purchased."
+msgstr "Munition gekauft."
+
+#: scripts/planes_progression.gd
+msgid "Unknown supplies."
+msgstr "Unbekannter Nachschub."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Health already full."
+msgstr "Gesundheit bereits voll."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Grenade pouch full."
+msgstr "Granatentasche voll."
+
+#: scripts/planes_progression.gd
+msgid "Supplies purchased."
+msgstr "Nachschub gekauft."
+
+#: scripts/planes_progression.gd
+msgid "Return to the quest giver."
+msgstr "Kehre zum Auftraggeber zurück."
+
+#: scripts/planes_progression.gd
+msgid "Reward already claimed."
+msgstr "Belohnung bereits abgeholt."
+
+#: scripts/planes_progression.gd
+msgid "Quest accepted. Earlier progress this run counts."
+msgstr "Auftrag angenommen. Bisherige Fortschritte dieser Runde zählen."
+
+#: scripts/planes_progression.gd
+msgid "Objectives not completed yet."
+msgstr "Aufgaben noch nicht abgeschlossen."
+
+#: scripts/planes_progression.gd
+msgid "Quest completed. Reward received."
+msgstr "Auftrag abgeschlossen. Belohnung erhalten."
+
+#: scripts/planes_progression.gd
+msgid "[E] Grill venison · [C] Brew drinks"
+msgstr "[E] Wildfleisch grillen · [C] Getränke brauen"
+
+#: scripts/planes_progression.gd
+msgid "[E] Operate tower · [R] Align · [Y] Move · [F] Repair"
+msgstr "[E] Turm bedienen · [R] Ausrichten · [Y] Versetzen · [F] Reparieren"
+
+#: scripts/planes_progression.gd
+msgid "FIELD JOURNAL"
+msgstr "FELDTAGEBUCH"
+
+#: scripts/planes_progression.gd
+msgid "Choose your ground. Survive 25 waves. Return to each quest giver for rewards."
+msgstr "Wähle deinen Standort. Überlebe 25 Wellen. Hole deine Belohnungen beim jeweiligen Auftraggeber ab."
+
+#: scripts/planes_progression.gd
+msgid "Claimed"
+msgstr "Abgeholt"
+
+#: scripts/planes_progression.gd
+msgid "Not accepted"
+msgstr "Nicht angenommen"
+
+#: scripts/planes_progression.gd
+msgid "300 m challenge"
+msgstr "300-m-Aufgabe"
+
+#: scripts/planes_progression.gd
+msgid "Discover"
+msgstr "Entdecken"
+
+#: scripts/planes_progression.gd
+msgid "Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."
+msgstr "Vendor und Mechanic stehen an der Gabelung. Der Secret Vendor wartet im Wald. Nimm Aufträge persönlich an und kehre für die Belohnung zurück."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Not compatible with this weapon."
+msgstr "Nicht mit dieser Waffe kompatibel."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "You can sell to Vendor and Secret Vendor."
+msgstr "Verkaufen kannst du bei Vendor und Secret Vendor."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Sold: %s · +%d R"
+msgstr "Verkauft: %s · +%d R"
+
+#: scripts/planes_progression.gd scripts/planes_range.gd scripts/progression.gd
+msgid "claimed"
+msgstr "abgeholt"
+
+#: scripts/planes_progression.gd scripts/planes_range.gd
+msgid "Collected: %s"
+msgstr "Aufgenommen: %s"
+
+#: scripts/planes_range.gd
+msgid "Schützenhaus · Key"
+msgstr "Schützenhaus · Schlüssel"
+
+#: scripts/planes_range.gd
+msgid "!  300 m CHALLENGE\n[E] Read shooting log"
+msgstr "!  300-m-AUFGABE\n[E] Schiessbuch lesen"
+
+#: scripts/planes_range.gd
+msgid "[E] Reset score · Lane %d"
+msgstr "[E] Punkte zurücksetzen · Bahn %d"
+
+#: scripts/planes_range.gd
+msgid "[E] Take key · Schützenhaus"
+msgstr "[E] Schlüssel aufnehmen · Schützenhaus"
+
+#: scripts/planes_range.gd
+msgid "[E] Open Schützenhaus"
+msgstr "[E] Schützenhaus öffnen"
+
+#: scripts/planes_range.gd
+msgid "Schützenhaus locked · find the key in the woodland"
+msgstr "Schützenhaus verschlossen · finde den Schlüssel im Wald"
+
+#: scripts/planes_range.gd
+msgid "[E] 300 m challenge · %d / 6 targets"
+msgstr "[E] 300-m-Aufgabe · %d / 6 Zieltafeln"
+
+#: scripts/planes_range.gd
+msgid "[E] Collect ammunition cache"
+msgstr "[E] Munitionsvorrat aufnehmen"
+
+#: scripts/planes_range.gd
+msgid "Score reset · Lane %d"
+msgstr "Punkte zurückgesetzt · Bahn %d"
+
+#: scripts/planes_range.gd
+msgid "Find the Schützenhaus key in the woodland."
+msgstr "Finde den Schützenhausschlüssel im Wald."
+
+#: scripts/planes_range.gd
+msgid "300 m challenge completed."
+msgstr "300-m-Aufgabe abgeschlossen."
+
+#: scripts/planes_range.gd
+msgid "From inside the shooting house, hit all six targets with a sniper rifle. Return to this log for 350 R and class XP."
+msgstr "Triff vom Schützenhaus aus alle sechs Zieltafeln mit einem Scharfschützengewehr. Kehre für 350 R und Klassen-EP zu diesem Schiessbuch zurück."
+
+#: scripts/planes_range.gd
+msgid "Hit all six targets from inside this house: %d / 6"
+msgstr "Triff alle sechs Zieltafeln aus diesem Gebäude: %d / 6"
+
+#: scripts/planes_range.gd
+msgid "300 m challenge completed · +350 R and class XP"
+msgstr "300-m-Aufgabe abgeschlossen · +350 R und Klassen-EP"
+
+#: scripts/planes_range.gd
+msgid "Schützenhaus unlocked."
+msgstr "Schützenhaus aufgeschlossen."
+
+#: scripts/planes_range.gd
+msgid "Schützenhaus key"
+msgstr "Schützenhausschlüssel"
+
+#: scripts/planes_range.gd
+msgid "Ammunition"
+msgstr "Munition"
+
+#: scripts/planes_range.gd
+msgid "300 m challenge · %d / 6 targets"
+msgstr "300-m-Aufgabe · %d / 6 Zieltafeln"
+
+#: scripts/planes_range.gd
+msgid "LANE %d\nSCORE %d\nHITS %d · LAST %d\n[E] Reset"
+msgstr "BAHN %d\nPUNKTE %d\nTREFFER %d · LETZTER %d\n[E] Reset"
+
+#: scripts/planes_waves.gd
+msgid "Start in %d s · Enter: start now"
+msgstr "Start in %d s · Enter: sofort starten"
+
+#: scripts/planes_waves.gd
+msgid "Wave %d survived. Supply pay received; visit Vendor to restock."
+msgstr "Welle %d überlebt. Versorgungsgeld erhalten; Nachschub gibt es beim Vendor."
+
 #: scripts/progression.gd
 msgid "Mist Peddler"
 msgstr "Nebelkrämer"
@@ -4056,20 +5832,12 @@ msgid "Sit by the fire for a moment. The forest shelters us, but we have to look
 msgstr "Setz dich kurz ans Feuer. Der Wald gibt uns Schutz, aber wir müssen auf ihn aufpassen."
 
 #: scripts/progression.gd
-msgid "Vendor"
-msgstr "Vendor"
-
-#: scripts/progression.gd
 msgid "Weapons & supplies"
 msgstr "Waffen & Vorräte"
 
 #: scripts/progression.gd
 msgid "Stay alive. I trade with people who pull their weight."
 msgstr "Bleib am Leben. Ich handle mit Leuten, die ihren Teil beitragen."
-
-#: scripts/progression.gd
-msgid "Mechanic"
-msgstr "Mechanic"
 
 #: scripts/progression.gd
 msgid "Defense & training"
@@ -4158,6 +5926,30 @@ msgstr "150 Schuss Gurt, höchste Feuerrate im Lager. Sehr schwer, läuft erst a
 #: scripts/progression.gd
 msgid "Six meters of area damage and 140% bonus damage against titans. Only twelve energy cells."
 msgstr "Sechs Meter Flächenschaden und 140 % Zusatzschaden gegen Titanen. Nur zwölf Energiezellen."
+
+#: scripts/progression.gd
+msgid "Service pistol with 15 rounds. Fast, accurate and easy on ammo."
+msgstr "Dienstpistole mit 15 Schuss. Schnell, präzise und sparsam mit Munition."
+
+#: scripts/progression.gd
+msgid "Two barrels of buckshot. Devastating up close, quick to reload, useless at range."
+msgstr "Zwei Läufe Schrot. Verheerend auf kurze Distanz, schnell nachgeladen, auf Entfernung nutzlos."
+
+#: scripts/progression.gd
+msgid "Custom .45 pistol. Eight hard-hitting rounds with match-grade accuracy."
+msgstr "Massgefertigte .45-Pistole. Acht schwere Schuss mit Match-Präzision."
+
+#: scripts/progression.gd
+msgid "Light 5.56 rifle. Full auto, gentle recoil, long reach."
+msgstr "Leichtes 5,56-mm-Gewehr. Vollautomatisch, sanfter Rückstoss, grosse Reichweite."
+
+#: scripts/progression.gd
+msgid "50-round drum of .45 ACP. Full auto, heavy hits at short range."
+msgstr "50-Schuss-Trommel .45 ACP. Vollautomatisch, schwere Treffer auf kurze Distanz."
+
+#: scripts/progression.gd
+msgid "Semi-automatic combat shotgun with eight shells. Fast follow-up blasts."
+msgstr "Halbautomatische Kampfflinte mit acht Patronen. Schnelle Folgeschüsse."
 
 #: scripts/progression.gd
 msgid "First Flight"
@@ -4360,10 +6152,6 @@ msgid "Assault"
 msgstr "Sturm"
 
 #: scripts/progression.gd
-msgid "Marksman"
-msgstr "Marksman"
-
-#: scripts/progression.gd
 msgid "Defense Engineering"
 msgstr "Verteidigungstechnik"
 
@@ -4386,10 +6174,6 @@ msgstr "Das Lager bewahren"
 #: scripts/progression.gd
 msgid "Drone Operations"
 msgstr "Drohneneinsätze"
-
-#: scripts/progression.gd
-msgid "Zombies"
-msgstr "Zombies"
 
 #: scripts/progression.gd
 msgid "Porcini mushrooms"
@@ -4518,10 +6302,6 @@ msgstr "Titanenknochen"
 #: scripts/progression.gd
 msgid "Pale bone stripes on dark steel. Purely cosmetic."
 msgstr "Helle Knochenstreifen auf dunklem Stahl. Rein optisch."
-
-#: scripts/progression.gd
-msgid "Trade"
-msgstr "Handel"
 
 #: scripts/progression.gd
 msgid "Meet Vendor"
@@ -4664,10 +6444,6 @@ msgid "Survive wave %d (%d/%d)"
 msgstr "Welle %d überstehen (%d/%d)"
 
 #: scripts/progression.gd
-msgid "You can sell to Vendor and Secret Vendor."
-msgstr "Verkaufen kannst du bei Vendor und Secret Vendor."
-
-#: scripts/progression.gd
 msgid "You don't have this meat."
 msgstr "Dieses Fleisch besitzt du nicht."
 
@@ -4704,16 +6480,8 @@ msgid "Unknown sale action."
 msgstr "Unbekannte Verkaufsaktion."
 
 #: scripts/progression.gd
-msgid "Sold: %s · +%d R"
-msgstr "Verkauft: %s · +%d R"
-
-#: scripts/progression.gd
 msgid "You don't own this weapon."
 msgstr "Diese Waffe besitzt du nicht."
-
-#: scripts/progression.gd
-msgid "Not compatible with this weapon."
-msgstr "Nicht mit dieser Waffe kompatibel."
 
 #: scripts/progression.gd
 msgid "Mission level %d needed (currently %d)."
@@ -4836,20 +6604,16 @@ msgid "Quest not completed yet. %s"
 msgstr "Auftrag noch nicht erfüllt. %s"
 
 #: scripts/progression.gd
-msgid "Quest line %s completed · +%d R · Purchase permit: %s"
-msgstr "Questreihe %s abgeschlossen · +%d R · Kaufberechtigung: %s"
+msgid "Quest line %s completed · +%d R · +%d class XP · Purchase permit: %s"
+msgstr "Auftragsreihe %s abgeschlossen · +%d R · +%d Klassen-XP · Kauferlaubnis: %s"
 
 #: scripts/progression.gd
-msgid "Quest completed · +%d R · %s"
-msgstr "Auftrag abgeschlossen · +%d R · %s"
+msgid "Quest completed · +%d R · +%d class XP · %s"
+msgstr "Auftrag abgeschlossen · +%d R · +%d Klassen-XP · %s"
 
 #: scripts/progression.gd
 msgid "This weapon is not offered here."
 msgstr "Diese Waffe wird hier nicht angeboten."
-
-#: scripts/progression.gd
-msgid "You already own this weapon."
-msgstr "Diese Waffe besitzt du bereits."
 
 #: scripts/progression.gd
 msgid "Bought: %s · select it in the inventory or with the mouse wheel"
@@ -4864,10 +6628,6 @@ msgid "Melee weapons need no ammo."
 msgstr "Nahkampfwaffen benötigen keine Munition."
 
 #: scripts/progression.gd
-msgid "Weapon not available."
-msgstr "Waffe nicht verfügbar."
-
-#: scripts/progression.gd
 msgid "Ammo supply full."
 msgstr "Munitionsvorrat voll."
 
@@ -4878,14 +6638,6 @@ msgstr "Zwei Reservemagazine gekauft."
 #: scripts/progression.gd
 msgid "Vendor sells supplies."
 msgstr "Vorräte gibt es bei Vendor."
-
-#: scripts/progression.gd
-msgid "Health already full."
-msgstr "Gesundheit bereits voll."
-
-#: scripts/progression.gd
-msgid "Grenade pouch full."
-msgstr "Granatentasche voll."
 
 #: scripts/progression.gd
 msgid "Supplies bought."
@@ -4916,10 +6668,6 @@ msgid "Request sent to the host …"
 msgstr "Anfrage an den Host …"
 
 #: scripts/progression.gd
-msgid "Quests"
-msgstr "Aufträge"
-
-#: scripts/progression.gd
 msgid "Rarities"
 msgstr "Raritäten"
 
@@ -4932,24 +6680,8 @@ msgid "%d REM DOLLARS  ·  MISSION LEVEL %d  ·  %d WAVES SURVIVED"
 msgstr "%d REM DOLLARS  ·  EINSATZLEVEL %d  ·  %d WELLEN ÜBERSTANDEN"
 
 #: scripts/progression.gd
-msgid "Sell"
-msgstr "Verkaufen"
-
-#: scripts/progression.gd
-msgid "Training"
-msgstr "Training"
-
-#: scripts/progression.gd scripts/weapon_attachments.gd
-msgid "Mods"
-msgstr "Mods"
-
-#: scripts/progression.gd
 msgid "Skins"
 msgstr "Skins"
-
-#: scripts/progression.gd
-msgid "Back to the forest · Esc"
-msgstr "Zurück in den Wald · Esc"
 
 #: scripts/progression.gd
 msgid "LIGHTS OVER THE FOREST"
@@ -4996,14 +6728,6 @@ msgid "No sellable items in your inventory."
 msgstr "Du hast keine verkäuflichen Gegenstände im Inventar."
 
 #: scripts/progression.gd
-msgid "%s · %d in inventory"
-msgstr "%s · %d im Inventar"
-
-#: scripts/progression.gd
-msgid "Sell 1 · %d R"
-msgstr "1 verkaufen · %d R"
-
-#: scripts/progression.gd
 msgid "Hand grenades · %d in inventory"
 msgstr "Handgranaten · %d im Inventar"
 
@@ -5044,32 +6768,12 @@ msgid "Open quests"
 msgstr "Offene Aufträge"
 
 #: scripts/progression.gd
-msgid "Done"
-msgstr "Erledigt"
-
-#: scripts/progression.gd
-msgid "Locked"
-msgstr "Gesperrt"
-
-#: scripts/progression.gd
-msgid "Collect reward"
-msgstr "Belohnung abholen"
-
-#: scripts/progression.gd
-msgid "In progress"
-msgstr "In Arbeit"
-
-#: scripts/progression.gd
-msgid "Accept quest"
-msgstr "Auftrag annehmen"
-
-#: scripts/progression.gd
 msgid "Start tutorial"
 msgstr "Tutorial starten"
 
 #: scripts/progression.gd
-msgid "%s · Level %d · %d R"
-msgstr "%s · Level %d · %d R"
+msgid "%s · Level %d · %d R · %d class XP"
+msgstr "%s · Level %d · %d R · %d Klassen-XP"
 
 #: scripts/progression.gd
 msgid "After accepting, survive %d more wave(s). Team goals count retroactively; collect the reward yourself."
@@ -5300,12 +7004,12 @@ msgid "QUEST FULFILLED"
 msgstr "QUEST ERFÜLLT"
 
 #: scripts/quest_notifications.gd
-msgid "+%d Rem Dollars · reward received"
-msgstr "+%d Rem Dollars · Belohnung erhalten"
+msgid "+%d Rem Dollars · +%d class XP"
+msgstr "+%d Rem Dollars · +%d Klassen-XP"
 
 #: scripts/quest_notifications.gd
-msgid "All goals reached!\nTurn in to %s · %d R"
-msgstr "Alle Ziele erreicht!\nBei %s abgeben · %d R"
+msgid "All goals reached!\nTurn in to %s · %d R · %d class XP"
+msgstr "Alle Ziele erreicht!\nBei %s abgeben · %d R · %d Klassen-XP"
 
 #: scripts/quickbar.gd
 msgid "Empty"
@@ -5552,12 +7256,20 @@ msgid "Fallback site"
 msgstr "Rückzugsstellung"
 
 #: scripts/sandbag_line.gd
+msgid "Reinforced sandbags"
+msgstr "Verstärkte Sandsäcke"
+
+#: scripts/sandbag_line.gd
+msgid "Fortified sandbags"
+msgstr "Sandsackbollwerk"
+
+#: scripts/sandbag_line.gd
 msgid "Sandbag line behind %s destroyed!"
 msgstr "Sandsacklinie hinter %s zerstört!"
 
 #: scripts/sandbag_line.gd
-msgid "The sandbag line already stands."
-msgstr "Die Sandsacklinie steht bereits."
+msgid "Maximum sandbag tier reached."
+msgstr "Höchste Sandsackstufe erreicht."
 
 #: scripts/sandbag_line.gd
 msgid "[E] Build sandbag line · %d R\nBehind %s · Rises for free when the gate is breached"
@@ -5568,8 +7280,8 @@ msgid "[E] Repair sandbag line · %d R"
 msgstr "[E] Sandsacklinie reparieren · %d R"
 
 #: scripts/sandbag_line.gd
-msgid "Sandbag line intact"
-msgstr "Sandsacklinie intakt"
+msgid "[E] Upgrade sandbags · Tier %d · %d R"
+msgstr "[E] Sandsäcke ausbauen · Stufe %d · %d R"
 
 #: scripts/sandbag_line.gd
 msgid "Behind %s · %d/%d HP · Space: climb over"
@@ -5892,10 +7604,6 @@ msgid "+12% damage"
 msgstr "+12 % Schaden"
 
 #: scripts/skills.gd
-msgid "Quick Hands"
-msgstr "Schnelle Hände"
-
-#: scripts/skills.gd
 msgid "-15% reload time"
 msgstr "-15 % Nachladezeit"
 
@@ -5926,6 +7634,14 @@ msgstr "Training bereits vollständig."
 #: scripts/skills.gd
 msgid "Training bought: %s"
 msgstr "Training gekauft: %s"
+
+#: scripts/teleport_map.gd
+msgid "N / 40 m range"
+msgstr "N / 40 m Reichweite"
+
+#: scripts/tower_planner.gd
+msgid "▼  YOU"
+msgstr "▼  DU"
 
 #: scripts/tower_planner.gd
 msgid "TOWER PLANNER"
@@ -6042,10 +7758,6 @@ msgstr "An einer Barrikade kannst du mit [b]E[/b] bauen oder reparieren; der Hin
 #: scripts/vendor_tutorial.gd
 msgid "You can review these basics any time with Vendor under Quests."
 msgstr "Du kannst diese Grundlagen jederzeit bei Vendor unter Aufträge erneut ansehen."
-
-#: scripts/vendor_tutorial.gd
-msgid "Back"
-msgstr "Zurück"
 
 #: scripts/vendor_tutorial.gd
 msgid "VENDOR · %d/%d · %s"
@@ -6256,6 +7968,30 @@ msgid "Graviton Cannon"
 msgstr "Graviton-Kanone"
 
 #: scripts/weapons.gd
+msgid "SIG P226"
+msgstr "SIG P226"
+
+#: scripts/weapons.gd
+msgid "Nighthawk .45"
+msgstr "Nighthawk .45"
+
+#: scripts/weapons.gd
+msgid "AR-15"
+msgstr "AR-15"
+
+#: scripts/weapons.gd
+msgid "Tommy Gun"
+msgstr "Tommy Gun"
+
+#: scripts/weapons.gd
+msgid "SPAS-12"
+msgstr "SPAS-12"
+
+#: scripts/weapons.gd
+msgid "Sawed-Off Shotgun"
+msgstr "Abgesägte Flinte"
+
+#: scripts/weapons.gd
 msgid "Penetration: up to %d zombies; each further target takes %d%% of the previous damage. Walls stop the bullet."
 msgstr "Durchschuss: bis zu %d Zombies; je weiterem Ziel %d %% des vorherigen Schadens. Wände stoppen das Geschoss."
 
@@ -6304,6 +8040,10 @@ msgid "ASH TITAN"
 msgstr "ASCHETITAN"
 
 #: scripts/zombie.gd
+msgid "ELDER TITAN"
+msgstr "URTITAN"
+
+#: scripts/zombie.gd
 msgid "THE FOREST SPIRIT"
 msgstr "DER WALDGEIST"
 
@@ -6342,6 +8082,126 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "Survived wave 30"
+msgstr "Welle 30 überstanden"
+
+#. unused
+msgid "Survived wave 40"
+msgstr "Welle 40 überstanden"
+
+#. unused
+msgid "REMETSCHWIL FOREST HUT"
+msgstr "WALDHÜTTE REMETSCHWIL"
+
+#. unused
+msgid "NIGHT ON THE HEITERSBERG"
+msgstr "NACHT AM HEITERSBERG"
+
+#. unused
+msgid "Version: Co-op 2026.09.25-O"
+msgstr "Version: Koop 2026.09.25-O"
+
+#. unused
+msgid "loading …"
+msgstr "lädt …"
+
+#. unused
+msgid "Players: %d / 4\n%s"
+msgstr "Spieler: %d / 4\n%s"
+
+#. unused
+msgid "Arcing shot · 6 m blast radius"
+msgstr "Bogenschuss · 6 m Explosionsradius"
+
+#. unused
+msgid "%d R PER SPIN · WEAPONS · MUSHROOMS · AMMO"
+msgstr "%d R PRO DREH · WAFFEN · PILZE · MUNITION"
+
+#. unused
+msgid "[E] Spin the wheel of fortune · %d R\nWeapons, mushrooms, ammo and Rem Dollars"
+msgstr "[E] Glücksrad drehen · %d R\nWaffen, Pilze, Munition und Rem Dollar"
+
+#. unused
+msgid "For getting to know the hut: weaker zombies, smaller waves, plenty of supplies."
+msgstr "Zum Kennenlernen der Hütte: schwächere Zombies, kleinere Wellen, viele Vorräte."
+
+#. unused
+msgid "The night on the Heitersberg: hordes that grow tougher every wave, no mercy at the gates."
+msgstr "Die Nacht auf dem Heitersberg: Horden, die mit jeder Welle zäher werden, keine Gnade an den Toren."
+
+#. unused
+msgid "Four approaches lead to the hut: the Hut Path (north-east), the Meadow Gate (east), the Village Path (south) and the North Forest Path. E builds or repairs right at the line; building costs 50 Rem Dollars. Mechanic advises you on defense."
+msgstr "Vier Zugänge führen zur Hütte: Weg zur Hütte (Nordost), Wiesentor (Ost), Weg Richtung Dorf (Süd) und Waldweg Nord. E baut oder repariert direkt an der Linie; Bauen kostet 50 Rem Dollars. Mechanic berät dich zur Verteidigung."
+
+#. unused
+msgid "Vendor sells weapons at the campfire. Complete quests and survive waves to unlock his stock. A secret trader waits in the forest."
+msgstr "Vendor verkauft Waffen am Lagerfeuer. Erfülle Aufträge und überstehe Wellen, um sein Angebot freizuschalten. Ein geheimer Händler wartet im Wald."
+
+#. unused
+msgid "Porcini heal, fly agarics briefly double your damage. Eat both from the inventory (I)."
+msgstr "Steinpilze heilen, Fliegenpilze verdoppeln kurz den Schaden. Beides im Inventar (I) essen."
+
+#. unused
+msgid "T opens the tower preview. R/mouse wheel rotates, E confirms. At a tower: E mounts it, R re-aims it, F repairs it. Upgrades at Mechanic. Q shows your quests. Hold Tab for the leaderboard."
+msgstr "T öffnet die Turmvorschau. R/Mausrad dreht, E bestätigt. Am Turm: E steigt auf, R richtet neu aus, F repariert. Ausbau bei Mechanic. Q zeigt deine Aufträge. Halte Tab für das Leaderboard."
+
+#. unused
+msgid "NPC / barricade / mount tower / repair hut"
+msgstr "NPC / Barrikade / Turm besteigen / Hütte reparieren"
+
+#. unused
+msgid "Build turret · at the hut also on the roof · E confirms"
+msgstr "Turm bauen · an der Hütte auch aufs Dach · E bestätigt"
+
+#. unused
+msgid "Fly a drone (hut, upper floor) · RMB rocket · R self-destruct · Esc recall"
+msgstr "Drohne fliegen (Hütte, Obergeschoss) · RMT Rakete · R Selbstzerstörung · Esc zurückrufen"
+
+#. unused
+msgid "Callout: ping what you look at (gate, hut, enemy, spot)"
+msgstr "Funkspruch: markiert, was du anschaust (Tor, Hütte, Gegner, Stelle)"
+
+#. unused
+msgid "Find the forest hut.\nFollow the road and the direction arrow."
+msgstr "Finde die Waldhütte.\nFolge der Strasse und dem Richtungspfeil."
+
+#. unused
+msgid "The forest hut on the Heitersberg is the last safe place. You wake up down on the Sennhofstrasse and first have to make your way up to the hut. Build barricades at the four approaches to raise the palisade ring piece by piece. Then they come: from the Sennhofstrasse along the Hut Path, across the meadow to the Meadow Gate, along the Village Path and down the North Forest Path. Upgrade the barriers in the gates (E), hold them, survive the waves and get yourself onto the high scores. The zombies also go for the forest hut itself: if it falls, the round is lost. Repair it with E at its wall."
+msgstr "Die Waldhütte am Heitersberg ist der letzte sichere Ort. Du wachst unten an der Sennhofstrasse auf und musst zuerst zur Hütte hinauf. Baue an den vier Zugängen Barrikaden, um nach und nach den Palisadenring zu errichten. Dann kommen sie: von der Sennhofstrasse über den Weg zur Hütte, von der Wiese, über den Weg Richtung Dorf und den Waldweg aus dem Norden. Baue die Sperren in den Toren aus (E), halte sie, überlebe die Wellen, und trag dich in die Bestenliste ein. Die Zombies gehen auch auf die Waldhütte selbst los: fällt sie, ist die Runde verloren. Repariere sie mit E an ihrer Wand."
+
+#. unused
+msgid "[E] Revive %s · stay nearby for 3 seconds"
+msgstr "[E] %s wiederbeleben · 3 Sekunden in der Nähe bleiben"
+
+#. unused
+msgid "Quest line %s completed · +%d R · Purchase permit: %s"
+msgstr "Questreihe %s abgeschlossen · +%d R · Kaufberechtigung: %s"
+
+#. unused
+msgid "Quest completed · +%d R · %s"
+msgstr "Auftrag abgeschlossen · +%d R · %s"
+
+#. unused
+msgid "%s · Level %d · %d R"
+msgstr "%s · Level %d · %d R"
+
+#. unused
+msgid "+%d Rem Dollars · reward received"
+msgstr "+%d Rem Dollars · Belohnung erhalten"
+
+#. unused
+msgid "All goals reached!\nTurn in to %s · %d R"
+msgstr "Alle Ziele erreicht!\nBei %s abgeben · %d R"
+
+#. unused
+msgid "The sandbag line already stands."
+msgstr "Die Sandsacklinie steht bereits."
+
+#. unused
+msgid "Sandbag line intact"
+msgstr "Sandsacklinie intakt"
 
 #. unused
 msgid "Calculating the path network ..."
@@ -6547,1688 +8407,326 @@ msgstr "Verstärken erhöht die Haltbarkeit um %d TP und stellt die gesamte Lini
 msgid "The balanced night on the Heitersberg."
 msgstr "Die ausgewogene Nacht am Heitersberg."
 
-
-msgid "▼  YOU"
-msgstr "▼  DU"
-
-
-msgid "Reinforced sandbags"
-msgstr "Verstärkte Sandsäcke"
-
-
-msgid "Fortified sandbags"
-msgstr "Sandsackbollwerk"
-
-
-msgid "Maximum sandbag tier reached."
-msgstr "Höchste Sandsackstufe erreicht."
-
-
-msgid "[E] Upgrade sandbags · Tier %d · %d R"
-msgstr "[E] Sandsäcke ausbauen · Stufe %d · %d R"
-
-
-msgid "ELDER TITAN"
-msgstr "URTITAN"
-
-
-msgid "FIELD TRIAL"
-msgstr "FELDKAMPF"
-
-
-msgid "THE QUIET GROVE"
-msgstr "DER STILLE HAIN"
-
-
-msgid "ROOT MEMORY"
-msgstr "DAS GEDÄCHTNIS DER WURZELN"
-
-
-msgid "Skip intermission / secret quest"
-msgstr "Zwischenevent / Geheimquest überspringen"
-
-
-msgid "DAWN OF THE TITANS\nHold the field together. Defeat every boss to break the seal."
-msgstr "MORGENDÄMMERUNG DER TITANEN\nHaltet gemeinsam das Feld. Besiegt alle Bosse, um das Siegel zu brechen."
-
-
-msgid "DAWN OF THE TITANS · BEFORE WAVE %d\n%s"
-msgstr "MORGENDÄMMERUNG DER TITANEN · VOR WELLE %d\n%s"
-
-
-msgid "Arriving in %d s · Stay inside the amber boundary"
-msgstr "Ankunft in %d s · Bleibt innerhalb der goldenen Grenze"
-
-
-msgid "%d bosses remain · The field is sealed"
-msgstr "Noch %d Bosse · Das Feld ist versiegelt"
-
-
-msgid "Offer 3 × %s at the stone. [E]"
-msgstr "Opfert 3 × %s am Stein. [E]"
-
-
-msgid "Defend the grove · %d enemies remain"
-msgstr "Verteidigt den Hain · Noch %d Gegner"
-
-
-msgid "Return to the stone and claim the forest's gift. [E]"
-msgstr "Kehrt zum Stein zurück und holt das Geschenk des Waldes. [E]"
-
-
-msgid "TRIAL COMPLETE · +%d R per player\nThe path is open. Prepare for the next wave."
-msgstr "PRÜFUNG BESTANDEN · +%d R pro Spieler\nDer Weg ist frei. Bereitet euch auf die nächste Welle vor."
-
-
-msgid "[E] Offer flowers to the grove"
-msgstr "[E] Dem Hain Blumen opfern"
-
-
-msgid "[E] Claim the forest's gift"
-msgstr "[E] Geschenk des Waldes holen"
-
-
-msgid "[E] Read the hidden stone · %s"
-msgstr "[E] Den verborgenen Stein lesen · %s"
-
-
-msgid "%s\nThe stone whispers: bring three flowers, then guard the roots."
-msgstr "%s\nDer Stein flüstert: Bringt drei Blumen und beschützt dann die Wurzeln."
-
-
-msgid "Won: 3 × %s · it is in your inventory."
-msgstr "Gewonnen: 3 × %s · im Inventar."
-
-
-msgid "Potion bag full"
-msgstr "Trankvorrat voll"
-
-
-msgid "%d R · WEAPONS · PLANTS · POTIONS · CASH"
-msgstr "%d R · WAFFEN · PFLANZEN · TRÄNKE · GELD"
-
-
-msgid "[E] Spin the wheel of fortune · %d R\nWeapons, plants, potions, ammo and up to 1000 Rem Dollars"
-msgstr "[E] Glücksrad drehen · %d R\nWaffen, Pflanzen, Tränke, Munition und bis zu 1000 Rem Dollars"
-
-msgid "GROVE"
-msgstr "HAIN"
-
-#: campaign map
-msgid "REMZ  /  CAMPAIGN"
-msgstr "REMZ  /  KAMPAGNE"
-
-#: campaign map
-msgid "REMZ"
-msgstr "REMZ"
-
-#: campaign map
-msgid "SELECT A REGION"
-msgstr "GEBIET WÄHLEN"
-
-#: campaign map
-msgid "‹  Back to main menu"
-msgstr "‹  Zurück zum Hauptmenü"
-
-#: campaign map
-msgid "%d / %d regions secured"
-msgstr "%d / %d Gebiete gesichert"
-
-#: campaign map
-msgid "Best run: %d / %d rounds"
-msgstr "Beste Runde: %d / %d überstanden"
-
-#: campaign map
-msgid "Under construction"
-msgstr "Under construction"
-
-#: campaign map
-msgid "UNDER CONSTRUCTION"
-msgstr "UNDER CONSTRUCTION"
-
-#: campaign map
-msgid "AVAILABLE  /  25 ROUNDS"
-msgstr "VERFÜGBAR  /  25 RUNDEN"
-
-#: campaign map
-msgid "REGION SECURED"
-msgstr "GEBIET GESICHERT"
-
-#: campaign map
-msgid "Defend the forest hut. Survive all 25 rounds to secure Forest."
-msgstr "Verteidige die Waldhütte. Überstehe alle 25 Runden, um Forest zu sichern."
-
-#: campaign map
-msgid "This region is under construction. It will join the campaign in a future update."
-msgstr "Dieses Gebiet wird noch gebaut. Es wird mit einem späteren Update Teil der Kampagne."
-
-#: campaign map
-msgid "Enter Forest  →"
-msgstr "Forest betreten  →"
-
-#: campaign map
-msgid "Replay Forest  →"
-msgstr "Forest erneut spielen  →"
-
-#: campaign map
+#. unused
 msgid "25 rounds per region. Every victory stays on your map."
 msgstr "25 Runden pro Gebiet. Jeder Sieg bleibt auf deiner Karte gespeichert."
 
-#: campaign map
-msgid "Forest secured. All 25 rounds survived. Your victory is saved on the campaign map."
-msgstr "Forest gesichert. Alle 25 Runden überstanden. Dein Sieg ist auf der Kampagnenkarte gespeichert."
-
-#: campaign map
-msgid "Map selection"
-msgstr "Kartenauswahl"
-
-#: campaign map
-msgid "Round %d / %d"
-msgstr "Runde %d / %d"
-
-#: campaign map
-msgid "Survived wave 24"
-msgstr "Welle 24 überstanden"
-
-#: campaign map
-msgid "Secured Forest by surviving all 25 rounds"
-msgstr "Forest durch Überstehen aller 25 Runden gesichert"
-
-#: campaign map
-msgid "FOREST"
-msgstr "FOREST"
-
-#: campaign map
-msgid "NORTH END"
-msgstr "NORTH END"
-
-#: campaign map
-msgid "CORE"
-msgstr "CORE"
-
-#: campaign map
-msgid "EAST END"
-msgstr "EAST END"
-
-#: campaign map
-msgid "THE PLANES"
-msgstr "THE PLANES"
-
-#: campaign map
-msgid "SUBURBS & LAKE"
-msgstr "SUBURBS & LAKE"
-
-#: titan equipment drops
-msgid "%s found · select it in your inventory"
-msgstr "%s gefunden · im Inventar auswählen"
-
-# Persistent character classes
-
-msgid "%s"
-msgstr "%s"
-
-msgid "Gunslinger"
-msgstr "Revolverheld"
-
-msgid "Breacher"
-msgstr "Brecher"
-
-msgid "Assassin"
-msgstr "Assassin"
-
-msgid "Mobility and precision with pistols and revolvers."
-msgstr "Mobilität und Präzision mit Pistolen und Revolvern."
-
-msgid "Controlled sustained fire and reliable crowd control with assault rifles."
-msgstr "Kontrolliertes Dauerfeuer und zuverlässige Gruppenkontrolle mit Sturmgewehren."
-
-msgid "Shotguns, close quarters and powerful penetration."
-msgstr "Schrotflinten, Nahbereich und hohe Durchschlagskraft."
-
-msgid "Precision rifles, critical hits and dangerous elite targets."
-msgstr "Präzisionsgewehre, kritische Treffer und gefährliche Elitegegner."
-
-msgid "Speed, stealth and positioning. Flexible with every weapon."
-msgstr "Tempo, Tarnung und Positionierung. Flexibel mit jeder Waffe."
-
-msgid "Pistols reload 20% faster."
-msgstr "Pistolen werden 20% schneller nachgeladen."
-
-msgid "15% less pistol recoil."
-msgstr "15% weniger Rückstoss mit Pistolen."
-
-msgid "Duelist"
-msgstr "Duellant"
-
-msgid "Repeated pistol hits on one target add 5% damage per hit, up to 25%, for 3 seconds."
-msgstr "Wiederholte Pistolentreffer auf dasselbe Ziel erhöhen den Schaden pro Treffer um 5%, bis 25%, für 3 Sekunden."
-
-msgid "Quick Draw"
-msgstr "Schneller Wechsel"
-
-msgid "Switching to or from a pistol is 50% faster."
-msgstr "Waffenwechsel zu oder von einer Pistole erfolgen 50% schneller."
-
-msgid "Bounty"
-msgstr "Kopfgeld"
-
-msgid "Pistol headshots deal 15% more damage. Headshot kills grant 5 extra XP."
-msgstr "Pistolen-Kopfschüsse verursachen 15% mehr Schaden. Kopfschuss-Kills geben 5 zusätzliche XP."
-
-msgid "Fan the Hammer"
-msgstr "Fan the Hammer"
-
-msgid "Pistol shots build 40% less spread."
-msgstr "Pistolenschüsse bauen 40% weniger zusätzliche Streuung auf."
-
-msgid "Sidestep"
-msgstr "Ausweichschritt"
-
-msgid "Pistol kills grant 15% movement speed for 3 seconds."
-msgstr "Pistolen-Kills geben für 3 Sekunden 15% mehr Bewegungstempo."
-
-msgid "Ice Cold"
-msgstr "Eiskalt"
-
-msgid "Pistol headshots reduce recoil by 30% for 3 seconds."
-msgstr "Pistolen-Kopfschüsse reduzieren den Rückstoss für 3 Sekunden um 30%."
-
-msgid "High Noon"
-msgstr "High Noon"
-
+#. unused
 msgid "Pistol headshot kills reduce reload time by 8% for 5 seconds, up to 3 stacks."
 msgstr "Pistolen-Kopfschuss-Kills verkürzen die Nachladezeit für 5 Sekunden um 8%, bis zu 3 Stapel."
 
-msgid "Executioner"
-msgstr "Executioner"
-
+#. unused
 msgid "Pistols deal 25% more damage to targets below 30% health."
 msgstr "Pistolen verursachen 25% mehr Schaden gegen Ziele mit weniger als 30% Leben."
 
-msgid "Deadeye"
-msgstr "Deadeye"
-
+#. unused
 msgid "Consecutive pistol headshots add 8% critical damage, up to 40%. A miss or body hit resets the chain."
 msgstr "Aufeinanderfolgende Pistolen-Kopfschüsse erhöhen kritischen Schaden um je 8%, bis 40%. Ein Fehl- oder Körpertreffer beendet die Serie."
 
+#. unused
 msgid "10% more pistol damage and 15% faster movement while aiming a pistol."
 msgstr "10% mehr Pistolenschaden und 15% mehr Bewegungstempo beim Zielen mit Pistolen."
 
-msgid "Tactical Reload"
-msgstr "Taktisches Nachladen"
-
-msgid "Assault rifles reload 18% faster."
-msgstr "Sturmgewehre werden 18% schneller nachgeladen."
-
-msgid "Ammo Discipline"
-msgstr "Munitionsdisziplin"
-
-msgid "15% larger assault rifle magazines."
-msgstr "15% grössere Sturmgewehrmagazine."
-
-msgid "Controlled Burst"
-msgstr "Feuerstoss"
-
-msgid "The first 3 shots of an assault rifle burst have 25% less spread."
-msgstr "Die ersten 3 Schüsse eines Sturmgewehr-Feuerstosses haben 25% weniger Streuung."
-
-msgid "Suppressing Fire"
-msgstr "Unterdrückungsfeuer"
-
-msgid "Repeated assault rifle hits slow common enemies by 15% for 2 seconds."
-msgstr "Wiederholte Sturmgewehrtreffer verlangsamen gewöhnliche Gegner für 2 Sekunden um 15%."
-
-msgid "Frontline"
-msgstr "Frontsoldat"
-
-msgid "Assault rifle kills reduce recoil by 25% for 4 seconds."
-msgstr "Sturmgewehr-Kills reduzieren den Rückstoss für 4 Sekunden um 25%."
-
-msgid "Combat Drill"
-msgstr "Gefechtsroutine"
-
-msgid "Assault rifle kills reduce reload time by 25% for 4 seconds."
-msgstr "Sturmgewehr-Kills verkürzen die Nachladezeit für 4 Sekunden um 25%."
-
-msgid "Armor Breaker"
-msgstr "Panzerbrecher"
-
-msgid "Assault rifles deal 25% more damage against armoured enemies."
-msgstr "Sturmgewehre verursachen 25% mehr Schaden gegen gepanzerte Gegner."
-
-msgid "Crowd Control"
-msgstr "Crowd Control"
-
-msgid "Assault rifles deal 12% more damage against common zombies."
-msgstr "Sturmgewehre verursachen 12% mehr Schaden gegen gewöhnliche Zombies."
-
-msgid "Combat Momentum"
-msgstr "Combat Momentum"
-
+#. unused
 msgid "Assault rifle kills increase fire rate by 6% for 4 seconds, up to 3 stacks."
 msgstr "Sturmgewehr-Kills erhöhen die Feuerrate für 4 Sekunden um 6%, bis zu 3 Stapel."
 
-msgid "Veteran"
-msgstr "Veteran"
-
+#. unused
 msgid "Assault rifles reload 30% faster with a quarter magazine or less."
 msgstr "Sturmgewehre werden mit höchstens einem Viertel des Magazins 30% schneller nachgeladen."
 
-msgid "Weapons Expert"
-msgstr "Weapons Expert"
-
+#. unused
 msgid "Assault rifles gain 10% less recoil, 10% faster reloads and 10% larger magazines."
 msgstr "Sturmgewehre erhalten 10% weniger Rückstoss, 10% kürzere Nachladezeiten und 10% grössere Magazine."
 
-msgid "Last Stand"
-msgstr "Last Stand"
-
+#. unused
 msgid "Below 30% health: 20% less recoil, 20% faster reloads and 10% more movement speed."
 msgstr "Unter 30% Leben: 20% weniger Rückstoss, 20% kürzere Nachladezeiten und 10% mehr Bewegungstempo."
 
-msgid "Large Calibre"
-msgstr "Grosskaliber"
-
-msgid "Shotguns deal 12% more damage."
-msgstr "Schrotflinten verursachen 12% mehr Schaden."
-
-msgid "Speed Loader"
-msgstr "Schnelllader"
-
-msgid "Shotguns reload 20% faster."
-msgstr "Schrotflinten werden 20% schneller nachgeladen."
-
-msgid "Penetration"
-msgstr "Durchschlag"
-
-msgid "Shotgun pellets penetrate one additional common enemy."
-msgstr "Schrotkugeln durchschlagen einen zusätzlichen gewöhnlichen Gegner."
-
-msgid "Spread Control"
-msgstr "Streuungskontrolle"
-
-msgid "25% less shotgun spread."
-msgstr "25% weniger Schrotflintenstreuung."
-
-msgid "Knockback"
-msgstr "Knockback"
-
-msgid "Shotgun hits shove common zombies back more strongly."
-msgstr "Schrotflintentreffer stossen gewöhnliche Zombies stärker zurück."
-
-msgid "Bloodbath"
-msgstr "Blutbad"
-
-msgid "Shotgun kills within 5 metres grant 15% shotgun damage for 4 seconds."
-msgstr "Schrotflinten-Kills innerhalb von 5 Metern geben für 4 Sekunden 15% mehr Schrotflintenschaden."
-
-msgid "Breaching"
-msgstr "Breaching"
-
-msgid "Shotguns deal 25% more damage against armoured and large enemies."
-msgstr "Schrotflinten verursachen 25% mehr Schaden gegen gepanzerte und grosse Gegner."
-
-msgid "Crowd Breaker"
-msgstr "Crowd Breaker"
-
-msgid "20% more shotgun damage when 3 enemies stand within 5 metres of the target."
-msgstr "20% mehr Schrotflintenschaden, wenn 3 Gegner im Umkreis von 5 Metern um das Ziel stehen."
-
-msgid "No Mercy"
-msgstr "Keine Gnade"
-
+#. unused
 msgid "Shotgun hits within 4 metres deal 20% more damage."
 msgstr "Schrotflintentreffer innerhalb von 4 Metern verursachen 20% mehr Schaden."
 
-msgid "Stand Your Ground"
-msgstr "Stand Your Ground"
-
+#. unused
 msgid "15% less damage taken while at least 3 enemies are within 6 metres."
 msgstr "15% weniger erlittener Schaden, solange mindestens 3 Gegner innerhalb von 6 Metern stehen."
 
-msgid "Juggernaut"
-msgstr "Juggernaut"
-
+#. unused
 msgid "Shotgun kills grant 20% damage resistance for 4 seconds."
 msgstr "Schrotflinten-Kills geben für 4 Sekunden 20% Schadensresistenz."
 
-msgid "Boomstick"
-msgstr "Boomstick"
-
+#. unused
 msgid "The first shotgun blast from a full magazine deals 35% more damage."
 msgstr "Der erste Schrotflintenschuss aus einem vollen Magazin verursacht 35% mehr Schaden."
 
-msgid "Firm Stance"
-msgstr "Fester Stand"
-
+#. unused
 msgid "50% less weapon sway while aiming a precision rifle."
 msgstr "50% weniger Waffenbewegung beim Zielen mit Präzisionsgewehren."
 
-msgid "Fast Focus"
-msgstr "Schneller Fokus"
-
-msgid "Aim a precision rifle 30% faster."
-msgstr "Mit Präzisionsgewehren 30% schneller anvisieren."
-
-msgid "Weak Spot"
-msgstr "Schwachstelle"
-
-msgid "Precision rifle headshots deal 20% more damage."
-msgstr "Kopfschüsse mit Präzisionsgewehren verursachen 20% mehr Schaden."
-
-msgid "Piercing Shot"
-msgstr "Durchschuss"
-
-msgid "Precision rifle shots penetrate one additional enemy."
-msgstr "Präzisionsgewehrschüsse durchschlagen einen zusätzlichen Gegner."
-
-msgid "Precision rifles deal 20% more damage against special enemies."
-msgstr "Präzisionsgewehre verursachen 20% mehr Schaden gegen Spezialgegner."
-
-msgid "One Shot"
-msgstr "One Shot"
-
-msgid "The first precision rifle hit on each target deals 20% more damage."
-msgstr "Der erste Präzisionsgewehrtreffer auf jedes Ziel verursacht 20% mehr Schaden."
-
-msgid "Breath Control"
-msgstr "Atemkontrolle"
-
-msgid "Aiming a precision rifle steadily reduces spread by up to 40% over 3 seconds."
-msgstr "Ruhiges Zielen mit einem Präzisionsgewehr reduziert die Streuung über 3 Sekunden um bis zu 40%."
-
-msgid "Quickscope"
-msgstr "Quickscope"
-
-msgid "Precision headshots within 0.6 seconds of aiming deal 20% more damage."
-msgstr "Präzisions-Kopfschüsse innerhalb von 0,6 Sekunden nach dem Anvisieren verursachen 20% mehr Schaden."
-
-msgid "Kill Chain"
-msgstr "Kill Chain"
-
+#. unused
 msgid "A precision headshot kill boosts the next precision hit by 25% for 5 seconds."
 msgstr "Ein Präzisions-Kopfschuss-Kill verstärkt den nächsten Präzisionstreffer innerhalb von 5 Sekunden um 25%."
 
-msgid "Big Game Hunter"
-msgstr "Big Game Hunter"
-
+#. unused
 msgid "Precision rifles deal 30% more damage against elites and bosses."
 msgstr "Präzisionsgewehre verursachen 30% mehr Schaden gegen Elite- und Bossgegner."
 
-msgid "Perfect Shot"
-msgstr "Perfect Shot"
-
+#. unused
 msgid "After 4 seconds without a miss, the next precision headshot deals 50% more damage. Resets on use."
 msgstr "Nach 4 Sekunden ohne Fehlschuss verursacht der nächste Präzisions-Kopfschuss 50% mehr Schaden. Setzt sich bei Verwendung zurück."
 
-msgid "Marksman's Rhythm"
-msgstr "Marksman's Rhythm"
-
+#. unused
 msgid "Consecutive precision hits reduce reload time and aim time by 5%, up to 25%. A miss resets the chain."
 msgstr "Aufeinanderfolgende Präzisionstreffer verkürzen Nachlade- und Zielzeit um je 5%, bis 25%. Ein Fehlschuss beendet die Serie."
 
-msgid "Light Footed"
-msgstr "Leichtfüssig"
-
-msgid "10% faster movement."
-msgstr "10% mehr Bewegungstempo."
-
-msgid "Ghost Step"
-msgstr "Ghost Step"
-
-msgid "Quieter footsteps and 20% less detection range for common enemies."
-msgstr "Leisere Schritte und 20% geringere Wahrnehmungsreichweite gewöhnlicher Gegner."
-
-msgid "Opportunist"
-msgstr "Opportunist"
-
+#. unused
 msgid "15% more damage against enemies attacking another player."
 msgstr "15% mehr Schaden gegen Gegner, die einen anderen Spieler angreifen."
 
-msgid "Escape Artist"
-msgstr "Escape Artist"
-
-msgid "Taking at least 25 damage grants 20% movement speed for 3 seconds."
-msgstr "Mindestens 25 erlittener Schaden gibt für 3 Sekunden 20% mehr Bewegungstempo."
-
-msgid "Weapon Master"
-msgstr "Weapon Master"
-
-msgid "10% faster reloads and 25% faster weapon switches."
-msgstr "10% kürzere Nachladezeiten und 25% schnellere Waffenwechsel."
-
-msgid "Silent Killer"
-msgstr "Silent Killer"
-
-msgid "Attacks from behind deal 20% more damage."
-msgstr "Angriffe aus dem Rücken verursachen 20% mehr Schaden."
-
-msgid "Shadow"
-msgstr "Shadow"
-
-msgid "After 4 seconds without attacking, common enemies detect you from 35% less distance."
-msgstr "Nach 4 Sekunden ohne Angriff sinkt die Wahrnehmungsreichweite gewöhnlicher Gegner um 35%."
-
-msgid "Momentum"
-msgstr "Momentum"
-
-msgid "Weapon kills grant 15% movement speed for 4 seconds."
-msgstr "Waffen-Kills geben für 4 Sekunden 15% mehr Bewegungstempo."
-
-msgid "Assassination"
-msgstr "Assassination"
-
+#. unused
 msgid "The first hit from behind or against an unaware target deals 35% more damage."
 msgstr "Der erste Treffer aus dem Rücken oder gegen ein unaufmerksames Ziel verursacht 35% mehr Schaden."
 
+#. unused
 msgid "After 8 seconds without taking damage, gain 12% movement speed until hit."
 msgstr "Nach 8 Sekunden ohne erlittenen Schaden erhältst du bis zum nächsten Treffer 12% mehr Bewegungstempo."
 
-msgid "Master Assassin"
-msgstr "Master Assassin"
-
+#. unused
 msgid "5% faster movement, 20% faster weapon switches and 15% less detection range."
 msgstr "5% mehr Bewegungstempo, 20% schnellere Waffenwechsel und 15% geringere Wahrnehmungsreichweite."
 
-msgid "Predator"
-msgstr "Predator"
-
+#. unused
 msgid "After 5 seconds without attacking or taking damage, the next attack has 50% less spread and 25% more headshot damage."
 msgstr "Nach 5 Sekunden ohne Angriff oder erlittenen Schaden hat der nächste Angriff 50% weniger Streuung und 25% mehr Kopfschussschaden."
 
+#. unused
 msgid "YOUR CHARACTER"
 msgstr "DEIN CHARAKTER"
 
-msgid "LEVEL %d"
-msgstr "LEVEL %d"
-
+#. unused
 msgid "%d / %d XP · %d to next level"
 msgstr "%d / %d XP · %d bis zum nächsten Level"
 
+#. unused
 msgid "MAX LEVEL · %d total XP"
 msgstr "MAXIMALES LEVEL · %d Gesamt-XP"
 
-msgid "Change class"
-msgstr "Klasse wechseln"
-
-msgid "Class skills"
-msgstr "Klassen-Skills"
-
-msgid "Class progress"
-msgstr "Klassenfortschritt"
-
-msgid "Local character profile"
-msgstr "Lokales Charakterprofil"
-
-msgid "New profile name"
-msgstr "Neuer Profilname"
-
-msgid "Create profile"
-msgstr "Profil erstellen"
-
+#. unused
 msgid "CHARACTER · CLASSES & PROGRESS"
 msgstr "CHARAKTER · KLASSEN UND FORTSCHRITT"
 
-msgid "Classes"
-msgstr "Klassen"
-
-msgid "%s · Lv %d"
-msgstr "%s · Lv %d"
-
-msgid "Selected class"
-msgstr "Ausgewählte Klasse"
-
-msgid "Select class"
-msgstr "Klasse auswählen"
-
+#. unused
 msgid "Builds can be changed freely in the main menu. One passive talent per tier. All weapons remain usable."
 msgstr "Builds lassen sich im Hauptmenü jederzeit ändern. Ein passives Talent pro Stufe. Alle Waffen bleiben nutzbar."
 
+#. unused
 msgid "LEVEL %d · %s"
 msgstr "LEVEL %d · %s"
 
+#. unused
 msgid "Choose one talent"
 msgstr "Ein Talent auswählen"
 
-msgid "%s %s"
-msgstr "%s %s"
-
+#. unused
 msgid "LIFETIME CLASS STATISTICS"
 msgstr "DAUERHAFTE KLASSENSTATISTIK"
 
-msgid "%dh %dm"
-msgstr "%dh %dm"
-
-msgid "Best kill streak"
-msgstr "Höchste Killserie"
-
-msgid "Completed missions"
-msgstr "Abgeschlossene Missionen"
-
-msgid "Boss kills"
-msgstr "Bosskills"
-
-msgid "Waves survived"
-msgstr "Überstandene Wellen"
-
+#. unused
 msgid "Multiplayer kills"
 msgstr "Mehrspieler-Kills"
 
+#. unused
 msgid "Multiplayer missions"
 msgstr "Mehrspieler-Missionen"
 
-msgid "NEXT UNLOCK · LEVEL %d\nA new passive talent tier"
-msgstr "NÄCHSTE FREISCHALTUNG · LEVEL %d\nEine neue passive Talentstufe"
-
-msgid "All six talent tiers unlocked"
-msgstr "Alle sechs Talentstufen freigeschaltet"
-
-msgid "Profile: %d total kills · %d quests completed · %d achievements\nFavourite class: %s"
-msgstr "Profil: %d Kills insgesamt · %d abgeschlossene Quests · %d Erfolge\nBevorzugte Klasse: %s"
-
-msgid "+%d XP · %s"
-msgstr "+%d XP · %s"
-
-msgid "LEVEL UP\n%s · LEVEL %d"
-msgstr "LEVELAUFSTIEG\n%s · LEVEL %d"
-
-msgid "New talent available in the main menu."
-msgstr "Neues Talent im Hauptmenü verfügbar."
-
-msgid "%s · LVL %d · %d%%"
-msgstr "%s · LVL %d · %d%%"
-
-msgid "Achievement completed"
-msgstr "Erfolg freigeschaltet"
-
-msgid "Quest completed"
-msgstr "Quest abgeschlossen"
-
-msgid "Boss kill"
-msgstr "Bosskill"
-
-msgid "Elite kill"
-msgstr "Elite-Kill"
-
-msgid "Zombie kill"
-msgstr "Zombie-Kill"
-
-msgid "Wave survived"
-msgstr "Welle überstanden"
-
-msgid "Mission completed"
-msgstr "Mission abgeschlossen"
-
-msgid "Team objective completed"
-msgstr "Teamziel abgeschlossen"
-
-msgid "Lock in class"
-msgstr "Klasse bestätigen"
-
-msgid "Class locked"
-msgstr "Klasse bestätigt"
-
-msgid "Choose your class here. Skills can only be changed in the main menu. A locked class stays fixed for the match."
-msgstr "Wähle hier deine Klasse. Skills können nur im Hauptmenü geändert werden. Eine bestätigte Klasse bleibt für das Match festgelegt."
-
+#. unused
 msgid "%s · %s · Level %d · %s"
 msgstr "%s · %s · Level %d · %s"
 
+#. unused
 msgid "LOCKED"
 msgstr "BESTÄTIGT"
 
-msgid "Choose class"
-msgstr "Klasse wählen"
-
-msgid "Select a valid character class before joining."
-msgstr "Wähle vor dem Beitritt eine gültige Charakterklasse."
-
-msgid "Every player must lock in a class before the match starts."
-msgstr "Alle Spieler müssen ihre Klasse vor dem Match bestätigen."
-
-msgid "This profile needs a newer version of RemZ."
-msgstr "Dieses Profil benötigt eine neuere Version von RemZ."
-
-msgid "The profile could not be read. The original files have been kept."
-msgstr "Das Profil konnte nicht gelesen werden. Die Originaldateien wurden beibehalten."
-
-msgid "Progress could not be saved. Check free space and write access to the profile folder."
-msgstr "Fortschritt konnte nicht gespeichert werden. Prüfe freien Speicherplatz und Schreibrechte für den Profilordner."
-
-msgid "Assault Trooper"
-msgstr "Sturmschütze"
-
-msgid "Gunslinger Mastery"
-msgstr "Revolvermeister"
-
-msgid "Elite Hunter"
-msgstr "Elitejäger"
-
-msgid "Untouchable Movement"
-msgstr "Unantastbare Bewegung"
-
-msgid "Defeat your first zombie."
-msgstr "Töte deinen ersten Zombie."
-
-msgid "Exterminator"
-msgstr "Exterminator"
-
-msgid "Defeat 10,000 zombies across all classes."
-msgstr "Töte insgesamt 10.000 Zombies mit allen Klassen."
-
-msgid "Perfect Aim"
-msgstr "Perfect Aim"
-
+#. unused
 msgid "Score 100 headshot kills across all classes."
 msgstr "Erziele insgesamt 100 Kopfschuss-Kills mit allen Klassen."
 
-msgid "Class Veteran"
-msgstr "Veteran"
-
-msgid "Reach level 30 with one class."
-msgstr "Erreiche Level 30 mit einer Klasse."
-
-msgid "Master of Arms"
-msgstr "Master of Arms"
-
-msgid "Reach level 30 with all five classes."
-msgstr "Erreiche Level 30 mit allen fünf Klassen."
-
-msgid "Untouchable Survivor"
-msgstr "Unantastbarer Überlebender"
-
-msgid "Complete an entire Hard or Nightmare mission without taking damage."
-msgstr "Schliesse eine gesamte Mission auf Schwer oder Albtraum ohne erlittenen Schaden ab."
-
+#. unused
 msgid "PROFILE ACHIEVEMENTS"
 msgstr "PROFIL-ERFOLGE"
 
+#. unused
 msgid "%s · %s · %d XP"
 msgstr "%s · %s · %d XP"
 
-msgid "%d cosmetic unlocks"
-msgstr "%d kosmetische Freischaltungen"
-
-msgid "Rem Dollars and supplies are awarded per round. Class XP for each achievement is awarded only once per character profile."
-msgstr "Rem Dollars und Vorräte werden pro Runde vergeben. Klassen-XP für jeden Erfolg gibt es nur einmal pro Charakterprofil."
-
-msgid "Class confirmed. Waiting for the team."
-msgstr "Klasse bestätigt. Warte auf das Team."
-
-msgid "Score 100 headshots across all classes."
-msgstr "Erziele insgesamt 100 Kopfschüsse mit allen Klassen."
-
-msgid "Quest line %s completed · +%d R · +%d class XP · Purchase permit: %s"
-msgstr "Auftragsreihe %s abgeschlossen · +%d R · +%d Klassen-XP · Kauferlaubnis: %s"
-
-msgid "Quest completed · +%d R · +%d class XP · %s"
-msgstr "Auftrag abgeschlossen · +%d R · +%d Klassen-XP · %s"
-
-msgid "%s · Level %d · %d R · %d class XP"
-msgstr "%s · Level %d · %d R · %d Klassen-XP"
-
-msgid "+%d Rem Dollars · +%d class XP"
-msgstr "+%d Rem Dollars · +%d Klassen-XP"
-
-msgid "All goals reached!\nTurn in to %s · %d R · %d class XP"
-msgstr "Alle Ziele erreicht!\nBei %s abgeben · %d R · %d Klassen-XP"
-
-msgid "Deaths"
-msgstr "Tode"
-
-msgid "Survivor dossier"
-msgstr "Überlebendenakte"
-
-msgid "REMZ · Survivor dossier"
-msgstr "REMZ · Überlebendenakte"
-
-msgid "Class level"
-msgstr "Klassenlevel"
-
-msgid "%s / %s XP"
-msgstr "%s / %s XP"
-
-msgid "%s XP to next level"
-msgstr "%s XP bis zum nächsten Level"
-
-msgid "Maximum level"
-msgstr "Maximales Level"
-
-msgid "Choose your speciality"
-msgstr "Wähle deine Spezialisierung"
-
-msgid "Shape your playstyle"
-msgstr "Gestalte deinen Spielstil"
-
-msgid "Your record in the field"
-msgstr "Deine Einsatzerfolge"
-
-msgid "Profile · %s"
-msgstr "Profil · %s"
-
-msgid "Build your survivor"
-msgstr "Entwickle deinen Charakter"
-
-msgid "One talent per tier. Change your choices freely in the main menu."
-msgstr "Ein Talent pro Stufe. Deine Auswahl lässt sich im Hauptmenü jederzeit ändern."
-
-msgid "REMZ / 01"
-msgstr "REMZ / 01"
-
-msgid "Class roster"
-msgstr "Klassenübersicht"
-
+#. unused
 msgid "Every class can use every weapon. Your talents define how you fight."
 msgstr "Jede Klasse kann jede Waffe nutzen. Deine Talente bestimmen, wie du kämpfst."
 
-msgid "Discipline %02d"
-msgstr "Spezialisierung %02d"
-
-msgid "Select %s"
-msgstr "%s auswählen"
-
-msgid "Six talent tiers. Two choices at each milestone. Your build, your approach."
-msgstr "Sechs Talentstufen. Zwei Möglichkeiten an jedem Meilenstein. Dein Build, dein Spielstil."
-
-msgid "Edit selected build"
-msgstr "Aktiven Build bearbeiten"
-
-msgid "Class selected: %s"
-msgstr "Klasse ausgewählt: %s"
-
-msgid "%d / 6 talents equipped"
-msgstr "%d / 6 Talente ausgerüstet"
-
-msgid "Ready to choose"
-msgstr "Bereit zur Auswahl"
-
-msgid "Talent equipped"
-msgstr "Talent ausgerüstet"
-
-msgid "Equip %s"
-msgstr "%s ausrüsten"
-
-msgid "Requires %s level %d. You are level %d.\nEarn %s more class XP to unlock this tier."
-msgstr "Benötigt %s auf Level %d. Du bist auf Level %d.\nDir fehlen noch %s Klassen-XP bis zu dieser Talentstufe."
-
-msgid "Talent equipped: %s"
-msgstr "Talent ausgerüstet: %s"
-
-msgid "Lifetime class statistics"
-msgstr "Dauerhafte Klassenstatistik"
-
-msgid "Multiplayer: %s kills · %s missions"
-msgstr "Mehrspieler: %s Kills · %s Missionen"
-
-msgid "Profile achievements"
-msgstr "Profil-Erfolge"
-
-msgid "%s XP"
-msgstr "%s XP"
-
-msgid "Talent locked"
-msgstr "Talent gesperrt"
-
-msgid "Earn XP through combat, quests and completed waves. Choosing a talent does not spend XP."
-msgstr "Verdiene XP durch Kämpfe, Aufträge und überstandene Wellen. Bei der Talentwahl werden keine XP ausgegeben."
-
-msgid "Understood"
-msgstr "Verstanden"
-
-# Assassin Teleport
-
-msgid "Teleport"
-msgstr "Teleport"
-
-msgid "Teleport: Forward"
-msgstr "Teleport: Vorwärts"
-
-msgid "Teleport: Map"
-msgstr "Teleport: Karte"
-
-msgid "V teleports up to 8 metres ahead. Cooldown: 12 seconds."
-msgstr "V teleportiert dich bis zu 8 Meter nach vorne. Abklingzeit: 12 Sekunden."
-
-msgid "V opens a map. Click a safe point within 40 metres. Cooldown: 30 seconds."
-msgstr "V öffnet die Karte. Klicke auf einen freien Punkt innerhalb von 40 Metern. Abklingzeit: 30 Sekunden."
-
-msgid "TELEPORT / LEVEL 15"
-msgstr "TELEPORT / LEVEL 15"
-
-msgid "Choose one teleport mode for the round. Your passive talents remain available."
-msgstr "Wähle eine Teleport-Variante für die Runde. Deine passiven Talente bleiben verfügbar."
-
-msgid "Teleport mode equipped. Press V during the round."
-msgstr "Teleport-Variante gewählt. Drücke V während der Runde."
-
-msgid "Select"
-msgstr "Auswählen"
-
-msgid "TELEPORT / MAP"
-msgstr "TELEPORT / KARTE"
-
-msgid "Choose a safe point within 40 metres. The round keeps running."
-msgstr "Wähle einen freien Punkt innerhalb von 40 Metern. Die Runde läuft weiter."
-
-msgid "Cancel (Esc / right click)"
-msgstr "Abbrechen (Esc / Rechtsklick)"
-
-msgid "Choose a Teleport mode in Class skills at Assassin level 15."
-msgstr "Wähle ab Assassin-Level 15 eine Teleport-Variante unter Klassen-Skills."
-
-msgid "Teleport is unavailable right now."
-msgstr "Teleport ist momentan nicht verfügbar."
-
-msgid "Teleport is unavailable during the intro."
-msgstr "Während des Intros ist Teleport nicht verfügbar."
-
-msgid "Teleport is recharging."
-msgstr "Teleport lädt noch auf."
-
-msgid "Left click: teleport / Esc: cancel"
-msgstr "Linksklick: teleportieren / Esc: abbrechen"
-
-msgid "Choose a point on the map."
-msgstr "Wähle einen Punkt auf der Karte."
-
-msgid "Choose a safe point on the map."
-msgstr "Wähle einen freien Punkt auf der Karte."
-
-msgid "That point is beyond the 40 metre range."
-msgstr "Dieser Punkt liegt ausserhalb der Reichweite von 40 Metern."
-
-msgid "There is no safe landing ahead."
-msgstr "Vor dir gibt es keinen sicheren Landepunkt."
-
-msgid "That landing is blocked or unsafe."
-msgstr "Dieser Landepunkt ist blockiert oder unsicher."
-
-msgid "Choose a point a little further away."
-msgstr "Wähle einen etwas weiter entfernten Punkt."
-
-msgid "Teleport: %.1f s"
-msgstr "Teleport: %.1f s"
-
-msgid "V / Teleport: Map"
-msgstr "V / Teleport: Karte"
-
-msgid "V / Teleport: Forward"
-msgstr "V / Teleport: Vorwärts"
-
-msgid "N / 40 m range"
-msgstr "N / 40 m Reichweite"
-
-msgid "V: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round."
-msgstr "V: Assassin-Teleport (Level 15). Wähle vor der Runde unter Klassen-Skills Vorwärts oder Karte."
-
-msgid "REMZ is a zombie survival game for solo players and co-op teams. Choose an available region on the campaign map, select your class and talents, and survive 25 waves to secure the region. Explore, complete quests, collect supplies and improve your equipment between attacks. Learn each map's routes and defend its objectives. Your campaign victories and class progress carry over to future rounds."
-msgstr "REMZ ist ein Zombie-Survival-Spiel für Einzelspieler und Koop-Teams. Wähle eine verfügbare Region auf der Kampagnenkarte, lege deine Klasse und Talente fest und überlebe 25 Wellen, um die Region zu sichern. Erkunde die Umgebung, erfülle Aufträge, sammle Vorräte und verbessere zwischen den Angriffen deine Ausrüstung. Lerne die Wege jeder Map kennen und verteidige ihre Ziele. Kampagnensiege und Klassenfortschritt bleiben für kommende Runden erhalten."
-
-msgid "Start game opens the campaign map. Choose an available region; regions marked under construction cannot be entered yet. Survive all 25 waves to save a victory for that region."
-msgstr "Spiel starten öffnet die Kampagnenkarte. Wähle eine verfügbare Region; als im Bau markierte Regionen sind noch nicht spielbar. Überlebe alle 25 Wellen, um einen Sieg für diese Region zu speichern."
-
-msgid "Choose your class and talents in the main menu. Classes gain XP across rounds and unlock new talents. The Assassin can choose a teleport mode from level 15 and activate it with V."
-msgstr "Wähle deine Klasse und Talente im Hauptmenü. Klassen sammeln über mehrere Runden XP und schalten neue Talente frei. Der Assassin kann ab Level 15 eine Teleport-Variante wählen und mit V aktivieren."
-
-msgid "Explore the map and visit traders for weapons, supplies and upgrades. Complete quests and survive waves to unlock more equipment. Q shows your quests; I opens your inventory."
-msgstr "Erkunde die Map und besuche Händler für Waffen, Vorräte und Verbesserungen. Erfülle Aufträge und überlebe Wellen, um weitere Ausrüstung freizuschalten. Q zeigt deine Aufträge; I öffnet dein Inventar."
-
-msgid "Use the breaks between waves to reload, heal and improve your defenses. E interacts with traders and builds or repairs barricades. T previews a turret; E confirms its placement."
-msgstr "Nutze die Pausen zwischen den Wellen zum Nachladen, Heilen und Verstärken deiner Verteidigung. E spricht Händler an und baut oder repariert Barrikaden. T zeigt die Turmvorschau; E bestätigt die Platzierung."
-
-msgid "Follow the objectives and warnings for your current map. Protect any defense objective: losing it can end the round even if you are still alive."
-msgstr "Beachte die Ziele und Warnungen deiner aktuellen Map. Schütze die Verteidigungsziele: Ihr Verlust kann die Runde beenden, auch wenn du noch lebst."
-
-msgid "In co-op, share supplies, mark threats with X or the middle mouse button, and revive downed teammates with E. Menus do not pause a co-op round."
-msgstr "Teilt im Koop eure Vorräte, markiert Gefahren mit X oder der mittleren Maustaste und belebt gefallene Mitspieler mit E wieder. Menüs halten eine Koop-Runde nicht an."
-
-msgid "Interact / build / repair / mount turret"
-msgstr "Interagieren / bauen / reparieren / Turm besteigen"
-
-msgid "Preview turret · E confirms placement"
-msgstr "Turmvorschau · E bestätigt die Platzierung"
-
-msgid "Fly a drone · RMB rocket · R self-destruct · Esc recall"
-msgstr "Drohne fliegen · Rechtsklick Rakete · R Selbstzerstörung · Esc zurückrufen"
-
-msgid "Callout: mark an enemy, defense or location"
-msgstr "Markieren: Gegner, Verteidigung oder Position"
-
-msgid "Learn the survival basics: weaker zombies, smaller waves, plenty of supplies."
-msgstr "Lerne die Survival-Grundlagen: schwächere Zombies, kleinere Wellen, reichlich Vorräte."
-
-msgid "The standard survival challenge: stronger hordes with every wave. Plan your supplies and defenses."
-msgstr "Die normale Survival-Herausforderung: Mit jeder Welle werden die Horden stärker. Plane Vorräte und Verteidigung."
-
+#. unused
 msgid "EXPLORATION"
 msgstr "ERKUNDUNG"
 
-msgid "Explore the fields of Remetschwil."
-msgstr "Erkunde die Felder von Remetschwil."
-
+#. unused
 msgid "Explore the fields of Remetschwil. Follow Rigiweg towards the village or walk uphill towards Sennhof."
 msgstr "Erkunde die Felder von Remetschwil. Folge dem Rigiweg Richtung Dorf oder gehe bergauf Richtung Sennhof."
 
+#. unused
 msgid "Explore The Planes  →"
 msgstr "The Planes erkunden  →"
 
+#. unused
 msgid "The Planes exploration is available in solo play."
 msgstr "The Planes kann im Einzelspiel erkundet werden."
 
-msgid "WASD Walk · Shift Sprint · Space Jump · Ctrl Crouch · M Map · Esc Menu"
-msgstr "WASD Gehen · Shift Sprinten · Leertaste Springen · Strg Ducken · M Karte · Esc Menü"
-
+#. unused
 msgid "THE PLANES · EXPLORATION"
 msgstr "THE PLANES · ERKUNDUNG"
 
+#. unused
 msgid "Continue exploring"
 msgstr "Weiter erkunden"
 
+#. unused
 msgid "View towards Sennhof"
 msgstr "Blick Richtung Sennhof"
 
+#. unused
 msgid "View of the junction"
 msgstr "Blick auf die Weggabelung"
 
+#. unused
 msgid "View towards Core"
 msgstr "Blick Richtung Core"
 
+#. unused
 msgid "Back to region selection"
 msgstr "Zurück zur Gebietsauswahl"
 
-msgid "Survival: 25 rounds. Exploration regions can be visited freely."
-msgstr "Survival: 25 Runden. Erkundungsgebiete sind frei begehbar."
-
-msgid "Choose a region on the map or in the list."
-msgstr "Wähle ein Gebiet auf der Karte oder in der Liste."
-
-msgid "Select a region"
-msgstr "Gebiet auswählen"
-
+#. unused
 msgid "EXPLORATION / SURVIVAL"
 msgstr "ERKUNDUNG / SURVIVAL"
 
+#. unused
 msgid "Explore the fields of Remetschwil. Press Esc to start a 25-wave survival run."
 msgstr "Erkunde die Felder von Remetschwil. Mit Esc kannst du einen Survival-Durchlauf mit 25 Wellen starten."
 
-msgid "Start 25-wave survival"
-msgstr "Survival mit 25 Wellen starten"
-
-msgid "Back to exploration"
-msgstr "Zurück zur Erkundung"
-
+#. unused
 msgid "25 waves · 1/2/3 weapons · R reload · G grenade · Enter starts the next wave"
 msgstr "25 Wellen · 1/2/3 Waffen · R Nachladen · G Granate · Enter startet die nächste Welle"
 
-msgid "THE PLANES SECURED · 25 / 25"
-msgstr "THE PLANES GESICHERT · 25 / 25"
-
-msgid "Run ended. Try again or continue exploring."
-msgstr "Durchlauf beendet. Starte erneut oder erkunde die Gegend weiter."
-
-msgid "Start in %d s · Enter: start now"
-msgstr "Start in %d s · Enter: sofort starten"
-
+#. unused
 msgid "Wave %d survived. Health and ammunition restored."
 msgstr "Welle %d überlebt. Gesundheit und Munition aufgefüllt."
 
+#. unused
 msgid "Downed: hold E to revive"
 msgstr "Am Boden: E zum Wiederbeleben halten"
 
+#. unused
 msgid "Health: %d"
 msgstr "Gesundheit: %d"
 
-#: scripts/planes_minimap.gd
-msgid "▲ You   • Enemies   M Map size"
-msgstr "▲ Du   • Gegner   M Kartengrösse"
-
-#: scripts/planes_hud.gd
+#. unused
 msgid "Pistol / AK-47 / Shotgun"
 msgstr "Pistole / AK-47 / Schrotflinte"
 
-#: scripts/planes_hud.gd
-msgid "Reload"
-msgstr "Nachladen"
-
-#: scripts/intro.gd
-msgid "Find the forest hut.\nFollow the gold marker along the road."
-msgstr "Finde die Waldhütte.\nFolge der goldenen Markierung entlang der Strasse."
-
-#: scripts/intro.gd
-msgid "Path to the forest hut · %d m"
-msgstr "Weg zur Waldhütte · %d m"
-
-msgid "Map boundary · turn back"
-msgstr "Gebietsgrenze ? bitte umkehren"
-
-msgid "mushrooms"
-msgstr "Pilze"
-
-msgid "flowers"
-msgstr "Blumen"
-
-msgid "sandbags"
-msgstr "Sandsäcke"
-
-msgid "active"
-msgstr "aktiv"
-
-msgid "palisade"
-msgstr "Palisade"
-
-msgid "Close [B / Esc] · Buy kits at Mechanic"
-msgstr "Schliessen [B / Esc] · Bausätze beim Mechanic kaufen"
-
-msgid "Building unavailable."
-msgstr "Bauen momentan nicht möglich."
-
-msgid "Fortification limit reached."
-msgstr "Befestigungslimit erreicht."
-
-msgid "Choose ground 2–8 m away."
-msgstr "Wähle Boden in 2–8 m Entfernung."
-
-msgid "Choose solid ground."
-msgstr "Wähle festen Boden."
-
-msgid "Outside the playable area."
-msgstr "Ausserhalb des Spielgebiets."
-
-msgid "Keep the traders accessible."
-msgstr "Halte den Zugang zu den Händlern frei."
-
-msgid "Keep the campfire clear."
-msgstr "Halte das Lagerfeuer frei."
-
-msgid "Too close to another fortification."
-msgstr "Zu nahe an einer anderen Befestigung."
-
-msgid "Keep tower access clear."
-msgstr "Halte den Turmzugang frei."
-
-msgid "No clear view of the site."
-msgstr "Keine freie Sicht auf den Bauplatz."
-
-msgid "Buy a kit at Mechanic first."
-msgstr "Kaufe zuerst einen Bausatz beim Mechanic."
-
-msgid "Go to Mechanic."
-msgstr "Gehe zum Mechanic."
-
-msgid "Survive wave 3 / 8 for stronger fortifications."
-msgstr "Überlebe Welle 3 / 8 für stärkere Befestigungen."
-
-msgid "Fortification upgraded."
-msgstr "Befestigung aufgerüstet."
-
-msgid "Look at nearby ground."
-msgstr "Schau auf den Boden in deiner Nähe."
-
+#. unused
 msgid "[E] Place · [R] Rotate · [Esc] Cancel"
 msgstr "[E] Platzieren · [R] Drehen · [Esc] Abbrechen"
 
-msgid "Portable fortification kits"
-msgstr "Mitführbare Befestigungsbausätze"
-
-msgid "Field journal"
-msgstr "Feldtagebuch"
-
-msgid "Trade / collect / repair"
-msgstr "Handeln / sammeln / reparieren"
-
-msgid "A place of your own"
-msgstr "Dein eigener Platz"
-
-msgid "Choose your ground. Buy and place two defence kits."
-msgstr "Wähle deinen Standort. Kaufe und platziere zwei Befestigungsbausätze."
-
-msgid "Colour in the fields"
-msgstr "Farbe auf den Feldern"
-
-msgid "Collect six marked wildflower bundles on the meadow paths."
-msgstr "Sammle sechs markierte Wildblumensträusse an den Wiesenwegen."
-
-msgid "Your first strongpoint"
-msgstr "Dein erster Stützpunkt"
-
-msgid "Place a tower using T. Towers can stand anywhere suitable."
-msgstr "Platziere mit T einen Turm. Du bestimmst den geeigneten Standort selbst."
-
-msgid "Open sky, steady hands"
-msgstr "Unter freiem Himmel"
-
-msgid "Defeat thirty zombies. The camp does not need defending."
-msgstr "Besiege dreissig Zombies. Das Lager muss nicht verteidigt werden."
-
-msgid "Under the canopy"
-msgstr "Unter den Baumkronen"
-
-msgid "Collect four marked mushroom baskets in the woodland."
-msgstr "Sammle vier markierte Pilzgruppen im Wald."
-
-msgid "Make it last"
-msgstr "Damit es hält"
-
-msgid "Repair three damaged fortifications."
-msgstr "Repariere drei beschädigte Befestigungen."
-
-msgid "Quiet work"
-msgstr "Ruhige Hand"
-
-msgid "Defeat twenty enemies with headshots."
-msgstr "Besiege zwanzig Gegner mit Kopfschüssen."
-
-msgid "Heavy footsteps"
-msgstr "Schwere Schritte"
-
-msgid "Defeat eight brutes across the survival waves."
-msgstr "Besiege im Verlauf der Wellen acht Brutes."
-
-msgid "The long harvest"
-msgstr "Die lange Ernte"
-
-msgid "Survive fifteen waves on your chosen ground."
-msgstr "Überlebe fünfzehn Wellen an deinem gewählten Standort."
-
-msgid "Start survival from the pause menu to trade and build."
-msgstr "Starte Überleben im Pausenmenü, um zu handeln und zu bauen."
-
+#. unused
 msgid "Carry kits anywhere. B opens your kit inventory; R rotates, E places."
 msgstr "Nimm Bausätze mit. B öffnet dein Bauinventar; R dreht, E platziert."
 
+#. unused
 msgid "%s kit · %d R · carried: %d"
 msgstr "%s-Bausatz · %d R · dabei: %d"
 
+#. unused
 msgid "Fortification #%d | tier %d | Upgrade"
 msgstr "Befestigung #%d | Stufe %d | Aufrüsten"
 
+#. unused
 msgid "%s #%d · Tier %d · Upgrade %d R"
 msgstr "%s #%d · Stufe %d · Aufrüstung %d R"
 
+#. unused
 msgid "Ammunition refill"
 msgstr "Munition nachfüllen"
 
+#. unused
 msgid "Field dressing · 35 R"
 msgstr "Wundverband · 35 R"
 
+#. unused
 msgid "Grenade · 30 R"
 msgstr "Granate · 30 R"
 
+#. unused
 msgid "%s · %d R · wave %d%s"
 msgstr "%s · %d R · Welle %d%s"
 
+#. unused
 msgid "QUESTS · accept, then return for the reward"
 msgstr "AUFTRÄGE · annehmen und für die Belohnung zurückkehren"
 
-msgid "claimed"
-msgstr "abgeholt"
-
+#. unused
 msgid "%s · %s · %d/%d · %d R\n%s (wave %d)"
 msgstr "%s · %s · %d/%d · %d R\n%s (Welle %d)"
 
-msgid "Maximum 40 fortifications and carried kits."
-msgstr "Maximal 40 Befestigungen und mitgeführte Bausätze."
-
-msgid "Kit packed. Press B at your chosen position."
-msgstr "Bausatz eingepackt. Drücke B an deinem gewählten Standort."
-
-msgid "Go to the trader."
-msgstr "Gehe zum Händler."
-
-msgid "Survive until the required wave."
-msgstr "Erreiche zuerst die benötigte Welle."
-
-msgid "Weapon purchased. Use the mouse wheel to equip."
-msgstr "Waffe gekauft. Mit dem Mausrad ausrüsten."
-
-msgid "Go to Vendor."
-msgstr "Gehe zum Vendor."
-
-msgid "No refill needed or insufficient funds."
-msgstr "Kein Nachschub nötig oder nicht genug Geld."
-
-msgid "Ammunition purchased."
-msgstr "Munition gekauft."
-
-msgid "Unknown supplies."
-msgstr "Unbekannter Nachschub."
-
+#. unused
 msgid "You can carry six grenades."
 msgstr "Du kannst sechs Granaten tragen."
 
-msgid "Supplies purchased."
-msgstr "Nachschub gekauft."
-
-msgid "Return to the quest giver."
-msgstr "Kehre zum Auftraggeber zurück."
-
-msgid "Reward already claimed."
-msgstr "Belohnung bereits abgeholt."
-
-msgid "Quest accepted. Earlier progress this run counts."
-msgstr "Auftrag angenommen. Bisherige Fortschritte dieser Runde zählen."
-
-msgid "Objectives not completed yet."
-msgstr "Aufgaben noch nicht abgeschlossen."
-
-msgid "Quest completed. Reward received."
-msgstr "Auftrag abgeschlossen. Belohnung erhalten."
-
+#. unused
 msgid "Collected: %s (%d)"
 msgstr "Gesammelt: %s (%d)"
 
-msgid "FIELD JOURNAL"
-msgstr "FELDTAGEBUCH"
-
-msgid "Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."
-msgstr "Vendor und Mechanic stehen an der Gabelung. Der Secret Vendor wartet im Wald. Nimm Aufträge persönlich an und kehre für die Belohnung zurück."
-
+#. unused
 msgid "%s · %d/%d · %s\n%s"
 msgstr "%s · %d/%d · %s\n%s"
 
-msgid "Wave %d survived. Supply pay received; visit Vendor to restock."
-msgstr "Welle %d überlebt. Versorgungsgeld erhalten; Nachschub gibt es beim Vendor."
-
-msgid "Survive 25 waves. Meet the traders at the fork. B: kits · T: towers · J: quests · Enter: next wave"
-msgstr "Überlebe 25 Wellen. Händler an der Gabelung. B: Bausätze · T: Türme · J: Aufträge · Enter: nächste Welle"
-
+#. unused
 msgid "Weapon mods · %s"
 msgstr "Waffenmods · %s"
 
+#. unused
 msgid "%s · %d R · wave %d"
 msgstr "%s · %d R · Welle %d"
 
-msgid "SURVIVAL / 25 ROUNDS"
-msgstr "SURVIVAL / 25 WELLEN"
-
-msgid "Survive 25 waves in the fields. Choose where to build your defences."
-msgstr "Überlebe 25 Wellen auf den Feldern. Wähle selbst, wo du deine Verteidigung aufbaust."
-
-msgid "Enter The Planes  →"
-msgstr "The Planes starten  →"
-
+#. unused
 msgid "The Planes is available in solo play."
 msgstr "The Planes ist im Einzelspiel verfügbar."
 
-
-msgid "Range Finder"
-msgstr "Ziel erfasst"
-
-msgid "Hit a Remetschwil shooting target"
-msgstr "Eine Remetschwiler Zieltafel treffen"
-
-msgid "Six at 300 Metres"
-msgstr "Sechs auf 300 Meter"
-
-msgid "Complete the shooting house sniper challenge"
-msgstr "Die Scharfschützenaufgabe im Schützenhaus abschliessen"
-
-msgid "Field Botanist"
-msgstr "Feldbotaniker"
-
-msgid "Gather 25 flowers and mushrooms in The Planes"
-msgstr "25 Blumen und Pilze auf The Planes sammeln"
-
-msgid "Open Ground"
-msgstr "Offenes Gelände"
-
-msgid "Survive wave 5 in The Planes"
-msgstr "Welle 5 auf The Planes überleben"
-
-msgid "Hold Your Ground"
-msgstr "Standhalten"
-
-msgid "Survive wave 15 in The Planes"
-msgstr "Welle 15 auf The Planes überleben"
-
-msgid "Master of The Planes"
-msgstr "Meister der Felder"
-
-msgid "Survive all 25 waves in The Planes"
-msgstr "Alle 25 Wellen auf The Planes überleben"
-
-msgid "Players: %d / 4"
-msgstr "Spieler: %d / 4"
-
-msgid "%s · %s · Level %d"
-msgstr "%s · %s · Stufe %d"
-
-msgid "Hold E · Revive %s"
-msgstr "E halten · %s wiederbeleben"
-
-msgid "MOVE %s · free"
-msgstr "%s VERSETZEN · kostenlos"
-
-msgid "Arcing shot · 12 m blast radius"
-msgstr "Steilfeuer · 12 m Explosionsradius"
-
-msgid "Opens the Schützenhaus. Look for the key on a stump in the woodland; new chances each night."
-msgstr "Öffnet das Schützenhaus. Suche den Schlüssel auf einem Baumstumpf im Wald; jede Nacht gibt es eine neue Chance."
-
-msgid "Key: Schützenhaus"
-msgstr "Schlüssel: Schützenhaus"
-
-msgid "Hold E · Revive %s · 3 seconds"
-msgstr "E halten · %s wiederbeleben · 3 Sekunden"
-
+#. unused
 msgid "[E] Place · [Wheel / R] Rotate · [Esc] Cancel"
 msgstr "[E] Aufstellen · [Mausrad / R] Drehen · [Esc] Abbrechen"
 
-msgid "Schützenhaus"
-msgstr "Schützenhaus"
-
-msgid "Back to The Planes · Esc"
-msgstr "Zurück zu The Planes · Esc"
-
-msgid "Survive until wave %d."
-msgstr "Überlebe bis Welle %d."
-
+#. unused
 msgid "%s kit"
 msgstr "%s-Bausatz"
 
+#. unused
 msgid "Carried: %d. Place with B; rotate with mouse wheel."
 msgstr "Im Inventar: %d. Mit B aufstellen; mit dem Mausrad drehen."
 
+#. unused
 msgid "Fortification #%d · tier %d"
 msgstr "Befestigung Nr. %d · Stufe %d"
 
+#. unused
 msgid "Upgrade palisades and sandbags here."
 msgstr "Palisaden und Sandsäcke hier verbessern."
 
+#. unused
 msgid "%s · Quests"
 msgstr "%s · Aufgaben"
 
+#. unused
 msgid "%s\n%d / %d · %d R · %d class XP"
 msgstr "%s\n%d / %d · %d R · %d Klassen-EP"
 
-msgid "[E] Grill venison · [C] Brew drinks"
-msgstr "[E] Wildfleisch grillen · [C] Getränke brauen"
-
-msgid "[E] Operate tower · [R] Align · [Y] Move · [F] Repair"
-msgstr "[E] Turm bedienen · [R] Ausrichten · [Y] Versetzen · [F] Reparieren"
-
-msgid "Choose your ground. Survive 25 waves. Return to each quest giver for rewards."
-msgstr "Wähle deinen Standort. Überlebe 25 Wellen. Hole deine Belohnungen beim jeweiligen Auftraggeber ab."
-
-msgid "Claimed"
-msgstr "Abgeholt"
-
-msgid "Not accepted"
-msgstr "Nicht angenommen"
-
+#. unused
 msgid "Find the woodland key, enter the Schützenhaus and shoot its six targets with a sniper. %d / 6 · 350 R"
 msgstr "Finde den Waldschlüssel, betrete das Schützenhaus und triff die sechs Zieltafeln mit einem Scharfschützengewehr. %d / 6 · 350 R"
-
-msgid "300 m challenge"
-msgstr "300-m-Aufgabe"
-
-msgid "Discover"
-msgstr "Entdecken"
-
-msgid "300 m challenge · %d / 6 targets"
-msgstr "300-m-Aufgabe · %d / 6 Zieltafeln"
-
-msgid "Collected: %s"
-msgstr "Aufgenommen: %s"
-
-msgid "Schützenhaus · Key"
-msgstr "Schützenhaus · Schlüssel"
-
-msgid "!  300 m CHALLENGE\n[E] Read shooting log"
-msgstr "!  300-m-AUFGABE\n[E] Schiessbuch lesen"
-
-msgid "[E] Take key · Schützenhaus"
-msgstr "[E] Schlüssel aufnehmen · Schützenhaus"
-
-msgid "[E] Open Schützenhaus"
-msgstr "[E] Schützenhaus öffnen"
-
-msgid "Schützenhaus locked · find the key in the woodland"
-msgstr "Schützenhaus verschlossen · finde den Schlüssel im Wald"
-
-msgid "[E] 300 m challenge · %d / 6 targets"
-msgstr "[E] 300-m-Aufgabe · %d / 6 Zieltafeln"
-
-msgid "[E] Collect ammunition cache"
-msgstr "[E] Munitionsvorrat aufnehmen"
-
-msgid "Find the Schützenhaus key in the woodland."
-msgstr "Finde den Schützenhausschlüssel im Wald."
-
-msgid "300 m challenge completed."
-msgstr "300-m-Aufgabe abgeschlossen."
-
-msgid "From inside the shooting house, hit all six targets with a sniper rifle. Return to this log for 350 R and class XP."
-msgstr "Triff vom Schützenhaus aus alle sechs Zieltafeln mit einem Scharfschützengewehr. Kehre für 350 R und Klassen-EP zu diesem Schiessbuch zurück."
-
-msgid "Hit all six targets from inside this house: %d / 6"
-msgstr "Triff alle sechs Zieltafeln aus diesem Gebäude: %d / 6"
-
-msgid "300 m challenge completed · +350 R and class XP"
-msgstr "300-m-Aufgabe abgeschlossen · +350 R und Klassen-EP"
-
-msgid "Schützenhaus unlocked."
-msgstr "Schützenhaus aufgeschlossen."
-
-msgid "Schützenhaus key"
-msgstr "Schützenhausschlüssel"
-
-msgid "Ammunition"
-msgstr "Munition"
-
-msgid "[E] Reset score · Lane %d"
-msgstr "[E] Punkte zurücksetzen · Bahn %d"
-
-msgid "Score reset · Lane %d"
-msgstr "Punkte zurückgesetzt · Bahn %d"
-
-msgid "[E] Place · [Wheel / R] Rotate · [Shift] Free placement · [Esc] Cancel"
-msgstr "[E] Bauen · [Mausrad / R] Drehen · [Shift] Frei platzieren · [Esc] Abbrechen"
-
-msgid "LANE %d\nSCORE %d\nHITS %d · LAST %d\n[E] Reset"
-msgstr "BAHN %d\nPUNKTE %d\nTREFFER %d · LETZTER %d\n[E] Reset"
-
-
-msgid "Pistol headshot kills grant 12% faster reloads and 15% faster fire rate per stack for 10 seconds. Up to 5 stacks."
-msgstr "Pistolen-Kopfschusskills geben pro Stapel 12% kürzere Nachladezeit und 15% höhere Feuerrate für 10 Sekunden. Bis zu 5 Stapel."
-
-
-msgid "Pistols deal 150% more damage to targets at or below 50% health."
-msgstr "Pistolen verursachen 150% mehr Schaden an Zielen mit höchstens 50% Leben."
-
-
-msgid "Pistol headshots deal 50% more damage. Consecutive headshots add 30% each, up to 200% total bonus. A miss or body hit resets the chain."
-msgstr "Pistolen-Kopfschüsse verursachen 50% mehr Schaden. Aufeinanderfolgende Kopfschüsse geben je 30% mehr, bis zu 200% Gesamtbonus. Fehlschüsse oder Körpertreffer setzen die Serie zurück."
-
-
-msgid "50% more pistol damage, 25% faster pistol fire rate and 40% faster movement while aiming a pistol."
-msgstr "50% mehr Pistolenschaden, 25% höhere Pistolen-Feuerrate und 40% mehr Bewegungstempo beim Zielen mit Pistolen."
-
-
-msgid "Assault rifle kills increase fire rate by 15% for 10 seconds, up to 5 stacks (+75%)."
-msgstr "Sturmgewehr-Kills erhöhen die Feuerrate für 10 Sekunden um je 15%, bis zu 5 Stapel (+75%)."
-
-
-msgid "Assault rifles deal 20% more damage and reload 65% faster with a quarter magazine or less."
-msgstr "Sturmgewehre verursachen 20% mehr Schaden und laden bei höchstens einem Viertel Magazin 65% schneller nach."
-
-
-msgid "Assault rifles gain 35% damage, 45% less recoil, 40% faster reloads and 60% larger magazines."
-msgstr "Sturmgewehre erhalten 35% mehr Schaden, 45% weniger Rückstoß, 40% kürzere Nachladezeit und 60% größere Magazine."
-
-
-msgid "Below 50% health with an assault rifle: 75% more damage, 40% damage resistance, 60% less recoil, 60% faster reloads and 25% more movement speed."
-msgstr "Unter 50% Leben mit einem Sturmgewehr: 75% mehr Schaden, 40% Schadensresistenz, 60% weniger Rückstoß, 60% kürzere Nachladezeit und 25% mehr Bewegungstempo."
-
-
-msgid "Shotgun hits within 7 metres deal 75% more damage."
-msgstr "Schrotflintentreffer innerhalb von 7 Metern verursachen 75% mehr Schaden."
-
-
-msgid "40% less damage taken while at least 2 enemies are within 8 metres."
-msgstr "40% weniger erlittener Schaden, solange mindestens 2 Gegner innerhalb von 8 Metern sind."
-
-
-msgid "Always take 15% less damage. Shotgun kills halve the remaining damage for 8 seconds (57.5% total resistance). Class resistance is capped at 75%."
-msgstr "Dauerhaft 15% weniger erlittener Schaden. Schrotflinten-Kills halbieren für 8 Sekunden den verbleibenden Schaden (insgesamt 57,5% Resistenz). Klassenresistenz ist auf 75% begrenzt."
-
-
-msgid "The first shotgun blast from a full magazine deals triple damage, including every pellet. Other blasts deal 35% more damage."
-msgstr "Der erste Schrotflintenschuss aus einem vollen Magazin verursacht dreifachen Schaden, mit jedem Pellet. Weitere Schüsse verursachen 35% mehr Schaden."
-
-
-msgid "A precision headshot kill doubles every hit of the next precision shot for 8 seconds. Another headshot kill renews the bonus."
-msgstr "Ein Präzisions-Kopfschusskill verdoppelt für 8 Sekunden alle Treffer des nächsten Präzisionsschusses. Ein weiterer Kopfschusskill erneuert den Bonus."
-
-
-msgid "Precision rifles deal 100% more damage against elites and bosses."
-msgstr "Präzisionsgewehre verursachen 100% mehr Schaden an Elitegegnern und Bossen."
-
-
-msgid "After 2 seconds without a miss, the next precision shot deals 250% more headshot damage to every pierced target. Recharges after use."
-msgstr "Nach 2 Sekunden ohne Fehlschuss verursacht der nächste Präzisionsschuss 250% mehr Kopfschussschaden an jedem durchschlagenen Ziel. Lädt sich nach Benutzung neu auf."
-
-
-msgid "Consecutive precision hits grant up to 60% damage, 60% fire rate, 50% faster reloads and twice as fast aiming at 5 hits. A miss resets the chain."
-msgstr "Aufeinanderfolgende Präzisionstreffer geben bei 5 Treffern bis zu 60% mehr Schaden, 60% höhere Feuerrate, 50% kürzere Nachladezeit und doppelt so schnelles Zielen. Fehlschüsse setzen die Serie zurück."
-
-
-msgid "15% more damage against unaware enemies or enemies attacking another player."
-msgstr "15% mehr Schaden an ahnungslosen Gegnern oder Gegnern, die einen anderen Spieler angreifen."
-
-
-msgid "The first attack against each target deals triple damage from behind or while the target is unaware. Includes all pellets of that attack."
-msgstr "Der erste Angriff auf jedes Ziel verursacht von hinten oder gegen ahnungslose Ziele dreifachen Schaden. Gilt für alle Pellets dieses Angriffs."
-
-
-msgid "After 4 seconds without taking damage, gain 30% movement speed and 20% damage resistance until hit."
-msgstr "Nach 4 Sekunden ohne erlittenen Schaden: 30% mehr Bewegungstempo und 20% Schadensresistenz bis zum nächsten Treffer."
-
-
-msgid "20% faster movement, 60% faster weapon switches, 45% less detection range, 75% more melee damage and halved teleport cooldowns."
-msgstr "20% mehr Bewegungstempo, 60% schnellere Waffenwechsel, 45% weniger Entdeckungsreichweite, 75% mehr Nahkampfschaden und halbierte Teleport-Abklingzeiten."
-
-
-msgid "After 3 seconds without attacking or taking damage, the next attack deals 150% more damage with 80% less spread. Also works with melee and every shotgun pellet."
-msgstr "Nach 3 Sekunden ohne Angriff oder erlittenen Schaden verursacht der nächste Angriff 150% mehr Schaden bei 80% weniger Streuung. Gilt auch für Nahkampf und jedes Schrotpellet."
-
-msgid "Class mastery: +%d%% weapon damage. +2%% per class level after level 1; applies to class weapons, or all weapons for Assassin."
-msgstr "Klassenmeisterschaft: +%d%% Waffenschaden. +2%% pro Klassenlevel nach Level 1; gilt für Klassenwaffen, beim Assassin für alle Waffen."
-
-msgid "50% less weapon sway and spread while aiming a precision rifle."
-msgstr "50% weniger Waffenschwanken und Streuung beim Zielen mit einem Präzisionsgewehr."
-
-msgid "%s · READY"
-msgstr "%s · BEREIT"
-
-msgid "%s · ACTIVE"
-msgstr "%s · AKTIV"
-
-msgid "%s · %.1f s"
-msgstr "%s · %.1f s"
-
-msgid "%s · x%d · %.1f s"
-msgstr "%s · x%d · %.1f s"
-
-msgid "%s · %d / 5"
-msgstr "%s · %d / 5"

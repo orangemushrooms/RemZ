@@ -1,0 +1,25 @@
+=== deagle -> 28000
+prune: Removed types... Texture (1)
+assets/raw/deagle_web/source.glb -> assets/raw/deagle_web/model.glb: 952781 -> 86195 triangles, 10.72 MB, textures 2048x2048, 2048x2048, 2048x2048
+=== pistol -> 28000
+prune: Removed types... Texture (1)
+assets/raw/pistol_web/source.glb -> assets/raw/pistol_web/model.glb: 1112425 -> 96380 triangles, 11.99 MB, textures 2048x2048, 2048x2048, 2048x2048
+=== nighthawk -> 28000
+assets/raw/nighthawk_web/source.glb -> assets/raw/nighthawk_web/model.glb: 720042 -> 79906 triangles, 8.61 MB, textures 2048x2048, 2048x2048, 2048x2048
+=== sig_p226 -> 28000
+assets/raw/sig_p226_web/source.glb -> assets/raw/sig_p226_web/model.glb: 82186 -> 28000 triangles, 6.65 MB, textures 2048x2048, 2048x2048, 2048x2048
+=== smg -> 34000
+prune: Removed types... Texture (1)
+assets/raw/smg_web/source.glb -> assets/raw/smg_web/model.glb: 155018 -> 33983 triangles, 5.52 MB, textures 2048x2048, 2048x2048
+=== tommy_gun -> 34000
+assets/raw/tommy_gun_web/source.glb -> assets/raw/tommy_gun_web/model.glb: 49903 -> 33999 triangles, 1.81 MB, textures 2048x2048
+=== ar15 -> 34000
+assets/raw/ar15_web/source.glb -> assets/raw/ar15_web/model.glb: 89230 -> 34000 triangles, 1.78 MB, textures 2048x2048
+=== spas12 -> 34000
+assets/raw/spas12_web/source.glb -> assets/raw/spas12_web/model.glb: 322856 -> 33914 triangles, 3.03 MB, textures 2048x2048
+=== sawed_off -> 34000
+prune: Removed types... Texture (1)
+assets/raw/sawed_off_web/source.glb -> assets/raw/sawed_off_web/model.glb: 199217 -> 33978 triangles, 5.48 MB, textures 2048x2048, 2048x2048
+=== knife_real -> 14000
+prune: Removed types... Texture (1)
+assets/raw/knife_real_web/source.glb -> assets/raw/knife_real_web/model.glb: 42628 -> 14000 triangles, 6.92 MB, textures 2048x2048, 2048x2048, 2048x2048

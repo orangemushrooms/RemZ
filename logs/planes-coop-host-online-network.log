@@ -1,0 +1,83 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 6, "stags": 2 } batches=1252
+PLANES_NAV repaired_detail_faces=2
+PLANES_NAV polygons=9124
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=14 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+COOP_LOAD ONLINE_HOST_BEGIN
+COOP_LOAD EOS_PLATFORM_START
+COOP_LOAD EOS_PLATFORM_READY
+COOP_LOAD EOS_RELAY_CONTROL allowed
+COOP_LOAD EOS LogEOSConnect: DeviceId access credentials already exist for the current user profile on the local device.
+COOP_LOAD EOS_LOGIN_OK
+COOP_LOAD EOS_LOBBY_CREATED code=54SDQW
+COOP_HOST_READY online=1 ONLINE_CODE=54SDQW
+COOP_LOAD ONLINE_HOST_READY ONLINE_CODE=54SDQW
+PASS: Host opens the Planes lobby
+COOP_LOAD EOS_P2P_ACCEPTED
+COOP_LOAD PEER_CONNECTED id=1741043084
+COOP_PEER_ACCEPTED count=2
+COOP_LOAD INITIAL_SEND peer=1741043084 raw=8372 bytes=1781 parts=2
+COOP_LOAD CLIENT_READY peer=1741043084
+COOP_LOAD ROUND_START_SEND players=2
+COOP_LOAD STATE_SEND peer=1741043084 raw=8372 bytes=1781 parts=2
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=2
+COOP_RUNNING players=2
+PASS: Both peers enter Planes with two players
+PASS: Co-op starts without pausing the world
+PASS: Session uses the real EOS transport
+PASS: Host retains the connected teammate
+COOP_LOAD STATE_SEND peer=1741043084 raw=8604 bytes=1923 parts=3
+COOP_LOAD STATE_SEND peer=1741043084 raw=8604 bytes=1955 parts=3
+COOP_LOAD STATE_SEND peer=1741043084 raw=8604 bytes=1953 parts=3
+PASS: Client purchases debit only the buyer
+PASS: Purchased kits belong to the requesting player
+COOP_LOAD STATE_SEND peer=1741043084 raw=8604 bytes=1956 parts=3
+PASS: Remote actor has a valid field build site
+COOP_LOAD STATE_SEND peer=1741043084 raw=8892 bytes=2052 parts=3
+COOP_LOAD STATE_SEND peer=1741043084 raw=8892 bytes=2051 parts=3
+PASS: Host creates one wall and consumes one kit despite duplicate requests
+PASS: Construction advances the builder's quest progress
+COOP_LOAD STATE_SEND peer=1741043084 raw=8916 bytes=2059 parts=3
+COOP_LOAD STATE_SEND peer=1741043084 raw=8936 bytes=2068 parts=3
+COOP_LOAD STATE_SEND peer=1741043084 raw=8960 bytes=2071 parts=3
+COOP_LOAD STATE_SEND peer=1741043084 raw=8960 bytes=2072 parts=3
+PASS: Host validates quest and pays its owner exactly once
+PASS: Client quest does not grant host XP
+PASS: Shared wave completes on the host
+COOP_LOAD STATE_SEND peer=1741043084 raw=8732 bytes=1940 parts=3
+PASS: Host revives the client through the shared co-op system
+COOP_LOAD STATE_SEND peer=1741043084 raw=8732 bytes=1956 parts=3
+COOP_LOAD STATE_SEND peer=1741043084 raw=8740 bytes=1971 parts=3
+COOP_LOAD STATE_SEND peer=1741043084 raw=8740 bytes=1970 parts=3
+PASS: Host harvests a client-selected wild plant
+PASS: Duplicate collection grants only one flower
+COOP_LOAD STATE_SEND peer=1741043084 raw=8740 bytes=1952 parts=3
+PASS: Remote player has a valid tower site
+PASS: Client tower purchase creates one authoritative tower
+PASS: Tower construction belongs to the builder's quests
+COOP_LOAD STATE_SEND peer=1741043084 raw=8952 bytes=2039 parts=3
+PASS: Team victory ends the 25-wave session
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 6, "stags": 2 } batches=1252
+COOP_LOAD EOS LogEOSRTC: TickTracker Ticks have been delayed. TimePeriod=[47.132607s] TickIntervalThreshold=[40ms] MaxTickInterval=[39326ms] MaxExecutionTime=[1ms] TicksCount=[1125] ExpectedTicksCount=[1414]
+PLANES_NAV polygons=9124
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=14 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+COOP_LOAD INITIAL_SEND peer=1741043084 raw=8372 bytes=1782 parts=2
+COOP_LOAD CLIENT_READY peer=1741043084
+COOP_LOAD ROUND_START_SEND players=2
+COOP_LOAD STATE_SEND peer=1741043084 raw=8372 bytes=1782 parts=2
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=2
+COOP_RUNNING players=2
+PASS: Co-op rematch resets world structures and waves
+PLANES_COOP_DONE host=true checks=21 failures=0
+COOP_LOAD PEER_DISCONNECTED id=1741043084
+COOP_LOAD EOS_LOBBY_DESTROY
+COOP_LOAD EOS LogEOSP2P: Leave all connections due to P2P network shutdown

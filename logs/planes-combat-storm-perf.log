@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_READY trees=401 birds=14 crops={ "corn": 238551, "wheat": 412858, "grass": 775144, "undergrowth": 7004 }
+PLANES_NAV polygons=13686
+PLANES_SURVIVAL_READY
+PLANES_PERF {"draws":1289,"fps":74.4169709390566,"id":"sennhof","mean_ms":13.437795,"median_ms":13.261,"p95_ms":13.612,"primitives":8046377}
+PLANES_PERF {"draws":1210,"fps":83.7759496003887,"id":"junction","mean_ms":11.9366,"median_ms":11.735,"p95_ms":11.963,"primitives":6407175}
+PLANES_PERF {"draws":1317,"fps":87.1177653596244,"id":"core","mean_ms":11.478715,"median_ms":11.209,"p95_ms":11.506,"primitives":6396634}
+PLANES_PERF {"draws":976,"fps":99.9299491056769,"id":"grove","mean_ms":10.00701,"median_ms":9.876,"p95_ms":10.139,"primitives":5538672}
+PLANES_PERF {"draws":991,"fps":126.530064808699,"id":"village","mean_ms":7.90326,"median_ms":7.687,"p95_ms":8.955,"primitives":3943756}
+PLANES_PERF_DONE combat-storm

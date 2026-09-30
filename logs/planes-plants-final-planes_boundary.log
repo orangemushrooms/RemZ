@@ -1,0 +1,27 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Residential footprints are outside the playable outline
+PASS: At least ten metres clearance before every building
+PASS: Eastern uphill extension is accessible: (310.0, -225.0)
+PASS: Eastern uphill extension is accessible: (400.0, -165.0)
+PASS: Eastern uphill extension is accessible: (505.0, 50.0)
+PASS: Junction, fields and target stand remain accessible: (-107.0, 18.0)
+PASS: Junction, fields and target stand remain accessible: (0.0, 0.0)
+PASS: Junction, fields and target stand remain accessible: (175.0, 218.0)
+PASS: Junction, fields and target stand remain accessible: (250.0, 100.0)
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 6, "stags": 2 } batches=1252
+PLANES_READY trees=393 birds=14 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+PASS: Actual player controller blocks residential entry at height 0.1
+PASS: Actual player controller blocks residential entry at height 3.0
+PASS: Actual player controller blocks residential entry at height 25.0
+PASS: Continuous sprint stops at the visible fence
+PASS: Cheat spawn outside boundary rejected
+PASS: Corner/overshoot confined: (-1000.0, -1000.0)
+PASS: Corner/overshoot confined: (1000.0, 1000.0)
+PASS: Corner/overshoot confined: (40.0, -260.0)
+PASS: Corner/overshoot confined: (310.0, -210.0)
+BOUNDARY_DONE checks=18 failures=0

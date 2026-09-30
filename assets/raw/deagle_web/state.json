@@ -1,0 +1,18 @@
+{
+  "model": "deagle",
+  "bake": {
+    "high": "source.glb",
+    "size": 2048,
+    "at": "2026-09-30 17:46"
+  },
+  "pack": {
+    "size": 2048,
+    "quality": 88,
+    "at": "2026-09-30 17:47"
+  },
+  "install": {
+    "file": "godot/assets/models/deagle.glb",
+    "bytes": 7329396,
+    "at": "2026-09-30 17:47"
+  }
+}

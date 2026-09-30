@@ -1,0 +1,15 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14655, "mushrooms": 504, "deer": 6, "stags": 2 } batches=2039
+PLANES_READY trees=401 birds=14 crops={ "corn": 238551, "wheat": 412858, "grass": 797186, "undergrowth": 18921, "woodland_grass": 22042 }
+PLANES_PERF {"draws":362,"fps":210.377058802492,"id":"1.0","mean_ms":4.75337,"median_ms":4.631,"p95_ms":5.214,"primitives":694924}
+PLANES_PERF {"draws":362,"fps":205.900490352018,"id":"0.2","mean_ms":4.856715,"median_ms":4.761,"p95_ms":5.408,"primitives":667657}
+PLANES_PERF {"draws":362,"fps":235.085030255443,"id":"0.05","mean_ms":4.25378,"median_ms":4.163,"p95_ms":4.785,"primitives":524381}
+PLANES_PERF {"draws":362,"fps":240.164656888763,"id":"0.01","mean_ms":4.16381,"median_ms":4.046,"p95_ms":4.78,"primitives":462389}
+PLANES_PERF {"draws":343,"fps":313.312163874794,"id":"no-plants","mean_ms":3.191705,"median_ms":3.118,"p95_ms":3.74,"primitives":228364}
+PLANES_PERF_DONE life-lod

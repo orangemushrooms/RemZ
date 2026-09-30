@@ -17,7 +17,15 @@
     "graviton": "godot/assets/audio/sfx/Graviton_Gunshot.mp3 (silence trimmed, peak normalized)",
     "graviton_charge": "fully synthesised",
     "cryo_freeze": "fully synthesised",
-    "graviton_impact": "original graviton explosion: anti_tank_tower.mp3 + time_stop.mp3 + synthesised sub drop"
+    "graviton_impact": "original graviton explosion: anti_tank_tower.mp3 + time_stop.mp3 + synthesised sub drop",
+    "mp5": "input/audio/weapons/MP5.mp3 (one round cut from the burst, own after-tail, synthesised room decay)",
+    "tommy_gun": "input/audio/weapons/Tommy_Gun.mp3 (one round cut from the burst, own after-tail, synthesised room decay)",
+    "ar15": "input/audio/weapons/AR_15.mp3 (silence trimmed, peak normalized)",
+    "sig_p226": "input/audio/weapons/SIG P226.mp3 (silence trimmed, peak normalized)",
+    "nighthawk": "input/audio/weapons/Nighthawk.mp3 (silence trimmed, peak normalized)",
+    "titanbreaker": "input/audio/weapons/Titan_Breaker.mp3 (silence trimmed, peak normalized)",
+    "spas12": "input/audio/weapons/Spas 12.mp3 (synthesised crack and thump in front, recording as body)",
+    "sawed_off": "input/audio/weapons/Sawed_Off_Shotgun.mp3 (synthesised crack and thump in front, recording as body)"
   },
   "clips": {
     "deagle": {
@@ -155,6 +163,114 @@
       "rms": 0.0988,
       "centroid_hz": 1091,
       "loop": false
+    },
+    "mp5": {
+      "file": "mp5.wav",
+      "seconds": 0.335,
+      "rms": 0.092,
+      "centroid_hz": 5130,
+      "loop": false,
+      "rounds": 6,
+      "period_ms": 67.6,
+      "rpm": 888,
+      "round_used": 2,
+      "cut_ms": 84.6,
+      "source": "input/audio/weapons/MP5.mp3",
+      "source_sha256": "a8d4713bf19f8d032a8f37f61a1e8dd3a92a5c696a3c2270b6027bfca1fe63f7",
+      "kind": "burst"
+    },
+    "tommy_gun": {
+      "file": "tommy_gun.wav",
+      "seconds": 0.319,
+      "rms": 0.0832,
+      "centroid_hz": 5978,
+      "loop": false,
+      "rounds": 7,
+      "period_ms": 67.6,
+      "rpm": 887,
+      "round_used": 2,
+      "cut_ms": 69.0,
+      "source": "input/audio/weapons/Tommy_Gun.mp3",
+      "source_sha256": "1d6b7405676df242fd59f436071a75ca9af8d5253c91151766d35afb28a62106",
+      "kind": "burst"
+    },
+    "ar15": {
+      "file": "ar15.wav",
+      "seconds": 1.4,
+      "rms": 0.1439,
+      "centroid_hz": 2891,
+      "loop": false,
+      "trim_start_seconds": 0.00485,
+      "source": "input/audio/weapons/AR_15.mp3",
+      "source_sha256": "189b9c6e1484a191b1b86b9ba74e8e1d01258b49e7e8de1db24bdf82ebf210ab",
+      "kind": "shot"
+    },
+    "sig_p226": {
+      "file": "sig_p226.wav",
+      "seconds": 1.4,
+      "rms": 0.0668,
+      "centroid_hz": 4616,
+      "loop": false,
+      "trim_start_seconds": 0.05719,
+      "source": "input/audio/weapons/SIG P226.mp3",
+      "source_sha256": "e6c98cfa47b8586889f3b320546dc90ff374b8220cb9adb80cb6ede2b5290173",
+      "kind": "shot"
+    },
+    "nighthawk": {
+      "file": "nighthawk.wav",
+      "seconds": 1.4,
+      "rms": 0.0945,
+      "centroid_hz": 2608,
+      "loop": false,
+      "trim_start_seconds": 0.14381,
+      "source": "input/audio/weapons/Nighthawk.mp3",
+      "source_sha256": "5708d032567ad8928751c3f0a78b90bc2650278fca2bf948a3fc073e6028fc3d",
+      "kind": "shot"
+    },
+    "titanbreaker": {
+      "file": "titanbreaker.wav",
+      "seconds": 1.4,
+      "rms": 0.2166,
+      "centroid_hz": 6267,
+      "loop": false,
+      "trim_start_seconds": 0.0,
+      "source": "input/audio/weapons/Titan_Breaker.mp3",
+      "source_sha256": "ca9b55430e827ac08e9a870a0d6185a1f8547ebe8dd1be6fa11499a847fdfbd4",
+      "kind": "shot"
+    },
+    "spas12": {
+      "file": "spas12.wav",
+      "seconds": 1.603,
+      "rms": 0.0597,
+      "centroid_hz": 4273,
+      "loop": false,
+      "source": "input/audio/weapons/Spas 12.mp3",
+      "source_sha256": "e5bca0626c05d6f4b40688f1804149fb961d3330d5b9f0adfd745e6fc6722942",
+      "kind": "soft"
+    },
+    "sawed_off": {
+      "file": "sawed_off.wav",
+      "seconds": 1.603,
+      "rms": 0.0542,
+      "centroid_hz": 1545,
+      "loop": false,
+      "source": "input/audio/weapons/Sawed_Off_Shotgun.mp3",
+      "source_sha256": "812be0af6947b6b2d1d913852c3c0d583750a37aacab6a4fc36399dfedb76810",
+      "kind": "soft"
+    }
+  },
+  "class_weapons": {
+    "built_by": "tools/build_class_weapon_audio.py",
+    "recordings": "input/audio/weapons/",
+    "sfx_db": {
+      "mp5": -3.9,
+      "tommy_gun": -1.9,
+      "ar15": -9.6,
+      "sig_p226": -5.7,
+      "nighthawk": -6.0,
+      "titanbreaker": -1.7,
+      "spas12": -3.3,
+      "sawed_off": 2.1
     }
   }
 }

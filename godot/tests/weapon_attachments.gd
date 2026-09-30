@@ -154,6 +154,7 @@ func run() -> void:
 	game.progression.rare_market.data(game.player.peer_id).ammo.frost = 20
 	game.progression.rare_market.data(game.player.peer_id).mode = "frost"
 	w.cur().cooldown = 0.0
+	w._switch_t = 0.0   # the class system's 0.25 s draw delay (29 Sep 2026) would swallow the shot
 	w.try_fire()
 	var tracer = get_nodes_in_group("elemental_tracer").back()
 	# The tracer re-anchors itself every frame, so let it settle before measuring, exactly like

@@ -33,6 +33,14 @@ const GOODS := {
 	"plasma_sniper": {"npc": "secret", "price": 1750, "wave": 10, "quest": "silent_deal", "chain": "marksman", "ammo": 60, "desc": "Energy rifle with 5x optics. Overheats instead of reloading and cools itself down."},
 	"minigun": {"npc": "secret", "price": 2100, "wave": 11, "quest": "clockwork", "ammo": 190, "desc": "150-round belt, highest rate of fire in the camp. Very heavy, has to spin up, no scope."},
 	"graviton_cannon": {"npc": "secret", "price": 3000, "wave": 13, "quest": "giant_debt", "ammo": 120, "desc": "Six meters of area damage and 140% bonus damage against titans. Only twelve energy cells."},
+	# Klassenwaffen, 30 Sep 2026: alle beim Vendor, damit jede Klasse frueh eine Spezialwaffe kaufen kann.
+	# Munition (zwei Magazine) bleibt im Korridor von 13-33 R je 1000 Schaden.
+	"sig_p226": {"npc": "camp", "price": 300, "wave": 1, "quest": "arrival", "ammo": 26, "desc": "Service pistol with 15 rounds. Fast, accurate and easy on ammo."},
+	"sawed_off": {"npc": "camp", "price": 380, "wave": 2, "quest": "arrival", "ammo": 18, "desc": "Two barrels of buckshot. Devastating up close, quick to reload, useless at range."},
+	"nighthawk": {"npc": "camp", "price": 520, "wave": 3, "quest": "watch", "ammo": 30, "desc": "Custom .45 pistol. Eight hard-hitting rounds with match-grade accuracy."},
+	"ar15": {"npc": "camp", "price": 640, "wave": 3, "quest": "watch", "ammo": 40, "desc": "Light 5.56 rifle. Full auto, gentle recoil, long reach."},
+	"tommy_gun": {"npc": "camp", "price": 700, "wave": 4, "quest": "night_shift", "ammo": 46, "desc": "50-round drum of .45 ACP. Full auto, heavy hits at short range."},
+	"spas12": {"npc": "camp", "price": 820, "wave": 4, "quest": "line", "ammo": 48, "desc": "Semi-automatic combat shotgun with eight shells. Fast follow-up blasts."},
 }
 const QUESTS := {
 	"drone_training": {"min_level": 5, "min_wave": 5, "waves_after_accept": 0, "npc": "mechanic", "name": "First Flight", "requires": "", "reward": 150, "desc": "Use the drone station upstairs in the forest hut (key required). Fly 150 m and defeat 5 zombies with the Kestrel as a team, counted from accepting. E at the station, then Ready to fly. Space/Ctrl: climb/descend. RMB: rocket. R: self-destruct. Esc: return. Return to Mechanic for your reward.", "goals": {"drone_scout_meters": 150, "drone_scout_kills": 5}},

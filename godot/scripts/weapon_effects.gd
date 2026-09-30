@@ -27,6 +27,14 @@ const PROFILES := {
 	"lever_rifle": Vector4(0.12, 0.28, 0.050, 0.95),
 	"minigun": Vector4(0.115, 0.26, 0.030, 0.75),
 	"graviton_cannon": Vector4(0.30, 0.30, 0.110, 1.4),
+	# The class weapons of 30 Sep 2026: two service pistols, a 5.56 carbine, the .45 Thompson and two
+	# 12 gauge shotguns, the sawed-off with the widest bloom of the lot.
+	"sig_p226": Vector4(0.09, 0.18, 0.040, 0.7),
+	"nighthawk": Vector4(0.11, 0.22, 0.045, 0.85),
+	"ar15": Vector4(0.095, 0.22, 0.042, 0.8),
+	"tommy_gun": Vector4(0.10, 0.20, 0.040, 0.8),
+	"spas12": Vector4(0.16, 0.32, 0.055, 1.15),
+	"sawed_off": Vector4(0.19, 0.30, 0.060, 1.3),
 }
 # Muzzle colouring per shot. "fire" and "frost" are the special rounds from the Nebelkraemer;
 # "plasma" and "graviton" belong to the energy weapons themselves (Weapons.DEFS.flash_mode).

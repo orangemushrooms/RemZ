@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NAV repaired_detail_faces=1
+PLANES_NAV polygons=8641
+NAV_EDGE step=0.0001 bad=0
+NAV_EDGE step=0.001 bad=0
+NAV_EDGE step=0.01 bad=0
+NAV_EDGE step=0.05 bad=2
+NAV_EDGE step=0.08 bad=7

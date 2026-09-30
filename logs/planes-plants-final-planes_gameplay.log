@@ -1,0 +1,62 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 6, "stags": 2 } batches=1252
+PLANES_NAV repaired_detail_faces=2
+PLANES_NAV polygons=9124
+PLANES_SURVIVAL_READY
+PLANES_READY trees=393 birds=14 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+PASS: Vendor, Mechanic and woodland Secret Vendor exist
+PASS: Pistol economy starts without free advanced weapons
+PASS: Remote kit purchase is rejected
+PASS: Mechanic sells portable kits at Forest prices
+PASS: Player can choose a build site away from the camp
+PASS: Invalid placement preserves the purchased kit
+PASS: Palisade builds on valid terrain
+PASS: Successful construction consumes exactly one kit
+PASS: Empty inventory cannot duplicate fortifications
+PASS: Placed palisade has Forest health and zombie collision
+PASS: Live zombies see freely placed fortifications
+PASS: A live zombie approaches and damages the player-built palisade
+PASS: Repair restores health and charges Forest price
+PASS: Full-health repair does not charge again
+PASS: Quest reward is claimed once at its giver
+PASS: Early advanced weapon purchase is rejected
+PASS: Vendor sells the AK at Forest price and wave gate
+PASS: Owned weapon cannot be charged twice
+PASS: Rare weapons cannot be purchased at the normal vendor
+PASS: Ammo refill uses paid Forest quote
+PASS: Secret Vendor sells advanced equipment in person
+PASS: A flower bundle is collected once and disappears
+PASS: An ordinary wild plant is reachable: woodland=false
+PASS: E gathers ordinary flowers and advances quest progress
+PASS: Picked wild plant cannot be collected twice
+FAIL: Harvest hides the existing plant instance
+PASS: An ordinary wild plant is reachable: woodland=true
+PASS: E gathers ordinary mushrooms and advances quest progress
+PASS: Picked wild plant cannot be collected twice
+FAIL: Harvest hides the existing plant instance
+PASS: Mechanic upgrades placed palisades after the wave gate
+PASS: Towers can be purchased away from merchants
+PASS: Remote turret upgrade is rejected
+PASS: Turret upgrades work at Mechanic
+PASS: Mechanic training uses shared costs and updates Planes health
+PASS: Grenade pouch training increases capacity
+PASS: Weapon mods work without Forest quest prerequisites
+PASS: Sandbag kits build a real defensive line
+PASS: Supplies respect upgraded grenade capacity
+PASS: Trading opens a usable menu and releases mouse look
+PASS: Closing trade returns player control
+PASS: Shared T planner opens over the player without a hut
+PASS: Closing T planner restores the first-person view
+PASS: B menu lists carried kits
+PASS: Cancelling the kit menu preserves control and inventory
+PLANES_SURVIVAL_READY
+PASS: Retry removes structures, quests and carried kits
+PASS: Retry resets economy and replenishes collectibles
+PASS: Retry restores harvested wild plants
+PASS: Retry restores harvested wild plants
+PLANES_GAMEPLAY_DONE checks=49 failures=2

@@ -1,0 +1,5 @@
+
+artifacts\campaign-coop\host.log:28:CAMPAIGN_COOP_DONE role=host checks=5 failures=0
+artifacts\campaign-coop\client.log:64:CAMPAIGN_COOP_DONE role=client checks=29 failures=0
+
+

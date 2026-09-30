@@ -1,0 +1,42 @@
+== sig_p226
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\sig_p226_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\sig_p226_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\sig_p226_web\source.glb --size 2048
+game mesh: 28000 triangles, 26452 vertices after the MikkTSpace split
+bake: 2105200 texels, 0.00 % without high-poly data, 3.65 % clamped, mean detail angle 10.5 deg, 2.1 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\sig_p226_web\stage_baked.glb (6.88 MB)
+  bake: done
+== smg
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\smg_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\smg_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\smg_web\source.glb --size 2048
+game mesh: 33983 triangles, 33430 vertices after the MikkTSpace split
+bake: 2639795 texels, 0.02 % without high-poly data, 0.06 % clamped, mean detail angle 4.7 deg, 2.1 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\smg_web\stage_baked.glb (8.26 MB)
+  bake: done
+== tommy_gun
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\tommy_gun_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\tommy_gun_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\tommy_gun_web\source.glb --size 2048
+game mesh: 33999 triangles, 23581 vertices after the MikkTSpace split
+bake: 2620203 texels, 0.00 % without high-poly data, 0.00 % clamped, mean detail angle 1.8 deg, 1.0 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\tommy_gun_web\stage_baked.glb (3.45 MB)
+  bake: done
+== ar15
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\ar15_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\ar15_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\ar15_web\source.glb --size 2048
+game mesh: 34000 triangles, 26301 vertices after the MikkTSpace split
+bake: 2633296 texels, 0.00 % without high-poly data, 0.02 % clamped, mean detail angle 5.4 deg, 2.2 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\ar15_web\stage_baked.glb (4.60 MB)
+  bake: done
+== spas12
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\spas12_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\spas12_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\spas12_web\source.glb --size 2048
+game mesh: 33914 triangles, 34020 vertices after the MikkTSpace split
+bake: 2461489 texels, 0.06 % without high-poly data, 0.11 % clamped, mean detail angle 7.1 deg, 2.6 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\spas12_web\stage_baked.glb (6.51 MB)
+  bake: done
+== sawed_off
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\sawed_off_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\sawed_off_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\sawed_off_web\source.glb --size 2048
+game mesh: 33978 triangles, 36224 vertices after the MikkTSpace split
+bake: 2636246 texels, 0.00 % without high-poly data, 0.02 % clamped, mean detail angle 3.0 deg, 1.7 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\sawed_off_web\stage_baked.glb (7.78 MB)
+  bake: done
+== knife_real
+  $ C:\Users\miche\Desktop\Developement\RemZ\tools\bake_normals.mjs C:\Users\miche\Desktop\Developement\RemZ\assets\raw\knife_real_web\model.glb C:\Users\miche\Desktop\Developement\RemZ\assets\raw\knife_real_web\stage_baked.glb --high C:\Users\miche\Desktop\Developement\RemZ\assets\raw\knife_real_web\source.glb --size 2048
+game mesh: 14000 triangles, 13262 vertices after the MikkTSpace split
+bake: 2686489 texels, 0.00 % without high-poly data, 0.00 % clamped, mean detail angle 3.6 deg, 3.5 MB
+written C:\Users\miche\Desktop\Developement\RemZ\assets\raw\knife_real_web\stage_baked.glb (7.78 MB)
+  bake: done

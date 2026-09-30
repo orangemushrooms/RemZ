@@ -10,9 +10,18 @@ const FireLoop = preload("res://scripts/weapon_fire_loop.gd")
 const FILES := {
 	"pistol": ["pistol"],
 	"revolver": ["revolver"],
-	"smg": ["smg"],
+	# 30 Sep 2026: the user's own recordings from input/audio/weapons, baked by
+	# build_class_weapon_audio.py (one round cut out of the MP5 and Tommy gun bursts).
+	"smg": ["weapons/mp5"],
 	"ak47": ["ak47"],
 	"shotgun": ["shotgun"],
+	"sig_p226": ["weapons/sig_p226"],
+	"nighthawk": ["weapons/nighthawk"],
+	"ar15": ["weapons/ar15"],
+	"tommy_gun": ["weapons/tommy_gun"],
+	"spas12": ["weapons/spas12"],
+	"sawed_off": ["weapons/sawed_off"],
+	"titanbreaker": ["weapons/titanbreaker"],
 	# The eight supplied September 23 recordings, trimmed/normalized by build_weapon_audio.py.
 	"deagle": ["weapons/deagle"],
 	"flare": ["weapons/flare"],

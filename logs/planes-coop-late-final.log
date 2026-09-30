@@ -1,0 +1,7 @@
+
+artifacts\planes-coop-late\host.log:42:PLANES_LATE_DONE role=host checks=4 failures=0
+artifacts\planes-coop-late\c1.log:52:PLANES_LATE_DONE role=c1 checks=2 failures=0
+artifacts\planes-coop-late\c2.log:37:PLANES_LATE_DONE role=c2 checks=4 failures=0
+artifacts\planes-coop-late\c3.log:36:PLANES_LATE_DONE role=c3 checks=4 failures=0
+
+

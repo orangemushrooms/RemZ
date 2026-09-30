@@ -1,0 +1,355 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 6, "stags": 2 } batches=1252
+PLANES_NAV repaired_detail_faces=2
+PLANES_NAV polygons=9124
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=14 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+COOP_LOAD HOST_CREATE port=24731
+COOP_HOST_READY port=24731
+COOP_LOAD HOST_READY
+PASS: Host opens the Planes lobby
+COOP_LOAD PEER_CONNECTED id=1744193536
+COOP_PEER_ACCEPTED count=2
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] send_reliable_state (res://scripts/net_session.gd:533)
+       [4] _level_ready (res://scripts/net_session.gd:528)
+COOP_LOAD INITIAL_SEND peer=1744193536 raw=8196 bytes=1725 parts=2
+COOP_LOAD CLIENT_READY peer=1744193536
+COOP_LOAD ROUND_START_SEND players=2
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] send_reliable_state (res://scripts/net_session.gd:533)
+       [4] start_game (res://scripts/net_session.gd:631)
+       [5] run (res://tests/planes_coop.gd:32)
+COOP_LOAD STATE_SEND peer=1744193536 raw=8196 bytes=1725 parts=2
+COOP_LOAD ROUND_BEGIN intro=false
+COOP_LOAD ROUND_RUNNING players=2
+COOP_RUNNING players=2
+PASS: Both peers enter Planes with two players
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+PASS: Co-op starts without pausing the world
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+PASS: Host retains the connected teammate
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+COOP_LOAD PEER_DISCONNECTED id=1744193536
+SCRIPT ERROR: Invalid access to property or key 'global_position' on a base object of type 'Nil'.
+   at: snapshot (res://scripts/rare_market.gd:338)
+   GDScript backtrace (most recent call first):
+       [0] snapshot (res://scripts/rare_market.gd:338)
+       [1] snapshot (res://scripts/planes_progression.gd:488)
+       [2] snapshot (res://scripts/coop_world.gd:737)
+       [3] _process (res://scripts/net_session.gd:1124)
+PLANES_COOP_DONE host=true checks=4 failures=0

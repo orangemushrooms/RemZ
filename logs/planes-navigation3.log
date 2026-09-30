@@ -1,0 +1,32 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NAV polygons=13686
+NAV_SAMPLE 0 deviation=0.54647290706635 path=10
+NAV_SAMPLE 1 deviation=0.58542305231094 path=13
+NAV_SAMPLE 2 deviation=0.43611997365952 path=8
+NAV_SAMPLE 3 deviation=0.42352277040482 path=9
+NAV_SAMPLE 4 deviation=0.46349409222603 path=12
+NAV_SAMPLE 5 deviation=0.51200634241104 path=10
+NAV_SAMPLE 6 deviation=0.50098204612732 path=10
+NAV_SAMPLE 7 deviation=0.41484677791595 path=8
+NAV_SAMPLE 8 deviation=0.56561160087585 path=11
+NAV_SAMPLE 9 deviation=0.41537404060364 path=8
+NAV_SAMPLE 10 deviation=0.45051902532578 path=15
+NAV_SAMPLE 11 deviation=0.44828554987907 path=13
+NAV_SAMPLE 12 deviation=0.34400099515915 path=14
+NAV_SAMPLE 13 deviation=0.41956722736359 path=13
+NAV_SAMPLE 14 deviation=0.51913243532181 path=13
+NAV_SAMPLE 15 deviation=0.34448462724686 path=13
+NAV_SAMPLE 16 deviation=0.37006267905235 path=11
+NAV_SAMPLE 17 deviation=0.5242548584938 path=10
+NAV_SAMPLE 18 deviation=0.47868373990059 path=9
+NAV_SAMPLE 19 deviation=0.42961257696152 path=9
+NAV_SAMPLE 20 deviation=0.55413401126862 path=10
+NAV_SAMPLE 21 deviation=0.51578450202942 path=11
+NAV_SAMPLE 22 deviation=0.45667365193367 path=10
+NAV_SAMPLE 23 deviation=0.54085910320282 path=9
+NAV_CHECK connected=24

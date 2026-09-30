@@ -113,6 +113,7 @@ func run() -> void:
 		w.unlock(id)
 		w.set_weapon(id)
 		check(w.current == id, id + ": lässt sich ausrüsten")
+		w._switch_t = 0.0   # the class system's 0.25 s draw delay (29 Sep 2026) would swallow the shot
 		var s := w.cur()
 		# The render pass above may have emptied a single shot weapon and left its cooldown running.
 		s.ammo = int(s.def.mag)

@@ -14,13 +14,22 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const MODELS = path.join(ROOT, 'godot', 'assets', 'models');
 const WEAPONS = ['pistol', 'revolver', 'smg', 'ak47', 'rifle', 'marksman', 'lmg', 'breacher', 'titanbreaker',
-	'deagle', 'flare_pistol', 'mac10', 'cryo_smg', 'plasma_sniper', 'lever_rifle', 'minigun', 'graviton_cannon'];
+	'deagle', 'flare_pistol', 'mac10', 'cryo_smg', 'plasma_sniper', 'lever_rifle', 'minigun', 'graviton_cannon',
+	'sig_p226', 'nighthawk', 'ar15', 'tommy_gun', 'spas12', 'sawed_off'];
+
+// Where the front-slab median cannot find the bore: the 30 Sep 2026 pistol carries a weapon light under
+// its barrel that fills the front of the model (histogram of the front 3 %: 600 vertices at y 0.20-0.35 for
+// the light, 800 at 0.35-0.50 for the slide), so the median lands between the two and the flash sat 1 cm
+// under the barrel. The override names the bore by hand, in the raw frame, with its radius.
+const BORE_OVERRIDES = {
+	pistol: { up: 0.41, radius: 0.05, why: 'weapon light under the barrel' },
+};
 
 const argv = process.argv.slice(2);
 const jsonAt = argv.indexOf('--json');
 const jsonPath = jsonAt >= 0 ? argv[jsonAt + 1] : '';
 const showSlabs = argv.includes('--slabs');
-let names = argv.filter((a, i) => !a.startsWith('--') && i !== jsonAt + 1);
+let names = argv.filter((a, i) => !a.startsWith('--') && (jsonAt < 0 || i !== jsonAt + 1));
 if (argv.includes('--all-weapons')) names = WEAPONS;
 
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
@@ -160,7 +169,13 @@ function measure(name) {
 		}
 		// A bore is round, a front sight or a barrel rib is not: the revolver's muzzle slab is
 		// 1.8x taller than wide, the shotgun's 2.3x. The narrower span is the barrel itself.
-		const boreRadius = Math.min(bore.span[0], bore.span[1]) * 0.5;
+		let boreRadius = Math.min(bore.span[0], bore.span[1]) * 0.5;
+		const override = BORE_OVERRIDES[name];
+		if (override) {
+			bore.centre[0] = override.up;
+			boreRadius = override.radius;
+			bore.overridden = override.why;
+		}
 
 		// Magazine: the lowest vertices of the gun; their long-axis median is the magwell centre.
 		// On a long gun the deepest point is the butt plate (the marksman and the titanbreaker both
@@ -289,7 +304,7 @@ for (const r of results) {
 	}
 	console.log(`\n=== ${r.name} ===`);
 	console.log(`size      ${r.size.map(f).join(' ')}   long ${r.axes.long} (forward ${r.axes.forward > 0 ? '+' : '-'}${r.axes.long})  up ${r.axes.up}  side ${r.axes.side}`);
-	console.log(`bore      at ${f(r.bore.at)}  ${r.axes.up}=${f(r.bore.up)}  ${r.axes.side}=${f(r.bore.side)}  r=${f(r.bore.radius)}  (${r.bore.samples} verts)`);
+	console.log(`bore      at ${f(r.bore.at)}  ${r.axes.up}=${f(r.bore.up)}  ${r.axes.side}=${f(r.bore.side)}  r=${f(r.bore.radius)}  (${r.bore.samples} verts${r.bore.overridden ? ', override: ' + r.bore.overridden : ''})`);
 	console.log(`magazine  bottom ${f(r.magazine.bottom)}  along ${f(r.magazine.along)}  ${r.axes.side}=${f(r.magazine.side)}  ${f(r.magazine.length)} x ${f(r.magazine.width)}`);
 	console.log(`receiver  at ${f(r.receiver.at)}  ${r.axes.up}=${f(r.receiver.up)}  h=${f(r.receiver.height)}  w=${f(r.receiver.width)}   top ${r.axes.up}=${f(r.top.up)}`);
 	if (showSlabs) for (const s of r.profile) console.log(`   slab ${f(s.at)} n=${String(s.n).padStart(5)} up=${f(s.up)} h=${f(s.h)} w=${f(s.w)}`);

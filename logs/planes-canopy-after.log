@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_READY trees=401 birds=14 crops={ "corn": 238551, "wheat": 412858, "grass": 797186, "undergrowth": 18921, "woodland_grass": 22042 }
+PLANES_PERF {"draws":1091,"fps":86.8403444609104,"id":"sennhof","mean_ms":11.515385,"median_ms":11.591,"p95_ms":11.9,"primitives":7396360}
+PLANES_PERF {"draws":1005,"fps":96.1112429970946,"id":"junction","mean_ms":10.40461,"median_ms":10.49,"p95_ms":10.775,"primitives":5779931}
+PLANES_PERF {"draws":1238,"fps":102.797743383937,"id":"core","mean_ms":9.72784,"median_ms":9.796,"p95_ms":10.183,"primitives":5164739}
+PLANES_PERF {"draws":775,"fps":124.591961326655,"id":"grove","mean_ms":8.0262,"median_ms":7.935,"p95_ms":8.413,"primitives":2403483}
+PLANES_PERF {"draws":900,"fps":155.195760051835,"id":"village","mean_ms":6.443475,"median_ms":6.289,"p95_ms":6.901,"primitives":2809549}
+PLANES_PERF {"draws":638,"fps":108.810316959013,"id":"woodland-detail","mean_ms":9.190305,"median_ms":9.283,"p95_ms":9.614,"primitives":2188188}
+PLANES_PERF {"draws":331,"fps":238.574090376637,"id":"houses-detail","mean_ms":4.19157,"median_ms":4.074,"p95_ms":4.963,"primitives":246670}
+PLANES_PERF_DONE canopy-after

@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Every window faces outside a concave house, reversed=false
+PASS: Roof textures retain area on every slope, reversed=false
+PASS: Every window faces outside a concave house, reversed=true
+PASS: Roof textures retain area on every slope, reversed=true
+PASS: The verified underground target footprint is classified separately from houses
+PASS: All six target faces point downhill towards the mapped shooting house
+PASS: The stand stays below 2.3 m with no residential windows or pitched roof
+PASS: Target stand does not increase geometry or material batches
+TARGET_GEOMETRY before=358 after=348 batches=2
+PLANES_BUILDINGS_DONE checks=8 failures=0

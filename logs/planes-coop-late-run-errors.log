@@ -1,0 +1,7 @@
+Engine error: C:\Users\miche\Desktop\Developement\RemZ\artifacts\planes-coop-late\c1.log
+In C:\Users\miche\Desktop\Developement\RemZ\tools\test_planes_coop.ps1:34 Zeichen:28
++         if ($unexpected) { throw "Engine error: $($run.Log)" }
++                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Engine error: C...oop-late\c1.log:String) [], RuntimeException
+    + FullyQualifiedErrorId : Engine error: C:\Users\miche\Desktop\Developement\RemZ\artifacts\planes-coop-late\c1.log
+ 

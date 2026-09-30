@@ -22,7 +22,7 @@ const XP_STEPS := [1100, 1650, 2200, 2750, 3300, 4180, 5060, 5940, 6820, 7700,
 	9020, 10340, 11660, 12980, 14300, 16060, 17820, 19580, 21340, 23100,
 	25520, 27940, 30360, 32780, 35200, 40150, 45100, 50050, 55000]
 const CLASSES := {
-	"gunslinger": {"name": "Gunslinger", "role": "Mobility and precision with pistols and revolvers.", "color": Color("e5b660"), "weapons": ["pistol", "revolver", "deagle", "flare_pistol"], "talents": [
+	"gunslinger": {"name": "Gunslinger", "role": "Mobility and precision with pistols and revolvers.", "color": Color("e5b660"), "weapons": ["pistol", "revolver", "deagle", "flare_pistol", "sig_p226", "nighthawk"], "talents": [
 		[["quick_hands", "Quick Hands", "Pistols reload 20% faster."], ["steady_hand", "Steady Hand", "15% less pistol recoil."]],
 		[["duelist", "Duelist", "Repeated pistol hits on one target add 5% damage per hit, up to 25%, for 3 seconds."], ["quick_swap", "Quick Draw", "Switching to or from a pistol is 50% faster."]],
 		[["bounty", "Bounty", "Pistol headshots deal 15% more damage. Headshot kills grant 5 extra XP."], ["fan_hammer", "Fan the Hammer", "Pistol shots build 40% less spread."]],
@@ -30,7 +30,7 @@ const CLASSES := {
 		[["high_noon", "High Noon", "Pistol headshot kills grant 12% faster reloads and 15% faster fire rate per stack for 10 seconds. Up to 5 stacks."], ["executioner", "Executioner", "Pistols deal 150% more damage to targets at or below 50% health."]],
 		[["deadeye", "Deadeye", "Pistol headshots deal 50% more damage. Consecutive headshots add 30% each, up to 200% total bonus. A miss or body hit resets the chain."], ["gunslinger", "Gunslinger Mastery", "50% more pistol damage, 25% faster pistol fire rate and 40% faster movement while aiming a pistol."]]
 	]},
-	"assault": {"name": "Assault Trooper", "role": "Controlled sustained fire and reliable crowd control with assault rifles.", "color": Color("90bc91"), "weapons": ["ak47", "lmg"], "talents": [
+	"assault": {"name": "Assault Trooper", "role": "Controlled sustained fire and reliable crowd control with assault rifles.", "color": Color("90bc91"), "weapons": ["ak47", "lmg", "ar15", "tommy_gun"], "talents": [
 		[["tactical_reload", "Tactical Reload", "Assault rifles reload 18% faster."], ["ammo_discipline", "Ammo Discipline", "15% larger assault rifle magazines."]],
 		[["burst", "Controlled Burst", "The first 3 shots of an assault rifle burst have 25% less spread."], ["suppression", "Suppressing Fire", "Repeated assault rifle hits slow common enemies by 15% for 2 seconds."]],
 		[["frontline", "Frontline", "Assault rifle kills reduce recoil by 25% for 4 seconds."], ["combat_drill", "Combat Drill", "Assault rifle kills reduce reload time by 25% for 4 seconds."]],
@@ -38,7 +38,7 @@ const CLASSES := {
 		[["combat_momentum", "Combat Momentum", "Assault rifle kills increase fire rate by 15% for 10 seconds, up to 5 stacks (+75%)."], ["veteran", "Veteran", "Assault rifles deal 20% more damage and reload 65% faster with a quarter magazine or less."]],
 		[["weapons_expert", "Weapons Expert", "Assault rifles gain 35% damage, 45% less recoil, 40% faster reloads and 60% larger magazines."], ["last_stand", "Last Stand", "Below 50% health with an assault rifle: 75% more damage, 40% damage resistance, 60% less recoil, 60% faster reloads and 25% more movement speed."]]
 	]},
-	"breacher": {"name": "Breacher", "role": "Shotguns, close quarters and powerful penetration.", "color": Color("da8770"), "weapons": ["shotgun", "breacher"], "talents": [
+	"breacher": {"name": "Breacher", "role": "Shotguns, close quarters and powerful penetration.", "color": Color("da8770"), "weapons": ["shotgun", "breacher", "spas12", "sawed_off"], "talents": [
 		[["large_caliber", "Large Calibre", "Shotguns deal 12% more damage."], ["speed_loader", "Speed Loader", "Shotguns reload 20% faster."]],
 		[["penetration", "Penetration", "Shotgun pellets penetrate one additional common enemy."], ["tight_spread", "Spread Control", "25% less shotgun spread."]],
 		[["knockback", "Knockback", "Shotgun hits shove common zombies back more strongly."], ["bloodbath", "Bloodbath", "Shotgun kills within 5 metres grant 15% shotgun damage for 4 seconds."]],

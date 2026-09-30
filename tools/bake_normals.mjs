@@ -10,7 +10,7 @@
 //      per vertex, N), z kept positive for the RGTC import; the islands are dilated for the mipmaps.
 // Without --high only the --material factors are rewritten (the wanderer has no
 // high-poly: metallic 0 instead of the export's 1, which rendered it like chrome without an ORM map).
-// Usage: node tools/bake_normals.mjs <game.glb> <out.glb> [--high source.glb] [--size 2048]
+// Usage: node tools/bake_normals.mjs <game.glb> <out.glb> [--high source.glb] [--size 2048] [--geometry-only]
 //        [--material metallic=0,roughness=0.9] [--preview atlas.png] [--retangent]
 // --retangent without --high: the bride was re-rigged from an A-pose (repose_glb.mjs) after her bake; her
 // tangent-space map moves with the surface, only the normals and tangents of the new rest pose are rebuilt.
@@ -31,7 +31,8 @@ const highPath = opt('--high', null);
 const SIZE = Number(opt('--size', 2048));
 const materialSpec = opt('--material', null);
 const previewPath = opt('--preview', null);
-const RETANGENT = args.includes('--retangent');   // new normals + tangents for a normal map baked before a re-rig
+const RETANGENT = args.includes('--retangent');
+const GEOMETRY_ONLY = args.includes('--geometry-only');   // ignore the high-poly's own normal map (the Nighthawk's averages 127,127,173: bent beyond use)   // new normals + tangents for a normal map baked before a re-rig
 const heatmapPath = opt('--heatmap', null);     // deviation per texel: blue 0 deg .. red 90 deg, white = clamped
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 
@@ -170,7 +171,7 @@ if (highPath) {
   const huv = hprim.getAttribute('TEXCOORD_0').getArray(), hidx = hprim.getIndices().getArray();
   const htan = hprim.getAttribute('TANGENT')?.getArray() || mikkPerVertex(hpos, hnrm, huv, hidx);
   const hnm = hprim.getMaterial().getNormalTexture();
-  const map = hnm ? await decodeTexture(hnm, SIZE) : null;
+  const map = hnm && !GEOMETRY_ONLY ? await decodeTexture(hnm, SIZE) : null;
   const atlas = new Float32Array(SIZE * SIZE * 3), covered = new Uint8Array(SIZE * SIZE);
   rasterUV(huv, hidx, SIZE, (i, w0, w1, w2, t) => {
     const [a, b, c] = [hidx[t], hidx[t + 1], hidx[t + 2]];

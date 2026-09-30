@@ -1,0 +1,347 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14628, "mushrooms": 503, "deer": 6, "stags": 2 } batches=1253
+PLANES_READY trees=396 birds=14 crops={ "corn": 238551, "wheat": 412660, "grass": 797296, "undergrowth": 18921, "woodland_grass": 22042 }
+WARNING: Navigation region synchronization had 2 edge error(s).
+More than 2 edges tried to occupy the same map rasterization space.
+This causes a logical error in the navigation mesh geometry and is commonly caused by overlap or too densely placed edges.
+Consider baking with a higher 'cell_size', greater geometry margin, and less detailed bake objects to cause fewer edges.
+Consider lowering the 'navigation/3d/merge_rasterizer_cell_scale' in the project settings.
+This warning can be toggled under 'navigation/3d/warnings/navmesh_edge_merge_errors' in the project settings.
+   at: _build_step_find_edge_connection_pairs (modules/navigation_3d/3d/nav_region_builder_3d.cpp:219)
+PLANES_NAV polygons=8642
+PLANES_SURVIVAL_READY
+FIELD_PERF {"draws":1538,"fps":109.932814560382,"mean_ms":9.09646499999999,"p95_ms":9.673,"p99_ms":9.827,"phase":"quiet"}
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+FIELD_PERF {"draws":2378,"fps":87.2237170590546,"mean_ms":11.4647716666667,"p95_ms":13.598,"p99_ms":15.905,"phase":"fortified"}
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+SCRIPT ERROR: Invalid call. Nonexistent function 'blast' in base 'Nil'.
+   at: explode (res://scripts/tower_shell.gd:39)
+   GDScript backtrace (most recent call first):
+       [0] explode (res://scripts/tower_shell.gd:39)
+       [1] _physics_process (res://scripts/tower_shell.gd:34)
+FIELD_PERF {"draws":2416,"fps":86.8941846066953,"mean_ms":11.50825,"p95_ms":13.607,"p99_ms":14.939,"phase":"storm"}
+FIELD_PERF_DONE

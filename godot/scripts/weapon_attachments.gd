@@ -43,6 +43,9 @@ const MAGAZINE := {
 	# tube under its barrel like the shotguns do.
 	"deagle": "box", "flare_pistol": "", "mac10": "box", "cryo_smg": "box",
 	"plasma_sniper": "", "lever_rifle": "tube", "minigun": "", "graviton_cannon": "",
+	# The class weapons of 30 Sep 2026. The Thompson's drum sits where a box would hang and the
+	# break action sawed-off has no magazine at all: both show nothing, the mod only counts.
+	"sig_p226": "box", "nighthawk": "box", "ar15": "box", "tommy_gun": "", "spas12": "tube", "sawed_off": "",
 }
 
 var weapon := ""

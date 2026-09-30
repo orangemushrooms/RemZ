@@ -1,0 +1,8 @@
+=== deagle
+prune: Removed types... Texture (1)
+assets/raw/deagle_web/source.glb -> assets/raw/deagle_web/model.glb: 952781 -> 85421 triangles, 10.68 MB, textures 2048x2048, 2048x2048, 2048x2048
+=== pistol
+prune: Removed types... Texture (1)
+assets/raw/pistol_web/source.glb -> assets/raw/pistol_web/model.glb: 1112425 -> 95530 triangles, 11.95 MB, textures 2048x2048, 2048x2048, 2048x2048
+=== nighthawk
+assets/raw/nighthawk_web/source.glb -> assets/raw/nighthawk_web/model.glb: 720042 -> 79414 triangles, 8.58 MB, textures 2048x2048, 2048x2048, 2048x2048

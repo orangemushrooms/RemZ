@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14628, "mushrooms": 503, "deer": 6, "stags": 2 } batches=1253
+PLANES_READY trees=401 birds=14 crops={ "corn": 238551, "wheat": 412660, "grass": 797296, "undergrowth": 18921, "woodland_grass": 22042 }
+PASS: Vendor, Mechanic and woodland Secret Vendor exist
+WARNING: Navigation region synchronization had 2 edge error(s).
+More than 2 edges tried to occupy the same map rasterization space.
+This causes a logical error in the navigation mesh geometry and is commonly caused by overlap or too densely placed edges.
+Consider baking with a higher 'cell_size', greater geometry margin, and less detailed bake objects to cause fewer edges.
+Consider lowering the 'navigation/3d/merge_rasterizer_cell_scale' in the project settings.
+This warning can be toggled under 'navigation/3d/warnings/navmesh_edge_merge_errors' in the project settings.
+   at: _build_step_find_edge_connection_pairs (modules/navigation_3d/3d/nav_region_builder_3d.cpp:219)
+PLANES_NAV polygons=8695
+PLANES_SURVIVAL_READY
+PASS: Pistol economy starts without free advanced weapons
+PASS: Remote kit purchase is rejected
+PASS: Mechanic sells portable kits at Forest prices
+PASS: Player can choose a build site away from the camp
+PASS: Invalid placement preserves the purchased kit
+PASS: Palisade builds on valid terrain
+PASS: Successful construction consumes exactly one kit
+PASS: Empty inventory cannot duplicate fortifications
+PASS: Placed palisade has Forest health and zombie collision
+PASS: Live zombies see freely placed fortifications
+PASS: Repair restores health and charges Forest price
+PASS: Full-health repair does not charge again
+PASS: Quest reward is claimed once at its giver
+PASS: Early advanced weapon purchase is rejected
+PASS: Vendor sells the AK at Forest price and wave gate
+PASS: Owned weapon cannot be charged twice
+PASS: Rare weapons cannot be purchased at the normal vendor
+PASS: Ammo refill uses paid Forest quote
+PASS: Secret Vendor sells advanced equipment in person
+PASS: A flower bundle is collected once and disappears
+PASS: Mechanic upgrades placed palisades after the wave gate
+PASS: Towers can be purchased away from merchants
+PASS: Remote turret upgrade is rejected
+PASS: Turret upgrades work at Mechanic
+PASS: Trading opens a usable menu and releases mouse look
+PASS: Closing trade returns player control
+PLANES_SURVIVAL_READY
+PASS: Retry removes structures, quests and carried kits
+PASS: Retry resets economy and replenishes collectibles
+PLANES_GAMEPLAY_DONE checks=29 failures=0

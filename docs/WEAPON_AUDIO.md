@@ -46,3 +46,27 @@ manueller Bedienung und neuen Koop-Schussereignissen. Der bisherige SMG-Sound
 entfaellt. Die bestehenden Suiten `towers` (144 Pruefungen) und `tower_effects`
 (73 Pruefungen) bestehen einschliesslich stummer historischer und wiederholter
 Netzwerk-Snapshots.
+
+## Klassenwaffen vom 30. September 2026
+
+Acht weitere eigene Aufnahmen liegen als Rohdateien unter `input/audio/weapons/` (nicht im Godot-Projekt,
+damit sie weder importiert noch exportiert werden). `python tools/build_class_weapon_audio.py` bakt daraus
+`sfx/weapons/{mp5,tommy_gun,ar15,sig_p226,nighthawk,titanbreaker,spas12,sawed_off}.wav` und ergänzt
+`sources.json` (Quelle, SHA-256, Schnitt, empfohlener `sfx_db`):
+
+| Waffe | Aufnahme | Verarbeitung |
+| --- | --- | --- |
+| MP5 (ersetzt `smg.mp3`) | `MP5.mp3`, Salve von 6 Schuss bei 888 rpm | zweiter Schuss vom Tal davor bis zum Tal danach geschnitten (85 ms), Ausklang der Salve angehängt, kurzer synthetischer Raumhall |
+| Tommy Gun | `Tommy_Gun.mp3`, Salve von 7 Schuss | gleich, 69 ms |
+| AR-15 | `AR_15.mp3` | Einzelschuss, Vorlauf ab, Ausklang bis 54 dB unter Spitze, höchstens 1,4 s |
+| SIG P226 | `SIG P226.mp3` | Einzelschuss (57 ms Raumrauschen davor entfernt) |
+| Nighthawk .45 | `Nighthawk.mp3` | Einzelschuss (144 ms Stille davor entfernt) |
+| Titanbreaker .50 (ersetzt den tiefgestimmten Revolver) | `Titan_Breaker.mp3` | Einzelschuss |
+| SPAS-12 | `Spas 12.mp3`, leise Fernaufnahme ohne Anschlag | synthetischer Mündungsknall und Subbass-Schlag davor, Aufnahme als Körper und Ausklang |
+| Abgesägte Flinte | `Sawed_Off_Shotgun.mp3`, ebenso | gleich |
+
+Der Pegel jeder neuen Datei wird an die alte Aufnahme derselben Waffenfamilie angeglichen (lauteste 120 ms,
+plus deren `sfx_db`), das Skript druckt den empfohlenen `sfx_db` für `Weapons.DEFS`. Vollautomatisch feuern
+alle neuen Waffen ausser Pistolen und Flinten; der Einzelschuss stapelt sich im Dauerfeuer wieder zur Salve
+(höchstens drei Stimmen je Sound). `--suite=class_weapons` prüft, dass jede Waffe ihre WAV lädt und beim Schuss
+abspielt.

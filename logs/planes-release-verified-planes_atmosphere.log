@@ -1,0 +1,31 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 10, "stags": 4 } batches=1252
+PLANES_NAV polygons=9852
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=24 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+PASS: Shared Forest ten-slot bar includes knife on 0
+PASS: Slot ten equips the knife
+PASS: Shared clock advances and updates HUD
+PASS: Night reduces sunlight
+PASS: Recorded crickets play audibly at night
+PASS: Weather dims the shared day-night lighting
+PASS: Forest night music plays
+PASS: Daytime intermission uses Forest morning music
+PASS: Daylight fades out the night crickets
+PASS: Combat uses Forest combat music
+PASS: Fifth wave uses Forest boss music
+PASS: Forest inventory keeps the Planes quickbar visible and editable
+PASS: Clicking a quickbar slot opens the item picker inside the inventory
+PASS: Owned equipment can be assigned to slots
+PASS: Quest journal does not activate inventory slot editing
+PASS: Quest tracker shows accepted field progress
+PASS: Pause freezes the world clock
+PASS: Forest music continues through pause and game over
+PASS: Death plays Forest game-over track
+PLANES_ATMOSPHERE_DONE checks=19 failures=0

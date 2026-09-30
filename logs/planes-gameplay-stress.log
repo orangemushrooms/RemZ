@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+SCRIPT ERROR: Parse Error: Cannot infer the type of "tower" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://tests/planes_gameplay_perf.gd:25)
+   GDScript backtrace (most recent call first):
+       [0] _load_suite (res://tests/run.gd:15)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "enemy" variable because the value doesn't have a set type.
+   at: GDScript::reload (res://tests/planes_gameplay_perf.gd:32)
+   GDScript backtrace (most recent call first):
+       [0] _load_suite (res://tests/run.gd:15)
+ERROR: Failed to load script "res://tests/planes_gameplay_perf.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+   GDScript backtrace (most recent call first):
+       [0] _load_suite (res://tests/run.gd:15)

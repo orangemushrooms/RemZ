@@ -1,0 +1,18 @@
+{
+  "model": "pistol",
+  "bake": {
+    "high": "source.glb",
+    "size": 2048,
+    "at": "2026-09-30 17:47"
+  },
+  "pack": {
+    "size": 2048,
+    "quality": 88,
+    "at": "2026-09-30 17:47"
+  },
+  "install": {
+    "file": "godot/assets/models/pistol.glb",
+    "bytes": 7853792,
+    "at": "2026-09-30 17:47"
+  }
+}

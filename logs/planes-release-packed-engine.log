@@ -1,0 +1,100 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/runtime.gd:17)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/runtime.gd:22)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/runtime.gd:27)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/runtime.gd:36)
+ERROR: Failed to load script "res://addons/epic-online-services-godot/runtime.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to instantiate an autoload, script 'res://addons/epic-online-services-godot/runtime.gd' does not inherit from 'Node'.
+   at: start (main/main.cpp:4539)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hplatform.gd:65)
+ERROR: Failed to load script "res://addons/epic-online-services-godot/heos/hplatform.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to instantiate an autoload, script 'res://addons/epic-online-services-godot/heos/hplatform.gd' does not inherit from 'Node'.
+   at: start (main/main.cpp:4539)
+SCRIPT ERROR: Parse Error: Could not find type "EOSGContinuanceToken" in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:521)
+SCRIPT ERROR: Parse Error: Could not find type "EOSGContinuanceToken" in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:539)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:93)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:156)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:209)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:226)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:254)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:300)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:318)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:326)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:359)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:390)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:421)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:455)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:527)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hauth.gd:545)
+ERROR: Failed to load script "res://addons/epic-online-services-godot/heos/hauth.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to instantiate an autoload, script 'res://addons/epic-online-services-godot/heos/hauth.gd' does not inherit from 'Node'.
+   at: start (main/main.cpp:4539)
+SCRIPT ERROR: Parse Error: Could not find type "EOSGLobbySearch" in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:187)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:41)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:65)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "_lobby_details".
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:85)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:90)
+SCRIPT ERROR: Parse Error: Could not find type "EOSGLobbySearch" in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:109)
+SCRIPT ERROR: Parse Error: Could not find type "EOSGLobbySearch" in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:134)
+SCRIPT ERROR: Parse Error: Could not find type "EOSGLobbySearch" in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:154)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:192)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "_init_from_details".
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hlobbies.gd:209)
+ERROR: Failed to load script "res://addons/epic-online-services-godot/heos/hlobbies.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to instantiate an autoload, script 'res://addons/epic-online-services-godot/heos/hlobbies.gd' does not inherit from 'Node'.
+   at: start (main/main.cpp:4539)
+SCRIPT ERROR: Parse Error: Identifier "IEOS" not declared in the current scope.
+   at: GDScript::reload (res://addons/epic-online-services-godot/heos/hp2p.gd:25)
+ERROR: Failed to load script "res://addons/epic-online-services-godot/heos/hp2p.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+ERROR: Failed to instantiate an autoload, script 'res://addons/epic-online-services-godot/heos/hp2p.gd' does not inherit from 'Node'.
+   at: start (main/main.cpp:4539)
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+ERROR: Could not create directory: 'C:/Users/miche/Desktop/Developement/artifacts/coop-test'.
+   at: make_dir_recursive (core/io/dir_access.cpp:179)
+   GDScript backtrace (most recent call first):
+       [0] trace_load (res://scripts/net_session.gd:45)
+       [1] _ready (res://scripts/net_session.gd:86)
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14628, "mushrooms": 503, "deer": 6, "stags": 2 } batches=1253
+PLANES_READY trees=396 birds=14 crops={ "corn": 238551, "wheat": 412660, "grass": 797296, "undergrowth": 18921, "woodland_grass": 22042 }
+PASS: Vendor, Mechanic and woodland Secret Vendor exist
+PLANES_NAV repaired_detail_faces=1
+PLANES_NAV polygons=8641

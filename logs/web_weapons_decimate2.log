@@ -1,0 +1,6 @@
+=== deagle
+assets/raw/deagle_web/source.glb -> assets/raw/deagle_web/model.glb: 952781 -> 86204 triangles, 10.72 MB, textures 2048x2048, 2048x2048, 2048x2048
+=== pistol
+assets/raw/pistol_web/source.glb -> assets/raw/pistol_web/model.glb: 1112425 -> 96370 triangles, 11.99 MB, textures 2048x2048, 2048x2048, 2048x2048
+=== nighthawk
+assets/raw/nighthawk_web/source.glb -> assets/raw/nighthawk_web/model.glb: 720042 -> 79884 triangles, 8.61 MB, textures 2048x2048, 2048x2048, 2048x2048

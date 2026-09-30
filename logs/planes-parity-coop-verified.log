@@ -1,0 +1,5 @@
+
+artifacts\planes-coop\host.log:86:PLANES_COOP_DONE host=true checks=27 failures=0
+artifacts\planes-coop\client.log:178:PLANES_COOP_DONE host=false checks=22 failures=0
+
+

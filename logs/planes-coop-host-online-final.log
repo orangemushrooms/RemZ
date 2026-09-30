@@ -1,0 +1,75 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 6, "stags": 2 } batches=1252
+PLANES_NAV repaired_detail_faces=2
+PLANES_NAV polygons=9124
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=14 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+COOP_LOAD ONLINE_HOST_BEGIN
+COOP_LOAD EOS_PLATFORM_START
+COOP_LOAD EOS_PLATFORM_READY
+COOP_LOAD EOS_RELAY_CONTROL allowed
+COOP_LOAD EOS LogHttp: 0000013286805900: invalid HTTP response code received. URL: https://api.epicgames.dev/sdk/v1/default?platformId=WIN, HTTP code: 0, content length: 0, actual payload size: 0
+COOP_LOAD EOS LogHttp: 0000013286805900: request failed, libcurl error: 7 (Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 0000013286805900: libcurl info message cache 0 (  Trying 104.18.125.108:443...)
+COOP_LOAD EOS LogHttp: 0000013286805900: libcurl info message cache 1 (connect to 104.18.125.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 0000013286805900: libcurl info message cache 2 (  Trying 104.18.124.108:443...)
+COOP_LOAD EOS LogHttp: 0000013286805900: libcurl info message cache 3 (connect to 104.18.124.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 0000013286805900: libcurl info message cache 4 (Failed to connect to api.epicgames.dev port 443 after 41 ms: Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 0000013286805900: libcurl info message cache 5 (Closing connection)
+COOP_LOAD EOS LogHttp: Retry exhausted on https://api.epicgames.dev/sdk/v1/default?platformId=WIN
+COOP_LOAD EOS LogEOS: Failed to connect to the backend. ServiceName=[SDKConfig], OperationName=[GetPlatformConfigRoute], Url=[<Redacted>]
+COOP_LOAD EOS LogEOS: SDK Config Platform Update Request Failed, Result Code: EOS_NoConnection, Retrying after 2.590899 seconds
+COOP_LOAD EOS LogHttp: 0000013286BF6900: invalid HTTP response code received. URL: https://api.epicgames.dev/sdk/v1/default?platformId=WIN, HTTP code: 0, content length: 0, actual payload size: 0
+COOP_LOAD EOS LogHttp: 0000013286BF6900: request failed, libcurl error: 7 (Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 0 (Hostname api.epicgames.dev was found in DNS cache)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 1 (  Trying 104.18.125.108:443...)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 2 (connect to 104.18.125.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 3 (  Trying 104.18.124.108:443...)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 4 (connect to 104.18.124.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 5 (Failed to connect to api.epicgames.dev port 443 after 14 ms: Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 6 (Closing connection)
+COOP_LOAD EOS LogHttp: Retry exhausted on https://api.epicgames.dev/sdk/v1/default?platformId=WIN
+COOP_LOAD EOS LogEOS: Failed to connect to the backend. ServiceName=[SDKConfig], OperationName=[GetPlatformConfigRoute], Url=[<Redacted>]
+COOP_LOAD EOS LogEOS: SDK Config Platform Update Request Failed, Result Code: EOS_NoConnection, Retrying after 4.218635 seconds
+COOP_LOAD EOS LogHttp: 0000013286BF6900: invalid HTTP response code received. URL: https://api.epicgames.dev/sdk/v1/default?platformId=WIN, HTTP code: 0, content length: 0, actual payload size: 0
+COOP_LOAD EOS LogHttp: 0000013286BF6900: request failed, libcurl error: 7 (Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 0 (Hostname api.epicgames.dev was found in DNS cache)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 1 (  Trying 104.18.125.108:443...)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 2 (connect to 104.18.125.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 3 (  Trying 104.18.124.108:443...)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 4 (connect to 104.18.124.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 5 (Failed to connect to api.epicgames.dev port 443 after 14 ms: Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 0000013286BF6900: libcurl info message cache 6 (Closing connection)
+COOP_LOAD EOS LogHttp: Retry exhausted on https://api.epicgames.dev/sdk/v1/default?platformId=WIN
+COOP_LOAD EOS LogEOS: Failed to connect to the backend. ServiceName=[SDKConfig], OperationName=[GetPlatformConfigRoute], Url=[<Redacted>]
+COOP_LOAD EOS LogEOS: SDK Config Platform Update Request Failed, Result Code: EOS_NoConnection, Retrying after 9.782525 seconds
+COOP_LOAD EOS LogEOSAnalytics: Unable to get the client auth token. Last result: EOS_NoConnection.
+COOP_LOAD EOS_DEVICE_ID_FAILED result=NoConnection
+COOP_LOAD ONLINE_FAILED reason=The online sign-in failed (NoConnection). Try again in a moment.
+FAIL: Host opens the Planes lobby
+COOP_LOAD EOS LogEOSP2P: Leave all connections due to P2P network shutdown
+COOP_LOAD EOS LogHttp: 00000132EF749510: invalid HTTP response code received. URL: https://api.epicgames.dev/telemetry/data/datarouter/api/v1/public/data?SessionID=%7BDE1A78AD-4641-8FDC-4EE4-629AB225883C%7D&AppID=EOSSDK.PhaseRelease.ReleaseBuild&AppVersion=1.19.1.2-53289219%20-%20%2B%2BEOSSDK%2BRelease-1.19.1.2&UserID=&AppEnvironment=Production&UploadType=sdkevents, HTTP code: 0, content length: 0, actual payload size: 0
+COOP_LOAD EOS LogHttp: 00000132EF749510: request failed, libcurl error: 7 (Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 00000132EF749510: libcurl info message cache 0 (Hostname api.epicgames.dev was found in DNS cache)
+COOP_LOAD EOS LogHttp: 00000132EF749510: libcurl info message cache 1 (  Trying 104.18.125.108:443...)
+COOP_LOAD EOS LogHttp: 00000132EF749510: libcurl info message cache 2 (connect to 104.18.125.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 00000132EF749510: libcurl info message cache 3 (  Trying 104.18.124.108:443...)
+COOP_LOAD EOS LogHttp: 00000132EF749510: libcurl info message cache 4 (connect to 104.18.124.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 00000132EF749510: libcurl info message cache 5 (Failed to connect to api.epicgames.dev port 443 after 14 ms: Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 00000132EF749510: libcurl info message cache 6 (Closing connection)
+COOP_LOAD EOS LogHttp: 00000132EF784010: invalid HTTP response code received. URL: https://api.epicgames.dev/telemetry/data/datarouter/api/v1/public/data?SessionID=%7BDE1A78AD-4641-8FDC-4EE4-629AB225883C%7D&AppID=EOSSDK.PhaseRelease.ReleaseBuild&AppVersion=1.19.1.2-53289219%20-%20%2B%2BEOSSDK%2BRelease-1.19.1.2&UserID=&AppEnvironment=Production&UploadType=sdkevents, HTTP code: 0, content length: 0, actual payload size: 0
+COOP_LOAD EOS LogHttp: 00000132EF784010: request failed, libcurl error: 7 (Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 00000132EF784010: libcurl info message cache 0 (Found bundle for host: 0x132867df360 [serially])
+COOP_LOAD EOS LogHttp: 00000132EF784010: libcurl info message cache 1 (Hostname api.epicgames.dev was found in DNS cache)
+COOP_LOAD EOS LogHttp: 00000132EF784010: libcurl info message cache 2 (  Trying 104.18.125.108:443...)
+COOP_LOAD EOS LogHttp: 00000132EF784010: libcurl info message cache 3 (connect to 104.18.125.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 00000132EF784010: libcurl info message cache 4 (  Trying 104.18.124.108:443...)
+COOP_LOAD EOS LogHttp: 00000132EF784010: libcurl info message cache 5 (connect to 104.18.124.108 port 443 failed: Bad access)
+COOP_LOAD EOS LogHttp: 00000132EF784010: libcurl info message cache 6 (Failed to connect to api.epicgames.dev port 443 after 13 ms: Couldn't connect to server)
+COOP_LOAD EOS LogHttp: 00000132EF784010: libcurl info message cache 7 (Closing connection)

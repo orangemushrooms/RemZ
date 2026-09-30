@@ -1,0 +1,71 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PLANES_NATURE { "flowers": 14541, "mushrooms": 484, "deer": 10, "stags": 4 } batches=1252
+PLANES_NAV polygons=9852
+PLANES_SURVIVAL_READY
+COOP_LOAD MAP_READY
+PLANES_READY trees=393 birds=24 crops={ "corn": 238551, "wheat": 412659, "grass": 795017, "undergrowth": 18813, "woodland_grass": 21884 }
+PASS: Forest reticle is active
+PASS: Fresh quickbar contains only owned starter items
+PASS: Fourteen deer/stags and twenty-four birds are huntable
+PASS: Camp has a cooking grate and brewing pot
+PASS: Vendor uses Forest trading and selling tabs
+PASS: Vendor greeting audio starts when approached
+PASS: Mechanic offers training and defence kits
+PASS: Mechanic greeting audio starts when approached
+PASS: Picking a named flower supplies real brewing inventory
+PASS: Plant pickup plays its collection sound
+PASS: Shooting a deer leaves collectable meat
+PASS: Meat is added to the hunter's inventory
+PASS: Collected venison cooks on the camp grill
+PASS: Collected flowers brew into Meadow Tea at the pot
+PASS: Tea consumption heals and consumes exactly one drink
+PASS: All six surveyed targets have individual hit volumes
+PASS: Playable boundary includes shooting house
+PASS: Generic solid building proxy is removed
+PASS: Shooting house is locked before finding a key
+PASS: Random woodland key can be picked up from its stump
+PASS: Key opens the physical door and shooting shutters
+PASS: Player can walk up the steps and through the unlocked doorway
+PASS: Shooting log starts personal sniper challenge
+PASS: House contains one marksman
+PASS: House contains one titanbreaker
+PASS: House contains one shotgun
+RANGE_RAY 0 distance=311.035888671875 collider=@Area3D@3882:<Area3D#619330947216> at=(173.1978, 17.45508, 212.7549)
+PASS: Non-sniper hit does not count for target 0
+RANGE_RAY 1 distance=311.012756347656 collider=@Area3D@3884:<Area3D#619381278880> at=(173.9475, 17.45508, 215.1225)
+PASS: Non-sniper hit does not count for target 1
+RANGE_RAY 2 distance=310.989624023438 collider=@Area3D@3886:<Area3D#619431610525> at=(174.6973, 17.45509, 217.4901)
+PASS: Non-sniper hit does not count for target 2
+RANGE_RAY 3 distance=310.966522216797 collider=@Area3D@3888:<Area3D#619481942170> at=(175.4471, 17.45509, 219.8576)
+PASS: Non-sniper hit does not count for target 3
+RANGE_RAY 4 distance=310.943450927734 collider=@Area3D@3890:<Area3D#619532273839> at=(176.1968, 17.45508, 222.2252)
+PASS: Non-sniper hit does not count for target 4
+RANGE_RAY 5 distance=310.92041015625 collider=@Area3D@3892:<Area3D#619582605490> at=(176.9466, 17.45508, 224.5928)
+PASS: Non-sniper hit does not count for target 5
+PASS: All six targets are visible through shooting ports without terrain/wall obstruction
+PASS: Six unique sniper targets complete challenge
+PASS: Challenge pays money and persistent class XP
+PASS: Challenge reward cannot be duplicated
+PASS: Zombie can follow a player through the open shooting-house entrance
+PASS: Wave 6 includes its Forest boss encounter
+PASS: Wave 12 includes its Forest boss encounter
+PASS: Wave 15 includes its Forest boss encounter
+PASS: Wave 24 includes its Forest boss encounter
+PASS: Wave 25 includes its Forest boss encounter
+PASS: Titanbreaker base damage doubled
+PASS: Mortar range doubled
+PASS: Tree trunk blocks a physical ray through the walking height
+PASS: First segment has a valid free build site
+PASS: Adjacent palisade snaps flush and passes real placement collision checks
+PASS: Mouse wheel rotates the carried palisade preview
+PASS: Y starts relocation of the nearby tower
+PASS: Tower relocation preserves money and applies position plus chosen orientation
+PASS: Revive restores substantial health and protects briefly from another hit
+PASS: Zombie traverses the camp depression: (5.0, 28.0)
+PASS: Zombie traverses the camp depression: (30.0, 25.0)
+PLANES_PARITY checks=53 failures=0

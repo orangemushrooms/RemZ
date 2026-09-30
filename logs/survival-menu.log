@@ -1,0 +1,63 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
+
+ERROR: Failed to read the root certificate store.
+   at: get_system_ca_certificates (platform/windows/os_windows.cpp:2582)
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+PASS: Launch shows the main menu
+PASS: Main menu has no Heitersberg subtitle or single-map briefing
+PASS: Briefing explains the campaign and survival objective
+PASS: en/briefing exposes the return button
+PASS: en/briefing returns to home without starting the game
+PASS: en/briefing also returns with Escape
+PASS: en/multiplayer exposes the return button
+PASS: en/multiplayer returns to home without starting the game
+PASS: en/multiplayer also returns with Escape
+PASS: en/difficulty exposes the return button
+PASS: en/difficulty returns to home without starting the game
+PASS: en/difficulty also returns with Escape
+PASS: en/controls exposes the return button
+PASS: en/controls returns to home without starting the game
+PASS: en/controls also returns with Escape
+PASS: en/settings exposes the return button
+PASS: en/settings returns to home without starting the game
+PASS: en/settings also returns with Escape
+PASS: en/records exposes the return button
+PASS: en/records returns to home without starting the game
+PASS: en/records also returns with Escape
+PASS: en/achievements exposes the return button
+PASS: en/achievements returns to home without starting the game
+PASS: en/achievements also returns with Escape
+PASS: Briefing follows the language setting
+PASS: de/briefing exposes the return button
+PASS: de/briefing returns to home without starting the game
+PASS: de/briefing also returns with Escape
+PASS: de/multiplayer exposes the return button
+PASS: de/multiplayer returns to home without starting the game
+PASS: de/multiplayer also returns with Escape
+PASS: de/difficulty exposes the return button
+PASS: de/difficulty returns to home without starting the game
+PASS: de/difficulty also returns with Escape
+PASS: de/controls exposes the return button
+PASS: de/controls returns to home without starting the game
+PASS: de/controls also returns with Escape
+PASS: de/settings exposes the return button
+PASS: de/settings returns to home without starting the game
+PASS: de/settings also returns with Escape
+PASS: de/records exposes the return button
+PASS: de/records returns to home without starting the game
+PASS: de/records also returns with Escape
+PASS: de/achievements exposes the return button
+PASS: de/achievements returns to home without starting the game
+PASS: de/achievements also returns with Escape
+PASS: Briefing follows the language setting
+PASS: Returning from a start-menu detail never requests a scene reload
+PASS: Escape closes a character dialog before the underlying detail
+PASS: The next Escape returns to home
+PASS: Escape still exits map selection
+PASS: The return button is fully reachable at 720p
+PASS: The actual return button works at 720p
+PASS: Pause keeps the existing leave-round navigation
+PASS: Pause return still requests the normal main-menu transition
+SURVIVAL_MENU_DONE checks=55 failures=0

@@ -4,9 +4,12 @@
 // black one or a copy of the base colour, which would light the zombie up); zombie.gd owns the emission.
 // Usage: node tools/decimate_glb.mjs <in.glb> <out.glb> --triangles 52000 [--error 0.05]
 //        [--base-size 1024] [--base-only]      (the rigging input: base colour only, smaller upload)
+//        [--prune]   meshoptimizer's Prune flag: tiny disconnected shells (screw heads, rivets, floating detail)
+//                    may vanish. The million-triangle web pistols of 30 Sep 2026 stalled at 80-96k triangles
+//                    without it - every one of their thousands of shells kept its last few triangles.
 import { NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-import { weld, simplify, prune, dedup, textureCompress } from '@gltf-transform/functions';
+import { weld, simplify, prune, dedup, textureCompress, compactPrimitive } from '@gltf-transform/functions';
 import { MeshoptSimplifier } from 'meshoptimizer';
 import sharp from 'sharp';
 import fs from 'node:fs';
@@ -18,6 +21,7 @@ const target = Number(opt('--triangles', 52000));
 const error = Number(opt('--error', 0.05));
 const baseSize = Number(opt('--base-size', 0));
 const baseOnly = args.includes('--base-only');
+const pruneShells = args.includes('--prune');
 
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS);
 const doc = await io.read(input);
@@ -28,7 +32,25 @@ for (const anim of root.listAnimations()) anim.dispose();
 const before = count();
 if (before > target) {
   await MeshoptSimplifier.ready;
-  await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio: target / before, error }));
+  if (pruneShells) {
+    // gltf-transform's simplify() only knows LockBorder; the Prune flag needs the simplifier itself
+    // (experimental in meshoptimizer 0.22, hence the opt-in).
+    MeshoptSimplifier.useExperimentalFeatures = true;
+    await doc.transform(weld());
+    for (const mesh of root.listMeshes()) for (const prim of mesh.listPrimitives()) {
+      const indices = prim.getIndices();
+      const position = prim.getAttribute('POSITION');
+      if (!indices || !position) continue;
+      const source = new Uint32Array(indices.getArray());
+      const share = source.length / 3 / before;
+      const wanted = Math.max(3, Math.floor(target * share)) * 3;
+      const [collapsed] = MeshoptSimplifier.simplify(source, new Float32Array(position.getArray()), 3, wanted, error, ['Prune']);
+      indices.setArray(collapsed);
+      compactPrimitive(prim);
+    }
+  } else {
+    await doc.transform(weld(), simplify({ simplifier: MeshoptSimplifier, ratio: target / before, error }));
+  }
 }
 // tangents of the source no longer match the collapsed surface; the bake writes fresh ones
 for (const mesh of root.listMeshes()) for (const prim of mesh.listPrimitives()) {
