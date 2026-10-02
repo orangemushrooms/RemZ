@@ -131,6 +131,13 @@ func _draw_symbols(c: Control) -> void:
 			var quest := "forage" if item.kind=="mushrooms" else "bouquet"
 			if not item.taken and game.progression.accepted.has(quest) and not game.progression.claimed.has(quest):
 				c.draw_circle(_point(item.at),2,Color(0.9,0.5,1))
+	if game.get("shooting_range") and game.shooting_range.key_spawned and not game.shooting_range.key_owned:
+		var key_position: Vector3 = game.shooting_range.key.global_position
+		if player.global_position.distance_squared_to(key_position) < 45.0 * 45.0:
+			var marker := map_position(key_position)
+			c.draw_circle(marker, 4, Hud.GOLD)
+			c.draw_string_outline(_font, marker + Vector2(6, -4), Lang.text("Schützenhaus key"), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, 3, Color.BLACK)
+			c.draw_string(_font, marker + Vector2(6, -4), Lang.text("Schützenhaus key"), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Hud.GOLD)
 	if game.get("shooting_range") and game.shooting_range.key_owned:
 		var house := map_position(game.shooting_range.house.global_position)
 		c.draw_circle(house,3.5,Hud.GOLD)

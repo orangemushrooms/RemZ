@@ -78,19 +78,19 @@ const DEFS := {
 	# Sturmschuetzen, zwei Flinten fuer den Brecher. Modelle und Aufnahmen vom Nutzer (assets/raw/<id>_web,
 	# input/audio/weapons), ids = Modellnamen. Alles ausser Flinten und Pistolen schiesst vollautomatisch.
 	# Dauer-DPS (balance_report: mag x dmg x pellets / ((mag-1) x rate + reload)) neben den Nachbarn: SIG 184 /
-	# Nighthawk 193 zwischen Pistole 143 und Deagle 204; AR-15 224 unter der AK 257; Tommy 214 ueber der MAC-10 198;
-	# SPAS 214 und Sawed-Off 204 (16 m, breite Streuung) unter dem Nightbreaker 265 des Secret Vendors.
+	# Nighthawk 193 zwischen Pistole 143 und Deagle 204; AR-15 224 unter der AK 257.
+	# 2 Oct: Tommy now 70 rounds; Sawed-Off 3 rounds, 28 damage/pellet and 1.4 s reload.
 	"sig_p226": {"name": "SIG P226", "model": "sig_p226", "height": 0.14, "mag": 15, "reserve": 90, "reserve_factor": 6, "damage": 40.0, "rate": 0.14, "reload": 1.3, "pellets": 1, "spread": 0.010, "range": 65.0, "auto": false, "sfx": "sig_p226", "sfx_db": -5.5,
 		"pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 3.0, "kick_yaw": 0.8, "kick_back": 0.09, "recover": 7.0},
 	"nighthawk": {"name": "Nighthawk .45", "model": "nighthawk", "height": 0.14, "mag": 8, "reserve": 56, "reserve_factor": 7, "damage": 70.0, "rate": 0.20, "reload": 1.5, "pellets": 1, "spread": 0.007, "range": 70.0, "auto": false, "sfx": "nighthawk", "sfx_db": -6.0, "flash_scale": 1.15,
 		"pos": Vector3(0.26, -0.21, -0.5), "ads": Vector3(0.0, -0.13, -0.38), "kick_pitch": 4.8, "kick_yaw": 1.2, "kick_back": 0.13, "recover": 6.0},
 	"ar15": {"name": "AR-15", "model": "ar15", "height": 0.24, "mag": 30, "reserve": 150, "damage": 33.0, "rate": 0.09, "reload": 1.8, "pellets": 1, "spread": 0.016, "range": 95.0, "auto": true, "sfx": "ar15", "sfx_db": -9.5,
 		"pos": Vector3(0.24, -0.23, -0.58), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 1.6, "kick_yaw": 0.8, "kick_back": 0.07, "recover": 8.5},
-	"tommy_gun": {"name": "Tommy Gun", "model": "tommy_gun", "height": 0.20, "mag": 50, "reserve": 200, "damage": 30.0, "rate": 0.086, "reload": 2.8, "pellets": 1, "spread": 0.028, "range": 42.0, "auto": true, "sfx": "tommy_gun", "sfx_db": -1.7, "flash_scale": 1.1,
+	"tommy_gun": {"name": "Tommy Gun", "model": "tommy_gun", "height": 0.20, "mag": 70, "reserve": 280, "damage": 30.0, "rate": 0.086, "reload": 2.8, "pellets": 1, "spread": 0.028, "range": 42.0, "auto": true, "sfx": "tommy_gun", "sfx_db": -1.7, "flash_scale": 1.1,
 		"pos": Vector3(0.24, -0.23, -0.57), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 1.5, "kick_yaw": 0.9, "kick_back": 0.06, "recover": 8.5},
 	"spas12": {"name": "SPAS-12", "model": "spas12", "height": 0.15, "mag": 8, "reserve": 40, "damage": 22.0, "rate": 0.6, "reload": 3.2, "pellets": 9, "spread": 0.065, "range": 27.0, "auto": false, "sfx": "spas12", "sfx_db": -3.5, "flash_scale": 1.2,
 		"pos": Vector3(0.22, -0.24, -0.6), "ads": Vector3(0.0, -0.15, -0.45), "kick_pitch": 7.5, "kick_yaw": 1.9, "kick_back": 0.18, "recover": 4.8},
-	"sawed_off": {"name": "Sawed-Off Shotgun", "model": "sawed_off", "height": 0.13, "mag": 2, "reserve": 40, "reserve_factor": 30, "damage": 24.0, "rate": 0.35, "reload": 2.0, "pellets": 10, "spread": 0.11, "range": 16.0, "auto": false, "sfx": "sawed_off", "sfx_db": 2.0, "flash_scale": 1.4,
+	"sawed_off": {"name": "Sawed-Off Shotgun", "model": "sawed_off", "height": 0.13, "mag": 3, "reserve": 42, "reserve_factor": 20, "damage": 28.0, "rate": 0.35, "reload": 1.4, "pellets": 10, "spread": 0.11, "range": 16.0, "auto": false, "sfx": "sawed_off", "sfx_db": 2.0, "flash_scale": 1.4,
 		"mod_block": ["extended", "endless"],
 		"pos": Vector3(0.24, -0.23, -0.55), "ads": Vector3(0.0, -0.14, -0.42), "kick_pitch": 10.0, "kick_yaw": 2.6, "kick_back": 0.22, "recover": 4.0},
 }

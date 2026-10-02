@@ -53,7 +53,7 @@ func setup(main: Node) -> void:
 	_tabs.Training.get_parent().add_child(barricades_tab)
 	_tabs["Barricades"] = barricades_tab
 	for button in panel.find_children("*","Button",true,false):
-		if Lang.text(button.text)=="Back to the forest · Esc": button.text = "Back to The Planes · Esc"
+		if button.text=="Back to the forest · Esc": button.text = "Back to The Planes · Esc"
 	field_panel = panel
 	field_rows = rows
 	tutorial.hide()
@@ -136,6 +136,7 @@ func open_field(id: String) -> void:
 		return
 	if not close_enough(game.player,id): return
 	shop = id; page = "Quests" if id=="mechanic" else "Trade"; is_open = true
+	_mod_weapon = game.weapons.ammo_weapon()
 	_greet(id)
 	if id=="secret": discovered_secret = true
 	game.player.active = false
@@ -490,7 +491,7 @@ func actor() -> Player:
 	return transaction_actor if transaction_actor else game.player
 
 func menu_signature() -> String:
-	return str([shop,page,game.player.score,kit_stock,accepted,claimed,accepted_waves,field_counts,game.brewing.stock(game.player.peer_id).flowers,mushroom_stock(game.player),game.waves.completed if game.waves else 0,game.skills.levels if game.skills else {},game.weapons.unlocked if game.weapons else {}])
+	return str([shop,page,game.player.score,kit_stock,accepted,claimed,accepted_waves,field_counts,game.brewing.stock(game.player.peer_id).flowers,mushroom_stock(game.player),game.waves.completed if game.waves else 0,game.skills.levels if game.skills else {},game.weapons.unlocked if game.weapons else {},game.weapons.mod_loadout if game.weapons else {},game.weapons.mod_owned if game.weapons else {}])
 
 func _sell_items(p: Player) -> Array[Array]:
 	var items: Array[Array] = super._sell_items(p)

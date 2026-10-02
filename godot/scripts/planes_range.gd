@@ -4,7 +4,7 @@ extends Node3D
 const HOUSE_ID := 118083383
 const CENTER := Vector2(-122.015,309.58)
 const LOOT := ["marksman","titanbreaker","shotgun"]
-const KEY_CHANCE := 0.5
+const KEY_CHANCE := 1.0
 var game: Node3D
 var house: Node3D
 var door: StaticBody3D
@@ -70,7 +70,7 @@ func setup(scene: Node3D) -> void:
 	hint.modulate = Hud.GOLD
 	hint.font_size = 28
 	hint.pixel_size = 0.004
-	hint.visibility_range_end = 16
+	hint.visibility_range_end = 32
 	key.add_child(hint)
 	reset_run()
 
@@ -223,18 +223,30 @@ func roll_key() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
 	if rng.randf()>KEY_CHANCE and not "--all-forest-keys" in game._flags: return
-	for attempt in 250:
+	var trunks := get_tree().get_nodes_in_group("planes_tree_trunks")
+	for attempt in 1000:
 		var p := Vector2(rng.randf_range(10,250),rng.randf_range(-20,80))
-		if not preload("res://scripts/planes_boundary.gd").contains(p) or not game.nature.clear_ground(p,true): continue
-		var blocked := false
-		for trunk in get_tree().get_nodes_in_group("planes_tree_trunks"):
-			if p.distance_to(Vector2(trunk.position.x,trunk.position.z))<1.6:
-				blocked = true
-				break
-		if blocked: continue
-		key.position = Map.ground_pos(p.x,p.y)
+		if not _key_clear(p, trunks): continue
+		key.position = Map.ground_pos(p.x,p.y) + Vector3.UP * 0.12
 		key_spawned = true
 		break
+	# A deterministic second pass prevents an unlucky random search losing the key.
+	if not key_spawned:
+		for x in range(10,250,3):
+			for z in range(-20,80,3):
+				var p := Vector2(x,z)
+				if not _key_clear(p, trunks): continue
+				key.position = Map.ground_pos(x,z) + Vector3.UP * 0.12
+				key_spawned = true
+				break
+			if key_spawned: break
+	refresh()
+
+func _key_clear(p: Vector2, trunks: Array) -> bool:
+	if not preload("res://scripts/planes_boundary.gd").contains(p) or not game.nature.clear_ground(p,true): return false
+	for trunk in trunks:
+		if p.distance_to(Vector2(trunk.position.x,trunk.position.z)) < 1.6: return false
+	return true
 
 func data(peer: int) -> Dictionary:
 	if not people.has(peer): people[peer] = {"accepted":false,"hits":[],"claimed":false}

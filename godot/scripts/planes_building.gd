@@ -199,7 +199,8 @@ func upgrade_bar(index: int, builder: Player = null) -> String:
 		NetSession.command("planes",["upgrade_bar",[str(bar.slot.id)]])
 		return "Request sent to host."
 	if bar.level>=3: return "Maximum tier reached."
-	if game.waves.completed<(3 if bar.level==1 else 8): return "Survive wave 3 / 8 for stronger fortifications."
+	var required_wave := 3 if bar.level==1 else 8
+	if game.waves.completed<required_wave: return Lang.t("Survive wave %d for stronger fortifications.",[required_wave])
 	var cost: int = SandbagLine.UPGRADE_COST[bar.level] if bar is SandbagLine else Barricade.build_cost(bar.level+1)
 	if builder.score<cost: return "Not enough Rem Dollars."
 	if bar.build(): builder.add_score(-cost)

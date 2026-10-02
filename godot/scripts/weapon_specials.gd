@@ -568,5 +568,7 @@ class Flare extends Node3D:
 					if splash_ignites:
 						specials.ignite(other, "fire", float(config.get("burn_time", 4.0)) * 0.6, owner_peer, weapon)
 		if is_instance_valid(specials):
+			var field = specials.game.get("cornfield") if specials.game else null
+			if authoritative and field and field.get("fires"): field.fires.ignite(point, 3.5, owner_peer, weapon)
 			specials.plant_flare(point, float(config.get("flare_life", 8.0)), float(config.get("light_range", 12.0)), authoritative, owner_peer)
 		queue_free()

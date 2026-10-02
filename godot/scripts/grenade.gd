@@ -72,6 +72,8 @@ func _explode() -> void:
 	var pos := global_position
 	# damage
 	if not replica:
+		var field = get_tree().current_scene.get("cornfield")
+		if field and field.get("fires"): field.fires.ignite(pos, RADIUS, owner_peer, "grenade")
 		if get_tree().current_scene.get("hunting"): get_tree().current_scene.hunting.blast(pos, RADIUS, DAMAGE, owner_peer)
 		for z in zombies_root.get_children():
 			if z is Zombie and z.alive:

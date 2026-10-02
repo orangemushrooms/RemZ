@@ -748,7 +748,7 @@ func snapshot() -> Dictionary:
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
-	return {"reviving":revive.duplicate(true), "shooting_range":game.shooting_range.snapshot() if planes else {}, "field_building": game.field_building.snapshot() if planes else [], "brewing": (game.brewing.snapshot() if game.get("brewing") else {}), "maze_caches": maze_caches, "hunting": (game.hunting.snapshot() if game.get("hunting") else {}), "leaderboard": game.stats.players.duplicate(true), "fireworks": (game.fireworks.snapshot() if game.get("fireworks") else {}), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": (game.drones.snapshot() if game.get("drones") else {}), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"reviving":revive.duplicate(true), "shooting_range":game.shooting_range.snapshot() if planes else {}, "crop_fire":game.cornfield.fires.snapshot() if planes else {}, "field_building": game.field_building.snapshot() if planes else [], "brewing": (game.brewing.snapshot() if game.get("brewing") else {}), "maze_caches": maze_caches, "hunting": (game.hunting.snapshot() if game.get("hunting") else {}), "leaderboard": game.stats.players.duplicate(true), "fireworks": (game.fireworks.snapshot() if game.get("fireworks") else {}), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": (game.drones.snapshot() if game.get("drones") else {}), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"secret_night": (game.secret_night.snapshot() if game.get("secret_night") else {}), "field_trials": (game.field_trials.snapshot() if game.get("field_trials") else {}),
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"sandbags": sandbag_states, "purse": purse, "fortune": game.fortune.snapshot() if game.fortune else [],
@@ -783,7 +783,9 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	for i in mini(pumpkin_states.size(), game.pumpkins.size()):
 		if pumpkin_states[i]: game.pumpkins[i].shatter(not initial)
 	if initial: NetSession.trace_load("STATE_STAGE structures")
-	if planes: game.shooting_range.apply_snapshot(data.get("shooting_range",{}))
+	if planes:
+		game.shooting_range.apply_snapshot(data.get("shooting_range",{}))
+		game.cornfield.fires.apply_snapshot(data.get("crop_fire",{}))
 	if NetSession.is_client(): revive = data.get("reviving",{}).duplicate(true)
 	game.defences.apply_snapshot(data.get("towers", {}), initial)
 	if game.get("drones"): game.drones.apply_snapshot(data.get("drones", {}), initial)

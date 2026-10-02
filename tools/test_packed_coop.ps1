@@ -9,17 +9,30 @@ $binary = if ($GameBinary) { (Resolve-Path -LiteralPath $GameBinary).Path } else
 $folder = Join-Path $workspace 'artifacts/defence'
 New-Item -ItemType Directory -Force -Path $folder | Out-Null
 $runs = @()
+function Wait-PackedReady($Process, [string]$Marker) {
+    # Stagger world loading: four concurrent model imports exceed this PC's RAM,
+    # before the networking probe has even reached its first check.
+    $trace = Join-Path (Split-Path $binary) ('logs/coop-' + $Process.Id + '.log')
+    $deadline = (Get-Date).AddSeconds(180)
+    while ((Get-Date) -lt $deadline) {
+        if ($Process.HasExited) { throw "Packaged player exited while loading. See $trace" }
+        if ((Test-Path -LiteralPath $trace) -and (Get-Content -LiteralPath $trace -Raw) -match $Marker) { return }
+        Start-Sleep -Seconds 1
+    }
+    throw "Packaged player did not become ready. See $trace"
+}
 try {
     $hostArgs = @('--headless', '--verbose', '--log-file', ('"' + (Join-Path $folder 'packed-host.log') + '"'), '--',
         '--host', "--coop-auto-start=$Players", '--port=24692', '--name=PackedHost', '--smoke-test', '--class-auto-lock', '--no-foliage', '--no-music')
     $runs += Start-Process -FilePath $binary -WorkingDirectory (Split-Path $binary) -ArgumentList $hostArgs -WindowStyle Hidden -PassThru
-    Start-Sleep -Seconds 4
+    Wait-PackedReady $runs[-1] 'HOST_READY'
     # Host and probe are two of the players; packaged clients fill the rest.
     $clients = @(@('PackedOne','PackedTwo') | Select-Object -First ($Players - 2))
     foreach ($name in $clients) {
         $arguments = @('--headless', '--log-file', ('"' + (Join-Path $folder ($name + '.log')) + '"'), '--',
             '--join=127.0.0.1', '--port=24692', "--name=$name", '--smoke-test', '--class-auto-lock', '--no-foliage', '--no-music')
         $runs += Start-Process -FilePath $binary -WorkingDirectory (Split-Path $binary) -ArgumentList $arguments -WindowStyle Hidden -PassThru
+        Wait-PackedReady $runs[-1] 'WELCOME'
     }
     $probeArgs = @('--headless', '--path', 'godot', '--log-file', ('"' + (Join-Path $folder 'packed-probe.log') + '"'),
         '--script', 'res://tests/run.gd', '--', '--suite=packed_coop', '--smoke-test', '--class-auto-lock', '--no-foliage', '--no-music', "--expected-players=$Players")

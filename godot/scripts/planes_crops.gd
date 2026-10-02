@@ -13,6 +13,8 @@ var wind: ShaderMaterial
 var _elapsed := 0.0
 var _lod_cursor := 0
 var _grass_cursor := 0
+var fires: Node3D
+var wheat_fire_cells: Dictionary = {}
 var rustle: AudioStreamPlayer
 
 func sample(p: Vector2) -> Color:
@@ -86,7 +88,10 @@ func build(main: Node) -> void:
 					var at := Map.ground_pos(p.x,p.y)-origin
 					var xf := Transform3D(Basis(Vector3.UP,rng.randf()*TAU).scaled(Vector3.ONE*scale),at)
 					if kind=="corn": corn.append(xf)
-					elif kind=="wheat": wheat.append(xf)
+					elif kind=="wheat":
+						wheat.append(xf)
+						var fire_cell := Vector2i(((p-ext.position)/4.0).floor())
+						if not wheat_fire_cells.has(fire_cell): wheat_fire_cells[fire_cell] = at+origin
 					elif kind=="undergrowth": undergrowth.append(xf)
 					else: grass.append(xf)
 			# Use an independent stream so denser woodland does not rearrange crops.
@@ -106,6 +111,9 @@ func build(main: Node) -> void:
 				if spec[0] in ["grass","undergrowth"]: grass_batches.append(node)
 				else: batches.append(node)
 				counts[spec[0]] += spec[1].size()
+	fires = preload("res://scripts/planes_crop_fire.gd").new()
+	add_child(fires)
+	fires.setup(self)
 	rustle = AudioStreamPlayer.new()
 	rustle.stream = Sfx.corn_bed()
 	rustle.volume_db = -60

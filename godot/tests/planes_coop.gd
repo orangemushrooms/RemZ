@@ -65,9 +65,15 @@ func run() -> void:
 		enemy.set_physics_process(false)
 		game.day_night.set_time_hours(23)
 		game.weather.force("rain")
+		var fires = game.cornfield.fires
+		fires.set_process(false)
+		var cell: Vector2i = fires.wheat.keys()[fires.wheat.size() / 2]
+		fires.ignite(fires.wheat[cell], 3.5, 1, "flare_pistol")
+		check(not fires.active.is_empty(), "Host ignites authoritative wheat fire")
 		signal_file("state")
 		await wait_file("client-state")
 		check(NetSession.world.actors.size()==2,"Host retains the connected teammate")
+		fires.reset_run()
 		await host_economy()
 		signal_file("done")
 		await wait_file("client-done")
@@ -76,6 +82,14 @@ func run() -> void:
 		await create_timer(2).timeout
 		check(game.waves.wave==1 and game.alive_zombies()==1,"Client receives wave and zombie state")
 		check(game.day_night.is_night() and game.weather.state=="rain","Client receives day-night and weather state")
+		var fires = game.cornfield.fires
+		check(not fires.active.is_empty() and not fires.burned.is_empty(), "Client receives active fire and charred wheat from host")
+		var fire_count: int = fires.burned.size()
+		for cell in fires.wheat:
+			if not fires.burned.has(cell):
+				fires.ignite(fires.wheat[cell], 3.5, game.player.peer_id, "flare_pistol")
+				break
+		check(fires.burned.size() == fire_count, "Client cannot ignite unauthorised local wheat fire")
 		signal_file("client-state")
 		await client_economy()
 		await wait_file("done")

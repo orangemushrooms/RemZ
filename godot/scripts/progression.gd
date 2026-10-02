@@ -36,10 +36,10 @@ const GOODS := {
 	# Klassenwaffen, 30 Sep 2026: alle beim Vendor, damit jede Klasse frueh eine Spezialwaffe kaufen kann.
 	# Munition (zwei Magazine) bleibt im Korridor von 13-33 R je 1000 Schaden.
 	"sig_p226": {"npc": "camp", "price": 300, "wave": 1, "quest": "arrival", "ammo": 26, "desc": "Service pistol with 15 rounds. Fast, accurate and easy on ammo."},
-	"sawed_off": {"npc": "camp", "price": 380, "wave": 2, "quest": "arrival", "ammo": 18, "desc": "Two barrels of buckshot. Devastating up close, quick to reload, useless at range."},
+	"sawed_off": {"npc": "camp", "price": 380, "wave": 2, "quest": "arrival", "ammo": 22, "desc": "Three shots of buckshot. Devastating up close, quick to reload, useless at range."},
 	"nighthawk": {"npc": "camp", "price": 520, "wave": 3, "quest": "watch", "ammo": 30, "desc": "Custom .45 pistol. Eight hard-hitting rounds with match-grade accuracy."},
 	"ar15": {"npc": "camp", "price": 640, "wave": 3, "quest": "watch", "ammo": 40, "desc": "Light 5.56 rifle. Full auto, gentle recoil, long reach."},
-	"tommy_gun": {"npc": "camp", "price": 700, "wave": 4, "quest": "night_shift", "ammo": 46, "desc": "50-round drum of .45 ACP. Full auto, heavy hits at short range."},
+	"tommy_gun": {"npc": "camp", "price": 700, "wave": 4, "quest": "night_shift", "ammo": 56, "desc": "70-round drum of .45 ACP. Full auto, heavy hits at short range."},
 	"spas12": {"npc": "camp", "price": 820, "wave": 4, "quest": "line", "ammo": 48, "desc": "Semi-automatic combat shotgun with eight shells. Fast follow-up blasts."},
 }
 const QUESTS := {
@@ -1211,7 +1211,7 @@ func _build_ui() -> void:
 	vendor_guide.finished.connect(_finish_vendor_guide)
 	panel.hide()
 
-func _row(heading: String, details: String, button_text: String, action: Callable, disabled := false, blocked_reason := "", rich := false) -> void:
+func _row(heading: String, details: String, button_text: String, action: Callable, disabled := false, blocked_reason := "", rich := false, gun_stats: Dictionary = {}) -> void:
 	# Updating prices and quest counters must preserve the button receiving a click.
 	if not _building_layout:
 		var widgets: Array = _row_nodes[_row_index]
@@ -1222,6 +1222,7 @@ func _row(heading: String, details: String, button_text: String, action: Callabl
 		widgets[3].texture = ItemIcons.texture(ItemIcons.action_id(action))
 		widgets[4].text = blocked_reason
 		widgets[4].visible = not blocked_reason.is_empty()
+		widgets[5].update_stats(gun_stats)
 		_row_index += 1
 		return
 	var box := HBoxContainer.new()
@@ -1238,6 +1239,9 @@ func _row(heading: String, details: String, button_text: String, action: Callabl
 	desc.bbcode_enabled = rich
 	desc.add_theme_color_override("default_color", Color(0.72, 0.8, 0.72))
 	text.add_child(desc)
+	var stats := preload("res://scripts/weapon_stat_bars.gd").new()
+	text.add_child(stats)
+	stats.update_stats(gun_stats)
 	var warning := _label(blocked_reason, 14)
 	warning.add_theme_color_override("font_color", Color(1.0, 0.35, 0.3))
 	warning.visible = not blocked_reason.is_empty()
@@ -1246,10 +1250,11 @@ func _row(heading: String, details: String, button_text: String, action: Callabl
 	button.text = button_text
 	button.custom_minimum_size = Vector2(205, 45)
 	button.disabled = disabled
+	button.visible = button_text != "Current stats"
 	if action.is_valid(): button.pressed.connect(action)
 	box.add_child(button)
 	rows.add_child(HSeparator.new())
-	_row_nodes.append([heading_label, desc, button, icon, warning])
+	_row_nodes.append([heading_label, desc, button, icon, warning, stats])
 	_row_index += 1
 
 func _info(text: String, size := 18) -> void:
@@ -1268,7 +1273,7 @@ func _render() -> void:
 	for tower: DefenceTower in game.defences.towers.values(): owners.append([tower.tower_id, tower.owner_peer])
 	var sale_items: Array[Array] = []
 	if page == "Sell": sale_items = _sell_items(game.player)
-	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners, _mod_weapon, rare_market.stock.keys(), local_data().claimed if page == "Quests" else {}, sale_items])
+	var layout := str([shop, page, game.weapons.current, game.weapons.unlocked, owners, _mod_weapon, game.weapons.mod_loadout, rare_market.stock.keys(), local_data().claimed if page == "Quests" else {}, sale_items])
 	_building_layout = layout != _layout_key
 	_layout_key = layout
 	_row_index = 0
@@ -1362,7 +1367,7 @@ func _render() -> void:
 				var owned: bool = game.weapons.unlocked.get(id, false)
 				var reason := lock_reason(p, id)
 				var gun: Dictionary = Weapons.DEFS[id]
-				var details := Lang.t("%s\n%d damage × %d · %d rounds · %.1f s reload", [spec.desc, int(gun.damage), gun.pellets, gun.mag, gun.reload])
+				var details := Lang.t(spec.desc)
 				if Weapons.is_melee(id):
 					details = Lang.t("%s\n%d damage · %.2f s per swing · %.2f m range", [spec.desc, int(gun.damage), gun.rate, gun.range])
 				if spec.has("chain"): details += "\n" + chain_description(p.peer_id, spec.chain)
@@ -1373,7 +1378,7 @@ func _render() -> void:
 					if p.score < int(spec.price):
 						blocked += ("\n" if not blocked.is_empty() else "") + Lang.t("You are %d Rem Dollars short for this purchase.", [int(spec.price) - p.score])
 				var buy_text := "Owned" if owned else (Lang.t("Locked · %d R", [spec.price]) if not reason.is_empty() else Lang.t("Buy · %d R", [spec.price]))
-				_row(gun.name, details, buy_text, request.bind("weapon", id), owned or not blocked.is_empty(), blocked)
+				_row(gun.name, details, buy_text, request.bind("weapon", id), owned or not blocked.is_empty(), blocked, false, gun)
 			if shop != "mechanic":
 				for wid in Weapons.ORDER:
 					if Weapons.is_melee(wid): continue
@@ -1430,37 +1435,91 @@ func _render() -> void:
 			_row("Original finish", "Switch back to the original material for free.", "Apply", request.bind("stock_skin", wid))
 
 var _mod_weapon := "pistol"
+var _mod_rows: VBoxContainer
 
 func _render_mods(p: Player) -> void:
 	if shop not in ["mechanic", "secret"]: return
 	var w: Weapons = game.weapons
 	if not w.unlocked.get(_mod_weapon, false): _mod_weapon = "pistol"
+	var outer_rows := rows
 	if _building_layout:
-		var chooser := OptionButton.new()
-		chooser.custom_minimum_size.y = 40
-		for wid in Weapons.ORDER:
-			if Weapons.is_melee(wid) or not w.unlocked.get(wid, false): continue
-			chooser.add_item(Weapons.DEFS[wid].name)
-			var index := chooser.item_count - 1
-			chooser.set_item_metadata(index, wid)
-			if wid == _mod_weapon: chooser.select(index)
-		chooser.item_selected.connect(func(index: int): _mod_weapon = chooser.get_item_metadata(index); _render())
-		rows.add_child(chooser)
-	_info("Mods apply per weapon for this round. One mod per slot; switch bought mods for free. Ammo sold separately.\nMission level = waves survived + 1.", 14)
+		_info("Choose a weapon from your inventory", 20)
+		var workspace := HBoxContainer.new()
+		workspace.add_theme_constant_override("separation", 18)
+		rows.add_child(workspace)
+		var inventory_scroll := ScrollContainer.new()
+		inventory_scroll.custom_minimum_size = Vector2(205, 260)
+		inventory_scroll.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		inventory_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		workspace.add_child(inventory_scroll)
+		var chooser := VBoxContainer.new()
+		chooser.name = "ModWeaponChooser"
+		chooser.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		chooser.add_theme_constant_override("separation", 6)
+		inventory_scroll.add_child(chooser)
+		for weapon_id in Weapons.ORDER:
+			if Weapons.is_melee(weapon_id) or not w.unlocked.get(weapon_id, false): continue
+			var button := Button.new()
+			button.name = weapon_id
+			button.text = Weapons.DEFS[weapon_id].name
+			button.icon = ItemIcons.texture(weapon_id)
+			button.expand_icon = true
+			button.add_theme_constant_override("icon_max_width", 40)
+			button.add_theme_font_size_override("font_size", 13)
+			button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+			button.tooltip_text = Weapons.DEFS[weapon_id].name
+			button.custom_minimum_size = Vector2(190, 48)
+			button.toggle_mode = true
+			button.button_pressed = weapon_id == _mod_weapon
+			var selected_style := StyleBoxFlat.new()
+			selected_style.bg_color = Color("48272a")
+			selected_style.border_color = Color("bc5353")
+			selected_style.set_border_width_all(1)
+			selected_style.set_content_margin_all(6)
+			button.add_theme_stylebox_override("pressed", selected_style)
+			button.pressed.connect(_select_mod_weapon.bind(weapon_id))
+			chooser.add_child(button)
+			if weapon_id == _mod_weapon: inventory_scroll.set_deferred("scroll_vertical", maxi(0, (chooser.get_child_count()-1)*54-95))
+		var detail_scroll := ScrollContainer.new()
+		detail_scroll.custom_minimum_size.y = 260
+		detail_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		detail_scroll.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+		detail_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		workspace.add_child(detail_scroll)
+		_mod_rows = VBoxContainer.new()
+		_mod_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_mod_rows.add_theme_constant_override("separation", 10)
+		detail_scroll.add_child(_mod_rows)
+	rows = _mod_rows
 	var wid := _mod_weapon
 	var effective: Dictionary = w.state[wid].def
-	_row(Weapons.DEFS[wid].name, Lang.t("%d damage × %d · %d rounds · %.2f s reload\n%s", [roundi(effective.damage * w.effective_damage_mul()), effective.pellets, effective.mag, effective.reload * w.effective_reload_mul(), Weapons.Mods.summary(w.mod_loadout.get(wid, {}))]), "Current stats", func(): pass, true)
-	for id in Weapons.Mods.DEFS:
-		var spec: Dictionary = Weapons.Mods.DEFS[id]
-		if spec.npc != shop: continue
-		var owned: bool = w.mod_owned.get(wid + ":" + id, false)
-		var equipped: bool = w.mod_loadout.get(wid, {}).get(spec.slot, "") == id
-		var reason := mod_lock_reason(p, id, wid)
-		if reason.is_empty() and not owned and p.score < int(spec.price): reason = Lang.t("Not enough Rem Dollars: %d R needed.", [spec.price])
-		_row(Lang.t("%s · Level %d", [spec.name, spec.level]), Lang.t("%s · %s", [spec.slot, spec.desc]), "Mounted" if equipped else ("Mount" if owned else Lang.t("Buy · %d R", [spec.price])), request.bind("mod", id, wid), equipped or not reason.is_empty(), reason)
+	_row(Weapons.DEFS[wid].name, Weapons.Mods.summary(w.mod_loadout.get(wid, {})), "Current stats", func(): pass, true, "", false, effective)
+	_row_nodes[_row_index-1][3].texture = ItemIcons.texture(wid)
 	for slot in Weapons.Mods.SLOTS:
+		_info(slot, 19)
 		var installed: String = w.mod_loadout.get(wid, {}).get(slot, "")
-		_row(slot, Weapons.Mods.DEFS[installed].name if not installed.is_empty() else "Original equipment", "Remove", request.bind("remove_mod", slot, wid), installed.is_empty())
+		_row(Weapons.Mods.DEFS[installed].name if not installed.is_empty() else "Original equipment", "Mounted in this slot", "Remove", request.bind("remove_mod", slot, wid), installed.is_empty())
+		for id in Weapons.Mods.DEFS:
+			var spec: Dictionary = Weapons.Mods.DEFS[id]
+			if spec.npc != shop or spec.slot != slot: continue
+			if not Weapons.Mods.compatible(id, wid, Weapons.DEFS[wid]): continue
+			var owned: bool = w.mod_owned.get(wid + ":" + id, false)
+			var equipped: bool = installed == id
+			var reason := mod_lock_reason(p, id, wid)
+			if reason.is_empty() and not owned and p.score < int(spec.price): reason = Lang.t("Not enough Rem Dollars: %d R needed.", [spec.price])
+			var preview := w.mod_definition(wid, slot, id)
+			var changes := PackedStringArray()
+			for field in ["damage", "mag", "reload", "range", "spread", "kick_pitch"]:
+				if is_equal_approx(float(effective[field]), float(preview[field])): continue
+				var labels := {"damage": "Damage", "mag": "Magazine", "reload": "Reload time", "range": "Range", "spread": "Spread", "kick_pitch": "Recoil"}
+				changes.append(Lang.t("%s: %s → %s", [labels[field], "%.3f" % effective[field], "%.3f" % preview[field]]))
+			_row(Lang.t("%s · Level %d", [spec.name, spec.level]), Lang.t(spec.desc) + "\n" + " · ".join(changes), "Mounted" if equipped else ("Mount" if owned else Lang.t("Buy · %d R", [spec.price])), request.bind("mod", id, wid), equipped or not reason.is_empty(), reason)
+	_info("Mods apply per weapon for this round. One mod per slot; switch bought mods for free. Ammo sold separately.\nMission level = waves survived + 1.", 14)
+	rows = outer_rows
+
+func _select_mod_weapon(wid: String) -> void:
+	_mod_weapon = wid
+	_render()
 
 func _input(event: InputEvent) -> void:
 	if is_open and event.is_action_pressed("pause"):

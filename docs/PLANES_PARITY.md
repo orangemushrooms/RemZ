@@ -49,8 +49,9 @@ The club confirms a 300 m range with six electronic targets:
 [SG Remetschwil: Schiessanlage/Anfahrt](https://sgremetschwil.ch/startseite/ueber-den-verein/schiessanlage-anfahrt/).
 Reference-only images are kept in `artifacts/planes/references/`, outside game exports.
 
-The key has a 50% spawn roll at run start; if absent, each new night offers another
-roll. It appears on a clear, reachable woodland stump inside the playable boundary.
+The key now spawns on every fresh run, with a deterministic search fallback when
+random placement fails. It appears on a clear woodland stump inside the playable
+boundary; its label is visible within 32 m and its minimap marker within 45 m.
 Finding it unlocks the shared door and six shooting shutters. The house holds one
 Ranger .308, one Titanbreaker .50, one shotgun, full reserves and an ammunition cache.
 Pickups are shared, single-use world items; quest progress belongs to each player.

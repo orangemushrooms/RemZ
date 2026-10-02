@@ -439,6 +439,7 @@ func start_survival() -> void:
 	brewing.stocks.clear()
 	brewing.jobs.clear()
 	shooting_range.reset_run()
+	cornfield.fires.reset_run()
 	if defences:
 		defences.close()
 		for tower in defences.towers.values(): tower.queue_free()

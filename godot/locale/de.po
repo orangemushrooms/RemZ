@@ -8730,3 +8730,45 @@ msgstr "%s\n%d / %d · %d R · %d Klassen-EP"
 #. unused
 msgid "Find the woodland key, enter the Schützenhaus and shoot its six targets with a sniper. %d / 6 · 350 R"
 msgstr "Finde den Waldschlüssel, betrete das Schützenhaus und triff die sechs Zieltafeln mit einem Scharfschützengewehr. %d / 6 · 350 R"
+
+msgid "Damage / shot"
+msgstr "Schaden / Schuss"
+
+msgid "Reload speed"
+msgstr "Nachladetempo"
+
+msgid "Reload time"
+msgstr "Nachladezeit"
+
+msgid "Range"
+msgstr "Reichweite"
+
+msgid "Damage"
+msgstr "Schaden"
+
+msgid "Spread"
+msgstr "Streuung"
+
+msgid "Recoil"
+msgstr "Rückstoß"
+
+msgid "Choose a weapon from your inventory"
+msgstr "Waffe aus deinem Inventar wählen"
+
+msgid "Mounted in this slot"
+msgstr "In diesem Slot montiert"
+
+msgid "Longer bars are better. Reload speed uses the inverse reload time. Shotgun damage assumes every pellet hits."
+msgstr "Längere Balken sind besser. Nachladetempo entspricht dem Kehrwert der Nachladezeit. Schrotschaden setzt voraus, dass alle Kugeln treffen."
+
+msgid "Survive wave %d for stronger fortifications."
+msgstr "Überlebe Welle %d für stärkere Befestigungen."
+
+msgid "Three shots of buckshot. Devastating up close, quick to reload, useless at range."
+msgstr "Drei Schuss Schrot. Verheerend auf kurze Distanz, schnell nachgeladen, auf Entfernung nutzlos."
+
+msgid "70-round drum of .45 ACP. Full auto, heavy hits at short range."
+msgstr "70-Schuss-Trommel mit .45 ACP. Vollautomatisch, starke Treffer auf kurze Distanz."
+
+msgid "%s: %s → %s"
+msgstr "%s: %s → %s"

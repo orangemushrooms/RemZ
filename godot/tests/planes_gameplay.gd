@@ -68,6 +68,9 @@ func run() -> void:
 	game.discard_enemy(enemy)
 	bar.damage(60)
 	go(Vector2(site.x,site.z+2))
+	game.waves.completed = 0
+	check(Lang.text(construction.upgrade_bar(0)) == Lang.text(Lang.t("Survive wave %d for stronger fortifications.",[3])), "First upgrade names only wave three")
+	game.waves.completed = 5
 	money = game.player.score
 	construction.repair_nearest()
 	check(bar.hp==bar.max_hp() and game.player.score==money-25,"Repair restores health and charges Forest price")
@@ -139,6 +142,7 @@ func run() -> void:
 	money = game.player.score
 	economy._unhandled_input(upgrade_key)
 	check(bar.level==2 and game.player.score==money-Barricade.build_cost(2),"U upgrades the nearby palisade and charges the correct amount")
+	check(Lang.text(construction.upgrade_bar(0)) == Lang.text(Lang.t("Survive wave %d for stronger fortifications.",[8])), "Second upgrade names only wave eight")
 	go(Vector2(-100,55))
 	var tower_site := Vector3.ZERO
 	for x in range(-108,-91,2):

@@ -13,8 +13,8 @@ const GRIPS := {
 	"smg": Vector4(0.30, 0.70, 0.53, 0.24),
 	"ak47": Vector4(0.40, 0.64, 0.73, 0.30),
 	"shotgun": Vector4(0.49, 0.56, 0.56, 0.32),
-	# The expansion. x/y place the trigger hand, z/w the support hand, both as fractions of the
-	# weapon's own bounds, so the numbers stay right if a model is re-rolled.
+	# x/y are legacy world-avatar grip anchors; z/w place the viewmodel support palm.
+	# First-person trigger hands use the individually audited TRIGGERS below.
 	"deagle": Vector4(0.26, 0.85, 0.21, 0.77),
 	"flare_pistol": Vector4(0.30, 0.80, 0.25, 0.72),
 	"mac10": Vector4(0.32, 0.74, 0.46, 0.26),
@@ -30,6 +30,25 @@ const GRIPS := {
 	"tommy_gun": Vector4(0.38, 0.60, 0.30, 0.28),
 	"spas12": Vector4(0.42, 0.66, 0.60, 0.30),
 	"sawed_off": Vector4(0.40, 0.72, 0.62, 0.32),
+	"marksman": Vector4(0.40, 0.72, 0.55, 0.30),
+	"lmg": Vector4(0.38, 0.72, 0.62, 0.30),
+	"breacher": Vector4(0.40, 0.72, 0.63, 0.30),
+	"titanbreaker": Vector4(0.40, 0.72, 0.55, 0.30),
+}
+# Trigger centres in the fitted model's Y/Z bounds, independent of magazines/scopes.
+const TRIGGERS := {
+	"pistol": Vector2(0.48, 0.57), "sig_p226": Vector2(0.61, 0.55),
+	"nighthawk": Vector2(0.58, 0.60), "deagle": Vector2(0.55, 0.65),
+	"revolver": Vector2(0.56, 0.64), "flare_pistol": Vector2(0.50, 0.58),
+	"smg": Vector2(0.519, 0.504), "ak47": Vector2(0.659, 0.602),
+	"ar15": Vector2(0.453, 0.493), "tommy_gun": Vector2(0.61, 0.50),
+	"shotgun": Vector2(0.552, 0.605), "spas12": Vector2(0.485, 0.852),
+	"sawed_off": Vector2(0.45, 0.61), "breacher": Vector2(0.485, 0.619),
+	"marksman": Vector2(0.338, 0.659), "lmg": Vector2(0.512, 0.571),
+	"titanbreaker": Vector2(0.361, 0.695), "lever_rifle": Vector2(0.508, 0.606),
+	"mac10": Vector2(0.49, 0.62), "cryo_smg": Vector2(0.48, 0.65),
+	"plasma_sniper": Vector2(0.409, 0.673), "minigun": Vector2(0.526, 0.764),
+	"graviton_cannon": Vector2(0.396, 0.783),
 }
 # Weapons held in one fist with the support palm wrapped underneath instead of on a fore-end.
 # coop_avatar.gd poses the world avatar from the same list, so both never disagree.
@@ -97,12 +116,19 @@ static func build(weapon_id: String, bounds: AABB) -> ViewmodelHands:
 	rig.name = "Hands"
 	var pistol := weapon_id in HANDGUNS
 	var landmarks: Vector4 = GRIPS.get(weapon_id, Vector4(0.32, 0.72, 0.48, 0.3))
-	rig.trigger_grip = Vector3(bounds.end.x + 0.012, bounds.position.y + bounds.size.y * landmarks.x, bounds.position.z + bounds.size.z * landmarks.y)
-	rig.support_grip = Vector3(bounds.position.x - 0.011, bounds.position.y + bounds.size.y * landmarks.z, bounds.position.z + bounds.size.z * landmarks.w)
-	if weapon_id == "ak47":
-		# The charging handle widens the bounds; both wooden grips sit nearer the bore.
-		rig.trigger_grip.x = bounds.get_center().x - 0.002
-		rig.support_grip.x = bounds.get_center().x - 0.012
+	rig.trigger_grip = Vector3(bounds.get_center().x + 0.014, bounds.position.y + bounds.size.y * landmarks.x + 0.025, bounds.position.z + bounds.size.z * landmarks.y)
+	rig.support_grip = Vector3(bounds.get_center().x - 0.014, bounds.position.y + bounds.size.y * landmarks.z + 0.018, bounds.position.z + bounds.size.z * landmarks.w)
+	if TRIGGERS.has(weapon_id):
+		var trigger: Vector2 = TRIGGERS[weapon_id]
+		rig.trigger_grip.y = bounds.position.y + bounds.size.y * trigger.x - 0.020
+		rig.trigger_grip.z = bounds.position.z + bounds.size.z * trigger.y + 0.033
+	if pistol:
+		# Both palms close around the same grip, with the support thumb below the slide.
+		rig.support_grip = rig.trigger_grip + Vector3(-0.028, -0.008, -0.012)
+	if weapon_id == "tommy_gun":
+		# Vertical wooden foregrip in front of the drum, not the drum's outer edge.
+		rig.support_grip.y = bounds.position.y + bounds.size.y * 0.49
+		rig.support_grip.z = bounds.position.z + bounds.size.z * 0.27
 	if weapon_id in ["knife", "hatchet"]:
 		rig.trigger_grip = Vector3(0.02, -0.03, 0.015)
 		rig.support_grip = Vector3(-0.32, -0.12, 0.12)
@@ -114,19 +140,46 @@ static func build(weapon_id: String, bounds: AABB) -> ViewmodelHands:
 	var right := rig._arm(true, false, Transform3D(right_basis, right_wrist), Vector3(0.18, -0.27, elbow_z))
 	right.name = "TriggerHand"
 	rig.add_child(right)
+	if not melee:
+		var trigger: Vector2 = TRIGGERS[weapon_id]
+		var target := Vector3(bounds.get_center().x + 0.002, bounds.position.y + bounds.size.y * trigger.x, bounds.position.z + bounds.size.z * trigger.y)
+		right.set_meta("trigger_target", target)
+		# Imported skeletons initialise on entering the tree; pose after that reset.
+		rig.ready.connect(rig._pose_trigger.bind(right, target), CONNECT_ONE_SHOT)
 	var left_basis := Basis(Vector3.UP, PI)
 	var left_wrist := rig.support_grip + Vector3(-0.012, -0.006, 0.06)
 	if pistol:
 		# Support palm wraps below the trigger hand instead of mirroring its fist.
 		left_basis = Basis(Vector3.BACK, -0.25) * left_basis
 		left_wrist += Vector3(0.008, -0.018, -0.014)
-	else:
+	elif weapon_id != "tommy_gun":
 		left_basis = Basis(Vector3.BACK, PI * 0.5) * left_basis
 		left_wrist = rig.support_grip + Vector3(0.012, -0.03, 0.060)
-	rig.support = rig._arm(false, not pistol, Transform3D(left_basis, left_wrist), Vector3(-0.30, -0.27, elbow_z))
+	rig.support = rig._arm(false, not pistol and weapon_id != "tommy_gun", Transform3D(left_basis, left_wrist), Vector3(-0.30, -0.27, elbow_z))
 	rig.support.name = "SupportHand"
 	rig.add_child(rig.support)
 	return rig
+
+func _pose_trigger(arm: Node3D, target: Vector3) -> void:
+	var glove: Node3D = arm.get_node("Glove")
+	var skeleton: Skeleton3D = glove.find_child("Skeleton3D", true, false)
+	var goal := (glove.transform * skeleton.transform).affine_inverse() * target
+	var tip := skeleton.find_bone("finger_index_r_end")
+	# A small, one-time CCD solve places the fingertip inside the actual trigger guard.
+	# Only the index articulates; the palm and other three fingers retain their grip.
+	for iteration in 24:
+		for joint in ["finger_index_2_r", "finger_index_1_r", "finger_index_0_r"]:
+			var bone := skeleton.find_bone(joint)
+			var pose := skeleton.get_bone_global_pose(bone)
+			var end := skeleton.get_bone_global_pose(tip).origin
+			var from := (end - pose.origin).normalized()
+			var to := (goal - pose.origin).normalized()
+			if from.length_squared() < 0.5 or to.length_squared() < 0.5: continue
+			var turn := Quaternion(from, to)
+			turn = Quaternion.IDENTITY.slerp(turn, 0.5)
+			var parent := skeleton.get_bone_global_pose(skeleton.get_bone_parent(bone)).basis.get_rotation_quaternion()
+			skeleton.set_bone_pose_rotation(bone, parent.inverse() * turn * parent * skeleton.get_bone_pose_rotation(bone))
+	arm.set_meta("trigger_target", target)
 
 func _arm(right: bool, foregrip: bool, wrist: Transform3D, elbow: Vector3) -> Node3D:
 	var arm := Node3D.new()
