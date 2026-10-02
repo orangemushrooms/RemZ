@@ -12,13 +12,13 @@ COOP_LOAD ROUND_BEGIN intro=false
 COOP_LOAD ROUND_RUNNING players=4
 COOP_RUNNING players=4
 PASS: Four players share the measured round
-SNAPSHOT_COST 4players_no_horde total=1.95ms (build 1.14, pack 0.29, zip 0.52) worst=4.66ms raw=36.3kB packed=5.5kB
+SNAPSHOT_COST 4players_no_horde total=2.88ms (build 1.79, pack 0.46, zip 0.63) worst=4.34ms raw=36.3kB packed=5.5kB
 PASS: Full horde of 73 zombies stands in the measured snapshot
-SNAPSHOT_COST 4players_full_horde total=2.18ms (build 1.20, pack 0.34, zip 0.63) worst=2.95ms raw=52.0kB packed=8.4kB
-PASS: Full-horde snapshot tick stays under 4.0 ms (measured 2.18 ms)
-PASS: Worst snapshot tick stays under 8.0 ms (measured 2.95 ms)
-SNAPSHOT_COST cpu_share=2.2% of one second at 10 Hz
-PASS: Snapshot work stays under 10% of host CPU time (measured 2.2%)
+SNAPSHOT_COST 4players_full_horde total=3.23ms (build 1.95, pack 0.50, zip 0.78) worst=4.64ms raw=52.1kB packed=8.5kB
+PASS: Full-horde snapshot tick stays under 4.0 ms (measured 3.23 ms)
+PASS: Worst snapshot tick stays under 8.0 ms (measured 4.64 ms)
+SNAPSHOT_COST cpu_share=3.2% of one second at 10 Hz
+PASS: Snapshot work stays under 10% of host CPU time (measured 3.2%)
 COOP_SNAPSHOT_COST_DONE checks=6 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).

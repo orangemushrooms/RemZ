@@ -30,6 +30,82 @@ PASS: standard dismount clears aiming and zoom
 PASS: standard dismounts safely
 PASS: standard can be mounted again
 PASS: standard destruction releases its operator
+PASS: searchlight builds on a valid site
+PASS: searchlight charges its advertised price
+PASS: searchlight starts with correct type and health
+PASS: searchlight uses its generated Meshy model
+PASS: searchlight can be mounted
+PASS: searchlight places operator on platform
+PASS: searchlight does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating searchlight
+PASS: Nonfinite aim is rejected for searchlight
+PASS: searchlight right mouse smoothly zooms without personal scope overriding it
+PASS: searchlight aimed shots use a 75 percent tighter cone
+PASS: searchlight releasing right mouse restores view and normal precision
+PASS: searchlight menus stop aiming and restore view
+PASS: searchlight precision reduces actual shot deviation at the same aim and random sample
+PASS: searchlight fires using manual controls
+PASS: searchlight stops firing and aiming when control packets stop
+PASS: searchlight operator follows the rotating weapon
+PASS: searchlight cannot be rotated while occupied
+PASS: searchlight replicates type and operator
+PASS: searchlight restores the right turret for late joiners
+PASS: searchlight restores aiming state for late joiners
+PASS: searchlight dismount clears aiming and zoom
+PASS: searchlight dismounts safely
+PASS: searchlight can be mounted again
+PASS: searchlight destruction releases its operator
+PASS: siren builds on a valid site
+PASS: siren charges its advertised price
+PASS: siren starts with correct type and health
+PASS: siren uses its generated Meshy model
+PASS: siren can be mounted
+PASS: siren places operator on platform
+PASS: siren does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating siren
+PASS: Nonfinite aim is rejected for siren
+PASS: siren right mouse smoothly zooms without personal scope overriding it
+PASS: siren aimed shots use a 75 percent tighter cone
+PASS: siren releasing right mouse restores view and normal precision
+PASS: siren menus stop aiming and restore view
+PASS: siren answers manual triggers with its pulse
+PASS: siren fires using manual controls
+PASS: siren stops firing and aiming when control packets stop
+PASS: siren operator follows the rotating weapon
+PASS: siren cannot be rotated while occupied
+PASS: siren replicates type and operator
+PASS: siren restores the right turret for late joiners
+PASS: siren restores aiming state for late joiners
+PASS: siren dismount clears aiming and zoom
+PASS: siren dismounts safely
+PASS: siren can be mounted again
+PASS: siren destruction releases its operator
+PASS: supply builds on a valid site
+PASS: A second supply post is refused without charging
+PASS: supply charges its advertised price
+PASS: supply starts with correct type and health
+PASS: The supply post stacks its crates and mast
+PASS: supply can be mounted
+PASS: supply places operator on platform
+PASS: supply does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating supply
+PASS: Nonfinite aim is rejected for supply
+PASS: supply right mouse smoothly zooms without personal scope overriding it
+PASS: supply aimed shots use a 75 percent tighter cone
+PASS: supply releasing right mouse restores view and normal precision
+PASS: supply menus stop aiming and restore view
+PASS: supply answers manual triggers with its pulse
+PASS: supply fires using manual controls
+PASS: supply stops firing and aiming when control packets stop
+PASS: supply operator follows the rotating weapon
+PASS: supply cannot be rotated while occupied
+PASS: supply replicates type and operator
+PASS: supply restores the right turret for late joiners
+PASS: supply restores aiming state for late joiners
+PASS: supply dismount clears aiming and zoom
+PASS: supply dismounts safely
+PASS: supply can be mounted again
+PASS: supply destruction releases its operator
 PASS: flame builds on a valid site
 PASS: flame charges its advertised price
 PASS: flame starts with correct type and health
@@ -80,6 +156,31 @@ PASS: mortar dismount clears aiming and zoom
 PASS: mortar dismounts safely
 PASS: mortar can be mounted again
 PASS: mortar destruction releases its operator
+PASS: frost builds on a valid site
+PASS: frost charges its advertised price
+PASS: frost starts with correct type and health
+PASS: frost uses its generated Meshy model
+PASS: frost can be mounted
+PASS: frost places operator on platform
+PASS: frost does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating frost
+PASS: Nonfinite aim is rejected for frost
+PASS: frost right mouse smoothly zooms without personal scope overriding it
+PASS: frost aimed shots use a 75 percent tighter cone
+PASS: frost releasing right mouse restores view and normal precision
+PASS: frost menus stop aiming and restore view
+PASS: frost precision reduces actual shot deviation at the same aim and random sample
+PASS: frost fires using manual controls
+PASS: frost stops firing and aiming when control packets stop
+PASS: frost operator follows the rotating weapon
+PASS: frost cannot be rotated while occupied
+PASS: frost replicates type and operator
+PASS: frost restores the right turret for late joiners
+PASS: frost restores aiming state for late joiners
+PASS: frost dismount clears aiming and zoom
+PASS: frost dismounts safely
+PASS: frost can be mounted again
+PASS: frost destruction releases its operator
 PASS: mg42 builds on a valid site
 PASS: mg42 charges its advertised price
 PASS: mg42 starts with correct type and health
@@ -105,6 +206,56 @@ PASS: mg42 dismount clears aiming and zoom
 PASS: mg42 dismounts safely
 PASS: mg42 can be mounted again
 PASS: mg42 destruction releases its operator
+PASS: sniper builds on a valid site
+PASS: sniper charges its advertised price
+PASS: sniper starts with correct type and health
+PASS: sniper uses its generated Meshy model
+PASS: sniper can be mounted
+PASS: sniper places operator on platform
+PASS: sniper does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating sniper
+PASS: Nonfinite aim is rejected for sniper
+PASS: sniper right mouse smoothly zooms without personal scope overriding it
+PASS: sniper aimed shots use a 75 percent tighter cone
+PASS: sniper releasing right mouse restores view and normal precision
+PASS: sniper menus stop aiming and restore view
+PASS: sniper precision reduces actual shot deviation at the same aim and random sample
+PASS: sniper fires using manual controls
+PASS: sniper stops firing and aiming when control packets stop
+PASS: sniper operator follows the rotating weapon
+PASS: sniper cannot be rotated while occupied
+PASS: sniper replicates type and operator
+PASS: sniper restores the right turret for late joiners
+PASS: sniper restores aiming state for late joiners
+PASS: sniper dismount clears aiming and zoom
+PASS: sniper dismounts safely
+PASS: sniper can be mounted again
+PASS: sniper destruction releases its operator
+PASS: rocket builds on a valid site
+PASS: rocket charges its advertised price
+PASS: rocket starts with correct type and health
+PASS: rocket uses its generated Meshy model
+PASS: rocket can be mounted
+PASS: rocket places operator on platform
+PASS: rocket does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating rocket
+PASS: Nonfinite aim is rejected for rocket
+PASS: rocket right mouse smoothly zooms without personal scope overriding it
+PASS: rocket aimed shots use a 75 percent tighter cone
+PASS: rocket releasing right mouse restores view and normal precision
+PASS: rocket menus stop aiming and restore view
+PASS: rocket precision reduces actual shot deviation at the same aim and random sample
+PASS: rocket fires using manual controls
+PASS: rocket stops firing and aiming when control packets stop
+PASS: rocket operator follows the rotating weapon
+PASS: rocket cannot be rotated while occupied
+PASS: rocket replicates type and operator
+PASS: rocket restores the right turret for late joiners
+PASS: rocket restores aiming state for late joiners
+PASS: rocket dismount clears aiming and zoom
+PASS: rocket dismounts safely
+PASS: rocket can be mounted again
+PASS: rocket destruction releases its operator
 PASS: tesla builds on a valid site
 PASS: tesla charges its advertised price
 PASS: tesla starts with correct type and health
@@ -130,9 +281,64 @@ PASS: tesla dismount clears aiming and zoom
 PASS: tesla dismounts safely
 PASS: tesla can be mounted again
 PASS: tesla destruction releases its operator
+PASS: harpoon builds on a valid site
+PASS: harpoon charges its advertised price
+PASS: harpoon starts with correct type and health
+PASS: harpoon uses its generated Meshy model
+PASS: harpoon can be mounted
+PASS: harpoon places operator on platform
+PASS: harpoon does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating harpoon
+PASS: Nonfinite aim is rejected for harpoon
+PASS: harpoon right mouse smoothly zooms without personal scope overriding it
+PASS: harpoon aimed shots use a 75 percent tighter cone
+PASS: harpoon releasing right mouse restores view and normal precision
+PASS: harpoon menus stop aiming and restore view
+PASS: harpoon precision reduces actual shot deviation at the same aim and random sample
+PASS: harpoon fires using manual controls
+PASS: harpoon stops firing and aiming when control packets stop
+PASS: harpoon operator follows the rotating weapon
+PASS: harpoon cannot be rotated while occupied
+PASS: harpoon replicates type and operator
+PASS: harpoon restores the right turret for late joiners
+PASS: harpoon restores aiming state for late joiners
+PASS: harpoon dismount clears aiming and zoom
+PASS: harpoon dismounts safely
+PASS: harpoon can be mounted again
+PASS: harpoon destruction releases its operator
+PASS: graviton builds on a valid site
+PASS: graviton charges its advertised price
+PASS: graviton starts with correct type and health
+PASS: graviton uses its generated Meshy model
+PASS: graviton can be mounted
+PASS: graviton places operator on platform
+PASS: graviton does not automatically fire while occupied
+PASS: Personal weapons are blocked while operating graviton
+PASS: Nonfinite aim is rejected for graviton
+PASS: graviton right mouse smoothly zooms without personal scope overriding it
+PASS: graviton aimed shots use a 75 percent tighter cone
+PASS: graviton releasing right mouse restores view and normal precision
+PASS: graviton menus stop aiming and restore view
+PASS: graviton precision reduces actual shot deviation at the same aim and random sample
+PASS: graviton fires using manual controls
+PASS: graviton stops firing and aiming when control packets stop
+PASS: graviton operator follows the rotating weapon
+PASS: graviton cannot be rotated while occupied
+PASS: graviton replicates type and operator
+PASS: graviton restores the right turret for late joiners
+PASS: graviton restores aiming state for late joiners
+PASS: graviton dismount clears aiming and zoom
+PASS: graviton dismounts safely
+PASS: graviton can be mounted again
+PASS: graviton destruction releases its operator
 PASS: standard acquires an animated body hitbox
 PASS: First Sentinel plays the new recording when shooting its acquired target
 PASS: standard deals actual damage
+PASS: searchlight acquires an animated body hitbox
+PASS: The searchlight marks its target instead of hurting it
+PASS: siren acquires an animated body hitbox
+PASS: The siren lures its target instead of hurting it
+PASS: The supply post never takes aim at a zombie
 PASS: flame acquires an animated body hitbox
 PASS: flame deals actual damage
 PASS: flame hits multiple enemies
@@ -140,16 +346,28 @@ PASS: flame cannot damage enemies through a solid wall
 PASS: mortar acquires an animated body hitbox
 PASS: mortar deals actual damage
 PASS: mortar hits multiple enemies
+PASS: frost acquires an animated body hitbox
+PASS: frost deals actual damage
+PASS: frost hits multiple enemies
 PASS: mg42 acquires an animated body hitbox
 PASS: mg42 deals actual damage
+PASS: sniper acquires an animated body hitbox
+PASS: sniper deals actual damage
+PASS: rocket acquires an animated body hitbox
+PASS: rocket deals actual damage
+PASS: rocket hits multiple enemies
 PASS: tesla acquires an animated body hitbox
 PASS: tesla deals actual damage
 PASS: tesla hits multiple enemies
 PASS: tesla cannot damage enemies through a solid wall
+PASS: harpoon acquires an animated body hitbox
+PASS: harpoon deals actual damage
+PASS: graviton acquires an animated body hitbox
+PASS: graviton deals actual damage
+PASS: graviton hits multiple enemies
 PASS: Insufficient funds reject expensive tower without charging
 PASS: Unknown tower type rejected without charging
-TOWERS_DONE checks=144 failures=0
+TOWERS_DONE checks=363 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
-EXIT 0

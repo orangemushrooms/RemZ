@@ -5,7 +5,7 @@ COOP_LOAD NETWORK_INITIALIZED
 RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
 COOP_LOAD MAP_READY
 PASS: Hut menu offers ground and six roof sockets
-PASS: All five Meshy weapon types are offered
+PASS: Every tower type is offered (13)
 PASS: Selecting a roof weapon starts compact preview
 PASS: Selecting roof socket turns view toward preview
 PASS: Roof preview snaps to socket and validates
@@ -18,6 +18,15 @@ PASS: standard repair works from hut
 PASS: standard alignment works from hut
 PASS: standard remote repair denied
 PASS: standard remote rotation denied
+PASS: searchlight builds on roof
+PASS: searchlight has compact Meshy weapon
+PASS: searchlight preserves roof height and exact cost
+PASS: searchlight duplicate socket rejects without charging
+PASS: searchlight automatic roof turret cannot teleport player
+PASS: searchlight repair works from hut
+PASS: searchlight alignment works from hut
+PASS: searchlight remote repair denied
+PASS: searchlight remote rotation denied
 PASS: flame builds on roof
 PASS: flame has compact Meshy weapon
 PASS: flame preserves roof height and exact cost
@@ -36,24 +45,15 @@ PASS: mortar repair works from hut
 PASS: mortar alignment works from hut
 PASS: mortar remote repair denied
 PASS: mortar remote rotation denied
-PASS: mg42 builds on roof
-PASS: mg42 has compact Meshy weapon
-PASS: mg42 preserves roof height and exact cost
-PASS: mg42 duplicate socket rejects without charging
-PASS: mg42 automatic roof turret cannot teleport player
-PASS: mg42 repair works from hut
-PASS: mg42 alignment works from hut
-PASS: mg42 remote repair denied
-PASS: mg42 remote rotation denied
-PASS: tesla builds on roof
-PASS: tesla has compact Meshy weapon
-PASS: tesla preserves roof height and exact cost
-PASS: tesla duplicate socket rejects without charging
-PASS: tesla automatic roof turret cannot teleport player
-PASS: tesla repair works from hut
-PASS: tesla alignment works from hut
-PASS: tesla remote repair denied
-PASS: tesla remote rotation denied
+PASS: sniper builds on roof
+PASS: sniper has compact Meshy weapon
+PASS: sniper preserves roof height and exact cost
+PASS: sniper duplicate socket rejects without charging
+PASS: sniper automatic roof turret cannot teleport player
+PASS: sniper repair works from hut
+PASS: sniper alignment works from hut
+PASS: sniper remote repair denied
+PASS: sniper remote rotation denied
 PASS: Construction leaves hut health and transform unchanged
 PASS: Forged or nonfinite roof position rejected
 PASS: Forged or nonfinite roof position rejected
@@ -81,25 +81,45 @@ PASS: Late join reconstructs compact roof tower 6
 PASS: standard sees actual ground enemy from roof
 PASS: standard automatically acquires, aims and fires from roof
 PASS: standard roof weapon damages actual ground enemy
+PASS: searchlight sees actual ground enemy from roof
+PASS: searchlight automatically acquires, aims and fires from roof
+PASS: The roof searchlight marks the ground enemy
+PASS: siren is refused on the roof
+PASS: supply is refused on the roof
 PASS: flame sees actual ground enemy from roof
 PASS: flame automatically acquires, aims and fires from roof
 PASS: flame roof weapon damages actual ground enemy
 PASS: mortar sees actual ground enemy from roof
 PASS: mortar automatically acquires, aims and fires from roof
 PASS: mortar roof weapon damages actual ground enemy
+PASS: frost sees actual ground enemy from roof
+PASS: frost automatically acquires, aims and fires from roof
+PASS: frost roof weapon damages actual ground enemy
 PASS: mg42 sees actual ground enemy from roof
 PASS: mg42 automatically acquires, aims and fires from roof
 PASS: mg42 roof weapon damages actual ground enemy
+PASS: sniper sees actual ground enemy from roof
+PASS: sniper automatically acquires, aims and fires from roof
+PASS: sniper roof weapon damages actual ground enemy
+PASS: rocket sees actual ground enemy from roof
+PASS: rocket automatically acquires, aims and fires from roof
+PASS: rocket roof weapon damages actual ground enemy
 PASS: tesla sees actual ground enemy from roof
 PASS: tesla automatically acquires, aims and fires from roof
 PASS: tesla roof weapon damages actual ground enemy
+PASS: harpoon sees actual ground enemy from roof
+PASS: harpoon automatically acquires, aims and fires from roof
+PASS: harpoon roof weapon damages actual ground enemy
+PASS: graviton sees actual ground enemy from roof
+PASS: graviton automatically acquires, aims and fires from roof
+PASS: graviton roof weapon damages actual ground enemy
 PASS: standard on the roof hits a zombie 0.6 m from the hut wall
 PASS: mg42 on the roof hits a zombie 0.6 m from the hut wall
 PASS: flame on the roof hits a zombie 1.3 m from the hut wall
 PASS: Roof turret recovers from a barrel dipped below the eaves
 PASS: Zombies below a roof turret do not target it
 PASS: Titans do not commit to a roof turret
-ROOF_DEFENCES_DONE checks=95 failures=0
+ROOF_DEFENCES_DONE checks=115 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

@@ -1,0 +1,93 @@
+TASK_CREATED: 01a0fc48-192b-7785-bc26-3502eff07bb5
+TASK_CREATED: 01a0fc48-192c-740c-8ff5-e1417b185d34
+TASK_CREATED: 01a0fc48-192d-71da-934c-0c2d56ac6299
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+TASK_CREATED: 01a0fc48-192c-740d-a248-13a470c5ad02
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+TASK_CREATED: 01a0fc48-192b-77e9-b13b-790bf331a8ba
+TASK_CREATED: 01a0fc48-192e-7083-9e08-e1aa72a2c133
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 1% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 3% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 3% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 3% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 3% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 3% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 3% — IN_PROGRESS (5s, poll #2)
+  [█████░░░░░░░░░░░░░░░] 25% — IN_PROGRESS (12.5s, poll #3)
+  [█████░░░░░░░░░░░░░░░] 25% — IN_PROGRESS (12.5s, poll #3)
+  [█████░░░░░░░░░░░░░░░] 25% — IN_PROGRESS (12.5s, poll #3)
+  [█████░░░░░░░░░░░░░░░] 25% — IN_PROGRESS (12.5s, poll #3)
+  [████░░░░░░░░░░░░░░░░] 20% — IN_PROGRESS (12.5s, poll #3)
+  [█████░░░░░░░░░░░░░░░] 25% — IN_PROGRESS (12.5s, poll #3)
+  [███████████░░░░░░░░░] 56% — IN_PROGRESS (23.75s, poll #4)
+  [███████████░░░░░░░░░] 56% — IN_PROGRESS (23.75s, poll #4)
+  [███████████░░░░░░░░░] 56% — IN_PROGRESS (23.75s, poll #4)
+  [███████████░░░░░░░░░] 56% — IN_PROGRESS (23.75s, poll #4)
+  [█████░░░░░░░░░░░░░░░] 25% — IN_PROGRESS (23.75s, poll #4)
+  [██████████░░░░░░░░░░] 51% — IN_PROGRESS (23.75s, poll #4)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [██████████████░░░░░░] 72% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (55.625s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (65.9375s, poll #6)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [████████████████████] 100% — SUCCEEDED (70.625s, poll #7)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-frost_01a0fc48\preview.glb...
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-frost_01a0fc48\preview.glb (0.8 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-frost_01a0fc48\preview.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-frost_01a0fc48\preview.png (0.1 MB)
+frost preview status SUCCEEDED credits 25 -> 20261002_130300_tower-frost_01a0fc48
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (70.625s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (80.9375s, poll #7)
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [████████████████████] 100% — SUCCEEDED (85.625s, poll #8)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-graviton_01a0fc48\preview.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-graviton_01a0fc48\preview.glb (0.8 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-graviton_01a0fc48\preview.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-graviton_01a0fc48\preview.png (0.1 MB)
+graviton preview status SUCCEEDED credits 25 -> 20261002_130300_tower-graviton_01a0fc48
+  [████████████████████] 100% — SUCCEEDED (85.625s, poll #8)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130301_tower-searchlight_01a0fc48\preview.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130301_tower-searchlight_01a0fc48\preview.glb (0.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130301_tower-searchlight_01a0fc48\preview.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130301_tower-searchlight_01a0fc48\preview.png (0.1 MB)
+searchlight preview status SUCCEEDED credits 25 -> 20261002_130301_tower-searchlight_01a0fc48
+  [███████████████████░] 99% — IN_PROGRESS (85.625s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (95.9375s, poll #8)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (100.625s, poll #9)
+  [███████████████████░] 99% — IN_PROGRESS (110.9375s, poll #9)
+  [████████████████████] 100% — SUCCEEDED (115.625s, poll #10)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-harpoon_01a0fc48\preview.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-harpoon_01a0fc48\preview.glb (0.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-harpoon_01a0fc48\preview.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-harpoon_01a0fc48\preview.png (0.1 MB)
+harpoon preview status SUCCEEDED credits 25 -> 20261002_130300_tower-harpoon_01a0fc48
+  [████████████████████] 100% — SUCCEEDED (115.625s, poll #10)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-sniper_01a0fc48\preview.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-sniper_01a0fc48\preview.glb (0.8 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-sniper_01a0fc48\preview.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-sniper_01a0fc48\preview.png (0.0 MB)
+sniper preview status SUCCEEDED credits 25 -> 20261002_130302_tower-sniper_01a0fc48
+  [███████████████████░] 99% — IN_PROGRESS (125.9375s, poll #10)
+  [███████████████████░] 99% — IN_PROGRESS (140.9375s, poll #11)
+  [███████████████████░] 99% — IN_PROGRESS (155.9375s, poll #12)
+  [███████████████████░] 99% — IN_PROGRESS (170.9375s, poll #13)
+  [████████████████████] 100% — SUCCEEDED (185.9375s, poll #14)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-rocket_01a0fc48\preview.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-rocket_01a0fc48\preview.glb (0.8 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-rocket_01a0fc48\preview.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-rocket_01a0fc48\preview.png (0.1 MB)
+rocket preview status SUCCEEDED credits 25 -> 20261002_130302_tower-rocket_01a0fc48

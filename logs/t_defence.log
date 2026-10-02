@@ -92,7 +92,7 @@ PASS: Dedicated titan asset is installed
 PASS: Titan has all three rigged animations
 PASS: Boss attack is visibly telegraphed before damage
 PASS: Leaving the marked impact area avoids boss damage
-PASS: Wave-eight titan slam uses bounded 96.77 HP damage
+PASS: Wave-eight titan slam uses bounded 82.43 HP damage
 PASS: Solid wall anchors the slam outside the defended building
 PASS: Closed wall blocks boss area damage
 PASS: Boss warning follows terrain instead of clipping into slopes
@@ -102,9 +102,8 @@ PASS: Boss death releases collision and removes warning
 PASS: Giant can physically walk off its field spawn
 PASS: Giant navigates the actual field to the entrance
 PASS: Giant engages the defended gateway
-PASS: Field approach ends in actual boss damage to the gate (after 0 s extra, gap 0.9 m, reach 14.0, phase recovery, impacts 6, hp 0/0)
+PASS: Field approach ends in actual boss damage to the gate (after 0 s extra, gap 0.8 m, reach 14.0, phase recovery, impacts 6, hp 0/0)
 DEFENCE_DONE checks=99 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
-EXIT 0

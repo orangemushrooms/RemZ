@@ -1,0 +1,181 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: searchlight is a tower kind
+PASS: searchlight spec carries unlock_waves
+PASS: searchlight spec carries name
+PASS: searchlight spec carries cost
+PASS: searchlight spec carries range
+PASS: searchlight spec carries damage
+PASS: searchlight spec carries rate
+PASS: searchlight spec carries heat
+PASS: searchlight spec carries health
+PASS: searchlight spec carries info
+PASS: searchlight has its sound clip
+PASS: searchlight has its Meshy weapon model
+PASS: searchlight has its icon for the Mechanic's rows
+PASS: siren is a tower kind
+PASS: siren spec carries unlock_waves
+PASS: siren spec carries name
+PASS: siren spec carries cost
+PASS: siren spec carries range
+PASS: siren spec carries damage
+PASS: siren spec carries rate
+PASS: siren spec carries heat
+PASS: siren spec carries health
+PASS: siren spec carries info
+PASS: siren has its sound clip
+PASS: siren has its Meshy weapon model
+PASS: siren has its icon for the Mechanic's rows
+PASS: supply is a tower kind
+PASS: supply spec carries unlock_waves
+PASS: supply spec carries name
+PASS: supply spec carries cost
+PASS: supply spec carries range
+PASS: supply spec carries damage
+PASS: supply spec carries rate
+PASS: supply spec carries heat
+PASS: supply spec carries health
+PASS: supply spec carries info
+PASS: supply has its sound clip
+PASS: supply has its Meshy weapon model
+PASS: supply has its icon for the Mechanic's rows
+PASS: frost is a tower kind
+PASS: frost spec carries unlock_waves
+PASS: frost spec carries name
+PASS: frost spec carries cost
+PASS: frost spec carries range
+PASS: frost spec carries damage
+PASS: frost spec carries rate
+PASS: frost spec carries heat
+PASS: frost spec carries health
+PASS: frost spec carries info
+PASS: frost has its sound clip
+PASS: frost has its Meshy weapon model
+PASS: frost has its icon for the Mechanic's rows
+PASS: sniper is a tower kind
+PASS: sniper spec carries unlock_waves
+PASS: sniper spec carries name
+PASS: sniper spec carries cost
+PASS: sniper spec carries range
+PASS: sniper spec carries damage
+PASS: sniper spec carries rate
+PASS: sniper spec carries heat
+PASS: sniper spec carries health
+PASS: sniper spec carries info
+PASS: sniper has its sound clip
+PASS: sniper has its Meshy weapon model
+PASS: sniper has its icon for the Mechanic's rows
+PASS: rocket is a tower kind
+PASS: rocket spec carries unlock_waves
+PASS: rocket spec carries name
+PASS: rocket spec carries cost
+PASS: rocket spec carries range
+PASS: rocket spec carries damage
+PASS: rocket spec carries rate
+PASS: rocket spec carries heat
+PASS: rocket spec carries health
+PASS: rocket spec carries info
+PASS: rocket has its sound clip
+PASS: rocket has its Meshy weapon model
+PASS: rocket has its icon for the Mechanic's rows
+PASS: harpoon is a tower kind
+PASS: harpoon spec carries unlock_waves
+PASS: harpoon spec carries name
+PASS: harpoon spec carries cost
+PASS: harpoon spec carries range
+PASS: harpoon spec carries damage
+PASS: harpoon spec carries rate
+PASS: harpoon spec carries heat
+PASS: harpoon spec carries health
+PASS: harpoon spec carries info
+PASS: harpoon has its sound clip
+PASS: harpoon has its Meshy weapon model
+PASS: harpoon has its icon for the Mechanic's rows
+PASS: graviton is a tower kind
+PASS: graviton spec carries unlock_waves
+PASS: graviton spec carries name
+PASS: graviton spec carries cost
+PASS: graviton spec carries range
+PASS: graviton spec carries damage
+PASS: graviton spec carries rate
+PASS: graviton spec carries heat
+PASS: graviton spec carries health
+PASS: graviton spec carries info
+PASS: graviton has its sound clip
+PASS: graviton has its Meshy weapon model
+PASS: graviton has its icon for the Mechanic's rows
+PASS: The ladder runs from the 120 R sentinel to the 900 R graviton trap
+PASS: TYPES is ordered by unlock wave: [0, 1, 2, 2, 2, 4, 5, 6, 6, 7, 8, 9, 11]
+PASS: The lamp lights up once it rests on a target
+PASS: A stalker inside the beam counts as lit by a lamp
+PASS: The target carries the searchlight's mark
+PASS: A marked body takes 15 % more from another tower (20.7 vs 18.0)
+PASS: The siren counts the shambler and ignores the titan
+PASS: The siren sounds on its own once prey is in reach
+PASS: The shambler and the brute are lured
+PASS: The titan is not lured
+PASS: A lured zombie heads for the siren
+PASS: The lure outranks a player standing close by
+PASS: The siren needs 45 s before the next call
+PASS: A fallen siren releases its lure
+PASS: The post never aims at a zombie
+PASS: A damaged tower and an empty pocket call for a tick
+WARNING: Target and up vectors are colinear. This is not advised as it may cause unwanted rotation around local Z axis.
+   at: looking_at (core/math/basis.cpp:1045)
+   GDScript backtrace (most recent call first):
+       [0] show_shot (res://scripts/defence_tower.gd:968)
+       [1] fire_at (res://scripts/defence_tower.gd:679)
+       [2] run (res://tests/tower_batch.gd:168)
+       [3] clear_zombies (res://tests/tower_batch.gd:53)
+       [4] settle (res://tests/tower_batch.gd:35)
+PASS: The tick repairs the neighbouring tower (125)
+PASS: The tick hands the player half a magazine
+WARNING: Target and up vectors are colinear. This is not advised as it may cause unwanted rotation around local Z axis.
+   at: looking_at (core/math/basis.cpp:1045)
+   GDScript backtrace (most recent call first):
+       [0] show_shot (res://scripts/defence_tower.gd:968)
+       [1] fire_at (res://scripts/defence_tower.gd:679)
+       [2] run (res://tests/tower_batch.gd:172)
+       [3] clear_zombies (res://tests/tower_batch.gd:53)
+       [4] settle (res://tests/tower_batch.gd:35)
+PASS: Ammunition comes once per 20 s and player
+PASS: A second supply post is refused
+PASS: Other kinds still build beside it
+PASS: siren may not go onto the roof
+PASS: supply may not go onto the roof
+PASS: A cold pulse hurts
+PASS: The first pulses chill the body (pace x0.97)
+PASS: Enough pulses freeze it solid
+PASS: The round goes through up to three bodies (3 hit)
+PASS: The first body takes the most
+PASS: The nest aims for the head (head hit true, 225 damage)
+PASS: The nest's sights zoom in like a scope
+PASS: Nothing inside the minimum range, the far one is a target
+PASS: The first rocket leaves at once (1 in flight)
+PASS: The rest of the salvo follows
+PASS: The blasts hurt the target and its neighbour
+PASS: Rocket kills are credited to the tower
+PASS: The brute counts as heavy, the shambler does not
+PASS: The harpoon tethers the brute
+PASS: The rope hangs between launcher and brute
+PASS: A shambler takes a third of the harpoon and no rope
+PASS: Every body in the ring is dragged towards the impact (3)
+PASS: The implosion hurts a little
+PASS: The snapshot carries rope end, tether and activity
+PASS: A replica draws the rope from the snapshot
+PASS: searchlight is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
+PASS: siren is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
+PASS: supply is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
+PASS: frost is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
+PASS: sniper is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
+PASS: rocket is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
+PASS: harpoon is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
+PASS: graviton is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
+TOWER_BATCH_DONE checks=155 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

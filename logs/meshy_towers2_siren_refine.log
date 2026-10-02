@@ -1,0 +1,12 @@
+siren preview status SUCCEEDED credits 25 -> 20261002_130851_tower-siren_01a0fc4d
+TASK_CREATED: 01a0fc54-22f3-7009-afa7-2048c243ebbe
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (12.5s, poll #3)
+  [█████████░░░░░░░░░░░] 49% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130851_tower-siren_01a0fc4d\refine.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130851_tower-siren_01a0fc4d\refine.glb (7.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130851_tower-siren_01a0fc4d\refine.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130851_tower-siren_01a0fc4d\refine.png (0.1 MB)
+siren refine status SUCCEEDED credits 10 -> 20261002_130851_tower-siren_01a0fc4d

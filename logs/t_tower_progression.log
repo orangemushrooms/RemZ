@@ -19,6 +19,33 @@ PASS: standard level 2 unlocks and charges once
 PASS: standard level 3 blocks early shop upgrade atomically
 PASS: standard level 3 unlocks and charges once
 PASS: standard retains maximum level
+PASS: searchlight rejects premature purchase without charging or spawning
+PASS: searchlight menu unlocks at completed-wave boundary
+PASS: searchlight can be built at its unlock
+PASS: searchlight charges exactly the listed price
+PASS: searchlight level 2 blocks early shop upgrade atomically
+PASS: searchlight level 2 unlocks and charges once
+PASS: searchlight level 3 blocks early shop upgrade atomically
+PASS: searchlight level 3 unlocks and charges once
+PASS: searchlight retains maximum level
+PASS: siren rejects premature purchase without charging or spawning
+PASS: siren menu unlocks at completed-wave boundary
+PASS: siren can be built at its unlock
+PASS: siren charges exactly the listed price
+PASS: siren level 2 blocks early shop upgrade atomically
+PASS: siren level 2 unlocks and charges once
+PASS: siren level 3 blocks early shop upgrade atomically
+PASS: siren level 3 unlocks and charges once
+PASS: siren retains maximum level
+PASS: supply rejects premature purchase without charging or spawning
+PASS: supply menu unlocks at completed-wave boundary
+PASS: supply can be built at its unlock
+PASS: supply charges exactly the listed price
+PASS: supply level 2 blocks early shop upgrade atomically
+PASS: supply level 2 unlocks and charges once
+PASS: supply level 3 blocks early shop upgrade atomically
+PASS: supply level 3 unlocks and charges once
+PASS: supply retains maximum level
 PASS: flame rejects premature purchase without charging or spawning
 PASS: flame menu unlocks at completed-wave boundary
 PASS: flame can be built at its unlock
@@ -37,6 +64,15 @@ PASS: mortar level 2 unlocks and charges once
 PASS: mortar level 3 blocks early shop upgrade atomically
 PASS: mortar level 3 unlocks and charges once
 PASS: mortar retains maximum level
+PASS: frost rejects premature purchase without charging or spawning
+PASS: frost menu unlocks at completed-wave boundary
+PASS: frost can be built at its unlock
+PASS: frost charges exactly the listed price
+PASS: frost level 2 blocks early shop upgrade atomically
+PASS: frost level 2 unlocks and charges once
+PASS: frost level 3 blocks early shop upgrade atomically
+PASS: frost level 3 unlocks and charges once
+PASS: frost retains maximum level
 PASS: mg42 rejects premature purchase without charging or spawning
 PASS: mg42 menu unlocks at completed-wave boundary
 PASS: mg42 can be built at its unlock
@@ -46,6 +82,24 @@ PASS: mg42 level 2 unlocks and charges once
 PASS: mg42 level 3 blocks early shop upgrade atomically
 PASS: mg42 level 3 unlocks and charges once
 PASS: mg42 retains maximum level
+PASS: sniper rejects premature purchase without charging or spawning
+PASS: sniper menu unlocks at completed-wave boundary
+PASS: sniper can be built at its unlock
+PASS: sniper charges exactly the listed price
+PASS: sniper level 2 blocks early shop upgrade atomically
+PASS: sniper level 2 unlocks and charges once
+PASS: sniper level 3 blocks early shop upgrade atomically
+PASS: sniper level 3 unlocks and charges once
+PASS: sniper retains maximum level
+PASS: rocket rejects premature purchase without charging or spawning
+PASS: rocket menu unlocks at completed-wave boundary
+PASS: rocket can be built at its unlock
+PASS: rocket charges exactly the listed price
+PASS: rocket level 2 blocks early shop upgrade atomically
+PASS: rocket level 2 unlocks and charges once
+PASS: rocket level 3 blocks early shop upgrade atomically
+PASS: rocket level 3 unlocks and charges once
+PASS: rocket retains maximum level
 PASS: tesla rejects premature purchase without charging or spawning
 PASS: tesla menu unlocks at completed-wave boundary
 PASS: tesla can be built at its unlock
@@ -55,11 +109,28 @@ PASS: tesla level 2 unlocks and charges once
 PASS: tesla level 3 blocks early shop upgrade atomically
 PASS: tesla level 3 unlocks and charges once
 PASS: tesla retains maximum level
+PASS: harpoon rejects premature purchase without charging or spawning
+PASS: harpoon menu unlocks at completed-wave boundary
+PASS: harpoon can be built at its unlock
+PASS: harpoon charges exactly the listed price
+PASS: harpoon level 2 blocks early shop upgrade atomically
+PASS: harpoon level 2 unlocks and charges once
+PASS: harpoon level 3 blocks early shop upgrade atomically
+PASS: harpoon level 3 unlocks and charges once
+PASS: harpoon retains maximum level
+PASS: graviton rejects premature purchase without charging or spawning
+PASS: graviton menu unlocks at completed-wave boundary
+PASS: graviton can be built at its unlock
+PASS: graviton charges exactly the listed price
+PASS: graviton level 2 blocks early shop upgrade atomically
+PASS: graviton level 2 unlocks and charges once
+PASS: graviton level 3 blocks early shop upgrade atomically
+PASS: graviton level 3 unlocks and charges once
+PASS: graviton retains maximum level
 PASS: Unlocked tower still requires money
 PASS: Open menu updates after money changes
 PASS: New-round progress restores starter-only selection
-TOWER_PROGRESSION_DONE checks=54 failures=0
+TOWER_PROGRESSION_DONE checks=126 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
-EXIT 0

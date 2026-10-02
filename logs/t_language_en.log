@@ -3,7 +3,7 @@ Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
 PASS: Starts in en whatever the Windows locale (de_DE)
-PASS: German catalogue is loaded (2181 messages)
+PASS: German catalogue is loaded (2220 messages)
 PASS: Plain msgid resolves per language
 PASS: Formatted segment resolves per language
 PASS: String arguments are translated on the receiving side: Barrikade Wiesentor durchbrochen!
@@ -44,18 +44,18 @@ PASS: start menu / controls: 70 texts, no German left
 PASS: start menu / settings: 39 texts, no German left
 PASS: start menu / records: 101 texts, no German left
 PASS: start menu / achievements: 198 texts, no German left
-PASS: HUD: 16 texts, no German left
+PASS: HUD: 15 texts, no German left
 PASS: quest tracker: 2 texts, no German left
 PASS: world labels: 70 texts, no German left
 PASS: inventory: 23 texts, no German left
 PASS: Skill key away from Mechanic explains where training is
-PASS: HUD message: 17 texts, no German left
+PASS: HUD message: 16 texts, no German left
 PASS: wanderer / Trade: 9 texts, no German left
 PASS: wanderer / Fireworks: 26 texts, no German left
 PASS: wanderer / Sell: 12 texts, no German left
 PASS: wanderer / Quests: 6 texts, no German left
 PASS: wanderer / Training: 7 texts, no German left
-PASS: wanderer / Towers: 13 texts, no German left
+PASS: wanderer / Towers: 21 texts, no German left
 PASS: wanderer / Mods: 6 texts, no German left
 PASS: wanderer / Skins: 10 texts, no German left
 PASS: wanderer / Rarities: 22 texts, no German left
@@ -64,16 +64,16 @@ PASS: ranger / Fireworks: 26 texts, no German left
 PASS: ranger / Sell: 12 texts, no German left
 PASS: ranger / Quests: 31 texts, no German left
 PASS: ranger / Training: 7 texts, no German left
-PASS: ranger / Towers: 13 texts, no German left
+PASS: ranger / Towers: 21 texts, no German left
 PASS: ranger / Mods: 6 texts, no German left
 PASS: ranger / Skins: 10 texts, no German left
 PASS: ranger / Rarities: 22 texts, no German left
-PASS: camp / Trade: 86 texts, no German left
+PASS: camp / Trade: 272 texts, no German left
 PASS: camp / Fireworks: 30 texts, no German left
 PASS: camp / Sell: 16 texts, no German left
 PASS: camp / Quests: 37 texts, no German left
 PASS: camp / Training: 11 texts, no German left
-PASS: camp / Towers: 17 texts, no German left
+PASS: camp / Towers: 25 texts, no German left
 PASS: camp / Mods: 10 texts, no German left
 PASS: camp / Skins: 17 texts, no German left
 PASS: camp / Rarities: 26 texts, no German left
@@ -82,23 +82,23 @@ PASS: mechanic / Fireworks: 29 texts, no German left
 PASS: mechanic / Sell: 15 texts, no German left
 PASS: mechanic / Quests: 41 texts, no German left
 PASS: mechanic / Training: 30 texts, no German left
-PASS: mechanic / Towers: 15 texts, no German left
-PASS: mechanic / Mods: 47 texts, no German left
+PASS: mechanic / Towers: 23 texts, no German left
+PASS: mechanic / Mods: 63 texts, no German left
 PASS: mechanic / Skins: 13 texts, no German left
 PASS: mechanic / Rarities: 25 texts, no German left
-PASS: secret / Trade: 44 texts, no German left
+PASS: secret / Trade: 128 texts, no German left
 PASS: secret / Fireworks: 30 texts, no German left
 PASS: secret / Sell: 16 texts, no German left
 PASS: secret / Quests: 27 texts, no German left
 PASS: secret / Training: 11 texts, no German left
-PASS: secret / Towers: 17 texts, no German left
-PASS: secret / Mods: 40 texts, no German left
+PASS: secret / Towers: 25 texts, no German left
+PASS: secret / Mods: 52 texts, no German left
 PASS: secret / Skins: 20 texts, no German left
 PASS: secret / Rarities: 26 texts, no German left
 PASS: barricade planner: 30 texts, no German left
 PASS: cheat menu: 99 texts, no German left
-PASS: tower build menu: 20 texts, no German left
-PASS: tower build menu / roof slot: 22 texts, no German left
+PASS: tower build menu: 36 texts, no German left
+PASS: tower build menu / roof slot: 38 texts, no German left
 PASS: drone console: 10 texts, no German left
 PASS: leaderboard: 21 texts, no German left
 PASS: pause / briefing: 31 texts, no German left

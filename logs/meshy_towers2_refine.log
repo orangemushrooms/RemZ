@@ -1,0 +1,74 @@
+frost preview status SUCCEEDED credits 25 -> 20261002_130300_tower-frost_01a0fc48
+searchlight preview status SUCCEEDED credits 25 -> 20261002_130301_tower-searchlight_01a0fc48
+graviton preview status SUCCEEDED credits 25 -> 20261002_130300_tower-graviton_01a0fc48
+harpoon preview status SUCCEEDED credits 25 -> 20261002_130300_tower-harpoon_01a0fc48
+rocket preview status SUCCEEDED credits 25 -> 20261002_130302_tower-rocket_01a0fc48
+sniper preview status SUCCEEDED credits 25 -> 20261002_130302_tower-sniper_01a0fc48
+TASK_CREATED: 01a0fc4d-6c7c-7089-b6d2-41fe04400056
+TASK_CREATED: 01a0fc4d-6c41-74f7-85a2-36ccbd72750f
+TASK_CREATED: 01a0fc4d-6c89-777f-b372-6cc9dcd19e9b
+TASK_CREATED: 01a0fc4d-6ca3-7584-be3a-ca0e57638491
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+TASK_CREATED: 01a0fc4d-6c65-70f7-9835-cf051e65796b
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+TASK_CREATED: 01a0fc4d-6c3f-7278-9741-d9b20f724857
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (0s, poll #1)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [░░░░░░░░░░░░░░░░░░░░] 0% — IN_PROGRESS (5s, poll #2)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (12.5s, poll #3)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (12.5s, poll #3)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (12.5s, poll #3)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (12.5s, poll #3)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (12.5s, poll #3)
+  [██████░░░░░░░░░░░░░░] 34% — IN_PROGRESS (12.5s, poll #3)
+  [█████████████░░░░░░░] 69% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 49% — IN_PROGRESS (23.75s, poll #4)
+  [█████████░░░░░░░░░░░] 49% — IN_PROGRESS (23.75s, poll #4)
+  [█████████████░░░░░░░] 69% — IN_PROGRESS (23.75s, poll #4)
+  [█████████████░░░░░░░] 69% — IN_PROGRESS (23.75s, poll #4)
+  [█████████████░░░░░░░] 69% — IN_PROGRESS (23.75s, poll #4)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-harpoon_01a0fc48\refine.glb...
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [███████████████████░] 99% — IN_PROGRESS (40.625s, poll #5)
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-sniper_01a0fc48\refine.glb...
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-graviton_01a0fc48\refine.glb...
+  [████████████████████] 100% — SUCCEEDED (40.625s, poll #5)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-frost_01a0fc48\refine.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-harpoon_01a0fc48\refine.glb (8.2 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-harpoon_01a0fc48\refine.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-harpoon_01a0fc48\refine.png (0.1 MB)
+harpoon refine status SUCCEEDED credits 10 -> 20261002_130300_tower-harpoon_01a0fc48
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-frost_01a0fc48\refine.glb (7.9 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-frost_01a0fc48\refine.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-sniper_01a0fc48\refine.glb (7.1 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-sniper_01a0fc48\refine.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-frost_01a0fc48\refine.png (0.1 MB)
+frost refine status SUCCEEDED credits 10 -> 20261002_130300_tower-frost_01a0fc48
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-sniper_01a0fc48\refine.png (0.0 MB)
+sniper refine status SUCCEEDED credits 10 -> 20261002_130302_tower-sniper_01a0fc48
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-graviton_01a0fc48\refine.glb (8.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-graviton_01a0fc48\refine.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130300_tower-graviton_01a0fc48\refine.png (0.1 MB)
+graviton refine status SUCCEEDED credits 10 -> 20261002_130300_tower-graviton_01a0fc48
+  [████████████████████] 100% — SUCCEEDED (55.625s, poll #6)
+  [████████████████████] 100% — SUCCEEDED (55.625s, poll #6)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-rocket_01a0fc48\refine.glb...
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130301_tower-searchlight_01a0fc48\refine.glb...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-rocket_01a0fc48\refine.glb (6.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-rocket_01a0fc48\refine.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130302_tower-rocket_01a0fc48\refine.png (0.1 MB)
+rocket refine status SUCCEEDED credits 10 -> 20261002_130302_tower-rocket_01a0fc48
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130301_tower-searchlight_01a0fc48\refine.glb (7.7 MB)
+Downloading C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130301_tower-searchlight_01a0fc48\refine.png...
+DOWNLOADED: C:\Users\miche\Desktop\Developement\RemZ\meshy_output\20261002_130301_tower-searchlight_01a0fc48\refine.png (0.2 MB)
+searchlight refine status SUCCEEDED credits 10 -> 20261002_130301_tower-searchlight_01a0fc48
