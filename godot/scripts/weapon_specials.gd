@@ -233,15 +233,17 @@ func ignite(z: Zombie, element: String, seconds: float, peer: int, weapon: Strin
 
 # Frost that builds up: every hit chills a little, the body visibly slows down, and only a full
 # meter freezes it solid through the normal frost status (label, shader, particles, snapshot).
-func chill(z: Zombie, amount: float, peer: int, weapon: String) -> void:
+func chill(z: Zombie, amount: float, peer: int, weapon: String, freeze_seconds := 0.0) -> void:
 	var market = _market()
 	if market == null: return
 	var value: float = float(_chill.get(z, 0.0)) + amount
 	if value >= 1.0:
 		var s := spec(weapon)
+		# a caller with its own optic (the frost cannon) names the hold; the SMG reads its tuning block
+		var hold: float = freeze_seconds if freeze_seconds > 0.0 else float(s.get("freeze_time", 3.0))
 		_chill[z] = float(s.get("after_freeze", 0.45))
-		ignite(z, "frost", float(s.get("freeze_time", 3.0)), peer, weapon)
-		market.statuses[z]["freeze"] = float(s.get("freeze_time", 3.0))
+		ignite(z, "frost", hold, peer, weapon)
+		market.statuses[z]["freeze"] = hold
 		market.update_status(z, market.statuses[z])
 		Sfx.play_at(game if game else z, "cryo_freeze", z.global_position + Vector3.UP, -8.0)
 		return

@@ -2655,7 +2655,7 @@ msgstr "Ab Start"
 msgid "After wave %d"
 msgstr "Nach Welle %d"
 
-#: scripts/defence_system.gd
+#: scripts/defence_system.gd scripts/tower_planner.gd
 msgid "Tier 2 after wave %d · Tier 3 after wave %d"
 msgstr "Stufe 2 nach Welle %d · Stufe 3 nach Welle %d"
 
@@ -5347,6 +5347,10 @@ msgstr "Sammelt zuerst die Geldbündel am Boden auf."
 msgid "%d R dropped"
 msgstr "%d R abgeworfen"
 
+#: scripts/pickup.gd scripts/planes_progression.gd scripts/progression.gd scripts/tower_planner.gd
+msgid "%d R"
+msgstr "%d R"
+
 #: scripts/pickup.gd
 msgid "Ammo: +%d %s"
 msgstr "Munition: +%d %s"
@@ -7760,16 +7764,24 @@ msgid "▼  YOU"
 msgstr "▼  DU"
 
 #: scripts/tower_planner.gd
+msgid "THE PLANES   /   DEFENSE"
+msgstr "THE PLANES   /   VERTEIDIGUNG"
+
+#: scripts/tower_planner.gd
 msgid "TOWER PLANNER"
 msgstr "TURMPLANER"
 
 #: scripts/tower_planner.gd
-msgid "TOWER TYPES"
-msgstr "TURMTYPEN"
+msgid "SELECTED TOWER"
+msgstr "GEWÄHLTER TURM"
 
 #: scripts/tower_planner.gd
 msgid "FOREST HUT ROOF"
 msgstr "DACH DER WALDHÜTTE"
+
+#: scripts/tower_planner.gd
+msgid "Click the map to build · drag a tower to move it · R / wheel turns · +/- zoom · 1-9, 0 pick a type"
+msgstr "Klick auf die Karte baut · Turm ziehen verschiebt ihn · R / Mausrad dreht · +/- Zoom · 1-9, 0 wählt den Typ"
 
 #: scripts/tower_planner.gd
 msgid "Back to the game  [T / Esc]"
@@ -7790,6 +7802,14 @@ msgstr "Dachplatz %d: %s · Stufe %d · %d / %d HP"
 #: scripts/tower_planner.gd
 msgid "Done."
 msgstr "Erledigt."
+
+#: scripts/tower_planner.gd
+msgid "%s · %d R · %d m · %s"
+msgstr "%s · %d R · %d m · %s"
+
+#: scripts/tower_planner.gd
+msgid "%s · %d R · %s"
+msgstr "%s · %d R · %s"
 
 #: scripts/tower_planner.gd
 msgid "Moving %s · release to drop it here"
@@ -7816,8 +7836,16 @@ msgid "%d  REM DOLLARS  ·  %d / %d towers"
 msgstr "%d  REM DOLLAR  ·  %d / %d Türme"
 
 #: scripts/tower_planner.gd
-msgid "%d  %s · %d R · %d m\n%s"
-msgstr "%d  %s · %d R · %d m\n%s"
+msgid "%s · %d R · %d m\n%s"
+msgstr "%s · %d R · %d m\n%s"
+
+#: scripts/tower_planner.gd
+msgid "W%d"
+msgstr "W%d"
+
+#: scripts/tower_planner.gd
+msgid "%d R · %d m · %s"
+msgstr "%d R · %d m · %s"
 
 #: scripts/tower_planner.gd
 msgid "%d · %s"
@@ -8206,6 +8234,14 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "TOWER TYPES"
+msgstr "TURMTYPEN"
+
+#. unused
+msgid "%d  %s · %d R · %d m\n%s"
+msgstr "%d  %s · %d R · %d m\n%s"
 
 #. unused
 msgid "TOWER BUILDING · up to 20 towers per team"

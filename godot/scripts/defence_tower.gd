@@ -25,6 +25,9 @@ const LURE_SECONDS := 12.0
 const TETHER_SECONDS := 6.0
 const PULL_RADIUS := 10.0
 const MARK_BONUS := 1.15
+const BRITTLE_BONUS := 1.4          # tower damage on a frozen body
+const CHILL_PER_PULSE := 0.34       # frost cannon build-up per pulse at tier 1 (+0.08 per tier)
+const FREEZE_SECONDS := 3.5         # how long the cannon's freeze holds at tier 1 (+0.5 per tier)
 const SPECS := {
 	"standard": {"unlock_waves": 0, "name": "Sentinel", "cost": 120, "range": 26.0, "damage": 18.0, "rate": 0.22, "heat": 0.13, "health": 1.0, "info": "Precise bursts"},
 	"flame": {"unlock_waves": 2, "name": "Flamethrower", "cost": 260, "range": 14.0, "damage": 14.0, "rate": 0.12, "heat": 0.035, "health": 1.2, "info": "Cone of fire hits several enemies"},
@@ -37,7 +40,7 @@ const SPECS := {
 	"searchlight": {"unlock_waves": 1, "name": "Searchlight", "cost": 150, "range": 40.0, "damage": 0.0, "rate": 2.5, "heat": 0.0, "health": 0.9, "info": "Lights up stalkers · lit targets take 15% more from every tower"},
 	"siren": {"unlock_waves": 2, "name": "Decoy Siren", "cost": 220, "range": 40.0, "damage": 0.0, "rate": 45.0, "heat": 0.0, "health": 1.1, "info": "Lures every common zombie nearby for 12 s · 45 s recharge"},
 	"supply": {"unlock_waves": 2, "name": "Supply Post", "cost": 300, "range": 12.0, "damage": 25.0, "rate": 3.0, "heat": 0.0, "health": 1.2, "info": "Repairs gates, sandbags and towers nearby · hands out ammo · one per team"},
-	"frost": {"unlock_waves": 5, "name": "Frost Cannon", "cost": 420, "range": 18.0, "damage": 9.0, "rate": 0.25, "heat": 0.05, "health": 1.3, "info": "Cone of cold · chills, then freezes solid · frozen targets take 40% more"},
+	"frost": {"unlock_waves": 5, "name": "Frost Cannon", "cost": 420, "range": 18.0, "damage": 9.0, "rate": 0.25, "heat": 0.03, "health": 1.3, "info": "Cone of cold · chills, then freezes solid · frozen targets take 40% more"},
 	"sniper": {"unlock_waves": 6, "name": "Sniper Nest", "cost": 480, "range": 90.0, "damage": 150.0, "rate": 2.0, "heat": 0.25, "health": 1.2, "info": "One shot every two seconds through up to 3 bodies · head hits"},
 	"rocket": {"unlock_waves": 7, "name": "Rocket Pod", "cost": 520, "range": 45.0, "damage": 120.0, "rate": 6.0, "heat": 0.0, "health": 1.4, "info": "Salvo of four rockets · 5 m blast · 6 s reload · 8 m minimum range"},
 	"harpoon": {"unlock_waves": 9, "name": "Harpoon Launcher", "cost": 700, "range": 40.0, "damage": 320.0, "rate": 4.0, "heat": 0.2, "health": 1.5, "info": "Harpoons brutes and titans · tethered giants move at half speed for 6 s"},
@@ -121,9 +124,17 @@ func upgrade_cost() -> int:
 func refund() -> int:
 	return int(spec().cost)/3
 
-# The field of view the sights give an operator: the sniper nest looks through its scope.
+# What an operator looks through: the sniper nest has a real 8x optic (the lens overlay of the scoped
+# rifles over the world camera narrowed to 11 degrees), every other seat only tightens to 55 degrees.
+const SCOPE_ZOOM := {"sniper": 8.0}
+
+func scope_zoom() -> float:
+	return float(SCOPE_ZOOM.get(kind, 0.0))
+
 func aim_fov() -> float:
-	return 30.0 if kind == "sniper" else 55.0
+	var zoom := scope_zoom()
+	if zoom > 0.0: return rad_to_deg(2.0 * atan(tan(deg_to_rad(75.0) * 0.5) / zoom))
+	return 55.0
 
 func is_support() -> bool:
 	return kind in SUPPORT
@@ -684,7 +695,9 @@ func hurt(enemy: Zombie, direction: Vector3, multiplier := 1.0, headshot := fals
 	enemy.last_headshot = headshot
 	# A searchlight on the body: every tower hits it harder for as long as the beam rests on it.
 	var lit: float = MARK_BONUS if float(enemy.get("spot_mark_t")) > 0.0 else 1.0
-	enemy.damage(damage_at(level) * multiplier * lit * (1.5 if headshot else 1.0), direction)
+	# Frozen solid by the frost cannon: brittle, every tower's hit lands 40 % harder.
+	var brittle: float = BRITTLE_BONUS if enemy.rare_status.contains("frost") else 1.0
+	enemy.damage(damage_at(level) * multiplier * lit * brittle * (1.5 if headshot else 1.0), direction)
 
 # Every body inside a cone from the muzzle, in sight: the flamethrower's and the frost cannon's reach.
 func _cone(direction: Vector3, half_angle_deg: float) -> Array[Zombie]:
@@ -697,13 +710,17 @@ func _cone(direction: Vector3, half_angle_deg: float) -> Array[Zombie]:
 	return hits
 
 # The frost cannon chills through the cryo SMG's own build-up: a full meter freezes the body solid
-# with the frost status, label, shader and snapshot the rare market already owns.
+# with the frost status, label, shader and snapshot the rare market already owns. Three pulses
+# (0.75 s in the cone) freeze a common zombie at tier 1, two at tier 3; a brute takes twice, a titan
+# four times as long. The old 0.12 per pulse lost against the meter's own melt (0.35 per second) and the
+# five-second overheat, so the cannon slowed its targets a little and froze almost nothing.
 func _chill(enemy: Zombie) -> void:
 	var specials = preload("res://scripts/weapon_specials.gd").for_scene(game)
 	if specials == null or not enemy.alive: return
-	var amount := 0.12 + (level - 1) * 0.02
-	if is_heavy(enemy): amount *= 0.4
-	specials.chill(enemy, amount, operator_peer if operator_peer else owner_peer, "cryo_smg")
+	var amount := CHILL_PER_PULSE + (level - 1) * 0.08
+	if Zombie.is_boss_kind(enemy.net_kind): amount *= 0.25
+	elif is_heavy(enemy): amount *= 0.5
+	specials.chill(enemy, amount, operator_peer if operator_peer else owner_peer, "cryo_smg", FREEZE_SECONDS + (level - 1) * 0.5)
 
 # The sniper nest: one round through up to three bodies, each further one at 70 %, a head hit at 150 %.
 # The world stops it, like every other bullet.

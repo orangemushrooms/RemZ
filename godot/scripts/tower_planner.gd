@@ -31,6 +31,22 @@ var wallet: Label
 var status: Label
 var hint: Label
 var title: Label
+# 2 Oct 2026: the type list became a build bar of render tiles along the bottom edge (kind_buttons are the
+# tiles) and the left card shows the selected tower large: icon, price, range, effect, tiers, unlock.
+const Style = preload("res://scripts/character_style.gd")
+var bar: PanelContainer
+var bar_row: HBoxContainer
+var tile_icons: Dictionary = {}
+var tile_prices: Dictionary = {}
+var tile_badges: Dictionary = {}
+var tile_keys: Dictionary = {}
+var selected_icon: TextureRect
+var selected_name: Label
+var selected_meta: Label
+var selected_info: Label
+var selected_tiers: Label
+var selected_reason: Label
+var _hover_kind := ""
 var selected_roof := -1
 var hover_point := Vector3.INF
 var hover_valid := false
@@ -115,27 +131,49 @@ func _build_ui() -> void:
 	add_child(panel)
 	panel.hide()
 	var card := PanelContainer.new()
-	card.add_theme_stylebox_override("panel", _style(INK))
+	card.add_theme_stylebox_override("panel", _style(INK, Color(GOLD, 0.35), 18))
 	card.set_anchors_preset(Control.PRESET_LEFT_WIDE)
 	card.offset_left = 24
 	card.offset_top = 24
-	card.offset_bottom = -24
-	card.custom_minimum_size.x = 360
+	card.offset_bottom = -(BAR_HEIGHT + 24 + 10)
+	card.custom_minimum_size.x = 380
 	panel.add_child(card)
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 8)
 	card.add_child(column)
-	column.add_child(_label("REMETSCHWIL SENNHOF   /   DEFENSE", 12, GOLD))
-	title = _label("TOWER PLANNER", 26)
+	column.add_child(_label("THE PLANES   /   DEFENSE" if Map.active_region == "planes" else "REMETSCHWIL SENNHOF   /   DEFENSE", 12, GOLD))
+	title = _label("TOWER PLANNER", 34)
+	title.add_theme_font_override("font", Style.DISPLAY)
 	column.add_child(title)
-	wallet = _label("", 18, GOLD)
+	wallet = _label("", 17, GOLD)
 	column.add_child(wallet)
-	column.add_child(_label("TOWER TYPES", 12, GOLD))
-	for kind in DefenceTower.TYPES:
-		var button := _button("")
-		button.pressed.connect(select_kind.bind(kind))
-		column.add_child(button)
-		kind_buttons[kind] = button
+	column.add_child(_rule())
+	# the selected tower, large
+	column.add_child(_label("SELECTED TOWER", 12, GOLD))
+	var frame := PanelContainer.new()
+	frame.add_theme_stylebox_override("panel", _style(Color(0.06, 0.085, 0.08, 0.9), Color(0.25, 0.33, 0.3), 10))
+	column.add_child(frame)
+	var detail := VBoxContainer.new()
+	detail.add_theme_constant_override("separation", 4)
+	frame.add_child(detail)
+	selected_icon = TextureRect.new()
+	selected_icon.custom_minimum_size = Vector2(322, 190)
+	selected_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	selected_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	selected_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	detail.add_child(selected_icon)
+	selected_name = _label("", 24, PAPER)
+	selected_name.add_theme_font_override("font", Style.DISPLAY)
+	detail.add_child(selected_name)
+	selected_meta = _label("", 14, GOLD)
+	detail.add_child(selected_meta)
+	selected_info = _label("", 14, PAPER)
+	detail.add_child(selected_info)
+	selected_tiers = _label("", 12, MUTED)
+	detail.add_child(selected_tiers)
+	selected_reason = _label("", 13, RED)
+	selected_reason.hide()
+	detail.add_child(selected_reason)
 	if Map.active_region != "planes": column.add_child(_label("FOREST HUT ROOF", 12, GOLD))
 	var roof_row := GridContainer.new()
 	roof_row.columns = 3
@@ -145,8 +183,9 @@ func _build_ui() -> void:
 	roof_row.visible = Map.active_region != "planes"
 	for i in 6:
 		var button := _button("")
-		button.custom_minimum_size.y = 40
+		button.custom_minimum_size.y = 36
 		button.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		button.add_theme_font_size_override("font_size", 13)
 		button.pressed.connect(place_roof.bind(i))
 		roof_row.add_child(button)
 		roof_buttons.append(button)
@@ -155,31 +194,152 @@ func _build_ui() -> void:
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	column.add_child(spacer)
+	column.add_child(_label("Click the map to build · drag a tower to move it · R / wheel turns · +/- zoom · 1-9, 0 pick a type", 12, MUTED))
 	var back := _button("Back to the game  [T / Esc]")
 	back.pressed.connect(close)
 	column.add_child(back)
-	hint = _label("", 20, GOLD)
+	# the build bar: one render tile per tower kind along the bottom edge
+	bar = PanelContainer.new()
+	bar.add_theme_stylebox_override("panel", _style(INK, Color(GOLD, 0.35), 8))
+	bar.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
+	bar.offset_left = 24
+	bar.offset_right = -24
+	bar.offset_top = -(BAR_HEIGHT + 24)
+	bar.offset_bottom = -24
+	panel.add_child(bar)
+	bar_row = HBoxContainer.new()
+	bar_row.add_theme_constant_override("separation", TILE_GAP)
+	bar_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	bar.add_child(bar_row)
+	for kind in DefenceTower.TYPES:
+		_build_tile(kind)
+	hint = _label("", 18, GOLD)
 	var hint_background := StyleBoxFlat.new()
-	hint_background.bg_color = Color(0.025, 0.045, 0.06, 0.3)
+	hint_background.bg_color = Color(0.025, 0.045, 0.06, 0.55)
 	hint_background.border_color = Color(GOLD, 0.24)
 	hint_background.set_border_width_all(1)
 	hint_background.set_corner_radius_all(8)
 	hint_background.content_margin_left = 20
 	hint_background.content_margin_right = 20
-	hint_background.content_margin_top = 12
-	hint_background.content_margin_bottom = 12
+	hint_background.content_margin_top = 10
+	hint_background.content_margin_bottom = 10
 	hint.add_theme_stylebox_override("normal", hint_background)
 	hint.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.65))
 	hint.add_theme_constant_override("outline_size", 2)
 	hint.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	hint.offset_left = 410
+	hint.offset_left = 428
 	hint.offset_right = -24
-	hint.offset_top = -108
-	hint.offset_bottom = -24
+	hint.offset_bottom = bar.offset_top - 8
+	hint.offset_top = hint.offset_bottom - 64
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	panel.add_child(hint)
+	get_viewport().size_changed.connect(_fit_tiles)
+	_fit_tiles.call_deferred()
+
+const TILE_HEIGHT := 138
+const BAR_HEIGHT := TILE_HEIGHT + 16     # the bar's own padding (8 px each side)
+const TILE_GAP := 6
+# the strip along the top edge of a tile: guns gold, area weapons blue, support green
+const CATEGORY_COLOURS := {"gun": GOLD, "area": Color(0.5, 0.76, 1.0), "support": GREEN}
+const AREA_KINDS := ["flame", "mortar", "frost", "tesla", "rocket", "graviton"]
+
+static func category(kind: String) -> String:
+	if kind in DefenceTower.SUPPORT: return "support"
+	if kind in AREA_KINDS: return "area"
+	return "gun"
+
+static func _rule() -> Control:
+	var line := ColorRect.new()
+	line.color = Color(GOLD, 0.35)
+	line.custom_minimum_size.y = 1
+	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return line
+
+# One tile: the kind's own render (assets/ui/items/tower_<kind>.png), its key number, its price, and a wave
+# badge while it is locked. The button itself carries the frame; the children ignore the mouse.
+func _build_tile(kind: String) -> void:
+	var tile := Button.new()
+	tile.custom_minimum_size = Vector2(112, TILE_HEIGHT)
+	tile.focus_mode = Control.FOCUS_NONE
+	tile.add_theme_stylebox_override("normal", _style(Color(0.08, 0.11, 0.10), Color(0.23, 0.3, 0.27), 4))
+	tile.add_theme_stylebox_override("hover", _style(Color(0.16, 0.21, 0.19), GOLD, 4))
+	tile.add_theme_stylebox_override("pressed", _style(Color(0.1, 0.22, 0.17), GREEN, 4))
+	tile.add_theme_stylebox_override("disabled", _style(Color(0.05, 0.065, 0.06), Color(0.14, 0.18, 0.16), 4))
+	tile.pressed.connect(select_kind.bind(kind))
+	tile.mouse_entered.connect(func(): _hover_kind = kind)
+	tile.mouse_exited.connect(func(): if _hover_kind == kind: _hover_kind = "")
+	var strip := ColorRect.new()
+	strip.color = CATEGORY_COLOURS[category(kind)]
+	strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	strip.set_anchors_preset(Control.PRESET_TOP_WIDE)
+	strip.offset_left = 9
+	strip.offset_right = -9
+	strip.offset_top = 1
+	strip.offset_bottom = 4
+	tile.add_child(strip)
+	var stack := VBoxContainer.new()
+	stack.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stack.offset_top = 10
+	stack.offset_bottom = -4
+	stack.add_theme_constant_override("separation", 0)
+	stack.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tile.add_child(stack)
+	var icon := TextureRect.new()
+	icon.texture = load("res://assets/ui/items/tower_%s.png" % kind) if ResourceLoader.exists("res://assets/ui/items/tower_%s.png" % kind) else load("res://assets/ui/items/tower.png")
+	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stack.add_child(icon)
+	tile_icons[kind] = icon
+	var name_label := _label(DefenceTower.SPECS[kind].name, 12, PAPER)
+	name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	name_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	name_label.clip_text = true
+	name_label.add_theme_font_override("font", Style.MEDIUM)
+	stack.add_child(name_label)
+	var price := _label("", 13, GOLD)
+	price.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	price.autowrap_mode = TextServer.AUTOWRAP_OFF
+	stack.add_child(price)
+	tile_prices[kind] = price
+	var key := _label("", 12, GOLD)
+	key.position = Vector2(7, 7)
+	key.autowrap_mode = TextServer.AUTOWRAP_OFF
+	key.add_theme_font_override("font", Style.MEDIUM)
+	tile.add_child(key)
+	tile_keys[kind] = key
+	var badge := _label("", 11, Color(1.0, 0.74, 0.68))
+	badge.autowrap_mode = TextServer.AUTOWRAP_OFF
+	badge.add_theme_font_override("font", Style.MEDIUM)
+	var pill := StyleBoxFlat.new()
+	pill.bg_color = Color(0.36, 0.07, 0.05, 0.94)
+	pill.set_corner_radius_all(6)
+	pill.content_margin_left = 5
+	pill.content_margin_right = 5
+	pill.content_margin_top = 1
+	pill.content_margin_bottom = 1
+	badge.add_theme_stylebox_override("normal", pill)
+	badge.hide()
+	badge.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	badge.position = Vector2(0, 6)
+	badge.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	tile.add_child(badge)
+	tile_badges[kind] = badge
+	bar_row.add_child(tile)
+	kind_buttons[kind] = tile
+
+# The tiles share the bar's width: 112 px each on a 1600 px screen, never under 76 (1280 px).
+func _fit_tiles() -> void:
+	if not bar or not is_inside_tree(): return
+	var width: float = get_viewport().get_visible_rect().size.x - 48 - 16
+	var count := DefenceTower.TYPES.size()
+	var tile_w := clampf((width - float(TILE_GAP) * (count - 1)) / count, 76.0, 118.0)
+	for kind in kind_buttons:
+		(kind_buttons[kind] as Button).custom_minimum_size = Vector2(tile_w, TILE_HEIGHT)
+		(tile_badges[kind] as Label).position.x = tile_w - 7
 
 func _build_roof_markers() -> void:
 	if Map.active_region == "planes": return
@@ -434,6 +594,13 @@ func _process(delta: float) -> void:
 		_refresh_t = 0.0
 		_refresh()
 	var ghost: Node3D = defences.ghost
+	if not _hover_kind.is_empty() and not dragging:
+		var hovered: Dictionary = DefenceTower.SPECS[_hover_kind]
+		var reason: String = defences.build_requirement(player, _hover_kind)
+		hint.text = Lang.t("%s · %d R · %d m · %s", [hovered.name, hovered.cost, hovered.range, Lang.t(hovered.info)]) if reason.is_empty() else Lang.t("%s · %d R · %s", [hovered.name, hovered.cost, Lang.t(reason)])
+		if ghost: ghost.hide()
+		if defences.range_marker: defences.range_marker.hide()
+		return
 	if not hover_point.is_finite():
 		if ghost: ghost.hide()
 		if defences.range_marker: defences.range_marker.hide()
@@ -478,7 +645,7 @@ func _update_player_marker() -> void:
 	if player_avatar: player_avatar.global_transform = player.global_transform
 	var point := overview.unproject_position(player.global_position + Vector3.UP * 2.2)
 	var screen := get_viewport().get_visible_rect().size
-	player_marker.position = Vector2(clampf(point.x - 55, 405, screen.x - 120), clampf(point.y - 45, 12, screen.y - 145))
+	player_marker.position = Vector2(clampf(point.x - 55, 405, screen.x - 120), clampf(point.y - 45, 12, screen.y - (BAR_HEIGHT + 24 + 36)))
 	player_marker.text = "▼  YOU"
 
 func _refresh() -> void:
@@ -488,12 +655,35 @@ func _refresh() -> void:
 	wallet.text = Lang.t("%d  REM DOLLARS  ·  %d / %d towers", [player.score, defences.towers.size(), DefenceTower.LIMIT])
 	for kind in kind_buttons:
 		var spec: Dictionary = DefenceTower.SPECS[kind]
-		var button: Button = kind_buttons[kind]
+		var tile: Button = kind_buttons[kind]
 		var reason: String = defences.build_requirement(player, kind)
-		var available := "From the start" if defences.unlock_waves(kind) == 0 else Lang.t("After wave %d", [defences.unlock_waves(kind)])
-		button.text = Lang.t("%d  %s · %d R · %d m\n%s", [DefenceTower.TYPES.find(kind) + 1, spec.name, spec.cost, spec.range, available if reason.is_empty() else Lang.t(reason)])
-		button.disabled = not reason.is_empty()
-		button.add_theme_color_override("font_color", GOLD if kind == defences.selected_kind else PAPER)
+		var locked := not reason.is_empty()
+		var index: int = DefenceTower.TYPES.find(kind)
+		tile.disabled = locked
+		tile.tooltip_text = Lang.t("%s · %d R · %d m\n%s", [spec.name, spec.cost, spec.range, Lang.t(spec.info)])
+		var frame_style := _style(Color(0.14, 0.2, 0.17) if kind == defences.selected_kind else Color(0.08, 0.11, 0.10), GOLD if kind == defences.selected_kind else Color(0.23, 0.3, 0.27), 4)
+		if kind == defences.selected_kind: frame_style.set_border_width_all(2)
+		tile.add_theme_stylebox_override("normal", frame_style)
+		(tile_icons[kind] as TextureRect).modulate = Color(0.45, 0.45, 0.45) if locked else Color.WHITE
+		(tile_prices[kind] as Label).text = Lang.t("%d R", [spec.cost])
+		(tile_prices[kind] as Label).add_theme_color_override("font_color", MUTED if locked else GOLD)
+		(tile_keys[kind] as Label).text = str(index + 1) if index < 9 else ("0" if index == 9 else "")
+		(tile_keys[kind] as Label).add_theme_color_override("font_color", MUTED if locked else GOLD)
+		var required: int = defences.unlock_waves(kind)
+		(tile_badges[kind] as Label).text = (Lang.t("W%d", [required]) if game.waves.completed < required else "") if locked else ""
+		(tile_badges[kind] as Label).visible = not (tile_badges[kind] as Label).text.is_empty()
+	var selected: String = defences.selected_kind
+	var chosen: Dictionary = DefenceTower.SPECS[selected]
+	var icon_path := "res://assets/ui/items/tower_%s.png" % selected
+	selected_icon.texture = load(icon_path) if ResourceLoader.exists(icon_path) else load("res://assets/ui/items/tower.png")
+	selected_name.text = Lang.t(chosen.name)
+	var available := "From the start" if defences.unlock_waves(selected) == 0 else Lang.t("After wave %d", [defences.unlock_waves(selected)])
+	selected_meta.text = Lang.t("%d R · %d m · %s", [chosen.cost, chosen.range, Lang.t(available)])
+	selected_info.text = Lang.t(chosen.info)
+	selected_tiers.text = Lang.t("Tier 2 after wave %d · Tier 3 after wave %d", [defences.unlock_waves(selected, 2), defences.unlock_waves(selected, 3)])
+	var blocked: String = defences.build_requirement(player, selected)
+	selected_reason.visible = not blocked.is_empty()
+	selected_reason.text = Lang.t(blocked)
 	for i in roof_buttons.size():
 		var tower: DefenceTower = defences.roof_tower(i)
 		roof_buttons[i].text = Lang.t("%d · %s", [i + 1, tower.spec().name if tower else "free"])

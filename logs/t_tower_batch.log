@@ -127,8 +127,8 @@ PASS: A damaged tower and an empty pocket call for a tick
 WARNING: Target and up vectors are colinear. This is not advised as it may cause unwanted rotation around local Z axis.
    at: looking_at (core/math/basis.cpp:1045)
    GDScript backtrace (most recent call first):
-       [0] show_shot (res://scripts/defence_tower.gd:968)
-       [1] fire_at (res://scripts/defence_tower.gd:679)
+       [0] show_shot (res://scripts/defence_tower.gd:985)
+       [1] fire_at (res://scripts/defence_tower.gd:690)
        [2] run (res://tests/tower_batch.gd:168)
        [3] clear_zombies (res://tests/tower_batch.gd:53)
        [4] settle (res://tests/tower_batch.gd:35)
@@ -137,8 +137,8 @@ PASS: The tick hands the player half a magazine
 WARNING: Target and up vectors are colinear. This is not advised as it may cause unwanted rotation around local Z axis.
    at: looking_at (core/math/basis.cpp:1045)
    GDScript backtrace (most recent call first):
-       [0] show_shot (res://scripts/defence_tower.gd:968)
-       [1] fire_at (res://scripts/defence_tower.gd:679)
+       [0] show_shot (res://scripts/defence_tower.gd:985)
+       [1] fire_at (res://scripts/defence_tower.gd:690)
        [2] run (res://tests/tower_batch.gd:172)
        [3] clear_zombies (res://tests/tower_batch.gd:53)
        [4] settle (res://tests/tower_batch.gd:35)
@@ -147,13 +147,24 @@ PASS: A second supply post is refused
 PASS: Other kinds still build beside it
 PASS: siren may not go onto the roof
 PASS: supply may not go onto the roof
+PASS: A standing zombie on the site blocks the build
+PASS: A corpse on the site does not: 
+PASS: 2.8 m beside a tower is room enough: 
+PASS: 2 m is not
 PASS: A cold pulse hurts
-PASS: The first pulses chill the body (pace x0.97)
+PASS: The first pulses chill the body (pace x0.93)
 PASS: Enough pulses freeze it solid
 PASS: The round goes through up to three bodies (3 hit)
 PASS: The first body takes the most
 PASS: The nest aims for the head (head hit true, 225 damage)
 PASS: The nest's sights zoom in like a scope
+PASS: The nest can be manned
+PASS: Holding aim narrows the view to the 8x optic (11.0 deg)
+PASS: The lens overlay shows the 8x reticle
+PASS: The gun model is out of the scope's view
+PASS: The crosshair gives way to the reticle
+PASS: Releasing aim restores the view and the gun
+PASS: Dismounted, the nest and the view stand as before
 PASS: Nothing inside the minimum range, the far one is a target
 PASS: The first rocket leaves at once (1 in flight)
 PASS: The rest of the salvo follows
@@ -175,7 +186,7 @@ PASS: sniper is unlocked once its wave is survived (planes and forest share Defe
 PASS: rocket is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
 PASS: harpoon is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
 PASS: graviton is unlocked once its wave is survived (planes and forest share DefenceTower.SPECS)
-TOWER_BATCH_DONE checks=155 failures=0
+TOWER_BATCH_DONE checks=166 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

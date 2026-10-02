@@ -34,6 +34,8 @@ var range_marker: Node3D
 var range_label: Label
 var _range_sample := 0.0
 var _tower_ads := 0.0
+var _tower_scoped := false
+var _scoped_tower: DefenceTower = null
 const TOWER_AIM_FOV := 55.0
 var planner: TowerPlanner       # T: the top-down planner (tower_planner.gd); the old list menu stays for tests
 
@@ -320,24 +322,30 @@ func placement_error(p: Player, point: Vector3, kind := "standard", planner := f
 	if not Map.BOUNDS.grow(-3).has_point(Vector2(point.x, point.z)): return "Outside the building area."
 	var ground := Map.ground_pos(point.x, point.z)
 	if absf(ground.y - point.y) > 0.25: return "The tower must stand on solid ground."
-	if Map.in_building(point.x, point.z, 2.0): return "Keep your distance from the building."
-	if not Map.POND.is_empty() and Vector2(point.x, point.z).distance_to(Map.POND.pos) < float(Map.POND.r) + 1.5:
+	if Map.in_building(point.x, point.z, 1.0): return "Keep your distance from the building."
+	if not Map.POND.is_empty() and Vector2(point.x, point.z).distance_to(Map.POND.pos) < float(Map.POND.r) + 0.5:
 		return "No tower can stand at the pond."
-	for offset in [Vector2(-1.2, -1.2), Vector2(1.2, -1.2), Vector2(-1.2, 1.2), Vector2(1.2, 1.2)]:
-		if absf(Map.ground_height(point.x + offset.x, point.z + offset.y) - ground.y) > 0.45:
+	for offset in [Vector2(-0.9, -0.9), Vector2(0.9, -0.9), Vector2(-0.9, 0.9), Vector2(0.9, 0.9)]:
+		if absf(Map.ground_height(point.x + offset.x, point.z + offset.y) - ground.y) > 0.5:
 			return "Ground too steep."
 	for tower: DefenceTower in towers.values():
-		if is_instance_valid(tower) and tower.tower_id != ignore_id and tower.global_position.distance_to(point) < 3.4: return "Too close to another tower."
+		if is_instance_valid(tower) and tower.tower_id != ignore_id and tower.global_position.distance_to(point) < 2.6: return "Too close to another tower."
 	for bar: Barricade in game.barricades:
-		if bar.distance_to_line(point) < 2.0: return "Keep the barricade line clear."
-	if Vector2(p.global_position.x - point.x, p.global_position.z - point.z).length() < 1.8: return "Don't build where you are standing."
+		if bar.distance_to_line(point) < 1.5: return "Keep the barricade line clear."
+	if Vector2(p.global_position.x - point.x, p.global_position.z - point.z).length() < 1.2: return "Don't build where you are standing."
+	# The footprint itself (the tower's own collider is 2.15 m wide): flowers, corpses, drops and the
+	# ground are no obstacle, a trunk, a wall, a standing zombie or another structure inside it is. The
+	# terrain is left out by name - on a slope that passes the step rule above, the old 2.6 m box with its
+	# bottom 0.3 m up still cut the ground and reported "Building site occupied." on open grass.
 	var q := PhysicsShapeQueryParameters3D.new()
 	var shape := BoxShape3D.new()
-	shape.size = Vector3(2.6, 3.4, 2.6)
+	shape.size = Vector3(1.9, 2.2, 1.9)
 	q.shape = shape
-	q.transform.origin = ground + Vector3.UP * 2.0
-	q.collision_mask = 1 | 2 | 4 | 8 | 16
+	q.transform.origin = ground + Vector3.UP * 1.6
+	q.collision_mask = 1 | 2 | 4 | 8
 	var excluded: Array[RID] = [p.get_rid()]
+	for terrain in game.get_tree().get_nodes_in_group("terrain_ground"):
+		if terrain is CollisionObject3D: excluded.append(terrain.get_rid())
 	var moving: DefenceTower = towers.get(ignore_id)
 	if is_instance_valid(moving): excluded.append(moving.body.get_rid())
 	q.exclude = excluded
@@ -740,7 +748,18 @@ func _process(delta: float) -> void:
 		var state := "VIEW BLOCKED" if aim.blocked else "IN RANGE" if aim.within else "OUT OF RANGE" if aim.distance >= 0 else "NO TARGET"
 		range_label.text = Lang.t("%s · Range %d m\n%s", [Lang.t("Target %.1f m", [aim.distance]) if aim.distance >= 0 else "Clear field of fire", roundi(mounted.attack_range()), state])
 		range_label.modulate = Color(0.65, 1, 0.7) if aim.within and not aim.blocked else Color(1, 0.4, 0.25) if aim.distance >= 0 else Hud.GOLD
-	if game.weapons and game.weapons.viewmodel and not (planner and planner.is_open): game.weapons.viewmodel.visible = mounted == null and not game.player.controlling_drone and not game.player.spectating
+	# The sniper nest's optic: once the operator holds aim, the lens overlay of the scoped rifles comes up
+	# over the narrowed world camera and the gun model gets out of the way of the 8x view.
+	var scoped: bool = mounted != null and can_control and aiming and mounted.scope_zoom() > 0.0 and _tower_ads >= 0.85
+	if scoped != _tower_scoped or (scoped and _scoped_tower != mounted):
+		if is_instance_valid(_scoped_tower): _scoped_tower.gun.visible = true
+		_tower_scoped = scoped
+		_scoped_tower = mounted if scoped else null
+		if scoped: mounted.gun.visible = false
+		if game.weapons and game.weapons.viewmodel: game.weapons.viewmodel.set_scoped(scoped, mounted.scope_zoom() if scoped else 4.0, "mil")
+		if "crosshair_parts" in game.hud:
+			for part in game.hud.crosshair_parts: part.visible = not scoped
+	if game.weapons and game.weapons.viewmodel and not (planner and planner.is_open): game.weapons.viewmodel.visible = scoped or (mounted == null and not game.player.controlling_drone and not game.player.spectating)
 	if mounted:
 		game.player.head.position.y = Player.CROUCH_EYE
 		game.hud.ammo_label.text = Lang.t("MANUAL · %d%%", [roundi(mounted.heat*100)])

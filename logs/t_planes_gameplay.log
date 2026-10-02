@@ -27,7 +27,7 @@ PASS: Live zombies see freely placed fortifications
 PASS: A live zombie approaches and damages the player-built palisade
 PASS: First upgrade names only wave three
 PASS: Repair restores health and charges Forest price
-FAIL: Repair shows a gold confirmation near the crosshair
+PASS: Repair shows a gold confirmation near the crosshair
 PASS: Full-health repair does not charge again
 PASS: Quest reward is claimed once at its giver
 PASS: Early advanced weapon purchase is rejected
@@ -68,4 +68,4 @@ PASS: Retry removes structures, quests and carried kits
 PASS: Retry resets economy and replenishes collectibles
 PASS: Retry restores harvested wild plants
 PASS: Retry restores harvested wild plants
-PLANES_GAMEPLAY_DONE checks=59 failures=1
+PLANES_GAMEPLAY_DONE checks=59 failures=0

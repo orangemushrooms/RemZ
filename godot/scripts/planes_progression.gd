@@ -360,6 +360,10 @@ func sample_collectibles() -> void:
 
 func _process(delta: float) -> void:
 	if not game or not game.ready_for_exploration: return
+	# The Forest market ticks its burn and frost timers in its own physics loop, which the Planes keeps
+	# switched off (no wandering trader here): without this a frozen body stayed frozen for good and a
+	# burning one never took its damage.
+	if rare_market and not NetSession.is_client() and game.started and not game.over: rare_market.tick_statuses(delta)
 	_animate_gain(delta)
 	if is_open and (not game.player.alive or game.over): close()
 	sample_time -= delta

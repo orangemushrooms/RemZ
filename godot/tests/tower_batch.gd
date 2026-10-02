@@ -180,6 +180,23 @@ func run() -> void:
 	neighbour.queue_free()
 	await settle()
 
+	# --- placement (2 Oct 2026, afternoon): the footprint is what counts, not a 2.6 m box ----------------
+	p.global_position = Map.ground_pos(66, 116) + Vector3.UP * 0.1
+	var spot := Map.ground_pos(74, 112)
+	var blocker := spawn("shambler", Vector2(74, 112))
+	await settle()
+	check(defence.placement_error(p, spot, "standard", true) == "Building site occupied.", "A standing zombie on the site blocks the build")
+	blocker.die(Vector3.ZERO)
+	await settle()
+	check(defence.placement_error(p, spot, "standard", true).is_empty(), "A corpse on the site does not: " + defence.placement_error(p, spot, "standard", true))
+	var spacer_tower := defence.create_tower(spot, p.peer_id, 0, false, "standard")
+	spacer_tower.set_physics_process(false)
+	await settle()
+	check(defence.placement_error(p, Map.ground_pos(76.8, 112), "standard", true).is_empty(), "2.8 m beside a tower is room enough: " + defence.placement_error(p, Map.ground_pos(76.8, 112), "standard", true))
+	check(defence.placement_error(p, Map.ground_pos(76.0, 112), "standard", true) == "Too close to another tower.", "2 m is not")
+	spacer_tower.queue_free()
+	await clear_zombies()
+
 	# --- the frost cannon: chill builds up, then the body freezes ------------------------------------
 	var frost := defence.create_tower(site, p.peer_id, 0, false, "frost")
 	frost.set_physics_process(false)
@@ -209,6 +226,29 @@ func run() -> void:
 	check(line[0].hp < line[1].hp or line[1].hp == 10000.0, "The first body takes the most")
 	check(line[0].last_headshot or (10000.0 - line[0].hp) >= nest.damage_at(1) * 0.99, "The nest aims for the head (head hit %s, %.0f damage)" % [line[0].last_headshot, 10000.0 - line[0].hp])
 	check(nest.aim_fov() < 35.0, "The nest's sights zoom in like a scope")
+	# the real optic: manned and holding aim, the lens overlay comes up at 8x and the gun gets out of the way
+	p.global_position = Map.ground_pos(60, 115) + Vector3.UP * 0.1
+	await settle()
+	check(defence.mount(p, nest.tower_id).is_empty() and p.mounted_tower == nest.tower_id, "The nest can be manned")
+	defence.input_grace = 0
+	Input.action_press("aim")
+	for frame in 40: defence._process(1.0 / 60.0)
+	check(p.camera.fov < 12.0, "Holding aim narrows the view to the 8x optic (%.1f deg)" % p.camera.fov)
+	check(game.weapons.viewmodel.visible and game.weapons.viewmodel.scope.visible and is_equal_approx(game.weapons.viewmodel.scope.magnification, 8.0), "The lens overlay shows the 8x reticle")
+	check(not nest.gun.visible, "The gun model is out of the scope's view")
+	check(game.hud.crosshair_parts.is_empty() or not game.hud.crosshair_parts[0].visible, "The crosshair gives way to the reticle")
+	if render:
+		p.camera.make_current()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png(folder + "sniper_scope.png")
+		camera.make_current()
+	Input.action_release("aim")
+	for frame in 40: defence._process(1.0 / 60.0)
+	check(p.camera.fov > 74.5 and not game.weapons.viewmodel.scope.visible and nest.gun.visible, "Releasing aim restores the view and the gun")
+	defence.release_tower(nest)
+	for frame in 3: defence._process(1.0 / 60.0)
+	check(p.mounted_tower == 0 and nest.gun.visible and p.camera.fov > 74.5, "Dismounted, the nest and the view stand as before")
 	await shot("sniper")
 	nest.queue_free()
 	await clear_zombies()

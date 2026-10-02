@@ -126,6 +126,7 @@ Batch of 25 Sep 2026 (`--suite=forest_finds --smoke-test --no-intro --no-music -
   2.2 m of a roof ring goes onto that slot (`roof_slot_near`), and from the planner the roof takes turrets
   from anywhere within `PLANNER_REACH` while the hut stands (`placement_error` planner_roof).
   `--suite=tower_planner` (23 checks), `--render-planner` windowed saves `artifacts/tower_planner/planner.png`.
+  Third pass (2 Oct 2026): the kinds sit in a build bar of render tiles, see the tower section below.
 - Quests count from acceptance (`Progression.progress_value`, baseline per peer and quest in `data.baseline`,
   cumulative kinds in `CUMULATIVE_GOALS`); the horde scales with the party (`EncounterBalance.party_hp` /
   `party_damage`); titan steps: cue shake 0.75 / 120 m plus the heavy sway in `Player._update_tremor`.
@@ -673,6 +674,24 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   supply_pulse}.wav` from the library plus synthesis (the siren wail and the arc strike are synthetic).
   `tower_audio.gd` LOOPED = flame + frost. Suites `towers`, `tower_effects`, `roof_defences` learned the
   support kinds and the roof bans; `tower_batch` (new) covers every mechanic, the snapshot and the Planes.
+- Afternoon of 2 Oct 2026 (same suite, 166 checks; `--render-towers` also saves `sniper_scope.png`): the tower
+  planner shows the kinds as a build bar of render tiles along the bottom edge (`_build_tile`: icon, key
+  number, price, category strip, red "W<n>" pill while locked, 2 px gold frame on the chosen kind, hover
+  hint) under a detail card on the left (`selected_icon`, name, numbers, tiers, lock reason) - the user's
+  complaint was a bare list of 13 text buttons; the placement rule only tests the footprint
+  (`placement_error`: a 1.9 x 2.2 m box from 0.5 m up on world / zombies / player / structures with the
+  `terrain_ground` bodies excluded - on a slope the old 2.6 m box with its bottom 0.3 m up cut the ground
+  and said "Building site occupied." on open grass; towers 2.6 m apart, building margin 1 m, barricade
+  line 1.5 m, step rule 0.5 m over 0.9 m; corpses, flowers and drops never blocked, their colliders are
+  off or areas); the frost cannon freezes for real (`CHILL_PER_PULSE` 0.34 + 0.08 per tier, bosses x0.25,
+  heavies x0.5, `FREEZE_SECONDS` 3.5 + 0.5 per tier through `WeaponSpecials.chill(.., freeze_seconds)`,
+  heat 0.03 - the old 0.12 per pulse lost against the meter's 0.35/s melt and the five-second overheat,
+  so it only slowed; `BRITTLE_BONUS` 1.4 on every tower hit on a frozen body); the manned sniper nest has
+  a real 8x optic (`DefenceTower.SCOPE_ZOOM`, `aim_fov()` 11 degrees; `DefenceSystem._process` puts the
+  viewmodel's `scope_overlay` up once `_tower_ads` passes 0.85, hides the gun model and the crosshair,
+  `_scoped_tower` restores them on release or dismount); the Planes never ticked burn and frost
+  (`planes_progression._process` now calls `rare_market.tick_statuses`; the market's own physics loop
+  stays off there because it drives the wandering trader).
 
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,
