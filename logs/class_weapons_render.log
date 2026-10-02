@@ -4,7 +4,6 @@ Vulkan 1.3.277 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 3060 Ti
 COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
 COOP_LOAD NETWORK_INITIALIZED
 RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
-NAV_WAIT paused=false region_enabled=true server_enabled=true iteration=2 polygons=25293 map=RID(6627134537728) registered_map=RID(6627134537728)
 COOP_LOAD MAP_READY
 PASS: sig_p226 steht in Weapons.DEFS
 PASS: sig_p226 hat alle Pflichtfelder
@@ -14,7 +13,7 @@ PASS: sig_p226 ist beim Haendler kaufbar
 PASS: sig_p226: GOODS-Eintrag vollstaendig
 PASS: sig_p226: Quest 'arrival' existiert
 PASS: sig_p226: Verkaeufer ist Vendor oder Secret Vendor
-PASS: sig_p226: Munitionskosten 20.6 R je 1000 Schaden liegen im Korridor
+PASS: sig_p226: Munitionskosten 21.7 R je 1000 Schaden liegen im Korridor
 PASS: sig_p226: Magazin, Nachladen und Feuerrate gesetzt
 PASS: sig_p226: Reservelimit fasst zwei Magazine (105)
 PASS: sig_p226: halbautomatisch (Pistole/Flinte)
@@ -40,7 +39,7 @@ PASS: ar15 ist beim Haendler kaufbar
 PASS: ar15: GOODS-Eintrag vollstaendig
 PASS: ar15: Quest 'watch' existiert
 PASS: ar15: Verkaeufer ist Vendor oder Secret Vendor
-PASS: ar15: Munitionskosten 18.5 R je 1000 Schaden liegen im Korridor
+PASS: ar15: Munitionskosten 20.2 R je 1000 Schaden liegen im Korridor
 PASS: ar15: Magazin, Nachladen und Feuerrate gesetzt
 PASS: ar15: Reservelimit fasst zwei Magazine (150)
 PASS: ar15: vollautomatisch
@@ -66,7 +65,7 @@ PASS: spas12 ist beim Haendler kaufbar
 PASS: spas12: GOODS-Eintrag vollstaendig
 PASS: spas12: Quest 'line' existiert
 PASS: spas12: Verkaeufer ist Vendor oder Secret Vendor
-PASS: spas12: Munitionskosten 13.9 R je 1000 Schaden liegen im Korridor
+PASS: spas12: Munitionskosten 15.2 R je 1000 Schaden liegen im Korridor
 PASS: spas12: Magazin, Nachladen und Feuerrate gesetzt
 PASS: spas12: Reservelimit fasst zwei Magazine (40)
 PASS: spas12: halbautomatisch (Pistole/Flinte)
@@ -79,7 +78,7 @@ PASS: sawed_off ist beim Haendler kaufbar
 PASS: sawed_off: GOODS-Eintrag vollstaendig
 PASS: sawed_off: Quest 'arrival' existiert
 PASS: sawed_off: Verkaeufer ist Vendor oder Secret Vendor
-PASS: sawed_off: Munitionskosten 15.0 R je 1000 Schaden liegen im Korridor
+PASS: sawed_off: Munitionskosten 17.3 R je 1000 Schaden liegen im Korridor
 PASS: sawed_off: Magazin, Nachladen und Feuerrate gesetzt
 PASS: sawed_off: Reservelimit fasst zwei Magazine (62)
 PASS: sawed_off: halbautomatisch (Pistole/Flinte)
@@ -90,82 +89,42 @@ PASS: sig_p226: eigenes Muendungsfeuer-Profil
 PASS: sig_p226: eigene Handpositionen
 PASS: sig_p226: Magazinart fuer die Mods bekannt
 PASS: sig_p226: Schusssound 'sig_p226' registriert
-FAIL: sig_p226: Inventar-Icon vorhanden
-ERROR: FAIL: sig_p226: Inventar-Icon vorhanden
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:90)
-FAIL: nighthawk: Modell nighthawk.glb vorhanden
-ERROR: FAIL: nighthawk: Modell nighthawk.glb vorhanden
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:83)
-FAIL: nighthawk: Muendung/Magazin von nighthawk ist vermessen (weapon_geometry.mjs --bake)
-ERROR: FAIL: nighthawk: Muendung/Magazin von nighthawk ist vermessen (weapon_geometry.mjs --bake)
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:85)
+PASS: sig_p226: Inventar-Icon vorhanden
+PASS: nighthawk: Modell nighthawk.glb vorhanden
+PASS: nighthawk: Muendung/Magazin von nighthawk ist vermessen (weapon_geometry.mjs --bake)
 PASS: nighthawk: eigenes Muendungsfeuer-Profil
 PASS: nighthawk: eigene Handpositionen
 PASS: nighthawk: Magazinart fuer die Mods bekannt
 PASS: nighthawk: Schusssound 'nighthawk' registriert
-FAIL: nighthawk: Inventar-Icon vorhanden
-ERROR: FAIL: nighthawk: Inventar-Icon vorhanden
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:90)
+PASS: nighthawk: Inventar-Icon vorhanden
 PASS: ar15: Modell ar15.glb vorhanden
 PASS: ar15: Muendung/Magazin von ar15 ist vermessen (weapon_geometry.mjs --bake)
 PASS: ar15: eigenes Muendungsfeuer-Profil
 PASS: ar15: eigene Handpositionen
 PASS: ar15: Magazinart fuer die Mods bekannt
 PASS: ar15: Schusssound 'ar15' registriert
-FAIL: ar15: Inventar-Icon vorhanden
-ERROR: FAIL: ar15: Inventar-Icon vorhanden
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:90)
+PASS: ar15: Inventar-Icon vorhanden
 PASS: tommy_gun: Modell tommy_gun.glb vorhanden
 PASS: tommy_gun: Muendung/Magazin von tommy_gun ist vermessen (weapon_geometry.mjs --bake)
 PASS: tommy_gun: eigenes Muendungsfeuer-Profil
 PASS: tommy_gun: eigene Handpositionen
 PASS: tommy_gun: Magazinart fuer die Mods bekannt
 PASS: tommy_gun: Schusssound 'tommy_gun' registriert
-FAIL: tommy_gun: Inventar-Icon vorhanden
-ERROR: FAIL: tommy_gun: Inventar-Icon vorhanden
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:90)
+PASS: tommy_gun: Inventar-Icon vorhanden
 PASS: spas12: Modell spas12.glb vorhanden
 PASS: spas12: Muendung/Magazin von spas12 ist vermessen (weapon_geometry.mjs --bake)
 PASS: spas12: eigenes Muendungsfeuer-Profil
 PASS: spas12: eigene Handpositionen
 PASS: spas12: Magazinart fuer die Mods bekannt
 PASS: spas12: Schusssound 'spas12' registriert
-FAIL: spas12: Inventar-Icon vorhanden
-ERROR: FAIL: spas12: Inventar-Icon vorhanden
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:90)
+PASS: spas12: Inventar-Icon vorhanden
 PASS: sawed_off: Modell sawed_off.glb vorhanden
 PASS: sawed_off: Muendung/Magazin von sawed_off ist vermessen (weapon_geometry.mjs --bake)
 PASS: sawed_off: eigenes Muendungsfeuer-Profil
 PASS: sawed_off: eigene Handpositionen
 PASS: sawed_off: Magazinart fuer die Mods bekannt
 PASS: sawed_off: Schusssound 'sawed_off' registriert
-FAIL: sawed_off: Inventar-Icon vorhanden
-ERROR: FAIL: sawed_off: Inventar-Icon vorhanden
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:90)
+PASS: sawed_off: Inventar-Icon vorhanden
 PASS: pistol: Modell pistol.glb vorhanden
 PASS: pistol: Muendung/Magazin von pistol ist vermessen (weapon_geometry.mjs --bake)
 PASS: pistol: eigenes Muendungsfeuer-Profil
@@ -188,25 +147,10 @@ PASS: deagle: Magazinart fuer die Mods bekannt
 PASS: deagle: Schusssound 'deagle' registriert
 PASS: deagle: Inventar-Icon vorhanden
 PASS: knife: Modell knife_real.glb vorhanden
-FAIL: knife: Inventar-Icon vorhanden
-ERROR: FAIL: knife: Inventar-Icon vorhanden
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:91)
-FAIL: pistol: Pipeline-Beleg assets/raw/pistol_web/state.json
-ERROR: FAIL: pistol: Pipeline-Beleg assets/raw/pistol_web/state.json
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:95)
+PASS: knife: Inventar-Icon vorhanden (die Nahkampfwaffen tragen SVGs)
+PASS: pistol: Pipeline-Beleg assets/raw/pistol_web/state.json
 PASS: smg: Pipeline-Beleg assets/raw/smg_web/state.json
-FAIL: deagle: Pipeline-Beleg assets/raw/deagle_web/state.json
-ERROR: FAIL: deagle: Pipeline-Beleg assets/raw/deagle_web/state.json
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:95)
+PASS: deagle: Pipeline-Beleg assets/raw/deagle_web/state.json
 PASS: knife_real: Pipeline-Beleg assets/raw/knife_real_web/state.json
 PASS: sig_p226 laedt seine Aufnahme weapons/sig_p226.wav
 PASS: sig_p226: Aufnahme mit Ausklang (1.40 s)
@@ -220,162 +164,67 @@ PASS: spas12 laedt seine Aufnahme weapons/spas12.wav
 PASS: spas12: Aufnahme mit Ausklang (1.60 s)
 PASS: sawed_off laedt seine Aufnahme weapons/sawed_off.wav
 PASS: sawed_off: Aufnahme mit Ausklang (1.60 s)
-FAIL: smg laedt seine Aufnahme weapons/smg.wav
-ERROR: FAIL: smg laedt seine Aufnahme weapons/smg.wav
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:100)
-PASS: smg: Aufnahme mit Ausklang (0.32 s)
+PASS: smg laedt seine Aufnahme weapons/mp5.wav
+PASS: smg: Aufnahme mit Ausklang (0.33 s)
 PASS: titanbreaker laedt seine Aufnahme weapons/titanbreaker.wav
 PASS: titanbreaker: Aufnahme mit Ausklang (1.40 s)
 PASS: Titanbreaker spielt seine Aufnahme ohne den alten Revolver-Pitch
 PASS: Die MP5 spielt die neue Aufnahme (ein Schuss aus der Salve)
 RENDERED class weapons -> artifacts/class-weapons/
 PASS: sig_p226: laesst sich ausruesten
-FAIL: sig_p226: Schuss verbraucht Munition
-ERROR: FAIL: sig_p226: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:145)
+PASS: sig_p226: Schuss verbraucht Munition
 PASS: sig_p226: Muendung sitzt vorn an der Waffe (0.26, -0.15, -0.60)
 PASS: sig_p226: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.018)
 PASS: sig_p226: Muendung liegt an der Vorderkante (-0.104 vs -0.098)
-FAIL: sig_p226: der Schuss spielt seine Aufnahme
-ERROR: FAIL: sig_p226: der Schuss spielt seine Aufnahme
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:156)
+PASS: sig_p226: der Schuss spielt seine Aufnahme
 PASS: nighthawk: laesst sich ausruesten
-FAIL: nighthawk: Schuss verbraucht Munition
-ERROR: FAIL: nighthawk: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:145)
-PASS: nighthawk: Muendung sitzt vorn an der Waffe (0.26, -0.19, -0.66)
-PASS: nighthawk: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.020)
-PASS: nighthawk: Muendung liegt an der Vorderkante (-0.156 vs -0.150)
-FAIL: nighthawk: der Schuss spielt seine Aufnahme
-ERROR: FAIL: nighthawk: der Schuss spielt seine Aufnahme
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:156)
+PASS: nighthawk: Schuss verbraucht Munition
+PASS: nighthawk: Muendung sitzt vorn an der Waffe (0.26, -0.16, -0.61)
+PASS: nighthawk: Muendung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.020)
+PASS: nighthawk: Muendung liegt an der Vorderkante (-0.111 vs -0.105)
+PASS: nighthawk: der Schuss spielt seine Aufnahme
 PASS: ar15: laesst sich ausruesten
-FAIL: ar15: Schuss verbraucht Munition
-ERROR: FAIL: ar15: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:145)
+PASS: ar15: Schuss verbraucht Munition
 PASS: ar15: Muendung sitzt vorn an der Waffe (0.24, -0.18, -0.87)
 PASS: ar15: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.036)
 PASS: ar15: Muendung liegt an der Vorderkante (-0.292 vs -0.286)
-FAIL: ar15: der Schuss spielt seine Aufnahme
-ERROR: FAIL: ar15: der Schuss spielt seine Aufnahme
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:156)
+PASS: ar15: der Schuss spielt seine Aufnahme
 PASS: tommy_gun: laesst sich ausruesten
-FAIL: tommy_gun: Schuss verbraucht Munition
-ERROR: FAIL: tommy_gun: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:145)
+PASS: tommy_gun: Schuss verbraucht Munition
 PASS: tommy_gun: Muendung sitzt vorn an der Waffe (0.24, -0.16, -0.86)
 PASS: tommy_gun: Muendung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.088)
 PASS: tommy_gun: Muendung liegt an der Vorderkante (-0.294 vs -0.288)
-FAIL: tommy_gun: der Schuss spielt seine Aufnahme
-ERROR: FAIL: tommy_gun: der Schuss spielt seine Aufnahme
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:156)
+PASS: tommy_gun: der Schuss spielt seine Aufnahme
 PASS: spas12: laesst sich ausruesten
-FAIL: spas12: Schuss verbraucht Munition
-ERROR: FAIL: spas12: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:145)
+PASS: spas12: Schuss verbraucht Munition
 PASS: spas12: Muendung sitzt vorn an der Waffe (0.22, -0.20, -0.89)
 PASS: spas12: Muendung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.024)
 PASS: spas12: Muendung liegt an der Vorderkante (-0.287 vs -0.281)
-FAIL: spas12: der Schuss spielt seine Aufnahme
-ERROR: FAIL: spas12: der Schuss spielt seine Aufnahme
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:156)
+PASS: spas12: der Schuss spielt seine Aufnahme
 PASS: sawed_off: laesst sich ausruesten
-FAIL: sawed_off: Schuss verbraucht Munition
-ERROR: FAIL: sawed_off: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:145)
+PASS: sawed_off: Schuss verbraucht Munition
 PASS: sawed_off: Muendung sitzt vorn an der Waffe (0.24, -0.19, -0.76)
 PASS: sawed_off: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.024)
 PASS: sawed_off: Muendung liegt an der Vorderkante (-0.212 vs -0.206)
-FAIL: sawed_off: der Schuss spielt seine Aufnahme
-ERROR: FAIL: sawed_off: der Schuss spielt seine Aufnahme
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:156)
+PASS: sawed_off: der Schuss spielt seine Aufnahme
 PASS: pistol: laesst sich ausruesten
-FAIL: pistol: Schuss verbraucht Munition
-ERROR: FAIL: pistol: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:145)
-PASS: pistol: Muendung sitzt vorn an der Waffe (0.26, -0.18, -0.61)
-PASS: pistol: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.017)
-PASS: pistol: Muendung liegt an der Vorderkante (-0.106 vs -0.100)
-FAIL: pistol: der Schuss spielt seine Aufnahme
-ERROR: FAIL: pistol: der Schuss spielt seine Aufnahme
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:156)
+PASS: pistol: Schuss verbraucht Munition
+PASS: pistol: Muendung sitzt vorn an der Waffe (0.26, -0.17, -0.60)
+PASS: pistol: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.020)
+PASS: pistol: Muendung liegt an der Vorderkante (-0.104 vs -0.098)
+PASS: pistol: der Schuss spielt seine Aufnahme
 PASS: smg: laesst sich ausruesten
-FAIL: smg: Schuss verbraucht Munition
-ERROR: FAIL: smg: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:145)
+PASS: smg: Schuss verbraucht Munition
 PASS: smg: Muendung sitzt vorn an der Waffe (0.24, -0.17, -0.79)
 PASS: smg: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.018)
 PASS: smg: Muendung liegt an der Vorderkante (-0.239 vs -0.233)
-FAIL: smg: der Schuss spielt seine Aufnahme
-ERROR: FAIL: smg: der Schuss spielt seine Aufnahme
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:156)
+PASS: smg: der Schuss spielt seine Aufnahme
 PASS: deagle: laesst sich ausruesten
-FAIL: deagle: Schuss verbraucht Munition
-ERROR: FAIL: deagle: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:145)
-PASS: deagle: Muendung sitzt vorn an der Waffe (0.26, -0.17, -0.68)
-PASS: deagle: Muendung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.020)
-PASS: deagle: Muendung liegt an der Vorderkante (-0.175 vs -0.169)
-FAIL: deagle: der Schuss spielt seine Aufnahme
-ERROR: FAIL: deagle: der Schuss spielt seine Aufnahme
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/class_weapons.gd:35)
-       [1] run (res://tests/class_weapons.gd:156)
+PASS: deagle: Schuss verbraucht Munition
+PASS: deagle: Muendung sitzt vorn an der Waffe (0.26, -0.16, -0.64)
+PASS: deagle: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.025)
+PASS: deagle: Muendung liegt an der Vorderkante (-0.136 vs -0.130)
+PASS: deagle: der Schuss spielt seine Aufnahme
 PASS: knife: das neue Messer haengt im Blickmodell
 PASS: knife: 37 cm lang, Klinge entlang der Hochachse (0.06 x 0.37 x 0.04)
 PASS: sig_p226: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAACAAAAFNJRyBQMjI2﷒)
@@ -484,7 +333,7 @@ PASS: spas12 ist keine Spezialwaffe des marksman
 PASS: sawed_off zaehlt als Spezialwaffe des breacher
 PASS: sawed_off bekommt den Meisterschaftsbonus des breacher (x1.18)
 PASS: sawed_off ist keine Spezialwaffe des marksman
-CLASS_WEAPONS_DONE checks=327 failures=30
+CLASS_WEAPONS_DONE checks=327 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

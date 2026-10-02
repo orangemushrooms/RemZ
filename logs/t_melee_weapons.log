@@ -10,11 +10,11 @@ PASS: Vendor sells the axe for 180 points
 PASS: Vendor refuses melee ammunition without charging
 PASS: knife equips its own visible model
 PASS: knife has a melee HUD
-PASS: knife never reloads or uses ammunition
+PASS: knife never reloads or uses ammunition (reloading 0.0, ammo 0)
 PASS: knife has a visible swing
 PASS: hatchet equips its own visible model
 PASS: hatchet has a melee HUD
-PASS: hatchet never reloads or uses ammunition
+PASS: hatchet never reloads or uses ammunition (reloading 0.0, ammo 0)
 PASS: hatchet has a visible swing
 PASS: Ammunition pickups while holding melee supply the last firearm
 PASS: Melee does not bypass full ammunition capacity

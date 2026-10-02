@@ -8,7 +8,7 @@ PASS: Shortcut opens the cheat menu and pauses solo gameplay
 PASS: Opening the menu does not toggle the secret vendor
 PASS: Points button credits 1000 points and updates the displayed balance while paused
 PASS: Points button can be used repeatedly without closing or resuming the game
-PASS: Every weapon has its own cheat button (19)
+PASS: Every weapon has its own cheat button (25)
 PASS: The weapon button unlocks the minigun and puts it in the hands
 PASS: The minigun comes with a full belt and a full reserve (150 + 450)
 PASS: The menu stays open and names what was handed out
@@ -21,6 +21,34 @@ PASS: Turning the toggle off removes the map marker
 PASS: A Golden Bolete that is already out keeps its spot
 PASS: The keys button hands out both hut keys
 PASS: No hut key is left in the forest and the menu stays open
+PASS: Every enemy type has a spawn button
+PASS: All supported armored variants are included, with no duplicate entries
+PASS: Spawn button creates the correct enemy and keeps the menu open: shambler
+PASS: Spawn button creates the correct enemy and keeps the menu open: armored:shambler
+PASS: Spawn button creates the correct enemy and keeps the menu open: runner
+PASS: Spawn button creates the correct enemy and keeps the menu open: brute
+PASS: Spawn button creates the correct enemy and keeps the menu open: armored:brute
+PASS: Spawn button creates the correct enemy and keeps the menu open: nurse
+PASS: Spawn button creates the correct enemy and keeps the menu open: armored:nurse
+PASS: Spawn button creates the correct enemy and keeps the menu open: soldier
+PASS: Spawn button creates the correct enemy and keeps the menu open: armored:soldier
+PASS: Spawn button creates the correct enemy and keeps the menu open: spitter
+PASS: Spawn button creates the correct enemy and keeps the menu open: armored:spitter
+PASS: Spawn button creates the correct enemy and keeps the menu open: screamer
+PASS: Spawn button creates the correct enemy and keeps the menu open: stalker
+PASS: Spawn button creates the correct enemy and keeps the menu open: zombie_dog
+PASS: Spawn button creates the correct enemy and keeps the menu open: zombie_stag
+PASS: Spawn button creates the correct enemy and keeps the menu open: earthworm
+PASS: Spawn button creates the correct enemy and keeps the menu open: earthworm_ancient
+PASS: Spawn button creates the correct enemy and keeps the menu open: titan_hunter
+PASS: Spawn button creates the correct enemy and keeps the menu open: titan_siege
+PASS: Spawn button creates the correct enemy and keeps the menu open: titan_ash
+PASS: Spawn button creates the correct enemy and keeps the menu open: titan
+PASS: Spawn button creates the correct enemy and keeps the menu open: titan_elder
+PASS: Spawn button creates the correct enemy and keeps the menu open: forest_spirit
+PASS: Spawn button creates the correct enemy and keeps the menu open: bride
+PASS: Removing test spawns restores the live enemy count
+PASS: Invalid types and unsupported armor cannot create enemies
 PASS: Holding the shortcut does not repeatedly toggle the menu
 PASS: Shortcut closes the menu and restores gameplay
 PASS: Wave has living enemies and pending spawns
@@ -36,7 +64,7 @@ PASS: Intro cannot reset a skipped wave back to wave one
 PASS: Escape closes only the cheat menu
 PASS: Cheat menu does not replace another modal
 PASS: Cannot skip waves after game over
-CHEAT_MENU_DONE checks=32 failures=0
+CHEAT_MENU_DONE checks=60 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)

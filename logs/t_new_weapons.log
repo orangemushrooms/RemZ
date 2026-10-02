@@ -141,75 +141,35 @@ PASS: graviton_cannon: eigene Handpositionen
 PASS: graviton_cannon: Schusssound 'graviton' registriert
 PASS: graviton_cannon: Inventar-Icon vorhanden
 PASS: deagle: lässt sich ausrüsten
-FAIL: deagle: Schuss verbraucht Munition
-ERROR: FAIL: deagle: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/new_weapons.gd:29)
-       [1] run (res://tests/new_weapons.gd:126)
-PASS: deagle: Mündung sitzt vorn an der Waffe (0.26, -0.17, -0.68)
-PASS: deagle: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.020)
+PASS: deagle: Schuss verbraucht Munition
+PASS: deagle: Mündung sitzt vorn an der Waffe (0.26, -0.16, -0.64)
+PASS: deagle: Mündung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.025)
 PASS: flare_pistol: lässt sich ausrüsten
-FAIL: flare_pistol: Schuss verbraucht Munition
-ERROR: FAIL: flare_pistol: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/new_weapons.gd:29)
-       [1] run (res://tests/new_weapons.gd:126)
+PASS: flare_pistol: Schuss verbraucht Munition
 PASS: flare_pistol: Mündung sitzt vorn an der Waffe (0.26, -0.15, -0.63)
 PASS: flare_pistol: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.023)
 PASS: mac10: lässt sich ausrüsten
-FAIL: mac10: Schuss verbraucht Munition
-ERROR: FAIL: mac10: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/new_weapons.gd:29)
-       [1] run (res://tests/new_weapons.gd:126)
+PASS: mac10: Schuss verbraucht Munition
 PASS: mac10: Mündung sitzt vorn an der Waffe (0.24, -0.18, -0.81)
 PASS: mac10: Mündung liegt in der Waffensilhouette (0.003 m seitlich, halbe Breite 0.026)
 PASS: cryo_smg: lässt sich ausrüsten
-FAIL: cryo_smg: Schuss verbraucht Munition
-ERROR: FAIL: cryo_smg: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/new_weapons.gd:29)
-       [1] run (res://tests/new_weapons.gd:126)
+PASS: cryo_smg: Schuss verbraucht Munition
 PASS: cryo_smg: Mündung sitzt vorn an der Waffe (0.24, -0.20, -0.78)
 PASS: cryo_smg: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.026)
 PASS: plasma_sniper: lässt sich ausrüsten
-FAIL: plasma_sniper: Schuss verbraucht Munition
-ERROR: FAIL: plasma_sniper: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/new_weapons.gd:29)
-       [1] run (res://tests/new_weapons.gd:126)
+PASS: plasma_sniper: Schuss verbraucht Munition
 PASS: plasma_sniper: Mündung sitzt vorn an der Waffe (0.25, -0.23, -1.08)
 PASS: plasma_sniper: Mündung liegt in der Waffensilhouette (0.002 m seitlich, halbe Breite 0.033)
 PASS: lever_rifle: lässt sich ausrüsten
-FAIL: lever_rifle: Schuss verbraucht Munition
-ERROR: FAIL: lever_rifle: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/new_weapons.gd:29)
-       [1] run (res://tests/new_weapons.gd:126)
+PASS: lever_rifle: Schuss verbraucht Munition
 PASS: lever_rifle: Mündung sitzt vorn an der Waffe (0.24, -0.16, -0.96)
 PASS: lever_rifle: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.016)
 PASS: minigun: lässt sich ausrüsten
-FAIL: minigun: Schuss verbraucht Munition
-ERROR: FAIL: minigun: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/new_weapons.gd:29)
-       [1] run (res://tests/new_weapons.gd:126)
+PASS: minigun: Schuss verbraucht Munition
 PASS: minigun: Mündung sitzt vorn an der Waffe (0.28, -0.15, -0.92)
 PASS: minigun: Mündung liegt in der Waffensilhouette (0.051 m seitlich, halbe Breite 0.142)
 PASS: graviton_cannon: lässt sich ausrüsten
-FAIL: graviton_cannon: Schuss verbraucht Munition
-ERROR: FAIL: graviton_cannon: Schuss verbraucht Munition
-   at: push_error (core/variant/variant_utility.cpp:1023)
-   GDScript backtrace (most recent call first):
-       [0] check (res://tests/new_weapons.gd:29)
-       [1] run (res://tests/new_weapons.gd:126)
+PASS: graviton_cannon: Schuss verbraucht Munition
 PASS: graviton_cannon: Mündung sitzt vorn an der Waffe (0.22, -0.21, -0.94)
 PASS: graviton_cannon: Mündung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.078)
 PASS: deagle: zu wenig Geld verhindert den Kauf
@@ -298,7 +258,7 @@ PASS: graviton_cannon + quick_action: Mod verändert nur vorhandene Felder
 PASS: graviton_cannon + quick_action: Magazin bleibt >= 1
 PASS: graviton_cannon + titan_core: Mod verändert nur vorhandene Felder
 PASS: graviton_cannon + titan_core: Magazin bleibt >= 1
-NEW_WEAPONS_DONE checks=254 failures=8
+NEW_WEAPONS_DONE checks=254 failures=0
 ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
 WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
    at: cleanup (core/object/object.cpp:2536)
