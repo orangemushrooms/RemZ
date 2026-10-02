@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 7 # Hold-to-revive, hunting/brewing and the shared shooting house.
-const BUILD := "remz-dev-20261002-weapon-field-polish"
+const BUILD := "remz-dev-20261002-rain-extinguish"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.

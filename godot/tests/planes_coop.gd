@@ -64,7 +64,7 @@ func run() -> void:
 		var enemy: Zombie = game.create_enemy("shambler",game.player.position+Vector3(12,0,0),1)
 		enemy.set_physics_process(false)
 		game.day_night.set_time_hours(23)
-		game.weather.force("rain")
+		game.weather.force("clear")
 		var fires = game.cornfield.fires
 		fires.set_process(false)
 		var cell: Vector2i = fires.wheat.keys()[fires.wheat.size() / 2]
@@ -73,6 +73,13 @@ func run() -> void:
 		signal_file("state")
 		await wait_file("client-state")
 		check(NetSession.world.actors.size()==2,"Host retains the connected teammate")
+		var charred: int = fires.burned.size()
+		game.weather.force("rain")
+		while not game.weather.is_raining(): await process_frame
+		fires._process(0.25)
+		check(fires.active.is_empty() and fires.burned.size() == charred, "Rain extinguishes host fire without restoring wheat")
+		signal_file("rain-state")
+		await wait_file("client-rain-state")
 		fires.reset_run()
 		await host_economy()
 		signal_file("done")
@@ -81,7 +88,7 @@ func run() -> void:
 		await wait_file("state")
 		await create_timer(2).timeout
 		check(game.waves.wave==1 and game.alive_zombies()==1,"Client receives wave and zombie state")
-		check(game.day_night.is_night() and game.weather.state=="rain","Client receives day-night and weather state")
+		check(game.day_night.is_night() and game.weather.state=="clear","Client receives day-night and weather state")
 		var fires = game.cornfield.fires
 		check(not fires.active.is_empty() and not fires.burned.is_empty(), "Client receives active fire and charred wheat from host")
 		var fire_count: int = fires.burned.size()
@@ -91,6 +98,10 @@ func run() -> void:
 				break
 		check(fires.burned.size() == fire_count, "Client cannot ignite unauthorised local wheat fire")
 		signal_file("client-state")
+		await wait_file("rain-state")
+		await create_timer(1.0).timeout
+		check(game.weather.state == "rain" and fires.active.is_empty() and fires.burned.size() == fire_count and fires.effects.all(func(effect): return not effect.emitting), "Client receives rain-extinguished fire and retains charred wheat")
+		signal_file("client-rain-state")
 		await client_economy()
 		await wait_file("done")
 		signal_file("client-done")

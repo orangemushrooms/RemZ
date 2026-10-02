@@ -5,9 +5,10 @@
 - Every map uses the shared red weapon-stat bars. Scales are fixed across weapons; exact numbers remain visible above the bar limits. Shotgun damage is the sum of all pellets, and reload speed is the inverse of reload duration. Melee rows omit magazine and reload.
 - The shared mod menu has separate scrolling weapon and attachment panes, explicit selection highlighting, compatible mods grouped by slot, and before/after numeric previews. Every owned firearm can be modified without equipping it. Planes initial selection and refresh signatures now include mod state.
 - Grenade explosions and authoritative flare impacts ignite actual planted wheat cells. Sixteen pooled emitters, 4 m cells and four simulation ticks per second bound the work. No crop physics or individual stalk nodes are created. Existing fire status applies 12 damage per second to zombies and attributes kills to the igniting player. Burning cells last 10 seconds and spread locally; spent cells stay charred until the next run. Host snapshots include active fires and charred cells for late joiners. Construction data supplies the cell index even on headless hosts.
+- Rain and thunderstorms extinguish wheat fires once the existing weather system reports actual rain. The host clears burning cells on the next fire tick, stops spreading/damage application and replicates the extinguished state. Charred wheat stays spent; grenades and flares cannot ignite new wheat during rain. Fog alone does not extinguish fire, and fresh wheat can ignite after rain ends.
 - The barricade requirement displays just the next required wave (3 or 8). The Schützenhaus key no longer fails its initial probability roll; a deterministic fallback repeats the valid-ground/trunk checks. Its label is visible at 32 m, and its map marker appears within 45 m while uncollected.
 
-## Validation
+## Initial release validation
 
 Godot 4.7.2, Windows, RTX 3060 Ti. All suites passed:
 
@@ -39,3 +40,9 @@ $env:APPDATA = Join-Path (Get-Location) '.test-user'
 ```
 
 Add `--forest` to exercise Forest. Omit `--headless` to capture menus and fire visuals. Use `--suite=grip_gallery` with a renderer to regenerate the weapon inspection images. `tools/export_packed_tests.py` exports the same suites against the Windows release template, separate from the normal distributable.
+
+## Rain follow-up validation
+
+`weapon_field_polish` passed 72 checks in both the headless source run and the rendered Windows release test harness. Added checks cover rain and storm extinguishing, stopped emitters, retained charred cells and snapshots, blocked grenade/flare ignition, no new field burn damage to passing zombies, renewed ignition after rain ends, and fog leaving fire intact.
+
+The two-process Planes co-op suite passed 33 host and 29 client checks, including live extinguishing replication and rematch. The normal Windows release reached `PLANES_READY` and exited with code 0. Logs: `artifacts/rain-extinguish/` and `artifacts/planes-coop/`. Export and final test runs had no script errors; the same sandbox certificate-store warning remains. Current network build identifier: `remz-dev-20261002-rain-extinguish`.

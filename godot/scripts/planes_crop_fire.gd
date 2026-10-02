@@ -48,6 +48,7 @@ func cell_at(pos: Vector3) -> Vector2i:
 
 func ignite(pos: Vector3, radius: float, peer: int, weapon: String) -> void:
 	if NetSession.is_client() or not game.survival_active: return
+	if game.weather and game.weather.is_raining(): return
 	if absf(pos.y - Map.ground_height(pos.x, pos.z)) > radius + 1.5: return
 	var center := cell_at(pos)
 	var reach := ceili(radius / CELL)
@@ -73,6 +74,9 @@ func _process(delta: float) -> void:
 	var elapsed := clock
 	clock = 0.0
 	if not NetSession.is_client():
+		# Rain and thunderstorms put out the fire without restoring spent wheat.
+		# The host replicates the empty active set; clients keep the same charred mask.
+		if game.weather and game.weather.is_raining(): active.clear()
 		for cell: Vector2i in active.keys():
 			var fire: Dictionary = active[cell]
 			fire.age += elapsed

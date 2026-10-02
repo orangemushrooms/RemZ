@@ -46,6 +46,7 @@ func run() -> void:
 	game.waves.set_process(false)
 	game.player.set_physics_process(false)
 	game.weapons.set_process(false)
+	game.weather.force("clear")
 	game.day_night.set_time_hours(11.0)
 	var boot := BootScreen.find(self)
 	if boot: boot.hide()
@@ -184,6 +185,52 @@ func run() -> void:
 	game.add_child(flare)
 	flare._impact(point, null)
 	check(not fires.active.is_empty(), "Flare projectile impact ignites wheat through combat hook")
+	# Actual weather transitions must extinguish existing fires, preserve the
+	# spent-fuel mask, and block both combat ignition hooks until rain stops.
+	for weather_state in ["rain", "storm"]:
+		fires.reset_run()
+		game.weather.force("clear")
+		fires.ignite(point, 3.5, 1, "flare_pistol")
+		fires._process(0.25)
+		var charred: int = fires.burned.size()
+		game.weather.force(weather_state)
+		game.weather._process(Weather.FADE_SECONDS)
+		fires._process(0.25)
+		check(game.weather.is_raining() and fires.active.is_empty(), weather_state + " extinguishes the field fire")
+		check(fires.burned.size() == charred and fires.mask.get_pixelv(cell).r > 0.9, weather_state + " preserves charred wheat")
+		check(fires.effects.all(func(effect): return not effect.emitting), weather_state + " stops every fire emitter")
+		var extinguished: Dictionary = fires.snapshot()
+		fires.reset_run()
+		fires.apply_snapshot(extinguished)
+		check(fires.active.is_empty() and fires.burned.size() == charred, weather_state + " snapshot keeps the fire extinguished for joining players")
+		fires.reset_run()
+		var wet_grenade := Grenade.new()
+		game.add_child(wet_grenade)
+		wet_grenade.zombies_root = game.zombies_root
+		wet_grenade.position = point
+		wet_grenade._explode()
+		var wet_flare := WeaponSpecials.Flare.new()
+		wet_flare.specials = w.specials
+		wet_flare.authoritative = true
+		wet_flare.owner_peer = game.player.peer_id
+		game.add_child(wet_flare)
+		wet_flare._impact(point, null)
+		check(fires.active.is_empty() and fires.burned.is_empty(), weather_state + " blocks both grenade and flare ignition")
+		var wet_enemy: Zombie = game.create_enemy("shambler", point, 1)
+		wet_enemy.set_physics_process(false)
+		var wet_hp := wet_enemy.hp
+		fires._process(0.25)
+		game.progression.rare_market.tick_statuses(1.0)
+		check(wet_enemy.hp == wet_hp and not wet_enemy.rare_status.contains("fire"), weather_state + " prevents field fire damage to a passing zombie")
+		game.weather.force("clear")
+		fires.ignite(point, 3.5, 1, "flare_pistol")
+		check(not fires.active.is_empty(), "Fresh wheat can burn again after " + weather_state + " ends")
+	game.weather.force("fog")
+	game.weather._process(Weather.FADE_SECONDS)
+	fires._process(0.25)
+	check(not fires.active.is_empty(), "Fog alone does not extinguish field fires")
+	game.weather.force("clear")
 	fires.reset_run()
 	check(fires.burned.is_empty() and fires.active.is_empty() and fires.effects.all(func(effect): return not effect.emitting), "New run clears fire, charred mask and emitters")
+	for i in 3: await process_frame
 	finish()
