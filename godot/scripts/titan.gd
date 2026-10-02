@@ -560,7 +560,7 @@ func _physics_process(delta: float) -> void:
 		agent.target_position = destination
 	var next := agent.get_next_path_position() - global_position
 	next.y = 0
-	var speed: float = type.speed * minf(speed_mul, 1.35) * frost_mul * (1.25 if rage else 1.0) * horde_pace * (CRAWL_SPEED if crawling else 1.0)
+	var speed: float = type.speed * minf(speed_mul, 1.35) * frost_mul * (1.25 if rage else 1.0) * horde_pace * (CRAWL_SPEED if crawling else 1.0) * (0.5 if tether_t > 0.0 else 1.0)
 	agent.max_speed = speed
 	agent.velocity = next.normalized() * speed
 	if not is_on_floor(): velocity.y -= 20 * delta

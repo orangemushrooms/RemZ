@@ -138,7 +138,7 @@ func _build_menu() -> void:
 	list.add_theme_constant_override("separation",12)
 	scroll.add_child(list)
 	var title := Label.new()
-	title.text = "TOWER BUILDING · up to 20 towers per team"
+	title.text = "TOWER BUILDING · up to 40 towers per team"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	list.add_child(title)
 	site_picker = OptionButton.new()
@@ -301,9 +301,13 @@ func placement_error(p: Player, point: Vector3, kind := "standard", planner := f
 	if ignore_id == 0:
 		var requirement := build_requirement(p, kind)
 		if not requirement.is_empty(): return requirement
+	if kind == "supply" and ignore_id == 0:
+		for other: DefenceTower in towers.values():
+			if is_instance_valid(other) and other.kind == "supply" and other.hp > 0.0: return "Only one supply post per team."
 	var socket := roof_index(point)
 	if socket >= 0:
 		if ignore_id != 0: return "Roof slots take new turrets only."
+		if kind in DefenceTower.ROOF_BANNED: return "Roof slots take gun turrets and lamps only."
 		# from the planner the roof is reachable from anywhere within its reach, the hut must still stand
 		var planner_roof: bool = planner and game.hut and not game.hut.destroyed and p.global_position.distance_to(game.hut.center) <= TowerPlanner.PLANNER_REACH
 		if not roof_access(p) and not planner_roof: return "Move to the forest hut to build on its roof."
@@ -715,7 +719,7 @@ func _process(delta: float) -> void:
 	var aiming := can_control and Input.is_action_pressed("aim")
 	if mounted:
 		_tower_ads = lerpf(_tower_ads, 1.0 if aiming else 0.0, 1.0 - exp(-delta * 12.0)) if can_control else 0.0
-		game.player.camera.fov = lerpf(75.0, TOWER_AIM_FOV, _tower_ads)
+		game.player.camera.fov = lerpf(75.0, mounted.aim_fov(), _tower_ads)
 	elif _was_mounted:
 		_tower_ads = 0.0
 		game.player.camera.fov = 75.0
@@ -818,7 +822,7 @@ func snapshot() -> Dictionary:
 	for id in towers:
 		var tower: DefenceTower = towers[id]
 		if not is_instance_valid(tower) or tower.is_queued_for_deletion(): continue
-		data[id] = [tower.global_position, tower.owner_peer, tower.level, tower.hp, tower.aim_yaw, tower.aim_pitch, tower.shots, tower.last_impact, tower.heat, tower.rotation.y,tower.kind,tower.operator_peer,tower.overheated,tower.chain_points,tower.aiming]
+		data[id] = [tower.global_position, tower.owner_peer, tower.level, tower.hp, tower.aim_yaw, tower.aim_pitch, tower.shots, tower.last_impact, tower.heat, tower.rotation.y,tower.kind,tower.operator_peer,tower.overheated,tower.chain_points,tower.aiming,tower.tether_end,tower.active_t,tower.tether_t]
 	return data
 
 func apply_snapshot(data: Dictionary, initial: bool) -> void:
@@ -846,6 +850,10 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		tower.overheated = bool(state[12]) if state.size()>12 else false
 		tower.chain_points = state[13] if state.size()>13 else PackedVector3Array()
 		tower.aiming = bool(state[14]) if state.size()>14 else false
+		if state.size() > 17:
+			tower.tether_end = state[15]
+			tower.active_t = float(state[16])
+			tower.tether_t = float(state[17])
 		if state[6] > tower.shots and not initial and not fresh: tower.show_shot()
 		tower.shots = state[6]
 		tower.refresh()

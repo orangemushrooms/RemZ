@@ -418,8 +418,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.physical_keycode in [KEY_MINUS, KEY_KP_SUBTRACT]:
 			overview.size = clampf(overview.size * 1.25, VIEW_MIN, VIEW_MAX)
 			get_viewport().set_input_as_handled()
-		elif event.physical_keycode >= KEY_1 and event.physical_keycode <= KEY_5:
-			var index: int = event.physical_keycode - KEY_1
+		elif event.physical_keycode >= KEY_0 and event.physical_keycode <= KEY_9:
+			var index: int = 9 if event.physical_keycode == KEY_0 else event.physical_keycode - KEY_1
 			if index < DefenceTower.TYPES.size(): select_kind(DefenceTower.TYPES[index])
 			get_viewport().set_input_as_handled()
 

@@ -45,8 +45,12 @@ static func cloud(mode: int, amount: int, lifetime: float, size: Vector2, burst:
 	p.scale_amount_curve = growth
 	return p
 
+var ring: MeshInstance3D
+var _ring_age := 10.0
+var _ring_radius := 12.0
+
 func _ready() -> void:
-	if kind == "flame":
+	if kind in ["flame", "frost"]:
 		# Crossed, subdivided ribbons form a continuous turbulent jet. Sparse wisps break up its tip.
 		var mesh := ImmediateMesh.new()
 		mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -60,7 +64,7 @@ func _ready() -> void:
 					mesh.surface_add_vertex(side * (uv.x * 2 - 1) + Vector3(0, 0, -uv.y))
 		mesh.surface_end()
 		_stream_material = ShaderMaterial.new()
-		_stream_material.shader = preload("res://shaders/tower_flame_jet.gdshader")
+		_stream_material.shader = preload("res://shaders/tower_frost_jet.gdshader") if kind == "frost" else preload("res://shaders/tower_flame_jet.gdshader")
 		stream = MeshInstance3D.new()
 		stream.mesh = mesh
 		stream.material_override = _stream_material
@@ -68,22 +72,39 @@ func _ready() -> void:
 		stream.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		stream.hide()
 		add_child(stream)
-		jet = cloud(0, 40, 0.5, Vector2(0.5, 0.9), false)
+		jet = cloud(3 if kind == "frost" else 0, 40, 0.5, Vector2(0.5, 0.9), false)
 		jet.spread = 11
 		jet.initial_velocity_min = 26
 		jet.initial_velocity_max = 28
-		jet.gravity = Vector3(0, 0.9, 0)
+		jet.gravity = Vector3(0, 0.9, 0) if kind == "flame" else Vector3(0, -1.2, 0)
 		jet.scale_amount_min = 0.18
 		jet.scale_amount_max = 0.35
-		jet.color = Color(1, 0.7, 0.5, 0.3)
+		jet.color = Color(1, 0.7, 0.5, 0.3) if kind == "flame" else Color(0.75, 0.9, 1.0, 0.35)
 		add_child(jet)
-	flare = cloud(2, 5 if kind != "mortar" else 12, 0.055 if kind != "mortar" else 0.14, Vector2(0.5, 0.5), true)
+	if kind == "supply":
+		var torus := TorusMesh.new()
+		torus.inner_radius = 0.9
+		torus.outer_radius = 1.0
+		torus.rings = 48
+		torus.ring_segments = 8
+		ring = MeshInstance3D.new()
+		ring.mesh = torus
+		var mat := StandardMaterial3D.new()
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		mat.albedo_color = Color(0.45, 1.0, 0.55, 0.6)
+		ring.material_override = mat
+		ring.top_level = true
+		ring.visible = false
+		ring.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(ring)
+	flare = cloud(2, 5 if kind not in ["mortar", "rocket"] else 12, 0.055 if kind not in ["mortar", "rocket"] else 0.14, Vector2(0.5, 0.5), true)
 	flare.spread = 12
 	flare.initial_velocity_min = 2
 	flare.initial_velocity_max = 7
 	flare.gravity = Vector3.ZERO
 	add_child(flare)
-	puff = cloud(1, 7 if kind != "mortar" else 20, 0.65, Vector2(0.6, 0.6), true)
+	puff = cloud(1, 7 if kind not in ["mortar", "rocket"] else 20, 0.65 if kind != "rocket" else 1.4, Vector2(0.6, 0.6) if kind != "rocket" else Vector2(1.1, 1.1), true)
 	puff.spread = 24
 	puff.initial_velocity_min = 0.6
 	puff.initial_velocity_max = 2.0
@@ -94,7 +115,7 @@ func _ready() -> void:
 		puff.explosiveness = 0
 		puff.amount = 12
 	add_child(puff)
-	if kind in ["standard", "mg42"]:
+	if kind in ["standard", "mg42", "sniper"]:
 		cases = CPUParticles3D.new()
 		cases.emitting = false
 		cases.one_shot = false
@@ -128,7 +149,7 @@ func fire(distance: float) -> void:
 		jet.lifetime = clampf(distance / 28.0, 0.04, 1.8)
 		remaining = 0.20
 		jet.emitting = true
-	elif kind != "tesla":
+	elif kind not in ["tesla", "graviton", "searchlight", "siren", "supply"]:
 		flare.restart()
 		flare.emitting = true
 		if puff.one_shot: puff.restart()
@@ -136,8 +157,23 @@ func fire(distance: float) -> void:
 	if cases:
 		cases.emitting = true
 
+# The supply post's tick: a ring that runs out to the post's reach and fades.
+func pulse(reach: float) -> void:
+	if not ring: return
+	_ring_age = 0.0
+	_ring_radius = reach
+	ring.global_position = global_position
+	ring.visible = true
+
 func _process(delta: float) -> void:
 	remaining = maxf(0, remaining - delta)
+	if ring and ring.visible:
+		_ring_age += delta
+		var t := _ring_age / 0.9
+		if t >= 1.0: ring.visible = false
+		else:
+			ring.scale = Vector3.ONE * maxf(0.05, _ring_radius * t)
+			(ring.material_override as StandardMaterial3D).albedo_color.a = 0.6 * (1.0 - t)
 	if stream:
 		_flow_age += delta
 		_flow_strength = move_toward(_flow_strength, 1.0 if remaining > 0 else 0.0, delta * 9)

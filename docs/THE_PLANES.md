@@ -91,6 +91,9 @@ Advanced weapons retain wave gates but do not require Forest quest completion.
 The six class weapons of 30 Sep 2026 (SIG P226, Nighthawk .45, AR-15, Tommy gun, SPAS-12,
 sawed-off) come through the same `Progression.GOODS` table, so they are on sale here at the
 Vendor from waves 1-4 at Forest prices; `--suite=class_weapons` covers the catalogue.
+The thirteen tower kinds (the eight of 2 Oct 2026 included) come from `DefenceTower.SPECS` with the
+same prices and wave unlocks as in the Forest; only the roof slots do not exist here, so the siren and
+the supply post stand on the ground like everything else.
 
 Waves use difficulty-scaled counts of 10 + 4 × wave, increasingly mixed enemies
 and brutes every fifth wave. Initial preparation lasts 90 seconds, breaks 60;

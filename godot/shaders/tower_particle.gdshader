@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode unshaded, blend_mix, depth_draw_never, cull_disabled;
 
-uniform int mode = 0; // fire, smoke, muzzle flash
+uniform int mode = 0; // fire, smoke, muzzle flash, frost (3)
 varying vec4 tint;
 varying float seed;
 
@@ -31,7 +31,7 @@ void fragment() {
 			float rays = pow(abs(cos(atan(p.y, p.x) * 3.0 + seed)), 12.0);
 			mask *= 0.35 + rays * 0.65;
 		}
-		vec3 hot = mix(vec3(0.95, 0.13, 0.015), vec3(1.0, 0.82, 0.39), smoothstep(0.25, 0.8, envelope * n));
+		vec3 hot = mode == 3 ? mix(vec3(0.35, 0.6, 1.0), vec3(0.9, 0.97, 1.0), smoothstep(0.25, 0.8, envelope * n)) : mix(vec3(0.95, 0.13, 0.015), vec3(1.0, 0.82, 0.39), smoothstep(0.25, 0.8, envelope * n));
 		ALBEDO = hot * tint.rgb;
 		EMISSION = hot * tint.rgb * (mode == 2 ? 3.0 : 1.6);
 		ALPHA = mask * tint.a;

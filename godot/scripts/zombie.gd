@@ -78,6 +78,12 @@ var dead_t := 0.0
 var speed_mul := 1.0
 var frost_mul := 1.0
 var class_slow_time := 0.0
+# The towers of 2 Oct 2026: a searchlight resting on the body (every tower hits it harder), the harpoon's
+# rope (half pace), the decoy siren this body answers to for a while (host only; replicas never decide).
+var spot_mark_t := 0.0
+var tether_t := 0.0
+var lure_tower: Node3D
+var lure_t := 0.0
 var _class_unseen := false
 var rare_status := ""
 var _rare_marker: Label3D
@@ -659,6 +665,14 @@ const CLOAK_RANGE := 30.0
 func _lit_by_flashlight() -> bool:
 	var actors: Array = NetSession.world.actors.values() if NetSession.enabled and NetSession.world else [player]
 	var centre := global_position + Vector3.UP * height * 0.5
+	# A searchlight tower's beam lights a stalker exactly like a hand lamp does (tower_beam group).
+	for node in get_tree().get_nodes_in_group("searchlights"):
+		var lamp := node as SpotLight3D
+		if lamp == null or not lamp.is_inside_tree() or lamp.light_energy < 0.5: continue
+		var offset: Vector3 = centre - lamp.global_position
+		var span: float = offset.length()
+		if span > lamp.spot_range or span < 0.01: continue
+		if (-lamp.global_basis.z).normalized().dot(offset / span) >= cos(deg_to_rad(lamp.spot_angle) + 0.02): return true
 	for actor in actors:
 		if not is_instance_valid(actor) or not (actor is Player) or not actor.flashlight or not actor.flashlight.visible: continue
 		var light: SpotLight3D = actor.flashlight
@@ -1432,7 +1446,7 @@ func _physics_process(delta: float) -> void:
 		_decision_target = _choose_defence(p, player_priority)
 		_decision_time = 0.16 + float(appearance_seed % 7) * 0.01
 		bar = _decision_target
-	if player_priority and not bar is AttackDrone: bar = null
+	if player_priority and not bar is AttackDrone and not (lure_t > 0.0 and bar == lure_tower): bar = null
 	var target: Vector3 = bar.attack_point(p) if bar else player.global_position
 	if _class_unseen and not bar and is_instance_valid(hut) and hut.hp > 0:
 		target = hut.attack_point(p)
@@ -1504,7 +1518,7 @@ func _physics_process(delta: float) -> void:
 			if hunting and bar == null and not _class_unseen and _can_hit(null):
 				# An open approach must not stall at an obsolete or finished path.
 				mv = to_player
-			var sp: float = type["speed"] * speed_mul * frost_mul * horde_pace * (0.85 if class_slow_time > 0.0 else 1.0)
+			var sp: float = type["speed"] * speed_mul * frost_mul * horde_pace * (0.85 if class_slow_time > 0.0 else 1.0) * (0.5 if tether_t > 0.0 else 1.0)
 			var want: Vector3 = mv.normalized() * sp if mv.length() > 0.05 else Vector3.ZERO
 			if agent.avoidance_enabled:
 				agent.set_velocity(want)
@@ -1586,6 +1600,11 @@ func _call_horde() -> void:
 # Reconsider strategic targets at staggered intervals. Movement, animation,
 # hit timing, range checks and damage still run every physics tick.
 func _choose_defence(p: Vector3, player_priority: bool) -> Node3D:
+	# A decoy siren overrides every other target while its lure lasts: the body walks to the siren and
+	# beats on it (the tower takes damage like any other and ends the lure when it falls).
+	if lure_t > 0.0 and is_instance_valid(lure_tower) and lure_tower.hp > 0.0 and not lure_tower.rooftop:
+		siege_target = lure_tower
+		return lure_tower
 	var to_player := player.global_position - p
 	to_player.y = 0.0
 	# Commit to a breach: steering sideways must not cancel a defence target.
@@ -1678,6 +1697,13 @@ func class_concealed(candidate: Player) -> bool:
 
 func _nearby_player_priority(delta: float) -> bool:
 	class_slow_time = maxf(0.0, class_slow_time - delta)
+	spot_mark_t = maxf(0.0, spot_mark_t - delta)
+	tether_t = maxf(0.0, tether_t - delta)
+	if lure_t > 0.0:
+		lure_t -= delta
+		if lure_t <= 0.0 or not is_instance_valid(lure_tower) or lure_tower.hp <= 0.0:
+			lure_t = 0.0
+			lure_tower = null
 	_aggro_check -= delta
 	if _aggro_check <= 0.0 or (is_instance_valid(_aggro_target) and not _aggro_target.alive):
 		_aggro_check = 0.2

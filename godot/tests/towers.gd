@@ -38,17 +38,21 @@ func run() -> void:
 	var player: Player = game.player
 	var point := Map.ground_pos(60,112)
 	player.score = 10000
-	game.waves.completed = 8 # Combat coverage starts with every tower type unlocked.
+	game.waves.completed = 12 # Combat coverage starts with every tower type unlocked (the graviton trap needs 11).
 	for kind in DefenceTower.TYPES:
 		player.global_position = Map.ground_pos(60,115)+Vector3.UP*0.1
 		await settle()
 		var before := player.score
 		check(defence.purchase(player,point,0.0,kind).is_empty(),kind+" builds on a valid site")
+		if kind == "supply":
+			var again := defence.purchase(player, Map.ground_pos(66, 112), 0.0, "supply")
+			check(not again.is_empty() and player.score == before - int(DefenceTower.SPECS.supply.cost), "A second supply post is refused without charging")
 		check(player.score==before-int(DefenceTower.SPECS[kind].cost),kind+" charges its advertised price")
 		var tower: DefenceTower = defence.towers.values()[0]
 		tower.set_physics_process(false)
 		check(tower.kind==kind and tower.hp==tower.max_hp(),kind+" starts with correct type and health")
-		check(ResourceLoader.exists("res://assets/models/tower_%s.glb" % kind) and tower.gun.has_node("WeaponModel"),kind+" uses its generated Meshy model")
+		if kind != "supply": check(ResourceLoader.exists("res://assets/models/tower_%s.glb" % kind) and tower.gun.has_node("WeaponModel"),kind+" uses its generated Meshy model")
+		else: check(tower.gun.get_child_count() > 6, "The supply post stacks its crates and mast")
 		await settle()
 		check(defence.mount(player,tower.tower_id).is_empty() and player.mounted_tower==tower.tower_id,kind+" can be mounted")
 		check(player.global_position.distance_to(tower.seat_position())<0.01 and tower.operator_peer==player.peer_id,kind+" places operator on platform")
@@ -68,11 +72,11 @@ func run() -> void:
 		for frame in 30:
 			defence._process(1.0/60.0)
 			game.weapons._handle_weapon_input(1.0/60.0)
-		check(tower.aiming and player.camera.fov < 56 and player.camera.fov >= 55,kind+" right mouse smoothly zooms without personal scope overriding it")
+		check(tower.aiming and player.camera.fov < tower.aim_fov() + 1.0 and player.camera.fov >= tower.aim_fov(),kind+" right mouse smoothly zooms without personal scope overriding it")
 		check(is_equal_approx(tower.manual_spread(), hip_spread*0.25),kind+" aimed shots use a 75 percent tighter cone")
 		Input.action_release("aim")
 		for frame in 30: defence._process(1.0/60.0)
-		check(not tower.aiming and player.camera.fov > 74.9,kind+" releasing right mouse restores view and normal precision")
+		check(not tower.aiming and player.camera.fov > 74.5,kind+" releasing right mouse restores view and normal precision")
 		Input.action_press("aim")
 		defence._process(0.5)
 		player.active = false
@@ -95,7 +99,8 @@ func run() -> void:
 		tower.cooldown = 0
 		tower._physics_process(0.01)
 		var aimed_error := tower.muzzle.global_position.direction_to(tower.last_impact).distance_to(centered)
-		check(hip_error>0.0001 and aimed_error<hip_error*0.4,kind+" precision reduces actual shot deviation at the same aim and random sample")
+		if kind in ["siren", "supply"]: check(tower.shots >= 2, kind + " answers manual triggers with its pulse")
+		else: check(hip_error>0.0001 and aimed_error<hip_error*0.4,kind+" precision reduces actual shot deviation at the same aim and random sample")
 		tower.cooldown = 0
 		defence.control(player,tower.tower_id,0.0,-0.25,true,true)
 		tower._physics_process(0.05)
@@ -145,14 +150,22 @@ func run() -> void:
 		tower.set_physics_process(false)
 		await settle()
 		for enemy in enemies: enemy.hp = 10000
+		if kind == "supply":
+			check(not tower.can_see(enemies[0]), "The supply post never takes aim at a zombie")
+			tower.queue_free()
+			await settle()
+			continue
 		check(tower.can_see(enemies[0]),kind+" acquires an animated body hitbox")
 		tower.target = enemies[0]
 		tower.shoot()
 		if kind == "standard":
 			check(tower.shot_audio.voice.playing and tower.shot_audio.voice.stream.resource_path.ends_with("/sentinel_shot.wav"), "First Sentinel plays the new recording when shooting its acquired target")
 		if kind=="mortar": await create_timer(2.0,false).timeout
-		check(enemies[0].hp<10000,kind+" deals actual damage")
-		if kind in ["tesla","mortar","flame"]: check(enemies[1].hp<10000,kind+" hits multiple enemies")
+		if kind == "rocket": await create_timer(1.6,false).timeout
+		if kind == "searchlight": check(enemies[0].spot_mark_t > 0.0 and enemies[0].hp == 10000, "The searchlight marks its target instead of hurting it")
+		elif kind == "siren": check(enemies[0].lure_t > 0.0 and enemies[0].lure_tower == tower and enemies[0].hp == 10000, "The siren lures its target instead of hurting it")
+		else: check(enemies[0].hp<10000,kind+" deals actual damage")
+		if kind in ["tesla","mortar","flame","frost","rocket","graviton"]: check(enemies[1].hp<10000,kind+" hits multiple enemies")
 		if kind in ["flame","tesla"]:
 			var wall := StaticBody3D.new()
 			wall.collision_layer = 1

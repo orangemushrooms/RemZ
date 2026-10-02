@@ -34,7 +34,7 @@ func run() -> void:
 	var hut_transform: Transform3D = game.hut.body.get_parent().global_transform
 	d.begin_building()
 	check(d.is_open and d.roof_slot == 0 and d.site_picker.item_count == 7, "Hut menu offers ground and six roof sockets")
-	check(d.kind_buttons.size() == 5, "All five Meshy weapon types are offered")
+	check(d.kind_buttons.size() == DefenceTower.TYPES.size(), "Every tower type is offered (%d)" % d.kind_buttons.size())
 	d.select_kind("standard")
 	check(d.placing and not d.is_open and d.ghost.get_child(0).rooftop, "Selecting a roof weapon starts compact preview")
 	check(p.camera.global_basis.z.dot(p.camera.global_position.direction_to(d.roof_position(0) + Vector3.UP * 0.65)) < -0.99, "Selecting roof socket turns view toward preview")
@@ -42,8 +42,10 @@ func run() -> void:
 	check(d.build_position.is_equal_approx(d.roof_position(0)) and d.build_error.is_empty(), "Roof preview snaps to socket and validates")
 	d.close()
 	var near: Vector3 = p.global_position
+	# five roof-capable kinds on five sockets (the siren and the supply post stay on the ground)
+	var roof_kinds: Array = ["standard", "searchlight", "flame", "mortar", "sniper"]
 	for i in 5:
-		var kind: String = DefenceTower.TYPES[i]
+		var kind: String = roof_kinds[i]
 		var point := d.roof_position(i)
 		var before := p.score
 		check(d.purchase(p, point, 0, kind).is_empty(), kind + " builds on roof")
@@ -128,16 +130,22 @@ func run() -> void:
 	enemy.set_physics_process(false)
 	enemy.agent.avoidance_enabled = false
 	for kind in DefenceTower.TYPES:
+		if kind in DefenceTower.ROOF_BANNED:
+			check(not d.purchase(p, d.roof_position(2), 0, kind).is_empty(), kind + " is refused on the roof")
+			continue
 		var t := d.create_tower(point,p.peer_id,0,false,kind)
 		t.rotation.y = yaw
 		t.set_physics_process(false)
 		enemy.hp = 10000
+		enemy.spot_mark_t = 0.0
 		await settle()
 		check(t.can_see(enemy),kind + " sees actual ground enemy from roof")
 		for frame in 180: t._physics_process(1.0 / 60.0)
 		check(t.shots > 0,kind + " automatically acquires, aims and fires from roof")
 		if kind == "mortar": await create_timer(2.0,false).timeout
-		check(enemy.hp < 10000,kind + " roof weapon damages actual ground enemy")
+		if kind == "rocket": await create_timer(1.6,false).timeout
+		if kind == "searchlight": check(enemy.spot_mark_t > 0.0, "The roof searchlight marks the ground enemy")
+		else: check(enemy.hp < 10000,kind + " roof weapon damages actual ground enemy")
 		t.queue_free()
 		await settle()
 	# Zombies at the hut wall - the ones raiding it - stay in sight of the sockets above them.

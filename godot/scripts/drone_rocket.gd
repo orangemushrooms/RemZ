@@ -18,6 +18,7 @@ var reach := 90.0
 var damage := 300.0
 var owner_peer := 1
 var kind := "scout"
+var heavy_bonus := 1.0   # a tower's rocket pod hits bosses and the heavy infected harder
 var replica := false
 var game: Node
 var excluded: Array[RID] = []
@@ -107,8 +108,9 @@ func _burst(hit: Dictionary) -> void:
 			if not space.intersect_ray(ray).is_empty(): continue
 		var share := 1.0 if enemy == direct else lerpf(1.0, EDGE, clampf(distance / RADIUS, 0.0, 1.0))
 		enemy.killer_peer = owner_peer
-		enemy.killer_weapon = "drone"
+		enemy.killer_weapon = "tower" if kind == "tower" else "drone"
 		enemy.last_headshot = false
-		enemy.damage(damage * share, (centre - at).normalized())
-		if not enemy.alive and "progression" in game and game.progression: game.progression.record_drone_kill(kind)
+		var bonus: float = heavy_bonus if Zombie.is_boss_kind(str(enemy.net_kind)) or str(enemy.net_kind) in DefenceTower.HEAVY_KINDS else 1.0
+		enemy.damage(damage * share * bonus, (centre - at).normalized())
+		if kind != "tower" and not enemy.alive and "progression" in game and game.progression: game.progression.record_drone_kill(kind)
 	queue_free()

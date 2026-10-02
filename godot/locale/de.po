@@ -595,6 +595,10 @@ msgstr "Teleport"
 msgid "Kestrel Scout"
 msgstr "Kestrel-Aufklärer"
 
+#: scripts/attack_drone.gd scripts/brew_recipes.gd scripts/class_combat.gd scripts/defence_tower.gd
+msgid "damage"
+msgstr "Schaden"
+
 #: scripts/attack_drone.gd
 msgid "Viper Gunship"
 msgstr "Viper-Kampfdrohne"
@@ -927,6 +931,10 @@ msgstr "Wiesentee"
 msgid "+45 health. Kept at full health."
 msgstr "+45 Leben. Bleibt bei voller Gesundheit im Inventar."
 
+#: scripts/brew_recipes.gd scripts/brewing.gd scripts/defence_tower.gd scripts/mushrooms.gd
+msgid "heal"
+msgstr "Heilung"
+
 #: scripts/brew_recipes.gd
 msgid "Roseguard Tonic"
 msgstr "Rosenschild-Tonikum"
@@ -938,6 +946,10 @@ msgstr "+20 Leben; 45 s lang 20% weniger erlittener Schaden"
 #: scripts/brew_recipes.gd
 msgid "Damage taken -20%"
 msgstr "Erlittener Schaden -20%"
+
+#: scripts/brew_recipes.gd scripts/defence_tower.gd scripts/mushrooms.gd
+msgid "effect"
+msgstr "Wirkung"
 
 #: scripts/brew_recipes.gd
 msgid "Meadow Runner"
@@ -2568,8 +2580,8 @@ msgid "Night"
 msgstr "Nacht"
 
 #: scripts/defence_system.gd
-msgid "TOWER BUILDING · up to 20 towers per team"
-msgstr "TURMBAU · maximal 20 Türme im Team"
+msgid "TOWER BUILDING · up to 40 towers per team"
+msgstr "TURMBAU · bis zu 40 Türme pro Team"
 
 #: scripts/defence_system.gd
 msgid "Ground placement"
@@ -2656,8 +2668,16 @@ msgid "Building not possible right now."
 msgstr "Bauen momentan nicht möglich."
 
 #: scripts/defence_system.gd
+msgid "Only one supply post per team."
+msgstr "Nur ein Versorgungsposten pro Team."
+
+#: scripts/defence_system.gd
 msgid "Roof slots take new turrets only."
 msgstr "Dachplätze nehmen nur neue Geschütze."
+
+#: scripts/defence_system.gd
+msgid "Roof slots take gun turrets and lamps only."
+msgstr "Dachplätze nehmen nur Geschütze und Lampen auf."
 
 #: scripts/defence_system.gd
 msgid "Choose a building site no more than %d m away."
@@ -2888,12 +2908,80 @@ msgid "Chain lightning jumps to nearby enemies"
 msgstr "Kettenblitz springt auf nahe Gegner über"
 
 #: scripts/defence_tower.gd
+msgid "Searchlight"
+msgstr "Scheinwerfer"
+
+#: scripts/defence_tower.gd
+msgid "Lights up stalkers · lit targets take 15% more from every tower"
+msgstr "Enttarnt Stalker · beleuchtete Ziele nehmen von jedem Turm 15% mehr"
+
+#: scripts/defence_tower.gd
+msgid "Decoy Siren"
+msgstr "Lockvogel-Sirene"
+
+#: scripts/defence_tower.gd
+msgid "Lures every common zombie nearby for 12 s · 45 s recharge"
+msgstr "Lockt jeden gewöhnlichen Zombie in der Nähe 12 s lang an · 45 s Aufladung"
+
+#: scripts/defence_tower.gd
+msgid "Supply Post"
+msgstr "Versorgungsposten"
+
+#: scripts/defence_tower.gd
+msgid "Repairs gates, sandbags and towers nearby · hands out ammo · one per team"
+msgstr "Repariert Tore, Sandsäcke und Türme in der Nähe · verteilt Munition · einer pro Team"
+
+#: scripts/defence_tower.gd
+msgid "Frost Cannon"
+msgstr "Frostkanone"
+
+#: scripts/defence_tower.gd
+msgid "Cone of cold · chills, then freezes solid · frozen targets take 40% more"
+msgstr "Kältekegel · kühlt aus, dann friert es fest · gefrorene Ziele nehmen 40% mehr"
+
+#: scripts/defence_tower.gd
+msgid "Sniper Nest"
+msgstr "Scharfschützennest"
+
+#: scripts/defence_tower.gd
+msgid "One shot every two seconds through up to 3 bodies · head hits"
+msgstr "Ein Schuss alle zwei Sekunden durch bis zu 3 Körper · Kopftreffer"
+
+#: scripts/defence_tower.gd
+msgid "Rocket Pod"
+msgstr "Raketenwerfer"
+
+#: scripts/defence_tower.gd
+msgid "Salvo of four rockets · 5 m blast · 6 s reload · 8 m minimum range"
+msgstr "Salve aus vier Raketen · 5 m Sprengradius · 6 s Nachladen · 8 m Mindestdistanz"
+
+#: scripts/defence_tower.gd
+msgid "Harpoon Launcher"
+msgstr "Harpunenwerfer"
+
+#: scripts/defence_tower.gd
+msgid "Harpoons brutes and titans · tethered giants move at half speed for 6 s"
+msgstr "Harpuniert Brutes und Titanen · angeleinte Riesen laufen 6 s lang halb so schnell"
+
+#: scripts/defence_tower.gd
+msgid "Graviton Trap"
+msgstr "Gravitationsfalle"
+
+#: scripts/defence_tower.gd
+msgid "Implosion drags every zombie within 10 m into a heap · 14 s recharge"
+msgstr "Implosion zieht jeden Zombie im Umkreis von 10 m auf einen Haufen · 14 s Aufladung"
+
+#: scripts/defence_tower.gd
 msgid "Gun turret destroyed!"
 msgstr "Geschützturm zerstört!"
 
 #: scripts/defence_tower.gd
 msgid "%s %s · %d / %d · OCCUPIED"
 msgstr "%s %s · %d / %d · BESETZT"
+
+#: scripts/defence_tower.gd
+msgid "Supply post: ammunition for the %s"
+msgstr "Versorgungsposten: Munition für %s"
 
 #: scripts/door.gd
 msgid "Door"
@@ -3099,7 +3187,7 @@ msgstr "[E] Den verborgenen Stein lesen · %s"
 msgid "%s\nThe stone whispers: bring three flowers, then guard the roots."
 msgstr "%s\nDer Stein flüstert: Bringt drei Blumen und beschützt dann die Wurzeln."
 
-#: scripts/field_trials.gd scripts/fireworks.gd scripts/rare_market.gd scripts/secret_night.gd
+#: scripts/field_trials.gd scripts/fireworks.gd scripts/planes_crop_fire.gd scripts/rare_market.gd
 msgid "active"
 msgstr "aktiv"
 
@@ -5396,8 +5484,8 @@ msgid "Buy a kit at Mechanic first."
 msgstr "Kaufe zuerst einen Bausatz beim Mechanic."
 
 #: scripts/planes_building.gd
-msgid "Survive wave 3 / 8 for stronger fortifications."
-msgstr "Überlebe Welle 3 / 8 für stärkere Befestigungen."
+msgid "Survive wave %d for stronger fortifications."
+msgstr "Überlebe Welle %d für stärkere Befestigungen."
 
 #: scripts/planes_building.gd
 msgid "Fortification upgraded."
@@ -5454,6 +5542,10 @@ msgstr "Vendor"
 #: scripts/planes_minimap.gd scripts/progression.gd
 msgid "Mechanic"
 msgstr "Mechanic"
+
+#: scripts/planes_minimap.gd scripts/planes_range.gd
+msgid "Schützenhaus key"
+msgstr "Schützenhausschlüssel"
 
 #: scripts/planes_minimap.gd
 msgid "Schützenhaus"
@@ -5784,10 +5876,6 @@ msgid "Schützenhaus unlocked."
 msgstr "Schützenhaus aufgeschlossen."
 
 #: scripts/planes_range.gd
-msgid "Schützenhaus key"
-msgstr "Schützenhausschlüssel"
-
-#: scripts/planes_range.gd
 msgid "Ammunition"
 msgstr "Munition"
 
@@ -5932,8 +6020,8 @@ msgid "Service pistol with 15 rounds. Fast, accurate and easy on ammo."
 msgstr "Dienstpistole mit 15 Schuss. Schnell, präzise und sparsam mit Munition."
 
 #: scripts/progression.gd
-msgid "Two barrels of buckshot. Devastating up close, quick to reload, useless at range."
-msgstr "Zwei Läufe Schrot. Verheerend auf kurze Distanz, schnell nachgeladen, auf Entfernung nutzlos."
+msgid "Three shots of buckshot. Devastating up close, quick to reload, useless at range."
+msgstr "Drei Schuss Schrot. Verheerend auf kurze Distanz, schnell nachgeladen, auf Entfernung nutzlos."
 
 #: scripts/progression.gd
 msgid "Custom .45 pistol. Eight hard-hitting rounds with match-grade accuracy."
@@ -5944,8 +6032,8 @@ msgid "Light 5.56 rifle. Full auto, gentle recoil, long reach."
 msgstr "Leichtes 5,56-mm-Gewehr. Vollautomatisch, sanfter Rückstoss, grosse Reichweite."
 
 #: scripts/progression.gd
-msgid "50-round drum of .45 ACP. Full auto, heavy hits at short range."
-msgstr "50-Schuss-Trommel .45 ACP. Vollautomatisch, schwere Treffer auf kurze Distanz."
+msgid "70-round drum of .45 ACP. Full auto, heavy hits at short range."
+msgstr "70-Schuss-Trommel mit .45 ACP. Vollautomatisch, starke Treffer auf kurze Distanz."
 
 #: scripts/progression.gd
 msgid "Semi-automatic combat shotgun with eight shells. Fast follow-up blasts."
@@ -6684,6 +6772,10 @@ msgid "Skins"
 msgstr "Skins"
 
 #: scripts/progression.gd
+msgid "Current stats"
+msgstr "Aktuelle Werte"
+
+#: scripts/progression.gd
 msgid "LIGHTS OVER THE FOREST"
 msgstr "LICHTER ÜBER DEM WALD"
 
@@ -6804,10 +6896,6 @@ msgid "Mechanic offers training, tower upgrades and quests. Weapons and supplies
 msgstr "Mechanic bietet Training, Turmausbauten und Aufträge an. Waffen und Vorräte gibt es bei Vendor am Lagerfeuer."
 
 #: scripts/progression.gd
-msgid "%s\n%d damage × %d · %d rounds · %.1f s reload"
-msgstr "%s\n%d Schaden × %d · %d Schuss · %.1f s Nachladen"
-
-#: scripts/progression.gd
 msgid "%s\n%d damage · %.2f s per swing · %.2f m range"
 msgstr "%s\n%d Schaden · %.2f s pro Schlag · %.2f m Reichweite"
 
@@ -6868,8 +6956,8 @@ msgid "%d/%d HP · %d m range · %d m away"
 msgstr "%d/%d TP · %d m Reichweite · %d m entfernt"
 
 #: scripts/progression.gd
-msgid "Tier %d → %d: damage %d → %d · range %d → %d m · hull %d → %d"
-msgstr "Stufe %d → %d: Schaden %d → %d · Reichweite %d → %d m · Hülle %d → %d"
+msgid "Tier %d → %d: %s %d → %d · range %d → %d m · hull %d → %d"
+msgstr "Stufe %d → %d: %s %d → %d · Reichweite %d → %d m · Hülle %d → %d"
 
 #: scripts/progression.gd
 msgid "%s #%d · Tier %d"
@@ -6912,16 +7000,48 @@ msgid "Switch back to the original material for free."
 msgstr "Kostenlos zum ursprünglichen Material wechseln."
 
 #: scripts/progression.gd
-msgid "Mods apply per weapon for this round. One mod per slot; switch bought mods for free. Ammo sold separately.\nMission level = waves survived + 1."
-msgstr "Mods gelten pro Waffe für diese Runde. Ein Mod je Platz; gekaufte Mods kostenlos wechseln. Munition separat.\nEinsatzlevel = überstandene Wellen + 1."
+msgid "Choose a weapon from your inventory"
+msgstr "Waffe aus deinem Inventar wählen"
 
 #: scripts/progression.gd
-msgid "%d damage × %d · %d rounds · %.2f s reload\n%s"
-msgstr "%d Schaden × %d · %d Schuss · %.2f s Nachladen\n%s"
+msgid "Original equipment"
+msgstr "Originalausstattung"
 
 #: scripts/progression.gd
-msgid "Current stats"
-msgstr "Aktuelle Werte"
+msgid "Remove"
+msgstr "Entfernen"
+
+#: scripts/progression.gd
+msgid "Mounted in this slot"
+msgstr "In diesem Slot montiert"
+
+#: scripts/progression.gd scripts/weapon_mods.gd scripts/weapon_stat_bars.gd
+msgid "Magazine"
+msgstr "Magazin"
+
+#: scripts/progression.gd
+msgid "Reload time"
+msgstr "Nachladezeit"
+
+#: scripts/progression.gd scripts/weapon_stat_bars.gd
+msgid "Range"
+msgstr "Reichweite"
+
+#: scripts/progression.gd scripts/weapon_stat_bars.gd
+msgid "Damage"
+msgstr "Schaden"
+
+#: scripts/progression.gd
+msgid "Spread"
+msgstr "Streuung"
+
+#: scripts/progression.gd
+msgid "Recoil"
+msgstr "Rückstoß"
+
+#: scripts/progression.gd
+msgid "%s: %s → %s"
+msgstr "%s: %s → %s"
 
 #: scripts/progression.gd
 msgid "%s · Level %d"
@@ -6936,12 +7056,8 @@ msgid "Mount"
 msgstr "Montieren"
 
 #: scripts/progression.gd
-msgid "Original equipment"
-msgstr "Originalausstattung"
-
-#: scripts/progression.gd
-msgid "Remove"
-msgstr "Entfernen"
+msgid "Mods apply per weapon for this round. One mod per slot; switch bought mods for free. Ammo sold separately.\nMission level = waves survived + 1."
+msgstr "Mods gelten pro Waffe für diese Runde. Ein Mod je Platz; gekaufte Mods kostenlos wechseln. Munition separat.\nEinsatzlevel = überstandene Wellen + 1."
 
 #: scripts/progression.gd
 msgid "ALL QUESTS DONE\nHold the hut and survive the next wave."
@@ -6984,8 +7100,8 @@ msgid "YOUR DEFENSE · [T] TOWER BUILD MENU\nTake a look at the towers. Only E i
 msgstr "DEINE VERTEIDIGUNG · [T] TURMBAUMENÜ\nSieh dir die Türme an. Erst E in der Vorschau bestätigt einen Kauf."
 
 #: scripts/progression.gd
-msgid "DEFENSE · [T] TOWER BUILD MENU\n5 types from 120 R · E builds / climbs up · Mechanic upgrades."
-msgstr "VERTEIDIGUNG · [T] TURMBAUMENÜ\n5 Typen ab 120 R · E baut / steigt auf · Mechanic baut aus."
+msgid "DEFENSE · [T] TOWER BUILD MENU\n13 types from 120 R · E builds / climbs up · Mechanic upgrades."
+msgstr "VERTEIDIGUNG · [T] TURMBAUMENÜ\n13 Typen ab 120 R · E baut / steigt auf · Mechanic baut aus."
 
 #: scripts/progression.gd
 msgid "AIM YOUR SENTINEL\nPress R at the tower, rotate with R/mouse wheel and confirm with E."
@@ -7812,10 +7928,6 @@ msgid "Muzzle"
 msgstr "Mündung"
 
 #: scripts/weapon_mods.gd
-msgid "Magazine"
-msgstr "Magazin"
-
-#: scripts/weapon_mods.gd
 msgid "Bolt"
 msgstr "Verschluss"
 
@@ -7906,6 +8018,18 @@ msgstr "Läufe %d %%"
 #: scripts/weapon_specials.gd
 msgid "Energy cells %d + %d"
 msgstr "Energiezellen %d + %d"
+
+#: scripts/weapon_stat_bars.gd
+msgid "Damage / shot"
+msgstr "Schaden / Schuss"
+
+#: scripts/weapon_stat_bars.gd
+msgid "Reload speed"
+msgstr "Nachladetempo"
+
+#: scripts/weapon_stat_bars.gd
+msgid "Longer bars are better. Reload speed uses the inverse reload time. Shotgun damage assumes every pellet hits."
+msgstr "Längere Balken sind besser. Nachladetempo entspricht dem Kehrwert der Nachladezeit. Schrotschaden setzt voraus, dass alle Kugeln treffen."
 
 #: scripts/weapons.gd
 msgid "Field Knife"
@@ -8082,6 +8206,38 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "TOWER BUILDING · up to 20 towers per team"
+msgstr "TURMBAU · maximal 20 Türme im Team"
+
+#. unused
+msgid "Survive wave 3 / 8 for stronger fortifications."
+msgstr "Überlebe Welle 3 / 8 für stärkere Befestigungen."
+
+#. unused
+msgid "Two barrels of buckshot. Devastating up close, quick to reload, useless at range."
+msgstr "Zwei Läufe Schrot. Verheerend auf kurze Distanz, schnell nachgeladen, auf Entfernung nutzlos."
+
+#. unused
+msgid "50-round drum of .45 ACP. Full auto, heavy hits at short range."
+msgstr "50-Schuss-Trommel .45 ACP. Vollautomatisch, schwere Treffer auf kurze Distanz."
+
+#. unused
+msgid "%s\n%d damage × %d · %d rounds · %.1f s reload"
+msgstr "%s\n%d Schaden × %d · %d Schuss · %.1f s Nachladen"
+
+#. unused
+msgid "Tier %d → %d: damage %d → %d · range %d → %d m · hull %d → %d"
+msgstr "Stufe %d → %d: Schaden %d → %d · Reichweite %d → %d m · Hülle %d → %d"
+
+#. unused
+msgid "%d damage × %d · %d rounds · %.2f s reload\n%s"
+msgstr "%d Schaden × %d · %d Schuss · %.2f s Nachladen\n%s"
+
+#. unused
+msgid "DEFENSE · [T] TOWER BUILD MENU\n5 types from 120 R · E builds / climbs up · Mechanic upgrades."
+msgstr "VERTEIDIGUNG · [T] TURMBAUMENÜ\n5 Typen ab 120 R · E baut / steigt auf · Mechanic baut aus."
 
 #. unused
 msgid "Survived wave 30"
@@ -8730,45 +8886,3 @@ msgstr "%s\n%d / %d · %d R · %d Klassen-EP"
 #. unused
 msgid "Find the woodland key, enter the Schützenhaus and shoot its six targets with a sniper. %d / 6 · 350 R"
 msgstr "Finde den Waldschlüssel, betrete das Schützenhaus und triff die sechs Zieltafeln mit einem Scharfschützengewehr. %d / 6 · 350 R"
-
-msgid "Damage / shot"
-msgstr "Schaden / Schuss"
-
-msgid "Reload speed"
-msgstr "Nachladetempo"
-
-msgid "Reload time"
-msgstr "Nachladezeit"
-
-msgid "Range"
-msgstr "Reichweite"
-
-msgid "Damage"
-msgstr "Schaden"
-
-msgid "Spread"
-msgstr "Streuung"
-
-msgid "Recoil"
-msgstr "Rückstoß"
-
-msgid "Choose a weapon from your inventory"
-msgstr "Waffe aus deinem Inventar wählen"
-
-msgid "Mounted in this slot"
-msgstr "In diesem Slot montiert"
-
-msgid "Longer bars are better. Reload speed uses the inverse reload time. Shotgun damage assumes every pellet hits."
-msgstr "Längere Balken sind besser. Nachladetempo entspricht dem Kehrwert der Nachladezeit. Schrotschaden setzt voraus, dass alle Kugeln treffen."
-
-msgid "Survive wave %d for stronger fortifications."
-msgstr "Überlebe Welle %d für stärkere Befestigungen."
-
-msgid "Three shots of buckshot. Devastating up close, quick to reload, useless at range."
-msgstr "Drei Schuss Schrot. Verheerend auf kurze Distanz, schnell nachgeladen, auf Entfernung nutzlos."
-
-msgid "70-round drum of .45 ACP. Full auto, heavy hits at short range."
-msgstr "70-Schuss-Trommel mit .45 ACP. Vollautomatisch, starke Treffer auf kurze Distanz."
-
-msgid "%s: %s → %s"
-msgstr "%s: %s → %s"

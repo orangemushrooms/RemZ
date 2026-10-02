@@ -1417,7 +1417,7 @@ func _render() -> void:
 					var details: String = Lang.t("%d/%d HP · %d m range · %d m away", [ceili(tower.hp), tower.max_hp(), tower.attack_range(), p.global_position.distance_to(tower.global_position)])
 					if tower.level < 3:
 						var next: int = tower.level + 1
-						details += "\n" + Lang.t("Tier %d → %d: damage %d → %d · range %d → %d m · hull %d → %d", [tower.level, next, roundi(tower.damage_at(tower.level)), roundi(tower.damage_at(next)), roundi(tower.range_at(tower.level)), roundi(tower.range_at(next)), roundi(tower.hp_at(tower.level)), roundi(tower.hp_at(next))])
+						details += "\n" + Lang.t("Tier %d → %d: %s %d → %d · range %d → %d m · hull %d → %d", [tower.level, next, Lang.t(tower.stat_label()), roundi(tower.damage_at(tower.level)), roundi(tower.damage_at(next)), roundi(tower.range_at(tower.level)), roundi(tower.range_at(next)), roundi(tower.hp_at(tower.level)), roundi(tower.hp_at(next))])
 					_row(Lang.t("%s #%d · Tier %d", [tower.spec().name, id, tower.level]), details, "Maximum" if tower.level == 3 else Lang.t("Upgrade · %d R", [cost]), request.bind("tower_upgrade", str(id)), not reason.is_empty(), reason)
 					# The builder's own towers can be dismantled (maintain "sell" checks it again). The row went
 					# missing on 22 Sep while the guides kept describing it; a roof turret, which no zombie
@@ -1605,7 +1605,7 @@ func _process(delta: float) -> void:
 	elif _arrival_guide_read and not _arrival_build_menu_seen:
 		tutorial.text = "YOUR DEFENSE · [T] TOWER BUILD MENU\nTake a look at the towers. Only E in the preview confirms a purchase."
 	elif team.built == 0:
-		tutorial.text = "DEFENSE · [T] TOWER BUILD MENU\n5 types from 120 R · E builds / climbs up · Mechanic upgrades." if _tower_tutorial_remaining > 0.0 else ""
+		tutorial.text = "DEFENSE · [T] TOWER BUILD MENU\n13 types from 120 R · E builds / climbs up · Mechanic upgrades." if _tower_tutorial_remaining > 0.0 else ""
 	elif team.turned == 0:
 		tutorial.text = "AIM YOUR SENTINEL\nPress R at the tower, rotate with R/mouse wheel and confirm with E."
 	else: tutorial.text = ""

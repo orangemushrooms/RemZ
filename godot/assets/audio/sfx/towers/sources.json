@@ -4,7 +4,14 @@
     "Machinegun_Tower.mp3": "96beb0a7335f67fb53f80c9b8a9cb627c8bc22babce8c78ebb52473d37f30c86",
     "Mortar_Tower.mp3": "b6464a4c30ebf50f72f1a1a5a5c937c1e4b3f5c3efd47979947f0013919c21cf",
     "Teslacoil_Tower.mp3": "84be53d7f663fa8fd7367409d7655ab937e45511b6bf1bc6201dbb38db1db644",
-    "Sentinel_Tower.mp3": "90c3abdedb909c433817dd5324e73ecb694f152d5e46713a159a8d6e3c382404"
+    "Sentinel_Tower.mp3": "90c3abdedb909c433817dd5324e73ecb694f152d5e46713a159a8d6e3c382404",
+    "Weapons/Sniper_Rifle_Gunshot.mp3": "eb487f4440302cb698d1e2bce068a2141475e9aa6cc0b4ebfa033359c51d655c",
+    "anti_tank_tower.mp3": "6a5a0693ab35940846ba027fe4bf65fb37eba6496b219862cc2c5229c1dc8ba5",
+    "Shotgun_Tower.mp3": "c1f4c7180b41be91be3dc414daf8851b980f4dbea5b78e0f28d102aaf991d1b7",
+    "Water_Tower.mp3": "51f1cec907fcc2c53df05031bc71dbec200dc78fd3399abbb8a6851295b57db6",
+    "time_stop.mp3": "9a42ca92caf7e003964707b31d8337d0d8392c5a659dcc0a25eeb24088ae579f",
+    "Reload.mp3": "768f770b7f3df83cbdc397bd7e7fb071886e854b7d69b0e40ef4518261cfb15b",
+    "click.mp3": "553e9657f2ae87b264b8a0a7065fc2238e37edc39cb83b665c569bcea03eadc4"
   },
   "clips": {
     "flame_loop": {
@@ -26,8 +33,53 @@
     "sentinel_shot": {
       "seconds": 0.499,
       "peak": 0.75
+    },
+    "sniper_shot": {
+      "seconds": 1.2,
+      "peak": 0.75
+    },
+    "rocket_salvo": {
+      "seconds": 1.23,
+      "peak": 0.75
+    },
+    "harpoon_shot": {
+      "seconds": 0.78,
+      "peak": 0.75
+    },
+    "frost_loop": {
+      "seconds": 0.9,
+      "peak": 0.6
+    },
+    "graviton_pulse": {
+      "seconds": 1.3,
+      "peak": 0.75
+    },
+    "siren_wail": {
+      "seconds": 12.0,
+      "peak": 0.7
+    },
+    "searchlight_lock": {
+      "seconds": 0.53,
+      "peak": 0.6
+    },
+    "supply_pulse": {
+      "seconds": 0.47,
+      "peak": 0.6
     }
   },
   "sample_rate": 44100,
-  "channels": 1
+  "channels": 1,
+  "second_block": {
+    "built_by": "tools/prepare_tower_audio2.py",
+    "synthesised": [
+      "siren_wail",
+      "searchlight_lock"
+    ],
+    "layered": [
+      "rocket_salvo",
+      "harpoon_shot",
+      "graviton_pulse",
+      "supply_pulse"
+    ]
+  }
 }

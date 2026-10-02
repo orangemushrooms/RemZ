@@ -26,3 +26,13 @@ Reproduction:
 All three barrels were generated pointing along -X and are rotated onto Godot's
 -Z axis. The Tesla coil remains vertical. No rigging or animation API tasks were
 needed: game code rotates the weapon assemblies and produces the firing effects.
+
+
+## The eight of 2 Oct 2026
+
+Seven more assemblies the same way (text-to-3D preview with meshy-7.1, 25 credits, PBR refine, 10
+credits; prompts in `tools/meshy_towers2.py`, fitted by `tools/prepare_towers2.mjs`, which measures the
+barrel axis and the front end and takes an override where a drum or a pair of horns fools the rule):
+`tower_rocket`, `tower_frost`, `tower_harpoon`, `tower_graviton`, `tower_sniper`, `tower_searchlight`,
+`tower_siren` - 245 credits of the 260 the account held. The supply post is built from boxes and a mast
+in `defence_tower.gd` instead. Receipts and originals stay in `meshy_output/20261002_*_tower-*`.

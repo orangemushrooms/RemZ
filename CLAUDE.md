@@ -639,6 +639,41 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
 - Tests touched by the class system's 0.25 s draw delay (`Weapons._switch_t`, 29 Sep): `new_weapons`,
   `weapon_attachments` and `class_weapons` zero it before a test shot.
 
+## Eight more towers (2 Oct 2026, `--suite=tower_batch --smoke-test --no-intro --no-music --no-foliage`; windowed `--render-towers` -> `artifacts/towers2/<kind>.png`)
+- `DefenceTower.TYPES` is ordered by unlock wave, 13 kinds: searchlight (w1, 150 R), siren (w2, 220), supply
+  (w2, 300), frost (w5, 420), sniper (w6, 480), rocket (w7, 520), harpoon (w9, 700), graviton (w11, 900) beside
+  the old five. `SUPPORT` = searchlight / siren / supply deal no direct damage (the generic "deals damage"
+  checks skip them), `ROOF_BANNED` = siren / supply, `SUPPLY_LIMIT` one post per team (placement_error),
+  `HEAVY_KINDS` + `Zombie.is_boss_kind` = the harpoon's prey, `tier_step()` / `stat_label()` feed the
+  Mechanic's rows ("heal" / "effect" / "damage"). Planner keys 1-9 and 0 pick the first ten kinds.
+- Mechanics (all in `defence_tower.gd`; the zombie side is four fields in `zombie.gd`): searchlight =
+  SpotLight3D in group `searchlights` (`Zombie._lit_by_flashlight` reads the group, so stalkers decloak) plus a
+  beam cone (`shaders/tower_beam.gdshader`), the lit body gets `spot_mark_t` and `DefenceTower.hurt` applies
+  `MARK_BONUS` 1.15; a new target fires the lock-on pulse (shots++). Siren = `_lure()` sets `lure_tower` /
+  `lure_t` 12 s on every `lurable()` zombie within 40 m and `Zombie._choose_defence` returns the siren first
+  (even over player priority); zombies beat on it, a fallen siren ends the lure; 45 s cooldown. Supply =
+  `_supply_tick()` every 3 s when `_supply_needed()`: +25/35/45 HP on `game.defence_lines()` (or
+  `barricades` in the Planes) and towers within 12 m, half a magazine per shooter within 6 m once per 20 s.
+  Frost = the flame cone with `WeaponSpecials.chill(z, 0.12, peer, "cryo_smg")` (freeze through the rare
+  market as the Cryo SMG does) + 9 cold damage; `shaders/tower_frost_jet.gdshader`, particle mode 3. Sniper
+  = `_pierce()` up to three bodies at 70 % each, `head_point()` aim and 1.5x on a head hit, `aim_fov()` 30.
+  Rocket = `launch_rockets()` four `DroneRocket`s 110 ms apart (`kind "tower"` credits the tower,
+  `heavy_bonus` 1.5), `ROCKET_MIN_RANGE` 8 m in `can_see`, replicas launch their own salvo from `show_shot`.
+  Harpoon = heavy targets first in the scan, 35 % on small fry, `tether` / `tether_t` / `tether_end` with the
+  zombie's `tether_t` (half pace in zombie.gd and titan.gd), a rope mesh drawn on every peer. Graviton =
+  `_implode(last_impact)`: `Zombie.shove` towards the point (2.5-7 by distance) + 40 damage,
+  `WeaponSpecials.blast_visuals` from `show_shot` on every peer. Snapshot fields 15-17 = tether_end, active_t,
+  tether_t.
+- Assets: `tools/meshy_towers2.py` (text-to-3d preview 25 + refine 10, meshy-7.1, resumable, `--stage
+  preview` to judge the free thumbnail first) made seven assemblies for 245 of the 260 credits; the supply
+  post is procedural. `tools/prepare_towers2.mjs` fits them to the gun pivot (front at z -1.7, searchlight
+  lens -1.1, siren -1.0) and measures axis and front end, with SPECS overrides where a drum or two horns fool
+  the rule (`--report` prints the measurement). Sounds: `tools/prepare_tower_audio2.py` ->
+  `sfx/towers/{sniper_shot,rocket_salvo,harpoon_shot,frost_loop,graviton_pulse,siren_wail,searchlight_lock,
+  supply_pulse}.wav` from the library plus synthesis (the siren wail and the arc strike are synthetic).
+  `tower_audio.gd` LOOPED = flame + frost. Suites `towers`, `tower_effects`, `roof_defences` learned the
+  support kinds and the roof bans; `tower_batch` (new) covers every mechanic, the snapshot and the Planes.
+
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,
   six-letter join code, anonymous Connect Device ID login, no Epic account, no port forwarding) and **Direct /

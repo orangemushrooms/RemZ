@@ -10,7 +10,7 @@ An der Waldhütte öffnet **T** das Baumenü mit sechs Dachplätzen und der bish
 | Schweres MG | 450 R | 6 | Hohe Feuerrate, Überhitzung |
 | Tesla-Spule | 600 R | 8 | Kettenblitze |
 
-Alle fünf Modelle stammen aus den vorhandenen Meshy-Generierungen; Nachweise stehen in `godot/assets/models/towers.SOURCES.md` und `missing.SOURCES.md`. Es wurden keine neuen kostenpflichtigen Generierungen gestartet.
+Seit dem 2. Oktober 2026 gehen auch Scheinwerfer, Frostkanone, Scharfschützennest, Raketenwerfer, Harpunenwerfer und Gravitationsfalle aufs Dach; Lockvogel-Sirene und Versorgungsposten bleiben am Boden (die Sirene zöge die Horde an die Hüttenwand, der Posten heilt einen Bodenradius). Alle fünf ursprünglichen Modelle stammen aus den vorhandenen Meshy-Generierungen; Nachweise stehen in `godot/assets/models/towers.SOURCES.md` und `missing.SOURCES.md`. Es wurden keine neuen kostenpflichtigen Generierungen gestartet.
 
 Dachtürme arbeiten automatisch. Ihre kompakten Sockel ersetzen ausschliesslich das Gestell der neuen Dachaufbauten. Das Hüttengebäude, seine Türen, Vorräte, Lebenspunkte und Reparatur bleiben unverändert. Boden- und Dachtürme teilen das bestehende Limit von sechs Türmen pro Team. Aufwerten und Verkaufen bleiben beim Mechanic. Der Host prüft Bauplatz, Entfernung zur Hütte, Belegung, Freischaltung und Bezahlung; die bestehenden Koop-Snapshots enthalten auch die Dachaufbauten.
 

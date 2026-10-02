@@ -57,12 +57,12 @@ func run() -> void:
 		var audio: Node3D = tower.shot_audio
 		check(audio.voice.playing and audio.voice.stream is AudioStreamWAV, kind + " plays the prepared user recording on a real shot")
 		check(audio.voice.global_position.is_equal_approx(start) and audio.voice.max_distance >= 70, kind + " sound comes from the muzzle with distance attenuation")
-		check(audio.voice.stream.get_length() < float(tower.spec().rate) if kind in ["mortar", "tesla"] else audio.voice.max_polyphony <= 3, kind + " playback is bounded for its firing rate")
+		check(audio.voice.stream.get_length() < float(tower.spec().rate) if kind in ["mortar", "tesla", "sniper", "rocket", "harpoon", "graviton", "siren", "supply"] else audio.voice.max_polyphony <= 3, kind + " playback is bounded for its firing rate")
 		# Disable acquisition, leaving the visual tick running for exact recoil/tracer checks.
 		tower.replica = true
 		tower._physics_process(0.015)
 		check(tower.muzzle.global_position.is_equal_approx(start) and tower.seat_position().is_equal_approx(seat), kind + " recoil leaves aiming and operator seat stable")
-		if kind in ["standard", "mg42", "mortar"]:
+		if kind in ["standard", "mg42", "mortar", "sniper", "harpoon"]:
 			check(tower._weapon_model.position.z > tower._model_rest.z, kind + " has mechanical recoil")
 		if kind == "standard":
 			check(tower.tracer.global_position.distance_to(start) > 1 and tower.tracer.scale.z < 3, "Bullet streak travels instead of drawing a full-range laser")
