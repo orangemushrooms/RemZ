@@ -1,0 +1,337 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: sig_p226 steht in Weapons.DEFS
+PASS: sig_p226 hat alle Pflichtfelder
+PASS: sig_p226 steht in Weapons.ORDER
+PASS: sig_p226: Modellname = Waffen-id (haelt GRIPS/PROFILES und MountData/MAGAZINE zusammen)
+PASS: sig_p226 ist beim Haendler kaufbar
+PASS: sig_p226: GOODS-Eintrag vollstaendig
+PASS: sig_p226: Quest 'arrival' existiert
+PASS: sig_p226: Verkaeufer ist Vendor oder Secret Vendor
+PASS: sig_p226: Munitionskosten 21.7 R je 1000 Schaden liegen im Korridor
+PASS: sig_p226: Magazin, Nachladen und Feuerrate gesetzt
+PASS: sig_p226: Reservelimit fasst zwei Magazine (105)
+PASS: sig_p226: halbautomatisch (Pistole/Flinte)
+PASS: sig_p226: Spezialwaffe der Klasse gunslinger (gefunden: ["gunslinger"])
+PASS: nighthawk steht in Weapons.DEFS
+PASS: nighthawk hat alle Pflichtfelder
+PASS: nighthawk steht in Weapons.ORDER
+PASS: nighthawk: Modellname = Waffen-id (haelt GRIPS/PROFILES und MountData/MAGAZINE zusammen)
+PASS: nighthawk ist beim Haendler kaufbar
+PASS: nighthawk: GOODS-Eintrag vollstaendig
+PASS: nighthawk: Quest 'watch' existiert
+PASS: nighthawk: Verkaeufer ist Vendor oder Secret Vendor
+PASS: nighthawk: Munitionskosten 26.8 R je 1000 Schaden liegen im Korridor
+PASS: nighthawk: Magazin, Nachladen und Feuerrate gesetzt
+PASS: nighthawk: Reservelimit fasst zwei Magazine (64)
+PASS: nighthawk: halbautomatisch (Pistole/Flinte)
+PASS: nighthawk: Spezialwaffe der Klasse gunslinger (gefunden: ["gunslinger"])
+PASS: ar15 steht in Weapons.DEFS
+PASS: ar15 hat alle Pflichtfelder
+PASS: ar15 steht in Weapons.ORDER
+PASS: ar15: Modellname = Waffen-id (haelt GRIPS/PROFILES und MountData/MAGAZINE zusammen)
+PASS: ar15 ist beim Haendler kaufbar
+PASS: ar15: GOODS-Eintrag vollstaendig
+PASS: ar15: Quest 'watch' existiert
+PASS: ar15: Verkaeufer ist Vendor oder Secret Vendor
+PASS: ar15: Munitionskosten 20.2 R je 1000 Schaden liegen im Korridor
+PASS: ar15: Magazin, Nachladen und Feuerrate gesetzt
+PASS: ar15: Reservelimit fasst zwei Magazine (150)
+PASS: ar15: vollautomatisch
+PASS: ar15: Spezialwaffe der Klasse assault (gefunden: ["assault"])
+PASS: tommy_gun steht in Weapons.DEFS
+PASS: tommy_gun hat alle Pflichtfelder
+PASS: tommy_gun steht in Weapons.ORDER
+PASS: tommy_gun: Modellname = Waffen-id (haelt GRIPS/PROFILES und MountData/MAGAZINE zusammen)
+PASS: tommy_gun ist beim Haendler kaufbar
+PASS: tommy_gun: GOODS-Eintrag vollstaendig
+PASS: tommy_gun: Quest 'night_shift' existiert
+PASS: tommy_gun: Verkaeufer ist Vendor oder Secret Vendor
+PASS: tommy_gun: Munitionskosten 15.3 R je 1000 Schaden liegen im Korridor
+PASS: tommy_gun: Magazin, Nachladen und Feuerrate gesetzt
+PASS: tommy_gun: Reservelimit fasst zwei Magazine (250)
+PASS: tommy_gun: vollautomatisch
+PASS: tommy_gun: Spezialwaffe der Klasse assault (gefunden: ["assault"])
+PASS: spas12 steht in Weapons.DEFS
+PASS: spas12 hat alle Pflichtfelder
+PASS: spas12 steht in Weapons.ORDER
+PASS: spas12: Modellname = Waffen-id (haelt GRIPS/PROFILES und MountData/MAGAZINE zusammen)
+PASS: spas12 ist beim Haendler kaufbar
+PASS: spas12: GOODS-Eintrag vollstaendig
+PASS: spas12: Quest 'line' existiert
+PASS: spas12: Verkaeufer ist Vendor oder Secret Vendor
+PASS: spas12: Munitionskosten 15.2 R je 1000 Schaden liegen im Korridor
+PASS: spas12: Magazin, Nachladen und Feuerrate gesetzt
+PASS: spas12: Reservelimit fasst zwei Magazine (40)
+PASS: spas12: halbautomatisch (Pistole/Flinte)
+PASS: spas12: Spezialwaffe der Klasse breacher (gefunden: ["breacher"])
+PASS: sawed_off steht in Weapons.DEFS
+PASS: sawed_off hat alle Pflichtfelder
+PASS: sawed_off steht in Weapons.ORDER
+PASS: sawed_off: Modellname = Waffen-id (haelt GRIPS/PROFILES und MountData/MAGAZINE zusammen)
+PASS: sawed_off ist beim Haendler kaufbar
+PASS: sawed_off: GOODS-Eintrag vollstaendig
+PASS: sawed_off: Quest 'arrival' existiert
+PASS: sawed_off: Verkaeufer ist Vendor oder Secret Vendor
+PASS: sawed_off: Munitionskosten 17.3 R je 1000 Schaden liegen im Korridor
+PASS: sawed_off: Magazin, Nachladen und Feuerrate gesetzt
+PASS: sawed_off: Reservelimit fasst zwei Magazine (62)
+PASS: sawed_off: halbautomatisch (Pistole/Flinte)
+PASS: sawed_off: Spezialwaffe der Klasse breacher (gefunden: ["breacher"])
+PASS: sig_p226: Modell sig_p226.glb vorhanden
+PASS: sig_p226: Muendung/Magazin von sig_p226 ist vermessen (weapon_geometry.mjs --bake)
+PASS: sig_p226: eigenes Muendungsfeuer-Profil
+PASS: sig_p226: eigene Handpositionen
+PASS: sig_p226: Magazinart fuer die Mods bekannt
+PASS: sig_p226: Schusssound 'sig_p226' registriert
+PASS: sig_p226: Inventar-Icon vorhanden
+PASS: nighthawk: Modell nighthawk.glb vorhanden
+PASS: nighthawk: Muendung/Magazin von nighthawk ist vermessen (weapon_geometry.mjs --bake)
+PASS: nighthawk: eigenes Muendungsfeuer-Profil
+PASS: nighthawk: eigene Handpositionen
+PASS: nighthawk: Magazinart fuer die Mods bekannt
+PASS: nighthawk: Schusssound 'nighthawk' registriert
+PASS: nighthawk: Inventar-Icon vorhanden
+PASS: ar15: Modell ar15.glb vorhanden
+PASS: ar15: Muendung/Magazin von ar15 ist vermessen (weapon_geometry.mjs --bake)
+PASS: ar15: eigenes Muendungsfeuer-Profil
+PASS: ar15: eigene Handpositionen
+PASS: ar15: Magazinart fuer die Mods bekannt
+PASS: ar15: Schusssound 'ar15' registriert
+PASS: ar15: Inventar-Icon vorhanden
+PASS: tommy_gun: Modell tommy_gun.glb vorhanden
+PASS: tommy_gun: Muendung/Magazin von tommy_gun ist vermessen (weapon_geometry.mjs --bake)
+PASS: tommy_gun: eigenes Muendungsfeuer-Profil
+PASS: tommy_gun: eigene Handpositionen
+PASS: tommy_gun: Magazinart fuer die Mods bekannt
+PASS: tommy_gun: Schusssound 'tommy_gun' registriert
+PASS: tommy_gun: Inventar-Icon vorhanden
+PASS: spas12: Modell spas12.glb vorhanden
+PASS: spas12: Muendung/Magazin von spas12 ist vermessen (weapon_geometry.mjs --bake)
+PASS: spas12: eigenes Muendungsfeuer-Profil
+PASS: spas12: eigene Handpositionen
+PASS: spas12: Magazinart fuer die Mods bekannt
+PASS: spas12: Schusssound 'spas12' registriert
+PASS: spas12: Inventar-Icon vorhanden
+PASS: sawed_off: Modell sawed_off.glb vorhanden
+PASS: sawed_off: Muendung/Magazin von sawed_off ist vermessen (weapon_geometry.mjs --bake)
+PASS: sawed_off: eigenes Muendungsfeuer-Profil
+PASS: sawed_off: eigene Handpositionen
+PASS: sawed_off: Magazinart fuer die Mods bekannt
+PASS: sawed_off: Schusssound 'sawed_off' registriert
+PASS: sawed_off: Inventar-Icon vorhanden
+PASS: pistol: Modell pistol.glb vorhanden
+PASS: pistol: Muendung/Magazin von pistol ist vermessen (weapon_geometry.mjs --bake)
+PASS: pistol: eigenes Muendungsfeuer-Profil
+PASS: pistol: eigene Handpositionen
+PASS: pistol: Magazinart fuer die Mods bekannt
+PASS: pistol: Schusssound 'pistol' registriert
+PASS: pistol: Inventar-Icon vorhanden
+PASS: smg: Modell smg.glb vorhanden
+PASS: smg: Muendung/Magazin von smg ist vermessen (weapon_geometry.mjs --bake)
+PASS: smg: eigenes Muendungsfeuer-Profil
+PASS: smg: eigene Handpositionen
+PASS: smg: Magazinart fuer die Mods bekannt
+PASS: smg: Schusssound 'smg' registriert
+PASS: smg: Inventar-Icon vorhanden
+PASS: deagle: Modell deagle.glb vorhanden
+PASS: deagle: Muendung/Magazin von deagle ist vermessen (weapon_geometry.mjs --bake)
+PASS: deagle: eigenes Muendungsfeuer-Profil
+PASS: deagle: eigene Handpositionen
+PASS: deagle: Magazinart fuer die Mods bekannt
+PASS: deagle: Schusssound 'deagle' registriert
+PASS: deagle: Inventar-Icon vorhanden
+PASS: knife: Modell knife_real.glb vorhanden
+PASS: knife: Inventar-Icon vorhanden (die Nahkampfwaffen tragen SVGs)
+PASS: pistol: Pipeline-Beleg assets/raw/pistol_web/state.json
+PASS: smg: Pipeline-Beleg assets/raw/smg_web/state.json
+PASS: deagle: Pipeline-Beleg assets/raw/deagle_web/state.json
+PASS: knife_real: Pipeline-Beleg assets/raw/knife_real_web/state.json
+PASS: sig_p226 laedt seine Aufnahme weapons/sig_p226.wav
+PASS: sig_p226: Aufnahme mit Ausklang (1.40 s)
+PASS: nighthawk laedt seine Aufnahme weapons/nighthawk.wav
+PASS: nighthawk: Aufnahme mit Ausklang (1.40 s)
+PASS: ar15 laedt seine Aufnahme weapons/ar15.wav
+PASS: ar15: Aufnahme mit Ausklang (1.40 s)
+PASS: tommy_gun laedt seine Aufnahme weapons/tommy_gun.wav
+PASS: tommy_gun: Aufnahme mit Ausklang (0.32 s)
+PASS: spas12 laedt seine Aufnahme weapons/spas12.wav
+PASS: spas12: Aufnahme mit Ausklang (1.60 s)
+PASS: sawed_off laedt seine Aufnahme weapons/sawed_off.wav
+PASS: sawed_off: Aufnahme mit Ausklang (1.60 s)
+PASS: smg laedt seine Aufnahme weapons/mp5.wav
+PASS: smg: Aufnahme mit Ausklang (0.33 s)
+PASS: titanbreaker laedt seine Aufnahme weapons/titanbreaker.wav
+PASS: titanbreaker: Aufnahme mit Ausklang (1.40 s)
+PASS: Titanbreaker spielt seine Aufnahme ohne den alten Revolver-Pitch
+PASS: Die MP5 spielt die neue Aufnahme (ein Schuss aus der Salve)
+PASS: sig_p226: laesst sich ausruesten
+PASS: sig_p226: Schuss verbraucht Munition
+PASS: sig_p226: Muendung sitzt vorn an der Waffe (0.26, -0.15, -0.60)
+PASS: sig_p226: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.018)
+PASS: sig_p226: Muendung liegt an der Vorderkante (-0.104 vs -0.098)
+PASS: sig_p226: der Schuss spielt seine Aufnahme
+PASS: nighthawk: laesst sich ausruesten
+PASS: nighthawk: Schuss verbraucht Munition
+PASS: nighthawk: Muendung sitzt vorn an der Waffe (0.26, -0.16, -0.61)
+PASS: nighthawk: Muendung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.020)
+PASS: nighthawk: Muendung liegt an der Vorderkante (-0.111 vs -0.105)
+PASS: nighthawk: der Schuss spielt seine Aufnahme
+PASS: ar15: laesst sich ausruesten
+PASS: ar15: Schuss verbraucht Munition
+PASS: ar15: Muendung sitzt vorn an der Waffe (0.24, -0.18, -0.87)
+PASS: ar15: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.036)
+PASS: ar15: Muendung liegt an der Vorderkante (-0.292 vs -0.286)
+PASS: ar15: der Schuss spielt seine Aufnahme
+PASS: tommy_gun: laesst sich ausruesten
+PASS: tommy_gun: Schuss verbraucht Munition
+PASS: tommy_gun: Muendung sitzt vorn an der Waffe (0.24, -0.16, -0.86)
+PASS: tommy_gun: Muendung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.088)
+PASS: tommy_gun: Muendung liegt an der Vorderkante (-0.294 vs -0.288)
+PASS: tommy_gun: der Schuss spielt seine Aufnahme
+PASS: spas12: laesst sich ausruesten
+PASS: spas12: Schuss verbraucht Munition
+PASS: spas12: Muendung sitzt vorn an der Waffe (0.22, -0.20, -0.89)
+PASS: spas12: Muendung liegt in der Waffensilhouette (0.001 m seitlich, halbe Breite 0.024)
+PASS: spas12: Muendung liegt an der Vorderkante (-0.287 vs -0.281)
+PASS: spas12: der Schuss spielt seine Aufnahme
+PASS: sawed_off: laesst sich ausruesten
+PASS: sawed_off: Schuss verbraucht Munition
+PASS: sawed_off: Muendung sitzt vorn an der Waffe (0.24, -0.19, -0.76)
+PASS: sawed_off: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.024)
+PASS: sawed_off: Muendung liegt an der Vorderkante (-0.212 vs -0.206)
+PASS: sawed_off: der Schuss spielt seine Aufnahme
+PASS: pistol: laesst sich ausruesten
+PASS: pistol: Schuss verbraucht Munition
+PASS: pistol: Muendung sitzt vorn an der Waffe (0.26, -0.17, -0.60)
+PASS: pistol: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.020)
+PASS: pistol: Muendung liegt an der Vorderkante (-0.104 vs -0.098)
+PASS: pistol: der Schuss spielt seine Aufnahme
+PASS: smg: laesst sich ausruesten
+PASS: smg: Schuss verbraucht Munition
+PASS: smg: Muendung sitzt vorn an der Waffe (0.24, -0.17, -0.79)
+PASS: smg: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.018)
+PASS: smg: Muendung liegt an der Vorderkante (-0.239 vs -0.233)
+PASS: smg: der Schuss spielt seine Aufnahme
+PASS: deagle: laesst sich ausruesten
+PASS: deagle: Schuss verbraucht Munition
+PASS: deagle: Muendung sitzt vorn an der Waffe (0.26, -0.16, -0.64)
+PASS: deagle: Muendung liegt in der Waffensilhouette (0.000 m seitlich, halbe Breite 0.025)
+PASS: deagle: Muendung liegt an der Vorderkante (-0.136 vs -0.130)
+PASS: deagle: der Schuss spielt seine Aufnahme
+PASS: knife: das neue Messer haengt im Blickmodell
+PASS: knife: 37 cm lang, Klinge entlang der Hochachse (0.06 x 0.37 x 0.04)
+PASS: sig_p226: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAACAAAAFNJRyBQMjI2﷒)
+PASS: sig_p226: der Kauf kostet genau 300 R
+PASS: sig_p226: das Startmagazin sprengt das Reservelimit nicht
+PASS: nighthawk: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAADQAAAE5pZ2h0aGF3ayAuNDUAAAA=﷒)
+PASS: nighthawk: der Kauf kostet genau 520 R
+PASS: nighthawk: das Startmagazin sprengt das Reservelimit nicht
+PASS: ar15: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAABQAAAEFSLTE1AAAA﷒)
+PASS: ar15: der Kauf kostet genau 640 R
+PASS: ar15: das Startmagazin sprengt das Reservelimit nicht
+PASS: tommy_gun: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAACQAAAFRvbW15IEd1bgAAAA==﷒)
+PASS: tommy_gun: der Kauf kostet genau 700 R
+PASS: tommy_gun: das Startmagazin sprengt das Reservelimit nicht
+PASS: spas12: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAABwAAAFNQQVMtMTIA﷒)
+PASS: spas12: der Kauf kostet genau 820 R
+PASS: spas12: das Startmagazin sprengt das Reservelimit nicht
+PASS: sawed_off: Kauf beim camp schaltet die Waffe frei (﷐Bought: %s · magazine + 3 spare magazines﷑HAAAAAEAAAAEAAAAEQAAAFNhd2VkLU9mZiBTaG90Z3VuAAAA﷒)
+PASS: sawed_off: der Kauf kostet genau 380 R
+PASS: sawed_off: das Startmagazin sprengt das Reservelimit nicht
+PASS: sig_p226 + suppressor: Mod veraendert nur vorhandene Felder
+PASS: sig_p226 + suppressor: Magazin bleibt >= 1
+PASS: sig_p226 + compensator: Mod veraendert nur vorhandene Felder
+PASS: sig_p226 + compensator: Magazin bleibt >= 1
+PASS: sig_p226 + extended: Mod veraendert nur vorhandene Felder
+PASS: sig_p226 + extended: Magazin bleibt >= 1
+PASS: sig_p226 + quick_action: Mod veraendert nur vorhandene Felder
+PASS: sig_p226 + quick_action: Magazin bleibt >= 1
+PASS: sig_p226 + match_barrel: Mod veraendert nur vorhandene Felder
+PASS: sig_p226 + match_barrel: Magazin bleibt >= 1
+PASS: sig_p226 + ghost: Mod veraendert nur vorhandene Felder
+PASS: sig_p226 + ghost: Magazin bleibt >= 1
+PASS: sig_p226 + endless: Mod veraendert nur vorhandene Felder
+PASS: sig_p226 + endless: Magazin bleibt >= 1
+PASS: nighthawk + suppressor: Mod veraendert nur vorhandene Felder
+PASS: nighthawk + suppressor: Magazin bleibt >= 1
+PASS: nighthawk + compensator: Mod veraendert nur vorhandene Felder
+PASS: nighthawk + compensator: Magazin bleibt >= 1
+PASS: nighthawk + extended: Mod veraendert nur vorhandene Felder
+PASS: nighthawk + extended: Magazin bleibt >= 1
+PASS: nighthawk + quick_action: Mod veraendert nur vorhandene Felder
+PASS: nighthawk + quick_action: Magazin bleibt >= 1
+PASS: nighthawk + match_barrel: Mod veraendert nur vorhandene Felder
+PASS: nighthawk + match_barrel: Magazin bleibt >= 1
+PASS: nighthawk + ghost: Mod veraendert nur vorhandene Felder
+PASS: nighthawk + ghost: Magazin bleibt >= 1
+PASS: nighthawk + endless: Mod veraendert nur vorhandene Felder
+PASS: nighthawk + endless: Magazin bleibt >= 1
+PASS: ar15 + suppressor: Mod veraendert nur vorhandene Felder
+PASS: ar15 + suppressor: Magazin bleibt >= 1
+PASS: ar15 + compensator: Mod veraendert nur vorhandene Felder
+PASS: ar15 + compensator: Magazin bleibt >= 1
+PASS: ar15 + extended: Mod veraendert nur vorhandene Felder
+PASS: ar15 + extended: Magazin bleibt >= 1
+PASS: ar15 + quick_action: Mod veraendert nur vorhandene Felder
+PASS: ar15 + quick_action: Magazin bleibt >= 1
+PASS: ar15 + match_barrel: Mod veraendert nur vorhandene Felder
+PASS: ar15 + match_barrel: Magazin bleibt >= 1
+PASS: ar15 + ghost: Mod veraendert nur vorhandene Felder
+PASS: ar15 + ghost: Magazin bleibt >= 1
+PASS: ar15 + endless: Mod veraendert nur vorhandene Felder
+PASS: ar15 + endless: Magazin bleibt >= 1
+PASS: tommy_gun + compensator: Mod veraendert nur vorhandene Felder
+PASS: tommy_gun + compensator: Magazin bleibt >= 1
+PASS: tommy_gun + extended: Mod veraendert nur vorhandene Felder
+PASS: tommy_gun + extended: Magazin bleibt >= 1
+PASS: tommy_gun + quick_action: Mod veraendert nur vorhandene Felder
+PASS: tommy_gun + quick_action: Magazin bleibt >= 1
+PASS: tommy_gun + match_barrel: Mod veraendert nur vorhandene Felder
+PASS: tommy_gun + match_barrel: Magazin bleibt >= 1
+PASS: tommy_gun + endless: Mod veraendert nur vorhandene Felder
+PASS: tommy_gun + endless: Magazin bleibt >= 1
+PASS: spas12 + compensator: Mod veraendert nur vorhandene Felder
+PASS: spas12 + compensator: Magazin bleibt >= 1
+PASS: spas12 + extended: Mod veraendert nur vorhandene Felder
+PASS: spas12 + extended: Magazin bleibt >= 1
+PASS: spas12 + quick_action: Mod veraendert nur vorhandene Felder
+PASS: spas12 + quick_action: Magazin bleibt >= 1
+PASS: spas12 + match_barrel: Mod veraendert nur vorhandene Felder
+PASS: spas12 + match_barrel: Magazin bleibt >= 1
+PASS: spas12 + endless: Mod veraendert nur vorhandene Felder
+PASS: spas12 + endless: Magazin bleibt >= 1
+PASS: sawed_off + compensator: Mod veraendert nur vorhandene Felder
+PASS: sawed_off + compensator: Magazin bleibt >= 1
+PASS: sawed_off + quick_action: Mod veraendert nur vorhandene Felder
+PASS: sawed_off + quick_action: Magazin bleibt >= 1
+PASS: sawed_off + match_barrel: Mod veraendert nur vorhandene Felder
+PASS: sawed_off + match_barrel: Magazin bleibt >= 1
+PASS: sawed_off: kein erweitertes Magazin an der Kipplaufflinte
+PASS: Schalldaempfer passt auf SIG und AR-15
+PASS: sig_p226 zaehlt als Spezialwaffe des gunslinger
+PASS: sig_p226 bekommt den Meisterschaftsbonus des gunslinger (x1.18)
+PASS: sig_p226 ist keine Spezialwaffe des marksman
+PASS: nighthawk zaehlt als Spezialwaffe des gunslinger
+PASS: nighthawk bekommt den Meisterschaftsbonus des gunslinger (x1.18)
+PASS: nighthawk ist keine Spezialwaffe des marksman
+PASS: ar15 zaehlt als Spezialwaffe des assault
+PASS: ar15 bekommt den Meisterschaftsbonus des assault (x1.18)
+PASS: ar15 ist keine Spezialwaffe des marksman
+PASS: tommy_gun zaehlt als Spezialwaffe des assault
+PASS: tommy_gun bekommt den Meisterschaftsbonus des assault (x1.18)
+PASS: tommy_gun ist keine Spezialwaffe des marksman
+PASS: spas12 zaehlt als Spezialwaffe des breacher
+PASS: spas12 bekommt den Meisterschaftsbonus des breacher (x1.18)
+PASS: spas12 ist keine Spezialwaffe des marksman
+PASS: sawed_off zaehlt als Spezialwaffe des breacher
+PASS: sawed_off bekommt den Meisterschaftsbonus des breacher (x1.18)
+PASS: sawed_off ist keine Spezialwaffe des marksman
+CLASS_WEAPONS_DONE checks=327 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

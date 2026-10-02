@@ -1,0 +1,96 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: two wheels stand in the Holzlager
+PASS: the chances add up to 100 % (1.00000)
+PASS: a blank on 30.3 % of the spins
+PASS: every traded weapon is on the wheel, not the starting pistol and knife (23)
+PASS: the dearer the weapon, the rarer it is
+PASS: the minigun comes once in 2397 spins
+PASS: the graviton cannon is the rarest prize
+PASS: the axe comes once in 76 spins
+FORTUNE_ODDS weapon:hatchet 1.3000%
+FORTUNE_ODDS weapon:revolver 0.9816%
+FORTUNE_ODDS weapon:smg 0.4251%
+FORTUNE_ODDS weapon:shotgun 0.5336%
+FORTUNE_ODDS weapon:ak47 0.1669%
+FORTUNE_ODDS weapon:marksman 0.2022%
+FORTUNE_ODDS weapon:lmg 0.0774%
+FORTUNE_ODDS weapon:breacher 0.0585%
+FORTUNE_ODDS weapon:titanbreaker 0.0346%
+FORTUNE_ODDS weapon:flare_pistol 0.9816%
+FORTUNE_ODDS weapon:deagle 0.2654%
+FORTUNE_ODDS weapon:lever_rifle 0.2201%
+FORTUNE_ODDS weapon:mac10 0.2409%
+FORTUNE_ODDS weapon:cryo_smg 0.1178%
+FORTUNE_ODDS weapon:plasma_sniper 0.0538%
+FORTUNE_ODDS weapon:minigun 0.0417%
+FORTUNE_ODDS weapon:graviton_cannon 0.0253%
+FORTUNE_ODDS weapon:sig_p226 0.6359%
+FORTUNE_ODDS weapon:sawed_off 0.4567%
+FORTUNE_ODDS weapon:nighthawk 0.2944%
+FORTUNE_ODDS weapon:ar15 0.2201%
+FORTUNE_ODDS weapon:tommy_gun 0.1942%
+FORTUNE_ODDS weapon:spas12 0.1556%
+FORTUNE_ODDS mushroom 16.0000%
+FORTUNE_ODDS flower 7.5000%
+FORTUNE_ODDS potion 4.5000%
+FORTUNE_ODDS ammo 13.0000%
+FORTUNE_ODDS free_spin 8.0000%
+FORTUNE_ODDS cash25 3.0000%
+FORTUNE_ODDS cash100 1.5000%
+FORTUNE_ODDS cash500 0.4000%
+FORTUNE_ODDS cash1000 0.1000%
+FORTUNE_ODDS grenade 4.0000%
+FORTUNE_ODDS medkit 4.0000%
+FORTUNE_ODDS nothing 30.3166%
+FORTUNE_ROLL nothing expected 0.3032 seen 0.3037
+FORTUNE_ROLL mushroom expected 0.1600 seen 0.1601
+FORTUNE_ROLL ammo expected 0.1300 seen 0.1305
+FORTUNE_ROLL free_spin expected 0.0800 seen 0.0791
+FORTUNE_ROLL grenade expected 0.0400 seen 0.0402
+FORTUNE_ROLL weapon:hatchet expected 0.0130 seen 0.0136
+FORTUNE_ROLL weapon:ak47 expected 0.0017 seen 0.0016
+PASS: 200 000 rolls follow the table
+PASS: every weapon lands in its price tier
+PASS: the wheel stops on a segment of the drawn prize, for every kind
+PASS: a spin turns the wheel 3-5 times (3.0)
+FORTUNE_NEAR_MISS 1 of 12 blanks beside the jackpot
+PASS: the pegs push the flapper aside (0.49 rad)
+PASS: the Meshy stand is loaded
+PASS: the disc carries face, rim, pegs, marks (84 parts)
+PASS: the wheels stand on the shed floor (0.00)
+PASS: the wheels are inside the Holzlager (door 11.9 m away)
+PASS: the player stands at the first wheel
+PASS: the prompt offers the spin: [E] Spin the wheel of fortune · 10 R / Weapons, plants, potions, ammo and up to 1000 Rem Dollars
+PASS: a spin costs 10 R (990)
+PASS: the wheel turns and the prize waits
+PASS: a turning wheel takes no second stake
+PASS: while it turns the prompt offers nothing
+PASS: the prize is paid when the wheel stops: Nothing this time. The wheel creaks to a halt.
+PASS: no spin from across the shed
+PASS: no spin without 10 R
+PASS: a mushroom lands in the inventory
+PASS: ammo: two magazines for the gun in hand (24)
+PASS: a free spin gives the stake back
+PASS: 100 R are paid
+PASS: a grenade goes into the pouch
+PASS: a full pouch gets the stake back
+PASS: a medkit heals 60 (80)
+PASS: the minigun is won with three spare belts: JACKPOT! You won the Minigun M134 · magazine + 3 spare magazines
+PASS: a second minigun pays its ammo instead: Minigun M134! You already own it: +450 rounds for the Minigun M134 instead.
+PASS: a second axe pays ammo for a gun: Forest Axe! You already own it: +36 rounds for the Pistol instead.
+PASS: full pockets get the stake back: You already own the Minigun M134 and your ammo is full · your 10 R are back.
+PASS: a client picks up a running spin from the snapshot
+PASS: host and client wheel stop on the same segment
+PASS: the client shows the won weapon above the wheel
+PASS: a late joiner sees the wheel where it stopped
+PASS: Wheel labels fit beside their icons after switching to de
+PASS: Wheel labels fit beside their icons after switching to en
+FORTUNE_RESULT checks=43 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)

@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+COOP_LOAD BOOT exe=C:/Users/miche/Desktop/Godot.exe
+COOP_LOAD NETWORK_INITIALIZED
+RENDER_OPTIMIZER { "source_meshes": 666, "batches": 17, "removed_render_nodes": 41 }
+COOP_LOAD MAP_READY
+PASS: deagle loads its imported recording
+PASS: deagle keeps the supplied recording and its tail
+PASS: deagle actually plays its new report
+PASS: flare_pistol loads its imported recording
+PASS: flare_pistol keeps the supplied recording and its tail
+PASS: flare_pistol actually plays its new report
+PASS: mac10 loads its imported recording
+PASS: mac10 keeps the supplied recording and its tail
+PASS: mac10 actually plays its new report
+PASS: cryo_smg loads its imported recording
+PASS: cryo_smg keeps the supplied recording and its tail
+PASS: cryo_smg actually plays its new report
+PASS: plasma_sniper loads its imported recording
+PASS: plasma_sniper keeps the supplied recording and its tail
+PASS: plasma_sniper actually plays its new report
+PASS: lever_rifle loads its imported recording
+PASS: lever_rifle keeps the supplied recording and its tail
+PASS: lever_rifle actually plays its new report
+PASS: minigun loads its imported recording
+PASS: minigun keeps the supplied recording and its tail
+PASS: Minigun starts the sustained recording on the first shot
+PASS: graviton_cannon loads its imported recording
+PASS: graviton_cannon keeps the supplied recording and its tail
+PASS: graviton_cannon actually plays its new report
+PASS: Graviton impact does not replay its muzzle recording
+PASS: Switching to the graviton stops the old minigun voice
+PASS: Minigun loops the long supplied recording
+PASS: Looping does not mutate the shared source resource
+PASS: Repeated shots reuse one voice without restarting its playback
+PASS: Long minigun reports never enter the overlapping one-shot pool
+PASS: Releasing the trigger fades the shot recording out
+PASS: Reloading stops the firing recording
+PASS: An inactive shooter cannot leave firing audio running
+PASS: Coop uses a positional firing loop per teammate
+PASS: Stopping the local gun does not stop a teammate's loop
+PASS: Missing further coop shot events end the loop automatically
+WEAPON_RECORDINGS_DONE checks=36 failures=0
+ERROR: 1 RID allocations of type 'P10JoltBody3D' were leaked at exit.
+WARNING: 1 ObjectDB instance was leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
