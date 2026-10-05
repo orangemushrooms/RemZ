@@ -1,0 +1,33 @@
+RemZ player-experience Windows release
+Confirmed available UTC: 2026-10-05T15:36:25.778544+00:00
+Project: https://keknyan.itch.io/remz
+Channel: keknyan/remz:windows
+itch upload: 19367070
+itch build: 2070710
+User version: remz-windows-20261005-1732-player-experience
+Source commit: 52d01a6e9cc0428e5fdeac2ef54013d6dffd264a
+Source working tree at export validation: clean
+Engine: Godot 4.7.2 stable
+Network: protocol 8 / remz-dev-20261005-player-experience / Co-op 2026.10.05-F
+
+Validation:
+45 existing regression suites / 3273 assertions; HUD and real input DE 106; fieldbook EN 133 / rendered DE 151; onboarding Forest 29 / Planes 31; Vendor rendered DE 13; targeted gameplay 22+35; checkpoint schema 13; expedition 442; Forest ENet 24+10 / Planes ENet 28+13; compatibility 36; offline lobby 44; restart 14; native Forest+Planes startup; actual release PCK 16+16; compile 381; i18n 2628.
+Both native map starts and all 32 release-PCK assertions passed.
+No unrelated secrets found by the release audit.
+Upload completed successfully; itch.io subsequently marked the exact build available.
+
+Shipped runtime files (bytes, SHA-256):
+RemZ.exe 109350400 7675c91308166f553ccce8689961f8d3757c1c16f3deef4f8c70f0d91674517f
+RemZ.pck 3189256932 51242fc83a93464bc3713aa43385d3592dc643c74128ca9449d199e02c8f3376
+libeosg.windows.template_release.x86_64.dll 1144320 b599c4fce153849093efcdc13917075f76f8ef171d47e6a2522346d61221527b
+EOSSDK-Win64-Shipping.dll 19531704 9c498fe31c8df1d9085dfa9c71c6d50ec6b569acdb29f1decb97be105b6341dc
+xaudio2_9redist.dll 847440 0e01f400baa09694cacfd2cfbff0d721c17b56785d2d6e29b6fdd117f70ccc1e
+
+Server confirmation:
++---------+-----------+----------------------------+----------------------------------------------+
+| CHANNEL |  UPLOAD   |           BUILD            |                   VERSION                    |
++---------+-----------+----------------------------+----------------------------------------------+
+| windows | #19367070 | √ #2070710 (from #2069978) | remz-windows-20261005-1732-player-experience |
++---------+-----------+----------------------------+----------------------------------------------+
+
+Report: docs/PLAYER_EXPERIENCE_VALIDATION.md
