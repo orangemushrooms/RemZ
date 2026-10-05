@@ -25,5 +25,10 @@ func run() -> void:
 			print("FAIL: Armored enemy was not released")
 			quit(1)
 			return
+	# Give the audio mixer its teardown frame after freeing the fixture. Exiting
+	# directly from the last deletion frame leaves an active MP3 decode in use.
+	game.queue_free()
+	await process_frame
+	await create_timer(0.1).timeout
 	print("PLANES_CLEANUP_DONE checks=3 failures=0")
 	quit()

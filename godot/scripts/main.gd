@@ -2918,10 +2918,13 @@ func _process(delta: float) -> void:
 		var secret_prompt := secret_night.prompt(player)
 		var bar_prompt: String = secret_night.bar.prompt(player) if secret_prompt.is_empty() and secret_night.bar else ""
 		var fortune_prompt: String = fortune.prompt(player) if fortune and loot == null and secret_prompt.is_empty() and bar_prompt.is_empty() else ""
+		var expedition_target := expedition.nearest(player) if expedition and expedition.can_interact_world() else ""
 		# One E target, in exactly the same priority order as the input dispatch below.
 		# Independent shortcuts are appended so a nearby station cannot erase them.
 		var actions: Array[String] = []
-		if not trial_prompt.is_empty(): actions.append(Lang.t(trial_prompt))
+		if downed: actions.append(Lang.t("Hold E · Revive %s · 3 seconds", [Lang.raw(NetSession.roster[downed])]))
+		elif not expedition_target.is_empty(): actions.append(expedition.interaction_prompt(expedition_target))
+		elif not trial_prompt.is_empty(): actions.append(Lang.t(trial_prompt))
 		elif not secret_prompt.is_empty(): actions.append(Lang.t(secret_prompt))
 		elif not bar_prompt.is_empty(): actions.append(Lang.t(bar_prompt))
 		elif not fortune_prompt.is_empty(): actions.append(Lang.t(fortune_prompt))
@@ -2929,7 +2932,6 @@ func _process(delta: float) -> void:
 		elif _notice_open: actions.append(Lang.t("[E] Close note"))
 		elif reading_notice: actions.append(Lang.t("[E] Read sign · A strange note"))
 		elif not npc.is_empty() and not downed: actions.append(Lang.t(progression.prompt(npc)))
-		elif downed: actions.append(Lang.t("Hold E · Revive %s · 3 seconds", [Lang.raw(NetSession.roster[downed])]))
 		elif loot: actions.append(Lang.t(loot.prompt_text()))
 		elif tower:
 			actions.append(Lang.t("Tower occupied") if tower.operator_peer else Lang.t("[E] Operate %s\n%d/%d HP · Range %d m · bright sector: automatic", [tower.spec().name, ceili(tower.hp), ceili(tower.max_hp()), roundi(tower.attack_range())]))
@@ -2945,8 +2947,10 @@ func _process(delta: float) -> void:
 			if defences.roof_access(player):
 				actions.append(Lang.t("[T] Forest hut · towers and roof defenses"))
 		hud.set_prompt("\n".join(actions))
-		if expedition and not expedition.nearest(player).is_empty() and Input.is_action_just_pressed("interact"):
-			pass # The expedition input handler owns this interaction.
+		if downed and Input.is_action_just_pressed("interact"):
+			NetSession.command("revive",[downed,true])
+		elif not expedition_target.is_empty() and Input.is_action_just_pressed("interact"):
+			expedition.request("interact", [expedition_target])
 		elif not trial_prompt.is_empty() and Input.is_action_just_pressed("interact"):
 			if NetSession.enabled: NetSession.command("field_trial", [])
 			else: field_trials.interact(player)
@@ -2964,8 +2968,6 @@ func _process(delta: float) -> void:
 			_read_notice()
 		elif not npc.is_empty() and not downed and Input.is_action_just_pressed("interact"):
 			progression.interact(npc)
-		elif downed and Input.is_action_just_pressed("interact"):
-			NetSession.command("revive",[downed,true])
 		elif loot and Input.is_action_just_pressed("interact"):
 			var was_weapon: bool = loot is Loot and loot.kind == "weapon" and not weapons.unlocked.get(loot.id, false)
 			if loot is Door:

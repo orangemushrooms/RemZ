@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 8 # Expedition state, class actions, shared supplies and region finales.
-const BUILD := "remz-dev-20261005-expeditions"
+const BUILD := "remz-dev-20261005-player-experience"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.

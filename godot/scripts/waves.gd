@@ -291,6 +291,16 @@ func skip_current_wave() -> bool:
 	start(wave + 1)
 	return true
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not event.is_action_pressed("next_wave", false, true): return
+	if not main or not main.started or main.over or phase != "idle" or get_tree().paused: return
+	if not player or not player.active or not player.alive or main.hud.overlay.visible or NetSession.is_client(): return
+	if timer > 1.0:
+		if NetSession.enabled: NetSession.command("next_wave", [])
+		else: timer = 1.0
+		hud.message(Lang.t("Wave %d is coming!", [wave + 1]), 1.2)
+	get_viewport().set_input_as_handled()
+
 func _process(delta: float) -> void:
 	if NetSession.is_client() or (NetSession.enabled and (not main.started or main.over)):
 		return
@@ -307,9 +317,6 @@ func _process(delta: float) -> void:
 		return
 	if phase == "idle":
 		timer -= delta
-		if Input.is_action_just_pressed("next_wave") and wave > 0 and timer > 1.0:
-			timer = 1.0
-			hud.message(Lang.t("Wave %d is coming!", [wave + 1]), 1.2)
 		var boss := EncounterBalance.title(wave + 1) != "HORDE"
 		hud.set_wave(wave + 1, Lang.t("Start in %d s  ·  %d zombies  ·  %s\nEnter: start now", [ceili(timer), preview_count(wave + 1), EncounterBalance.title(wave + 1)]) if boss else Lang.t("Start in %d s  ·  %d zombies\nEnter: start now", [ceili(timer), preview_count(wave + 1)]))
 		if timer <= 0.0:

@@ -10,6 +10,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import time
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -40,11 +41,22 @@ def main():
         command += ["--expedition-captures"]
     command += args.flag
     with log.open("w", encoding="utf-8") as output:
+        process = subprocess.Popen(command, cwd=ROOT, env=environment, stdout=output, stderr=subprocess.STDOUT)
+        deadline = time.monotonic() + 900
         try:
-            result = subprocess.run(command, cwd=ROOT, env=environment, stdout=output, stderr=subprocess.STDOUT, timeout=900)
-        except subprocess.TimeoutExpired:
-            print(f"FAIL {args.suite}: timeout; {log}")
-            return 1
+            while process.poll() is None:
+                text = log.read_text(encoding="utf-8", errors="replace")
+                fatal = any("SCRIPT ERROR" in line or line.startswith("ERROR:") and "root certificate store" not in line for line in text.splitlines())
+                if fatal or time.monotonic() >= deadline:
+                    print(f"FAIL {args.suite}: {'engine/script error' if fatal else 'timeout'}; {log}", flush=True)
+                    process.terminate()
+                    break
+                time.sleep(0.25)
+        finally:
+            if process.poll() is None:
+                process.terminate()
+            process.wait(timeout=15)
+        result = process
     text = log.read_text(encoding="utf-8", errors="replace")
     markers = re.findall(r"(?:[A-Z0-9_]+_DONE[^\n]*|COMPILE_ALL scripts=\d+ broken=\d+)", text)
     # The restricted Windows environment cannot read its root certificate store;

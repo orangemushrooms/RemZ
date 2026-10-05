@@ -62,6 +62,8 @@ func _build_briefing(box: VBoxContainer) -> void:
 		game._menu_actions[action] = button
 
 func _build_controls(box: VBoxContainer) -> void:
+	box.add_child(_label("Z: Class action. Uses the key labelled Z on your keyboard. K: Expedition fieldbook, also available from the pause menu.", 13, MUTED))
+	box.add_child(_label("V: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round.", 13, MUTED))
 	var grid := GridContainer.new()
 	grid.columns = 2
 	grid.add_theme_constant_override("h_separation",22)

@@ -3,7 +3,7 @@ extends Progression
 const SITES := {"camp":Vector2(22,3),"mechanic":Vector2(27,13),"secret":Vector2(151,-7)}
 const FLOWER_SELL_PRICE := 5
 const FIELD_QUESTS := {
-	"welcome":{"npc":"camp","name":"A place of your own","desc":"Choose your ground. Buy and place two defence kits.","goal":"built_wall","count":2,"reward":90,"wave":0},
+	"welcome":{"npc":"camp","name":"A place of your own","desc":"Buy two defence kits from Mechanic. Choose your ground and place them with B; the preview guides each placement.","goal":"built_wall","count":2,"reward":90,"wave":0},
 	"bouquet":{"npc":"camp","name":"Colour in the fields","desc":"Collect six marked wildflower bundles on the meadow paths.","goal":"flowers","count":6,"reward":120,"wave":1,"requires":"welcome"},
 	"engineer":{"npc":"mechanic","name":"Your first strongpoint","desc":"Place a tower using T. Towers can stand anywhere suitable.","goal":"built","count":1,"reward":100,"wave":1,"requires":"welcome"},
 	"watch":{"npc":"camp","name":"Open sky, steady hands","desc":"Defeat thirty zombies. The camp does not need defending.","goal":"kills","count":30,"reward":120,"wave":2,"requires":"bouquet","after":1},
@@ -32,7 +32,9 @@ var _menu_signature := ""
 
 func setup(main: Node) -> void:
 	game = main
+	_load_onboarding()
 	layer = 24
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	rare_market = load("res://scripts/rare_market.gd").new()
 	rare_market.game = game
 	add_child(rare_market)
@@ -135,7 +137,7 @@ func open_field(id: String) -> void:
 		game.hud.message("Start survival from the pause menu to trade and build.",4)
 		return
 	if not close_enough(game.player,id): return
-	shop = id; page = "Quests" if id=="mechanic" else "Trade"; is_open = true
+	shop = id; page = "Quests" if id=="mechanic" or (id=="camp" and not _arrival_guide_read) else "Trade"; is_open = true
 	_mod_weapon = game.weapons.ammo_weapon()
 	_greet(id)
 	if id=="secret": discovered_secret = true
@@ -148,8 +150,10 @@ func open_field(id: String) -> void:
 func close() -> void:
 	is_open = false
 	loadout_open = false
+	if vendor_guide: vendor_guide.hide()
+	_arrival_guide_pending = false
 	if field_panel: field_panel.hide()
-	if game and game.player and not game.over and not get_tree().paused:
+	if game and game.player and game.player.alive and not game.player.downed and not game.over and not get_tree().paused:
 		game.player.active = true
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -213,6 +217,8 @@ func _render() -> void:
 			var name := "Timber palisade kit" if id=="palisade" else "Sandbag wall kit"
 			_row(name,Lang.t("Carried: %d. Place with B; rotate with mouse wheel. Upgrade at the built wall with U.",[kit_stock[id]]),"%d R" % kit_price(id),request_kit.bind(id),game.player.score<kit_price(id))
 		return
+	if shop=="camp":
+		_row("Basics with Vendor", "A short guide to your gear, class ability, fieldbook and building. Read or skip at your own pace.", "View introduction", _replay_vendor_guide)
 	for id in FIELD_QUESTS:
 		var q: Dictionary = FIELD_QUESTS[id]
 		if q.npc!=shop: continue
@@ -360,6 +366,15 @@ func sample_collectibles() -> void:
 
 func _process(delta: float) -> void:
 	if not game or not game.ready_for_exploration: return
+	_update_onboarding(delta)
+	tutorial.text = _onboarding_text
+	tutorial.visible = not _onboarding_text.is_empty() and _journal and game.survival_active
+	tutorial.position.y = tracker.position.y
+	tutorial.size.y = 0
+	# Only UI observations run through a solo pause; damage and harvest sampling do not.
+	if get_tree().paused:
+		tracker.hide()
+		return
 	# The Forest market ticks its burn and frost timers in its own physics loop, which the Planes keeps
 	# switched off (no wandering trader here): without this a frozen body stayed frozen for good and a
 	# burning one never took its damage.
@@ -384,7 +399,9 @@ func _process(delta: float) -> void:
 	var id := nearest(game.player)
 	var range_id: String = game.shooting_range.nearby(game.player)
 	if NetSession.enabled and NetSession.world.nearby_downed_player(): return
-	if not range_id.is_empty(): game.hud.set_prompt(game.shooting_range.prompt(range_id))
+	var objective: String = game.expedition.nearest(game.player) if game.get("expedition") and game.expedition.can_interact_world() else ""
+	if not objective.is_empty(): game.hud.set_prompt(game.expedition.interaction_prompt(objective))
+	elif not range_id.is_empty(): game.hud.set_prompt(game.shooting_range.prompt(range_id))
 	elif meat>=0: game.hud.set_prompt(game.hunting.prompt(game.player,meat))
 	elif game.hunting.at_grill(game.player): game.hud.set_prompt("[E] Grill venison · [C] Brew drinks")
 	elif not id.is_empty(): game.hud.set_prompt("[E] " + str(NPCS[id].name))
@@ -413,7 +430,7 @@ func _unhandled_input(event_input: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if event_input.is_action_pressed("interact"):
-		if game.get("expedition"):
+		if game.get("expedition") and game.expedition.can_interact_world():
 			var objective: String = game.expedition.nearest(game.player)
 			if not objective.is_empty():
 				game.expedition.request("interact", [objective])
@@ -469,26 +486,45 @@ func show_loadout() -> void:
 	game.inventory.open()
 
 func _update_tracker() -> void:
-	tracker.visible = game.survival_active and _journal and game.player.active and not game.over
+	tracker.visible = game.survival_active and _journal and game.player.active and not game.over and not game.hud.overlay.visible and not tutorial.visible
 	if not tracker.visible: return
-	var lines: Array[String] = [Lang.t("QUESTS - Q on/off")]
-	var shown := 0
+	var focus := ""
 	for id in accepted:
 		if claimed.has(id): continue
-		var q: Dictionary = FIELD_QUESTS[id]
-		var entry := "[b]%s[/b]\n%s" % [Lang.t(q.name),field_quest_progress(id)]
-		if quest_ready(id): entry += "\n[color=#ffd479]%s[/color]" % Lang.t("Ready to turn in to %s - %d R",[NPCS[q.npc].name,q.reward])
-		lines.append(entry)
-		shown += 1
-		if shown>=3: break
+		if focus.is_empty() or quest_ready(id): focus = id
+		if quest_ready(id): break
 	var range_data: Dictionary = game.shooting_range.data(game.player.peer_id)
-	if range_data.accepted and not range_data.claimed:
-		lines.append("[b]%s[/b]\n%s" % [Lang.t("300 m challenge"),_range_progress(range_data)])
-		shown += 1
-	if shown==0: lines.append(Lang.t("Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."))
-	lines.append(Lang.t("Field journal")+" [J]")
-	tracker.text = "\n\n".join(lines)
+	if not focus.is_empty():
+		var q: Dictionary = FIELD_QUESTS[focus]
+		var count: int = game.waves.completed if q.goal=="waves" else int(field_counts.get(q.goal, 0))
+		var goal: String = Lang.t("%s %d/%d", [q.desc, mini(count, int(q.count)), int(q.count)])
+		if count >= int(q.count): goal = Lang.t("After accepting: survive %d more wave(s)", [maxi(0, int(accepted_waves.get(focus, game.waves.completed))+int(q.get("after",0))-game.waves.completed)])
+		tracker.text = "[b]%s[/b]\n%s" % [Lang.t(q.name), Lang.t("Ready to turn in to %s - %d R", [NPCS[q.npc].name,q.reward]) if quest_ready(focus) else goal]
+		if quest_ready(focus): tracker.text = "[color=#ffd479]%s[/color]" % tracker.text
+	elif range_data.accepted and not range_data.claimed:
+		tracker.text = "[b]%s[/b]\n%s" % [Lang.t("300 m challenge"), _range_progress(range_data)]
+	else:
+		tracker.text = "AT THE FORK\nMeet Vendor by the campfire." if not claimed.has("welcome") else "HOLD YOUR GROUND\nPrepare for the next wave."
+		if claimed.has("welcome"):
+			for id in FIELD_QUESTS:
+				if claimed.has(id) or not field_quest_lock_reason(id).is_empty(): continue
+				if FIELD_QUESTS[id].npc == "secret" and not discovered_secret: continue
+				tracker.text = Lang.t("NEW WORK\nTalk to %s about %s.", [NPCS[FIELD_QUESTS[id].npc].name, FIELD_QUESTS[id].name])
+				break
 	tracker.size.y = 0
+
+func _has_building_lesson() -> bool:
+	return (accepted.has("engineer") and not claimed.has("engineer")) or (accepted.has("welcome") and not claimed.has("welcome"))
+
+func fieldbook_quests() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for ready in [true, false]:
+		for id in FIELD_QUESTS:
+			if not accepted.has(id) or claimed.has(id) or quest_ready(id) != ready: continue
+			var q: Dictionary = FIELD_QUESTS[id]
+			result.append({"name": Lang.t(q.name), "details": field_quest_progress(id),
+				"npc": Lang.t(NPCS[q.npc].name), "reward": int(q.reward), "ready": ready})
+	return result
 
 func mod_lock_reason(p: Player, id: String, wid: String) -> String:
 	var equipment: Weapons = NetSession.world.weapons[p.peer_id] if NetSession.is_host() else game.weapons
@@ -585,6 +621,13 @@ func snapshot() -> Dictionary:
 	return {"people":field_people.duplicate(true),"taken":taken,"wild":game.nature._picked.keys(),"rare":rare_market.people.duplicate(true),"standard":people.duplicate(true)}
 
 func apply_snapshot(state: Dictionary, _initial := false) -> void:
+	# A checkpoint can precede a harvest in this same scene. Restore availability,
+	# not just previously taken objects, before applying that earlier world state.
+	if _initial:
+		for item in collectibles:
+			item.taken = false
+			item.node.show()
+		if game.nature: game.nature.reset_harvest()
 	people = state.get("standard",{}).duplicate(true)
 	field_people = state.get("people",{}).duplicate(true)
 	var mine: Dictionary = field_people.get(NetSession.local_id(),{})

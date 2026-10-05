@@ -11,6 +11,9 @@ var ghost: MeshInstance3D
 var material: StandardMaterial3D
 var kit_menu: PanelContainer
 var kit_rows: VBoxContainer
+var _was_active := false
+var _was_paused := false
+var _saved_mouse := Input.MOUSE_MODE_CAPTURED
 
 static func prewarm(parent: Node3D, main: Node3D) -> void:
 	preload("res://scripts/tower_audio.gd").prewarm()
@@ -40,6 +43,7 @@ static func prewarm(parent: Node3D, main: Node3D) -> void:
 
 func setup(main: Node) -> void:
 	game = main
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	layer = 9
 	ghost = MeshInstance3D.new()
 	var mesh := BoxMesh.new()
@@ -65,7 +69,8 @@ func reset_run() -> void:
 	game.barricades.clear()
 
 func open_kits() -> void:
-	if not game.survival_active or game.over: return
+	if not _can_open_kits(): return
+	_remember_controls()
 	for child in kit_rows.get_children():
 		kit_rows.remove_child(child); child.queue_free()
 	for id in ["palisade","sandbags"]:
@@ -80,14 +85,39 @@ func open_kits() -> void:
 	kit_rows.add_child(close_button)
 	kit_menu.show()
 	game.player.active = false
+	game.player.velocity = Vector3.ZERO
+	get_tree().paused = not NetSession.enabled
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	for button in kit_rows.get_children():
+		if button is Button and not button.disabled:
+			button.grab_focus()
+			break
+
+func _can_open_kits() -> bool:
+	if not game or not game.survival_active or not game.started or game.over or get_tree().paused: return false
+	var player: Player = game.player
+	if not player.active or not player.alive or player.downed or player.mounted_tower or player.controlling_drone: return false
+	if game.hud.overlay.visible or game.progression.is_open or game.defences.is_open or game.defences.placing: return false
+	if game.get("expedition") and game.expedition.book.is_open: return false
+	return not kit_menu.visible and not placing
+
+func _remember_controls() -> void:
+	_was_active = game.player.active
+	_was_paused = get_tree().paused
+	_saved_mouse = Input.mouse_mode
 
 func begin(id: String) -> void:
 	if not game.progression.kit_stock.has(id) or game.progression.kit_stock[id]<=0: return
+	if not game.player.alive or game.player.downed or game.over: return
+	if not kit_menu.visible:
+		if not _can_open_kits(): return
+		_remember_controls()
 	kind = id
 	error = "Choose solid ground."
 	kit_menu.hide()
-	game.player.active = true
+	get_viewport().gui_release_focus()
+	get_tree().paused = _was_paused if not NetSession.enabled else false
+	game.player.active = _was_active
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	yaw = game.player.rotation.y
 	auto_align = true
@@ -95,17 +125,21 @@ func begin(id: String) -> void:
 	ghost.show()
 
 func cancel() -> void:
+	var was_open := placing or (kit_menu != null and kit_menu.visible)
 	placing = false
 	if ghost: ghost.hide()
 	if kit_menu: kit_menu.hide()
-	if game and not game.over and not get_tree().paused:
-		game.player.active = true
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	if not was_open or not game: return
+	get_viewport().gui_release_focus()
+	get_tree().paused = _was_paused if not NetSession.enabled else false
+	game.player.active = _was_active and game.player.alive and not game.over and not get_tree().paused and not game.hud.overlay.visible
+	Input.mouse_mode = _saved_mouse if game.player.active else Input.MOUSE_MODE_VISIBLE
 
 func placement_error(at: Vector3, angle: float, builder: Player = null) -> String:
 	if not builder: builder = game.player
 	if not at.is_finite() or not is_finite(angle) or not game.survival_active: return "Building unavailable."
-	if game.barricades.size()>=40: return "Fortification limit reached."
+	var structures: int = game.expedition.structures.items.size() if game.get("expedition") else 0
+	if game.barricades.size()+structures>=40: return "Fortification limit reached."
 	var distance: float = builder.position.distance_to(at)
 	if distance<2 or distance>8: return "Choose ground 2–8 m away."
 	if absf(Map.ground_height(at.x,at.z)-at.y)>0.2: return "Choose solid ground."
@@ -213,11 +247,16 @@ func upgrade_nearest(builder: Player = null) -> String:
 	return upgrade_id(str(bar.slot.id),builder if builder else game.player)
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not game: return
+	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode in [KEY_B, KEY_ESCAPE] and (placing or kit_menu.visible):
+		cancel()
+		get_viewport().set_input_as_handled()
+		return
+	if not game.survival_active or game.over or not game.player.active or not game.player.alive or game.player.downed or game.player.mounted_tower or game.player.controlling_drone or game.hud.overlay.visible or get_tree().paused: return
 	if placing and event is InputEventMouseButton and event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
 		yaw += deg_to_rad(15)*(1 if event.button_index==MOUSE_BUTTON_WHEEL_UP else -1)
 		auto_align = false
 		get_viewport().set_input_as_handled(); return
-	if not game or not game.survival_active or game.over or game.player.downed or game.player.mounted_tower: return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.physical_keycode==KEY_B and not game.progression.is_open and not game.defences.is_open and not game.defences.placing:
 			if placing or kit_menu.visible: cancel()
@@ -237,8 +276,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 func _process(_delta: float) -> void:
+	if kit_menu.visible and (game.over or not game.player.alive or game.player.downed): cancel()
 	if not placing: return
-	if game.over or not game.player.alive: cancel(); return
+	if game.over or not game.player.alive or game.player.downed or not game.player.active or game.hud.overlay.visible: cancel(); return
+	if get_tree().paused: return
 	if game.progression.kit_stock[kind]<=0: cancel(); return
 	var camera: Camera3D = game.player.camera
 	var query := PhysicsRayQueryParameters3D.create(camera.global_position,camera.global_position-camera.global_basis.z*12,1,[game.player.get_rid()])

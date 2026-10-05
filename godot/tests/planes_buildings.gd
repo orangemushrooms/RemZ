@@ -22,7 +22,7 @@ func run() -> void:
 		source.append(source[0])
 		var builder := preload("res://scripts/planes_buildings.gd").new()
 		builder._cube = BoxMesh.new().get_mesh_arrays()
-		builder._build_house({"poly":source,"h":5.6},11)
+		builder._build_house({"osm_id": -1100, "poly":source,"h":5.6},11)
 		var windows := 0
 		var outside := true
 		var roof_uv := true

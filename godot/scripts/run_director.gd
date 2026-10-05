@@ -189,7 +189,7 @@ func transact(peer: int, action: String, args: Array) -> String:
 			var id: String = args[0]
 			state.augments.append(id)
 			state.offers.clear()
-			if id == "medic": state.bandages += 2
+			if id == "medic": state.bandages = mini(8, state.bandages+2)
 			if id == "reserve":
 				gear(peer).refill_all()
 				gear(peer).grenades = mini(gear(peer).grenades_max, gear(peer).grenades+1)
@@ -772,20 +772,59 @@ func _tick_reinforcements(objective: Dictionary, delta: float) -> void:
 	if spawned: objective.pending -= 1
 	objective.spawn_t = 1.5
 
+func can_use_world_action() -> bool:
+	if not enabled or not is_instance_valid(game) or not game.started or game.over: return false
+	var p: Player = game.player
+	if not is_instance_valid(p) or not p.active or not p.alive or p.downed or p.controlling_drone or p.mounted_tower: return false
+	if get_tree().paused or game.hud.overlay.visible or book.is_open: return false
+	var focus := get_viewport().gui_get_focus_owner()
+	if focus and focus.is_visible_in_tree(): return false
+	if game.get("intro") and game.intro.active: return false
+	if game.defences.placing or game.defences.is_open or game.defences.input_grace > 0: return false
+	if game.get("drones") and game.drones.input_grace > 0: return false
+	if game.get("field_building") and (game.field_building.placing or game.field_building.kit_menu.visible): return false
+	return true
+
+func can_interact_world() -> bool:
+	if not can_use_world_action(): return false
+	# A held E always belongs to a nearby fallen teammate before an optional objective.
+	return not (NetSession.enabled and NetSession.world and NetSession.world.nearby_downed_player() != 0)
+
+func interaction_prompt(id: String) -> String:
+	if id == "delivery": return Lang.t("[E] Deliver supplies")
+	if id == "finale": return Lang.t("[E] Begin final defence") if finale.get("stage") == "prepare" else Lang.t("Defend the signal · Stay near the objective")
+	if id == "operation":
+		if operation.get("stage") == "offered":
+			return Lang.t({"escort": "[E] Help the stranded survivor", "radio": "[E] Defend the radio station", "drone": "[E] Recover the downed drone"}.get(operation.get("kind"), "[E] Begin operation"))
+		return Lang.t("[E] Secure the recovered drone") if operation.get("kind") == "drone" else Lang.t("Escort the survivor to camp") if operation.get("kind") == "escort" else Lang.t("Defend the radio station")
+	if id.begins_with("structure_"):
+		var item: Dictionary = structures.items.get(int(id.trim_prefix("structure_")), {})
+		if item.get("kind") == "gate": return Lang.t("[E] Close field gate" if item.get("open", false) else "[E] Open field gate")
+		return Lang.t("Use the ramp to reach the observation platform.") if item.get("kind") == "observation" else Lang.t("Fire through the opening above the cover.")
+	for site in sites:
+		if site.id != id: continue
+		if site.kind == "signal": return Lang.t("[E] Tune transmitter %d", [int(id.trim_prefix("site_"))-4])
+		if site.kind == "outpost": return Lang.t("[E] Collect outpost supplies" if site.done else "[E] Secure this outpost")
+		return Lang.t("[E] Search supply cache")
+	return ""
+
+func action_status(peer: int) -> String:
+	var state := person(peer)
+	var remaining := ceili(maxf(0, state.cooldown-elapsed))
+	if remaining == 0: return ""
+	var p := actor(peer)
+	if not p: return ""
+	var id := str(p.class_combat.build.id)
+	var names := {"gunslinger": "Focus", "assault": "Suppression", "breacher": "Shockwave", "marksman": "Target mark"}
+	var timers := {"gunslinger": "exp_focus", "assault": "exp_suppression", "marksman": "exp_mark"}
+	var active_seconds := ceili(float(p.class_combat.timers.get(timers.get(id, ""), 0)))
+	return Lang.t("%s · active %d s", [names.get(id, "Class action"), active_seconds]) if active_seconds > 0 else Lang.t("%s · ready in %d s", [names.get(id, "Class action"), remaining])
+
 func _unhandled_input(event: InputEvent) -> void:
-	if not event is InputEventKey or not event.pressed or event.echo: return
-	if event.physical_keycode == KEY_K:
-		book.toggle()
+	if event is InputEventKey and (event.ctrl_pressed or event.alt_pressed or event.meta_pressed): return
+	if event.is_action_pressed("expedition_action") and can_use_world_action():
+		request("ability")
 		get_viewport().set_input_as_handled()
-	elif game.started and game.player.active and not game.over:
-		if event.physical_keycode == KEY_Z:
-			request("ability")
-			get_viewport().set_input_as_handled()
-		elif event.physical_keycode == KEY_E:
-			var id := nearest(game.player)
-			if not id.is_empty():
-				request("interact", [id])
-				get_viewport().set_input_as_handled()
 
 func snapshot() -> Dictionary:
 	return {"config": config.duplicate(true), "elapsed": elapsed, "profile": profile, "direction": direction,

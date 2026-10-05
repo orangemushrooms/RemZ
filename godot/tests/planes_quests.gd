@@ -22,14 +22,15 @@ func run() -> void:
 	q.open_field("camp")
 	q.page = "Quests"
 	q.refresh_field()
-	check(q._row_nodes.size()==4 and q._row_nodes[0][2].text=="Accept quest" and not q._row_nodes[0][2].disabled,"Only the introductory Vendor quest is available at level one")
-	check(q._row_nodes[1][2].text=="Locked" and q._row_nodes[1][2].disabled,"Later quests appear locked in the Vendor menu")
+	check(q._row_nodes[0][2].text=="View introduction" and not q._row_nodes[0][2].disabled,"Optional Vendor guidance can be opened separately from paid supplies and quests")
+	check(q._row_nodes.size()==5 and q._row_nodes[1][2].text=="Accept quest" and not q._row_nodes[1][2].disabled,"Only the introductory Vendor quest is available at level one")
+	check(q._row_nodes[2][2].text=="Locked" and q._row_nodes[2][2].disabled,"Later quests appear locked in the Vendor menu")
 	check(not q.authoritative_action(game.player,"quest_action",["bouquet","camp"]).is_empty() and not q.accepted.has("bouquet"),"Direct quest requests cannot bypass prerequisites")
 	q.claimed.welcome = true
 	check(not q.field_quest_lock_reason("bouquet").is_empty(),"Completing the intro alone does not skip the wave gate")
 	game.waves.completed = 1
 	q.refresh_field()
-	check(q._row_nodes[1][2].text=="Accept quest" and not q._row_nodes[1][2].disabled,"Flower quest unlocks after the first wave")
+	check(q._row_nodes[2][2].text=="Accept quest" and not q._row_nodes[2][2].disabled,"Flower quest unlocks after the first wave")
 	q.field_counts.flowers = 6
 	q.quest_action("bouquet")
 	check(q.accepted.has("bouquet") and q.quest_ready("bouquet"),"Earlier flower collection counts after the quest unlocks")
@@ -46,7 +47,9 @@ func run() -> void:
 	check(q.field_quest_progress("watch").count("[color=#79df96]")==2,"Both checklist steps turn green after the required wave")
 	q.close()
 	q._update_tracker()
-	check(Lang.text(q.tracker.text).contains("Defeat thirty zombies") and Lang.text(q.tracker.text).contains("Ready to turn in") and q.tracker.text.contains("#ffd479"),"HUD tracker shows the objective and highlights the ready-to-claim reward")
+	check(Lang.text(q.tracker.text).contains("Open sky, steady hands") and Lang.text(q.tracker.text).contains("Ready to turn in") and q.tracker.text.contains("#ffd479"),"HUD tracker names the completed quest and highlights its next action: collect the reward")
+	var book_quests: Array = q.fieldbook_quests()
+	check(book_quests.size()==1 and book_quests[0].ready and Lang.text(book_quests[0].details).contains("Defeat thirty zombies"),"The fieldbook preserves the completed objective checklist behind the compact HUD")
 	q.quest_action("watch")
 	check(q.claimed.has("watch") and not q.field_quest_lock_reason("veteran").is_empty(),"Late survival quest remains locked after early quest completion")
 	q.close()

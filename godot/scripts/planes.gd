@@ -368,7 +368,7 @@ func return_to_map(select_region := true) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not ready_for_exploration or preparing_survival: return
-	if event.is_action_pressed("next_wave") and waves and waves.phase=="idle" and player.active:
+	if event.is_action_pressed("next_wave", false, true) and waves and waves.phase=="idle" and started and not over and player.active and player.alive and not get_tree().paused and not hud.overlay.visible:
 		if NetSession.enabled: NetSession.command("next_wave",[])
 		else: waves.timer = minf(waves.timer,0.1)
 		get_viewport().set_input_as_handled()
@@ -397,7 +397,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(_delta: float) -> void:
 	if not ready_for_exploration: return
-	if started and not over and not NetSession.is_client(): stats.tick(_delta)
+	if started and not over and not NetSession.is_client() and not get_tree().paused and (player.active or NetSession.is_host()): stats.tick(_delta)
 	_update_music()
 	_crickets.volume_linear = lerpf(_crickets.volume_linear,db_to_linear(Ambience.CRICKETS_VOLUME_DB)*Ambience.cricket_level_at(day_night.clock_seconds/3600),1-exp(-_delta/2))
 	if survival_active and not over and player.active:
@@ -556,7 +556,7 @@ func start_survival() -> void:
 	player.regen_mul = float(difficulty.regen)
 	player.set_crouching(false,false)
 	hud.set_health(player.hp)
-	hud.message(Lang.t("Survive the waves and final defence. Meet the traders at the fork. B: kits · T: towers · J: quests · K: expedition · Enter: next wave"),12)
+	hud.message(Lang.t("Meet Vendor at the fork. He will help you prepare for the first wave."),5)
 	set_view(0)
 	await get_tree().physics_frame
 	preparing_survival = false

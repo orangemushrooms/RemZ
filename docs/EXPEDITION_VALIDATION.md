@@ -1,8 +1,16 @@
-# Prüfbericht: Expeditionen
+# Historischer Prüfbericht: Expeditionen
 
 Stand: **5. Oktober 2026**, Windows, **Godot 4.7.2 stable**
-(`ed1daf0bf`). Geprüft wurden die Änderungen im aktuellen Arbeitsstand.
-Die [Funktionsliste und Regeln](EXPEDITIONS.md) beschreiben die Umsetzung.
+(`ed1daf0bf`). Dieser Bericht dokumentiert die damalige Expedition-Veröffentlichung
+mit Buildkennung `remz-dev-20261005-expeditions` und Menüversion
+**Co-op 2026.10.05-E**. Seine Ergebnisse sind historische Nachweise und keine
+Freigabe späterer Änderungen.
+
+Die nachfolgende Überarbeitung von Einstieg, Tastaturbelegung, Feldbuch, HUD und
+weiteren Spielfehlern wird separat im
+[aktuellen Bericht zur Bedienungsüberarbeitung](PLAYER_EXPERIENCE_VALIDATION.md)
+geprüft. Die [Funktionsliste und Regeln](EXPEDITIONS.md) beschreiben den aktuellen
+Quellstand und können deshalb von der hier geprüften Veröffentlichung abweichen.
 
 ## Ergebnisse
 

@@ -2,6 +2,8 @@
 
 Waffen werden bei Figuren in der Spielwelt gekauft. Es gibt kein frei zugängliches Waffen- oder Trainingsmenü mehr. Inventar, Pause und Einstellungen bleiben jederzeit erreichbar; **Q** blendet die Auftragsanzeige ein oder aus. Im Koop laufen Kämpfe während eines Gesprächs weiter. Solo pausiert das Gespräch.
 
+Der erste Kontakt auf beiden Karten ist **Vendor im Lager**. Seine freiwillige Einführung erklärt Inventar, eigene Klassenaktion, Feldbuch und den Bau auf der jeweiligen Karte. **K** oder das Pausenmenü öffnet das Feldbuch mit den vollständigen angenommenen Aufträgen. **Z** verwendet den aufgedruckten Buchstaben auch auf QWERTZ; Assassin nutzt seinen freigeschalteten Teleport auf **V**. Die folgende Händler- und Auftragsübersicht beschreibt Forest; The Planes besitzt eigene Feldaufträge.
+
 ## Am Lagerfeuer anfangen
 
 An der kleinen Feuerstelle am westlichen Feldweg wartet **Mara, die Försterin**. Mit **E** öffnet sich ihr Auftragsmenü. Sie hat keinen Warenverkauf und vergibt eine eigene Kette: „Was der Wald uns gibt“ (5 Steinpilze, 90 R), „Unruhe auf den Wegen“ (12 Läufer, 140 R) und „Solange das Feuer brennt“ (Welle 6 und 80 Zombies, 220 R); sie setzen Einsatzlevel 2, 5 und 8 voraus. Der erste Auftrag wird nach „Am Feuer“ verfügbar. Pilze bleiben im Inventar; der Teamfortschritt zählt in Solo und Koop. Mara erscheint auf der Minimap, sobald man sie aus höchstens 30 m mit freier Sicht gesehen hat, und erhält bei fertigen Aufträgen ein goldenes Fragezeichen.
@@ -41,16 +43,16 @@ Die Werkzeugkiste der Lieferung liegt in jeder Runde an einem anderen, zufällig
 
 ## Türme bedienen
 
-- **T:** Bauvorschau öffnen. Grün zeigt einen gültigen Platz, Rot nennt das Hindernis.
-- **R / Mausrad:** in Schritten von 15° drehen. **Shift+R** dreht zurück.
-- **E:** bauen beziehungsweise die neue Ausrichtung bestätigen. **T / Escape:** abbrechen.
-- **E an einem bestehenden Turm:** aufsteigen und die Waffe bedienen; nochmals E steigt ab. Linksklick feuert, Rechtsklick hält den Zielmodus. **R** richtet einen unbesetzten Turm neu aus. Automatisch gilt der **160°-Feuersektor**, manuell ist Rundumfeuer möglich.
+- **T:** Turmplaner aus der Vogelperspektive öffnen und einen Typ in der Bauleiste wählen. Grün zeigt einen gültigen Platz, Rot nennt das Hindernis. **Linksklick** auf den gewünschten gültigen Platz baut den Turm.
+- **R / Mausrad im Planer:** die Vorschau oder den Turm unter dem Mauszeiger in Schritten von 15° drehen. **Shift+R** dreht zurück. Einen Bodenturm mit der Maus ziehen, um ihn zu versetzen; **+ / −** zoomt.
+- **T / Escape:** Planer schliessen. Die sechs Dachringe beziehungsweise Platzknöpfe der Waldhütte lassen sich direkt anklicken; Dachtürme zählen zum gemeinsamen Teamlimit.
+- **E an einem bestehenden Bodenturm:** aufsteigen und die Waffe bedienen; nochmals E steigt ab. Linksklick feuert, Rechtsklick hält den Zielmodus. **R am nahen unbesetzten Bodenturm** startet das separate manuelle Ausrichten: mit R/Mausrad drehen und **E** bestätigen. Automatisch gilt der **160°-Feuersektor**, manuell ist Rundumfeuer möglich.
 - **F am Turm:** für 35 R reparieren. Abseits von Türmen schaltet F weiterhin die Taschenlampe.
 - **Bei Mechanic → Türme:** ausbauen oder eigene Türme abbauen. Beim Wächter kosten Stufen 100 / 175 R; andere Typen skalieren mit dem Baupreis. Ausbauten erhöhen Struktur und Reichweite und reparieren gleichzeitig. Abbau erstattet ein Drittel des Baupreises.
 
-Der Wächter kostet 120 R, Flammenwerfer 260 R, Mörser 380 R, Schweres MG 450 R und Teslaspule 600 R. Das Team kann höchstens sechs Türme bauen. Beim Wächter gelten Reichweiten 26 / 32 / 38 m und Struktur 240 / 400 / 600. Freie Schussbahn, Streuung, Schwenkzeit und Überhitzung bleiben relevant. Turmabschüsse bringen dem Erbauer die Hälfte des normalen Abschusswertes. Lebende Mitspieler erhalten zusätzlich einen Unterstützungsanteil von 25 % des vergebenen Abschusswertes.
+Der Wächter kostet 120 R, Flammenwerfer 260 R, Mörser 380 R, Schweres MG 450 R und Teslaspule 600 R. Weitere Typen und Freischaltungen stehen in [Verteidigung](VERTEIDIGUNG.md). Normal kann das Team höchstens **40 Türme** bauen, in der Vier-Türme-Herausforderung **vier**; Dach und Boden teilen dieses Limit. Beim Wächter gelten Reichweiten 26 / 32 / 38 m und Struktur 240 / 400 / 600. Freie Schussbahn, Streuung, Schwenkzeit und Überhitzung bleiben relevant. Turmabschüsse bringen dem Erbauer die Hälfte des normalen Abschusswertes. Lebende Mitspieler erhalten zusätzlich einen Unterstützungsanteil von 25 % des vergebenen Abschusswertes.
 
-Eine Barrikade wird direkt an der Linie mit **E** gebaut, verstärkt oder bei Schäden repariert. **J** verweist auf Verteidigungsberatung bei Mechanic. Die bestehende Palisade und ihre vier Zugänge bleiben Teil der Verteidigung.
+Im Wald wird eine Barrikade direkt an der Linie mit **E** gebaut, verstärkt oder bei Schäden repariert. **J** verweist dort auf Verteidigungsberatung bei Mechanic. Die bestehende Palisade und ihre vier Zugänge bleiben Teil der Verteidigung. Auf **The Planes** werden zusätzliche Befestigungsbausätze bei Mechanic gekauft und mit **B** ausgewählt: R/Mausrad dreht die Weltvorschau, **E** platziert, B/Escape bricht ab. **T + Linksklick** bleibt auf beiden Maps die Bedienung des Turmplaners. Im Wald wirft B stattdessen Rem Dollars ab.
 
 ## Waffen verdienen
 
@@ -80,7 +82,7 @@ Eine Kaufberechtigung erhält, wer alle Aufträge der gleichnamigen Questreihe a
 
 Das **Mausrad** wechselt zwischen allen gekauften Waffen. **1–9 und 0** sind die Plätze des Schnellzugriffs: Zu Beginn liegen dort nur die Pistole (1) und das Feldmesser (0); gekaufte Waffen legt man im Inventar per Rechtsklick auf einen Platz. Der Waldläufer ist ein langsames Präzisionsgewehr; das MG hat ein grosses Magazin, aber eine lange Nachladepause. Der Nachtbrecher ist eine halbautomatische Nahkampfwaffe. Der Titanenbrecher erhält gegen Titanen 75 % Zusatzschaden, hat aber nur vier Schuss und teure Munition. Beide Präzisionsgewehre haben einen stärkeren Zielzoom.
 
-Nachschub kostet pro zwei Magazine 12 / 24 / 30 / 44 / 28 / 40 / 90 / 70 / 110 R in der Reihenfolge Pistole, Revolver, MP5, AK-47, Schrotflinte, Waldläufer, MG, Nachtbrecher, Titanenbrecher. Reserven sind auf vier Magazine begrenzt; Ausnahmen sind die Pistole (acht), die Desert Eagle .50 (sechs), Plasmabüchse und Graviton-Kanone (je fünf), die Leuchtpistole (14) und die Minigun M134 (zwei). Nach einer Welle wird nur die Pistolenreserve auf mindestens 36 Schuss angehoben. Die Pause zwischen Wellen beträgt 180 Sekunden; Enter startet früher. Granaten kosten 45 R, ein Verband für bis zu 60 Gesundheit 35 R.
+Nachschub kostet pro zwei Magazine 12 / 24 / 30 / 44 / 28 / 40 / 90 / 70 / 110 R in der Reihenfolge Pistole, Revolver, MP5, AK-47, Schrotflinte, Waldläufer, MG, Nachtbrecher, Titanenbrecher. Reserven sind auf vier Magazine begrenzt; Ausnahmen sind die Pistole (acht), die Desert Eagle .50 (sechs), Plasmabüchse und Graviton-Kanone (je fünf), die Leuchtpistole (14) und die Minigun M134 (zwei). Nach einer Welle wird im Wald nur die Pistolenreserve auf mindestens 36 Schuss angehoben. Die gewöhnliche Wellenpause beträgt im Wald 120 Sekunden, auf The Planes 60 Sekunden. Enter im laufenden Spiel startet früher; eine Menübestätigung startet keine zusätzliche Welle. Granaten kosten 45 R, ein Verband für bis zu 60 Gesundheit 35 R.
 
 Skins werden für die ausgerüstete Waffe gekauft: **Waldtarn** (160 R), **Russbronze** (300 R) und **Titanenknochen** (480 R). Sie ändern Materialien, keine Kampfwerte. Bereits gekaufte Skins und das Originalfinish lassen sich beim passenden Händler kostenlos erneut anlegen. Skins sind auch für andere Koop-Spieler sichtbar.
 

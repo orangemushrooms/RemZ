@@ -5,8 +5,8 @@ Schaden, Vorräte, Aufträge, Bauten und Belohnungen; Clients senden Anfragen. P
 Fortschritte laufen über den bestehenden zuverlässigen, fortlaufend nummerierten
 Belohnungskanal. Prüfungen verwenden eigene Speicherordner und Testprofile.
 
-Die Veröffentlichung verwendet **Protokoll 8**, Build `remz-dev-20261005-expeditions`
-und Menüversion **Co-op 2026.10.05-E**. Alle Mitspieler müssen gemeinsam aktualisieren;
+Der aktuelle Quellstand verwendet **Protokoll 8**, Build `remz-dev-20261005-player-experience`
+und Menüversion **Co-op 2026.10.05-F**. Alle Mitspieler müssen gemeinsam aktualisieren;
 ältere Versionen werden beim Beitritt abgewiesen.
 
 ## Vollständige Funktionsliste
@@ -47,11 +47,41 @@ und Menüversion **Co-op 2026.10.05-E**. Alle Mitspieler müssen gemeinsam aktua
 
 ## Bedienung und Regeln
 
-**K** öffnet das Expeditionsfeldbuch, **Z** aktiviert die Klassenaktion, **E** benutzt
-ein nahes Einsatzziel. Assassin verwendet weiterhin **V** für den gewählten Teleport.
-Das Feldbuch enthält Einsätze, Augmente, Teamvorräte, Chronik, Bauten, Wettervorhersage,
-Durchlaufcode, Herausforderungen und Spielstände. Solo pausiert beim Öffnen; Koop läuft
-weiter. Die normalen Bau- und Inventarmenüs bleiben über ihre bisherigen Tasten erreichbar.
+Der Einstieg beginnt mit einem einzelnen Ziel: den **Vendor im Lager** aufsuchen.
+Seine freiwillige, wiederholbare Einführung erklärt nacheinander Ausrüstung,
+die gewählte Klasse, das Feldbuch und den Bau auf der jeweiligen Map. Nach dem
+Gespräch erscheinen einzelne praktische Hinweise im passenden Moment; erledigte
+Lektionen werden im Profil gemerkt. Erfahrene Spieler können die Einführung und
+weitere Hilfen überspringen. Der Auftragstracker zeigt jeweils den nächsten Schritt;
+die vollständigen angenommenen Aufträge bleiben im Feldbuch und beim Auftraggeber.
+
+**K** öffnet das Expeditionsfeldbuch, **Z** aktiviert die Klassenaktion. Beide Tasten
+folgen dem auf der Tastatur aufgedruckten Buchstaben. **Z** funktioniert daher auch
+auf QWERTZ, ohne auf Y auszuweichen, und bleibt beim Sprinten mit Shift benutzbar.
+Texteingaben, Menüs, Bauvorschau und Drohnensteuerung lösen keine Klassenaktion aus.
+Assassin verwendet weiterhin **V** für den gewählten Teleport. **E** führt genau die
+angezeigte nahe Interaktion aus; ein Tastendruck kann nicht gleichzeitig eine Kiste
+einsammeln und den benachbarten Händler öffnen.
+
+Das Feldbuch ist ausserdem über das **Pausenmenü** erreichbar. Seine fünf Seiten
+sind Überblick, Augmente, Team, Entdeckungen und Expedition. Optionale Listen und
+Durchlaufcodes sind aufklappbar; Lagerdienste, Reparaturen, Feuerlöschen und
+Schiessserien erscheinen beziehungsweise werden benutzbar, wenn ihr Kontext passt.
+Die Klassenkarte erklärt die eigene Fähigkeit und zeigt ihre Abklingzeit. Neue
+Augmentangebote erhalten eine Markierung in der Navigation. Solo pausiert beim
+Lesen; Koop läuft weiter. Escape kehrt zum vorherigen Spiel- oder Pausenzustand
+zurück, einschliesslich Tastaturfokus. K in einem bearbeitbaren Codefeld ist eine
+Texteingabe. Das Laden eines Spielstands verlangt eine Bestätigung.
+
+Die permanente Tastenkürzelliste am oberen Bildrand entfällt. Waffenname und
+Munition sitzen kompakt am unteren rechten Rand; unbenutzte Nachladeanzeigen bleiben
+ausgeblendet. Der Bereich für Pistole und Waffenmodell bleibt dadurch frei. Minimap,
+Schnellzugriff, Menüs und Waffenfeld werden auch auf einer 720p-Zeichenfläche getrennt
+gehalten. Klassenaktionen erhalten während ihrer Wirkung beziehungsweise Abklingzeit
+gezielte Rückmeldung. Weitere Steuerung ist im Pausenmenü nachlesbar.
+
+**Enter** startet eine Welle nur aus der laufenden Spielsteuerung. Eine Bestätigung
+im Menü, beispielsweise auf «Weiter», startet nicht zusätzlich die nächste Welle.
 
 Ein Code gilt für seine Map. Vor Welle eins kann der Solo-Spieler beziehungsweise Host
 den Code übernehmen oder die Herausforderung ändern. Wellen, Wetter und Missionsvarianten
@@ -111,6 +141,9 @@ die Leistung. Rem Dollars bleiben ausgebbare Währung. Alte Geldrekorde behalten
 alte Kennzeichnung und werden nicht mit den Leistungsrekorden verglichen. Kosmetische
 Meisterschaft erhöht die Kampfstärke nach Klassenlevel 30 nicht weiter.
 
-Die reproduzierbaren Prüfbefehle, Ergebnisse und Grenzen stehen im
-[Prüfbericht](EXPEDITION_VALIDATION.md). Screenshots und vollständige Logs liegen lokal
-unter `artifacts/expansion-tests/`.
+Die aktuellen Prüfmethoden, bestätigten Ergebnisse und noch offenen Freigabeprüfungen
+stehen im [Bericht zur Bedienungsüberarbeitung](PLAYER_EXPERIENCE_VALIDATION.md).
+Der [historische Expeditionsbericht](EXPEDITION_VALIDATION.md) dokumentiert die
+vorherige Veröffentlichung. Screenshots und vollständige Logs liegen lokal unter
+`artifacts/expansion-tests/`, `artifacts/fieldbook-polish/` und
+`artifacts/player-experience/`.

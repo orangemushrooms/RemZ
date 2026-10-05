@@ -1,15 +1,32 @@
-﻿RemZ - Windows x64
+RemZ - Windows x64
 
 START
 ZIP vollständig in einen Ordner entpacken, dann RemZ.exe starten.
-RemZ.pck muss neben der EXE liegen. Godot muss nicht installiert werden.
-Zum Verteilen den vollständigen Inhalt dieses Ordners zippen.
+RemZ.pck und alle drei DLLs müssen neben der EXE bleiben. Godot muss nicht
+installiert werden. Zum Verteilen den vollständigen Ordnerinhalt zippen.
+
+NEU IN DIESER AUSGABE
+- Ruhigerer Einstieg: erst ein nächstes Ziel, dann die freiwillige Einführung
+  beim Vendor und einzelne praktische Hinweise im passenden Moment.
+  Erfahrene Spieler können die Hilfen überspringen.
+- Z folgt jetzt dem aufgedruckten Buchstaben auf QWERTZ und QWERTY.
+  Jede Klasse erhält ihre eigene Erklärung; Assassin behält den Teleport auf V.
+- Überarbeitetes Feldbuch mit klarer Navigation, passenden Aktionen, Aufträgen,
+  Entdeckungen, Augmenten und Spielständen. Über K oder das Pausenmenü erreichbar.
+- Waffenname und Munition sitzen kompakt unten rechts, damit die Pistole
+  besser sichtbar bleibt. Menüs und Minimap berücksichtigen den verfügbaren Platz.
+- Interaktionshinweis und ausgeführte Aktion stimmen überein. Enter im Menü
+  startet nicht zusätzlich eine Welle. Menü-, Pausen- und Speicherfehler
+  wurden auf Forest und The Planes behoben.
 
 KAMPAGNE
-Spiel starten öffnet die animierte Gebietskarte. Forest startet die Waldhütte.
-Fünf weitere Gebiete sind grau als Under construction gesperrt.
-Jede Map geht 25 Runden; nach dem letzten Gegner wird das Gebiet gesichert.
-Beststand und Siege bleiben dauerhaft auf der Karte gespeichert.
+Spiel starten öffnet die Gebietskarte. Forest und The Planes sind spielbar;
+die vier übrigen Gebiete bleiben als Under construction gesperrt.
+Eine Standardexpedition umfasst 25 Wellen mit anschliessender Schlussverteidigung
+oder Evakuierung. Erst das erfolgreiche Finale sichert das Gebiet. Die kurze
+Herausforderung umfasst zehn Wellen und ebenfalls ein Finale.
+Herausforderung und gemeinsamer Durchlaufcode sind vor Welle eins im Feldbuch wählbar.
+Beststände und Siege bleiben auf der Kampagnenkarte gespeichert.
 Im Koop wählt der Host das Gebiet. Den Abschluss erhält das ganze Team.
 Nach dem Sieg führt Kartenauswahl zurück zur Karte. Escape verlässt die Auswahl.
 
@@ -20,86 +37,53 @@ Die Wahl wird gespeichert und gilt sofort.
 STEUERUNG
 WASD: bewegen, Maus: umsehen, Linksklick/Rechtsklick: schiessen/zielen.
 Shift: sprinten, Strg: ducken, R: nachladen, 1-9/0: Schnellzugriff, Mausrad: Waffe.
-G: Granate, H: Nahkampfschlag, E: interagieren, F: Taschenlampe/Turm reparieren.
-I: Inventar, B: Rem Dollars abwerfen, M: Karte, Q: Aufträge, Tab halten: Leaderboard.
-T: Turmbaumenü (an der Waldhütte auch die sechs Dachplätze),
-R/Mausrad: Bauvorschau drehen, E: Bau bestätigen.
-E am Turm: aufsteigen/absteigen. Linksklick: feuern. Rechtsklick halten: Präzisionszoom.
-R am unbesetzten Turm: ausrichten. Ausbau/Abbau bei Mechanic.
-E an der Drohnenstation (Waldhütte, Obergeschoss): Drohne fliegen. WASD/Maus:
-fliegen und zielen, Leertaste/Strg: steigen/sinken, Linksklick: feuern,
-R/Escape: zurückrufen.
-Escape: Pause, F11: Vollbild.
-Grafik, Sound und Mausempfindlichkeit im Start-/Pausenmenü einstellen.
+G: Granate, H: Nahkampfschlag, E: die angezeigte nahe Interaktion ausführen.
+F: Taschenlampe, beziehungsweise einen nahen Turm reparieren.
+I: Inventar, M: Karte vergrössern/verkleinern, Q: Auftragsanzeige, Tab halten: Rangliste.
+K: Feldbuch, auch über das Pausenmenü erreichbar. Escape schliesst es.
+Z: Klassenaktion mit der aufgedruckten Z-Taste, auch auf QWERTZ; Shift+Z funktioniert.
+Assassin: V für den gewählten Teleport nach der Freischaltung auf Klassenlevel 15.
+T: Turmplaner. Turm wählen und mit Linksklick auf einen freien Bauplatz setzen.
+R/Mausrad: Vorschau oder Turm unter dem Mauszeiger drehen; Shift+R dreht zurück.
+Bodentürme zum Versetzen ziehen. +/- zoomt. T/Escape schliesst den Planer.
+Die Waldhütte hat sechs Dachplätze; zum Bauen freien Dachring oder Platzknopf anklicken.
+Normal sind 40 Türme pro Team erlaubt, einschliesslich der Dachtürme.
+Die Vier-Türme-Herausforderung begrenzt dieses gemeinsame Limit auf vier.
+E am Bodenturm: aufsteigen/absteigen. Linksklick: feuern. Rechtsklick halten: Zoom.
+R am nahen unbesetzten Bodenturm: manuelles Ausrichten beginnen, mit R/Mausrad
+drehen und mit E bestätigen. Ausbau/Abbau bei Mechanic.
+B im Wald: Rem Dollars abwerfen. B auf The Planes: gekaufte Befestigungsbausätze
+öffnen; Bausatz wählen, mit R/Mausrad drehen und mit E platzieren. B/Escape bricht ab.
+E an der Drohnenstation im Obergeschoss der Waldhütte: Drohne wählen.
+WASD/Maus: fliegen und zielen, Leertaste/Strg: steigen/sinken, Linksklick: feuern,
+R/Escape: zurückrufen. Der Körper bleibt an der Station.
+Enter im laufenden Spiel: nächste Welle vorzeitig starten. Menüs behalten ihre Eingabe.
+Escape: Pause, F11: Vollbild. Grafik, Sound und Mausempfindlichkeit im
+Start-/Pausenmenü einstellen.
+
+EXPEDITIONEN
+Beide Karten bieten Klassenaktionen, Augmente, optionale Einsätze, gemeinsame
+Vorräte, Entdeckungen, Leistungsrekorde und Spielstände in ruhigen Wellenpausen.
+The Planes ergänzt Aussenposten, Lieferwege, Feldbefestigungen, Schiessserien,
+Sender im Mais und wetterabhängige Brände. Im Wald gibt es die Secret Night,
+Feldprüfungen und die abschliessende Funkverteidigung.
+Das Feldbuch pausiert Solo; im Koop läuft das Spiel beim Lesen weiter.
+Koop-Spielstände speichert und lädt der Host. Vor dem Fortsetzen müssen dieselben
+Mitspieler mit eindeutigen Spielernamen wieder beigetreten sein.
 
 MEHRSPIELER
 Hauptmenü > Mehrspieler (auf Englisch: Multiplayer). Bis zu vier Spieler.
-Online-Lobby: der Host erstellt eine Lobby und gibt den sechsstelligen
-Beitrittscode weiter, die Mitspieler treten mit dem Code bei - über das
-Internet, ohne Hamachi und ohne Portfreigabe, ohne Epic-Konto.
-Direkt / LAN / Hamachi: wie bisher mit IP-Adresse und UDP-Port 24567.
-Alle Spieler brauchen diesen selben Build; die drei DLLs neben RemZ.exe
-gehören dazu. Details: MEHRSPIELER.md. Jeder Spieler kann seine eigene
-Sprache wählen; Meldungen des Hosts erscheinen bei jedem in seiner Sprache.
-
-NEU IN DIESER AUSGABE
-- Online-Lobby: Mehrspieler > Online lobby. Der Host klickt «Create lobby»
-  und gibt den sechsstelligen Beitrittscode weiter, bis zu drei Mitspieler
-  treten mit «Join with code» bei - über das Internet, ohne Hamachi, ohne
-  Portfreigabe und ohne Epic-Konto (Epic Online Services, bei Bedarf über
-  Epics Relay). «Direct / LAN / Hamachi» bleibt wie bisher. Die drei DLLs
-  neben RemZ.exe gehören zum Spiel.
-- Secret Nacht vor Welle 5: Folgt dem fernen Goa-Track in den verregneten
-  Wald. Je näher ihr der Party kommt, desto lauter und klarer klingt er.
-  Stimmt die Totems, besucht die Bar und tanzt gemeinsam. Die Abschlussquest
-  führt euch mit dem Echo der Nacht zum Lagerfeuer zurück. Erst dann geht
-  der normale Kampf weiter: 150 Rem Dollars pro Spieler und 20 Sekunden
-  Vorbereitungszeit.
-- Zwölf überarbeitete Zombie-Skins mit schärferen Materialien, verschiedenen
-  Gangarten, Angriffen und Todesanimationen, Trefferreaktionen und Kopfblicken.
-- Verfeinerte Grafikprofile mit klareren Oberflächendetails und glatteren
-  Kanten. Die Secret Nacht ist vollständig auf Deutsch und Englisch spielbar.
-- Dachtürme: An der Waldhütte bietet T neben der Bodenplatzierung sechs
-  Dachplätze. Wächter, Flammenwerfer, Mörser, Schweres MG und Teslaspule
-  feuern automatisch vom Dach, bis hin zu Zombies direkt an der Hüttenwand.
-  Zombies und Titanen erreichen sie nicht. Sie zählen zu den sechs Türmen
-  pro Team.
-- Drohnenkontrollzentrum im Obergeschoss der Waldhütte (Hüttenschlüssel
-  nötig): Kestrel-Aufklärer ab Welle 5, Viper-Kampfdrohne ab Welle 10 und
-  Tempest-Sturmdrohne ab Welle 15. Der Körper bleibt während des Flugs an
-  der Station.
-- Neue Questreihe «Drohneneinsätze» beim Mechanic: Erster Flug (150 R),
-  Bewaffnete Patrouille (250 R) und Schwere Luftunterstützung (400 R).
-- Der Mehrspieler-Tab im Hauptmenü hat eine eigene Lobby-Musik.
-- Minigun-Schüsse lauter, Boss-Musik ein Drittel leiser.
-- Behoben: Beim Turmbau zeigte der Schusssektor in die falsche Richtung,
-  sobald die Vorschau gedreht wurde.
-
-AUCH IN DIESER VERSION
-- Englisch ist die Standardsprache; Deutsch bleibt unter Settings > Language
-  (Deutsch) wählbar. Englische und deutsche Spielanleitungen liegen bei.
-- Das Spiel heisst RemZ. Einstellungen, Koop-Name, Bestenliste und Erfolge aus
-  «Birkenhof Nacht» werden beim ersten Start automatisch übernommen.
-- Erdwürmer: Ab Welle 12 gräbt sich alle vier Wellen ein Riesenwurm über die
-  südlichen Felder, ab Welle 24 auch der 19 Meter grosse Grabmahr. Ein
-  orangefarbener Erdring warnt drei Sekunden vor dem Auftauchen; Schaden
-  nehmen sie nur, solange sie aus dem Boden ragen.
-- Boss-Musik: Jeder Bosskampf spielt einen von vier eigenen Boss-Songs.
-- Türme werden mit überstandenen Wellen freigeschaltet (Wächter ab Start, dann
-  Flammenwerfer, Mörser, Schweres MG und Teslaspule), für das ganze Team.
-- Zielfernrohr mit eigenem Fadenkreuz; die Maus wird mit dem Zoom feiner.
-- Die acht Erweiterungswaffen (Desert Eagle .50, Leuchtpistole, MAC-10 SD,
-  Kryo-MP C7, Plasmabüchse, Unterhebler .45-70, Minigun M134,
-  Graviton-Kanone) mit eigenen Schussgeräuschen, Waffen-Mods, Rem Dollars,
-  Vendor-Einführung, Questmeldungen mit Ton, Wald- und Kieswege,
-  Abenddämmerung mit Grillensound und Feuerwerk.
-- Ladebildschirm mit dem RemZ-Wappen vom ersten Bild an; Hauptmenü und
-  Neustart ohne Einfrieren.
+Online-Lobby: Der Host erstellt eine Lobby und gibt den sechsstelligen
+Beitrittscode weiter. Mitspieler treten über das Internet mit diesem Code bei,
+ohne Hamachi, Portfreigabe oder Epic-Konto. Direkt / LAN / Hamachi verwendet
+IP-Adresse und UDP-Port 24567. Alle benötigen denselben aktuellen Build samt DLLs.
+Details: MEHRSPIELER.md. Jeder kann die eigene Sprache wählen; Meldungen des Hosts
+erscheinen beim jeweiligen Spieler in seiner Sprache.
 
 WEITERE INFORMATIONEN
 VERSION.txt und BUILD-INFO.json: Build, Prüfungen und Prüfsummen.
 LIESMICH.txt (diese Datei), MEHRSPIELER.md, VERTEIDIGUNG.md und FORTSCHRITT.md:
-Spielanleitungen (Dachtürme und Drohnen: VERTEIDIGUNG.md). Englische
-Fassungen: README.txt, MULTIPLAYER.md, DEFENSE.md und PROGRESSION.md.
+Spielanleitungen. Englische Fassungen: README.txt, MULTIPLAYER.md,
+DEFENSE.md und PROGRESSION.md.
 GODOT-LICENSES.txt, VALVE-LICENSE.txt und ASSETS-Dateien: Lizenz-/Quellenhinweise.
 Diagnoseprotokolle entstehen beim Spielen im Ordner logs.

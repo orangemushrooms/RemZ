@@ -1,25 +1,29 @@
 # Defense and field titans
 
-**E** builds or reinforces right at a barricade line; if the line is damaged, E repairs it. A whole line costs 50 Rem Dollars, a repair 25. Three tiers with 300 / 600 / 900 hit points; reinforcing also reduces the damage the line takes. **J** points you to defense advice at Mechanic. Traders, the introduction and quests: [Progression](PROGRESSION.md).
+In Forest, **E** builds or reinforces right at a barricade line; if the line is damaged, E repairs it. Three tiers have their own walls: **Timber Palisade** (50 R, 300 HP, repair 25 R), **Iron-banded Wall** (120 R, 800 HP, 30% armour, repair 50 R) and **Steel Bulwark** (220 R, 1600 HP, 50% armour, repair 90 R). Armour absorbs that share of each hit. **J** points you to defense advice at Mechanic. Traders, the introduction and quests: [Progression](PROGRESSION.md).
 
 Zombies attack a built line when it blocks their way to the hut. They keep their breach target while they step aside. Enemies from the four approach directions take the matching fortified approach into account. Once it is destroyed, they continue the chase. A line protects its approach; enemies that are already behind it remain dangerous.
 
 ## Gun turrets
 
-- **T** opens the tower build menu. **R / Mouse wheel** rotates the build preview, **Shift+R** rotates it back, **E** confirms, **T / Esc** cancels.
-- Types and build prices: **Sentinel 120 R**, **Flamethrower 260 R**, **Mortar 380 R**, **Heavy MG 450 R**, **Tesla Coil 600 R**. No more than six towers per team.
+- **T** opens the overhead tower planner. Pick a type in the build bar, then **left click** a valid spot to build. **R / Mouse wheel** rotates the preview or the tower under the cursor; **Shift+R** turns back. Drag a standing ground tower to another valid spot. **+ / −** zooms; **T / Esc** closes the planner.
+- Types and build prices: **Sentinel 120 R**, **Searchlight 150 R** (after wave 1), **Decoy Siren 220 R** (2), **Supply Post 300 R** (2), **Flamethrower 260 R** (2), **Mortar 380 R** (4), **Frost Cannon 420 R** (5), **Heavy MG 450 R** (6), **Sniper Nest 480 R** (6), **Rocket Pod 520 R** (7), **Tesla Coil 600 R** (8), **Harpoon Launcher 700 R** (9), **Graviton Trap 900 R** (11). Brackets indicate waves survived. Normal expeditions allow **40 towers per team**; the Four tower challenge allows **four**. A team can have one Supply Post.
 - **E at a tower:** mount it, aim with the mouse, **Left click** fires, **Hold right click** zooms and reduces the angular spread by 75%, **E** dismounts.
-- **R at an unoccupied tower:** re-align it. **F:** repair for 35 R. Upgrading and dismantling at **Mechanic → Towers**; prices scale with the type.
-- Base ranges: Sentinel 26 m, Flamethrower 14 m, Mortar 60 m, Heavy MG 44 m, Tesla Coil 22 m; each upgrade tier adds 6 m. The ground marker and the target display help you judge range and obstacles.
+- **R at an unoccupied nearby ground tower:** enter manual alignment, turn with **R / Mouse wheel**, then confirm with **E**; **T / Esc** cancels that mode. **F:** repair for 35 R. Upgrading and dismantling at **Mechanic → Towers**; prices scale with the type.
+- Base ranges: Sentinel 26 m, Flamethrower 14 m, Mortar 120 m, Heavy MG 44 m, Tesla Coil 22 m, Searchlight 40 m, Decoy Siren 40 m, Supply Post 12 m, Frost Cannon 18 m, Sniper Nest 90 m, Rocket Pod 45 m, Harpoon Launcher 40 m and Graviton Trap 30 m. Each upgrade tier adds 6 m. The ground marker and target display help you judge range and obstacles.
 - Unmanned towers fire automatically within a 160° sector; operated manually, they can fire all around. Sustained fire leads to overheating. Walls and terrain stop shots; team members take no damage from towers.
 - Zombies and titans can destroy towers. Behind a barricade, towers are better protected. On the minimap they appear as blue squares.
 
 ## Roof turrets on the forest hut
 
-- At the forest hut, **T** offers six roof slots (three on each side of the roof) next to ground placement; the first free slot is preselected. Choose the weapon, **R / Mouse wheel** turns the field of fire, **E** builds, **T / Esc** cancels at no cost.
-- Same five types, prices and unlock waves as on the ground. Roof and ground towers share the limit of six per team.
+- The Forest **T** planner marks six roof slots, three on each side of the hut. Pick a type and **click** a free roof ring or its slot button to build. **R / Mouse wheel** turns the preview; **T / Esc** closes without another purchase.
+- Gun turrets and Searchlights can use the roof; Decoy Sirens and Supply Posts cannot. Prices and unlock waves match their ground versions. The six roof slots count towards the shared **40-tower** limit; the Four tower challenge limits roof and ground towers together to four.
 - Roof turrets always fire automatically in their 160° sector; they cannot be mounted. From the edge of the roof they also hit zombies standing right at the hut wall (the Flamethrower from about 1.2 m). Zombies and titans cannot reach them.
-- Pick an occupied slot in the same menu to repair it (35 R) or re-align it. Upgrading and dismantling at **Mechanic → Towers**.
+- Point at an existing roof turret in the planner and use **R / Mouse wheel** to re-align it. An occupied slot button shows its type, tier and health. Upgrading and dismantling remain at **Mechanic → Towers**.
+
+## Fortification kits on The Planes
+
+**T** uses the same tower planner and left-click placement on The Planes. For additional walls and fortifications, first buy kits from Mechanic, press **B** to open your kits and choose one. Rotate its world preview with **R / Mouse wheel**, place it on valid ground with **E**, or cancel with **B / Esc**. The kit selection pauses solo play. In Forest, **B** drops Rem Dollars instead.
 
 ## Drone control center
 

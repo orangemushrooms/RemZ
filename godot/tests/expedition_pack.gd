@@ -15,6 +15,17 @@ func check(ok: bool, label: String) -> void:
 	if not ok: failures += 1
 	print("PASS: " if ok else "FAIL: ", label)
 
+func press(logical: Key, physical: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = logical
+	event.physical_keycode = physical
+	event.pressed = true
+	root.push_input(event, true)
+	await process_frame
+	event.pressed = false
+	root.push_input(event, true)
+	await process_frame
+
 func test() -> void:
 	var region := "forest"
 	for flag in OS.get_cmdline_user_args():
@@ -36,6 +47,26 @@ func test() -> void:
 	check(run.enabled and run.book != null and run.structures != null, "Packed scene installs all expedition systems")
 	check(run.configure({"seed": 72531, "region": region}), "Packed run can be configured before wave one")
 	check(game.waves.plan(8) == game.waves.plan(8) and not game.waves.plan(8).is_empty(), "Packed wave plans are populated and deterministic")
+	game.player.class_combat.configure({"id":"gunslinger", "level":1, "choices":[-1,-1,-1,-1,-1,-1]})
+	game.defences.input_grace = 0
+	root.gui_release_focus()
+	for i in 5: await process_frame
+	check(not run.book.status.visible and not run.book.launch.visible, "Packed start has no permanent expedition shortcut banner")
+	await press(KEY_Z, KEY_Y)
+	check(game.player.class_combat.active("exp_focus"), "Packed QWERTZ Z activates the actual class action")
+	var ammo: Rect2 = game.hud.ammo_panel.get_global_rect()
+	check(ammo.end.y >= root.get_visible_rect().end.y-20 and not ammo.intersects(game.hud.minimap.get_global_rect()), "Packed weapon panel is at the bottom without covering the map")
+	game._pause()
+	for i in 3: await process_frame
+	check(game.hud.fieldbook_button.visible and not game.quickbar.bar.visible, "Packed pause menu offers the fieldbook and hides quick slots")
+	await press(KEY_M, KEY_M)
+	check(not game.hud.minimap.expanded, "Packed pause menu blocks hidden map input")
+	game.hud.fieldbook_button.pressed.emit()
+	check(run.book.is_open and paused, "Packed pause-menu button opens the fieldbook")
+	await press(KEY_ESCAPE, KEY_ESCAPE)
+	check(not run.book.is_open and paused and game.hud.overlay.visible, "Packed Escape returns to the paused menu")
+	if region == "planes": game.set_menu(false)
+	else: game._on_start(false)
 	game.waves.wave = 3
 	game.waves.completed = 3
 	game.waves.phase = "idle"

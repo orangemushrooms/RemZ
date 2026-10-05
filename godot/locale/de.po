@@ -1023,7 +1023,7 @@ msgstr "+60 Leben; 45 s dreifache Lebensregeneration"
 msgid "Regeneration x3"
 msgstr "Regeneration ×3"
 
-#: scripts/brewing.gd scripts/planes_nature.gd scripts/planes_progression.gd
+#: scripts/brewing.gd scripts/expedition_checkpoint.gd scripts/planes_nature.gd scripts/planes_progression.gd
 msgid "flowers"
 msgstr "Blumen"
 
@@ -2271,7 +2271,7 @@ msgstr "Mission abgeschlossen"
 msgid "Team objective completed"
 msgstr "Teamziel abgeschlossen"
 
-#: scripts/class_progression.gd scripts/expedition_book.gd
+#: scripts/class_progression.gd
 msgid "Team support"
 msgstr "Teamunterstützung"
 
@@ -2316,8 +2316,8 @@ msgid "Leave session"
 msgstr "Sitzung verlassen"
 
 #: scripts/coop_menu.gd
-msgid "Version: Co-op 2026.10.05-E"
-msgstr "Version: Koop 2026.10.05-E"
+msgid "Version: Co-op 2026.10.05-F"
+msgstr "Version: Koop 2026.10.05-F"
 
 #: scripts/coop_menu.gd
 msgid "Open logs"
@@ -2399,7 +2399,7 @@ msgstr "Die Karte wird vorbereitet …"
 msgid "Return to the main menu first to host or join a game."
 msgstr "Zum Erstellen oder Beitreten zuerst ins Hauptmenü zurückkehren."
 
-#: scripts/coop_menu.gd
+#: scripts/coop_menu.gd scripts/expedition_book.gd
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -3176,28 +3176,80 @@ msgid "HORDE"
 msgstr "HORDE"
 
 #: scripts/expedition_book.gd
-msgid "Fieldbook [K]"
-msgstr "Feldbuch [K]"
+msgid "Fieldbook"
+msgstr "Feldbuch"
 
 #: scripts/expedition_book.gd
-msgid "EXPEDITION FIELDBOOK"
-msgstr "EXPEDITIONS-FELDBUCH"
+msgid "Back to game"
+msgstr "Zurück zum Spiel"
 
 #: scripts/expedition_book.gd
-msgid "Close [K / Esc]"
-msgstr "Schliessen [K / Esc]"
+msgid "Close with Escape"
+msgstr "Mit Escape schliessen"
 
 #: scripts/expedition_book.gd
-msgid "Operations"
-msgstr "Einsätze"
+msgid "Overview"
+msgstr "Überblick"
 
 #: scripts/expedition_book.gd
-msgid "Use class action [Z]"
-msgstr "Klassenaktion einsetzen [Z]"
+msgid "Augments"
+msgstr "Augments"
 
 #: scripts/expedition_book.gd
-msgid "Interact with nearby objective [E]"
-msgstr "Mit nahem Einsatzziel interagieren [E]"
+msgid "Team"
+msgstr "Team"
+
+#: scripts/expedition_book.gd
+msgid "Discoveries"
+msgstr "Entdeckungen"
+
+#: scripts/expedition_book.gd scripts/run_director.gd
+msgid "Expedition"
+msgstr "Expedition"
+
+#: scripts/expedition_book.gd
+msgid "Continue saved expedition"
+msgstr "Gespeicherte Expedition fortsetzen"
+
+#: scripts/expedition_book.gd
+msgid "Continue the saved checkpoint? Your current unsaved progress will be replaced."
+msgstr "Gespeicherten Spielstand fortsetzen? Dein aktueller, ungespeicherter Fortschritt wird ersetzt."
+
+#: scripts/expedition_book.gd
+msgid "Continue checkpoint"
+msgstr "Spielstand fortsetzen"
+
+#: scripts/expedition_book.gd
+msgid "Your next step"
+msgstr "Dein nächster Schritt"
+
+#: scripts/expedition_book.gd
+msgid "Interact with objective"
+msgstr "Mit Ziel interagieren"
+
+#: scripts/expedition_book.gd
+msgid "Field conditions"
+msgstr "Wetterlage"
+
+#: scripts/expedition_book.gd scripts/run_director.gd
+msgid "Class action"
+msgstr "Klassenaktion"
+
+#: scripts/expedition_book.gd
+msgid "Use class action"
+msgstr "Klassenaktion einsetzen"
+
+#: scripts/expedition_book.gd
+msgid "Your quests"
+msgstr "Deine Aufträge"
+
+#: scripts/expedition_book.gd
+msgid "Places to explore"
+msgstr "Orte zum Erkunden"
+
+#: scripts/expedition_book.gd
+msgid "Field assignments"
+msgstr "Aufträge im Feld"
 
 #: scripts/expedition_book.gd
 msgid "Accept long-range elite contract at camp"
@@ -3208,12 +3260,24 @@ msgid "Collect / return supply crate at camp"
 msgstr "Versorgungskiste im Lager abholen / zurückgeben"
 
 #: scripts/expedition_book.gd
-msgid "Extinguish nearby crop fire · 1 bandage"
-msgstr "Nahen Feldbrand löschen · 1 Verband"
+msgid "Field fortifications"
+msgstr "Feldbefestigungen"
+
+#: scripts/expedition_book.gd
+msgid "Face the intended building site before opening the fieldbook. Keep paths and objectives clear."
+msgstr "Blicke vor dem Öffnen des Feldbuchs zum gewünschten Bauplatz. Halte Wege und Einsatzziele frei."
 
 #: scripts/expedition_book.gd
 msgid "Repair nearest expedition fortification · 30 R"
 msgstr "Nächste Expeditionsbefestigung reparieren · 30 R"
+
+#: scripts/expedition_book.gd
+msgid "Extinguish nearby crop fire · 1 bandage"
+msgstr "Nahen Feldbrand löschen · 1 Verband"
+
+#: scripts/expedition_book.gd
+msgid "Shooting range"
+msgstr "Schiessstand"
 
 #: scripts/expedition_book.gd
 msgid "Timed series"
@@ -3228,36 +3292,20 @@ msgid "Team competition"
 msgstr "Teamwettbewerb"
 
 #: scripts/expedition_book.gd
-msgid "Augments"
-msgstr "Augments"
+msgid "Checkpoint"
+msgstr "Spielstand"
 
 #: scripts/expedition_book.gd
-msgid "Journal & bestiary"
-msgstr "Chronik & Bestiarium"
+msgid "Save checkpoint"
+msgstr "Spielstand speichern"
 
 #: scripts/expedition_book.gd
-msgid "Run & checkpoint"
-msgstr "Durchlauf & Spielstand"
+msgid "Challenge"
+msgstr "Herausforderung"
 
 #: scripts/expedition_book.gd
-msgid "Run settings can be changed before wave one. Use the same map and run code to reproduce wave profiles, missions, augments and weather."
-msgstr "Die Einstellungen lassen sich vor Welle eins ändern. Mit derselben Map und demselben Startcode erhältst du dieselben Wellenprofile, Einsätze, Augments und Wetterabläufe."
-
-#: scripts/expedition_book.gd
-msgid "Paste a run code"
-msgstr "Startcode einfügen"
-
-#: scripts/expedition_book.gd
-msgid "Copy run code"
-msgstr "Startcode kopieren"
-
-#: scripts/expedition_book.gd
-msgid "Apply run code"
-msgstr "Startcode übernehmen"
-
-#: scripts/expedition_book.gd
-msgid "Invalid run code or wrong map."
-msgstr "Ungültiger Startcode oder falsche Map."
+msgid "Apply challenge"
+msgstr "Herausforderung übernehmen"
 
 #: scripts/expedition_book.gd
 msgid "Run configured."
@@ -3268,60 +3316,124 @@ msgid "Only the host can configure a run before wave one."
 msgstr "Nur der Host kann den Durchlauf vor Welle eins einstellen."
 
 #: scripts/expedition_book.gd
-msgid "Apply challenge"
-msgstr "Herausforderung übernehmen"
+msgid "Share or enter a run code"
+msgstr "Durchlaufcode teilen oder eingeben"
 
 #: scripts/expedition_book.gd
-msgid "Save in a quiet wave intermission. For a cooperative checkpoint the same player slots must join before the host loads it. Completed rewards are not issued again."
-msgstr "Speichere in einer ruhigen Wellenpause. Für einen Koop-Spielstand müssen dieselben Spielerplätze belegt sein, bevor der Host ihn lädt. Bereits erhaltene Belohnungen werden nicht erneut vergeben."
+msgid "Use the same map and code to replay the same expedition conditions."
+msgstr "Mit derselben Karte und demselben Code spielst du unter denselben Expeditionsbedingungen."
 
 #: scripts/expedition_book.gd
-msgid "Save checkpoint"
-msgstr "Spielstand speichern"
+msgid "Paste a run code"
+msgstr "Startcode einfügen"
 
 #: scripts/expedition_book.gd
-msgid "Continue saved expedition"
-msgstr "Gespeicherte Expedition fortsetzen"
+msgid "Copy run code"
+msgstr "Startcode kopieren"
+
+#: scripts/expedition_book.gd
+msgid "Run code copied."
+msgstr "Durchlaufcode kopiert."
+
+#: scripts/expedition_book.gd
+msgid "Apply run code"
+msgstr "Startcode übernehmen"
+
+#: scripts/expedition_book.gd
+msgid "Invalid run code or wrong map."
+msgstr "Ungültiger Startcode oder falsche Map."
+
+#: scripts/expedition_book.gd
+msgid "Back to menu"
+msgstr "Zurück zum Menü"
+
+#: scripts/expedition_book.gd scripts/run_director.gd
+msgid "Class action activated."
+msgstr "Klassenaktion aktiviert."
 
 #: scripts/expedition_book.gd scripts/expedition_checkpoint.gd
 msgid "Expedition continued."
 msgstr "Expedition fortgesetzt."
 
-#: scripts/expedition_book.gd
-msgid "Forecast: %s → %s in %d s"
-msgstr "Vorhersage: %s → %s in %d s"
+#: scripts/expedition_book.gd scripts/hud.gd scripts/planes_progression.gd scripts/progression.gd
+msgid "%s · %s"
+msgstr "%s · %s"
+
+#: scripts/expedition_book.gd scripts/rare_market.gd
+msgid "Forest"
+msgstr "Wald"
 
 #: scripts/expedition_book.gd
-msgid "Bandages: %d · Action ready in %d s"
-msgstr "Verbände: %d · Aktion bereit in %d s"
+msgid "The Planes"
+msgstr "The Planes"
+
+#: scripts/expedition_book.gd
+msgid "World paused"
+msgstr "Spiel pausiert"
+
+#: scripts/expedition_book.gd
+msgid "Co-op continues while you read"
+msgstr "Im Koop läuft das Spiel weiter"
+
+#: scripts/expedition_book.gd scripts/online_lobby.gd scripts/planes_progression.gd scripts/progression.gd
+msgid "ready"
+msgstr "bereit"
+
+#: scripts/expedition_book.gd
+msgid "Visit the Vendor at camp, prepare your equipment and follow your current quest. Explore at your own pace between waves."
+msgstr "Besuche den Händler im Lager, bereite deine Ausrüstung vor und folge deinem aktuellen Auftrag. Zwischen den Wellen ist Zeit zum Erkunden."
+
+#: scripts/expedition_book.gd scripts/run_director.gd
+msgid "Final defence"
+msgstr "Letzte Verteidigung"
+
+#: scripts/expedition_book.gd
+msgid "Final defence: %s · %d s · Health %d"
+msgstr "Letzte Verteidigung: %s · %d s · Zustand %d"
+
+#: scripts/expedition_book.gd scripts/run_director.gd
+msgid "Optional operation"
+msgstr "Optionaler Einsatz"
 
 #: scripts/expedition_book.gd
 msgid "Operation: %s · %s · %d m · Health %d"
 msgstr "Einsatz: %s · %s · %d m · Zustand %d"
 
 #: scripts/expedition_book.gd
-msgid "Final defence: %s · %d s · Health %d"
-msgstr "Letzte Verteidigung: %s · %d s · Zustand %d"
+msgid "Wave %d of %d. Keep your defences supplied and use quiet moments to explore or save your expedition."
+msgstr "Welle %d von %d. Versorge deine Verteidigung und nutze ruhige Momente zum Erkunden oder Speichern."
 
 #: scripts/expedition_book.gd
-msgid "Long-range elites: %d / 5 · Supply deliveries: %d"
-msgstr "Fernkampf-Eliteziele: %d / 5 · Lieferungen: %d"
+msgid "Forecast: %s → %s in %d s"
+msgstr "Vorhersage: %s → %s in %d s"
 
 #: scripts/expedition_book.gd
-msgid "Transmitter order: %d → %d → %d · Progress %d / 3"
-msgstr "Senderreihenfolge: %d → %d → %d · Fortschritt %d / 3"
+msgid "Focus · Steadier aim and less recoil for 6 seconds."
+msgstr "Fokus · 6 Sekunden ruhigeres Zielen und weniger Rückstoss."
 
 #: scripts/expedition_book.gd
-msgid "Supply destination: %d m"
-msgstr "Lieferziel: %d m"
+msgid "Suppression · Faster fire and slowing hits for 8 seconds."
+msgstr "Unterdrückung · 8 Sekunden schneller feuern und Gegner mit Treffern verlangsamen."
 
 #: scripts/expedition_book.gd
-msgid "Range: %d s · Score %d"
-msgstr "Schiessstand: %d s · Punkte %d"
+msgid "Shockwave · Damage and slow visible enemies within 9 metres."
+msgstr "Schockwelle · Sichtbare Gegner im Umkreis von 9 Metern verletzen und verlangsamen."
 
 #: scripts/expedition_book.gd
-msgid "Next target: %d"
-msgstr "Nächstes Ziel: %d"
+msgid "Target mark · Aim at an enemy to increase damage against it for 10 seconds."
+msgstr "Zielmarkierung · Ziele auf einen Gegner, um ihm 10 Sekunden lang mehr Schaden zuzufügen."
+
+#: scripts/expedition_book.gd scripts/run_director.gd
+msgid "Use your chosen teleport with [V]."
+msgstr "Nutze deinen gewählten Teleport mit [V]."
+
+#: scripts/expedition_book.gd
+msgid "Ready to use"
+msgstr "Einsatzbereit"
+
+#: scripts/expedition_book.gd
+msgid "Ready in %d s"
+msgstr "Bereit in %d s"
 
 #: scripts/expedition_book.gd
 msgid "Outpost"
@@ -3336,16 +3448,100 @@ msgid "Transmitter %d"
 msgstr "Sender %d"
 
 #: scripts/expedition_book.gd
-msgid "Choose one of three offers after waves 3, 7, 12, 17 and 22. The choice lasts for this expedition."
-msgstr "Wähle nach den Wellen 3, 7, 12, 17 und 22 jeweils eines von drei Angeboten. Die Wahl gilt für diese Expedition."
+msgid "All expedition locations discovered."
+msgstr "Alle Expeditionsorte entdeckt."
 
 #: scripts/expedition_book.gd
-msgid "Selected: %s"
-msgstr "Gewählt: %s"
+msgid "Long-range elites: %d / 5 · Supply deliveries: %d"
+msgstr "Fernkampf-Eliteziele: %d / 5 · Lieferungen: %d"
 
 #: scripts/expedition_book.gd
-msgid "Transfers and healing require a living teammate within three metres and a clear line of sight."
-msgstr "Übergaben und Heilung erfordern einen lebenden Mitspieler in höchstens drei Metern Entfernung und freie Sicht."
+msgid "Transmitter order: %d → %d → %d · Progress %d / 3"
+msgstr "Senderreihenfolge: %d → %d → %d · Fortschritt %d / 3"
+
+#: scripts/expedition_book.gd
+msgid "Supply destination: %d m"
+msgstr "Lieferziel: %d m"
+
+#: scripts/expedition_book.gd
+msgid "Return to camp to accept contracts or collect supplies."
+msgstr "Im Lager kannst du Aufträge annehmen und Vorräte abholen."
+
+#: scripts/expedition_book.gd
+msgid "Visit the shooting range to begin a series."
+msgstr "Betritt den aufgeschlossenen Schiessstand, um eine Serie zu starten."
+
+#: scripts/expedition_book.gd
+msgid "Choose a 30-second series. Your best results are kept in Discoveries."
+msgstr "Wähle eine Serie über 30 Sekunden. Deine Rekorde stehen unter Entdeckungen."
+
+#: scripts/expedition_book.gd
+msgid "Range: %d s · Score %d"
+msgstr "Schiessstand: %d s · Punkte %d"
+
+#: scripts/expedition_book.gd
+msgid "Next target: %d"
+msgstr "Nächstes Ziel: %d"
+
+#: scripts/expedition_book.gd
+msgid "Speak to the traders to discover new quests."
+msgstr "Sprich mit den Händlern, um neue Aufträge zu entdecken."
+
+#: scripts/expedition_book.gd
+msgid "%s · Reward %d R"
+msgstr "%s · Belohnung %d R"
+
+#: scripts/expedition_book.gd
+msgid "Ready to turn in"
+msgstr "Bereit zum Abgeben"
+
+#: scripts/expedition_book.gd
+msgid "Choose your challenge before the first wave."
+msgstr "Wähle deine Herausforderung vor der ersten Welle."
+
+#: scripts/expedition_book.gd
+msgid "Run settings are fixed once the first wave begins."
+msgstr "Die Durchlaufeinstellungen stehen ab der ersten Welle fest."
+
+#: scripts/expedition_book.gd
+msgid "A quiet moment. Your equipment, discoveries and progress can be saved now."
+msgstr "Ein ruhiger Moment. Du kannst Ausrüstung, Entdeckungen und Fortschritt jetzt speichern."
+
+#: scripts/expedition_book.gd scripts/expedition_checkpoint.gd scripts/run_director.gd
+msgid "Only the host can save or continue an expedition."
+msgstr "Nur der Host kann eine Expedition speichern oder fortsetzen."
+
+#: scripts/expedition_book.gd
+msgid "No checkpoint saved for this character and map."
+msgstr "Für diesen Charakter und diese Karte ist noch kein Spielstand gespeichert."
+
+#: scripts/expedition_book.gd
+msgid "Continue with the same teammates for a cooperative checkpoint."
+msgstr "Setze einen Koop-Spielstand mit denselben Mitspielern fort."
+
+#: scripts/expedition_book.gd
+msgid "One choice, lasting for this expedition"
+msgstr "Eine Wahl für diese Expedition"
+
+#: scripts/expedition_book.gd
+msgid "Your next augment choice unlocks after wave %d."
+msgstr "Deine nächste Augmentauswahl wird nach Welle %d freigeschaltet."
+
+#: scripts/expedition_book.gd
+msgid "All augment milestones reached."
+msgstr "Alle Augment-Meilensteine erreicht."
+
+#: scripts/expedition_book.gd
+msgid "Choose this augment"
+msgstr "Dieses Augment wählen"
+
+#: scripts/expedition_book.gd
+msgid "Active augments"
+msgstr "Aktive Augmente"
+
+#: scripts/expedition_book.gd
+msgid "Your supplies"
+msgstr "Deine Vorräte"
 
 #: scripts/expedition_book.gd
 msgid "Buy bandage at camp · 25 R"
@@ -3354,6 +3550,10 @@ msgstr "Verband im Lager kaufen · 25 R"
 #: scripts/expedition_book.gd
 msgid "Teammate %d"
 msgstr "Mitspieler %d"
+
+#: scripts/expedition_book.gd
+msgid "Transfers and healing require a living teammate within three metres and a clear line of sight."
+msgstr "Übergaben und Heilung erfordern einen lebenden Mitspieler in höchstens drei Metern Entfernung und freie Sicht."
 
 #: scripts/expedition_book.gd
 msgid "Heal teammate"
@@ -3372,8 +3572,36 @@ msgid "Give %s"
 msgstr "%s übergeben"
 
 #: scripts/expedition_book.gd
+msgid "Travelling alone. Teammates and supply sharing appear here when someone joins your expedition."
+msgstr "Du bist allein unterwegs. Sobald jemand deiner Expedition beitritt, kannst du hier Vorräte teilen und Mitspieler versorgen."
+
+#: scripts/expedition_book.gd
+msgid "Bandages: %d"
+msgstr "Verbände: %d"
+
+#: scripts/expedition_book.gd
+msgid "Your story starts here"
+msgstr "Deine Geschichte beginnt hier"
+
+#: scripts/expedition_book.gd
+msgid "Find records in the world and face new enemies to fill these pages."
+msgstr "Finde Aufzeichnungen und begegne neuen Gegnern, um diese Seiten zu füllen."
+
+#: scripts/expedition_book.gd
+msgid "Mastery & titles"
+msgstr "Meisterschaft & Titel"
+
+#: scripts/expedition_book.gd
 msgid "Class and weapon mastery unlock cosmetic badges and titles. Mastery grants no combat bonus."
 msgstr "Klassen- und Waffenmeisterschaft schalten kosmetische Abzeichen und Titel frei. Meisterschaft gewährt keinen Kampfbonus."
+
+#: scripts/expedition_book.gd
+msgid "Class mastery: %d"
+msgstr "Klassenmeisterschaft: %d"
+
+#: scripts/expedition_book.gd
+msgid "%s · %d mastery kills"
+msgstr "%s · %d Meisterschaftsabschüsse"
 
 #: scripts/expedition_book.gd
 msgid "Equipped title: %s"
@@ -3384,24 +3612,24 @@ msgid "Equip title: %s"
 msgstr "Titel anlegen: %s"
 
 #: scripts/expedition_book.gd
-msgid "Class mastery: %d · Weapon mastery: %s"
-msgstr "Klassenmeisterschaft: %d · Waffenmeisterschaft: %s"
+msgid "Shooting range records"
+msgstr "Schiessstandrekorde"
 
 #: scripts/expedition_book.gd
-msgid "[K] Fieldbook · [Z] Class action · Bandages %d"
-msgstr "[K] Feldbuch · [Z] Klassenaktion · Verbände %d"
+msgid "%s · %d points"
+msgstr "%s · %d Punkte"
 
 #: scripts/expedition_book.gd
-msgid "Final defence · %d s · Health %d · [E] at the objective"
-msgstr "Letzte Verteidigung · %d s · Zustand %d · [E] am Ziel"
+msgid "Final defence · %d s · Health %d"
+msgstr "Letzte Verteidigung · %d s · Zustand %d"
 
-#: scripts/expedition_book.gd
-msgid " · Operation %d m"
-msgstr " · Einsatz %d m"
+#: scripts/expedition_checkpoint.gd scripts/field_trials.gd scripts/fireworks.gd scripts/planes_crop_fire.gd
+msgid "active"
+msgstr "aktiv"
 
-#: scripts/expedition_checkpoint.gd scripts/run_director.gd
-msgid "Only the host can save or continue an expedition."
-msgstr "Nur der Host kann eine Expedition speichern oder fortsetzen."
+#: scripts/expedition_checkpoint.gd scripts/planes_progression.gd scripts/planes_range.gd scripts/progression.gd
+msgid "claimed"
+msgstr "abgeholt"
 
 #: scripts/expedition_checkpoint.gd
 msgid "Use distinct player names for cooperative checkpoints."
@@ -3410,10 +3638,6 @@ msgstr "Verwende für Koop-Spielstände unterschiedliche Spielernamen."
 #: scripts/expedition_checkpoint.gd
 msgid "Save only during a quiet wave intermission."
 msgstr "Speichere nur während einer ruhigen Wellenpause."
-
-#: scripts/expedition_checkpoint.gd scripts/field_trials.gd scripts/fireworks.gd scripts/planes_crop_fire.gd
-msgid "active"
-msgstr "aktiv"
 
 #: scripts/expedition_checkpoint.gd
 msgid "Finish the active objective before saving."
@@ -3555,11 +3779,11 @@ msgstr "Tor geöffnet."
 msgid "Gate closed."
 msgstr "Tor geschlossen."
 
-#: scripts/expedition_structures.gd
+#: scripts/expedition_structures.gd scripts/run_director.gd
 msgid "Use the ramp to reach the observation platform."
 msgstr "Nutze die Rampe zur Beobachtungsplattform."
 
-#: scripts/expedition_structures.gd
+#: scripts/expedition_structures.gd scripts/run_director.gd
 msgid "Fire through the opening above the cover."
 msgstr "Schiesse durch die Öffnung über der Deckung."
 
@@ -4080,6 +4304,10 @@ msgid "Start game"
 msgstr "Spiel starten"
 
 #: scripts/hud.gd
+msgid "Expedition fieldbook"
+msgstr "Expeditionsfeldbuch"
+
+#: scripts/hud.gd
 msgid "Briefing"
 msgstr "Briefing"
 
@@ -4148,8 +4376,8 @@ msgid "Explore the map and visit traders for weapons, supplies and upgrades. Com
 msgstr "Erkunde die Map und besuche Händler für Waffen, Vorräte und Verbesserungen. Erfülle Aufträge und überlebe Wellen, um weitere Ausrüstung freizuschalten. Q zeigt deine Aufträge; I öffnet dein Inventar."
 
 #: scripts/hud.gd
-msgid "Use the breaks between waves to reload, heal and improve your defenses. E interacts with traders and builds or repairs barricades. T previews a turret; E confirms its placement."
-msgstr "Nutze die Pausen zwischen den Wellen zum Nachladen, Heilen und Verstärken deiner Verteidigung. E spricht Händler an und baut oder repariert Barrikaden. T zeigt die Turmvorschau; E bestätigt die Platzierung."
+msgid "Use the breaks between waves to reload, heal and improve your defenses. E interacts with traders and builds or repairs barricades. T opens the tower planner; left click places the selected tower."
+msgstr "Nutze die Pausen zwischen den Wellen zum Nachladen, Heilen und Verstärken deiner Verteidigung. E spricht Händler an und baut oder repariert Barrikaden. T öffnet den Turmplaner; mit Linksklick platzierst du den ausgewählten Turm."
 
 #: scripts/hud.gd
 msgid "Follow the objectives and warnings for your current map. Protect any defense objective: losing it can end the round even if you are still alive."
@@ -4159,9 +4387,13 @@ msgstr "Beachte die Ziele und Warnungen deiner aktuellen Map. Schütze die Verte
 msgid "In co-op, share supplies, mark threats with X or the middle mouse button, and revive downed teammates with E. Menus do not pause a co-op round."
 msgstr "Teilt im Koop eure Vorräte, markiert Gefahren mit X oder der mittleren Maustaste und belebt gefallene Mitspieler mit E wieder. Menüs halten eine Koop-Runde nicht an."
 
-#: scripts/hud.gd
+#: scripts/hud.gd scripts/planes_hud.gd
 msgid "V: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round."
 msgstr "V: Assassin-Teleport (Level 15). Wähle vor der Runde unter Klassen-Skills Vorwärts oder Karte."
+
+#: scripts/hud.gd scripts/planes_hud.gd
+msgid "Z: Class action. Uses the key labelled Z on your keyboard. K: Expedition fieldbook, also available from the pause menu."
+msgstr "Z: Klassenaktion mit der auf deiner Tastatur beschrifteten Z-Taste. K: Expeditionsfeldbuch, auch über das Pausenmenü erreichbar."
 
 #: scripts/hud.gd scripts/planes_hud.gd
 msgid "Move"
@@ -4256,12 +4488,12 @@ msgid "Interact / build / repair / mount turret"
 msgstr "Interagieren / bauen / reparieren / Turm besteigen"
 
 #: scripts/hud.gd
-msgid "Preview turret · E confirms placement"
-msgstr "Turmvorschau · E bestätigt die Platzierung"
-
-#: scripts/hud.gd
 msgid "Fly a drone · RMB rocket · R self-destruct · Esc recall"
 msgstr "Drohne fliegen · Rechtsklick Rakete · R Selbstzerstörung · Esc zurückrufen"
+
+#: scripts/hud.gd
+msgid "Tower planner · left click places tower"
+msgstr "Turmplaner · Linksklick platziert den Turm"
 
 #: scripts/hud.gd
 msgid "Hold Tab"
@@ -4394,10 +4626,6 @@ msgstr "Modus · Datum"
 #: scripts/hud.gd
 msgid "Performance"
 msgstr "Leistung"
-
-#: scripts/hud.gd scripts/planes_progression.gd scripts/progression.gd scripts/tower_planner.gd
-msgid "%s · %s"
-msgstr "%s · %s"
 
 #: scripts/hud.gd
 msgid "No achievements available."
@@ -5116,6 +5344,10 @@ msgid "THE WRETCHED BRIDE\nHer wail calls the dead - put her down fast!"
 msgstr "DIE UNSELIGE BRAUT\nIhr Klagen ruft die Toten - bring sie schnell zur Strecke!"
 
 #: scripts/main.gd
+msgid "Hold E · Revive %s · 3 seconds"
+msgstr "E halten · %s wiederbeleben · 3 Sekunden"
+
+#: scripts/main.gd
 msgid "[E] Drone control station"
 msgstr "[E] Drohnenkontrollzentrum"
 
@@ -5126,10 +5358,6 @@ msgstr "[E] Hinweis schliessen"
 #: scripts/main.gd
 msgid "[E] Read sign · A strange note"
 msgstr "[E] Schild lesen · Eine seltsame Notiz"
-
-#: scripts/main.gd
-msgid "Hold E · Revive %s · 3 seconds"
-msgstr "E halten · %s wiederbeleben · 3 Sekunden"
 
 #: scripts/main.gd
 msgid "Tower occupied"
@@ -5655,10 +5883,6 @@ msgstr "Die Online-Lobby ist in diesem Build nicht eingerichtet (keine EOS-Zugan
 msgid "The online sign-in is still running. Please wait a moment."
 msgstr "Die Online-Anmeldung läuft noch. Bitte einen Moment warten."
 
-#: scripts/online_lobby.gd scripts/progression.gd scripts/quest_notifications.gd
-msgid "ready"
-msgstr "bereit"
-
 #: scripts/online_lobby.gd
 msgid "The online service could not be started. Check your internet connection and try again."
 msgstr "Der Online-Dienst konnte nicht gestartet werden. Prüfe die Internetverbindung und versuche es erneut."
@@ -5876,8 +6100,8 @@ msgid "WASD Walk · Shift Sprint · Space Jump · Ctrl Crouch · M Map · Esc Me
 msgstr "WASD Gehen · Shift Sprinten · Leertaste Springen · Strg Ducken · M Karte · Esc Menü"
 
 #: scripts/planes.gd
-msgid "Survive the waves and final defence. Meet the traders at the fork. B: kits · T: towers · J: quests · K: expedition · Enter: next wave"
-msgstr "Überlebe die Wellen und die Schlussverteidigung. Händler stehen an der Weggabelung. B: Bausätze · T: Türme · J: Aufträge · K: Expedition · Enter: nächste Welle"
+msgid "Meet Vendor at the fork. He will help you prepare for the first wave."
+msgstr "Triff Vendor an der Weggabelung. Er hilft dir bei der Vorbereitung auf die erste Welle."
 
 #: scripts/planes.gd
 msgid "Run ended. Try again or continue exploring."
@@ -5971,7 +6195,7 @@ msgstr "Nachladen"
 msgid "Portable fortification kits"
 msgstr "Mitführbare Befestigungsbausätze"
 
-#: scripts/planes_hud.gd scripts/planes_progression.gd
+#: scripts/planes_hud.gd
 msgid "Field journal"
 msgstr "Feldtagebuch"
 
@@ -6008,8 +6232,8 @@ msgid "A place of your own"
 msgstr "Dein eigener Platz"
 
 #: scripts/planes_progression.gd
-msgid "Choose your ground. Buy and place two defence kits."
-msgstr "Wähle deinen Standort. Kaufe und platziere zwei Befestigungsbausätze."
+msgid "Buy two defence kits from Mechanic. Choose your ground and place them with B; the preview guides each placement."
+msgstr "Kaufe zwei Verteidigungsbausätze bei Mechanic. Wähle deinen Standort und platziere sie mit B; die Vorschau hilft beim Bauen."
 
 #: scripts/planes_progression.gd
 msgid "Colour in the fields"
@@ -6147,6 +6371,18 @@ msgstr "Mods"
 msgid "Carried: %d. Place with B; rotate with mouse wheel. Upgrade at the built wall with U."
 msgstr "Mitgeführt: %d. Mit B platzieren; mit dem Mausrad drehen. An der gebauten Befestigung mit U aufrüsten."
 
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "Basics with Vendor"
+msgstr "Grundlagen bei Vendor"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "View introduction"
+msgstr "Einführung ansehen"
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "A short guide to your gear, class ability, fieldbook and building. Read or skip at your own pace."
+msgstr "Eine kurze Einführung in Ausrüstung, Klassenfähigkeit, Feldbuch und Bauen. Lies in deinem Tempo oder überspringe sie."
+
 #: scripts/planes_progression.gd
 msgid "\nMission level %d - %d R - %d class XP"
 msgstr "\nMissionsstufe %d - %d R - %d Klassen-XP"
@@ -6283,17 +6519,25 @@ msgstr "300-m-Aufgabe"
 msgid "Discover"
 msgstr "Entdecken"
 
-#: scripts/planes_progression.gd
-msgid "QUESTS - Q on/off"
-msgstr "AUFTRÄGE - Q an/aus"
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "After accepting: survive %d more wave(s)"
+msgstr "Nach Annahme: noch %d Welle(n) überstehen"
 
 #: scripts/planes_progression.gd
 msgid "Ready to turn in to %s - %d R"
 msgstr "Bereit zur Abgabe bei %s - %d R"
 
 #: scripts/planes_progression.gd
-msgid "Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."
-msgstr "Vendor und Mechanic stehen an der Gabelung. Der Secret Vendor wartet im Wald. Nimm Aufträge persönlich an und kehre für die Belohnung zurück."
+msgid "AT THE FORK\nMeet Vendor by the campfire."
+msgstr "AN DER WEGGABELUNG\nSprich mit Vendor am Lagerfeuer."
+
+#: scripts/planes_progression.gd
+msgid "HOLD YOUR GROUND\nPrepare for the next wave."
+msgstr "HALTE DEINE STELLUNG\nBereite dich auf die nächste Welle vor."
+
+#: scripts/planes_progression.gd scripts/progression.gd
+msgid "NEW WORK\nTalk to %s about %s."
+msgstr "NEUER AUFTRAG\nSprich mit %s über %s."
 
 #: scripts/planes_progression.gd scripts/progression.gd
 msgid "Not compatible with this weapon."
@@ -6306,10 +6550,6 @@ msgstr "Verkaufen kannst du bei Vendor und Secret Vendor."
 #: scripts/planes_progression.gd scripts/progression.gd
 msgid "Sold: %s · +%d R"
 msgstr "Verkauft: %s · +%d R"
-
-#: scripts/planes_progression.gd scripts/planes_range.gd scripts/progression.gd
-msgid "claimed"
-msgstr "abgeholt"
 
 #: scripts/planes_progression.gd scripts/planes_range.gd
 msgid "Collected: %s"
@@ -6616,16 +6856,16 @@ msgid "By the Fire"
 msgstr "Am Feuer"
 
 #: scripts/progression.gd
-msgid "Vendor introduces you to the inventory, trading, tower building and barricades. Learn the basics, then collect your reward."
-msgstr "Vendor führt dich in Inventar, Handel, Turmbau und Barrikaden ein. Lerne die Grundlagen und hole danach deine Belohnung ab."
+msgid "Meet Vendor for a short introduction to your gear, your class ability and the fieldbook. You can skip the guidance if you know your way. Collect your welcome reward here."
+msgstr "Vendor erklärt dir kurz deine Ausrüstung, Klassenfähigkeit und das Feldbuch. Wenn du dich schon auskennst, kannst du die Hinweise überspringen. Hole deine Begrüssungsbelohnung hier ab."
 
 #: scripts/progression.gd
 msgid "The First Sentinel"
 msgstr "Der erste Wächter"
 
 #: scripts/progression.gd
-msgid "Build a barricade and a tower. Then re-aim the tower. T: preview · R/mouse wheel: rotate · E: confirm. At the tower R: aim, E: climb in, F: repair."
-msgstr "Baue eine Barrikade und einen Turm. Richte den Turm anschliessend neu aus. T: Vorschau · R/Mausrad: drehen · E: bestätigen. Am Turm R: ausrichten, E: einsteigen, F: reparieren."
+msgid "Build a barricade and a tower. Then re-aim the tower. Open the tower planner with T and click a clear spot to build. At a tower or barricade, follow the nearby interaction hint."
+msgstr "Baue eine Barrikade und einen Turm. Richte den Turm danach neu aus. Öffne den Turmplaner mit T und klicke zum Bauen auf einen freien Platz. Am Turm oder an der Barrikade hilft dir der Hinweis vor Ort."
 
 #: scripts/progression.gd
 msgid "Hold the Line"
@@ -6984,10 +7224,6 @@ msgid "%d waves survived since accepting"
 msgstr "%d Wellen nach Annahme überstanden"
 
 #: scripts/progression.gd
-msgid "After accepting: survive %d more wave(s)"
-msgstr "Nach Annahme: noch %d Welle(n) überstehen"
-
-#: scripts/progression.gd
 msgid "Tower %d/1"
 msgstr "Turm %d/1"
 
@@ -7256,6 +7492,38 @@ msgid "Request sent to the host …"
 msgstr "Anfrage an den Host …"
 
 #: scripts/progression.gd
+msgid "VENDOR'S TIP\nOpen your gear with I. Choose a weapon, then return to the camp."
+msgstr "VENDORS TIPP\nÖffne deine Ausrüstung mit I. Wähle eine Waffe und kehre ins Lager zurück."
+
+#: scripts/progression.gd
+msgid "A QUIET MOMENT\nOpen the fieldbook with K to choose your next optional mission."
+msgstr "EIN RUHIGER MOMENT\nÖffne das Feldbuch mit K und wähle deinen nächsten freiwilligen Einsatz."
+
+#: scripts/progression.gd
+msgid "MECHANIC'S TIP\nOpen the tower planner with T. Looking around is free; a click confirms the build."
+msgstr "MECHANICS TIPP\nÖffne den Turmplaner mit T. Umschauen ist gratis; ein Klick bestätigt den Bau."
+
+#: scripts/progression.gd
+msgid "STEADY YOUR AIM\nZ activates Focus for six seconds."
+msgstr "RUHIG ZIELEN\nZ aktiviert deinen Fokus für sechs Sekunden."
+
+#: scripts/progression.gd
+msgid "SLOW THE HORDE\nZ activates Suppression: your hits slow enemies."
+msgstr "BREMSE DIE HORDE\nZ aktiviert Unterdrückung: Deine Treffer verlangsamen Gegner."
+
+#: scripts/progression.gd
+msgid "MAKE SOME ROOM\nZ releases a shockwave against nearby enemies."
+msgstr "VERSCHAFFE DIR PLATZ\nZ löst eine Schockwelle gegen nahe Gegner aus."
+
+#: scripts/progression.gd
+msgid "PICK YOUR TARGET\nAim at an enemy and press Z to mark it for extra damage."
+msgstr "WÄHLE DEIN ZIEL\nZiele auf einen Gegner und markiere ihn mit Z für mehr Schaden."
+
+#: scripts/progression.gd
+msgid "FIND AN OPENING\nV uses your chosen teleport."
+msgstr "NUTZE DIE LÜCKE\nV aktiviert deinen gewählten Teleport."
+
+#: scripts/progression.gd
 msgid "Rarities"
 msgstr "Raritäten"
 
@@ -7338,18 +7606,6 @@ msgstr "%d Schuss verkaufen. Reserve: %d."
 #: scripts/progression.gd
 msgid "Sell the weapon. Leftover ammo adds nothing to the price; sell the reserve separately first. Purchase permits are kept."
 msgstr "Waffe verkaufen. Restmunition bringt keinen Aufpreis; Reserve vorher separat verkaufen. Kaufberechtigungen bleiben erhalten."
-
-#: scripts/progression.gd
-msgid "Basics with Vendor"
-msgstr "Grundlagen bei Vendor"
-
-#: scripts/progression.gd
-msgid "Inventory, Rem Dollars, towers and barricades · read up for free."
-msgstr "Inventar, Rem Dollars, Türme und Barrikaden · kostenlos nachlesen."
-
-#: scripts/progression.gd
-msgid "View introduction"
-msgstr "Einführung ansehen"
 
 #: scripts/progression.gd
 msgid "Completed quests"
@@ -7436,8 +7692,8 @@ msgid "Mechanic, north of the campfire, offers training."
 msgstr "Training gibt es bei Mechanic nördlich des Lagerfeuers."
 
 #: scripts/progression.gd
-msgid "T: choose a tower type · R/mouse wheel: rotate · E: place\nAt the tower: E climbs up, R aims, F repairs. On top: the mouse aims, left click fires, E climbs down. Without an operator the tower fires on its own. Sustained fire builds up heat."
-msgstr "T: Turmtyp wählen · R/Mausrad: drehen · E: platzieren\nAm Turm: E aufsteigen, R ausrichten, F reparieren. Oben: Maus zielt, Linksklick feuert, E steigt ab. Ohne Bediener feuert der Turm automatisch. Dauerfeuer erzeugt Hitze."
+msgid "T: open the tower planner · R/mouse wheel: rotate · Left click: place\nAt the tower: E climbs up, R aims, F repairs. On top: the mouse aims, left click fires, E climbs down. Without an operator the tower fires on its own. Sustained fire builds up heat."
+msgstr "T: Turmplaner öffnen · R/Mausrad: drehen · Linksklick: platzieren\nAm Turm: E steigt auf, R richtet aus, F repariert. Oben: Maus zielt, Linksklick feuert, E steigt ab. Ohne Schützen feuert der Turm selbstständig. Dauerfeuer erzeugt Wärme."
 
 #: scripts/progression.gd
 msgid "%s · %d R · %s\nTier 2 after wave %d · Tier 3 after wave %d"
@@ -7560,52 +7816,16 @@ msgid "Mods apply per weapon for this round. One mod per slot; switch bought mod
 msgstr "Mods gelten pro Waffe für diese Runde. Ein Mod je Platz; gekaufte Mods kostenlos wechseln. Munition separat.\nEinsatzlevel = überstandene Wellen + 1."
 
 #: scripts/progression.gd
-msgid "ALL QUESTS DONE\nHold the hut and survive the next wave."
-msgstr "ALLE AUFTRÄGE ERLEDIGT\nHalte die Hütte und überstehe die nächste Welle."
+msgid "BY THE FIRE\nMeet Vendor at the campfire."
+msgstr "AM FEUER\nSprich mit Vendor am Lagerfeuer."
 
 #: scripts/progression.gd
-msgid "QUESTS · Q on/off\nTalk to Vendor at the campfire and Mechanic north of it."
-msgstr "AUFTRÄGE · Q ein/aus\nSprich mit Vendor am Lagerfeuer und Mechanic nördlich davon."
-
-#: scripts/progression.gd
-msgid "%s · NEXT QUEST\n%s"
-msgstr "%s · NÄCHSTER AUFTRAG\n%s"
-
-#: scripts/progression.gd
-msgid "READY TO TURN IN"
-msgstr "BEREIT ZUR ABGABE"
+msgid "HOLD THE HUT\nPrepare your defences for the next wave."
+msgstr "HALTE DIE HÜTTE\nBereite deine Verteidigung auf die nächste Welle vor."
 
 #: scripts/progression.gd
 msgid "Turn in to %s · %d R reward"
 msgstr "Bei %s abgeben · %d R Belohnung"
-
-#: scripts/progression.gd
-msgid "QUESTS (%d) · Q on/off"
-msgstr "AUFTRÄGE (%d) · Q ein/aus"
-
-#: scripts/progression.gd
-msgid "%d ready to turn in"
-msgstr "%d zur Abgabe bereit"
-
-#: scripts/progression.gd
-msgid "WEAPONS & QUESTS\n[E] Talk to Vendor at the campfire."
-msgstr "WAFFEN & AUFTRÄGE\n[E] Sprich mit Vendor am Lagerfeuer."
-
-#: scripts/progression.gd
-msgid "YOUR GEAR · [I] INVENTORY\nOpen your inventory and look at your weapons and items."
-msgstr "DEINE AUSRÜSTUNG · [I] INVENTAR\nÖffne dein Inventar und sieh dir Waffen und Gegenstände an."
-
-#: scripts/progression.gd
-msgid "YOUR DEFENSE · [T] TOWER BUILD MENU\nTake a look at the towers. Only E in the preview confirms a purchase."
-msgstr "DEINE VERTEIDIGUNG · [T] TURMBAUMENÜ\nSieh dir die Türme an. Erst E in der Vorschau bestätigt einen Kauf."
-
-#: scripts/progression.gd
-msgid "DEFENSE · [T] TOWER BUILD MENU\n13 types from 120 R · E builds / climbs up · Mechanic upgrades."
-msgstr "VERTEIDIGUNG · [T] TURMBAUMENÜ\n13 Typen ab 120 R · E baut / steigt auf · Mechanic baut aus."
-
-#: scripts/progression.gd
-msgid "AIM YOUR SENTINEL\nPress R at the tower, rotate with R/mouse wheel and confirm with E."
-msgstr "RICHTE DEINEN WÄCHTER AUS\nAm Turm R drücken, mit R/Mausrad drehen und mit E bestätigen."
 
 #: scripts/quest_notifications.gd
 msgid "MILESTONE REACHED"
@@ -7812,10 +8032,6 @@ msgid "West Forest"
 msgstr "Westwald"
 
 #: scripts/rare_market.gd
-msgid "Forest"
-msgstr "Wald"
-
-#: scripts/rare_market.gd
 msgid "This rarity is not in stock right now."
 msgstr "Diese Rarität ist gerade nicht im Sortiment."
 
@@ -7934,14 +8150,6 @@ msgstr "Die Klassenaktion klingt noch ab."
 #: scripts/run_director.gd
 msgid "Aim at a visible enemy to mark it."
 msgstr "Ziele auf einen sichtbaren Gegner, um ihn zu markieren."
-
-#: scripts/run_director.gd
-msgid "Use your chosen teleport with [V]."
-msgstr "Nutze deinen gewählten Teleport mit [V]."
-
-#: scripts/run_director.gd
-msgid "Class action activated."
-msgstr "Klassenaktion aktiviert."
 
 #: scripts/run_director.gd
 msgid "Choose a nearby teammate."
@@ -8096,12 +8304,92 @@ msgid "Range session complete. Results and records are in the fieldbook."
 msgstr "Schiessstandserie abgeschlossen. Ergebnisse und Rekorde stehen im Feldbuch."
 
 #: scripts/run_director.gd
-msgid "Optional operation"
-msgstr "Optionaler Einsatz"
+msgid "[E] Deliver supplies"
+msgstr "[E] Vorräte abliefern"
 
 #: scripts/run_director.gd
-msgid "Final defence"
-msgstr "Letzte Verteidigung"
+msgid "[E] Begin final defence"
+msgstr "[E] Schlussverteidigung beginnen"
+
+#: scripts/run_director.gd
+msgid "Defend the signal · Stay near the objective"
+msgstr "Verteidige das Signal · Bleib in der Nähe des Ziels"
+
+#: scripts/run_director.gd
+msgid "[E] Help the stranded survivor"
+msgstr "[E] Gestrandetem Überlebenden helfen"
+
+#: scripts/run_director.gd
+msgid "[E] Defend the radio station"
+msgstr "[E] Funkstation verteidigen"
+
+#: scripts/run_director.gd
+msgid "[E] Recover the downed drone"
+msgstr "[E] Abgestürzte Drohne bergen"
+
+#: scripts/run_director.gd
+msgid "[E] Begin operation"
+msgstr "[E] Einsatz beginnen"
+
+#: scripts/run_director.gd
+msgid "[E] Secure the recovered drone"
+msgstr "[E] Geborgene Drohne sichern"
+
+#: scripts/run_director.gd
+msgid "Escort the survivor to camp"
+msgstr "Eskortiere den Überlebenden zum Lager"
+
+#: scripts/run_director.gd
+msgid "Defend the radio station"
+msgstr "Verteidige die Funkstation"
+
+#: scripts/run_director.gd
+msgid "[E] Close field gate"
+msgstr "[E] Feldtor schliessen"
+
+#: scripts/run_director.gd
+msgid "[E] Open field gate"
+msgstr "[E] Feldtor öffnen"
+
+#: scripts/run_director.gd
+msgid "[E] Tune transmitter %d"
+msgstr "[E] Sender %d abstimmen"
+
+#: scripts/run_director.gd
+msgid "[E] Collect outpost supplies"
+msgstr "[E] Aussenposten-Vorräte abholen"
+
+#: scripts/run_director.gd
+msgid "[E] Secure this outpost"
+msgstr "[E] Diesen Aussenposten sichern"
+
+#: scripts/run_director.gd
+msgid "[E] Search supply cache"
+msgstr "[E] Vorratsversteck durchsuchen"
+
+#: scripts/run_director.gd
+msgid "Focus"
+msgstr "Fokus"
+
+#: scripts/run_director.gd
+msgid "Suppression"
+msgstr "Unterdrückung"
+
+#: scripts/run_director.gd
+msgid "Shockwave"
+msgstr "Schockwelle"
+
+#: scripts/run_director.gd
+msgid "Target mark"
+msgstr "Zielmarkierung"
+
+#: scripts/run_director.gd
+msgid "%s · active %d s"
+msgstr "%s · noch %d s aktiv"
+
+#: scripts/run_director.gd
+msgid "%s · ready in %d s"
+msgstr "%s · bereit in %d s"
 
 #: scripts/run_rules.gd
 msgid "Standard expedition"
@@ -8844,56 +9132,80 @@ msgid "free"
 msgstr "frei"
 
 #: scripts/vendor_tutorial.gd
-msgid "Your gear"
-msgstr "Deine Ausrüstung"
+msgid "Start with your gear"
+msgstr "Lerne deine Ausrüstung kennen"
 
 #: scripts/vendor_tutorial.gd
-msgid "Press [b]I[/b] to open the inventory. Pick a weapon or an item there. [b]I or Esc[/b] takes you back into the game.\n\nYou reach the filled slots of your quick bar with [b]1–9 and 0[/b]."
-msgstr "Mit [b]I[/b] öffnest du das Inventar. Wähle dort eine Waffe oder einen Gegenstand aus. Mit [b]I oder Esc[/b] gehst du zurück ins Spiel.\n\nDie belegten Plätze deiner Schnellleiste erreichst du mit [b]1–9 und 0[/b]."
+msgid "You already have a weapon. After our talk, open your [b]inventory[/b] and choose what to carry. Close it again when you are ready.\n\nI sell ammo and supplies for [b]Rem Dollars[/b]. Come back to me to collect your quest rewards."
+msgstr "Du hast bereits eine Waffe. Öffne nach unserem Gespräch dein [b]Inventar[/b] und sieh dir deine Ausrüstung an. Schliesse es wieder, sobald du bereit bist.\n\nBei mir bekommst du Munition und Vorräte gegen [b]Rem Dollars[/b]. Auch deine Auftragsbelohnungen holst du hier ab."
 
 #: scripts/vendor_tutorial.gd
-msgid "After our talk, try out the inventory first."
-msgstr "Probiere nach unserem Gespräch zuerst das Inventar aus."
+msgid "Try one thing at a time. This introduction costs nothing."
+msgstr "Probiere eins nach dem anderen aus. Diese Einführung kostet nichts."
 
 #: scripts/vendor_tutorial.gd
-msgid "Supplies and quests"
-msgstr "Vorräte und Aufträge"
+msgid "Your class has an advantage"
+msgstr "Nutze die Stärke deiner Klasse"
 
 #: scripts/vendor_tutorial.gd
-msgid "Talk to traders with [b]E[/b]. I sell weapons and ammo. You pay with [b]Rem Dollars (R)[/b]. Locked offers show you the missing requirements.\n\nAccept quests in the [b]Quests[/b] tab and collect the reward from whoever gave you the quest. [b]Q[/b] shows or hides your quest overview."
-msgstr "Sprich Händler mit [b]E[/b] an. Bei mir bekommst du Waffen und Munition. Bezahlt wird mit [b]Rem Dollars (R)[/b]. Gesperrte Angebote zeigen dir die fehlenden Voraussetzungen.\n\nNimm Aufträge im Reiter [b]Aufträge[/b] an und hole die Belohnung beim Auftraggeber ab. [b]Q[/b] blendet deine Auftragsübersicht ein oder aus."
+msgid "Use your ability when it helps. Your ammunition is not spent."
+msgstr "Nutze die Fähigkeit im passenden Moment. Sie verbraucht keine Munition."
 
 #: scripts/vendor_tutorial.gd
-msgid "Purchases cost Rem Dollars. This introduction is free."
-msgstr "Käufe kosten Rem Dollars. Diese Einführung ist kostenlos."
+msgid "Make a plan between waves"
+msgstr "Plane in der Wellenpause"
 
 #: scripts/vendor_tutorial.gd
-msgid "Build your first tower"
-msgstr "Deinen ersten Turm bauen"
+msgid "Your [b]fieldbook[/b] keeps optional missions, team supplies and discoveries together. New augments become available as you survive.\n\nOpen it during a quiet moment. You can also find it in the pause menu."
+msgstr "Dein [b]Feldbuch[/b] bündelt freiwillige Einsätze, Teamversorgung und Entdeckungen. Mit überlebten Wellen erhältst du neue Augments.\n\nÖffne es in einem ruhigen Moment. Du findest es auch im Pausemenü."
 
 #: scripts/vendor_tutorial.gd
-msgid "[b]T[/b] opens the tower build menu. Choose a tower (from [b]120 R[/b]) and find a free spot. The preview shows the range and possible obstacles.\n\n[b]R or the mouse wheel[/b] rotates the tower. [b]E[/b] confirms the build. [b]T or Esc[/b] cancels the preview."
-msgstr "[b]T[/b] öffnet das Turmbaumenü. Wähle einen Turm aus (ab [b]120 R[/b]) und suche einen freien Platz. Die Vorschau zeigt Reichweite und mögliche Hindernisse.\n\nMit [b]R oder dem Mausrad[/b] drehst du den Turm. [b]E[/b] bestätigt den Bau. Mit [b]T oder Esc[/b] brichst du die Vorschau ab."
+msgid "In co-op the world keeps moving while menus are open. Find cover first."
+msgstr "Im Koop läuft die Welt bei offenen Menüs weiter. Suche vorher Deckung."
 
 #: scripts/vendor_tutorial.gd
-msgid "Only a confirmed build costs Rem Dollars. You don't have to buy a tower for the tutorial."
-msgstr "Nur ein bestätigter Bau kostet Rem Dollars. Du musst für das Tutorial keinen Turm kaufen."
+msgid "Build when you are ready"
+msgstr "Baue deine Verteidigung auf"
 
 #: scripts/vendor_tutorial.gd
-msgid "Defend the hut"
-msgstr "Die Hütte verteidigen"
+msgid "Open the [b]tower planner[/b], choose a tower and inspect a clear spot. [b]Left click[/b] builds there; the preview tells you the price and obstacles.\n\nClose the planner without buying anything to look around for free. Mechanic has your first building job."
+msgstr "Öffne den [b]Turmplaner[/b], wähle einen Turm und suche einen freien Platz. Mit [b]Linksklick[/b] baust du dort; die Vorschau zeigt Preis und Hindernisse.\n\nDu kannst den Planer ohne Kauf wieder schliessen. Mechanic hat deinen ersten Bauauftrag."
 
 #: scripts/vendor_tutorial.gd
-msgid "At a barricade, [b]E[/b] builds or repairs; the hint shows the price.\n\nAt a finished tower: [b]E[/b] to climb in, left click to fire, [b]E[/b] to climb out. [b]R[/b] starts aiming; rotate and confirm with [b]E[/b]. [b]F[/b] repairs.\n\n[b]Mechanic[/b] offers tower upgrades and training. Protect the hut and keep an eye on its condition."
-msgstr "An einer Barrikade kannst du mit [b]E[/b] bauen oder reparieren; der Hinweis zeigt den Preis.\n\nAn einem fertigen Turm: [b]E[/b] zum Einsteigen, Linksklick zum Feuern, [b]E[/b] zum Aussteigen. [b]R[/b] startet das Ausrichten; drehen und mit [b]E[/b] bestätigen. [b]F[/b] repariert.\n\n[b]Mechanic[/b] bietet Turmausbauten und Training an. Schütze die Hütte und behalte ihren Zustand im Blick."
+msgid "At a structure, the nearby interaction hint tells you what you can do."
+msgstr "An einem Bauwerk zeigt dir der Hinweis vor Ort, was du tun kannst."
 
 #: scripts/vendor_tutorial.gd
-msgid "You can review these basics any time with Vendor under Quests."
-msgstr "Du kannst diese Grundlagen jederzeit bei Vendor unter Aufträge erneut ansehen."
+msgid "Your [b]Focus[/b] lasts six seconds and steadies your shots. Press [b]Z[/b] just before a difficult fight. It recharges in thirty seconds."
+msgstr "Dein [b]Fokus[/b] beruhigt dein Zielen für sechs Sekunden. Drücke kurz vor einem schwierigen Kampf [b]Z[/b]. Nach dreissig Sekunden ist er wieder bereit."
+
+#: scripts/vendor_tutorial.gd
+msgid "Your [b]Suppression[/b] lasts eight seconds. Enemies you hit are slowed. Press [b]Z[/b] when the horde advances. It recharges in thirty seconds."
+msgstr "Deine [b]Unterdrückung[/b] wirkt acht Sekunden: Getroffene Gegner werden langsamer. Drücke [b]Z[/b], wenn die Horde vorrückt. Nach dreissig Sekunden ist sie wieder bereit."
+
+#: scripts/vendor_tutorial.gd
+msgid "Your [b]Shockwave[/b] hurts and slows visible enemies within nine metres. Press [b]Z[/b] when they get close. It recharges in thirty seconds."
+msgstr "Deine [b]Schockwelle[/b] verletzt und verlangsamt sichtbare Gegner im Umkreis von neun Metern. Drücke [b]Z[/b], wenn sie nahe kommen. Nach dreissig Sekunden ist sie wieder bereit."
+
+#: scripts/vendor_tutorial.gd
+msgid "Aim at a visible enemy and press [b]Z[/b] to [b]mark[/b] it for ten seconds. The marked enemy takes more damage. It recharges in thirty seconds."
+msgstr "Ziele auf einen sichtbaren Gegner und drücke [b]Z[/b], um ihn zehn Sekunden lang zu [b]markieren[/b]. Er erleidet mehr Schaden. Nach dreissig Sekunden ist die Fähigkeit wieder bereit."
+
+#: scripts/vendor_tutorial.gd
+msgid "At [b]Assassin level 15[/b], choose a teleport mode in your class skills. Use it with [b]V[/b] once unlocked. Your current class does not use Z."
+msgstr "Wähle auf [b]Assassinen-Stufe 15[/b] einen Teleportmodus in deinen Klassenfähigkeiten. Nach der Freischaltung nutzt du ihn mit [b]V[/b]. Deine Klasse verwendet kein Z."
+
+#: scripts/vendor_tutorial.gd
+msgid "I know my way · Skip guidance"
+msgstr "Ich kenne mich aus · Hinweise überspringen"
 
 #: scripts/vendor_tutorial.gd
 msgid "VENDOR · %d/%d · %s"
 msgstr "VENDOR · %d/%d · %s"
+
+#: scripts/vendor_tutorial.gd
+msgid "Choose a defensible spot in the fields. [b]T[/b] opens the tower planner; left click places the selected tower.\n\nFor walls, buy kits from [b]Mechanic[/b], then use [b]B[/b] on your chosen ground. The placement preview explains the next step."
+msgstr "Suche dir einen gut zu verteidigenden Platz im Feld. Mit [b]T[/b] öffnest du den Turmplaner; ein Linksklick baut den ausgewählten Turm.\n\nFür Wände kaufst du Bausätze bei [b]Mechanic[/b] und platzierst sie mit [b]B[/b]. Die Vorschau erklärt den nächsten Schritt."
 
 #: scripts/vendor_tutorial.gd
 msgid "Got it · Back to Vendor"
@@ -9222,6 +9534,214 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "T: choose a tower type · R/mouse wheel: rotate · E: place\nAt the tower: E climbs up, R aims, F repairs. On top: the mouse aims, left click fires, E climbs down. Without an operator the tower fires on its own. Sustained fire builds up heat."
+msgstr "T: Turmtyp wählen · R/Mausrad: drehen · E: platzieren\nAm Turm: E aufsteigen, R ausrichten, F reparieren. Oben: Maus zielt, Linksklick feuert, E steigt ab. Ohne Bediener feuert der Turm automatisch. Dauerfeuer erzeugt Hitze."
+
+#. unused
+msgid "Version: Co-op 2026.10.05-E"
+msgstr "Version: Koop 2026.10.05-E"
+
+#. unused
+msgid "Use the breaks between waves to reload, heal and improve your defenses. E interacts with traders and builds or repairs barricades. T previews a turret; E confirms its placement."
+msgstr "Nutze die Pausen zwischen den Wellen zum Nachladen, Heilen und Verstärken deiner Verteidigung. E spricht Händler an und baut oder repariert Barrikaden. T zeigt die Turmvorschau; E bestätigt die Platzierung."
+
+#. unused
+msgid "Preview turret · E confirms placement"
+msgstr "Turmvorschau · E bestätigt die Platzierung"
+
+#. unused
+msgid "Visit Mara at camp, prepare your equipment and follow your current quest. Explore at your own pace between waves."
+msgstr "Besuche Mara im Lager, bereite deine Ausrüstung vor und folge deinem aktuellen Auftrag. Zwischen den Wellen ist Zeit zum Erkunden."
+
+#. unused
+msgid "Fieldbook [K]"
+msgstr "Feldbuch [K]"
+
+#. unused
+msgid "EXPEDITION FIELDBOOK"
+msgstr "EXPEDITIONS-FELDBUCH"
+
+#. unused
+msgid "Close [K / Esc]"
+msgstr "Schliessen [K / Esc]"
+
+#. unused
+msgid "Operations"
+msgstr "Einsätze"
+
+#. unused
+msgid "Use class action [Z]"
+msgstr "Klassenaktion einsetzen [Z]"
+
+#. unused
+msgid "Interact with nearby objective [E]"
+msgstr "Mit nahem Einsatzziel interagieren [E]"
+
+#. unused
+msgid "Journal & bestiary"
+msgstr "Chronik & Bestiarium"
+
+#. unused
+msgid "Run & checkpoint"
+msgstr "Durchlauf & Spielstand"
+
+#. unused
+msgid "Run settings can be changed before wave one. Use the same map and run code to reproduce wave profiles, missions, augments and weather."
+msgstr "Die Einstellungen lassen sich vor Welle eins ändern. Mit derselben Map und demselben Startcode erhältst du dieselben Wellenprofile, Einsätze, Augments und Wetterabläufe."
+
+#. unused
+msgid "Save in a quiet wave intermission. For a cooperative checkpoint the same player slots must join before the host loads it. Completed rewards are not issued again."
+msgstr "Speichere in einer ruhigen Wellenpause. Für einen Koop-Spielstand müssen dieselben Spielerplätze belegt sein, bevor der Host ihn lädt. Bereits erhaltene Belohnungen werden nicht erneut vergeben."
+
+#. unused
+msgid "Bandages: %d · Action ready in %d s"
+msgstr "Verbände: %d · Aktion bereit in %d s"
+
+#. unused
+msgid "Choose one of three offers after waves 3, 7, 12, 17 and 22. The choice lasts for this expedition."
+msgstr "Wähle nach den Wellen 3, 7, 12, 17 und 22 jeweils eines von drei Angeboten. Die Wahl gilt für diese Expedition."
+
+#. unused
+msgid "Selected: %s"
+msgstr "Gewählt: %s"
+
+#. unused
+msgid "Class mastery: %d · Weapon mastery: %s"
+msgstr "Klassenmeisterschaft: %d · Waffenmeisterschaft: %s"
+
+#. unused
+msgid "[K] Fieldbook · [Z] Class action · Bandages %d"
+msgstr "[K] Feldbuch · [Z] Klassenaktion · Verbände %d"
+
+#. unused
+msgid "Final defence · %d s · Health %d · [E] at the objective"
+msgstr "Letzte Verteidigung · %d s · Zustand %d · [E] am Ziel"
+
+#. unused
+msgid " · Operation %d m"
+msgstr " · Einsatz %d m"
+
+#. unused
+msgid "Survive the waves and final defence. Meet the traders at the fork. B: kits · T: towers · J: quests · K: expedition · Enter: next wave"
+msgstr "Überlebe die Wellen und die Schlussverteidigung. Händler stehen an der Weggabelung. B: Bausätze · T: Türme · J: Aufträge · K: Expedition · Enter: nächste Welle"
+
+#. unused
+msgid "Choose your ground. Buy and place two defence kits."
+msgstr "Wähle deinen Standort. Kaufe und platziere zwei Befestigungsbausätze."
+
+#. unused
+msgid "QUESTS - Q on/off"
+msgstr "AUFTRÄGE - Q an/aus"
+
+#. unused
+msgid "Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."
+msgstr "Vendor und Mechanic stehen an der Gabelung. Der Secret Vendor wartet im Wald. Nimm Aufträge persönlich an und kehre für die Belohnung zurück."
+
+#. unused
+msgid "Vendor introduces you to the inventory, trading, tower building and barricades. Learn the basics, then collect your reward."
+msgstr "Vendor führt dich in Inventar, Handel, Turmbau und Barrikaden ein. Lerne die Grundlagen und hole danach deine Belohnung ab."
+
+#. unused
+msgid "Build a barricade and a tower. Then re-aim the tower. T: preview · R/mouse wheel: rotate · E: confirm. At the tower R: aim, E: climb in, F: repair."
+msgstr "Baue eine Barrikade und einen Turm. Richte den Turm anschliessend neu aus. T: Vorschau · R/Mausrad: drehen · E: bestätigen. Am Turm R: ausrichten, E: einsteigen, F: reparieren."
+
+#. unused
+msgid "Inventory, Rem Dollars, towers and barricades · read up for free."
+msgstr "Inventar, Rem Dollars, Türme und Barrikaden · kostenlos nachlesen."
+
+#. unused
+msgid "ALL QUESTS DONE\nHold the hut and survive the next wave."
+msgstr "ALLE AUFTRÄGE ERLEDIGT\nHalte die Hütte und überstehe die nächste Welle."
+
+#. unused
+msgid "QUESTS · Q on/off\nTalk to Vendor at the campfire and Mechanic north of it."
+msgstr "AUFTRÄGE · Q ein/aus\nSprich mit Vendor am Lagerfeuer und Mechanic nördlich davon."
+
+#. unused
+msgid "%s · NEXT QUEST\n%s"
+msgstr "%s · NÄCHSTER AUFTRAG\n%s"
+
+#. unused
+msgid "READY TO TURN IN"
+msgstr "BEREIT ZUR ABGABE"
+
+#. unused
+msgid "QUESTS (%d) · Q on/off"
+msgstr "AUFTRÄGE (%d) · Q ein/aus"
+
+#. unused
+msgid "%d ready to turn in"
+msgstr "%d zur Abgabe bereit"
+
+#. unused
+msgid "WEAPONS & QUESTS\n[E] Talk to Vendor at the campfire."
+msgstr "WAFFEN & AUFTRÄGE\n[E] Sprich mit Vendor am Lagerfeuer."
+
+#. unused
+msgid "YOUR GEAR · [I] INVENTORY\nOpen your inventory and look at your weapons and items."
+msgstr "DEINE AUSRÜSTUNG · [I] INVENTAR\nÖffne dein Inventar und sieh dir Waffen und Gegenstände an."
+
+#. unused
+msgid "YOUR DEFENSE · [T] TOWER BUILD MENU\nTake a look at the towers. Only E in the preview confirms a purchase."
+msgstr "DEINE VERTEIDIGUNG · [T] TURMBAUMENÜ\nSieh dir die Türme an. Erst E in der Vorschau bestätigt einen Kauf."
+
+#. unused
+msgid "DEFENSE · [T] TOWER BUILD MENU\n13 types from 120 R · E builds / climbs up · Mechanic upgrades."
+msgstr "VERTEIDIGUNG · [T] TURMBAUMENÜ\n13 Typen ab 120 R · E baut / steigt auf · Mechanic baut aus."
+
+#. unused
+msgid "AIM YOUR SENTINEL\nPress R at the tower, rotate with R/mouse wheel and confirm with E."
+msgstr "RICHTE DEINEN WÄCHTER AUS\nAm Turm R drücken, mit R/Mausrad drehen und mit E bestätigen."
+
+#. unused
+msgid "Your gear"
+msgstr "Deine Ausrüstung"
+
+#. unused
+msgid "Press [b]I[/b] to open the inventory. Pick a weapon or an item there. [b]I or Esc[/b] takes you back into the game.\n\nYou reach the filled slots of your quick bar with [b]1–9 and 0[/b]."
+msgstr "Mit [b]I[/b] öffnest du das Inventar. Wähle dort eine Waffe oder einen Gegenstand aus. Mit [b]I oder Esc[/b] gehst du zurück ins Spiel.\n\nDie belegten Plätze deiner Schnellleiste erreichst du mit [b]1–9 und 0[/b]."
+
+#. unused
+msgid "After our talk, try out the inventory first."
+msgstr "Probiere nach unserem Gespräch zuerst das Inventar aus."
+
+#. unused
+msgid "Supplies and quests"
+msgstr "Vorräte und Aufträge"
+
+#. unused
+msgid "Talk to traders with [b]E[/b]. I sell weapons and ammo. You pay with [b]Rem Dollars (R)[/b]. Locked offers show you the missing requirements.\n\nAccept quests in the [b]Quests[/b] tab and collect the reward from whoever gave you the quest. [b]Q[/b] shows or hides your quest overview."
+msgstr "Sprich Händler mit [b]E[/b] an. Bei mir bekommst du Waffen und Munition. Bezahlt wird mit [b]Rem Dollars (R)[/b]. Gesperrte Angebote zeigen dir die fehlenden Voraussetzungen.\n\nNimm Aufträge im Reiter [b]Aufträge[/b] an und hole die Belohnung beim Auftraggeber ab. [b]Q[/b] blendet deine Auftragsübersicht ein oder aus."
+
+#. unused
+msgid "Purchases cost Rem Dollars. This introduction is free."
+msgstr "Käufe kosten Rem Dollars. Diese Einführung ist kostenlos."
+
+#. unused
+msgid "Build your first tower"
+msgstr "Deinen ersten Turm bauen"
+
+#. unused
+msgid "[b]T[/b] opens the tower build menu. Choose a tower (from [b]120 R[/b]) and find a free spot. The preview shows the range and possible obstacles.\n\n[b]R or the mouse wheel[/b] rotates the tower. [b]E[/b] confirms the build. [b]T or Esc[/b] cancels the preview."
+msgstr "[b]T[/b] öffnet das Turmbaumenü. Wähle einen Turm aus (ab [b]120 R[/b]) und suche einen freien Platz. Die Vorschau zeigt Reichweite und mögliche Hindernisse.\n\nMit [b]R oder dem Mausrad[/b] drehst du den Turm. [b]E[/b] bestätigt den Bau. Mit [b]T oder Esc[/b] brichst du die Vorschau ab."
+
+#. unused
+msgid "Only a confirmed build costs Rem Dollars. You don't have to buy a tower for the tutorial."
+msgstr "Nur ein bestätigter Bau kostet Rem Dollars. Du musst für das Tutorial keinen Turm kaufen."
+
+#. unused
+msgid "Defend the hut"
+msgstr "Die Hütte verteidigen"
+
+#. unused
+msgid "At a barricade, [b]E[/b] builds or repairs; the hint shows the price.\n\nAt a finished tower: [b]E[/b] to climb in, left click to fire, [b]E[/b] to climb out. [b]R[/b] starts aiming; rotate and confirm with [b]E[/b]. [b]F[/b] repairs.\n\n[b]Mechanic[/b] offers tower upgrades and training. Protect the hut and keep an eye on its condition."
+msgstr "An einer Barrikade kannst du mit [b]E[/b] bauen oder reparieren; der Hinweis zeigt den Preis.\n\nAn einem fertigen Turm: [b]E[/b] zum Einsteigen, Linksklick zum Feuern, [b]E[/b] zum Aussteigen. [b]R[/b] startet das Ausrichten; drehen und mit [b]E[/b] bestätigen. [b]F[/b] repariert.\n\n[b]Mechanic[/b] bietet Turmausbauten und Training an. Schütze die Hütte und behalte ihren Zustand im Blick."
+
+#. unused
+msgid "You can review these basics any time with Vendor under Quests."
+msgstr "Du kannst diese Grundlagen jederzeit bei Vendor unter Aufträge erneut ansehen."
 
 #. unused
 msgid "REMZ is a zombie survival game for solo players and co-op teams. Choose an available region on the campaign map, select your class and talents, and survive 25 waves to secure the region. Explore, complete quests, collect supplies and improve your equipment between attacks. Learn each map's routes and defend its objectives. Your campaign victories and class progress carry over to future rounds."

@@ -53,8 +53,8 @@ const QUESTS := {
 	"pond_cache": {"min_level": 3, "waves_after_accept": 1,"npc": "ranger", "name": "The Box at the Pond", "requires": "forest_basket", "reward": 120, "desc": "Mara hid a box of supplies at the pond up in the forest before the first night. Find it at the shore and open it. The map marks the pond once you accept.", "goals": {"find_pond_box": 1}},
 	"trip_mushroom": {"min_level": 4, "waves_after_accept": 1,"npc": "ranger", "name": "The Strange Mushroom", "requires": "pond_cache", "reward": 160, "desc": "Somewhere in the forest grows a mushroom that glows violet at dusk. Find it and eat it right there. Mara warns you: the forest will look different for a while afterwards.", "goals": {"find_trip_mushroom": 1}},
 	"maze_crate": {"min_level": 6, "waves_after_accept": 1,"npc": "ranger", "name": "Into the Maize", "requires": "trip_mushroom", "reward": 220, "desc": "A supply crate was left deep in the maize maze south of the hut path. Enter the maze, follow the cleared passages to the crate and open it. The map shows where it lies.", "goals": {"find_maze_crate": 1}},
-	"arrival": {"min_level": 1, "waves_after_accept": 0,"npc": "camp", "name": "By the Fire", "requires": "", "reward": 20, "desc": "Vendor introduces you to the inventory, trading, tower building and barricades. Learn the basics, then collect your reward."},
-	"watch": {"min_level": 2, "waves_after_accept": 1,"npc": "mechanic", "name": "The First Sentinel", "requires": "arrival", "reward": 110, "desc": "Build a barricade and a tower. Then re-aim the tower. T: preview · R/mouse wheel: rotate · E: confirm. At the tower R: aim, E: climb in, F: repair."},
+	"arrival": {"min_level": 1, "waves_after_accept": 0,"npc": "camp", "name": "By the Fire", "requires": "", "reward": 20, "desc": "Meet Vendor for a short introduction to your gear, your class ability and the fieldbook. You can skip the guidance if you know your way. Collect your welcome reward here."},
+	"watch": {"min_level": 2, "waves_after_accept": 1,"npc": "mechanic", "name": "The First Sentinel", "requires": "arrival", "reward": 110, "desc": "Build a barricade and a tower. Then re-aim the tower. Open the tower planner with T and click a clear spot to build. At a tower or barricade, follow the nearby interaction hint."},
 	"line": {"min_level": 2, "waves_after_accept": 1,"npc": "camp", "name": "Hold the Line", "requires": "arrival", "reward": 140, "desc": "Survive two waves as a team and defeat 30 zombies. Return to Vendor."},
 	"supplies": {"min_level": 4, "waves_after_accept": 1,"npc": "mechanic", "name": "The Lost Delivery", "requires": "watch", "reward": 180, "desc": "The toolbox got lost somewhere in the area. Where it lies changes every round and is marked on the map once you accept. Recover the delivery and return to Mechanic."},
 	"titan": {"min_level": 7, "waves_after_accept": 1,"npc": "secret", "name": "What Lurks in the Field", "requires": "supplies", "reward": 300, "desc": "Defeat a field titan together. They appear from wave 6. Then collect your reward from the Secret Vendor."},
@@ -125,6 +125,11 @@ var _arrival_guide_read := false
 var _arrival_guide_pending := false
 var _arrival_inventory_seen := false
 var _arrival_build_menu_seen := false
+var _arrival_book_seen := false
+var _onboarding_text := ""
+var _onboarding_topic := ""
+var _onboarding_elapsed := 0.0
+var _onboarding_gap := 0.0
 var _tabs: Dictionary = {}
 var _row_nodes: Array = []
 var _row_index := 0
@@ -174,7 +179,8 @@ func _discover_visible_npcs() -> void:
 				_seen_npcs[id] = true
 				break
 
-var _tower_tutorial_remaining := 12.0
+const ONBOARDING_SECONDS := 8.0
+const ONBOARDING_GAP := 6.0
 
 static func clear_space() -> void:
 	# Deterministic clearings, before forests and navmesh are constructed on every peer.
@@ -190,6 +196,7 @@ static func clear_space() -> void:
 
 func setup(main: Node) -> void:
 	game = main
+	_load_onboarding()
 	layer = 24
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	for id in NPCS:
@@ -966,6 +973,7 @@ func transact(p: Player, npc: String, action: String, id: String, extra := "") -
 func request(action: String, id := "", extra := "") -> void:
 	if action == "quest" and id == "arrival" and shop == "camp" and not _arrival_guide_read and not local_data().claimed.get(id, false):
 		_arrival_guide_pending = true
+		_configure_vendor_guide()
 		vendor_guide.open()
 		return
 	if NetSession.enabled:
@@ -979,6 +987,7 @@ func request(action: String, id := "", extra := "") -> void:
 
 func _finish_vendor_guide() -> void:
 	_arrival_guide_read = true
+	_remember_lesson("briefing")
 	var pending := _arrival_guide_pending
 	_arrival_guide_pending = false
 	if pending and is_open and shop == "camp": request("quest", "arrival")
@@ -987,7 +996,117 @@ func _finish_vendor_guide() -> void:
 func _replay_vendor_guide() -> void:
 	_arrival_guide_pending = false
 	vendor_guide.step = 0
+	_configure_vendor_guide()
 	vendor_guide.open()
+
+func _configure_vendor_guide() -> void:
+	vendor_guide.class_id = str(game.player.class_combat.build.id)
+	vendor_guide.region = "planes" if game.get("survival_active") != null else "forest"
+
+func _skip_vendor_guide() -> void:
+	for topic in ["inventory_tip", "book_tip", "building_tip", "class_" + str(game.player.class_combat.build.id)]:
+		_remember_lesson(topic)
+	_finish_vendor_guide()
+
+func _lesson_seen(topic: String) -> bool:
+	return bool(CharacterProfile.data.get("journal", {}).get("onboarding:" + topic, false))
+
+func _remember_lesson(topic: String) -> void:
+	if _lesson_seen(topic): return
+	if not CharacterProfile.data.has("journal"): CharacterProfile.data.journal = {}
+	CharacterProfile.data.journal["onboarding:" + topic] = true
+	CharacterProfile.dirty = true
+
+func _load_onboarding() -> void:
+	_arrival_guide_read = _lesson_seen("briefing")
+	_arrival_inventory_seen = _lesson_seen("inventory")
+	_arrival_build_menu_seen = _lesson_seen("building")
+	_arrival_book_seen = _lesson_seen("book")
+
+func _update_onboarding(delta: float) -> void:
+	_onboarding_text = ""
+	# The Planes can be visited without constructing survival systems. The same
+	# partial state occurs while entering or leaving survival; never consume a
+	# lesson or suggest unavailable equipment during those transitions.
+	if not game or not game.get("started") or game.get("over") == true or game.get("preparing_survival") == true or (game.get("survival_active") != null and not game.survival_active):
+		_onboarding_topic = ""
+		_onboarding_elapsed = 0.0
+		return
+	if not game.get("player") or not game.get("hud") or not game.hud.overlay or not game.get("inventory") or not game.get("defences") or not game.get("waves"):
+		_onboarding_topic = ""
+		_onboarding_elapsed = 0.0
+		return
+	# Observation follows the actual menus, including menus that pause solo play.
+	if _arrival_guide_read:
+		if game.inventory.is_open:
+			_arrival_inventory_seen = true
+			_remember_lesson("inventory")
+		if game.defences.is_open or game.defences.placing or (game.defences.planner and game.defences.planner.is_open):
+			_arrival_build_menu_seen = true
+			_remember_lesson("building")
+		if game.get("expedition") and game.expedition.book and game.expedition.book.is_open:
+			_arrival_book_seen = true
+			_remember_lesson("book")
+	var playing: bool = game.started and not game.over and game.player.active and not game.player.downed and not game.hud.overlay.visible
+	var guiding: bool = game.get("intro") != null and game.intro.showing_guidance()
+	if game.get("secret_night") and game.secret_night.active: guiding = true
+	if game.get("field_trials") and game.field_trials.active: guiding = true
+	if not playing or guiding or game.player.mounted_tower or game.player.controlling_drone or game.defences.placing or game.defences.is_open:
+		_onboarding_text = ""
+		return
+	if not _onboarding_topic.is_empty() and tutorial.visible:
+		_onboarding_elapsed += delta
+		if _onboarding_elapsed >= ONBOARDING_SECONDS:
+			_remember_lesson(_onboarding_topic)
+			_onboarding_topic = ""
+			_onboarding_gap = ONBOARDING_GAP
+	_onboarding_gap = maxf(0.0, _onboarding_gap - delta)
+	_onboarding_text = ""
+	if not _arrival_guide_read or _onboarding_gap > 0.0: return
+	var expedition: Node = game.get("expedition")
+	var threat := false
+	var enemies_alive := false
+	if expedition and expedition.enabled:
+		for enemy: Zombie in expedition._enemies():
+			enemies_alive = true
+			if enemy.global_position.distance_squared_to(game.player.global_position) < 40.0 * 40.0:
+				threat = true
+				break
+	var class_id := str(game.player.class_combat.build.id)
+	if expedition and expedition.enabled and float(expedition.person(game.player.peer_id).cooldown) > expedition.elapsed:
+		_remember_lesson("class_" + class_id)
+	if class_id == "assassin" and game.player.teleport_serial > 0: _remember_lesson("class_assassin")
+	var topic := ""
+	if threat:
+		if not _lesson_seen("class_" + class_id) and (class_id != "assassin" or not AssassinTeleport.mode_for(game.player).is_empty()):
+			topic = "class_" + class_id
+			_onboarding_text = class_action_hint(class_id)
+	elif enemies_alive or (game.waves and game.waves.phase != "idle"):
+		pass # Never suggest opening a menu while a wave or distant fight is underway.
+	elif not _arrival_inventory_seen and not _lesson_seen("inventory_tip"):
+		topic = "inventory_tip"
+		_onboarding_text = "VENDOR'S TIP\nOpen your gear with I. Choose a weapon, then return to the camp."
+	elif expedition and expedition.enabled and not _arrival_book_seen and not _lesson_seen("book_tip"):
+		topic = "book_tip"
+		_onboarding_text = "A QUIET MOMENT\nOpen the fieldbook with K to choose your next optional mission."
+	elif not _arrival_build_menu_seen and not _lesson_seen("building_tip") and _has_building_lesson():
+		topic = "building_tip"
+		_onboarding_text = "MECHANIC'S TIP\nOpen the tower planner with T. Looking around is free; a click confirms the build."
+	if topic != _onboarding_topic:
+		_onboarding_topic = topic
+		_onboarding_elapsed = 0.0
+
+func _has_building_lesson() -> bool:
+	return local_data().accepted.get("watch", false) and not local_data().claimed.get("watch", false)
+
+static func class_action_hint(class_id: String) -> String:
+	match class_id:
+		"gunslinger": return "STEADY YOUR AIM\nZ activates Focus for six seconds."
+		"assault": return "SLOW THE HORDE\nZ activates Suppression: your hits slow enemies."
+		"breacher": return "MAKE SOME ROOM\nZ releases a shockwave against nearby enemies."
+		"marksman": return "PICK YOUR TARGET\nAim at an enemy and press Z to mark it for extra damage."
+		"assassin": return "FIND AN OPENING\nV uses your chosen teleport."
+	return ""
 
 func interact(id: String) -> void:
 	if id == "cache":
@@ -1209,6 +1328,7 @@ func _build_ui() -> void:
 	vendor_guide = VendorGuide.new()
 	panel.add_child(vendor_guide)
 	vendor_guide.finished.connect(_finish_vendor_guide)
+	vendor_guide.skipped.connect(_skip_vendor_guide)
 	panel.hide()
 
 func _row(heading: String, details: String, button_text: String, action: Callable, disabled := false, blocked_reason := "", rich := false, gun_stats: Dictionary = {}) -> void:
@@ -1330,7 +1450,7 @@ func _render() -> void:
 						_row(Weapons.DEFS[id].name, "Sell the weapon. Leftover ammo adds nothing to the price; sell the reserve separately first. Purchase permits are kept.", "+%d R" % int(int(GOODS[id].price) * 0.35), request.bind(action, id))
 		"Quests":
 			if shop == "camp":
-				_row("Basics with Vendor", "Inventory, Rem Dollars, towers and barricades · read up for free.", "View introduction", _replay_vendor_guide)
+				_row("Basics with Vendor", "A short guide to your gear, class ability, fieldbook and building. Read or skip at your own pace.", "View introduction", _replay_vendor_guide)
 			for completed in [false, true]:
 				var quest_ids: Array = []
 				for id in ordered_quests():
@@ -1401,7 +1521,7 @@ func _render() -> void:
 					_row(Lang.t("%s · %d/%d", [spec.name, level, spec.max]), spec.desc, "%d R" % cost, request.bind("training", spec.id), level >= int(spec.max) or p.score < cost)
 		"Towers":
 			if _building_layout: rows.add_child(ItemIcons.view("tower", Vector2(140, 90)))
-			_info("T: choose a tower type · R/mouse wheel: rotate · E: place\nAt the tower: E climbs up, R aims, F repairs. On top: the mouse aims, left click fires, E climbs down. Without an operator the tower fires on its own. Sustained fire builds up heat.", 16)
+			_info("T: open the tower planner · R/mouse wheel: rotate · Left click: place\nAt the tower: E climbs up, R aims, F repairs. On top: the mouse aims, left click fires, E climbs down. Without an operator the tower fires on its own. Sustained fire builds up heat.", 16)
 			for kind in DefenceTower.TYPES:
 				var spec: Dictionary = DefenceTower.SPECS[kind]
 				var required: int = game.defences.unlock_waves(kind)
@@ -1531,9 +1651,7 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	if not game: return
-	if _arrival_guide_read:
-		_arrival_inventory_seen = _arrival_inventory_seen or game.inventory.is_open
-		_arrival_build_menu_seen = _arrival_build_menu_seen or game.defences.is_open or game.defences.placing
+	_update_onboarding(delta)
 	_animate_gain(delta)
 	for id in npcs:
 		npcs[id].quest_marker.visible = game.started and not game.over and has_ready_quest(id)
@@ -1543,14 +1661,12 @@ func _process(delta: float) -> void:
 	if "secret_night" in game and game.secret_night and game.secret_night.active: guiding = true
 	if "field_trials" in game and game.field_trials and game.field_trials.active: guiding = true
 	notifications.visible = game.started and not game.over and not game.hud.overlay.visible and not guiding
-	tracker.visible = playing and _journal and not game.defences.placing and not guiding
-	tutorial.visible = playing and not game.defences.placing and not game.defences.is_open and not game.player.mounted_tower and not game.player.controlling_drone and not guiding
-	# Guidance belongs with quests, leaving the central action card unobstructed.
-	tutorial.position.y = tracker.position.y + tracker.get_minimum_size().y + 14.0 if tracker.visible else 154.0
+	# A single guidance slot: a temporary lesson replaces, rather than stacks on, the quest.
+	tutorial.text = _onboarding_text
+	tutorial.visible = not _onboarding_text.is_empty() and _journal
+	tracker.visible = playing and _journal and not game.defences.placing and not guiding and not tutorial.visible
+	tutorial.position.y = tracker.position.y
 	tutorial.size.y = 0
-	if tutorial.text.is_empty(): tutorial.hide()
-	if tutorial.visible and local_data().claimed.get("arrival", false) and team.built == 0:
-		_tower_tutorial_remaining = maxf(0.0, _tower_tutorial_remaining - delta)
 	_refresh_time -= delta
 	if _refresh_time > 0: return
 	_refresh_time = 0.25
@@ -1574,41 +1690,45 @@ func _process(delta: float) -> void:
 		if d.accepted.get(id, false) and not d.claimed.get(id, false):
 			tracked.append(id)
 	if tracked.is_empty():
-		tracker.text = "ALL QUESTS DONE\nHold the hut and survive the next wave." if d.claimed.size() == QUESTS.size() else "QUESTS · Q on/off\nTalk to Vendor at the campfire and Mechanic north of it."
-		for chain in QUEST_CHAINS:
-			if chain_complete(game.player.peer_id, chain): continue
-			for id in QUEST_CHAINS[chain].quests:
-				if not has_claim(game.player.peer_id, id):
-					# Upper case needs the final wording; the tracker is rebuilt four times a second.
-					tracker.text = Lang.t("%s · NEXT QUEST\n%s", [Lang.raw(Lang.text(QUEST_CHAINS[chain].name).to_upper()), next_quest_step(game.player.peer_id, id)])
-					break
-			break
+		tracker.text = "BY THE FIRE\nMeet Vendor at the campfire." if not d.claimed.get("arrival", false) else "HOLD THE HUT\nPrepare your defences for the next wave."
+		if d.claimed.get("arrival", false):
+			var available := ordered_quests()
+			available.erase("watch")
+			available.push_front("watch")
+			for id in available:
+				if d.claimed.get(id, false) or not quest_lock_reason(game.player.peer_id, id).is_empty(): continue
+				if QUESTS[id].npc == "secret" and not d.discovered: continue
+				tracker.text = Lang.t("NEW WORK\nTalk to %s about %s.", [NPCS[QUESTS[id].npc].name, QUESTS[id].name])
+				break
 	else:
-		var ready := PackedStringArray()
-		var ongoing := PackedStringArray()
+		var focus: String = tracked[0]
 		for id in tracked:
 			if complete(id):
-				ready.append("[color=#ffd479][b]%s[/b]\n[b]%s[/b]\n%s[/color]" % [Lang.t("READY TO TURN IN"), Lang.t(QUESTS[id].name), Lang.t("Turn in to %s · %d R reward", [NPCS[QUESTS[id].npc].name, QUESTS[id].reward])])
-			else:
-				ongoing.append(Lang.t(QUESTS[id].name) + "\n" + quest_progress(id, -1, true))
-		var entries := PackedStringArray([Lang.t("QUESTS (%d) · Q on/off", [tracked.size()])])
-		if not ready.is_empty():
-			entries.append("[color=#ffd479][b]%s[/b][/color]" % Lang.t("%d ready to turn in", [ready.size()]))
-		entries.append_array(ready)
-		entries.append_array(ongoing)
-		tracker.text = "\n\n".join(entries)
+				focus = id
+				break
+		tracker.text = "[b]%s[/b]\n%s" % [Lang.t(QUESTS[focus].name), Lang.t("Turn in to %s · %d R reward", [NPCS[QUESTS[focus].npc].name, QUESTS[focus].reward]) if complete(focus) else _focused_quest_goal(focus)]
+		if complete(focus): tracker.text = "[color=#ffd479]%s[/color]" % tracker.text
 	tracker.size.y = 0
-	if not d.claimed.get("arrival", false):
-		tutorial.text = "WEAPONS & QUESTS\n[E] Talk to Vendor at the campfire."
-	elif _arrival_guide_read and not _arrival_inventory_seen:
-		tutorial.text = "YOUR GEAR · [I] INVENTORY\nOpen your inventory and look at your weapons and items."
-	elif _arrival_guide_read and not _arrival_build_menu_seen:
-		tutorial.text = "YOUR DEFENSE · [T] TOWER BUILD MENU\nTake a look at the towers. Only E in the preview confirms a purchase."
-	elif team.built == 0:
-		tutorial.text = "DEFENSE · [T] TOWER BUILD MENU\n13 types from 120 R · E builds / climbs up · Mechanic upgrades." if _tower_tutorial_remaining > 0.0 else ""
-	elif team.turned == 0:
-		tutorial.text = "AIM YOUR SENTINEL\nPress R at the tower, rotate with R/mouse wheel and confirm with E."
-	else: tutorial.text = ""
+
+func _focused_quest_goal(id: String) -> String:
+	# Detailed checklists remain in the trader's quest page. The HUD gives one next step.
+	var goals := objective_goals(id)
+	for kind in goals:
+		var value := progress_value(kind, game.player.peer_id, id)
+		var target := int(goals[kind])
+		if value < target:
+			return Lang.t("%s %d/%d", [GOAL_LABELS.get(kind, LEGACY_GOAL_LABELS.get(kind, kind)), value, target])
+	return Lang.t("After accepting: survive %d more wave(s)", [maxi(0, required_completion_wave(game.player.peer_id, id) - game.waves.completed)])
+
+func fieldbook_quests() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	var d := local_data()
+	for ready in [true, false]:
+		for id in ordered_quests():
+			if not d.accepted.get(id, false) or d.claimed.get(id, false) or complete(id) != ready: continue
+			result.append({"name": Lang.t(QUESTS[id].name), "details": quest_progress(id, -1, true),
+				"npc": Lang.t(NPCS[QUESTS[id].npc].name), "reward": int(QUESTS[id].reward), "ready": ready})
+	return result
 
 func snapshot() -> Dictionary:
 	var find_state := {}

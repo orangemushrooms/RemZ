@@ -15,9 +15,14 @@ var _elapsed := 0.0
 var _font: Font
 var reveal_secret := false  # Cheat menu: show the secret vendor before discovery.
 var reveal_wanderer := false  # Explicit cheat only; discovery never reveals his position.
+var bottom_inset := 16.0 # HUD reserves the space below the map for weapon information.
 var reveal_gold := false  # Cheat menu: mark the round's Golden Bolete while it is out there.
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not is_instance_valid(world) or not is_instance_valid(player): return
+	if world.over or not player.active or not player.alive or player.downed: return
+	if get_tree().paused or player.controlling_drone or player.mounted_tower: return
+	if world.get("hud") and world.hud.overlay.visible: return
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_M and not event.ctrl_pressed and not event.alt_pressed and not event.meta_pressed and is_visible_in_tree():
 		expanded = not expanded
 		_update_layout()
@@ -80,9 +85,9 @@ func _update_layout() -> void:
 		scale = Vector2.ONE
 		set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_RIGHT)
 		offset_left = -316
-		offset_top = -356
+		offset_top = -bottom_inset - PANEL_SIZE.y
 		offset_right = -16
-		offset_bottom = -16
+		offset_bottom = -bottom_inset
 
 func setup(p: Player, main: Node) -> void:
 	player = p

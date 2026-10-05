@@ -4,6 +4,9 @@ const VERSION := 1
 const MAX_BYTES := 8*1024*1024
 const STATS := ["kills", "headshots", "shots", "hits", "grenades_thrown", "melee_hits", "barricades_built", "mushrooms_eaten", "damage_taken", "points_earned", "seconds", "best_streak", "downs", "revives", "repairs", "rescues", "healing"]
 const WEAPON_RUNTIME := ["cooldown", "reloading", "heat", "vent", "idle", "regen", "spin", "spin_idle", "cycle_t"]
+# These are keyed collections, not fixed record fields. Their keys change during
+# play; an older checkpoint may legitimately contain fewer quests or supplies.
+const COLLECTION_FIELDS := ["people", "standard", "rare", "stocks", "jobs", "drops", "accepted", "accepted_wave", "accepted_waves", "claimed", "baseline", "skins", "owned", "flowers", "drinks", "stock", "counts", "picked", "active"]
 var director: RunDirector
 var override_path := ""
 var windows: Dictionary = {}
@@ -159,7 +162,7 @@ func validate(state: Dictionary) -> String:
 	for flag in state.world.pumpkins:
 		if not flag is bool: return "Checkpoint is damaged or incompatible."
 	for section in ["progression", "brewing", "hunting", "weather", "secret_night", "field_trials", "range", "fire", "leaderboard"]:
-		if not _compatible(state[section], template[section]): return "Checkpoint is damaged or incompatible."
+		if not _compatible(state[section], template[section], section == "leaderboard"): return "Checkpoint is damaged or incompatible."
 	for entry in state.loots.values():
 		if not entry is Array or entry.size() != 4 or not entry[0] is bool or not entry[1] is int or not entry[2] is int or not entry[3] is Vector3: return "Checkpoint is damaged or incompatible."
 	if not _director_valid(state.director): return "Checkpoint is damaged or incompatible."
@@ -195,11 +198,15 @@ func validate(state: Dictionary) -> String:
 	if not state.director.get("finale", {}).is_empty(): return "Checkpoint is damaged or incompatible."
 	return ""
 
-static func _compatible(value: Variant, prototype: Variant) -> bool:
+static func _compatible(value: Variant, prototype: Variant, collection := false) -> bool:
 	if typeof(value) != typeof(prototype): return false
 	if value is Dictionary:
 		for key in prototype:
-			if not value.has(key) or not _compatible(value[key], prototype[key]): return false
+			if not value.has(key):
+				# Forest starts creating quest baselines only after acceptance.
+				if collection or (key == "baseline" and prototype[key] is Dictionary): continue
+				return false
+			if not _compatible(value[key], prototype[key], str(key) in COLLECTION_FIELDS): return false
 	elif value is Array and not prototype.is_empty():
 		for i in mini(value.size(), prototype.size()):
 			if not _compatible(value[i], prototype[i]): return false
@@ -303,8 +310,10 @@ func remap_players(original: Dictionary) -> Dictionary:
 		if mapping.has(run.range.get("owner")): run.range.owner = mapping[run.range.owner]
 	for section in ["progression", "brewing", "hunting", "range"]:
 		if not state.get(section) is Dictionary: continue
-		for key in ["people", "stocks", "jobs"]:
+		for key in ["people", "standard", "rare", "stocks", "jobs"]:
 			if state[section].get(key) is Dictionary: state[section][key] = _peer_keys(state[section][key], mapping)
+		if state[section].get("rare_market") is Dictionary and state[section].rare_market.get("people") is Dictionary:
+			state[section].rare_market.people = _peer_keys(state[section].rare_market.people, mapping)
 	if state.get("towers") is Dictionary:
 		for tower in state.towers.values():
 			if not tower is Array or tower.size() < 12: continue
@@ -314,7 +323,7 @@ func remap_players(original: Dictionary) -> Dictionary:
 		state.world.fireworks.stocks = _peer_keys(state.world.fireworks.stocks, mapping)
 	# Reward tokens contain peer IDs delimited by colons. Remap only the peer components.
 	if run.get("rewards") is Dictionary: run.rewards = _reward_keys(run.rewards, mapping)
-	if state.get("classes") is Array and state.classes.size() == 4 and state.classes[3] is Dictionary: state.classes[3] = _reward_keys(state.classes[3], mapping)
+	if state.get("classes") is Array and state.classes.size() == 4 and state.classes[3] is Dictionary: state.classes[3] = _reward_keys(state.classes[3], mapping, true)
 	return state
 
 static func _peer_keys(values: Dictionary, mapping: Dictionary) -> Dictionary:
@@ -322,16 +331,29 @@ static func _peer_keys(values: Dictionary, mapping: Dictionary) -> Dictionary:
 	for key in values: result[mapping.get(key, key)] = values[key]
 	return result
 
-static func _reward_keys(values: Dictionary, mapping: Dictionary) -> Dictionary:
+static func _reward_keys(values: Dictionary, mapping: Dictionary, quests := false) -> Dictionary:
 	var result := {}
 	for key in values:
-		var updated := str(key)
-		var parts := updated.split(":")
-		for i in parts.size():
-			if parts[i].is_valid_int() and mapping.has(int(parts[i])): parts[i] = str(mapping[int(parts[i])])
-		updated = ":".join(parts)
-		result[updated] = values[key]
+		var parts := str(key).split(":")
+		var offset := 0
+		if quests and parts.size() > 1:
+			# Class quest keys start with the owning peer, or "team".
+			if parts[0].is_valid_int(): _remap_token_peer(parts, 0, mapping)
+			offset = 2 if parts[1] == "expedition" else parts.size()
+		if parts.size() > offset:
+			match parts[offset]:
+				"sniper", "support-budget": _remap_token_peer(parts, offset+1, mapping)
+				"outpost-restock": _remap_token_peer(parts, offset+2, mapping)
+				"support":
+					_remap_token_peer(parts, offset+1, mapping)
+					if parts.size() > offset+4 and parts[offset+3] in ["heal", "revive"]:
+						_remap_token_peer(parts, offset+4, mapping)
+		result[":".join(parts)] = values[key]
 	return result
+
+static func _remap_token_peer(parts: PackedStringArray, index: int, mapping: Dictionary) -> void:
+	if index < parts.size() and parts[index].is_valid_int() and mapping.has(int(parts[index])):
+		parts[index] = str(mapping[int(parts[index])])
 
 func restore(state: Dictionary) -> void:
 	var game := director.game

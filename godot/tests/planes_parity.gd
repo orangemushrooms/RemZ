@@ -43,7 +43,10 @@ func run() -> void:
 	var economy = game.progression
 	go(Map.ground_pos(22,5))
 	economy.open_field("camp")
-	check(economy.is_open and economy.page=="Trade" and economy._tabs.Sell.visible,"Vendor uses Forest trading and selling tabs")
+	var first_page := "Trade" if economy._arrival_guide_read else "Quests"
+	check(economy.is_open and economy.page==first_page and economy._tabs.Trade.visible and economy._tabs.Sell.visible,"Vendor introduces new players while keeping trading and selling tabs available")
+	economy._tabs.Trade.pressed.emit()
+	check(economy.page=="Trade" and economy.rows.get_child_count()>0,"Vendor trading remains reachable with one tab click")
 	check(is_instance_valid(economy._greeting) and economy._greeting.playing,"Vendor greeting audio starts when approached")
 	await capture("vendor")
 	economy.close()

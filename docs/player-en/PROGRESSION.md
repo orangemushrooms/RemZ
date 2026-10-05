@@ -2,6 +2,8 @@
 
 Weapons are bought from characters in the game world. There is no longer a freely accessible weapon or training menu. Inventory, pause and settings remain available at any time; **Q** shows or hides the quest tracker. In co-op, fights keep going during a conversation. In solo, the conversation pauses the game.
 
+Your first contact on both maps is **Vendor at camp**. The optional introduction explains inventory, your class action, the fieldbook and building on the current map. **K**, or the pause menu, opens the fieldbook with your full accepted quests. **Z** follows the printed letter on both QWERTZ and QWERTY; Assassin uses its unlocked teleport on **V**. The trader and quest catalogue below describes Forest; The Planes has its own field quests.
+
 ## Getting started at the campfire
 
 **Mara, the forester**, waits at the small fire pit on the western field path. **E** opens her quest menu. She sells nothing and hands out her own quest line: “What the Forest Gives Us” (5 porcini, 90 R), “Unrest on the Paths” (12 runners, 140 R) and “While the Fire Burns” (wave 6 and 80 zombies, 220 R); they require mission level 2, 5 and 8. The first quest becomes available after “By the Fire”. The mushrooms stay in your inventory; team progress counts in solo and co-op. Mara appears on the minimap once you have seen her from no more than 30 m with a clear line of sight, and she gets a golden question mark when a quest is ready to turn in.
@@ -41,16 +43,16 @@ The toolbox for the delivery lies in a different, random spot every round; once 
 
 ## Operating towers
 
-- **T:** open the build preview. Green shows a valid spot; red names the obstacle.
-- **R / Mouse wheel:** rotate in 15° steps. **Shift+R** rotates back.
-- **E:** build, or confirm the new orientation. **T / Escape:** cancel.
-- **E at an existing tower:** climb up and operate the weapon; E again climbs down. Left click fires, hold right click to aim. **R** re-aims an unoccupied tower. In automatic mode the **160° field of fire** applies; operated manually, the tower can fire all around.
+- **T:** open the overhead tower planner and choose a type in its build bar. Green shows a valid spot; red names the obstacle. **Left click** your chosen valid spot to build.
+- **R / Mouse wheel in the planner:** rotate the preview or the tower under the cursor in 15° steps. **Shift+R** rotates back. Drag a ground tower to move it; **+ / −** zooms.
+- **T / Escape:** close the planner. Click a free roof ring or slot button to build on one of the forest hut's six roof slots; roof towers count towards the shared team limit.
+- **E at an existing ground tower:** climb up and operate the weapon; E again climbs down. Left click fires, hold right click to aim. **R at an unoccupied nearby ground tower** starts separate manual alignment: turn with R/Mouse wheel and confirm with **E**. In automatic mode the **160° field of fire** applies; operated manually, the tower can fire all around.
 - **F at a tower:** repair for 35 R. Away from towers, F still toggles the flashlight.
 - **At Mechanic → Towers:** upgrade towers or dismantle your own. For the Sentinel, the tiers cost 100 / 175 R; other types scale with their build price. Upgrades increase structure and range and repair the tower at the same time. Dismantling refunds a third of the build price.
 
-The Sentinel costs 120 R, the Flamethrower 260 R, the Mortar 380 R, the Heavy MG 450 R and the Tesla Coil 600 R. The team can build no more than six towers. The Sentinel has ranges of 26 / 32 / 38 m and structure of 240 / 400 / 600. A clear line of fire, spread, turning time and overheating still matter. Tower kills earn the builder half the normal kill value. Living teammates also receive a support share of 25% of the kill value awarded.
+The Sentinel costs 120 R, the Flamethrower 260 R, the Mortar 380 R, the Heavy MG 450 R and the Tesla Coil 600 R. See [Defense](DEFENSE.md) for the other types and unlocks. Normal expeditions allow **40 towers per team**; the Four tower challenge allows **four**. Roof and ground towers share this limit. The Sentinel has ranges of 26 / 32 / 38 m and structure of 240 / 400 / 600. A clear line of fire, spread, turning time and overheating still matter. Tower kills earn the builder half the normal kill value. Living teammates also receive a support share of 25% of the kill value awarded.
 
-A barricade is built, reinforced or, when damaged, repaired right at the line with **E**. **J** points you to defense advice at Mechanic. The existing palisade and its four approaches remain part of the defense.
+In Forest, a barricade is built, reinforced or, when damaged, repaired right at the line with **E**. **J** points you to defense advice at Mechanic. The existing palisade and its four approaches remain part of the defense. On **The Planes**, buy additional fortification kits from Mechanic and choose one with **B**: R/Mouse wheel rotates its world preview, **E** places it and B/Escape cancels. **T + left click** remains the tower planner control on both maps. In Forest, B drops Rem Dollars instead.
 
 ## Earning weapons
 
@@ -80,7 +82,7 @@ You get a purchase permit once you have turned in every quest of the quest line 
 
 The **Mouse wheel** switches between all the weapons you bought. **1–9 and 0** are the quick bar slots: at the start they only hold the Pistol (1) and the Field Knife (0); you put bought weapons on a slot in the inventory with a right click. The Ranger .308 is a slow precision rifle; the MG-60 has a large magazine but a long reload. The Nightbreaker 12 is a semi-automatic close-range weapon. The Titanbreaker .50 deals 75% bonus damage against titans, but holds only four rounds and uses expensive ammo. Both precision rifles have a stronger aiming zoom.
 
-Ammo costs 12 / 24 / 30 / 44 / 28 / 40 / 90 / 70 / 110 R per two magazines, in the order Pistol, Revolver, MP5, AK-47, Shotgun, Ranger .308, MG-60, Nightbreaker 12, Titanbreaker .50. Reserves are limited to four magazines; the exceptions are the Pistol (eight), the Desert Eagle .50 (six), the Plasma Rifle and Graviton Cannon (five each), the Flare Pistol (14) and the Minigun M134 (two). After a wave, only the Pistol reserve is raised to at least 36 rounds. The break between waves lasts 180 seconds; Enter starts the next wave sooner. Grenades cost 45 R, a bandage for up to 60 health costs 35 R.
+Ammo costs 12 / 24 / 30 / 44 / 28 / 40 / 90 / 70 / 110 R per two magazines, in the order Pistol, Revolver, MP5, AK-47, Shotgun, Ranger .308, MG-60, Nightbreaker 12, Titanbreaker .50. Reserves are limited to four magazines; the exceptions are the Pistol (eight), the Desert Eagle .50 (six), the Plasma Rifle and Graviton Cannon (five each), the Flare Pistol (14) and the Minigun M134 (two). After a Forest wave, only the Pistol reserve is raised to at least 36 rounds. Regular wave breaks last 120 seconds in Forest and 60 seconds on The Planes. Enter during gameplay starts the next wave sooner; confirming a menu does not start another wave. Grenades cost 45 R, a bandage for up to 60 health costs 35 R.
 
 Skins are bought for the equipped weapon: **Forest Camo** (160 R), **Soot Bronze** (300 R) and **Titan Bone** (480 R). They change materials, not combat stats. Skins you already bought and the original finish can be applied again for free at the matching trader. Skins are visible to other co-op players too.
 

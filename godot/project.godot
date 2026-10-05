@@ -186,6 +186,14 @@ class_ability={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"physical_keycode":86)]
 }
+expedition_action={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"keycode":90)]
+}
+expedition_book={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"keycode":75)]
+}
 
 [layer_names]
 

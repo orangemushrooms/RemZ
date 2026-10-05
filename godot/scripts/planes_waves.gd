@@ -59,7 +59,6 @@ func _process(delta: float) -> void:
 	frame_time = lerpf(frame_time,minf(delta,0.1),minf(1,delta))
 	if phase=="idle":
 		timer -= delta
-		if Input.is_action_just_pressed("next_wave") and not NetSession.is_client(): timer = minf(timer,0.1)
 		main.hud.set_wave(wave+1,Lang.t("Start in %d s · Enter: start now",[maxi(0,ceili(timer))]))
 		main.hud.set_wave_progress(0,0)
 		if timer<=0: start(wave+1)

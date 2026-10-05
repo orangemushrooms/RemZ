@@ -706,6 +706,19 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   `tools/test_expansion*.py`. `tools/test_network_compatibility.py` uses real ENet pairs to check rejected
   protocol 7, rejected fingerprints and the complete matching handshake. Ports 24783 / 24784.
 
+## Player experience fixes (5 Oct 2026)
+- Current source: protocol 8 / `remz-dev-20261005-player-experience`, menu version
+  `Co-op 2026.10.05-F`. The expedition section above and `docs/EXPEDITION_VALIDATION.md`
+  describe the earlier release; current validation lives in `docs/PLAYER_EXPERIENCE_VALIDATION.md`.
+- InputMap `expedition_action` (Z) and `expedition_book` (K) use logical keycodes, so the printed
+  letters work on QWERTZ and QWERTY. Allow Shift for sprinting; reject Ctrl/Alt/Meta and echoes.
+  Keep GUI focus, menus, intro, downed, mounted, drone and placement guards. K must remain text inside
+  the fieldbook's code input. The pause-menu fieldbook entry restores the original pause and focus.
+- E is owned by each map's interaction dispatcher: one displayed target and one transaction per press.
+  Do not add a second independent expedition E handler. Wave Enter belongs in unhandled input;
+  confirming a GUI button must not also skip the wave break. Relevant suites: `player_experience`,
+  `fieldbook_usability`, `onboarding_polish`, `vendor_tutorial`, `gameplay_ux_audit`.
+
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,
   six-letter join code, anonymous Connect Device ID login, no Epic account, no port forwarding) and **Direct /

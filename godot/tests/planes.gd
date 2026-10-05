@@ -35,6 +35,15 @@ func run() -> void:
 	current_scene = game
 	while not game.ready_for_exploration: await process_frame
 	check(not game.survival_active and game.waves==null and game.campaign.best_wave("planes")==0,"Exploration starts without enemies, waves or awarded campaign progress")
+	var onboarding_before: Dictionary = CharacterProfile.data.get("journal", {}).duplicate(true)
+	var guide_read_before: bool = game.progression._arrival_guide_read
+	game.progression._arrival_guide_read = true # Returning players may know the survival controls already.
+	game.progression._onboarding_text = "stale survival guidance"
+	game.progression._update_onboarding(20.0)
+	game.progression._process(0.3)
+	check(game.progression._onboarding_text.is_empty() and not game.progression.tutorial.visible and not game.progression.tracker.visible,"Pure exploration clears survival guidance without accessing absent combat systems")
+	check(CharacterProfile.data.get("journal", {})==onboarding_before,"Exploration never consumes or completes a survival lesson")
+	game.progression._arrival_guide_read = guide_read_before
 	for i in 8: await physics_frame
 	check(game.player.is_on_floor(),"Explorer settles on terrain at the photo viewpoint")
 	var map: Minimap = game.minimap

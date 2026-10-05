@@ -29,6 +29,8 @@ var _money_pulse := 0.0
 var _money_shown := 0
 var ammo_label: Label
 var weapon_label: Label
+var ammo_panel: PanelContainer
+var fieldbook_button: Button
 var wave_label: Label
 var wave_info: Label
 var wave_bar: ProgressBar
@@ -265,16 +267,21 @@ func _ready() -> void:
 	hp_bar.add_theme_stylebox_override("background", _flat(Color(1, 1, 1, 0.12), 4))
 	stats.add_child(hp_bar)
 
-	# ammunition beside the minimap, lifted clear of the quick bar's band along the bottom edge
-	var ammo := _panel(root, Control.PRESET_BOTTOM_RIGHT, Vector2(-332, -100))
+	# A compact right-edge column keeps the weapon model and central quick bar clear.
+	var ammo := _panel(root, Control.PRESET_BOTTOM_RIGHT, Vector2(-16, -16))
+	ammo_panel = ammo.get_parent()
+	ammo_panel.custom_minimum_size.x = 300
 	ammo_label = _label("12 / 72", 22)
 	ammo_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	ammo.add_child(ammo_label)
 	weapon_label = _label("Pistol", 12)
 	weapon_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	weapon_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	weapon_label.modulate.a = 0.7
 	ammo.add_child(weapon_label)
 	reload_label = _label("", 12)
+	reload_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	reload_label.hide()
 	ammo.add_child(reload_label)
 	reload_bar = ProgressBar.new()
 	reload_bar.custom_minimum_size = Vector2(180, 5)
@@ -284,6 +291,7 @@ func _ready() -> void:
 	ammo.add_child(reload_bar)
 	charge_label = _label("", 12)
 	charge_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	charge_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	charge_label.visible = false
 	ammo.add_child(charge_label)
 	charge_bar = ProgressBar.new()
@@ -475,6 +483,7 @@ func _build_overlay() -> void:
 	cs.content_margin_left = 30; cs.content_margin_right = 30; cs.content_margin_top = 24; cs.content_margin_bottom = 24
 	_card.add_theme_stylebox_override("panel", cs)
 	overlay.add_child(_card)
+	_card.minimum_size_changed.connect(func(): _fit_menu_card.call_deferred())
 	var columns := HBoxContainer.new()
 	columns.add_theme_constant_override("separation", 28)
 	_card.add_child(columns)
@@ -511,6 +520,11 @@ func _build_overlay() -> void:
 	overlay_button = _menu_button("Start game", true)
 	overlay_button.pressed.connect(primary_action)
 	v.add_child(overlay_button)
+	fieldbook_button = _menu_button("Expedition fieldbook", false)
+	fieldbook_button.pressed.connect(func():
+		if game.get("expedition") and game.expedition.enabled: game.expedition.book.open())
+	fieldbook_button.hide()
+	v.add_child(fieldbook_button)
 	overlay_status = _label("", 12)
 	overlay_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	overlay_status.modulate.a = 0.6
@@ -653,9 +667,21 @@ func return_to_menu_home() -> void:
 
 func _fit_menu_card() -> void:
 	if not is_instance_valid(_card): return
+	# On smaller screens keep the actionable menu, not two stacked oversized logos.
+	var short_screen := overlay.size.y < 820
+	if overlay_logo: overlay_logo.visible = overlay_mode == "start" and not short_screen
+	if overlay_wordmark: overlay_wordmark.custom_minimum_size.y = 72 if short_screen else 114
+	if overlay_content:
+		overlay_content.custom_minimum_size.y = minf(600, maxf(360, overlay.size.y-80))
+		var gap := 6 if short_screen else 8
+		if overlay_content.get_theme_constant("separation") != gap: overlay_content.add_theme_constant_override("separation", gap)
+	if _menu_detail: _menu_detail.custom_minimum_size.y = minf(600, maxf(360, overlay.size.y-80))
 	_card.set_anchors_preset(Control.PRESET_TOP_LEFT)
 	_card.size = _card.get_combined_minimum_size()
-	_card.position = Vector2((overlay.size.x - _card.size.x) * 0.5 if _menu_detail.visible else 48.0, maxf(16.0, (overlay.size.y - _card.size.y) * 0.5))
+	var fit := minf(1.0, minf((overlay.size.x-32)/maxf(1, _card.size.x), (overlay.size.y-32)/maxf(1, _card.size.y)))
+	_card.scale = Vector2.ONE * fit
+	var drawn := _card.size * fit
+	_card.position = Vector2(maxf(16, (overlay.size.x-drawn.x)*0.5) if _menu_detail.visible else minf(48, maxf(16, overlay.size.x-drawn.x-16)), maxf(16, (overlay.size.y-drawn.y)*0.5))
 
 func _menu_button_row(v: VBoxContainer) -> void:
 	_home_button = _menu_button("Back to main menu", false)
@@ -685,7 +711,7 @@ func _build_briefing(box: VBoxContainer) -> void:
 		"Headshots deal 2.2 times the damage. Kills in quick succession build a streak worth up to 100% bonus points.",
 		"Fallen zombies drop ammo, grenades and bandage packs. Just walk through them.",
 		"Explore the map and visit traders for weapons, supplies and upgrades. Complete quests and survive waves to unlock more equipment. Q shows your quests; I opens your inventory.",
-		"Use the breaks between waves to reload, heal and improve your defenses. E interacts with traders and builds or repairs barricades. T previews a turret; E confirms its placement.",
+		"Use the breaks between waves to reload, heal and improve your defenses. E interacts with traders and builds or repairs barricades. T opens the tower planner; left click places the selected tower.",
 		"Follow the objectives and warnings for your current map. Protect any defense objective: losing it can end the round even if you are still alive.",
 		"In co-op, share supplies, mark threats with X or the middle mouse button, and revive downed teammates with E. Menus do not pause a co-op round.",
 	]:
@@ -701,6 +727,7 @@ func _build_briefing(box: VBoxContainer) -> void:
 
 func _build_controls(box: VBoxContainer) -> void:
 	box.add_child(_label("V: Assassin Teleport (level 15). Choose Forward or Map in Class skills before the round.", 13, MUTED))
+	box.add_child(_label("Z: Class action. Uses the key labelled Z on your keyboard. K: Expedition fieldbook, also available from the pause menu.", 13, MUTED))
 	var grid := GridContainer.new()
 	grid.columns = 4
 	grid.add_theme_constant_override("h_separation", 22)
@@ -708,7 +735,7 @@ func _build_controls(box: VBoxContainer) -> void:
 	box.add_child(grid)
 	for pair in [["WASD", "Move"], ["Mouse", "Look around"], ["Shift", "Sprint"], ["Hold Ctrl", "Crouch / aim more precisely"], ["Space", "Jump"],
 			["Left click", "Shoot / strike"], ["Right click", "Aim (ADS)"], ["R", "Reload / align tower"], ["1–9 / 0", "Quick bar: slots 1–10"], ["Mouse wheel", "Switch weapon"],
-			["G", "Throw grenade"], ["E", "Interact / build / repair / mount turret"], ["J", "Defense planning with Mechanic"], ["T", "Preview turret · E confirms placement"], ["E · drone station", "Fly a drone · RMB rocket · R self-destruct · Esc recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
+			["G", "Throw grenade"], ["E", "Interact / build / repair / mount turret"], ["J", "Defense planning with Mechanic"], ["T", "Tower planner · left click places tower"], ["E · drone station", "Fly a drone · RMB rocket · R self-destruct · Esc recall"], ["I", "Inventory"], ["B", "Drop 100 Rem Dollars"],
 			["Hold Tab", "Leaderboard of this round"], ["Q", "Quest tracker on/off"], ["M", "Minimap large / small"], ["F", "Flashlight"], ["H", "Melee / rifle butt"], ["Enter", "Next wave now"],
 			["X / middle mouse", "Callout: mark an enemy, defense or location"], ["Hold E (down)", "Get back up once per wave · teammates revive with E"], ["Esc", "Pause / menu"], ["F11", "Fullscreen"]]:
 		var k := _label(pair[0], 14, GOLD)
@@ -892,6 +919,7 @@ func show_overlay(title: String, text: String, button: String, status: String = 
 	if mode.is_empty():
 		mode = "over" if title == "YOU DIED" else ("pause" if title == "PAUSED" else "start")
 	overlay_mode = mode
+	fieldbook_button.visible = mode == "pause" and game.get("expedition") != null and game.expedition.enabled
 	_detail_back.visible = mode == "start"
 	if map_selection: hide_map_selection()
 	menu_map.visible = mode == "start" or (game and game.victory)
@@ -1014,6 +1042,11 @@ func _menu_button(text: String, primary: bool) -> Button:
 
 # ---------------------------------------------------------------- per frame
 func _process(delta: float) -> void:
+	if is_instance_valid(ammo_panel) and is_instance_valid(minimap):
+		var inset := ammo_panel.size.y+28.0
+		if not is_equal_approx(minimap.bottom_inset, inset):
+			minimap.bottom_inset = inset
+			minimap._update_layout()
 	_update_prompt()
 	if _pending_score >= 0:
 		_show_score(_pending_score)
@@ -1325,6 +1358,8 @@ func set_wave_progress(remaining: int, total: int) -> void:
 	wave_bar.value = float(remaining) / maxf(total, 1)
 
 func message(text: String, seconds: float = 2.5) -> void:
+	if game and game.get("expedition") and game.expedition.book and game.expedition.book.is_open:
+		game.expedition.book._feedback(text)
 	if _message_tween and _message_tween.is_valid():
 		_message_tween.kill()
 	msg_label.text = text
@@ -1409,6 +1444,7 @@ func damage_flash(angle: float = NAN) -> void:
 
 func set_reload(remaining: float, duration: float) -> void:
 	reload_bar.visible = remaining > 0.0
+	reload_label.visible = remaining > 0.0
 	reload_label.text = "Reloading ..." if remaining > 0.0 else ""
 	if remaining > 0.0:
 		reload_bar.value = 1.0 - remaining / maxf(0.01, duration)

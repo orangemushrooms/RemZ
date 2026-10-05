@@ -7,6 +7,13 @@ var game: Node
 var began := Time.get_ticks_msec()
 var _last_frame := Time.get_ticks_usec()
 var _worst_gap := 0.0
+var checks := 0
+var failures := 0
+
+func check(ok: bool, description: String) -> void:
+	checks += 1
+	if not ok: failures += 1
+	print("PASS: " if ok else "FAIL: ", description)
 
 func _initialize() -> void:
 	call_deferred("run")
@@ -37,21 +44,33 @@ func run() -> void:
 	current_scene = game
 	await _ready_game()
 	_lap("first load", t0)
+	check(game.hud.overlay.visible and not game.started, "First load reaches the playable start menu")
 	# start, then pause -> Hauptmenü
 	game._on_start()
 	for i in 30: await process_frame
+	check(game.started and game.player.active and not paused, "Start leaves the menu with player control restored")
 	game._pause()
+	check(paused and game.hud.overlay.visible and not game.player.active, "Pause reaches an interactive menu while the world is frozen")
 	_worst_gap = 0.0
 	t0 = Time.get_ticks_msec()
 	game._to_main_menu()
 	await scene_changed
 	await _ready_game()
 	_lap("pause -> Hauptmenü", t0)
+	check(not game.started and game.hud.overlay.visible, "Leaving a paused run returns to a fresh main menu")
 	# start, die, Nochmal
 	game._on_start()
 	for i in 30: await process_frame
 	game.player.damage(1e6)
 	for i in 10: await process_frame
+	# Modern survival downs a player before death. Exercise the real terminal
+	# state explicitly so this lifecycle test also works without --no-downed.
+	if game.player.downed: game.player._bleed_out()
+	check(game.over and not game.player.alive, "Terminal damage reaches the round summary before restart")
+	if not game.over:
+		print("MENU_TIMING_DONE checks=%d failures=%d" % [checks, failures])
+		quit(1)
+		return
 	_worst_gap = 0.0
 	t0 = Time.get_ticks_msec()
 	game._on_start()
@@ -59,5 +78,6 @@ func run() -> void:
 	await _ready_game()
 	for i in 10: await process_frame
 	_lap("death -> Nochmal", t0)
-	print("MENU_TIMING_DONE")
-	quit(0)
+	check(game.started and not game.over and game.player.alive and game.player.active and not paused, "Play again starts a living fresh round without another start menu")
+	print("MENU_TIMING_DONE checks=%d failures=%d" % [checks, failures])
+	quit(1 if failures else 0)

@@ -78,3 +78,6 @@ func _process(delta: float) -> void:
 	ability.visible = not mode.is_empty()
 	if ability.visible:
 		ability.text = Lang.t("Teleport: %.1f s", [actor.teleport_cooldown]) if actor.teleport_cooldown > 0 else Lang.t("V / Teleport: Map") if mode == "map" else Lang.t("V / Teleport: Forward")
+	elif actor and hud.game.get("expedition") and hud.game.expedition.enabled:
+		ability.text = hud.game.expedition.action_status(actor.peer_id)
+		ability.visible = not ability.text.is_empty()
