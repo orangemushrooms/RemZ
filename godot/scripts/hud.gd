@@ -13,7 +13,7 @@ var _menu_detail: PanelContainer
 var _visible_tab := "briefing"
 var _detail_back: Button
 
-const SURVIVAL_BRIEFING := "REMZ is a zombie survival game for solo players and co-op teams. Choose an available region on the campaign map, select your class and talents, and survive 25 waves to secure the region. Explore, complete quests, collect supplies and improve your equipment between attacks. Learn each map's routes and defend its objectives. Your campaign victories and class progress carry over to future rounds."
+const SURVIVAL_BRIEFING := "REMZ is a zombie survival game for solo players and co-op teams. Choose an available region on the campaign map, select your class and talents, and survive the waves and final defence to secure the region. Standard expeditions have 25 waves; the short assault has ten. Explore, complete quests, collect supplies and improve your equipment between attacks. Learn each map's routes and defend its objectives. Your campaign victories and class progress carry over to future rounds."
 
 const GOLD := Color(1.0, 0.7, 0.28)
 const PAPER := Color(0.93, 0.92, 0.88)
@@ -680,7 +680,7 @@ func _build_briefing(box: VBoxContainer) -> void:
 	box.add_child(_pause_stats)
 	box.add_child(_heading("HOW TO SURVIVE"))
 	for tip in [
-		"Start game opens the campaign map. Choose an available region; regions marked under construction cannot be entered yet. Survive all 25 waves to save a victory for that region.",
+		"Start game opens the campaign map. Choose an available region; regions marked under construction cannot be entered yet. Survive your expedition's waves and its final defence to save a victory for that region.",
 		"Choose your class and talents in the main menu. Classes gain XP across rounds and unlock new talents. The Assassin can choose a teleport mode from level 15 and activate it with V.",
 		"Headshots deal 2.2 times the damage. Kills in quick succession build a streak worth up to 100% bonus points.",
 		"Fallen zombies drop ammo, grenades and bandage packs. Just walk through them.",
@@ -802,7 +802,7 @@ func _fill_records(highlight_rank: int = 0) -> void:
 		c.queue_free()
 	var table: Array = []
 	if game and "stats" in game and game.stats:
-		table = game.stats.table
+		table = game.stats.records()
 	if table.is_empty():
 		_records_box.add_child(_label("No round played yet. Your ten best rounds end up here.", 14, MUTED))
 		return
@@ -811,7 +811,7 @@ func _fill_records(highlight_rank: int = 0) -> void:
 	grid.add_theme_constant_override("h_separation", 16)
 	grid.add_theme_constant_override("v_separation", 5)
 	_records_box.add_child(grid)
-	for h in ["#", "Rem Dollars", "Wave", "Kills", "Heads", "Hit %", "Time", "Mode · Date"]:
+	for h in ["#", "Performance", "Wave", "Kills", "Heads", "Hit %", "Time", "Mode · Date"]:
 		grid.add_child(_label(h, 12, GOLD))
 	for i in table.size():
 		var r: Dictionary = table[i]
@@ -863,6 +863,9 @@ func show_run_summary(s: RunStats, score: int, wave: int, rank: int, difficulty_
 		c.queue_free()
 	var head := _label(Lang.t("Reached wave %d · %d Rem Dollars · %s", [wave, score, difficulty_name]), 20)
 	_summary_box.add_child(head)
+	_summary_box.add_child(_label(Lang.t("Performance: %d · Revives %d · Repairs %d · Rescues %d · Healing %d", [s.performance_score(wave), s.revives, s.repairs, s.rescues, roundi(s.healing)]), 16, GOLD))
+	if game.get("expedition") and game.expedition.enabled:
+		_summary_box.add_child(_label(Lang.t("Fortification condition: %s · %s", [game.expedition.structure_grade(), RunRules.encode(game.expedition.config)]), 14, MUTED))
 	if rank > 0:
 		var r := _label(Lang.t("Rank %d in the high scores  ·  NEW RECORD" if rank == 1 else "Rank %d in the high scores", [rank]), 15, GOLD)
 		_summary_box.add_child(r)

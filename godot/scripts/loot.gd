@@ -60,6 +60,7 @@ func setup(k: String, weapon_id: String, text: String) -> void:
 	kind = k
 	id = weapon_id
 	label = text
+	add_to_group("checkpoint_pickups")
 	add_to_group("render_dynamic") # Every visible child must disappear with this pickup.
 
 func prompt_text() -> String:

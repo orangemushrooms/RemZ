@@ -52,12 +52,18 @@ func cleared_count() -> int:
 		if cleared(entry.id): count += 1
 	return count
 
-func record_wave(number: int, difficulty: String) -> void:
+func record_wave(number: int, difficulty: String, can_secure: bool = true) -> void:
+	_record(number, difficulty, can_secure and number >= ROUNDS)
+
+func record_victory(number: int, difficulty: String) -> void:
+	_record(number, difficulty, true)
+
+func _record(number: int, difficulty: String, secured: bool) -> void:
 	if not region(selected_id).get("available", false): return
 	if region(selected_id).get("exploration", false) and not region(selected_id).get("survival",false): return
 	var entry: Dictionary = progress.get(selected_id, {})
 	entry.best_wave = maxi(best_wave(selected_id), clampi(number, 0, ROUNDS))
-	if number >= ROUNDS:
+	if secured:
 		entry.cleared = true
 		entry.difficulty = difficulty
 	progress[selected_id] = entry

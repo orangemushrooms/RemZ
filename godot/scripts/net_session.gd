@@ -4,8 +4,8 @@ signal changed
 
 const PORT := 24567
 const MAX_PLAYERS := 4
-const PROTOCOL := 7 # Hold-to-revive, hunting/brewing and the shared shooting house.
-const BUILD := "remz-dev-20261002-rain-extinguish"
+const PROTOCOL := 8 # Expedition state, class actions, shared supplies and region finales.
+const BUILD := "remz-dev-20261005-expeditions"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.
@@ -689,12 +689,12 @@ func leave(reason := "Left the session.") -> void:
 	phase = "offline"
 	epoch += 1 # Invalidate an initial-state callback waiting for rendering.
 	status = "Closing the connection …"
-	var leaving_game := game
+	var leaving_game: WeakRef = weakref(game) if is_instance_valid(game) else null
 	game = null
 	changed.emit()
 	_finish_leave.call_deferred(reason, reuse_map, leaving_game)
 
-func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> void:
+func _finish_leave(reason: String, reuse_map: bool, leaving_game: WeakRef) -> void:
 	# Never close ENet or reload a scene inside its poll/signal callback.
 	var old_peer := multiplayer.multiplayer_peer
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
@@ -706,7 +706,7 @@ func _finish_leave(reason: String, reuse_map: bool, leaving_game: Node3D) -> voi
 	join_code = ""
 	online_pending = false
 	_pings.clear()
-	game = leaving_game
+	game = leaving_game.get_ref() as Node3D if leaving_game else null
 	_auto_start = 0
 	restart_pending = false
 	_round_restart = false

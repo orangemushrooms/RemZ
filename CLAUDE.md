@@ -49,7 +49,7 @@ The Planes uses `planes.gd`, with the shared Forest HUD/inventory/trader control
 for the 28 September corrections and measured performance. `planes_range.gd`
 owns the real Schützenhaus footprint, random woodland key, loot, six target hitboxes
 and personal sniper quest. `planes_navigation.gd` adds a doorway link when it opens.
-`coop_revive_prompt.gd` renews host-timed three-second E holds; protocol 7 requires
+`coop_revive_prompt.gd` renews host-timed three-second E holds; protocol 8 requires
 matching clients. Keep host/world-null guards during rematch scene preparation.
 Regressions: `planes_parity`, `planes_gameplay`, `planes_survival`, `downed`,
 `earthworms`, `tools/test_planes_coop.ps1` and `tools/test_multiplayer.ps1`.
@@ -692,6 +692,19 @@ Scenes are built in code; `scenes/main.tscn` only holds the root. Kills are scor
   `_scoped_tower` restores them on release or dismount); the Planes never ticked burn and frost
   (`planes_progression._process` now calls `rare_market.tick_statuses`; the market's own physics loop
   stays off there because it drives the wandering trader).
+
+## Expeditions (5 Oct 2026)
+- Forest and Planes share seeded run codes, class actions, augments, optional missions, cooperative supplies,
+  checkpoints, performance records and region finales. Planes adds outposts, delivery routes, structures,
+  shooting competitions, corn signals and seeded weather/fire. Full rules: `docs/EXPEDITIONS.md`.
+- `run_rules.gd` owns seeds and challenges; `run_director.gd` owns authoritative expedition state;
+  `expedition_checkpoint.gd` validates/restores saves; `expedition_book.gd` is the K-key fieldbook;
+  `expedition_structures.gd` builds the Planes gates, firing walls and platforms. Active class ability: Z.
+- Network protocol 8 / `remz-dev-20261005-expeditions`, menu version `Co-op 2026.10.05-E`.
+  All players must update together. Regenerate EOS configuration with this build before exporting.
+- Reproducible suites, results and limitations: `docs/EXPEDITION_VALIDATION.md` and
+  `tools/test_expansion*.py`. `tools/test_network_compatibility.py` uses real ENet pairs to check rejected
+  protocol 7, rejected fingerprints and the complete matching handshake. Ports 24783 / 24784.
 
 ## Online lobby (EOS, 25 Sep 2026)
 - The Multiplayer tab has two ways in: **Online lobby** (Epic Online Services: lobby + P2P with relay fallback,

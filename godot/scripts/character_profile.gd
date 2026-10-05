@@ -4,8 +4,8 @@ signal changed
 signal xp_gained(amount: int, reason: String)
 signal level_gained(class_id: String, level: int)
 const Classes = preload("res://scripts/character_classes.gd")
-const VERSION := 3 # Adds an explicit Assassin teleport choice; existing XP and talents stay intact.
-const STAT_KEYS := ["kills", "headshots", "headshot_kills", "deaths", "boss_kills", "missions", "waves", "best_streak", "seconds", "multiplayer_kills", "multiplayer_missions"]
+const VERSION := 4 # Cosmetic mastery, discoveries and support; existing builds stay intact.
+const STAT_KEYS := ["kills", "headshots", "headshot_kills", "deaths", "boss_kills", "missions", "waves", "best_streak", "seconds", "multiplayer_kills", "multiplayer_missions", "revives", "repairs", "rescues", "healing"]
 var profile_id := "local"
 var data: Dictionary = {}
 var directory := ""
@@ -45,7 +45,7 @@ static func empty_profile(name: String = "Player") -> Dictionary:
 		for key in STAT_KEYS: stats[key] = 0
 		classes[id] = {"total_xp": 0, "choices": [-1, -1, -1, -1, -1, -1], "teleport": "", "stats": stats}
 	return {"version": VERSION, "name": name, "selected": "gunslinger", "classes": classes,
-		"quests": {}, "achievements": {}, "cosmetics": {}, "total_kills": 0}
+		"quests": {}, "achievements": {}, "cosmetics": {}, "title": "", "journal": {}, "mastery": {"classes": {}, "weapons": {}, "range": {}}, "total_kills": 0}
 
 static func number(value: Variant, limit: float = 1000000000000.0) -> float:
 	if not (value is int or value is float) or not is_finite(float(value)): return 0.0
@@ -76,6 +76,16 @@ static func sanitize(raw: Dictionary) -> Dictionary:
 			for key in entries:
 				if key is String and key.length() <= 100:
 					result[field][key] = int(number(entries[key], 100000000)) if field == "quests" else entries[key] == true
+	for field in ["journal"]:
+		if raw.get(field) is Dictionary:
+			for key in raw[field]:
+				if key is String and key.length() <= 80: result[field][key] = raw[field][key] == true
+	if raw.get("mastery") is Dictionary:
+		for field in ["classes", "weapons", "range"]:
+			if raw.mastery.get(field) is Dictionary:
+				for key in raw.mastery[field]:
+					if key is String and key.length() <= 80: result.mastery[field][key] = int(number(raw.mastery[field][key]))
+	if raw.get("title") is String and result.cosmetics.get(raw.title, false): result.title = raw.title
 	return result
 
 func path_for(id: String) -> String:
@@ -200,6 +210,10 @@ func add_xp(amount: int, reason: String) -> void:
 	if amount <= 0 or data.is_empty(): return
 	var id := active_class()
 	var before := level(id)
+	if before >= 30:
+		data.mastery.classes[id] = int(data.mastery.classes.get(id, 0))+amount
+		var rank := int(data.mastery.classes[id])/5000
+		if rank > 0: data.cosmetics["mastery:%s:%d" % [id, rank]] = true
 	data.classes[id].total_xp = mini(1000000000000, int(data.classes[id].total_xp) + amount)
 	dirty = true
 	xp_gained.emit(amount, reason)
@@ -220,6 +234,44 @@ func add_stat(key: String, amount: float = 1.0) -> void:
 	stats[key] = minf(1000000000000.0, float(stats[key]) + amount)
 	if key == "kills": data.total_kills += int(amount)
 	dirty = true
+
+func discover_enemy(kind: String, weapon: String) -> void:
+	if not RunRules.BESTIARY.has(kind): return
+	data.journal[kind] = true
+	if weapon in Weapons.DEFS:
+		data.mastery.weapons[weapon] = int(data.mastery.weapons.get(weapon, 0))+1
+		var rank := int(data.mastery.weapons[weapon])/100
+		if rank > 0: data.cosmetics["weapon_mastery:%s:%d" % [weapon, rank]] = true
+	dirty = true
+
+func collect_record(index: int) -> void:
+	if index < 0 or index >= RunRules.LORE.size(): return
+	data.journal["record_%d" % index] = true
+	dirty = true
+	save()
+
+func range_record(mode: String, score: int) -> void:
+	if mode not in ["timed", "sequence", "competition"] or score < 0: return
+	data.mastery.range[mode] = maxi(int(data.mastery.range.get(mode, 0)), score)
+	dirty = true
+	save()
+
+func mastery_title(id: String) -> String:
+	var parts := id.split(":")
+	if parts.size() != 3 or not parts[2].is_valid_int(): return ""
+	if parts[0] == "mastery" and parts[1] in Classes.ORDER:
+		return Lang.t("%s veteran · Rank %d", [Lang.t(Classes.CLASSES[parts[1]].name), int(parts[2])])
+	if parts[0] == "weapon_mastery" and Weapons.DEFS.has(parts[1]):
+		return Lang.t("%s expert · Rank %d", [Lang.t(Weapons.DEFS[parts[1]].name), int(parts[2])])
+	return ""
+
+func choose_title(id: String) -> bool:
+	if not data.cosmetics.get(id, false) or mastery_title(id).is_empty(): return false
+	data.title = id
+	dirty = true
+	save()
+	changed.emit()
+	return true
 
 func record_kill(head: bool, boss: bool, coop: bool, streak: int) -> void:
 	add_stat("kills")

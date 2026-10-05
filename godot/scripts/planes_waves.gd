@@ -22,7 +22,7 @@ func setup(game: Node3D) -> void:
 
 func plan(number: int) -> Array[String]:
 	var result: Array[String] = []
-	if number<1 or number>Campaign.ROUNDS: return result
+	if number<1 or number>(main.expedition.round_limit() if main.get("expedition") else Campaign.ROUNDS): return result
 	var forest := Waves.new()
 	forest.main = main
 	for entry in forest.plan(number): result.append(entry.type)
@@ -30,10 +30,12 @@ func plan(number: int) -> Array[String]:
 	return result
 
 func start(number: int) -> void:
-	if main.over or not main.survival_active or number<1 or number>Campaign.ROUNDS or phase=="complete": return
+	if NetSession.is_client() or main.over or not main.survival_active or number<1 or number>(main.expedition.round_limit() if main.get("expedition") else Campaign.ROUNDS) or phase in ["complete", "finale"]: return
 	wave = number
+	if main.get("expedition"): main.expedition.prepare_wave(number)
 	boss_fight = number%5==0
 	queue = plan(number)
+	boss_fight = is_boss_fight()
 	total = queue.size()
 	phase = "spawning"
 	spawn_t = 0.0
@@ -43,6 +45,14 @@ func start(number: int) -> void:
 
 func active_limit() -> int:
 	return 16 if frame_time>0.022 else MAX_ACTIVE
+
+func is_boss_fight() -> bool:
+	if wave % 5 == 0 and phase == "spawning": return true
+	for kind in queue:
+		if Zombie.is_boss_kind(kind): return true
+	for enemy in main.zombies_root.get_children():
+		if enemy is Zombie and enemy.alive and Zombie.is_boss_kind(enemy.net_kind): return true
+	return false
 
 func _process(delta: float) -> void:
 	if not main or not main.started or NetSession.is_client() or not main.survival_active or main.over or (not NetSession.enabled and not main.player.active): return
@@ -54,6 +64,7 @@ func _process(delta: float) -> void:
 		main.hud.set_wave_progress(0,0)
 		if timer<=0: start(wave+1)
 	elif phase=="spawning":
+		boss_fight = is_boss_fight()
 		spawn_t -= delta
 		if spawn_t<=0 and not queue.is_empty() and main.alive_zombies()<active_limit():
 			var heavy := 0
@@ -72,8 +83,10 @@ func complete_wave() -> void:
 	completed = wave
 	main.achievements.event("planes_waves",completed,true)
 	if main.classes: main.classes.wave(completed)
-	main.campaign.record_wave(completed,str(main.difficulty.name))
-	if completed==Campaign.ROUNDS:
+	main.campaign.record_wave(completed,str(main.difficulty.name), not (main.get("expedition") and main.expedition.enabled))
+	if main.get("expedition"): main.expedition.wave_cleared(completed)
+	if completed==(main.expedition.round_limit() if main.get("expedition") else Campaign.ROUNDS):
+		if main.get("expedition") and main.expedition.begin_finale(): return
 		phase = "complete"
 		if NetSession.is_host():
 			main.victory = true

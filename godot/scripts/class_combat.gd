@@ -112,6 +112,9 @@ static func count_near(enemies: Node, at: Vector3, radius: float) -> int:
 
 func modifier(attribute: String, weapon: String = "", ads: float = 0.0, low_health: bool = false, low_mag: bool = false, burst: int = 0) -> float:
 	var value := 1.0
+	if active("exp_focus") and attribute in ["spread", "recoil", "sway"]: value *= 0.35
+	if active("exp_suppression") and attribute == "rate": value *= 0.8
+	if active("exp_swap") and attribute in ["reload", "spread"]: value *= 0.7
 	var spec := specialist(weapon)
 	match attribute:
 		"reload":
@@ -319,7 +322,7 @@ func status(weapon: String, low_health: bool = false) -> String:
 
 func runtime_snapshot() -> Dictionary:
 	return {"timers": timers.duplicate(), "stacks": stacks.duplicate(), "head": head_chain, "precision": precision_chain, "miss": time_since_miss,
-		"attack":time_since_attack,"damage":time_since_damage,"aim":aim_time,"nearby":nearby}
+		"attack":time_since_attack,"damage":time_since_damage,"aim":aim_time,"nearby":nearby,"taken":damage_taken}
 
 func apply_runtime(data: Dictionary) -> void:
 	timers = data.get("timers", {}).duplicate()
@@ -331,3 +334,4 @@ func apply_runtime(data: Dictionary) -> void:
 	time_since_damage = float(data.get("damage",time_since_damage))
 	aim_time = float(data.get("aim",aim_time))
 	nearby = int(data.get("nearby",nearby))
+	damage_taken = maxf(0, float(data.get("taken", damage_taken)))

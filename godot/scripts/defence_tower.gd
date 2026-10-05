@@ -612,7 +612,9 @@ func shoot() -> void:
 func fire_at(aim: Vector3) -> void:
 	chain_points.clear()
 	cooldown = float(spec().rate) * (1.0-(level-1)*0.1)
-	heat = minf(1, heat + float(spec().heat))
+	var overdrive: bool = game.get("expedition") != null and game.expedition.has_augment(owner_peer, "overdrive")
+	if overdrive: cooldown /= 1.25
+	heat = minf(1, heat + float(spec().heat)*(1.4 if overdrive else 1.0))
 	if heat >= 0.99: overheated = true
 	var direction := (aim - muzzle.global_position).normalized()
 	var end: Vector3 = muzzle.global_position + direction * attack_range()

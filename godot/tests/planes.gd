@@ -63,7 +63,7 @@ func run() -> void:
 	await process_frame
 	check(not map.expanded and map.visible,"A second M press restores the compact map")
 	check(Lang.resolve(map.LEGEND,"de").contains("Kartengrösse"),"Map legend includes its German translation")
-	check(game.landscape.tree_count>100 and game.birds.size()==14,"Mapped groves and reused Meshy wildlife are built")
+	check(game.landscape.tree_count>100 and game.birds.size()==24,"Mapped groves and reused Meshy wildlife are built")
 	check(Map.cover(60,4).r>0.95 and Map.cover(60,4).b<0.01,"Woodland east of the fork is forest floor, not gravel")
 	check(game.cornfield.counts.grass>700000 and game.cornfield.counts.undergrowth>5000,"Meadows are denser and mapped woods have undergrowth")
 	var woodland_clear := true
@@ -95,12 +95,13 @@ func run() -> void:
 	var targets_block := target_faces.size()==6
 	for face: Transform3D in target_faces:
 		var normal := face.basis.z
-		var query := PhysicsRayQueryParameters3D.create(face.origin+normal*3,face.origin-normal*3,1)
+		var query := PhysicsRayQueryParameters3D.create(face.origin+normal*3,face.origin-normal*3,Zombie.SHOT_MASK)
+		query.collide_with_areas = true
 		var hit := space.intersect_ray(query)
-		targets_block = targets_block and not hit.is_empty() and str(hit.collider.name)=="Building_1558294553"
-		if hit.is_empty() or str(hit.collider.name)!="Building_1558294553":
+		targets_block = targets_block and not hit.is_empty() and hit.collider.has_meta("range_target")
+		if hit.is_empty() or not hit.collider.has_meta("range_target"):
 			print("TARGET_RAY unexpected collider=",str(hit.collider.name) if not hit.is_empty() else "none")
-	check(targets_block,"All six target faces have solid stand collision")
+	check(targets_block,"All six target faces have physical shootable hitboxes")
 	var overhead := Map.ground_pos(176.175,218.3225)+Vector3.UP*3.3
 	var above := space.intersect_ray(PhysicsRayQueryParameters3D.create(overhead+Vector3.LEFT*5,overhead+Vector3.RIGHT*5,1))
 	check(above.is_empty(),"No invisible former house collider remains above the low target stand")

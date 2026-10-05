@@ -42,6 +42,7 @@ func run() -> void:
 		var at: Vector2 = spec[1]
 		var wid: String = spec[2]
 		weapons.set_weapon(wid)
+		weapons._switch_t = 0.0 # Equip animation is complete; automatic weapon processing is disabled here.
 		game.spawn_zombie("shambler", at, 1.0)
 		await physics_frame
 		var z: Zombie = game.zombies_root.get_child(game.zombies_root.get_child_count() - 1)

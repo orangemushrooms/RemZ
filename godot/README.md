@@ -2,13 +2,15 @@
 
 Das aktuelle Spiel ist das Godot-Projekt in diesem Ordner. Der Three.js-Code im übergeordneten `src/` ist der ältere Browser-Prototyp.
 
+**Expeditionen auf Forest und Planes:** Beide Maps besitzen variierte Wellen mit Durchlaufcodes, aktive Klassenaktionen, Augment-Auswahl, optionale Einsätze, Teamvorräte, kosmetische Meisterschaft und Spielstände zwischen Wellen. Forest endet mit der Verteidigung des Funksenders; Planes mit einer Evakuierungsverteidigung. Planes ergänzt Aussenposten, Lieferwege, Fernkampfaufträge, Feldbefestigungen, Schiessserien, Wettervorhersagen und löschbare Feldbrände. **K** öffnet das Feldbuch, **Z** die Klassenaktion, **E** das nahe Einsatzziel; Assassin verwendet weiterhin **V**. [Regeln, Spielstände und reproduzierbare Prüfungen](../docs/EXPEDITIONS.md).
+
 **Dauerhafte Charakterklassen:** Revolverheld, Sturmschütze, Brecher, Marksman und Assassin besitzen jeweils 30 Level und sechs passive Talentpaare. Die rechte Hauptmenükarte öffnet Klassenwahl, Skills und Fortschritt. Kills, Quests, Erfolge und Wellen geben Klassen-XP; im Koop muss jeder Spieler seine Klasse bestätigen. Profile werden automatisch im Spielordner gespeichert. [Bedienung, Werte, Speicherung und Tests](../docs/CHARACTER_CLASSES.md).
 
 **Update 27. September 2026:** Titanen-Zwischenkämpfe vor Welle 10/15/20, zwei versteckte Waldquests, überspringbare Zwischenereignisse, ausbaubare Sandsäcke, stärkere Bosse, überarbeitete Tier-/Wurmbewegung, dezente Blumen, Spieleranzeige im Turmplaner und erweiterte Glücksradpreise. [Ablauf, Werte und Prüfungen](../docs/FIELD_TRIALS.md).
 
 ## Starten
 
-**Kampagne:** „Spiel starten“ öffnet die animierte Gebietskarte mit Nebel und Vogelschwärmen. Forest startet die Waldhütte mit 25 Runden. **The Planes** ist als eigenständige Erkundungsmap von Remetschwil im Einzelspiel zugänglich: echte Höhen- und Wegdaten, Mais- und Getreidefelder, Gehölze und die bestehenden Vögel. Escape bietet drei Referenzblickrichtungen und die Rückkehr zur Gebietsauswahl. Die übrigen vier Gebiete bleiben gesperrt. [The Planes: Geodaten und Steuerung](../docs/THE_PLANES.md). Nach dem letzten Gegner von Forest-Runde 25 wird der Sieg dauerhaft auf der Karte vermerkt. Im Koop wählt der Host die Survival-Map; der Abschluss wird bei jedem Mitspieler gespeichert. [Ablauf und Erweiterung](../docs/CAMPAIGN.md).
+**Kampagne:** „Spiel starten“ öffnet die animierte Gebietskarte mit Nebel und Vogelschwärmen. Forest und **The Planes** bieten Survival mit 25 Runden und einer abschliessenden Verteidigung; die Sprint-Herausforderung verkürzt den Durchlauf auf zehn Runden. Erst das erfolgreich verteidigte Funk- beziehungsweise Evakuierungsziel vermerkt den Sieg dauerhaft auf der Karte. Planes bietet zusätzlich einen Erkundungsmodus mit echten Höhen- und Wegdaten, Mais- und Getreidefeldern, Gehölzen und Vögeln. Die übrigen vier Gebiete bleiben gesperrt. Im Koop wählt der Host die Survival-Map; der Abschluss wird bei jedem Mitspieler gespeichert. [Geodaten und Steuerung](../docs/THE_PLANES.md), [Kampagne](../docs/CAMPAIGN.md), [Expeditionsregeln](../docs/EXPEDITIONS.md).
 
 `project.godot` mit Godot 4.7.2 öffnen und F6/F5 drücken. Der Startknopf wird freigegeben, sobald das begehbare Wegnetz fertig ist.
 
@@ -51,6 +53,8 @@ Der Windows-Export liegt unter `../builds/windows/RemZ.exe`. Zum Weitergeben den
 | B | Bis zu 100 Punkte abwerfen |
 | F | Am Turm reparieren, sonst Taschenlampe |
 | Q | Auftragsanzeige ein-/ausblenden |
+| K | Expeditionsfeldbuch: Einsätze, Augmente, Teamvorräte, Journal, Durchlaufcode und Spielstand |
+| Z | Aktive Klassenaktion; Assassin verwendet V |
 | Tab halten | Leaderboard: Kills, Headshots, Deaths, Titan Kills, Assists, Punkte, Ping |
 | Escape | Pause / fortsetzen |
 | F11 | Vollbild umschalten |

@@ -224,6 +224,8 @@ func build_requirement(p: Player, kind: String) -> String:
 	var reason := unlock_reason(kind)
 	if not reason.is_empty(): return reason
 	if towers.size() >= DefenceTower.LIMIT: return "No more than 40 towers per team."
+	if game.get("expedition") and game.expedition.enabled and game.expedition.config.mode == "pistols" and kind not in DefenceTower.SUPPORT: return "This challenge allows pistols, a knife and support towers."
+	if game.get("expedition") and game.expedition.enabled and towers.size() >= RunRules.tower_limit(game.expedition.config): return "This challenge permits four towers."
 	if p.score < int(DefenceTower.SPECS[kind].cost): return Lang.t("%s: %d Rem Dollars needed.", [DefenceTower.SPECS[kind].name, DefenceTower.SPECS[kind].cost])
 	return ""
 
@@ -435,6 +437,7 @@ func maintain(p: Player, id: int, action: String, at_merchant := false) -> Strin
 	if p.score < cost: return "Not enough Rem Dollars."
 	p.add_score(-cost)
 	if action == "upgrade": tower.level += 1
+	if action == "repair" and game.get("expedition"): game.expedition.support(p.peer_id, "repairs", "tower:%d:%d" % [id, int(game.expedition.elapsed/30)])
 	tower.hp = tower.max_hp()
 	tower.refresh()
 	Sfx.event(self, p.peer_id, "purchase")

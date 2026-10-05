@@ -71,6 +71,12 @@ func receive(serial: int, kind: String, values: Array) -> void:
 			CharacterProfile.save()
 		"objective": CharacterProfile.add_xp(int(values[0]), "Team objective completed"); CharacterProfile.save()
 		"cosmetic": CharacterProfile.data.cosmetics[str(values[0])] = true; CharacterProfile.dirty = true; CharacterProfile.save()
+		"support":
+			CharacterProfile.add_stat(str(values[0]), float(values[2]))
+			CharacterProfile.add_xp(int(values[1]), "Team support")
+		"discovery": CharacterProfile.discover_enemy(str(values[0]), str(values[1]))
+		"lore": CharacterProfile.collect_record(int(values[0]))
+		"range_record": CharacterProfile.range_record(str(values[0]), int(values[1]))
 
 func killed(enemy: Node3D) -> void:
 	if NetSession.is_client() or enemy.replica or not game.started or game.over: return
@@ -107,10 +113,15 @@ func wave(number: int) -> void:
 	if NetSession.is_client() or number <= _last_wave: return
 	_last_wave = number
 	for peer in peers(): _deliver(peer, "wave", [200 + number * 20])
-	if number == 25:
-		for peer in peers():
-			var actor: Node = NetSession.world.actor(peer) if NetSession.is_host() else game.player
-			_deliver(peer, "mission", [actor.get_meta("class_mission_from_start", false) and actor.class_combat.damage_taken <= 0.0 and game.settings.difficulty >= 2])
+	if number == 25 and not (game.get("expedition") and game.expedition.enabled):
+		mission_complete()
+
+func mission_complete() -> void:
+	if _quests.has("mission-complete") or NetSession.is_client(): return
+	_quests["mission-complete"] = true
+	for peer in peers():
+		var actor: Node = NetSession.world.actor(peer) if NetSession.is_host() else game.player
+		_deliver(peer, "mission", [actor.get_meta("class_mission_from_start", false) and actor.class_combat.damage_taken <= 0.0 and game.settings.difficulty >= 2])
 
 func objective(id: String, xp: int = 500) -> void:
 	if NetSession.is_client() or _quests.has("team:" + id): return

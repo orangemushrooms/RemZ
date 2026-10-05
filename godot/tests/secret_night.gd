@@ -55,9 +55,11 @@ func run() -> void:
 	game.player.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y)
 	night._update_song_distance(2.0)
 	check(night.song.volume_db < -25 and night.song_filter.cutoff_hz < 2100, "Walking away makes the same track distant again")
-	game.player.global_position = Map.ground_pos(SecretNight.TOTEMS[2].x, SecretNight.TOTEMS[2].y)
+	var wrong: Vector2 = SecretNight.TOTEMS[(int(night.totem_order[0])+1)%3]
+	game.player.global_position = Map.ground_pos(wrong.x, wrong.y)
 	check(not night.interact(game.player), "Wrong totem cannot advance progression")
-	for point: Vector2 in SecretNight.TOTEMS:
+	for index in night.totem_order:
+		var point: Vector2 = SecretNight.TOTEMS[index]
 		game.player.global_position = Map.ground_pos(point.x, point.y)
 		check(night.interact(game.player), "Nearby correct totem activates")
 	check(night.step == SecretNight.HARVEST and night.tuned == 3, "Three totems send the team mushroom picking")
@@ -73,7 +75,7 @@ func run() -> void:
 	game.player.global_position = Map.ground_pos(target.x, target.y)
 	check(night.interact(game.player) and night.step == SecretNight.COLOUR_RUN and game.hud.tripping(), "The DJ's mushroom starts the colour run and the hallucination")
 	night._process(0.1)
-	check(night.run_target == SecretNight.RUN_SEQUENCE[0], "The first colour is called")
+	check(night.run_target == night.run_sequence[0], "The first seeded colour is called")
 	game.player.global_position = Map.ground_pos(Map.FIRE.x, Map.FIRE.y)
 	night._process(SecretNight.RUN_SECONDS + 0.5)
 	check(night.run_round == 0 and night.run_target == -1, "Too slow starts the colour run over")
@@ -110,7 +112,7 @@ func run() -> void:
 	night._process(20)
 	check(night.dance_time == 0, "Finale does not progress away from dance floor")
 	game.player.global_position = Map.ground_pos(SecretNight.DANCE.x, SecretNight.DANCE.y)
-	night._process(16)
+	night._process(night.dance_goal)
 	check(night.step == SecretNight.GUESTS and night.ravers_spawned and game.alive_zombies() >= 6, "The final dance wakes the ravers")
 	for z in game.zombies_root.get_children():
 		if z is Zombie and z.alive: z.die(Vector3.FORWARD)

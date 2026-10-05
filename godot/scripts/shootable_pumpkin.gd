@@ -24,6 +24,15 @@ func shoot() -> bool:
 	get_tree().current_scene.achievements.event("pumpkins")
 	return true
 
+func restore_broken(value: bool) -> void:
+	broken = value
+	collision_layer = 0 if value else 32
+	model.visible = not value
+	if lamp:
+		lamp.visible = not value
+		if value: lamp.remove_from_group("day_night_lamps")
+		elif not lamp.is_in_group("day_night_lamps"): lamp.add_to_group("day_night_lamps")
+
 func shatter(effects: bool = true) -> void:
 	if broken: return
 	broken = true

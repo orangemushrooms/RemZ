@@ -78,6 +78,11 @@ func equipped_weapons() -> Weapons:
 	return weapons_node
 
 func effective_speed_mul() -> float:
+	var scene := get_tree().current_scene if is_inside_tree() else null
+	var expedition_mul := 1.0
+	if scene and scene.get("expedition") and scene.expedition.enabled:
+		if scene.expedition.cargo_peer == peer_id: expedition_mul *= 0.8
+		elif scene.expedition.has_augment(peer_id, "scout"): expedition_mul *= 1.08
 	# A minigun weighs what a minigun weighs: carrying it is slow, firing it roots you in place.
 	var burden := 1.0
 	var weapons_node := equipped_weapons()
@@ -85,7 +90,7 @@ func effective_speed_mul() -> float:
 		burden = weapons_node.specials.movement_multiplier(weapons_node)
 	var class_speed: float = class_combat.modifier("speed", weapons_node.current if weapons_node else "", weapons_node.ads if weapons_node else 0.0, hp < max_hp * preload("res://scripts/character_classes.gd").LAST_STAND_HEALTH)
 	var knife_speed := KNIFE_SPEED_MULTIPLIER if weapons_node and weapons_node.current=="knife" and not downed else 1.0
-	return speed_mul * mushroom_multiplier("speed") * relic_multiplier("speed") * burden * class_speed * knife_speed
+	return speed_mul * mushroom_multiplier("speed") * relic_multiplier("speed") * burden * class_speed * knife_speed * expedition_mul
 var recoil_offset := Vector2.ZERO   # (pitch, yaw) radians of visual recoil still settling
 var mouse_sensitivity := 1.0
 var _step_t := 0.0

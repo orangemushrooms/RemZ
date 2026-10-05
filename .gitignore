@@ -11,6 +11,7 @@ builds/
 Meshy_Api_key
 meshy_output/
 node_modules/
+tools/__pycache__/
 godot/.godot/
 shots/
 artifacts/

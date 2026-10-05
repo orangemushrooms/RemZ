@@ -478,6 +478,8 @@ func purchase(player: Player, action: String, require_reach := true) -> bool:
 	spend(player, cost)
 	Sfx.play(self, "confirm", -8.0)
 	if action == "repair":
+		var scene := get_tree().current_scene
+		if scene and scene.get("expedition"): scene.expedition.support(player.peer_id, "repairs", "gate:%s:%d" % [slot.id, int(scene.expedition.elapsed/30)])
 		if NetSession.enabled: NetSession.feedback(player.peer_id, "repair_fx", [center])
 		else:
 			Sfx.play_at(get_parent(), "build", center, -6.0)

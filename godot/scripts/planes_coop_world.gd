@@ -47,10 +47,11 @@ func action(id: int, operation: String, args: Array) -> void:
 		else: game.quickbar.refresh()
 		return
 	# Only systems present on this map may receive commands.
-	if operation not in ["hunting","brewing","eat","teleport","fire","weapon","reload","melee","grenade","revive","self_revive","next_wave","tower_place","tower_rotate","tower_move","tower_mount","tower_exit","tower_control","tower_upgrade","tower_repair","tower_sell","drop_cash"]: return
+	if operation not in ["expedition","hunting","brewing","eat","teleport","fire","weapon","reload","melee","grenade","revive","self_revive","next_wave","tower_place","tower_rotate","tower_move","tower_mount","tower_exit","tower_control","tower_upgrade","tower_repair","tower_sell","drop_cash"]: return
 	super.action(id,operation,args)
 
 func _close_local_menus() -> void:
+	if game.get("expedition") and game.expedition.book.is_open: game.expedition.book.close()
 	if game.inventory.is_open: game.inventory.close()
 	if game.brewing.menu.is_open: game.brewing.menu.close()
 	game.field_building.cancel()
@@ -65,7 +66,9 @@ func _show_game_over() -> void:
 	CharacterProfile.end_match()
 	_close_local_menus()
 	game.player.active = false
-	if game.victory: game.campaign.record_wave(25,str(game.difficulty.name))
+	if game.victory: game.campaign.record_victory(game.expedition.round_limit() if game.get("expedition") else 25,str(game.difficulty.name))
 	game.hud.show_overlay("REGION SECURED" if game.victory else "TEAM DOWN","THE PLANES / REMETSCHWIL","New round" if NetSession.is_host() else "Waiting for host","","over")
 	game.hud.overlay_button.disabled = NetSession.is_client()
+	var rank: int = game.stats.finish(game.player.score, game.waves.completed, str(game.difficulty.name))
+	game.hud.show_run_summary(game.stats, game.player.score, game.waves.completed, rank, str(game.difficulty.name))
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

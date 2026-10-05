@@ -25,6 +25,8 @@ var countdown := 0.0
 var pending: Array = []
 var enemies: Array[Zombie] = []
 var remaining := 0
+var goal := "eliminate"
+var hold_time := 0.0
 var spawn_delay := 0.0
 var saved_timer := 30.0
 var joined: Dictionary = {}
@@ -105,6 +107,13 @@ func begin(n: int) -> bool:
 	stage = 0
 	countdown = 8.0
 	pending = ROSTERS[n].duplicate()
+	goal = "eliminate"
+	hold_time = 0.0
+	if main.get("expedition") and main.expedition.enabled:
+		var random := RunRules.rng(main.expedition.config, "field-trial", n)
+		pending = RunRules.shuffled(pending, random)
+		goal = "hold" if random.randf() < 0.5 else "eliminate"
+		if n == 10: pending[0] = ["titan_hunter", "titan_siege", "titan_ash"][random.randi_range(0, 2)]
 	enemies.clear()
 	joined.clear()
 	remaining = pending.size()
@@ -169,6 +178,7 @@ func _process(delta: float) -> void:
 			countdown = maxf(0, countdown - delta)
 			if countdown <= 0: stage = 1
 		if stage == 1:
+			if goal == "hold" and actors().any(func(p): return p.alive and not p.downed and Vector2(p.position.x, p.position.z).distance_to(ARRIVAL) < 16): hold_time += delta
 			spawn_delay -= delta
 			if not pending.is_empty() and spawn_delay <= 0:
 				_spawn_next()
@@ -176,13 +186,14 @@ func _process(delta: float) -> void:
 			remaining = pending.size()
 			for z in enemies:
 				if is_instance_valid(z) and z.alive: remaining += 1
-			if remaining == 0:
+			if remaining == 0 and (goal != "hold" or hold_time >= 30):
 				if secret < 0: finish()
 				else: stage = 2
 	if not active: return
 	if secret < 0:
 		panel.text = Lang.t("DAWN OF THE TITANS · BEFORE WAVE %d\n%s", [next_wave, Lang.t("Arriving in %d s · Stay inside the amber boundary", [ceili(countdown)]) if countdown > 0 else Lang.t("%d bosses remain · The field is sealed", [remaining])])
 		main.hud.set_wave(next_wave, "FIELD TRIAL")
+		if goal == "hold": panel.text += "\n" + Lang.t("Hold the arrival beacon · %d / 30 s", [mini(30, int(hold_time))])
 	else:
 		var spec: Dictionary = SECRETS[secret]
 		var task := Lang.t("Offer 3 × %s at the stone. [E]", [main.brewing.Recipes.FLOWERS[spec.flower].name]) if stage == 0 else (Lang.t("Defend the grove · %d enemies remain", [remaining]) if stage == 1 else Lang.t("Return to the stone and claim the forest's gift. [E]"))
@@ -246,6 +257,8 @@ func interact(p: Player) -> void:
 		active = true
 		secret = i
 		stage = 0
+		goal = "eliminate"
+		hold_time = 0.0
 		enemies.clear()
 		pending.clear()
 		saved_timer = main.waves.timer
@@ -263,13 +276,15 @@ func interact(p: Player) -> void:
 	elif stage == 2: finish()
 
 func snapshot() -> Dictionary:
-	return {"active": active, "next": next_wave, "done": completed.duplicate(), "secrets": secret_done.duplicate(), "secret": secret, "stage": stage, "countdown": countdown, "remaining": remaining, "teleport": teleport_serial}
+	return {"goal": goal, "hold_time": hold_time, "active": active, "next": next_wave, "done": completed.duplicate(), "secrets": secret_done.duplicate(), "secret": secret, "stage": stage, "countdown": countdown, "remaining": remaining, "teleport": teleport_serial}
 
 func apply_snapshot(data: Dictionary) -> void:
 	if data.is_empty(): return
 	var entered := not active and bool(data.active)
 	active = bool(data.active)
 	next_wave = int(data.next)
+	goal = str(data.get("goal", "eliminate"))
+	hold_time = float(data.get("hold_time", 0.0))
 	completed = data.done.duplicate()
 	secret_done = data.secrets.duplicate()
 	secret = int(data.secret)

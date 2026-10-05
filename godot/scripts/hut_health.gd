@@ -182,6 +182,7 @@ func repair(player: Player) -> String:
 	if player.score < int(quote.cost): return Lang.t("You are %d Rem Dollars short.", [int(quote.cost) - player.score])
 	player.add_score(-int(quote.cost))
 	hp = minf(MAX_HP, hp + float(quote.amount))
+	if game.get("expedition"): game.expedition.support(player.peer_id, "repairs", "hut:%d" % int(game.expedition.elapsed/30))
 	Sfx.event(self, player.peer_id, "purchase")
 	Sfx.play_at(get_parent(), "build", center, -6.0)
 	return ""

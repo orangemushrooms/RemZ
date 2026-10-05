@@ -492,6 +492,8 @@ static func build(parent: Node3D, trees: Array, shrubs: Array, near: Vector2, rn
 			parent.add_child(_multimesh_cells(quad, shadow_items[k], _leaf_material(k), near, shadow_radius, true))
 	if with_collision:
 		parent.add_child(colliders)
+	else:
+		colliders.free()
 	return { "crowns": crowns }
 
 # understory: ferns as three crossed cards, dead branches as thin bark tubes lying on the ground

@@ -11,6 +11,7 @@ var wheat: Dictionary = {}
 var active: Dictionary = {}
 var burned: Dictionary = {}
 var effects: Array[CPUParticles3D] = []
+var smoke: Array[CPUParticles3D] = []
 var mask: Image
 var texture: ImageTexture
 var origin := Vector2.ZERO
@@ -42,6 +43,32 @@ func setup(field: Node3D) -> void:
 		particles.emitting = false
 		add_child(particles)
 		effects.append(particles)
+		var plume := CPUParticles3D.new()
+		plume.amount = 12
+		plume.lifetime = 2.5
+		plume.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+		plume.emission_box_extents = Vector3(1.5, 0.1, 1.5)
+		plume.direction = Vector3.UP
+		plume.spread = 35
+		plume.initial_velocity_min = 1.1
+		plume.initial_velocity_max = 2.3
+		plume.gravity = Vector3.ZERO
+		plume.scale_amount_min = 1.5
+		plume.scale_amount_max = 2.4
+		plume.color = Color(0.22, 0.23, 0.23, 0.3)
+		var quad := QuadMesh.new()
+		quad.size = Vector2(1.5, 1.5)
+		var smoke_material := StandardMaterial3D.new()
+		smoke_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		smoke_material.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+		smoke_material.vertex_color_use_as_albedo = true
+		smoke_material.albedo_texture = Foliage._soft_dot()
+		quad.material = smoke_material
+		plume.mesh = quad
+		plume.visibility_range_end = 110
+		plume.emitting = false
+		add_child(plume)
+		smoke.append(plume)
 
 func cell_at(pos: Vector3) -> Vector2i:
 	return Vector2i(((Vector2(pos.x, pos.z) - origin) / CELL).floor())
@@ -87,7 +114,7 @@ func _process(delta: float) -> void:
 				fire.spread = true
 				# At most two neighbours per burning cell; roads and gaps have no fuel.
 				var count := 0
-				for offset in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+				for offset in spread_directions():
 					var next: Vector2i = cell + offset
 					if wheat.has(next) and not burned.has(next):
 						_light(next, int(fire.peer), str(fire.weapon))
@@ -102,6 +129,22 @@ func _process(delta: float) -> void:
 				game.weapons.specials.ignite(zombie, "fire", 2.0, int(fire.peer), str(fire.weapon))
 	_update_effects()
 
+func spread_directions() -> Array:
+	var offsets := [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]
+	var wind: Vector2 = game.weather.wind if game.weather else Vector2.RIGHT
+	offsets.sort_custom(func(a: Vector2i, b: Vector2i): return Vector2(a).dot(wind) > Vector2(b).dot(wind))
+	return offsets
+
+func extinguish(at: Vector3, radius: float) -> int:
+	if NetSession.is_client() or not at.is_finite() or radius <= 0 or radius > 8: return 0
+	var count := 0
+	for cell in active.keys():
+		if wheat[cell].distance_to(at) <= radius:
+			active.erase(cell)
+			count += 1
+	_update_effects()
+	return count
+
 func _update_effects() -> void:
 	var nearby: Array = active.keys()
 	nearby.sort_custom(func(a, b): return wheat[a].distance_squared_to(game.player.position) < wheat[b].distance_squared_to(game.player.position))
@@ -109,6 +152,11 @@ func _update_effects() -> void:
 		var visible_fire: bool = i < nearby.size() and wheat[nearby[i]].distance_squared_to(game.player.position) < 110.0 * 110.0
 		if visible_fire: effects[i].position = wheat[nearby[i]] + Vector3.UP * 0.2
 		effects[i].emitting = visible_fire
+		if visible_fire:
+			smoke[i].position = effects[i].position+Vector3.UP*0.5
+			var breeze: Vector2 = game.weather.wind if game.weather else Vector2.RIGHT
+			smoke[i].gravity = Vector3(breeze.x, 0.5, breeze.y)
+		smoke[i].emitting = visible_fire
 
 func reset_run() -> void:
 	active.clear()
@@ -117,6 +165,7 @@ func reset_run() -> void:
 	mask.fill(Color.BLACK)
 	texture.update(mask)
 	for effect in effects: effect.emitting = false
+	for plume in smoke: plume.emitting = false
 
 func snapshot() -> Dictionary:
 	var cells := PackedVector2Array()

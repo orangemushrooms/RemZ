@@ -76,6 +76,9 @@ var hit_reach := 1.6
 var growl_t := 0.0
 var dead_t := 0.0
 var speed_mul := 1.0
+var expedition_pursuit := 0.0
+var _expedition_sight_t := 0.0
+var _expedition_sight := false
 var frost_mul := 1.0
 var class_slow_time := 0.0
 # The towers of 2 Oct 2026: a searchlight resting on the body (every tower hits it harder), the harpoon's
@@ -1077,6 +1080,8 @@ func damage(n: float, dir: Vector3) -> void:
 	if not alive:
 		return
 	if n > 0.0: damage_peers[killer_peer] = true
+	var game := get_tree().current_scene
+	if game and game.get("expedition"): n = game.expedition.incoming_damage(self, n)
 	hp -= n
 	Sfx.play_at(get_parent(), "hit", global_position, -6.0)
 	_flash()
@@ -1433,6 +1438,14 @@ func _physics_process(delta: float) -> void:
 	var to_player := player.global_position - p
 	to_player.y = 0.0
 	var dist := to_player.length()
+	var expedition: Variant = get_tree().current_scene.get("expedition")
+	_expedition_sight_t -= delta
+	if expedition and expedition.enabled and expedition.config.region == "planes" and not is_boss_kind(net_kind) and dist > 20 and _expedition_sight_t <= 0:
+		_expedition_sight_t = 0.5
+		_expedition_sight = _sees(player.global_position+Vector3.UP)
+	if expedition and expedition.enabled and expedition.config.region == "planes" and not is_boss_kind(net_kind) and dist > 20 and _expedition_sight and not class_concealed(player):
+		expedition_pursuit = minf(30.0, expedition_pursuit+delta)
+	else: expedition_pursuit = maxf(0.0, expedition_pursuit-delta*3)
 	if _call_t > 0.0: _call_t -= delta
 	if _spit_pending > 0.0:
 		_spit_pending -= delta
@@ -1519,6 +1532,7 @@ func _physics_process(delta: float) -> void:
 				# An open approach must not stall at an obsolete or finished path.
 				mv = to_player
 			var sp: float = type["speed"] * speed_mul * frost_mul * horde_pace * (0.85 if class_slow_time > 0.0 else 1.0) * (0.5 if tether_t > 0.0 else 1.0)
+			if bar == null: sp *= 1.0+0.2*expedition_pursuit/30.0
 			var want: Vector3 = mv.normalized() * sp if mv.length() > 0.05 else Vector3.ZERO
 			if agent.avoidance_enabled:
 				agent.set_velocity(want)

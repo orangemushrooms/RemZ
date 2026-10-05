@@ -102,6 +102,7 @@ func _draw_cartography() -> void:
 
 func _draw_symbols(c: Control) -> void:
 	if not is_instance_valid(player): return
+	_draw_expedition(c)
 	_draw_compass(c)
 	if NetSession.enabled and NetSession.world:
 		for peer in NetSession.world.actors:

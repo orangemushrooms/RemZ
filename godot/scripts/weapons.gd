@@ -300,6 +300,10 @@ func ammo_weapon() -> String:
 	return (_last_firearm if unlocked.get(_last_firearm, false) else "pistol") if is_melee(current) else current
 
 func set_weapon(id: String) -> void:
+	var game := get_tree().current_scene if is_inside_tree() else null
+	if game and game.get("expedition") and game.expedition.enabled:
+		if not RunRules.weapon_allowed(game.expedition.config, id): return
+		if current != id: game.expedition.switched(player.peer_id)
 	if not DEFS.has(id):
 		return
 	if not unlocked.get(id, false):
@@ -680,6 +684,8 @@ func melee(stab: bool = false) -> void:
 			get_tree().current_scene.stats.melee_hits += 1
 
 func throw_grenade() -> void:
+	var scene := get_tree().current_scene
+	if scene.get("expedition") and scene.expedition.enabled and scene.expedition.config.mode == "pistols": return
 	if not player.active or not player.alive or player.mounted_tower or player.controlling_drone or player.spectating or grenades <= 0:
 		return
 	grenades -= 1
@@ -920,7 +926,6 @@ func _tick_ammo(delta: float) -> void:
 	_melee_t = maxf(0.0, _melee_t - delta)
 	for weapon_state: Dictionary in state.values():
 		weapon_state["cooldown"] = maxf(-delta, weapon_state["cooldown"] - delta)
-	if specials: specials.tick(self, delta)   # heat and spin also fall while the weapon is stowed
 	var s := cur()
 	var d: Dictionary = s["def"]
 	if s["reloading"] > 0.0:
@@ -932,6 +937,7 @@ func _tick_ammo(delta: float) -> void:
 			s["reserve"] -= take
 			s["reloading"] = 0.0
 			update_hud()
+	if specials: specials.tick(self, delta)   # Observe reload completion before releasing a heat lock.
 func _handle_weapon_input(delta: float) -> void:
 	if not Input.is_action_pressed("fire"): Sfx.stop_fire_loop(self, false)
 	var scene := get_tree().current_scene

@@ -154,6 +154,15 @@ func _panel_style() -> StyleBoxFlat:
 	style.set_corner_radius_all(7)
 	return style
 
+func _draw_expedition(c: Control) -> void:
+	if not is_instance_valid(world) or not world.get("expedition"): return
+	for marker in world.expedition.map_points():
+		var at := map_position(marker.at)
+		if not MAP_RECT.has_point(at): continue
+		c.draw_circle(at, 5, Color(0.02, 0.04, 0.03))
+		c.draw_circle(at, 3.5, marker.color, false, 1.5)
+		if not marker.label.is_empty(): c.draw_string(_font, at+Vector2(5, -4), marker.label, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, marker.color)
+
 func _draw_compass(c: Control) -> void:
 	# the rose turns with the player: the top of the rose is the view direction, the orange needle points north
 	var center := Vector2(263, 72)
@@ -184,6 +193,7 @@ func _quest_symbol(id: String) -> String:
 	return "!" if world.progression.has_available_quest(id) else ""
 
 func _draw_symbols(c: Control) -> void:
+	_draw_expedition(c)
 	_draw_compass(c)
 	if not is_instance_valid(player) or not is_instance_valid(world):
 		return

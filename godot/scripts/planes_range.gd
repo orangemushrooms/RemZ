@@ -323,6 +323,10 @@ func transact(p: Player, id: String) -> String:
 	refresh()
 	return "Schützenhaus unlocked." if id=="door" else Lang.t("Collected: %s",["Schützenhaus key" if id=="key" else "Ammunition" if id=="ammo" else Weapons.DEFS[id].name])
 
+func inside(p: Player) -> bool:
+	var at := house.to_local(p.global_position)
+	return opened and absf(at.x)<7.6 and absf(at.z)<3.4 and at.y>=-0.2 and at.y<2.4
+
 func hit(collider: Object, peer: int, weapon: String, impact := Vector3.INF) -> bool:
 	if NetSession.is_client() or not collider.has_meta("range_target"): return false
 	var id := int(collider.get_meta("range_target"))
@@ -337,6 +341,7 @@ func hit(collider: Object, peer: int, weapon: String, impact := Vector3.INF) -> 
 		lane_scores[lane].score += points
 		lane_scores[lane].hits += 1
 		lane_scores[lane].last = points
+		if game.get("expedition"): game.expedition.range_hit(peer, lane, points)
 		refresh_scores()
 	var d := data(peer)
 	if opened and d.accepted and not d.claimed and weapon in ["marksman","titanbreaker","plasma_sniper"] and absf(at.x)<7.6 and absf(at.z)<3.4 and at.y>=-0.2 and at.y<2.4 and not id in d.hits:

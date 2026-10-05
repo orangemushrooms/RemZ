@@ -53,8 +53,9 @@ func run() -> void:
  check(not game.quickbar.inventory_open(),"Quest journal does not activate inventory slot editing")
  game.progression.close()
  game.progression.accepted.bouquet=true
+ game.progression._journal=true
  game.progression._update_tracker()
- check(game.progression.tracker.visible and game.progression.tracker.text.contains("0/6"),"Quest tracker shows accepted field progress")
+ check(game.progression.tracker.visible and Lang.text(game.progression.tracker.text).contains("0/6"),"Quest tracker shows accepted field progress")
  game.set_menu(true)
  var clock: float = game.day_night.clock_seconds
  await create_timer(0.15,true).timeout

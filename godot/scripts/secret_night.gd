@@ -63,6 +63,10 @@ var completed := false
 var skipped := false
 var step := 0
 var tuned := 0
+var totem_order: Array = [0, 1, 2]
+var run_sequence: Array = RUN_SEQUENCE.duplicate()
+var raver_roster: Array = RAVERS.duplicate()
+var dance_goal := 16.0
 var dance_time := 0.0
 var closing_time := 0.0
 var waking_time := 0.0
@@ -129,6 +133,7 @@ func setup(game: Node) -> void:
 func begin() -> void:
 	if active or completed: return
 	active = true
+	configure_variant()
 	skipped = false
 	step = 0
 	tuned = 0
@@ -186,7 +191,7 @@ func _set_collisions(enabled: bool) -> void:
 func target() -> Vector2:
 	match step:
 		0: return DANCE
-		1: return TOTEMS[mini(tuned, 2)]
+		1: return TOTEMS[int(totem_order[mini(tuned, 2)])]
 		HARVEST: return GLOW_SPOTS[_nearest_glow(Vector2(main.player.global_position.x, main.player.global_position.z))] if harvest_mask != 7 else BAR + Vector2(0, 2)
 		TRIP: return BAR + Vector2(0, 2)
 		COLOUR_RUN: return TOTEMS[run_target] if run_target >= 0 else DANCE
@@ -218,7 +223,7 @@ func prompt(p: Player) -> String:
 	if not active or not p.alive or p.controlling_drone or p.mounted_tower: return ""
 	if Vector2(p.global_position.x, p.global_position.z).distance_to(target()) > 3.5: return ""
 	match step:
-		1: return Lang.t("[E] Tune sound totem · %s", [["Turquoise", "Pink", "Violet"][mini(tuned, 2)]])
+		1: return Lang.t("[E] Tune sound totem · %s", [["Turquoise", "Pink", "Violet"][int(totem_order[mini(tuned, 2)])]])
 		HARVEST: return Lang.t("[E] Pick the glowing mushroom · %d / 3", [harvested()]) if harvest_mask != 7 else ""
 		TRIP: return "[E] Eat the DJ's mushroom · \"Trust me, forest spirit.\""
 		CLEAR: return "[E] Drink Clear Head · water, mint and forest magic"
@@ -289,12 +294,12 @@ func _sober_everyone() -> void:
 func _spawn_ravers() -> void:
 	if ravers_spawned or NetSession.is_client(): return
 	ravers_spawned = true
-	for i in RAVERS.size():
-		var angle := TAU * i / RAVERS.size() + 0.3
+	for i in raver_roster.size():
+		var angle := TAU * i / raver_roster.size() + 0.3
 		var point := DANCE + Vector2(cos(angle), sin(angle)) * 15.0
 		# skins with the "arise" clip really rise: they get up from the ground around the floor
-		if not main.spawn_zombie(RAVERS[i], point, 1.0, "", 0.0, -1, true):
-			main.spawn_zombie(RAVERS[i], DANCE + Vector2(cos(angle), sin(angle)) * 9.0, 1.0, "", 0.0, -1, true)
+		if not main.spawn_zombie(raver_roster[i], point, 1.0, "", 0.0, -1, true):
+			main.spawn_zombie(raver_roster[i], DANCE + Vector2(cos(angle), sin(angle)) * 9.0, 1.0, "", 0.0, -1, true)
 
 	for z in main.zombies_root.get_children():
 		if z is Zombie: z.set_meta("goa_guest", true)
@@ -342,7 +347,7 @@ func _process(delta: float) -> void:
 		if step == 0 and _team_near(DANCE, 12.0): step = 1
 		if step == COLOUR_RUN:
 			if run_target < 0:
-				run_target = RUN_SEQUENCE[run_round]
+				run_target = run_sequence[run_round]
 				run_time = 0.0
 				main.hud.message(Lang.t("DJ: %s! Run to the totem that flashes!", [COLOUR_NAMES[run_target]]), 3.0)
 			else:
@@ -351,14 +356,14 @@ func _process(delta: float) -> void:
 					run_round += 1
 					run_target = -1
 					Sfx.play(self, "menu", -8.0)
-					if run_round >= RUN_SEQUENCE.size(): step = CLEAR
+					if run_round >= run_sequence.size(): step = CLEAR
 				elif run_time >= RUN_SECONDS:
 					run_round = 0
 					run_target = -1
 					main.hud.message("DJ: Too slow, forest spirits! Once more from the top.", 3.0)
 		elif step == DANCE_STEP:
 			if _team_near(DANCE, 7.0, true): dance_time += delta
-			if dance_time >= 16.0:
+			if dance_time >= dance_goal:
 				step = GUESTS
 				_spawn_ravers()
 		elif step == GUESTS:
@@ -380,12 +385,14 @@ func _process(delta: float) -> void:
 	var detail := Lang.t("%d m · Wave 5 is waiting for you", [int(distance)])
 	if step == DANCE_STEP: detail = Lang.t("All living teammates inside the circle · %d / 16 s", [mini(16, int(dance_time))])
 	elif step == HARVEST: detail = Lang.t("Glowing mushrooms · %d / 3", [harvested()])
-	elif step == COLOUR_RUN: detail = Lang.t("Round %d / %d · %s · %d s left", [mini(run_round + 1, RUN_SEQUENCE.size()), RUN_SEQUENCE.size(), COLOUR_NAMES[run_target] if run_target >= 0 else "…", ceili(RUN_SECONDS - run_time)])
+	elif step == COLOUR_RUN: detail = Lang.t("Round %d / %d · %s · %d s left", [mini(run_round + 1, run_sequence.size()), run_sequence.size(), COLOUR_NAMES[run_target] if run_target >= 0 else "…", ceili(RUN_SECONDS - run_time)])
 	elif step == GUESTS: detail = Lang.t("Ravers left on the floor · %d", [main.alive_zombies()])
 	elif step == CLOSING: detail = Lang.t("Last track · %d s remaining", [ceili(CLOSING_SECONDS - closing_time)])
 	elif step == RETURN: detail = Lang.t("Echo of the Night: carried by your team · %d m to the campfire", [int(distance)])
 	elif step == WAKING: detail = Lang.t("Together by the fire · %d / %d s", [mini(int(WAKING_SECONDS), int(waking_time)), int(WAKING_SECONDS)])
 	copy.text = Lang.t(STEPS[step]) + "\n" + detail
+	if step == 1:
+		copy.text = Lang.t("Tune the totems: %s → %s → %s. [E]", [Lang.t(COLOUR_NAMES[totem_order[0]]), Lang.t(COLOUR_NAMES[totem_order[1]]), Lang.t(COLOUR_NAMES[totem_order[2]])])+"\n"+detail
 	main.hud.set_wave(5, Lang.t("SECRET NIGHT · %s", [STAGE_NAMES[step]]))
 	rain.global_position = main.player.global_position + Vector3(0, 10, 0)
 	var beat := 0.5 + 0.5 * sin(elapsed * TAU * 140.0 / 60.0)
@@ -449,7 +456,7 @@ func _update_ending(delta: float) -> void:
 	for light in lights: light.light_energy = (3.0 + beat * 2.0) * energy
 	for i in totem_lights.size():
 		var flash := 4.0 + 6.0 * beat if step == COLOUR_RUN and i == run_target else 0.0
-		totem_lights[i].light_energy = ((3.5 if i < tuned else 0.8) + flash) * energy
+		totem_lights[i].light_energy = ((3.5 if i in totem_order.slice(0, tuned) else 0.8) + flash) * energy
 	for i in glow_props.size():
 		glow_props[i].visible = step <= HARVEST and not (harvest_mask & (1 << i)) and energy > 0.001
 	for light in party_fills: light.light_energy = 4.5 * energy
@@ -510,7 +517,7 @@ func _exit_tree() -> void:
 	if index >= 0: AudioServer.remove_bus(index)
 
 func snapshot() -> Dictionary:
-	return {"active": active, "completed": completed, "skipped": skipped, "step": step, "tuned": tuned, "dance": dance_time, "closing": closing_time, "waking": waking_time, "echo_collected": echo_collected, "echo_offered": echo_offered, "elapsed": elapsed, "clock": saved_clock, "harvest": harvest_mask, "run_round": run_round, "run_target": run_target, "run_time": run_time, "ravers": ravers_spawned}
+	return {"totem_order": totem_order.duplicate(), "run_sequence": run_sequence.duplicate(), "raver_roster": raver_roster.duplicate(), "dance_goal": dance_goal, "active": active, "completed": completed, "skipped": skipped, "step": step, "tuned": tuned, "dance": dance_time, "closing": closing_time, "waking": waking_time, "echo_collected": echo_collected, "echo_offered": echo_offered, "elapsed": elapsed, "clock": saved_clock, "harvest": harvest_mask, "run_round": run_round, "run_target": run_target, "run_time": run_time, "ravers": ravers_spawned}
 
 func apply_snapshot(data: Dictionary) -> void:
 	if data.is_empty(): return
@@ -520,6 +527,10 @@ func apply_snapshot(data: Dictionary) -> void:
 	skipped = bool(data.get("skipped", false))
 	step = clampi(int(data.get("step", 0)), 0, WAKING)
 	tuned = clampi(int(data.get("tuned", 0)), 0, 3)
+	totem_order = data.get("totem_order", [0, 1, 2]).duplicate()
+	run_sequence = data.get("run_sequence", RUN_SEQUENCE).duplicate()
+	raver_roster = data.get("raver_roster", RAVERS).duplicate()
+	dance_goal = float(data.get("dance_goal", 16.0))
 	dance_time = float(data.get("dance", 0))
 	closing_time = clampf(float(data.get("closing", 0)), 0, CLOSING_SECONDS)
 	waking_time = clampf(float(data.get("waking", 0)), 0, WAKING_SECONDS)
@@ -840,3 +851,13 @@ func skip() -> bool:
 	main.waves.timer = PREPARATION_SECONDS
 	main.music.play("morning")
 	return true
+
+func configure_variant() -> void:
+	if not main.get("expedition") or not main.expedition.enabled: return
+	var random := RunRules.rng(main.expedition.config, "secret-night")
+	totem_order = RunRules.shuffled([0, 1, 2], random)
+	run_sequence.clear()
+	for i in 4: run_sequence.append(random.randi_range(0, 2))
+	raver_roster = RunRules.shuffled(RAVERS, random)
+	if random.randf() < 0.5: raver_roster[0] = "zombie_dog"
+	dance_goal = float(random.randi_range(12, 20))

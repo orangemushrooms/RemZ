@@ -3,6 +3,7 @@
 extends Node3D
 
 var player: Player
+var expedition: RunDirector
 var hud: Hud
 var weapons: Weapons
 var waves: Waves
@@ -326,6 +327,9 @@ func _ready() -> void:
 	add_child(field_trials)
 	field_trials.setup(self)
 	_boot_mark("systems (hud .. hunting)")
+	expedition = RunDirector.new()
+	add_child(expedition)
+	expedition.setup(self)
 	settings.add_controls(hud.settings_box, false)
 	player.regen_mul = float(difficulty["regen"])
 	settings.apply()
@@ -443,6 +447,7 @@ func _navigation_baked() -> void:
 		_boot_mark("ground cover")
 	get_tree().paused = true
 	navigation_ready = true
+	if expedition and expedition.enabled: expedition._build_sites()
 	place_gold_mushroom()
 	hud.overlay_button.disabled = false
 	hud.overlay_status.text = "Ready."
@@ -2565,11 +2570,11 @@ func _campaign_victory() -> void:
 	victory = true
 	waves.phase = "complete"
 	waves.queue.clear()
-	campaign.record_wave(Campaign.ROUNDS, str(difficulty.name))
+	campaign.record_victory(expedition.round_limit() if expedition else Campaign.ROUNDS, str(difficulty.name))
 	if NetSession.is_host():
 		NetSession.world.campaign_victory()
 		return
-	_end_round("REGION SECURED", "Forest secured. All 25 rounds survived. Your victory is saved on the campaign map.")
+	_end_round("REGION SECURED", Lang.t("Forest secured. All %d rounds survived. Your result is saved on the campaign map.", [expedition.round_limit() if expedition else Campaign.ROUNDS]))
 	hud.overlay_button.text = "Map selection"
 	music.play("morning")
 
@@ -2702,6 +2707,7 @@ func _survived_text() -> String:
 
 func _end_round(title: String, text: String) -> void:
 	if over: return
+	if expedition and expedition.book.is_open: expedition.book.close()
 	classes.finish()
 	over = true
 	if defences: defences.cancel_placement()
@@ -2792,6 +2798,7 @@ func spawn_zombie(type: String, p: Vector2, speed_mul: float, lane := "", minimu
 const KILL_VALUE := 0.6
 
 func _zombie_killed(zombie: Zombie) -> void:
+	if expedition: expedition.killed(zombie)
 	if classes: classes.killed(zombie)
 	stats.record_kill(zombie)
 	_alive_count = maxi(0, _alive_count - 1)
@@ -2938,7 +2945,9 @@ func _process(delta: float) -> void:
 			if defences.roof_access(player):
 				actions.append(Lang.t("[T] Forest hut · towers and roof defenses"))
 		hud.set_prompt("\n".join(actions))
-		if not trial_prompt.is_empty() and Input.is_action_just_pressed("interact"):
+		if expedition and not expedition.nearest(player).is_empty() and Input.is_action_just_pressed("interact"):
+			pass # The expedition input handler owns this interaction.
+		elif not trial_prompt.is_empty() and Input.is_action_just_pressed("interact"):
 			if NetSession.enabled: NetSession.command("field_trial", [])
 			else: field_trials.interact(player)
 		elif not secret_prompt.is_empty() and Input.is_action_just_pressed("interact"):

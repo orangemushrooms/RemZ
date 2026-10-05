@@ -13,6 +13,7 @@ func setup(game: Node) -> void:
 		if flag.begins_with("--weather="): force(flag.get_slice("=",1))
 
 func scheduled_state(_clock: float) -> String:
+	if main.get("expedition") and main.expedition.enabled: return str(main.expedition.forecast().state)
 	var minute := fmod(elapsed/60.0,16.0)
 	if minute<4: return "clear"
 	if minute<7: return "fog"
@@ -22,7 +23,7 @@ func scheduled_state(_clock: float) -> String:
 
 func _process(delta: float) -> void:
 	if not main or not main.started or main.over or (not NetSession.enabled and not main.player.active): return
-	elapsed += delta
+	if not NetSession.is_client(): elapsed += delta
 	super._process(delta)
 
 func _apply_environment(delta: float) -> void:

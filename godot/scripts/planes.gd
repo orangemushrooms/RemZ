@@ -2,6 +2,7 @@ extends Node3D
 ## Starts a 25-wave survival run; exploration is an optional secondary mode.
 var exploration_only := false
 var player: Player
+var expedition: RunDirector
 var weapons: Weapons
 var hud: Hud
 var settings: GameSettings
@@ -201,6 +202,10 @@ func _ready() -> void:
 		CharacterProfile.end_match()
 		set_menu(true)
 		hud.show_tab("multiplayer")
+	if not expedition:
+		expedition = RunDirector.new()
+		add_child(expedition)
+		expedition.setup(self)
 	NetSession.attach(self)
 	print("PLANES_READY trees=%d birds=%d crops=%s" % [landscape.tree_count,birds.size(),cornfield.counts])
 
@@ -533,6 +538,13 @@ func start_survival() -> void:
 	over = false
 	victory = false
 	survival_active = true
+	if expedition:
+		expedition.enabled = not "--classic-run" in _flags
+		expedition.set_process(expedition.enabled)
+		expedition.set_process_unhandled_input(expedition.enabled)
+		expedition.reset()
+	stats._finished = false
+	for key in preload("res://scripts/expedition_checkpoint.gd").STATS: stats.set(key, 0)
 	_kills = 0
 	player.alive = true
 	player.downed = false
@@ -544,7 +556,7 @@ func start_survival() -> void:
 	player.regen_mul = float(difficulty.regen)
 	player.set_crouching(false,false)
 	hud.set_health(player.hp)
-	hud.message(Lang.t("Survive 25 waves. Meet the traders at the fork. B: kits · T: towers · J: quests · Enter: next wave"),12)
+	hud.message(Lang.t("Survive the waves and final defence. Meet the traders at the fork. B: kits · T: towers · J: quests · K: expedition · Enter: next wave"),12)
 	set_view(0)
 	await get_tree().physics_frame
 	preparing_survival = false
@@ -572,6 +584,12 @@ func stop_survival() -> void:
 	day_night.set_time_hours(12.0)
 	Zombie.horde_pace = 1.0
 	survival_active = false
+	if expedition:
+		expedition.enabled = false
+		expedition.set_process(false)
+		expedition.set_process_unhandled_input(false)
+		if expedition.book.is_open: expedition.book.close()
+		expedition.book.launch.hide()
 	over = false
 	victory = false
 	if waves:
@@ -606,14 +624,18 @@ func discard_enemy(enemy: Node3D) -> void:
 
 func finish_survival(won: bool) -> void:
 	if over: return
+	if won: campaign.record_victory(expedition.round_limit() if expedition else Campaign.ROUNDS, str(difficulty.name))
+	if expedition and expedition.book.is_open: expedition.book.close()
 	if classes:
 		if not won: stats.record_death(player.peer_id)
 		classes.finish()
 		CharacterProfile.end_match()
 	over = true
 	victory = won
-	if hud: hud.message(Lang.t("THE PLANES SECURED · 25 / 25") if won else Lang.t("Run ended. Try again or continue exploring."),3600)
+	if hud: hud.message(Lang.t("THE PLANES SECURED · %d / %d", [waves.completed, expedition.round_limit() if expedition else Campaign.ROUNDS]) if won else Lang.t("Run ended. Try again or continue exploring."),3600)
 	set_menu(true)
+	var rank := stats.finish(player.score, waves.completed, str(difficulty.name))
+	hud.show_run_summary(stats, player.score, waves.completed, rank, str(difficulty.name))
 
 func alive_zombies() -> int:
 	var count := 0
@@ -657,10 +679,16 @@ func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 	var titan := Zombie.is_titan_kind(kind)
 	for attempt in (24 if titan else 4):
 		var angle := _spawn_rng.randf()*TAU
+		if expedition and expedition.enabled and attempt < 2:
+			var angles := {"north": -PI*0.5, "south": PI*0.5, "east": 0.0, "west": PI}
+			angle = float(angles[expedition.direction])+_spawn_rng.randf_range(-0.6, 0.6)
 		var distance := _spawn_rng.randf_range(60,85) if Zombie.is_boss_kind(kind) else _spawn_rng.randf_range(32,52)
 		var p := Vector2(focus.position.x,focus.position.z)+Vector2(cos(angle),sin(angle))*distance
 		if not Map.BOUNDS.grow(-4).has_point(p) or not preload("res://scripts/planes_boundary.gd").contains(p) or near_building(p): continue
 		if titan and not _clear_of_trees(p, 6.0): continue
+		if expedition and expedition.enabled and not Zombie.is_boss_kind(kind) and attempt < 2:
+			if expedition.profile == 1 and _clear_of_trees(p, 9): continue
+			if expedition.profile == 2 and not cornfield.in_corn(p): continue
 		var surface := Map.ground_pos(p.x,p.y)
 		var at := NavigationServer3D.map_get_closest_point(nav,surface)
 		if at.distance_to(surface)>1.5 or at.distance_to(focus.position)<28: continue
@@ -674,7 +702,11 @@ func spawn_enemy(kind: String, wave_number: int) -> Zombie:
 		var path := NavigationServer3D.map_get_path(nav,at,target,true)
 		if path.is_empty() or path[-1].distance_to(target)>1.5: continue
 		if titan and not _titan_entry_clear(path, at): continue
-		return create_enemy(kind,at,wave_number)
+		var ordinary := not Zombie.is_boss_kind(kind) and not Zombie.is_beast_kind(kind)
+		var helmet := ordinary and _spawn_rng.randf() < Waves.armor_chance(wave_number)
+		var woodland := not _clear_of_trees(Vector2(at.x, at.z), 8)
+		var crop: bool = cornfield.in_corn(Vector2(at.x, at.z))
+		return create_enemy(kind,at,wave_number,helmet,ordinary and (woodland or crop))
 	return null
 
 func create_enemy(kind: String, at: Vector3, wave_number: int, armored := false, rise := false) -> Zombie:
@@ -692,6 +724,7 @@ func create_enemy(kind: String, at: Vector3, wave_number: int, armored := false,
 	return enemy
 
 func _enemy_killed(enemy: Zombie) -> void:
+	if expedition: expedition.killed(enemy)
 	if NetSession.is_client(): return
 	if classes: classes.killed(enemy)
 	stats.record_kill(enemy)
@@ -760,8 +793,8 @@ func _update_music() -> void:
 	if over:
 		music.horde = 0.0
 		music.play("morning" if victory else "gameover")
-	elif survival_active and waves and waves.phase=="spawning":
-		music.fight(waves.wave%5==0)
+	elif survival_active and waves and waves.phase in ["spawning", "finale"]:
+		music.fight(waves.is_boss_fight())
 		music.horde = clampf(float(alive_zombies())/24.0,0,1)
 	else:
 		music.horde = 0.0

@@ -207,6 +207,12 @@ func action(id: int, operation: String, args: Array) -> void:
 	var w: Weapons = weapons[id]
 	if p.controlling_drone and operation not in ["drone_control", "drone_recall", "drone_detonate"]: return
 	match operation:
+		"expedition":
+			if args.size() != 2 or not args[0] is String or not args[1] is Array or not game.get("expedition"): return
+			var result: String = game.expedition.transact(id, args[0], args[1])
+			if not result.is_empty(): NetSession.feedback(id, "message", [Lang.t(result), 3.0])
+			NetSession._sequence += 1
+			if id != NetSession.local_id(): NetSession.send_reliable_state(id, false)
 		"teleport":
 			if args.size() != 3 or not args[0] is Vector2 or not args[0].is_finite() or not _aim(p, args, 1): return
 			var error: String = game.teleport.perform(p, args[0])
@@ -472,10 +478,12 @@ func _show_game_over() -> void:
 	game.player.active = false
 	var hut_fell: bool = game.hut != null and game.hut.destroyed
 	if game.victory:
-		game.campaign.record_wave(Campaign.ROUNDS, str(game.difficulty.name))
+		game.campaign.record_victory(game.expedition.round_limit() if game.get("expedition") else Campaign.ROUNDS, str(game.difficulty.name))
 		game.music.horde = 0.0
 		game.music.play("morning")
-		game.hud.show_overlay("REGION SECURED", "Forest secured. All 25 rounds survived. Your victory is saved on the campaign map.", "Map selection", "", "over")
+		game.hud.show_overlay("REGION SECURED", Lang.t("Forest secured. All %d rounds survived. Your result is saved on the campaign map.", [game.expedition.round_limit() if game.get("expedition") else Campaign.ROUNDS]), "Map selection", "", "over")
+	elif game.get("expedition") and game.expedition.finale.get("stage") == "failed":
+		game.hud.show_overlay("SIGNAL LOST", "The final transmitter was destroyed. Defend it until dawn.", "New round" if NetSession.is_host() else "Waiting for host", "", "over")
 	else:
 		game.hud.show_overlay("HUT LOST" if hut_fell else "TEAM DOWN", "The forest hut has been destroyed. The host can start a new round." if hut_fell else "All players are down. The host can start a new round.", "New round" if NetSession.is_host() else "Waiting for host", "", "over")
 	game.hud.overlay_button.disabled = NetSession.is_client() and not game.victory
@@ -492,6 +500,7 @@ func campaign_victory() -> void:
 	_show_game_over()
 
 func _close_local_menus() -> void:
+	if game.get("expedition") and game.expedition.book.is_open: game.expedition.book.close()
 	if game.drones.is_open: game.drones.close()
 	if NetSession.is_host(): game.drones.recall(game.player)
 	else:
@@ -535,6 +544,7 @@ func tick(delta: float) -> void:
 			revive[id].time += delta
 			if revive[id].time >= 3.0:
 				target.revive(minf(target.max_hp, 50.0))
+				if game.get("expedition"): game.expedition.support(id, "revives", "revive:%d:%d" % [target.peer_id, int(game.expedition.elapsed/10)])
 				revive.erase(id)
 		if not game.player.active and game.player.alive: game.player._regenerate(delta)
 	else:
@@ -701,7 +711,7 @@ func snapshot() -> Dictionary:
 		players[id] = {"p": p.global_position, "yaw": p.rotation.y, "pitch": p.pitch, "v": p.velocity, "crouch": p.crouching, "tower": p.mounted_tower, "drone": p.controlling_drone,
 			"down": [p.downed, p.down_time, p.self_revives, p.marked_t, p.revive_hold],
 			"teleport": [p.teleport_serial, p.teleport_cooldown],
-			"hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul, "effects": p.mushroom_effects.duplicate(),
+			"combat": p.class_combat.runtime_snapshot(), "hp": p.hp, "max_hp": p.max_hp, "alive": p.alive, "score": p.score, "speed": p.speed_mul, "regen": p.regen_mul, "effects": p.mushroom_effects.duplicate(),
 			"relic": p.relic, "light": p.flashlight.visible, "weapon": w.current, "ammo": ammo, "unlocked": w.unlocked.duplicate(), "skins": w.skins.duplicate(), "mod_owned": w.mod_owned.duplicate(true), "mod_loadout": w.mod_loadout.duplicate(true),
 			"grenades": w.grenades, "grenades_max": w.grenades_max, "mods": [w.damage_mul, w.reload_mul, w.spread_mul],
 			"levels": levels[id].duplicate(), "mushrooms": mushrooms[id].duplicate(), "ack": NetSession._commands.get(id, 0), "pose_ack": pose_acks.get(id, 0),
@@ -748,7 +758,7 @@ func snapshot() -> Dictionary:
 	for d in deer: animals.append([d.global_position, d.rotation, d.state])
 	var pumpkin_states: Array = []
 	for pumpkin in game.pumpkins: pumpkin_states.append(pumpkin.broken)
-	return {"reviving":revive.duplicate(true), "shooting_range":game.shooting_range.snapshot() if planes else {}, "crop_fire":game.cornfield.fires.snapshot() if planes else {}, "field_building": game.field_building.snapshot() if planes else [], "brewing": (game.brewing.snapshot() if game.get("brewing") else {}), "maze_caches": maze_caches, "hunting": (game.hunting.snapshot() if game.get("hunting") else {}), "leaderboard": game.stats.players.duplicate(true), "fireworks": (game.fireworks.snapshot() if game.get("fireworks") else {}), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": (game.drones.snapshot() if game.get("drones") else {}), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
+	return {"expedition": game.expedition.snapshot() if game.get("expedition") else {}, "support": [game.stats.revives, game.stats.repairs, game.stats.rescues, game.stats.healing], "reviving":revive.duplicate(true), "shooting_range":game.shooting_range.snapshot() if planes else {}, "crop_fire":game.cornfield.fires.snapshot() if planes else {}, "field_building": game.field_building.snapshot() if planes else [], "brewing": (game.brewing.snapshot() if game.get("brewing") else {}), "maze_caches": maze_caches, "hunting": (game.hunting.snapshot() if game.get("hunting") else {}), "leaderboard": game.stats.players.duplicate(true), "fireworks": (game.fireworks.snapshot() if game.get("fireworks") else {}), "pumpkins": pumpkin_states, "progression": game.progression.snapshot(), "players": players, "zombies": zs, "towers": game.defences.snapshot(), "drones": (game.drones.snapshot() if game.get("drones") else {}), "grenades": gs, "drops": ds, "loots": available, "doors": door_states,
 		"secret_night": (game.secret_night.snapshot() if game.get("secret_night") else {}), "field_trials": (game.field_trials.snapshot() if game.get("field_trials") else {}),
 		"hut": [game.hut.hp, game.hut.attack_alert_remaining, game.hut.destroyed] if game.hut else [],
 		"sandbags": sandbag_states, "purse": purse, "fortune": game.fortune.snapshot() if game.fortune else [],
@@ -779,6 +789,12 @@ func _apply_drops(states: Dictionary) -> void:
 
 func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	if not NetSession.is_client(): return
+	if game.get("expedition"): game.expedition.apply_snapshot(data.get("expedition", {}))
+	var support: Array = data.get("support", [0,0,0,0.0])
+	game.stats.revives = int(support[0])
+	game.stats.repairs = int(support[1])
+	game.stats.rescues = int(support[2])
+	game.stats.healing = float(support[3])
 	var pumpkin_states: Array = data.get("pumpkins", [])
 	for i in mini(pumpkin_states.size(), game.pumpkins.size()):
 		if pumpkin_states[i]: game.pumpkins[i].shatter(not initial)
@@ -821,6 +837,10 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 		p.score = s.score
 		if id==NetSession.local_id() and not initial and game.progression.is_open and score_gain>0: game.progression.show_gain(score_gain)
 		p.speed_mul = s.speed
+		if id == NetSession.local_id() and NetSession.class_roster.has(id) and CharacterProfile.match_class != str(NetSession.class_roster[id].id):
+			p.class_combat.configure(NetSession.class_roster[id])
+			CharacterProfile.begin_match(str(NetSession.class_roster[id].id))
+		p.class_combat.apply_runtime(s.get("combat", {}))
 		p.regen_mul = s.regen
 		p.mushroom_effects = s.get("effects", {}).duplicate()
 		var down: Array = s.get("down", [])
@@ -1052,7 +1072,7 @@ func apply_snapshot(data: Dictionary, initial: bool) -> void:
 	game.waves.wave = data.wave[0]
 	game.waves.completed = data.wave[1]
 	if game.waves.completed > game.campaign.best_wave(game.campaign.selected_id):
-		game.campaign.record_wave(game.waves.completed, str(game.difficulty.name))
+		game.campaign.record_wave(game.waves.completed, str(game.difficulty.name), not (game.get("expedition") and game.expedition.enabled))
 	game.waves.phase = data.wave[2]
 	game.waves.timer = data.wave[3]
 	game.waves.total = data.wave[4]

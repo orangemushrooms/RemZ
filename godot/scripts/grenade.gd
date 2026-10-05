@@ -68,12 +68,15 @@ func _physics_process(delta: float) -> void:
 		_explode()
 
 func _explode() -> void:
+	if _done: return
 	_done = true
 	var pos := global_position
 	# damage
 	if not replica:
 		var field = get_tree().current_scene.get("cornfield")
-		if field and field.get("fires"): field.fires.ignite(pos, RADIUS, owner_peer, "grenade")
+		var run = get_tree().current_scene.get("expedition")
+		var frost: bool = run != null and run.grenade_effect(pos, owner_peer)
+		if not frost and field and field.get("fires"): field.fires.ignite(pos, RADIUS, owner_peer, "grenade")
 		if get_tree().current_scene.get("hunting"): get_tree().current_scene.hunting.blast(pos, RADIUS, DAMAGE, owner_peer)
 		for z in zombies_root.get_children():
 			if z is Zombie and z.alive:

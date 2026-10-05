@@ -46,13 +46,14 @@ func run() -> void:
 		trials.confine(game.player)
 		check(trials.permits(game.player.global_position) and game.player.velocity == Vector3.ZERO, "Field boundary blocks escape and shove")
 		trials.countdown = 0
+		var expected: Array = trials.pending.duplicate()
 		for i in FieldTrials.ROSTERS[n].size(): trials._process(0.7)
 		var kinds: Array = []
 		for z in trials.enemies:
 			kinds.append(z.net_kind)
 			z.set_physics_process(false)
 			check(trials.FIELD.has_point(Vector2(z.global_position.x, z.global_position.z)), "Projected spawn remains inside the arena")
-		check(kinds == FieldTrials.ROSTERS[n] and trials.pending.is_empty(), "All %d encounter bosses present together" % kinds.size())
+		check(kinds == expected and trials.pending.is_empty(), "All %d seeded encounter bosses present together" % kinds.size())
 		check(trials.remaining == kinds.size(), "No completion while bosses live")
 		var snap := trials.snapshot()
 		var mirror := FieldTrials.new()
@@ -71,6 +72,10 @@ func run() -> void:
 		else:
 			for z in trials.enemies: z.die(Vector3.ZERO)
 			var money: int = game.player.score
+			game.player.global_position = Map.ground_pos(FieldTrials.ARRIVAL.x, FieldTrials.ARRIVAL.y)
+			for second in 31:
+				if not trials.active: break
+				trials._process(1)
 			trials._process(0.1)
 			check(not trials.active and game.player.score == money + n * 35, "Final boss death grants the team reward once")
 			trials.finish()

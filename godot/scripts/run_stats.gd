@@ -16,6 +16,14 @@ var barricades_built := 0
 var mushrooms_eaten := 0
 var damage_taken := 0.0
 var points_earned := 0
+var revives := 0
+var repairs := 0
+var rescues := 0
+var healing := 0.0
+var record_region := "forest"
+var record_mode := "standard"
+var record_difficulty := "Normal"
+var record_party := 1
 var seconds := 0.0
 var best_streak := 0
 var _streak := 0
@@ -51,6 +59,33 @@ func record_kill(zombie: Zombie) -> void:
 	for id in zombie.damage_peers:
 		if id != killer and players.has(id): players[id].assists += 1
 
+func record_support(peer: int, kind: String, amount: float) -> void:
+	if NetSession.is_client() or kind not in ["revives", "repairs", "rescues", "healing"]: return
+	set(kind, get(kind)+amount)
+	if players.has(peer): players[peer][kind] = players[peer].get(kind, 0)+amount
+
+func performance_score(wave: int) -> int:
+	var count := kills
+	var heads := headshots
+	var bosses := 0
+	for row in players.values(): bosses += int(row.titan_kills)
+	if NetSession.enabled:
+		count = 0
+		heads = 0
+		for row in players.values():
+			count += int(row.kills)
+			heads += int(row.headshots)
+	return maxi(0, count*100+heads*50+bosses*500+wave*250+revives*200+repairs*40+rescues*200+int(healing)*2+roundi(accuracy()*minf(shots, 500)*10))
+
+func records() -> Array:
+	var scene := get_tree().current_scene
+	if scene and scene.get("expedition"):
+		record_region = scene.expedition.config.region
+		record_mode = scene.expedition.config.mode
+		record_difficulty = str(scene.difficulty.name)
+		record_party = maxi(1, NetSession.roster.size()) if NetSession.enabled else 1
+	return table.filter(func(row): return int(row.get("score_version", 1)) == 2 and row.get("region", "forest") == record_region and row.get("mode", "standard") == record_mode and row.get("difficulty") == record_difficulty and int(row.get("party", 1)) == record_party)
+
 func record_death(id: int) -> void:
 	if not NetSession.is_client() and players.has(id): players[id].deaths += 1
 	var scene := get_tree().current_scene
@@ -73,7 +108,7 @@ func leaderboard_rows() -> Array:
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
 	for a in OS.get_cmdline_user_args():
-		if a in ["--autotest", "--smoke-test", "--benchmark", "--shot-ui", "--intro-test"] or a.begins_with("--view"):
+		if a in ["--autotest", "--smoke-test", "--benchmark", "--shot-ui", "--intro-test"] or a.begins_with("--view") or a.begins_with("--suite="):
 			persist = false
 	_load()
 
@@ -132,7 +167,8 @@ func _save() -> void:
 		f.store_string(JSON.stringify({ "runs": table }))
 
 func best() -> Dictionary:
-	return table[0] if not table.is_empty() else {}
+	var rows := records()
+	return rows[0] if not rows.is_empty() else {}
 
 # Records the run; returns the 1-based rank in the table or 0 when it did not make the list.
 func finish(score: int, wave: int, difficulty: String) -> int:
@@ -141,12 +177,19 @@ func finish(score: int, wave: int, difficulty: String) -> int:
 	_finished = true
 	if kills == 0 and wave == 0:
 		return 0
-	var entry := { "score": score, "wave": wave, "kills": kills, "headshots": headshots, "seconds": int(seconds),
-		"accuracy": accuracy(), "difficulty": difficulty, "date": Time.get_date_string_from_system() }
+	var scene := get_tree().current_scene
+	var run_config: Dictionary = scene.expedition.config if scene and scene.get("expedition") else {"region": record_region, "mode": record_mode, "seed": 0}
+	record_region = run_config.region
+	record_mode = run_config.mode
+	record_difficulty = str(scene.difficulty.name) if scene and scene.get("difficulty") else english_difficulty(difficulty)
+	record_party = maxi(1, NetSession.roster.size()) if NetSession.enabled else 1
+	var entry := { "score": performance_score(wave), "cash": score, "score_version": 2, "region": record_region, "mode": record_mode, "party": record_party, "seed": run_config.seed, "wave": wave, "kills": kills, "headshots": headshots, "seconds": int(seconds),
+		"accuracy": accuracy(), "difficulty": record_difficulty, "date": Time.get_date_string_from_system() }
 	table.append(entry)
 	table.sort_custom(func(a, b): return int(a.get("score", 0)) > int(b.get("score", 0)))
-	var rank := table.find(entry) + 1
-	if table.size() > MAX_ENTRIES:
-		table.resize(MAX_ENTRIES)
+	var group := records()
+	var rank := group.find(entry)+1
+	for row in group.slice(MAX_ENTRIES): table.erase(row)
+	if table.size() > 1000: table.resize(1000)
 	_save()
 	return rank if rank <= MAX_ENTRIES else 0

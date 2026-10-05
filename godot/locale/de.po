@@ -399,7 +399,7 @@ msgstr "Pilzsammler"
 msgid "First mushroom collected"
 msgstr "Ersten Pilz gesammelt"
 
-#: scripts/achievements.gd scripts/coop_world.gd scripts/inventory.gd scripts/planes_minimap.gd
+#: scripts/achievements.gd scripts/coop_world.gd scripts/expedition_checkpoint.gd scripts/inventory.gd
 msgid "mushrooms"
 msgstr "Pilze"
 
@@ -931,7 +931,7 @@ msgstr "Wiesentee"
 msgid "+45 health. Kept at full health."
 msgstr "+45 Leben. Bleibt bei voller Gesundheit im Inventar."
 
-#: scripts/brew_recipes.gd scripts/brewing.gd scripts/defence_tower.gd scripts/mushrooms.gd
+#: scripts/brew_recipes.gd scripts/brewing.gd scripts/defence_tower.gd scripts/expedition_book.gd
 msgid "heal"
 msgstr "Heilung"
 
@@ -1996,6 +1996,14 @@ msgid "The profile could not be read. The original files have been kept."
 msgstr "Das Profil konnte nicht gelesen werden. Die Originaldateien wurden beibehalten."
 
 #: scripts/character_profile.gd
+msgid "%s veteran · Rank %d"
+msgstr "%s-Veteran · Rang %d"
+
+#: scripts/character_profile.gd
+msgid "%s expert · Rank %d"
+msgstr "%s-Experte · Rang %d"
+
+#: scripts/character_profile.gd
 msgid "Achievement completed"
 msgstr "Erfolg freigeschaltet"
 
@@ -2011,23 +2019,23 @@ msgstr "Fortschritt konnte nicht gespeichert werden. Prüfe freien Speicherplatz
 msgid "Field titan"
 msgstr "Feldtitan"
 
-#: scripts/cheat_menu.gd
+#: scripts/cheat_menu.gd scripts/run_rules.gd
 msgid "Shambler"
 msgstr "Schlurfer"
 
-#: scripts/cheat_menu.gd
+#: scripts/cheat_menu.gd scripts/run_rules.gd
 msgid "Runner"
 msgstr "Läufer"
 
-#: scripts/cheat_menu.gd
+#: scripts/cheat_menu.gd scripts/run_rules.gd
 msgid "Brute"
 msgstr "Brecher"
 
-#: scripts/cheat_menu.gd
+#: scripts/cheat_menu.gd scripts/run_rules.gd
 msgid "Nurse"
 msgstr "Krankenschwester"
 
-#: scripts/cheat_menu.gd
+#: scripts/cheat_menu.gd scripts/run_rules.gd
 msgid "Soldier"
 msgstr "Soldat"
 
@@ -2062,6 +2070,10 @@ msgstr "Goldröhrling auf der Karte zeigen"
 #: scripts/cheat_menu.gd
 msgid "Get the keys to both huts"
 msgstr "Schlüssel für beide Hütten erhalten"
+
+#: scripts/cheat_menu.gd
+msgid "Get Schützenhaus key"
+msgstr "Schützenhausschlüssel holen"
 
 #: scripts/cheat_menu.gd
 msgid "Weather · pinned until released"
@@ -2164,6 +2176,14 @@ msgid "Golden Bolete marked on the map."
 msgstr "Goldröhrling auf der Karte markiert."
 
 #: scripts/cheat_menu.gd
+msgid "You already have the Schützenhaus key."
+msgstr "Du hast den Schützenhausschlüssel bereits."
+
+#: scripts/cheat_menu.gd
+msgid "Schützenhaus key received. The shooting house can now be opened."
+msgstr "Schützenhausschlüssel erhalten. Das Schützenhaus lässt sich jetzt öffnen."
+
+#: scripts/cheat_menu.gd
 msgid "You already have both hut keys."
 msgstr "Du hast bereits beide Hüttenschlüssel."
 
@@ -2251,6 +2271,10 @@ msgstr "Mission abgeschlossen"
 msgid "Team objective completed"
 msgstr "Teamziel abgeschlossen"
 
+#: scripts/class_progression.gd scripts/expedition_book.gd
+msgid "Team support"
+msgstr "Teamunterstützung"
+
 #: scripts/coop_avatar.gd
 msgid "%s\nRevive [E]"
 msgstr "%s\nWiederbeleben [E]"
@@ -2290,6 +2314,10 @@ msgstr "Koop starten"
 #: scripts/coop_menu.gd
 msgid "Leave session"
 msgstr "Sitzung verlassen"
+
+#: scripts/coop_menu.gd
+msgid "Version: Co-op 2026.10.05-E"
+msgstr "Version: Koop 2026.10.05-E"
 
 #: scripts/coop_menu.gd
 msgid "Open logs"
@@ -2419,13 +2447,25 @@ msgstr "Vorrat aufgenommen"
 msgid "REGION SECURED"
 msgstr "GEBIET GESICHERT"
 
-#: scripts/coop_world.gd scripts/main.gd
-msgid "Forest secured. All 25 rounds survived. Your victory is saved on the campaign map."
-msgstr "Forest gesichert. Alle 25 Runden überstanden. Dein Sieg ist auf der Kampagnenkarte gespeichert."
-
 #: scripts/coop_world.gd scripts/main.gd scripts/planes_hud.gd
 msgid "Map selection"
 msgstr "Kartenauswahl"
+
+#: scripts/coop_world.gd scripts/main.gd
+msgid "Forest secured. All %d rounds survived. Your result is saved on the campaign map."
+msgstr "Wald gesichert. Alle %d Runden überlebt. Dein Ergebnis ist auf der Kampagnenkarte gespeichert."
+
+#: scripts/coop_world.gd scripts/planes_coop_world.gd
+msgid "New round"
+msgstr "Neue Runde"
+
+#: scripts/coop_world.gd scripts/run_director.gd
+msgid "SIGNAL LOST"
+msgstr "SIGNAL VERLOREN"
+
+#: scripts/coop_world.gd scripts/run_director.gd
+msgid "The final transmitter was destroyed. Defend it until dawn."
+msgstr "Der letzte Sender wurde zerstört. Verteidige ihn bis zum Morgengrauen."
 
 #: scripts/coop_world.gd scripts/main.gd
 msgid "HUT LOST"
@@ -2443,10 +2483,6 @@ msgstr "Die Waldhütte ist zerstört. Der Host kann eine neue Runde starten."
 msgid "All players are down. The host can start a new round."
 msgstr "Alle Spieler sind ausgeschieden. Der Host kann eine neue Runde starten."
 
-#: scripts/coop_world.gd scripts/planes_coop_world.gd
-msgid "New round"
-msgstr "Neue Runde"
-
 #: scripts/coop_world.gd scripts/run_stats.gd
 msgid "Co-op · %s"
 msgstr "Koop · %s"
@@ -2463,7 +2499,7 @@ msgstr "Wiederbelebt!"
 msgid "down"
 msgstr "am Boden"
 
-#: scripts/coop_world.gd scripts/hud.gd scripts/item_icons.gd scripts/minimap.gd
+#: scripts/coop_world.gd scripts/expedition_checkpoint.gd scripts/hud.gd scripts/item_icons.gd
 msgid "sandbags"
 msgstr "Sandsäcke"
 
@@ -2624,6 +2660,14 @@ msgid "No more than 40 towers per team."
 msgstr "Maximal 40 Türme im Team."
 
 #: scripts/defence_system.gd
+msgid "This challenge allows pistols, a knife and support towers."
+msgstr "Diese Herausforderung erlaubt Pistolen, ein Messer und Unterstützungstürme."
+
+#: scripts/defence_system.gd
+msgid "This challenge permits four towers."
+msgstr "Diese Herausforderung erlaubt vier Türme."
+
+#: scripts/defence_system.gd
 msgid "%s: %d Rem Dollars needed."
 msgstr "%s: %d Rem Dollars benötigt."
 
@@ -2635,7 +2679,7 @@ msgstr "Maximale Stufe erreicht."
 msgid "The tower is being operated right now."
 msgstr "Der Turm wird gerade bedient."
 
-#: scripts/defence_system.gd scripts/planes_building.gd scripts/planes_progression.gd scripts/progression.gd
+#: scripts/defence_system.gd scripts/expedition_structures.gd scripts/planes_building.gd scripts/planes_progression.gd
 msgid "Not enough Rem Dollars."
 msgstr "Zu wenig Rem Dollars."
 
@@ -2719,11 +2763,11 @@ msgstr "Barrikadenlinie freihalten."
 msgid "Don't build where you are standing."
 msgstr "Nicht auf deinem Standort bauen."
 
-#: scripts/defence_system.gd scripts/planes_building.gd
+#: scripts/defence_system.gd scripts/expedition_structures.gd scripts/planes_building.gd
 msgid "Building site occupied."
 msgstr "Bauplatz belegt."
 
-#: scripts/defence_system.gd
+#: scripts/defence_system.gd scripts/expedition_structures.gd
 msgid "No clear view of the building site."
 msgstr "Keine freie Sicht zum Bauplatz."
 
@@ -2839,7 +2883,7 @@ msgstr "Manuelle Steuerung"
 msgid "ALIGN %s · free"
 msgstr "%s AUSRICHTEN · kostenlos"
 
-#: scripts/defence_system.gd scripts/progression.gd
+#: scripts/defence_system.gd scripts/expedition_book.gd scripts/progression.gd
 msgid "%s · %d R"
 msgstr "%s · %d R"
 
@@ -2866,6 +2910,10 @@ msgstr "RASEREI"
 #: scripts/defence_system.gd scripts/main.gd
 msgid "THE FIELD TITAN"
 msgstr "DER FELDTITAN"
+
+#: scripts/defence_system.gd scripts/expedition_book.gd
+msgid "%s · %d m · %s"
+msgstr "%s · %d m · %s"
 
 #: scripts/defence_tower.gd
 msgid "Sentinel"
@@ -2983,7 +3031,7 @@ msgstr "%s %s · %d / %d · BESETZT"
 msgid "Supply post: ammunition for the %s"
 msgstr "Versorgungsposten: Munition für %s"
 
-#: scripts/door.gd
+#: scripts/door.gd scripts/expedition_structures.gd
 msgid "Door"
 msgstr "Tür"
 
@@ -3127,6 +3175,398 @@ msgstr "TITANEN"
 msgid "HORDE"
 msgstr "HORDE"
 
+#: scripts/expedition_book.gd
+msgid "Fieldbook [K]"
+msgstr "Feldbuch [K]"
+
+#: scripts/expedition_book.gd
+msgid "EXPEDITION FIELDBOOK"
+msgstr "EXPEDITIONS-FELDBUCH"
+
+#: scripts/expedition_book.gd
+msgid "Close [K / Esc]"
+msgstr "Schliessen [K / Esc]"
+
+#: scripts/expedition_book.gd
+msgid "Operations"
+msgstr "Einsätze"
+
+#: scripts/expedition_book.gd
+msgid "Use class action [Z]"
+msgstr "Klassenaktion einsetzen [Z]"
+
+#: scripts/expedition_book.gd
+msgid "Interact with nearby objective [E]"
+msgstr "Mit nahem Einsatzziel interagieren [E]"
+
+#: scripts/expedition_book.gd
+msgid "Accept long-range elite contract at camp"
+msgstr "Fernkampfauftrag im Lager annehmen"
+
+#: scripts/expedition_book.gd
+msgid "Collect / return supply crate at camp"
+msgstr "Versorgungskiste im Lager abholen / zurückgeben"
+
+#: scripts/expedition_book.gd
+msgid "Extinguish nearby crop fire · 1 bandage"
+msgstr "Nahen Feldbrand löschen · 1 Verband"
+
+#: scripts/expedition_book.gd
+msgid "Repair nearest expedition fortification · 30 R"
+msgstr "Nächste Expeditionsbefestigung reparieren · 30 R"
+
+#: scripts/expedition_book.gd
+msgid "Timed series"
+msgstr "Zeitserie"
+
+#: scripts/expedition_book.gd
+msgid "Target sequence"
+msgstr "Zielreihenfolge"
+
+#: scripts/expedition_book.gd
+msgid "Team competition"
+msgstr "Teamwettbewerb"
+
+#: scripts/expedition_book.gd
+msgid "Augments"
+msgstr "Augments"
+
+#: scripts/expedition_book.gd
+msgid "Journal & bestiary"
+msgstr "Chronik & Bestiarium"
+
+#: scripts/expedition_book.gd
+msgid "Run & checkpoint"
+msgstr "Durchlauf & Spielstand"
+
+#: scripts/expedition_book.gd
+msgid "Run settings can be changed before wave one. Use the same map and run code to reproduce wave profiles, missions, augments and weather."
+msgstr "Die Einstellungen lassen sich vor Welle eins ändern. Mit derselben Map und demselben Startcode erhältst du dieselben Wellenprofile, Einsätze, Augments und Wetterabläufe."
+
+#: scripts/expedition_book.gd
+msgid "Paste a run code"
+msgstr "Startcode einfügen"
+
+#: scripts/expedition_book.gd
+msgid "Copy run code"
+msgstr "Startcode kopieren"
+
+#: scripts/expedition_book.gd
+msgid "Apply run code"
+msgstr "Startcode übernehmen"
+
+#: scripts/expedition_book.gd
+msgid "Invalid run code or wrong map."
+msgstr "Ungültiger Startcode oder falsche Map."
+
+#: scripts/expedition_book.gd
+msgid "Run configured."
+msgstr "Durchlauf eingestellt."
+
+#: scripts/expedition_book.gd
+msgid "Only the host can configure a run before wave one."
+msgstr "Nur der Host kann den Durchlauf vor Welle eins einstellen."
+
+#: scripts/expedition_book.gd
+msgid "Apply challenge"
+msgstr "Herausforderung übernehmen"
+
+#: scripts/expedition_book.gd
+msgid "Save in a quiet wave intermission. For a cooperative checkpoint the same player slots must join before the host loads it. Completed rewards are not issued again."
+msgstr "Speichere in einer ruhigen Wellenpause. Für einen Koop-Spielstand müssen dieselben Spielerplätze belegt sein, bevor der Host ihn lädt. Bereits erhaltene Belohnungen werden nicht erneut vergeben."
+
+#: scripts/expedition_book.gd
+msgid "Save checkpoint"
+msgstr "Spielstand speichern"
+
+#: scripts/expedition_book.gd
+msgid "Continue saved expedition"
+msgstr "Gespeicherte Expedition fortsetzen"
+
+#: scripts/expedition_book.gd scripts/expedition_checkpoint.gd
+msgid "Expedition continued."
+msgstr "Expedition fortgesetzt."
+
+#: scripts/expedition_book.gd
+msgid "Forecast: %s → %s in %d s"
+msgstr "Vorhersage: %s → %s in %d s"
+
+#: scripts/expedition_book.gd
+msgid "Bandages: %d · Action ready in %d s"
+msgstr "Verbände: %d · Aktion bereit in %d s"
+
+#: scripts/expedition_book.gd
+msgid "Operation: %s · %s · %d m · Health %d"
+msgstr "Einsatz: %s · %s · %d m · Zustand %d"
+
+#: scripts/expedition_book.gd
+msgid "Final defence: %s · %d s · Health %d"
+msgstr "Letzte Verteidigung: %s · %d s · Zustand %d"
+
+#: scripts/expedition_book.gd
+msgid "Long-range elites: %d / 5 · Supply deliveries: %d"
+msgstr "Fernkampf-Eliteziele: %d / 5 · Lieferungen: %d"
+
+#: scripts/expedition_book.gd
+msgid "Transmitter order: %d → %d → %d · Progress %d / 3"
+msgstr "Senderreihenfolge: %d → %d → %d · Fortschritt %d / 3"
+
+#: scripts/expedition_book.gd
+msgid "Supply destination: %d m"
+msgstr "Lieferziel: %d m"
+
+#: scripts/expedition_book.gd
+msgid "Range: %d s · Score %d"
+msgstr "Schiessstand: %d s · Punkte %d"
+
+#: scripts/expedition_book.gd
+msgid "Next target: %d"
+msgstr "Nächstes Ziel: %d"
+
+#: scripts/expedition_book.gd
+msgid "Outpost"
+msgstr "Aussenposten"
+
+#: scripts/expedition_book.gd
+msgid "Cache"
+msgstr "Versteck"
+
+#: scripts/expedition_book.gd
+msgid "Transmitter %d"
+msgstr "Sender %d"
+
+#: scripts/expedition_book.gd
+msgid "Choose one of three offers after waves 3, 7, 12, 17 and 22. The choice lasts for this expedition."
+msgstr "Wähle nach den Wellen 3, 7, 12, 17 und 22 jeweils eines von drei Angeboten. Die Wahl gilt für diese Expedition."
+
+#: scripts/expedition_book.gd
+msgid "Selected: %s"
+msgstr "Gewählt: %s"
+
+#: scripts/expedition_book.gd
+msgid "Transfers and healing require a living teammate within three metres and a clear line of sight."
+msgstr "Übergaben und Heilung erfordern einen lebenden Mitspieler in höchstens drei Metern Entfernung und freie Sicht."
+
+#: scripts/expedition_book.gd
+msgid "Buy bandage at camp · 25 R"
+msgstr "Verband im Lager kaufen · 25 R"
+
+#: scripts/expedition_book.gd
+msgid "Teammate %d"
+msgstr "Mitspieler %d"
+
+#: scripts/expedition_book.gd
+msgid "Heal teammate"
+msgstr "Mitspieler heilen"
+
+#: scripts/expedition_book.gd
+msgid "Give bandage"
+msgstr "Verband übergeben"
+
+#: scripts/expedition_book.gd
+msgid "Give ammunition"
+msgstr "Munition übergeben"
+
+#: scripts/expedition_book.gd
+msgid "Give %s"
+msgstr "%s übergeben"
+
+#: scripts/expedition_book.gd
+msgid "Class and weapon mastery unlock cosmetic badges and titles. Mastery grants no combat bonus."
+msgstr "Klassen- und Waffenmeisterschaft schalten kosmetische Abzeichen und Titel frei. Meisterschaft gewährt keinen Kampfbonus."
+
+#: scripts/expedition_book.gd
+msgid "Equipped title: %s"
+msgstr "Angelegter Titel: %s"
+
+#: scripts/expedition_book.gd
+msgid "Equip title: %s"
+msgstr "Titel anlegen: %s"
+
+#: scripts/expedition_book.gd
+msgid "Class mastery: %d · Weapon mastery: %s"
+msgstr "Klassenmeisterschaft: %d · Waffenmeisterschaft: %s"
+
+#: scripts/expedition_book.gd
+msgid "[K] Fieldbook · [Z] Class action · Bandages %d"
+msgstr "[K] Feldbuch · [Z] Klassenaktion · Verbände %d"
+
+#: scripts/expedition_book.gd
+msgid "Final defence · %d s · Health %d · [E] at the objective"
+msgstr "Letzte Verteidigung · %d s · Zustand %d · [E] am Ziel"
+
+#: scripts/expedition_book.gd
+msgid " · Operation %d m"
+msgstr " · Einsatz %d m"
+
+#: scripts/expedition_checkpoint.gd scripts/run_director.gd
+msgid "Only the host can save or continue an expedition."
+msgstr "Nur der Host kann eine Expedition speichern oder fortsetzen."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Use distinct player names for cooperative checkpoints."
+msgstr "Verwende für Koop-Spielstände unterschiedliche Spielernamen."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Save only during a quiet wave intermission."
+msgstr "Speichere nur während einer ruhigen Wellenpause."
+
+#: scripts/expedition_checkpoint.gd scripts/field_trials.gd scripts/fireworks.gd scripts/planes_crop_fire.gd
+msgid "active"
+msgstr "aktiv"
+
+#: scripts/expedition_checkpoint.gd
+msgid "Finish the active objective before saving."
+msgstr "Schliesse das laufende Ziel vor dem Speichern ab."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Finish cooking and brewing before saving."
+msgstr "Beende Kochen und Brauen vor dem Speichern."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Recall active drones before saving."
+msgstr "Hole aktive Drohnen vor dem Speichern zurück."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Wait for active fireworks before saving."
+msgstr "Warte vor dem Speichern, bis das Feuerwerk beendet ist."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Wait for the fortune wheel payout before saving."
+msgstr "Warte vor dem Speichern auf die Auszahlung des Glücksrads."
+
+#: scripts/expedition_checkpoint.gd
+msgid "All players must be alive and on foot."
+msgstr "Alle Spieler müssen leben und zu Fuss unterwegs sein."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Wait for the grenade to explode before saving."
+msgstr "Warte vor dem Speichern auf die Granatenexplosion."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Collect dropped supplies before saving."
+msgstr "Sammle abgelegte Vorräte vor dem Speichern ein."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Checkpoint is damaged or incompatible."
+msgstr "Der Spielstand ist beschädigt oder inkompatibel."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Choose the checkpoint's map before continuing."
+msgstr "Wähle zum Fortsetzen die Map des Spielstands."
+
+#: scripts/expedition_checkpoint.gd
+msgid "The same cooperative player slots must join before continuing."
+msgstr "Zum Fortsetzen müssen dieselben Koop-Spielerplätze belegt sein."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Checkpoint could not be written."
+msgstr "Der Spielstand konnte nicht geschrieben werden."
+
+#: scripts/expedition_checkpoint.gd
+msgid "Checkpoint saved."
+msgstr "Spielstand gespeichert."
+
+#: scripts/expedition_checkpoint.gd
+msgid "No checkpoint found for this map and profile."
+msgstr "Kein Spielstand für diese Map und dieses Profil gefunden."
+
+#: scripts/expedition_checkpoint.gd
+msgid "All teammates must be ready with their classes locked."
+msgstr "Alle Mitspieler müssen bereit sein und ihre Klasse festgelegt haben."
+
+#: scripts/expedition_structures.gd
+msgid "Field gate"
+msgstr "Feldtor"
+
+#: scripts/expedition_structures.gd
+msgid "Firing wall"
+msgstr "Schiessscharte"
+
+#: scripts/expedition_structures.gd
+msgid "Observation platform"
+msgstr "Beobachtungsplattform"
+
+#: scripts/expedition_structures.gd
+msgid "This structure is available on Planes."
+msgstr "Diese Befestigung ist auf Planes verfügbar."
+
+#: scripts/expedition_structures.gd
+msgid "Maximum 40 field fortifications."
+msgstr "Höchstens 40 Feldbefestigungen."
+
+#: scripts/expedition_structures.gd
+msgid "Invalid building position."
+msgstr "Ungültiger Bauplatz."
+
+#: scripts/expedition_structures.gd
+msgid "Keep the complete structure inside the playable area."
+msgstr "Die gesamte Befestigung muss im spielbaren Gebiet bleiben."
+
+#: scripts/expedition_structures.gd
+msgid "Choose more level ground."
+msgstr "Wähle ebeneres Gelände."
+
+#: scripts/expedition_structures.gd
+msgid "Build between three and nine metres away."
+msgstr "Baue in drei bis neun Metern Entfernung."
+
+#: scripts/expedition_structures.gd
+msgid "Keep camp access clear."
+msgstr "Halte den Lagerzugang frei."
+
+#: scripts/expedition_structures.gd
+msgid "Keep objective access clear."
+msgstr "Halte den Zugang zu Einsatzzielen frei."
+
+#: scripts/expedition_structures.gd
+msgid "Keep trader access clear."
+msgstr "Halte den Händlerzugang frei."
+
+#: scripts/expedition_structures.gd scripts/run_director.gd
+msgid "Invalid expedition request."
+msgstr "Ungültige Expeditionsaktion."
+
+#: scripts/expedition_structures.gd
+msgid "Fortification built."
+msgstr "Befestigung gebaut."
+
+#: scripts/expedition_structures.gd scripts/planes_building.gd
+msgid "Move closer to the fortification."
+msgstr "Nähere dich der Befestigung."
+
+#: scripts/expedition_structures.gd
+msgid "Fortification already repaired."
+msgstr "Befestigung bereits repariert."
+
+#: scripts/expedition_structures.gd
+msgid "Fortification repaired."
+msgstr "Befestigung repariert."
+
+#: scripts/expedition_structures.gd
+msgid "Keep the gate opening clear before closing it."
+msgstr "Halte die Toröffnung frei, bevor du das Tor schliesst."
+
+#: scripts/expedition_structures.gd
+msgid "Gate opened."
+msgstr "Tor geöffnet."
+
+#: scripts/expedition_structures.gd
+msgid "Gate closed."
+msgstr "Tor geschlossen."
+
+#: scripts/expedition_structures.gd
+msgid "Use the ramp to reach the observation platform."
+msgstr "Nutze die Rampe zur Beobachtungsplattform."
+
+#: scripts/expedition_structures.gd
+msgid "Fire through the opening above the cover."
+msgstr "Schiesse durch die Öffnung über der Deckung."
+
+#: scripts/expedition_structures.gd
+msgid "%s · %d / 600"
+msgstr "%s · %d / 600"
+
 #: scripts/field_trials.gd
 msgid "THE QUIET GROVE"
 msgstr "DER STILLE HAIN"
@@ -3154,6 +3594,10 @@ msgstr "Noch %d Bosse · Das Feld ist versiegelt"
 #: scripts/field_trials.gd
 msgid "FIELD TRIAL"
 msgstr "FELDKAMPF"
+
+#: scripts/field_trials.gd
+msgid "Hold the arrival beacon · %d / 30 s"
+msgstr "Halte das Ankunftssignal · %d / 30 s"
 
 #: scripts/field_trials.gd
 msgid "Offer 3 × %s at the stone. [E]"
@@ -3186,10 +3630,6 @@ msgstr "[E] Den verborgenen Stein lesen · %s"
 #: scripts/field_trials.gd
 msgid "%s\nThe stone whispers: bring three flowers, then guard the roots."
 msgstr "%s\nDer Stein flüstert: Bringt drei Blumen und beschützt dann die Wurzeln."
-
-#: scripts/field_trials.gd scripts/fireworks.gd scripts/planes_crop_fire.gd scripts/rare_market.gd
-msgid "active"
-msgstr "aktiv"
 
 #: scripts/fireworks.gd
 msgid "Star Festival · Battery"
@@ -3519,7 +3959,7 @@ msgstr "Leicht"
 msgid "Learn the survival basics: weaker zombies, smaller waves, plenty of supplies."
 msgstr "Lerne die Survival-Grundlagen: schwächere Zombies, kleinere Wellen, reichlich Vorräte."
 
-#: scripts/game_settings.gd
+#: scripts/game_settings.gd scripts/run_stats.gd
 msgid "Normal"
 msgstr "Normal"
 
@@ -3592,8 +4032,8 @@ msgid "Quit game"
 msgstr "Spiel beenden"
 
 #: scripts/hud.gd
-msgid "REMZ is a zombie survival game for solo players and co-op teams. Choose an available region on the campaign map, select your class and talents, and survive 25 waves to secure the region. Explore, complete quests, collect supplies and improve your equipment between attacks. Learn each map's routes and defend its objectives. Your campaign victories and class progress carry over to future rounds."
-msgstr "REMZ ist ein Zombie-Survival-Spiel für Einzelspieler und Koop-Teams. Wähle eine verfügbare Region auf der Kampagnenkarte, lege deine Klasse und Talente fest und überlebe 25 Wellen, um die Region zu sichern. Erkunde die Umgebung, erfülle Aufträge, sammle Vorräte und verbessere zwischen den Angriffen deine Ausrüstung. Lerne die Wege jeder Map kennen und verteidige ihre Ziele. Kampagnensiege und Klassenfortschritt bleiben für kommende Runden erhalten."
+msgid "REMZ is a zombie survival game for solo players and co-op teams. Choose an available region on the campaign map, select your class and talents, and survive the waves and final defence to secure the region. Standard expeditions have 25 waves; the short assault has ten. Explore, complete quests, collect supplies and improve your equipment between attacks. Learn each map's routes and defend its objectives. Your campaign victories and class progress carry over to future rounds."
+msgstr "REMZ ist ein Zombie-Survival-Spiel für Einzelspieler und Koop-Teams. Wähle ein verfügbares Gebiet auf der Kampagnenkarte, bestimme deine Klasse und Talente und überlebe die Wellen sowie die Schlussverteidigung, um das Gebiet zu sichern. Standardexpeditionen haben 25 Wellen, der kurze Angriff zehn. Erkunde die Umgebung, erfülle Aufträge, sammle Vorräte und verbessere zwischen den Angriffen deine Ausrüstung. Lerne die Wege jeder Map und verteidige ihre Ziele. Kampagnensiege und Klassenfortschritt bleiben für spätere Runden erhalten."
 
 #: scripts/hud.gd
 msgid "Play time %s"
@@ -3688,8 +4128,8 @@ msgid "HOW TO SURVIVE"
 msgstr "SO ÜBERLEBST DU"
 
 #: scripts/hud.gd
-msgid "Start game opens the campaign map. Choose an available region; regions marked under construction cannot be entered yet. Survive all 25 waves to save a victory for that region."
-msgstr "Spiel starten öffnet die Kampagnenkarte. Wähle eine verfügbare Region; als im Bau markierte Regionen sind noch nicht spielbar. Überlebe alle 25 Wellen, um einen Sieg für diese Region zu speichern."
+msgid "Start game opens the campaign map. Choose an available region; regions marked under construction cannot be entered yet. Survive your expedition's waves and its final defence to save a victory for that region."
+msgstr "Spiel starten öffnet die Kampagnenkarte. Wähle ein verfügbares Gebiet; Gebiete im Bau sind noch gesperrt. Überlebe die Wellen deiner Expedition und ihre Schlussverteidigung, um den Sieg für dieses Gebiet zu speichern."
 
 #: scripts/hud.gd
 msgid "Choose your class and talents in the main menu. Classes gain XP across rounds and unlock new talents. The Assassin can choose a teleport mode from level 15 and activate it with V."
@@ -3932,10 +4372,6 @@ msgid "No round played yet. Your ten best rounds end up here."
 msgstr "Noch keine Runde gespielt. Die zehn besten Runden landen hier."
 
 #: scripts/hud.gd
-msgid "Rem Dollars"
-msgstr "Rem Dollars"
-
-#: scripts/hud.gd
 msgid "Wave"
 msgstr "Welle"
 
@@ -3954,6 +4390,10 @@ msgstr "Zeit"
 #: scripts/hud.gd
 msgid "Mode · Date"
 msgstr "Modus · Datum"
+
+#: scripts/hud.gd
+msgid "Performance"
+msgstr "Leistung"
 
 #: scripts/hud.gd scripts/planes_progression.gd scripts/progression.gd scripts/tower_planner.gd
 msgid "%s · %s"
@@ -3982,6 +4422,14 @@ msgstr "Bisher: Welle %d · %d Rem Dollars · %d Abschüsse (%d Kopfschüsse) ·
 #: scripts/hud.gd
 msgid "Reached wave %d · %d Rem Dollars · %s"
 msgstr "Welle %d erreicht · %d Rem Dollars · %s"
+
+#: scripts/hud.gd
+msgid "Performance: %d · Revives %d · Repairs %d · Rescues %d · Healing %d"
+msgstr "Leistung: %d · Wiederbelebungen %d · Reparaturen %d · Rettungen %d · Heilung %d"
+
+#: scripts/hud.gd
+msgid "Fortification condition: %s · %s"
+msgstr "Zustand der Befestigungen: %s · %s"
 
 #: scripts/hud.gd
 msgid "Rank %d in the high scores  ·  NEW RECORD"
@@ -5428,16 +5876,16 @@ msgid "WASD Walk · Shift Sprint · Space Jump · Ctrl Crouch · M Map · Esc Me
 msgstr "WASD Gehen · Shift Sprinten · Leertaste Springen · Strg Ducken · M Karte · Esc Menü"
 
 #: scripts/planes.gd
-msgid "Survive 25 waves. Meet the traders at the fork. B: kits · T: towers · J: quests · Enter: next wave"
-msgstr "Überlebe 25 Wellen. Händler an der Gabelung. B: Bausätze · T: Türme · J: Aufträge · Enter: nächste Welle"
-
-#: scripts/planes.gd
-msgid "THE PLANES SECURED · 25 / 25"
-msgstr "THE PLANES GESICHERT · 25 / 25"
+msgid "Survive the waves and final defence. Meet the traders at the fork. B: kits · T: towers · J: quests · K: expedition · Enter: next wave"
+msgstr "Überlebe die Wellen und die Schlussverteidigung. Händler stehen an der Weggabelung. B: Bausätze · T: Türme · J: Aufträge · K: Expedition · Enter: nächste Welle"
 
 #: scripts/planes.gd
 msgid "Run ended. Try again or continue exploring."
 msgstr "Durchlauf beendet. Starte erneut oder erkunde die Gegend weiter."
+
+#: scripts/planes.gd
+msgid "THE PLANES SECURED · %d / %d"
+msgstr "THE PLANES GESICHERT · %d / %d"
 
 #: scripts/planes_building.gd
 msgid "Close [B / Esc] · Buy kits at Mechanic"
@@ -5636,6 +6084,30 @@ msgid "Back to The Planes · Esc"
 msgstr "Zurück zu The Planes · Esc"
 
 #: scripts/planes_progression.gd
+msgid "Complete %s first."
+msgstr "Schliesse zuerst %s ab."
+
+#: scripts/planes_progression.gd
+msgid "Mission level %d required. Survive wave %d first."
+msgstr "Missionsstufe %d erforderlich. Überlebe zuerst Welle %d."
+
+#: scripts/planes_progression.gd
+msgid "After accepting: survive through wave %d (%d/%d)"
+msgstr "Nach Annahme: Überlebe bis Welle %d (%d/%d)"
+
+#: scripts/planes_progression.gd
+msgid "Find the Schützenhaus key in the woodland"
+msgstr "Finde den Schützenhausschlüssel im Wald"
+
+#: scripts/planes_progression.gd
+msgid "Enter the Schützenhaus"
+msgstr "Betritt das Schützenhaus"
+
+#: scripts/planes_progression.gd
+msgid "From inside, hit six targets with a sniper %d/6"
+msgstr "Triff von drinnen sechs Ziele mit einem Scharfschützengewehr %d/6"
+
+#: scripts/planes_progression.gd
 msgid "Start survival from the pause menu to trade and build."
 msgstr "Starte Überleben im Pausenmenü, um zu handeln und zu bauen."
 
@@ -5670,6 +6142,14 @@ msgstr "Training"
 #: scripts/planes_progression.gd scripts/progression.gd scripts/weapon_attachments.gd
 msgid "Mods"
 msgstr "Mods"
+
+#: scripts/planes_progression.gd
+msgid "Carried: %d. Place with B; rotate with mouse wheel. Upgrade at the built wall with U."
+msgstr "Mitgeführt: %d. Mit B platzieren; mit dem Mausrad drehen. An der gebauten Befestigung mit U aufrüsten."
+
+#: scripts/planes_progression.gd
+msgid "\nMission level %d - %d R - %d class XP"
+msgstr "\nMissionsstufe %d - %d R - %d Klassen-XP"
 
 #: scripts/planes_progression.gd scripts/progression.gd
 msgid "Done"
@@ -5756,6 +6236,10 @@ msgid "Quest accepted. Earlier progress this run counts."
 msgstr "Auftrag angenommen. Bisherige Fortschritte dieser Runde zählen."
 
 #: scripts/planes_progression.gd
+msgid "Survive through wave %d after accepting."
+msgstr "Überlebe nach der Annahme bis Welle %d."
+
+#: scripts/planes_progression.gd
 msgid "Objectives not completed yet."
 msgstr "Aufgaben noch nicht abgeschlossen."
 
@@ -5776,8 +6260,12 @@ msgid "FIELD JOURNAL"
 msgstr "FELDTAGEBUCH"
 
 #: scripts/planes_progression.gd
-msgid "Choose your ground. Survive 25 waves. Return to each quest giver for rewards."
-msgstr "Wähle deinen Standort. Überlebe 25 Wellen. Hole deine Belohnungen beim jeweiligen Auftraggeber ab."
+msgid "Choose your ground. Survive %d waves and the final defence. Return to each quest giver for rewards."
+msgstr "Wähle deinen Standort. Überlebe %d Wellen und die Schlussverteidigung. Kehre für Belohnungen zu den Auftraggebern zurück."
+
+#: scripts/planes_progression.gd
+msgid "\n%s - Level %d - %d R"
+msgstr "\n%s - Stufe %d - %d R"
 
 #: scripts/planes_progression.gd
 msgid "Claimed"
@@ -5794,6 +6282,14 @@ msgstr "300-m-Aufgabe"
 #: scripts/planes_progression.gd
 msgid "Discover"
 msgstr "Entdecken"
+
+#: scripts/planes_progression.gd
+msgid "QUESTS - Q on/off"
+msgstr "AUFTRÄGE - Q an/aus"
+
+#: scripts/planes_progression.gd
+msgid "Ready to turn in to %s - %d R"
+msgstr "Bereit zur Abgabe bei %s - %d R"
 
 #: scripts/planes_progression.gd
 msgid "Meet Vendor and Mechanic at the fork. The Secret Vendor waits in the woodland. Accept tasks in person; return there for your rewards."
@@ -7363,6 +7859,494 @@ msgstr "Frost %d"
 msgid "The Mist Peddler is roaming the area. Look out for his violet lantern."
 msgstr "Der Nebelkrämer zieht durch die Gegend. Halte nach seiner violetten Laterne Ausschau."
 
+#: scripts/run_director.gd
+msgid "%s · Main approach: %s"
+msgstr "%s · Hauptangriff: %s"
+
+#: scripts/run_director.gd
+msgid "Choose an augment in the fieldbook [K]."
+msgstr "Wähle ein Augment im Feldbuch [K]."
+
+#: scripts/run_director.gd
+msgid "You must be alive to do this."
+msgstr "Du musst dafür am Leben sein."
+
+#: scripts/run_director.gd
+msgid "Choose one of your offered augments."
+msgstr "Wähle eines deiner angebotenen Augments."
+
+#: scripts/run_director.gd
+msgid "Augment selected."
+msgstr "Augment gewählt."
+
+#: scripts/run_director.gd
+msgid "Return to camp for supplies."
+msgstr "Kehre für Vorräte ins Lager zurück."
+
+#: scripts/run_director.gd
+msgid "You need 25 Rem Dollars and a free bandage slot."
+msgstr "Du brauchst 25 Rem Dollars und einen freien Verbandplatz."
+
+#: scripts/run_director.gd
+msgid "Bandage purchased."
+msgstr "Verband gekauft."
+
+#: scripts/run_director.gd
+msgid "Accept the contract at camp."
+msgstr "Nimm den Auftrag im Lager an."
+
+#: scripts/run_director.gd
+msgid "Contract already accepted."
+msgstr "Auftrag bereits angenommen."
+
+#: scripts/run_director.gd
+msgid "Eliminate five elite enemies from at least 60 metres."
+msgstr "Schalte fünf Elitegegner aus mindestens 60 Metern Entfernung aus."
+
+#: scripts/run_director.gd
+msgid "Supply crate returned to camp."
+msgstr "Versorgungskiste ins Lager zurückgegeben."
+
+#: scripts/run_director.gd
+msgid "Collect the supply crate at camp."
+msgstr "Hole die Versorgungskiste im Lager ab."
+
+#: scripts/run_director.gd
+msgid "Deliver the crate to the marked supply destination."
+msgstr "Liefere die Kiste zum markierten Versorgungsziel."
+
+#: scripts/run_director.gd
+msgid "A bandage is needed for the wet fire blanket."
+msgstr "Für die nasse Löschdecke wird ein Verband benötigt."
+
+#: scripts/run_director.gd
+msgid "Move within six metres of a crop fire."
+msgstr "Nähere dich einem Feldbrand auf höchstens sechs Meter."
+
+#: scripts/run_director.gd
+msgid "Fire extinguished."
+msgstr "Feuer gelöscht."
+
+#: scripts/run_director.gd
+msgid "Class action is cooling down."
+msgstr "Die Klassenaktion klingt noch ab."
+
+#: scripts/run_director.gd
+msgid "Aim at a visible enemy to mark it."
+msgstr "Ziele auf einen sichtbaren Gegner, um ihn zu markieren."
+
+#: scripts/run_director.gd
+msgid "Use your chosen teleport with [V]."
+msgstr "Nutze deinen gewählten Teleport mit [V]."
+
+#: scripts/run_director.gd
+msgid "Class action activated."
+msgstr "Klassenaktion aktiviert."
+
+#: scripts/run_director.gd
+msgid "Choose a nearby teammate."
+msgstr "Wähle einen nahen Mitspieler."
+
+#: scripts/run_director.gd
+msgid "Move within three metres of a living teammate."
+msgstr "Nähere dich einem lebenden Mitspieler auf höchstens drei Meter."
+
+#: scripts/run_director.gd
+msgid "No bandage available."
+msgstr "Kein Verband vorhanden."
+
+#: scripts/run_director.gd
+msgid "Your teammate has enough bandages."
+msgstr "Dein Mitspieler hat bereits genug Verbände."
+
+#: scripts/run_director.gd
+msgid "Your teammate is already healthy."
+msgstr "Dein Mitspieler ist bereits gesund."
+
+#: scripts/run_director.gd
+msgid "No compatible spare ammunition."
+msgstr "Keine passende Reservemunition vorhanden."
+
+#: scripts/run_director.gd
+msgid "No drink available or teammate inventory full."
+msgstr "Kein Trank vorhanden oder das Inventar des Mitspielers ist voll."
+
+#: scripts/run_director.gd
+msgid "Supplies transferred."
+msgstr "Vorräte übergeben."
+
+#: scripts/run_director.gd
+msgid "Abandoned outpost"
+msgstr "Verlassener Aussenposten"
+
+#: scripts/run_director.gd
+msgid "Cornfield transmitter"
+msgstr "Maisfeldsender"
+
+#: scripts/run_director.gd
+msgid "Expedition cache"
+msgstr "Expeditionsversteck"
+
+#: scripts/run_director.gd
+msgid "Move closer to the expedition objective."
+msgstr "Nähere dich dem Expeditionsziel."
+
+#: scripts/run_director.gd
+msgid "Supplies delivered. Ammunition restocked."
+msgstr "Vorräte geliefert. Munition aufgefüllt."
+
+#: scripts/run_director.gd
+msgid "Final assault · Defend the signal and remain near the objective."
+msgstr "Letzter Angriff · Verteidige das Signal und bleibe nahe am Ziel."
+
+#: scripts/run_director.gd
+msgid "Final defence is active."
+msgstr "Die letzte Verteidigung läuft."
+
+#: scripts/run_director.gd
+msgid "Operation started."
+msgstr "Einsatz gestartet."
+
+#: scripts/run_director.gd
+msgid "Outpost supplies are replenished next wave."
+msgstr "Der Aussenposten erhält in der nächsten Welle neue Vorräte."
+
+#: scripts/run_director.gd
+msgid "Outpost supplies received."
+msgstr "Aussenpostenvorräte erhalten."
+
+#: scripts/run_director.gd
+msgid "Hold the outpost for 35 seconds."
+msgstr "Halte den Aussenposten für 35 Sekunden."
+
+#: scripts/run_director.gd
+msgid "Already collected."
+msgstr "Bereits eingesammelt."
+
+#: scripts/run_director.gd
+msgid "Signal order incorrect. Sequence reset."
+msgstr "Falsche Signalreihenfolge. Abfolge zurückgesetzt."
+
+#: scripts/run_director.gd
+msgid "Receiver unlocked. The station log and medical equipment are yours."
+msgstr "Empfänger freigeschaltet. Stationsprotokoll und Sanitätsausrüstung gehören dir."
+
+#: scripts/run_director.gd
+msgid "Signal accepted. Find the next transmitter."
+msgstr "Signal angenommen. Finde den nächsten Sender."
+
+#: scripts/run_director.gd
+msgid "Cache and journal record collected."
+msgstr "Versteck und Chronikeintrag eingesammelt."
+
+#: scripts/run_director.gd
+msgid "Crashed supply drone"
+msgstr "Abgestürzte Versorgungsdrohne"
+
+#: scripts/run_director.gd
+msgid "Stranded survivor"
+msgstr "Gestrandeter Überlebender"
+
+#: scripts/run_director.gd
+msgid "Radio defence"
+msgstr "Funkverteidigung"
+
+#: scripts/run_director.gd
+msgid "Optional operation available · Open the fieldbook [K]."
+msgstr "Optionaler Einsatz verfügbar · Öffne das Feldbuch [K]."
+
+#: scripts/run_director.gd
+msgid "Operation complete. Team supplies and XP awarded."
+msgstr "Einsatz abgeschlossen. Teamvorräte und XP erhalten."
+
+#: scripts/run_director.gd
+msgid "Extraction transport"
+msgstr "Evakuierungstransport"
+
+#: scripts/run_director.gd
+msgid "Emergency transmitter"
+msgstr "Notsender"
+
+#: scripts/run_director.gd
+msgid "Prepare the extraction transport [E]."
+msgstr "Bereite den Evakuierungstransport vor [E]."
+
+#: scripts/run_director.gd
+msgid "Send the final radio signal [E]. Hold until dawn."
+msgstr "Sende das letzte Funksignal [E]. Halte bis zum Morgengrauen durch."
+
+#: scripts/run_director.gd
+msgid "Enter the unlocked shooting range."
+msgstr "Betritt den geöffneten Schiessstand."
+
+#: scripts/run_director.gd
+msgid "A range session is already active."
+msgstr "Eine Schiessstandserie läuft bereits."
+
+#: scripts/run_director.gd
+msgid "Thirty second range session started."
+msgstr "Schiessstandserie von dreissig Sekunden gestartet."
+
+#: scripts/run_director.gd
+msgid "Radio forecast · %s · Approach from %s"
+msgstr "Funkvorhersage · %s · Angriff aus %s"
+
+#: scripts/run_director.gd
+msgid "Range session complete. Results and records are in the fieldbook."
+msgstr "Schiessstandserie abgeschlossen. Ergebnisse und Rekorde stehen im Feldbuch."
+
+#: scripts/run_director.gd
+msgid "Optional operation"
+msgstr "Optionaler Einsatz"
+
+#: scripts/run_director.gd
+msgid "Final defence"
+msgstr "Letzte Verteidigung"
+
+#: scripts/run_rules.gd
+msgid "Standard expedition"
+msgstr "Standardexpedition"
+
+#: scripts/run_rules.gd
+msgid "Pistols only"
+msgstr "Nur Pistolen"
+
+#: scripts/run_rules.gd
+msgid "Four tower challenge"
+msgstr "Vier-Türme-Herausforderung"
+
+#: scripts/run_rules.gd
+msgid "Ten wave assault"
+msgstr "Zehn-Wellen-Angriff"
+
+#: scripts/run_rules.gd
+msgid "Open field assault"
+msgstr "Angriff im offenen Feld"
+
+#: scripts/run_rules.gd
+msgid "Woodland emergence"
+msgstr "Auferstehung im Wald"
+
+#: scripts/run_rules.gd
+msgid "Cornfield ambush"
+msgstr "Hinterhalt im Maisfeld"
+
+#: scripts/run_rules.gd
+msgid "Concentrated assault"
+msgstr "Konzentrierter Angriff"
+
+#: scripts/run_rules.gd
+msgid "Frost grenades"
+msgstr "Frostgranaten"
+
+#: scripts/run_rules.gd
+msgid "Grenades chill survivors for six seconds. Bosses resist the slow."
+msgstr "Granaten vereisen überlebende Gegner für sechs Sekunden. Bosse widerstehen der Verlangsamung."
+
+#: scripts/run_rules.gd
+msgid "Tower overdrive"
+msgstr "Turm-Überlastung"
+
+#: scripts/run_rules.gd
+msgid "Your towers fire 25% faster and generate 40% more heat."
+msgstr "Deine Türme feuern 25 % schneller und erzeugen 40 % mehr Hitze."
+
+#: scripts/run_rules.gd
+msgid "Swap rhythm"
+msgstr "Wechselrhythmus"
+
+#: scripts/run_rules.gd
+msgid "Switching weapons grants three seconds of faster reload and improved precision. Eight second cooldown."
+msgstr "Ein Waffenwechsel gewährt drei Sekunden schnelleres Nachladen und höhere Präzision. Acht Sekunden Abklingzeit."
+
+#: scripts/run_rules.gd
+msgid "Field medic"
+msgstr "Feldsanitäter"
+
+#: scripts/run_rules.gd
+msgid "Start with two extra bandages. Healing a teammate restores 45 health."
+msgstr "Erhalte zwei zusätzliche Verbände. Die Heilung eines Mitspielers stellt 45 Gesundheit wieder her."
+
+#: scripts/run_rules.gd
+msgid "Light equipment"
+msgstr "Leichte Ausrüstung"
+
+#: scripts/run_rules.gd
+msgid "Move 8% faster while carrying no supply crate."
+msgstr "Bewege dich ohne Versorgungskiste 8 % schneller."
+
+#: scripts/run_rules.gd
+msgid "Reserve supply"
+msgstr "Reservevorrat"
+
+#: scripts/run_rules.gd
+msgid "Receive ammunition and one grenade when selecting this augment."
+msgstr "Erhalte beim Wählen dieses Augments Munition und eine Granate."
+
+#: scripts/run_rules.gd
+msgid "Slow pursuit. Aim at the head and keep an escape route."
+msgstr "Langsame Verfolgung. Ziele auf den Kopf und halte einen Fluchtweg frei."
+
+#: scripts/run_rules.gd
+msgid "Fast flanking attacks. Slow it with frost or suppressive fire."
+msgstr "Schnelle Flankenangriffe. Verlangsame ihn mit Frost oder Unterdrückungsfeuer."
+
+#: scripts/run_rules.gd
+msgid "Heals nearby enemies. Eliminate her before clearing the crowd."
+msgstr "Heilt nahe Gegner. Schalte sie aus, bevor du die Horde bekämpfst."
+
+#: scripts/run_rules.gd
+msgid "Armour can absorb head hits. Break the helmet or aim at exposed limbs."
+msgstr "Panzerung kann Kopftreffer abfangen. Zerbrich den Helm oder ziele auf ungeschützte Gliedmassen."
+
+#: scripts/run_rules.gd
+msgid "Strong melee attacks. Keep distance and concentrate fire."
+msgstr "Starke Nahkampfangriffe. Halte Abstand und konzentriere das Feuer."
+
+#: scripts/run_rules.gd
+msgid "Bride"
+msgstr "Braut"
+
+#: scripts/run_rules.gd
+msgid "Calls reinforcements. Interrupt her approach and clear her escort."
+msgstr "Ruft Verstärkung. Stoppe ihren Vormarsch und schalte ihre Begleiter aus."
+
+#: scripts/run_rules.gd
+msgid "Spitter"
+msgstr "Spucker"
+
+#: scripts/run_rules.gd
+msgid "Ranged acid attacks. Move sideways and avoid acid pools."
+msgstr "Säureangriffe auf Distanz. Weiche seitlich aus und meide Säurelachen."
+
+#: scripts/run_rules.gd
+msgid "Screamer"
+msgstr "Schreierin"
+
+#: scripts/run_rules.gd
+msgid "Marks a player for the horde. Kill her quickly and regroup."
+msgstr "Markiert einen Spieler für die Horde. Schalte sie schnell aus und sammle dein Team."
+
+#: scripts/run_rules.gd
+msgid "Stalker"
+msgstr "Schleicher"
+
+#: scripts/run_rules.gd
+msgid "Uses darkness and crops. Listen for movement and cover your flanks."
+msgstr "Nutzt Dunkelheit und Felder. Achte auf Geräusche und decke deine Flanken."
+
+#: scripts/run_rules.gd
+msgid "Infected dog"
+msgstr "Infizierter Hund"
+
+#: scripts/run_rules.gd
+msgid "Small, fast target. Shotguns and slow fields control a pack."
+msgstr "Kleines, schnelles Ziel. Schrotflinten und Verlangsamungsfelder halten ein Rudel auf Abstand."
+
+#: scripts/run_rules.gd
+msgid "Infected stag"
+msgstr "Infizierter Hirsch"
+
+#: scripts/run_rules.gd
+msgid "Charges across open ground. Dodge sideways and avoid antlers."
+msgstr "Stürmt über offenes Gelände. Weiche seitlich aus und meide das Geweih."
+
+#: scripts/run_rules.gd
+msgid "Titan"
+msgstr "Titan"
+
+#: scripts/run_rules.gd
+msgid "Heavy boss. Shoot exposed weak points and avoid the charge and thrown debris."
+msgstr "Schwerer Boss. Beschiesse offene Schwachstellen und meide Sturmangriffe sowie geworfene Trümmer."
+
+#: scripts/run_rules.gd
+msgid "Hunter Titan"
+msgstr "Jäger-Titan"
+
+#: scripts/run_rules.gd
+msgid "Pursues isolated players. Stay together and move between cover."
+msgstr "Verfolgt einzelne Spieler. Bleibt zusammen und bewegt euch zwischen Deckungen."
+
+#: scripts/run_rules.gd
+msgid "Siege Titan"
+msgstr "Belagerungs-Titan"
+
+#: scripts/run_rules.gd
+msgid "Attacks fortifications. Repair between attacks and focus its weak points."
+msgstr "Greift Befestigungen an. Repariere zwischen Angriffen und konzentriere dich auf seine Schwachstellen."
+
+#: scripts/run_rules.gd
+msgid "Ash Titan"
+msgstr "Asche-Titan"
+
+#: scripts/run_rules.gd
+msgid "Fire makes close defence dangerous. Keep room to retreat."
+msgstr "Feuer macht die Verteidigung aus der Nähe gefährlich. Halte Platz zum Rückzug frei."
+
+#: scripts/run_rules.gd
+msgid "Earthworm"
+msgstr "Erdwurm"
+
+#: scripts/run_rules.gd
+msgid "Burrows underground. Avoid earth rings and fire when it emerges."
+msgstr "Gräbt sich unter die Erde. Meide Erdringe und schiesse beim Auftauchen."
+
+#: scripts/run_rules.gd
+msgid "Ancient earthworm"
+msgstr "Uralter Erdwurm"
+
+#: scripts/run_rules.gd
+msgid "Longer, stronger burrowing assault. Save heavy ammunition for exposed phases."
+msgstr "Längerer, stärkerer Grabangriff. Spare schwere Munition für seine offenen Phasen."
+
+#: scripts/run_rules.gd
+msgid "Forest spirit"
+msgstr "Waldgeist"
+
+#: scripts/run_rules.gd
+msgid "Uses forest cover and supernatural attacks. Watch its telegraphs and keep moving."
+msgstr "Nutzt Walddeckung und übernatürliche Angriffe. Achte auf seine Vorzeichen und bleibe in Bewegung."
+
+#: scripts/run_rules.gd
+msgid "The last transmission"
+msgstr "Die letzte Übertragung"
+
+#: scripts/run_rules.gd
+msgid "The radio log ends with a promise: hold the signal until sunrise. Someone is still listening."
+msgstr "Das Funkprotokoll endet mit einem Versprechen: Haltet das Signal bis Sonnenaufgang. Jemand hört noch zu."
+
+#: scripts/run_rules.gd
+msgid "Supply manifest"
+msgstr "Versorgungsmanifest"
+
+#: scripts/run_rules.gd
+msgid "A drone carried medicine to the camp. Its route was changed after lights appeared in the corn."
+msgstr "Eine Drohne brachte Medizin ins Lager. Ihre Route wurde geändert, nachdem Lichter im Mais auftauchten."
+
+#: scripts/run_rules.gd
+msgid "Station notebook"
+msgstr "Stationsnotizbuch"
+
+#: scripts/run_rules.gd
+msgid "Three transmitters repeat the same call. Their order changes each night. The receiver remembers only a complete sequence."
+msgstr "Drei Sender wiederholen denselben Ruf. Ihre Reihenfolge ändert sich jede Nacht. Der Empfänger merkt sich nur eine vollständige Abfolge."
+
+#: scripts/run_rules.gd
+msgid "A survivor's note"
+msgstr "Notiz eines Überlebenden"
+
+#: scripts/run_rules.gd
+msgid "We left supplies along the field paths. The hill gives a clear shot, but the woods hide the return journey."
+msgstr "Wir liessen Vorräte entlang der Feldwege zurück. Vom Hügel hat man freie Schussbahn, doch der Wald verbirgt den Rückweg."
+
+#: scripts/run_rules.gd
+msgid "Morning watch"
+msgstr "Morgenwache"
+
+#: scripts/run_rules.gd
+msgid "The barricades bought us time. What remains at dawn tells the story of those who stood here."
+msgstr "Die Barrikaden verschafften uns Zeit. Was bei Tagesanbruch bleibt, erzählt die Geschichte jener, die hier standen."
+
 #: scripts/run_stats.gd
 msgid "%d:%02d min"
 msgstr "%d:%02d min"
@@ -7606,6 +8590,10 @@ msgstr "Echo der Nacht: im Teambesitz · %d m bis zur Feuerstelle"
 #: scripts/secret_night.gd
 msgid "Together by the fire · %d / %d s"
 msgstr "Zusammen am Feuer · %d / %d s"
+
+#: scripts/secret_night.gd
+msgid "Tune the totems: %s → %s → %s. [E]"
+msgstr "Stimme die Totems: %s → %s → %s. [E]"
 
 #: scripts/secret_night.gd
 msgid "SECRET NIGHT · %s"
@@ -8234,6 +9222,42 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "REMZ is a zombie survival game for solo players and co-op teams. Choose an available region on the campaign map, select your class and talents, and survive 25 waves to secure the region. Explore, complete quests, collect supplies and improve your equipment between attacks. Learn each map's routes and defend its objectives. Your campaign victories and class progress carry over to future rounds."
+msgstr "REMZ ist ein Zombie-Survival-Spiel für Einzelspieler und Koop-Teams. Wähle eine verfügbare Region auf der Kampagnenkarte, lege deine Klasse und Talente fest und überlebe 25 Wellen, um die Region zu sichern. Erkunde die Umgebung, erfülle Aufträge, sammle Vorräte und verbessere zwischen den Angriffen deine Ausrüstung. Lerne die Wege jeder Map kennen und verteidige ihre Ziele. Kampagnensiege und Klassenfortschritt bleiben für kommende Runden erhalten."
+
+#. unused
+msgid "Start game opens the campaign map. Choose an available region; regions marked under construction cannot be entered yet. Survive all 25 waves to save a victory for that region."
+msgstr "Spiel starten öffnet die Kampagnenkarte. Wähle eine verfügbare Region; als im Bau markierte Regionen sind noch nicht spielbar. Überlebe alle 25 Wellen, um einen Sieg für diese Region zu speichern."
+
+#. unused
+msgid "Survive 25 waves. Meet the traders at the fork. B: kits · T: towers · J: quests · Enter: next wave"
+msgstr "Überlebe 25 Wellen. Händler an der Gabelung. B: Bausätze · T: Türme · J: Aufträge · Enter: nächste Welle"
+
+#. unused
+msgid "Choose your ground. Survive 25 waves. Return to each quest giver for rewards."
+msgstr "Wähle deinen Standort. Überlebe 25 Wellen. Hole deine Belohnungen beim jeweiligen Auftraggeber ab."
+
+#. unused
+msgid "%s · %d m · X %d / Z %d"
+msgstr "%s · %d m · X %d / Z %d"
+
+#. unused
+msgid "Transmitter"
+msgstr "Sender"
+
+#. unused
+msgid "Forest secured. All 25 rounds survived. Your victory is saved on the campaign map."
+msgstr "Forest gesichert. Alle 25 Runden überstanden. Dein Sieg ist auf der Kampagnenkarte gespeichert."
+
+#. unused
+msgid "THE PLANES SECURED · 25 / 25"
+msgstr "THE PLANES GESICHERT · 25 / 25"
+
+#. unused
+msgid "Rem Dollars"
+msgstr "Rem Dollars"
 
 #. unused
 msgid "TOWER TYPES"
@@ -8922,3 +9946,55 @@ msgstr "%s\n%d / %d · %d R · %d Klassen-EP"
 #. unused
 msgid "Find the woodland key, enter the Schützenhaus and shoot its six targets with a sniper. %d / 6 · 350 R"
 msgstr "Finde den Waldschlüssel, betrete das Schützenhaus und triff die sechs Zieltafeln mit einem Scharfschützengewehr. %d / 6 · 350 R"
+
+#. unused
+msgid "All living teammates inside the circle · %d / %d s"
+msgstr "Alle lebenden Mitspieler im Kreis · %d / %d s"
+
+#. unused
+msgid "North"
+msgstr "Norden"
+
+#. unused
+msgid "South"
+msgstr "Süden"
+
+#. unused
+msgid "East"
+msgstr "Osten"
+
+#. unused
+msgid "West"
+msgstr "Westen"
+
+#. unused
+msgid "Drone"
+msgstr "Drohne"
+
+#. unused
+msgid "Escort"
+msgstr "Eskorte"
+
+#. unused
+msgid "Radio"
+msgstr "Funk"
+
+#. unused
+msgid "Offered"
+msgstr "Verfügbar"
+
+#. unused
+msgid "Complete"
+msgstr "Abgeschlossen"
+
+#. unused
+msgid "Failed"
+msgstr "Gescheitert"
+
+#. unused
+msgid "Prepare"
+msgstr "Vorbereiten"
+
+#. unused
+msgid "Defend"
+msgstr "Verteidigen"

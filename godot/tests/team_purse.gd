@@ -80,6 +80,7 @@ func run() -> void:
 	world.tick(2.5)
 	check(not anna.downed and anna.hp == Player.SELF_REVIVE_HP and anna.self_revives == 0, "Four seconds of E get her up")
 	# ---- the host revives her when she has no self revive left
+	anna._physics_process(4.1)
 	anna.damage(500.0, host.global_position)
 	check(anna.downed, "Down again")
 	world.action(2, "self_revive", [true])
@@ -87,18 +88,25 @@ func run() -> void:
 	check(anna.downed and not world.revive.has(2), "No self revive left: the hold does nothing")
 	check(world.nearby_downed_player() == 2, "The host stands next to a downed teammate")
 	world.action(1, "revive", [2])
-	world.tick(1.5)
+	for i in 15:
+		world.action(1, "revive", [2, true])
+		world.tick(0.1)
 	check(anna.downed and world.revive.has(1), "Halfway through the three seconds")
-	world.tick(2.0)
-	check(not anna.downed and anna.hp == 50.0 and anna.alive, "The host's E gets her up with 50 HP")
+	for i in 20:
+		world.action(1, "revive", [2, true])
+		world.tick(0.1)
+	check(not anna.downed and anna.hp == maxf(50.0, anna.max_hp*0.65) and anna.alive, "The host's E restores the current sixty-five-percent revive health")
 	# ---- bleeding out in co-op leaves a body the team can still revive
+	anna._physics_process(4.1)
 	anna.damage(500.0, host.global_position)
 	anna.down_time = 0.05
 	anna._update_down(0.1)
 	check(not anna.alive and not anna.downed and not game.over, "Bleeding out kills her; the team fights on")
 	world.action(1, "revive", [2])
-	world.tick(3.5)
-	check(anna.alive and anna.hp == 50.0, "A dead teammate can still be revived by hand")
+	for i in 35:
+		world.action(1, "revive", [2, true])
+		world.tick(0.1)
+	check(anna.alive and anna.hp == maxf(50.0, anna.max_hp*0.65), "A dead teammate can still be revived by hand")
 	world.wave_cleared(10)
 	check(anna.self_revives == 1 and host.self_revives == 1, "The wave end restores every self revive")
 	net.leave("done")

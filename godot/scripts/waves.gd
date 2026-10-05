@@ -145,6 +145,10 @@ static func lesser_titan_kind(n: int, index: int) -> String:
 	return choices[(n - 8 + index) % choices.size()]
 
 func plan(n: int) -> Array:
+	var expedition: RunDirector = main.get("expedition") if is_instance_valid(main) else null
+	if n < 1 or (expedition and expedition.enabled and n > expedition.round_limit()): return []
+	var random := RunRules.rng(expedition.config, "wave-base", n) if expedition and expedition.enabled else RandomNumberGenerator.new()
+	if not (expedition and expedition.enabled): random.randomize()
 	var q: Array = []
 	# Titans enter across the open southern fields, never inside the forest.
 	var fields := TITAN_FIELDS
@@ -154,7 +158,7 @@ func plan(n: int) -> Array:
 		q.append({"type": "titan", "lane": "east" if i == 0 else "south", "point": fields[i]})
 	# On some non-headline waves, the forest boss replaces one lesser titan.
 	# The wave size and boss budget stay unchanged.
-	var forest_spirit := lesser_titan_count(n) > 0 and randf() < 0.22
+	var forest_spirit := lesser_titan_count(n) > 0 and random.randf() < 0.22
 	for i in lesser_titan_count(n):
 		if forest_spirit and i == 0:
 			q.append({"type": "forest_spirit", "lane": "north", "forest": true})
@@ -176,12 +180,12 @@ func plan(n: int) -> Array:
 	for k in stalker_count(n):
 		q.append({"type": "stalker", "lane": "south", "corn": true})
 	var forest_indices: Array = range(count)
-	forest_indices.shuffle()
+	forest_indices = RunRules.shuffled(forest_indices, random)
 	forest_indices.resize(roundi(count * FOREST_SPAWN_SHARE))
 	var forest_slots := {}
 	for index in forest_indices: forest_slots[index] = true
 	for i in count:
-		var r := randf()
+		var r := random.randf()
 		var t := "shambler"
 		# Sep 2026: the horde hardens faster - runners from the first wave, nurses and soldiers a wave
 		# earlier, brutes from wave 3 with a growing share.
@@ -195,7 +199,7 @@ func plan(n: int) -> Array:
 			t = "soldier"
 		if n >= 3 and r > 0.92 - minf(0.06, n * 0.005):
 			t = "brute"
-		var lr := randf()
+		var lr := random.randf()
 		var lane := "north"
 		if lr < 0.35:
 			lane = "north"
@@ -208,10 +212,10 @@ func plan(n: int) -> Array:
 		if n < 3 and lane == "west":
 			lane = "north"
 		q.append({ "type": t, "lane": lane, "forest": forest_slots.has(i) })
-	return q
+	return expedition.vary_plan(q, n) if expedition else q
 
 func start(n: int) -> void:
-	if NetSession.is_client() or main.over or n < 1 or n > Campaign.ROUNDS or phase == "complete": return
+	if NetSession.is_client() or main.over or n < 1 or n > (main.expedition.round_limit() if main.get("expedition") else Campaign.ROUNDS) or phase in ["complete", "finale"]: return
 	if "secret_night" in main and main.secret_night:
 		if main.secret_night.active: return
 		if n == 5 and not main.secret_night.completed:
@@ -224,6 +228,7 @@ func start(n: int) -> void:
 			return
 	if NetSession.is_host(): NetSession.world.wave_started(n)
 	wave = n
+	if main.get("expedition"): main.expedition.prepare_wave(n)
 	_heavy_spawn_t = 0.0
 	_straggler_time = 0.0
 	_stragglers_hunting = false
@@ -353,9 +358,11 @@ func _complete_wave() -> void:
 	player.self_revives = 1
 	if player.downed and not NetSession.enabled: player.revive(player.max_hp * 0.5)
 	if NetSession.is_host(): NetSession.world.wave_cleared(bonus)
-	main.campaign.record_wave(completed, str(main.difficulty.name))
+	main.campaign.record_wave(completed, str(main.difficulty.name), not (main.get("expedition") and main.expedition.enabled))
 	if main.classes: main.classes.wave(completed)
-	if completed >= Campaign.ROUNDS:
+	if main.get("expedition"): main.expedition.wave_cleared(completed)
+	if completed >= (main.expedition.round_limit() if main.get("expedition") else Campaign.ROUNDS):
+		if main.get("expedition") and main.expedition.begin_finale(): return
 		main._campaign_victory()
 		return
 	hud.message(Lang.t("Wave %d survived\n+%d Rem Dollars, pistol reserve secured\nTraders and quests: Vendor & Mechanic · T: Tower", [wave, bonus]), 4.0)

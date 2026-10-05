@@ -92,7 +92,8 @@ func run() -> void:
 			nearest_tree = minf(nearest_tree,Vector2(giant.position.x-float(tree[0]),giant.position.z-float(tree[1])).length())
 		titan_spawns_ok = titan_spawns_ok and nearest_tree >= 6.0
 	check(titan_spawns_ok,"Field titans spawn outside dense trees with room for their collision capsule")
-	var giant: Zombie = game.zombies_root.get_child(0) if game.zombies_root.get_child_count()>0 else null
+	var giants: Array = game.zombies_root.get_children().filter(func(node): return node is Zombie and node.alive and Zombie.is_titan_kind(node.net_kind))
+	var giant: Zombie = giants[0] if not giants.is_empty() else null
 	if giant:
 		var titan_start: Vector3 = giant.position
 		for frame in 420: await physics_frame
@@ -206,13 +207,24 @@ func run() -> void:
 		await process_frame
 	check(plans_ok,"All 25 wave plans scale correctly with a brute wave every fifth round")
 	check(transitions_ok,"Waves wait for queued and living enemies; all 25 completion transitions work")
-	check(game.victory and game.over and game.waves.phase=="complete" and game.campaign.cleared("planes"),"Wave 25 ends the run and records only Planes as secured")
+	check(not game.over and game.waves.phase=="finale" and game.expedition.finale.stage=="prepare","Wave 25 requires the extraction defence before securing Planes")
+	check(not game.campaign.cleared("planes"),"Wave 25 progress cannot mark a region secured before extraction")
+	game.expedition.set_process(false)
+	game.player.global_position = game.expedition.finale.at+Vector3.UP*0.3
+	game.expedition.transact(1,"interact",["finale"])
+	for step in 600:
+		if game.over: break
+		game.expedition._tick_finale(0.75)
+		await clear_enemies()
+	check(game.victory and game.over and game.waves.phase=="complete" and game.campaign.cleared("planes"),"Completed extraction ends the run and records only Planes as secured")
 	game.waves.start(26)
 	check(game.waves.wave==25 and not game.campaign.cleared("forest"),"There is no wave 26 or Forest progress leakage")
 	await game.start_survival()
 	game.waves.set_process(false)
 	check(not game.over and not game.victory and game.alive_zombies()==0 and game.waves.wave==0,"Retry resets enemies, equipment and the wave controller")
 	check(game.weapons.unlocked.knife,"Retry preserves the starting knife")
+	# Preserve the classic weather regression as well as the seeded schedule suite.
+	game.expedition.enabled = false
 	for spec in [[0,"clear"],[270,"fog"],[450,"rain"],[690,"storm"],[840,"clear"]]:
 		game.weather.elapsed = spec[0]
 		check(game.weather.scheduled_state(0)==spec[1],"Weather schedule: "+str(spec[1]))
@@ -226,6 +238,7 @@ func run() -> void:
 	game.weather.force("clear")
 	for i in 150: game.weather._process(0.2)
 	check(not game.weather._rain.emitting and game.weather.intensity==0,"Clear weather fades out rain")
+	game.player.revive_protection = 0.0
 	game.player.damage(10000)
 	game.player._bleed_out()
 	check(game.over and not game.victory and paused,"Bleeding out ends and pauses the run")

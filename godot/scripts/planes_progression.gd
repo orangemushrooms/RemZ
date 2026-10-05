@@ -413,6 +413,12 @@ func _unhandled_input(event_input: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if event_input.is_action_pressed("interact"):
+		if game.get("expedition"):
+			var objective: String = game.expedition.nearest(game.player)
+			if not objective.is_empty():
+				game.expedition.request("interact", [objective])
+				get_viewport().set_input_as_handled()
+				return
 		if NetSession.enabled and NetSession.world:
 			var downed: int = NetSession.world.nearby_downed_player()
 			if downed:
@@ -442,7 +448,7 @@ func show_journal() -> void:
 	for child in rows.get_children(): rows.remove_child(child); child.queue_free()
 	for tab in _tabs.values(): tab.hide()
 	title.text = "FIELD JOURNAL"
-	subtitle.text = "Choose your ground. Survive 25 waves. Return to each quest giver for rewards."
+	subtitle.text = Lang.t("Choose your ground. Survive %d waves and the final defence. Return to each quest giver for rewards.", [game.expedition.round_limit() if game.get("expedition") else Campaign.ROUNDS])
 	status.text = ""
 	_update_balance()
 	for id in FIELD_QUESTS:

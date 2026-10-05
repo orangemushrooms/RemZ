@@ -183,6 +183,7 @@ func repair_nearest(builder: Player = null) -> void:
 	if builder.score<cost:
 		game.hud.message("Not enough Rem Dollars.",2); return
 	if bar.repair():
+		if game.get("expedition"): game.expedition.support(builder.peer_id, "repairs", "bar:%s:%d" % [bar.slot.id, int(game.expedition.elapsed/30)])
 		builder.add_score(-cost)
 		game.progression.event("repairs")
 		if NetSession.enabled: NetSession.feedback(builder.peer_id, "repair_fx", [bar.center])
