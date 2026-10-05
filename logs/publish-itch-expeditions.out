@@ -1,0 +1,27 @@
+RemZ expedition Windows release
+Verified UTC: 2026-10-05T13:05:06.327052+00:00
+Target: keknyan/remz:windows
+Project: https://keknyan.itch.io/remz
+Version: remz-windows-20261005-1455-expeditions
+Source commit: 9c377355bdac248d911a333c4190f1b3686b55eb
+Source working tree at build manifest creation: clean
+Network: protocol 8 / remz-dev-20261005-expeditions
+Upload: exit 0; 37 files, 3.09 GiB; 2.07 MiB differential patch
+EOS release audit: configured; 37 files checked; no unrelated secrets found
+Status: itch.io processing complete; Windows build 2069978 available
+
++---------+-----------+----------------------------+----------------------------------------+
+| CHANNEL |  UPLOAD   |           BUILD            |                VERSION                 |
++---------+-----------+----------------------------+----------------------------------------+
+| windows | #19367070 | √ #2069978 (from #2051671) | remz-windows-20261005-1455-expeditions |
++---------+-----------+----------------------------+----------------------------------------+
+
+Validation: 34 regressions / 2998 assertions; expedition rendered EN 460 / DE 459; Forest ENet 24+10 / Planes ENet 28+13; compatibility 36; offline lobby 44; fresh restart 14; native Forest+Planes startup; release PCK 9+9; compile 376; i18n 2498.
+Details and limits: docs/EXPEDITION_VALIDATION.md
+
+SHA256:
+7675c91308166f553ccce8689961f8d3757c1c16f3deef4f8c70f0d91674517f  RemZ.exe
+48d4b7784011e5ef328101c1f2052a19d04ff1dfafb4b679d032c1e6f7c16b16  RemZ.pck
+b599c4fce153849093efcdc13917075f76f8ef171d47e6a2522346d61221527b  libeosg.windows.template_release.x86_64.dll
+9c498fe31c8df1d9085dfa9c71c6d50ec6b569acdb29f1decb97be105b6341dc  EOSSDK-Win64-Shipping.dll
+0e01f400baa09694cacfd2cfbff0d721c17b56785d2d6e29b6fdd117f70ccc1e  xaudio2_9redist.dll
