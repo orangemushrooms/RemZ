@@ -5,7 +5,7 @@ signal changed
 const PORT := 24567
 const MAX_PLAYERS := 4
 const PROTOCOL := 8 # Expedition state, class actions, shared supplies and region finales.
-const BUILD := "remz-dev-20261006-discovery-sites"
+const BUILD := "remz-dev-20261006-release-audit"
 const CharacterClasses = preload("res://scripts/character_classes.gd")
 var class_roster: Dictionary = {}
 var class_profiles: Dictionary = {} # All five builds, captured once when joining; no lobby skill edits.
@@ -655,6 +655,11 @@ func _begin(session_epoch: int, play_intro: bool = false) -> void:
 func _peer_disconnected(id: int) -> void:
 	trace_load("PEER_DISCONNECTED id=%d" % id)
 	if not enabled: return
+	# Peer 1 is the server. EOS can report this before server_disconnected;
+	# disable the session before roster/UI observers can send another RPC.
+	if id == 1:
+		leave("The host ended the connection.")
+		return
 	roster.erase(id)
 	class_roster.erase(id)
 	class_profiles.erase(id)

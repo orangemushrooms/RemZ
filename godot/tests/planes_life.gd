@@ -42,11 +42,11 @@ func run() -> void:
 	for plant: Dictionary in nature.plants:
 		placement_ok = placement_ok and nature.clear_ground(plant.at,plant.woodland)
 	check(placement_ok,"Plant clusters remain on suitable terrain away from roads, crops and buildings")
-	check(nature.counts.deer==6 and nature.counts.stags==2,"Six deer and two stags populate the map")
+	check(nature.counts.deer==10 and nature.counts.stags==4,"Ten deer and four stags populate the map")
 	check(nature.deer.all(func(animal): return animal.animation!=null and animal.animation.has_animation("graze") and animal.animation.has_animation("run")),"All deer retain the existing skeletal grazing and running animations")
 	var spread := 0.0
 	for bird in game.birds: spread = maxf(spread,bird.home.distance_to(game.birds[0].home))
-	check(game.birds.size()==14 and spread>200,"Ravens and owls are spread across the map")
+	check(game.birds.size()==24 and spread>200,"Ravens and owls are spread across the map")
 	for woodland in [false,true]:
 		var chosen := Vector2.ZERO
 		var closest := INF
@@ -85,7 +85,7 @@ func run() -> void:
 	await key(KEY_D,true,true)
 	var cheats: CanvasLayer = game.cheat_menu
 	check(cheats.is_open and paused and not game.player.active,"Ctrl+Shift+D opens the actual shared cheat menu in exploration")
-	check(not cheats.keys_button.visible and not cheats.secret_toggle.visible,"Forest-only objectives are absent from Planes cheats")
+	check(cheats.keys_button.visible and cheats.keys_button.text == "Get Schützenhaus key" and not cheats.secret_toggle.visible,"Planes offers its own key cheat and hides the forest-only vendor cheat")
 	var score: int = game.player.score
 	cheats.points_button.pressed.emit()
 	check(game.player.score==score+1000,"Cheat points work while paused")
@@ -118,9 +118,11 @@ func run() -> void:
 	await key(KEY_ESCAPE)
 	check(game.menu.visible and paused,"Shared pause menu still works after leaving survival")
 	game.set_menu(false)
+	var records_before: Array = game.stats.table.duplicate(true)
 	game.player.damage(10000)
 	game.player._bleed_out()
 	check(game.over and game.menu.visible,"Lethal cheat encounters also open a recovery menu during exploration")
+	check(game.waves == null and game.stats.table == records_before and not game.stats._finished,"Exploration death leaves survival records unfinished and unchanged")
 	game.hud.overlay_button.pressed.emit()
 	check(game.player.active and game.player.alive and not game.over and not paused,"Continue after an exploration death restores a playable explorer")
 	print("PLANES_LIFE_DONE checks=%d failures=%d" % [checks,failures])

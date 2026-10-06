@@ -54,6 +54,13 @@ func run() -> void:
 				line += " %s(len %.2f, %.2f m/s, peak %.2f)" % [clip, info[clip].length, info[clip].speed, info[clip].peak]
 			print(line)
 			var walk: Dictionary = info.get("walk", {})
+			if spec.has("beast"):
+				# Quadrupeds use calibrated gait speeds in ZombieBeast, not humanoid foot/hand metrics.
+				# Their live displacement, charge and bite are covered by new_zombies and farm_dog.
+				check(not walk.is_empty() and walk.length > 0 and float(spec.beast.walk_speed) > 0, skin + " has a walk clip and calibrated ground speed")
+				check(info.has("run") and info.run.length > 0 and float(spec.beast.run_speed) > float(spec.beast.walk_speed), skin + " has a faster calibrated run")
+				check(info.has("attack") and info.attack.length > 0, skin + " has the beast attack clip")
+				continue
 			check(not walk.is_empty() and walk.speed > 0.15 and walk.speed < 3.5, "%s walk clip implies a plausible ground speed (%.2f m/s)" % [skin, walk.get("speed", 0.0)])
 			if info.has("run"):
 				check(info.run.speed > walk.speed, "%s run clip is faster than its walk (%.2f > %.2f m/s)" % [skin, info.run.speed, walk.speed])

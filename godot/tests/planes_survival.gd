@@ -207,16 +207,20 @@ func run() -> void:
 		await process_frame
 	check(plans_ok,"All 25 wave plans scale correctly with a brute wave every fifth round")
 	check(transitions_ok,"Waves wait for queued and living enemies; all 25 completion transitions work")
-	check(not game.over and game.waves.phase=="finale" and game.expedition.finale.stage=="prepare","Wave 25 requires the extraction defence before securing Planes")
-	check(not game.campaign.cleared("planes"),"Wave 25 progress cannot mark a region secured before extraction")
-	game.expedition.set_process(false)
-	game.player.global_position = game.expedition.finale.at+Vector3.UP*0.3
-	game.expedition.transact(1,"interact",["finale"])
-	for step in 600:
-		if game.over: break
-		game.expedition._tick_finale(0.75)
-		await clear_enemies()
-	check(game.victory and game.over and game.waves.phase=="complete" and game.campaign.cleared("planes"),"Completed extraction ends the run and records only Planes as secured")
+	if game.expedition.enabled:
+		check(not game.over and game.waves.phase=="finale" and game.expedition.finale.stage=="prepare","Wave 25 requires the extraction defence before securing Planes")
+		check(not game.campaign.cleared("planes"),"Wave 25 progress cannot mark a region secured before extraction")
+		game.expedition.set_process(false)
+		game.player.global_position = game.expedition.finale.at+Vector3.UP*0.3
+		game.expedition.transact(1,"interact",["finale"])
+		for step in 600:
+			if game.over: break
+			game.expedition._tick_finale(0.75)
+			await clear_enemies()
+		check(game.victory and game.over and game.waves.phase=="complete" and game.campaign.cleared("planes"),"Completed extraction ends the run and records only Planes as secured")
+	else:
+		check(game.victory and game.over and game.waves.phase=="complete" and game.campaign.cleared("planes"),"Classic wave 25 directly secures Planes")
+		check(game.expedition.finale.is_empty(),"Classic victory does not create an expedition extraction objective")
 	game.waves.start(26)
 	check(game.waves.wave==25 and not game.campaign.cleared("forest"),"There is no wave 26 or Forest progress leakage")
 	await game.start_survival()

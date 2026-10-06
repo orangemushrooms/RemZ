@@ -82,15 +82,17 @@ func run() -> void:
 	reset_intro()
 	var world = load("res://scripts/coop_world.gd").new()
 	world.game = game
-	var guest := Player.new()
-	game.add_child(guest)
-	guest.set_physics_process(false)
-	guest.global_position = Map.ground_pos(83,63)
-	world.actors = {1:game.player,2:guest}
+	var previous_world = NetSession.world
 	var previous_roster: Dictionary = NetSession.roster
 	NetSession.roster = {1:"Host",2:"Guest"}
 	NetSession.world = world
 	NetSession.enabled = true
+	# Register the actual player/weapon pairs needed by expedition wave preparation.
+	world.add_player(1)
+	world.add_player(2)
+	var guest: Player = world.actor(2)
+	guest.set_physics_process(false)
+	guest.global_position = Map.ground_pos(83,63)
 	world.intro_lock = 1.0
 	world.tick(0.1)
 	check(game.waves.wave==0,"Co-op opening card still blocks early triggers")
@@ -107,7 +109,7 @@ func run() -> void:
 	world.tick(0.1)
 	check(starts==1,"Repeated host ticks do not restart the opening wave")
 	NetSession.enabled = false
-	NetSession.world = null
+	NetSession.world = previous_world
 	NetSession.roster = previous_roster
 	guest.queue_free()
 	print("INTRO_GUIDANCE_DONE checks=%d failures=%d" % [checks,failures])

@@ -48,7 +48,7 @@ func run() -> void:
 	achievements = game.achievements
 	achievements.set_process(false)
 	check(not achievements.persist, "Test round cannot overwrite saved achievements")
-	check(Achievements.DEFS.size() == 55, "Catalog contains 30 existing and 25 additional achievements")
+	check(Achievements.DEFS.size() == 61, "Catalog retains 55 Forest achievements and six Planes achievements")
 	var ids := {}
 	for definition in Achievements.DEFS: ids[definition.id] = true
 	check(ids.size() == Achievements.DEFS.size(), "Every achievement has a unique persistent ID")

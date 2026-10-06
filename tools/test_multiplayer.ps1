@@ -12,11 +12,13 @@ foreach ($name in @('host-ready', 'step', 'done-c1', 'done-c2', 'done-c3', 'resu
     if (Test-Path -LiteralPath $file) { Remove-Item -LiteralPath $file }
 }
 $runs = @()
+$previousAppData = $env:APPDATA
 try {
     foreach ($role in @('host', 'c1', 'c2', 'c3')) {
+        $env:APPDATA = Join-Path $artifacts ('userdata-' + $role)
         $logPath = Join-Path $artifacts "$role.log"
-        $arguments = @('--headless', '--max-fps', '120', '--path', 'godot', '--log-file', ('"' + $logPath + '"'),
-            '--script', 'res://tests/run.gd', '--', '--suite=multiplayer', '--smoke-test', '--class-auto-lock', '--no-foliage',
+        $arguments = @('--headless', '--max-fps', '60', '--path', 'godot', '--log-file', ('"' + $logPath + '"'),
+            '--script', 'res://tests/run.gd', '--', '--suite=multiplayer', '--smoke-test', '--class-auto-lock', '--no-foliage', '--no-music',
             "--coop-role=$role", "--coop-port=$Port")
         if ($Intro) { $arguments += '--test-coop-intro' }
         $process = Start-Process -FilePath $GodotBinary -WorkingDirectory $workspace -ArgumentList $arguments -WindowStyle Hidden -PassThru
@@ -33,12 +35,15 @@ try {
     foreach ($run in $runs) {
         $log = Get-Content -LiteralPath (Join-Path $artifacts ($run.Role + '.log')) -Raw
         if ($log -match 'SCRIPT ERROR|FAIL:|COOP_TEST_TIMEOUT') { throw "Runtime failure in $($run.Role).log" }
+        $unexpected = ($log -split "`n") | Where-Object { $_ -match '^ERROR:' -and $_ -notmatch 'Failed to read the root certificate store' }
+        if ($unexpected) { throw "Engine error in $($run.Role).log" }
         $marker = 'COOP_TEST_DONE' + '.*failures=0' # Host reports the complete assertions.
         if ($run.Role -ne 'host') { $marker = 'COOP_CLIENT_DONE' }
         if ($log -notmatch $marker) { throw "Missing completion marker in $($run.Role).log" }
     }
     Get-Content -LiteralPath (Join-Path $artifacts 'result.json')
 } finally {
+    $env:APPDATA = $previousAppData
     foreach ($run in $runs) {
         if (-not $run.Process.HasExited) { $run.Process.Kill() }
         $run.Process.Dispose()

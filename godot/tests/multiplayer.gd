@@ -40,7 +40,11 @@ func write_json(name: String, data: Variant) -> void:
 
 func read_json(name: String) -> Variant:
 	if not FileAccess.file_exists(folder + name + ".json"): return null
-	return JSON.parse_string(FileAccess.get_file_as_string(folder + name + ".json"))
+	# A peer may be between truncating and completing this coordination file.
+	# Retry incomplete writes on the next poll; a persistent failure still times out.
+	var parser := JSON.new()
+	if parser.parse(FileAccess.get_file_as_string(folder + name + ".json")) != OK: return null
+	return parser.data
 
 func run() -> void:
 	NetSession = root.get_node("NetSession")
@@ -125,7 +129,13 @@ func host_run() -> void:
 	check(NetSession.join("not-an-ip", "test", test_port) == ERR_INVALID_PARAMETER and not NetSession.enabled, "Invalid IP rejected without entering a session")
 	check(NetSession.host("Host", test_port) == OK, "Host binds an ENet UDP socket")
 	var occupied := ENetMultiplayerPeer.new()
-	check(occupied.create_server(test_port, 3) != OK, "A second host cannot bind the same port")
+	# This negative test deliberately asks ENet to reject an occupied port.
+	# Suppress only that synchronous engine diagnostic, then restore reporting.
+	var report_errors := Engine.print_error_messages
+	Engine.print_error_messages = false
+	var occupied_error := occupied.create_server(test_port, 3)
+	Engine.print_error_messages = report_errors
+	check(occupied_error != OK, "A second host cannot bind the same port")
 	occupied.close()
 	write_json("host-ready", {"port": test_port})
 	var deadline := Time.get_ticks_msec() + 180000

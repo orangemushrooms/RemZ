@@ -127,6 +127,7 @@ func run() -> void:
 		"A wave cleared in the morning switches to the daylight song")
 	cycle.set_time_hours(22.0)
 	game.music.play("combat")
+	game.waves.phase = "spawning" # Simulate the next real wave, not a duplicate completion.
 	game.waves._complete_wave()
 	check(game.music.current == "night", "A wave cleared at night keeps the night loop")
 	game.waves.phase = phase_before

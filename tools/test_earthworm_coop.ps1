@@ -8,11 +8,13 @@ foreach ($name in @('ready','join-late','step','client','late','finish')) {
     if (Test-Path -LiteralPath $markerPath) { Remove-Item -LiteralPath $markerPath }
 }
 $runs = @()
+$previousAppData = $env:APPDATA
 try {
     foreach ($role in @('host','client','late')) {
+        $env:APPDATA = Join-Path $workspace ('.test-user/earthworm-coop-' + $role)
         $logPath = Join-Path $outputPath ($role + '.log')
         $arguments = @('--headless','--max-fps','60','--path','godot','--log-file',('"' + $logPath + '"'),
-            '--script','res://tests/run.gd','--','--suite=earthworm_coop','--smoke-test','--no-intro','--no-music','--no-foliage','--difficulty=1',"--worm-role=$role")
+            '--script','res://tests/run.gd','--','--suite=earthworm_coop','--smoke-test','--class-auto-lock','--no-intro','--no-music','--no-foliage','--difficulty=1',"--worm-role=$role")
         $process = Start-Process -FilePath $GodotBinary -WorkingDirectory $workspace -ArgumentList $arguments -WindowStyle Hidden -PassThru
         $runs += @{Role=$role; Process=$process}
     }
@@ -26,9 +28,12 @@ try {
         $log = Get-Content -LiteralPath (Join-Path $outputPath ($run.Role + '.log')) -Raw
         if ($run.Process.ExitCode -ne 0 -or $log -match 'SCRIPT ERROR|FAIL:|TIMEOUT') { throw "Earthworm coop failure: $($run.Role)" }
         if ($log -notmatch 'EARTHWORM_(COOP_DONE.*failures=0|CLIENT_DONE)') { throw "Missing completion: $($run.Role)" }
+        $unexpected = ($log -split "`n") | Where-Object { $_ -match '^ERROR:' -and $_ -notmatch 'Failed to read the root certificate store' }
+        if ($unexpected) { throw "Engine error in earthworm co-op: $($run.Role)" }
     }
     Get-Content -LiteralPath (Join-Path $outputPath 'finish.json')
 } finally {
+    $env:APPDATA = $previousAppData
     foreach ($run in $runs) {
         if (-not $run.Process.HasExited) { $run.Process.Kill() }
         $run.Process.Dispose()

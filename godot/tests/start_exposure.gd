@@ -24,6 +24,7 @@ var _last_stage := ""
 var _segment := ""
 var _stage_frame := 0
 var _dir := ""
+var _sampled_covers := {}
 
 func _initialize() -> void: call_deferred("run")
 
@@ -41,13 +42,24 @@ func _process(_delta: float) -> bool:
 	return false
 
 func _stage() -> String:
-	if BootScreen.find(self): return _segment + "loading screen"
+	var cover := BootScreen.find(self)
+	if cover: return _cover_stage(cover)
 	if not is_instance_valid(game): return _segment + "between scenes"
 	for child in game.get_children():
-		if child is BootScreen and not child.is_queued_for_deletion(): return _segment + "loading screen"
+		if child is BootScreen and not child.is_queued_for_deletion(): return _cover_stage(child)
 	if game.intro and game.intro.active: return _segment + "intro " + game.intro.phase
 	if game.hud and game.hud.overlay.visible: return _segment + "menu"
 	return _segment + "play"
+
+func _cover_stage(cover: BootScreen) -> String:
+	if cover._closing: return _segment + "loading fade"
+	var id := cover.get_instance_id()
+	if not _sampled_covers.has(id):
+		_sampled_covers[id] = true
+		# The first readback on cover creation can still contain the previously submitted frame.
+		# Check it for white flashes, but only require the opaque ink once the cover is drawn.
+		return _segment + "loading transition"
+	return _segment + "loading screen"
 
 func _frame_drawn() -> void:
 	var image := root.get_texture().get_image()

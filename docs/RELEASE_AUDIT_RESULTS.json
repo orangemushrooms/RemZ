@@ -1,0 +1,1820 @@
+{
+  "prepared_utc": "2026-10-06T19:30:42.381291+00:00",
+  "network_build": "remz-dev-20261006-release-audit",
+  "engine": "Godot 4.7.2 stable ed1daf0bf",
+  "source_summary": {
+    "passing_runs": 155,
+    "reported_assertions": 10342
+  },
+  "groups": {
+    "core": [
+      {
+        "suite": "smoke",
+        "passed": true,
+        "seconds": 54.7,
+        "verdict": "PASS smoke exit=0: SMOKE_DONE checks=94 failures=0"
+      },
+      {
+        "suite": "class_system",
+        "passed": true,
+        "seconds": 4.1,
+        "verdict": "PASS class_system exit=0: CLASS_SYSTEM_DONE checks=560 failures=0"
+      },
+      {
+        "suite": "class_integration",
+        "passed": true,
+        "seconds": 37.7,
+        "verdict": "PASS class_integration exit=0: CLASS_INTEGRATION_DONE checks=33 failures=0"
+      },
+      {
+        "suite": "class_balance",
+        "passed": true,
+        "seconds": 35.9,
+        "verdict": "PASS class_balance exit=0: CLASS_BALANCE_DONE map=Forest checks=13 failures=0"
+      },
+      {
+        "suite": "class_weapons",
+        "passed": true,
+        "seconds": 34.1,
+        "verdict": "PASS class_weapons exit=0: CLASS_WEAPONS_DONE checks=327 failures=0"
+      },
+      {
+        "suite": "weapon_mods",
+        "passed": true,
+        "seconds": 33.4,
+        "verdict": "PASS weapon_mods exit=0: WEAPON_MODS_DONE checks=52 failures=0"
+      },
+      {
+        "suite": "new_weapons",
+        "passed": true,
+        "seconds": 32.1,
+        "verdict": "PASS new_weapons exit=0: NEW_WEAPONS_DONE checks=254 failures=0"
+      },
+      {
+        "suite": "network_packets",
+        "passed": true,
+        "seconds": 3.8,
+        "verdict": "PASS network_packets exit=0: NETWORK_PACKETS_DONE checks=14 failures=0"
+      },
+      {
+        "suite": "coop_snapshot_cost",
+        "passed": true,
+        "seconds": 34.4,
+        "verdict": "PASS coop_snapshot_cost exit=0: COOP_SNAPSHOT_COST_DONE checks=6 failures=0"
+      },
+      {
+        "suite": "menu_flow",
+        "passed": true,
+        "seconds": 95.5,
+        "verdict": "PASS menu_flow exit=0: MENU_FLOW_DONE checks=11 failures=0"
+      },
+      {
+        "suite": "language",
+        "passed": true,
+        "seconds": 38.5,
+        "verdict": "PASS language exit=0: LANGUAGE_DONE lang=de checks=104 failures=0"
+      },
+      {
+        "suite": "team_purse",
+        "passed": true,
+        "seconds": 43.2,
+        "verdict": "PASS team_purse exit=0: TEAM_PURSE_DONE checks=29 failures=0"
+      },
+      {
+        "suite": "boss_music",
+        "passed": true,
+        "seconds": 51.0,
+        "verdict": "PASS boss_music exit=0: BOSS_MUSIC_DONE checks=37 failures=0"
+      },
+      {
+        "suite": "secret_night",
+        "passed": true,
+        "seconds": 36.4,
+        "verdict": "PASS secret_night exit=0: SECRET_NIGHT_DONE checks=70 failures=0"
+      },
+      {
+        "suite": "field_update",
+        "passed": true,
+        "seconds": 35.9,
+        "verdict": "PASS field_update exit=0: FIELD_UPDATE_DONE checks=82 failures=0"
+      },
+      {
+        "suite": "planes",
+        "passed": true,
+        "seconds": 41.2,
+        "verdict": "PASS planes exit=0: PLANES_DONE checks=33 failures=0"
+      },
+      {
+        "suite": "planes_survival",
+        "passed": true,
+        "seconds": 98.9,
+        "verdict": "PASS planes_survival exit=0: PLANES_SURVIVAL_DONE checks=43 failures=0"
+      },
+      {
+        "suite": "range_steps",
+        "passed": true,
+        "seconds": 34.9,
+        "verdict": "PASS range_steps exit=0: RANGE_STEPS_DONE checks=23 failures=0"
+      },
+      {
+        "suite": "planes_atmosphere",
+        "passed": true,
+        "seconds": 58.0,
+        "verdict": "PASS planes_atmosphere exit=0: PLANES_ATMOSPHERE_DONE checks=19 failures=0"
+      },
+      {
+        "suite": "planes_parity",
+        "passed": true,
+        "seconds": 75.1,
+        "verdict": "PASS planes_parity exit=0: PLANES_PARITY checks=58 failures=0"
+      },
+      {
+        "suite": "towers",
+        "passed": true,
+        "seconds": 47.1,
+        "verdict": "PASS towers exit=0: TOWERS_DONE checks=363 failures=0"
+      },
+      {
+        "suite": "tower_batch",
+        "passed": true,
+        "seconds": 40.7,
+        "verdict": "PASS tower_batch exit=0: TOWER_BATCH_DONE checks=166 failures=0"
+      },
+      {
+        "suite": "tower_planner",
+        "passed": true,
+        "seconds": 39.2,
+        "verdict": "PASS tower_planner exit=0: TOWER_PLANNER_DONE checks=27 failures=0"
+      },
+      {
+        "suite": "roof_defences",
+        "passed": true,
+        "seconds": 42.0,
+        "verdict": "PASS roof_defences exit=0: ROOF_DEFENCES_DONE checks=115 failures=0"
+      },
+      {
+        "suite": "forest_finds",
+        "passed": true,
+        "seconds": 42.9,
+        "verdict": "PASS forest_finds exit=0: FOREST_FINDS_DONE checks=56 failures=0"
+      },
+      {
+        "suite": "doors_keys",
+        "passed": true,
+        "seconds": 72.3,
+        "verdict": "PASS doors_keys exit=0: DOORS_KEYS_DONE checks=112 failures=0"
+      },
+      {
+        "suite": "brewing",
+        "passed": true,
+        "seconds": 40.5,
+        "verdict": "PASS brewing exit=0: BREWING_DONE checks=41 failures=0"
+      },
+      {
+        "suite": "downed",
+        "passed": true,
+        "seconds": 43.7,
+        "verdict": "PASS downed exit=0: DOWNED_DONE checks=24 failures=0"
+      },
+      {
+        "suite": "assassin_teleport",
+        "passed": true,
+        "seconds": 5.4,
+        "verdict": "PASS assassin_teleport exit=0: ASSASSIN_TELEPORT_DONE checks=37 failures=0"
+      },
+      {
+        "suite": "army_waves",
+        "passed": true,
+        "seconds": 40.5,
+        "verdict": "PASS army_waves exit=0: ARMY_WAVES_DONE checks=55 failures=0"
+      },
+      {
+        "suite": "hut_health",
+        "passed": true,
+        "seconds": 41.7,
+        "verdict": "PASS hut_health exit=0: HUT_HEALTH_DONE checks=40 failures=0"
+      },
+      {
+        "suite": "barricades",
+        "passed": true,
+        "seconds": 42.2,
+        "verdict": "PASS barricades exit=0: BARRICADES_DONE checks=44 failures=0"
+      },
+      {
+        "suite": "aggro",
+        "passed": true,
+        "seconds": 39.4,
+        "verdict": "PASS aggro exit=0: AGGRO_DONE checks=17 failures=0"
+      },
+      {
+        "suite": "campaign_map",
+        "passed": true,
+        "seconds": 54.8,
+        "verdict": "PASS campaign_map exit=0: CAMPAIGN_MAP_DONE checks=42 failures=0"
+      }
+    ],
+    "extended": [
+      {
+        "case": "aiming",
+        "suite": "aiming",
+        "flags": [],
+        "passed": true,
+        "seconds": 35.5,
+        "verdict": "PASS aiming exit=0: AIMING_DONE checks=17 failures=0"
+      },
+      {
+        "case": "autorefill",
+        "suite": "autorefill",
+        "flags": [],
+        "passed": true,
+        "seconds": 35.6,
+        "verdict": "PASS autorefill exit=0: AUTOREFILL_DONE checks=33 failures=0"
+      },
+      {
+        "case": "barricade_health",
+        "suite": "barricade_health",
+        "flags": [],
+        "passed": true,
+        "seconds": 34.2,
+        "verdict": "PASS barricade_health exit=0: BARRICADE_HEALTH_DONE checks=14 failures=0"
+      },
+      {
+        "case": "batch27",
+        "suite": "batch27",
+        "flags": [],
+        "passed": true,
+        "seconds": 42.5,
+        "verdict": "PASS batch27 exit=0: BATCH27_DONE checks=44 failures=0"
+      },
+      {
+        "case": "batch28",
+        "suite": "batch28",
+        "flags": [],
+        "passed": true,
+        "seconds": 46.7,
+        "verdict": "PASS batch28 exit=0: BATCH28_DONE checks=27 failures=0"
+      },
+      {
+        "case": "batch29",
+        "suite": "batch29",
+        "flags": [],
+        "passed": true,
+        "seconds": 40.2,
+        "verdict": "PASS batch29 exit=0: BATCH29_DONE checks=142 failures=0"
+      },
+      {
+        "case": "bullet_impacts",
+        "suite": "bullet_impacts",
+        "flags": [],
+        "passed": true,
+        "seconds": 4.3,
+        "verdict": "PASS bullet_impacts exit=0: BULLET_IMPACTS_DONE failures=0"
+      },
+      {
+        "case": "campsite_pickups",
+        "suite": "campsite_pickups",
+        "flags": [],
+        "passed": true,
+        "seconds": 39.4,
+        "verdict": "PASS campsite_pickups exit=0: CAMPSITE_PICKUPS_DONE checks=62 failures=0"
+      },
+      {
+        "case": "cash_drops",
+        "suite": "cash_drops",
+        "flags": [],
+        "passed": true,
+        "seconds": 40.2,
+        "verdict": "PASS cash_drops exit=0: CASH_DROPS_DONE checks=22 failures=0"
+      },
+      {
+        "case": "cheat_menu",
+        "suite": "cheat_menu",
+        "flags": [],
+        "passed": true,
+        "seconds": 42.7,
+        "verdict": "PASS cheat_menu exit=0: CHEAT_MENU_DONE checks=60 failures=0"
+      },
+      {
+        "case": "cornfield",
+        "suite": "cornfield",
+        "flags": [],
+        "passed": true,
+        "seconds": 40.7,
+        "verdict": "PASS cornfield exit=0: CORNFIELD_DONE checks=40 failures=0"
+      },
+      {
+        "case": "crouch",
+        "suite": "crouch",
+        "flags": [],
+        "passed": true,
+        "seconds": 38.9,
+        "verdict": "PASS crouch exit=0: CROUCH_DONE checks=13 failures=0"
+      },
+      {
+        "case": "audio_events",
+        "suite": "audio_events",
+        "flags": [],
+        "passed": true,
+        "seconds": 6.1,
+        "verdict": "PASS audio_events exit=0: AUDIO_EVENTS_DONE checks=34 failures=0"
+      },
+      {
+        "case": "balance_report",
+        "suite": "balance_report",
+        "flags": [],
+        "passed": true,
+        "seconds": 4.4,
+        "verdict": "PASS balance_report exit=0: BALANCE_REPORT_DONE checks=37 failures=0"
+      },
+      {
+        "case": "achievements",
+        "suite": "achievements",
+        "flags": [],
+        "passed": true,
+        "seconds": 61.8,
+        "verdict": "PASS achievements exit=0: ACHIEVEMENTS_DONE checks=89 failures=0"
+      },
+      {
+        "case": "barricade_shooting",
+        "suite": "barricade_shooting",
+        "flags": [],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS barricade_shooting exit=0: BARRICADE_SHOOTING_DONE checks=10 failures=0",
+        "log": "barricade_shooting-en-full-audit-fix.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "deer_gait",
+        "suite": "deer_gait",
+        "flags": [],
+        "passed": true,
+        "seconds": 7.0,
+        "verdict": "PASS deer_gait exit=0: DEER_GAIT_DONE checks=59 failures=0"
+      },
+      {
+        "case": "day_night",
+        "suite": "day_night",
+        "flags": [],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS day_night exit=0: DAY_NIGHT_DONE checks=55 failures=0 rendered=false",
+        "log": "day_night-en-full-audit-fix.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "defence",
+        "suite": "defence",
+        "flags": [
+          "--classic"
+        ],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS defence exit=0: DEFENCE_DONE checks=99 failures=0",
+        "log": "defence-en-classic-full-audit-fixed-mode.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "drone_quests",
+        "suite": "drone_quests",
+        "flags": [],
+        "passed": true,
+        "seconds": 7.3,
+        "verdict": "PASS drone_quests exit=0: DRONE_QUESTS_DONE checks=33 failures=0"
+      },
+      {
+        "case": "delivery_spawn",
+        "suite": "delivery_spawn",
+        "flags": [],
+        "passed": true,
+        "seconds": 43.6,
+        "verdict": "PASS delivery_spawn exit=0: DELIVERY_SPAWN_DONE checks=53 failures=0"
+      },
+      {
+        "case": "earthworm_mesh_quality",
+        "suite": "earthworm_mesh_quality",
+        "flags": [],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS earthworm_mesh_quality exit=0: EARTHWORM_MESH_QUALITY_DONE checks=30 failures=0",
+        "log": "earthworm_mesh_quality-en-full-audit-worm-import.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "drones",
+        "suite": "drones",
+        "flags": [],
+        "passed": true,
+        "seconds": 41.6,
+        "verdict": "PASS drones exit=0: DRONES_DONE checks=84 failures=0"
+      },
+      {
+        "case": "extra_quests",
+        "suite": "extra_quests",
+        "flags": [],
+        "passed": true,
+        "seconds": 7.1,
+        "verdict": "PASS extra_quests exit=0: EXTRA_QUESTS_DONE checks=116 failures=0"
+      },
+      {
+        "case": "farm_dog",
+        "suite": "farm_dog",
+        "flags": [],
+        "passed": true,
+        "seconds": 6.4,
+        "verdict": "PASS farm_dog exit=0: FARM_DOG_DONE checks=26 failures=0"
+      },
+      {
+        "case": "earthworms",
+        "suite": "earthworms",
+        "flags": [
+          "--classic"
+        ],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS earthworms exit=0: EARTHWORMS_DONE checks=54 failures=0",
+        "log": "earthworms-en-classic-full-audit-fixed-mode.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "firework_batteries",
+        "suite": "firework_batteries",
+        "flags": [],
+        "passed": true,
+        "seconds": 67.2,
+        "verdict": "PASS firework_batteries exit=0: BATTERIES_DONE checks=40 failures=0"
+      },
+      {
+        "case": "fireworks",
+        "suite": "fireworks",
+        "flags": [],
+        "passed": true,
+        "seconds": 66.8,
+        "verdict": "PASS fireworks exit=0: FIREWORKS_DONE checks=31 failures=0"
+      },
+      {
+        "case": "forest_spirit",
+        "suite": "forest_spirit",
+        "flags": [
+          "--classic"
+        ],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS forest_spirit exit=0: FOREST_SPIRIT_DONE checks=23 failures=0",
+        "log": "forest_spirit-en-classic-full-audit-fixed-mode.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "frame_pacing_guards",
+        "suite": "frame_pacing_guards",
+        "flags": [],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS frame_pacing_guards exit=0: FRAME_PACING_GUARDS_DONE checks=17 failures=0",
+        "log": "frame_pacing_guards-en-full-audit-fix.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "fortune_wheels",
+        "suite": "fortune_wheels",
+        "flags": [],
+        "passed": true,
+        "seconds": 62.3,
+        "verdict": "PASS fortune_wheels exit=0: FORTUNE_RESULT checks=43 failures=0"
+      },
+      {
+        "case": "horde_animation",
+        "suite": "horde_animation",
+        "flags": [],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS horde_animation exit=0: HORDE_ANIMATION_DONE checks=152 failures=0",
+        "log": "horde_animation-en-full-audit-horde-fix.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "horde_ground",
+        "suite": "horde_ground",
+        "flags": [],
+        "passed": true,
+        "seconds": 30.8,
+        "verdict": "PASS horde_ground exit=0: HORDE_GROUND_DONE checks=22 failures=0"
+      },
+      {
+        "case": "horde_hit_precision",
+        "suite": "horde_hit_precision",
+        "flags": [],
+        "passed": true,
+        "seconds": 20.3,
+        "verdict": "PASS horde_hit_precision exit=0: HORDE_HIT_PRECISION_DONE checks=137 failures=0"
+      },
+      {
+        "case": "hunting",
+        "suite": "hunting",
+        "flags": [],
+        "passed": true,
+        "seconds": 85.3,
+        "verdict": "PASS hunting exit=0: HUNTING_DONE checks=33 failures=0"
+      },
+      {
+        "case": "hut_restock",
+        "suite": "hut_restock",
+        "flags": [],
+        "passed": true,
+        "seconds": 87.5,
+        "verdict": "PASS hut_restock exit=0: HUT_RESTOCK_DONE checks=17 failures=0"
+      },
+      {
+        "case": "key_phases",
+        "suite": "key_phases",
+        "flags": [],
+        "passed": true,
+        "seconds": 9.8,
+        "verdict": "PASS key_phases exit=0: KEY_PHASES_DONE checks=9 failures=0"
+      },
+      {
+        "case": "key_rarity",
+        "suite": "key_rarity",
+        "flags": [],
+        "passed": true,
+        "seconds": 7.4,
+        "verdict": "PASS key_rarity exit=0: KEY_RARITY_DONE failures=0"
+      },
+      {
+        "case": "inventory_filters",
+        "suite": "inventory_filters",
+        "flags": [],
+        "passed": true,
+        "seconds": 57.1,
+        "verdict": "PASS inventory_filters exit=0: INVENTORY_FILTERS_DONE checks=16 failures=0"
+      },
+      {
+        "case": "knife_speed",
+        "suite": "knife_speed",
+        "flags": [],
+        "passed": true,
+        "seconds": 54.6,
+        "verdict": "PASS knife_speed exit=0: KNIFE_SPEED_DONE checks=3 failures=0"
+      },
+      {
+        "case": "legacy_user_data",
+        "suite": "legacy_user_data",
+        "flags": [],
+        "passed": true,
+        "seconds": 4.9,
+        "verdict": "PASS legacy_user_data exit=0: LEGACY_USER_DATA_DONE checks=11 failures=0"
+      },
+      {
+        "case": "loading_tips",
+        "suite": "loading_tips",
+        "flags": [],
+        "passed": true,
+        "seconds": 5.1,
+        "verdict": "PASS loading_tips exit=0: LOADING_TIPS_DONE checks=8 failures=0"
+      },
+      {
+        "case": "leaderboard",
+        "suite": "leaderboard",
+        "flags": [],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS leaderboard exit=0: LEADERBOARD_TEST_DONE checks=46 failures=0",
+        "log": "leaderboard-en-full-audit-fix2.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "melee_weapons",
+        "suite": "melee_weapons",
+        "flags": [],
+        "passed": true,
+        "seconds": 41.4,
+        "verdict": "PASS melee_weapons exit=0: MELEE_WEAPONS_DONE checks=40 failures=0"
+      },
+      {
+        "case": "missing_models",
+        "suite": "missing_models",
+        "flags": [],
+        "passed": true,
+        "seconds": 7.1,
+        "verdict": "PASS missing_models exit=0: MISSING_MODELS_DONE checks=72 failures=0"
+      },
+      {
+        "case": "movement_sync",
+        "suite": "movement_sync",
+        "flags": [],
+        "passed": true,
+        "seconds": 5.4,
+        "verdict": "PASS movement_sync exit=0: MOVEMENT_SYNC_DONE checks=14 failures=0"
+      },
+      {
+        "case": "merchant_roaming",
+        "suite": "merchant_roaming",
+        "flags": [],
+        "passed": true,
+        "seconds": 51.5,
+        "verdict": "PASS merchant_roaming exit=0: ROAM_DONE cells=9 tiles=137 stops=30 max_step=0.41250881552696 failures=0"
+      },
+      {
+        "case": "mushroom_trade",
+        "suite": "mushroom_trade",
+        "flags": [],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS mushroom_trade exit=0: MUSHROOM_TRADE_DONE checks=66 failures=0",
+        "log": "mushroom_trade-en-full-audit-fix3.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "muzzle_alignment",
+        "suite": "muzzle_alignment",
+        "flags": [],
+        "passed": true,
+        "seconds": 60.3,
+        "verdict": "PASS muzzle_alignment exit=0: MUZZLE_ALIGNMENT_DONE checks=30 failures=0"
+      },
+      {
+        "case": "npc_discovery",
+        "suite": "npc_discovery",
+        "flags": [],
+        "passed": true,
+        "seconds": 43.8,
+        "verdict": "PASS npc_discovery exit=0: NPC_DISCOVERY_DONE checks=7 failures=0"
+      },
+      {
+        "case": "new_zombies",
+        "suite": "new_zombies",
+        "flags": [],
+        "passed": true,
+        "seconds": 52.3,
+        "verdict": "PASS new_zombies exit=0: NEW_ZOMBIES_DONE checks=62 failures=0"
+      },
+      {
+        "case": "online_lobby",
+        "suite": "online_lobby",
+        "flags": [],
+        "passed": true,
+        "seconds": 54.9,
+        "verdict": "PASS online_lobby exit=0: ONLINE_LOBBY_DONE checks=44 failures=0"
+      },
+      {
+        "case": "pickup_capacity",
+        "suite": "pickup_capacity",
+        "flags": [],
+        "passed": true,
+        "seconds": 48.2,
+        "verdict": "PASS pickup_capacity exit=0: PICKUP_CAPACITY_DONE checks=24 failures=0"
+      },
+      {
+        "case": "perimeter",
+        "suite": "perimeter",
+        "flags": [],
+        "passed": true,
+        "seconds": 110.1,
+        "verdict": "PASS perimeter exit=0: PERIMETER_DONE checks=26 failures=0"
+      },
+      {
+        "case": "piercing",
+        "suite": "piercing",
+        "flags": [],
+        "passed": true,
+        "seconds": 85.3,
+        "verdict": "PASS piercing exit=0: PIERCING_DONE checks=41 failures=0"
+      },
+      {
+        "case": "pings",
+        "suite": "pings",
+        "flags": [],
+        "passed": true,
+        "seconds": 91.0,
+        "verdict": "PASS pings exit=0: PINGS_DONE checks=19 failures=0"
+      },
+      {
+        "case": "planes_buildings",
+        "suite": "planes_buildings",
+        "flags": [],
+        "passed": true,
+        "seconds": 9.9,
+        "verdict": "PASS planes_buildings exit=0: PLANES_BUILDINGS_DONE checks=8 failures=0"
+      },
+      {
+        "case": "planes_boundary",
+        "suite": "planes_boundary",
+        "flags": [],
+        "passed": true,
+        "seconds": 63.3,
+        "verdict": "PASS planes_boundary exit=0: BOUNDARY_DONE checks=27 failures=0"
+      },
+      {
+        "case": "planes_cleanup",
+        "suite": "planes_cleanup",
+        "flags": [],
+        "passed": true,
+        "seconds": 9.1,
+        "verdict": "PASS planes_cleanup exit=0: PLANES_CLEANUP_DONE checks=3 failures=0"
+      },
+      {
+        "case": "planes_cheat_key",
+        "suite": "planes_cheat_key",
+        "flags": [],
+        "passed": true,
+        "seconds": 71.7,
+        "verdict": "PASS planes_cheat_key exit=0: PLANES_CHEAT_KEY_DONE checks=5 failures=0"
+      },
+      {
+        "case": "planes_gameplay",
+        "suite": "planes_gameplay",
+        "flags": [],
+        "passed": true,
+        "seconds": 63.9,
+        "verdict": "PASS planes_gameplay exit=0: PLANES_GAMEPLAY_DONE checks=59 failures=0"
+      },
+      {
+        "case": "planes_life",
+        "suite": "planes_life",
+        "flags": [],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS planes_life exit=0: PLANES_LIFE_DONE checks=26 failures=0",
+        "log": "planes_life-en-full-audit-fix3.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "planes_quests",
+        "suite": "planes_quests",
+        "flags": [],
+        "passed": true,
+        "seconds": 58.9,
+        "verdict": "PASS planes_quests exit=0: PLANES_QUESTS_DONE checks=21 failures=0"
+      },
+      {
+        "case": "planes_refinements",
+        "suite": "planes_refinements",
+        "flags": [],
+        "passed": true,
+        "seconds": 62.4,
+        "verdict": "PASS planes_refinements exit=0: PLANES_REFINEMENTS_DONE checks=31 failures=0"
+      },
+      {
+        "case": "planes_sales",
+        "suite": "planes_sales",
+        "flags": [],
+        "passed": true,
+        "seconds": 57.7,
+        "verdict": "PASS planes_sales exit=0: PLANES_SALES_DONE checks=7 failures=0"
+      },
+      {
+        "case": "planes_start_movement",
+        "suite": "planes_start_movement",
+        "flags": [],
+        "passed": true,
+        "seconds": 60.7,
+        "verdict": "PASS planes_start_movement exit=0: START_MOVEMENT_DONE checks=4 failures=0"
+      },
+      {
+        "case": "player_avatar",
+        "suite": "player_avatar",
+        "flags": [],
+        "passed": true,
+        "seconds": 7.4,
+        "verdict": "PASS player_avatar exit=0: PLAYER_AVATAR_DONE checks=157 failures=0"
+      },
+      {
+        "case": "planes_xp",
+        "suite": "planes_xp",
+        "flags": [
+          "--classic"
+        ],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS planes_xp exit=0: PLANES_XP_DONE checks=19 failures=0",
+        "log": "planes_xp-en-classic-full-audit-fixed-mode.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "quest_balance",
+        "suite": "quest_balance",
+        "flags": [],
+        "passed": true,
+        "seconds": 4.9,
+        "verdict": "PASS quest_balance exit=0: QUEST_BALANCE_DONE checks=112 failures=0"
+      },
+      {
+        "case": "quest_notifications",
+        "suite": "quest_notifications",
+        "flags": [],
+        "passed": true,
+        "seconds": 4.6,
+        "verdict": "PASS quest_notifications exit=0: QUEST_NOTIFICATIONS_DONE checks=30 failures=0"
+      },
+      {
+        "case": "pumpkins",
+        "suite": "pumpkins",
+        "flags": [],
+        "passed": true,
+        "seconds": 49.4,
+        "verdict": "PASS pumpkins exit=0: PUMPKINS_DONE checks=11 failures=0"
+      },
+      {
+        "case": "quickbar",
+        "suite": "quickbar",
+        "flags": [],
+        "passed": true,
+        "seconds": 50.6,
+        "verdict": "PASS quickbar exit=0: QUICKBAR_DONE checks=27 failures=0"
+      },
+      {
+        "case": "rare_market",
+        "suite": "rare_market",
+        "flags": [],
+        "passed": true,
+        "seconds": 56.8,
+        "verdict": "PASS rare_market exit=0: RARE_MARKET_DONE checks=71 failures=0"
+      },
+      {
+        "case": "sandbags",
+        "suite": "sandbags",
+        "flags": [],
+        "passed": true,
+        "seconds": 51.3,
+        "verdict": "PASS sandbags exit=0: SANDBAGS_DONE checks=49 failures=0"
+      },
+      {
+        "case": "sound_files",
+        "suite": "sound_files",
+        "flags": [],
+        "passed": true,
+        "seconds": 4.3,
+        "verdict": "PASS sound_files exit=0: SOUND_FILES_DONE failures=0"
+      },
+      {
+        "case": "sniper_scope",
+        "suite": "sniper_scope",
+        "flags": [],
+        "passed": true,
+        "seconds": 39.2,
+        "verdict": "PASS sniper_scope exit=0: SNIPER_SCOPE_DONE checks=49 failures=0"
+      },
+      {
+        "case": "thrown_tree_roots",
+        "suite": "thrown_tree_roots",
+        "flags": [],
+        "passed": true,
+        "seconds": 4.1,
+        "verdict": "PASS thrown_tree_roots exit=0: THROWN_TREE_ROOTS_DONE checks=23 failures=0"
+      },
+      {
+        "case": "titan_collapse",
+        "suite": "titan_collapse",
+        "flags": [],
+        "passed": true,
+        "seconds": 49.8,
+        "verdict": "PASS titan_collapse exit=0: TITAN_COLLAPSE_DONE checks=15 failures=0"
+      },
+      {
+        "case": "titan_horror",
+        "suite": "titan_horror",
+        "flags": [],
+        "passed": true,
+        "seconds": 71.8,
+        "verdict": "PASS titan_horror exit=0: TITAN_HORROR_DONE checks=50 failures=0"
+      },
+      {
+        "case": "titan_loot",
+        "suite": "titan_loot",
+        "flags": [],
+        "passed": true,
+        "seconds": 66.1,
+        "verdict": "PASS titan_loot exit=0: TITAN_LOOT_DONE checks=49 failures=0"
+      },
+      {
+        "case": "titan_mix",
+        "suite": "titan_mix",
+        "flags": [],
+        "passed": true,
+        "seconds": 57.6,
+        "verdict": "PASS titan_mix exit=0: TITAN_MIX_DONE checks=14 failures=0"
+      },
+      {
+        "case": "titan_phases",
+        "suite": "titan_phases",
+        "flags": [],
+        "passed": true,
+        "seconds": 55.2,
+        "verdict": "PASS titan_phases exit=0: TITAN_PHASES_DONE checks=38 failures=0"
+      },
+      {
+        "case": "titan_siege_gate",
+        "suite": "titan_siege_gate",
+        "flags": [],
+        "passed": true,
+        "seconds": 43.0,
+        "verdict": "PASS titan_siege_gate exit=0: TITAN_SIEGE_GATE_DONE checks=20 failures=0"
+      },
+      {
+        "case": "tower_effects",
+        "suite": "tower_effects",
+        "flags": [],
+        "passed": true,
+        "seconds": 44.1,
+        "verdict": "PASS tower_effects exit=0: TOWER_EFFECTS_DONE checks=163 failures=0"
+      },
+      {
+        "case": "tower_progression",
+        "suite": "tower_progression",
+        "flags": [],
+        "passed": true,
+        "seconds": 44.8,
+        "verdict": "PASS tower_progression exit=0: TOWER_PROGRESSION_DONE checks=126 failures=0"
+      },
+      {
+        "case": "weapon_attachments",
+        "suite": "weapon_attachments",
+        "flags": [],
+        "passed": true,
+        "seconds": 43.7,
+        "verdict": "PASS weapon_attachments exit=0: ATTACHMENTS_DONE checks=1227 failures=0"
+      },
+      {
+        "case": "weapon_effects",
+        "suite": "weapon_effects",
+        "flags": [],
+        "passed": true,
+        "seconds": 41.5,
+        "verdict": "PASS weapon_effects exit=0: EFFECTS_DONE checks=194 failures=0"
+      },
+      {
+        "case": "weapon_recordings",
+        "suite": "weapon_recordings",
+        "flags": [],
+        "passed": true,
+        "seconds": 40.7,
+        "verdict": "PASS weapon_recordings exit=0: WEAPON_RECORDINGS_DONE checks=36 failures=0"
+      },
+      {
+        "case": "weapon_specials",
+        "suite": "weapon_specials",
+        "flags": [],
+        "passed": true,
+        "seconds": 44.5,
+        "verdict": "PASS weapon_specials exit=0: WEAPON_SPECIALS_DONE checks=77 failures=0"
+      },
+      {
+        "case": "weather",
+        "suite": "weather",
+        "flags": [],
+        "passed": true,
+        "seconds": 39.4,
+        "verdict": "PASS weather exit=0: WEATHER_DONE checks=55 failures=0"
+      },
+      {
+        "case": "zombie_hitboxes",
+        "suite": "zombie_hitboxes",
+        "flags": [],
+        "passed": true,
+        "seconds": 17.9,
+        "verdict": "PASS zombie_hitboxes exit=0: ZOMBIE_HITBOXES_DONE checks=197 failures=0"
+      },
+      {
+        "case": "zombie_motion",
+        "suite": "zombie_motion",
+        "flags": [],
+        "passed": true,
+        "seconds": null,
+        "verdict": "PASS zombie_motion exit=0: ZOMBIE_MOTION_DONE checks=115 failures=0",
+        "log": "zombie_motion-en-full-audit-motion-fix.log",
+        "corrective_rerun": true
+      },
+      {
+        "case": "checkpoint_schema",
+        "suite": "checkpoint_schema",
+        "flags": [],
+        "passed": true,
+        "seconds": 4.3,
+        "verdict": "PASS checkpoint_schema exit=0: CHECKPOINT_SCHEMA_DONE checks=13 failures=0"
+      },
+      {
+        "case": "expedition",
+        "suite": "expedition",
+        "flags": [],
+        "passed": true,
+        "seconds": 99.3,
+        "verdict": "PASS expedition exit=0: EXPEDITION_DONE checks=442 failures=0"
+      },
+      {
+        "case": "onboarding_polish",
+        "suite": "onboarding_polish",
+        "flags": [],
+        "passed": true,
+        "seconds": 41.7,
+        "verdict": "PASS onboarding_polish exit=0: ONBOARDING_POLISH_DONE checks=29 failures=0"
+      },
+      {
+        "case": "gameplay_ux_audit",
+        "suite": "gameplay_ux_audit",
+        "flags": [],
+        "passed": true,
+        "seconds": 48.8,
+        "verdict": "PASS gameplay_ux_audit exit=0: GAMEPLAY_UX_AUDIT_DONE region=forest checks=22 failures=0"
+      },
+      {
+        "case": "progression",
+        "suite": "progression",
+        "flags": [],
+        "passed": true,
+        "seconds": 39.0,
+        "verdict": "PASS progression exit=0: PROGRESSION_DONE checks=197 failures=0"
+      },
+      {
+        "case": "spawn_safety",
+        "suite": "spawn_safety",
+        "flags": [
+          "--classic"
+        ],
+        "passed": true,
+        "seconds": 38.7,
+        "verdict": "PASS spawn_safety exit=0: SPAWN_SAFETY_DONE checks=63 failures=0"
+      },
+      {
+        "case": "titan_variants",
+        "suite": "titan_variants",
+        "flags": [
+          "--classic"
+        ],
+        "passed": true,
+        "seconds": 35.9,
+        "verdict": "PASS titan_variants exit=0: TITAN_VARIANTS_DONE checks=66 failures=0"
+      },
+      {
+        "case": "connection_cancel",
+        "suite": "connection_cancel",
+        "flags": [],
+        "passed": true,
+        "seconds": 31.5,
+        "verdict": "PASS connection_cancel exit=0: CONNECTION_CANCEL_DONE checks=24 failures=0"
+      }
+    ],
+    "variants": [
+      {
+        "case": "class-balance-planes",
+        "suite": "class_balance",
+        "flags": [
+          "--flag=--class-planes"
+        ],
+        "passed": true,
+        "seconds": 59.2,
+        "verdict": "PASS class_balance exit=0: CLASS_BALANCE_DONE map=Planes checks=13 failures=0"
+      },
+      {
+        "case": "onboarding-planes",
+        "suite": "onboarding_polish",
+        "flags": [
+          "--flag=--planes-onboarding"
+        ],
+        "passed": true,
+        "seconds": 62.5,
+        "verdict": "PASS onboarding_polish exit=0: ONBOARDING_POLISH_DONE checks=31 failures=0"
+      },
+      {
+        "case": "gameplay-planes",
+        "suite": "gameplay_ux_audit",
+        "flags": [
+          "--flag=--audit-planes"
+        ],
+        "passed": true,
+        "seconds": 72.6,
+        "verdict": "PASS gameplay_ux_audit exit=0: GAMEPLAY_UX_AUDIT_DONE region=planes checks=35 failures=0"
+      },
+      {
+        "case": "weapon-field-forest",
+        "suite": "weapon_field_polish",
+        "flags": [
+          "--flag=--forest"
+        ],
+        "passed": true,
+        "seconds": 44.9,
+        "verdict": "PASS weapon_field_polish exit=0: WEAPON_FIELD_POLISH_DONE map=forest checks=40 failures=0"
+      },
+      {
+        "case": "weapon-field-planes",
+        "suite": "weapon_field_polish",
+        "flags": [],
+        "passed": true,
+        "seconds": 58.4,
+        "verdict": "PASS weapon_field_polish exit=0: WEAPON_FIELD_POLISH_DONE map=planes checks=72 failures=0"
+      },
+      {
+        "case": "classic-smoke",
+        "suite": "smoke",
+        "flags": [
+          "--classic"
+        ],
+        "passed": true,
+        "seconds": 56.2,
+        "verdict": "PASS smoke exit=0: SMOKE_DONE checks=94 failures=0"
+      },
+      {
+        "case": "navigation-planes",
+        "suite": "planes_navigation",
+        "flags": [],
+        "passed": true,
+        "seconds": 7.1,
+        "verdict": "PASS planes_navigation exit=0: PLANES_NAVIGATION_DONE checks=25 failures=0"
+      },
+      {
+        "case": "interaction-prompts",
+        "suite": "interactions",
+        "flags": [],
+        "passed": true,
+        "seconds": 40.0,
+        "verdict": "PASS interactions exit=0: INTERACTIONS_RESULT checks=20 failures=0"
+      },
+      {
+        "case": "classic-planes",
+        "suite": "planes_survival",
+        "flags": [
+          "--classic"
+        ],
+        "passed": true,
+        "seconds": 79.3,
+        "verdict": "PASS planes_survival exit=0: PLANES_SURVIVAL_DONE checks=42 failures=0"
+      },
+      {
+        "case": "expedition-planes",
+        "suite": "planes_survival",
+        "flags": [],
+        "passed": true,
+        "seconds": 94.0,
+        "verdict": "PASS planes_survival exit=0: PLANES_SURVIVAL_DONE checks=43 failures=0"
+      },
+      {
+        "case": "intro-guidance",
+        "suite": "intro_guidance",
+        "flags": [],
+        "passed": true,
+        "seconds": 35.7,
+        "verdict": "PASS intro_guidance exit=0: INTRO_GUIDANCE_DONE checks=23 failures=0"
+      }
+    ],
+    "rendered": [
+      {
+        "case": "input-hud-de",
+        "suite": "player_experience",
+        "flags": [
+          "--render",
+          "--lang=de"
+        ],
+        "passed": true,
+        "seconds": 177.3,
+        "verdict": "PASS player_experience exit=0: PLAYER_EXPERIENCE_DONE checks=106 failures=0"
+      },
+      {
+        "case": "fieldbook-de",
+        "suite": "fieldbook_usability",
+        "flags": [
+          "--render",
+          "--lang=de"
+        ],
+        "passed": true,
+        "seconds": 185.6,
+        "verdict": "PASS fieldbook_usability exit=0: FIELDBOOK_USABILITY_DONE checks=155 failures=0"
+      },
+      {
+        "case": "fieldbook-en",
+        "suite": "fieldbook_usability",
+        "flags": [
+          "--render",
+          "--lang=en"
+        ],
+        "passed": true,
+        "seconds": 199.9,
+        "verdict": "PASS fieldbook_usability exit=0: FIELDBOOK_USABILITY_DONE checks=155 failures=0"
+      },
+      {
+        "case": "vendor-de",
+        "suite": "vendor_tutorial",
+        "flags": [
+          "--render",
+          "--lang=de"
+        ],
+        "passed": true,
+        "seconds": 119.9,
+        "verdict": "PASS vendor_tutorial exit=0: VENDOR_TUTORIAL_DONE checks=13 failures=0"
+      },
+      {
+        "case": "sites-de",
+        "suite": "expedition_sites",
+        "flags": [
+          "--render",
+          "--lang=de"
+        ],
+        "passed": true,
+        "seconds": 104.1,
+        "verdict": "PASS expedition_sites exit=0: EXPEDITION_SITES_DONE checks=45 failures=0"
+      },
+      {
+        "case": "perimeter-beams",
+        "suite": "perimeter_beams",
+        "flags": [
+          "--render"
+        ],
+        "passed": true,
+        "seconds": 9.0,
+        "verdict": "PASS perimeter_beams exit=0: PERIMETER_BEAMS_DONE checks=24 failures=0"
+      },
+      {
+        "case": "startup",
+        "suite": "start_exposure",
+        "flags": [
+          "--render",
+          "--production-start"
+        ],
+        "passed": true,
+        "seconds": 206.4,
+        "verdict": "PASS start_exposure exit=0: START_EXPOSURE_DONE checks=18 failures=0"
+      },
+      {
+        "case": "teleport-input",
+        "suite": "teleport_input",
+        "flags": [
+          "--render"
+        ],
+        "passed": true,
+        "seconds": 131.0,
+        "verdict": "PASS teleport_input exit=0: TELEPORT_INPUT_DONE checks=10 failures=0"
+      },
+      {
+        "case": "survival-menu",
+        "suite": "survival_menu",
+        "flags": [
+          "--render"
+        ],
+        "passed": true,
+        "seconds": 19.7,
+        "verdict": "PASS survival_menu exit=0: SURVIVAL_MENU_DONE checks=55 failures=0"
+      },
+      {
+        "case": "sites-en",
+        "suite": "expedition_sites",
+        "flags": [
+          "--render",
+          "--lang=en"
+        ],
+        "passed": true,
+        "seconds": 101.1,
+        "verdict": "PASS expedition_sites exit=0: EXPEDITION_SITES_DONE checks=45 failures=0"
+      }
+    ],
+    "integration": [
+      {
+        "case": "checkpoint-restarts",
+        "suite": "tools/test_expansion_restart.py",
+        "flags": [],
+        "passed": true,
+        "seconds": 187.6,
+        "verdict": "PASS checkpoint-restarts exit=0 (integration-checkpoint-restarts.log)"
+      },
+      {
+        "case": "expedition-forest",
+        "suite": "tools/test_expansion_coop.py",
+        "flags": [
+          "forest"
+        ],
+        "passed": true,
+        "seconds": 63.6,
+        "verdict": "PASS expedition-forest exit=0 (integration-expedition-forest.log)"
+      },
+      {
+        "case": "expedition-planes",
+        "suite": "tools/test_expansion_coop.py",
+        "flags": [
+          "planes"
+        ],
+        "passed": true,
+        "seconds": 91.6,
+        "verdict": "PASS expedition-planes exit=0 (integration-expedition-planes.log)"
+      },
+      {
+        "case": "planes-late-join",
+        "suite": "tools/test_planes_coop.ps1",
+        "flags": [
+          "-LateJoin"
+        ],
+        "passed": true,
+        "seconds": 94.8,
+        "verdict": "PASS planes-late-join exit=0 (integration-planes-late-join.log)"
+      },
+      {
+        "case": "planes-coop",
+        "suite": "tools/test_planes_coop.ps1",
+        "flags": [],
+        "passed": true,
+        "seconds": 159.1,
+        "verdict": "PASS planes-coop exit=0 (integration-planes-coop.log)"
+      },
+      {
+        "case": "classes-coop",
+        "suite": "tools/test_class_coop.ps1",
+        "flags": [],
+        "passed": true,
+        "seconds": 49.5,
+        "verdict": "PASS classes-coop exit=0 (integration-classes-coop.log)"
+      },
+      {
+        "case": "earthworms-coop",
+        "suite": "tools/test_earthworm_coop.ps1",
+        "flags": [],
+        "passed": true,
+        "seconds": 45.8,
+        "verdict": "PASS earthworms-coop exit=0 (integration-earthworms-coop.log)"
+      },
+      {
+        "case": "four-player-forest",
+        "suite": "tools/test_multiplayer.ps1",
+        "flags": [],
+        "passed": true,
+        "seconds": 229.4,
+        "verdict": "PASS four-player-forest exit=0 (integration-four-player-forest.log)"
+      },
+      {
+        "case": "drones-coop",
+        "suite": "tools/test_drone_coop.ps1",
+        "flags": [],
+        "passed": true,
+        "seconds": 60.7,
+        "verdict": "PASS drones-coop exit=0 (integration-drones-coop.log)"
+      },
+      {
+        "case": "field-coop",
+        "suite": "tools/test_field_coop.ps1",
+        "flags": [],
+        "passed": true,
+        "seconds": 55.4,
+        "verdict": "PASS field-coop exit=0 (integration-field-coop.log)"
+      }
+    ],
+    "performance": [
+      {
+        "case": "shader-hitches",
+        "suite": "flare_hitch",
+        "flags": [
+          "--render"
+        ],
+        "passed": true,
+        "seconds": 192.7,
+        "verdict": "PASS flare_hitch exit=0: FLARE_HITCH_DONE checks=18 failures=0"
+      },
+      {
+        "case": "frame-pacing",
+        "suite": "frame_pacing",
+        "flags": [
+          "--render",
+          "--diagnostic",
+          "--production-start",
+          "--flag=--no-intro",
+          "--flag=--pacing-report=full-audit"
+        ],
+        "passed": true,
+        "seconds": 182.5,
+        "verdict": "PASS frame_pacing exit=0: FRAME_PACING_DONE stages=15"
+      },
+      {
+        "case": "planes-combat",
+        "suite": "planes_perf",
+        "flags": [
+          "--render",
+          "--diagnostic",
+          "--production-start",
+          "--flag=--no-intro",
+          "--flag=--planes-combat-perf",
+          "--flag=--planes-perf=full-audit"
+        ],
+        "passed": true,
+        "seconds": 114.9,
+        "verdict": "PASS planes_perf exit=0: PLANES_PERF_DONE full-audit"
+      }
+    ],
+    "packaged": [
+      {
+        "case": "four-player-release",
+        "suite": "tools/test_packed_coop.ps1",
+        "flags": [
+          "-Players",
+          "4"
+        ],
+        "passed": true,
+        "seconds": 328.7,
+        "verdict": "PASS four-player-release exit=0 (integration-four-player-release.log)"
+      }
+    ],
+    "online": [
+      {
+        "case": "eos-source-relay",
+        "suite": "tools/test_online_coop.ps1",
+        "flags": [
+          "-ForceRelay"
+        ],
+        "passed": true,
+        "seconds": 67.6,
+        "verdict": "PASS eos-source-relay exit=0 (integration-eos-source-relay.log)"
+      },
+      {
+        "case": "eos-packed-forest",
+        "suite": "tools/test_online_coop.ps1",
+        "flags": [
+          "-Packed",
+          "-ForceRelay",
+          "-Region",
+          "forest"
+        ],
+        "passed": true,
+        "seconds": 141.1,
+        "verdict": "PASS eos-packed-forest exit=0 (integration-eos-packed-forest.log)"
+      },
+      {
+        "case": "eos-packed-planes",
+        "suite": "tools/test_online_coop.ps1",
+        "flags": [
+          "-Packed",
+          "-ForceRelay",
+          "-Region",
+          "planes"
+        ],
+        "passed": true,
+        "seconds": 157.0,
+        "verdict": "PASS eos-packed-planes exit=0 (integration-eos-packed-planes.log)"
+      }
+    ]
+  },
+  "separate_process_and_pack_results": {
+    "restarts": [
+      {
+        "region": "forest",
+        "phase": "write",
+        "passed": true
+      },
+      {
+        "region": "forest",
+        "phase": "read",
+        "passed": true
+      },
+      {
+        "region": "planes",
+        "phase": "write",
+        "passed": true
+      },
+      {
+        "region": "planes",
+        "phase": "read",
+        "passed": true
+      }
+    ],
+    "network-compatibility": [
+      {
+        "case": "protocol7",
+        "role": "host",
+        "passed": true,
+        "verdict": "NETWORK_COMPATIBILITY_DONE role=host case=protocol7 checks=6 failures=0"
+      },
+      {
+        "case": "protocol7",
+        "role": "client",
+        "passed": true,
+        "verdict": "NETWORK_COMPATIBILITY_DONE role=client case=protocol7 checks=6 failures=0"
+      },
+      {
+        "case": "fingerprint",
+        "role": "host",
+        "passed": true,
+        "verdict": "NETWORK_COMPATIBILITY_DONE role=host case=fingerprint checks=6 failures=0"
+      },
+      {
+        "case": "fingerprint",
+        "role": "client",
+        "passed": true,
+        "verdict": "NETWORK_COMPATIBILITY_DONE role=client case=fingerprint checks=6 failures=0"
+      },
+      {
+        "case": "matching",
+        "role": "host",
+        "passed": true,
+        "verdict": "NETWORK_COMPATIBILITY_DONE role=host case=matching checks=6 failures=0"
+      },
+      {
+        "case": "matching",
+        "role": "client",
+        "passed": true,
+        "verdict": "NETWORK_COMPATIBILITY_DONE role=client case=matching checks=6 failures=0"
+      }
+    ],
+    "packed": [
+      {
+        "region": "forest",
+        "passed": true,
+        "native_startup": true,
+        "verdict": "EXPEDITION_PACK_DONE region=forest checks=30 failures=0"
+      },
+      {
+        "region": "planes",
+        "passed": true,
+        "native_startup": true,
+        "verdict": "EXPEDITION_PACK_DONE region=planes checks=38 failures=0"
+      }
+    ]
+  },
+  "static_checks": {
+    "compiled_scripts": 383,
+    "broken_scripts": 0,
+    "german_entries": 2634,
+    "translation_problems": 0,
+    "powershell_runner_syntax": "8 passed",
+    "python_compilation": "passed",
+    "worm_glb_boundaries": "both aligned"
+  },
+  "measurements": {
+    "forest": {
+      "complete": true,
+      "cpu": "11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz",
+      "gpu": "NVIDIA GeForce RTX 3060 Ti",
+      "profile": 0,
+      "rendered": true,
+      "resolution": "(1600, 900)",
+      "scale": 0.850000023841858,
+      "stages": [
+        {
+          "action_ms": 0.609,
+          "alive": 0,
+          "average_fps": 143.97797137038,
+          "frames": 288,
+          "max_ms": 8.433,
+          "nodes": 20856,
+          "over_33ms": 0,
+          "over_50ms": 0,
+          "p95_ms": 7.775,
+          "p99_ms": 7.992,
+          "stage": "first_surface_steps"
+        },
+        {
+          "action_ms": 0.141,
+          "alive": 0,
+          "average_fps": 143.882494952754,
+          "frames": 285,
+          "max_ms": 10.264,
+          "nodes": 20856,
+          "over_33ms": 0,
+          "over_50ms": 0,
+          "p95_ms": 7.82,
+          "p99_ms": 8.808,
+          "stage": "first_bullet_mark"
+        },
+        {
+          "action_ms": 0.0,
+          "alive": 72,
+          "average_fps": 91.1142530587997,
+          "frames": 454,
+          "max_ms": 22.482,
+          "nodes": 21943,
+          "over_33ms": 0,
+          "over_50ms": 0,
+          "p95_ms": 13.674,
+          "p99_ms": 15.625,
+          "stage": "moving_horde_72"
+        },
+        {
+          "action_ms": 1.407,
+          "alive": 72,
+          "average_fps": 75.0529498561235,
+          "frames": 150,
+          "max_ms": 40.32,
+          "nodes": 22047,
+          "over_33ms": 1,
+          "over_50ms": 0,
+          "p95_ms": 16.8,
+          "p99_ms": 21.082,
+          "stage": "first_tower_standard"
+        },
+        {
+          "action_ms": 1.293,
+          "alive": 72,
+          "average_fps": 60.4067640474042,
+          "frames": 128,
+          "max_ms": 207.538,
+          "nodes": 22145,
+          "over_33ms": 2,
+          "over_50ms": 2,
+          "p95_ms": 17.978,
+          "p99_ms": 95.16,
+          "stage": "first_tower_searchlight"
+        },
+        {
+          "action_ms": 1.497,
+          "alive": 72,
+          "average_fps": 70.7562069619054,
+          "frames": 140,
+          "max_ms": 21.58,
+          "nodes": 22245,
+          "over_33ms": 0,
+          "over_50ms": 0,
+          "p95_ms": 18.584,
+          "p99_ms": 21.055,
+          "stage": "first_tower_siren"
+        },
+        {
+          "action_ms": 1.548,
+          "alive": 72,
+          "average_fps": 67.7404861973778,
+          "frames": 136,
+          "max_ms": 30.119,
+          "nodes": 22347,
+          "over_33ms": 0,
+          "over_50ms": 0,
+          "p95_ms": 18.189,
+          "p99_ms": 23.515,
+          "stage": "first_tower_supply"
+        },
+        {
+          "action_ms": 1.95,
+          "alive": 72,
+          "average_fps": 61.828224840128,
+          "frames": 121,
+          "max_ms": 33.074,
+          "nodes": 22446,
+          "over_33ms": 0,
+          "over_50ms": 0,
+          "p95_ms": 22.441,
+          "p99_ms": 28.281,
+          "stage": "first_tower_flame"
+        },
+        {
+          "action_ms": 0.0,
+          "alive": 71,
+          "average_fps": 54.5227723445826,
+          "frames": 654,
+          "max_ms": 38.706,
+          "nodes": 22542,
+          "over_33ms": 4,
+          "over_50ms": 0,
+          "p95_ms": 27.783,
+          "p99_ms": 31.797,
+          "stage": "combat_72_five_towers"
+        },
+        {
+          "action_ms": 0.07,
+          "alive": 71,
+          "average_fps": 49.8389682865279,
+          "frames": 298,
+          "max_ms": 37.311,
+          "nodes": 22644,
+          "over_33ms": 2,
+          "over_50ms": 0,
+          "p95_ms": 28.572,
+          "p99_ms": 32.913,
+          "stage": "first_fire"
+        },
+        {
+          "action_ms": 0.07,
+          "alive": 71,
+          "average_fps": 47.3509242016743,
+          "frames": 284,
+          "max_ms": 40.47,
+          "nodes": 22688,
+          "over_33ms": 4,
+          "over_50ms": 0,
+          "p95_ms": 31.169,
+          "p99_ms": 34.127,
+          "stage": "first_frost"
+        },
+        {
+          "action_ms": 0.525,
+          "alive": 71,
+          "average_fps": 62.3470041450742,
+          "frames": 498,
+          "max_ms": 68.255,
+          "nodes": 22696,
+          "over_33ms": 2,
+          "over_50ms": 1,
+          "p95_ms": 21.49,
+          "p99_ms": 28.302,
+          "stage": "build_perimeter_in_combat"
+        },
+        {
+          "action_ms": 3.171,
+          "alive": 71,
+          "average_fps": 59.9763074803728,
+          "frames": 479,
+          "max_ms": 63.593,
+          "nodes": 22684,
+          "over_33ms": 5,
+          "over_50ms": 1,
+          "p95_ms": 22.553,
+          "p99_ms": 35.413,
+          "stage": "destroy_perimeter_in_combat"
+        },
+        {
+          "action_ms": 26.81,
+          "alive": 0,
+          "average_fps": 96.3126355130527,
+          "frames": 287,
+          "max_ms": 53.025,
+          "nodes": 22924,
+          "over_33ms": 1,
+          "over_50ms": 1,
+          "p95_ms": 12.401,
+          "p99_ms": 14.155,
+          "score_cpu_ms": 16.934,
+          "stage": "mass_deaths"
+        },
+        {
+          "action_ms": 0.209,
+          "alive": 0,
+          "average_fps": 141.448580598605,
+          "frames": 423,
+          "max_ms": 20.384,
+          "nodes": 22076,
+          "over_33ms": 0,
+          "over_50ms": 0,
+          "p95_ms": 8.54,
+          "p99_ms": 10.567,
+          "stage": "corpse_cleanup"
+        }
+      ],
+      "static_memory_mb": 1062.13879013062
+    },
+    "planes": {
+      "adapter": "NVIDIA GeForce RTX 3060 Ti",
+      "label": "full-audit",
+      "viewport": "(1920, 1009)",
+      "views": [
+        {
+          "draws": 1239,
+          "fps": 92.000255760711,
+          "id": "sennhof",
+          "mean_ms": 10.869535,
+          "median_ms": 10.753,
+          "p95_ms": 11.497,
+          "primitives": 8330889
+        },
+        {
+          "draws": 1145,
+          "fps": 105.740939984086,
+          "id": "junction",
+          "mean_ms": 9.457075,
+          "median_ms": 9.319,
+          "p95_ms": 9.902,
+          "primitives": 6553311
+        },
+        {
+          "draws": 1356,
+          "fps": 118.013386258403,
+          "id": "core",
+          "mean_ms": 8.473615,
+          "median_ms": 8.236,
+          "p95_ms": 9.921,
+          "primitives": 5611766
+        },
+        {
+          "draws": 897,
+          "fps": 158.331189265145,
+          "id": "grove",
+          "mean_ms": 6.315875,
+          "median_ms": 5.618,
+          "p95_ms": 8.018,
+          "primitives": 3247691
+        },
+        {
+          "draws": 1029,
+          "fps": 159.121901697672,
+          "id": "village",
+          "mean_ms": 6.28449,
+          "median_ms": 5.729,
+          "p95_ms": 8.057,
+          "primitives": 3450228
+        }
+      ]
+    },
+    "shader_probes": [
+      "FLARE_PROBE cold damage       worst=  10.6ms p95=  8.9ms call=  0.2ms (max   0.3ms) pipelines=0 hits=[\"hit\", \"hit\", \"hit\", \"hit\"]",
+      "FLARE_PROBE cold ignite       worst=  12.6ms p95=  9.7ms call=  0.0ms (max   0.0ms) pipelines=0 hits=[\"hit\", \"hit\", \"hit\", \"hit\"]",
+      "FLARE_PROBE cold plant        worst=  12.4ms p95=  9.5ms call=  0.3ms (max   0.3ms) pipelines=0 hits=[\"miss\", \"miss\", \"miss\", \"miss\"]",
+      "FLARE_PROBE cold launch       worst=   9.3ms p95=  8.6ms call=  0.2ms (max   0.2ms) pipelines=0 hits=[\"miss\", \"miss\", \"miss\", \"miss\"]",
+      "FLARE_PROBE cold tracer       worst=  10.5ms p95=  8.9ms call=  0.3ms (max   0.3ms) pipelines=0 hits=[\"miss\", \"miss\", \"miss\", \"miss\"]",
+      "FLARE_PROBE cold explode      worst=  10.4ms p95=  8.7ms call=  0.1ms (max   0.1ms) pipelines=0 hits=[\"miss\", \"miss\", \"miss\", \"miss\"]",
+      "FLARE_PROBE cold shot_flare   worst=  14.1ms p95=  9.4ms call=  1.1ms (max   2.2ms) pipelines=4 hits=[\"hit\", \"hit\", \"hit\", \"hit\"]",
+      "FLARE_PROBE cold shot_pistol  worst=  15.3ms p95= 12.7ms call=  1.1ms (max   1.2ms) pipelines=0 hits=[\"hit\", \"hit\", \"hit\", \"hit\"]",
+      "FLARE_PROBE warm damage       worst=  10.9ms p95=  9.1ms call=  0.2ms (max   0.2ms) pipelines=0 hits=[\"hit\", \"hit\", \"hit\", \"hit\"]",
+      "FLARE_PROBE warm ignite       worst=   9.7ms p95=  8.7ms call=  0.0ms (max   0.0ms) pipelines=0 hits=[\"hit\", \"hit\", \"hit\", \"hit\"]",
+      "FLARE_PROBE warm plant        worst=  10.7ms p95=  9.0ms call=  0.2ms (max   0.2ms) pipelines=0 hits=[\"miss\", \"miss\", \"miss\", \"miss\"]",
+      "FLARE_PROBE warm launch       worst=  10.7ms p95=  8.5ms call=  0.2ms (max   0.2ms) pipelines=0 hits=[\"miss\", \"miss\", \"miss\", \"miss\"]",
+      "FLARE_PROBE warm tracer       worst=  17.9ms p95= 11.6ms call=  0.3ms (max   0.5ms) pipelines=0 hits=[\"miss\", \"miss\", \"miss\", \"miss\"]",
+      "FLARE_PROBE warm explode      worst=  10.0ms p95=  9.6ms call=  0.1ms (max   0.1ms) pipelines=0 hits=[\"miss\", \"miss\", \"miss\", \"miss\"]",
+      "FLARE_PROBE warm shot_flare   worst=  15.1ms p95=  9.9ms call=  1.0ms (max   1.0ms) pipelines=0 hits=[\"hit\", \"hit\", \"hit\", \"hit\"]",
+      "FLARE_PROBE warm shot_pistol  worst=  10.1ms p95=  8.5ms call=  0.8ms (max   0.9ms) pipelines=0 hits=[\"hit\", \"hit\", \"hit\", \"hit\"]"
+    ]
+  },
+  "scope": [
+    "Final passing cases from the current audit; failed fixture attempts are not counted as passes.",
+    "Diagnostic performance completion does not assert a minimum FPS or absence of hitches.",
+    "PCK assertions use the exact release pack through editor Godot; native EXE startup and multiplayer are separate checks.",
+    "Online tests use two identities on this Windows PC through Epic's forced relay, not two separate physical networks.",
+    "Complete runtime hashes and source revision are recorded in BUILD-INFO.json and the publication receipt."
+  ]
+}

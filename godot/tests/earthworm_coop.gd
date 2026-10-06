@@ -29,7 +29,9 @@ func write(name: String, value: Dictionary) -> void:
 
 func read(name: String) -> Dictionary:
 	if not FileAccess.file_exists(folder + name + ".json"): return {}
-	return JSON.parse_string(FileAccess.get_file_as_string(folder + name + ".json"))
+	var parser := JSON.new()
+	if parser.parse(FileAccess.get_file_as_string(folder + name + ".json")) != OK: return {}
+	return parser.data if parser.data is Dictionary else {}
 
 func run() -> void:
 	net = root.get_node("NetSession")
@@ -65,6 +67,7 @@ func host_run() -> void:
 		return
 	write("ready", {"ready": true})
 	while net.roster.size() < 2 or false in net.ready_peers.values(): await create_timer(0.1).timeout
+	while not net.class_roster.values().all(func(build): return build.locked): await process_frame
 	net.start_game()
 	game.waves.set_process(false)
 	game.player.set_physics_process(false)

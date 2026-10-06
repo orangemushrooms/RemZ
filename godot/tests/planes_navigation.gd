@@ -24,4 +24,5 @@ func run() -> void:
 	var uphill_path := NavigationServer3D.map_get_path(map,target,uphill_at,true)
 	var uphill_ok := uphill_at.distance_to(uphill)<3 and not uphill_path.is_empty() and uphill_path[-1].distance_to(uphill_at)<1.5
 	print("NAV_UPHILL connected=",uphill_ok)
+	print("PLANES_NAVIGATION_DONE checks=25 failures=%d" % (24-connected+(0 if uphill_ok else 1)))
 	quit(0 if connected==24 and uphill_ok else 1)

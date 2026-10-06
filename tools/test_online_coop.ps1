@@ -21,6 +21,7 @@ foreach ($name in @('code', 'step', 'client')) {
     if (Test-Path -LiteralPath $file) { Remove-Item -LiteralPath $file }
 }
 $runs = @()
+$previousAppData = $env:APPDATA
 try {
     if ($Packed) {
         # Use a disposable normal-game profile: --smoke-test disables the FPS cap,
@@ -99,6 +100,7 @@ try {
         return
     }
     foreach ($role in @('host', 'client')) {
+        $env:APPDATA = Join-Path $workspace ('.test-user/online-audit-' + $role)
         $logPath = Join-Path $folder "$role.log"
         $arguments = @('--headless', '--max-fps', '120', '--path', 'godot', '--log-file', ('"' + $logPath + '"'),
             '--script', 'res://tests/run.gd', '--', '--suite=online_coop', '--smoke-test', '--class-auto-lock', '--no-intro', '--no-music', '--no-foliage',
@@ -115,15 +117,22 @@ try {
         $active = @($runs | Where-Object { -not $_.HasExited })
         if ((Get-Date) -gt $deadline) { throw 'Online co-op test timed out.' }
     } while ($active.Count -gt 0)
+    foreach ($process in $runs) {
+        $process.Refresh()
+        if ($process.ExitCode -ne 0) { throw "Online peer exited with code $($process.ExitCode)." }
+    }
     foreach ($role in @('host', 'client')) {
         $log = Get-Content -LiteralPath (Join-Path $folder "$role.log") -Raw
         if ($log -match 'SCRIPT ERROR|FAIL:|ONLINE_COOP_TIMEOUT') { throw "Runtime failure in $role.log" }
+        $unexpected = ($log -split "`n") | Where-Object { $_ -match '^ERROR:' -and $_ -notmatch 'Failed to read the root certificate store' }
+        if ($unexpected) { throw "Engine error in $role.log" }
         $marker = if ($role -eq 'host') { 'ONLINE_COOP_DONE checks=\d+ failures=0' } else { 'ONLINE_CLIENT_DONE checks=\d+ failures=0' }
         if ($log -match 'ONLINE_COOP_SKIPPED') { throw "The $role skipped: EOS runtime or credentials missing. See $role.log" }
         if ($log -notmatch $marker) { throw "Missing completion marker in $role.log" }
     }
     Select-String -Path (Join-Path $folder 'host.log') -Pattern 'ONLINE_CODE=|ONLINE_COOP_DONE|PASS: The application ping'
 } finally {
+    $env:APPDATA = $previousAppData
     foreach ($process in $runs) {
         if (-not $process.HasExited) { $process.Kill() }
         $process.Dispose()

@@ -287,10 +287,12 @@ func run() -> void:
 	await physics_frame
 	await physics_frame
 	w.set_weapon("titanbreaker")
+	w._switch_t = 0.0 # The fixture disables weapon processing; complete its equip delay.
+	w.spread_mul = 0.0
 	p.camera.look_at(titan.global_position + Vector3.UP * titan.height * 0.55)
 	w.ads = 1
 	w.try_fire()
-	check(w.cur().ammo == 3 and is_equal_approx(titan.hp, 10000 - 420 * 1.75 * w.damage_mul), "Titan rifle applies its specialist damage through a real bullet hit")
+	check(w.cur().ammo == 3 and is_equal_approx(titan.hp, 10000 - float(Weapons.DEFS.titanbreaker.damage) * 1.75 * w.damage_mul), "Titan rifle applies its specialist damage through a real bullet hit (ammo=%d hp=%.1f)" % [w.cur().ammo, titan.hp])
 	titan.queue_free()
 	await create_timer(0.35).timeout # Let the merchant-close input guard expire.
 	Input.action_press("aim")

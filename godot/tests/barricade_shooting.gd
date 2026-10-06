@@ -40,6 +40,7 @@ func run() -> void:
 	zombie.anim.pause()
 	zombie.global_position = bar.center + normal * 3
 	zombie.hp = 10000
+	zombie.max_hp = 10000 # Limb-sever thresholds must match this durable target too.
 	game.weapons.spread_mul = 0
 	game.player.camera.look_at(zombie.global_position + Vector3.UP * 0.8)
 	for level in range(1, 4):
@@ -51,8 +52,12 @@ func run() -> void:
 		check(not hit.is_empty() and hit.collider == bar.body, "Level %d still blocks movement ray" % level)
 		var before := zombie.hp
 		game.weapons.cur().cooldown = 0.0
+		# Each tier is an independent ray test. Weapon processing is stopped above,
+		# so accumulated free-aim recoil would otherwise never recover between tiers.
+		game.weapons._aim_kick = Vector2.ZERO
 		game.weapons.try_fire()
 		check(zombie.hp < before, "Real bullet hits zombie through level %d barricade" % level)
+		check(zombie.alive, "Tier %d leaves the durable test target alive for the next shot" % level)
 	var wall := StaticBody3D.new()
 	wall.collision_layer = 1
 	var shape := CollisionShape3D.new()
@@ -66,6 +71,7 @@ func run() -> void:
 	await physics_frame
 	var before := zombie.hp
 	game.weapons.cur().cooldown = 0.0
+	game.weapons._aim_kick = Vector2.ZERO
 	game.weapons.try_fire()
 	check(zombie.hp == before, "Solid wall still blocks bullets behind the barricade")
 	print("BARRICADE_SHOOTING_DONE checks=%d failures=%d" % [checks, failures])

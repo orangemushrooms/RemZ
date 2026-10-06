@@ -267,13 +267,16 @@ func run() -> void:
 	target.agent.avoidance_enabled = false
 	target.global_position = p.global_position + Vector3(0, 0, -1.5)
 	target.hp = 5000.0
+	target.max_hp = 5000.0
 	await physics_frame
 	await physics_frame
 	for weapon in ["knife", "pistol"]:
 		w.set_weapon(weapon)
+		w._switch_t = 0.0 # Weapon processing is disabled; complete the normal equip delay explicitly.
 		w.spread_mul = 0.0
 		var damage := []
 		for bonus in [false, true]:
+			w._aim_kick = Vector2.ZERO
 			p.mushroom_effects.clear()
 			if bonus: p.mushroom_effects.fliegenpilz = 20.0
 			w._melee_t = 0.0
@@ -283,7 +286,7 @@ func run() -> void:
 			var before := target.hp
 			w.try_fire()
 			damage.append(before - target.hp)
-		check(damage[0] > 0.0 and is_equal_approx(damage[1], damage[0] * 2.0), weapon + " actual hit damage doubles while mushroom effect is active")
+		check(target.alive and damage[0] > 0.0 and is_equal_approx(damage[1], damage[0] * 2.0), weapon + " actual hit damage doubles while mushroom effect is active: " + str(damage))
 	target.queue_free()
 	for kind in Mushrooms.DEFS:
 		inv.mushrooms[kind] = 3

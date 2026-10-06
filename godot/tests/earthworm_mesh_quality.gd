@@ -98,6 +98,7 @@ func run() -> void:
 		if anim.has_animation("recovery"):
 			await pose(anim, "recovery", 0)
 			var recovery := rig.get_bone_global_pose(head)
+			print("MESH_TRANSITION ", asset, " gap=", impact.origin.distance_to(recovery.origin), " impact=", impact.origin, " recovery=", recovery.origin, " attack_length=", anim.get_animation("attack").length)
 			check(impact.origin.distance_to(recovery.origin) < 0.0001 and impact.basis.is_equal_approx(recovery.basis), asset + " impact and recovery meet without a pose snap")
 		print("MESH_POSE ", asset, " idle=", upright.origin, " impact=", impact.origin)
 		model.queue_free()

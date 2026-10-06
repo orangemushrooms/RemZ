@@ -624,6 +624,13 @@ func discard_enemy(enemy: Node3D) -> void:
 
 func finish_survival(won: bool) -> void:
 	if over: return
+	# Exploration encounters can be lethal even after the wave controller was removed.
+	# Offer the normal recovery menu without recording an unfinished survival run.
+	if not survival_active or waves == null:
+		over = true
+		victory = false
+		set_menu(true)
+		return
 	if won: campaign.record_victory(expedition.round_limit() if expedition else Campaign.ROUNDS, str(difficulty.name))
 	if expedition and expedition.book.is_open: expedition.book.close()
 	if classes:

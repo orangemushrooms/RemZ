@@ -45,6 +45,10 @@ func texts(node: Node) -> String:
 	return result
 
 func run() -> void:
+	if DisplayServer.get_name() == "headless":
+		push_error("survival_menu requires a windowed renderer for captures")
+		quit(1)
+		return
 	root.mode = Window.MODE_WINDOWED
 	root.size = Vector2i(1600, 900)
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(FOLDER))

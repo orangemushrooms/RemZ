@@ -2316,8 +2316,8 @@ msgid "Leave session"
 msgstr "Sitzung verlassen"
 
 #: scripts/coop_menu.gd
-msgid "Version: Co-op 2026.10.06-G"
-msgstr "Version: Koop 2026.10.06-G"
+msgid "Version: Co-op 2026.10.06-H"
+msgstr "Version: Koop 2026.10.06-H"
 
 #: scripts/coop_menu.gd
 msgid "Open logs"
@@ -9534,6 +9534,10 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "Version: Co-op 2026.10.06-G"
+msgstr "Version: Koop 2026.10.06-G"
 
 #. unused
 msgid "Version: Co-op 2026.10.05-F"

@@ -51,7 +51,11 @@ func run() -> void:
 	music.queue_free()
 	scene.queue_free()
 	for node in root.get_children():
-		if node is AudioStreamPlayer: node.queue_free()
+		if node is AudioStreamPlayer:
+			node.stop()
+			node.queue_free()
 	await process_frame
+	# Let the audio mixer release queued playback resources before shutting down.
+	await create_timer(0.1).timeout
 	print("AUDIO_EVENTS_DONE checks=%d failures=%d" % [checks, failures])
 	quit(0 if failures == 0 else 1)

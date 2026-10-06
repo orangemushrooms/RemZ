@@ -8,8 +8,10 @@ foreach ($name in @('host-ready','join-late','step','done-c1','done-c2','result'
     if (Test-Path -LiteralPath $file) { Remove-Item -LiteralPath $file }
 }
 $runs = @()
+$previousAppData = $env:APPDATA
 try {
     foreach ($role in @('host','c1','c2')) {
+        $env:APPDATA = Join-Path $workspace ('.test-user/drone-coop-' + $role)
         $argsForGodot = @('--headless','--max-fps','120','--path','godot','--log-file',(Join-Path $artifacts "$role.log"),
             '--script','res://tests/run.gd','--','--suite=drone_coop','--smoke-test', '--class-auto-lock','--no-intro','--no-music','--no-foliage',
             "--coop-role=$role", "--coop-port=$Port")
@@ -26,9 +28,12 @@ try {
         $log = Get-Content -Raw -LiteralPath (Join-Path $artifacts "$role.log")
         if ($log -match 'SCRIPT ERROR|FAIL:|COOP_TEST_TIMEOUT') { throw "Drone coop failure: $role" }
         if ($log -notmatch 'DRONE_(COOP|CLIENT)_DONE') { throw "Missing completion: $role" }
+        $unexpected = ($log -split "`n") | Where-Object { $_ -match '^ERROR:' -and $_ -notmatch 'Failed to read the root certificate store' }
+        if ($unexpected) { throw "Engine error in drone co-op: $role" }
     }
     Get-Content -LiteralPath (Join-Path $artifacts 'result.json')
 } finally {
+    $env:APPDATA = $previousAppData
     foreach ($process in $runs) {
         if (-not $process.HasExited) { $process.Kill() }
         $process.Dispose()

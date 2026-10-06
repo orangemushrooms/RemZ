@@ -53,6 +53,8 @@ func run() -> void:
 	for id in [2, 3, 4]:
 		net.roster[id] = "Mitspieler %d" % id
 		net.world.add_player(id)
+	# This suite exercises an already deployed team, not the protected class-selection screen.
+	for id in net.class_roster: net.class_roster[id]["locked"] = true
 	net._begin(net.epoch, false)
 	game.waves.set_process(false)
 	game.player.set_physics_process(false)

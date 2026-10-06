@@ -5,6 +5,7 @@ python tools/test_expansion.py expedition --render --lang de
 python tools/test_expansion.py smoke --classic
 """
 import argparse
+import hashlib
 import os
 from pathlib import Path
 import re
@@ -23,18 +24,27 @@ def main():
     parser.add_argument("--lang", default="en")
     parser.add_argument("--flag", action="append", default=[])
     parser.add_argument("--label", default="")
+    parser.add_argument("--profile", default="", help="Share an isolated profile between related processes, e.g. checkpoint write/read")
+    parser.add_argument("--production-start", action="store_true", help="Keep normal loading, intro and foliage for rendered startup checks")
+    parser.add_argument("--diagnostic", action="store_true", help="Accept a diagnostic completion marker without claiming assertions")
     args = parser.parse_args()
     folder = ROOT / "artifacts" / "expansion-tests"
     folder.mkdir(parents=True, exist_ok=True)
     environment = os.environ.copy()
-    environment["APPDATA"] = str(folder / "userdata" / f"{args.suite}-{args.lang}{'-classic' if args.classic else ''}")
     if args.label and not re.fullmatch(r"[A-Za-z0-9_-]+", args.label): parser.error("Invalid log label")
+    if args.profile and not re.fullmatch(r"[A-Za-z0-9_-]+", args.profile): parser.error("Invalid profile label")
+    profile = args.profile or args.label
+    # Keep Windows shader-cache paths below MAX_PATH even for long suite labels.
+    identity = f"{args.suite}-{args.lang}-{args.classic}-{profile}"
+    environment["APPDATA"] = str(ROOT / ".test-user" / "audit" / hashlib.sha256(identity.encode()).hexdigest()[:12])
     log = folder / f"{args.suite}-{args.lang}{'-render' if args.render else ''}{'-classic' if args.classic else ''}{'-'+args.label if args.label else ''}.log"
     command = [environment.get("GODOT", "C:/Users/miche/Desktop/Godot.exe")]
     if not args.render:
         command += ["--headless"]
     command += ["--path", str(ROOT / "godot"), "--script", "res://tests/run.gd", "--",
-                f"--suite={args.suite}", "--smoke-test", "--no-intro", "--no-music", "--no-foliage", f"--lang={args.lang}"]
+                f"--suite={args.suite}", "--no-music", f"--lang={args.lang}"]
+    if not args.production_start:
+        command += ["--smoke-test", "--no-intro", "--no-foliage"]
     if args.classic:
         command += ["--classic-run"]
     if args.render:
@@ -65,6 +75,8 @@ def main():
     if not markers:
         markers = re.findall(r"[A-Z0-9_]+ checks=\d+ failures=\d+", text)
     clean = markers and ("failures=0" in markers[-1] or "broken=0" in markers[-1])
+    if args.diagnostic:
+        clean = bool(markers) and not any("FAIL:" in line for line in text.splitlines())
     ok = result.returncode == 0 and clean and not errors
     print(f"{'PASS' if ok else 'FAIL'} {args.suite} exit={result.returncode}: {markers[-1] if markers else 'no completion marker'}")
     if not ok:

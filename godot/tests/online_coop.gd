@@ -38,7 +38,10 @@ func write_json(name: String, data: Variant) -> void:
 
 func read_json(name: String) -> Variant:
 	if not FileAccess.file_exists(folder + name + ".json"): return null
-	return JSON.parse_string(FileAccess.get_file_as_string(folder + name + ".json"))
+	# Poll again if another process is still writing the coordination file.
+	var parser := JSON.new()
+	if parser.parse(FileAccess.get_file_as_string(folder + name + ".json")) != OK: return null
+	return parser.data
 
 func wait_for(condition: Callable, seconds: float) -> bool:
 	var deadline := Time.get_ticks_msec() + int(seconds * 1000)

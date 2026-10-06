@@ -39,6 +39,22 @@ func run() -> void:
 	await process_frame
 	await process_frame
 	check(not net.enabled and not net._closing and current_scene == game, "Failure signal safely detaches ENet outside its callback")
+	check(net.join("127.0.0.1", "Host loss", 24699) == OK, "Client can reconnect before a host-loss notification")
+	# EOS may deliver peer_disconnected(1) before server_disconnected. A roster
+	# observer must already see an offline session, even if it submits a command.
+	net.phase = "running"
+	var observed: Array = []
+	var observer := func():
+		observed.append({"enabled": net.enabled, "phase": net.phase})
+		net.command("interact", [])
+	net.changed.connect(observer)
+	get_multiplayer().peer_disconnected.emit(1)
+	net.changed.disconnect(observer)
+	check(not net.enabled and net._closing and net.phase == "offline", "Host loss disables the client before deferred cleanup")
+	check(not observed.is_empty() and observed.all(func(state): return not state.enabled and state.phase == "offline") and net._command_seq == 0, "Roster observers cannot send RPCs after the host disconnects")
+	get_multiplayer().server_disconnected.emit()
+	while net._closing: await process_frame
+	check(current_scene == game and net.roster.is_empty() and net.world.actors.is_empty(), "The later server-disconnected signal leaves one clean offline lobby")
 	check(net.host("Recovered", 24699) == OK, "Host can be created after repeated failed joins")
 	net.leave()
 	await process_frame

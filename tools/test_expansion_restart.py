@@ -13,7 +13,7 @@ def main():
         for phase in ("write", "read"):
             command = [sys.executable, str(ROOT / "tools/test_expansion.py"), "expedition_restart",
                        f"--flag=--checkpoint-phase={phase}", f"--flag=--test-region={region}",
-                       "--label", f"{region}-{phase}"]
+                       "--label", f"{region}-{phase}", "--profile", f"restart-{region}"]
             result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True,
                                     encoding="utf-8", errors="replace")
             print(result.stdout.strip(), flush=True)

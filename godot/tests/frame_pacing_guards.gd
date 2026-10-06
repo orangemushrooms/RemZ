@@ -88,5 +88,9 @@ func run() -> void:
 	check(saved.unlocked.has("first") and saved.unlocked.has("latest"), "Overlapping background saves retain the latest unlocks")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(achievements._save_path))
 	achievements.queue_free()
+	for voice in scene.find_children("*", "AudioStreamPlayer3D", true, false): voice.stop()
+	scene.queue_free()
+	await process_frame
+	await create_timer(0.1).timeout
 	print("FRAME_PACING_GUARDS_DONE checks=%d failures=%d" % [checks, failures])
 	quit(1 if failures else 0)

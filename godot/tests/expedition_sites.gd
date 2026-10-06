@@ -10,6 +10,11 @@ func check(ok: bool, title: String) -> void:
 	print("PASS: " if ok else "FAIL: ", title)
 
 func run() -> void:
+	# Crop flattening reads MultiMesh transforms, which the dummy renderer does not retain.
+	if DisplayServer.get_name() == "headless":
+		push_error("expedition_sites requires a renderer for crop geometry checks")
+		quit(1)
+		return
 	var game = load("res://scenes/planes.tscn").instantiate()
 	root.add_child(game)
 	current_scene = game

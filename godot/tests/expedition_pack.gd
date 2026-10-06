@@ -108,6 +108,30 @@ func test() -> void:
 		check(site.timer == 34.0 and run.book.status.visible and Lang.text(run.book.status.text).contains("34"), "Packed German HUD counts down the occupied outpost")
 		site.timer = 0.0
 	check(run.begin_finale() and game.waves.phase == "finale", "Packed game installs its region finale")
+	if region == "planes":
+		game.stop_survival()
+		var records: Array = game.stats.table.duplicate(true)
+		game.player.revive_protection = 0
+		game.player.damage(1000000)
+		game.player._bleed_out()
+		check(game.waves == null and game.over and game.menu.visible, "Packed exploration death opens recovery after stopping survival")
+		check(game.stats.table == records and not game.stats._finished, "Packed exploration recovery does not save a spurious survival record")
+		game.hud.overlay_button.pressed.emit()
+		check(game.player.alive and game.player.active and not game.over and not paused, "Packed exploration recovery restores playable controls")
+	else:
+		for asset in ["zombie_earthworm", "zombie_earthworm_ancient"]:
+			var model: Node3D = load("res://assets/models/%s.glb" % asset).instantiate()
+			var animation := model.find_child("AnimationPlayer", true, false) as AnimationPlayer
+			var attack := animation.get_animation("attack")
+			var recovery := animation.get_animation("recovery")
+			var seamless := true
+			for track in attack.get_track_count():
+				if attack.track_get_type(track) != Animation.TYPE_ROTATION_3D: continue
+				var next := recovery.find_track(attack.track_get_path(track), Animation.TYPE_ROTATION_3D)
+				seamless = seamless and next >= 0
+				if next >= 0: seamless = seamless and attack.rotation_track_interpolate(track, attack.length).is_equal_approx(recovery.rotation_track_interpolate(next, 0))
+			check(seamless, "Packed worm attack/recovery transition is seamless: " + asset)
+			model.free()
 	paused = false
 	game.queue_free()
 	await process_frame
