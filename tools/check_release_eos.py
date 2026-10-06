@@ -76,12 +76,13 @@ def audit(build: Path, published: Path | None = None) -> dict:
                 needles.append((key, str(value).encode(encoding)))
     runtime = {'RemZ.exe', 'RemZ.pck', 'libeosg.windows.template_release.x86_64.dll',
                'EOSSDK-Win64-Shipping.dll', 'xaudio2_9redist.dll'}
+    release_metadata = {'BUILD-INFO.json', 'RELEASE_AUDIT_RESULTS.json'}
     checked = set()
     for path in build.rglob('*'):
         relative = path.relative_to(build)
         if path.is_dir() or relative.parts[0] == 'logs' or path.suffix in {'.TMP', '.tmp'}:
             continue  # publish-itch.ps1 excludes exactly these files.
-        if path.parent != build or not (path.name in runtime | {'BUILD-INFO.json'} or path.suffix in {'.md', '.txt'}):
+        if path.parent != build or not (path.name in runtime | release_metadata or path.suffix in {'.md', '.txt'}):
             raise ValueError(f'Unexpected release file: {relative}')
         if path.stat().st_size:
             with path.open('rb') as handle, mmap.mmap(handle.fileno(), 0, access=mmap.ACCESS_READ) as data:
