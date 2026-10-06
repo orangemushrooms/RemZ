@@ -15,7 +15,7 @@ def main():
     folder = ROOT / "artifacts" / "expansion-tests" / f"coop-{region}"
     folder.mkdir(parents=True, exist_ok=True)
     # Delete only this runner's named synchronisation files inside its verified folder.
-    for name in ("host-ready", "test-ready", "client-choice", "heal-ready", "client-heal", "restored", "client-restored", "structure-ready", "client-structure", "finale-ready", "client-finale", "done", "client-done"):
+    for name in ("host-ready", "test-ready", "client-choice", "heal-ready", "client-heal", "restored", "client-restored", "outpost-ready", "client-outpost", "structure-ready", "client-structure", "finale-ready", "client-finale", "done", "client-done"):
         (folder / name).unlink(missing_ok=True)
     processes = []
     streams = []

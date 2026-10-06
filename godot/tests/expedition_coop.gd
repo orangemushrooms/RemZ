@@ -150,6 +150,17 @@ func test() -> void:
 		signal_file("restored")
 		await wait_file("client-restored")
 		if region == "planes":
+			var outpost: Dictionary = run.sites[0]
+			game.player.global_position = outpost.at+Vector3.UP*0.3
+			outpost.timer = 35.0
+			outpost.pending = 0
+			run._tick = 0.25
+			run._process(1.0)
+			check(outpost.occupied and outpost.timer == 34.0, "Host holds outpost while remote player is outside")
+			NetSession.send_reliable_state(client_id, false)
+			signal_file("outpost-ready")
+			await wait_file("client-outpost")
+			outpost.timer = 0.0
 			var built := false
 			for x in range(-120, 150, 15):
 				for z in range(60, 250, 15):
@@ -223,6 +234,12 @@ func test() -> void:
 		if region == "planes": check(CharacterProfile.data.mastery.range.get("competition", 0) >= 12, "Client receives its own completed range record reliably")
 		signal_file("client-restored")
 		if region == "planes":
+			await wait_file("outpost-ready")
+			await create_timer(0.7).timeout
+			check(run.sites[0].timer == 34.0 and run.sites[0].get("occupied", false), "Client receives authoritative outpost countdown and occupancy")
+			check(run.objective_status() == Lang.t("Securing outpost: %d s | Health %d", [34, 160]), "Distant client sees teammate holding outpost instead of a false pause")
+			check(not run.sites.any(func(site): return site.kind != "outpost" and run.map_points().any(func(point): return point.at == site.at)), "Client minimap hides transmitters and caches")
+			signal_file("client-outpost")
 			await wait_file("structure-ready")
 			await create_timer(0.7).timeout
 			check(run.structures.items.size() == 1 and run.structures.nodes.size() == 1, "Client reconstructs the host's physical fortification")

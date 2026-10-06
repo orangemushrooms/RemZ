@@ -103,7 +103,7 @@ func setup(owner_hud: Hud) -> void:
 	add_child(leave_button)
 	var diagnostics := HBoxContainer.new()
 	add_child(diagnostics)
-	var version := hud._label("Version: Co-op 2026.10.05-F", 12)
+	var version := hud._label("Version: Co-op 2026.10.06-G", 12)
 	version.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	diagnostics.add_child(version)
 	var logs := Button.new()

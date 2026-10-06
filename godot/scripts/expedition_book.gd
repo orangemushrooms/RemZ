@@ -69,7 +69,8 @@ func setup(run: RunDirector) -> void:
 	layer = 31
 	status = _label("", 16)
 	status.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	status.offset_top = 140
+	status.offset_top = 178
+	status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	status.offset_left = 200
 	status.offset_right = -200
 	status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -639,8 +640,8 @@ func _process(delta: float) -> void:
 	if _refresh_t > 0: return
 	_refresh_t = 0.25
 	if is_open: refresh()
-	status.visible = director.game.started and director.game.player.active and not director.game.over and not is_open and not director.game.hud.overlay.visible and not director.finale.is_empty() and director.finale.get("stage") == "defend"
-	if status.visible: status.text = Lang.t("Final defence · %d s · Health %d", [ceili(director.finale.timer), ceili(director.finale.health)])
+	status.visible = director.game.started and director.game.player.active and not director.game.over and not is_open and not director.game.hud.overlay.visible and not director.objective_status().is_empty()
+	if status.visible: status.text = director.objective_status()
 
 func _input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed or event.echo: return

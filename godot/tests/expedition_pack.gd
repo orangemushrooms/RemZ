@@ -81,6 +81,32 @@ func test() -> void:
 	check(run.checkpoints.save_run() == "Checkpoint saved.", "Packed game writes a validated checkpoint")
 	game.player.score = 1
 	check(run.checkpoints.load_run() == "Expedition continued." and game.player.score == 389, "Packed game restores its checkpoint")
+	for site in run.sites:
+		var visual: Node3D = run._markers[site.id]
+		check(not visual.has_node("Caption") and not visual.find_children("Model_*", "Node3D", true, false).is_empty(), "Packed discovery site uses textured assets: "+site.id)
+		check(run.map_points().any(func(point): return point.at == site.at) == (site.kind == "outpost"), "Packed minimap discovery visibility: "+site.id)
+	var cache: Dictionary = run.sites.filter(func(site): return site.kind == "record")[0]
+	await physics_frame
+	var target: Vector3 = cache.at+Vector3.UP*0.3
+	var ray := PhysicsRayQueryParameters3D.create(target+Vector3(0, 0, 2), target, 8)
+	var hit: Dictionary = game.get_world_3d().direct_space_state.intersect_ray(ray)
+	check(not hit.is_empty() and run._markers[cache.id].is_ancestor_of(hit.collider), "Packed crate has physical collision")
+	cache.done = true
+	run._sync_markers()
+	await physics_frame
+	hit = game.get_world_3d().direct_space_state.intersect_ray(ray)
+	check(hit.is_empty() or not run._markers[cache.id].is_ancestor_of(hit.collider), "Packed collected crate leaves no invisible obstacle")
+	if region == "planes":
+		var site: Dictionary = run.sites[0]
+		site.timer = 35.0
+		site.pending = 0
+		game.player.global_position = site.at+Vector3.UP*0.2
+		run._tick = 0.25
+		run._process(1.0)
+		run.book._refresh_t = 0
+		run.book._process(0.3)
+		check(site.timer == 34.0 and run.book.status.visible and Lang.text(run.book.status.text).contains("34"), "Packed German HUD counts down the occupied outpost")
+		site.timer = 0.0
 	check(run.begin_finale() and game.waves.phase == "finale", "Packed game installs its region finale")
 	paused = false
 	game.queue_free()

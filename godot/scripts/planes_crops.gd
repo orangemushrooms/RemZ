@@ -16,6 +16,33 @@ var _grass_cursor := 0
 var fires: Node3D
 var wheat_fire_cells: Dictionary = {}
 var rustle: AudioStreamPlayer
+var _site_layout := ""
+var _site_plants: Array = []
+
+func clear_discovery_sites(sites: Array) -> void:
+	var layout := ""
+	for site in sites: layout += str(site.at)+str(site.kind)
+	if layout == _site_layout: return
+	_site_layout = layout
+	for plant in _site_plants:
+		plant[0].set_instance_transform(plant[1], plant[2])
+	_site_plants.clear()
+	for batch in batches+grass_batches:
+		var changed: Dictionary = {}
+		for site in sites:
+			var radius := 3.2 if site.kind == "outpost" else 1.4
+			var center := Vector2(site.at.x, site.at.z)
+			if Vector2(batch.global_position.x, batch.global_position.z).distance_to(center) > CELL*1.5+radius: continue
+			for i in batch.multimesh.instance_count:
+				if changed.has(i): continue
+				var original := batch.multimesh.get_instance_transform(i)
+				var at: Vector3 = batch.to_global(original.origin)
+				if Vector2(at.x, at.z).distance_to(center) > radius: continue
+				changed[i] = true
+				_site_plants.append([batch.multimesh, i, original])
+				var flattened := original
+				flattened.basis = Basis.from_scale(Vector3(1, 0.08, 1))*original.basis
+				batch.multimesh.set_instance_transform(i, flattened)
 
 func sample(p: Vector2) -> Color:
 	if not Map.extent().has_point(p): return Color.BLACK

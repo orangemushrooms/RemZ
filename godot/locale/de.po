@@ -2316,8 +2316,8 @@ msgid "Leave session"
 msgstr "Sitzung verlassen"
 
 #: scripts/coop_menu.gd
-msgid "Version: Co-op 2026.10.05-F"
-msgstr "Version: Koop 2026.10.05-F"
+msgid "Version: Co-op 2026.10.06-G"
+msgstr "Version: Koop 2026.10.06-G"
 
 #: scripts/coop_menu.gd
 msgid "Open logs"
@@ -3618,10 +3618,6 @@ msgstr "Schiessstandrekorde"
 #: scripts/expedition_book.gd
 msgid "%s · %d points"
 msgstr "%s · %d Punkte"
-
-#: scripts/expedition_book.gd
-msgid "Final defence · %d s · Health %d"
-msgstr "Letzte Verteidigung · %d s · Zustand %d"
 
 #: scripts/expedition_checkpoint.gd scripts/field_trials.gd scripts/fireworks.gd scripts/planes_crop_fire.gd
 msgid "active"
@@ -8184,16 +8180,20 @@ msgid "Supplies transferred."
 msgstr "Vorräte übergeben."
 
 #: scripts/run_director.gd
-msgid "Abandoned outpost"
-msgstr "Verlassener Aussenposten"
+msgid "Final defence: %d s | Health %d"
+msgstr "Letzte Verteidigung: %d s | Zustand %d"
 
 #: scripts/run_director.gd
-msgid "Cornfield transmitter"
-msgstr "Maisfeldsender"
+msgid "Outpost: clear remaining attackers | Health %d"
+msgstr "Aussenposten: Restliche Angreifer ausschalten | Zustand %d"
 
 #: scripts/run_director.gd
-msgid "Expedition cache"
-msgstr "Expeditionsversteck"
+msgid "Securing outpost: %d s | Health %d"
+msgstr "Aussenposten sichern: %d s | Zustand %d"
+
+#: scripts/run_director.gd
+msgid "Return to outpost: %d s remaining | Health %d"
+msgstr "Zum Aussenposten zurückkehren: noch %d s | Zustand %d"
 
 #: scripts/run_director.gd
 msgid "Move closer to the expedition objective."
@@ -9534,6 +9534,26 @@ msgstr "BRAND"
 #: scripts/zombie.gd
 msgid "FROST"
 msgstr "FROST"
+
+#. unused
+msgid "Version: Co-op 2026.10.05-F"
+msgstr "Version: Koop 2026.10.05-F"
+
+#. unused
+msgid "Final defence · %d s · Health %d"
+msgstr "Letzte Verteidigung · %d s · Zustand %d"
+
+#. unused
+msgid "Abandoned outpost"
+msgstr "Verlassener Aussenposten"
+
+#. unused
+msgid "Cornfield transmitter"
+msgstr "Maisfeldsender"
+
+#. unused
+msgid "Expedition cache"
+msgstr "Expeditionsversteck"
 
 #. unused
 msgid "T: choose a tower type · R/mouse wheel: rotate · E: place\nAt the tower: E climbs up, R aims, F repairs. On top: the mouse aims, left click fires, E climbs down. Without an operator the tower fires on its own. Sustained fire builds up heat."

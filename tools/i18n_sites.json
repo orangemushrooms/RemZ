@@ -1,0 +1,7 @@
+{
+  "Final defence: %d s | Health %d": "Letzte Verteidigung: %d s | Zustand %d",
+  "Outpost: clear remaining attackers | Health %d": "Aussenposten: Restliche Angreifer ausschalten | Zustand %d",
+  "Securing outpost: %d s | Health %d": "Aussenposten sichern: %d s | Zustand %d",
+  "Return to outpost: %d s remaining | Health %d": "Zum Aussenposten zurückkehren: noch %d s | Zustand %d",
+  "Version: Co-op 2026.10.06-G": "Version: Koop 2026.10.06-G"
+}

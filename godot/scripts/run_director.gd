@@ -418,7 +418,8 @@ func _build_sites() -> void:
 		var site := {"id": "site_%d" % i, "kind": kind, "at": _safe_point(point), "done": false, "health": 160.0, "timer": 0.0}
 		sites.append(site)
 		if kind == "signal": site.at = _corn_signal_point(point, i-5)
-		_marker(site.id, site.at, "Abandoned outpost" if kind == "outpost" else "Cornfield transmitter" if kind == "signal" else "Expedition cache", Color(0.7, 0.85, 1))
+		_site_marker(site)
+	_sync_markers()
 
 func _corn_signal_point(preferred: Vector2, index: int) -> Vector3:
 	var choices: Array[Vector2] = []
@@ -433,6 +434,31 @@ func _corn_signal_point(preferred: Vector2, index: int) -> Vector3:
 		if sites.any(func(site): return site.kind == "signal" and site.at.distance_to(at) < 25): continue
 		return at
 	return _safe_point(preferred+Vector2(index*25, 0))
+
+func _site_marker(site: Dictionary) -> void:
+	if _markers.has(site.id):
+		if _markers[site.id].position == site.at: return
+		_markers[site.id].set_available(false)
+		_markers[site.id].queue_free()
+		_markers.erase(site.id)
+	var visual := preload("res://scripts/expedition_site_visual.gd").new()
+	add_child(visual)
+	visual.position = site.at
+	visual.build(site.kind, int(str(site.id).trim_prefix("site_")))
+	_markers[site.id] = visual
+
+func objective_status() -> String:
+	if not finale.is_empty() and finale.get("stage") == "defend":
+		return Lang.t("Final defence: %d s | Health %d", [ceili(finale.timer), ceili(finale.health)])
+	var closest: Dictionary = {}
+	for site in sites:
+		if site.kind != "outpost" or site.done or site.timer <= 0: continue
+		if closest.is_empty() or game.player.global_position.distance_squared_to(site.at) < game.player.global_position.distance_squared_to(closest.at): closest = site
+	if closest.is_empty(): return ""
+	if closest.timer <= 0.1:
+		return Lang.t("Outpost: clear remaining attackers | Health %d", [ceili(closest.health)])
+	var occupied: bool = bool(closest.get("occupied", false)) if NetSession.is_client() else actors().any(func(p): return p.alive and not p.downed and _near(p, closest.at, 14))
+	return Lang.t("Securing outpost: %d s | Health %d" if occupied else "Return to outpost: %d s remaining | Health %d", [ceili(closest.timer), ceili(closest.health)])
 
 func _marker(id: String, at: Vector3, label: String, color: Color) -> void:
 	if _markers.has(id):
@@ -467,8 +493,10 @@ func _marker(id: String, at: Vector3, label: String, color: Color) -> void:
 	_markers[id] = root
 
 func _sync_markers() -> void:
+	if config.region == "planes" and game.get("cornfield"):
+		game.cornfield.clear_discovery_sites(sites)
 	for site in sites:
-		if _markers.has(site.id): _markers[site.id].visible = not site.done or site.kind == "outpost"
+		if _markers.has(site.id): _markers[site.id].set_available(not site.done or site.kind == "outpost")
 	for id in ["operation", "finale"]:
 		var state: Dictionary = operation if id == "operation" else finale
 		if state.is_empty() and _markers.has(id):
@@ -664,8 +692,8 @@ func map_points() -> Array:
 	var result: Array = []
 	if not enabled: return result
 	for site in sites:
-		if site.done and site.kind != "outpost": continue
-		result.append({"at": site.at, "label": str(int(site.id.trim_prefix("site_"))-4) if site.kind == "signal" else "", "color": Color(0.3, 0.9, 1) if site.kind == "signal" else Color(0.7, 0.85, 1)})
+		if site.kind != "outpost": continue
+		result.append({"at": site.at, "label": "", "color": Color(0.7, 0.85, 1)})
 	for objective in [operation, finale]:
 		if not objective.is_empty() and not objective.get("done", false) and objective.get("stage", "") not in ["complete", "failed"]: result.append({"at": objective.at, "label": "", "color": Color(1, 0.7, 0.2) if objective == operation else Color(0.2, 1, 0.6)})
 	if cargo_peer: result.append({"at": cargo_destination(), "label": "", "color": Color(0.2, 1, 0.6)})
@@ -729,7 +757,8 @@ func _process(delta: float) -> void:
 	for site in sites:
 		if site.kind != "outpost" or site.done or site.timer <= 0: continue
 		_tick_reinforcements(site, step)
-		if actors().any(func(p): return p.alive and not p.downed and _near(p, site.at, 14)): site.timer -= step
+		site.occupied = actors().any(func(p): return p.alive and not p.downed and _near(p, site.at, 14))
+		if site.occupied: site.timer -= step
 		for enemy: Zombie in _enemies():
 			if enemy.global_position.distance_to(site.at) < 4: site.health -= step*2
 		if site.health <= 0:
@@ -804,7 +833,9 @@ func interaction_prompt(id: String) -> String:
 	for site in sites:
 		if site.id != id: continue
 		if site.kind == "signal": return Lang.t("[E] Tune transmitter %d", [int(id.trim_prefix("site_"))-4])
-		if site.kind == "outpost": return Lang.t("[E] Collect outpost supplies" if site.done else "[E] Secure this outpost")
+		if site.kind == "outpost":
+			if not site.done and site.timer > 0: return "" # Progress already appears below the compass.
+			return Lang.t("[E] Collect outpost supplies" if site.done else "[E] Secure this outpost")
 		return Lang.t("[E] Search supply cache")
 	return ""
 
@@ -854,7 +885,7 @@ func apply_snapshot(state: Dictionary) -> void:
 	range_game = state.get("range", {}).duplicate(true)
 	_last_wave = int(state.get("last_wave", 0))
 	structures.apply_snapshot(state.get("structures", []))
-	for site in sites: _marker(site.id, site.at, "Abandoned outpost" if site.kind == "outpost" else "Cornfield transmitter" if site.kind == "signal" else "Expedition cache", Color(0.7, 0.85, 1))
+	for site in sites: _site_marker(site)
 	if not operation.is_empty(): _marker("operation", operation.at, "Optional operation", Color(1, 0.7, 0.2))
 	if not finale.is_empty(): _marker("finale", finale.at, "Final defence", Color(0.2, 1, 0.6))
 	_sync_markers()
