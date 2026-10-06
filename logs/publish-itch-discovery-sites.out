@@ -1,0 +1,41 @@
+RemZ discovery-sites Windows release
+Confirmed available UTC: 2026-10-06T17:28:27.180267+00:00
+Project: https://keknyan.itch.io/remz
+Channel: keknyan/remz:windows
+itch upload: 19367070
+itch build: 2077034
+User version: remz-windows-20261006-1923-discovery-sites
+Source commit: 2411ba4681f6a620891915748c4ed5335696c3c7
+Source working tree at export validation: clean
+Engine: Godot 4.7.2 stable
+Network: protocol 8 / remz-dev-20261006-discovery-sites / Co-op 2026.10.06-G
+
+Validation:
+expedition 442; rendered sites DE 45 / EN 45; Planes ENet 29+16; native Forest and Planes startup; release PCK 28+35; compile 383; i18n 2633
+Both native map starts and all 63 release-PCK assertions passed.
+No unrelated secrets found by the release audit.
+Upload completed; itch.io confirmed this exact version available.
+
+Shipped runtime files (bytes, SHA-256):
+RemZ.exe 109350400 7675c91308166f553ccce8689961f8d3757c1c16f3deef4f8c70f0d91674517f
+RemZ.pck 3189262756 7bf94c89b596d0dbe8cc57a588a33f4edc3f10146bd1e12fdf1632910456e2dc
+libeosg.windows.template_release.x86_64.dll 1144320 b599c4fce153849093efcdc13917075f76f8ef171d47e6a2522346d61221527b
+EOSSDK-Win64-Shipping.dll 19531704 9c498fe31c8df1d9085dfa9c71c6d50ec6b569acdb29f1decb97be105b6341dc
+xaudio2_9redist.dll 847440 0e01f400baa09694cacfd2cfbff0d721c17b56785d2d6e29b6fdd117f70ccc1e
+
+Server confirmation:
++-----------------------------------+
+|       New version available       |
++-----------------------------------+
+| Current version: 15.31.0 (stable) |
+| Latest version:  15.32.0 (stable) |
+|                                   |
+| Run `butler upgrade` to get it.   |
++-----------------------------------+
++---------+-----------+----------------------------+--------------------------------------------+
+| CHANNEL |  UPLOAD   |           BUILD            |                  VERSION                   |
++---------+-----------+----------------------------+--------------------------------------------+
+| windows | #19367070 | √ #2077034 (from #2070710) | remz-windows-20261006-1923-discovery-sites |
++---------+-----------+----------------------------+--------------------------------------------+
+
+Report: docs/DISCOVERY_SITES_VALIDATION.md
